@@ -58,11 +58,11 @@ FileObject aJarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
             <source><![CDATA[
 // Locate the Jar file
 FileSystemManager fsManager = VFS.getManager();
-FileObject aJarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
+FileObject jarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
 
 // List the children of the Jar file
-FileObject[] children = fsManager.getChildren();
-System.println( "Children of " + aJarFile.getName().getURI() );
+FileObject[] children = jarFile.getChildren();
+System.println( "Children of " + jarFile.getName().getURI() );
 for ( int i = 0; i < children.length; i++ )
 {
     System.println( children[ i ].getName().getBaseName() );
