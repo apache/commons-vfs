@@ -64,7 +64,7 @@ import org.apache.commons.vfs.NameScope;
  * Test cases for file naming.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/23 04:41:55 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/12 07:44:16 $
  *
  * @todo Add tests for all FileName methods 
  */
@@ -76,11 +76,20 @@ public class NamingTests
      */
     public void testAbsoluteURI() throws Exception
     {
-        // Try fetching base folder again by its URI
-        final String uri = getReadFolder().getName().getURI();
-        final FileObject file = getManager().resolveFile( uri );
+        final FileObject readFolder = getReadFolder();
 
-        assertSame( "file object", getReadFolder(), file );
+        // Try fetching base folder again by its URI
+        final String uri = readFolder.getName().getURI();
+        FileObject file = getManager().resolveFile( uri );
+        assertSame( "file object", readFolder, file );
+
+        // Try fetching the filesystem root by its URI
+        final String rootUri = readFolder.getName().getRootURI();
+        file = getManager().resolveFile( rootUri );
+        assertSame( readFolder.getFileSystem().getRoot(), file );
+        assertEquals( rootUri, file.getName().getRootURI() );
+        assertEquals( rootUri, file.getName().getURI() );
+        assertEquals( FileName.ROOT_PATH, file.getName().getPath() );
     }
 
     /**
