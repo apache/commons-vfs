@@ -245,7 +245,7 @@ public abstract class AbstractFileSystemTestCase
     public void testRootFileName() throws Exception
     {
         // Locate the root file
-        final FileName rootName = m_baseFolder.getRoot().getName();
+        final FileName rootName = m_baseFolder.getFileSystem().getRoot().getName();
 
         // Test that the root path is "/"
         assertEquals( "root path", "/", rootName.getPath() );
@@ -455,7 +455,7 @@ public abstract class AbstractFileSystemTestCase
         checkAbsoluteNames( name );
 
         // Test against the root
-        name = m_baseFolder.getRoot().getName();
+        name = m_baseFolder.getFileSystem().getRoot().getName();
         checkAbsoluteNames( name );
 
         // Test against some unknown file
@@ -704,7 +704,7 @@ public abstract class AbstractFileSystemTestCase
         assertSame( folder, child.getParent() );
 
         // Test root of the file system has no parent
-        FileObject root = m_baseFolder.getRoot();
+        FileObject root = m_baseFolder.getFileSystem().getRoot();
         assertNull( "root has null parent", root.getParent() );
     }
 
@@ -801,7 +801,7 @@ public abstract class AbstractFileSystemTestCase
         assertEquals( m_baseFolder.getURL(), parentURL );
 
         URL rootURL = new URL( url, "/" );
-        assertEquals( file.getRoot().getURL(), rootURL );
+        assertEquals( file.getFileSystem().getRoot().getURL(), rootURL );
     }
 
     /**

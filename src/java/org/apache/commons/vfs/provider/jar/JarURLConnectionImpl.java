@@ -28,7 +28,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A default URL connection that will work for most file systems.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/22 01:32:49 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/22 02:42:46 $
  */
 public class JarURLConnectionImpl
     extends JarURLConnection
@@ -53,8 +53,7 @@ public class JarURLConnectionImpl
         this.url = file.getURL();
         this.content = content;
         this.parentURL = file.getURL();
-        this.entryName =
-            file.getRoot().getName().getRelativeName( file.getName() );
+        this.entryName = file.getName().getPath();
         this.file = file;
     }
 

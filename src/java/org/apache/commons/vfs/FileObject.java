@@ -49,7 +49,7 @@ import java.net.URL;
  * <li>{@link #resolveFile} to find another file relative to this file.
  * <li>{@link #getChildren} to find the children of this file.
  * <li>{@link #getParent} to find the folder containing this file.
- * <li>{@link #getRoot} to find the root folder of the file system.
+ * <li>{@link #getFileSystem} to find another ifle in the same file system.
  * </ul>
  *
  * <p>To find files in another file system, use a {@link FileSystemManager}.
@@ -95,19 +95,6 @@ public interface FileObject
      *      If the file does not exist, or on error determining the file's type.
      */
     FileType getType() throws FileSystemException;
-    
-    /**
-     * Returns the parent layer if this file resides in a layered file
-     * system.
-     *
-     * @return
-     *      The file object that this file is layered on top. Returns null
-     *      if this file is not from a layered file system.
-     *
-     * @throws FileSystemException
-     *      In case of errors finding the parent layer.
-     */
-    FileObject getParentLayer() throws FileSystemException;
 
     /**
      * Returns the folder that contains this file.
@@ -122,15 +109,11 @@ public interface FileObject
     FileObject getParent() throws FileSystemException;
 
     /**
-     * Returns the root of the file system containing this file.
+     * Returns the file system that contains this file.
      *
-     * @return
-     *      The root of the file system.
-     *
-     * @throws FileSystemException
-     *      On error finding the root of the file system.
+     * @return The file system.
      */
-    FileObject getRoot() throws FileSystemException;
+    FileSystem getFileSystem() throws FileSystemException;
 
     /**
      * Lists the children of this file.

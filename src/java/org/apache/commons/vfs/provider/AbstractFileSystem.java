@@ -14,9 +14,10 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystem;
 
 /**
- * A partial {@link FileSystem} implementation.
+ * A partial {@link org.apache.commons.vfs.FileSystem} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.2 $ $Date: 2002/04/07 02:27:56 $

@@ -33,7 +33,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 13:10:57 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/22 02:42:45 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -184,7 +184,7 @@ public class VFSClassLoader
      * Reads attributes for the package and defines it.
      */
     private Package definePackage( String name, Resource res, URL url )
-        throws IOException, FileSystemException
+        throws FileSystemException
     {
         URL sealBase = null;
         final FileContent content =
@@ -216,7 +216,7 @@ public class VFSClassLoader
      * Returns true if the we should seal the package where res resides.
      */
     private boolean isSealed( Resource res )
-        throws IOException, FileSystemException
+        throws FileSystemException
     {
         final FileContent content =
             res.getFileObject().getParent().getContent();
@@ -241,7 +241,7 @@ public class VFSClassLoader
                 return super.getPermissions( cs );
             }
 
-            FileObject parentLayer = file.getParentLayer();
+            FileObject parentLayer = file.getFileSystem().getParentLayer();
             if ( parentLayer == null )
             {
                 return super.getPermissions( cs );
@@ -253,7 +253,7 @@ public class VFSClassLoader
 
             for ( FileObject parent = parentLayer;
                   parent != null;
-                  parent = parent.getParentLayer() )
+                  parent = parent.getFileSystem().getParentLayer() )
             {
                 cs = new CodeSource( parent.getURL(),
                                      parent.getContent().getCertificates() );

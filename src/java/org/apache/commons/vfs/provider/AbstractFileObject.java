@@ -29,6 +29,7 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.FileSystem;
 
 /**
  * A partial file object implementation.
@@ -64,6 +65,9 @@ public abstract class AbstractFileObject
         this.fs = fs;
     }
 
+    /**
+     * Returns the file system this file belongs to.
+     */
     public FileSystem getFileSystem()
     {
         return fs;
@@ -345,22 +349,6 @@ public abstract class AbstractFileObject
             parent = (AbstractFileObject)fs.findFile( name.getParent() );
         }
         return parent;
-    }
-
-    /**
-     * Returns the parent layer of the file system containing the file.
-     */
-    public FileObject getParentLayer() throws FileSystemException
-    {
-        return fs.getParentLayer();
-    }
-
-    /**
-     * Returns the root of the file system containing the file.
-     */
-    public FileObject getRoot() throws FileSystemException
-    {
-        return fs.getRoot();
     }
 
     /**

@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.commons.vfs.provider;
+package org.apache.commons.vfs;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -14,10 +14,10 @@ import org.apache.commons.vfs.FileSystemException;
 /**
  * A file system.
  *
- * <p>A file system can also implement {@link VfsComponent}.
+ * <p>A file system can also implement {@link org.apache.commons.vfs.provider.VfsComponent}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/04/07 02:27:56 $
+ * @version $Revision: 1.1 $ $Date: 2002/08/22 02:42:45 $
  */
 public interface FileSystem
 {
@@ -48,7 +48,7 @@ public interface FileSystem
      * @return
      *      The value of the attribute.
      *
-     * @throws FileSystemException
+     * @throws org.apache.commons.vfs.FileSystemException
      *      If the file does not exist, or is being written, or if the
      *      attribute is unknown.
      */
@@ -66,7 +66,7 @@ public interface FileSystem
      * @param value
      *      The value of the attribute.
      *
-     * @throws FileSystemException
+     * @throws org.apache.commons.vfs.FileSystemException
      *      If the file is read-only, or is being read, or if the attribute
      *      is not supported, or on error setting the attribute.
      */

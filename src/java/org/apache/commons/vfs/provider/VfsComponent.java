@@ -15,12 +15,12 @@ import org.apache.commons.vfs.FileSystemException;
  * This includes all implementations of the following interfaces:
  * <ul>
  * <li>{@link FileProvider}
- * <li>{@link FileSystem}
+ * <li>{@link org.apache.commons.vfs.FileSystem}
  * <li>{@link FileReplicator}
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 14:28:08 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/22 02:42:45 $
  */
 public interface VfsComponent
 {

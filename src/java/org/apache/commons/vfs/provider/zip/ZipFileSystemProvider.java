@@ -15,7 +15,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.FileSystem;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.provider.ParsedUri;
 
 /**

@@ -11,7 +11,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.provider.FileSystem;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.provider.ParsedUri;
 import org.apache.commons.vfs.provider.UriParser;
 
@@ -19,7 +19,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/21 14:28:08 $
+ * @version $Revision: 1.3 $ $Date: 2002/08/22 02:42:46 $
  */
 public class UrlFileProvider
     extends AbstractFileSystemProvider
