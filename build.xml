@@ -186,9 +186,9 @@
         </get>
         <get dest="${libdir}/commons-net-1.1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-1.0.0.jar">
         </get>
-        <get dest="${libdir}/commons-logging-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.jar">
+        <get dest="${libdir}/commons-logging-1.0.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.3.jar">
         </get>
-        <get dest="${libdir}/jcifs-0.7.9.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.7.9.jar">
+        <get dest="${libdir}/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.8.3.jar">
         </get>
         <get dest="${libdir}/webdavlib-2.0beta1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/slide/jars/webdavlib-2.0beta1.jar">
         </get>
