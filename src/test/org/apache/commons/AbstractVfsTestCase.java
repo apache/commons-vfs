@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.util.Messages;
 
 /**
  * A base class for VFS tests.  Provides utility methods for locating
@@ -166,33 +168,46 @@ public abstract class AbstractVfsTestCase
     /**
      * Asserts that an exception contains the expected message.
      */
-    protected void assertSameMessage( final String message,
+    protected void assertSameMessage( final String code,
                                       final Throwable throwable )
     {
-        // TODO - implement this
-        fail( "Not implemented." );
+        assertSameMessage( code, new Object[ 0 ], throwable );
     }
 
     /**
      * Asserts that an exception contains the expected message.
      */
-    protected void assertSameMessage( final String message,
-                                      final Object[] info,
+    protected void assertSameMessage( final String code,
+                                      final Object[] params,
                                       final Throwable throwable )
     {
-        // TODO - implement this
-        fail( "Not implemented." );
+        if ( throwable instanceof FileSystemException )
+        {
+            final FileSystemException fse = (FileSystemException)throwable;
+
+            // Compare message code and params
+            assertEquals( code, fse.getCode() );
+            assertEquals( params.length, fse.getInfo().length );
+            for ( int i = 0; i < params.length; i++ )
+            {
+                final Object param = params[ i ];
+                assertEquals( String.valueOf( param ), fse.getInfo()[ i ] );
+            }
+        }
+
+        // Compare formatted message
+        final String message = Messages.getString( code, params );
+        assertEquals( message, throwable.getMessage() );
     }
 
     /**
      * Asserts that an exception contains the expected message.
      */
-    protected void assertSameMessage( final String message,
-                                      final Object info,
+    protected void assertSameMessage( final String code,
+                                      final Object param,
                                       final Throwable throwable )
     {
-        // TODO - implement this
-        fail( "Not implemented." );
+        assertSameMessage( code, new Object[] { param }, throwable );
     }
 
     /**

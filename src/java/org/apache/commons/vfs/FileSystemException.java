@@ -7,6 +7,8 @@
  */
 package org.apache.commons.vfs;
 
+import org.apache.commons.vfs.util.Messages;
+
 /**
  * Thrown for file system errors.
  *
@@ -20,6 +22,11 @@ public final class FileSystemException
      * The Throwable that caused this exception to be thrown.
      */
     private final Throwable throwable;
+
+    /**
+     * The message code.
+     */
+    private final String code;
 
     /**
      * array of complementary info (context).
@@ -83,7 +90,8 @@ public final class FileSystemException
                                 final Object[] info,
                                 final Throwable throwable )
     {
-        super( code );
+        super( Messages.getString( code, info ) );
+
         if ( info == null )
         {
             this.info = new String[ 0 ];
@@ -96,6 +104,7 @@ public final class FileSystemException
                 this.info[ i ] = String.valueOf( info[ i ] );
             }
         }
+        this.code = code;
         this.throwable = throwable;
     }
 
@@ -127,7 +136,7 @@ public final class FileSystemException
      */
     public String getCode()
     {
-        return super.getMessage();
+        return code;
     }
 
     /**
@@ -140,22 +149,4 @@ public final class FileSystemException
     {
         return info;
     }
-
-    /**
-     * Returns the message for this exception.
-     * @todo Look up message in resources.
-     */
-    public String getMessage()
-    {
-        StringBuffer sb = new StringBuffer( getCode() );
-        sb.append( '{' );
-        for ( int i = 0; i < info.length; i++ )
-        {
-            sb.append( info[ i ] ).append( ',' );
-        }
-        sb.append( throwable );
-        sb.append( '}' );
-        return sb.toString();
-    }
-
 }

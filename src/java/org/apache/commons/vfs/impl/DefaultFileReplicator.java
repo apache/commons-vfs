@@ -14,6 +14,7 @@ import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.FileReplicator;
 
@@ -56,9 +57,8 @@ public final class DefaultFileReplicator
             }
             catch ( final FileSystemException e )
             {
-                //TODO - fix this
-                //final String message = REZ.getString( "delete-temp.warn", file.getName() );
-                getLogger().warn( "vfs.impl/delete-temp.warn", e );
+                final String message = Messages.getString( "vfs.impl/delete-temp.warn", file.getName() );
+                getLogger().warn( message, e );
             }
         }
 
