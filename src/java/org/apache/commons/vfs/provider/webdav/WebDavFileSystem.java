@@ -72,33 +72,17 @@ import org.apache.webdav.lib.WebdavResource;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/15 02:35:35 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/20 07:32:55 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private final HttpClient client;
+    private HttpClient client;
 
-    public WebDavFileSystem( final GenericFileName rootName ) throws FileSystemException
+    public WebDavFileSystem( final GenericFileName rootName )
     {
         super( rootName, null );
-
-        // Create an Http client
-        try
-        {
-            final HttpURL url = new HttpURL( rootName.getUserName(),
-                                             rootName.getPassword(),
-                                             rootName.getHostName(),
-                                             rootName.getPort(),
-                                             "/" );
-            final WebdavResource resource = new WebdavResource( url, WebdavResource.NOACTION, 1 );
-            client = resource.retrieveSessionInstance();
-        }
-        catch ( final IOException e )
-        {
-            throw new FileSystemException( "vfs.provider.webdav/create-client.error", rootName, e );
-        }
     }
 
     /**
@@ -118,8 +102,27 @@ class WebDavFileSystem
     /**
      * Returns the client for this file system.
      */
-    protected HttpClient getClient()
+    protected HttpClient getClient() throws FileSystemException
     {
+        if ( client == null )
+        {
+            // Create an Http client
+            try
+            {
+                final GenericFileName rootName = (GenericFileName)getRootName();
+                final HttpURL url = new HttpURL( rootName.getUserName(),
+                                                 rootName.getPassword(),
+                                                 rootName.getHostName(),
+                                                 rootName.getPort(),
+                                                 "/" );
+                final WebdavResource resource = new WebdavResource( url, WebdavResource.NOACTION, 1 );
+                client = resource.retrieveSessionInstance();
+            }
+            catch ( final IOException e )
+            {
+                throw new FileSystemException( "vfs.provider.webdav/create-client.error", getRootName(), e );
+            }
+        }
         return client;
     }
 
