@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,40 +53,37 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.url.test;
+package org.apache.commons.vfs.provider.http.test;
 
-import java.io.File;
-import java.net.URL;
 import junit.framework.Test;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.url.UrlFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.provider.http.HttpFileProvider;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
 
 /**
- * Test cases for the generic provider.
+ * Test cases for the HTTP provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/28 10:52:30 $
+ * @version $Revision: 1.1 $ $Date: 2003/06/28 10:52:30 $
  */
-public class UrlProviderTestCase
+public class HttpProviderTestCase
     extends AbstractProviderTestConfig
 {
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new UrlProviderTestCase() );
+        return new ProviderTestSuite( new HttpProviderTestCase() );
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Prepares the file system manager.
      */
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-        manager.addProvider( "file", new UrlFileProvider() );
+        manager.addProvider( "http", new HttpFileProvider() );
     }
 
     /**
@@ -95,8 +92,7 @@ public class UrlProviderTestCase
     public FileObject getBaseTestFolder( final FileSystemManager manager )
         throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        final URL url = baseDir.toURL();
-        return manager.resolveFile( url.toExternalForm() );
+        final String uri = System.getProperty( "test.http.uri" );
+        return manager.resolveFile( uri );
     }
 }

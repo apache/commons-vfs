@@ -75,7 +75,7 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/23 00:40:37 $
+ * @version $Revision: 1.12 $ $Date: 2003/06/28 10:52:30 $
  */
 public class ProviderTestSuite
     extends TestSetup
@@ -127,6 +127,7 @@ public class ProviderTestSuite
         addTests( ContentTests.class );
         addTests( ProviderReadTests.class );
         addTests( ProviderWriteTests.class );
+        addTests( LastModifiedTests.class );
         addTests( UrlTests.class );
         addTests( UrlStructureTests.class );
         addTests( VfsClassLoaderTests.class );

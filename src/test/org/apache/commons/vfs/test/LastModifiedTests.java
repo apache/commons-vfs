@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,50 +53,63 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.url.test;
+package org.apache.commons.vfs.test;
 
-import java.io.File;
-import java.net.URL;
-import junit.framework.Test;
-import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.url.UrlFileProvider;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
 
 /**
- * Test cases for the generic provider.
+ * Test cases for getting and setting file last modified time.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/06/28 10:52:30 $
+ * @version $Revision: 1.1 $ $Date: 2003/06/28 10:52:30 $
  */
-public class UrlProviderTestCase
-    extends AbstractProviderTestConfig
+public class LastModifiedTests
+    extends AbstractProviderTestCase
 {
-    public static Test suite() throws Exception
+    /**
+     * Returns the capabilities required by the tests of this test case.
+     */
+    protected Capability[] getRequiredCaps()
     {
-        return new ProviderTestSuite( new UrlProviderTestCase() );
+        return new Capability[] {
+            Capability.GET_LAST_MODIFIED
+        };
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Tests getting the last modified time of a file.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
-    {
-        manager.addProvider( "file", new UrlFileProvider() );
+    public void testGetLastModified() throws Exception {
+        // Try a file.
+        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        file.getContent().getLastModifiedTime();
+
+        // TODO - switch this on
+        // Try a folder
+        //final FileObject folder = getReadFolder().resolveFile( "dir1" );
+        //folder.getContent().getLastModifiedTime();
     }
 
     /**
-     * Returns the base folder for tests.
+     * Tests setting the last modified time of file.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager )
-        throws Exception
-    {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        final URL url = baseDir.toURL();
-        return manager.resolveFile( url.toExternalForm() );
+    public void testSetLastModified() throws Exception {
+        if ( !getReadFolder().getFileSystem().hasCapability( Capability.SET_LAST_MODIFIED ) )
+        {
+            // Can't set last modified
+            return;
+        }
+        final long now = System.currentTimeMillis();
+
+        // Try a file
+        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        file.getContent().setLastModifiedTime( now);
+        assertEquals( now, file.getContent().getLastModifiedTime() );
+
+        // Try a folder
+        final FileObject folder = getReadFolder().resolveFile( "dir1" );
+        folder.getContent().setLastModifiedTime( now );
+        assertEquals( now, folder.getContent().getLastModifiedTime() );
     }
 }
