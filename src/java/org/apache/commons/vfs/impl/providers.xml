@@ -1,0 +1,31 @@
+<providers>
+    <default-provider class-name="org.apache.commons.vfs.provider.url.UrlFileProvider"/>
+    <provider class-name="org.apache.commons.vfs.provider.local.DefaultLocalFileProvider">
+        <scheme name="file"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.zip.ZipFileProvider">
+        <scheme name="zip"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.jar.JarFileProvider">
+        <scheme name="jar"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.temp.TemporaryFileProvider">
+        <scheme name="tmp"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.ftp.FtpFileProvider">
+        <scheme name="ftp"/>
+        <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.smb.SmbFileProvider">
+        <scheme name="smb"/>
+        <if-available class-name="jcifs.smb.SmbFile"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.webdav.WebdavFileProvider">
+        <scheme name="webdav"/>
+        <if-available class-name="org.apache.webdav.lib.WebdavResource"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.sftp.SftpFileProvider">
+        <scheme name="sftp"/>
+        <if-available class-name="com.jcraft.jsch.JSch"/>
+    </provider>
+</providers>

@@ -55,27 +55,48 @@
  */
 package org.apache.commons.vfs.impl;
 
+import java.net.URL;
+import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.util.Messages;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * A {@link org.apache.commons.vfs.FileSystemManager} that configures itself
- * to use the standard providers and components.  To use this manager:
- *
- * <ul>
- * <li>Create an instance of this class.
- * <li>Set the logger using {@link #setLogger} (optional).
- * <li>Add custom providers and components.
- * <li>Configure the manager using {@link #init}.
- * </ul>
+ * from an XML configuration file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/20 07:30:36 $
+ * @version $Revision: 1.12 $ $Date: 2003/02/21 05:12:03 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
 {
+    private static final String CONFIG_RESOURCE = "providers.xml";
+
+    private String configUri;
+    private ClassLoader classLoader;
+
+    /**
+     * Sets the configuration file for this manager.
+     */
+    public void setConfiguration( final String configUri )
+    {
+        this.configUri = configUri;
+    }
+
+    /**
+     * Sets the ClassLoader to use to load the providers.  Default is to
+     * use the ClassLoader that loaded this class.
+     */
+    public void setClassLoader( final ClassLoader classLoader )
+    {
+        this.classLoader = classLoader;
+    }
+
     /**
      * Initializes this manager.  Adds the providers and replicator.
      */
@@ -86,38 +107,151 @@ public class StandardFileSystemManager
         setReplicator( new PrivilegedFileReplicator( replicator ) );
         setTemporaryFileStore( replicator );
 
-        // Add the standard providers
-        addProvider( "file", "org.apache.commons.vfs.provider.local.DefaultLocalFileProvider" );
-        addProvider( "zip", "org.apache.commons.vfs.provider.zip.ZipFileProvider" );
-        addProvider( "jar", "org.apache.commons.vfs.provider.jar.JarFileProvider" );
-        addProvider( "ftp", "org.apache.commons.vfs.provider.ftp.FtpFileProvider" );
-        addProvider( "smb", "org.apache.commons.vfs.provider.smb.SmbFileProvider" );
-        addProvider( "webdav", "org.apache.commons.vfs.provider.webdav.WebdavFileProvider" );
-        addProvider( "sftp", "org.apache.commons.vfs.provider.sftp.SftpFileProvider" );
-        addProvider( "tmp", "org.apache.commons.vfs.provider.temp.TemporaryFileProvider" );
-
-        // Add a default provider
-        final FileProvider provider = createProvider( "org.apache.commons.vfs.provider.url.UrlFileProvider" );
-        if ( provider != null )
+        if ( classLoader == null )
         {
-            setDefaultProvider( provider );
+            // Use default classloader
+            classLoader = getClass().getClassLoader();
+        }
+        if ( configUri == null )
+        {
+            // Use default config
+            final URL url = getClass().getResource( CONFIG_RESOURCE );
+            if ( url == null )
+            {
+                throw new FileSystemException( "vfs.impl/find-config-file.error", CONFIG_RESOURCE );
+            }
+            configUri = url.toExternalForm();
         }
 
+        // Configure
+        configure( configUri );
+
+        // Initialise super-class
         super.init();
     }
 
     /**
-     * Adds a provider.
+     * Configures this manager from an XML configuration file.
      */
-    private void addProvider( final String scheme,
-                              final String providerClassName )
+    private void configure( final String configUri ) throws FileSystemException
+    {
+        try
+        {
+            // Load up the config
+            // TODO - validate
+            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setIgnoringElementContentWhitespace( true );
+            factory.setIgnoringComments( true );
+            factory.setExpandEntityReferences( true );
+            final DocumentBuilder builder = factory.newDocumentBuilder();
+            final Element config = builder.parse( configUri ).getDocumentElement();
+
+            // Add the providers
+            final NodeList providers = config.getElementsByTagName( "provider" );
+            final int count = providers.getLength();
+            for ( int i = 0; i < count; i++ )
+            {
+                final Element provider = (Element)providers.item( i );
+                addProvider( provider, false );
+            }
+
+            // Add the default provider
+            final NodeList defProviders = config.getElementsByTagName( "default-provider" );
+            if ( defProviders.getLength() > 0 )
+            {
+                final Element provider = (Element)defProviders.item( 0 );
+                addProvider( provider, true );
+            }
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.impl/load-config.error", configUri, e );
+        }
+    }
+
+    /**
+     * Adds a provider from a provider definition.
+     */
+    private void addProvider( final Element providerDef, final boolean isDefault )
         throws FileSystemException
     {
-        final FileProvider provider = createProvider( providerClassName );
-        if ( provider != null )
+        final String classname = providerDef.getAttribute( "class-name" );
+
+        // Make sure all required classes are in classpath
+        final String[] requiredClasses = getRequiredClasses( providerDef );
+        for ( int i = 0; i < requiredClasses.length; i++ )
         {
-            addProvider( scheme, provider );
+            final String requiredClass = requiredClasses[ i ];
+            if ( !findClass( requiredClass ) )
+            {
+                final String msg = Messages.getString( "vfs.impl/skipping-provider.warn",
+                                                       new String[] { classname, requiredClass } );
+                getLog().warn( msg );
+                return;
+            }
         }
+
+        // Create and register the provider
+        final FileProvider provider = createProvider( classname );
+        final String[] schemas = getSchemas( providerDef );
+        if ( schemas.length > 0 )
+        {
+            addProvider( schemas, provider );
+        }
+
+        // Set as default, if required
+        if ( isDefault )
+        {
+            setDefaultProvider( provider );
+        }
+    }
+
+    /**
+     * Tests if a class is available.
+     */
+    private boolean findClass( final String className )
+    {
+        try
+        {
+            classLoader.loadClass( className );
+            return true;
+        }
+        catch ( final ClassNotFoundException e )
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Extracts the required classes from a provider definition.
+     */
+    private String[] getRequiredClasses( final Element providerDef )
+    {
+        final ArrayList classes = new ArrayList();
+        final NodeList deps = providerDef.getElementsByTagName( "if-available" );
+        final int count = deps.getLength();
+        for ( int i = 0; i < count; i++ )
+        {
+            final Element dep = (Element)deps.item( i );
+            classes.add( dep.getAttribute( "class-name" ) );
+        }
+        return (String[])classes.toArray( new String[ classes.size() ] );
+    }
+
+    /**
+     * Extracts the schema names from a provider definition.
+     */
+    private String[] getSchemas( final Element provider )
+    {
+        final ArrayList schemas = new ArrayList();
+        final NodeList schemaElements = provider.getElementsByTagName( "scheme" );
+        final int count = schemaElements.getLength();
+        for ( int i = 0; i < count; i++ )
+        {
+            final Element scheme = (Element)schemaElements.item( i );
+            schemas.add( scheme.getAttribute( "name" ) );
+        }
+        return (String[])schemas.toArray( new String[ schemas.size() ] );
     }
 
     /**
@@ -128,15 +262,8 @@ public class StandardFileSystemManager
     {
         try
         {
-            final Class providerClass = Class.forName( providerClassName );
+            final Class providerClass = classLoader.loadClass( providerClassName );
             return (FileProvider)providerClass.newInstance();
-        }
-        catch ( final ClassNotFoundException e )
-        {
-            // Ignore
-            final String message = Messages.getString( "vfs.impl/create-provider.warn", providerClassName );
-            getLog().warn( message, e );
-            return null;
         }
         catch ( final Exception e )
         {
