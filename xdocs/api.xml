@@ -5,7 +5,7 @@
     </properties>
 
     <body>
-        <section name="Getting Started">
+        <section name="Using The API">
             <p>
                 The <a href="apidocs/org/apache/commons/vfs/FileSystemManager.html"><code>FileSystemManager</code></a>
                 interface provides access to the VFS.  Using this interface

@@ -4,18 +4,35 @@
     <properties>
         <title>TODO</title>
         <author email="jstrachan@apache.org">James Strachan</author>
+        <author email="adammurdoch@apache.org">Adam Murdoch</author>
     </properties>
 
     <body>
         <section name="TODO">
             <p>
                 The following is a list of items that need to be completed.
-                Contributions are welcome!.
+                Contributions are welcome!
             </p>
 
             <ul>
-                <li>More documentation (status, how to build, jar dependencies, etc)</li>
-                <li>Add more providers: http, webdav, resources, tar, gzip, cvs, subversion, jndi, etc</li>
+                <li>More documentation (status, how to build, jar dependencies, file naming etc).</li>
+                <li>Fix all the todo items in the code.</li>
+                <li>Add more providers:
+                    <ul>
+                        <li>http and webdav</li>
+                        <li>nfs</li>
+                        <li>tar</li>
+                        <li>gzip</li>
+                        <li>bzip2</li>
+                        <li>ClassLoader resources</li>
+                        <li>cvs</li>
+                        <li>subversion</li>
+                        <li>scp</li>
+                        <li>jndi</li>
+                        <li>imap</li>
+                        <li>...</li>
+                    </ul>
+                </li>
                 <li>Formalise the provider API.</li>
                 <li>
                     The in-memory caching mechanism is pretty rudimentary at
@@ -23,14 +40,15 @@
                     some mechanism needs to be provided to release and refresh
                     cached info.</li>
                 <li>
-                    The on-disk caching mechanism also needs more work.  Needs
+                    The local disk caching mechanism also needs more work.  Needs
                     to check last-modified time.  Replicator needs to be more
                     configurable.</li>
                 <li>Add persistent replicator.</li>
                 <li>Add local mirroring.</li>
+                <li>Extract AbstractLayerFileSystem out of ZipFileSystem.</li>
                 <li>
                     Change AbstractLayeredFileSystem to track changes to
-                    the parent file object.  Eg when the parent file is deleted,
+                    the parent layer.  Eg when the parent layer is deleted,
                     mark all the files in the fs as 'does-not-exist'.</li>
                 <li>Change AbstractLayeredFileSystem to support writeable
                     layered fs.</li>
@@ -48,7 +66,10 @@
                     Add Filtering file systems, which sit on top of another
                     file system, and alter the contents.  For example, gzip or bzip2.</li>
                 <li>Add an equivalent of the fileScanner Jelly tag.</li>
-                <li>Add an equivalent of Ant fileset.</li>
+                <li>
+                    Add an equivalent of Ant path, fileset, dirset, filelist, etc.
+                    Ideally, these can be abstracted into a single data type.
+                </li>
                 <li>
                     Allow selectors, name mappers, and filters to be specified
                     for the Ant tasks.</li>
@@ -58,7 +79,7 @@
                     Handle file canonicalisation better (for cases like
                     case-insensitive file systems, symbolic links, name mangling, etc).</li>
                 <li>Add more selectors: XPath, Ant style, regular expression.</li>
-                <li>Add adaptor for use with JXpath.</li>
+                <li>Add adaptor (NodePointerFactory?) for use with JXpath.</li>
                 <li>Add contentChanged event to FileListener.</li>
                 <li>Provide a hook for authentication.</li>
                 <li>Sort out threading model.</li>
