@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,27 +16,17 @@
 package org.apache.commons.vfs;
 
 /**
- * A {@link FileSelector} that selects everything.
+ * This interface is used to select files when traversing the direct children of the base.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:17 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  */
-public class AllFileSelector
-    implements FileSelector
+public interface FileFilter
 {
     /**
      * Determines if a file or folder should be selected.
+     *
+     * @param fileInfo the file or folder to select.
+     * @return true if the file should be selected.
      */
-    public boolean includeFile(final FileSelectInfo fileInfo)
-    {
-        return true;
-    }
-
-    /**
-     * Determines whether a folder should be traversed.
-     */
-    public boolean traverseDescendents(final FileSelectInfo fileInfo)
-    {
-        return true;
-    }
+    public abstract boolean accept(final FileSelectInfo fileInfo);
 }

@@ -21,7 +21,7 @@ package org.apache.commons.vfs;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:17 $
  */
-public final class FileDepthSelector
+public class FileDepthSelector
     implements FileSelector
 {
     private final int minDepth;
