@@ -171,9 +171,11 @@ final class FtpFileObject
         {
             fileInfo = parent.getChildFile( getName().getBaseName(), flush );
         }
-        if ( fileInfo == null || !fileInfo.isDirectory() )
+        else
         {
-            children = EMPTY_FTP_FILE_ARRAY;
+            // Assume the root is a directory and exists
+            fileInfo = new FTPFile();
+            fileInfo.setType( FTPFile.DIRECTORY_TYPE );
         }
     }
 
