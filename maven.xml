@@ -1,10 +1,11 @@
 <project default="java:jar" xmlns:j="jelly:core">
 
   <!-- we can customize the Maven build here -->
-  <goal name="test:test-data"
-        description="Generate and copy the test data">
 
-    <copy todir="${test.data}">
+  <!-- Set up the test files -->
+  <postGoal name="test:test-resources">
+
+    <copy todir="${test.basedir}">
       <fileset dir="${test.data.src}">
         <include name="basedir/**"/>
       </fileset>
@@ -12,7 +13,7 @@
     
     <!-- Compile the code for the class loader test -->
     <javac
-      destdir="${test.data}/basedir"
+      destdir="${test.basedir}/basedir"
       debug="${maven.compile.debug}"
       deprecation="${maven.compile.deprecation}"
       optimize="${maven.compile.optimize}">
@@ -23,77 +24,34 @@
       </src>
     </javac>
 
-    <mkdir dir="${test.data}/basedir/emptydir"/>
+    <mkdir dir="${test.basedir}/basedir/emptydir"/>
 
     <!-- Create a zip file -->
-    <zip zipfile="${test.data}/test.zip">
-      <zipfileset dir="${test.data}">
+    <zip zipfile="${test.basedir}/test.zip">
+      <zipfileset dir="${test.basedir}">
         <include name="basedir/**"/>
       </zipfileset>
     </zip>
-    <zip zipfile="${test.data}/nested.zip">
-      <zipfileset dir="${test.data}">
+    <zip zipfile="${test.basedir}/nested.zip">
+      <zipfileset dir="${test.basedir}">
         <include name="test.zip"/>
       </zipfileset>
     </zip>
     
     <jar
-      jarfile="${test.data}/test.jar"
-      basedir="${test.data}"
+      jarfile="${test.basedir}/test.jar"
+      basedir="${test.basedir}"
       includes="basedir/**"
       manifest="${test.data.src}/test.mf"/>
 
     <jar
-      jarfile="${test.data}/normal.jar"
-      basedir="${test.data}/basedir"
+      jarfile="${test.basedir}/normal.jar"
+      basedir="${test.basedir}/basedir"
       manifest="${test.data.src}/normal.mf"/>
     <jar
-      jarfile="${test.data}/nested.jar"
-      basedir="${test.data}"
+      jarfile="${test.basedir}/nested.jar"
+      basedir="${test.basedir}"
       includes="test.jar,normal.jar"/>
-  </goal>
-  	
-  <goal name="test:test"
-        description="Test the application"
-        prereqs="test:test-data,test:compile">
-
-    <junit printSummary="yes" 
-           failureProperty="maven.test.failure"
-           fork="${maven.junit.fork}"
-           dir="${maven.junit.dir}">
-      <sysproperty key="basedir" value="${basedir}"/>
-      <sysproperty key="test.basedir" value="${test.data}"/>
-      <sysproperty key="maven.repo.local" value="${maven.repo.local}"/>
-      <sysproperty key="maven.home" value="${maven.home}"/>
-      <sysproperty key="maven.build.dest" value="${maven.build.dest}"/>
-      <sysproperty key="test.ftp.uri" value="${test.ftp.uri}"/>
-      <sysproperty key="test.smb.uri" value="${test.smb.uri}"/>
-      <j:if test="${test.secure}">
-        <sysproperty key="java.security.manager" value="" />
-        <sysproperty key="java.security.policy" value="${test.policy}"/>
-      </j:if>
-      <formatter type="xml"/>
-      <formatter type="plain" usefile="${maven.junit.usefile}"/>
-      <classpath>
-        <path refid="maven.dependency.classpath"/>
-        <pathelement location="${maven.build.dest}"/>
-        <pathelement location="${maven.test.dest}"/>
-      </classpath>
-      <batchtest todir="${maven.test.reportsDirectory}">
-        <fileset dir="${pom.build.unitTestSourceDirectory}">
-	      <j:forEach var="pat" items="${pom.build.unitTest.includes}">
-	        <include name="${pat}"/>
-	      </j:forEach>
-	      <j:forEach var="pat" items="${pom.build.unitTest.excludes}">
-	        <exclude name="${pat}"/>
-	      </j:forEach>
-        </fileset>
-      </batchtest>
-    </junit>
-
-    <j:if test="${maven.test.failure}">
-      <fail message="There were test failures."/>
-    </j:if>
-
-  </goal>
+  </postGoal>
+    
 </project>
