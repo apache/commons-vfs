@@ -50,6 +50,7 @@ public class NestedZipTestCase
     {
         manager.addProvider("zip", new ZipFileProvider());
         manager.addExtensionMap("zip", "zip");
+        manager.addMimeTypeMap("application/zip", "zip");
     }
 
     /**

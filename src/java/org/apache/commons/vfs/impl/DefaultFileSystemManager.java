@@ -24,7 +24,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
-import org.apache.commons.vfs.cache.DefaultFilesCache;
+import org.apache.commons.vfs.cache.SoftRefFilesCache;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
@@ -353,7 +353,8 @@ public class DefaultFileSystemManager
     {
         if (filesCache == null)
         {
-            filesCache = new DefaultFilesCache();
+            // filesCache = new DefaultFilesCache();
+            filesCache = new SoftRefFilesCache();
         }
         if (fileContentInfoFactory == null)
         {

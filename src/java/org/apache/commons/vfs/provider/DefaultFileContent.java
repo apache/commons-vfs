@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -41,28 +40,35 @@ import java.util.Set;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:17 $
  */
-public final class DefaultFileContent
-    implements FileContent
+public final class DefaultFileContent implements FileContent
 {
-    private static final int STATE_NONE = 0;
-    private static final int STATE_READING = 1;
-    private static final int STATE_WRITING = 2;
-    private static final int STATE_RANDOM_ACCESS = 3;
+    /*
+    static final int STATE_NONE = 0;
+    static final int STATE_READING = 1;
+    static final int STATE_WRITING = 2;
+    static final int STATE_RANDOM_ACCESS = 3;
+    */
+    static final int STATE_CLOSED = 0;
+    static final int STATE_OPENED = 1;
 
     private final AbstractFileObject file;
-    private int state = STATE_NONE;
-    private final ArrayList instrs = new ArrayList();
-    private FileContentOutputStream outstr;
     private Map attrs;
     private Map roAttrs;
     private FileContentInfo fileContentInfo;
     private final FileContentInfoFactory fileContentInfoFactory;
-    private RandomAccessContent rastr;
+
+    private final ThreadLocal threadData = new ThreadLocal();
 
     public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory)
     {
+        this.threadData.set(new FileContentThreadData(this));
         this.file = file;
         this.fileContentInfoFactory = fileContentInfoFactory;
+    }
+
+    private FileContentThreadData getThreadData()
+    {
+        return (FileContentThreadData) this.threadData.get();
     }
 
     /**
@@ -83,10 +89,12 @@ public final class DefaultFileContent
         {
             throw new FileSystemException("vfs.provider/get-size-not-file.error", file);
         }
-        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
+        /*
+        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/get-size-write.error", file);
         }
+        */
 
         try
         {
@@ -104,10 +112,12 @@ public final class DefaultFileContent
      */
     public long getLastModifiedTime() throws FileSystemException
     {
-        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
+        /*
+        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/get-last-modified-writing.error", file);
         }
+        */
         if (!file.getType().hasAttributes())
         {
             throw new FileSystemException("vfs.provider/get-last-modified-no-exist.error", file);
@@ -127,10 +137,12 @@ public final class DefaultFileContent
      */
     public void setLastModifiedTime(final long modTime) throws FileSystemException
     {
-        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
+        /*
+        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/set-last-modified-writing.error", file);
         }
+        */
         if (!file.getType().hasAttributes())
         {
             throw new FileSystemException("vfs.provider/set-last-modified-no-exist.error", file);
@@ -223,10 +235,12 @@ public final class DefaultFileContent
         {
             throw new FileSystemException("vfs.provider/get-certificates-no-exist.error", file);
         }
-        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
+        /*
+        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/get-certificates-writing.error", file);
         }
+        */
 
         try
         {
@@ -251,16 +265,18 @@ public final class DefaultFileContent
      */
     public InputStream getInputStream() throws FileSystemException
     {
-        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
+        /*
+        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/read-in-use.error", file);
         }
+        */
 
         // Get the raw input stream
         final InputStream instr = file.getInputStream();
         final InputStream wrappedInstr = new FileContentInputStream(instr);
-        this.instrs.add(wrappedInstr);
-        state = STATE_READING;
+        this.getThreadData().addInstr(wrappedInstr);
+        // setState(STATE_OPENED);
         return wrappedInstr;
     }
 
@@ -270,16 +286,18 @@ public final class DefaultFileContent
      */
     public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
     {
-        if (state != STATE_NONE)
+        /*
+        if (getThreadData().getState() != STATE_NONE)
         {
             throw new FileSystemException("vfs.provider/read-in-use.error", file);
         }
+        */
 
         // Get the content
         final RandomAccessContent rastr = file.getRandomAccessContent(mode);
-        this.rastr = new FileRandomAccessContent(rastr);
-        state = STATE_RANDOM_ACCESS;
-        return this.rastr;
+        this.getThreadData().setRastr(new FileRandomAccessContent(rastr));
+        // setState(STATE_OPENED);
+        return this.getThreadData().getRastr();
     }
 
     /**
@@ -295,7 +313,10 @@ public final class DefaultFileContent
      */
     public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
     {
-        if (state != STATE_NONE)
+        /*
+        if (getThreadData().getState() != STATE_NONE)
+        */
+        if (this.getThreadData().getOutstr() != null)
         {
             throw new FileSystemException("vfs.provider/write-in-use.error", file);
         }
@@ -304,9 +325,9 @@ public final class DefaultFileContent
         final OutputStream outstr = file.getOutputStream(bAppend);
 
         // Create wrapper
-        this.outstr = new FileContentOutputStream(outstr);
-        state = STATE_WRITING;
-        return this.outstr;
+        this.getThreadData().setOutstr(new FileContentOutputStream(outstr));
+        // setState(STATE_OPENED);
+        return this.getThreadData().getOutstr();
     }
 
     /**
@@ -315,27 +336,27 @@ public final class DefaultFileContent
      */
     public void close() throws FileSystemException
     {
-        try
+        // try
         {
             // Close the input stream
-            while (instrs.size() > 0)
+            while (getThreadData().getInstrsSize() > 0)
             {
-                final FileContentInputStream instr = (FileContentInputStream) instrs.remove(0);
+                final FileContentInputStream instr = (FileContentInputStream) getThreadData().removeInstr(0);
                 instr.close();
             }
 
             // Close the output stream
-            if (outstr != null)
+            if (this.getThreadData().getOutstr() != null)
             {
-                outstr.close();
+                this.getThreadData().getOutstr().close();
             }
 
             // Close the random access stream
-            if (rastr != null)
+            if (this.getThreadData().getRastr() != null)
             {
                 try
                 {
-                    rastr.close();
+                    this.getThreadData().getRastr().close();
                 }
                 catch (IOException e)
                 {
@@ -343,10 +364,12 @@ public final class DefaultFileContent
                 }
             }
         }
+        /*
         finally
         {
-            state = STATE_NONE;
+            setState(STATE_CLOSED);
         }
+        */
     }
 
     /**
@@ -354,11 +377,13 @@ public final class DefaultFileContent
      */
     private void endInput(final FileContentInputStream instr)
     {
-        instrs.remove(instr);
-        if (instrs.size() == 0)
+        getThreadData().removeInstr(instr);
+        /*
+        if (!getThreadData().hasStreams())
         {
-            state = STATE_NONE;
+            setState(STATE_CLOSED);
         }
+        */
     }
 
     /**
@@ -366,7 +391,7 @@ public final class DefaultFileContent
      */
     private void endRandomAccess()
     {
-        state = STATE_NONE;
+        // setState(STATE_CLOSED);
     }
 
     /**
@@ -374,10 +399,17 @@ public final class DefaultFileContent
      */
     private void endOutput() throws Exception
     {
-        outstr = null;
-        state = STATE_NONE;
+        this.getThreadData().setOutstr(null);
+        // setState(STATE_CLOSED);
         file.endOutput();
     }
+
+    /*
+    private void setState(int state)
+    {
+        getThreadData().setState(state);
+    }
+    */
 
     /**
      * check if a input and/or output stream is open.
@@ -386,7 +418,8 @@ public final class DefaultFileContent
      */
     public boolean isOpen()
     {
-        return state != STATE_NONE;
+        // return getThreadData().getState() == STATE_OPENED;
+        return getThreadData().hasStreams();
     }
 
     /**
@@ -447,8 +480,7 @@ public final class DefaultFileContent
     /**
      * An output stream for writing content.
      */
-    private final class FileContentOutputStream
-        extends MonitorOutputStream
+    final class FileContentOutputStream extends MonitorOutputStream
     {
         FileContentOutputStream(final OutputStream outstr)
         {

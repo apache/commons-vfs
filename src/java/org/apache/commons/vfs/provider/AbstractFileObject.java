@@ -55,14 +55,14 @@ import java.util.Map;
  * @todo Check caps in methods like getChildren(), etc, and give better error messages
  * (eg 'this file type does not support listing children', vs 'this is not a folder')
  */
-public abstract class AbstractFileObject
-    implements FileObject
+public abstract class AbstractFileObject implements FileObject
 {
     // private static final FileObject[] EMPTY_FILE_ARRAY = {};
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 
     private final FileName name;
     private final AbstractFileSystem fs;
+
     private DefaultFileContent content;
 
     // Cached info
@@ -74,6 +74,7 @@ public abstract class AbstractFileObject
     // go into the global files cache
     // private FileObject[] children;
     private FileName[] children;
+
 
     protected AbstractFileObject(final FileName name,
                                  final AbstractFileSystem fs)
@@ -494,10 +495,13 @@ public abstract class AbstractFileObject
             }
         }
 
-        // Locate the parent of this file
-        if (parent == null)
+        synchronized (this)
         {
-            parent = (AbstractFileObject) fs.resolveFile(name.getParent());
+            // Locate the parent of this file
+            if (parent == null)
+            {
+                parent = (AbstractFileObject) fs.resolveFile(name.getParent());
+            }
         }
         return parent;
     }
@@ -507,65 +511,68 @@ public abstract class AbstractFileObject
      */
     public FileObject[] getChildren() throws FileSystemException
     {
-        attach();
-        if (!type.hasChildren())
+        synchronized (this)
         {
-            throw new FileSystemException("vfs.provider/list-children-not-folder.error", name);
-        }
+            attach();
+            if (!type.hasChildren())
+            {
+                throw new FileSystemException("vfs.provider/list-children-not-folder.error", name);
+            }
 
-        // Use cached info, if present
-        if (children != null)
-        {
+            // Use cached info, if present
+            if (children != null)
+            {
+                return resolveFiles(children);
+            }
+
+            // allow the filesystem to return resolved children. e.g. prefill type for webdav
+            FileObject[] childrenObjects;
+            try
+            {
+                childrenObjects = doListChildrenResolved();
+                children = extractNames(childrenObjects);
+            }
+            catch (Exception exc)
+            {
+                throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
+            }
+
+            if (childrenObjects != null)
+            {
+                return childrenObjects;
+            }
+
+            // List the children
+            final String[] files;
+            try
+            {
+                files = doListChildren();
+            }
+            catch (Exception exc)
+            {
+                throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
+            }
+
+            if (files == null || files.length == 0)
+            {
+                // No children
+                children = EMPTY_FILE_ARRAY;
+            }
+            else
+            {
+                // Create file objects for the children
+                // children = new FileObject[files.length];
+                children = new FileName[files.length];
+                for (int i = 0; i < files.length; i++)
+                {
+                    final String file = files[i];
+                    // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
+                    children[i] = name.resolveName(file, NameScope.CHILD);
+                }
+            }
+
             return resolveFiles(children);
         }
-
-        // allow the filesystem to return resolved children. e.g. prefill type for webdav
-        FileObject[] childrenObjects;
-        try
-        {
-            childrenObjects = doListChildrenResolved();
-            children = extractNames(childrenObjects);
-        }
-        catch (Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
-        }
-
-        if (childrenObjects != null)
-        {
-            return childrenObjects;
-        }
-
-        // List the children
-        final String[] files;
-        try
-        {
-            files = doListChildren();
-        }
-        catch (Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
-        }
-
-        if (files == null || files.length == 0)
-        {
-            // No children
-            children = EMPTY_FILE_ARRAY;
-        }
-        else
-        {
-            // Create file objects for the children
-            // children = new FileObject[files.length];
-            children = new FileName[files.length];
-            for (int i = 0; i < files.length; i++)
-            {
-                final String file = files[i];
-                // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
-                children[i] = name.resolveName(file, NameScope.CHILD);
-            }
-        }
-
-        return resolveFiles(children);
     }
 
     private FileName[] extractNames(FileObject[] objects)
@@ -611,11 +618,11 @@ public abstract class AbstractFileObject
     public FileObject getChild(final String name) throws FileSystemException
     {
         // TODO - use a hashtable when there are a large number of children
-        getChildren();
+        FileObject[] children = getChildren();
         for (int i = 0; i < children.length; i++)
         {
             // final FileObject child = children[i];
-            final FileName child = children[i];
+            final FileName child = children[i].getName();
             // TODO - use a comparator to compare names
             // if (child.getName().getBaseName().equals(name))
             if (child.getBaseName().equals(name))
@@ -632,7 +639,6 @@ public abstract class AbstractFileObject
     public FileObject resolveFile(final String name, final NameScope scope)
         throws FileSystemException
     {
-        // TODO - cache children (only if they exist)
         return fs.resolveFile(this.name.resolveName(name, scope));
     }
 
@@ -657,35 +663,38 @@ public abstract class AbstractFileObject
      */
     private boolean deleteSelf() throws FileSystemException
     {
-        if (!isWriteable())
+        synchronized (this)
         {
-            throw new FileSystemException("vfs.provider/delete-read-only.error", name);
-        }
+            if (!isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/delete-read-only.error", name);
+            }
 
-        if (type == FileType.IMAGINARY)
-        {
-            // File does not exist
-            return false;
-        }
+            if (getType() == FileType.IMAGINARY)
+            {
+                // File does not exist
+                return false;
+            }
 
-        try
-        {
-            // Delete the file
-            doDelete();
+            try
+            {
+                // Delete the file
+                doDelete();
 
-            // Update cached info
-            handleDelete();
-        }
-        catch (final RuntimeException re)
-        {
-            throw re;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/delete.error", new Object[]{name}, exc);
-        }
+                // Update cached info
+                handleDelete();
+            }
+            catch (final RuntimeException re)
+            {
+                throw re;
+            }
+            catch (final Exception exc)
+            {
+                throw new FileSystemException("vfs.provider/delete.error", new Object[]{name}, exc);
+            }
 
-        return true;
+            return true;
+        }
     }
 
     /**
@@ -706,11 +715,9 @@ public abstract class AbstractFileObject
      */
     public int delete(final FileSelector selector) throws FileSystemException
     {
-        attach();
-
         int nuofDeleted = 0;
 
-        if (type == FileType.IMAGINARY)
+        if (getType() == FileType.IMAGINARY)
         {
             // File does not exist
             return nuofDeleted;
@@ -725,10 +732,10 @@ public abstract class AbstractFileObject
         for (int i = 0; i < count; i++)
         {
             final AbstractFileObject file = (AbstractFileObject) files.get(i);
-            file.attach();
+            // file.attach();
 
             // If the file is a folder, make sure all its children have been deleted
-            if (file.type == FileType.FOLDER && file.getChildren().length != 0)
+            if (file.getType() == FileType.FOLDER && file.getChildren().length != 0)
             {
                 // Skip - as the selector forced us not to delete all files
                 continue;
@@ -750,18 +757,21 @@ public abstract class AbstractFileObject
      */
     public void createFile() throws FileSystemException
     {
-        try
+        synchronized (this)
         {
-            getOutputStream().close();
-            endOutput();
-        }
-        catch (final RuntimeException re)
-        {
-            throw re;
-        }
-        catch (final Exception e)
-        {
-            throw new FileSystemException("vfs.provider/create-file.error", name, e);
+            try
+            {
+                getOutputStream().close();
+                endOutput();
+            }
+            catch (final RuntimeException re)
+            {
+                throw re;
+            }
+            catch (final Exception e)
+            {
+                throw new FileSystemException("vfs.provider/create-file.error", name, e);
+            }
         }
     }
 
@@ -771,43 +781,45 @@ public abstract class AbstractFileObject
      */
     public void createFolder() throws FileSystemException
     {
-        attach();
-        if (type == FileType.FOLDER)
+        synchronized (this)
         {
-            // Already exists as correct type
-            return;
-        }
-        if (type != FileType.IMAGINARY)
-        {
-            throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", name);
-        }
-        if (!isWriteable())
-        {
-            throw new FileSystemException("vfs.provider/create-folder-read-only.error", name);
-        }
+            if (getType() == FileType.FOLDER)
+            {
+                // Already exists as correct type
+                return;
+            }
+            if (getType() != FileType.IMAGINARY)
+            {
+                throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", name);
+            }
+            if (!isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/create-folder-read-only.error", name);
+            }
 
-        // Traverse up the heirarchy and make sure everything is a folder
-        final FileObject parent = getParent();
-        if (parent != null)
-        {
-            parent.createFolder();
-        }
+            // Traverse up the heirarchy and make sure everything is a folder
+            final FileObject parent = getParent();
+            if (parent != null)
+            {
+                parent.createFolder();
+            }
 
-        try
-        {
-            // Create the folder
-            doCreateFolder();
+            try
+            {
+                // Create the folder
+                doCreateFolder();
 
-            // Update cached info
-            handleCreate(FileType.FOLDER);
-        }
-        catch (final RuntimeException re)
-        {
-            throw re;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/create-folder.error", name, exc);
+                // Update cached info
+                handleCreate(FileType.FOLDER);
+            }
+            catch (final RuntimeException re)
+            {
+                throw re;
+            }
+            catch (final Exception exc)
+            {
+                throw new FileSystemException("vfs.provider/create-folder.error", name, exc);
+            }
         }
     }
 
@@ -1086,8 +1098,7 @@ public abstract class AbstractFileObject
      */
     public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
     {
-        attach();
-        if (type != FileType.IMAGINARY && !type.hasContent())
+        if (getType() != FileType.IMAGINARY && !getType().hasContent())
         {
             throw new FileSystemException("vfs.provider/write-not-file.error", name);
         }
@@ -1100,7 +1111,7 @@ public abstract class AbstractFileObject
             throw new FileSystemException("vfs.provider/write-append-not-supported.error", name);
         }
 
-        if (type == FileType.IMAGINARY)
+        if (getType() == FileType.IMAGINARY)
         {
 // Does not exist - make sure parent does
             FileObject parent = getParent();
@@ -1211,7 +1222,7 @@ public abstract class AbstractFileObject
      */
     protected void endOutput() throws Exception
     {
-        if (type == FileType.IMAGINARY)
+        if (getType() == FileType.IMAGINARY)
         {
             // File was created
             handleCreate(FileType.FILE);
@@ -1229,23 +1240,26 @@ public abstract class AbstractFileObject
      */
     protected void handleCreate(final FileType newType) throws Exception
     {
-        if (attached)
+        synchronized (this)
         {
-            // Fix up state
-            type = newType;
+            if (attached)
+            {
+                // Fix up state
+                injectType(newType);
 
-            removeChildrenCache();
-            children = EMPTY_FILE_ARRAY;
+                removeChildrenCache();
+                children = EMPTY_FILE_ARRAY;
 
-            // Notify subclass
-            onChange();
+                // Notify subclass
+                onChange();
+            }
+
+            // Notify parent that its child list may no longer be valid
+            notifyParent();
+
+            // Notify the file system
+            fs.fireFileCreated(this);
         }
-
-        // Notify parent that its child list may no longer be valid
-        notifyParent();
-
-        // Notify the file system
-        fs.fireFileCreated(this);
     }
 
     /**
@@ -1254,22 +1268,25 @@ public abstract class AbstractFileObject
      */
     protected void handleDelete() throws Exception
     {
-        if (attached)
+        synchronized (this)
         {
-            // Fix up state
-            type = FileType.IMAGINARY;
-            removeChildrenCache();
-            // children = null;
+            if (attached)
+            {
+                // Fix up state
+                injectType(FileType.IMAGINARY);
+                removeChildrenCache();
+                // children = null;
 
-            // Notify subclass
-            onChange();
+                // Notify subclass
+                onChange();
+            }
+
+            // Notify parent that its child list may no longer be valid
+            notifyParent();
+
+            // Notify the file system
+            fs.fireFileDeleted(this);
         }
-
-        // Notify parent that its child list may no longer be valid
-        notifyParent();
-
-        // Notify the file system
-        fs.fireFileDeleted(this);
     }
 
     /**

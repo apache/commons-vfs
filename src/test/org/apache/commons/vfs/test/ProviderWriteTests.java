@@ -24,7 +24,6 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.Selectors;
 
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -231,6 +230,7 @@ public class ProviderWriteTests
     /**
      * Tests concurrent read and write on the same file fails.
      */
+    /* imario@apache.org leave this to some sort of LockManager
     public void testConcurrentReadWrite() throws Exception
     {
         final FileObject scratchFolder = createScratchFolder();
@@ -257,10 +257,12 @@ public class ProviderWriteTests
             instr.close();
         }
     }
+    */
 
     /**
      * Tests concurrent writes on the same file fails.
      */
+    /* imario@apache.org leave this to some sort of LockManager
     public void testConcurrentWrite() throws Exception
     {
         final FileObject scratchFolder = createScratchFolder();
@@ -293,6 +295,7 @@ public class ProviderWriteTests
         // Make sure that the content written to the first stream is actually applied
         assertSameContent(testContent, file);
     }
+    */
 
     /**
      * Tests file copy to and from the same filesystem type.  This was a problem
