@@ -76,26 +76,31 @@ final class FtpFileObject
     private static final FTPFile[] EMPTY_FTP_FILE_ARRAY = {};
 
     private final FtpFileSystem ftpFs;
+    private final String relPath;
 
     // Cached info
     private FTPFile fileInfo;
     private FTPFile[] children;
 
-    public FtpFileObject( final FileName name, final FtpFileSystem fileSystem )
+    public FtpFileObject( final FileName name,
+                          final FtpFileSystem fileSystem,
+                          final FileName rootName )
+        throws FileSystemException
     {
         super( name, fileSystem );
         ftpFs = fileSystem;
+        relPath = rootName.getRelativeName( name );
     }
 
     /**
      * Called by child file objects, to locate their ftp file info.
      */
-    private FTPFile getChildFile( String name ) throws Exception
+    private FTPFile getChildFile( final String name ) throws Exception
     {
         if ( children == null )
         {
             // List the children of this file
-            children = ftpFs.getClient().listFiles( getName().getPath() );
+            children = ftpFs.getClient().listFiles( relPath );
             if ( children == null )
             {
                 children = EMPTY_FTP_FILE_ARRAY;
@@ -106,7 +111,7 @@ final class FtpFileObject
         // TODO - use hash table
         for ( int i = 0; i < children.length; i++ )
         {
-            FTPFile child = children[ i ];
+            final FTPFile child = children[ i ];
             if ( child.getName().equals( name ) )
             {
                 // TODO - should be using something else to compare names
@@ -124,8 +129,11 @@ final class FtpFileObject
         throws Exception
     {
         // Get the parent folder to find the info for this file
-        FtpFileObject parent = (FtpFileObject)getParent();
-        fileInfo = parent.getChildFile( getName().getBaseName() );
+        final FtpFileObject parent = (FtpFileObject)getParent();
+        if ( parent != null )
+        {
+            fileInfo = parent.getChildFile( getName().getBaseName() );
+        }
         if ( fileInfo == null || !fileInfo.isDirectory() )
         {
             children = EMPTY_FTP_FILE_ARRAY;
@@ -182,17 +190,17 @@ final class FtpFileObject
         if ( children == null )
         {
             // List the children of this file
-            children = ftpFs.getClient().listFiles( getName().getPath() );
+            children = ftpFs.getClient().listFiles( relPath );
             if ( children == null )
             {
                 children = EMPTY_FTP_FILE_ARRAY;
             }
         }
 
-        String[] childNames = new String[ children.length ];
+        final String[] childNames = new String[ children.length ];
         for ( int i = 0; i < children.length; i++ )
         {
-            FTPFile child = children[ i ];
+            final FTPFile child = children[ i ];
             childNames[ i ] = child.getName();
         }
 
@@ -205,14 +213,14 @@ final class FtpFileObject
     protected void doDelete() throws Exception
     {
         final FTPClient ftpClient = ftpFs.getClient();
-        boolean ok;
+        final boolean ok;
         if ( fileInfo.isDirectory() )
         {
-            ok = ftpClient.removeDirectory( getName().getPath() );
+            ok = ftpClient.removeDirectory( relPath );
         }
         else
         {
-            ok = ftpClient.deleteFile( getName().getPath() );
+            ok = ftpClient.deleteFile( relPath );
         }
         if ( !ok )
         {
@@ -228,7 +236,7 @@ final class FtpFileObject
     protected void doCreateFolder()
         throws Exception
     {
-        if ( !ftpFs.getClient().makeDirectory( getName().getPath() ) )
+        if ( !ftpFs.getClient().makeDirectory( relPath ) )
         {
             throw new FileSystemException( "vfs.provider.ftp/create-folder.error", getName() );
         }
@@ -248,7 +256,7 @@ final class FtpFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return ftpFs.getClient().retrieveFileStream( getName().getPath() );
+        return ftpFs.getClient().retrieveFileStream( relPath );
     }
 
     /**
@@ -269,7 +277,7 @@ final class FtpFileObject
     protected OutputStream doGetOutputStream()
         throws Exception
     {
-        return ftpFs.getClient().storeFileStream( getName().getPath() );
+        return ftpFs.getClient().storeFileStream( relPath );
     }
 
     /**

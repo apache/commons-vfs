@@ -151,9 +151,9 @@ final class FtpFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( FileName name )
+    protected FileObject createFile( final FileName name )
         throws FileSystemException
     {
-        return new FtpFileObject( name, this );
+        return new FtpFileObject( name, this, getRootName() );
     }
 }
