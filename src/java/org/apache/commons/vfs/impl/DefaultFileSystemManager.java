@@ -131,7 +131,11 @@ public class DefaultFileSystemManager
 
     /**
      * Registers a file system provider.  The manager takes care of all
-     * lifecycle management.
+     * lifecycle management.  A provider may be registered multiple times
+     * with different schemes.
+     *
+     * @param urlScheme The scheme the provider will handle.
+     * @param provider The provider.
      */
     public void addProvider( final String urlScheme,
                              final FileProvider provider )
@@ -142,7 +146,11 @@ public class DefaultFileSystemManager
 
     /**
      * Registers a file system provider.  The manager takes care of all
-     * lifecycle management.
+     * lifecycle management.  A provider may be registered multiple times
+     * with different schemes.
+     *
+     * @param urlSchemes The schemes the provider will handle.
+     * @param provider The provider.
      */
     public void addProvider( final String[] urlSchemes,
                              final FileProvider provider )

@@ -193,6 +193,9 @@ public interface FileSystemManager
      * @param file
      *          The file to use to create the file system.
      *
+     * @return
+     *          The root file of the new file system.
+     * 
      * @throws FileSystemException
      *          On error creating the file system.
      */
