@@ -79,7 +79,9 @@ public class LocalProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new LocalProviderTestCase() );
+        final ProviderTestSuite testSuite = new ProviderTestSuite( new LocalProviderTestCase() );
+        testSuite.addTests( FileNameTests.class );
+        return testSuite;
     }
 
     /**
