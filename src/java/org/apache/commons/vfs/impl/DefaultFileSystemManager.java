@@ -110,7 +110,7 @@ public class DefaultFileSystemManager
         new DefaultVfsComponentContext( this );
 
     private TemporaryFileStore tempFileStore;
-
+    private final FileTypeMap map = new FileTypeMap();
     private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
     private boolean init;
 
@@ -128,8 +128,7 @@ public class DefaultFileSystemManager
 
     /**
      * Registers a file system provider.  The manager takes care of all
-     * lifecycle management.  A provider may be registered multiple times
-     * with different schemes.
+     * lifecycle management.  A provider may be registered multiple times.
      *
      * @param urlScheme The scheme the provider will handle.
      * @param provider The provider.
@@ -143,8 +142,7 @@ public class DefaultFileSystemManager
 
     /**
      * Registers a file system provider.  The manager takes care of all
-     * lifecycle management.  A provider may be registered multiple times
-     * with different schemes.
+     * lifecycle management.  A provider may be registered multiple times.
      *
      * @param urlSchemes The schemes the provider will handle.
      * @param provider The provider.
@@ -185,6 +183,26 @@ public class DefaultFileSystemManager
     public boolean hasProvider( final String scheme )
     {
         return providers.containsKey( scheme );
+    }
+
+    /**
+     * Adds an filename extension mapping.
+     * @param extension The file name extension.
+     * @param scheme The scheme to use for files with this extension.
+     */
+    public void addExtensionMap( final String extension, final String scheme )
+    {
+        map.addExtension( extension, scheme );
+    }
+
+    /**
+     * Adds a mime type mapping.
+     * @param mimeType The mime type.
+     * @param scheme The scheme to use for files with this mime type.
+     */
+    public void addMimeTypeMap( final String mimeType, final String scheme )
+    {
+        map.addMimeType( mimeType, scheme );
     }
 
     /**
@@ -442,18 +460,42 @@ public class DefaultFileSystemManager
                                         final FileObject file )
         throws FileSystemException
     {
-        FileProvider provider = (FileProvider)providers.get( scheme );
+        final FileProvider provider = (FileProvider)providers.get( scheme );
         if ( provider == null )
         {
-            throw new FileSystemException( "vfs.impl/unknown-provider.error", scheme );
+            throw new FileSystemException( "vfs.impl/unknown-provider.error", new Object[] { scheme, file } );
         }
         return provider.createFileSystem( scheme, file );
     }
 
     /**
+     * Creates a layered file system.
+     */
+    public FileObject createFileSystem( final FileObject file )
+        throws FileSystemException
+    {
+        final String scheme = map.getScheme( file );
+        if ( scheme == null )
+        {
+            throw new FileSystemException( "vfs.impl/no-provider-for-file.error", file );
+        }
+        return createFileSystem( scheme, file );
+    }
+
+    /**
+     * Determines if a layered file system can be created for a given file.
+     *
+     * @param file The file to check for.
+     */
+    public boolean canCreateFileSystem( final FileObject file ) throws FileSystemException
+    {
+        return ( map.getScheme( file ) != null );
+    }
+
+    /**
      * Creates a virtual file system.
      */
-    public FileObject createFileSystem( final FileObject rootFile )
+    public FileObject createVirtualFileSystem( final FileObject rootFile )
         throws FileSystemException
     {
         return vfsProvider.createFileSystem( rootFile );
@@ -462,7 +504,7 @@ public class DefaultFileSystemManager
     /**
      * Creates an empty virtual file system.
      */
-    public FileObject createFileSystem( final String rootUri )
+    public FileObject createVirtualFileSystem( final String rootUri )
         throws FileSystemException
     {
         return vfsProvider.createFileSystem( rootUri );

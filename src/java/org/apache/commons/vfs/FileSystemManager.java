@@ -113,13 +113,11 @@ public interface FileSystemManager
      * Locates a file by name.  Equivalent to calling
      * <code>resolveFile(uri, getBaseName())</code>.
      *
-     * @param name
-     *          The name of the file.
+     * @param name The name of the file.
      *
      * @return The file.  Never returns null.
      *
-     * @throws FileSystemException
-     *          On error parsing the file name.
+     * @throws FileSystemException On error parsing the file name.
      */
     FileObject resolveFile( String name )
         throws FileSystemException;
@@ -132,16 +130,14 @@ public interface FileSystemManager
      *
      * <p>Note that the file does not have to exist when this method is called.
      *
-     * @param name
-     *          The name of the file.
+     * @param name The name of the file.
      *
-     * @param baseFile
-     *          The base file to use to resolve relative paths.  May be null.
+     * @param baseFile The base file to use to resolve relative paths.
+     *        May be null.
      *
      * @return The file.  Never returns null.
      *
-     * @throws FileSystemException
-     *          On error parsing the file name.
+     * @throws FileSystemException On error parsing the file name.
      */
     FileObject resolveFile( FileObject baseFile, String name )
         throws FileSystemException;
@@ -150,16 +146,14 @@ public interface FileSystemManager
      * Locates a file by name.  See {@link #resolveFile(FileObject, String)}
      * for details.
      *
-     * @param baseFile
-     *          The base file to use to resolve relative paths.  May be null.
+     * @param baseFile The base file to use to resolve relative paths.
+     *        May be null.
      *
-     * @param name
-     *          The name of the file.
+     * @param name The name of the file.
      *
      * @return The file.  Never returns null.
      *
-     * @throws FileSystemException
-     *          On error parsing the file name.
+     * @throws FileSystemException On error parsing the file name.
      *
      */
     FileObject resolveFile( File baseFile, String name )
@@ -168,51 +162,54 @@ public interface FileSystemManager
     /**
      * Converts a local file into a {@link FileObject}.
      *
-     * @param file
-     *          The file to convert.
+     * @param file The file to convert.
      *
-     * @return
-     *          The {@link FileObject} that represents the local file.  Never
-     *          returns null.
+     * @return The {@link FileObject} that represents the local file.  Never
+     *         returns null.
      *
-     * @throws FileSystemException
-     *          On error converting the file.
+     * @throws FileSystemException On error converting the file.
      */
     FileObject toFileObject( File file )
         throws FileSystemException;
 
     /**
      * Creates a layered file system.  A layered file system is a file system
-     * that is created from the contents of another file, such as a zip
-     * or tar file.
+     * that is created from the contents of a file, such as a zip or tar file.
      *
-     * @param provider
-     *          The name of the file system provider to use.  This name is
-     *          the same as the scheme used in URI to identify the provider.
+     * @param provider The name of the file system provider to use.  This name
+     *        is the same as the scheme used in URI to identify the provider.
      *
-     * @param file
-     *          The file to use to create the file system.
+     * @param file The file to use to create the file system.
      *
-     * @return
-     *          The root file of the new file system.
+     * @return The root file of the new file system.
      *
-     * @throws FileSystemException
-     *          On error creating the file system.
+     * @throws FileSystemException On error creating the file system.
      */
     FileObject createFileSystem( String provider, FileObject file )
+        throws FileSystemException;
+
+    /**
+     * Creates a layered file system.  A layered file system is a file system
+     * that is created from the contents of a file, such as a zip or tar file.
+     *
+     * @param file The file to use to create the file system.
+     *
+     * @return The root file of the new file system.
+     *
+     * @throws FileSystemException On error creating the file system.
+     */
+    FileObject createFileSystem( FileObject file )
         throws FileSystemException;
 
     /**
      * Creates an empty virtual file system.  Can be populated by adding
      * junctions to it.
      *
-     * @param rootUri
-     *          The root URI to use for the new file system.  Can be null.
+     * @param rootUri The root URI to use for the new file system.  Can be null.
      *
-     * @return
-     *          The root file of the new file system.
+     * @return The root file of the new file system.
      */
-    FileObject createFileSystem( String rootUri )
+    FileObject createVirtualFileSystem( String rootUri )
         throws FileSystemException;
 
     /**
@@ -221,10 +218,9 @@ public interface FileSystemManager
      *
      * @param rootFile The root file to backs the file system.
      *
-     * @return
-     *          The root of the new file system.
+     * @return The root of the new file system.
      */
-    FileObject createFileSystem( FileObject rootFile )
+    FileObject createVirtualFileSystem( FileObject rootFile )
         throws FileSystemException;
 
     /**
@@ -232,4 +228,11 @@ public interface FileSystemManager
      * FileSystemManager.
      */
     URLStreamHandlerFactory getURLStreamHandlerFactory();
+
+    /**
+     * Determines if a layered file system can be created for a given file.
+     *
+     * @param file The file to check for.
+     */
+    boolean canCreateFileSystem( FileObject file ) throws FileSystemException;
 }

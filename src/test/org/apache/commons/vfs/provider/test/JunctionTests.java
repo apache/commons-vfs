@@ -66,7 +66,7 @@ import java.io.File;
  * Additional junction test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/21 13:18:17 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/24 07:28:19 $
  */
 public class JunctionTests
     extends AbstractProviderTestCase
@@ -83,7 +83,7 @@ public class JunctionTests
      */
     public void testNestedJunction() throws Exception
     {
-        final FileSystem fs = getManager().createFileSystem( "vfs:" ).getFileSystem();
+        final FileSystem fs = getManager().createVirtualFileSystem( "vfs:" ).getFileSystem();
         final FileObject baseDir = getBaseDir();
         fs.addJunction( "/a", baseDir );
 
@@ -115,7 +115,7 @@ public class JunctionTests
      */
     public void testAncestors() throws Exception
     {
-        final FileSystem fs = getManager().createFileSystem( "vfs://" ).getFileSystem();
+        final FileSystem fs = getManager().createVirtualFileSystem( "vfs://" ).getFileSystem();
         final FileObject baseDir = getBaseDir();
 
         // Make sure the file at the junction point and its ancestors do not exist

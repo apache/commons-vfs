@@ -89,6 +89,7 @@ public class NestedZipTestCase
         throws Exception
     {
         manager.addProvider( "zip", new ZipFileProvider() );
+        manager.addExtensionMap( "zip", "zip" );
     }
 
     /**
@@ -102,7 +103,7 @@ public class NestedZipTestCase
         final FileObject zipFile = manager.resolveFile( uri );
 
         // Now build the nested file system
-        final FileObject nestedFS = manager.createFileSystem( "zip", zipFile );
+        final FileObject nestedFS = manager.createFileSystem( zipFile );
         return nestedFS.resolveFile( "/" );
     }
 }

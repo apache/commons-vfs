@@ -90,6 +90,7 @@ public class NestedJarTestCase
         throws Exception
     {
         manager.addProvider( "jar", new JarFileProvider() );
+        manager.addExtensionMap( "jar", "jar" );
     }
 
     /**
@@ -103,7 +104,7 @@ public class NestedJarTestCase
         final FileObject jarFile = manager.resolveFile( uri );
 
         // Now build the nested file system
-        final FileObject nestedFS = manager.createFileSystem( "jar", jarFile );
+        final FileObject nestedFS = manager.createFileSystem( jarFile );
         return nestedFS.resolveFile( "/" );
     }
 }

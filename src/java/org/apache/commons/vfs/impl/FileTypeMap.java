@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,39 +53,60 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.test;
+package org.apache.commons.vfs.impl;
 
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.AbstractVfsTestCase;
-import junit.framework.Test;
-import java.io.File;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
- * Test cases for the virtual file system provider.
+ * A helper class that determines the provider to use for a file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/24 07:28:19 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/24 07:28:19 $
  */
-public class VirtualProviderTestCase
-    extends AbstractProviderTestConfig
+class FileTypeMap
 {
-    public static Test suite() throws Exception
+    private final Map mimeTypeMap = new HashMap();
+    private final Map extensionMap = new HashMap();
+
+    /**
+     * Adds a MIME type mapping.
+     */
+    public void addMimeType( final String mimeType, final String scheme )
     {
-        final ProviderTestSuite testSuite = new ProviderTestSuite( new VirtualProviderTestCase() );
-        testSuite.addTests( JunctionTests.class );
-        return testSuite;
+        mimeTypeMap.put( mimeType, scheme );
     }
 
     /**
-     * Returns the base folder for tests.
+     * Adds a filename extension mapping.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public void addExtension( final String extension, final String scheme )
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        final FileObject baseFile = manager.toFileObject( baseDir );
-        return manager.createVirtualFileSystem( baseFile );
+        extensionMap.put( extension, scheme );
+    }
+
+    /**
+     * Finds the provider to use to create a filesystem from a given file.
+     */
+    public String getScheme( final FileObject file ) throws FileSystemException
+    {
+        // Check the file's mime type for a match
+        final FileContent content = file.getContent();
+        final String mimeType = (String)content.getAttribute( "content-type" );
+        if ( mimeType != null )
+        {
+            final String scheme = (String)mimeTypeMap.get( mimeType );
+            if ( scheme != null )
+            {
+                return scheme;
+            }
+        }
+
+        // Check the file's extension for a match
+        final String extension = file.getName().getExtension();
+        return (String)extensionMap.get( extension );
     }
 }
