@@ -83,8 +83,12 @@
                         <li>
                             <strike>Fix set last-modified.</strike> (done)
                         </li>
-                        <li>Support passive mode.</li>
-                        <li>Add proxy support.</li>
+                        <li>
+                            <strike>Support passive mode.</strike> (done FtpFileSystemConfigBuilder)
+                        </li>
+                        <li>
+                            <strike>Add proxy support.</strike> no ftp-proxy standard available. If you are lucky - you simply could use special formed urls.
+                        </li>
                     </ul>
                 </li>
                 <li>URL Provider:
@@ -104,7 +108,8 @@
                     some mechanism needs to be provided to release and refresh
                     cached info.</strike> (done)
                     <br/>
-                    Some mechanism needs to be provided refresh cached info
+                    <strike>Some mechanism needs to be provided refresh cached info</strike>
+                    (FileObject.close() rereads the file informations - this is threadsafe)
                 </li>
                 <li>
                     The local disk caching mechanism also needs more work.  Needs
