@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
  * An Ant task that deletes matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/06/18 16:54:20 $
+ * @version $Revision: 1.10 $ $Date: 2004/06/19 18:31:11 $
  * @todo Allow selector to be specified.
  */
 public class DeleteTask
@@ -67,7 +67,7 @@ public class DeleteTask
      */
     public void execute() throws BuildException
     {
-        if ((file == null && srcDirUrl == null) || (filesList != null && filesList.length() > 0))
+        if ((file == null && srcDirUrl == null) || (srcDirUrl != null && filesList == null))
         {
             final String message = Messages.getString("vfs.tasks/delete.no-source-files.error");
             throw new BuildException(message);

@@ -105,12 +105,14 @@
                     <td>srcdir</td>
                     <td>The source folder. If used the includes and desdir 
                         attributes should be specified.</td>
+                    <td>No</td>
                 </tr>
                 <tr>
                     <td>includes</td>
                     <td>A comma or space separated list of files. The files
                         are resolved in combination with the specified 
                         srcdir attribute.</td>
+                    <td>Only if srcdir is specified.</td>
                 </tr>
                 <tr>
                     <td>overwrite</td>
@@ -213,6 +215,7 @@
                     <td>A comma or space separated list of files. The files
                         are resolved in combination with the specified 
                         srcdir attribute.</td>
+                    <td>Only if srcdir is specified.</td>
                 </tr>
             </table>
         </section>
