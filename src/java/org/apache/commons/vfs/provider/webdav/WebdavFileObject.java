@@ -74,7 +74,7 @@ import org.apache.webdav.lib.methods.OptionsMethod;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/15 02:35:35 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/17 09:20:01 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -92,11 +92,7 @@ public class WebdavFileObject
     }
 
     /**
-     * Attaches this file object to its file resource.  This method is called
-     * before any of the doBlah() or onBlah() methods.  Sub-classes can use
-     * this method to perform lazy initialisation.
-     *
-     * This implementation does nothing.
+     * Attaches this file object to its file resource.
      */
     protected void doAttach() throws Exception
     {
