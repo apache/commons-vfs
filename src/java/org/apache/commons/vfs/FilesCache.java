@@ -20,7 +20,7 @@ package org.apache.commons.vfs;
  * The fileCache interface
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/14 18:35:37 $
  */
 public interface FilesCache
 {
@@ -63,5 +63,5 @@ public interface FilesCache
      *
      * @param file filename
      */
-    public void accessFile(final FileObject file);
+    // public void touchFile(final FileObject file);
 }

@@ -31,7 +31,7 @@ import org.apache.commons.vfs.FilesCache;
  * </p>
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/10 20:09:48 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/14 18:35:37 $
  */
 public class NullFilesCache implements FilesCache
 {
@@ -56,7 +56,7 @@ public class NullFilesCache implements FilesCache
     {
     }
 
-    public void accessFile(FileObject file)
+    public void touchFile(FileObject file)
     {
     }
 }
