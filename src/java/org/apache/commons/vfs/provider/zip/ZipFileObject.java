@@ -63,6 +63,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.DefaultFileContent;
 
 /**
  * A file in a Zip file system.
@@ -154,6 +155,16 @@ public class ZipFileObject
     protected long doGetContentSize()
     {
         return entry.getSize();
+    }
+
+    /**
+     * Called from {@link DefaultFileContent#getLastModifiedTime}.
+     * The default is to just throw an exception so filesystems must
+     * override it to use it.
+     */
+    protected long doGetLastModifiedTime() throws Exception
+    {
+        return entry.getTime();
     }
 
     /**
