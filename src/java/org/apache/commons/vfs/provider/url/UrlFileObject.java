@@ -57,7 +57,9 @@ package org.apache.commons.vfs.provider.url;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -68,7 +70,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/06/28 10:54:28 $
+ * @version $Revision: 1.9 $ $Date: 2003/06/28 11:16:33 $
  *
  * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()
@@ -103,17 +105,34 @@ class UrlFileObject
      */
     protected FileType doGetType() throws Exception
     {
-        // Attempt to connect
         try
         {
-            url.openConnection().connect();
+            // Attempt to connect & check status
+            final URLConnection conn = url.openConnection();
+            final InputStream in = conn.getInputStream();
+            try
+            {
+                if (conn instanceof HttpURLConnection)
+                {
+                    final int status = ((HttpURLConnection)conn).getResponseCode();
+                    // 200 is good, maybe add more later...
+                    if ( HttpURLConnection.HTTP_OK != status)
+                    {
+                        return FileType.IMAGINARY;
+                    }
+                }
+
+                return FileType.FILE;
+            }
+            finally
+            {
+                in.close();
+            }
         }
         catch ( final FileNotFoundException e )
         {
             return FileType.IMAGINARY;
         }
-
-        return FileType.FILE;
     }
 
     /**
@@ -121,7 +140,16 @@ class UrlFileObject
      */
     protected long doGetContentSize() throws Exception
     {
-        return url.openConnection().getContentLength();
+        final URLConnection conn = url.openConnection();
+        final InputStream in = conn.getInputStream();
+        try
+        {
+            return conn.getContentLength();
+        }
+        finally
+        {
+            in.close();
+        }
     }
 
     /**
@@ -130,7 +158,16 @@ class UrlFileObject
     protected long doGetLastModifiedTime()
         throws Exception
     {
-        return url.openConnection().getLastModified();
+        final URLConnection conn = url.openConnection();
+        final InputStream in = conn.getInputStream();
+        try
+        {
+            return conn.getLastModified();
+        }
+        finally
+        {
+            in.close();
+        }
     }
 
     /**
