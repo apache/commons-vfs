@@ -58,6 +58,7 @@ package org.apache.commons.vfs.provider.jar;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
 
@@ -67,7 +68,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.5 $ $Date: 2002/10/28 02:05:06 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/23 00:05:26 $
  */
 public class JarFileSystemProvider
     extends ZipFileSystemProvider
@@ -84,7 +85,7 @@ public class JarFileSystemProvider
         throws FileSystemException
     {
         final String rootUri = getParser().buildRootUri( scheme, file.getName().getURI() );
-        final DefaultFileName name = new DefaultFileName( getParser(), rootUri, "/" );
+        final DefaultFileName name = new DefaultFileName( getParser(), rootUri, FileName.ROOT_PATH );
         return new JarFileSystem( name, file );
     }
 }

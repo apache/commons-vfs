@@ -67,6 +67,11 @@ package org.apache.commons.vfs;
 public interface FileName
 {
     /**
+     * The absolute path of the root of a file system.
+     */
+    String ROOT_PATH = "/";
+
+    /**
      * Returns the base name of this file.  The base name is the last element
      * of the file name.  For example the base name of
      * <code>/somefolder/somefile</code> is <code>somefile</code>.

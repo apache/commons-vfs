@@ -71,7 +71,7 @@ import org.apache.commons.vfs.provider.local.LocalFileSystem;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/31 10:40:58 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:05:27 $
  */
 public class TemporaryFileProvider
     extends AbstractFileSystemProvider
@@ -106,7 +106,7 @@ public class TemporaryFileProvider
             {
                 rootFile = getContext().getTemporaryFileStore().allocateFile( "tempfs" );
             }
-            final FileName rootName = new DefaultFileName( parser, parsedUri.getContainerUri(), "/" );
+            final FileName rootName = new DefaultFileName( parser, parsedUri.getContainerUri(), FileName.ROOT_PATH );
             filesystem = new LocalFileSystem( rootName, rootFile.getAbsolutePath() );
             addFileSystem( this, filesystem );
         }

@@ -58,6 +58,7 @@ package org.apache.commons.vfs.provider.zip;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
@@ -97,7 +98,7 @@ public class ZipFileSystemProvider
         throws FileSystemException
     {
         final String rootUri = parser.buildRootUri( scheme, file.getName().getURI() );
-        final DefaultFileName name = new DefaultFileName( parser, rootUri, "/" );
+        final DefaultFileName name = new DefaultFileName( parser, rootUri, FileName.ROOT_PATH );
         return new ZipFileSystem( name, file );
     }
 

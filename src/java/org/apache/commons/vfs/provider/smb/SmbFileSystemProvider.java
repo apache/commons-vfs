@@ -91,7 +91,7 @@ public final class SmbFileSystemProvider
         throws FileSystemException
     {
         final SmbUri smbUri = (SmbUri)uri;
-        final FileName rootName = new DefaultFileName( parser, smbUri.getContainerUri(), "/" );
+        final FileName rootName = new DefaultFileName( parser, smbUri.getContainerUri(), FileName.ROOT_PATH );
         return new SmbFileSystem( rootName );
     }
 }

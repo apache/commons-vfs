@@ -91,7 +91,7 @@ public final class FtpFileSystemProvider
         final FtpUri ftpUri = (FtpUri)uri;
 
         // Build the root name
-        final FileName rootName = new DefaultFileName( parser, ftpUri.getContainerUri(), "/" );
+        final FileName rootName = new DefaultFileName( parser, ftpUri.getContainerUri(), FileName.ROOT_PATH );
 
         // Determine the username and password to use
         String username = ftpUri.getUserName();

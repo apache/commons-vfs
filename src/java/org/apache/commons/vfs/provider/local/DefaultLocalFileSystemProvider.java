@@ -59,6 +59,7 @@ import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.LocalFileProvider;
@@ -143,7 +144,7 @@ public final class DefaultLocalFileSystemProvider
         final String rootFile = fileUri.getRootFile();
 
         // Create the file system
-        final DefaultFileName rootName = new DefaultFileName( parser, fileUri.getContainerUri(), "/" );
+        final DefaultFileName rootName = new DefaultFileName( parser, fileUri.getContainerUri(), FileName.ROOT_PATH );
         return new LocalFileSystem( rootName, rootFile );
     }
 }

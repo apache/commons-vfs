@@ -67,7 +67,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A virtual filesystem provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/01 03:27:30 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:05:26 $
  */
 public class VirtualFileProvider
     extends AbstractVfsContainer
@@ -80,10 +80,10 @@ public class VirtualFileProvider
     public FileObject createFileSystem( final FileObject rootFile )
         throws FileSystemException
     {
-        final FileName rootName = new DefaultFileName( parser, rootFile.getName().getURI(), "/" );
+        final FileName rootName = new DefaultFileName( parser, rootFile.getName().getURI(), FileName.ROOT_PATH );
         final VirtualFileSystem fs = new VirtualFileSystem( rootName );
         addComponent( fs );
-        fs.addJunction( rootName, rootFile );
+        fs.addJunction( FileName.ROOT_PATH, rootFile );
         return fs.getRoot();
     }
 
@@ -92,7 +92,7 @@ public class VirtualFileProvider
      */
     public FileObject createFileSystem( final String rootUri ) throws FileSystemException
     {
-        final FileName rootName = new DefaultFileName( parser, rootUri, "/" );
+        final FileName rootName = new DefaultFileName( parser, rootUri, FileName.ROOT_PATH );
         final VirtualFileSystem fs = new VirtualFileSystem( rootName );
         addComponent( fs );
         return fs.getRoot();
