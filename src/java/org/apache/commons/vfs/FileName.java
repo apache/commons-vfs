@@ -95,6 +95,14 @@ public interface FileName
     String getPath();
 
     /**
+     * Returns the extension of this file name.
+     *
+     * @return The extension.  Returns an empty string if the name has no
+     *         extension.
+     */
+    String getExtension();
+
+    /**
      * Returns the depth of this file name, within its file system.  The depth
      * of the root of a file system is 0.  The depth of any other file is
      * 1 + the depth of its parent.

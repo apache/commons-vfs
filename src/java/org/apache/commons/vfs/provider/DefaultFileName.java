@@ -203,6 +203,24 @@ public final class DefaultFileName
     }
 
     /**
+     * Returns the extension of this file name.
+     */
+    public String getExtension()
+    {
+        getBaseName();
+        final int pos = baseName.lastIndexOf( '.' );
+        if ( ( pos == -1 ) || ( pos == baseName.length() - 1 ) )
+        {
+            // No extension
+            return "";
+        }
+        else
+        {
+            return baseName.substring( 0, pos );
+        }
+    }
+
+    /**
      * Determines if another file name is an ancestor of this file name.
      */
     public boolean isAncestor( final FileName ancestor )
