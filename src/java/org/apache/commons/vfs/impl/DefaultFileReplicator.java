@@ -65,28 +65,41 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.FileReplicator;
+import org.apache.commons.vfs.provider.TemporaryFileStore;
 
 /**
- * A simple file replicator.
+ * A simple file replicator and temporary file store.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:18 $
  */
 public final class DefaultFileReplicator
     extends AbstractVfsComponent
-    implements FileReplicator
+    implements FileReplicator, TemporaryFileStore
 {
 
     private final ArrayList copies = new ArrayList();
     private File tempDir;
     private long filecount;
 
+    public DefaultFileReplicator( final File tempDir )
+    {
+        this.tempDir = tempDir;
+    }
+
+    public DefaultFileReplicator()
+    {
+    }
+
     /**
      * Initialises this component.
      */
     public void init() throws FileSystemException
     {
-        tempDir = new File( "vfs_cache" ).getAbsoluteFile();
+        if ( tempDir == null )
+        {
+            tempDir = new File( "vfs_cache" ).getAbsoluteFile();
+        }
         filecount = new Random().nextInt() & 0xffff;
     }
 
@@ -98,10 +111,11 @@ public final class DefaultFileReplicator
         // Delete the temporary files
         while ( copies.size() > 0 )
         {
-            final FileObject file = (FileObject)copies.remove( 0 );
+            final File file = (File)copies.remove( 0 );
             try
             {
-                file.delete( Selectors.SELECT_ALL );
+                final FileObject fileObject = getContext().toFileObject( file );
+                fileObject.delete( Selectors.SELECT_ALL );
             }
             catch ( final FileSystemException e )
             {
@@ -119,14 +133,19 @@ public final class DefaultFileReplicator
     }
 
     /**
-     * Generates a new temp file name.
+     * Allocates a new temporary file.
      */
-    private File generateTempFile( String prefix )
+    public File allocateFile( final String baseName )
     {
         // Create a unique-ish file name
-        final String basename = prefix + "_" + filecount + ".tmp";
+        final String basename = baseName + "_" + filecount + ".tmp";
         filecount++;
-        return new File( tempDir, basename );
+        final File file = new File( tempDir, basename );
+
+        // Keep track to delete later
+        copies.add( file );
+
+        return file;
     }
 
     /**
@@ -137,14 +156,11 @@ public final class DefaultFileReplicator
         throws FileSystemException
     {
         final String basename = srcFile.getName().getBaseName();
-        final File file = generateTempFile( basename );
+        final File file = allocateFile( basename );
 
         // Copy from the source file
-        final FileObject destFile = getContext().getFile( file );
+        final FileObject destFile = getContext().toFileObject( file );
         destFile.copyFrom( srcFile, selector );
-
-        // Keep track of the copy
-        copies.add( destFile );
 
         return file;
     }

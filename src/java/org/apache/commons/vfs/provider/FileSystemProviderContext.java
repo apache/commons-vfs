@@ -91,8 +91,13 @@ public interface FileSystemProviderContext
     FileReplicator getReplicator() throws FileSystemException;
 
     /**
+     * Locates a temporary file store for the provider to use.
+     */
+    TemporaryFileStore getTemporaryFileStore() throws FileSystemException;
+    
+    /**
      * Returns a {@link FileObject} for a local file.
      */
-    FileObject getFile( File file )
+    FileObject toFileObject( File file )
         throws FileSystemException;
 }

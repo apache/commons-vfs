@@ -61,6 +61,7 @@ import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Iterator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
@@ -72,6 +73,7 @@ import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponent;
+import org.apache.commons.vfs.provider.TemporaryFileStore;
 
 /**
  * A default file system manager implementation.  To use this class:
@@ -120,6 +122,8 @@ public class DefaultFileSystemManager
     /** The context to pass to providers. */
     private final DefaultProviderContext context =
         new DefaultProviderContext( this );
+
+    private TemporaryFileStore tempFileStore;
 
     /**
      * Returns the logger used by this manager.
@@ -206,6 +210,17 @@ public class DefaultFileSystemManager
     }
 
     /**
+     * Sets the temporary file store to use.  The manager takes care of all
+     * lifecycle management.
+     */
+    public void setTemporaryFileStore( final TemporaryFileStore tempFileStore )
+        throws FileSystemException
+    {
+        setupComponent( tempFileStore );
+        this.tempFileStore = tempFileStore;
+    }
+
+    /**
      * Sets the logger to use.
      */
     public void setLogger( final Log log )
@@ -214,7 +229,7 @@ public class DefaultFileSystemManager
     }
 
     /**
-     * Adds a component to the set of components owned by this manager.
+     * Initialises a component, if it has not already been initialised.
      */
     private void setupComponent( final Object component )
         throws FileSystemException
@@ -233,14 +248,18 @@ public class DefaultFileSystemManager
     }
 
     /**
-     * Closes a component.
+     * Closes a component, if it has not already been closed.
      */
     private void closeComponent( final Object component )
     {
-        if ( component instanceof VfsComponent )
+        if ( component != null && components.contains( component ) )
         {
-            final VfsComponent vfsComponent = (VfsComponent)component;
-            vfsComponent.close();
+            if ( component instanceof VfsComponent )
+            {
+                final VfsComponent vfsComponent = (VfsComponent)component;
+                vfsComponent.close();
+            }
+            components.remove( component );
         }
     }
 
@@ -260,32 +279,43 @@ public class DefaultFileSystemManager
     }
 
     /**
+     * Returns the temporary file store.
+     * @return The file store.  Never returns null.
+     */
+    public TemporaryFileStore getTemporaryFileStore()
+        throws FileSystemException
+    {
+        if ( tempFileStore == null )
+        {
+            throw new FileSystemException( "vfs.impl/no-temp-file-store.error" );
+        }
+        return tempFileStore;
+    }
+
+    /**
      * Closes all files created by this manager, and cleans up any temporary
      * files.  Also closes all providers and the replicator.
      */
     public void close()
     {
-        // Dispose the components (making sure we only dispose each provider
-        // only once).  Close the replicator last.
-        for ( int i = 0; i < components.size(); i++ )
+        // Close the providers.
+        for ( Iterator iterator = providers.values().iterator(); iterator.hasNext(); )
         {
-            Object component = components.get( i );
-            if ( component == fileReplicator )
-            {
-                continue;
-            }
-            closeComponent( component );
+            final Object provider = iterator.next();
+            closeComponent( provider );
         }
-        if ( fileReplicator != null )
-        {
-            closeComponent( fileReplicator );
-        }
+
+        // Close the other components
+        closeComponent( defaultProvider );
+        closeComponent( fileReplicator );
+        closeComponent( tempFileStore );
 
         components.clear();
         providers.clear();
         localFileProvider = null;
         defaultProvider = null;
         fileReplicator = null;
+        tempFileStore = null;
     }
 
     /**

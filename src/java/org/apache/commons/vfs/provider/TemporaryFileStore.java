@@ -53,71 +53,24 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.impl;
+package org.apache.commons.vfs.provider;
 
 import java.io.File;
-import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.FileReplicator;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
-import org.apache.commons.vfs.provider.TemporaryFileStore;
 
 /**
- * A provider context implementation.
+ * Manages a repository of temporary local files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/07/05 03:21:54 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/25 11:05:08 $
  */
-final class DefaultProviderContext
-    implements FileSystemProviderContext
+public interface TemporaryFileStore
 {
-    private final DefaultFileSystemManager manager;
-
-    public DefaultProviderContext( final DefaultFileSystemManager manager )
-    {
-        this.manager = manager;
-    }
-
     /**
-     * Locate a file by name.
+     * Allocates a new temporary file.  The file (and all its descendents)
+     * will be deleted when this store is closed.
+     *
+     * @param basename  The name of the file.
      */
-    public FileObject resolveFile( final FileObject baseFile, final String name )
-        throws FileSystemException
-    {
-        return manager.resolveFile( baseFile, name );
-    }
-
-    /**
-     * Locate a file by name.
-     */
-    public FileObject resolveFile( final String name )
-        throws FileSystemException
-    {
-        return manager.resolveFile( name );
-    }
-
-    /**
-     * Returns a {@link FileObject} for a local file.
-     */
-    public FileObject toFileObject( File file )
-        throws FileSystemException
-    {
-        return manager.toFileObject( file );
-    }
-
-    /**
-     * Locates a file replicator for the provider to use.
-     */
-    public FileReplicator getReplicator() throws FileSystemException
-    {
-        return manager.getReplicator();
-    }
-
-    /**
-     * Locates a temporary file store for the provider to use.
-     */
-    public TemporaryFileStore getTemporaryFileStore() throws FileSystemException
-    {
-        return manager.getTemporaryFileStore();
-    }
+    File allocateFile( String basename ) throws FileSystemException;
 }
