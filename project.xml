@@ -100,6 +100,11 @@
        <id>commons-httpclient</id>
        <version>2.0-alpha2</version>
     </dependency>
+
+    <dependency>
+        <id>jsch</id>
+        <version>0.1.0</version>
+    </dependency>
   </dependencies>
 
   <build>

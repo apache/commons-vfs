@@ -24,6 +24,8 @@
     </depend>
     <depend project="jcifs">
     </depend>
+    <depend project="jsch">
+    </depend>
     <depend project="junit">
     </depend>
     <depend project="xml-xerces">
