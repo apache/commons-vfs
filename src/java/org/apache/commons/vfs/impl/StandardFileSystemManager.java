@@ -16,7 +16,6 @@
 package org.apache.commons.vfs.impl;
 
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.util.Messages;
 import org.w3c.dom.Element;
@@ -35,7 +34,7 @@ import java.util.ArrayList;
  * if a provider was skipped due to "unresolved externals".
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.18 $ $Date: 2004/05/15 09:15:11 $
+ * @version $Revision: 1.19 $ $Date: 2004/05/17 17:56:35 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -68,7 +67,7 @@ public class StandardFileSystemManager
     public void init() throws FileSystemException
     {
         // Set the replicator and temporary file store (use the same component)
-        final DefaultFileReplicator replicator = new DefaultFileReplicator();
+        final DefaultFileReplicator replicator = createDefaultFileReplicator();
         setReplicator(new PrivilegedFileReplicator(replicator));
         setTemporaryFileStore(replicator);
 
@@ -93,6 +92,11 @@ public class StandardFileSystemManager
 
         // Initialise super-class
         super.init();
+    }
+
+    protected DefaultFileReplicator createDefaultFileReplicator()
+    {
+        return new DefaultFileReplicator();
     }
 
     /**
@@ -143,26 +147,11 @@ public class StandardFileSystemManager
                 final Element map = (Element) extensions.item(i);
                 addExtensionMap(map);
             }
-
-            // set the filescache implementation
-            final NodeList filesCaches = config.getElementsByTagName("files-cache");
-            if (filesCaches.getLength() > 0)
-            {
-                final Element filesCache = (Element) filesCaches.item(0);
-                addFilesCache(filesCache);
-            }
         }
         catch (final Exception e)
         {
             throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
         }
-    }
-
-    private void addFilesCache(Element filesCache) throws FileSystemException
-    {
-        final String classname = filesCache.getAttribute("class-name");
-        final FilesCache cache = createFilesCache(classname);
-        setFilesCache(cache);
     }
 
     /**
@@ -284,23 +273,6 @@ public class StandardFileSystemManager
         catch (final Exception e)
         {
             throw new FileSystemException("vfs.impl/create-provider.error", providerClassName, e);
-        }
-    }
-
-    /**
-     * Creates a fileCache implementation.
-     */
-    private FilesCache createFilesCache(final String filesCacheClassName)
-        throws FileSystemException
-    {
-        try
-        {
-            final Class filesCacheClass = classLoader.loadClass(filesCacheClassName);
-            return (FilesCache) filesCacheClass.newInstance();
-        }
-        catch (final Exception e)
-        {
-            throw new FileSystemException("vfs.impl/create-files-cache.error", filesCacheClassName, e);
         }
     }
 }
