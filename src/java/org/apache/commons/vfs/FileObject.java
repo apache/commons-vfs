@@ -261,6 +261,14 @@ public interface FileObject
         throws FileSystemException;
 
     /**
+     * Queries the file if it is possible to rename it to newfile.
+     *
+     * @param newfile the new file(-name)
+     * @return true it this is the case
+     */
+    public boolean canRenameTo(FileObject newfile);
+
+    /**
      * Returns this file's content.  The {@link FileContent} returned by this
      * method can be used to read and write the content of the file.
      * <p/>
