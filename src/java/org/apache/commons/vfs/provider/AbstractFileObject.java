@@ -322,7 +322,7 @@ public abstract class AbstractFileObject
     /**
      * Returns a URL representation of the file.
      */
-    public URL getURL() throws MalformedURLException
+    public URL getURL() throws FileSystemException
     {
         final StringBuffer buf = new StringBuffer();
         try
@@ -337,9 +337,9 @@ public abstract class AbstractFileObject
                     }
                 } );
         }
-        catch ( PrivilegedActionException e )
+        catch ( final PrivilegedActionException e )
         {
-            throw (MalformedURLException)e.getException();
+            throw new FileSystemException( "vfs.provider/get-url.error", name, e.getException() );
         }
     }
 

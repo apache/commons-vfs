@@ -118,7 +118,7 @@ public interface FileObject
     /**
      * Returns a URL representing this file.
      */
-    URL getURL() throws MalformedURLException;
+    URL getURL() throws FileSystemException;
 
     /**
      * Determines if this file exists.
