@@ -42,9 +42,9 @@ import java.util.Stack;
  * To do this check, the cache is cleared.
  * </p>
  * <ul>
- * <li>If the file existed before the refresh and it no longer exists, a delete event is fired.
- * <li>If the file existed before the refresh and it still exists, check the last modified timestamp to see if that has changed.
- * <li>If it has, fire a change event.
+ * <li>If the file existed before the refresh and it no longer exists, a delete event is fired.</li>
+ * <li>If the file existed before the refresh and it still exists, check the last modified timestamp to see if that has changed.</li>
+ * <li>If it has, fire a change event.</li>
  * </ul>
  * <p/>
  * With each file delete, the FileMonitorAgent of the parent is asked to re-build its
@@ -66,7 +66,7 @@ import java.util.Stack;
  * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  *
  * @author <a href="mailto:xknight@users.sourceforge.net">Christopher Ottley</a>
- * @version $Revision: 1.2 $ $Date: 2004/10/12 13:16:23 $
+ * @version $Revision: 1.3 $ $Date: 2004/10/12 13:16:51 $
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor
 {
