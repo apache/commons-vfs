@@ -90,9 +90,18 @@
       <version>0.7.0b5</version>
     </dependency>
 
+    <dependency>
+      <groupId>slide</groupId>
+      <artifactId>webdavlib</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+       <id>commons-httpclient</id>
+       <version>2.0-alpha2</version>
+    </dependency>
   </dependencies>
-  
-  
+
   <build>
     <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
