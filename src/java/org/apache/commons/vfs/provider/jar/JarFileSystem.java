@@ -76,7 +76,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystem;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.8 $ $Date: 2002/11/23 00:33:53 $
+ * @version $Revision: 1.9 $ $Date: 2002/11/25 05:37:13 $
  */
 class JarFileSystem
     extends ZipFileSystem
@@ -118,6 +118,7 @@ class JarFileSystem
         caps.add( Capability.ATTRIBUTES );
         caps.add( Capability.FS_ATTRIBUTES );
         caps.add( Capability.SIGNING );
+        caps.add( Capability.MANIFEST_ATTRIBUTES );
     }
 
     Attributes getAttributes() throws IOException

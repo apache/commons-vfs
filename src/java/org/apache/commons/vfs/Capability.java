@@ -59,7 +59,7 @@ package org.apache.commons.vfs;
  * An enumerated type representing the capabilities of files and file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/23 00:03:56 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/25 05:37:13 $
  */
 public final class Capability
 {
@@ -70,7 +70,7 @@ public final class Capability
     public static final Capability WRITE_CONTENT = new Capability( "WRITE_CONTENT" );
 
     /** File attributes are supported. */
-    public static final Capability ATTRIBUTES = new Capability( "ATTRIBUTE" );
+    public static final Capability ATTRIBUTES = new Capability( "ATTRIBUTES" );
 
     /** File last-modified time is supported. */
     public static final Capability LAST_MODIFIED = new Capability( "LAST_MODIFIED" );
@@ -98,6 +98,12 @@ public final class Capability
 
     /** Junctions are supported. */
     public static final Capability JUNCTIONS = new Capability( "JUNCTIONS" );
+
+    /**
+     * The set of attributes defined by the Jar manifest specification are
+     * supported.  The attributes aren't necessarily stored in a manifest file.
+     */
+    public static final Capability MANIFEST_ATTRIBUTES = new Capability( "MANIFEST_ATTRIBUTES" );
 
     private final String name;
 
