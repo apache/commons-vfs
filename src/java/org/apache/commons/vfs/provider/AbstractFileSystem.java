@@ -55,15 +55,15 @@
  */
 package org.apache.commons.vfs.provider;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
+import org.apache.commons.vfs.FileChangeEvent;
+import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileListener;
-import org.apache.commons.vfs.FileChangeEvent;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.util.Messages;
 
 /**
@@ -105,6 +105,12 @@ public abstract class AbstractFileSystem
      */
     protected abstract FileObject createFile( final FileName name )
         throws FileSystemException;
+
+    /** Returns the name of the root of this file system. */ 
+    protected FileName getRootName()
+    {
+        return rootName;
+    }
 
     /**
      * Adds a file object to the cache.
@@ -176,7 +182,11 @@ public abstract class AbstractFileSystem
      */
     public FileObject resolveFile( final FileName name ) throws FileSystemException
     {
-        // TODO - assert that name is from this file system
+        if ( !rootName.getRootURI().equals( name.getRootURI() ) )
+        {
+            throw new FileSystemException( "vfs.provider/mismatched-fs-for-name.error", new Object[] { name, rootName } );
+        }
+
         FileObject file = (FileObject)files.get( name );
         if ( file == null )
         {
