@@ -76,10 +76,11 @@ import org.apache.commons.vfs.VFS;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: Shell.java,v 1.5 2003/11/28 17:27:16 ggregory Exp $
+ * @version $Id: Shell.java,v 1.6 2003/12/02 19:22:56 ggregory Exp $
  */
 public class Shell
 {
+    private static final String CVS_ID = "$Id: Shell.java,v 1.6 2003/12/02 19:22:56 ggregory Exp $";
     private final FileSystemManager mgr;
     private FileObject cwd;
     private BufferedReader reader;
@@ -107,6 +108,7 @@ public class Shell
 
     private void go() throws Exception
     {
+        System.out.println("VFS Shell [" + CVS_ID + "]");
         while ( true )
         {
             final String[] cmd = nextCommand();
@@ -119,7 +121,7 @@ public class Shell
                 continue;
             }
             final String cmdName = cmd[ 0 ];
-            if ( cmdName.equalsIgnoreCase( "exit" ) )
+            if (cmdName.equalsIgnoreCase( "exit" ) || cmdName.equalsIgnoreCase( "quit" ))
             {
                 return;
             }
@@ -189,7 +191,9 @@ public class Shell
         System.out.println( "pwd                Displays current folder." );
         System.out.println( "rm <path>          Deletes a file or folder." );
         System.out.println( "touch <path>       Sets the last-modified time of a file." );
-    }
+        System.out.println( "exit       Exits this program." );
+        System.out.println( "quit       Exits this program." );
+       }
 
     /** Does an 'rm' command. */
     private void rm( final String[] cmd ) throws Exception
