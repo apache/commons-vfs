@@ -21,7 +21,7 @@ import java.io.File;
  * A file system, made up of a hierarchy of files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.17 $ $Date: 2004/06/30 19:06:38 $
+ * @version $Revision: 1.18 $ $Date: 2004/07/09 21:02:52 $
  */
 public interface FileSystem
 {
@@ -29,6 +29,11 @@ public interface FileSystem
      * Returns the root file of this file system.
      */
     FileObject getRoot() throws FileSystemException;
+
+    /**
+     * Returns the name of the root file of this file system.
+     */
+    FileName getRootName();
 
     /**
      * Determines if this file system has a particular capability.

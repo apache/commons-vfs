@@ -21,7 +21,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.VfsLog;
-import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.util.Messages;
 
 import java.lang.ref.Reference;
@@ -37,7 +37,7 @@ import java.util.TreeMap;
  * As soon as the vm needs memory - every softly reachable file will be discarded.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.7 $ $Date: 2004/07/07 20:01:35 $
+ * @version $Revision: 1.8 $ $Date: 2004/07/09 21:02:52 $
  * @see SoftReference
  */
 public class SoftRefFilesCache extends AbstractFilesCache
@@ -51,21 +51,25 @@ public class SoftRefFilesCache extends AbstractFilesCache
     private final Map refReverseMap = new HashMap(100);
     private final ReferenceQueue refqueue = new ReferenceQueue();
 
-    private Thread softRefReleaseThread = null;
+    private SoftRefReleaseThread softRefReleaseThread = null;
 
     /**
      * This thread will listen on the ReferenceQueue and remove the entry in the
      * filescache as soon as the vm removes the reference
      */
-    private class SoftRefReleaseThread implements Runnable
+    private class SoftRefReleaseThread extends Thread
     {
+        private boolean requestEnd = false;
+
         private SoftRefReleaseThread()
         {
+            setName(SoftRefReleaseThread.class.getName());
+            setDaemon(true);
         }
 
         public void run()
         {
-            loop: while (!Thread.currentThread().isInterrupted())
+            loop: while (!requestEnd && !Thread.currentThread().isInterrupted())
             {
                 try
                 {
@@ -90,7 +94,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
                 }
                 catch (InterruptedException e)
                 {
-                    VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
+                    if (!requestEnd)
+                    {
+                        VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
+                    }
                     break loop;
                 }
             }
@@ -108,8 +115,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             throw new IllegalStateException(Messages.getString("vfs.impl/SoftRefReleaseThread-already-running.warn"));
         }
 
-        softRefReleaseThread = new Thread(new SoftRefReleaseThread());
-        softRefReleaseThread.setDaemon(true);
+        softRefReleaseThread = new SoftRefReleaseThread();
         softRefReleaseThread.start();
     }
 
@@ -117,6 +123,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         if (softRefReleaseThread != null)
         {
+            softRefReleaseThread.requestEnd = true;
             softRefReleaseThread.interrupt();
             softRefReleaseThread = null;
         }
@@ -127,16 +134,9 @@ public class SoftRefFilesCache extends AbstractFilesCache
         synchronized (this)
         {
             Map files = getOrCreateFilesystemCache(file.getFileSystem());
-            /*
-            if (files.size() < 1)
-            {
-                startThread();
-            }
-            */
 
             SoftReference ref = new SoftReference(file, refqueue);
             FileSystemAndNameKey key = new FileSystemAndNameKey(file.getFileSystem(), file.getName());
-            // files.put(key, ref);
             files.put(file.getName(), ref);
             refReverseMap.put(ref, key);
         }
@@ -147,9 +147,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         synchronized (this)
         {
             Map files = getOrCreateFilesystemCache(filesystem);
-            // FileSystemAndNameKey key = new FileSystemAndNameKey(filesystem, name);
 
-            // SoftReference ref = (SoftReference) files.get(key);
             SoftReference ref = (SoftReference) files.get(name);
             if (ref == null)
             {
@@ -159,7 +157,6 @@ public class SoftRefFilesCache extends AbstractFilesCache
             FileObject fo = (FileObject) ref.get();
             if (fo == null)
             {
-                // removeFile(key);
                 removeFile(filesystem, name);
             }
             return fo;
@@ -173,16 +170,13 @@ public class SoftRefFilesCache extends AbstractFilesCache
             Map files = getOrCreateFilesystemCache(filesystem);
 
             Iterator iterKeys = refReverseMap.values().iterator();
-            // Iterator iterKeys = files.keySet().iterator();
             while (iterKeys.hasNext())
             {
                 FileSystemAndNameKey key = (FileSystemAndNameKey) iterKeys.next();
                 if (key.getFileSystem() == filesystem)
                 {
-                    // Object ref = files.get(key);
                     iterKeys.remove();
                     files.remove(key.getFileName());
-                    // refReverseMap.remove(ref);
                 }
             }
 
@@ -190,18 +184,17 @@ public class SoftRefFilesCache extends AbstractFilesCache
             {
                 filesystemClose(filesystem);
             }
-            /*
-            if (files.size() < 1)
-            {
-                endThread();
-            }
-            */
         }
     }
 
     private void filesystemClose(FileSystem filesystem)
     {
-        ((AbstractFileSystem) filesystem).close();
+        filesystemCache.remove(filesystem);
+        if (filesystemCache.size() < 1)
+        {
+            endThread();
+        }
+        ((DefaultFileSystemManager) getContext().getFileSystemManager()).closeFileSystem(filesystem);
     }
 
     public void close()
@@ -233,7 +226,6 @@ public class SoftRefFilesCache extends AbstractFilesCache
         {
             Map files = getOrCreateFilesystemCache(key.getFileSystem());
 
-            // Object ref = files.remove(key);
             Object ref = files.remove(key.getFileName());
             if (ref != null)
             {
@@ -244,13 +236,6 @@ public class SoftRefFilesCache extends AbstractFilesCache
             {
                 filesystemClose(key.getFileSystem());
             }
-
-            /*
-            if (files.size() < 1)
-            {
-                endThread();
-            }
-            */
         }
     }
 

@@ -39,7 +39,7 @@ import java.util.List;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: AbstractTestSuite.java,v 1.4 2004/07/07 20:01:35 imario Exp $
+ * @version $Id: AbstractTestSuite.java,v 1.5 2004/07/09 21:02:51 imario Exp $
  */
 public class AbstractTestSuite
     extends TestSetup
@@ -220,6 +220,8 @@ public class AbstractTestSuite
             System.out.println(message);
             // }
         }
+        // System.in.read();
+
         manager.close();
 
         // Make sure temp directory is empty or gone

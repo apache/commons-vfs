@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * A {@link VfsComponent} that contains a set of sub-components.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:42 $
+ * @version $Revision: 1.8 $ $Date: 2004/07/09 21:02:51 $
  */
 public abstract class AbstractVfsContainer
     extends AbstractVfsComponent
@@ -55,6 +55,14 @@ public abstract class AbstractVfsContainer
             // Keep track of component, to close it later
             components.add(component);
         }
+    }
+
+    /**
+     * Removes a sub-component from this component.
+     */
+    protected void removeComponent(final Object component)
+    {
+        components.remove(component);
     }
 
     /**

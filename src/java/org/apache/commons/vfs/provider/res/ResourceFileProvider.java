@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.res;
 
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
@@ -30,9 +31,9 @@ import java.util.Collections;
 
 /**
  * Description
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:37 $
+ * @version $Revision: 1.3 $ $Date: 2004/07/09 21:02:52 $
  */
 public class ResourceFileProvider extends AbstractFileProvider
 {
@@ -77,6 +78,11 @@ public class ResourceFileProvider extends AbstractFileProvider
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return org.apache.commons.vfs.provider.res.ResourcelFileSystemConfigBuilder.getInstance();
+    }
+
+    public void closeFileSystem(FileSystem filesystem)
+    {
+        // no filesystem created here - so nothing to do
     }
 
     public Collection getCapabilities()

@@ -75,6 +75,8 @@ public abstract class AbstractFileSystem
      */
     private long useCount;
 
+    private FileSystemKey cacheKey;
+
     protected AbstractFileSystem(final FileName rootName,
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
@@ -101,6 +103,8 @@ public abstract class AbstractFileSystem
     public void close()
     {
         closeCommunicationLink();
+
+        parentLayer = null;
     }
 
     /**
@@ -136,7 +140,7 @@ public abstract class AbstractFileSystem
     /**
      * Returns the name of the root of this file system.
      */
-    protected FileName getRootName()
+    public FileName getRootName()
     {
         return rootName;
     }
@@ -445,6 +449,16 @@ public abstract class AbstractFileSystem
     {
         useCount++;
 
+    }
+
+    void setCacheKey(FileSystemKey cacheKey)
+    {
+        this.cacheKey = cacheKey;
+    }
+
+    FileSystemKey getCacheKey()
+    {
+        return this.cacheKey;
     }
 
     /**

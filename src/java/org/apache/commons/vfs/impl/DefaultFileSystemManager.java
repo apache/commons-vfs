@@ -18,6 +18,7 @@ package org.apache.commons.vfs.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -359,6 +360,7 @@ public class DefaultFileSystemManager
             fileContentInfoFactory = new FileContentInfoFilenameFactory();
         }
 
+        setupComponent(filesCache);
         setupComponent(vfsProvider);
 
         init = true;
@@ -620,6 +622,15 @@ public class DefaultFileSystemManager
     public URLStreamHandlerFactory getURLStreamHandlerFactory()
     {
         return new VfsStreamHandlerFactory();
+    }
+
+    public void closeFileSystem(FileSystem filesystem)
+    {
+        FileProvider provider = (FileProvider) providers.get(filesystem.getRootName().getScheme());
+        if (provider != null)
+        {
+            ((AbstractFileProvider) provider).closeFileSystem(filesystem);
+        }
     }
 
     /**

@@ -77,6 +77,7 @@ public abstract class AbstractFileProvider
         addComponent(fs);
 
         FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
+        ((AbstractFileSystem) fs).setCacheKey(treeKey);
         fileSystems.put(treeKey, fs);
     }
 
@@ -108,5 +109,14 @@ public abstract class AbstractFileProvider
                 fs.closeCommunicationLink();
             }
         }
+    }
+
+    public void closeFileSystem(final FileSystem filesystem)
+    {
+        AbstractFileSystem fs = (AbstractFileSystem) filesystem;
+
+        fileSystems.remove(fs.getCacheKey());
+        removeComponent(fileSystems);
+        fs.close();
     }
 }
