@@ -56,7 +56,7 @@
 package org.apache.commons.vfs;
 
 /**
- * An enumeration that represents a file's type.
+ * An enumerated type that represents a file's type.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.6 $ $Date: 2002/07/05 04:08:17 $
@@ -64,32 +64,76 @@ package org.apache.commons.vfs;
 public final class FileType
 {
     /**
-     * A folder, which can contain other files, but does not have any data
-     * content.
+     * A folder.  May contain other files, and have attributes, but does not
+     * have any data content.
      */
-    public static final FileType FOLDER = new FileType( "folder" );
+    public static final FileType FOLDER = new FileType( "folder", true, false, true );
 
     /**
-     * A regular file, which has data content, but cannot contain other files.
+     * A regular file.  May have data content and attributes, but cannot
+     * contain other files.
      */
-    public static final FileType FILE = new FileType( "file" );
+    public static final FileType FILE = new FileType( "file", false, true, true );
+
+    /**
+     * A file that does not exist.  May not have data content, attributes,
+     * or contain other files.
+     */
+    public static final FileType IMAGINARY = new FileType( "imaginary", false, false, false );
 
     private final String name;
+    private final boolean hasChildren;
+    private final boolean hasContent;
+    private final boolean hasAttrs;
 
-    private FileType( final String name )
+    private FileType( final String name,
+                      final boolean hasChildren,
+                      final boolean hasContent,
+                      final boolean hasAttrs )
     {
         this.name = name;
+        this.hasChildren = hasChildren;
+        this.hasContent = hasContent;
+        this.hasAttrs = hasAttrs;
     }
 
-    /** Returns the name of the type. */
+    /**
+     * Returns the name of this type.
+     */
     public String toString()
     {
         return name;
     }
 
-    /** Returns the name of the type. */
+    /**
+     * Returns the name of this type.
+     */
     public String getName()
     {
         return name;
+    }
+
+    /**
+     * Returns true if files of this type may contain other files.
+     */
+    public boolean hasChildren()
+    {
+        return hasChildren;
+    }
+
+    /**
+     * Returns true if files of this type may have data content.
+     */
+    public boolean hasContent()
+    {
+        return hasContent;
+    }
+
+    /**
+     * Returns true if files of this type may have attributes.
+     */
+    public boolean hasAttributes()
+    {
+        return hasAttrs;
     }
 }

@@ -55,7 +55,6 @@
  */
 package org.apache.commons.vfs;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -132,7 +131,7 @@ public interface FileObject
     boolean exists() throws FileSystemException;
 
     /**
-     * Determines if this file can be read (only files that exist can be read).
+     * Determines if this file can be read.
      *
      * @return
      *      <code>true</code> if this file is readable, <code>false</code> if not.
@@ -157,11 +156,10 @@ public interface FileObject
      * Returns this file's type.
      *
      * @return
-     *      Either {@link FileType#FILE} or {@link FileType#FOLDER}.  Never
-     *      returns null.
+     *      One of the {@link FileType} constants.  Never returns null.
      *
      * @throws FileSystemException
-     *      If the file does not exist, or on error determining the file's type.
+     *      On error determining the file's type.
      */
     FileType getType() throws FileSystemException;
 

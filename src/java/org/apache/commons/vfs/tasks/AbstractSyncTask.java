@@ -78,7 +78,7 @@ import org.apache.tools.ant.Project;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/12 07:56:17 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/23 00:40:39 $
  *
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
@@ -300,7 +300,7 @@ public abstract class AbstractSyncTask
         }
         final SourceInfo src = (SourceInfo)srcFiles.get( 0 );
         final FileObject srcFile = resolveFile( src.file );
-        if ( !srcFile.exists() || srcFile.getType() != FileType.FILE )
+        if ( srcFile.getType() != FileType.FILE )
         {
             final String message =
                 Messages.getString( "vfs.tasks/sync.source-not-file.error", srcFile );

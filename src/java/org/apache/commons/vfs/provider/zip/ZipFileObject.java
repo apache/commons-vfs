@@ -89,7 +89,7 @@ public class ZipFileObject
         file = zipFile;
         if ( file == null )
         {
-            type = null;
+            type = FileType.IMAGINARY;
         }
     }
 

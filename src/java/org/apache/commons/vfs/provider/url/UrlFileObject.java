@@ -68,7 +68,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/12 07:56:17 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/23 00:40:39 $
  *
  * @todo Implement get/set lastModified and get/set attribute
  * @todo Implement getOutputStream()
@@ -110,7 +110,7 @@ class UrlFileObject
         }
         catch ( final FileNotFoundException e )
         {
-            return null;
+            return FileType.IMAGINARY;
         }
 
         return FileType.FILE;

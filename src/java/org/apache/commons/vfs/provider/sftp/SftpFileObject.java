@@ -79,7 +79,7 @@ import com.jcraft.jsch.SftpATTRS;
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/20 07:30:36 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/23 00:40:38 $
  */
 class SftpFileObject
     extends AbstractFileObject
@@ -112,8 +112,9 @@ class SftpFileObject
         if ( attrs == null )
         {
             // TODO - not quite true, but ChannelSftp.stat() swallows exceptions
-            return null;
+            return FileType.IMAGINARY;
         }
+        
         if ( ( attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_PERMISSIONS ) == 0 )
         {
             throw new FileSystemException( "vfs.provider.sftp/unknown-permissions.error" );

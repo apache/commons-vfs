@@ -74,7 +74,7 @@ import org.apache.webdav.lib.methods.OptionsMethod;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/21 13:08:59 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/23 00:40:39 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -116,7 +116,7 @@ public class WebdavFileObject
         final int status = fileSystem.getClient().executeMethod( optionsMethod );
         if ( status < 200 || status > 299 )
         {
-            return null;
+            return FileType.IMAGINARY;
         }
         resource.getHttpURL().setPath( optionsMethod.getPath() );
 
@@ -132,7 +132,7 @@ public class WebdavFileObject
         }
         if ( !exists )
         {
-            return null;
+            return FileType.IMAGINARY;
         }
 
         // Get the properties of the resource

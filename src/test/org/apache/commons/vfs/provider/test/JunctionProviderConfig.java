@@ -66,7 +66,7 @@ import org.apache.commons.vfs.test.ProviderTestConfig;
  * junctions.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/23 00:40:37 $
  */
 public class JunctionProviderConfig
     implements ProviderTestConfig
@@ -97,7 +97,6 @@ public class JunctionProviderConfig
         final FileSystem newFs = manager.createFileSystem( "vfs:" ).getFileSystem();
         final String junctionPoint = "/some/dir";
         newFs.addJunction( junctionPoint, baseFolder );
-        newFs.addJunction( junctionPoint + "/write-tests", baseFolder.resolveFile( "write-tests/subdir" ) );
 
         return newFs.resolveFile( junctionPoint );
     }

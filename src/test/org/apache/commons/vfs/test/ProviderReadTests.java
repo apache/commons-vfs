@@ -67,7 +67,7 @@ import org.apache.commons.vfs.FileType;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.9 $ $Date: 2003/02/23 00:40:37 $
  *
  * @todo Test getLastModified(), getAttribute()
  */
@@ -118,7 +118,7 @@ public class ProviderReadTests
             final FileInfo info = (FileInfo)queueExpected.remove( 0 );
 
             // Check the type is correct
-            assertSame( file.getType(), info.type );
+            assertSame( info.type, file.getType() );
 
             if ( info.type == FileType.FILE )
             {
@@ -163,15 +163,7 @@ public class ProviderReadTests
 
         // Test an unknown file
         file = getReadFolder().resolveFile( "unknown-child" );
-        try
-        {
-            file.getType();
-            fail();
-        }
-        catch ( FileSystemException e )
-        {
-            assertSameMessage( "vfs.provider/get-type-no-exist.error", file, e );
-        }
+        assertSame( FileType.IMAGINARY, file.getType() );
     }
 
     /**
@@ -188,7 +180,7 @@ public class ProviderReadTests
         }
         catch ( FileSystemException e )
         {
-            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
+            assertSameMessage( "vfs.provider/read-not-file.error", folder, e );
         }
     }
 

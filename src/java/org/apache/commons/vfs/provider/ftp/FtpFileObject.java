@@ -208,14 +208,13 @@ final class FtpFileObject
     {
         if ( fileInfo == null )
         {
-            // Does not exist
-            return null;
+            return FileType.IMAGINARY;
         }
-        if ( fileInfo.isDirectory() )
+        else if ( fileInfo.isDirectory() )
         {
             return FileType.FOLDER;
         }
-        if ( fileInfo.isFile() )
+        else if ( fileInfo.isFile() )
         {
             return FileType.FILE;
         }

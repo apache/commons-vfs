@@ -71,7 +71,7 @@ import org.apache.commons.vfs.FileType;
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/21 13:16:39 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/23 00:40:38 $
  *
  * @todo Extract subclass that overlays the children
  */
@@ -119,14 +119,18 @@ public class DelegateFileObject
         maybeTypeChanged( oldType );
     }
 
+    /**
+     * Checks whether the file's type has changed, and fires the appropriate
+     * events.
+     */
     private void maybeTypeChanged( final FileType oldType ) throws Exception
     {
         final FileType newType = doGetType();
-        if ( oldType == null && newType != null )
+        if ( oldType == FileType.IMAGINARY && newType != FileType.IMAGINARY )
         {
             handleCreate( newType );
         }
-        else if ( oldType != null && newType == null )
+        else if ( oldType != FileType.IMAGINARY && newType == FileType.IMAGINARY )
         {
             handleDelete();
         }
@@ -140,17 +144,16 @@ public class DelegateFileObject
     {
         if ( file != null )
         {
-            if ( file.exists() )
-            {
-                return file.getType();
-            }
+            return file.getType();
         }
         else if ( children.size() > 0 )
         {
             return FileType.FOLDER;
         }
-
-        return null;
+        else
+        {
+            return FileType.IMAGINARY;
+        }
     }
 
     /**

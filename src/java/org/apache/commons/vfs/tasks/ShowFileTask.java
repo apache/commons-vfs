@@ -61,14 +61,13 @@ import java.io.InputStreamReader;
 import java.util.Date;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileType;
 import org.apache.tools.ant.BuildException;
 
 /**
  * An Ant task that writes the details of a file to Ant's log.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/12 07:56:18 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/23 00:40:39 $
  */
 public class ShowFileTask
     extends VfsTask
@@ -143,7 +142,7 @@ public class ShowFileTask
         if ( file.exists() )
         {
             final String newPrefix = prefix + INDENT;
-            if ( file.getType() == FileType.FILE )
+            if ( file.getType().hasContent() )
             {
                 final FileContent content = file.getContent();
                 log( newPrefix + "Content-Length: " + content.getSize() );
@@ -154,7 +153,7 @@ public class ShowFileTask
                     logContent( file, newPrefix );
                 }
             }
-            else
+            if ( file.getType().hasChildren() )
             {
                 final FileObject[] children = file.getChildren();
                 for ( int i = 0; i < children.length; i++ )

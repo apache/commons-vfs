@@ -106,16 +106,17 @@ class SmbFileObject
     {
         if ( !file.exists() )
         {
-            return null;
+            return FileType.IMAGINARY;
         }
-        if ( file.isDirectory() )
+        else if ( file.isDirectory() )
         {
             return FileType.FOLDER;
         }
-        if ( file.isFile() )
+        else if ( file.isFile() )
         {
             return FileType.FILE;
         }
+        
         throw new FileSystemException( "vfs.provider.smb/get-type.error", getName() );
     }
 

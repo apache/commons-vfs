@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileObject;
  * URL test cases for providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/23 00:40:38 $
  */
 public class UrlTests
     extends AbstractProviderTestCase
@@ -137,7 +137,7 @@ public class UrlTests
         }
         catch ( final IOException e )
         {
-            assertSameMessage( "vfs.provider/read-no-exist.error", unknownFile, e );
+            assertSameMessage( "vfs.provider/read-not-file.error", unknownFile, e );
         }
         assertEquals( -1, connection.getContentLength() );
     }

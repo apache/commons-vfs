@@ -57,6 +57,7 @@ package org.apache.commons.vfs.provider;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
@@ -74,6 +75,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.FileUtil;
 
 /**
  * A partial file object implementation.
@@ -130,9 +132,8 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Determines the type of this file, returns null if the file does not
-     * exist.  The return value of this method is cached, so the
-     * implementation can be expensive.
+     * Determines the type of this file.  Must not return null.  The return
+     * value of this method is cached, so the implementation can be expensive.
      */
     protected abstract FileType doGetType() throws Exception;
 
@@ -365,7 +366,7 @@ public abstract class AbstractFileObject
     public boolean exists() throws FileSystemException
     {
         attach();
-        return ( type != null );
+        return ( type != FileType.IMAGINARY );
     }
 
     /**
@@ -374,10 +375,6 @@ public abstract class AbstractFileObject
     public FileType getType() throws FileSystemException
     {
         attach();
-        if ( type == null )
-        {
-            throw new FileSystemException( "vfs.provider/get-type-no-exist.error", name );
-        }
         return type;
     }
 
@@ -465,11 +462,7 @@ public abstract class AbstractFileObject
     public FileObject[] getChildren() throws FileSystemException
     {
         attach();
-        if ( type == null )
-        {
-            throw new FileSystemException( "vfs.provider/list-children-no-exist.error", name );
-        }
-        if ( type != FileType.FOLDER )
+        if ( !type.hasChildren() )
         {
             throw new FileSystemException( "vfs.provider/list-children-not-folder.error", name );
         }
@@ -602,7 +595,7 @@ public abstract class AbstractFileObject
     public void delete( final FileSelector selector ) throws FileSystemException
     {
         attach();
-        if ( type == null )
+        if ( type == FileType.IMAGINARY )
         {
             // File does not exist
             return;
@@ -664,7 +657,7 @@ public abstract class AbstractFileObject
             // Already exists as correct type
             return;
         }
-        if ( type != null )
+        if ( type != FileType.IMAGINARY )
         {
             throw new FileSystemException( "vfs.provider/create-folder-mismatched-type.error", name );
         }
@@ -737,13 +730,20 @@ public abstract class AbstractFileObject
             }
 
             // Copy across
-            if ( srcFile.getType() == FileType.FILE )
+            try
             {
-                copyContent( srcFile, destFile );
+                if ( srcFile.getType().hasContent() )
+                {
+                    FileUtil.copyContent( srcFile, destFile );
+                }
+                else if ( srcFile.getType().hasChildren() )
+                {
+                    destFile.createFolder();
+                }
             }
-            else
+            catch ( final IOException e )
             {
-                destFile.createFolder();
+                throw new FileSystemException( "vfs.provider/copy-file.error", new Object[]{srcFile, destFile}, e );
             }
         }
     }
@@ -757,58 +757,6 @@ public abstract class AbstractFileObject
         final ArrayList list = new ArrayList();
         findFiles( selector, true, list );
         return (FileObject[])list.toArray( new FileObject[ list.size() ] );
-    }
-
-    /**
-     * Copies the content of another file to this file.
-     */
-    private static void copyContent( final FileObject srcFile,
-                                     final FileObject destFile )
-        throws FileSystemException
-    {
-        try
-        {
-            final InputStream instr = srcFile.getContent().getInputStream();
-            try
-            {
-                // Create the output stream via getContent(), to pick up the
-                // validation it does
-                final OutputStream outstr = destFile.getContent().getOutputStream();
-                try
-                {
-                    final byte[] buffer = new byte[ 1024 * 4 ];
-                    int n = 0;
-                    while ( -1 != ( n = instr.read( buffer ) ) )
-                    {
-                        outstr.write( buffer, 0, n );
-                    }
-                }
-                finally
-                {
-                    outstr.close();
-                }
-            }
-            finally
-            {
-                instr.close();
-            }
-        }
-        catch ( RuntimeException re )
-        {
-            throw re;
-        }
-        catch ( final Exception exc )
-        {
-            throw new FileSystemException( "vfs.provider/copy-file.error", new Object[]{srcFile, destFile}, exc );
-        }
-    }
-
-    /**
-     * Returns true if this is a Folder.
-     */
-    boolean isFolder()
-    {
-        return ( type == FileType.FOLDER );
     }
 
     /**
@@ -861,6 +809,32 @@ public abstract class AbstractFileObject
     }
 
     /**
+     * Returns an input stream to use to read the content of the file.
+     */
+    public InputStream getInputStream() throws FileSystemException
+    {
+        attach();
+        if ( ! type.hasContent() )
+        {
+            throw new FileSystemException( "vfs.provider/read-not-file.error", name );
+        }
+        if ( !isReadable() )
+        {
+            throw new FileSystemException( "vfs.provider/read-not-readable.error", name );
+        }
+
+        // Get the raw input stream
+        try
+        {
+            return doGetInputStream();
+        }
+        catch ( final Exception exc )
+        {
+            throw new FileSystemException( "vfs.provider/read.error", name, exc );
+        }
+    }
+
+    /**
      * Prepares this file for writing.  Makes sure it is either a file,
      * or its parent folder exists.  Returns an output stream to use to
      * write the content of the file to.
@@ -868,16 +842,16 @@ public abstract class AbstractFileObject
     public OutputStream getOutputStream() throws FileSystemException
     {
         attach();
+        if ( type != FileType.IMAGINARY && !type.hasContent() )
+        {
+            throw new FileSystemException( "vfs.provider/write-not-file.error", name );
+        }
         if ( !isWriteable() )
         {
             throw new FileSystemException( "vfs.provider/write-read-only.error", name );
         }
-        if ( type == FileType.FOLDER )
-        {
-            throw new FileSystemException( "vfs.provider/write-folder.error", name );
-        }
 
-        if ( type == null )
+        if ( type == FileType.IMAGINARY )
         {
             // Does not exist - make sure parent does
             FileObject parent = getParent();
@@ -939,6 +913,10 @@ public abstract class AbstractFileObject
             doAttach();
             attached = true;
             type = doGetType();
+            if ( type == null )
+            {
+                type = FileType.IMAGINARY;
+            }
         }
         catch ( RuntimeException re )
         {
@@ -955,7 +933,7 @@ public abstract class AbstractFileObject
      */
     protected void endOutput() throws Exception
     {
-        if ( type == null )
+        if ( type == FileType.IMAGINARY )
         {
             // File was created
             handleCreate( FileType.FILE );
@@ -999,7 +977,7 @@ public abstract class AbstractFileObject
         if ( attached )
         {
             // Fix up state
-            type = null;
+            type = FileType.IMAGINARY;
             children = null;
 
             // Notify subclass
@@ -1083,7 +1061,7 @@ public abstract class AbstractFileObject
         final int index = selected.size();
 
         // If the file is a folder, traverse it
-        if ( file.getType() == FileType.FOLDER && selector.traverseDescendents( fileInfo ) )
+        if ( file.getType().hasChildren() && selector.traverseDescendents( fileInfo ) )
         {
             final int curDepth = fileInfo.getDepth();
             fileInfo.setDepth( curDepth + 1 );

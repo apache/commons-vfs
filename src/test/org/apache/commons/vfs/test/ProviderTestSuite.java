@@ -55,26 +55,27 @@
  */
 package org.apache.commons.vfs.test;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.io.File;
 import java.util.Enumeration;
 import junit.extensions.TestSetup;
+import junit.framework.Test;
 import junit.framework.TestSuite;
-import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.impl.DefaultFileReplicator;
-import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
-import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.impl.DefaultFileReplicator;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
+import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 
 /**
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2003/02/21 13:18:18 $
+ * @version $Revision: 1.11 $ $Date: 2003/02/23 00:40:37 $
  */
 public class ProviderTestSuite
     extends TestSetup
@@ -112,7 +113,7 @@ public class ProviderTestSuite
             // Add nested tests
             // TODO - move nested jar and zip tests here
             // TODO - enable this again
-            //addTest( new ProviderTestSuite( new JunctionProviderConfig( providerConfig ), "junction.", true ));
+            //testSuite.addTest( new ProviderTestSuite( new JunctionProviderConfig( providerConfig ), "junction.", true ));
         }
     }
 
@@ -201,8 +202,12 @@ public class ProviderTestSuite
         final Enumeration tests = testSuite.tests();
         while ( tests.hasMoreElements() )
         {
-            final AbstractProviderTestCase test = (AbstractProviderTestCase)tests.nextElement();
-            test.setConfig( manager, baseFolder, readFolder, writeFolder );
+            final Test test = (Test)tests.nextElement();
+            if ( test instanceof AbstractProviderTestCase )
+            {
+                final AbstractProviderTestCase providerTestCase = (AbstractProviderTestCase)test;
+                providerTestCase.setConfig( manager, baseFolder, readFolder, writeFolder );
+            }
         }
     }
 

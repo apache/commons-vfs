@@ -68,7 +68,7 @@ import org.apache.commons.vfs.NameScope;
  * Test cases for reading file content.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/13 04:28:46 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/23 00:40:37 $
  */
 public class ContentTests
     extends AbstractProviderTestCase
@@ -200,9 +200,9 @@ public class ContentTests
             file.getChildren();
             fail();
         }
-        catch ( FileSystemException e )
+        catch ( final FileSystemException e )
         {
-            assertSameMessage( "vfs.provider/list-children-no-exist.error", file, e );
+            assertSameMessage( "vfs.provider/list-children-not-folder.error", file, e );
         }
 
         // Should be able to get child by name
@@ -240,16 +240,16 @@ public class ContentTests
         }
         catch ( FileSystemException e )
         {
-            assertSameMessage( "vfs.provider/read-no-exist.error", unknownFile, e );
+            assertSameMessage( "vfs.provider/read-not-file.error", unknownFile, e );
         }
         try
         {
             content.getSize();
             fail();
         }
-        catch ( FileSystemException e )
+        catch ( final FileSystemException e )
         {
-            assertSameMessage( "vfs.provider/get-size-no-exist.error", unknownFile, e );
+            assertSameMessage( "vfs.provider/get-size-not-file.error", unknownFile, e );
         }
     }
 

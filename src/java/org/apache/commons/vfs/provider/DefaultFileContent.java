@@ -102,15 +102,10 @@ public final class DefaultFileContent
      */
     public long getSize() throws FileSystemException
     {
-        if ( file.isFolder() )
-        {
-            throw new FileSystemException( "vfs.provider/get-size-folder.error", file );
-        }
-
         // Do some checking
-        if ( !file.exists() )
+        if ( !file.getType().hasContent() )
         {
-            throw new FileSystemException( "vfs.provider/get-size-no-exist.error", file );
+            throw new FileSystemException( "vfs.provider/get-size-not-file.error", file );
         }
         if ( state == STATE_WRITING )
         {
@@ -133,7 +128,7 @@ public final class DefaultFileContent
      */
     public long getLastModifiedTime() throws FileSystemException
     {
-        if ( !file.exists() )
+        if ( !file.getType().hasAttributes() )
         {
             throw new FileSystemException( "vfs.provider/get-last-modified-no-exist.error", file );
         }
@@ -152,7 +147,7 @@ public final class DefaultFileContent
      */
     public void setLastModifiedTime( long modTime ) throws FileSystemException
     {
-        if ( !file.exists() )
+        if ( !file.getType().hasAttributes() )
         {
             throw new FileSystemException( "vfs.provider/set-last-modified-no-exist.error", file );
         }
@@ -223,34 +218,17 @@ public final class DefaultFileContent
      */
     public InputStream getInputStream() throws FileSystemException
     {
-        if ( file.isFolder() )
-        {
-            throw new FileSystemException( "vfs.provider/read-folder.error", file );
-        }
-        if ( !file.exists() )
-        {
-            throw new FileSystemException( "vfs.provider/read-no-exist.error", file );
-        }
         if ( state == STATE_WRITING )
         {
             throw new FileSystemException( "vfs.provider/read-in-use.error", file );
         }
 
         // Get the raw input stream
-        InputStream rawInstr;
-        try
-        {
-            rawInstr = file.doGetInputStream();
-        }
-        catch ( final Exception exc )
-        {
-            throw new FileSystemException( "vfs.provider/read.error", new Object[]{file}, exc );
-        }
-
-        final FileContentInputStream instr = new FileContentInputStream( rawInstr );
-        this.instrs.add( instr );
+        final InputStream instr = file.getInputStream();
+        final InputStream wrappedInstr = new FileContentInputStream( instr );
+        this.instrs.add( wrappedInstr );
         state = STATE_READING;
-        return instr;
+        return wrappedInstr;
     }
 
     /**
@@ -258,17 +236,13 @@ public final class DefaultFileContent
      */
     public OutputStream getOutputStream() throws FileSystemException
     {
-        if ( file.isFolder() )
-        {
-            throw new FileSystemException( "vfs.provider/write-folder.error", file );
-        }
         if ( state != STATE_NONE )
         {
             throw new FileSystemException( "vfs.provider/write-in-use.error", file );
         }
 
         // Get the raw output stream
-        OutputStream outstr = file.getOutputStream();
+        final OutputStream outstr = file.getOutputStream();
 
         // Create wrapper
         this.outstr = new FileContentOutputStream( outstr );
