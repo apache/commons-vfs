@@ -1054,14 +1054,14 @@ public abstract class AbstractFileObject
             // Attach and determine the file type
             doAttach();
             attached = true;
+            // now the type could already be injected by doAttach (e.g from parent to child)
             if (type == null)
             {
-                // type not injected
                 type = doGetType();
-                if (type == null)
-                {
-                    type = FileType.IMAGINARY;
-                }
+            }
+            if (type == null)
+            {
+                type = FileType.IMAGINARY;
             }
         }
         catch (Exception exc)

@@ -33,7 +33,7 @@ import java.util.Collection;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2004/05/22 20:32:04 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/23 18:34:33 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
@@ -82,6 +82,7 @@ class WebDavFileSystem
                     if (proxyHost != null && proxyPort > 0)
                     {
                         resource = new WebdavResource(url, proxyHost, proxyPort);
+                        resource.setProxy(proxyHost, proxyPort);
                     }
                 }
 

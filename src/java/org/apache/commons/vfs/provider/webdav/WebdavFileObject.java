@@ -15,6 +15,8 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -24,11 +26,9 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.webdav.lib.BaseProperty;
-import org.apache.webdav.lib.ResponseEntity;
 import org.apache.webdav.lib.WebdavResource;
 import org.apache.webdav.lib.methods.DepthSupport;
 import org.apache.webdav.lib.methods.OptionsMethod;
-import org.apache.webdav.lib.methods.PropFindMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
 import org.apache.webdav.lib.properties.ResourceTypeProperty;
 
@@ -36,17 +36,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2004/05/22 20:32:04 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/23 18:34:33 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -54,12 +52,8 @@ public class WebdavFileObject
 {
     private final WebDavFileSystem fileSystem;
     private WebdavResource resource;
-    private HttpURL url;
-
-    private final static Vector PROPS_TYPE = new Vector(Arrays.asList(new String[]
-    {
-        WebdavResource.RESOURCETYPE
-    }));
+    private boolean redirectionResolved = false;
+    // private HttpURL url;
 
     public WebdavFileObject(final GenericFileName name,
                             final WebDavFileSystem fileSystem)
@@ -73,47 +67,128 @@ public class WebdavFileObject
      */
     protected void doAttach() throws Exception
     {
-        final GenericFileName name = (GenericFileName) getName();
-        url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPath());
-        resource = new WebdavResource(fileSystem.getClient())
+        if (resource == null)
         {
-        };
-        resource.setHttpURL(url, WebdavResource.NOACTION, 1);
+            setDavResource(null, true);
+        }
+    }
 
-        /* @todo: this should not be done in doAttach - will move later */
-        /* only needet to fill the properties in resource */
+    protected void doDetach() throws Exception
+    {
+        if (resource != null)
+        {
+            resource.close();
+            resource = null;
+        }
+    }
+
+    private void setDavResource(WebdavResource resource, boolean bCheckExists) throws Exception
+    {
+        redirectionResolved = false;
+
+        // System.err.println("set on " + System.identityHashCode(this) + " " + getName() + ":" + bCheckExists);
+        if (resource == null)
+        {
+            final GenericFileName name = (GenericFileName) getName();
+            HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPath());
+            resource = new WebdavResource(fileSystem.getClient())
+            {
+            };
+            resource.setHttpURL(url, WebdavResource.NOACTION, 1);
+        }
+
+        this.resource = resource;
+
+        if (bCheckExists)
+        {
+            /* now fill the dav properties */
+            final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
+            optionsMethod.setFollowRedirects(true);
+            final int status = fileSystem.getClient().executeMethod(optionsMethod);
+            if (status < 200 || status > 299)
+            {
+                if (status == 401 || status == 403)
+                {
+                    // System.err.println("process on " + System.identityHashCode(this));
+                    // permission denied on this object, but we might get some informations from the parent
+                    processParentDavResource();
+                    // System.err.println("leave on " + System.identityHashCode(this));
+                    return;
+                }
+                else
+                {
+                    injectType(FileType.IMAGINARY);
+                }
+                return;
+            }
+            // handle the (maybe) redirected url
+            redirectionResolved = true;
+            resource.getHttpURL().setPath(optionsMethod.getPath());
+
+            boolean exists = false;
+            for (Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements();)
+            {
+                final String method = (String) enum.nextElement();
+                if (method.equals("GET"))
+                {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists)
+            {
+                injectType(FileType.IMAGINARY);
+                return;
+            }
+
+            try
+            {
+                resource.setProperties(WebdavResource.DEFAULT, 1);
+            }
+            catch (IOException e)
+            {
+                throw new FileSystemException(e);
+            }
+        }
+
+        ResourceTypeProperty resourceType = resource.getResourceType();
+        if (resourceType.isCollection())
+        {
+            injectType(FileType.FOLDER);
+        }
+        else
+        {
+            injectType(FileType.FILE);
+        }
+    }
+
+    private void resolveRedirection() throws IOException, FileSystemException
+    {
+        if (redirectionResolved)
+        {
+            return;
+        }
+
         final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
         optionsMethod.setFollowRedirects(true);
         final int status = fileSystem.getClient().executeMethod(optionsMethod);
-        if (status < 200 || status > 299)
+        if (status >= 200 && status <= 299)
         {
-            injectType(FileType.IMAGINARY);
-            return;
+            resource.getHttpURL().setPath(optionsMethod.getPath());
+            redirectionResolved = true;
         }
-        // handle the (maybe) redirected url
-        resource.getHttpURL().setPath(optionsMethod.getPath());
+    }
 
-        boolean exists = false;
-        for (Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements();)
-        {
-            final String method = (String) enum.nextElement();
-            if (method.equals("GET"))
-            {
-                exists = true;
-                break;
-            }
-        }
-        if (!exists)
-        {
-            injectType(FileType.IMAGINARY);
-            return;
-        }
-
+    private void processParentDavResource() throws FileSystemException
+    {
+        WebdavFileObject parent = (WebdavFileObject) getParent();
         try
         {
-            resource.setProperties(WebdavResource.DEFAULT, 1);
+            // System.err.println("tell him:" + parent.toString());
+            // after this our resource should be reset
+            parent.doListChildrenResolved();
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             throw new FileSystemException(e);
         }
@@ -122,14 +197,14 @@ public class WebdavFileObject
     /**
      * Determines the type of the file, returns null if the file does not
      * exist.
-     *
-     * @todo Shouldn't need 2 trips to the server to determine type.
      */
     protected FileType doGetType() throws Exception
     {
-        return doGetType(null);
+        // return doGetType(null);
+        throw new IllegalStateException("this should not happen");
     }
 
+    /*
     private FileType doGetType(final String child) throws Exception
     {
         // do propfind on resource
@@ -194,7 +269,7 @@ public class WebdavFileObject
         return FileType.IMAGINARY;
 
         // Determine whether the resource exists, and whether it is a DAV resource
-        /*
+        [*
         final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
         optionsMethod.setFollowRedirects(true);
         final int status = fileSystem.getClient().executeMethod(optionsMethod);
@@ -238,8 +313,9 @@ public class WebdavFileObject
         {
             return FileType.FILE;
         }
-        */
+        *]
     }
+    */
 
     /**
      * Lists the children of the file.
@@ -262,7 +338,24 @@ public class WebdavFileObject
      */
     protected FileObject[] doListChildrenResolved() throws Exception
     {
-        WebdavResource[] children = resource.listWebdavResources();
+        WebdavResource[] children = new org.apache.webdav.lib.WebdavResource[0];
+        try
+        {
+            children = resource.listWebdavResources();
+        }
+        catch (HttpException e)
+        {
+            if (e.getReasonCode() == HttpStatus.SC_MOVED_PERMANENTLY || e.getReasonCode() == HttpStatus.SC_MOVED_TEMPORARILY)
+            {
+                resolveRedirection();
+                children = resource.listWebdavResources();
+            }
+            else
+            {
+                throw e;
+            }
+        }
+
         if (children == null)
         {
             throw new FileSystemException("vfs.provider.webdav/list-children.error", resource.getStatusMessage());
@@ -274,17 +367,12 @@ public class WebdavFileObject
             WebdavResource dav = children[i];
 
             WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(getName().resolveName(dav.getDisplayName(), NameScope.CHILD));
-            fo.injectType(dav.isCollection() ? FileType.FOLDER : FileType.FILE);
+            fo.setDavResource(dav, false);
 
             vfs[i] = fo;
         }
 
         return vfs;
-    }
-
-    protected void injectType(FileType fileType)
-    {
-        super.injectType(fileType);
     }
 
     /**
@@ -306,7 +394,7 @@ public class WebdavFileObject
      */
     protected void doDelete() throws Exception
     {
-        final boolean ok = resource.deleteMethod(url.getPath());
+        final boolean ok = resource.deleteMethod(getName().getPath() /*url.getPath()*/);
         if (!ok)
         {
             throw new FileSystemException("vfs.provider.webdav/delete-file.error", resource.getStatusMessage());
