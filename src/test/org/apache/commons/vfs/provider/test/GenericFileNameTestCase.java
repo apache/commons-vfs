@@ -63,7 +63,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * Some GenericFileName test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/15 00:15:19 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/24 10:38:16 $
  */
 public class GenericFileNameTestCase
     extends AbstractVfsTestCase
@@ -128,6 +128,17 @@ public class GenericFileNameTestCase
         assertEquals( "/file", name.getPath() );
         assertEquals( "ftp://user:password@hostname/", name.getRootURI() );
         assertEquals( "ftp://user:password@hostname/file", name.getURI() );
+
+        // Encoded username and password
+        name = GenericFileName.parseUri( "ftp://%75ser%3A:%40@hostname", 21 );
+        assertEquals( "ftp", name.getScheme() );
+        assertEquals( "user:", name.getUserName() );
+        assertEquals( "@", name.getPassword() );
+        assertEquals( "hostname", name.getHostName() );
+        assertEquals( 21, name.getPort() );
+        assertEquals( "/", name.getPath() );
+        assertEquals( "ftp://user%3a:%40@hostname/", name.getRootURI() );
+        assertEquals( "ftp://user%3a:%40@hostname/", name.getURI() );
     }
 
     /**

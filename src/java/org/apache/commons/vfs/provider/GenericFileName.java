@@ -55,8 +55,8 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A file name that represents a 'generic' URI, as per RFC 2396.  Consists of
@@ -64,7 +64,7 @@ import org.apache.commons.vfs.FileName;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/03/17 09:07:32 $
+ * @version $Revision: 1.9 $ $Date: 2003/06/24 10:38:16 $
  */
 public class GenericFileName
     extends AbstractFileName
@@ -74,6 +74,8 @@ public class GenericFileName
     private final int defaultPort;
     private final String password;
     private final int port;
+    private static final char[] USERNAME_RESERVED = { ':', '@' };
+    private static final char[] PASSWORD_RESERVED = { '@' };
 
     protected GenericFileName( final String scheme,
                                final String hostName,
@@ -196,7 +198,6 @@ public class GenericFileName
         name.delete( 0, 2 );
 
         // Extract userinfo, and split into username and password
-        // TODO - need to decode username and password
         final String userInfo = extractUserInfo( name );
         final String userName;
         final String password;
@@ -219,8 +220,8 @@ public class GenericFileName
             userName = null;
             password = null;
         }
-        auth.userName = userName;
-        auth.password = password;
+        auth.userName = UriParser.decode( userName );
+        auth.password = UriParser.decode( password );
 
         // Extract hostname, and normalise (lowercase)
         final String hostName = extractHostName( name );
@@ -340,12 +341,11 @@ public class GenericFileName
         buffer.append( "://" );
         if ( userName != null && userName.length() != 0 )
         {
-            // TODO - need to encode username and password
-            buffer.append( userName );
+            UriParser.appendEncoded( buffer, userName, USERNAME_RESERVED );
             if ( password != null && password.length() != 0 )
             {
                 buffer.append( ':' );
-                buffer.append( password );
+                UriParser.appendEncoded( buffer, password, PASSWORD_RESERVED );
             }
             buffer.append( '@' );
         }

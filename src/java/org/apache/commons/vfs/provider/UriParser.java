@@ -314,6 +314,10 @@ public final class UriParser
     public static String decode( final String encodedStr )
         throws FileSystemException
     {
+        if ( encodedStr == null )
+        {
+            return null;
+        }
         final StringBuffer buffer = new StringBuffer( encodedStr );
         decode( buffer, 0, buffer.length() );
         return buffer.toString();
