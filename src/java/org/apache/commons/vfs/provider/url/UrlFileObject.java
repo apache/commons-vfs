@@ -55,6 +55,7 @@
  */
 package org.apache.commons.vfs.provider.url;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import org.apache.commons.vfs.FileName;
@@ -67,7 +68,10 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.4 $ $Date: 2003/01/23 04:35:45 $
+ *
+ * @todo Implement get/set lastModified and get/set attribute
+ * @todo Implement getOutputStream()
  */
 class UrlFileObject
     extends AbstractFileObject
@@ -99,7 +103,16 @@ class UrlFileObject
      */
     protected FileType doGetType() throws Exception
     {
-        // TODO - implement this
+        // Attempt to connect
+        try
+        {
+            url.openConnection().connect();
+        }
+        catch ( final FileNotFoundException e )
+        {
+            return null;
+        }
+
         return FileType.FILE;
     }
 
