@@ -26,8 +26,15 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.util.jar.JarFile;
+import java.util.jar.JarEntry;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * A {@link org.apache.commons.vfs.FileSystemManager} that configures itself
@@ -45,6 +52,7 @@ public class StandardFileSystemManager
     private Log log = LogFactory.getLog(StandardFileSystemManager.class);
 
     private static final String CONFIG_RESOURCE = "providers.xml";
+    private static final String PLUGIN_CONFIG_RESOURCE = "META-INF/vfs-providers.xml";
 
     private String configUri;
     private ClassLoader classLoader;
@@ -95,8 +103,75 @@ public class StandardFileSystemManager
         // Configure
         configure(configUri);
 
+        // Configure Plugins
+        configurePlugins();
+
         // Initialise super-class
         super.init();
+    }
+
+    /**
+     * Scans the classpath to find any droped plugin.<br />
+     * The plugin-description has to be in /META-INF/vfs-providers.xml
+     */
+    protected void configurePlugins() throws FileSystemException
+    {
+        String classpath = System.getProperty("java.class.path");
+        if (classpath == null)
+        {
+            // huh? why should that be?
+            return;
+        }
+        
+        StringTokenizer st = new StringTokenizer(classpath, File.pathSeparator, false);
+        while (st.hasMoreTokens())
+        {
+            String path = st.nextToken();
+
+            if (path.length() > 4 && path.substring(path.length()-4).toLowerCase().equals(".jar"))
+            {
+                try
+                {
+                    JarFile jarFile = new JarFile(path);
+                    JarEntry jarEntry = jarFile.getJarEntry(PLUGIN_CONFIG_RESOURCE);
+                    if (jarEntry != null)
+                    {
+                        InputStream configStream = null;
+                        try
+                        {
+                            configStream = jarFile.getInputStream(jarEntry);
+                            configure(jarEntry.getName(), configStream);
+                        }
+                        finally
+                        {
+                            if (configStream != null)
+                            {
+                                configStream.close();
+                            }
+                        }
+                    }
+                }
+                catch (FileSystemException e)
+                {
+                    // VFS exception - rethrow
+                    // Need to do this as FileSystemException extends IOException
+                    throw e;
+                }
+                catch (IOException e)
+                {
+                    // Maybe a damaged jar? Complain about but continue ...
+                    log.warn(e.getLocalizedMessage(), e);
+                }
+            }
+            else
+            {
+                File config = new File(path, PLUGIN_CONFIG_RESOURCE);
+                if (config.exists() && config.canRead())
+                {
+                    configure(config.getAbsolutePath());
+                }
+            }
+        }
     }
 
     protected DefaultFileReplicator createDefaultFileReplicator()
@@ -113,49 +188,87 @@ public class StandardFileSystemManager
         {
             // Load up the config
             // TODO - validate
-            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringElementContentWhitespace(true);
-            factory.setIgnoringComments(true);
-            factory.setExpandEntityReferences(true);
-            final DocumentBuilder builder = factory.newDocumentBuilder();
+            final DocumentBuilder builder = createDocumentBuilder();
             final Element config = builder.parse(configUri).getDocumentElement();
 
-            // Add the providers
-            final NodeList providers = config.getElementsByTagName("provider");
-            final int count = providers.getLength();
-            for (int i = 0; i < count; i++)
-            {
-                final Element provider = (Element) providers.item(i);
-                addProvider(provider, false);
-            }
-
-            // Add the default provider
-            final NodeList defProviders = config.getElementsByTagName("default-provider");
-            if (defProviders.getLength() > 0)
-            {
-                final Element provider = (Element) defProviders.item(0);
-                addProvider(provider, true);
-            }
-
-            // Add the mime-type maps
-            final NodeList mimeTypes = config.getElementsByTagName("mime-type-map");
-            for (int i = 0; i < mimeTypes.getLength(); i++)
-            {
-                final Element map = (Element) mimeTypes.item(i);
-                addMimeTypeMap(map);
-            }
-
-            // Add the extension maps
-            final NodeList extensions = config.getElementsByTagName("extension-map");
-            for (int i = 0; i < extensions.getLength(); i++)
-            {
-                final Element map = (Element) extensions.item(i);
-                addExtensionMap(map);
-            }
+            configure(config);
         }
         catch (final Exception e)
         {
             throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
+        }
+    }
+
+    /**
+     * Configures this manager from an XML configuration file.
+     */
+    private void configure(final String configUri, final InputStream configStream) throws FileSystemException
+    {
+        try
+        {
+            // Load up the config
+            // TODO - validate
+            final DocumentBuilder builder = createDocumentBuilder();
+            final Element config = builder.parse(configStream).getDocumentElement();
+
+            configure(config);
+
+        }
+        catch (final Exception e)
+        {
+            throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
+        }
+    }
+
+    /**
+     * Configure and create a DocumentBuilder
+     */
+    private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException
+    {
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setIgnoringElementContentWhitespace(true);
+        factory.setIgnoringComments(true);
+        factory.setExpandEntityReferences(true);
+        final DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder;
+    }
+
+    /**
+     * Configures this manager from an parsed XML configuration file
+     */
+    private void configure(final Element config) throws FileSystemException
+    {
+        // Add the providers
+        final NodeList providers = config.getElementsByTagName("provider");
+        final int count = providers.getLength();
+        for (int i = 0; i < count; i++)
+        {
+            final Element provider = (Element) providers.item(i);
+            addProvider(provider, false);
+        }
+
+        // Add the default provider
+        final NodeList defProviders = config.getElementsByTagName("default-provider");
+        if (defProviders.getLength() > 0)
+        {
+            final Element provider = (Element) defProviders.item(0);
+            addProvider(provider, true);
+        }
+
+        // Add the mime-type maps
+        final NodeList mimeTypes = config.getElementsByTagName("mime-type-map");
+        for (int i = 0; i < mimeTypes.getLength(); i++)
+        {
+            final Element map = (Element) mimeTypes.item(i);
+            addMimeTypeMap(map);
+        }
+
+        // Add the extension maps
+        final NodeList extensions = config.getElementsByTagName("extension-map");
+        for (int i = 0; i < extensions.getLength(); i++)
+        {
+            final Element map = (Element) extensions.item(i);
+            addExtensionMap(map);
         }
     }
 

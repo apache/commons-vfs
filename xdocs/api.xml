@@ -179,10 +179,21 @@ manager.init();
                 location of the configuration file to use.  The configuration
                 file format is described below.
             </p>
+
+            <p>
+                The fourth method is in addition to the default providers.xml.
+                This method automatically scans the classpath for a /META-INF/vfs-providers.xml file (even if it is within an jar).
+                If such a file is found Commons VFS uses it in addition to the default.
+                This allows you to start using a new filesystem by simply drop its implementation into the classpath.
+                The configuration file format is described below.<br />
+                <b>Notice:</b> Currently it is not allowed to override a already configured filesystem. Commons VFS throws
+                an exception if there is already a filesystem for a scheme. 
+            </p>
+
             <p>
                 <code>StandardFileSystemManager</code> is a subclass of
                 <code>DefaultFileSystemManager</code>, so you can also
-                also configure it programmatically, as described above.
+                configure it programmatically, as described above.
             </p>
             <subsection name="Configuration File">
                 <p>
