@@ -2,12 +2,12 @@
 
 <document>
     <properties>
-        <title>VFS : Virtual File System</title>
+        <title>Commons Virtual File System</title>
         <author email="jstrachan@apache.org">James Strachan</author>
     </properties>
 
     <body>
-        <section name="VFS : Virtual File System">
+        <section name="Commons Virtual File System">
 
             <p>
                 Commons VFS provides a single API for accessing

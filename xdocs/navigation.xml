@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="VFS">
 
-  <title>VFS</title>
+  <title>Commons VFS</title>
   <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
 
   <body>
-    <menu name="VFS">
+    <menu name="Commons VFS">
       <item name="Overview"                href="/index.html"/>
       <item name="Download and Build"      href="/download.html"/>
       <item name="Using the API"           href="/api.html"/>
