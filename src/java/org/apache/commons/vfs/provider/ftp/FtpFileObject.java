@@ -55,13 +55,12 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
@@ -77,12 +76,15 @@ final class FtpFileObject
 {
     private static final FTPFile[] EMPTY_FTP_FILE_ARRAY = {};
 
-    private FtpFileSystem ftpFs;
+    private final FtpFileSystem ftpFs;
     private final String relPath;
 
     // Cached info
     private FTPFile fileInfo;
     private FTPFile[] children;
+
+    // The client currently being used to read/write the content of this file
+    private FTPClient client;
 
     public FtpFileObject( final FileName name,
                           final FtpFileSystem fileSystem,
@@ -94,74 +96,13 @@ final class FtpFileObject
         relPath = rootName.getRelativeName( name );
     }
 
-	/**
-	 * Copies another file, and all its descendents, to this file.
-	 *
-	 * If this file does not exist, it is created.  Its parent folder is also
-	 * created, if necessary.  If this file does exist, it is deleted first.
-	 *
-	 * <p>This method is not transactional.  If it fails and throws an
-	 * exception, this file will potentially only be partially copied.
-	 *
-	 * @param file The source file to copy.
-	 * @param selector The selector to use to select which files to copy.
-	 *
-	 * @throws FileSystemException
-	 *      If this file is read-only, or if the source file does not exist,
-	 *      or on error copying the file.
-	 */
-	public void copyFrom( final FileObject file, final FileSelector selector )
-		throws FileSystemException	{
-		
-		// We override copyFrom here for the specific case where the source 
-		// and destination files in the copy are from the same FTPFileSystem.  
-		// The problem is this can't be done through one FTP session
-		// concurrently( I think it creates a race condition) So we 
-		// temporarily create a new one just for use during this copy
-		// and then return everything to the way it was afterward.
-		
-		// if we're copying to and from the same FileSystem
-		if ( file.getFileSystem().equals( this.getFileSystem() ) ) {
-			
-			FtpFileNameParser parser = new FtpFileNameParser();
-
-			// save the old file system for later
-			FtpFileSystem oldFs = this.ftpFs;
-			
-			// create a new file system for use temporarily
-			FtpUri uri = parser.parseFtpUri( this.getURL().toString() );
-			this.ftpFs = new FtpFileSystem( oldFs.getRoot().getName(),
-											 uri.getHostName(),
-											 uri.getUserName(),
-											 uri.getPassword() ); 
-
-			// use our parent's copy functionality
-			super.copyFrom( file, selector );
-			
-			// return the filesystem to the way it was
-			this.ftpFs.close();
-			this.ftpFs = oldFs;
-		}
-		// otherwise proceed normally
-		else {
-			super.copyFrom( file, selector );
-		}
-	}
-
     /**
      * Called by child file objects, to locate their ftp file info.
      */
     private FTPFile getChildFile( final String name ) throws Exception
     {
-        if ( children == null )
-        {
-            // List the children of this file
-            children = ftpFs.getClient().listFiles( relPath );
-            if ( children == null )
-            {
-                children = EMPTY_FTP_FILE_ARRAY;
-            }
-        }
+        // List the children of this file
+        doGetChildren();
 
         // Look for the requested child
         // TODO - use hash table
@@ -176,6 +117,31 @@ final class FtpFileObject
         }
 
         return null;
+    }
+
+    /**
+     * Fetches the children of this file, if not already cached.
+     */
+    private void doGetChildren() throws IOException
+    {
+        if ( children != null )
+        {
+            return;
+        }
+
+        final FTPClient client = ftpFs.getClient();
+        try
+        {
+            children = client.listFiles( relPath );
+            if ( children == null )
+            {
+                children = EMPTY_FTP_FILE_ARRAY;
+            }
+        }
+        finally
+        {
+            ftpFs.putClient( client );
+        }
     }
 
     /**
@@ -243,15 +209,8 @@ final class FtpFileObject
     protected String[] doListChildren()
         throws Exception
     {
-        if ( children == null )
-        {
-            // List the children of this file
-            children = ftpFs.getClient().listFiles( relPath );
-            if ( children == null )
-            {
-                children = EMPTY_FTP_FILE_ARRAY;
-            }
-        }
+        // List the children of this file
+        doGetChildren();
 
         final String[] childNames = new String[ children.length ];
         for ( int i = 0; i < children.length; i++ )
@@ -268,16 +227,24 @@ final class FtpFileObject
      */
     protected void doDelete() throws Exception
     {
-        final FTPClient ftpClient = ftpFs.getClient();
         final boolean ok;
-        if ( fileInfo.isDirectory() )
+        final FTPClient ftpClient = ftpFs.getClient();
+        try
         {
-            ok = ftpClient.removeDirectory( relPath );
+            if ( fileInfo.isDirectory() )
+            {
+                ok = ftpClient.removeDirectory( relPath );
+            }
+            else
+            {
+                ok = ftpClient.deleteFile( relPath );
+            }
         }
-        else
+        finally
         {
-            ok = ftpClient.deleteFile( relPath );
+            ftpFs.putClient( ftpClient );
         }
+
         if ( !ok )
         {
             throw new FileSystemException( "vfs.provider.ftp/delete-file.error", getName() );
@@ -292,7 +259,18 @@ final class FtpFileObject
     protected void doCreateFolder()
         throws Exception
     {
-        if ( !ftpFs.getClient().makeDirectory( relPath ) )
+        final boolean ok;
+        final FTPClient client = ftpFs.getClient();
+        try
+        {
+            ok = client.makeDirectory( relPath );
+        }
+        finally
+        {
+            ftpFs.putClient( client );
+        }
+
+        if ( !ok )
         {
             throw new FileSystemException( "vfs.provider.ftp/create-folder.error", getName() );
         }
@@ -312,7 +290,8 @@ final class FtpFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return ftpFs.getClient().retrieveFileStream( relPath );
+        client = ftpFs.getClient();
+        return client.retrieveFileStream( relPath );
     }
 
     /**
@@ -321,7 +300,18 @@ final class FtpFileObject
     protected void doEndInput()
         throws Exception
     {
-        if ( !ftpFs.getClient().completePendingCommand() )
+        final boolean ok;
+        try
+        {
+            ok = client.completePendingCommand();
+        }
+        finally
+        {
+            ftpFs.putClient( client );
+            client = null;
+        }
+
+        if ( !ok )
         {
             throw new FileSystemException( "vfs.provider.ftp/finish-get.error", getName() );
         }
@@ -333,7 +323,8 @@ final class FtpFileObject
     protected OutputStream doGetOutputStream()
         throws Exception
     {
-        return ftpFs.getClient().storeFileStream( relPath );
+        client = ftpFs.getClient();
+        return client.storeFileStream( relPath );
     }
 
     /**
@@ -342,7 +333,18 @@ final class FtpFileObject
     protected void doEndOutput()
         throws Exception
     {
-        if ( !ftpFs.getClient().completePendingCommand() )
+        final boolean ok;
+        try
+        {
+            ok = client.completePendingCommand();
+        }
+        finally
+        {
+            ftpFs.putClient( client );
+            client = null;
+        }
+
+        if ( !ok )
         {
             throw new FileSystemException( "vfs.provider.ftp/finish-put.error", getName() );
         }

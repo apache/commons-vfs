@@ -75,7 +75,12 @@ import org.apache.commons.vfs.provider.AbstractFileSystem;
 final class FtpFileSystem
     extends AbstractFileSystem
 {
-    private final FTPClient client;
+    private final String hostname;
+    private final String username;
+    private final String password;
+
+    // An idle client
+    private FTPClient idleClient;
 
     public FtpFileSystem( final FileName rootName,
                           final String hostname,
@@ -84,40 +89,18 @@ final class FtpFileSystem
         throws FileSystemException
     {
         super( rootName, null );
-        try
-        {
-            client = new FTPClient();
-            client.connect( hostname );
-
-            int reply = client.getReplyCode();
-            if ( !FTPReply.isPositiveCompletion( reply ) )
-            {
-                throw new FileSystemException( "vfs.provider.ftp/connect-rejected.error", hostname );
-            }
-
-            // Login
-            if ( !client.login( username, password ) )
-            {
-                throw new FileSystemException( "vfs.provider.ftp/login.error", new Object[]{hostname, username}, null );
-            }
-
-            // Set binary mode
-            if ( !client.setFileType( FTP.BINARY_FILE_TYPE ) )
-            {
-                throw new FileSystemException( "vfs.provider.ftp/set-binary.error", hostname );
-            }
-        }
-        catch ( final Exception exc )
-        {
-            closeConnection();
-            throw new FileSystemException( "vfs.provider.ftp/connect.error", new Object[]{hostname}, exc );
-        }
+        this.hostname = hostname;
+        this.username = username;
+        this.password = password;
     }
 
     public void close()
     {
         // Clean up the connection
-        closeConnection();
+        if ( idleClient != null )
+        {
+            closeConnection( idleClient );
+        }
 
         super.close();
     }
@@ -138,7 +121,7 @@ final class FtpFileSystem
     /**
      * Cleans up the connection to the server.
      */
-    private void closeConnection()
+    private void closeConnection( final FTPClient client )
     {
         try
         {
@@ -155,12 +138,38 @@ final class FtpFileSystem
     }
 
     /**
-     * Returns an FTP client to use.
+     * Creates an FTP client to use.
      */
-    public FTPClient getClient()
+    public FTPClient getClient() throws FileSystemException
     {
         // TODO - connect on demand, and garbage collect connections
-        return client;
+        if ( idleClient == null )
+        {
+            return createConnection( hostname, username, password );
+        }
+        else
+        {
+            final FTPClient client = idleClient;
+            idleClient = null;
+            return client;
+        }
+    }
+
+    /**
+     * Returns an FTP client after use.
+     */
+    public void putClient( final FTPClient client )
+    {
+        if ( idleClient == null )
+        {
+            // Hang on to client for later
+            idleClient = client;
+        }
+        else
+        {
+            // Close the client
+            closeConnection( client );
+        }
     }
 
     /**
@@ -171,4 +180,53 @@ final class FtpFileSystem
     {
         return new FtpFileObject( name, this, getRootName() );
     }
+
+    /**
+     * Creates a new connection to the server.
+     */
+    private FTPClient createConnection( final String hostname,
+                                        final String username,
+                                        final String password )
+        throws FileSystemException
+    {
+        try
+        {
+            final FTPClient client = new FTPClient();
+
+            try
+            {
+                client.connect( hostname );
+
+                int reply = client.getReplyCode();
+                if ( !FTPReply.isPositiveCompletion( reply ) )
+                {
+                    throw new FileSystemException( "vfs.provider.ftp/connect-rejected.error", hostname );
+                }
+
+                // Login
+                if ( !client.login( username, password ) )
+                {
+                    throw new FileSystemException( "vfs.provider.ftp/login.error", new Object[]{hostname, username}, null );
+                }
+
+                // Set binary mode
+                if ( !client.setFileType( FTP.BINARY_FILE_TYPE ) )
+                {
+                    throw new FileSystemException( "vfs.provider.ftp/set-binary.error", hostname );
+                }
+            }
+            catch ( final IOException e )
+            {
+                closeConnection( client );
+                throw e;
+            }
+
+            return client;
+        }
+        catch ( final Exception exc )
+        {
+            throw new FileSystemException( "vfs.provider.ftp/connect.error", new Object[]{hostname}, exc );
+        }
+    }
+
 }
