@@ -1,24 +1,59 @@
 <?xml version="1.0"?>
 
 <document>
-  <properties>
-    <title>TODO</title>
-    <author email="jstrachan@apache.org">James Strachan</author>
-  </properties>
+    <properties>
+        <title>TODO</title>
+        <author email="jstrachan@apache.org">James Strachan</author>
+    </properties>
 
-  <body>
-    <section name="TODO"> 
-      <p>
-        The following is a list of items that need to be completed in
-        Jelly.  Contributions are welcome!.
-      </p>
-      
-      <ul>
-        <li>fix compile errors!</li>
-        <li>use the FTP client from the 'net' component in the sandbox?</li>
-        <li>document!</li>
-	  </ul>
-    </section>
-  </body>
+    <body>
+        <section name="TODO">
+            <p>
+              The following is a list of items that need to be completed.
+              Contributions are welcome!.
+            </p>
+
+            <ul>
+                <li>More documentation</li>
+                <li>Add more providers: http, webdav, resources, tar, gzip, cvs, jndi, etc</li>
+                <li>Formalise the provider API.</li>
+                <li>The in-memory caching mechanism is pretty rudimentary at
+                this stage. It needs work to make it size capped. In addition,
+                some mechanism needs to be provided to release and refresh
+                cached info.</li>
+                <li>The on-disk caching mechanism also needs more work.  Needs
+                to check last-modified time.  Replicator needs to be more
+                configurable.</li>
+                <li>Add persistent replicator.</li>
+                <li>Add local mirroring.</li>
+                <li>Change AbstractLayeredFileSystem to track changes to
+                the parent file object.  Eg when the parent file is deleted,
+                mark all the files in the fs as 'does-not-exist'.</li>
+                <li>Change AbstractLayeredFileSystem to support writeable
+                layered fs.</li>
+                <li>Make StandardFileSystemManager configurable from an XML descriptor.</li>
+                <li>Change the model so that folders may have content.</li>
+                <li>Add support for junctions (ie links).</li>
+                <li>Add support for federation (ie transparently crossing file
+                system boundaries, such as drilling down into the contents
+                of a Jar file).</li>
+                <li>Add Filtering file systems, which sit on top of another
+                file system, and alter the contents.  For example, gzip or bzip2.</li>
+                <li>Add an equivalent of the fileScanner Jelly tag.</li>
+                <li>Add an equivalent of Ant fileset.</li>
+                <li>Allow selectors, name mappers, and filters to be specified
+                for the Ant tasks.</li>
+                <li>Capabilities discovery.</li>
+                <li>Attributes and attribute schema.</li>
+                <li>Handle file canonicalisation better (for cases like
+                case-insensitive file systems, symbolic links, name mangling, etc).</li>
+                <li>Add more selectors: XPath, Ant style, regular expression.</li>
+                <li>Add adaptor for use with JXpath.</li>
+                <li>Add contentChanged event to FileListener.</li>
+                <li>Provide a hook for authentication.</li>
+                <li>Sort out threading model.</li>
+            </ul>
+        </section>
+    </body>
 </document>
 

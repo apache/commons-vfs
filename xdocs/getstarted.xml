@@ -1,0 +1,56 @@
+<document>
+    <properties>
+        <title>Getting Started</title>
+        <author email="adammurdoch@apache.org">Adam Murdoch</author>
+    </properties>
+
+    <body>
+        <section name="Getting Started">
+            <p>
+                The <a href="apidocs/org/apache/commons/vfs/FileSystemManager.html"><code>FileSystemManager</code></a>
+                interface provides access to the VFS.  Using this interface
+                you can locate files and create file systems.
+                There are a number of ways to obtain a <code>FileSystemManager</code>
+                instance.  The simplest way is to use the static
+                <a href="apidocs/org/apache/commons/vfs/VFS.html#getManager()"><code>VFS.getManager()</code></a>
+                method.  Alternatively, you can create an instance of
+                <a href="apidocs/org/apache/commons/vfs/impl/DefaultFileSystemManager.html"><code>DefaultFileSystemManager</code></a>
+                and configure it manually.
+            </p>
+
+            <p>
+                Once you have a <code>FileSystemManager</code>, you can use one
+                of its <code>resolveFile()</code> methods to locate a file by name.
+                For example:
+            </p>
+
+            <source><![CDATA[
+FileSystemManager fsManager = VFS.getManager();
+FileObject aJarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
+]]></source>
+
+            <p>
+                Each file is represented by a
+                <a href="apidocs/org/apache/commons/vfs/FileObject.html"><code>FileObject</code></a>
+                instance.  Using this interface you can create or delete the
+                file, list its children, read or write its content, and so on.
+                For example:
+            </p>
+
+            <source><![CDATA[
+// Locate the Jar file
+FileSystemManager fsManager = VFS.getManager();
+FileObject aJarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
+
+// List the children of the Jar file
+FileObject[] children = fsManager.getChildren();
+System.println( "Children of " + aJarFile.getName().getURI() );
+for ( int i = 0; i < children.length; i++ )
+{
+    System.println( children[ i ].getName().getBaseName() );
+}
+]]></source>
+
+        </section>
+    </body>
+</document>

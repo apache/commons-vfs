@@ -1,0 +1,51 @@
+<document>
+    <properties>
+        <title>Ant Tasks</title>
+        <author email="adammurdoch@apache.org">Adam Murdoch</author>
+    </properties>
+
+    <body>
+        <section name="Ant Tasks">
+            <p>
+                To use the Ant tasks, copy commons-jar.jar and its dependencies
+                into the <code>$ANT_HOME/lib</code> directory,
+                and use the following in your Ant scipt to define the tasks:
+            </p>
+
+            <source><![CDATA[
+<taskdef resource="/org/apache/commons/vfs/tasks/tasks.properties"/>
+]]></source>
+
+            <p>
+                Alternatively, you can provide an explicit classpath when
+                you define the tasks:
+            </p>
+
+            <source><![CDATA[
+<taskdef resource="/org/apache/commons/vfs/tasks/tasks.properties">
+    <classpath> ... </classpath>
+</taskdef>
+]]></source>
+        </section>
+
+        <section name="Copy">
+            <p>Copies a set of files to a destination folder.</p>
+        </section>
+
+        <section name="Move">
+            <p>Moves a set of files to a destination folder.</p>
+        </section>
+
+        <section name="Sync">
+            <p>Synchronises a destination folder with a set of source files.</p>
+        </section>
+
+        <section name="Delete">
+            <p>Deletes a file or folder.</p>
+        </section>
+
+        <section name="Mkdir">
+            <p>Creates a folder.</p>
+        </section>
+    </body>
+</document>

@@ -1,27 +1,31 @@
 <?xml version="1.0"?>
 
 <document>
+    <properties>
+        <title>VFS : Virtual File System</title>
+        <author email="jstrachan@apache.org">James Strachan</author>
+    </properties>
 
- <properties>
-  <title>VFS : Virtual File System component</title>
-  <author email="jstrachan@apache.org">James Strachan</author>
- </properties>
+    <body>
+        <section name="VFS : Virtual File System">
 
-<body>
+            <p>
+                The VFS component provides a common API for accessing
+                various different file systems.  It presents a uniform view of
+                the files from various different sources, such as the files on
+                local disk, on an HTTP server, or inside a Zip archive.
+            </p>
 
-<section name="VFS : Virtual File System component">
-
-<p><em>VFS</em> implements a Virtual File System abstraction on top of a number of different
-providers such as files, FTP, SMB, ZIP etc.
-</p>
-
-<p>
-VFS can be used inside a number of projects such as Ant, Anteater, Jelly, Latka, Maven etc.
-</p>
-
-</section>
-
-
-</body>
+            <p>Some of the features of the VFS component are:</p>
+            <ul>
+                <li>A consistent API for accessing files of different types.</li>
+                <li>Support for numerous <a href="filesystems.html">file system types</a>.</li>
+                <li>Utilities like a VFS ClassLoader and URLStreamHandlerFactory.</li>
+                <li>A set of VFS <a href="anttasks.html">Ant tasks</a>.</li>
+                <li>More coming soon ...</li>
+            </ul>
+            
+        </section>
+    </body>
 </document>
 

@@ -1,0 +1,137 @@
+<document>
+
+    <properties>
+        <title>Supported File Systems</title>
+        <author email="adammurdoch@apache.org">Adam Murdoch</author>
+    </properties>
+
+    <body>
+        <section name="Supported File Systems">
+            <p>Listed below are the supported file systems:</p>
+            <ul>
+                <li><a href="#Local Files">Local Files</a></li>
+                <li><a href="#Zip and Jar Files">Zip and Jar Files</a></li>
+                <li><a href="#HTTP and HTTPS">HTTP and HTTPS</a></li>
+                <li><a href="#FTP">FTP</a></li>
+                <li><a href="#CIFS">CIFS</a></li>
+                <li><a href="#Temporary Files">Temporary Files</a></li>
+            </ul>
+        </section>
+
+        <section name="Local Files">
+
+            <p>Provides access to the files on the local physical file system.</p>
+
+            <p><b>URI Format</b></p>
+
+            <p><code>[file://]<i>absolute-path</i></code></p>
+
+            <p>
+                Where <code><i>absolute-path</i></code> is a valid absolute
+                file name for the local platform.  UNC names are supported
+                under Windows.
+            </p>
+
+            <p><b>Examples</b></p>
+            <ul>
+                <li><code>file://home/someuser/somedir</code></li>
+                <li><code>c:\program files\some dir</code></li>
+                <li><code>c:/program files/some dir</code></li>
+                <li><code>file:////somehost/someshare/afile.txt</code></li>
+            </ul>
+        </section>
+
+        <section name="Zip and Jar Files">
+
+            <p>Provides read-only access to the contents of Zip and Jar files.</p>
+
+            <p><b>URI Format</b></p>
+
+            <p><code>zip://<i>zip-file-uri</i>[!<i>absolute-path</i>]</code></p>
+            <p><code>jar://<i>zip-file-uri</i>[!<i>absolute-path</i>]</code></p>
+
+            <p>
+                Where <code>zip-file-uri</code> refers to a file of any
+                supported type, including other zip files.  Note that any
+                ! characters in <code><i>zip-file-uri</i></code> must be escaped
+                using <code>%21</code>.
+            </p>
+
+            <p><b>Examples</b></p>
+            <ul>
+                <li><code>jar:../lib/classes.jar!/META-INF/manifest.mf</code></li>
+                <li><code>zip:http://somehost/downloads/somefile.zip</code></li>
+                <li><code>jar:zip:outer.zip%21/nested.jar!/somedir</code></li>
+            </ul>
+
+        </section>
+
+        <section name="HTTP and HTTPS">
+
+            <p>Provides access to files on an HTTP server.</p>
+
+            <p><b>URI Format</b></p>
+
+            <p><code>http://<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>https://<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+
+            <p><b>Examples</b></p>
+            <ul>
+                <li><code>http://somehost:8080/downloads/somefile.jar</code></li>
+            </ul>
+        </section>
+
+        <section name="FTP">
+
+            <p>Provides access to the files on an FTP server.</p>
+
+            <p><b>URI Format</b></p>
+
+            <p><code>ftp://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+
+            <p><b>Examples</b></p>
+            <ul>
+                <li><code>ftp://mypassword:myusername@somehost/pub/downloads/somefile.tgz</code></li>
+            </ul>
+
+        </section>
+
+        <section name="CIFS">
+
+            <p>
+                Provides access to the files on a CIFS server, such as
+                a Samba server, or a Windows share.
+            </p>
+            <p><b>URI Format</b></p>
+
+            <p><code>smb://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+
+            <p><b>Examples</b></p>
+
+            <ul>
+                <li><code>smb://somehost/home</code></li>
+            </ul>
+
+        </section>
+
+        <section name="Temporary Files">
+
+            <p>
+                Provides access to a temporary file system, or scratchpad,
+                that gets deleted when the VFS is closed.  The temporary file
+                system is, by default, backed by local files.
+            </p>
+
+            <p><b>URI Format</b></p>
+
+            <p><code>tmp://[<i>absolute-path</i>]</code></p>
+
+            <p><b>Examples</b></p>
+
+            <ul>
+                <li><code>tmp://dir/somefile.txt</code></li>
+            </ul>
+        </section>
+
+    </body>
+</document>
