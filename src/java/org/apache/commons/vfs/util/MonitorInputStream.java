@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,94 +53,115 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.test;
+package org.apache.commons.vfs.util;
 
-import org.apache.commons.vfs.test.AbstractProviderTestCase;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.AbstractVfsTestCase;
-import java.io.File;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.IOException;
 
 /**
- * Additional junction test cases.
+ * An InputStream that provides buffering and end-of-stream monitoring.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/13 04:28:46 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/13 04:28:45 $
  */
-public class JunctionTests
-    extends AbstractProviderTestCase
+public class MonitorInputStream
+    extends BufferedInputStream
 {
-    private FileObject getBaseDir() throws FileSystemException
-    {
-        final File file = AbstractVfsTestCase.getTestDirectory();
-        return getManager().toFileObject( file );
-    }
-    
-    /**
-     * Checks nested junctions are not supported.
-     */
-    public void testNestedJunction() throws Exception
-    {
-        final FileSystem fs = getManager().createFileSystem( "vfs:" ).getFileSystem();
-        final FileObject baseDir = getBaseDir();
-        fs.addJunction( "/a", baseDir );
+    private boolean finished;
 
-        // Nested
-        try
-        {
-            fs.addJunction( "/a/b", baseDir );
-            fail();
-        }
-        catch ( final Exception e )
-        {
-            assertSameMessage( "vfs.impl/nested-junction.error", "vfs:/a/b", e );
-        }
-
-        // At same point
-        try
-        {
-            fs.addJunction( "/a", baseDir );
-            fail();
-        }
-        catch ( final Exception e )
-        {
-            assertSameMessage( "vfs.impl/nested-junction.error", "vfs:/a", e );
-        }
+    public MonitorInputStream( final InputStream in )
+    {
+        super( in );
     }
 
     /**
-     * Checks ancestors are created when a junction is created.
+     * Reads a character.
      */
-    public void testAncestors() throws Exception
+    public int read() throws IOException
     {
-        final FileSystem fs = getManager().createFileSystem( "vfs://" ).getFileSystem();
-        final FileObject baseDir = getBaseDir();
+        if ( finished )
+        {
+            return -1;
+        }
 
-        // Make sure the file at the junction point and its ancestors do not exist
-        FileObject file = fs.resolveFile( "/a/b" );
-        assertFalse( file.exists() );
-        file = file.getParent();
-        assertFalse( file.exists() );
-        file = file.getParent();
-        assertFalse( file.exists() );
+        final int ch = super.read();
+        if ( ch != -1 )
+        {
+            return ch;
+        }
 
-        // Add the junction
-        fs.addJunction( "/a/b", baseDir );
-
-        // Make sure the file at the junction point and its ancestors exist
-        file = fs.resolveFile( "/a/b" );
-        assertTrue( "Does not exist", file.exists() );
-        file = file.getParent();
-        assertTrue( "Does not exist", file.exists() );
-        file = file.getParent();
-        assertTrue( "Does not exist", file.exists() );
+        // End-of-stream
+        close();
+        return -1;
     }
 
-    // Check that file @ junction point exists only when backing file exists
-    // Add 2 junctions with common parent
-    // Compare real and virtual files
-    // Events
-    // Remove junctions
+    /**
+     * Reads bytes from this input stream.error occurs.
+     */
+    public int read( final byte[] buffer, final int offset, final int length )
+        throws IOException
+    {
+        if ( finished )
+        {
+            return -1;
+        }
 
+        final int nread = super.read( buffer, offset, length );
+        if ( nread != -1 )
+        {
+            return nread;
+        }
+
+        // End-of-stream
+        close();
+        return -1;
+    }
+
+    /**
+     * Closes this input stream and releases any system resources
+     * associated with the stream.
+     */
+    public void close() throws IOException
+    {
+        if ( finished )
+        {
+            return;
+        }
+
+        // Close the stream
+        IOException exc = null;
+        try
+        {
+            super.close();
+        }
+        catch ( final IOException ioe )
+        {
+            exc = ioe;
+        }
+
+        // Notify that the stream has been closed
+        try
+        {
+            onClose();
+        }
+        catch ( final IOException ioe )
+        {
+            exc = ioe;
+        }
+
+        finished = true;
+        if ( exc != null )
+        {
+            throw exc;
+        }
+    }
+
+    /**
+     * Called after the stream has been closed.  This implementation does
+     * nothing.
+     */
+    protected void onClose() throws IOException
+    {
+    }
 }

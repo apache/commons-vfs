@@ -55,20 +55,20 @@
  */
 package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileContent;
-import java.util.Iterator;
 import java.io.InputStream;
+import java.util.Iterator;
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.NameScope;
 
 /**
  * Test cases for reading file content.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/13 04:28:46 $
  */
 public class ContentTests
     extends AbstractProviderTestCase
@@ -254,9 +254,7 @@ public class ContentTests
     }
 
     /**
-     * Tests concurrent reads on a file fail.
-     *
-     * @todo Change model so that concurrent reads are allowed (maybe optional)
+     * Tests concurrent reads on a file.
      */
     public void testConcurrentRead() throws Exception
     {
@@ -268,12 +266,7 @@ public class ContentTests
         try
         {
             // Start reading again
-            file.getContent().getInputStream();
-            fail();
-        }
-        catch ( final Exception e )
-        {
-            assertSameMessage( "vfs.provider/read-in-use.error", file, e );
+            file.getContent().getInputStream().close();
         }
         finally
         {
@@ -326,5 +319,27 @@ public class ContentTests
         // Read the content again
         assertSameContent( FILE1_CONTENT, file );
     }
-    
+
+    /**
+     * Tests that input streams are cleaned up on file close.
+     */
+    public void testInstrCleanup() throws Exception
+    {
+        // Get the test file
+        FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        assertEquals( FileType.FILE, file.getType() );
+
+        // Open some input streams
+        final InputStream instr1 = file.getContent().getInputStream();
+        assertTrue( instr1.read() == FILE1_CONTENT.charAt( 0 ) );
+        final InputStream instr2 = file.getContent().getInputStream();
+        assertTrue( instr2.read() == FILE1_CONTENT.charAt( 0 ) );
+
+        // Close the file
+        file.close();
+
+        // Check
+        assertTrue( instr1.read() == -1 );
+        assertTrue( instr2.read() == -1 );
+    }
 }

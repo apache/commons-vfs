@@ -72,7 +72,7 @@ import org.apache.commons.vfs.provider.DelegateFileObject;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/12 07:56:10 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/13 04:28:45 $
  *
  * @todo Handle nested junctions.
  */
@@ -142,33 +142,40 @@ public class VirtualFileSystem
         // Check for nested junction - these are not supported yet
         if ( getJunctionForFile( junctionName ) != null )
         {
-            throw new FileSystemException( "impl/nested-junction.error", junctionName );
+            throw new FileSystemException( "vfs.impl/nested-junction.error", junctionName );
         }
 
-        // Add to junction table
-        junctions.put( junctionName, targetFile );
-
-        // Create ancestors of junction point
-        FileName childName = junctionName;
-        boolean done = false;
-        for ( FileName parentName = childName.getParent();
-              !done && parentName != null;
-              childName = parentName, parentName = parentName.getParent() )
+        try
         {
-            DelegateFileObject file = (DelegateFileObject)getFile( parentName );
-            if ( file == null )
-            {
-                file = new DelegateFileObject( parentName, this, null );
-                putFile( file );
-            }
-            else
-            {
-                done = file.exists();
-            }
-            file.attachChild( childName.getBaseName() );
-        }
+            // Add to junction table
+            junctions.put( junctionName, targetFile );
 
-        // TODO - attach all cached children of the junction point to their real file
+            // Create ancestors of junction point
+            FileName childName = junctionName;
+            boolean done = false;
+            for ( FileName parentName = childName.getParent();
+                  !done && parentName != null;
+                  childName = parentName, parentName = parentName.getParent() )
+            {
+                DelegateFileObject file = (DelegateFileObject)getFile( parentName );
+                if ( file == null )
+                {
+                    file = new DelegateFileObject( parentName, this, null );
+                    putFile( file );
+                }
+                else
+                {
+                    done = file.exists();
+                }
+                file.attachChild( childName.getBaseName() );
+            }
+
+            // TODO - attach all cached children of the junction point to their real file
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.impl/create-junction.error", junctionName );
+        }
     }
 
     /**

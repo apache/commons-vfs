@@ -288,7 +288,43 @@ public class ProviderWriteTests
             instr.close();
         }
     }
-    
+
+    /**
+     * Tests concurrent writes on the same file fails.
+     */
+    public void testConcurrentWrite() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+
+        final FileObject file = scratchFolder.resolveFile( "file1.txt" );
+        file.createFile();
+
+        // Start writing to the file
+        final OutputStream outstr = file.getContent().getOutputStream();
+        final String testContent = "some content";
+        try
+        {
+            // Write some content to the first stream
+            outstr.write( testContent.getBytes() );
+
+            // Try to open another output stream
+            file.getContent().getOutputStream();
+            fail();
+        }
+        catch ( final FileSystemException e )
+        {
+            // Check error message
+            assertSameMessage( "vfs.provider/write-in-use.error", file, e );
+        }
+        finally
+        {
+            outstr.close();
+        }
+
+        // Make sure that the content written to the first stream is actually applied
+        assertSameContent( testContent, file );
+    }
+
     /**
      * Tests file copy to and from the same filesystem type.  This was a problem
      * w/ FTP.
@@ -468,7 +504,8 @@ public class ProviderWriteTests
          */
         public void fileCreated( final FileChangeEvent event )
         {
-            assertTrue( events.size() > 0 && events.remove( 0 ) == CREATE );
+            assertTrue( "Unexpected create event", events.size() > 0 );
+            assertSame( "Expecting a create event",  CREATE, events.remove( 0 ) );
             assertSame( file, event.getFile() );
             try
             {
@@ -485,7 +522,8 @@ public class ProviderWriteTests
          */
         public void fileDeleted( final FileChangeEvent event )
         {
-            assertTrue( events.size() > 0 && events.remove( 0 ) == DELETE );
+            assertTrue( "Unexpected delete event", events.size() > 0 );
+            assertSame( "Expecting a delete event", DELETE, events.remove( 0 ) );
             assertSame( file, event.getFile() );
             try
             {

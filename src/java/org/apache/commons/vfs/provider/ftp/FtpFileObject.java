@@ -64,6 +64,8 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.util.MonitorInputStream;
+import org.apache.commons.vfs.util.MonitorOutputStream;
 
 /**
  * An FTP file.
@@ -83,9 +85,6 @@ final class FtpFileObject
     private FTPFile fileInfo;
     private FTPFile[] children;
 
-    // The client currently being used to read/write the content of this file
-    private FTPClient client;
-
     public FtpFileObject( final FileName name,
                           final FtpFileSystem fileSystem,
                           final FileName rootName )
@@ -99,8 +98,14 @@ final class FtpFileObject
     /**
      * Called by child file objects, to locate their ftp file info.
      */
-    private FTPFile getChildFile( final String name ) throws Exception
+    private FTPFile getChildFile( final String name, final boolean flush )
+        throws IOException
     {
+        if ( flush )
+        {
+            children = null;
+        }
+
         // List the children of this file
         doGetChildren();
 
@@ -148,13 +153,19 @@ final class FtpFileObject
      * Attaches this file object to its file resource.
      */
     protected void doAttach()
-        throws Exception
+        throws IOException
     {
         // Get the parent folder to find the info for this file
+        getInfo( false );
+    }
+
+    /** Fetches the info for this file. */
+    private void getInfo( boolean flush ) throws IOException
+    {
         final FtpFileObject parent = (FtpFileObject)getParent();
         if ( parent != null )
         {
-            fileInfo = parent.getChildFile( getName().getBaseName() );
+            fileInfo = parent.getChildFile( getName().getBaseName(), flush );
         }
         if ( fileInfo == null || !fileInfo.isDirectory() )
         {
@@ -177,6 +188,15 @@ final class FtpFileObject
     protected void onChildrenChanged()
     {
         children = null;
+    }
+
+    /**
+     * Called when the type or content of this file changes.
+     */
+    protected void onChange() throws IOException
+    {
+        children = null;
+        getInfo( true );
     }
 
     /**
@@ -274,7 +294,6 @@ final class FtpFileObject
         {
             throw new FileSystemException( "vfs.provider.ftp/create-folder.error", getName() );
         }
-        detach();
     }
 
     /**
@@ -290,31 +309,9 @@ final class FtpFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        client = ftpFs.getClient();
-        return client.retrieveFileStream( relPath );
-    }
-
-    /**
-     * Notification of the input stream being closed.
-     */
-    protected void doEndInput()
-        throws Exception
-    {
-        final boolean ok;
-        try
-        {
-            ok = client.completePendingCommand();
-        }
-        finally
-        {
-            ftpFs.putClient( client );
-            client = null;
-        }
-
-        if ( !ok )
-        {
-            throw new FileSystemException( "vfs.provider.ftp/finish-get.error", getName() );
-        }
+        final FTPClient client = ftpFs.getClient();
+        final InputStream instr = client.retrieveFileStream( relPath );
+        return new FtpInputStream( client, instr );
     }
 
     /**
@@ -323,31 +320,79 @@ final class FtpFileObject
     protected OutputStream doGetOutputStream()
         throws Exception
     {
-        client = ftpFs.getClient();
-        return client.storeFileStream( relPath );
+        final FTPClient client = ftpFs.getClient();
+        return new FtpOutputStream( client, client.storeFileStream( relPath ) );
     }
 
     /**
-     * Notification of the output stream being closed.
+     * An InputStream that monitors for end-of-file.
      */
-    protected void doEndOutput()
-        throws Exception
+    private class FtpInputStream
+        extends MonitorInputStream
     {
-        final boolean ok;
-        try
+        private final FTPClient client;
+
+        public FtpInputStream( final FTPClient client, final InputStream in )
         {
-            ok = client.completePendingCommand();
-        }
-        finally
-        {
-            ftpFs.putClient( client );
-            client = null;
+            super( in );
+            this.client = client;
         }
 
-        if ( !ok )
+        /**
+         * Called after the stream has been closed.
+         */
+        protected void onClose() throws IOException
         {
-            throw new FileSystemException( "vfs.provider.ftp/finish-put.error", getName() );
+            final boolean ok;
+            try
+            {
+                ok = client.completePendingCommand();
+            }
+            finally
+            {
+                ftpFs.putClient( client );
+            }
+
+            if ( !ok )
+            {
+                throw new FileSystemException( "vfs.provider.ftp/finish-get.error", getName() );
+            }
         }
-        detach();
+    }
+
+    /**
+     * An OutputStream that monitors for end-of-file.
+     */
+    private class FtpOutputStream
+        extends MonitorOutputStream
+    {
+        private final FTPClient client;
+
+        public FtpOutputStream( final FTPClient client, final OutputStream outstr )
+        {
+            super( outstr );
+            this.client = client;
+        }
+
+        /**
+         * Called after this stream is closed.
+         */
+        protected void onClose() throws IOException
+        {
+            final boolean ok;
+            try
+            {
+                ok = client.completePendingCommand();
+            }
+            finally
+            {
+                ftpFs.putClient( client );
+            }
+
+            if ( !ok )
+            {
+                throw new FileSystemException( "vfs.provider.ftp/finish-put.error", getName() );
+            }
+        }
     }
 }

@@ -55,15 +55,16 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
+import java.util.ArrayList;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.util.MonitorInputStream;
+import org.apache.commons.vfs.util.MonitorOutputStream;
 
 /**
  * The content of a file.
@@ -80,7 +81,7 @@ public final class DefaultFileContent
 
     private final AbstractFileObject file;
     private int state = STATE_NONE;
-    private FileContentInputStream instr;
+    private final ArrayList instrs = new ArrayList();
     private FileContentOutputStream outstr;
 
     public DefaultFileContent( final AbstractFileObject file )
@@ -89,7 +90,7 @@ public final class DefaultFileContent
     }
 
     /**
-     * Returns the file which this is the content of.
+     * Returns the file that this is the content of.
      */
     public FileObject getFile()
     {
@@ -206,7 +207,15 @@ public final class DefaultFileContent
         {
             throw new FileSystemException( "vfs.provider/get-certificates-no-exist.error", file );
         }
-        return file.doGetCertificates();
+
+        try
+        {
+            return file.doGetCertificates();
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/get-certificates.error", file, e );
+        }
     }
 
     /**
@@ -222,26 +231,26 @@ public final class DefaultFileContent
         {
             throw new FileSystemException( "vfs.provider/read-no-exist.error", file );
         }
-        if ( state != STATE_NONE )
+        if ( state == STATE_WRITING )
         {
             throw new FileSystemException( "vfs.provider/read-in-use.error", file );
         }
 
         // Get the raw input stream
-        InputStream instr;
+        InputStream rawInstr;
         try
         {
-            instr = file.doGetInputStream();
+            rawInstr = file.doGetInputStream();
         }
-        catch ( Exception exc )
+        catch ( final Exception exc )
         {
             throw new FileSystemException( "vfs.provider/read.error", new Object[]{file}, exc );
         }
 
-        // TODO - reuse
-        this.instr = new FileContentInputStream( instr );
+        final FileContentInputStream instr = new FileContentInputStream( rawInstr );
+        this.instrs.add( instr );
         state = STATE_READING;
-        return this.instr;
+        return instr;
     }
 
     /**
@@ -262,7 +271,6 @@ public final class DefaultFileContent
         OutputStream outstr = file.getOutputStream();
 
         // Create wrapper
-        // TODO - reuse
         this.outstr = new FileContentOutputStream( outstr );
         state = STATE_WRITING;
         return this.outstr;
@@ -277,8 +285,9 @@ public final class DefaultFileContent
         try
         {
             // Close the input stream
-            if ( instr != null )
+            while ( instrs.size() > 0 )
             {
+                final FileContentInputStream instr = (FileContentInputStream)instrs.remove( 0 );
                 instr.close();
             }
 
@@ -297,11 +306,13 @@ public final class DefaultFileContent
     /**
      * Handles the end of input stream.
      */
-    private void endInput() throws Exception
+    private void endInput( final FileContentInputStream instr )
     {
-        instr = null;
-        state = STATE_NONE;
-        file.doEndInput();
+        instrs.remove( instr );
+        if ( instrs.size() == 0 )
+        {
+            state = STATE_NONE;
+        }
     }
 
     /**
@@ -318,56 +329,12 @@ public final class DefaultFileContent
      * An input stream for reading content.  Provides buffering, and
      * end-of-stream monitoring.
      */
-    private final class FileContentInputStream extends BufferedInputStream
+    private final class FileContentInputStream
+        extends MonitorInputStream
     {
-        private boolean finished;
-
-        FileContentInputStream( InputStream instr )
+        FileContentInputStream( final InputStream instr )
         {
             super( instr );
-        }
-
-        /**
-         * Reads a character.
-         */
-        public int read() throws IOException
-        {
-            if ( finished )
-            {
-                return -1;
-            }
-
-            int ch = super.read();
-            if ( ch != -1 )
-            {
-                return ch;
-            }
-
-            // End-of-stream
-            close();
-            return -1;
-        }
-
-        /**
-         * Reads bytes from this input stream.error occurs.
-         */
-        public int read( byte[] buffer, int offset, int length )
-            throws IOException
-        {
-            if ( finished )
-            {
-                return -1;
-            }
-
-            int nread = super.read( buffer, offset, length );
-            if ( nread != -1 )
-            {
-                return nread;
-            }
-
-            // End-of-stream
-            close();
-            return -1;
         }
 
         /**
@@ -375,38 +342,22 @@ public final class DefaultFileContent
          */
         public void close() throws FileSystemException
         {
-            if ( finished )
-            {
-                return;
-            }
-
-            // Close the stream
-            FileSystemException exc = null;
             try
             {
                 super.close();
             }
-            catch ( IOException ioe )
+            catch ( final IOException e )
             {
-                exc = new FileSystemException( "vfs.provider/close-instr.error", file, ioe );
+                throw new FileSystemException( "vfs.provider/close-instr.error", file, e );
             }
+        }
 
-            // Notify the file object
-            try
-            {
-                endInput();
-            }
-            catch ( final Exception e )
-            {
-                exc = new FileSystemException( "vfs.provider/close-instr.error", file, e );
-            }
-
-            finished = true;
-
-            if ( exc != null )
-            {
-                throw exc;
-            }
+        /**
+         * Called after the stream has been closed.
+         */
+        protected void onClose() throws IOException
+        {
+            endInput( this );
         }
     }
 
@@ -414,9 +365,9 @@ public final class DefaultFileContent
      * An output stream for writing content.
      */
     private final class FileContentOutputStream
-        extends BufferedOutputStream
+        extends MonitorOutputStream
     {
-        FileContentOutputStream( OutputStream outstr )
+        FileContentOutputStream( final OutputStream outstr )
         {
             super( outstr );
         }
@@ -426,31 +377,32 @@ public final class DefaultFileContent
          */
         public void close() throws FileSystemException
         {
-            FileSystemException exc = null;
-
-            // Close the output stream
             try
             {
                 super.close();
             }
+            catch ( final FileSystemException e )
+            {
+                throw e;
+            }
             catch ( final IOException e )
             {
-                exc = new FileSystemException( "vfs.provider/close-outstr.error", file, e );
+                throw new FileSystemException( "vfs.provider/close-outstr.error", file, e );
             }
+        }
 
-            // Notify of end of output
+        /**
+         * Called after this stream is closed.
+         */
+        protected void onClose() throws IOException
+        {
             try
             {
                 endOutput();
             }
             catch ( final Exception e )
             {
-                exc = new FileSystemException( "vfs.provider/close-outstr.error", file, e );
-            }
-
-            if ( exc != null )
-            {
-                throw exc;
+                throw new FileSystemException( "vfs.provider/close-outstr.error", file, e );
             }
         }
     }

@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,94 +53,71 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.test;
+package org.apache.commons.vfs.util;
 
-import org.apache.commons.vfs.test.AbstractProviderTestCase;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.AbstractVfsTestCase;
-import java.io.File;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
- * Additional junction test cases.
+ * An OutputStream that provides buffering and end-of-stream monitoring.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/13 04:28:46 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/13 04:28:45 $
  */
-public class JunctionTests
-    extends AbstractProviderTestCase
+public class MonitorOutputStream
+    extends BufferedOutputStream
 {
-    private FileObject getBaseDir() throws FileSystemException
-    {
-        final File file = AbstractVfsTestCase.getTestDirectory();
-        return getManager().toFileObject( file );
-    }
-    
-    /**
-     * Checks nested junctions are not supported.
-     */
-    public void testNestedJunction() throws Exception
-    {
-        final FileSystem fs = getManager().createFileSystem( "vfs:" ).getFileSystem();
-        final FileObject baseDir = getBaseDir();
-        fs.addJunction( "/a", baseDir );
+    private boolean finished;
 
-        // Nested
-        try
-        {
-            fs.addJunction( "/a/b", baseDir );
-            fail();
-        }
-        catch ( final Exception e )
-        {
-            assertSameMessage( "vfs.impl/nested-junction.error", "vfs:/a/b", e );
-        }
-
-        // At same point
-        try
-        {
-            fs.addJunction( "/a", baseDir );
-            fail();
-        }
-        catch ( final Exception e )
-        {
-            assertSameMessage( "vfs.impl/nested-junction.error", "vfs:/a", e );
-        }
+    public MonitorOutputStream( final OutputStream out )
+    {
+        super( out );
     }
 
     /**
-     * Checks ancestors are created when a junction is created.
+     * Closes this output stream.
      */
-    public void testAncestors() throws Exception
+    public void close() throws IOException
     {
-        final FileSystem fs = getManager().createFileSystem( "vfs://" ).getFileSystem();
-        final FileObject baseDir = getBaseDir();
+        if ( finished )
+        {
+            return;
+        }
 
-        // Make sure the file at the junction point and its ancestors do not exist
-        FileObject file = fs.resolveFile( "/a/b" );
-        assertFalse( file.exists() );
-        file = file.getParent();
-        assertFalse( file.exists() );
-        file = file.getParent();
-        assertFalse( file.exists() );
+        // Close the output stream
+        IOException exc = null;
+        try
+        {
+            super.close();
+        }
+        catch ( final IOException ioe )
+        {
+            exc = ioe;
+        }
 
-        // Add the junction
-        fs.addJunction( "/a/b", baseDir );
+        // Notify of end of output
+        try
+        {
+            onClose();
+        }
+        catch ( final IOException ioe )
+        {
+            exc = ioe;
+        }
 
-        // Make sure the file at the junction point and its ancestors exist
-        file = fs.resolveFile( "/a/b" );
-        assertTrue( "Does not exist", file.exists() );
-        file = file.getParent();
-        assertTrue( "Does not exist", file.exists() );
-        file = file.getParent();
-        assertTrue( "Does not exist", file.exists() );
+        finished = true;
+
+        if ( exc != null )
+        {
+            throw exc;
+        }
     }
 
-    // Check that file @ junction point exists only when backing file exists
-    // Add 2 junctions with common parent
-    // Compare real and virtual files
-    // Events
-    // Remove junctions
-
+    /**
+     * Called after this stream is closed.  This implementation does nothing.
+     */
+    protected void onClose() throws IOException
+    {
+    }
 }

@@ -71,7 +71,7 @@ import org.apache.commons.vfs.FileType;
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/12 07:56:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/13 04:28:45 $
  *
  * @todo Deal with case where backing file == null
  * @todo Extract subclass that overlays the children
@@ -91,19 +91,13 @@ public class DelegateFileObject
         this.file = file;
     }
 
-    public void attachChild( final String baseName ) throws FileSystemException
+    /** Adds a child to this file. */
+    public void attachChild( final String baseName ) throws Exception
     {
         if ( children.add( baseName ) )
         {
-            detach();
+            childrenChanged();
         }
-    }
-
-    public void setFile( final FileObject file ) throws FileSystemException
-    {
-        this.file = file;
-        children.clear();
-        detach();
     }
 
     /**
@@ -120,7 +114,7 @@ public class DelegateFileObject
     /**
      * Detaches this file object from its file resource.
      */
-    protected void doDetach() throws FileSystemException
+    protected void doDetach() throws Exception
     {
         if ( file != null )
         {
@@ -247,7 +241,7 @@ public class DelegateFileObject
     /**
      * Called from {@link DefaultFileContent#getCertificates}.
      */
-    protected Certificate[] doGetCertificates() throws FileSystemException
+    protected Certificate[] doGetCertificates() throws Exception
     {
         return file.getContent().getCertificates();
     }
@@ -288,7 +282,7 @@ public class DelegateFileObject
     /**
      * Called when a file is created.
      */
-    public void fileCreated( final FileChangeEvent event ) throws FileSystemException
+    public void fileCreated( final FileChangeEvent event ) throws Exception
     {
         handleCreate( file.getType() );
     }
@@ -296,7 +290,7 @@ public class DelegateFileObject
     /**
      * Called when a file is deleted.
      */
-    public void fileDeleted( final FileChangeEvent event )
+    public void fileDeleted( final FileChangeEvent event ) throws Exception
     {
         handleDelete();
     }

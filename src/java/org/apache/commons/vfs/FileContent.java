@@ -62,15 +62,16 @@ import java.security.cert.Certificate;
 /**
  * Represents the data content of a file.
  *
- * <p>To read from a file, use the {@link #getInputStream} method.
+ * <p>To read from a file, use the <code>InputStream</code> returned by
+ * {@link #getInputStream}.
  *
- * <p>To write to a file, use the {@link #getOutputStream} method.  This
- * method will create the file and the parent folder, if necessary.
+ * <p>To write to a file, use the <code>OutputStream</code> returned by
+ * {@link #getOutputStream} method.  This will create the file, and the parent
+ * folder, if necessary.
  *
- * <p>To prevent concurrency problems, only a single <code>InputStream</code>,
- * or <code>OutputStream</code> may be open at any time, for each file.
- *
- * <p>TODO - allow multiple input streams?
+ * <p>To prevent concurrency problems, a file may not have an OutputStream and
+ * an InputStream open at the same time.  A file may have multiple InputStreams
+ * open at the sametime.
  *
  * @see FileObject#getContent
  *

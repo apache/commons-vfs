@@ -110,6 +110,8 @@ public abstract class AbstractFileObject
      * Attaches this file object to its file resource.  This method is called
      * before any of the doBlah() or onBlah() methods.  Sub-classes can use
      * this method to perform lazy initialisation.
+     *
+     * This implementation does nothing.
      */
     protected void doAttach() throws Exception
     {
@@ -118,10 +120,12 @@ public abstract class AbstractFileObject
     /**
      * Detaches this file object from its file resource.
      *
-     * <p>Called when this file is closed, or its type changes.  Note that
-     * the file object may be reused later, so should be able to be reattached.
+     * <p>Called when this file is closed.  Note that the file object may be
+     * reused later, so should be able to be reattached.
+     *
+     * This implementation does nothing.
      */
-    protected void doDetach() throws FileSystemException
+    protected void doDetach() throws Exception
     {
     }
 
@@ -134,7 +138,9 @@ public abstract class AbstractFileObject
 
     /**
      * Determines if this file can be read.  Is only called if {@link #doGetType}
-     * does not return null. This implementation always returns true.
+     * does not return null.
+     *
+     * This implementation always returns true.
      */
     protected boolean doIsReadable() throws Exception
     {
@@ -143,8 +149,9 @@ public abstract class AbstractFileObject
 
     /**
      * Determines if this file can be written to.  Is only called if
-     * {@link #doGetType} does not return null.  This implementation always
-     * returns true.
+     * {@link #doGetType} does not return null.
+     *
+     * This implementation always returns true.
      */
     protected boolean doIsWriteable() throws Exception
     {
@@ -165,6 +172,8 @@ public abstract class AbstractFileObject
      * <li>{@link #doIsWriteable} returns true.
      * <li>This file has no children, if a folder.
      * </ul>
+     *
+     * This implementation throws an exception.
      */
     protected void doDelete() throws Exception
     {
@@ -178,6 +187,8 @@ public abstract class AbstractFileObject
      * <li>The parent folder exists and is writeable, or this file is the
      *     root of the file system.
      * </ul>
+     *
+     * This implementation throws an exception.
      */
     protected void doCreateFolder() throws Exception
     {
@@ -185,16 +196,29 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Called when the children of this file change.
+     * Called when the children of this file change.  Allows subclasses to
+     * refresh any cached information about the children of this file.
+     *
+     * This implementation does nothing.
      */
-    protected void onChildrenChanged()
+    protected void onChildrenChanged() throws Exception
+    {
+    }
+
+    /**
+     * Called when the type or content of this file changes.
+     *
+     * This implementation does nothing.
+     */
+    protected void onChange() throws Exception
     {
     }
 
     /**
      * Returns the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return null. This implementation throws
-     * an exception.
+     * {@link #doGetType} does not return null.
+     *
+     * This implementation throws an exception.
      */
     protected long doGetLastModifiedTime() throws Exception
     {
@@ -203,10 +227,11 @@ public abstract class AbstractFileObject
 
     /**
      * Sets the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return null.  This implementation
-     * throws an exception.
+     * {@link #doGetType} does not return null.
+     *
+     * This implementation throws an exception.
      */
-    protected void doSetLastModifiedTime( long modtime )
+    protected void doSetLastModifiedTime( final long modtime )
         throws Exception
     {
         throw new FileSystemException( "vfs.provider/set-last-modified-not-supported.error" );
@@ -214,7 +239,9 @@ public abstract class AbstractFileObject
 
     /**
      * Gets an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return null.  This implementation return null.
+     * does not return null.
+     *
+     * This implementation always returns null.
      */
     protected Object doGetAttribute( final String attrName )
         throws Exception
@@ -224,9 +251,11 @@ public abstract class AbstractFileObject
 
     /**
      * Sets an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return null.  This implementation throws an exception.
+     * does not return null.
+     *
+     * This implementation throws an exception.
      */
-    protected void doSetAttribute( String atttrName, Object value )
+    protected void doSetAttribute( final String atttrName, final Object value )
         throws Exception
     {
         throw new FileSystemException( "vfs.provider/set-attribute-not-supported.error" );
@@ -234,10 +263,11 @@ public abstract class AbstractFileObject
 
     /**
      * Returns the certificates used to sign this file.  Is only called if
-     * {@link #doGetType} does not return null.  This implementation returns
-     * null.
+     * {@link #doGetType} does not return null.
+     *
+     * This implementation always returns null.
      */
-    protected Certificate[] doGetCertificates() throws FileSystemException
+    protected Certificate[] doGetCertificates() throws Exception
     {
         return null;
     }
@@ -252,8 +282,8 @@ public abstract class AbstractFileObject
      * Creates an input stream to read the file content from.  Is only called
      * if {@link #doGetType} returns {@link FileType#FILE}.
      *
-     * <p>There is guaranteed never to be more than one stream for this file
-     * (input or output) open at any given time.
+     * <p>It is guaranteed that there are no open output streams for this file
+     * when this method is called.
      *
      * <p>The returned stream does not have to be buffered.
      */
@@ -269,30 +299,16 @@ public abstract class AbstractFileObject
      * and is a folder.
      * </ul>
      *
-     * <p>There is guaranteed never to be more than one stream for this file
-     * (input or output) open at any given time.
+     * <p>It is guaranteed that there are no open stream (input or output) for
+     * this file when this method is called.
      *
      * <p>The returned stream does not have to be buffered.
+     *
+     * This implementation throws an exception.
      */
     protected OutputStream doGetOutputStream() throws Exception
     {
         throw new FileSystemException( "vfs.provider/write-not-supported.error" );
-    }
-
-    /**
-     * Notification of the output stream being closed.
-     * TODO - get rid of this.
-     */
-    protected void doEndOutput() throws Exception
-    {
-    }
-
-    /**
-     * Notification of the input stream being closed.
-     * TODO - get rid of this.
-     */
-    protected void doEndInput() throws Exception
-    {
     }
 
     /**
@@ -552,22 +568,22 @@ public abstract class AbstractFileObject
             throw new FileSystemException( "vfs.provider/delete-read-only.error", name );
         }
 
-        // Delete the file
         try
         {
+            // Delete the file
             doDelete();
+
+            // Update cached info
+            handleDelete();
         }
-        catch ( RuntimeException re )
+        catch ( final RuntimeException re )
         {
             throw re;
         }
-        catch ( Exception exc )
+        catch ( final Exception exc )
         {
             throw new FileSystemException( "vfs.provider/delete.error", new Object[]{name}, exc );
         }
-
-        // Update cached info
-        handleDelete();
     }
 
     /**
@@ -664,10 +680,13 @@ public abstract class AbstractFileObject
             parent.createFolder();
         }
 
-        // Create the folder
         try
         {
+            // Create the folder
             doCreateFolder();
+
+            // Update cached info
+            handleCreate( FileType.FOLDER );
         }
         catch ( final RuntimeException re )
         {
@@ -677,9 +696,6 @@ public abstract class AbstractFileObject
         {
             throw new FileSystemException( "vfs.provider/create-folder.error", name, exc );
         }
-
-        // Update cached info
-        handleCreate( FileType.FOLDER );
     }
 
     /**
@@ -829,7 +845,14 @@ public abstract class AbstractFileObject
         }
 
         // Detach from the file
-        detach();
+        try
+        {
+            detach();
+        }
+        catch ( final Exception e )
+        {
+            exc = new FileSystemException( "vfs.provider/close.error", name, e );
+        }
 
         if ( exc != null )
         {
@@ -883,7 +906,7 @@ public abstract class AbstractFileObject
      * Detaches this file, invaliating all cached info.  This will force
      * a call to {@link #doAttach} next time this file is used.
      */
-    protected void detach() throws FileSystemException
+    private void detach() throws Exception
     {
         if ( attached )
         {
@@ -932,14 +955,15 @@ public abstract class AbstractFileObject
      */
     protected void endOutput() throws Exception
     {
-        boolean newFile = ( type == null );
-
-        doEndOutput();
-
-        if ( newFile )
+        if ( type == null )
         {
             // File was created
             handleCreate( FileType.FILE );
+        }
+        else
+        {
+            // File has changed
+            onChange();
         }
     }
 
@@ -947,7 +971,7 @@ public abstract class AbstractFileObject
      * Called when this file is created.  Updates cached info and notifies
      * the parent and file system.
      */
-    protected void handleCreate( final FileType newType )
+    protected void handleCreate( final FileType newType ) throws Exception
     {
         // Fix up state
         type = newType;
@@ -955,6 +979,9 @@ public abstract class AbstractFileObject
 
         // Notify parent that its child list may no longer be valid
         notifyParent();
+
+        // Notify subclass
+        onChange();
 
         // Notify the file system
         fs.fireFileCreated( this );
@@ -964,7 +991,7 @@ public abstract class AbstractFileObject
      * Called when this file is deleted.  Updates cached info and notifies
      * subclasses, parent and file system.
      */
-    protected void handleDelete()
+    protected void handleDelete() throws Exception
     {
         // Fix up state
         type = null;
@@ -972,6 +999,9 @@ public abstract class AbstractFileObject
 
         // Notify parent that its child list may no longer be valid
         notifyParent();
+
+        // Notify subclass
+        onChange();
 
         // Notify the file system
         fs.fireFileDeleted( this );
@@ -981,7 +1011,7 @@ public abstract class AbstractFileObject
      * Notify the parent of a change to its children, when a child is created
      * or deleted.
      */
-    private void notifyParent()
+    private void notifyParent() throws Exception
     {
         if ( parent == null )
         {
@@ -991,15 +1021,15 @@ public abstract class AbstractFileObject
 
         if ( parent != null )
         {
-            parent.invalidateChildren();
+            parent.childrenChanged();
         }
     }
 
     /**
-     * Notifies a file that children have been created or deleted.
+     * Notifies the file that its children have changed.
      * @todo Indicate whether the child was added or removed, and which child.
      */
-    private void invalidateChildren()
+    protected void childrenChanged() throws Exception
     {
         children = null;
         onChildrenChanged();
@@ -1078,5 +1108,4 @@ public abstract class AbstractFileObject
             }
         }
     }
-
 }
