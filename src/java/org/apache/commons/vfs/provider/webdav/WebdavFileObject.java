@@ -74,7 +74,7 @@ import org.apache.webdav.lib.methods.OptionsMethod;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/23 00:40:39 $
+ * @version $Revision: 1.6 $ $Date: 2003/03/14 03:48:14 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -106,7 +106,7 @@ public class WebdavFileObject
      * Determines the type of the file, returns null if the file does not
      * exist.
      *
-     * @todo Bail if file is not a DAV resource
+     * @todo Shouldn't need 2 trips to the server to determine type.
      */
     protected FileType doGetType() throws Exception
     {
@@ -120,6 +120,7 @@ public class WebdavFileObject
         }
         resource.getHttpURL().setPath( optionsMethod.getPath() );
 
+        // Resource exists if we can do a GET on it
         boolean exists = false;
         for ( Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements(); )
         {
@@ -133,6 +134,14 @@ public class WebdavFileObject
         if ( !exists )
         {
             return FileType.IMAGINARY;
+        }
+
+        // Check if the resource is a DAV resource
+        final boolean davResource = optionsMethod.getDavCapabilities().hasMoreElements();
+        if ( !davResource )
+        {
+            // Assume a folder, and don't get the properties
+            return FileType.FOLDER;
         }
 
         // Get the properties of the resource
@@ -155,7 +164,7 @@ public class WebdavFileObject
         final String[] children = resource.list();
         if ( children == null )
         {
-            throw new FileSystemException( "vfs.provider.webdav/list-children.error" );
+            throw new FileSystemException( "vfs.provider.webdav/list-children.error", resource.getStatusMessage() );
         }
         return children;
     }
