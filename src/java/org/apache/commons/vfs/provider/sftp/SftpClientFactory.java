@@ -29,7 +29,7 @@ import java.io.File;
  * Create a HttpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/27 19:09:37 $
+ * @version $Revision: 1.2 $ $Date: 2004/09/10 17:26:58 $
  */
 public class SftpClientFactory
 {
@@ -54,7 +54,14 @@ public class SftpClientFactory
 
         if (knownHostsFile != null)
         {
-            jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+            try
+            {
+                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+            }
+            catch (JSchException e)
+            {
+                throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
+            }
         }
         else
         {
@@ -66,7 +73,14 @@ public class SftpClientFactory
             knownHostsFile = new File(sshDir, "known_hosts");
             if (knownHostsFile.isFile() && knownHostsFile.canRead())
             {
-                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+                try
+                {
+                    jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+                }
+                catch (JSchException e)
+                {
+                    throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
+                }
             }
         }
 
