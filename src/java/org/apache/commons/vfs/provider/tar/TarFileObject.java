@@ -111,6 +111,11 @@ public class TarFileObject
      */
     protected long doGetContentSize()
     {
+        if (entry == null)
+        {
+            return 0;
+        }
+
         return entry.getSize();
     }
 
@@ -119,6 +124,11 @@ public class TarFileObject
      */
     protected long doGetLastModifiedTime() throws Exception
     {
+        if (entry == null)
+        {
+            return 0;
+        }
+
         return entry.getModTime().getTime();
     }
 
