@@ -27,6 +27,7 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.bzip2.Bzip2FileObject;
 
 import java.io.File;
@@ -34,13 +35,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
 
 /**
  * A read-only file system for Tar files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2005/01/11 16:14:46 $
+ * @version $Revision: 1.3 $ $Date: 2005/01/27 07:15:49 $
  */
 public class TarFileSystem
     extends AbstractFileSystem
@@ -79,6 +82,7 @@ public class TarFileSystem
         // Build the index
         try
         {
+            List strongRef = new ArrayList(100);
             TarEntry entry;
             while ((entry = getTarFile().getNextEntry()) != null)
             {
@@ -95,6 +99,7 @@ public class TarFileSystem
 
                 fileObj = createTarFileObject(name, entry);
                 putFileToCache(fileObj);
+                strongRef.add(fileObj);
 
                 // Make sure all ancestors exist
                 // TODO - create these on demand
@@ -109,12 +114,15 @@ public class TarFileSystem
                     {
                         parent = createTarFileObject(parentName, null);
                         putFileToCache(parent);
+                        strongRef.add(fileObj);
                     }
 
                     // Attach child to parent
                     parent.attachChild(fileObj.getName());
                 }
             }
+
+            ((AbstractFileObject) getParentLayer()).holdObject(strongRef);
         }
         catch (IOException e)
         {

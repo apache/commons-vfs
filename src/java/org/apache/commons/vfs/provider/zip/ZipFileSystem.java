@@ -25,11 +25,14 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.AbstractFileObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -74,6 +77,7 @@ public class ZipFileSystem
         super.init();
 
         // Build the index
+        List strongRef = new ArrayList(100);
         Enumeration entries = getZipFile().entries();
         while (entries.hasMoreElements())
         {
@@ -91,6 +95,7 @@ public class ZipFileSystem
 
             fileObj = createZipFileObject(name, entry);
             putFileToCache(fileObj);
+            strongRef.add(fileObj);
 
             // Make sure all ancestors exist
             // TODO - create these on demand
@@ -105,12 +110,14 @@ public class ZipFileSystem
                 {
                     parent = createZipFileObject(parentName, null);
                     putFileToCache(parent);
+                    strongRef.add(fileObj);
                 }
 
                 // Attach child to parent
                 parent.attachChild(fileObj.getName());
             }
         }
+        ((AbstractFileObject) getParentLayer()).holdObject(strongRef);
     }
 
     protected ZipFile getZipFile() throws FileSystemException

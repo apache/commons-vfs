@@ -74,7 +74,7 @@ public abstract class AbstractFileObject implements FileObject
     // go into the global files cache
     // private FileObject[] children;
     private FileName[] children;
-
+    private List objects;
 
     protected AbstractFileObject(final FileName name,
                                  final AbstractFileSystem fs)
@@ -1445,5 +1445,21 @@ public abstract class AbstractFileObject implements FileObject
     protected void injectType(FileType fileType)
     {
         type = fileType;
+    }
+
+    /**
+     * This method is meant to add a object where this object holds a strong reference then.
+     * E.g. a archive-filesystem creates a list of all childs and they shouldnt get
+     * garbage collected until the container is garbage collected
+     * 
+     * @param strongRef
+     */
+    public void holdObject(Object strongRef)
+    {
+        if (objects == null)
+        {
+            objects = new ArrayList(5);
+        }
+        objects.add(strongRef);
     }
 }
