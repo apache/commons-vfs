@@ -38,7 +38,7 @@ import java.net.HttpURLConnection;
  * A file object backed by commons httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision: 1.9 $ $Date: 2004/06/23 18:17:44 $
  * @todo status codes
  */
 public class HttpFileObject
@@ -195,7 +195,7 @@ public class HttpFileObject
     }
 
 
-    protected FileContentInfoFactory createFileContentInfoFactory()
+    protected FileContentInfoFactory getFileContentInfoFactory()
     {
         return new HttpFileContentInfoFactory();
     }

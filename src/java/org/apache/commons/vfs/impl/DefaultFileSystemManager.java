@@ -16,13 +16,14 @@
 package org.apache.commons.vfs.impl;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
-import org.apache.commons.vfs.GlobalConfiguration;
 import org.apache.commons.vfs.SystemInfo;
+import org.apache.commons.vfs.cache.DefaultFilesCache;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -80,6 +81,16 @@ public class DefaultFileSystemManager
     private FileObject baseFile;
 
     /**
+     * The files cache
+     */
+    private FilesCache filesCache;
+
+    /**
+     * The class to use to determine the content-type (mime-type)
+     */
+    private FileContentInfoFactory fileContentInfoFactory;
+
+    /**
      * The logger to use.
      */
     private Log log;
@@ -115,8 +126,6 @@ public class DefaultFileSystemManager
     private final FileTypeMap map = new FileTypeMap();
     private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
     private boolean init;
-
-    private GlobalConfiguration globalConfiguration = null;
 
     /**
      * Returns the logger used by this manager.
@@ -220,36 +229,45 @@ public class DefaultFileSystemManager
     }
 
     /**
-     * Sets the filesCache implementation used to cache files.<br>
-     *
-     * @see org.apache.commons.vfs.FilesCache
-     */
-    public void setGlobalConfiguration(GlobalConfiguration globalConfiguration) throws FileSystemException
-    {
-        if (this.globalConfiguration != null)
-        {
-            throw new FileSystemException("vfs.impl/configuration-already-set.error");
-        }
-
-        this.globalConfiguration = globalConfiguration;
-        setupComponent(this.globalConfiguration);
-    }
-
-
-    /**
-     * returns the global configuration
-     */
-    public GlobalConfiguration getGlobalConfiguration()
-    {
-        return globalConfiguration;
-    }
-
-    /**
      * Returns the filesCache implementation used to cache files
      */
     public FilesCache getFilesCache()
     {
-        return this.globalConfiguration.getFilesCache();
+        return filesCache;
+    }
+
+    /**
+     * Sets the filesCache implementation used to cache files
+     */
+    public void setFilesCache(FilesCache filesCache) throws FileSystemException
+    {
+        if (init)
+        {
+            throw new FileSystemException("vfs.impl/already-inited.error");
+        }
+
+        this.filesCache = filesCache;
+    }
+
+    /**
+     * get the fileContentInfoFactory used to determine the infos of a file content.
+     */
+    public FileContentInfoFactory getFileContentInfoFactory()
+    {
+        return fileContentInfoFactory;
+    }
+
+    /**
+     * set the fileContentInfoFactory used to determine the infos of a file content.
+     */
+    public void setFileContentInfoFactory(FileContentInfoFactory fileContentInfoFactory) throws FileSystemException
+    {
+        if (init)
+        {
+            throw new FileSystemException("vfs.impl/already-inited.error");
+        }
+
+        this.fileContentInfoFactory = fileContentInfoFactory;
     }
 
     /**
@@ -352,11 +370,14 @@ public class DefaultFileSystemManager
      */
     public void init() throws FileSystemException
     {
-        if (globalConfiguration == null)
+        if (filesCache == null)
         {
-            setGlobalConfiguration(new GlobalConfiguration());
+            filesCache = new DefaultFilesCache();
         }
-        globalConfiguration.init();
+        if (fileContentInfoFactory == null)
+        {
+            fileContentInfoFactory = new FileContentInfoFilenameFactory();
+        }
 
         setupComponent(vfsProvider);
 

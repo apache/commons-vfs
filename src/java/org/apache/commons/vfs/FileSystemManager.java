@@ -196,12 +196,14 @@ public interface FileSystemManager
     FilesCache getFilesCache();
 
     /**
-     * Get the global configuration
-     */
-    GlobalConfiguration getGlobalConfiguration();
-
-    /**
      * Gets the system info. e.g. Available schemes, provider configuration builder, ...
      */
     SystemInfo getSystemInfo();
+
+    /**
+     * The class to use to determine the content-type (mime-type)
+     *
+     * @return
+     */
+    FileContentInfoFactory getFileContentInfoFactory();
 }

@@ -21,7 +21,6 @@ import junit.framework.TestSuite;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.GlobalConfiguration;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -37,7 +36,7 @@ import java.util.Enumeration;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: AbstractTestSuite.java,v 1.2 2004/05/17 17:56:57 imario Exp $
+ * @version $Id: AbstractTestSuite.java,v 1.3 2004/06/23 18:17:44 imario Exp $
  */
 public class AbstractTestSuite
     extends TestSetup
@@ -128,11 +127,8 @@ public class AbstractTestSuite
         checkTempDir("Temp dir not empty before test");
 
         // Create the file system manager
-        GlobalConfiguration config = new GlobalConfiguration();
-        config.setFilesCache(providerConfig.getFilesCache());
-
         manager = new DefaultFileSystemManager();
-        manager.setGlobalConfiguration(config);
+        manager.setFilesCache(providerConfig.getFilesCache());
 
         final DefaultFileReplicator replicator = new DefaultFileReplicator(tempDir);
         manager.setReplicator(new PrivilegedFileReplicator(replicator));

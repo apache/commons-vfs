@@ -25,7 +25,6 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileUtil;
-import org.apache.commons.vfs.GlobalConfiguration;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.Selectors;
@@ -904,7 +903,7 @@ public abstract class AbstractFileObject
         attach();
         if (content == null)
         {
-            content = new DefaultFileContent(this, createFileContentInfoFactory());
+            content = new DefaultFileContent(this, getFileContentInfoFactory());
         }
         return content;
     }
@@ -1351,10 +1350,9 @@ public abstract class AbstractFileObject
     /**
      * create the filecontentinfo implementation
      */
-    protected FileContentInfoFactory createFileContentInfoFactory()
+    protected FileContentInfoFactory getFileContentInfoFactory()
     {
-        GlobalConfiguration gc = getFileSystem().getFileSystemManager().getGlobalConfiguration();
-        return gc.getFileContentInfoFactory();
+        return getFileSystem().getFileSystemManager().getFileContentInfoFactory();
     }
 
     protected void injectType(FileType fileType)
