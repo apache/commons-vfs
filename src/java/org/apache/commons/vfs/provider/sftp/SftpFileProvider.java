@@ -62,12 +62,14 @@ import org.apache.commons.vfs.util.Os;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import java.io.File;
 
 /**
  * A provider for accessing files over SFTP.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/20 07:30:36 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/24 10:37:11 $
  */
 public class SftpFileProvider
     extends AbstractOriginatingFileProvider
@@ -79,20 +81,39 @@ public class SftpFileProvider
      */
     public void init() throws FileSystemException
     {
-        // Figure out where the known_hosts file is
-        final String knownHostsPath;
+        // Figure out where the ssh directory is
+        final File sshDir;
         if ( Os.isFamily( Os.OS_FAMILY_WINDOWS ) )
         {
             // TODO - this may not be true
             final String userName = System.getProperty( "user.name" );
-            knownHostsPath = "C:\\cygwin\\home\\" + userName + "\\.ssh\\known_hosts";
+            sshDir = new File("C:\\cygwin\\home\\" + userName + "\\.ssh" );
         }
         else
         {
-            knownHostsPath = System.getProperty( "user.home") + "/.ssh/known_hosts";
+            sshDir = new File( System.getProperty( "user.home" ), ".ssh" );
         }
 
-        jSch.setKnownHosts( knownHostsPath );
+        // Load the known hosts file
+        final File knownHostsFile = new File(sshDir, "known_hosts");
+        if ( knownHostsFile.isFile() && knownHostsFile.canRead() )
+        {
+            jSch.setKnownHosts( knownHostsFile.getAbsolutePath() );
+        }
+
+        // Load the private key
+        final File privateKeyFile = new File( sshDir, "id_rsa" );
+        if ( privateKeyFile.isFile() && privateKeyFile.canRead() )
+        {
+            try
+            {
+                jSch.addIdentity(privateKeyFile.getAbsolutePath());
+            }
+            catch ( final JSchException e )
+            {
+                throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
+            }
+        }
     }
 
     /**
