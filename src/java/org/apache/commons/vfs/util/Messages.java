@@ -7,14 +7,24 @@
  */
 package org.apache.commons.vfs.util;
 
+import java.util.ResourceBundle;
+import java.util.MissingResourceException;
+import java.util.Map;
+import java.util.HashMap;
+import java.text.MessageFormat;
+
 /**
  * Formats messages.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/22 11:41:49 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/22 13:01:57 $
  */
 public class Messages
 {
+    /** Map from message code to MessageFormat object for the message. */
+    private static final Map messages = new HashMap();
+    private static ResourceBundle resources;
+
     private Messages()
     {
     }
@@ -51,17 +61,38 @@ public class Messages
      */
     public static String getString( final String code, final Object[] params )
     {
-        StringBuffer sb = new StringBuffer( code );
-        sb.append( '{' );
-        if ( params != null )
+        try
         {
-            for ( int i = 0; i < params.length; i++ )
-            {
-                sb.append( params[ i ] );
-                sb.append( ',' );
-            }
+            final MessageFormat msg = findMessage( code );
+            return msg.format( params );
         }
-        sb.append( '}' );
-        return sb.toString();
+        catch ( final MissingResourceException mre )
+        {
+            return "Unknown message with code \"" + code + "\".";
+        }
+    }
+
+    /**
+     * Locates a message by its code.
+     */
+    private static synchronized MessageFormat findMessage( final String code )
+        throws MissingResourceException
+    {
+        // Check if the message is cached
+        MessageFormat msg = (MessageFormat)messages.get( code );
+        if ( msg != null )
+        {
+            return msg;
+        }
+
+        // Locate the message
+        if ( resources == null )
+        {
+            resources = ResourceBundle.getBundle( "org.apache.commons.vfs.Resources" );
+        }
+        final String msgText = resources.getString( code );
+        msg = new MessageFormat( msgText );
+        messages.put( code, msg );
+        return msg;
     }
 }
