@@ -74,7 +74,7 @@ import org.apache.commons.AbstractVfsTestCase;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/02/20 09:22:13 $
+ * @version $Revision: 1.9 $ $Date: 2003/02/21 05:13:59 $
  */
 public class ProviderTestSuite
     extends TestSetup
@@ -173,13 +173,17 @@ public class ProviderTestSuite
 
         // Create the file system manager
         manager = new DefaultFileSystemManager();
-        manager.addProvider( "file", new DefaultLocalFileProvider() );
 
         final DefaultFileReplicator replicator = new DefaultFileReplicator( tempDir );
         manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
         manager.setTemporaryFileStore( replicator );
 
         providerConfig.prepare( manager );
+
+        if ( !manager.hasProvider( "file" ) )
+        {
+            manager.addProvider( "file", new DefaultLocalFileProvider() );
+        }
 
         manager.init();
 

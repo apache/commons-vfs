@@ -67,7 +67,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -77,23 +76,7 @@ import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponent;
 
 /**
- * A default file system manager implementation.  To use this class:
- * <ul>
- * <li>Create an instance of this class.
- * <li>Call {@link #setLogger} to set the logger that the manager, and its
- * components, should use (optional).
- * <li>Add one or more file providers using {@link #addProvider}.
- * <li>Set the default provider using {@link #setDefaultProvider} (optional).
- * <li>Set the file replicator using {@link #setReplicator} (optional).
- * <li>Set the temporary file store using {@link #setTemporaryFileStore} (optional).
- * <li>Set the base file using {@link #setBaseFile} (optional).
- * <li>Initialise the manager using {@link #init}.
- * </ul>
- *
- * <p>When finished with the manager, call its {@link #close} method to clean
- * up any resources it is using.
- *
- * @todo - Extract an AbstractFileSystemManager super-class from this class.
+ * A default file system manager implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.12 $ $Date: 2002/07/05 06:51:45 $
@@ -176,8 +159,7 @@ public class DefaultFileSystemManager
             final String scheme = urlSchemes[ i ];
             if ( providers.containsKey( scheme ) )
             {
-                final String message = Messages.getString( "vfs.impl/multiple-providers-for-scheme.warning", scheme );
-                getLog().warn( message );
+                throw new FileSystemException( "vfs.impl/multiple-providers-for-scheme.error", scheme );
             }
         }
 
@@ -195,6 +177,14 @@ public class DefaultFileSystemManager
         {
             localFileProvider = (LocalFileProvider)provider;
         }
+    }
+
+    /**
+     * Returns true if this manager has a provider for a particular scheme.
+     */
+    public boolean hasProvider( final String scheme )
+    {
+        return providers.containsKey( scheme );
     }
 
     /**
