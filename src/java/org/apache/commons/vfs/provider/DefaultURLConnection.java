@@ -80,7 +80,7 @@ public final class DefaultURLConnection
         }
         catch (FileSystemException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -92,7 +92,7 @@ public final class DefaultURLConnection
         }
         catch (FileSystemException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 
