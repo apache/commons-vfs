@@ -101,20 +101,4 @@ public class JarProviderTestCase
         final String uri = "jar:" + jarFile.getAbsolutePath() + "!/";
         return manager.resolveFile( uri );
     }
-
-    /**
-     * Verify the package loaded with class loader.
-     * If the provider supports attributes override this method.
-     */
-    protected boolean verifyPackage( Package pack )
-    {
-        return "code".equals( pack.getName() ) &&
-            "ImplTitle".equals( pack.getImplementationTitle() ) &&
-            "ImplVendor".equals( pack.getImplementationVendor() ) &&
-            "1.1".equals( pack.getImplementationVersion() ) &&
-            "SpecTitle".equals( pack.getSpecificationTitle() ) &&
-            "SpecVendor".equals( pack.getSpecificationVendor() ) &&
-            "1.0".equals( pack.getSpecificationVersion() ) &&
-            !pack.isSealed();
-    }
 }
