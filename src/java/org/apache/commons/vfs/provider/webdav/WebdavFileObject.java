@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.18 $ $Date: 2004/05/27 19:09:37 $
+ * @version $Revision: 1.19 $ $Date: 2004/05/28 19:26:05 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -136,9 +136,9 @@ public class WebdavFileObject
 
             setAllowedMethods(optionsMethod.getAllowedMethods());
             boolean exists = false;
-            for (Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements();)
+            for (Enumeration enumeration = optionsMethod.getAllowedMethods(); enumeration.hasMoreElements();)
             {
-                final String method = (String) enum.nextElement();
+                final String method = (String) enumeration.nextElement();
                 if (method.equals("GET"))
                 {
                     exists = true;
