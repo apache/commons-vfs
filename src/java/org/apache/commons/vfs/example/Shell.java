@@ -58,21 +58,24 @@ package org.apache.commons.vfs.example;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.StringTokenizer;
+import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileUtil;
-import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.VFS;
 
 /**
  * A simple command-line shell for performing file operations.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/03/17 09:07:55 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/28 10:49:21 $
  */
 public class Shell
 {
@@ -181,7 +184,7 @@ public class Shell
         System.out.println( "cd [folder]        Changes current folder." );
         System.out.println( "cp <src> <dest>    Copies a file or folder." );
         System.out.println( "help               Shows this message." );
-        System.out.println( "ls [-R] [folder]   Lists contents of a folder." );
+        System.out.println( "ls [-R] [path]     Lists contents of a file or folder." );
         System.out.println( "pwd                Displays current folder." );
         System.out.println( "rm <path>          Deletes a file or folder." );
         System.out.println( "touch <path>       Sets the last-modified time of a file." );
@@ -272,19 +275,32 @@ public class Shell
             recursive = false;
         }
 
-        final FileObject dir;
+        final FileObject file;
         if ( cmd.length > pos )
         {
-            dir = mgr.resolveFile( cwd, cmd[ pos ] );
+            file = mgr.resolveFile( cwd, cmd[ pos ] );
         }
         else
         {
-            dir = cwd;
+            file = cwd;
         }
 
-        // List the contents
-        System.out.println( "Contents of " + dir.getName() );
-        listChildren( dir, recursive, "" );
+        if ( file.getType() == FileType.FOLDER )
+        {
+            // List the contents
+            System.out.println( "Contents of " + file.getName() );
+            listChildren( file, recursive, "" );
+        }
+        else
+        {
+            // Stat the file
+            System.out.println( file.getName() );
+            final FileContent content = file.getContent();
+            System.out.println( "Size: " + content.getSize() + " bytes." );
+            final DateFormat dateFormat = DateFormat.getDateTimeInstance( DateFormat.MEDIUM, DateFormat.MEDIUM );
+            final String lastMod = dateFormat.format( new Date( content.getLastModifiedTime() ) );
+            System.out.println( "Last modified: " + lastMod );
+        }
     }
 
     /** Does a 'touch' command. */
