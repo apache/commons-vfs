@@ -28,7 +28,7 @@ import java.util.Date;
  * A simple that prints the properties of the file passed as first parameter.
  *
  * @author <a href="mailto:anthony@antcommander.com">Anthony Goubard</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/26 08:22:07 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/27 20:06:56 $
  */
 
 
@@ -72,7 +72,16 @@ public class ShowProperties
                     }
                     else if (file.getType().equals(FileType.FOLDER) && file.isReadable())
                     {
-                        System.out.println("Directory with " + file.getChildren().length + " files");
+                        FileObject[] children = file.getChildren();
+                        System.out.println("Directory with " + children.length + " files");
+                        for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
+                        {
+                            System.out.println("#" + iterChildren + ": " + children[iterChildren].getName());
+                            if (iterChildren > 5)
+                            {
+                                break;
+                            }
+                        }
                     }
                     System.out.println("Last modified: " + DateFormat.getInstance().format(new Date(file.getContent().getLastModifiedTime())));
                 }
