@@ -63,7 +63,7 @@ import org.apache.commons.vfs.NameScope;
  * A default file name implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:14 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/24 07:15:53 $
  */
 public abstract class AbstractFileName
     implements FileName
@@ -357,7 +357,7 @@ public abstract class AbstractFileName
             }
             else
             {
-                extension = baseName.substring( 0, pos );
+                extension = baseName.substring( pos+1 );
             }
         }
         return extension;
