@@ -55,37 +55,92 @@
  */
 package org.apache.commons.vfs.provider.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.test.AbstractProviderTestCase;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.AbstractVfsTestCase;
-import junit.framework.Test;
 import java.io.File;
 
 /**
- * Test cases for the virtual file system provider.
+ * Additional junction test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/25 05:50:03 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/25 05:50:03 $
  */
-public class VirtualProviderTestCase
-    extends AbstractProviderTestConfig
+public class JunctionTests
+    extends AbstractProviderTestCase
 {
-    public static Test suite() throws Exception
+    private FileObject getBaseDir() throws FileSystemException
     {
-        final ProviderTestSuite testSuite = new ProviderTestSuite( new VirtualProviderTestCase() );
-        testSuite.addTests( JunctionTests.class );
-        return testSuite;
+        final File file = AbstractVfsTestCase.getTestDirectory();
+        return getManager().toFileObject( file );
+    }
+    
+    /**
+     * Checks nested junctions are not supported.
+     */
+    public void testNestedJunction() throws Exception
+    {
+        final FileSystem fs = getManager().createFileSystem( "vfs:" ).getFileSystem();
+        final FileObject baseDir = getBaseDir();
+        fs.addJunction( "/a", baseDir );
+
+        // Nested
+        try
+        {
+            fs.addJunction( "/a/b", baseDir );
+            fail();
+        }
+        catch ( final Exception e )
+        {
+            assertSameMessage( "impl/nested-junction.error", "vfs:/a/b", e );
+        }
+
+        // At same point
+        try
+        {
+            fs.addJunction( "/a", baseDir );
+            fail();
+        }
+        catch ( final Exception e )
+        {
+            assertSameMessage( "impl/nested-junction.error", "vfs:/a", e );
+        }
     }
 
     /**
-     * Returns the base folder for tests.
+     * Checks ancestors are created when a junction is created.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public void testAncestors() throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        final FileObject baseFile = manager.toFileObject( baseDir );
-        return manager.createFileSystem( baseFile );
+        final FileSystem fs = getManager().createFileSystem( "vfs://" ).getFileSystem();
+        final FileObject baseDir = getBaseDir();
+
+        // Make sure the file at the junction point and its ancestors do not exist
+        FileObject file = fs.resolveFile( "/a/b" );
+        assertFalse( file.exists() );
+        file = file.getParent();
+        assertFalse( file.exists() );
+        file = file.getParent();
+        assertFalse( file.exists() );
+
+        // Add the junction
+        fs.addJunction( "/a/b", baseDir );
+
+        // Make sure the file at the junction point and its ancestors exist
+        file = fs.resolveFile( "/a/b" );
+        assertTrue( "Does not exist", file.exists() );
+        file = file.getParent();
+        assertTrue( "Does not exist", file.exists() );
+        file = file.getParent();
+        assertTrue( "Does not exist", file.exists() );
     }
+
+    // Check that file @ junction point exists only when backing file exists
+    // Add 2 junctions with common parent
+    // Compare real and virtual files
+    // Events
+    // Remove junctions
+
 }
