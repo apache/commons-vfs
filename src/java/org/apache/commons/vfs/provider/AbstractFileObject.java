@@ -24,7 +24,7 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.io.IOUtil;
+import org.apache.commons.io.IOUtil;
 
 /**
  * A partial file object implementation.

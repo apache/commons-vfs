@@ -7,10 +7,10 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
-import com.oroinc.net.ftp.FTP;
-import com.oroinc.net.ftp.FTPClient;
-import com.oroinc.net.ftp.FTPReply;
 import java.io.IOException;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;

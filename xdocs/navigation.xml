@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="VFS">
+
+  <title>VFS</title>
+  <organizationLogo href="/images/jakarta-logo-blue.gif">Jakarta</organizationLogo>
+
+  <body>
+    <menu name="Jelly">
+      <item name="Overview"                href="/index.html"/>
+      <item name="To Do List"              href="/todo.html"/>
+    </menu>
+  </body>
+</project>

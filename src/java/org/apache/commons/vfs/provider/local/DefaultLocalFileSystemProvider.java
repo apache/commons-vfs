@@ -8,9 +8,9 @@
 package org.apache.commons.vfs.provider.local;
 
 import java.io.File;
-import org.apache.aut.nativelib.Os;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.nativelib.Os;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileSystem;
