@@ -61,6 +61,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -142,10 +143,25 @@ final class FtpFileObject
         final FTPClient client = ftpFs.getClient();
         try
         {
-            children = client.listFiles( relPath );
-            if ( children == null )
+            final FTPFile[] tmpChildren = client.listFiles( relPath );
+            if ( tmpChildren == null || tmpChildren.length == 0 )
             {
                 children = EMPTY_FTP_FILE_ARRAY;
+            }
+            else
+            {
+                // Remove '.' and '..' elements
+                final ArrayList childList = new ArrayList();
+                for ( int i = 0; i < tmpChildren.length; i++ )
+                {
+                    final FTPFile child = tmpChildren[ i ];
+                    if ( ! child.getName().equals( "." )
+                         && !child.getName().equals( ".." ) )
+                    {
+                        childList.add( child );
+                    }
+                }
+                children = (FTPFile[])childList.toArray( new FTPFile[ childList.size() ] );
             }
         }
         finally
