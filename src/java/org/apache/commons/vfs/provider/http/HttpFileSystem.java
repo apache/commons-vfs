@@ -34,7 +34,7 @@ import java.util.Collection;
  * An HTTP file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/14 18:38:35 $
  */
 public class HttpFileSystem
     extends AbstractFileSystem
@@ -72,10 +72,27 @@ public class HttpFileSystem
             client = new HttpClient(new MultiThreadedHttpConnectionManager());
             final HostConfiguration config = new HostConfiguration();
             config.setHost(rootName.getHostName(), rootName.getPort());
+
+            FileSystemOptions fso = getFileSystemOptions();
+            if (fso != null)
+            {
+                String proxyHost = HttpFileSystemConfigBuilder.getInstance().getProxyHost(fso);
+                int proxyPort = HttpFileSystemConfigBuilder.getInstance().getProxyPort(fso);
+
+                if (proxyHost != null && proxyPort > 0)
+                {
+                    config.setProxy(proxyHost, proxyPort);
+                }
+            }
+
             client.setHostConfiguration(config);
-            final UsernamePasswordCredentials creds =
-                new UsernamePasswordCredentials(rootName.getUserName(), rootName.getPassword());
-            client.getState().setCredentials(null, rootName.getHostName(), creds);
+
+            if (rootName.getUserName() != null)
+            {
+                final UsernamePasswordCredentials creds =
+                    new UsernamePasswordCredentials(rootName.getUserName(), rootName.getPassword());
+                client.getState().setCredentials(null, rootName.getHostName(), creds);
+            }
         }
         return client;
     }
