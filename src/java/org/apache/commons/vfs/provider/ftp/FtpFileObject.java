@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -111,7 +110,7 @@ final class FtpFileObject
             return;
         }
 
-        final FTPClient client = ftpFs.getClient();
+        final FtpClient client = ftpFs.getClient();
         try
         {
             String key = FtpFileSystemConfigBuilder.getInstance().getEntryParser(getFileSystem().getFileSystemOptions());
@@ -127,8 +126,8 @@ final class FtpFileObject
                 for (int i = 0; i < tmpChildren.length; i++)
                 {
                     final FTPFile child = tmpChildren[i];
-                    if (!child.getName().equals(".")
-                        && !child.getName().equals(".."))
+                    if (!".".equals(child.getName())
+                        && !"..".equals(child.getName()))
                     {
                         childList.add(child);
                     }
@@ -275,7 +274,7 @@ final class FtpFileObject
     protected void doDelete() throws Exception
     {
         final boolean ok;
-        final FTPClient ftpClient = ftpFs.getClient();
+        final FtpClient ftpClient = ftpFs.getClient();
         try
         {
             if (fileInfo.isDirectory())
@@ -306,7 +305,7 @@ final class FtpFileObject
     protected void doRename(FileObject newfile) throws Exception
     {
         final boolean ok;
-        final FTPClient ftpClient = ftpFs.getClient();
+        final FtpClient ftpClient = ftpFs.getClient();
         try
         {
             String oldName = getName().getPath();
@@ -333,7 +332,7 @@ final class FtpFileObject
         throws Exception
     {
         final boolean ok;
-        final FTPClient client = ftpFs.getClient();
+        final FtpClient client = ftpFs.getClient();
         try
         {
             ok = client.makeDirectory(relPath);
@@ -415,7 +414,7 @@ final class FtpFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        final FTPClient client = ftpFs.getClient();
+        final FtpClient client = ftpFs.getClient();
         final InputStream instr = client.retrieveFileStream(relPath);
         return new FtpInputStream(client, instr);
     }
@@ -426,7 +425,7 @@ final class FtpFileObject
     protected OutputStream doGetOutputStream(boolean bAppend)
         throws Exception
     {
-        final FTPClient client = ftpFs.getClient();
+        final FtpClient client = ftpFs.getClient();
         if (bAppend)
         {
             return new FtpOutputStream(client, client.appendFileStream(relPath));
@@ -443,9 +442,9 @@ final class FtpFileObject
     private class FtpInputStream
         extends MonitorInputStream
     {
-        private final FTPClient client;
+        private final FtpClient client;
 
-        public FtpInputStream(final FTPClient client, final InputStream in)
+        public FtpInputStream(final FtpClient client, final InputStream in)
         {
             super(in);
             this.client = client;
@@ -479,9 +478,9 @@ final class FtpFileObject
     private class FtpOutputStream
         extends MonitorOutputStream
     {
-        private final FTPClient client;
+        private final FtpClient client;
 
-        public FtpOutputStream(final FTPClient client, final OutputStream outstr)
+        public FtpOutputStream(final FtpClient client, final OutputStream outstr)
         {
             super(outstr);
             this.client = client;

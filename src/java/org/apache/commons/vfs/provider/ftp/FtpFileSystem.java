@@ -17,7 +17,6 @@ package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -46,9 +45,9 @@ final class FtpFileSystem
 //    private final String password;
 
     // An idle client
-    private FTPClient idleClient;
+    private FtpClient idleClient;
 
-    public FtpFileSystem(final GenericFileName rootName, final FTPClient ftpClient, final FileSystemOptions fileSystemOptions)
+    public FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
         // hostname = rootName.getHostName();
@@ -63,6 +62,7 @@ final class FtpFileSystem
         if (idleClient != null)
         {
             closeConnection(idleClient);
+            idleClient = null;
         }
     }
 
@@ -77,7 +77,7 @@ final class FtpFileSystem
     /**
      * Cleans up the connection to the server.
      */
-    private void closeConnection(final FTPClient client)
+    private void closeConnection(final FtpClient client)
     {
         try
         {
@@ -97,10 +97,13 @@ final class FtpFileSystem
     /**
      * Creates an FTP client to use.
      */
-    public FTPClient getClient() throws FileSystemException
+    public FtpClient getClient() throws FileSystemException
     {
-        if (idleClient == null)
+        if (idleClient == null || !idleClient.isConnected())
         {
+            idleClient = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
+            return idleClient;
+            /*
             final GenericFileName rootName = (GenericFileName) getRoot().getName();
 
             return FtpClientFactory.createConnection(rootName.getHostName(),
@@ -109,11 +112,11 @@ final class FtpFileSystem
                 rootName.getPassword(),
                 rootName.getPath(),
                 getFileSystemOptions());
-            // return createConnection();
+            */
         }
         else
         {
-            final FTPClient client = idleClient;
+            final FtpClient client = idleClient;
             idleClient = null;
             return client;
         }
@@ -122,7 +125,7 @@ final class FtpFileSystem
     /**
      * Returns an FTP client after use.
      */
-    public void putClient(final FTPClient client)
+    public void putClient(final FtpClient client)
     {
         if (idleClient == null)
         {

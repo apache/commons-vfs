@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
@@ -33,7 +32,7 @@ import java.util.Collections;
  * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/08/26 16:37:55 $
+ * @version $Revision: 1.11 $ $Date: 2004/10/18 18:20:39 $
  */
 public final class FtpFileProvider
     extends AbstractOriginatingFileProvider
@@ -80,12 +79,15 @@ public final class FtpFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
+        FTPClientWrapper ftpClient = new FTPClientWrapper(rootName, fileSystemOptions);
+        /*
         FTPClient ftpClient = FtpClientFactory.createConnection(rootName.getHostName(),
             rootName.getPort(),
             rootName.getUserName(),
             rootName.getPassword(),
             rootName.getPath(),
             fileSystemOptions);
+        */
 
         return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
     }
