@@ -114,7 +114,8 @@ final class FtpFileObject
         final FTPClient client = ftpFs.getClient();
         try
         {
-            final FTPFile[] tmpChildren = client.listFiles(relPath);
+            String key = FtpFileSystemConfigBuilder.getInstance().getFTPFileEntryParserFactoryKey(getFileSystem().getFileSystemOptions());
+            final FTPFile[] tmpChildren = client.listFiles(key, relPath);
             if (tmpChildren == null || tmpChildren.length == 0)
             {
                 children = EMPTY_FTP_FILE_ARRAY;

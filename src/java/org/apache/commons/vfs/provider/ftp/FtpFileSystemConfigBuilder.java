@@ -23,11 +23,13 @@ import org.apache.commons.vfs.FileSystemOptions;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.5 $ $Date: 2004/08/26 16:37:55 $
+ * @version $Revision: 1.6 $ $Date: 2004/09/19 18:23:48 $
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private final static FtpFileSystemConfigBuilder builder = new FtpFileSystemConfigBuilder();
+
+    private final static String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
 
     public static FtpFileSystemConfigBuilder getInstance()
     {
@@ -38,14 +40,47 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
     }
 
+    /**
+     * FTPFileEntryParserFactory which will be used for ftp-entry parsing
+     *
+     * @param opts
+     * @param factory instance of your factory
+     */
     public void setFTPFileEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
     {
         setParam(opts, FTPFileEntryParserFactory.class.getName(), factory);
     }
 
+    /**
+     * @param opts
+     * @return
+     * @see #setFTPFileEntryParserFactory
+     */
     public FTPFileEntryParserFactory getFTPFileEntryParserFactory(FileSystemOptions opts)
     {
         return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
+    }
+
+    /**
+     * set the key for using as argument to FTPFileEntryParserFactory.<br />
+     * If you use the default implementation in commons-net and you set a FQCN, this class will be instantiated and used for ftp-entry parsing.<br />
+     *
+     * @param opts
+     * @param key
+     */
+    public void setFTPFileEntryParserFactoryKey(FileSystemOptions opts, String key)
+    {
+        setParam(opts, FACTORY_KEY, key);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setFTPFileEntryParserFactoryKey
+     */
+    public String getFTPFileEntryParserFactoryKey(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, FACTORY_KEY);
     }
 
     protected Class getConfigClass()
