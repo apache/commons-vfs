@@ -28,6 +28,8 @@
                         <li>cvs</li>
                         <li>subversion</li>
                         <li>scp</li>
+                        <li>jdbc filesystem</li>
+                        <li>xml filesystem</li>
                         <li>jndi</li>
                         <li>imap</li>
                         <li>...</li>
@@ -89,6 +91,7 @@
                     file monitoring, faster moves, etc.  Must be optional - the
                     thing should still build and run without the native code.
                 </li>
+                <li>Add a DefaultFileSystemManager subclass that is an Avalon component.</li>
             </ul>
         </section>
     </body>
