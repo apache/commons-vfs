@@ -35,6 +35,17 @@
         </developer>
     </developers>
 
+    <contributors>
+        <contributor>
+            <name>Rami Ojares</name>
+            <email>rami.ojares -at- elisa.fi</email>
+        </contributor>
+        <contributor>
+            <name>Anthony Goubard</name>
+            <email>adagoubard -at- chello.nl</email>
+        </contributor>
+    </contributors>
+
     <dependencies>
         <dependency>
             <groupId>ant</groupId>
