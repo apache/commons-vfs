@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,12 +39,14 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.16 $ $Date: 2004/05/23 18:34:33 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/26 08:24:51 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -53,6 +55,7 @@ public class WebdavFileObject
     private final WebDavFileSystem fileSystem;
     private WebdavResource resource;
     private boolean redirectionResolved = false;
+    private Set allowedMethods = null;
     // private HttpURL url;
 
     public WebdavFileObject(final GenericFileName name,
@@ -77,6 +80,10 @@ public class WebdavFileObject
     {
         if (resource != null)
         {
+            // clear cached data
+            redirectionResolved = false;
+            allowedMethods = null;
+
             resource.close();
             resource = null;
         }
@@ -109,6 +116,8 @@ public class WebdavFileObject
             {
                 if (status == 401 || status == 403)
                 {
+                    setAllowedMethods(null);
+
                     // System.err.println("process on " + System.identityHashCode(this));
                     // permission denied on this object, but we might get some informations from the parent
                     processParentDavResource();
@@ -125,6 +134,7 @@ public class WebdavFileObject
             redirectionResolved = true;
             resource.getHttpURL().setPath(optionsMethod.getPath());
 
+            setAllowedMethods(optionsMethod.getAllowedMethods());
             boolean exists = false;
             for (Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements();)
             {
@@ -162,6 +172,31 @@ public class WebdavFileObject
         }
     }
 
+    private void setAllowedMethods(Enumeration allowedMethods)
+    {
+        this.allowedMethods = new TreeSet();
+
+        if (allowedMethods == null)
+        {
+            return;
+        }
+
+        while (allowedMethods.hasMoreElements())
+        {
+            this.allowedMethods.add(allowedMethods.nextElement());
+        }
+    }
+
+    private boolean hasAllowedMethods(String method) throws IOException
+    {
+        if (allowedMethods == null)
+        {
+            getAllowedMethods();
+        }
+
+        return allowedMethods.contains(method);
+    }
+
     private void resolveRedirection() throws IOException, FileSystemException
     {
         if (redirectionResolved)
@@ -174,6 +209,7 @@ public class WebdavFileObject
         final int status = fileSystem.getClient().executeMethod(optionsMethod);
         if (status >= 200 && status <= 299)
         {
+            setAllowedMethods(optionsMethod.getAllowedMethods());
             resource.getHttpURL().setPath(optionsMethod.getPath());
             redirectionResolved = true;
         }
@@ -338,6 +374,8 @@ public class WebdavFileObject
      */
     protected FileObject[] doListChildrenResolved() throws Exception
     {
+        doAttach();
+
         WebdavResource[] children = new org.apache.webdav.lib.WebdavResource[0];
         try
         {
@@ -387,6 +425,9 @@ public class WebdavFileObject
         {
             throw new FileSystemException("vfs.provider.webdav/create-collection.error", resource.getStatusMessage());
         }
+
+        // reread allowed methods
+        allowedMethods = null;
     }
 
     /**
@@ -399,6 +440,9 @@ public class WebdavFileObject
         {
             throw new FileSystemException("vfs.provider.webdav/delete-file.error", resource.getStatusMessage());
         }
+
+        // reread allowed methods
+        allowedMethods = null;
     }
 
     /**
@@ -406,11 +450,19 @@ public class WebdavFileObject
      */
     protected void doRename(FileObject newfile) throws Exception
     {
+        // final GenericFileName name = (GenericFileName) newfile.getName();
+        // HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), newfile.getName().getPath());
+        // String uri = url.getURI();
+        // System.err.println(resource.getHttpURL().getPath());
+
         final boolean ok = resource.moveMethod(newfile.getName().getPath());
         if (!ok)
         {
             throw new FileSystemException("vfs.provider.webdav/rename-file.error", resource.getStatusMessage());
         }
+
+        // reread allowed methods
+        allowedMethods = null;
     }
 
     /**
@@ -464,6 +516,9 @@ public class WebdavFileObject
             {
                 throw new FileSystemException("vfs.provider.webdav/write-file.error", resource.getStatusMessage());
             }
+
+            // reread allowed methods
+            allowedMethods = null;
         }
     }
 
@@ -495,5 +550,39 @@ public class WebdavFileObject
         }
 
         return attributes;
+    }
+
+    protected boolean doIsReadable() throws Exception
+    {
+        return hasAllowedMethods("GET");
+    }
+
+    protected boolean doIsWriteable() throws Exception
+    {
+        return hasAllowedMethods("POST");
+    }
+
+    private void getAllowedMethods() throws IOException
+    {
+        if (allowedMethods != null)
+        {
+            return;
+        }
+
+        final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
+        optionsMethod.setFollowRedirects(true);
+        final int status = fileSystem.getClient().executeMethod(optionsMethod);
+        if (status < 200 || status > 299)
+        {
+            if (status == 401 || status == 403)
+            {
+                setAllowedMethods(null);
+                return;
+            }
+        }
+
+        setAllowedMethods(optionsMethod.getAllowedMethods());
+
+        return;
     }
 }
