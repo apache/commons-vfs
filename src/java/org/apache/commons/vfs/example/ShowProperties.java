@@ -28,7 +28,7 @@ import java.util.Date;
  * A simple that prints the properties of the file passed as first parameter.
  *
  * @author <a href="mailto:anthony@antcommander.com">Anthony Goubard</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/25 08:05:55 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/26 08:22:07 $
  */
 
 
@@ -60,14 +60,17 @@ public class ShowProperties
                 System.out.println("Root URI: " + file.getName().getRootURI());
                 System.out.println("Parent: " + file.getName().getParent());
                 System.out.println("Type: " + file.getType());
+                System.out.println("Exists: " + file.exists());
+                System.out.println("Readable: " + file.isReadable());
+                System.out.println("Writeable: " + file.isWriteable());
                 System.out.println("Root path: " + file.getFileSystem().getRoot().getName().getPath());
-                if (file.exists() && file.isReadable())
+                if (file.exists())
                 {
                     if (file.getType().equals(FileType.FILE))
                     {
                         System.out.println("Size: " + file.getContent().getSize() + " bytes");
                     }
-                    else if (file.getType().equals(FileType.FOLDER))
+                    else if (file.getType().equals(FileType.FOLDER) && file.isReadable())
                     {
                         System.out.println("Directory with " + file.getChildren().length + " files");
                     }
