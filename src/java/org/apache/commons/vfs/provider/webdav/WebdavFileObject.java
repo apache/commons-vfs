@@ -22,13 +22,13 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.util.MonitorOutputStream;
-import org.apache.util.HttpURL;
 import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.WebdavResource;
 import org.apache.webdav.lib.methods.DepthSupport;
@@ -39,7 +39,7 @@ import org.apache.webdav.lib.methods.XMLResponseMethodBase;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.12 $ $Date: 2004/03/03 07:05:35 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
