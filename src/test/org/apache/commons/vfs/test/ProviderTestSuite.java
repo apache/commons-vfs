@@ -75,7 +75,8 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2003/10/13 08:42:27 $
+ * @author Gary D. Gregory
+ * @version $Id: ProviderTestSuite.java,v 1.14 2003/12/01 01:02:08 ggregory Exp $
  */
 public class ProviderTestSuite
     extends TestSetup
@@ -196,7 +197,7 @@ public class ProviderTestSuite
         writeFolder = baseFolder.resolveFile( "write-tests" );
 
         // Make some assumptions about the read folder
-        assertTrue( readFolder.exists() );
+        assertTrue( "Folder does not exist: " + readFolder, readFolder.exists() );
         assertFalse( readFolder.getName().getPath().equals( FileName.ROOT_PATH ) );
 
         // Configure the tests
