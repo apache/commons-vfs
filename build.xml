@@ -53,7 +53,7 @@
 
   </target>
     
-  <target name="jar" description="o Create the jar" depends="compile,test">
+  <target name="jar" description="o Create the jar" depends="compile,compile-tests">
 
     <jar jarfile="target/${final.name}.jar" excludes="**/package.html" basedir="${classesdir}"></jar>
 
@@ -81,7 +81,7 @@
         <fileset dir="lib">
           <include name="*.jar"></include>
         </fileset>
-        <pathelement location="target/${final.name}.jar"></pathelement>
+        <pathelement location="${classesdir}"></pathelement>
         <pathelement path="${testclassesdir}"></pathelement>
       </classpath>
       <batchtest todir="${testreportdir}">
@@ -107,7 +107,7 @@
         <fileset dir="lib">
           <include name="*.jar"></include>
         </fileset>
-        <pathelement location="target/${final.name}.jar"></pathelement>
+        <pathelement location="${classesdir}"></pathelement>
       </classpath>
     </javac>
 
