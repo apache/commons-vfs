@@ -173,9 +173,6 @@ for ( int i = 0; i < children.length; i++ )
                     <li>An optional
                         <code>&lt;default-provider&gt;</code> element.
                     </li>
-                    <li>An optional
-                        <code>&lt;files-cache&gt;</code> element.
-                    </li>
                     <li>Zero or more
                         <code>&lt;extension-map&gt;</code> elements.
                     </li>
@@ -234,21 +231,6 @@ for ( int i = 0; i < children.length; i++ )
                     <code>&lt;default-provider&gt;</code> element defines
                     the default provider.  It has the same format as the
                     <code>&lt;provider&gt;</code> element.
-                </p>
-
-                <p>
-                    <b>
-                        <code>&lt;files-cache&gt;</code>
-                    </b>
-                </p>
-                <p>
-                    The
-                    <code>&lt;files-cache&gt;</code> element defines
-                    the cache implementation to use. It must have a
-                    <code>class-name</code> attribute,
-                    which specifies the fully-qualified name of the cache
-                    class.  The cache class must be public, and must have a
-                    public no-args constructor.
                 </p>
 
                 <p>

@@ -1,6 +1,5 @@
 <providers>
     <default-provider class-name="org.apache.commons.vfs.provider.url.UrlFileProvider"/>
-    <files-cache class-name="org.apache.commons.vfs.cache.DefaultFilesCache"/>
     <provider class-name="org.apache.commons.vfs.provider.local.DefaultLocalFileProvider">
         <scheme name="file"/>
     </provider>

@@ -194,4 +194,9 @@ public interface FileSystemManager
      * Get the cache used to cache fileobjects.
      */
     FilesCache getFilesCache();
+
+    /**
+     * Get the global configuration
+     */
+    GlobalConfiguration getGlobalConfiguration();
 }

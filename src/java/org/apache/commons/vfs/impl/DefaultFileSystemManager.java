@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
-import org.apache.commons.vfs.cache.DefaultFilesCache;
+import org.apache.commons.vfs.GlobalConfiguration;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -94,7 +94,7 @@ public class DefaultFileSystemManager
     private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
     private boolean init;
 
-    private FilesCache filesCache;
+    private GlobalConfiguration globalConfiguration = null;
 
     /**
      * Returns the logger used by this manager.
@@ -203,18 +203,26 @@ public class DefaultFileSystemManager
 
     /**
      * Sets the filesCache implementation used to cache files.<br>
-     * If you do not set the FilesCache, after {@link #init} the {@link DefaultFilesCache} will automatically be set.
      *
      * @see org.apache.commons.vfs.FilesCache
      */
-    public void setFilesCache(FilesCache cache) throws FileSystemException
+    public void setGlobalConfiguration(GlobalConfiguration globalConfiguration) throws FileSystemException
     {
-        if (this.filesCache != null)
+        if (this.globalConfiguration != null)
         {
-            throw new FileSystemException("vfs.impl/cache-already-set.error");
+            throw new FileSystemException("vfs.impl/configuration-already-set.error");
         }
 
-        this.filesCache = cache;
+        this.globalConfiguration = globalConfiguration;
+    }
+
+
+    /**
+     * returns the global configuration
+     */
+    public GlobalConfiguration getGlobalConfiguration()
+    {
+        return globalConfiguration;
     }
 
     /**
@@ -222,7 +230,7 @@ public class DefaultFileSystemManager
      */
     public FilesCache getFilesCache()
     {
-        return this.filesCache;
+        return this.globalConfiguration.getFilesCache();
     }
 
     /**
@@ -325,13 +333,13 @@ public class DefaultFileSystemManager
      */
     public void init() throws FileSystemException
     {
-        setupComponent(vfsProvider);
-
-        if (getFilesCache() == null)
+        if (globalConfiguration == null)
         {
-            // set the cache to the DefaultFilesCache for backward compatibility
-            setFilesCache(new DefaultFilesCache());
+            globalConfiguration = new GlobalConfiguration();
         }
+        globalConfiguration.init();
+
+        setupComponent(vfsProvider);
 
         init = true;
     }
@@ -361,9 +369,9 @@ public class DefaultFileSystemManager
 
         components.clear();
         providers.clear();
-        if (filesCache != null)
+        if (this.globalConfiguration.getFilesCache() != null)
         {
-            filesCache.clear();
+            this.globalConfiguration.getFilesCache().clear();
         }
         localFileProvider = null;
         defaultProvider = null;
