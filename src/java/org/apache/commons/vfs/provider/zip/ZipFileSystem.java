@@ -158,7 +158,7 @@ public class ZipFileSystem
         }
         catch ( IOException ioe )
         {
-            throw new FileSystemException( "vfs.provider.zip/open-zip-file.error", new Object[]{file}, ioe );
+            throw new FileSystemException( "vfs.provider.zip/open-zip-file.error", file, ioe );
         }
     }
 

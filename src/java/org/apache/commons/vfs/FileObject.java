@@ -84,7 +84,7 @@ import java.util.List;
  *
  * <h4>Creating and Deleting a File</h4>
  *
- * <p>A file is created using either {@link #createFolder}, {@link #create},
+ * <p>A file is created using either {@link #createFolder}, {@link #createFile},
  * or by writing to the file using one of the {@link FileContent} methods.
  *
  * <p>A file is deleted using {@link #delete}.  Recursive deletion can be

@@ -62,7 +62,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 /**
- * A SMB file system.
+ * An SMB file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:19 $
