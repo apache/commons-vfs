@@ -72,7 +72,7 @@ import org.apache.commons.vfs.NameScope;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/25 05:51:15 $
  */
 public class ProviderReadTests
     extends AbstractProviderTestCase
@@ -524,15 +524,17 @@ public class ProviderReadTests
         base.addChild( "empty.txt", FileType.FILE );
         base.addChild( "emptydir", FileType.FOLDER );
 
-        final FileInfo dir = new FileInfo( "dir1", FileType.FOLDER );
-        base.addChild( dir );
+        final FileInfo dir = base.addChild( "dir1", FileType.FOLDER );
         dir.addChild( "file1.txt", FileType.FILE );
         dir.addChild( "file2.txt", FileType.FILE );
         dir.addChild( "file3.txt", FileType.FILE );
 
-        final FileInfo code = new FileInfo( "code", FileType.FOLDER );
-        base.addChild( code );
+        final FileInfo code = base.addChild( "code", FileType.FOLDER );
         code.addChild( "ClassToLoad.class", FileType.FILE );
+
+        final FileInfo sealed = code.addChild( "sealed", FileType.FOLDER );
+        sealed.addChild( "AnotherClass.class", FileType.FILE );
+        
         return base;
     }
 

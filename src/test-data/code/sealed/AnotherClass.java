@@ -53,55 +53,14 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.test;
-
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.vfs.FileType;
+package code.sealed;
 
 /**
- * Info about a file.
+ * A test class for the ClassLoader tests.
+ *
+ * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/11/25 05:51:15 $
  */
-class FileInfo
+public class AnotherClass
 {
-    String baseName;
-    FileType type;
-    Map children = new HashMap();
-    FileInfo parent;
-
-    public FileInfo( final String name, final FileType type )
-    {
-        baseName = name;
-        this.type = type;
-    }
-
-    public FileInfo getParent()
-    {
-        return parent;
-    }
-
-    /** Adds a child. */
-    public void addChild( final FileInfo child )
-    {
-        children.put( child.baseName, child );
-        child.parent = this;
-    }
-
-    /** Adds a child. */
-    public FileInfo addChild( final String baseName, final FileType type )
-    {
-        final FileInfo child = new FileInfo( baseName, type );
-        addChild( child );
-        return child;
-    }
-
-    /** Adds a bunch of children. */
-    public void addChildren( final String[] baseNames, final FileType type )
-    {
-        for ( int i = 0; i < baseNames.length; i++ )
-        {
-            String baseName = baseNames[ i ];
-            addChild( new FileInfo( baseName, type ) );
-        }
-    }
 }
