@@ -59,7 +59,7 @@ package org.apache.commons.vfs;
  * An enumerated type representing the capabilities of files and file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/25 05:37:13 $
+ * @version $Revision: 1.3 $ $Date: 2003/01/23 04:37:22 $
  */
 public final class Capability
 {
@@ -78,13 +78,16 @@ public final class Capability
     /** File content signing is supported. */
     public static final Capability SIGNING = new Capability( "SIGNING" );
 
-    /** File can be created. */
+    /** Files can be created. */
     public static final Capability CREATE = new Capability( "CREATE" );
 
-    /** File can be deleted. */
+    /** Files can be deleted. */
     public static final Capability DELETE = new Capability( "DELETE" );
 
-    /** Children of file can be listed. */
+    /** The file type can be determined. */
+    public static final Capability GET_TYPE = new Capability( "GET_TYPE" );
+
+    /** Children of files can be listed. */
     public static final Capability LIST_CHILDREN = new Capability( "LIST_CHILDREN" );
 
     /**

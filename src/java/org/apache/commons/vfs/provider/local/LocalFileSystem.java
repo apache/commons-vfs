@@ -103,6 +103,7 @@ public final class LocalFileSystem
     {
         caps.add( Capability.CREATE );
         caps.add( Capability.DELETE );
+        caps.add( Capability.GET_TYPE );
         caps.add( Capability.LAST_MODIFIED );
         caps.add( Capability.LIST_CHILDREN );
         caps.add( Capability.READ_CONTENT );

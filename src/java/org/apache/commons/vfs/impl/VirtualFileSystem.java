@@ -72,7 +72,7 @@ import org.apache.commons.vfs.provider.DelegateFileObject;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:52 $
+ * @version $Revision: 1.4 $ $Date: 2003/01/23 04:37:22 $
  *
  * @todo Handle nested junctions.
  */
@@ -95,6 +95,7 @@ public class VirtualFileSystem
         caps.add( Capability.ATTRIBUTES );
         caps.add( Capability.CREATE );
         caps.add( Capability.DELETE );
+        caps.add( Capability.GET_TYPE );
         caps.add( Capability.JUNCTIONS );
         caps.add( Capability.LAST_MODIFIED );
         caps.add( Capability.LIST_CHILDREN );
