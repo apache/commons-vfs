@@ -41,7 +41,13 @@
                         Jakarta
                         <a href="http://jakarta.apache.org/commons/net/">Commons Net</a> Version 1.2.1 or later.
                     </td>
-                    <td>FTP</td>
+                    <td rowspan="2">FTP</td>
+                </tr>
+                <tr>
+                    <td>
+                        Jakarta
+                        <a href="http://jakarta.apache.org/oro/">ORO</a> Version 2.0.8
+                    </td>
                 </tr>
                 <tr>
                     <td>

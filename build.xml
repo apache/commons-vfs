@@ -202,5 +202,7 @@
         </get>
         <get dest="${libdir}/xml-apis-1.0.b2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-1.0.b2.jar">
         </get>
+        <get dest="${libdir}/oro-2.0.8.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/oro/jars/oro-2.0.8.jar">
+        </get>
     </target>
 </project>
