@@ -24,6 +24,7 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.util.Os;
 
 import java.io.File;
+import java.util.Properties;
 
 /**
  * Create a HttpClient instance
@@ -125,14 +126,37 @@ public class SftpClientFactory
         try
         {
             session = jsch.getSession(username,
-                hostname,
-                port);
+                    hostname,
+                    port);
             session.setPassword(password);
 
             UserInfo userInfo = SftpFileSystemConfigBuilder.getInstance().getUserInfo(fileSystemOptions);
             if (userInfo != null)
             {
                 session.setUserInfo(userInfo);
+            }
+
+            Properties config = new Properties();
+
+            //set StrictHostKeyChecking property
+            String strictHostKeyChecking = SftpFileSystemConfigBuilder.getInstance().getStrictHostKeyChecking(fileSystemOptions);
+            if (strictHostKeyChecking != null)
+            {
+                config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
+            }
+
+            //set compression property
+            String compression = SftpFileSystemConfigBuilder.getInstance().getCompression(fileSystemOptions);
+            if (compression != null)
+            {
+                config.setProperty("compression.s2c", strictHostKeyChecking);
+                config.setProperty("compression.c2s", strictHostKeyChecking);
+            }
+
+            //set properties for the session
+            if (config.size() > 0)
+            {
+                session.setConfig(config);
             }
 
             session.connect();

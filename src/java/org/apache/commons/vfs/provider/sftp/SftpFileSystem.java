@@ -28,7 +28,6 @@ import org.apache.commons.vfs.provider.GenericFileName;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Hashtable;
 
 /**
  * Represents the files on an SFTP server.
@@ -85,24 +84,6 @@ public class SftpFileSystem
                     rootName.getUserName(),
                     rootName.getPassword(),
                     getFileSystemOptions());
-
-                Hashtable config = null;
-
-                String compression = SftpFileSystemConfigBuilder.getInstance().getCompression(getFileSystemOptions());
-                if (compression != null)
-                {
-                    if (config == null)
-                    {
-                        config = new Hashtable();
-                    }
-                    config.put("compression.c2s", compression);
-                    config.put("compression.s2c", compression);
-                }
-
-                if (config != null)
-                {
-                    session.setConfig(config);
-                }
             }
             catch (final Exception e)
             {

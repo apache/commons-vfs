@@ -131,6 +131,35 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return (File[]) getParam(opts, "identities");
     }
 
+    /**
+     * configure the host key checking to use.<br>
+     * valid arguments are only yes, no and ask.<br>
+     * See the jsch documentation for details.
+     *
+     * @param opts
+     * @param hostKeyChecking
+     * @throws FileSystemException
+     */
+    public void setStrictHostKeyChecking(FileSystemOptions opts, String hostKeyChecking) throws FileSystemException
+    {
+        if (hostKeyChecking == null || (!hostKeyChecking.equals("ask") && !hostKeyChecking.equals("no") && !hostKeyChecking.equals("yes")))
+        {
+            throw new FileSystemException("vfs.provider.sftp/StrictHostKeyChecking-arg.error", hostKeyChecking);
+        }
+
+        setParam(opts, "StrictHostKeyChecking", hostKeyChecking);
+    }
+
+    /**
+     * @param opts
+     * @return the option value
+     * @see #setStrictHostKeyChecking(FileSystemOptions, String)
+     */
+    public String getStrictHostKeyChecking(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, "StrictHostKeyChecking");
+    }
+
     protected Class getConfigClass()
     {
         return SftpFileSystem.class;
