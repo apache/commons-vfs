@@ -79,7 +79,7 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:55 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/25 05:46:18 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
@@ -103,14 +103,6 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
-     * Returns the provider config for this test.
-     */
-    public ProviderTestConfig getProviderConfig()
-    {
-        return providerConfig;
-    }
-
-    /**
      * Returns the file system manager used by this test.
      */
     protected DefaultFileSystemManager getManager()
@@ -119,7 +111,7 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
-     * Returns the read test folder.
+     * Returns the read test folder.  Asserts that the read folder exists.
      */
     protected FileObject getReadFolder()
     {
@@ -164,23 +156,18 @@ public abstract class AbstractProviderTestCase
         manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
         manager.setTemporaryFileStore( replicator );
 
-        if ( providerConfig != null )
-        {
-            providerConfig.prepare( manager );
-        }
+        providerConfig.prepare( manager );
 
         manager.init();
 
-        if ( providerConfig != null )
-        {
-            // Locate the base folder
-            final FileObject baseFolder = providerConfig.getBaseTestFolder( manager );
-            readFolder = baseFolder.resolveFile( "read-tests" );
-            writeFolder = baseFolder.resolveFile( "write-tests" );
+        // Locate the base folder
+        final FileObject baseFolder = providerConfig.getBaseTestFolder( manager );
+        readFolder = baseFolder.resolveFile( "read-tests" );
+        writeFolder = baseFolder.resolveFile( "write-tests" );
 
-            // Make some assumptions about the name
-            assertFalse( readFolder.getName().getPath().equals( FileName.ROOT_PATH ) );
-        }
+        // Make some assumptions about the read folder
+        assertTrue( readFolder.exists() );
+        assertFalse( readFolder.getName().getPath().equals( FileName.ROOT_PATH ) );
     }
 
     /**
