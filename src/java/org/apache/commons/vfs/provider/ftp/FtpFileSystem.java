@@ -84,7 +84,6 @@ final class FtpFileSystem
     private FTPClient idleClient;
 
     public FtpFileSystem( final GenericFileName rootName )
-        throws FileSystemException
     {
         super( rootName, null );
         hostname = rootName.getHostName();
@@ -129,6 +128,7 @@ final class FtpFileSystem
         caps.add( Capability.GET_TYPE );
         caps.add( Capability.LIST_CHILDREN );
         caps.add( Capability.READ_CONTENT );
+        caps.add( Capability.LAST_MODIFIED );
         caps.add( Capability.URI );
         caps.add( Capability.WRITE_CONTENT );
     }
