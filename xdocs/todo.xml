@@ -41,8 +41,9 @@
                 <li>WebDAV Provider:
                     <ul>
                         <li>Add plain http support, and auto-detect dav resources.</li>
-                        <li>Support attributes.</li>
-                        <li>Support last-modified.</li>
+                        <li>Add set last-modified.</li>
+                        <li>Add proxy support</li>
+                        <li>HTTPS</li>
                     </ul>
                 </li>
                 <li>SFTP Provider:
@@ -66,17 +67,18 @@
                     <ul>
                         <li>Fix set last-modified.</li>
                         <li>Support passive mode.</li>
-                    </ul>
-                </li>
-                <li>SMB Provider:
-                    <ul>
-                        <li>Support set last-modified.</li>
+                        <li>Add proxy support.</li>
                     </ul>
                 </li>
                 <li>URL Provider:
                     <ul>
                         <li>Support attributes.</li>
-                        <li>Support last-modified.</li>
+                    </ul>
+                </li>
+                <li>HTTP Provider:
+                    <ul>
+                        <li>Support attributes.</li>
+                        <li>HTTPS support.</li>
                     </ul>
                 </li>
                 <li>
@@ -91,10 +93,6 @@
                     configurable.
                 </li>
                 <li>Add persistent replicator.</li>
-                <li>
-                    Make StandardFileSystemManager configurable from an XML
-                    descriptor or properties file.
-                </li>
                 <li>Change the model so that folders may have content.</li>
                 <li>
                     Finish support for junctions:  Make ancestors of a junction
@@ -119,15 +117,7 @@
                     Allow selectors, name mappers, and filters to be specified
                     for the Ant tasks.
                 </li>
-                <li>Capabilities discovery.
-                    <ul>
-                        <li>Add capabilities to FileObject.</li>
-                        <li>
-                            Split LAST_MODIFIED into GET_LAST_MODIFIED and
-                            SET_LAST_MODIFIED caps.
-                        </li>
-                    </ul>
-                </li>
+                <li>Add capabilities to FileObject.</li>
                 <li>Attributes and attribute schema.</li>
                 <li>
                     Handle file canonicalisation better (for cases like
