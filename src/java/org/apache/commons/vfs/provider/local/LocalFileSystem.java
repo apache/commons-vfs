@@ -67,7 +67,7 @@ import org.apache.commons.vfs.provider.AbstractFileSystem;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:18 $
  */
-final class LocalFileSystem
+public final class LocalFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {

@@ -65,21 +65,11 @@ import org.apache.commons.vfs.FileSystem;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 11:59:40 $
+ * @version $Revision: 1.5 $ $Date: 2002/10/25 11:07:39 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider
 {
-    /**
-     * Creates a layered file system.
-     */
-    public FileObject createFileSystem( final String scheme, final FileObject file )
-        throws FileSystemException
-    {
-        // Can't create a layered file system
-        throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
-    }
-
     /**
      * Locates a file object, by absolute URI.
      *

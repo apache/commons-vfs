@@ -53,85 +53,79 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.impl;
+package org.apache.commons.vfs.provider.temp;
 
+import java.io.File;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.Messages;
-import org.apache.commons.vfs.provider.FileReplicator;
+import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
+import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.provider.ParsedUri;
+import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.local.LocalFileSystem;
 
 /**
- * A {@link org.apache.commons.vfs.FileSystemManager} that configures itself
- * to use the standard providers and other components.
+ * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/25 11:07:39 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/25 11:07:39 $
  */
-public class StandardFileSystemManager
-    extends DefaultFileSystemManager
+public class TemporaryFileProvider
+    extends AbstractFileSystemProvider
+    implements FileProvider
 {
-    /**
-     * Initializes this manager.  Adds the providers and replicator.
-     */
-    public void init() throws FileSystemException
+    private final UriParser parser = new UriParser();
+    private File rootFile;
+
+    public TemporaryFileProvider( final File rootFile )
     {
-        // Set the replicator and temporary file store (use the same component)
-        DefaultFileReplicator replicator = new DefaultFileReplicator();
-        setReplicator( new PrivilegedFileReplicator( replicator ) );
-        setTemporaryFileStore( replicator );
+        this.rootFile = rootFile;
+    }
 
-        // Add the standard providers
-        addProvider( "file", "org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider" );
-        addProvider( "zip", "org.apache.commons.vfs.provider.zip.ZipFileSystemProvider" );
-        addProvider( "jar", "org.apache.commons.vfs.provider.jar.JarFileSystemProvider" );
-        addProvider( "ftp", "org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider" );
-        addProvider( "smb", "org.apache.commons.vfs.provider.smb.SmbFileSystemProvider" );
-        addProvider( "tmp", "org.apache.commons.vfs.provider.temp.TemporaryFileProvider" );
-
-        // Add a default provider
-        final FileProvider provider = createProvider( "org.apache.commons.vfs.provider.url.UrlFileProvider" );
-        if ( provider != null )
-        {
-            setDefaultProvider( provider );
-        }
+    public TemporaryFileProvider()
+    {
     }
 
     /**
-     * Adds a provider.
+     * Locates a file object, by absolute URI.
      */
-    private void addProvider( final String scheme,
-                              final String providerClassName )
+    public FileObject findFile( final FileObject baseFile, final String uri )
         throws FileSystemException
     {
-        final FileProvider provider = createProvider( providerClassName );
-        if ( provider != null )
+        // Parse the name
+        final ParsedUri parsedUri = parseUri( uri );
+
+        // Create the temp file system
+        FileSystem filesystem = findFileSystem( this );
+        if ( filesystem == null )
         {
-            addProvider( scheme, provider );
+            if ( rootFile == null )
+            {
+                rootFile = getContext().getTemporaryFileStore().allocateFile( "tempfs" );
+            }
+            final FileName rootName = new DefaultFileName( parser, parsedUri.getRootUri(), "/" );
+            filesystem = new LocalFileSystem( rootName, rootFile.getAbsolutePath() );
+            addFileSystem( this, filesystem );
         }
+
+        // Find the file
+        return filesystem.resolveFile( parsedUri.getPath() );
     }
 
-    /**
-     * Creates a provider.
-     */
-    private FileProvider createProvider( final String providerClassName )
-        throws FileSystemException
+    /** Parses an absolute URI into its parts. */
+    private ParsedUri parseUri( final String uri ) throws FileSystemException
     {
-        try
-        {
-            final Class providerClass = Class.forName( providerClassName );
-            return (FileProvider)providerClass.newInstance();
-        }
-        catch ( final ClassNotFoundException e )
-        {
-            // Ignore
-            final String message = Messages.getString( "vfs.impl/create-provider.warn", providerClassName );
-            getLog().warn( message, e );
-            return null;
-        }
-        catch ( final Exception e )
-        {
-            throw new FileSystemException("vfs.impl/create-provider.error", providerClassName, e );
-        }
+        final StringBuffer buffer = new StringBuffer( uri );
+        final ParsedUri parsedUri = new ParsedUri();
+        final String scheme = parser.extractScheme( uri, buffer );
+        parsedUri.setScheme( scheme );
+        parser.decode( buffer, 0, buffer.length() );
+        parser.normalisePath( buffer );
+        parsedUri.setPath( buffer.toString() );
+        parsedUri.setRootUri( scheme + ":" );
+        return parsedUri;
     }
-
 }

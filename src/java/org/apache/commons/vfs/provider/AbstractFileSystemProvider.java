@@ -60,6 +60,7 @@ import java.util.Iterator;
 import java.util.Map;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileObject;
 
 /**
  * A partial {@link FileProvider} implementation.  Takes care of managing the
@@ -96,6 +97,16 @@ public abstract class AbstractFileSystemProvider
         fileSystems.clear();
     }
 
+    /**
+     * Creates a layered file system.
+     */
+    public FileObject createFileSystem( final String scheme, final FileObject file )
+        throws FileSystemException
+    {
+        // Can't create a layered file system
+        throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
+    }
+    
     /**
      * Adds a file system to those cached by this provider.
      */
