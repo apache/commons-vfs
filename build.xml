@@ -184,7 +184,7 @@
         </get>
         <get dest="${libdir}/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar">
         </get>
-        <get dest="${libdir}/commons-net-1.1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-1.0.0.jar">
+        <get dest="${libdir}/commons-net-1.2.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-1.2.1.jar">
         </get>
         <get dest="${libdir}/commons-logging-1.0.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.3.jar">
         </get>

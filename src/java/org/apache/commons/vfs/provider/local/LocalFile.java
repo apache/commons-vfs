@@ -19,7 +19,9 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -195,7 +197,7 @@ final class LocalFile
     protected OutputStream doGetOutputStream(boolean bAppend)
         throws Exception
     {
-        return new FileOutputStream(file, bAppend);
+        return new FileOutputStream(file.getPath(), bAppend);
     }
 
     /**
@@ -205,5 +207,10 @@ final class LocalFile
         throws Exception
     {
         return file.length();
+    }
+
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        return new LocalFileRandomAccessContent(file, mode);
     }
 }

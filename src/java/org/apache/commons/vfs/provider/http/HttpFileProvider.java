@@ -34,17 +34,19 @@ import java.util.Collections;
  * An HTTP provider that uses commons-httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/27 19:09:37 $
+ * @version $Revision: 1.9 $ $Date: 2004/06/17 19:29:29 $
  */
 public class HttpFileProvider
     extends AbstractOriginatingFileProvider
 {
     final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
+        Capability.GET_TYPE,
         Capability.READ_CONTENT,
         Capability.URI,
         Capability.GET_LAST_MODIFIED,
-        Capability.ATTRIBUTES
+        Capability.ATTRIBUTES,
+        Capability.RANDOM_ACCESS_READ
     }));
 
     public HttpFileProvider()

@@ -23,16 +23,18 @@ import java.io.InputStream;
  * An InputStream that provides buffering and end-of-stream monitoring.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:50 $
+ * @version $Revision: 1.6 $ $Date: 2004/06/17 19:29:29 $
  */
 public class MonitorInputStream
     extends BufferedInputStream
 {
     private boolean finished;
+    private long count;
 
     public MonitorInputStream(final InputStream in)
     {
         super(in);
+        count = 0;
     }
 
     /**
@@ -48,6 +50,7 @@ public class MonitorInputStream
         final int ch = super.read();
         if (ch != -1)
         {
+            count++;
             return ch;
         }
 
@@ -70,6 +73,7 @@ public class MonitorInputStream
         final int nread = super.read(buffer, offset, length);
         if (nread != -1)
         {
+            count += nread;
             return nread;
         }
 
@@ -123,5 +127,13 @@ public class MonitorInputStream
      */
     protected void onClose() throws IOException
     {
+    }
+
+    /**
+     * Get the nuber of bytes read by this input stream
+     */
+    public long getCount()
+    {
+        return count;
     }
 }

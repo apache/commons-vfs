@@ -23,7 +23,9 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -167,5 +169,13 @@ class SmbFileObject
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         return new SmbFileOutputStream(file, bAppend);
+    }
+
+    /**
+     * random access
+     */
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        return new SmbFileRandomAccessContent(file, mode);
     }
 }

@@ -17,6 +17,7 @@ package org.apache.commons.vfs.test;
 
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.provider.http.HttpFileSystem;
 
 import java.io.IOException;
 
@@ -24,7 +25,7 @@ import java.io.IOException;
  * URL Test cases for providers that supply structural info.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/17 19:29:29 $
  */
 public class UrlStructureTests
     extends AbstractProviderTestCase
@@ -47,6 +48,13 @@ public class UrlStructureTests
     public void testFolderURL() throws Exception
     {
         final FileObject folder = getReadFolder().resolveFile("dir1");
+        if (folder.getFileSystem() instanceof HttpFileSystem)
+        {
+            // bad hack, but this test might not fail on HttpFileSystem as there are no direcotries.
+            // A Directory do have a content on http. e.g a generated directory listing or the index.html page.
+            return;
+        }
+
         assertTrue(folder.exists());
 
         // Try getting the content of a folder

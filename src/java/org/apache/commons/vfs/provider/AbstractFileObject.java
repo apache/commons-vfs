@@ -27,7 +27,9 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileUtil;
 import org.apache.commons.vfs.GlobalConfiguration;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -294,6 +296,19 @@ public abstract class AbstractFileObject
      * <p>The returned stream does not have to be buffered.
      */
     protected abstract InputStream doGetInputStream() throws Exception;
+
+    /**
+     * Creates access to the file for random i/o.  Is only called
+     * if {@link #doGetType} returns {@link FileType#FILE}.
+     * <p/>
+     * <p>It is guaranteed that there are no open output streams for this file
+     * when this method is called.
+     * <p/>
+     */
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        throw new FileSystemException("vfs.provider/random-access-not-supported.error");
+    }
 
     /**
      * Creates an output stream to write the file content to.  Is only
@@ -953,6 +968,53 @@ public abstract class AbstractFileObject
         catch (final Exception exc)
         {
             throw new FileSystemException("vfs.provider/read.error", name, exc);
+        }
+    }
+
+    /**
+     * Returns an input/output stream to use to read and write the content of the file in and
+     * random manner.
+     */
+    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
+    {
+        attach();
+        if (!type.hasContent())
+        {
+            throw new FileSystemException("vfs.provider/read-not-file.error", name);
+        }
+
+        if (mode.requestRead())
+        {
+            if (!getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
+            {
+                throw new FileSystemException("vfs.provider/random-access-read-not-supported.error");
+            }
+            if (!isReadable())
+            {
+                throw new FileSystemException("vfs.provider/read-not-readable.error", name);
+            }
+        }
+
+        if (mode.requestWrite())
+        {
+            if (!getFileSystem().hasCapability(Capability.RANDOM_ACCESS_WRITE))
+            {
+                throw new FileSystemException("vfs.provider/random-access-write-not-supported.error");
+            }
+            if (!isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/write-read-only.error", name);
+            }
+        }
+
+        // Get the raw input stream
+        try
+        {
+            return doGetRandomAccessContent(mode);
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/random-access.error", name, exc);
         }
     }
 

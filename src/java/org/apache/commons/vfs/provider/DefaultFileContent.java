@@ -20,8 +20,11 @@ import org.apache.commons.vfs.FileContentInfo;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
+import org.apache.commons.vfs.util.MonitorRandomAccessContent;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +47,7 @@ public final class DefaultFileContent
     private static final int STATE_NONE = 0;
     private static final int STATE_READING = 1;
     private static final int STATE_WRITING = 2;
+    private static final int STATE_RANDOM_ACCESS = 3;
 
     private final AbstractFileObject file;
     private int state = STATE_NONE;
@@ -53,6 +57,7 @@ public final class DefaultFileContent
     private Map roAttrs;
     private FileContentInfo fileContentInfo;
     private final FileContentInfoFactory fileContentInfoFactory;
+    private RandomAccessContent rastr;
 
     public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory)
     {
@@ -78,7 +83,7 @@ public final class DefaultFileContent
         {
             throw new FileSystemException("vfs.provider/get-size-not-file.error", file);
         }
-        if (state == STATE_WRITING)
+        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/get-size-write.error", file);
         }
@@ -99,7 +104,7 @@ public final class DefaultFileContent
      */
     public long getLastModifiedTime() throws FileSystemException
     {
-        if (state == STATE_WRITING)
+        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/get-last-modified-writing.error", file);
         }
@@ -122,7 +127,7 @@ public final class DefaultFileContent
      */
     public void setLastModifiedTime(final long modTime) throws FileSystemException
     {
-        if (state == STATE_WRITING)
+        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/set-last-modified-writing.error", file);
         }
@@ -218,7 +223,7 @@ public final class DefaultFileContent
         {
             throw new FileSystemException("vfs.provider/get-certificates-no-exist.error", file);
         }
-        if (state == STATE_WRITING)
+        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/get-certificates-writing.error", file);
         }
@@ -246,7 +251,7 @@ public final class DefaultFileContent
      */
     public InputStream getInputStream() throws FileSystemException
     {
-        if (state == STATE_WRITING)
+        if (state == STATE_WRITING || state == STATE_RANDOM_ACCESS)
         {
             throw new FileSystemException("vfs.provider/read-in-use.error", file);
         }
@@ -257,6 +262,24 @@ public final class DefaultFileContent
         this.instrs.add(wrappedInstr);
         state = STATE_READING;
         return wrappedInstr;
+    }
+
+    /**
+     * Returns an input/output stream to use to read and write the content of the file in an
+     * random manner.
+     */
+    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
+    {
+        if (state != STATE_NONE)
+        {
+            throw new FileSystemException("vfs.provider/read-in-use.error", file);
+        }
+
+        // Get the content
+        final RandomAccessContent rastr = file.getRandomAccessContent(mode);
+        this.rastr = new FileRandomAccessContent(rastr);
+        state = STATE_RANDOM_ACCESS;
+        return this.rastr;
     }
 
     /**
@@ -306,6 +329,19 @@ public final class DefaultFileContent
             {
                 outstr.close();
             }
+
+            // Close the random access stream
+            if (rastr != null)
+            {
+                try
+                {
+                    rastr.close();
+                }
+                catch (IOException e)
+                {
+                    throw new FileSystemException(e);
+                }
+            }
         }
         finally
         {
@@ -323,6 +359,14 @@ public final class DefaultFileContent
         {
             state = STATE_NONE;
         }
+    }
+
+    /**
+     * Handles the end of random access.
+     */
+    private void endRandomAccess()
+    {
+        state = STATE_NONE;
     }
 
     /**
@@ -382,6 +426,25 @@ public final class DefaultFileContent
     }
 
     /**
+     * An input/output stream for reading/writing content on random positions
+     */
+    private final class FileRandomAccessContent extends MonitorRandomAccessContent
+    {
+        FileRandomAccessContent(final RandomAccessContent content)
+        {
+            super(content);
+        }
+
+        /**
+         * Called after the stream has been closed.
+         */
+        protected void onClose() throws IOException
+        {
+            endRandomAccess();
+        }
+    }
+
+    /**
      * An output stream for writing content.
      */
     private final class FileContentOutputStream
@@ -400,10 +463,6 @@ public final class DefaultFileContent
             try
             {
                 super.close();
-            }
-            catch (final FileSystemException e)
-            {
-                throw e;
             }
             catch (final IOException e)
             {

@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * An enumerated type representing the capabilities of files and file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/20 18:47:30 $
+ * @version $Revision: 1.11 $ $Date: 2004/06/17 19:29:28 $
  */
 public final class Capability
 {
@@ -32,6 +32,16 @@ public final class Capability
      * File content can be written.
      */
     public static final Capability WRITE_CONTENT = new Capability("WRITE_CONTENT");
+
+    /**
+     * File content can be read in random mode.<br>
+     */
+    public static final Capability RANDOM_ACCESS_READ = new Capability("RANDOM_ACCESS_READ");
+
+    /**
+     * File content can be written in random mode.<br>
+     */
+    public static final Capability RANDOM_ACCESS_WRITE = new Capability("RANDOM_ACCESS_WRITE");
 
     /**
      * File content can be appended.

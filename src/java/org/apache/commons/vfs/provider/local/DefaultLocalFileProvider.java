@@ -34,7 +34,7 @@ import java.util.Collections;
  * A file system provider, which uses direct file access.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/17 19:29:28 $
  */
 public final class DefaultLocalFileProvider
     extends AbstractOriginatingFileProvider
@@ -52,7 +52,9 @@ public final class DefaultLocalFileProvider
         Capability.READ_CONTENT,
         Capability.URI,
         Capability.WRITE_CONTENT,
-        Capability.APPEND_CONTENT
+        Capability.APPEND_CONTENT,
+        Capability.RANDOM_ACCESS_READ,
+        Capability.RANDOM_ACCESS_WRITE
     }));
 
     private final LocalFileNameParser parser;

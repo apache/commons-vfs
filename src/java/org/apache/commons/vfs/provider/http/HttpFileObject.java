@@ -25,8 +25,10 @@ import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.util.MonitorInputStream;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +38,7 @@ import java.net.HttpURLConnection;
  * A file object backed by commons httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/21 20:43:30 $
+ * @version $Revision: 1.8 $ $Date: 2004/06/17 19:29:29 $
  * @todo status codes
  */
 public class HttpFileObject
@@ -152,10 +154,15 @@ public class HttpFileObject
         return new HttpInputStream(getMethod);
     }
 
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        return new HttpRandomAccesContent(this, mode);
+    }
+
     /**
      * Prepares a Method object.
      */
-    private void setupMethod(final HttpMethod method)
+    void setupMethod(final HttpMethod method)
     {
         method.setPath(getName().getPath());
         method.setFollowRedirects(true);
@@ -165,7 +172,7 @@ public class HttpFileObject
     /**
      * An InputStream that cleans up the HTTP connection on close.
      */
-    private static class HttpInputStream
+    static class HttpInputStream
         extends MonitorInputStream
     {
         private final GetMethod method;

@@ -15,6 +15,8 @@
  */
 package org.apache.commons.vfs;
 
+import org.apache.commons.vfs.util.RandomAccessMode;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
@@ -150,6 +152,22 @@ public interface FileContent
      *                             or on error opening the stream.
      */
     OutputStream getOutputStream() throws FileSystemException;
+
+    /**
+     * Returns an stream for reading/writing the file's content.
+     * <p/>
+     * If the file does not exist, and you use one of the write* methods,
+     * this method creates it, and the parent folder, if necessary.
+     * If the file does exist, parts of the file are replaced with whatever is written
+     * at a given position.
+     * <p/>
+     * <p>There may only be a single input or output stream open for the
+     * file at any time.
+     *
+     * @throws FileSystemException If the file is read-only, or is being read, or is being written,
+     *                             or on error opening the stream.
+     */
+    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
 
     /**
      * Returns an output stream for writing the file's content.
