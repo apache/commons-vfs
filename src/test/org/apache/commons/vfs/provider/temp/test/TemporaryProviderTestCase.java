@@ -70,7 +70,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:54 $
+ * @version $Revision: 1.4 $ $Date: 2003/01/21 23:53:56 $
  */
 public class TemporaryProviderTestCase
     extends AbstractProviderTestConfig
@@ -85,7 +85,7 @@ public class TemporaryProviderTestCase
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Prepares the file system manager.
      */
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception

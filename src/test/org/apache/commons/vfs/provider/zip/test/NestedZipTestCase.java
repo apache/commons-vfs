@@ -83,7 +83,7 @@ public class NestedZipTestCase
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Prepares the file system manager.
      */
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
