@@ -13,48 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs.provider.compressed;
+package org.apache.commons.vfs.provider.gzip;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.compressed.CompressedFileFileSystem;
 
 import java.util.Collection;
 
 /**
- * A read-only file system for compressed files.
- *
+ * Filesytem to handle compressed files using the gzip method
+ * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/06/16 18:19:05 $
+ * @version $Revision: 1.1 $ $Date: 2004/06/16 18:19:05 $
  */
-public abstract class CompressedFileFileSystem
-    extends AbstractFileSystem
-    implements FileSystem
+public class GzipFileSystem extends CompressedFileFileSystem
 {
-    public CompressedFileFileSystem(final FileName rootName,
-                                    final FileObject parentLayer,
-                                    final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
+    public GzipFileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         super(rootName, parentLayer, fileSystemOptions);
     }
 
-    public void init() throws FileSystemException
+    protected FileObject createFile(FileName name) throws FileSystemException
     {
-        super.init();
-
+        return new GzipFileObject(name, getParentLayer(), this);
     }
 
-    /**
-     * Returns the capabilities of this file system.
-     */
-    protected abstract void addCapabilities(final Collection caps);
-
-    /**
-     * Creates a file object.
-     */
-    protected abstract FileObject createFile(final FileName name) throws FileSystemException;
+    protected void addCapabilities(final Collection caps)
+    {
+        caps.addAll(GzipFileProvider.capabilities);
+    }
 }

@@ -27,11 +27,11 @@ import org.apache.commons.vfs.provider.zip.ZipFileName;
 import java.util.Collection;
 
 /**
- * A file system provider for compressedFile compressed files.  Provides read-only file
+ * A file system provider for compressed files.  Provides read-only file
  * systems.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/16 10:30:33 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/16 18:19:05 $
  */
 public abstract class CompressedFileFileProvider
     extends AbstractLayeredFileProvider

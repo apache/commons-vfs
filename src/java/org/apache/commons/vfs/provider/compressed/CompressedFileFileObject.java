@@ -23,10 +23,11 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 
 /**
- * A compressedFile compressed file
+ * A compressed file.<br>
+ * Such a file do only have one child (the compressed filename with stripped last extension)
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/16 10:30:33 $
+ * @version $Revision: 1.2 $ $Date: 2004/06/16 18:19:05 $
  */
 public abstract class CompressedFileFileObject
     extends AbstractFileObject
