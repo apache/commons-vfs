@@ -34,10 +34,12 @@
 
             <p><b>Examples</b></p>
             <ul>
-                <li><code>file://home/someuser/somedir</code></li>
+                <li><code>file:///home/someuser/somedir</code></li>
+                <li><code>file://C:/Documents and Settings</code></li>
+                <li><code>file:////somehost/someshare/afile.txt</code></li>
+                <li><code>/home/someuser/somedir</code></li>
                 <li><code>c:\program files\some dir</code></li>
                 <li><code>c:/program files/some dir</code></li>
-                <li><code>file:////somehost/someshare/afile.txt</code></li>
             </ul>
         </section>
 
