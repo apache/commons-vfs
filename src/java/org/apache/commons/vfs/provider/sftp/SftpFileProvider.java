@@ -15,8 +15,7 @@
  */
 package org.apache.commons.vfs.provider.sftp;
 
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
@@ -25,9 +24,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.commons.vfs.util.Os;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,7 +34,7 @@ import java.util.Collections;
  * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: SftpFileProvider.java,v 1.11 2004/05/24 20:15:26 imario Exp $
+ * @version $Id: SftpFileProvider.java,v 1.12 2004/05/27 19:09:37 imario Exp $
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {
@@ -56,8 +53,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
 
     public final static String ATTR_USER_INFO = "UI";
 
-    private static final String SSH_DIR_NAME = ".ssh";
-
     // private JSch jSch = new JSch();
 
     public SftpFileProvider()
@@ -68,131 +63,32 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     /**
      * Creates a {@link FileSystem}.
      */
-    protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
-        JSch jsch = createJSch(fileSystemOptions);
+        // JSch jsch = createJSch(fileSystemOptions);
 
-        return new SftpFileSystem((GenericFileName) rootName, jsch, fileSystemOptions);
+        // Create the file system
+        final GenericFileName rootName = (GenericFileName) name;
+
+        Session session;
+        try
+        {
+            session = SftpClientFactory.createConnection(rootName.getHostName(),
+                rootName.getPort(),
+                rootName.getUserName(),
+                rootName.getPassword(),
+                fileSystemOptions);
+        }
+        catch (final Exception e)
+        {
+            throw new FileSystemException("vfs.provider.sftp/connect.error",
+                name,
+                e);
+        }
+
+        return new SftpFileSystem(rootName, session, fileSystemOptions);
     }
 
-    private JSch createJSch(FileSystemOptions fileSystemOptions) throws FileSystemException
-    {
-        JSch jsch = new JSch();
-
-        File sshDir = null;
-
-        // new style - user passed
-        File knownHostsFile = SftpFileSystemConfigBuilder.getInstance().getKnownHosts(fileSystemOptions);
-        File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(fileSystemOptions);
-
-        if (knownHostsFile != null)
-        {
-            jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
-        }
-        else
-        {
-            if (sshDir == null)
-            {
-                sshDir = this.findSshDir();
-            }
-            // Load the known hosts file
-            knownHostsFile = new File(sshDir, "known_hosts");
-            if (knownHostsFile.isFile() && knownHostsFile.canRead())
-            {
-                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
-            }
-        }
-
-        if (identities != null)
-        {
-            for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++)
-            {
-                final File privateKeyFile = identities[iterIdentities];
-                try
-                {
-                    jsch.addIdentity(privateKeyFile.getAbsolutePath());
-                }
-                catch (final JSchException e)
-                {
-                    throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
-                }
-            }
-        }
-        else
-        {
-            if (sshDir == null)
-            {
-                sshDir = this.findSshDir();
-            }
-
-            // Load the private key (rsa-key only)
-            final File privateKeyFile = new File(sshDir, "id_rsa");
-            if (privateKeyFile.isFile() && privateKeyFile.canRead())
-            {
-                try
-                {
-                    jsch.addIdentity(privateKeyFile.getAbsolutePath());
-                }
-                catch (final JSchException e)
-                {
-                    throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
-                }
-            }
-        }
-
-        return jsch;
-    }
-
-    /**
-     * Finds the .ssh directory.
-     * <p>The lookup order is:</p>
-     * <ol>
-     * <li>The system property <code>vfs.sftp.sshdir</code> (the override
-     * mechanism)</li>
-     * <li><code>{user.home}/.ssh</code></li>
-     * <li>On Windows only: C:\cygwin\home\{user.name}\.ssh</li>
-     * <li>The current directory, as a last resort.</li>
-     * <ol>
-     * <p/>
-     * Windows Notes:
-     * The default installation directory for Cygwin is <code>C:\cygwin</code>.
-     * On my set up (Gary here), I have Cygwin in C:\bin\cygwin, not the default.
-     * Also, my .ssh directory was created in the {user.home} directory.
-     * </p>
-     *
-     * @return The .ssh directory
-     */
-    private File findSshDir()
-    {
-        String sshDirPath;
-        sshDirPath = System.getProperty("vfs.sftp.sshdir");
-        if (sshDirPath != null)
-        {
-            File sshDir = new File(sshDirPath);
-            if (sshDir.exists())
-            {
-                return sshDir;
-            }
-        }
-
-        File sshDir = new File(System.getProperty("user.home"), SSH_DIR_NAME);
-        if (sshDir.exists())
-        {
-            return sshDir;
-        }
-
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
-        {
-            // TODO - this may not be true
-            final String userName = System.getProperty("user.name");
-            sshDir = new File("C:\\cygwin\\home\\" + userName + "\\" + SSH_DIR_NAME);
-            if (sshDir.exists())
-            {
-                return sshDir;
-            }
-        }
-        return new File("");
-    }
 
     /**
      * Returns the JSch.

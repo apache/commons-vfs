@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.17 $ $Date: 2004/05/26 08:24:51 $
+ * @version $Revision: 1.18 $ $Date: 2004/05/27 19:09:37 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -240,133 +240,13 @@ public class WebdavFileObject
         throw new IllegalStateException("this should not happen");
     }
 
-    /*
-    private FileType doGetType(final String child) throws Exception
-    {
-        // do propfind on resource
-        final int depth = child == null ? PropFindMethod.DEPTH_0 : PropFindMethod.DEPTH_1;
-        final PropFindMethod propfindMethod = new PropFindMethod(getName().getPath(), depth, PROPS_TYPE.elements());
-        // propfindMethod.setFollowRedirects(true);
-        final int status = fileSystem.getClient().executeMethod(propfindMethod);
-        if (status < 200 || status > 299)
-        {
-            if (child == null && (status == 401 || status == 403))
-            {
-                // This second pass should only happen if a secured resource was directly resolved.
-                // using getChildren() on the parent already inject the type
-                WebdavFileObject parent = (WebdavFileObject) getParent();
-                if (parent != null)
-                {
-                    // premission denied
-                    // ask the parent to find our type - this is bad
-                    return parent.doGetType(getName().getBaseName());
-                }
-            }
-
-            return FileType.IMAGINARY;
-        }
-
-        // handle the (maybe) redirected url
-        // resource.getHttpURL().setPath(propfindMethod.getPath());
-
-        // find the ResourceTypeProperty
-        String dirChild = null;
-        if (child != null)
-        {
-            dirChild = child + "/";
-        }
-
-        Enumeration enum = propfindMethod.getResponses();
-        while (enum.hasMoreElements())
-        {
-            ResponseEntity response = (ResponseEntity) enum.nextElement();
-            if (child == null || response.getHref().endsWith(child) || response.getHref().endsWith(dirChild))
-            {
-                Enumeration properties = response.getProperties();
-                while (properties.hasMoreElements())
-                {
-                    Object property = properties.nextElement();
-                    if (property instanceof ResourceTypeProperty)
-                    {
-                        ResourceTypeProperty resourceType = (ResourceTypeProperty) property;
-                        if (resourceType.isCollection())
-                        {
-                            return FileType.FOLDER;
-                        }
-                        else
-                        {
-                            return FileType.FILE;
-                        }
-                    }
-                }
-            }
-        }
-
-        return FileType.IMAGINARY;
-
-        // Determine whether the resource exists, and whether it is a DAV resource
-        [*
-        final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
-        optionsMethod.setFollowRedirects(true);
-        final int status = fileSystem.getClient().executeMethod(optionsMethod);
-        if (status < 200 || status > 299)
-        {
-            return FileType.IMAGINARY;
-        }
-        resource.getHttpURL().setPath(optionsMethod.getPath());
-
-        // Resource exists if we can do a GET on it
-        boolean exists = false;
-        for (Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements();)
-        {
-            final String method = (String) enum.nextElement();
-            if (method.equals("GET"))
-            {
-                exists = true;
-                break;
-            }
-        }
-        if (!exists)
-        {
-            return FileType.IMAGINARY;
-        }
-
-        // Check if the resource is a DAV resource
-        final boolean davResource = optionsMethod.getDavCapabilities().hasMoreElements();
-        if (!davResource)
-        {
-            // Assume a folder, and don't get the properties
-            return FileType.FOLDER;
-        }
-
-        // Get the properties of the resource
-        resource.setProperties(WebdavResource.DEFAULT, 1);
-        if (resource.isCollection())
-        {
-            return FileType.FOLDER;
-        }
-        else
-        {
-            return FileType.FILE;
-        }
-        *]
-    }
-    */
-
     /**
      * Lists the children of the file.
      */
     protected String[] doListChildren() throws Exception
     {
+        // use doListChildrenResolved for performance
         return null;
-        /*
-        final String[] children = resource.list();
-        if (children == null)
-        {
-            throw new FileSystemException("vfs.provider.webdav/list-children.error", resource.getStatusMessage());
-        }
-        return children;
-        */
     }
 
     /**

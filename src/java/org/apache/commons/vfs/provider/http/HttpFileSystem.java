@@ -15,14 +15,10 @@
  */
 package org.apache.commons.vfs.provider.http;
 
-import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -33,18 +29,19 @@ import java.util.Collection;
  * An HTTP file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/27 19:09:37 $
  */
 public class HttpFileSystem
     extends AbstractFileSystem
     implements FileSystem
 
 {
-    private HttpClient client;
+    private final HttpClient client;
 
-    public HttpFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
+    public HttpFileSystem(final GenericFileName rootName, final HttpClient client, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
+        this.client = client;
     }
 
     /**
@@ -55,41 +52,8 @@ public class HttpFileSystem
         caps.addAll(HttpFileProvider.capabilities);
     }
 
-    /**
-     * Returns the client for this file system.
-     */
     protected HttpClient getClient()
-        throws FileSystemException
     {
-        if (client == null)
-        {
-            // Create an Http client
-            final GenericFileName rootName = (GenericFileName) getRootName();
-            client = new HttpClient(new MultiThreadedHttpConnectionManager());
-            final HostConfiguration config = new HostConfiguration();
-            config.setHost(rootName.getHostName(), rootName.getPort());
-
-            FileSystemOptions fso = getFileSystemOptions();
-            if (fso != null)
-            {
-                String proxyHost = HttpFileSystemConfigBuilder.getInstance().getProxyHost(fso);
-                int proxyPort = HttpFileSystemConfigBuilder.getInstance().getProxyPort(fso);
-
-                if (proxyHost != null && proxyPort > 0)
-                {
-                    config.setProxy(proxyHost, proxyPort);
-                }
-            }
-
-            client.setHostConfiguration(config);
-
-            if (rootName.getUserName() != null)
-            {
-                final UsernamePasswordCredentials creds =
-                    new UsernamePasswordCredentials(rootName.getUserName(), rootName.getPassword());
-                client.getState().setCredentials(null, rootName.getHostName(), creds);
-            }
-        }
         return client;
     }
 

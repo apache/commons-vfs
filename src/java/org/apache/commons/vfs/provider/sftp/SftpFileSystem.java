@@ -16,10 +16,8 @@
 package org.apache.commons.vfs.provider.sftp;
 
 import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.jcraft.jsch.UserInfo;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -35,22 +33,22 @@ import java.util.Collection;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.11 $ $Date: 2004/05/27 19:09:37 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private Session session;
-    private final JSch jSch;
+    private final Session session;
+    // private final JSch jSch;
     private ChannelSftp idleChannel;
 
     public SftpFileSystem(final GenericFileName rootName,
-                          final JSch jSch,
+                          final Session session,
                           final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
-        this.jSch = jSch;
+        this.session = session;
     }
 
     /**
@@ -70,6 +68,7 @@ class SftpFileSystem
      */
     protected ChannelSftp getChannel() throws IOException
     {
+        /*
         try
         {
             // Create the session
@@ -89,7 +88,9 @@ class SftpFileSystem
 
                 session.connect();
             }
-
+            */
+        try
+        {
             // Use the pooled channel, or create a new one
             final ChannelSftp channel;
             if (idleChannel != null)

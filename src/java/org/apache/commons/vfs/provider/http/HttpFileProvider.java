@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.http;
 
+import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
@@ -33,7 +34,7 @@ import java.util.Collections;
  * An HTTP provider that uses commons-httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/27 19:09:37 $
  */
 public class HttpFileProvider
     extends AbstractOriginatingFileProvider
@@ -63,10 +64,19 @@ public class HttpFileProvider
     /**
      * Creates a {@link FileSystem}.
      */
-    protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        return new HttpFileSystem((GenericFileName) rootName, fileSystemOptions);
+        // Create the file system
+        final GenericFileName rootName = (GenericFileName) name;
+
+        HttpClient httpClient = HttpClientFactory.createConnection(rootName.getHostName(),
+            rootName.getPort(),
+            rootName.getUserName(),
+            rootName.getPassword(),
+            fileSystemOptions);
+
+        return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

@@ -16,7 +16,6 @@
 package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -24,26 +23,26 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.webdav.lib.WebdavResource;
 
-import java.io.IOException;
 import java.util.Collection;
 
 /**
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.16 $ $Date: 2004/05/23 18:34:33 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/27 19:09:37 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private HttpClient client;
+    private final HttpClient client;
 
-    public WebDavFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
+    public WebDavFileSystem(final GenericFileName rootName, final HttpClient client, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
+
+        this.client = client;
     }
 
     /**
@@ -59,46 +58,6 @@ class WebDavFileSystem
      */
     protected HttpClient getClient() throws FileSystemException
     {
-        if (client == null)
-        {
-            // Create an Http client
-            try
-            {
-                final GenericFileName rootName = (GenericFileName) getRootName();
-                final HttpURL url = new HttpURL(rootName.getUserName(),
-                    rootName.getPassword(),
-                    rootName.getHostName(),
-                    rootName.getPort(),
-                    "/");
-
-                WebdavResource resource = null;
-
-                FileSystemOptions fso = getFileSystemOptions();
-                if (fso != null)
-                {
-                    String proxyHost = WebdavFileSystemConfigBuilder.getInstance().getProxyHost(fso);
-                    int proxyPort = WebdavFileSystemConfigBuilder.getInstance().getProxyPort(fso);
-
-                    if (proxyHost != null && proxyPort > 0)
-                    {
-                        resource = new WebdavResource(url, proxyHost, proxyPort);
-                        resource.setProxy(proxyHost, proxyPort);
-                    }
-                }
-
-                if (resource == null)
-                {
-                    resource = new WebdavResource(url);
-                }
-                resource.setProperties(WebdavResource.NOACTION, 1);
-
-                client = resource.retrieveSessionInstance();
-            }
-            catch (final IOException e)
-            {
-                throw new FileSystemException("vfs.provider.webdav/create-client.error", getRootName(), e);
-            }
-        }
         return client;
     }
 

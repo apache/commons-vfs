@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
+import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
@@ -31,7 +32,7 @@ import java.util.Collections;
  * A provider for WebDAV.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:07 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/27 19:09:37 $
  */
 public class WebdavFileProvider
     extends AbstractOriginatingFileProvider
@@ -70,8 +71,16 @@ public class WebdavFileProvider
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
+        // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
-        return new WebDavFileSystem(rootName, fileSystemOptions);
+
+        HttpClient httpClient = WebdavClientFactory.createConnection(rootName.getHostName(),
+            rootName.getPort(),
+            rootName.getUserName(),
+            rootName.getPassword(),
+            fileSystemOptions);
+
+        return new WebDavFileSystem(rootName, httpClient, fileSystemOptions);
     }
 
     public Collection getCapabilities()
