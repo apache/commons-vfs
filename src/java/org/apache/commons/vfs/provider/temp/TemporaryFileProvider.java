@@ -63,7 +63,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.ParsedUri;
+import org.apache.commons.vfs.provider.Uri;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.local.LocalFileSystem;
 
@@ -71,7 +71,7 @@ import org.apache.commons.vfs.provider.local.LocalFileSystem;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/25 11:07:39 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/31 10:40:58 $
  */
 public class TemporaryFileProvider
     extends AbstractFileSystemProvider
@@ -96,7 +96,7 @@ public class TemporaryFileProvider
         throws FileSystemException
     {
         // Parse the name
-        final ParsedUri parsedUri = parseUri( uri );
+        final Uri parsedUri = parseUri( uri );
 
         // Create the temp file system
         FileSystem filesystem = findFileSystem( this );
@@ -106,7 +106,7 @@ public class TemporaryFileProvider
             {
                 rootFile = getContext().getTemporaryFileStore().allocateFile( "tempfs" );
             }
-            final FileName rootName = new DefaultFileName( parser, parsedUri.getRootUri(), "/" );
+            final FileName rootName = new DefaultFileName( parser, parsedUri.getContainerUri(), "/" );
             filesystem = new LocalFileSystem( rootName, rootFile.getAbsolutePath() );
             addFileSystem( this, filesystem );
         }
@@ -116,16 +116,16 @@ public class TemporaryFileProvider
     }
 
     /** Parses an absolute URI into its parts. */
-    private ParsedUri parseUri( final String uri ) throws FileSystemException
+    private Uri parseUri( final String uri ) throws FileSystemException
     {
         final StringBuffer buffer = new StringBuffer( uri );
-        final ParsedUri parsedUri = new ParsedUri();
+        final Uri parsedUri = new Uri();
         final String scheme = parser.extractScheme( uri, buffer );
         parsedUri.setScheme( scheme );
         parser.decode( buffer, 0, buffer.length() );
         parser.normalisePath( buffer );
         parsedUri.setPath( buffer.toString() );
-        parsedUri.setRootUri( scheme + ":" );
+        parsedUri.setContainerUri( scheme + ":" );
         return parsedUri;
     }
 }

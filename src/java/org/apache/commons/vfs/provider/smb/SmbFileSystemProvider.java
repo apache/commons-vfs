@@ -56,13 +56,12 @@
 package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.ParsedUri;
+import org.apache.commons.vfs.provider.Uri;
 
 /**
  * A provider for SMB (Samba, Windows share) file systems.
@@ -79,8 +78,7 @@ public final class SmbFileSystemProvider
     /**
      * Parses a URI into its components.
      */
-    protected ParsedUri parseUri( final FileObject baseFile,
-                                  final String uri )
+    protected Uri parseUri( final String uri )
         throws FileSystemException
     {
         return parser.parseSmbUri( uri );
@@ -89,11 +87,11 @@ public final class SmbFileSystemProvider
     /**
      * Creates the filesystem.
      */
-    protected FileSystem doCreateFileSystem( final ParsedUri uri )
+    protected FileSystem doCreateFileSystem( final Uri uri )
         throws FileSystemException
     {
-        final ParsedSmbUri smbUri = (ParsedSmbUri)uri;
-        final FileName rootName = new DefaultFileName( parser, smbUri.getRootUri(), "/" );
+        final SmbUri smbUri = (SmbUri)uri;
+        final FileName rootName = new DefaultFileName( parser, smbUri.getContainerUri(), "/" );
         return new SmbFileSystem( rootName );
     }
 }

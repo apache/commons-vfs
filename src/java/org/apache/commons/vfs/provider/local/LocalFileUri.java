@@ -53,92 +53,28 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider;
+package org.apache.commons.vfs.provider.local;
+
+import org.apache.commons.vfs.provider.Uri;
 
 /**
- * A data container for information parsed from an absolute URI.
+ * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/04/07 02:27:56 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
  */
-public class ParsedUri
+final class LocalFileUri
+    extends Uri
 {
-    private String scheme;
-    private String rootURI;
-    private String path;
-    private String userInfo;
-    private String hostName;
-    private String port;
+    private String rootFile;
 
-    /** Returns the scheme. */
-    public String getScheme()
+    public String getRootFile()
     {
-        return scheme;
+        return rootFile;
     }
 
-    /** Sets the scheme. */
-    public void setScheme( String scheme )
+    public void setRootFile( final String rootPrefix )
     {
-        this.scheme = scheme;
-    }
-
-    /** Returns the root URI, used to identify the file system. */
-    public String getRootUri()
-    {
-        return rootURI;
-    }
-
-    /** Sets the root URI. */
-    public void setRootUri( String rootPrefix )
-    {
-        rootURI = rootPrefix;
-    }
-
-    /** Returns the user info part of the URI. */
-    public String getUserInfo()
-    {
-        return userInfo;
-    }
-
-    /** Sets the user info part of the URI. */
-    public void setUserInfo( String userInfo )
-    {
-        this.userInfo = userInfo;
-    }
-
-    /** Returns the host name part of the URI. */
-    public String getHostName()
-    {
-        return hostName;
-    }
-
-    /** Sets the host name part of the URI. */
-    public void setHostName( String hostName )
-    {
-        this.hostName = hostName;
-    }
-
-    /** Returns the port part of the URI. */
-    public String getPort()
-    {
-        return port;
-    }
-
-    /** Sets the port part of the URI. */
-    public void setPort( String port )
-    {
-        this.port = port;
-    }
-
-    /** Returns the path part of the URI.  */
-    public String getPath()
-    {
-        return path;
-    }
-
-    /** Sets the path part of the URI. */
-    public void setPath( String absolutePath )
-    {
-        path = absolutePath;
+        rootFile = rootPrefix;
     }
 }

@@ -129,16 +129,16 @@ public class UriParser
      * implementation assumes a "generic URI", as defined by RFC 2396.  See
      * {@link #parseGenericUri} for more info.
      */
-    public ParsedUri parseUri( final String uriStr ) throws FileSystemException
+    public GenericUri parseUri( final String uriStr ) throws FileSystemException
     {
         // Parse the URI
-        final ParsedUri uri = new ParsedUri();
+        final GenericUri uri = new GenericUri();
         parseGenericUri( uriStr, uri );
 
         // Build the root URI
         final StringBuffer rootUri = new StringBuffer();
         appendRootUri( uri, rootUri );
-        uri.setRootUri( rootUri.toString() );
+        uri.setContainerUri( rootUri.toString() );
 
         return uri;
     }
@@ -146,7 +146,7 @@ public class UriParser
     /**
      * Assembles a generic URI, appending to the supplied StringBuffer.
      */
-    protected void appendRootUri( final ParsedUri uri, final StringBuffer rootUri )
+    protected void appendRootUri( final GenericUri uri, final StringBuffer rootUri )
     {
         rootUri.append( uri.getScheme() );
         rootUri.append( "://" );
@@ -182,7 +182,7 @@ public class UriParser
      *          Used to return the parsed components of the URI.
      */
     protected void parseGenericUri( final String uriStr,
-                                    final ParsedUri uri )
+                                    final GenericUri uri )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
@@ -200,7 +200,7 @@ public class UriParser
         rootUri.append( uri.getScheme() );
         rootUri.append( "://" );
         rootUri.append( uri.getHostName() );
-        uri.setRootUri( rootUri.toString() );
+        uri.setContainerUri( rootUri.toString() );
     }
 
     /**
@@ -213,17 +213,17 @@ public class UriParser
      * @param name
      *          Used to return the remainder of the URI.
      *
-     * @param parsedUri
+     * @param genericUri
      *          Used to return the extracted components.
      */
     protected void extractToPath( final String uri,
                                   final StringBuffer name,
-                                  final ParsedUri parsedUri )
+                                  final GenericUri genericUri )
         throws FileSystemException
     {
         // Extract the scheme
         final String scheme = extractScheme( uri, name );
-        parsedUri.setScheme( scheme );
+        genericUri.setScheme( scheme );
 
         // Expecting "//"
         if ( name.length() < 2 || name.charAt( 0 ) != '/' || name.charAt( 1 ) != '/' )
@@ -234,15 +234,15 @@ public class UriParser
 
         // Extract userinfo
         final String userInfo = extractUserInfo( name );
-        parsedUri.setUserInfo( userInfo );
+        genericUri.setUserInfo( userInfo );
 
-        // Extract hostname
+        // Extract hostname, and normalise
         final String hostName = extractHostName( name );
         if ( hostName == null )
         {
             throw new FileSystemException( "vfs.provider/missing-hostname.error", uri );
         }
-        parsedUri.setHostName( hostName );
+        genericUri.setHostName( hostName.toLowerCase() );
 
         // Extract port
         final String port = extractPort( name );
@@ -250,7 +250,7 @@ public class UriParser
         {
             throw new FileSystemException( "vfs.provider/missing-port.error", uri );
         }
-        parsedUri.setPort( port );
+        genericUri.setPort( port );
 
         // Expecting '/' or empty name
         if ( name.length() > 0 && name.charAt( 0 ) != '/' )
@@ -765,7 +765,8 @@ public class UriParser
     }
 
     /**
-     * Extracts the scheme from a URI.
+     * Extracts the scheme from a URI.  Removes the scheme and ':' delimiter
+     * from the front of the URI.
      *
      * @param uri
      *          The URI.

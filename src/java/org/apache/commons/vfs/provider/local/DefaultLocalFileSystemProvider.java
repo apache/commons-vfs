@@ -62,7 +62,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.LocalFileProvider;
-import org.apache.commons.vfs.provider.ParsedUri;
+import org.apache.commons.vfs.provider.Uri;
 import org.apache.commons.vfs.util.Os;
 
 /**
@@ -126,8 +126,7 @@ public final class DefaultLocalFileSystemProvider
      * <p>The provider can annotate this object with any additional
      * information it requires to create a file system from the URI.
      */
-    protected ParsedUri parseUri( final FileObject baseFile,
-                                  final String uri )
+    protected Uri parseUri( final String uri )
         throws FileSystemException
     {
         return parser.parseFileUri( uri );
@@ -136,15 +135,15 @@ public final class DefaultLocalFileSystemProvider
     /**
      * Creates the filesystem.
      */
-    protected FileSystem doCreateFileSystem( final ParsedUri uri )
+    protected FileSystem doCreateFileSystem( final Uri uri )
         throws FileSystemException
     {
         // Build the name of the root file.
-        final ParsedFileUri fileUri = (ParsedFileUri)uri;
+        final LocalFileUri fileUri = (LocalFileUri)uri;
         final String rootFile = fileUri.getRootFile();
 
         // Create the file system
-        final DefaultFileName rootName = new DefaultFileName( parser, fileUri.getRootUri(), "/" );
+        final DefaultFileName rootName = new DefaultFileName( parser, fileUri.getContainerUri(), "/" );
         return new LocalFileSystem( rootName, rootFile );
     }
 }

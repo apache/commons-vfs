@@ -53,28 +53,40 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.local;
+package org.apache.commons.vfs.provider.ftp;
 
-import org.apache.commons.vfs.provider.ParsedUri;
+import org.apache.commons.vfs.provider.GenericUri;
 
 /**
- * A parsed file URI.
+ * An FTP URI.  Splits userinfo (see {@link #getUserInfo}) into username and
+ * password.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
  */
-final class ParsedFileUri
-    extends ParsedUri
+final class FtpUri
+    extends GenericUri
 {
-    private String rootFile;
+    private String userName;
+    private String password;
 
-    public String getRootFile()
+    public String getUserName()
     {
-        return rootFile;
+        return userName;
     }
 
-    public void setRootFile( final String rootPrefix )
+    public void setUserName( final String userName )
     {
-        rootFile = rootPrefix;
+        this.userName = userName;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword( final String password )
+    {
+        this.password = password;
     }
 }

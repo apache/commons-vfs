@@ -56,8 +56,8 @@
 package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.provider.Uri;
 import org.apache.commons.vfs.provider.UriParser;
-import org.apache.commons.vfs.provider.ParsedLayeredUri;
 
 /**
  * A parser for Zip file names.
@@ -76,11 +76,11 @@ public class ZipFileNameParser
      * @param uriStr
      *          The URI.
      */
-    public ParsedLayeredUri parseZipUri( final String uriStr )
+    public Uri parseZipUri( final String uriStr )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
-        final ParsedLayeredUri uri = new ParsedLayeredUri();
+        final Uri uri = new Uri();
 
         // Extract the scheme
         final String scheme = extractScheme( uriStr, name );
@@ -88,7 +88,7 @@ public class ZipFileNameParser
 
         // Extract the Zip file name
         final String zipName = extractZipName( name );
-        uri.setOuterFileUri( zipName );
+        uri.setContainerUri( zipName );
 
         // Decode and normalise the file name
         decode( name, 0, name.length() );

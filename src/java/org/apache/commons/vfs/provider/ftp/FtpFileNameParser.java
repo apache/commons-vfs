@@ -70,17 +70,13 @@ class FtpFileNameParser
     /**
      * Parses an absolute URI, splitting it into its components.
      */
-    public ParsedFtpUri parseFtpUri( final String uriStr )
+    public FtpUri parseFtpUri( final String uriStr )
         throws FileSystemException
     {
-        final ParsedFtpUri uri = new ParsedFtpUri();
+        final FtpUri uri = new FtpUri();
 
         // FTP URI are generic URI (as per RFC 2396)
         parseGenericUri( uriStr, uri );
-
-        // Adjust the hostname to lower-case
-        final String hostname = uri.getHostName().toLowerCase();
-        uri.setHostName( hostname );
 
         // Drop the port if it is 21
         final String port = uri.getPort();
@@ -90,6 +86,7 @@ class FtpFileNameParser
         }
 
         // Split up the userinfo into a username and password
+        // TODO - push this into parser and GenericUri
         final String userInfo = uri.getUserInfo();
         if ( userInfo != null )
         {
@@ -110,7 +107,7 @@ class FtpFileNameParser
         // Now build the root URI
         final StringBuffer rootUri = new StringBuffer();
         appendRootUri( uri, rootUri );
-        uri.setRootUri( rootUri.toString() );
+        uri.setContainerUri( rootUri.toString() );
 
         return uri;
     }

@@ -53,39 +53,53 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.ftp;
-
-import org.apache.commons.vfs.provider.ParsedUri;
+package org.apache.commons.vfs.provider;
 
 /**
- * A parsed FTP URI.
+ * Represents the parts of a parsed URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:19 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
  */
-final class ParsedFtpUri
-    extends ParsedUri
+public class Uri
 {
-    private String userName;
-    private String password;
+    private String scheme;
+    private String path;
+    private String containerUri;
 
-    public String getUserName()
+    /** Returns the scheme. */
+    public String getScheme()
     {
-        return userName;
+        return scheme;
     }
 
-    public void setUserName( String userName )
+    /** Sets the scheme. */
+    public void setScheme( final String scheme )
     {
-        this.userName = userName;
+        this.scheme = scheme;
     }
 
-    public String getPassword()
+    /** Returns the path part of the URI.  */
+    public String getPath()
     {
-        return password;
+        return path;
     }
 
-    public void setPassword( String password )
+    /** Sets the path part of the URI. */
+    public void setPath( final String path )
     {
-        this.password = password;
+        this.path = path;
+    }
+    
+    /** Returns the root URI, used to identify the file system. */
+    public String getContainerUri()
+    {
+        return containerUri;
+    }
+
+    /** Sets the root URI. */
+    public void setContainerUri( final String rootPrefix )
+    {
+        containerUri = rootPrefix;
     }
 }

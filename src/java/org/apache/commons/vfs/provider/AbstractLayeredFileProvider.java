@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileName;
  * contents of a zip or tar file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/28 02:05:06 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/31 10:40:57 $
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileSystemProvider
@@ -78,12 +78,12 @@ public abstract class AbstractLayeredFileProvider
                                 final String uri ) throws FileSystemException
     {
         // Split the URI up into its parts
-        final ParsedLayeredUri parsedUri = parseUri( uri );
+        final Uri parsedUri = parseUri( uri );
 
         // Make the URI canonical
 
         // Resolve the outer file name
-        final String fileName = parsedUri.getOuterFileUri();
+        final String fileName = parsedUri.getContainerUri();
         final FileObject file = getContext().resolveFile( baseFile, fileName );
 
         // Create the file system
@@ -128,6 +128,6 @@ public abstract class AbstractLayeredFileProvider
      * Parses an absolute URI.
      * @param uri The URI to parse.
      */
-    protected abstract ParsedLayeredUri parseUri( String uri )
+    protected abstract Uri parseUri( String uri )
         throws FileSystemException;
 }

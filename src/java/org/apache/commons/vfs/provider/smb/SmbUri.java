@@ -53,47 +53,28 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider;
+package org.apache.commons.vfs.provider.smb;
+
+import org.apache.commons.vfs.provider.GenericUri;
 
 /**
- * A data container for information parsed from an absolute URI.
+ * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/23 11:59:40 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
  */
-public class ParsedLayeredUri
+final class SmbUri
+    extends GenericUri
 {
-    private String scheme;
-    private String outerFileUri;
-    private String path;
+    private String share;
 
-    public String getScheme()
+    public String getShare()
     {
-        return scheme;
+        return share;
     }
 
-    public void setScheme( final String scheme )
+    public void setShare( final String share )
     {
-        this.scheme = scheme;
-    }
-
-    public String getOuterFileUri()
-    {
-        return outerFileUri;
-    }
-
-    public void setOuterFileUri( final String outerFileUri )
-    {
-        this.outerFileUri = outerFileUri;
-    }
-
-    public String getPath()
-    {
-        return path;
-    }
-
-    public void setPath( final String path )
-    {
-        this.path = path;
+        this.share = share;
     }
 }

@@ -55,19 +55,18 @@
  */
 package org.apache.commons.vfs.provider.url;
 
-import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.provider.ParsedUri;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.Uri;
 
 /**
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.6 $ $Date: 2002/10/31 10:40:58 $
  */
 public class UrlFileProvider
     extends AbstractOriginatingFileProvider
@@ -77,7 +76,7 @@ public class UrlFileProvider
     /**
      * Parses a URI into its components.
      */
-    protected ParsedUri parseUri( FileObject baseFile, String uri )
+    protected Uri parseUri( final String uri )
         throws FileSystemException
     {
         return parser.parseUri( uri );
@@ -86,10 +85,10 @@ public class UrlFileProvider
     /**
      * Creates the filesystem.
      */
-    protected FileSystem doCreateFileSystem( ParsedUri uri )
+    protected FileSystem doCreateFileSystem( final Uri uri )
         throws FileSystemException
     {
-        final DefaultFileName rootName = new DefaultFileName( parser, uri.getRootUri(), "/" );
+        final DefaultFileName rootName = new DefaultFileName( parser, uri.getContainerUri(), "/" );
         return new UrlFileSystem( rootName );
     }
 }

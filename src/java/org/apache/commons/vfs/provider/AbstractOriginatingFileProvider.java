@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileSystem;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/10/28 02:05:06 $
+ * @version $Revision: 1.7 $ $Date: 2002/10/31 10:40:57 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider
@@ -80,10 +80,10 @@ public abstract class AbstractOriginatingFileProvider
                                 final String uri ) throws FileSystemException
     {
         // Parse the URI
-        ParsedUri parsedUri;
+        final Uri parsedUri;
         try
         {
-            parsedUri = parseUri( baseFile, uri );
+            parsedUri = parseUri( uri );
         }
         catch ( FileSystemException exc )
         {
@@ -97,11 +97,11 @@ public abstract class AbstractOriginatingFileProvider
     /**
      * Locates a file from its parsed URI.
      */
-    private FileObject findFile( final ParsedUri parsedUri )
+    private FileObject findFile( final Uri parsedUri )
         throws FileSystemException
     {
         // Check in the cache for the file system
-        final String rootUri = parsedUri.getRootUri();
+        final String rootUri = parsedUri.getContainerUri();
         FileSystem fs = findFileSystem( rootUri );
         if ( fs == null )
         {
@@ -121,14 +121,13 @@ public abstract class AbstractOriginatingFileProvider
      * <p>The provider can annotate this object with any additional
      * information it requires to create a file system from the URI.
      */
-    protected abstract ParsedUri parseUri( final FileObject baseFile,
-                                           final String uri )
+    protected abstract Uri parseUri( final String uri )
         throws FileSystemException;
 
     /**
      * Creates the filesystem.  The file system may implement {@link VfsComponent}.
      */
-    protected abstract FileSystem doCreateFileSystem( final ParsedUri uri )
+    protected abstract FileSystem doCreateFileSystem( final Uri uri )
         throws FileSystemException;
 
 }

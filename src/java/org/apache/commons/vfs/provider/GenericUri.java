@@ -53,28 +53,55 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.smb;
-
-import org.apache.commons.vfs.provider.ParsedUri;
+package org.apache.commons.vfs.provider;
 
 /**
- * A parsed SMB URI.
+ * A 'generic' URI, as per RFC 2396.  Consists of a scheme, userinfo (typically
+ * username and password), hostname, port, and path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:19 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
  */
-final class ParsedSmbUri
-    extends ParsedUri
+public class GenericUri
+    extends Uri
 {
-    private String share;
+    private String userInfo;
+    private String hostName;
+    private String port;
 
-    public String getShare()
+    /** Returns the user info part of the URI. */
+    public String getUserInfo()
     {
-        return share;
+        return userInfo;
     }
 
-    public void setShare( String share )
+    /** Sets the user info part of the URI. */
+    public void setUserInfo( final String userInfo )
     {
-        this.share = share;
+        this.userInfo = userInfo;
+    }
+
+    /** Returns the host name part of the URI. */
+    public String getHostName()
+    {
+        return hostName;
+    }
+
+    /** Sets the host name part of the URI. */
+    public void setHostName( final String hostName )
+    {
+        this.hostName = hostName;
+    }
+
+    /** Returns the port part of the URI. */
+    public String getPort()
+    {
+        return port;
+    }
+
+    /** Sets the port part of the URI. */
+    public void setPort( final String port )
+    {
+        this.port = port;
     }
 }

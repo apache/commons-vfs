@@ -56,8 +56,8 @@
 package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.ParsedUri;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.Uri;
 
 /**
  * A parser for SMB URI.
@@ -71,18 +71,14 @@ class SmbFileNameParser
     /**
      * Parses an absolute URI, splitting it into its components.
      */
-    public ParsedUri parseSmbUri( final String uriStr )
+    public Uri parseSmbUri( final String uriStr )
         throws FileSystemException
     {
-        final ParsedSmbUri uri = new ParsedSmbUri();
+        final SmbUri uri = new SmbUri();
         final StringBuffer name = new StringBuffer();
 
         // Extract the scheme and authority parts
         extractToPath( uriStr, name, uri );
-
-        // Convert the hostname to lowercase
-        final String hostname = uri.getHostName().toLowerCase();
-        uri.setHostName( hostname );
 
         // TODO - drop the default port
 
@@ -109,7 +105,7 @@ class SmbFileNameParser
         appendRootUri( uri, rootUri );
         rootUri.append( '/' );
         rootUri.append( share );
-        uri.setRootUri( rootUri.toString() );
+        uri.setContainerUri( rootUri.toString() );
 
         return uri;
     }

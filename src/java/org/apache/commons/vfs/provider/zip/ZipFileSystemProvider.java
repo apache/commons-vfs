@@ -61,7 +61,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.ParsedLayeredUri;
+import org.apache.commons.vfs.provider.Uri;
 
 /**
  * A file system provider for Zip files.  Provides read-only file systems.
@@ -79,7 +79,7 @@ public class ZipFileSystemProvider
      * Parses an absolute URI.
      * @param uri The URI to parse.
      */
-    protected ParsedLayeredUri parseUri( final String uri )
+    protected Uri parseUri( final String uri )
         throws FileSystemException
     {
         return parser.parseZipUri( uri );
