@@ -26,7 +26,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * contents of a zip or tar file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.14 $ $Date: 2004/05/10 20:09:42 $
+ * @version $Revision: 1.15 $ $Date: 2004/08/26 16:36:41 $
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileProvider
@@ -63,9 +63,9 @@ public abstract class AbstractLayeredFileProvider
     /**
      * Creates a layered file system.
      */
-    public FileObject createFileSystem(final String scheme,
-                                       final FileObject file,
-                                       final FileSystemOptions fileSystemOptions)
+    public synchronized FileObject createFileSystem(final String scheme,
+                                                    final FileObject file,
+                                                    final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         // Check if cached

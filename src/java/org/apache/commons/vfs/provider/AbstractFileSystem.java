@@ -248,7 +248,7 @@ public abstract class AbstractFileSystem
     /**
      * Finds a file in this file system.
      */
-    public FileObject resolveFile(final FileName name) throws FileSystemException
+    public synchronized FileObject resolveFile(final FileName name) throws FileSystemException
     {
         if (!rootName.getRootURI().equals(name.getRootURI()))
         {
@@ -362,13 +362,16 @@ public abstract class AbstractFileSystem
     public void addListener(final FileObject file,
                             final FileListener listener)
     {
-        ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
-        if (listeners == null)
+        synchronized (listenerMap)
         {
-            listeners = new ArrayList();
-            listenerMap.put(file.getName(), listeners);
+            ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
+            if (listeners == null)
+            {
+                listeners = new ArrayList();
+                listenerMap.put(file.getName(), listeners);
+            }
+            listeners.add(listener);
         }
-        listeners.add(listener);
     }
 
     /**
@@ -377,10 +380,13 @@ public abstract class AbstractFileSystem
     public void removeListener(final FileObject file,
                                final FileListener listener)
     {
-        final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
-        if (listeners != null)
+        synchronized (listenerMap)
         {
-            listeners.remove(listener);
+            final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
+            if (listeners != null)
+            {
+                listeners.remove(listener);
+            }
         }
     }
 
@@ -418,23 +424,26 @@ public abstract class AbstractFileSystem
      */
     private void fireEvent(final ChangeEvent event)
     {
-        final FileObject file = event.getFile();
-        final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
-        if (listeners != null)
+        synchronized (listenerMap)
         {
-            final int count = listeners.size();
-            for (int i = 0; i < count; i++)
+            final FileObject file = event.getFile();
+            final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
+            if (listeners != null)
             {
-                final FileListener listener = (FileListener) listeners.get(i);
-                try
+                final int count = listeners.size();
+                for (int i = 0; i < count; i++)
                 {
-                    event.notify(listener);
-                }
-                catch (final Exception e)
-                {
-                    final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
-                    // getLogger().warn(message, e);
-                    VfsLog.warn(getLogger(), log, message, e);
+                    final FileListener listener = (FileListener) listeners.get(i);
+                    try
+                    {
+                        event.notify(listener);
+                    }
+                    catch (final Exception e)
+                    {
+                        final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
+                        // getLogger().warn(message, e);
+                        VfsLog.warn(getLogger(), log, message, e);
+                    }
                 }
             }
         }

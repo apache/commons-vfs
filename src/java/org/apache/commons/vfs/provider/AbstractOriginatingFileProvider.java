@@ -27,7 +27,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.18 $ $Date: 2004/05/10 20:09:42 $
+ * @version $Revision: 1.19 $ $Date: 2004/08/26 16:36:41 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileProvider
@@ -64,7 +64,7 @@ public abstract class AbstractOriginatingFileProvider
     /**
      * Locates a file from its parsed URI.
      */
-    private FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
+    private synchronized FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         // Check in the cache for the file system

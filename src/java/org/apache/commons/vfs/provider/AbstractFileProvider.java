@@ -52,8 +52,11 @@ public abstract class AbstractFileProvider
      */
     public void close()
     {
-        fileSystems.clear();
-        super.close();
+        synchronized (fileSystems)
+        {
+            fileSystems.clear();
+            super.close();
+        }
     }
 
     /**
@@ -73,12 +76,15 @@ public abstract class AbstractFileProvider
     protected void addFileSystem(final Comparable key, final FileSystem fs)
         throws FileSystemException
     {
-        // Add to the cache
-        addComponent(fs);
+        synchronized (fileSystems)
+        {
+            // Add to the cache
+            addComponent(fs);
 
-        FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
-        ((AbstractFileSystem) fs).setCacheKey(treeKey);
-        fileSystems.put(treeKey, fs);
+            FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
+            ((AbstractFileSystem) fs).setCacheKey(treeKey);
+            fileSystems.put(treeKey, fs);
+        }
     }
 
     /**
@@ -88,9 +94,12 @@ public abstract class AbstractFileProvider
      */
     protected FileSystem findFileSystem(final Comparable key, final FileSystemOptions fileSystemProps)
     {
-        FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
+        synchronized (fileSystems)
+        {
+            FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
 
-        return (FileSystem) fileSystems.get(treeKey);
+            return (FileSystem) fileSystems.get(treeKey);
+        }
     }
 
     public FileSystemConfigBuilder getConfigBuilder()
@@ -100,23 +109,29 @@ public abstract class AbstractFileProvider
 
     public void freeUnusedResources()
     {
-        Iterator iterFileSystems = fileSystems.values().iterator();
-        while (iterFileSystems.hasNext())
+        synchronized (fileSystems)
         {
-            AbstractFileSystem fs = (AbstractFileSystem) iterFileSystems.next();
-            if (fs.isReleaseable())
+            Iterator iterFileSystems = fileSystems.values().iterator();
+            while (iterFileSystems.hasNext())
             {
-                fs.closeCommunicationLink();
+                AbstractFileSystem fs = (AbstractFileSystem) iterFileSystems.next();
+                if (fs.isReleaseable())
+                {
+                    fs.closeCommunicationLink();
+                }
             }
         }
     }
 
     public void closeFileSystem(final FileSystem filesystem)
     {
-        AbstractFileSystem fs = (AbstractFileSystem) filesystem;
+        synchronized (fileSystems)
+        {
+            AbstractFileSystem fs = (AbstractFileSystem) filesystem;
 
-        fileSystems.remove(fs.getCacheKey());
-        removeComponent(fileSystems);
-        fs.close();
+            fileSystems.remove(fs.getCacheKey());
+            removeComponent(fileSystems);
+            fs.close();
+        }
     }
 }
