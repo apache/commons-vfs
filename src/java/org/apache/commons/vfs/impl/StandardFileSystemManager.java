@@ -71,7 +71,7 @@ import org.apache.commons.vfs.util.Messages;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/02/12 07:56:10 $
+ * @version $Revision: 1.9 $ $Date: 2003/02/15 00:17:06 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -92,6 +92,7 @@ public class StandardFileSystemManager
         addProvider( "jar", "org.apache.commons.vfs.provider.jar.JarFileSystemProvider" );
         addProvider( "ftp", "org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider" );
         addProvider( "smb", "org.apache.commons.vfs.provider.smb.SmbFileSystemProvider" );
+        addProvider( "webdav", "org.apache.commons.vfs.provider.webdav.WebdavProvider" );
         addProvider( "tmp", "org.apache.commons.vfs.provider.temp.TemporaryFileProvider" );
 
         // Add a default provider
@@ -141,5 +142,4 @@ public class StandardFileSystemManager
             throw new FileSystemException( "vfs.impl/create-provider.error", providerClassName, e );
         }
     }
-
 }
