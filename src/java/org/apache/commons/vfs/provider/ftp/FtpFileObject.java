@@ -60,6 +60,8 @@ import java.io.OutputStream;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
@@ -75,7 +77,7 @@ final class FtpFileObject
 {
     private static final FTPFile[] EMPTY_FTP_FILE_ARRAY = {};
 
-    private final FtpFileSystem ftpFs;
+    private FtpFileSystem ftpFs;
     private final String relPath;
 
     // Cached info
@@ -91,6 +93,60 @@ final class FtpFileObject
         ftpFs = fileSystem;
         relPath = rootName.getRelativeName( name );
     }
+
+	/**
+	 * Copies another file, and all its descendents, to this file.
+	 *
+	 * If this file does not exist, it is created.  Its parent folder is also
+	 * created, if necessary.  If this file does exist, it is deleted first.
+	 *
+	 * <p>This method is not transactional.  If it fails and throws an
+	 * exception, this file will potentially only be partially copied.
+	 *
+	 * @param file The source file to copy.
+	 * @param selector The selector to use to select which files to copy.
+	 *
+	 * @throws FileSystemException
+	 *      If this file is read-only, or if the source file does not exist,
+	 *      or on error copying the file.
+	 */
+	public void copyFrom( final FileObject file, final FileSelector selector )
+		throws FileSystemException	{
+		
+		// We override copyFrom here for the specific case where the source 
+		// and destination files in the copy are from the same FTPFileSystem.  
+		// The problem is this can't be done through one FTP session
+		// concurrently( I think it creates a race condition) So we 
+		// temporarily create a new one just for use during this copy
+		// and then return everything to the way it was afterward.
+		
+		// if we're copying to and from the same FileSystem
+		if ( file.getFileSystem().equals( this.getFileSystem() ) ) {
+			
+			FtpFileNameParser parser = new FtpFileNameParser();
+
+			// save the old file system for later
+			FtpFileSystem oldFs = this.ftpFs;
+			
+			// create a new file system for use temporarily
+			FtpUri uri = parser.parseFtpUri( this.getURL().toString() );
+			this.ftpFs = new FtpFileSystem( oldFs.getRoot().getName(),
+											 uri.getHostName(),
+											 uri.getUserName(),
+											 uri.getPassword() ); 
+
+			// use our parent's copy functionality
+			super.copyFrom( file, selector );
+			
+			// return the filesystem to the way it was
+			this.ftpFs.close();
+			this.ftpFs = oldFs;
+		}
+		// otherwise proceed normally
+		else {
+			super.copyFrom( file, selector );
+		}
+	}
 
     /**
      * Called by child file objects, to locate their ftp file info.
