@@ -18,10 +18,28 @@
 
             <p>Some of the features of Commons VFS are:</p>
             <ul>
-                <li>A single API for accessing files of different types.</li>
-                <li>Support for numerous <a href="filesystems.html">file system types</a>.</li>
-                <li>Utilities like a VFS-aware ClassLoader and URLStreamHandlerFactory.</li>
-                <li>A set of VFS <a href="anttasks.html">Ant tasks</a>.</li>
+                <li>
+                    A single consistent API for accessing files of different
+                    types.
+                </li>
+                <li>Support for numerous
+                    <a href="filesystems.html">file system types</a>.
+                </li>
+                <li>
+                    Caching of file information.  Caches information in-JVM,
+                    and optionally can cache remote file information on the
+                    local file system.
+                </li>
+                <li>Event delivery.</li>
+                <li>
+                    Support for logical file systems made up of files from
+                    various different file systems.
+                </li>
+                <li>
+                    Utilities for integrating Commons VFS into applications,
+                    such as a VFS-aware ClassLoader and URLStreamHandlerFactory.
+                </li>
+                <li>A set of VFS-enabled <a href="anttasks.html">Ant tasks</a>.</li>
                 <li>More coming soon ...</li>
             </ul>
             
