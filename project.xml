@@ -65,6 +65,11 @@
 
   <dependencies>
     <dependency>
+      <id>ant</id>
+      <version>1.5</version>
+    </dependency>
+
+    <dependency>
       <id>junit</id>
       <version>3.7</version>
     </dependency>
@@ -112,8 +117,6 @@
       </includes>
       <excludes>
         <exclude>**/test/Abstract*TestCase.java</exclude>
-        <exclude>**/smb/test/**</exclude>
-        <exclude>**/ftp/test/**</exclude>
       </excludes>
     </unitTest>
 

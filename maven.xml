@@ -5,22 +5,22 @@
         description="Generate and copy the test data"
         prereqs="test:compile">
 
-    <copy todir="${maven.test.data}">
-      <fileset dir="${maven.test.data.src}">
+    <copy todir="${test.data}">
+      <fileset dir="${test.data.src}">
         <exclude name="*.policy"/>
       </fileset>
     </copy>
 
-    <mkdir dir="${maven.test.data}/basedir/emptydir"/>
+    <mkdir dir="${test.data}/basedir/emptydir"/>
 
     <!-- Create a zip file -->
-    <zip zipfile="${maven.test.data}/test.zip">
-      <zipfileset dir="${maven.test.data}">
+    <zip zipfile="${test.data}/test.zip">
+      <zipfileset dir="${test.data}">
         <include name="basedir/**"/>
       </zipfileset>
     </zip>
-    <zip zipfile="${maven.test.data}/nested.zip">
-      <zipfileset dir="${maven.test.data}">
+    <zip zipfile="${test.data}/nested.zip">
+      <zipfileset dir="${test.data}">
         <include name="test.zip"/>
       </zipfileset>
     </zip>
@@ -35,13 +35,15 @@
            fork="${maven.junit.fork}"
            dir="${maven.junit.dir}">
       <sysproperty key="basedir" value="${basedir}"/>
-      <sysproperty key="test.basedir" value="${maven.test.data}"/>
+      <sysproperty key="test.basedir" value="${test.data}"/>
       <sysproperty key="maven.repo.local" value="${maven.repo.local}"/>
       <sysproperty key="maven.home" value="${maven.home}"/>
       <sysproperty key="maven.build.dest" value="${maven.build.dest}"/>
-      <j:if test="${maven.test.secure}">
-      <sysproperty key="java.security.manager" value="" />
-      <sysproperty key="java.security.policy" value="${maven.test.policy}"/>
+      <sysproperty key="test.ftp.uri" value="${test.ftp.uri}"/>
+      <sysproperty key="test.smb.uri" value="${test.smb.uri}"/>
+      <j:if test="${test.secure}">
+        <sysproperty key="java.security.manager" value="" />
+        <sysproperty key="java.security.policy" value="${test.policy}"/>
       </j:if>
       <formatter type="xml"/>
       <formatter type="plain" usefile="${maven.junit.usefile}"/>
