@@ -77,6 +77,7 @@ final class FtpFileSystem
     extends AbstractFileSystem
 {
     private final String hostname;
+    private final int port;
     private final String username;
     private final String password;
 
@@ -87,6 +88,7 @@ final class FtpFileSystem
     {
         super( rootName, null );
         hostname = rootName.getHostName();
+        port = rootName.getPort();
 
         // Determine the username and password to use
         if ( rootName.getUserName() == null )
@@ -159,7 +161,7 @@ final class FtpFileSystem
     {
         if ( idleClient == null )
         {
-            return createConnection( hostname, username, password );
+            return createConnection();
         }
         else
         {
@@ -198,9 +200,7 @@ final class FtpFileSystem
     /**
      * Creates a new connection to the server.
      */
-    private FTPClient createConnection( final String hostname,
-                                        final String username,
-                                        final String password )
+    private FTPClient createConnection()
         throws FileSystemException
     {
         try
@@ -209,7 +209,7 @@ final class FtpFileSystem
 
             try
             {
-                client.connect( hostname );
+                client.connect( hostname, port );
 
                 int reply = client.getReplyCode();
                 if ( !FTPReply.isPositiveCompletion( reply ) )
