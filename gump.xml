@@ -13,10 +13,11 @@
         <depend project="junit"/>
         <depend project="xml-xerces"/>
         <depend project="commons-logging"/>
-
+        <depend project="commons-collections"/>
+        <depend project="commons-compress"/>
         <option project="commons-httpclient"/>
         <option project="commons-net"/>
-        <option project="jakarta-slide" ids="client-webdavlib"/>
+        <option project="jakarta-slide" ids="webdavlib"/>
         <option project="jcifs"/>
         <option project="jsch"/>
 
