@@ -99,31 +99,11 @@ class SmbFileObject
     }
 
     /**
-     * Detaches this file object from its file resource.
-     */
-    protected void doDetach()
-    {
-        // Need to throw away the file when the file's type changes, because
-        // the SmbFile caches the type
-        file = null;
-    }
-
-    /**
      * Determines the type of the file, returns null if the file does not
      * exist.
      */
     protected FileType doGetType() throws Exception
     {
-        // Need to check whether parent exists or not, because SmbFile.exists()
-        // throws an exception if it does not
-        // TODO - patch jCIFS?
-
-        FileObject parent = getParent();
-        if ( parent != null && !parent.exists() )
-        {
-            return null;
-        }
-
         if ( !file.exists() )
         {
             return null;
