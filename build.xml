@@ -31,6 +31,30 @@
     </condition>
   </target>
   <target name="compile" description="o Compile the code" depends="get-deps">
+
+      <path id="classpath">
+        <fileset dir="${libdir}">
+          <include name="*.jar">
+          </include>
+        </fileset>
+      </path>
+
+      <condition property="commons-httpclient.avail">
+          <available classname="org.apache.commons.httpclient.HttpClient" classpathref="classpath" />
+      </condition>
+      <condition property="commons-net.avail">
+          <available classname="org.apache.commons.net.ftp.FTPClient" classpathref="classpath"/>
+      </condition>
+      <condition property="slide.avail">
+          <available classname="org.apache.webdav.lib.WebdavResource" classpathref="classpath"/>
+      </condition>
+      <condition property="jcifs.avail">
+          <available classname="jcifs.smb.SmbFile" classpathref="classpath"/>
+      </condition>
+      <condition property="jsch.avail">
+          <available classname="com.jcraft.jsch.ChannelSftp" classpathref="classpath"/>
+      </condition>
+
     <mkdir dir="${classesdir}">
     </mkdir>
     <javac destdir="${classesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
@@ -38,12 +62,13 @@
         <pathelement location="src/java">
         </pathelement>
       </src>
-      <classpath>
-        <fileset dir="${libdir}">
-          <include name="*.jar">
-          </include>
-        </fileset>
-      </classpath>
+        <exclude name="**/provider/ftp/**" unless="commons-net.avail" />
+        <exclude name="**/provider/http/**" unless="commons-httpclient.avail" />
+        <exclude name="**/provider/webdav/**" unless="commons-httpclient.avail" />
+        <exclude name="**/provider/webdav/**" unless="slide.avail" />
+        <exclude name="**/provider/smb/**" unless="jcifs.avail" />
+        <exclude name="**/provider/sftp/**" unless="jsch.avail" />
+      <classpath refid="classpath"/>
     </javac>
     <copy todir="${classesdir}">
       <fileset dir="src/java">
@@ -159,27 +184,15 @@
     </get>
     <get dest="${libdir}/commons-logging-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.jar">
     </get>
-    <get dest="${libdir}/jcifs-0.7.0b5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.7.0b5.jar">
+    <get dest="${libdir}/jcifs-0.7.8.jar" usetimestamp="true" ignoreerrors="true" src="file://${basedir}/lib/jcifs/jars/jcifs-0.7.8.jar">
     </get>
     <get dest="${libdir}/webdavlib-20030224.jar" usetimestamp="true" ignoreerrors="true" src="file://${basedir}/lib/slide/jars/webdavlib-20030224.jar">
     </get>
-    <get dest="${libdir}/commons-httpclient-2.0-alpha2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0-alpha2.jar">
+    <get dest="${libdir}/commons-httpclient-2.0-beta1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0-beta1.jar">
     </get>
-    <get dest="${libdir}/jsch-0.1.2.jar" usetimestamp="true" ignoreerrors="true" src="file://${basedir}/lib/jsch/jars/jsch-0.1.2.jar">
+    <get dest="${libdir}/jsch-0.1.5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jsch/jars/jsch-0.1.5.jar">
     </get>
-    <get dest="${libdir}/xml-apis-2.0.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-2.0.0.jar">
+    <get dest="${libdir}/xml-apis-1.0.b2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-1.0.b2.jar">
     </get>
-    <get dest="${libdir}/junit-3.8.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.8.1.jar">
-    </get>
-    <get dest="${libdir}/ant-1.5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.5.jar">
-    </get>
-    <get dest="${libdir}/ant-optional-1.5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-optional-1.5.jar">
-    </get>
-  </target>
-  <target name="install-maven">
-    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${maven.repo.remote}/maven/maven-install-latest.jar">
-    </get>
-    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar">
-    </unjar>
   </target>
 </project>
