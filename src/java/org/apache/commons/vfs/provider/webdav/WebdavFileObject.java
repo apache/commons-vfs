@@ -60,6 +60,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.HashMap;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
@@ -68,13 +70,16 @@ import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.util.HttpURL;
 import org.apache.webdav.lib.WebdavResource;
+import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.methods.OptionsMethod;
+import org.apache.webdav.lib.methods.XMLResponseMethodBase;
+import org.apache.webdav.lib.methods.DepthSupport;
 
 /**
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/04/14 01:09:25 $
+ * @version $Revision: 1.8 $ $Date: 2003/04/29 01:34:04 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -253,7 +258,29 @@ public class WebdavFileObject
      * Returns the last modified time of this file.  Is only called if
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      */
-    protected long doGetLastModifiedTime() throws Exception {
+    protected long doGetLastModifiedTime() throws Exception
+    {
         return resource.getGetLastModified();
+    }
+
+    /**
+     * Returns the properties of the Webdav resource.
+     */
+    protected Map doGetAttributes() throws Exception
+    {
+        final Map attributes = new HashMap();
+        final Enumeration e = resource.propfindMethod( DepthSupport.DEPTH_0 );
+        while (e.hasMoreElements())
+        {
+            final XMLResponseMethodBase.Response response = (XMLResponseMethodBase.Response)e.nextElement();
+            final Enumeration properties = response.getProperties();
+            while ( properties.hasMoreElements() )
+            {
+                final BaseProperty property = (BaseProperty) properties.nextElement();
+                attributes.put( property.getLocalName(), property.getPropertyAsString() );
+            }
+        }
+
+        return attributes;
     }
 }
