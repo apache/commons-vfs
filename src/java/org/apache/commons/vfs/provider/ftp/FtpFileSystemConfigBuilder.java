@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.6 $ $Date: 2004/09/19 18:23:48 $
+ * @version $Revision: 1.7 $ $Date: 2004/09/20 11:31:53 $
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -46,7 +46,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts
      * @param factory instance of your factory
      */
-    public void setFTPFileEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
+    public void setEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
     {
         setParam(opts, FTPFileEntryParserFactory.class.getName(), factory);
     }
@@ -54,9 +54,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * @param opts
      * @return
-     * @see #setFTPFileEntryParserFactory
+     * @see #setEntryParserFactory
      */
-    public FTPFileEntryParserFactory getFTPFileEntryParserFactory(FileSystemOptions opts)
+    public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
     {
         return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
     }
@@ -68,7 +68,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts
      * @param key
      */
-    public void setFTPFileEntryParserFactoryKey(FileSystemOptions opts, String key)
+    public void setEntryParserFactoryKey(FileSystemOptions opts, String key)
     {
         setParam(opts, FACTORY_KEY, key);
     }
@@ -76,9 +76,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * @param opts
      * @return
-     * @see #setFTPFileEntryParserFactoryKey
+     * @see #setEntryParserFactoryKey
      */
-    public String getFTPFileEntryParserFactoryKey(FileSystemOptions opts)
+    public String getEntryParserFactoryKey(FileSystemOptions opts)
     {
         return (String) getParam(opts, FACTORY_KEY);
     }

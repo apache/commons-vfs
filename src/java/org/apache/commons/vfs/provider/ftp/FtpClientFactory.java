@@ -28,7 +28,7 @@ import java.io.IOException;
  * Create a FtpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/08/26 16:37:55 $
+ * @version $Revision: 1.3 $ $Date: 2004/09/20 11:31:53 $
  */
 public class FtpClientFactory
 {
@@ -56,7 +56,7 @@ public class FtpClientFactory
         {
             final FTPClient client = new FTPClient();
 
-            FTPFileEntryParserFactory myFactory = FtpFileSystemConfigBuilder.getInstance().getFTPFileEntryParserFactory(fileSystemOptions);
+            FTPFileEntryParserFactory myFactory = FtpFileSystemConfigBuilder.getInstance().getEntryParserFactory(fileSystemOptions);
             if (myFactory != null)
             {
                 client.setParserFactory(myFactory);
