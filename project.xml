@@ -6,8 +6,9 @@
   <id>commons-vfs</id>
   <currentVersion>1.0-dev</currentVersion>
   <organization>
-    <name>Apache Software Foundation</name>
-    <url>http://www.apache.org</url>
+    <name>Apache Jakarta Project</name>
+    <url>http://jakarta.apache.org</url>
+    <logo>http://jakarta.apache.org/images/jakarta-logo-blue.gif</logo>
   </organization>
   <inceptionYear>2002</inceptionYear>
   <package>org.apache.commons.vfs</package>
