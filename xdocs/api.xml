@@ -90,7 +90,7 @@ manager.init();
                 <p>
                     For an example of using the API, take a look at the classes
                     in the
-                    <a href="xref/org/apache/commons/vfs/example/package-summary.html">example</a>
+                    <a href="apidocs/org/apache/commons/vfs/example/package-summary.html">example</a>
                     package.
                 </p>
             </subsection>
