@@ -29,15 +29,15 @@ public class NestedZipFileSystemTestCase
      */
     protected FileObject getBaseFolder() throws Exception
     {
-        m_manager.addProvider( "zip", new ZipFileSystemProvider() );
+        getManager().addProvider( "zip", new ZipFileSystemProvider() );
 
         // Locate the base Zip file
         final String zipFilePath = getTestResource( "nested.zip" ).getAbsolutePath();
         String uri = "zip:" + zipFilePath + "!/test.zip";
-        final FileObject zipFile = m_manager.resolveFile( uri );
+        final FileObject zipFile = getManager().resolveFile( uri );
 
         // Now build the nested file system
-        final FileObject nestedFS = m_manager.createFileSystem( "zip", zipFile );
+        final FileObject nestedFS = getManager().createFileSystem( "zip", zipFile );
         return nestedFS.resolveFile( "/basedir" );
     }
 }

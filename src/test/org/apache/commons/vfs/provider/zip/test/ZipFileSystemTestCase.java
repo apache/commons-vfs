@@ -31,7 +31,7 @@ public class ZipFileSystemTestCase extends AbstractReadOnlyFileSystemTestCase
     {
         File zipFile = getTestResource( "test.zip" );
         String uri = "zip:" + zipFile.getAbsolutePath() + "!basedir";
-        m_manager.addProvider( "zip", new ZipFileSystemProvider() );
-        return m_manager.resolveFile( uri );
+        getManager().addProvider( "zip", new ZipFileSystemProvider() );
+        return getManager().resolveFile( uri );
     }
 }

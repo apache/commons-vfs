@@ -600,9 +600,9 @@ public class UriParser
                 maxlen = path.length();
                 continue;
             }
-            if ( elemLen == 2 &&
-                path.charAt( startElem ) == '.' &&
-                path.charAt( startElem + 1 ) == '.' )
+            if ( elemLen == 2
+                 && path.charAt( startElem ) == '.'
+                 && path.charAt( startElem + 1 ) == '.' )
             {
                 // A '..' element - remove the previous element
                 if ( startElem == startFirstElem )
@@ -721,8 +721,8 @@ public class UriParser
                 // A scheme character
                 continue;
             }
-            if ( pos > 0 &&
-                ( ( ch >= '0' && ch <= '9' )
+            if ( pos > 0
+                && ( ( ch >= '0' && ch <= '9' )
                 || ch == '+' || ch == '-' || ch == '.' ) )
             {
                 // A scheme character (these are not allowed as the first

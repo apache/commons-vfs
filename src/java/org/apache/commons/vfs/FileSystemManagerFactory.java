@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * A static factory for {@link FileSystemManager} instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/10/21 01:40:37 $
+ * @version $Revision: 1.7 $ $Date: 2002/10/21 02:52:40 $
  */
 public class FileSystemManagerFactory
 {
@@ -32,7 +32,7 @@ public class FileSystemManagerFactory
     /**
      * Returns the default {@link FileSystemManager} instance.
      */
-    public synchronized static FileSystemManager getManager()
+    public static synchronized FileSystemManager getManager()
         throws FileSystemException
     {
         if ( instance == null )

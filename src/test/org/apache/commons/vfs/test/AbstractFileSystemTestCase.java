@@ -44,15 +44,31 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
 public abstract class AbstractFileSystemTestCase
     extends AbstractVfsTestCase
 {
-    protected FileObject m_baseFolder;
-    protected DefaultFileSystemManager m_manager;
+    private FileObject baseFolder;
+    private DefaultFileSystemManager manager;
 
     // Contents of "file1.txt"
-    protected String m_charContent;
+    private String charContent;
 
     public AbstractFileSystemTestCase( String name )
     {
         super( name );
+    }
+
+    /**
+     * Returns the expected contents of "file1.txt".
+     */
+    protected String getCharContent()
+    {
+        return charContent;
+    }
+
+    /**
+     * Returns the file system manager used by this test.
+     */
+    protected DefaultFileSystemManager getManager()
+    {
+        return manager;
     }
 
     /**
@@ -114,19 +130,19 @@ public abstract class AbstractFileSystemTestCase
     protected void setUp() throws Exception
     {
         // Create the file system manager
-        m_manager = new DefaultFileSystemManager();
-        m_manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
-        m_manager.setReplicator( new PrivilegedFileReplicator( new DefaultFileReplicator() ) );
+        manager = new DefaultFileSystemManager();
+        manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
+        manager.setReplicator( new PrivilegedFileReplicator( new DefaultFileReplicator() ) );
 
         // Locate the base folder
-        m_baseFolder = getBaseFolder();
+        baseFolder = getBaseFolder();
 
         // Make some assumptions absout the name
-        assertTrue( !m_baseFolder.getName().getPath().equals( "/" ) );
+        assertTrue( !baseFolder.getName().getPath().equals( "/" ) );
 
         // Build the expected content of "file1.txt"
         final String eol = "\n";
-        m_charContent = "This is a test file." + eol + "With 2 lines in it." + eol;
+        charContent = "This is a test file." + eol + "With 2 lines in it." + eol;
     }
 
     /**
@@ -134,7 +150,7 @@ public abstract class AbstractFileSystemTestCase
      */
     protected void tearDown() throws Exception
     {
-        m_manager.close();
+        manager.close();
     }
 
     /**
@@ -143,10 +159,10 @@ public abstract class AbstractFileSystemTestCase
     public void testAbsoluteURI() throws Exception
     {
         // Try fetching base folder again by its URI
-        final String uri = m_baseFolder.getName().getURI();
-        final FileObject file = m_manager.resolveFile( uri );
+        final String uri = baseFolder.getName().getURI();
+        final FileObject file = manager.resolveFile( uri );
 
-        assertSame( "file object", m_baseFolder, file );
+        assertSame( "file object", baseFolder, file );
     }
 
     /**
@@ -155,23 +171,23 @@ public abstract class AbstractFileSystemTestCase
     public void testRelativeURI() throws Exception
     {
         // Build base dir
-        m_manager.setBaseFile( m_baseFolder );
+        manager.setBaseFile( baseFolder );
 
         // Locate the base dir
-        FileObject file = m_manager.resolveFile( "." );
-        assertSame( "file object", m_baseFolder, file );
+        FileObject file = manager.resolveFile( "." );
+        assertSame( "file object", baseFolder, file );
 
         // Locate a child
-        file = m_manager.resolveFile( "some-child" );
-        assertSame( "file object", m_baseFolder, file.getParent() );
+        file = manager.resolveFile( "some-child" );
+        assertSame( "file object", baseFolder, file.getParent() );
 
         // Locate a descendent
-        file = m_manager.resolveFile( "some-folder/some-file" );
-        assertSame( "file object", m_baseFolder, file.getParent().getParent() );
+        file = manager.resolveFile( "some-folder/some-file" );
+        assertSame( "file object", baseFolder, file.getParent().getParent() );
 
         // Locate parent
-        file = m_manager.resolveFile( ".." );
-        assertSame( "file object", m_baseFolder.getParent(), file );
+        file = manager.resolveFile( ".." );
+        assertSame( "file object", baseFolder.getParent(), file );
     }
 
     /**
@@ -180,33 +196,33 @@ public abstract class AbstractFileSystemTestCase
     public void testRelativeUriEncoding() throws Exception
     {
         // Build base dir
-        m_manager.setBaseFile( m_baseFolder );
-        final String path = m_baseFolder.getName().getPath();
+        manager.setBaseFile( baseFolder );
+        final String path = baseFolder.getName().getPath();
 
         // Encode "some file"
-        FileObject file = m_manager.resolveFile( "%73%6f%6d%65%20%66%69%6c%65" );
+        FileObject file = manager.resolveFile( "%73%6f%6d%65%20%66%69%6c%65" );
         assertEquals( path + "/some file", file.getName().getPath() );
 
         // Encode "."
-        file = m_manager.resolveFile( "%2e" );
+        file = manager.resolveFile( "%2e" );
         assertEquals( path, file.getName().getPath() );
 
         // Encode '%'
-        file = m_manager.resolveFile( "a%25" );
+        file = manager.resolveFile( "a%25" );
         assertEquals( path + "/a%", file.getName().getPath() );
 
         // Encode /
-        file = m_manager.resolveFile( "dir%2fchild" );
+        file = manager.resolveFile( "dir%2fchild" );
         assertEquals( path + "/dir/child", file.getName().getPath() );
 
         // Encode \
-        file = m_manager.resolveFile( "dir%5cchild" );
+        file = manager.resolveFile( "dir%5cchild" );
         assertEquals( path + "/dir/child", file.getName().getPath() );
 
         // Use "%" literal
         try
         {
-            m_manager.resolveFile( "%" );
+            manager.resolveFile( "%" );
             fail();
         }
         catch( FileSystemException e )
@@ -216,7 +232,7 @@ public abstract class AbstractFileSystemTestCase
         // Not enough digits in encoded char
         try
         {
-            m_manager.resolveFile( "%5" );
+            manager.resolveFile( "%5" );
             fail();
         }
         catch( FileSystemException e )
@@ -226,7 +242,7 @@ public abstract class AbstractFileSystemTestCase
         // Invalid digit in encoded char
         try
         {
-            m_manager.resolveFile( "%q" );
+            manager.resolveFile( "%q" );
             fail();
         }
         catch( FileSystemException e )
@@ -240,7 +256,7 @@ public abstract class AbstractFileSystemTestCase
     public void testRootFileName() throws Exception
     {
         // Locate the root file
-        final FileName rootName = m_baseFolder.getFileSystem().getRoot().getName();
+        final FileName rootName = baseFolder.getFileSystem().getRoot().getName();
 
         // Test that the root path is "/"
         assertEquals( "root path", "/", rootName.getPath() );
@@ -257,7 +273,7 @@ public abstract class AbstractFileSystemTestCase
      */
     public void testChildName() throws Exception
     {
-        final FileName baseName = m_baseFolder.getName();
+        final FileName baseName = baseFolder.getName();
         final String basePath = baseName.getPath();
         final FileName name = baseName.resolveName( "some-child", NameScope.CHILD );
 
@@ -359,7 +375,7 @@ public abstract class AbstractFileSystemTestCase
      */
     public void testNameResolution() throws Exception
     {
-        final FileName baseName = m_baseFolder.getName();
+        final FileName baseName = baseFolder.getName();
         final String parentPath = baseName.getParent().getPath();
         final String path = baseName.getPath();
         final String childPath = path + "/some-child";
@@ -421,7 +437,7 @@ public abstract class AbstractFileSystemTestCase
     public void testDescendentName()
         throws Exception
     {
-        final FileName baseName = m_baseFolder.getName();
+        final FileName baseName = baseFolder.getName();
 
         // Test direct child
         String path = baseName.getPath() + "/some-child";
@@ -446,11 +462,11 @@ public abstract class AbstractFileSystemTestCase
     public void testAbsoluteNames() throws Exception
     {
         // Test against the base folder
-        FileName name = m_baseFolder.getName();
+        FileName name = baseFolder.getName();
         checkAbsoluteNames( name );
 
         // Test against the root
-        name = m_baseFolder.getFileSystem().getRoot().getName();
+        name = baseFolder.getFileSystem().getRoot().getName();
         checkAbsoluteNames( name );
 
         // Test against some unknown file
@@ -504,7 +520,7 @@ public abstract class AbstractFileSystemTestCase
      */
     public void testAbsoluteNameConvert() throws Exception
     {
-        final FileName baseName = m_baseFolder.getName();
+        final FileName baseName = baseFolder.getName();
 
         String path = "/test1/test2";
         FileName name = baseName.resolveName( path );
@@ -570,7 +586,7 @@ public abstract class AbstractFileSystemTestCase
     public void testStructure() throws Exception
     {
         final FileInfo baseInfo = buildExpectedStructure();
-        assertSameStructure( m_baseFolder, baseInfo );
+        assertSameStructure( baseFolder, baseInfo );
     }
 
     /**
@@ -630,19 +646,19 @@ public abstract class AbstractFileSystemTestCase
     public void testExists() throws Exception
     {
         // Test a file
-        FileObject file = m_baseFolder.resolveFile( "file1.txt" );
+        FileObject file = baseFolder.resolveFile( "file1.txt" );
         assertTrue( "file exists", file.exists() );
 
         // Test a folder
-        file = m_baseFolder.resolveFile( "dir1" );
+        file = baseFolder.resolveFile( "dir1" );
         assertTrue( "folder exists", file.exists() );
 
         // Test an unknown file
-        file = m_baseFolder.resolveFile( "unknown-child" );
+        file = baseFolder.resolveFile( "unknown-child" );
         assertTrue( "unknown file does not exist", !file.exists() );
 
         // Test an unknown file in an unknown folder
-        file = m_baseFolder.resolveFile( "unknown-folder/unknown-child" );
+        file = baseFolder.resolveFile( "unknown-folder/unknown-child" );
         assertTrue( "unknown file does not exist", !file.exists() );
     }
 
@@ -652,15 +668,15 @@ public abstract class AbstractFileSystemTestCase
     public void testType() throws Exception
     {
         // Test a file
-        FileObject file = m_baseFolder.resolveFile( "file1.txt" );
+        FileObject file = baseFolder.resolveFile( "file1.txt" );
         assertSame( FileType.FILE, file.getType() );
 
         // Test a folder
-        file = m_baseFolder.resolveFile( "dir1" );
+        file = baseFolder.resolveFile( "dir1" );
         assertSame( FileType.FOLDER, file.getType() );
 
         // Test an unknown file
-        file = m_baseFolder.resolveFile( "unknown-child" );
+        file = baseFolder.resolveFile( "unknown-child" );
         try
         {
             file.getType();
@@ -678,7 +694,7 @@ public abstract class AbstractFileSystemTestCase
     public void testParent() throws FileSystemException
     {
         // Test when both exist
-        FileObject folder = m_baseFolder.resolveFile( "dir1" );
+        FileObject folder = baseFolder.resolveFile( "dir1" );
         FileObject child = folder.resolveFile( "file3.txt" );
         assertTrue( "folder exists", folder.exists() );
         assertTrue( "child exists", child.exists() );
@@ -691,7 +707,7 @@ public abstract class AbstractFileSystemTestCase
         assertSame( folder, child.getParent() );
 
         // Test when neither exists
-        folder = m_baseFolder.resolveFile( "unknown-folder" );
+        folder = baseFolder.resolveFile( "unknown-folder" );
         child = folder.resolveFile( "unknown-file" );
         assertTrue( "folder does not exist", !folder.exists() );
         assertTrue( "child does not exist", !child.exists() );
@@ -699,7 +715,7 @@ public abstract class AbstractFileSystemTestCase
 
         // Test the parent of the root of the file system
         // TODO - refactor out test cases for layered vs originating fs
-        final FileSystem fileSystem = m_baseFolder.getFileSystem();
+        final FileSystem fileSystem = baseFolder.getFileSystem();
         FileObject root = fileSystem.getRoot();
         if ( fileSystem.getParentLayer() == null )
         {
@@ -719,7 +735,7 @@ public abstract class AbstractFileSystemTestCase
     public void testChildren() throws FileSystemException
     {
         // Check for file
-        FileObject file = m_baseFolder.resolveFile( "file1.txt" );
+        FileObject file = baseFolder.resolveFile( "file1.txt" );
         assertSame( FileType.FILE, file.getType() );
         try
         {
@@ -736,7 +752,7 @@ public abstract class AbstractFileSystemTestCase
         assertNotNull( file );
 
         // Check for unknown file
-        file = m_baseFolder.resolveFile( "unknown-file" );
+        file = baseFolder.resolveFile( "unknown-file" );
         assertTrue( !file.exists() );
         try
         {
@@ -758,9 +774,9 @@ public abstract class AbstractFileSystemTestCase
      */
     public void testVFSClassLoader() throws Exception
     {
-        final FileObject[] objects = { m_baseFolder };
+        final FileObject[] objects = { baseFolder };
         VFSClassLoader loader =
-            new VFSClassLoader( objects, m_manager );
+            new VFSClassLoader( objects, manager );
 
         Class testClass = loader.loadClass( "code.ClassToLoad" );
         assertTrue( verifyPackage( testClass.getPackage() ) );
@@ -771,7 +787,7 @@ public abstract class AbstractFileSystemTestCase
         URL resource = loader.getResource( "file1.txt" );
         assertNotNull( resource );
         URLConnection urlCon = resource.openConnection();
-        assertSameURLContent( m_charContent, urlCon );
+        assertSameURLContent( charContent, urlCon );
     }
 
     /**
@@ -795,13 +811,13 @@ public abstract class AbstractFileSystemTestCase
      */
     public void testURL() throws Exception
     {
-        FileObject file = m_baseFolder.resolveFile( "some-dir/" );
+        FileObject file = baseFolder.resolveFile( "some-dir/" );
         URL url = file.getURL();
 
         assertEquals( file.getName().getURI(), url.toExternalForm() );
 
         URL parentURL = new URL( url, ".." );
-        assertEquals( m_baseFolder.getURL(), parentURL );
+        assertEquals( baseFolder.getURL(), parentURL );
 
         URL rootURL = new URL( url, "/" );
         assertEquals( file.getFileSystem().getRoot().getURL(), rootURL );
@@ -813,12 +829,12 @@ public abstract class AbstractFileSystemTestCase
     public void testURLContent() throws Exception
     {
         // Test non-empty file
-        FileObject file = m_baseFolder.resolveFile( "file1.txt" );
+        FileObject file = baseFolder.resolveFile( "file1.txt" );
         URLConnection urlCon = file.getURL().openConnection();
-        assertSameURLContent( m_charContent, urlCon );
+        assertSameURLContent( charContent, urlCon );
 
         // Test empty file
-        file = m_baseFolder.resolveFile( "empty.txt" );
+        file = baseFolder.resolveFile( "empty.txt" );
         urlCon = file.getURL().openConnection();
         assertSameURLContent( "", urlCon );
     }
@@ -868,7 +884,7 @@ public abstract class AbstractFileSystemTestCase
     public void testNoURLContent() throws Exception
     {
         // Try getting the content of a folder
-        FileObject folder = m_baseFolder.resolveFile( "dir1" );
+        FileObject folder = baseFolder.resolveFile( "dir1" );
         try
         {
             folder.getURL().openConnection().getInputStream();
@@ -880,7 +896,7 @@ public abstract class AbstractFileSystemTestCase
         }
 
         // Try getting the content of an unknown file
-        FileObject unknownFile = m_baseFolder.resolveFile( "unknown-file" );
+        FileObject unknownFile = baseFolder.resolveFile( "unknown-file" );
         URLConnection connection = unknownFile.getURL().openConnection();
         try
         {
@@ -900,12 +916,12 @@ public abstract class AbstractFileSystemTestCase
     public void testContent() throws Exception
     {
         // Test non-empty file
-        FileObject file = m_baseFolder.resolveFile( "file1.txt" );
+        FileObject file = baseFolder.resolveFile( "file1.txt" );
         FileContent content = file.getContent();
-        assertSameContent( m_charContent, content );
+        assertSameContent( charContent, content );
 
         // Test empty file
-        file = m_baseFolder.resolveFile( "empty.txt" );
+        file = baseFolder.resolveFile( "empty.txt" );
         content = file.getContent();
         assertSameContent( "", content );
     }
@@ -955,7 +971,7 @@ public abstract class AbstractFileSystemTestCase
     public void testNoContent() throws Exception
     {
         // Try getting the content of a folder
-        FileObject folder = m_baseFolder.resolveFile( "dir1" );
+        FileObject folder = baseFolder.resolveFile( "dir1" );
         try
         {
             folder.getContent().getInputStream();
@@ -967,7 +983,7 @@ public abstract class AbstractFileSystemTestCase
         }
 
         // Try getting the content of an unknown file
-        FileObject unknownFile = m_baseFolder.resolveFile( "unknown-file" );
+        FileObject unknownFile = baseFolder.resolveFile( "unknown-file" );
         FileContent content = unknownFile.getContent();
         try
         {
@@ -995,16 +1011,16 @@ public abstract class AbstractFileSystemTestCase
     public void testReuse() throws Exception
     {
         // Get the test file
-        FileObject file = m_baseFolder.resolveFile( "file1.txt" );
+        FileObject file = baseFolder.resolveFile( "file1.txt" );
         assertEquals( FileType.FILE, file.getType() );
 
         // Get the file content
         FileContent content = file.getContent();
-        assertSameContent( m_charContent, content );
+        assertSameContent( charContent, content );
 
         // Read the content again
         content = file.getContent();
-        assertSameContent( m_charContent, content );
+        assertSameContent( charContent, content );
 
         // Close the content + file
         content.close();
@@ -1012,7 +1028,7 @@ public abstract class AbstractFileSystemTestCase
 
         // Read the content again
         content = file.getContent();
-        assertSameContent( m_charContent, content );
+        assertSameContent( charContent, content );
     }
 
     /**

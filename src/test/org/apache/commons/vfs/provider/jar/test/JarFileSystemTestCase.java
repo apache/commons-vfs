@@ -32,8 +32,8 @@ public class JarFileSystemTestCase
     {
         File jarFile = getTestResource( "test.jar" );
         String uri = "jar:" + jarFile.getAbsolutePath() + "!basedir";
-        m_manager.addProvider( "jar", new JarFileSystemProvider() );
-        return m_manager.resolveFile( uri );
+        getManager().addProvider( "jar", new JarFileSystemProvider() );
+        return getManager().resolveFile( uri );
     }
 
     /**

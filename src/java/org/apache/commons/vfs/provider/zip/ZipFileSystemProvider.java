@@ -7,16 +7,12 @@
  */
 package org.apache.commons.vfs.provider.zip;
 
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.ParsedUri;
 import org.apache.commons.vfs.provider.ParsedLayeredUri;
 
 /**

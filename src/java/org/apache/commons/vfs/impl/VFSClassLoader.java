@@ -31,7 +31,7 @@ import org.apache.commons.vfs.FileType;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/21 01:40:38 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/21 02:52:40 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -58,7 +58,7 @@ public class VFSClassLoader
         resources = new ArrayList( files.length );
         for ( int i = 0; i < files.length; i++ )
         {
-            addFileObject( files[i] );
+            addFileObject( files[ i ] );
         }
     }
 
@@ -84,7 +84,7 @@ public class VFSClassLoader
         resources = new ArrayList( files.length );
         for ( int i = 0; i < files.length; i++ )
         {
-            addFileObject( files[i] );
+            addFileObject( files[ i ] );
         }
     }
 
@@ -112,7 +112,7 @@ public class VFSClassLoader
             Resource res = loadResource( path );
             if ( res == null )
             {
-                throw new ClassNotFoundException(name);
+                throw new ClassNotFoundException( name );
             }
             return defineClass( name, res );
         }
@@ -178,22 +178,22 @@ public class VFSClassLoader
         URL sealBase = null;
         final FileContent content =
             res.getFileObject().getParent().getContent();
-        String specTitle = (String) content.getAttribute(
+        String specTitle = (String)content.getAttribute(
             Name.SPECIFICATION_TITLE.toString() );
 
-        String specVersion = (String) content.getAttribute(
+        String specVersion = (String)content.getAttribute(
             Name.SPECIFICATION_VERSION.toString() );
-        String specVendor = (String) content.getAttribute(
+        String specVendor = (String)content.getAttribute(
             Name.SPECIFICATION_VENDOR.toString() );
-        String implTitle = (String) content.getAttribute(
+        String implTitle = (String)content.getAttribute(
             Name.IMPLEMENTATION_TITLE.toString() );
-        String implVersion = (String) content.getAttribute(
+        String implVersion = (String)content.getAttribute(
             Name.IMPLEMENTATION_VERSION.toString() );
-        String implVendor = (String) content.getAttribute(
+        String implVendor = (String)content.getAttribute(
             Name.IMPLEMENTATION_VENDOR.toString() );
-        String seal = (String) content.getAttribute( Name.SEALED.toString() );
+        String seal = (String)content.getAttribute( Name.SEALED.toString() );
 
-        if( "true".equalsIgnoreCase( seal ) )
+        if ( "true".equalsIgnoreCase( seal ) )
         {
             sealBase = url;
         }
@@ -209,7 +209,7 @@ public class VFSClassLoader
     {
         final FileContent content =
             res.getFileObject().getParent().getContent();
-        String sealed = (String) content.getAttribute( Name.SEALED.toString() );
+        String sealed = (String)content.getAttribute( Name.SEALED.toString() );
 
         return "true".equalsIgnoreCase( sealed );
     }
@@ -270,7 +270,7 @@ public class VFSClassLoader
     {
         for ( Enumeration elem = src.elements(); elem.hasMoreElements(); )
         {
-            final Permission permission = (Permission) elem.nextElement();
+            final Permission permission = (Permission)elem.nextElement();
             dest.add( permission );
         }
     }
@@ -284,7 +284,7 @@ public class VFSClassLoader
         Iterator it = resources.iterator();
         while ( it.hasNext() )
         {
-            final FileObject object = (FileObject) it.next();
+            final FileObject object = (FileObject)it.next();
             if ( name.equals( object.getName().getURI() ) )
             {
                 return object;
@@ -348,6 +348,7 @@ public class VFSClassLoader
             }
             catch ( FileSystemException fse )
             {
+                // TODO - report this?
             }
         }
         return null;

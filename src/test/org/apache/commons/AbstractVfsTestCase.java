@@ -22,13 +22,13 @@ import junit.framework.TestCase;
 public abstract class AbstractVfsTestCase
     extends TestCase
 {
-    private final File m_baseDir;
+    private final File baseDir;
 
     public AbstractVfsTestCase( final String name )
     {
         super( name );
         final String baseDirProp = System.getProperty( "test.basedir" );
-        m_baseDir = getCanonicalFile( new File( baseDirProp ) );
+        baseDir = getCanonicalFile( new File( baseDirProp ) );
     }
 
     /**
@@ -73,7 +73,7 @@ public abstract class AbstractVfsTestCase
      */
     protected File getTestResource( final String name, final boolean mustExist )
     {
-        File file = new File( m_baseDir, name );
+        File file = new File( baseDir, name );
         file = getCanonicalFile( file );
         if( mustExist )
         {
@@ -92,7 +92,7 @@ public abstract class AbstractVfsTestCase
      */
     protected File getTestDirectory()
     {
-        return m_baseDir;
+        return baseDir;
     }
 
     /**
@@ -102,7 +102,7 @@ public abstract class AbstractVfsTestCase
      */
     protected File getTestDirectory( final String name )
     {
-        File file = new File( m_baseDir, name );
+        File file = new File( baseDir, name );
         file = getCanonicalFile( file );
         assertTrue( "Test directory \"" + file + "\" does not exist or is not a directory.",
                     file.isDirectory() || file.mkdirs() );

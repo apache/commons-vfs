@@ -53,7 +53,7 @@ public final class DefaultFileContent
      */
     public long getSize() throws FileSystemException
     {
-        if( file.isFolder() )
+        if ( file.isFolder() )
         {
             throw new FileSystemException( "vfs.provider/get-size-folder.error", file );
         }
@@ -84,7 +84,7 @@ public final class DefaultFileContent
      */
     public long getLastModifiedTime() throws FileSystemException
     {
-        if( !file.exists() )
+        if ( !file.exists() )
         {
             throw new FileSystemException( "vfs.provider/get-last-modified-no-exist.error", file );
         }
@@ -96,7 +96,7 @@ public final class DefaultFileContent
      */
     public void setLastModifiedTime( long modTime ) throws FileSystemException
     {
-        if( !file.exists() )
+        if ( !file.exists() )
         {
             throw new FileSystemException( "vfs.provider/set-last-modified-no-exist.error", file );
         }
@@ -124,7 +124,7 @@ public final class DefaultFileContent
      */
     public Certificate[] getCertificates() throws FileSystemException
     {
-        if( !file.exists() )
+        if ( !file.exists() )
         {
             throw new FileSystemException( "vfs.provider/get-certificates-no-exist.error", file );
         }
@@ -136,7 +136,7 @@ public final class DefaultFileContent
      */
     public InputStream getInputStream() throws FileSystemException
     {
-        if( file.isFolder() )
+        if ( file.isFolder() )
         {
             throw new FileSystemException( "vfs.provider/read-folder.error", file );
         }
@@ -171,7 +171,7 @@ public final class DefaultFileContent
      */
     public OutputStream getOutputStream() throws FileSystemException
     {
-        if( file.isFolder() )
+        if ( file.isFolder() )
         {
             throw new FileSystemException( "vfs.provider/write-folder.error", file );
         }
@@ -257,7 +257,7 @@ public final class DefaultFileContent
      */
     private final class FileContentInputStream extends BufferedInputStream
     {
-        boolean _finished;
+        private boolean _finished;
 
         FileContentInputStream( InputStream instr )
         {

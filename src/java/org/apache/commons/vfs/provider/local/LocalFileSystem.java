@@ -9,11 +9,9 @@ package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
 
 /**
  * A local file system.

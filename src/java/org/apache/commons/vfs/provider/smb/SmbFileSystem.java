@@ -9,10 +9,9 @@ package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
 
 /**
  * A SMB file system.

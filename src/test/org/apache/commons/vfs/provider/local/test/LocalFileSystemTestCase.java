@@ -32,7 +32,7 @@ public class LocalFileSystemTestCase
         final File testDir = getTestResource( "basedir" );
         final File emptyDir = new File( testDir, "emptydir" );
         emptyDir.mkdirs();
-        return m_manager.convert( testDir );
+        return getManager().convert( testDir );
     }
 
     /**
@@ -41,7 +41,7 @@ public class LocalFileSystemTestCase
     protected FileObject getWriteFolder() throws Exception
     {
         final File testDir = getTestDirectory( "write-tests" );
-        return m_manager.convert( testDir );
+        return getManager().convert( testDir );
     }
 
     /**
@@ -51,11 +51,11 @@ public class LocalFileSystemTestCase
     {
         // Locate file by absolute file name
         String fileName = new File( "testdir" ).getAbsolutePath();
-        FileObject absFile = m_manager.resolveFile( fileName );
+        FileObject absFile = getManager().resolveFile( fileName );
 
         // Locate file by URI
         String uri = "file://" + fileName.replace( File.separatorChar, '/' );
-        FileObject uriFile = m_manager.resolveFile( uri );
+        FileObject uriFile = getManager().resolveFile( uri );
 
         assertSame( "file object", absFile, uriFile );
     }

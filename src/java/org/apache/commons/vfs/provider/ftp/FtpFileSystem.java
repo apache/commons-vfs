@@ -15,7 +15,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
 
 /**
  * An FTP file system.

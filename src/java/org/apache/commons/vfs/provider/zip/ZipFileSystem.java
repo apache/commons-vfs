@@ -63,10 +63,9 @@ public class ZipFileSystem
 
             // Create the file
             ZipFileObject fileObj;
-            if ( entry.isDirectory() &&
-                 getFile( name ) != null )
+            if ( entry.isDirectory() && getFile( name ) != null )
             {
-                fileObj = (ZipFileObject) getFile( name );
+                fileObj = (ZipFileObject)getFile( name );
                 fileObj.setZipEntry( entry );
                 continue;
             }
@@ -82,7 +81,7 @@ public class ZipFileSystem
                   fileObj = parent, parentName = parentName.getParent() )
             {
                 // Locate the parent
-                parent = (ZipFileObject) getFile( parentName );
+                parent = (ZipFileObject)getFile( parentName );
                 if ( parent == null )
                 {
                     parent = createZipFileObject( parentName, null, zipFile );
@@ -127,7 +126,7 @@ public class ZipFileSystem
         }
         catch ( final IOException e )
         {
-            getLogger().warn( "vfs.provider.zip/close-zip-file.error :"+ file, e );
+            getLogger().warn( "vfs.provider.zip/close-zip-file.error :" + file, e );
         }
 
         super.close();

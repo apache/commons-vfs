@@ -33,7 +33,7 @@ public final class FileSystemException
      */
     public FileSystemException( final String code )
     {
-        this( code, null , null);
+        this( code, null, null );
     }
 
     /**
@@ -44,7 +44,7 @@ public final class FileSystemException
      */
     public FileSystemException( final String code, final Object info0 )
     {
-        this( code, new Object[]{info0} , null);
+        this( code, new Object[]{info0}, null );
     }
 
     /**
@@ -56,7 +56,7 @@ public final class FileSystemException
      */
     public FileSystemException( final String code,
                                 final Object info0,
-                                final Throwable throwable)
+                                final Throwable throwable )
     {
         this( code, new Object[]{info0}, throwable );
     }
@@ -69,7 +69,7 @@ public final class FileSystemException
      */
     public FileSystemException( final String code, final Object[] info )
     {
-        this( code, info , null);
+        this( code, info, null );
     }
 
     /**
@@ -84,16 +84,16 @@ public final class FileSystemException
                                 final Throwable throwable )
     {
         super( code );
-        if (info == null)
+        if ( info == null )
         {
-            this.info = new String[0];
+            this.info = new String[ 0 ];
         }
         else
         {
-            this.info = new String[info.length];
-            for (int i = 0; i<info.length; i++)
+            this.info = new String[ info.length ];
+            for ( int i = 0; i < info.length; i++ )
             {
-                this.info[i] = String.valueOf(info[i]);
+                this.info[ i ] = String.valueOf( info[ i ] );
             }
         }
         this.throwable = throwable;
@@ -106,7 +106,7 @@ public final class FileSystemException
      */
     public FileSystemException( final Throwable throwable )
     {
-        this(throwable.getMessage(),  null, throwable);
+        this( throwable.getMessage(), null, throwable );
     }
 
     /**

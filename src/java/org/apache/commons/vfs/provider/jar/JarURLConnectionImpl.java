@@ -26,7 +26,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A default URL connection that will work for most file systems.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/21 01:40:38 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/21 02:52:40 $
  */
 public class JarURLConnectionImpl
     extends JarURLConnection
@@ -34,10 +34,10 @@ public class JarURLConnectionImpl
     // This is because JarURLConnection SUCKS
     private static final String HACK_URL = "jar:http://somehost/somejar.jar!/";
 
-    FileContent             content;
-    protected URL           parentURL;
-    protected JarFileObject file;
-    protected String        entryName;
+    private FileContent content;
+    private URL parentURL;
+    private JarFileObject file;
+    private String entryName;
 
     public JarURLConnectionImpl( JarFileObject file, FileContent content )
         throws MalformedURLException, FileSystemException
@@ -103,7 +103,8 @@ public class JarURLConnectionImpl
     public InputStream getInputStream()
         throws IOException
     {
-        try{
+        try
+        {
             return content.getInputStream();
         }
         catch ( FileSystemException fse )
@@ -115,7 +116,8 @@ public class JarURLConnectionImpl
     public OutputStream getOutputStream()
         throws IOException
     {
-        try{
+        try
+        {
             return content.getOutputStream();
         }
         catch ( FileSystemException fse )
@@ -126,10 +128,13 @@ public class JarURLConnectionImpl
 
     public int getContentLength()
     {
-        try{
-            return (int) content.getSize();
+        try
+        {
+            return (int)content.getSize();
         }
-        catch ( FileSystemException fse ) {}
+        catch ( FileSystemException fse )
+        {
+        }
 
         return -1;
     }

@@ -382,7 +382,7 @@ public abstract class AbstractFileObject
     {
         if ( this == fs.getRoot() )
         {
-            if (fs.getParentLayer() != null)
+            if ( fs.getParentLayer() != null )
             {
                 return fs.getParentLayer().getParent();
             }
@@ -678,9 +678,9 @@ public abstract class AbstractFileObject
             // Create the output stream via getContent(), to pick up the
             // validation it does
             outstr = destFile.getContent().getOutputStream();
-            final byte[] buffer = new byte[ 1024*4 ];
+            final byte[] buffer = new byte[ 1024 * 4 ];
             int n = 0;
-            while( -1 != ( n = instr.read( buffer ) ) )
+            while ( -1 != ( n = instr.read( buffer ) ) )
             {
                 outstr.write( buffer, 0, n );
             }
@@ -695,22 +695,24 @@ public abstract class AbstractFileObject
         }
         finally
         {
-            if (instr != null)
+            if ( instr != null )
             {
-                try {
+                try
+                {
                     instr.close();
                 }
-                catch( final Exception exc )
+                catch ( final Exception exc )
                 {
                     //ignore
                 }
             }
-            if (outstr != null)
+            if ( outstr != null )
             {
-                try {
+                try
+                {
                     outstr.close();
                 }
-                catch( final Exception exc )
+                catch ( final Exception exc )
                 {
                     //ignore
                 }

@@ -32,11 +32,11 @@ public class NestedJarFileSystemTestCase
 
     protected FileObject getTopFolder() throws Exception
     {
-        m_manager.addProvider( "jar", new JarFileSystemProvider() );
+        getManager().addProvider( "jar", new JarFileSystemProvider() );
 
         File jarFile = getTestResource( "nested.jar" );
         String uri = "jar:" + jarFile.getAbsolutePath() + "!/";
-        return m_manager.resolveFile( uri );
+        return getManager().resolveFile( uri );
     }
 
     /**
@@ -48,7 +48,7 @@ public class NestedJarFileSystemTestCase
         final FileObject jarFile = topFolder.resolveFile( "test.jar" );
         // Now build the nested file system
         final FileObject nestedFS =
-            m_manager.createFileSystem( "jar", jarFile );
+            getManager().createFileSystem( "jar", jarFile );
         return nestedFS.resolveFile( "/basedir" );
     }
 
@@ -74,7 +74,7 @@ public class NestedJarFileSystemTestCase
         FileObject test = topFolder.resolveFile( "normal.jar" );
         final FileObject[] objects = { test };
         VFSClassLoader loader =
-            new VFSClassLoader( objects, m_manager );
+            new VFSClassLoader( objects, getManager() );
 
         Class testClass = loader.loadClass( "code.ClassToLoad" );
         assertTrue( verifyNormalPackage( testClass.getPackage() ) );
@@ -85,7 +85,7 @@ public class NestedJarFileSystemTestCase
         URL resource = loader.getResource( "file1.txt" );
         assertNotNull( resource );
         URLConnection urlCon = resource.openConnection();
-        assertSameURLContent( m_charContent, urlCon );
+        assertSameURLContent( getCharContent(), urlCon );
     }
 
     /**

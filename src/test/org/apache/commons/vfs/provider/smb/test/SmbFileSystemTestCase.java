@@ -29,8 +29,8 @@ public class SmbFileSystemTestCase extends AbstractWritableFileSystemTestCase
     protected FileObject getBaseFolder() throws Exception
     {
         final String uri = System.getProperty( "test.smb.uri" ) + "/read-tests";
-        m_manager.addProvider( "smb", new SmbFileSystemProvider() );
-        return m_manager.resolveFile( uri );
+        getManager().addProvider( "smb", new SmbFileSystemProvider() );
+        return getManager().resolveFile( uri );
     }
 
     /**
@@ -39,6 +39,6 @@ public class SmbFileSystemTestCase extends AbstractWritableFileSystemTestCase
     protected FileObject getWriteFolder() throws Exception
     {
         final String uri = System.getProperty( "test.smb.uri" ) + "/write-tests";
-        return m_manager.resolveFile( uri );
+        return getManager().resolveFile( uri );
     }
 }

@@ -7,17 +7,13 @@
  */
 package org.apache.commons.vfs;
 
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-
 /**
  * A file system.
  *
  * <p>A file system can also implement {@link org.apache.commons.vfs.provider.VfsComponent}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/22 02:42:45 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/21 02:52:40 $
  */
 public interface FileSystem
 {

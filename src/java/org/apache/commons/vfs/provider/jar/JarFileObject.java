@@ -24,7 +24,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileObject;
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/22 01:32:49 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/21 02:52:40 $
  */
 class JarFileObject extends ZipFileObject
 {
@@ -40,24 +40,24 @@ class JarFileObject extends ZipFileObject
 
     Manifest getManifest() throws IOException
     {
-        if( file == null )
+        if ( file == null )
             return null;
-            
-        return ((JarFile) file).getManifest();
+
+        return ( (JarFile)file ).getManifest();
     }
 
     Attributes getAttributes() throws IOException
     {
-        if( attributes == null )
+        if ( attributes == null )
         {
-            if( entry == null )
+            if ( entry == null )
             {
                 attributes = new Attributes( 1 );
             }
             else
             {
-                attributes = ( (JarEntry) entry).getAttributes();
-                if( attributes == null )
+                attributes = ( (JarEntry)entry ).getAttributes();
+                if ( attributes == null )
                 {
                     attributes = new Attributes( 1 );
                 }
@@ -75,7 +75,7 @@ class JarFileObject extends ZipFileObject
     {
         try
         {
-            final JarFileSystem fs = (JarFileSystem) getFileSystem();
+            final JarFileSystem fs = (JarFileSystem)getFileSystem();
             final Attributes attr = getAttributes();
             final Name name = fs.lookupName( attrName );
             String value = attr.getValue( name );
@@ -91,15 +91,15 @@ class JarFileObject extends ZipFileObject
             throw new FileSystemException( attrName, ioe );
         }
     }
-    
+
     /**
      * Return the certificates of this JarEntry.
      */
     protected Certificate[] doGetCertificates()
     {
-        if( entry == null )
+        if ( entry == null )
             return null;
 
-        return ((JarEntry) entry).getCertificates();
+        return ( (JarEntry)entry ).getCertificates();
     }
 }

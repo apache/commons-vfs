@@ -30,8 +30,8 @@ public class FtpFileSystemTestCase
     protected FileObject getBaseFolder() throws Exception
     {
         final String uri = System.getProperty( "test.ftp.uri" ) + "/read-tests";
-        m_manager.addProvider( "ftp", new FtpFileSystemProvider() );
-        return m_manager.resolveFile( uri );
+        getManager().addProvider( "ftp", new FtpFileSystemProvider() );
+        return getManager().resolveFile( uri );
     }
 
     /**
@@ -40,6 +40,6 @@ public class FtpFileSystemTestCase
     protected FileObject getWriteFolder() throws Exception
     {
         final String uri = System.getProperty( "test.ftp.uri" ) + "/write-tests";
-        return m_manager.resolveFile( uri );
+        return getManager().resolveFile( uri );
     }
 }
