@@ -91,8 +91,8 @@
     </dependency>
 
     <dependency>
-      <groupId>slide</groupId>
-      <artifactId>webdavlib</artifactId>
+      <groupId>jakarta-slide</groupId>
+      <artifactId>client-webdavlib</artifactId>
       <version>SNAPSHOT</version>
     </dependency>
 
