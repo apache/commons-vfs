@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ import org.apache.commons.vfs.provider.VfsComponentContext;
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2002/11/23 00:41:09 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/12 07:56:10 $
  */
 public class PrivilegedFileReplicator
     implements FileReplicator, VfsComponent

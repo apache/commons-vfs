@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ import org.apache.commons.vfs.FileName;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2003/01/23 12:27:23 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/12 07:56:13 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider

@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystem;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.10 $ $Date: 2003/01/23 12:27:23 $
+ * @version $Revision: 1.11 $ $Date: 2003/02/12 07:56:15 $
  */
 class JarFileSystem
     extends ZipFileSystem
