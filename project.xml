@@ -86,7 +86,7 @@
 
     <dependency>
       <id>jcifs</id>
-      <version>0.6.5</version>
+      <version>0.7.0b5</version>
     </dependency>
 
   </dependencies>
