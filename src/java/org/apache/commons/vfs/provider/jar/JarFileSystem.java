@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.jar;
 
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -37,7 +36,7 @@ import java.util.zip.ZipFile;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.17 $ $Date: 2004/05/10 20:09:50 $
+ * @version $Revision: 1.18 $ $Date: 2004/05/19 19:34:06 $
  */
 class JarFileSystem
     extends ZipFileSystem
@@ -75,11 +74,8 @@ class JarFileSystem
      */
     protected void addCapabilities(final Collection caps)
     {
-        super.addCapabilities(caps);
-        caps.add(Capability.ATTRIBUTES);
-        caps.add(Capability.FS_ATTRIBUTES);
-        caps.add(Capability.SIGNING);
-        caps.add(Capability.MANIFEST_ATTRIBUTES);
+        // super.addCapabilities(caps);
+        caps.addAll(JarFileProvider.capabilities);
     }
 
     Attributes getAttributes() throws IOException

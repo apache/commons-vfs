@@ -22,6 +22,7 @@ import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.GlobalConfiguration;
+import org.apache.commons.vfs.SystemInfo;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -34,6 +35,7 @@ import java.io.File;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -87,6 +89,27 @@ public class DefaultFileSystemManager
      */
     private final DefaultVfsComponentContext context =
         new DefaultVfsComponentContext(this);
+
+    private final SystemInfo vfsSystemInfo = new SystemInfo()
+    {
+        public String[] getSchemes()
+        {
+            String schemes[] = new String[providers.size()];
+            providers.keySet().toArray(schemes);
+            return schemes;
+        }
+
+        public Collection getProviderCapabilities(String scheme) throws FileSystemException
+        {
+            FileProvider provider = (FileProvider) providers.get(scheme);
+            if (provider == null)
+            {
+                throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[]{scheme});
+            }
+
+            return provider.getCapabilities();
+        }
+    };
 
     private TemporaryFileStore tempFileStore;
     private final FileTypeMap map = new FileTypeMap();
@@ -592,5 +615,15 @@ public class DefaultFileSystemManager
             //Route all other calls to the default URLStreamHandlerFactory
             return new URLStreamHandlerProxy();
         }
+    }
+
+    /**
+     * get the system info. e.g. schemes, provider
+     *
+     * @return
+     */
+    public SystemInfo getSystemInfo()
+    {
+        return vfsSystemInfo;
     }
 }

@@ -16,8 +16,11 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+
+import java.util.Collection;
 
 
 /**
@@ -51,4 +54,16 @@ public interface FileProvider
      */
     FileObject createFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
+
+    /**
+     * Gets the configbuilder useable to collect the needet fileSystemOptions.
+     */
+    public FileSystemConfigBuilder getConfigBuilder();
+
+    /**
+     * Get the filesystem capabilities.<br>
+     * These are the same as on the filesystem, but available before the first filesystem was
+     * instanciated.
+     */
+    public Collection getCapabilities();
 }

@@ -24,15 +24,17 @@ import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.BasicFileName;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 import org.apache.commons.vfs.provider.local.LocalFileSystem;
 
 import java.io.File;
+import java.util.Collection;
 
 /**
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/10 20:09:53 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/19 19:34:07 $
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider
@@ -112,5 +114,10 @@ public class TemporaryFileProvider
 
         // Find the file
         return filesystem.resolveFile(path);
+    }
+
+    public Collection getCapabilities()
+    {
+        return DefaultLocalFileProvider.capabilities;
     }
 }

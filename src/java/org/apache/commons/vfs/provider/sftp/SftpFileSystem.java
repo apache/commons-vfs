@@ -20,7 +20,6 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -36,7 +35,7 @@ import java.util.Collection;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:51 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/19 19:34:06 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
@@ -134,14 +133,7 @@ class SftpFileSystem
      */
     protected void addCapabilities(final Collection caps)
     {
-        caps.add(Capability.CREATE);
-        caps.add(Capability.DELETE);
-        caps.add(Capability.RENAME);
-        caps.add(Capability.GET_TYPE);
-        caps.add(Capability.LIST_CHILDREN);
-        caps.add(Capability.READ_CONTENT);
-        caps.add(Capability.URI);
-        caps.add(Capability.WRITE_CONTENT);
+        caps.addAll(SftpFileProvider.capabilities);
     }
 
     /**

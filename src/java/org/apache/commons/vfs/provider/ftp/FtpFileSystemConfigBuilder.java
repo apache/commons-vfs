@@ -21,7 +21,7 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/19 19:34:06 $
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -30,6 +30,10 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public static FtpFileSystemConfigBuilder getInstance()
     {
         return builder;
+    }
+
+    private FtpFileSystemConfigBuilder()
+    {
     }
 
     /* as soon as commons-1.2 will be released

@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 
@@ -88,5 +89,10 @@ public abstract class AbstractFileProvider
         FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
 
         return (FileSystem) fileSystems.get(treeKey);
+    }
+
+    public FileSystemConfigBuilder getConfigBuilder()
+    {
+        return null;
     }
 }

@@ -199,4 +199,9 @@ public interface FileSystemManager
      * Get the global configuration
      */
     GlobalConfiguration getGlobalConfiguration();
+
+    /**
+     * Gets the system info. e.g. Available schemes, provider configuration builder, ...
+     */
+    SystemInfo getSystemInfo();
 }

@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.jar;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -23,17 +24,38 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.zip.ZipFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * A file system provider for Jar files.  Provides read-only file
  * systems.  This provides access to Jar specific features like Signing and
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:50 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:06 $
  */
 public class JarFileProvider
     extends ZipFileProvider
 {
+    final static Collection capabilities;
+
+    static
+    {
+        Collection combined = new ArrayList();
+        combined.addAll(ZipFileProvider.capabilities);
+        combined.addAll(Arrays.asList(new Capability[]
+        {
+            Capability.ATTRIBUTES,
+            Capability.FS_ATTRIBUTES,
+            Capability.SIGNING,
+            Capability.MANIFEST_ATTRIBUTES
+        }));
+        capabilities = Collections.unmodifiableCollection(combined);
+    }
+
     public JarFileProvider()
     {
         super();
@@ -55,5 +77,10 @@ public class JarFileProvider
         final FileName name =
             new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
         return new JarFileSystem(name, file, fileSystemOptions);
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

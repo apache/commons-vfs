@@ -19,7 +19,6 @@ import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -34,7 +33,7 @@ import java.util.Collection;
  * An HTTP file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/14 18:38:35 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/19 19:34:06 $
  */
 public class HttpFileSystem
     extends AbstractFileSystem
@@ -53,10 +52,7 @@ public class HttpFileSystem
      */
     protected void addCapabilities(final Collection caps)
     {
-        caps.add(Capability.READ_CONTENT);
-        caps.add(Capability.URI);
-        caps.add(Capability.GET_LAST_MODIFIED);
-        caps.add(Capability.ATTRIBUTES);
+        caps.addAll(HttpFileProvider.capabilities);
     }
 
     /**

@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * Description
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/14 18:38:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/19 19:34:06 $
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -31,6 +31,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public static HttpFileSystemConfigBuilder getInstance()
     {
         return builder;
+    }
+
+    private HttpFileSystemConfigBuilder()
+    {
     }
 
     /**

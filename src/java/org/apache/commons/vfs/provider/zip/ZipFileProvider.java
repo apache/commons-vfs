@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.zip;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -23,16 +24,29 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * A file system provider for Zip files.  Provides read-only file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:54 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:07 $
  */
 public class ZipFileProvider
     extends AbstractLayeredFileProvider
     implements FileProvider
 {
+    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    {
+        Capability.GET_LAST_MODIFIED,
+        Capability.GET_TYPE,
+        Capability.LIST_CHILDREN,
+        Capability.READ_CONTENT,
+        Capability.URI
+    }));
+
     public ZipFileProvider()
     {
         super();
@@ -65,5 +79,10 @@ public class ZipFileProvider
         final FileName rootName =
             new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
         return new ZipFileSystem(rootName, file, fileSystemOptions);
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

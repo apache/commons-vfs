@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.url;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -25,16 +26,26 @@ import org.apache.commons.vfs.provider.BasicFileName;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.19 $ $Date: 2004/05/10 20:09:53 $
+ * @version $Revision: 1.20 $ $Date: 2004/05/19 19:34:07 $
  */
 public class UrlFileProvider
     extends AbstractFileProvider
 {
+    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    {
+        Capability.READ_CONTENT,
+        Capability.URI,
+        Capability.GET_LAST_MODIFIED
+    }));
+
     public UrlFileProvider()
     {
         super();
@@ -67,5 +78,10 @@ public class UrlFileProvider
         {
             throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri, e);
         }
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

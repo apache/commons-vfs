@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.smb;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
@@ -22,16 +23,34 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * A provider for SMB (Samba, Windows share) file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:53 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:07 $
  */
 public final class SmbFileProvider
     extends AbstractOriginatingFileProvider
     implements FileProvider
 {
+    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    {
+        Capability.CREATE,
+        Capability.DELETE,
+        Capability.RENAME,
+        Capability.GET_TYPE,
+        Capability.GET_LAST_MODIFIED,
+        Capability.LIST_CHILDREN,
+        Capability.READ_CONTENT,
+        Capability.URI,
+        Capability.WRITE_CONTENT,
+        Capability.APPEND_CONTENT
+    }));
+
     public SmbFileProvider()
     {
         super();
@@ -53,5 +72,10 @@ public final class SmbFileProvider
         throws FileSystemException
     {
         return new SmbFileSystem(name, fileSystemOptions);
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

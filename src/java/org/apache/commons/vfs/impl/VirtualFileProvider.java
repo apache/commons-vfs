@@ -26,7 +26,7 @@ import org.apache.commons.vfs.provider.BasicFileName;
  * A virtual filesystem provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/05/10 20:09:47 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/19 19:34:06 $
  */
 public class VirtualFileProvider
     extends AbstractVfsContainer

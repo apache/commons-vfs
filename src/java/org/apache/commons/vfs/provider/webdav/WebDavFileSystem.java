@@ -17,7 +17,6 @@ package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpURL;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -34,7 +33,7 @@ import java.util.Collection;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/10 20:09:54 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/19 19:34:07 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
@@ -52,16 +51,7 @@ class WebDavFileSystem
      */
     protected void addCapabilities(final Collection caps)
     {
-        caps.add(Capability.CREATE);
-        caps.add(Capability.DELETE);
-        caps.add(Capability.RENAME);
-        caps.add(Capability.GET_TYPE);
-        caps.add(Capability.LIST_CHILDREN);
-        caps.add(Capability.READ_CONTENT);
-        caps.add(Capability.URI);
-        caps.add(Capability.WRITE_CONTENT);
-        caps.add(Capability.GET_LAST_MODIFIED);
-        caps.add(Capability.ATTRIBUTES);
+        caps.addAll(WebdavFileProvider.capabilities);
     }
 
     /**

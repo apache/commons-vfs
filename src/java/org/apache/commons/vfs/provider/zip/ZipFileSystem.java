@@ -17,7 +17,6 @@ package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -157,11 +156,7 @@ public class ZipFileSystem
      */
     protected void addCapabilities(final Collection caps)
     {
-        caps.add(Capability.GET_LAST_MODIFIED);
-        caps.add(Capability.GET_TYPE);
-        caps.add(Capability.LIST_CHILDREN);
-        caps.add(Capability.READ_CONTENT);
-        caps.add(Capability.URI);
+        caps.addAll(ZipFileProvider.capabilities);
     }
 
     /**

@@ -15,24 +15,45 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:06 $
  */
 public final class FtpFileProvider
     extends AbstractOriginatingFileProvider
 {
     public final static String ATTR_FILE_ENTRY_PARSER = "FEP";
     private static final int DEFAULT_PORT = 21;
+
+    final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    {
+        Capability.CREATE,
+        Capability.DELETE,
+        Capability.RENAME,
+        Capability.GET_TYPE,
+        Capability.LIST_CHILDREN,
+        Capability.READ_CONTENT,
+        Capability.SET_LAST_MODIFIED,
+        Capability.GET_LAST_MODIFIED,
+        Capability.URI,
+        Capability.WRITE_CONTENT,
+        Capability.APPEND_CONTENT,
+    }));
 
     public FtpFileProvider()
     {
@@ -57,5 +78,15 @@ public final class FtpFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
         return new FtpFileSystem(rootName, fileSystemOptions);
+    }
+
+    public FileSystemConfigBuilder getConfigBuilder()
+    {
+        return FtpFileSystemConfigBuilder.getInstance();
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

@@ -15,23 +15,37 @@
  */
 package org.apache.commons.vfs.provider.http;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 
 /**
  * An HTTP provider that uses commons-httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:06 $
  */
 public class HttpFileProvider
     extends AbstractOriginatingFileProvider
 {
+    final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    {
+        Capability.READ_CONTENT,
+        Capability.URI,
+        Capability.GET_LAST_MODIFIED,
+        Capability.ATTRIBUTES
+    }));
+
     public HttpFileProvider()
     {
         super();
@@ -53,5 +67,15 @@ public class HttpFileProvider
         throws FileSystemException
     {
         return new HttpFileSystem((GenericFileName) rootName, fileSystemOptions);
+    }
+
+    public FileSystemConfigBuilder getConfigBuilder()
+    {
+        return HttpFileSystemConfigBuilder.getInstance();
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

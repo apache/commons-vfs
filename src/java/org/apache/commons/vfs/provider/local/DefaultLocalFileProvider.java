@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.local;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -25,17 +26,35 @@ import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.util.Os;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * A file system provider, which uses direct file access.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:48 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:06 $
  */
 public final class DefaultLocalFileProvider
     extends AbstractOriginatingFileProvider
     implements LocalFileProvider
 {
+    public final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    {
+        Capability.CREATE,
+        Capability.DELETE,
+        Capability.RENAME,
+        Capability.GET_TYPE,
+        Capability.GET_LAST_MODIFIED,
+        Capability.SET_LAST_MODIFIED,
+        Capability.LIST_CHILDREN,
+        Capability.READ_CONTENT,
+        Capability.URI,
+        Capability.WRITE_CONTENT,
+        Capability.APPEND_CONTENT
+    }));
+
     private final LocalFileNameParser parser;
 
     public DefaultLocalFileProvider()
@@ -99,5 +118,10 @@ public final class DefaultLocalFileProvider
         // Create the file system
         final LocalFileName rootName = (LocalFileName) name;
         return new LocalFileSystem(rootName, rootName.getRootFile());
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

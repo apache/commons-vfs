@@ -20,7 +20,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -92,17 +91,7 @@ final class FtpFileSystem
      */
     protected void addCapabilities(final Collection caps)
     {
-        caps.add(Capability.CREATE);
-        caps.add(Capability.DELETE);
-        caps.add(Capability.RENAME);
-        caps.add(Capability.GET_TYPE);
-        caps.add(Capability.LIST_CHILDREN);
-        caps.add(Capability.READ_CONTENT);
-        caps.add(Capability.SET_LAST_MODIFIED);
-        caps.add(Capability.GET_LAST_MODIFIED);
-        caps.add(Capability.URI);
-        caps.add(Capability.WRITE_CONTENT);
-        caps.add(Capability.APPEND_CONTENT);
+        caps.addAll(FtpFileProvider.capabilities);
     }
 
     /**

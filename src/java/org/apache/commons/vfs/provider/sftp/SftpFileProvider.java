@@ -17,8 +17,10 @@ package org.apache.commons.vfs.provider.sftp;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
@@ -26,16 +28,31 @@ import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.util.Os;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * A provider for accessing files over SFTP.
  * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: SftpFileProvider.java,v 1.9 2004/05/10 20:09:51 imario Exp $
+ * @version $Id: SftpFileProvider.java,v 1.10 2004/05/19 19:34:06 imario Exp $
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {
+    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    {
+        Capability.CREATE,
+        Capability.DELETE,
+        Capability.RENAME,
+        Capability.GET_TYPE,
+        Capability.LIST_CHILDREN,
+        Capability.READ_CONTENT,
+        Capability.URI,
+        Capability.WRITE_CONTENT
+    }));
+
     public final static String ATTR_USER_INFO = "UI";
 
     private static final String SSH_DIR_NAME = ".ssh";
@@ -152,5 +169,15 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     protected FileName parseUri(final String uri) throws FileSystemException
     {
         return GenericFileName.parseUri(uri, 22);
+    }
+
+    public FileSystemConfigBuilder getConfigBuilder()
+    {
+        return SftpFileSystemConfigBuilder.getInstance();
+    }
+
+    public Collection getCapabilities()
+    {
+        return capabilities;
     }
 }

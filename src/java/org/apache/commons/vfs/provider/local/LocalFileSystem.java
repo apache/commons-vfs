@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -60,17 +59,7 @@ public final class LocalFileSystem
      */
     protected void addCapabilities(final Collection caps)
     {
-        caps.add(Capability.CREATE);
-        caps.add(Capability.DELETE);
-        caps.add(Capability.RENAME);
-        caps.add(Capability.GET_TYPE);
-        caps.add(Capability.GET_LAST_MODIFIED);
-        caps.add(Capability.SET_LAST_MODIFIED);
-        caps.add(Capability.LIST_CHILDREN);
-        caps.add(Capability.READ_CONTENT);
-        caps.add(Capability.URI);
-        caps.add(Capability.WRITE_CONTENT);
-        caps.add(Capability.APPEND_CONTENT);
+        caps.addAll(DefaultLocalFileProvider.capabilities);
     }
 
     /**
