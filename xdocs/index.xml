@@ -39,10 +39,11 @@
                     Utilities for integrating Commons VFS into applications,
                     such as a VFS-aware ClassLoader and URLStreamHandlerFactory.
                 </li>
-                <li>A set of VFS-enabled <a href="anttasks.html">Ant tasks</a>.</li>
-                <li>More coming soon ...</li>
+                <li>A set of VFS-enabled
+                    <a href="anttasks.html">Ant tasks</a>.
+                </li>
             </ul>
-            
+
         </section>
     </body>
 </document>

@@ -60,6 +60,32 @@ for ( int i = 0; i < children.length; i++ )
                 Javadocs for more detail.
             </p>
 
+            <subsection name="Cache">
+                <p>
+                    By default every resolved file will be cached in an map and - unhappily - it will never be released.
+                    This is what
+                    <a href="apidocs/org/apache/commons/vfs/cache/SoftRefFilesCache.html">SoftRefFilesCache</a>
+                    tries to address.
+                </p>
+                <p>
+                    Currently you could not use VFS.getManager() to use this sort of cache, instead you have to create
+                    your own FileSytemManager instance.
+                </p>
+                <source><![CDATA[
+private static FileSystemManager manager;
+
+manager = new StandardFileSystemManager();
+manager.setFilesCache(new SoftRefFilesCache());
+manager.init();
+                    ]]></source>
+
+                <p>
+                    This cache will return the same instance for a file as long as it is "strongly reachable" e.g. you
+                    hold a reference to this object. If the FileObject is no longer reachable, and the jvm needs some memory,
+                    it will be released.
+                </p>
+            </subsection>
+
             <subsection name="Examples">
                 <p>
                     For an example of using the API, take a look at the classes
