@@ -66,7 +66,7 @@ import java.util.Stack;
  * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  *
  * @author <a href="mailto:xknight@users.sourceforge.net">Christopher Ottley</a>
- * @version $Revision: 1.3 $ $Date: 2004/10/12 13:16:51 $
+ * @version $Revision: 1.4 $ $Date: 2004/12/29 19:47:34 $
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor
 {
@@ -329,11 +329,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      */
     private static class FileMonitorAgent
     {
+        private final FileObject file;
+        private final DefaultFileMonitor fm;
 
-        private FileObject file;
         private boolean exists;
         private long timestamp;
-        private DefaultFileMonitor fm;
         private Map children = null;
 
         private FileMonitorAgent(DefaultFileMonitor fm, FileObject file)
@@ -392,15 +392,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         {
             try
             {
-                // TODO: Activate *THE RIGHT WAY* as soon as VFS is completely thread-safe
-                this.file = ((AbstractFileSystem) this.file.getFileSystem()).resolveFile(this.file.getName(), false);
-                // FileSystemManager fsManager = this.file.getFileSystem().getFileSystemManager();
-                // this.file = fsManager.resolveFile(this.file.getName().getPath());
+                // this.file = ((AbstractFileSystem) this.file.getFileSystem()).resolveFile(this.file.getName(), false);
 
-                // *THE RIGHT WAY*
                 // close the file - this will detach and reattach its resources (for this thread) on the
                 // next access
-                // this.file.close();
+                this.file.close();
             }
             catch (FileSystemException fse)
             {
