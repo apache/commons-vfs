@@ -77,7 +77,7 @@ import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.Selectors;
 
 /**
- * A partial file object implementation.
+ * A partial file object implementation.   
  *
  * @todo Chop this class up - move all the protected methods to several
  *       interfaces, so that structure and content can be separately overridden.
@@ -415,7 +415,12 @@ public abstract class AbstractFileObject
             }
             else
             {
-                return getParent().isWriteable();
+                final FileObject parent = getParent();
+                if ( parent != null )
+                {
+                    return parent.isWriteable();
+                }
+                return true;
             }
         }
         catch ( final Exception exc )
