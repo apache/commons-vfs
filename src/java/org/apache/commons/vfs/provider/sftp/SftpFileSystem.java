@@ -73,7 +73,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/03/17 09:04:14 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/24 10:36:30 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
@@ -88,6 +88,18 @@ class SftpFileSystem
     {
         super( rootName, null );
         this.jSch = jSch;
+    }
+
+    /**
+     * Closes this file system.
+     */
+    public void close()
+    {
+        if ( session != null )
+        {
+            session.disconnect();
+        }
+        super.close();
     }
 
     /**
