@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,14 +61,19 @@ public final class DefaultFileContent implements FileContent
 
     public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory)
     {
-        this.threadData.set(new FileContentThreadData(this));
         this.file = file;
         this.fileContentInfoFactory = fileContentInfoFactory;
     }
 
     private FileContentThreadData getThreadData()
     {
-        return (FileContentThreadData) this.threadData.get();
+        FileContentThreadData data = (FileContentThreadData) this.threadData.get();
+        if (data == null)
+        {
+            data = new FileContentThreadData(this);
+            this.threadData.set(data);
+        }
+        return data;
     }
 
     /**
