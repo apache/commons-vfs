@@ -26,7 +26,7 @@ import java.util.Map;
  * A helper class that determines the provider to use for a file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:47 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/23 11:36:24 $
  */
 class FileTypeMap
 {
@@ -56,7 +56,8 @@ class FileTypeMap
     {
         // Check the file's mime type for a match
         final FileContent content = file.getContent();
-        final String mimeType = (String) content.getAttribute("content-type");
+        // final String mimeType = (String) content.getAttribute("content-type");
+        final String mimeType = (String) content.getContentInfo().getContentType();
         if (mimeType != null)
         {
             final String scheme = (String) mimeTypeMap.get(mimeType);
