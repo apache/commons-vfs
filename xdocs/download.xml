@@ -31,7 +31,15 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a> Version 1.1.0 or later.
+                        <a href="http://jakarta.apache.org/commons/logging/">Commons Collections</a>
+                        Version 3.1-dev
+                    </td>
+                    <td>LRU Cache</td>
+                </tr>
+                <tr>
+                    <td>
+                        Jakarta
+                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a> Version 1.2.1 or later.
                     </td>
                     <td>FTP</td>
                 </tr>
@@ -39,7 +47,7 @@
                     <td>
                         Jakarta
                         <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>.
-                        Version 2.0 beta 1 or later.
+                        Version 2.0 or later.
                     </td>
                     <td>
                         WebDAV
@@ -50,7 +58,7 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/slide/">Slide</a> Version 2.0beta1.
+                        <a href="http://jakarta.apache.org/slide/">Slide</a> Version 2.0.
                     </td>
                     <td>WebDAV</td>
                 </tr>
