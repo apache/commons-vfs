@@ -186,11 +186,11 @@
         </get>
         <get dest="${libdir}/commons-net-1.2.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-1.2.1.jar">
         </get>
-        <get dest="${libdir}/commons-logging-1.0.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.3.jar">
+        <get dest="${libdir}/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.4.jar">
         </get>
         <get dest="${libdir}/commons-compress-20040530.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar">
         </get>
-        <get dest="${libdir}/commons-collections-20040616.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-20040616.jar">
+        <get dest="${libdir}/commons-collections-3.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-3.1.jar">
         </get>
         <get dest="${libdir}/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.8.3.jar">
         </get>
@@ -198,7 +198,7 @@
         </get>
         <get dest="${libdir}/commons-httpclient-2.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0.jar">
         </get>
-        <get dest="${libdir}/jsch-0.1.14.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jsch/jars/jsch-0.1.14.jar">
+        <get dest="${libdir}/jsch-0.1.16.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jsch/jars/jsch-0.1.16.jar">
         </get>
         <get dest="${libdir}/xml-apis-1.0.b2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-1.0.b2.jar">
         </get>
