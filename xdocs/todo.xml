@@ -16,13 +16,14 @@
 
             <ul>
                 <li>More documentation (status, file naming etc).</li>
-                <li>Fix all the todo items in the code.</li>
+                <li>Fix the <a href="task-list.html">TODO items</a> in the code.</li>
                 <li>Add more providers:
                     <ul>
                         <li>nfs</li>
                         <li>tar</li>
                         <li>gzip</li>
                         <li>bzip2</li>
+                        <li>rsync</li>
                         <li>ClassLoader resources</li>
                         <li>cvs</li>
                         <li>subversion</li>
@@ -31,6 +32,7 @@
                         <li>jndi</li>
                         <li>imap</li>
                         <li>local mirror</li>
+                        <li>spidering http</li>
                         <li>...</li>
                     </ul>
                 </li>
@@ -62,7 +64,8 @@
                 </li>
                 <li>FTP Provider:
                     <ul>
-                        <li>Support last-modified.</li>
+                        <li>Fix set last-modified.</li>
+                        <li>Support passive mode.</li>
                     </ul>
                 </li>
                 <li>SMB Provider:
@@ -133,6 +136,10 @@
                 <li>Get/set the file permissions.</li>
                 <li>Sort out threading model.</li>
                 <li>Automatically checksum and/or verify remote files.</li>
+                <li>
+                    Use remote copies and moves for those file systems that
+                    support it.
+                </li>
                 <li>Add a file monitor, that watches for external changes to files.</li>
                 <li>Add a DefaultFileSystemManager subclass that is an Avalon component.</li>
                 <li>
@@ -145,4 +152,3 @@
         </section>
     </body>
 </document>
-

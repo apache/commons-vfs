@@ -7,28 +7,67 @@
     <body>
         <section name="Ant Tasks">
             <p>
-                To use the Ant tasks, copy commons-jar.jar and its dependencies
-                into the <code>$ANT_HOME/lib</code> directory,
-                and use the following in your Ant scipt to define the tasks:
+                Commons VFS includes several Ant tasks that can be used
+                to create, delete, copy and move files of any supported type.
+                The tasks are:
+            </p>
+            <ul>
+                <li>
+                    <a href="#V-Copy"><code>&lt;v-copy&gt;</code></a>.
+                    Copies a set of source folders and files to a destination
+                    folder.
+                </li>
+                <li>
+                    <a href="#V-Delete"><code>&lt;v-delete&gt;</code></a>.
+                    Deletes a file or folder.
+                </li>
+                <li>
+                    <a href="#V-Mkdir"><code>&lt;v-mkdir&gt;</code></a>.
+                    Creates a folder.
+                </li>
+                <li>
+                    <a href="#V-Move"><code>&lt;v-move&gt;</code></a>.
+                    Moves a set of source folders and files to a destination
+                    folder.
+                </li>
+                <li>
+                    <a href="#V-Sync"><code>&lt;v-sync&gt;</code></a>.
+                    Synchronises a destination folder with a set of source
+                    folder and files.
+                </li>
+            </ul>
+            <p>
+                All file name attributes support relative and absolute local
+                file names, and <a href="filesystems.html">absolute URI</a>.
+                File names are interpreted relative to the Ant project's base
+                directory.
             </p>
 
-            <source><![CDATA[
+            <subsection name="Using the Tasks">
+                <p>
+                    To use the Ant tasks, copy commons-jar.jar and its
+                    dependencies into the <code>$ANT_HOME/lib</code> directory,
+                    and use the following in your Ant scipt to define the tasks:
+                </p>
+
+                <source><![CDATA[
 <taskdef resource="/org/apache/commons/vfs/tasks/tasks.properties"/>
 ]]></source>
 
-            <p>
-                Alternatively, you can provide an explicit classpath when
-                you define the tasks:
-            </p>
+                <p>
+                    Alternatively, you can provide an explicit classpath when
+                    you define the tasks:
+                </p>
 
-            <source><![CDATA[
+                <source><![CDATA[
 <taskdef resource="/org/apache/commons/vfs/tasks/tasks.properties">
     <classpath> ... </classpath>
 </taskdef>
 ]]></source>
+            </subsection>
         </section>
 
-        <section name="Copy">
+        <section name="V-Copy">
             <p>Copies a set of files to a destination folder.  Does not copy
             source files where the destination file exists and is newer than
             the source file.  The copy task takes the following attributes:</p>
@@ -68,7 +107,7 @@
             </table>
 
             <subsection name="Nested Elements">
-                <p><b>src</b></p>
+                <p><b><code>&lt;src&gt;</code></b></p>
 
                 <p>Defines a source file or folder to copy.  It takes the
                 following attributes:</p>
@@ -85,17 +124,17 @@
 
         </section>
 
-        <section name="Move">
+        <section name="V-Move">
             <p>Moves a set of files to a destination folder.  Has the same
                 attributes and elements as the copy task.</p>
         </section>
 
-        <section name="Sync">
+        <section name="V-Sync">
             <p>Synchronises a destination folder with a set of source files.
                 Has the same attributes and elements as the copy task.</p>
         </section>
 
-        <section name="Delete">
+        <section name="V-Delete">
             <p>Deletes a file or folder.  It takes the following attributes:</p>
 
             <table>
@@ -109,7 +148,7 @@
             </table>
         </section>
 
-        <section name="Mkdir">
+        <section name="V-Mkdir">
             <p>Creates a folder.  It takes the following attributes:</p>
 
             <table>
