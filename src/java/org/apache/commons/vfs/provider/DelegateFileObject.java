@@ -58,6 +58,8 @@ package org.apache.commons.vfs.provider;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
@@ -69,15 +71,17 @@ import org.apache.commons.vfs.FileType;
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/01 03:27:30 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:14:45 $
  *
  * @todo Deal with case where backing file == null
+ * @todo Extract subclass that overlays the children
  */
 public class DelegateFileObject
     extends AbstractFileObject
     implements FileListener
 {
-    private final FileObject file;
+    private FileObject file;
+    private final Set children = new HashSet();
 
     public DelegateFileObject( final FileName name,
                                final AbstractFileSystem fileSystem,
@@ -85,6 +89,21 @@ public class DelegateFileObject
     {
         super( name, fileSystem );
         this.file = file;
+    }
+
+    public void attachChild( final String baseName ) throws FileSystemException
+    {
+        if ( children.add( baseName ) )
+        {
+            detach();
+        }
+    }
+
+    public void setFile( final FileObject file ) throws FileSystemException
+    {
+        this.file = file;
+        children.clear();
+        detach();
     }
 
     /**
@@ -115,14 +134,19 @@ public class DelegateFileObject
      */
     protected FileType doGetType() throws Exception
     {
-        if ( file != null && file.exists() )
+        if ( file != null )
         {
-            return file.getType();
+            if ( file.exists() )
+            {
+                return file.getType();
+            }
         }
-        else
+        else if ( children.size() > 0 )
         {
-            return null;
+            return FileType.FOLDER;
         }
+
+        return null;
     }
 
     /**
@@ -130,7 +154,14 @@ public class DelegateFileObject
      */
     protected boolean doIsReadable() throws FileSystemException
     {
-        return file.isReadable();
+        if ( file != null )
+        {
+            return file.isReadable();
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**
@@ -138,7 +169,14 @@ public class DelegateFileObject
      */
     protected boolean doIsWriteable() throws FileSystemException
     {
-        return file.isWriteable();
+        if ( file != null )
+        {
+            return file.isWriteable();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -146,13 +184,20 @@ public class DelegateFileObject
      */
     protected String[] doListChildren() throws Exception
     {
-        final FileObject[] children = file.getChildren();
-        final String[] childNames = new String[ children.length ];
-        for ( int i = 0; i < children.length; i++ )
+        if ( file != null )
         {
-            childNames[ i ] = children[ i ].getName().getBaseName();
+            final FileObject[] children = file.getChildren();
+            final String[] childNames = new String[ children.length ];
+            for ( int i = 0; i < children.length; i++ )
+            {
+                childNames[ i ] = children[ i ].getName().getBaseName();
+            }
+            return childNames;
         }
-        return childNames;
+        else
+        {
+            return (String[])children.toArray( new String[ children.size() ] );
+        }
     }
 
     /**

@@ -59,18 +59,22 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.DelegateFileObject;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Collection;
 
 /**
  * A logical file system, made up of set of junctions, or links, to files from
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/01 03:27:30 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:14:45 $
+ *
+ * @todo Handle nested junctions.
  */
 public class VirtualFileSystem
     extends AbstractFileSystem
@@ -83,73 +87,124 @@ public class VirtualFileSystem
     }
 
     /**
+     * Adds the capabilities of this file system.
+     */
+    protected void addCapabilities( final Collection caps )
+    {
+        // TODO - this isn't really true
+        caps.add( Capability.ATTRIBUTES );
+        caps.add( Capability.CREATE );
+        caps.add( Capability.DELETE );
+        caps.add( Capability.JUNCTIONS );
+        caps.add( Capability.LAST_MODIFIED );
+        caps.add( Capability.LIST_CHILDREN );
+        caps.add( Capability.READ_CONTENT );
+        caps.add( Capability.SIGNING );
+        caps.add( Capability.WRITE_CONTENT );
+    }
+
+    /**
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
     protected FileObject createFile( final FileName name )
         throws FileSystemException
     {
-        FileObject realFile;
-
-        // Check if junction point itself
-        realFile = (FileObject)junctions.get( name );
-        if ( realFile == null )
+        // Find the file that the name points to
+        final FileName junctionPoint = getJunctionForFile( name );
+        final FileObject file;
+        if ( junctionPoint != null )
         {
-            // Find longest matching junction
-            FileName matchingName = null;
-            FileObject matchingFile = null;
-            for ( Iterator iterator = junctions.entrySet().iterator(); iterator.hasNext(); )
-            {
-                final Map.Entry entry = (Map.Entry)iterator.next();
-                final FileName junctionPoint = (FileName)entry.getKey();
-                if ( junctionPoint.isDescendent( name )
-                     && ( matchingName == null || matchingName.isDescendent( junctionPoint ) ) )
-                {
-                    matchingName = junctionPoint;
-                    matchingFile = (FileObject)entry.getValue();
-                }
-            }
-
-            if ( matchingName != null )
-            {
-                // Lookup the name
-                final String relName = matchingName.getRelativeName( name );
-                realFile = matchingFile.resolveFile( relName, NameScope.DESCENDENT );
-            }
+            // Resolve the real file
+            final FileObject junctionFile = (FileObject)junctions.get( junctionPoint );
+            final String relName = junctionPoint.getRelativeName( name );
+            file = junctionFile.resolveFile( relName, NameScope.DESCENDENT_OR_SELF );
+        }
+        else
+        {
+            file = null;
         }
 
-        return new DelegateFileObject( name, this, realFile );
+        // Return a wrapper around the file
+        return new DelegateFileObject( name, this, file );
     }
 
     /**
      * Adds a junction to this file system.
      */
-    public void addJunction( final FileName junctionPoint,
+    public void addJunction( final String junctionPoint,
                              final FileObject targetFile )
         throws FileSystemException
     {
-        if ( !getRootName().getRootURI().equals( junctionPoint.getRootURI() ) )
+        final FileName junctionName = getRootName().resolveName( junctionPoint );
+
+        // Check for nested junction - these are not supported yet
+        if ( getJunctionForFile( junctionName ) != null )
         {
-            throw new FileSystemException( "vfs.provider/mismatched-fs-for-name.error", new Object[] { junctionPoint, getRootName() } );
+            throw new FileSystemException( "impl/nested-junction.error", junctionName );
         }
 
-        if ( junctions.containsKey( junctionPoint ) )
-        {
-            // TODO - something
-        }
-        junctions.put( junctionPoint, targetFile );
+        // Add to junction table
+        junctions.put( junctionName, targetFile );
 
-        // TODO - merge into ancestors of junction point
+        // Create ancestors of junction point
+        FileName childName = junctionName;
+        boolean done = false;
+        for ( FileName parentName = childName.getParent();
+              !done && parentName != null;
+              childName = parentName, parentName = parentName.getParent() )
+        {
+            DelegateFileObject file = (DelegateFileObject)getFile( parentName );
+            if ( file == null )
+            {
+                file = new DelegateFileObject( parentName, this, null );
+                putFile( file );
+            }
+            else
+            {
+                done = file.exists();
+            }
+            file.attachChild( childName.getBaseName() );
+        }
+
+        // TODO - attach all cached children of the junction point to their real file
     }
 
     /**
      * Removes a junction from this file system.
      */
-    public void removeJuntion( final FileName junctionPoint )
+    public void removeJuntion( final String junctionPoint )
         throws FileSystemException
     {
-        junctions.remove( junctionPoint );
+        final FileName junctionName = getRootName().resolveName( junctionPoint );
+        junctions.remove( junctionName );
 
         // TODO - remove from parents of junction point
+        // TODO - detach all cached children of the junction point from their real file
+    }
+
+    /**
+     * Locates the junction point for the junction containing the given file.
+     */
+    private FileName getJunctionForFile( final FileName name )
+    {
+        if ( junctions.containsKey( name ) )
+        {
+            // The name points to the junction point directly
+            return name;
+        }
+
+        // Find matching junction
+        for ( Iterator iterator = junctions.keySet().iterator(); iterator.hasNext(); )
+        {
+            final FileName junctionPoint = (FileName)iterator.next();
+            if ( junctionPoint.isDescendent( name ) )
+            {
+                return junctionPoint;
+            }
+        }
+
+        // None
+        return null;
     }
 }
