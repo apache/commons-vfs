@@ -173,4 +173,9 @@ public interface FileName
      * Determines if another file name is a descendent of this file name.
      */
     boolean isDescendent( FileName descendent );
+
+    /**
+     * Determines if another file name is a descendent of this file name.
+     */
+    boolean isDescendent( FileName descendent, NameScope nameScope );
 }

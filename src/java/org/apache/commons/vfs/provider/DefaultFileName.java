@@ -217,12 +217,21 @@ public final class DefaultFileName
     /**
      * Determines if another file name is a descendent of this file name.
      */
-    public boolean isDescendent( FileName descendent )
+    public boolean isDescendent( final FileName descendent )
+    {
+        return isDescendent( descendent, NameScope.DESCENDENT );
+    }
+
+    /**
+     * Determines if another file name is a descendent of this file name.
+     */
+    public boolean isDescendent( final FileName descendent,
+                                 final NameScope scope )
     {
         if ( !descendent.getRootURI().equals( rootPrefix ) )
         {
             return false;
         }
-        return parser.checkName( absPath, descendent.getPath(), NameScope.DESCENDENT );
+        return parser.checkName( absPath, descendent.getPath(), scope );
     }
 }
