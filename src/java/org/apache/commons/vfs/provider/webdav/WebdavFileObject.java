@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.20 $ $Date: 2005/01/11 16:07:13 $
+ * @version $Revision: 1.20 $ $Date$
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -284,7 +284,7 @@ public class WebdavFileObject
         {
             WebdavResource dav = children[i];
 
-            WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(getName().resolveName(dav.getDisplayName(), NameScope.CHILD));
+            WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(getName().resolveName(dav.getName(), NameScope.CHILD));
             fo.setDavResource(dav, false);
 
             vfs[i] = fo;
