@@ -62,7 +62,7 @@ import java.net.URL;
  * A simple file name, made up of a root URI and an absolute path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/12 02:05:19 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/12 07:42:41 $
  */
 public class BasicFileName
     extends DefaultFileName
@@ -79,7 +79,15 @@ public class BasicFileName
                           final String path )
     {
         super( scheme, path );
-        this.rootUri = rootUri;
+        if ( rootUri.endsWith( SEPARATOR ) )
+        {
+            // Remove trailing separator
+            this.rootUri = rootUri.substring( 0, rootUri.length() - 1 );
+        }
+        else
+        {
+            this.rootUri = rootUri;
+        }
     }
 
     public BasicFileName( final FileName rootUri, final String path )

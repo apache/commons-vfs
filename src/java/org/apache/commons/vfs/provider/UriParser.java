@@ -56,6 +56,7 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 
 /**
  * Utilities for dealing with URIs.  See RFC 2396 for details.
@@ -66,10 +67,7 @@ import org.apache.commons.vfs.FileSystemException;
 public final class UriParser
 {
     /** The normalised separator to use. */
-    public static final char separatorChar = '/';
-
-    /** The normalised separator to use. */
-    public static final String separator = "/";
+    private static final char SEPARATOR_CHAR = FileName.SEPARATOR_CHAR;
 
     /**
      * The set of valid separators.  These are all converted to the normalised one.
@@ -92,13 +90,13 @@ public final class UriParser
             return null;
         }
         int startPos = 0;
-        if ( name.charAt( 0 ) == separatorChar )
+        if ( name.charAt( 0 ) == SEPARATOR_CHAR )
         {
             startPos = 1;
         }
         for ( int pos = startPos; pos < len; pos++ )
         {
-            if ( name.charAt( pos ) == separatorChar )
+            if ( name.charAt( pos ) == SEPARATOR_CHAR )
             {
                 // Found a separator
                 final String elem = name.substring( startPos, pos );
@@ -135,7 +133,7 @@ public final class UriParser
 
         // Determine the start of the first element
         int startFirstElem = 0;
-        if ( path.charAt( 0 ) == separatorChar )
+        if ( path.charAt( 0 ) == SEPARATOR_CHAR )
         {
             if ( path.length() == 1 )
             {
@@ -151,7 +149,7 @@ public final class UriParser
         {
             // Find the end of the element
             int endElem = startElem;
-            for ( ; endElem < maxlen && path.charAt( endElem ) != separatorChar; endElem++ )
+            for ( ; endElem < maxlen && path.charAt( endElem ) != SEPARATOR_CHAR; endElem++ )
             {
             }
 
@@ -183,7 +181,7 @@ public final class UriParser
 
                 // Find start of previous element
                 int pos = startElem - 2;
-                for ( ; pos >= 0 && path.charAt( pos ) != separatorChar; pos-- )
+                for ( ; pos >= 0 && path.charAt( pos ) != SEPARATOR_CHAR; pos-- )
                 {
                 }
                 startElem = pos + 1;
@@ -198,7 +196,7 @@ public final class UriParser
         }
 
         // Remove trailing separator
-        if ( maxlen > 0 && path.charAt( maxlen - 1 ) == separatorChar && maxlen > 1 )
+        if ( maxlen > 0 && path.charAt( maxlen - 1 ) == SEPARATOR_CHAR && maxlen > 1 )
         {
             path.delete( maxlen - 1, maxlen );
         }
@@ -225,7 +223,7 @@ public final class UriParser
                 char separator = separators[ j ];
                 if ( ch == separator )
                 {
-                    name.setCharAt( i, separatorChar );
+                    name.setCharAt( i, SEPARATOR_CHAR );
                     changed = true;
                     break;
                 }

@@ -63,24 +63,31 @@ import org.apache.commons.vfs.FileSystemException;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:19 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/12 07:42:41 $
  */
 public abstract class GenericFileName
     extends DefaultFileName
 {
     private final String userInfo;
     private final String hostName;
-    private final String port;
+    private final int port;
 
     protected GenericFileName( final String scheme,
                                final String hostName,
-                               final String port,
+                               final int port,
                                final String userInfo,
                                final String path )
     {
         super( scheme, path );
         this.hostName = hostName;
-        this.port = port;
+        if ( port > 0 )
+        {
+            this.port = port;
+        }
+        else
+        {
+            this.port = getDefaultPort();
+        }
         this.userInfo = userInfo;
     }
 
@@ -97,13 +104,13 @@ public abstract class GenericFileName
     }
 
     /** Returns the port part of the URI. */
-    public String getPort()
+    public int getPort()
     {
         return port;
     }
 
     /** Returns the default port for this file name. */
-    public abstract String getDefaultPort();
+    public abstract int getDefaultPort();
 
     /**
      * Extracts the scheme, userinfo, hostname and port components of a
@@ -143,12 +150,7 @@ public abstract class GenericFileName
         auth.hostName = hostName.toLowerCase();
 
         // Extract port
-        final String port = extractPort( name );
-        if ( port != null && port.length() == 0 )
-        {
-            throw new FileSystemException( "vfs.provider/missing-port.error", uri );
-        }
-        auth.port = port;
+        auth.port = extractPort( name, uri );
 
         // Expecting '/' or empty name
         if ( name.length() > 0 && name.charAt( 0 ) != '/' )
@@ -218,12 +220,13 @@ public abstract class GenericFileName
     /**
      * Extracts the port from a URI.  The <scheme>://<userinfo>@<hostname>
      * part has been removed.
+     * @return The port, or -1 if the URI does not contain a port.
      */
-    protected static String extractPort( final StringBuffer name )
+    private static int extractPort( final StringBuffer name, final String uri ) throws FileSystemException
     {
         if ( name.length() < 1 || name.charAt( 0 ) != ':' )
         {
-            return null;
+            return -1;
         }
 
         final int maxlen = name.length();
@@ -239,7 +242,12 @@ public abstract class GenericFileName
 
         final String port = name.substring( 1, pos );
         name.delete( 0, pos );
-        return port;
+        if ( port.length() == 0 )
+        {
+            throw new FileSystemException( "vfs.provider/missing-port.error", uri );
+        }
+
+        return Integer.parseInt( port );
     }
 
     /**
@@ -255,7 +263,7 @@ public abstract class GenericFileName
             buffer.append( "@" );
         }
         buffer.append( hostName );
-        if ( port != null && port.length() > 0 && !port.equals( getDefaultPort() ) )
+        if ( port != getDefaultPort() )
         {
             buffer.append( ":" );
             buffer.append( port );
@@ -268,6 +276,6 @@ public abstract class GenericFileName
         public String scheme;
         public String hostName;
         public String userInfo;
-        public String port;
+        public int port;
     }
 }

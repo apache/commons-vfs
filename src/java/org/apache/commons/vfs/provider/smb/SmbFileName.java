@@ -64,16 +64,16 @@ import org.apache.commons.vfs.FileName;
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:19 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/12 07:42:41 $
  */
-class SmbFileName
+public class SmbFileName
     extends GenericFileName
 {
     private final String share;
 
     private SmbFileName( final String scheme,
                          final String hostName,
-                         final String port,
+                         final int port,
                          final String userInfo,
                          final String share,
                          final String path )
@@ -99,7 +99,7 @@ class SmbFileName
 
         // Extract the share
         final String share = UriParser.extractFirstElement( name );
-        if ( share == null )
+        if ( share == null || share.length() == 0 )
         {
             throw new FileSystemException( "vfs.provider.smb/missing-share-name.error", uri );
         }
@@ -126,9 +126,9 @@ class SmbFileName
     }
 
     /** Returns the default port for this file name. */
-    public String getDefaultPort()
+    public int getDefaultPort()
     {
-        return "139";
+        return 139;
     }
 
     /**

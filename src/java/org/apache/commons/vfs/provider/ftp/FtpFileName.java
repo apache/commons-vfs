@@ -65,9 +65,9 @@ import org.apache.commons.vfs.FileName;
  * password.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:19 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/12 07:42:41 $
  */
-class FtpFileName
+public class FtpFileName
     extends GenericFileName
 {
     private final String userName;
@@ -75,7 +75,7 @@ class FtpFileName
 
     private FtpFileName( final String scheme,
                          final String hostName,
-                         final String port,
+                         final int port,
                          final String userInfo,
                          final String userName,
                          final String password,
@@ -154,9 +154,9 @@ class FtpFileName
     }
 
     /** Returns the default port for this file name. */
-    public String getDefaultPort()
+    public int getDefaultPort()
     {
-        return "21";
+        return 21;
     }
 
     /**

@@ -67,6 +67,16 @@ package org.apache.commons.vfs;
 public interface FileName
 {
     /**
+     * The separator character used in absolute file paths.
+     */
+    char SEPARATOR_CHAR = '/';
+
+    /**
+     * The separator used in absolute file paths.
+     */
+    String SEPARATOR = "/";
+
+    /**
      * The absolute path of the root of a file system.
      */
     String ROOT_PATH = "/";
@@ -113,7 +123,7 @@ public interface FileName
      * Returns the URI scheme of this file.
      */
     String getScheme();
-    
+
     /**
      * Returns the absolute URI of this file.
      */

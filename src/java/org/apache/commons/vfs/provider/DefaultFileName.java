@@ -68,9 +68,6 @@ import org.apache.commons.vfs.NameScope;
 public abstract class DefaultFileName
     implements FileName
 {
-    public static final char separatorChar = UriParser.separatorChar;
-    public static final String separator = UriParser.separator;
-
     private final String scheme;
     private final String absPath;
 
@@ -84,7 +81,14 @@ public abstract class DefaultFileName
                             final String absPath )
     {
         this.scheme = scheme;
-        this.absPath = absPath;
+        if ( absPath != null && absPath.length() > 0 )
+        {
+            this.absPath = absPath;
+        }
+        else
+        {
+            this.absPath = ROOT_PATH;
+        }
     }
 
     /**
@@ -118,7 +122,8 @@ public abstract class DefaultFileName
     protected abstract FileName createName( String absPath );
 
     /**
-     * Builds the root URI for this file name.
+     * Builds the root URI for this file name.  Note that the root URI must not
+     * end with a separator character.
      */
     protected abstract void appendRootUri( StringBuffer buffer );
 
@@ -129,7 +134,7 @@ public abstract class DefaultFileName
     {
         if ( baseName == null )
         {
-            final int idx = absPath.lastIndexOf( separatorChar );
+            final int idx = absPath.lastIndexOf( SEPARATOR_CHAR );
             if ( idx == -1 )
             {
                 baseName = absPath;
@@ -165,10 +170,10 @@ public abstract class DefaultFileName
         UriParser.fixSeparators( buffer );
 
         // Determine whether to prepend the base path
-        if ( name.length() == 0 || name.charAt( 0 ) != separatorChar )
+        if ( name.length() == 0 || name.charAt( 0 ) != SEPARATOR_CHAR )
         {
             // Supplied path is not absolute
-            buffer.insert( 0, separatorChar );
+            buffer.insert( 0, SEPARATOR_CHAR );
             buffer.insert( 0, absPath );
         }
 
@@ -191,7 +196,7 @@ public abstract class DefaultFileName
     public FileName getParent()
     {
         final String parentPath;
-        final int idx = absPath.lastIndexOf( separatorChar );
+        final int idx = absPath.lastIndexOf( SEPARATOR_CHAR );
         if ( idx == -1 || idx == absPath.length() - 1 )
         {
             // No parent
@@ -200,7 +205,7 @@ public abstract class DefaultFileName
         else if ( idx == 0 )
         {
             // Root is the parent
-            parentPath = separator;
+            parentPath = SEPARATOR;
         }
         else
         {
@@ -235,7 +240,10 @@ public abstract class DefaultFileName
     {
         if ( uri == null )
         {
-            uri = getRootURI() + absPath;
+            final StringBuffer buffer = new StringBuffer();
+            appendRootUri( buffer );
+            buffer.append( absPath );
+            uri = buffer.toString();
         }
         return uri;
     }
@@ -272,7 +280,7 @@ public abstract class DefaultFileName
             // Same names
             return ".";
         }
-        else if ( pos == basePathLen && pos < pathLen && path.charAt( pos ) == separatorChar )
+        else if ( pos == basePathLen && pos < pathLen && path.charAt( pos ) == SEPARATOR_CHAR )
         {
             // A descendent of the base path
             return path.substring( pos + 1 );
@@ -280,21 +288,21 @@ public abstract class DefaultFileName
 
         // Strip the common prefix off the path
         final StringBuffer buffer = new StringBuffer();
-        if ( pathLen > 1 && ( pos < pathLen || absPath.charAt( pos ) != separatorChar ) )
+        if ( pathLen > 1 && ( pos < pathLen || absPath.charAt( pos ) != SEPARATOR_CHAR ) )
         {
             // Not a direct ancestor, need to back up
-            pos = absPath.lastIndexOf( separatorChar, pos );
+            pos = absPath.lastIndexOf( SEPARATOR_CHAR, pos );
             buffer.append( path.substring( pos ) );
         }
 
         // Prepend a '../' for each element in the base path past the common
         // prefix
         buffer.insert( 0, ".." );
-        pos = absPath.indexOf( separatorChar, pos + 1 );
+        pos = absPath.indexOf( SEPARATOR_CHAR, pos + 1 );
         while ( pos != -1 )
         {
             buffer.insert( 0, "../" );
-            pos = absPath.indexOf( separatorChar, pos + 1 );
+            pos = absPath.indexOf( SEPARATOR_CHAR, pos + 1 );
         }
 
         return buffer.toString();
@@ -309,13 +317,7 @@ public abstract class DefaultFileName
         {
             final StringBuffer buffer = new StringBuffer();
             appendRootUri( buffer );
-
-            // Remove trailing separator, if any
-            if ( buffer.charAt( buffer.length() - 1 ) == separatorChar )
-            {
-                buffer.deleteCharAt( buffer.length() - 1 );
-            }
-
+            buffer.append( SEPARATOR_CHAR );
             rootUri = buffer.toString();
         }
         return rootUri;
@@ -327,14 +329,14 @@ public abstract class DefaultFileName
     public int getDepth()
     {
         final int len = absPath.length();
-        if ( len == 0 || ( len == 1 && absPath.charAt( 0 ) == separatorChar ) )
+        if ( len == 0 || ( len == 1 && absPath.charAt( 0 ) == SEPARATOR_CHAR ) )
         {
             return 0;
         }
         int depth = 1;
         for ( int pos = 0; pos > -1 && pos < len; depth++ )
         {
-            pos = absPath.indexOf( separatorChar, pos + 1 );
+            pos = absPath.indexOf( SEPARATOR_CHAR, pos + 1 );
         }
         return depth;
     }
@@ -419,8 +421,8 @@ public abstract class DefaultFileName
         if ( scope == NameScope.CHILD )
         {
             if ( path.length() == baseLen
-                || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar )
-                || path.indexOf( separatorChar, baseLen + 1 ) != -1 )
+                || ( baseLen > 1 && path.charAt( baseLen ) != SEPARATOR_CHAR )
+                || path.indexOf( SEPARATOR_CHAR, baseLen + 1 ) != -1 )
             {
                 return false;
             }
@@ -428,7 +430,7 @@ public abstract class DefaultFileName
         else if ( scope == NameScope.DESCENDENT )
         {
             if ( path.length() == baseLen
-                || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar ) )
+                || ( baseLen > 1 && path.charAt( baseLen ) != SEPARATOR_CHAR ) )
             {
                 return false;
             }
@@ -437,7 +439,7 @@ public abstract class DefaultFileName
         {
             if ( baseLen > 1
                 && path.length() > baseLen
-                && path.charAt( baseLen ) != separatorChar )
+                && path.charAt( baseLen ) != SEPARATOR_CHAR )
             {
                 return false;
             }
