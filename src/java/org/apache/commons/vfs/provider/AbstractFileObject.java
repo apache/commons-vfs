@@ -801,6 +801,13 @@ public abstract class AbstractFileObject
             // different fs - do the copy/delete stuff
 
             destFile.copyFrom(this, Selectors.SELECT_SELF);
+
+            if (destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED) &&
+                getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED))
+            {
+                destFile.getContent().setLastModifiedTime(this.getContent().getLastModifiedTime());
+            }
+
             deleteSelf();
         }
 
@@ -812,9 +819,8 @@ public abstract class AbstractFileObject
      *
      * @param newfile the new filename
      * @return true if rename is possible
-     * @throws FileSystemException
      */
-    protected boolean canRenameTo(FileObject newfile) throws FileSystemException
+    public boolean canRenameTo(FileObject newfile)
     {
         if (getFileSystem() == newfile.getFileSystem())
         {
