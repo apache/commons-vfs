@@ -53,42 +53,48 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.ftp;
+package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
+import org.apache.commons.vfs.provider.FileProvider;
 
 /**
- * A provider for FTP file systems.
+ * A file system provider for Zip files.  Provides read-only file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/07/05 04:08:19 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:15 $
  */
-public final class FtpFileSystemProvider
-    extends AbstractOriginatingFileProvider
+public class ZipFileProvider
+    extends AbstractLayeredFileProvider
+    implements FileProvider
 {
-    private static final int DEFAULT_PORT = 21;
-
     /**
-     * Parses a URI.
+     * Parses an absolute URI.
+     * @param uri The URI to parse.
      */
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return GenericFileName.parseUri( uri, DEFAULT_PORT );
+        return ZipFileName.parseUri( uri );
     }
 
     /**
-     * Creates the filesystem.
+     * Creates a layered file system.  This method is called if the file system
+     * is not cached.
+     * @param scheme The URI scheme.
+     * @param file The file to create the file system on top of.
+     * @return The file system.
      */
-    protected FileSystem doCreateFileSystem( final FileName name )
+    protected FileSystem doCreateFileSystem( final String scheme,
+                                             final FileObject file )
         throws FileSystemException
     {
-        // Create the file system
-        final GenericFileName rootName = (GenericFileName)name;
-        return new FtpFileSystem( rootName );
+        final FileName rootName =
+            new ZipFileName( scheme, file.getName().getURI(), FileName.ROOT_PATH );
+        return new ZipFileSystem( rootName, file );
     }
 }

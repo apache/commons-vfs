@@ -60,7 +60,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
+import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.BasicFileName;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.UriParser;
@@ -70,10 +70,10 @@ import org.apache.commons.vfs.provider.local.LocalFileSystem;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/12 07:56:16 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/17 09:22:15 $
  */
 public class TemporaryFileProvider
-    extends AbstractFileSystemProvider
+    extends AbstractFileProvider
     implements FileProvider
 {
     private File rootFile;

@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,39 +53,39 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.smb;
+package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.provider.GenericFileName;
 
 /**
- * A provider for SMB (Samba, Windows share) file systems.
+ * A provider for WebDAV.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:19 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:15 $
  */
-public final class SmbFileSystemProvider
+public class WebdavFileProvider
     extends AbstractOriginatingFileProvider
-    implements FileProvider
 {
     /**
-     * Parses a URI.
+     * Parses an abolute URI.
      */
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return SmbFileName.parseUri( uri );
+        return GenericFileName.parseUri( uri, 80 );
     }
 
     /**
-     * Creates the filesystem.
+     * Creates a filesystem.
      */
     protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        return new SmbFileSystem( name );
+        final GenericFileName rootName = (GenericFileName)name;
+        return new WebDavFileSystem( rootName );
     }
 }

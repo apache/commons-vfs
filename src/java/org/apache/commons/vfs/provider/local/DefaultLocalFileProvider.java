@@ -53,39 +53,87 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.jar;
+package org.apache.commons.vfs.provider.local;
 
+import java.io.File;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.zip.ZipFileName;
-import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
+import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
+import org.apache.commons.vfs.provider.LocalFileProvider;
+import org.apache.commons.vfs.util.Os;
 
 /**
- * A file system provider for Jar files.  Provides read-only file
- * systems.  This provides access to Jar specific features like Signing and
- * Manifest Attributes.
+ * A file system provider, which uses direct file access.
  *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.10 $ $Date: 2003/02/12 07:56:15 $
+ * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:15 $
  */
-public class JarFileSystemProvider
-    extends ZipFileSystemProvider
+public final class DefaultLocalFileProvider
+    extends AbstractOriginatingFileProvider
+    implements LocalFileProvider
 {
+    private final LocalFileNameParser parser;
+
+    public DefaultLocalFileProvider()
+    {
+        if ( Os.isFamily( Os.OS_FAMILY_WINDOWS ) )
+        {
+            parser = new WindowsFileNameParser();
+        }
+        else
+        {
+            parser = new GenericFileNameParser();
+        }
+    }
+
     /**
-     * Creates a layered file system.  This method is called if the file system
-     * is not cached.
-     * @param scheme The URI scheme.
-     * @param file The file to create the file system on top of.
-     * @return The file system.
+     * Determines if a name is an absolute file name.
      */
-    protected FileSystem doCreateFileSystem( String scheme,
-                                             FileObject file )
+    public boolean isAbsoluteLocalName( final String name )
+    {
+        return parser.isAbsoluteName( name );
+    }
+
+    /**
+     * Finds a local file, from its local name.
+     */
+    public FileObject findLocalFile( final String name )
         throws FileSystemException
     {
-        final FileName name =
-            new ZipFileName( scheme, file.getName().getURI(), FileName.ROOT_PATH );
-        return new JarFileSystem( name, file );
+        // TODO - tidy this up, no need to turn the name into an absolute URI,
+        // and then straight back again
+        return findFile( null, "file:" + name );
+    }
+
+    /**
+     * Finds a local file.
+     */
+    public FileObject findLocalFile( final File file )
+        throws FileSystemException
+    {
+        // TODO - tidy this up, should build file object straight from the file
+        return findFile( null, "file:" + file.getAbsolutePath() );
+    }
+
+    /**
+     * Parses a URI.
+     */
+    protected FileName parseUri( final String uri )
+        throws FileSystemException
+    {
+        return LocalFileName.parseUri( uri, parser );
+    }
+
+    /**
+     * Creates the filesystem.
+     */
+    protected FileSystem doCreateFileSystem( final FileName name )
+        throws FileSystemException
+    {
+        // Create the file system
+        final LocalFileName rootName = (LocalFileName)name;
+        return new LocalFileSystem( rootName, rootName.getRootFile() );
     }
 }

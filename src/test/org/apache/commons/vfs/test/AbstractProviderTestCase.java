@@ -71,7 +71,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
-import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 
 /**
  * File system test cases, which verifies the structure and naming
@@ -81,7 +81,7 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.9 $ $Date: 2003/02/17 09:22:16 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
@@ -165,7 +165,7 @@ public abstract class AbstractProviderTestCase
 
         // Create the file system manager
         manager = new DefaultFileSystemManager();
-        manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
+        manager.addProvider( "file", new DefaultLocalFileProvider() );
 
         final DefaultFileReplicator replicator = new DefaultFileReplicator( tempDir );
         manager.setReplicator( new PrivilegedFileReplicator( replicator ) );

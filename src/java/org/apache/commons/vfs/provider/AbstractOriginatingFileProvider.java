@@ -66,10 +66,10 @@ import org.apache.commons.vfs.FileName;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/15 00:07:45 $
+ * @version $Revision: 1.12 $ $Date: 2003/02/17 09:22:14 $
  */
 public abstract class AbstractOriginatingFileProvider
-    extends AbstractFileSystemProvider
+    extends AbstractFileProvider
 {
     /**
      * Locates a file object, by absolute URI.

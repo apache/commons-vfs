@@ -63,7 +63,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.url.UrlFileProvider;
-import org.apache.commons.vfs.provider.jar.JarFileSystemProvider;
+import org.apache.commons.vfs.provider.jar.JarFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 
@@ -71,7 +71,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the generic provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/17 09:22:16 $
  */
 public class UrlProviderTestCase
     extends AbstractProviderTestConfig
@@ -88,7 +88,7 @@ public class UrlProviderTestCase
         throws Exception
     {
         manager.addProvider( "file", new UrlFileProvider() );
-        manager.addProvider( "jar", new JarFileSystemProvider() );
+        manager.addProvider( "jar", new JarFileProvider() );
     }
 
     /**

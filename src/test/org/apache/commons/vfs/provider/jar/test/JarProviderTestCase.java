@@ -61,7 +61,7 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.jar.JarFileSystemProvider;
+import org.apache.commons.vfs.provider.jar.JarFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
@@ -89,7 +89,7 @@ public class JarProviderTestCase
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-        manager.addProvider( "jar", new JarFileSystemProvider() );
+        manager.addProvider( "jar", new JarFileProvider() );
     }
 
     /**

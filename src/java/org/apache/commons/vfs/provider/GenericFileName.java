@@ -64,10 +64,10 @@ import org.apache.commons.vfs.FileName;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/15 00:07:45 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/17 09:22:14 $
  */
 public class GenericFileName
-    extends DefaultFileName
+    extends AbstractFileName
 {
     private final String userName;
     private final String hostName;

@@ -53,35 +53,26 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.zip;
+package org.apache.commons.vfs.provider.jar;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
-import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.provider.zip.ZipFileName;
+import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 
 /**
- * A file system provider for Zip files.  Provides read-only file systems.
+ * A file system provider for Jar files.  Provides read-only file
+ * systems.  This provides access to Jar specific features like Signing and
+ * Manifest Attributes.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:19 $
+ * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
+ * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:15 $
  */
-public class ZipFileSystemProvider
-    extends AbstractLayeredFileProvider
-    implements FileProvider
+public class JarFileProvider
+    extends ZipFileProvider
 {
-    /**
-     * Parses an absolute URI.
-     * @param uri The URI to parse.
-     */
-    protected FileName parseUri( final String uri )
-        throws FileSystemException
-    {
-        return ZipFileName.parseUri( uri );
-    }
-
     /**
      * Creates a layered file system.  This method is called if the file system
      * is not cached.
@@ -89,12 +80,12 @@ public class ZipFileSystemProvider
      * @param file The file to create the file system on top of.
      * @return The file system.
      */
-    protected FileSystem doCreateFileSystem( final String scheme,
-                                             final FileObject file )
+    protected FileSystem doCreateFileSystem( String scheme,
+                                             FileObject file )
         throws FileSystemException
     {
-        final FileName rootName =
+        final FileName name =
             new ZipFileName( scheme, file.getName().getURI(), FileName.ROOT_PATH );
-        return new ZipFileSystem( rootName, file );
+        return new JarFileSystem( name, file );
     }
 }

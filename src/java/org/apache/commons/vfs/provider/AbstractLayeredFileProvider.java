@@ -65,10 +65,10 @@ import org.apache.commons.vfs.FileSystemException;
  * contents of a zip or tar file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/02/12 07:56:13 $
+ * @version $Revision: 1.9 $ $Date: 2003/02/17 09:22:14 $
  */
 public abstract class AbstractLayeredFileProvider
-    extends AbstractFileSystemProvider
+    extends AbstractFileProvider
     implements FileProvider
 {
     /**

@@ -71,7 +71,7 @@ import org.apache.commons.vfs.util.Messages;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2003/02/15 00:17:06 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/17 09:22:14 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -87,12 +87,12 @@ public class StandardFileSystemManager
         setTemporaryFileStore( replicator );
 
         // Add the standard providers
-        addProvider( "file", "org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider" );
-        addProvider( "zip", "org.apache.commons.vfs.provider.zip.ZipFileSystemProvider" );
-        addProvider( "jar", "org.apache.commons.vfs.provider.jar.JarFileSystemProvider" );
-        addProvider( "ftp", "org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider" );
-        addProvider( "smb", "org.apache.commons.vfs.provider.smb.SmbFileSystemProvider" );
-        addProvider( "webdav", "org.apache.commons.vfs.provider.webdav.WebdavProvider" );
+        addProvider( "file", "org.apache.commons.vfs.provider.local.DefaultLocalFileProvider" );
+        addProvider( "zip", "org.apache.commons.vfs.provider.zip.ZipFileProvider" );
+        addProvider( "jar", "org.apache.commons.vfs.provider.jar.JarFileProvider" );
+        addProvider( "ftp", "org.apache.commons.vfs.provider.ftp.FtpFileProvider" );
+        addProvider( "smb", "org.apache.commons.vfs.provider.smb.SmbFileProvider" );
+        addProvider( "webdav", "org.apache.commons.vfs.provider.webdav.WebdavFileProvider" );
         addProvider( "tmp", "org.apache.commons.vfs.provider.temp.TemporaryFileProvider" );
 
         // Add a default provider

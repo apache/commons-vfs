@@ -57,17 +57,17 @@ package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.provider.DefaultFileName;
+import org.apache.commons.vfs.provider.AbstractFileName;
 import org.apache.commons.vfs.provider.UriParser;
 
 /**
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/12 07:56:15 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/17 09:22:15 $
  */
 class LocalFileName
-    extends DefaultFileName
+    extends AbstractFileName
 {
     private final String rootFile;
 

@@ -59,7 +59,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractVfsContainer;
-import org.apache.commons.vfs.provider.DefaultFileName;
+import org.apache.commons.vfs.provider.AbstractFileName;
 import org.apache.commons.vfs.provider.BasicFileName;
 
 
@@ -67,7 +67,7 @@ import org.apache.commons.vfs.provider.BasicFileName;
  * A virtual filesystem provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/12 07:56:10 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/17 09:22:14 $
  */
 public class VirtualFileProvider
     extends AbstractVfsContainer

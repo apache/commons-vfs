@@ -53,68 +53,39 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider;
+package org.apache.commons.vfs.provider.smb;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
+import org.apache.commons.vfs.provider.FileProvider;
 
 /**
- * A partial {@link FileProvider} implementation.  Takes care of managing the
- * file systems created by the provider.
+ * A provider for SMB (Samba, Windows share) file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2002/07/05 03:47:04 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:15 $
  */
-public abstract class AbstractFileSystemProvider
-    extends AbstractVfsContainer
+public final class SmbFileProvider
+    extends AbstractOriginatingFileProvider
     implements FileProvider
 {
     /**
-     * The cached file systems.  This is a mapping from root URI to
-     * FileSystem object.
+     * Parses a URI.
      */
-    private final Map fileSystems = new HashMap();
-
-    /**
-     * Closes the file systems created by this provider.
-     */
-    public void close()
-    {
-        fileSystems.clear();
-        super.close();
-    }
-
-    /**
-     * Creates a layered file system.  This method throws a 'not supported' exception.
-     */
-    public FileObject createFileSystem( final String scheme, final FileObject file )
+    protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        // Can't create a layered file system
-        throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
+        return SmbFileName.parseUri( uri );
     }
 
     /**
-     * Adds a file system to those cached by this provider.  The file system
-     * may implement {@link VfsComponent}, in which case it is initialised.
+     * Creates the filesystem.
      */
-    protected void addFileSystem( final Object key, final FileSystem fs )
+    protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        // Add to the cache
-        addComponent( fs );
-        fileSystems.put( key, fs );
-    }
-
-    /**
-     * Locates a cached file system
-     * @return The provider, or null if it is not cached.
-     */
-    protected FileSystem findFileSystem( final Object key )
-    {
-        return (FileSystem)fileSystems.get( key );
+        return new SmbFileSystem( name );
     }
 }

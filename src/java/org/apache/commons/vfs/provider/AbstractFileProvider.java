@@ -53,87 +53,68 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.local;
+package org.apache.commons.vfs.provider;
 
-import java.io.File;
-import org.apache.commons.vfs.FileName;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs.provider.LocalFileProvider;
-import org.apache.commons.vfs.util.Os;
 
 /**
- * A file system provider, which uses direct file access.
+ * A partial {@link FileProvider} implementation.  Takes care of managing the
+ * file systems created by the provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision: 1.9 $ $Date: 2002/07/05 03:47:04 $
  */
-public final class DefaultLocalFileSystemProvider
-    extends AbstractOriginatingFileProvider
-    implements LocalFileProvider
+public abstract class AbstractFileProvider
+    extends AbstractVfsContainer
+    implements FileProvider
 {
-    private final LocalFileNameParser parser;
+    /**
+     * The cached file systems.  This is a mapping from root URI to
+     * FileSystem object.
+     */
+    private final Map fileSystems = new HashMap();
 
-    public DefaultLocalFileSystemProvider()
+    /**
+     * Closes the file systems created by this provider.
+     */
+    public void close()
     {
-        if ( Os.isFamily( Os.OS_FAMILY_WINDOWS ) )
-        {
-            parser = new WindowsFileNameParser();
-        }
-        else
-        {
-            parser = new GenericFileNameParser();
-        }
+        fileSystems.clear();
+        super.close();
     }
 
     /**
-     * Determines if a name is an absolute file name.
+     * Creates a layered file system.  This method throws a 'not supported' exception.
      */
-    public boolean isAbsoluteLocalName( final String name )
-    {
-        return parser.isAbsoluteName( name );
-    }
-
-    /**
-     * Finds a local file, from its local name.
-     */
-    public FileObject findLocalFile( final String name )
+    public FileObject createFileSystem( final String scheme, final FileObject file )
         throws FileSystemException
     {
-        // TODO - tidy this up, no need to turn the name into an absolute URI,
-        // and then straight back again
-        return findFile( null, "file:" + name );
+        // Can't create a layered file system
+        throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
     }
 
     /**
-     * Finds a local file.
+     * Adds a file system to those cached by this provider.  The file system
+     * may implement {@link VfsComponent}, in which case it is initialised.
      */
-    public FileObject findLocalFile( final File file )
+    protected void addFileSystem( final Object key, final FileSystem fs )
         throws FileSystemException
     {
-        // TODO - tidy this up, should build file object straight from the file
-        return findFile( null, "file:" + file.getAbsolutePath() );
+        // Add to the cache
+        addComponent( fs );
+        fileSystems.put( key, fs );
     }
 
     /**
-     * Parses a URI.
+     * Locates a cached file system
+     * @return The provider, or null if it is not cached.
      */
-    protected FileName parseUri( final String uri )
-        throws FileSystemException
+    protected FileSystem findFileSystem( final Object key )
     {
-        return LocalFileName.parseUri( uri, parser );
-    }
-
-    /**
-     * Creates the filesystem.
-     */
-    protected FileSystem doCreateFileSystem( final FileName name )
-        throws FileSystemException
-    {
-        // Create the file system
-        final LocalFileName rootName = (LocalFileName)name;
-        return new LocalFileSystem( rootName, rootName.getRootFile() );
+        return (FileSystem)fileSystems.get( key );
     }
 }

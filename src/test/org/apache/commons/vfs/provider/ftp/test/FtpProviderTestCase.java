@@ -59,7 +59,7 @@ import junit.framework.Test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider;
+import org.apache.commons.vfs.provider.ftp.FtpFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
@@ -86,7 +86,7 @@ public class FtpProviderTestCase
      */
     public void prepare( final DefaultFileSystemManager manager ) throws Exception
     {
-        manager.addProvider( "ftp", new FtpFileSystemProvider() );
+        manager.addProvider( "ftp", new FtpFileProvider() );
     }
 
     /**

@@ -61,7 +61,7 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
+import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
@@ -88,7 +88,7 @@ public class ZipProviderTestCase
      */
     public void prepare( final DefaultFileSystemManager manager ) throws Exception
     {
-        manager.addProvider( "zip", new ZipFileSystemProvider() );
+        manager.addProvider( "zip", new ZipFileProvider() );
     }
 
     /**

@@ -62,10 +62,10 @@ import java.net.URL;
  * A simple file name, made up of a root URI and an absolute path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/12 07:42:41 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/17 09:22:14 $
  */
 public class BasicFileName
-    extends DefaultFileName
+    extends AbstractFileName
 {
     private final String rootUri;
 

@@ -59,7 +59,7 @@ import junit.framework.Test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.smb.SmbFileSystemProvider;
+import org.apache.commons.vfs.provider.smb.SmbFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
@@ -84,7 +84,7 @@ public class SmbProviderTestCase
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-        manager.addProvider( "smb", new SmbFileSystemProvider() );
+        manager.addProvider( "smb", new SmbFileProvider() );
     }
 
     /**

@@ -63,9 +63,9 @@ import org.apache.commons.vfs.NameScope;
  * A default file name implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:17 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:14 $
  */
-public abstract class DefaultFileName
+public abstract class AbstractFileName
     implements FileName
 {
     private final String scheme;
@@ -77,7 +77,7 @@ public abstract class DefaultFileName
     private String rootUri;
     private String extension;
 
-    public DefaultFileName( final String scheme,
+    public AbstractFileName( final String scheme,
                             final String absPath )
     {
         this.scheme = scheme;
@@ -104,7 +104,7 @@ public abstract class DefaultFileName
      */
     public boolean equals( final Object obj )
     {
-        final DefaultFileName name = (DefaultFileName)obj;
+        final AbstractFileName name = (AbstractFileName)obj;
         return ( getRootURI().equals( name.getRootURI() ) && absPath.equals( absPath ) );
     }
 

@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,7 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.webdav;
+package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
@@ -62,30 +62,33 @@ import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
 
 /**
- * A provider for WebDAV.
+ * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/15 00:17:06 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/17 09:22:14 $
  */
-public class WebdavProvider
+public final class FtpFileProvider
     extends AbstractOriginatingFileProvider
 {
+    private static final int DEFAULT_PORT = 21;
+
     /**
-     * Parses an abolute URI.
+     * Parses a URI.
      */
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return GenericFileName.parseUri( uri, 80 );
+        return GenericFileName.parseUri( uri, DEFAULT_PORT );
     }
 
     /**
-     * Creates a filesystem.
+     * Creates the filesystem.
      */
     protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
+        // Create the file system
         final GenericFileName rootName = (GenericFileName)name;
-        return new WebDavFileSystem( rootName );
+        return new FtpFileSystem( rootName );
     }
 }

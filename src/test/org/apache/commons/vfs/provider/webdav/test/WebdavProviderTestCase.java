@@ -59,7 +59,7 @@ import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.provider.webdav.WebdavProvider;
+import org.apache.commons.vfs.provider.webdav.WebdavFileProvider;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import junit.framework.Test;
 
@@ -67,7 +67,7 @@ import junit.framework.Test;
  * Test cases for the WebDAV provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/15 00:19:50 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/17 09:22:16 $
  */
 public class WebdavProviderTestCase
     extends AbstractProviderTestConfig
@@ -83,7 +83,7 @@ public class WebdavProviderTestCase
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-        manager.addProvider( "webdav", new WebdavProvider() );
+        manager.addProvider( "webdav", new WebdavFileProvider() );
     }
 
     /**

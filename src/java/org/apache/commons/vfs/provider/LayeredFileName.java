@@ -59,10 +59,10 @@ package org.apache.commons.vfs.provider;
  * A file name for layered files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/12 07:56:13 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/17 09:22:14 $
  */
 public abstract class LayeredFileName
-    extends DefaultFileName
+    extends AbstractFileName
 {
     private final String outerUri;
 
