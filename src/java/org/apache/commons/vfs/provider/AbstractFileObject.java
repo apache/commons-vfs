@@ -130,7 +130,7 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Determines the type of the file, returns null if the file does not
+     * Determines the type of this file, returns null if the file does not
      * exist.  The return value of this method is cached, so the
      * implementation can be expensive.
      */
@@ -159,7 +159,7 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Lists the children of the file.  Is only called if {@link #doGetType}
+     * Lists the children of this file.  Is only called if {@link #doGetType}
      * returns {@link FileType#FOLDER}.  The return value of this method
      * is cached, so the implementation can be expensive.
      */

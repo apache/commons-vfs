@@ -65,7 +65,7 @@ import org.apache.commons.logging.LogFactory;
  * instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/12 07:56:09 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/21 05:16:17 $
  */
 public class VFS
 {
@@ -90,8 +90,6 @@ public class VFS
 
     /**
      * Creates a file system manager instance.
-     *
-     * @todo Load manager config from a file.
      */
     private static FileSystemManager createManager( final String managerClassName )
         throws FileSystemException
