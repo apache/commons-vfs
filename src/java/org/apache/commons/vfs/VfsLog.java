@@ -23,10 +23,15 @@ import org.apache.commons.logging.Log;
  * I hope i could remove it sometimes.
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/17 20:13:20 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/17 20:14:33 $
  */
 public class VfsLog
 {
+    // static utility class
+    private VfsLog()
+    {
+    }
+
     /**
      * warning
      */
