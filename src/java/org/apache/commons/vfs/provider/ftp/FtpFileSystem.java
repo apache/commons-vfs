@@ -143,7 +143,6 @@ final class FtpFileSystem
      */
     public FTPClient getClient() throws FileSystemException
     {
-        // TODO - connect on demand, and garbage collect connections
         if ( idleClient == null )
         {
             return createConnection( hostname, username, password );

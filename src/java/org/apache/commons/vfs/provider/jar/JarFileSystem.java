@@ -68,7 +68,6 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileObject;
 import org.apache.commons.vfs.provider.zip.ZipFileSystem;
 
@@ -76,14 +75,14 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystem;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.9 $ $Date: 2002/11/25 05:37:13 $
+ * @version $Revision: 1.10 $ $Date: 2003/01/23 12:27:23 $
  */
 class JarFileSystem
     extends ZipFileSystem
 {
     private Attributes attributes;
 
-    public JarFileSystem( final DefaultFileName rootName,
+    public JarFileSystem( final FileName rootName,
                           final FileObject file ) throws FileSystemException
     {
         super( rootName, file );

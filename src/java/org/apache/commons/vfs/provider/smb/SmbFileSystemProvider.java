@@ -59,9 +59,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.Uri;
 
 /**
  * A provider for SMB (Samba, Windows share) file systems.
@@ -73,25 +71,23 @@ public final class SmbFileSystemProvider
     extends AbstractOriginatingFileProvider
     implements FileProvider
 {
-    private final SmbFileNameParser parser = new SmbFileNameParser();
-
     /**
-     * Parses a URI into its components.
+     * Parses a URI.
      */
-    protected Uri parseUri( final String uri )
+    protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return parser.parseSmbUri( uri );
+        return new SmbUri( uri );
     }
 
     /**
      * Creates the filesystem.
      */
-    protected FileSystem doCreateFileSystem( final Uri uri )
+    protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        final SmbUri smbUri = (SmbUri)uri;
-        final FileName rootName = new DefaultFileName( parser, smbUri.getContainerUri(), FileName.ROOT_PATH );
+        final SmbUri smbUri = (SmbUri)name;
+        final FileName rootName = smbUri.resolveName( FileName.ROOT_PATH );
         return new SmbFileSystem( rootName );
     }
 }

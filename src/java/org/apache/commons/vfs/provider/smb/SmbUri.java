@@ -56,17 +56,54 @@
 package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.provider.GenericUri;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/23 12:27:24 $
  */
-final class SmbUri
+class SmbUri
     extends GenericUri
 {
     private String share;
+
+    public SmbUri( final String uri )
+        throws FileSystemException
+    {
+        final StringBuffer name = new StringBuffer();
+
+        // Extract the scheme and authority parts
+        extractToPath( uri, name );
+
+        // TODO - drop the default port
+
+        // Decode and adjust separators
+        decode( name, 0, name.length() );
+        fixSeparators( name );
+
+        // Extract the share
+        final String share = extractFirstElement( name );
+        if ( share == null )
+        {
+            throw new FileSystemException( "vfs.provider.smb/missing-share-name.error", uri );
+        }
+        setShare( share );
+
+        // Normalise the path
+        normalisePath( name );
+
+        // Set the path
+        setPath( name.toString() );
+
+        // Set the root URI
+        StringBuffer rootUri = new StringBuffer();
+        appendRootUri( rootUri );
+        rootUri.append( '/' );
+        rootUri.append( share );
+        setRootURI( rootUri.toString() );
+    }
 
     public String getShare()
     {

@@ -55,15 +55,17 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileSystemException;
+
 /**
  * A 'generic' URI, as per RFC 2396.  Consists of a scheme, userinfo (typically
  * username and password), hostname, port, and path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/23 12:27:23 $
  */
 public class GenericUri
-    extends Uri
+    extends DefaultFileName
 {
     private String userInfo;
     private String hostName;
@@ -104,4 +106,189 @@ public class GenericUri
     {
         this.port = port;
     }
+
+    /**
+     * Parses a generic URI.  Briefly, a generic URI looks like:
+     *
+     * <pre>
+     * &lt;scheme> '://' [ &lt;userinfo> '@' ] &lt;hostname> [ ':' &lt;port> ] '/' &lt;path>
+     * </pre>
+     *
+     * <p>This method differs from the RFC, in that either / or \ is allowed
+     * as a path separator.
+     *
+     * @param uri
+     *          The URI to parse.
+     */
+    protected void parseGenericUri( final String uri )
+        throws FileSystemException
+    {
+        final StringBuffer name = new StringBuffer();
+
+        // Extract the scheme and authority parts
+        extractToPath( uri, name );
+
+        // Decode and normalise the file name
+        decode( name, 0, name.length() );
+        normalisePath( name );
+        setPath( name.toString() );
+    }
+
+    /**
+     * Extracts the scheme, userinfo, hostname and port components of a
+     * generic URI.
+     *
+     * @param uri
+     *          The absolute URI to parse.
+     *
+     * @param name
+     *          Used to return the remainder of the URI.
+     */
+    protected void extractToPath( final String uri,
+                                  final StringBuffer name )
+        throws FileSystemException
+    {
+        // Extract the scheme
+        final String scheme = extractScheme( uri, name );
+        setScheme( scheme );
+
+        // Expecting "//"
+        if ( name.length() < 2 || name.charAt( 0 ) != '/' || name.charAt( 1 ) != '/' )
+        {
+            throw new FileSystemException( "vfs.provider/missing-double-slashes.error", uri );
+        }
+        name.delete( 0, 2 );
+
+        // Extract userinfo
+        final String userInfo = extractUserInfo( name );
+        setUserInfo( userInfo );
+
+        // Extract hostname, and normalise
+        final String hostName = extractHostName( name );
+        if ( hostName == null )
+        {
+            throw new FileSystemException( "vfs.provider/missing-hostname.error", uri );
+        }
+        setHostName( hostName.toLowerCase() );
+
+        // Extract port
+        final String port = extractPort( name );
+        if ( port != null && port.length() == 0 )
+        {
+            throw new FileSystemException( "vfs.provider/missing-port.error", uri );
+        }
+        setPort( port );
+
+        // Expecting '/' or empty name
+        if ( name.length() > 0 && name.charAt( 0 ) != '/' )
+        {
+            throw new FileSystemException( "vfs.provider/missing-hostname-path-sep.error", uri );
+        }
+    }
+
+    /**
+     * Extracts the user info from a URI.  The <scheme>:// part has been removed
+     * already.
+     */
+    protected String extractUserInfo( final StringBuffer name )
+    {
+        final int maxlen = name.length();
+        for ( int pos = 0; pos < maxlen; pos++ )
+        {
+            final char ch = name.charAt( pos );
+            if ( ch == '@' )
+            {
+                // Found the end of the user info
+                String userInfo = name.substring( 0, pos );
+                name.delete( 0, pos + 1 );
+                return userInfo;
+            }
+            if ( ch == '/' || ch == '?' )
+            {
+                // Not allowed in user info
+                break;
+            }
+        }
+
+        // Not found
+        return null;
+    }
+
+    /**
+     * Extracts the hostname from a URI.  The <scheme>://<userinfo>@ part has
+     * been removed.
+     */
+    protected String extractHostName( final StringBuffer name )
+    {
+        final int maxlen = name.length();
+        int pos = 0;
+        for ( ; pos < maxlen; pos++ )
+        {
+            final char ch = name.charAt( pos );
+            if ( ch == '/' || ch == ';' || ch == '?' || ch == ':'
+                || ch == '@' || ch == '&' || ch == '=' || ch == '+'
+                || ch == '$' || ch == ',' )
+            {
+                break;
+            }
+        }
+        if ( pos == 0 )
+        {
+            return null;
+        }
+
+        final String hostname = name.substring( 0, pos );
+        name.delete( 0, pos );
+        return hostname;
+    }
+
+    /**
+     * Extracts the port from a URI.  The <scheme>://<userinfo>@<hostname>
+     * part has been removed.
+     */
+    protected String extractPort( final StringBuffer name )
+    {
+        if ( name.length() < 1 || name.charAt( 0 ) != ':' )
+        {
+            return null;
+        }
+
+        final int maxlen = name.length();
+        int pos = 1;
+        for ( ; pos < maxlen; pos++ )
+        {
+            final char ch = name.charAt( pos );
+            if ( ch < '0' || ch > '9' )
+            {
+                break;
+            }
+        }
+
+        final String port = name.substring( 1, pos );
+        name.delete( 0, pos );
+        return port;
+    }
+    
+    /**
+     * Assembles a generic URI, appending to the supplied StringBuffer.
+     */
+    protected void appendRootUri( final StringBuffer rootUri )
+    {
+        rootUri.append( getScheme() );
+        rootUri.append( "://" );
+        final String userInfo = getUserInfo();
+        if ( userInfo != null && userInfo.length() != 0 )
+        {
+            rootUri.append( userInfo );
+            rootUri.append( "@" );
+        }
+        rootUri.append( getHostName() );
+        final String port = getPort();
+        if ( port != null && port.length() > 0 )
+        {
+            rootUri.append( ":" );
+            rootUri.append( port );
+        }
+    }
+
 }

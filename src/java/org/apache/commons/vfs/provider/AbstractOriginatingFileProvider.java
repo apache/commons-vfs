@@ -58,6 +58,7 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 
 /**
  * A {@link FileProvider} that handles physical files, such as the files in a
@@ -65,7 +66,7 @@ import org.apache.commons.vfs.FileSystemException;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2002/11/23 00:33:53 $
+ * @version $Revision: 1.9 $ $Date: 2003/01/23 12:27:23 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider
@@ -80,54 +81,56 @@ public abstract class AbstractOriginatingFileProvider
                                 final String uri ) throws FileSystemException
     {
         // Parse the URI
-        final Uri parsedUri;
+        final FileName name;
         try
         {
-            parsedUri = parseUri( uri );
+            name = parseUri( uri );
         }
         catch ( FileSystemException exc )
         {
-            throw new FileSystemException( "vfs.provider/invalid-absolute-uri.error", new Object[]{uri}, exc );
+            throw new FileSystemException( "vfs.provider/invalid-absolute-uri.error", uri, exc );
         }
 
         // Locate the file
-        return findFile( parsedUri );
+        return findFile( name );
     }
 
     /**
      * Locates a file from its parsed URI.
      */
-    private FileObject findFile( final Uri parsedUri )
+    private FileObject findFile( final FileName name )
         throws FileSystemException
     {
         // Check in the cache for the file system
-        final String rootUri = parsedUri.getContainerUri();
+        final String rootUri = name.getRootURI();
         FileSystem fs = findFileSystem( rootUri );
         if ( fs == null )
         {
             // Need to create the file system, and cache it
-            fs = doCreateFileSystem( parsedUri );
+            fs = doCreateFileSystem( name );
             addFileSystem( rootUri, fs );
         }
 
         // Locate the file
-        return fs.resolveFile( parsedUri.getPath() );
+        return fs.resolveFile( name.getPath() );
     }
 
     /**
-     * Parses a URI into its components.  The returned value is used to
-     * locate the file system in the cache (using the root prefix).
+     * Parses a URI.
      *
-     * <p>The provider can annotate this object with any additional
-     * information it requires to create a file system from the URI.
+     * @return The name of the file.  This name is used to locate the file
+     *         system in the cache, using the root URI.  This name is also
+     *         passed to {@link #doCreateFileSystem} to create the file system.
      */
-    protected abstract Uri parseUri( final String uri )
+    protected abstract FileName parseUri( final String uri )
         throws FileSystemException;
 
     /**
-     * Creates the filesystem.  The file system may implement {@link VfsComponent}.
+     * Creates a filesystem.  The file system may implement {@link VfsComponent}.
+     *
+     * @param name The name of the file to create the file system for.
      */
-    protected abstract FileSystem doCreateFileSystem( final Uri uri )
+    protected abstract FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException;
 
 }

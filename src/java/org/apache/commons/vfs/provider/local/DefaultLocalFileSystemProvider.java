@@ -61,9 +61,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.LocalFileProvider;
-import org.apache.commons.vfs.provider.Uri;
 import org.apache.commons.vfs.util.Os;
 
 /**
@@ -120,31 +118,26 @@ public final class DefaultLocalFileSystemProvider
     }
 
     /**
-     * Parses a URI into its components.  The returned value is used to
-     * locate the file system in the cache (using the root prefix), and is
-     * passed to {@link #doCreateFileSystem} to create the file system.
-     *
-     * <p>The provider can annotate this object with any additional
-     * information it requires to create a file system from the URI.
+     * Parses a URI.
      */
-    protected Uri parseUri( final String uri )
+    protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return parser.parseFileUri( uri );
+        return new LocalFileUri( uri, parser );
     }
 
     /**
      * Creates the filesystem.
      */
-    protected FileSystem doCreateFileSystem( final Uri uri )
+    protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
         // Build the name of the root file.
-        final LocalFileUri fileUri = (LocalFileUri)uri;
+        final LocalFileUri fileUri = (LocalFileUri)name;
         final String rootFile = fileUri.getRootFile();
 
         // Create the file system
-        final DefaultFileName rootName = new DefaultFileName( parser, fileUri.getContainerUri(), FileName.ROOT_PATH );
+        final FileName rootName = fileUri.resolveName( FileName.ROOT_PATH );
         return new LocalFileSystem( rootName, rootFile );
     }
 }

@@ -63,7 +63,6 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.Uri;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.local.LocalFileSystem;
 
@@ -71,7 +70,7 @@ import org.apache.commons.vfs.provider.local.LocalFileSystem;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:05:27 $
+ * @version $Revision: 1.4 $ $Date: 2003/01/23 12:27:26 $
  */
 public class TemporaryFileProvider
     extends AbstractFileSystemProvider
@@ -96,9 +95,13 @@ public class TemporaryFileProvider
         throws FileSystemException
     {
         // Parse the name
-        final Uri parsedUri = parseUri( uri );
+        final StringBuffer buffer = new StringBuffer( uri );
+        final String scheme = parser.extractScheme( uri, buffer );
+        parser.decode( buffer, 0, buffer.length() );
+        parser.normalisePath( buffer );
+        final String path = buffer.toString();
 
-        // Create the temp file system
+        // Create the temp file system if it does not exist
         FileSystem filesystem = findFileSystem( this );
         if ( filesystem == null )
         {
@@ -106,26 +109,13 @@ public class TemporaryFileProvider
             {
                 rootFile = getContext().getTemporaryFileStore().allocateFile( "tempfs" );
             }
-            final FileName rootName = new DefaultFileName( parser, parsedUri.getContainerUri(), FileName.ROOT_PATH );
+            final FileName rootName =
+                new DefaultFileName( scheme, scheme + ":",  FileName.ROOT_PATH );
             filesystem = new LocalFileSystem( rootName, rootFile.getAbsolutePath() );
             addFileSystem( this, filesystem );
         }
 
         // Find the file
-        return filesystem.resolveFile( parsedUri.getPath() );
-    }
-
-    /** Parses an absolute URI into its parts. */
-    private Uri parseUri( final String uri ) throws FileSystemException
-    {
-        final StringBuffer buffer = new StringBuffer( uri );
-        final Uri parsedUri = new Uri();
-        final String scheme = parser.extractScheme( uri, buffer );
-        parsedUri.setScheme( scheme );
-        parser.decode( buffer, 0, buffer.length() );
-        parser.normalisePath( buffer );
-        parsedUri.setPath( buffer.toString() );
-        parsedUri.setContainerUri( scheme + ":" );
-        return parsedUri;
+        return filesystem.resolveFile( path );
     }
 }

@@ -53,62 +53,29 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.ftp;
-
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.UriParser;
+package org.apache.commons.vfs.provider;
 
 /**
- * A parser for FTP URI.
+ * A file name for layered files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision: 1.1 $ $Date: 2003/01/23 12:27:23 $
  */
-class FtpFileNameParser
-    extends UriParser
+public class LayeredFileName
+    extends DefaultFileName
 {
+    private String outerUri;
+
     /**
-     * Parses an absolute URI, splitting it into its components.
+     * Returns the URI of the outer file.
      */
-    public FtpUri parseFtpUri( final String uriStr )
-        throws FileSystemException
+    public String getOuterUri()
     {
-        final FtpUri uri = new FtpUri();
+        return outerUri;
+    }
 
-        // FTP URI are generic URI (as per RFC 2396)
-        parseGenericUri( uriStr, uri );
-
-        // Drop the port if it is 21
-        final String port = uri.getPort();
-        if ( port != null && port.equals( "21" ) )
-        {
-            uri.setPort( null );
-        }
-
-        // Split up the userinfo into a username and password
-        // TODO - push this into parser and GenericUri
-        final String userInfo = uri.getUserInfo();
-        if ( userInfo != null )
-        {
-            int idx = userInfo.indexOf( ':' );
-            if ( idx == -1 )
-            {
-                uri.setUserName( userInfo );
-            }
-            else
-            {
-                String userName = userInfo.substring( 0, idx );
-                String password = userInfo.substring( idx + 1 );
-                uri.setUserName( userName );
-                uri.setPassword( password );
-            }
-        }
-
-        // Now build the root URI
-        final StringBuffer rootUri = new StringBuffer();
-        appendRootUri( uri, rootUri );
-        uri.setContainerUri( rootUri.toString() );
-
-        return uri;
+    public void setOuterUri( final String outerUri )
+    {
+        this.outerUri = outerUri;
     }
 }

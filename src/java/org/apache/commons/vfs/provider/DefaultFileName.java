@@ -65,24 +65,73 @@ import org.apache.commons.vfs.NameScope;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:17 $
  */
-public final class DefaultFileName
+public class DefaultFileName
+    extends UriParser
     implements FileName
 {
-    private final UriParser parser;
-    private final String rootPrefix;
-    private final String absPath;
+    private static final char separatorChar = '/';
+    private static final String separator = "/";
+
+    private String scheme;
+    private String rootUri;
+    private String absPath;
 
     // Cached stuff
     private String uri;
     private String baseName;
 
-    public DefaultFileName( final UriParser parser,
+    public DefaultFileName( final String scheme,
                             final String rootPrefix,
                             final String absPath )
     {
-        this.parser = parser;
-        this.rootPrefix = rootPrefix;
+        setScheme( scheme );
+        setRootURI( rootPrefix );
+        setPath( absPath );
+    }
+
+    public DefaultFileName( final String rootUri,
+                            final String absPath )
+    {
+        this( extractScheme( rootUri ), rootUri, absPath );
+    }
+
+    /**
+     * @todo Get rid of this and make fields final again.
+     */
+    protected DefaultFileName()
+    {
+    }
+
+    /**
+     * Sets the scheme for this filename.
+     */
+    protected void setScheme( final String scheme )
+    {
+        this.scheme = scheme;
+    }
+
+    /**
+     * Sets the path for this filename.
+     */
+    protected void setPath( final String absPath )
+    {
         this.absPath = absPath;
+    }
+
+    /**
+     * Sets the root URI for this filename.
+     */
+    protected void setRootURI( final String uri )
+    {
+        // Remove trailing separator, if any
+        if ( uri.endsWith( separator ) )
+        {
+            this.rootUri = uri.substring( 0, uri.length() - 1 );
+        }
+        else
+        {
+            this.rootUri = uri;
+        }
     }
 
     /**
@@ -90,7 +139,7 @@ public final class DefaultFileName
      */
     public int hashCode()
     {
-        return ( rootPrefix.hashCode() ^ absPath.hashCode() );
+        return ( rootUri.hashCode() ^ absPath.hashCode() );
     }
 
     /**
@@ -99,7 +148,7 @@ public final class DefaultFileName
     public boolean equals( final Object obj )
     {
         final DefaultFileName name = (DefaultFileName)obj;
-        return ( rootPrefix.equals( name.rootPrefix ) && absPath.equals( absPath ) );
+        return ( rootUri.equals( name.rootUri ) && absPath.equals( absPath ) );
     }
 
     /**
@@ -111,14 +160,32 @@ public final class DefaultFileName
     }
 
     /**
+     * Factory method for creating name instances.  Can be overridden.
+     * @param absPath
+     */
+    protected FileName createName( final String absPath )
+    {
+        return new DefaultFileName( scheme, rootUri, absPath );
+    }
+
+    /**
      * Returns the base name of the file.
      */
     public String getBaseName()
     {
         if ( baseName == null )
         {
-            baseName = parser.getBaseName( absPath );
+            final int idx = absPath.lastIndexOf( separatorChar );
+            if ( idx == -1 )
+            {
+                baseName = absPath;
+            }
+            else
+            {
+                baseName = absPath.substring( idx + 1 );
+            }
         }
+
         return baseName;
     }
 
@@ -138,8 +205,13 @@ public final class DefaultFileName
                                  final NameScope scope )
         throws FileSystemException
     {
-        final String otherAbsPath = parser.resolvePath( absPath, name, scope );
-        return new DefaultFileName( parser, rootPrefix, otherAbsPath );
+        final String resolvedPath = resolvePath( absPath, name );
+        if ( !checkName( absPath, resolvedPath, scope ) )
+        {
+            throw new FileSystemException( "vfs.provider/invalid-descendent-name.error", name );
+        }
+
+        return createName( resolvedPath );
     }
 
     /**
@@ -147,12 +219,23 @@ public final class DefaultFileName
      */
     public FileName getParent()
     {
-        final String parentPath = parser.getParentPath( absPath );
-        if ( parentPath == null )
+        final String parentPath;
+        final int idx = absPath.lastIndexOf( separatorChar );
+        if ( idx == -1 || idx == absPath.length() - 1 )
         {
+            // No parent
             return null;
         }
-        return new DefaultFileName( parser, rootPrefix, parentPath );
+        else if ( idx == 0 )
+        {
+            // Root is the parent
+            parentPath = separator;
+        }
+        else
+        {
+            parentPath = absPath.substring( 0, idx );
+        }
+        return createName( parentPath );
     }
 
     /**
@@ -167,13 +250,21 @@ public final class DefaultFileName
     }
 
     /**
+     * Returns the URI scheme of this file.
+     */
+    public String getScheme()
+    {
+        return scheme;
+    }
+
+    /**
      * Returns the absolute URI of the file.
      */
     public String getURI()
     {
         if ( uri == null )
         {
-            uri = parser.getUri( rootPrefix, absPath );
+            uri = rootUri + absPath;
         }
         return uri;
     }
@@ -183,7 +274,59 @@ public final class DefaultFileName
      */
     public String getRelativeName( final FileName name ) throws FileSystemException
     {
-        return parser.makeRelative( absPath, name.getPath() );
+        final String path = name.getPath();
+
+        // Calculate the common prefix
+        final int basePathLen = absPath.length();
+        final int pathLen = path.length();
+
+        // Deal with root
+        if ( basePathLen == 1 && pathLen == 1 )
+        {
+            return ".";
+        }
+        else if ( basePathLen == 1 )
+        {
+            return path.substring( 1 );
+        }
+
+        final int maxlen = Math.min( basePathLen, pathLen );
+        int pos = 0;
+        for ( ; pos < maxlen && absPath.charAt( pos ) == path.charAt( pos ); pos++ )
+        {
+        }
+
+        if ( pos == basePathLen && pos == pathLen )
+        {
+            // Same names
+            return ".";
+        }
+        else if ( pos == basePathLen && pos < pathLen && path.charAt( pos ) == separatorChar )
+        {
+            // A descendent of the base path
+            return path.substring( pos + 1 );
+        }
+
+        // Strip the common prefix off the path
+        final StringBuffer buffer = new StringBuffer();
+        if ( pathLen > 1 && ( pos < pathLen || absPath.charAt( pos ) != separatorChar ) )
+        {
+            // Not a direct ancestor, need to back up
+            pos = absPath.lastIndexOf( separatorChar, pos );
+            buffer.append( path.substring( pos ) );
+        }
+
+        // Prepend a '../' for each element in the base path past the common
+        // prefix
+        buffer.insert( 0, ".." );
+        pos = absPath.indexOf( separatorChar, pos + 1 );
+        while ( pos != -1 )
+        {
+            buffer.insert( 0, "../" );
+            pos = absPath.indexOf( separatorChar, pos + 1 );
+        }
+
+        return buffer.toString();
     }
 
     /**
@@ -191,7 +334,7 @@ public final class DefaultFileName
      */
     public String getRootURI()
     {
-        return rootPrefix;
+        return rootUri;
     }
 
     /**
@@ -199,7 +342,17 @@ public final class DefaultFileName
      */
     public int getDepth()
     {
-        return parser.getDepth( absPath );
+        final int len = absPath.length();
+        if ( len == 0 || ( len == 1 && absPath.charAt( 0 ) == separatorChar ) )
+        {
+            return 0;
+        }
+        int depth = 1;
+        for ( int pos = 0; pos > -1 && pos < len; depth++ )
+        {
+            pos = absPath.indexOf( separatorChar, pos + 1 );
+        }
+        return depth;
     }
 
     /**
@@ -225,11 +378,11 @@ public final class DefaultFileName
      */
     public boolean isAncestor( final FileName ancestor )
     {
-        if ( !ancestor.getRootURI().equals( rootPrefix ) )
+        if ( !ancestor.getRootURI().equals( rootUri ) )
         {
             return false;
         }
-        return parser.checkName( ancestor.getPath(), absPath, NameScope.DESCENDENT );
+        return checkName( ancestor.getPath(), absPath, NameScope.DESCENDENT );
     }
 
     /**
@@ -246,10 +399,67 @@ public final class DefaultFileName
     public boolean isDescendent( final FileName descendent,
                                  final NameScope scope )
     {
-        if ( !descendent.getRootURI().equals( rootPrefix ) )
+        if ( !descendent.getRootURI().equals( rootUri ) )
         {
             return false;
         }
-        return parser.checkName( absPath, descendent.getPath(), scope );
+        return checkName( absPath, descendent.getPath(), scope );
     }
+
+    /**
+     * Checks whether a path fits in a particular scope of another path.
+     *
+     * @param basePath An absolute, normalised path.
+     * @param path An absolute, normalised path.
+     */
+    private boolean checkName( final String basePath,
+                               final String path,
+                               final NameScope scope )
+    {
+        if ( scope == NameScope.FILE_SYSTEM )
+        {
+            // All good
+            return true;
+        }
+
+        if ( !path.startsWith( basePath ) )
+        {
+            return false;
+        }
+        final int baseLen = basePath.length();
+
+        if ( scope == NameScope.CHILD )
+        {
+            if ( path.length() == baseLen
+                || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar )
+                || path.indexOf( separatorChar, baseLen + 1 ) != -1 )
+            {
+                return false;
+            }
+        }
+        else if ( scope == NameScope.DESCENDENT )
+        {
+            if ( path.length() == baseLen
+                || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar ) )
+            {
+                return false;
+            }
+        }
+        else if ( scope == NameScope.DESCENDENT_OR_SELF )
+        {
+            if ( baseLen > 1
+                && path.length() > baseLen
+                && path.charAt( baseLen ) != separatorChar )
+            {
+                return false;
+            }
+        }
+        else if ( scope != NameScope.FILE_SYSTEM )
+        {
+            throw new IllegalArgumentException();
+        }
+
+        return true;
+    }
+
 }

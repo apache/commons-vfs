@@ -60,9 +60,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
-import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.Uri;
 
 /**
  * A file system provider for Zip files.  Provides read-only file systems.
@@ -74,16 +72,14 @@ public class ZipFileSystemProvider
     extends AbstractLayeredFileProvider
     implements FileProvider
 {
-    private final ZipFileNameParser parser = new ZipFileNameParser();
-
     /**
      * Parses an absolute URI.
      * @param uri The URI to parse.
      */
-    protected Uri parseUri( final String uri )
+    protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return parser.parseZipUri( uri );
+        return new ZipFileNameParser( uri );
     }
 
     /**
@@ -97,17 +93,8 @@ public class ZipFileSystemProvider
                                              final FileObject file )
         throws FileSystemException
     {
-        final String rootUri = parser.buildRootUri( scheme, file.getName().getURI() );
-        final DefaultFileName name = new DefaultFileName( parser, rootUri, FileName.ROOT_PATH );
-        return new ZipFileSystem( name, file );
+        final FileName rootName =
+            new ZipFileNameParser( scheme, file.getName().getURI(), FileName.ROOT_PATH );
+        return new ZipFileSystem( rootName, file );
     }
-
-    /**
-     * Returns the URI parser.
-     */
-    protected ZipFileNameParser getParser()
-    {
-        return parser;
-    }
-
 }

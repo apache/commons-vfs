@@ -55,28 +55,24 @@
  */
 package org.apache.commons.vfs.provider.url;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.provider.Uri;
-import org.apache.commons.vfs.provider.UriParser;
-import java.net.URL;
-import java.net.MalformedURLException;
 
 /**
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2002/11/25 05:38:45 $
+ * @version $Revision: 1.10 $ $Date: 2003/01/23 12:27:26 $
  */
 public class UrlFileProvider
     extends AbstractFileSystemProvider
 {
-    private final UriParser parser = new UriParser();
-
     /**
      * Locates a file object, by absolute URI.
      */
@@ -91,7 +87,10 @@ public class UrlFileProvider
             FileSystem fs = findFileSystem( rootUrl );
             if ( fs == null )
             {
-                final FileName rootName = new DefaultFileName( parser, rootUrl.toExternalForm(), FileName.ROOT_PATH );
+                final FileName rootName =
+                    new DefaultFileName( rootUrl.getProtocol(),
+                                         rootUrl.toExternalForm(),
+                                         FileName.ROOT_PATH );
                 fs = new UrlFileSystem( rootName );
                 addFileSystem( rootUrl, fs );
             }

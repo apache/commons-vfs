@@ -110,6 +110,11 @@ public interface FileName
     int getDepth();
 
     /**
+     * Returns the URI scheme of this file.
+     */
+    String getScheme();
+    
+    /**
      * Returns the absolute URI of this file.
      */
     String getURI();

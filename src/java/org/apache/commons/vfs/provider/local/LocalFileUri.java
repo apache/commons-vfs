@@ -55,18 +55,48 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import org.apache.commons.vfs.provider.Uri;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.provider.DefaultFileName;
 
 /**
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/23 12:27:24 $
  */
-final class LocalFileUri
-    extends Uri
+class LocalFileUri
+    extends DefaultFileName
 {
     private String rootFile;
+
+    public LocalFileUri( final String uri, final LocalFileNameParser parser )
+        throws FileSystemException
+    {
+        final StringBuffer name = new StringBuffer();
+
+        // Extract the scheme
+        final String scheme = extractScheme( uri, name );
+        setScheme( scheme );
+
+        // Remove encoding, and adjust the separators
+        decode( name, 0, name.length() );
+        fixSeparators( name );
+
+        // Extract the root prefix
+        final String rootFile = parser.extractRootPrefix( uri, name );
+        setRootFile( rootFile );
+
+        // Normalise the path
+        normalisePath( name );
+        setPath( name.toString() );
+
+        // Build the root URI
+        final StringBuffer rootUri = new StringBuffer();
+        rootUri.append( scheme );
+        rootUri.append( "://" );
+        rootUri.append( rootFile );
+        setRootURI( rootUri.toString() );
+    }
 
     public String getRootFile()
     {

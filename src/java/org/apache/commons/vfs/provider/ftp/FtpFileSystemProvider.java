@@ -59,8 +59,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.provider.Uri;
 
 /**
  * A provider for FTP file systems.
@@ -71,27 +69,25 @@ import org.apache.commons.vfs.provider.Uri;
 public final class FtpFileSystemProvider
     extends AbstractOriginatingFileProvider
 {
-    private final FtpFileNameParser parser = new FtpFileNameParser();
-
     /**
-     * Parses a URI into its components.
+     * Parses a URI.
      */
-    protected Uri parseUri( final String uri )
+    protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return parser.parseFtpUri( uri );
+        return new FtpUri( uri );
     }
 
     /**
      * Creates the filesystem.
      */
-    protected FileSystem doCreateFileSystem( final Uri uri )
+    protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        final FtpUri ftpUri = (FtpUri)uri;
+        final FtpUri ftpUri = (FtpUri)name;
 
         // Build the root name
-        final FileName rootName = new DefaultFileName( parser, ftpUri.getContainerUri(), FileName.ROOT_PATH );
+        final FileName rootName = ftpUri.resolveName( FileName.ROOT_PATH );
 
         // Determine the username and password to use
         String username = ftpUri.getUserName();

@@ -56,8 +56,7 @@
 package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.Uri;
-import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.LayeredFileName;
 
 /**
  * A parser for Zip file names.
@@ -66,55 +65,46 @@ import org.apache.commons.vfs.provider.UriParser;
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:19 $
  */
 public class ZipFileNameParser
-    extends UriParser
+    extends LayeredFileName
 {
     private static final char[] ZIP_URL_RESERVED_CHARS = {'!'};
 
-    /**
-     * Parses an absolute URI, splitting it into its components.
-     *
-     * @param uriStr
-     *          The URI.
-     */
-    public Uri parseZipUri( final String uriStr )
+    public ZipFileNameParser( final String uri )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
-        final Uri uri = new Uri();
 
         // Extract the scheme
-        final String scheme = extractScheme( uriStr, name );
-        uri.setScheme( scheme );
+        final String scheme = extractScheme( uri, name );
+        setScheme( scheme );
 
-        // Extract the Zip file name
-        final String zipName = extractZipName( name );
-        uri.setContainerUri( zipName );
+        // Extract the Zip file URI
+        final String zipUri = extractZipName( name );
+        setOuterUri( zipUri );
 
-        // Decode and normalise the file name
+        // Decode and normalise the path
         decode( name, 0, name.length() );
         normalisePath( name );
-        uri.setPath( name.toString() );
-
-        return uri;
+        setPath( name.toString() );
     }
 
-    /**
-     * Assembles a root URI from the components of a parsed URI.
-     */
-    public String buildRootUri( final String scheme, final String outerFileUri )
+    public ZipFileNameParser( final String scheme,
+                              final String outerFileUri,
+                              final String path )
     {
         final StringBuffer rootUri = new StringBuffer();
         rootUri.append( scheme );
         rootUri.append( ":" );
         appendEncoded( rootUri, outerFileUri, ZIP_URL_RESERVED_CHARS );
         rootUri.append( "!" );
-        return rootUri.toString();
+        setRootURI( rootUri.toString() );
+        setPath( path );
     }
 
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
-    private String extractZipName( final StringBuffer uri )
+    private static String extractZipName( final StringBuffer uri )
         throws FileSystemException
     {
         // Looking for <name>!<abspath>

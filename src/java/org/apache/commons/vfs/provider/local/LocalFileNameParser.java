@@ -57,7 +57,6 @@ package org.apache.commons.vfs.provider.local;
 
 import java.io.File;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.Uri;
 import org.apache.commons.vfs.provider.UriParser;
 
 /**
@@ -91,43 +90,6 @@ abstract class LocalFileNameParser
         {
             return false;
         }
-    }
-
-    /**
-     * Parses an absolute URI, splitting it into its components.
-     *
-     * @param uriStr The URI.
-     */
-    public Uri parseFileUri( final String uriStr )
-        throws FileSystemException
-    {
-        final StringBuffer name = new StringBuffer();
-        final LocalFileUri uri = new LocalFileUri();
-
-        // Extract the scheme
-        final String scheme = extractScheme( uriStr, name );
-        uri.setScheme( scheme );
-
-        // Remove encoding, and adjust the separators
-        decode( name, 0, name.length() );
-        fixSeparators( name );
-
-        // Extract the root prefix
-        final String rootFile = extractRootPrefix( uriStr, name );
-        uri.setRootFile( rootFile );
-
-        // Normalise the path
-        normalisePath( name );
-        uri.setPath( name.toString() );
-
-        // Build the root URI
-        final StringBuffer rootUri = new StringBuffer();
-        rootUri.append( scheme );
-        rootUri.append( "://" );
-        rootUri.append( rootFile );
-        uri.setContainerUri( rootUri.toString() );
-
-        return uri;
     }
 
     /**

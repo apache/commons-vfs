@@ -68,7 +68,6 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.DefaultFileName;
 
 /**
  * A read-only file system for Zip/Jar files.
@@ -83,7 +82,7 @@ public class ZipFileSystem
     private final File file;
     protected final ZipFile zipFile;
 
-    public ZipFileSystem( final DefaultFileName rootName,
+    public ZipFileSystem( final FileName rootName,
                           final FileObject parentLayer )
         throws FileSystemException
     {

@@ -56,19 +56,58 @@
 package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.vfs.provider.GenericUri;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * An FTP URI.  Splits userinfo (see {@link #getUserInfo}) into username and
  * password.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/23 12:27:23 $
  */
-final class FtpUri
+class FtpUri
     extends GenericUri
 {
     private String userName;
     private String password;
+
+    public FtpUri( final String uri )
+        throws FileSystemException
+    {
+        // FTP URI are generic URI (as per RFC 2396)
+        parseGenericUri( uri );
+
+        // Drop the port if it is 21
+        final String port = getPort();
+        if ( port != null && port.equals( "21" ) )
+        {
+            setPort( null );
+        }
+
+        // Split up the userinfo into a username and password
+        // TODO - push this into GenericUri
+        final String userInfo = getUserInfo();
+        if ( userInfo != null )
+        {
+            int idx = userInfo.indexOf( ':' );
+            if ( idx == -1 )
+            {
+                setUserName( userInfo );
+            }
+            else
+            {
+                String userName = userInfo.substring( 0, idx );
+                String password = userInfo.substring( idx + 1 );
+                setUserName( userName );
+                setPassword( password );
+            }
+        }
+
+        // Now build the root URI
+        final StringBuffer rootUri = new StringBuffer();
+        appendRootUri( rootUri );
+        setRootURI( rootUri.toString() );
+    }
 
     public String getUserName()
     {
