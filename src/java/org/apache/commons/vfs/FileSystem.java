@@ -56,12 +56,10 @@
 package org.apache.commons.vfs;
 
 /**
- * A file system.
- *
- * <p>A file system can also implement {@link org.apache.commons.vfs.provider.VfsComponent}.
+ * A file system, made up of a hierarchy of files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/10/25 03:59:09 $
+ * @version $Revision: 1.6 $ $Date: 2002/10/31 10:35:18 $
  */
 public interface FileSystem
 {
@@ -152,4 +150,30 @@ public interface FileSystem
      * @param listener The listener to remove.
      */
     void removeListener( FileObject file, FileListener listener );
+
+    /**
+     * Adds a junction to this file system.  A junction is a link that attaches
+     * the supplied file to a point in this file system, making it look like
+     * part of the file system.
+     *
+     * @param junctionPoint The point in this file system to add the junction.
+     * @param targetFile The file to link to.
+     *
+     * @throws FileSystemException
+     *      If this file system does not support junctions, or the junction
+     *      point or target file is invalid (the file system may not support
+     *      nested junctions, for example).
+     */
+    void addJunction( FileName junctionPoint, FileObject targetFile )
+        throws FileSystemException;
+
+    /**
+     * Removes a junction from this file system.
+     *
+     * @param junctionPoint The junction to remove.
+     *
+     * @throws FileSystemException
+     *      On error removing the junction.
+     */
+    void removeJuntion( FileName junctionPoint ) throws FileSystemException;
 }

@@ -64,6 +64,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileChangeEvent;
+import org.apache.commons.vfs.util.Messages;
 
 /**
  * A partial {@link org.apache.commons.vfs.FileSystem} implementation.
@@ -186,6 +187,24 @@ public abstract class AbstractFileSystem
     }
 
     /**
+     * Adds a junction to this file system.
+     */
+    public void addJunction( final FileName junctionPoint,
+                             final FileObject targetFile )
+        throws FileSystemException
+    {
+        throw new FileSystemException( "vfs.provider/junctions-not-supported.error", rootName );
+    }
+
+    /**
+     * Removes a junction from this file system.
+     */
+    public void removeJuntion( final FileName junctionPoint ) throws FileSystemException
+    {
+        throw new FileSystemException( "vfs.provider/junctions-not-supported.error", rootName );
+    }
+
+    /**
      * Adds a listener on a file in this file system.
      */
     public void addListener( final FileObject file,
@@ -218,17 +237,7 @@ public abstract class AbstractFileSystem
      */
     protected void fireFileCreated( final FileObject file )
     {
-        final FileChangeEvent event = new FileChangeEvent( file );
-        final ArrayList listeners = (ArrayList)listenerMap.get( file.getName() );
-        if ( listeners != null )
-        {
-            final int count = listeners.size();
-            for ( int i = 0; i < count; i++ )
-            {
-                final FileListener listener = (FileListener)listeners.get( i );
-                listener.fileCreated( event );
-            }
-        }
+        fireEvent( new CreateEvent( file ) );
     }
 
     /**
@@ -236,7 +245,15 @@ public abstract class AbstractFileSystem
      */
     protected void fireFileDeleted( final FileObject file )
     {
-        final FileChangeEvent event = new FileChangeEvent( file );
+        fireEvent( new DeleteEvent( file ) );
+    }
+
+    /**
+     * Fires an event.
+     */
+    private void fireEvent( final ChangeEvent event )
+    {
+        final FileObject file = event.getFile();
         final ArrayList listeners = (ArrayList)listenerMap.get( file.getName() );
         if ( listeners != null )
         {
@@ -244,8 +261,55 @@ public abstract class AbstractFileSystem
             for ( int i = 0; i < count; i++ )
             {
                 final FileListener listener = (FileListener)listeners.get( i );
-                listener.fileDeleted( event );
+                try
+                {
+                    event.notify( listener );
+                }
+                catch ( final Exception e )
+                {
+                    final String message = Messages.getString( "vfs.provider/notify-listener.warn", file );
+                    getLogger().warn( message, e );
+                }
             }
+        }
+    }
+
+    /** A change event that knows how to notify a listener. */
+    private abstract static class ChangeEvent extends FileChangeEvent
+    {
+        public ChangeEvent( final FileObject file )
+        {
+            super( file );
+        }
+
+        public abstract void notify( final FileListener listener ) throws Exception;
+    }
+
+    /** File creation event. */
+    private static class CreateEvent extends ChangeEvent
+    {
+        public CreateEvent( final FileObject file )
+        {
+            super( file );
+        }
+
+        public void notify( final FileListener listener ) throws Exception
+        {
+            listener.fileCreated( this );
+        }
+    }
+
+    /** File deletion event. */
+    private static class DeleteEvent extends ChangeEvent
+    {
+        public DeleteEvent( final FileObject file )
+        {
+            super( file );
+        }
+
+        public void notify( final FileListener listener ) throws Exception
+        {
+            listener.fileDeleted( this );
         }
     }
 }

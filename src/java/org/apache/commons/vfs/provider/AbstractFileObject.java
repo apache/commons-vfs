@@ -122,7 +122,7 @@ public abstract class AbstractFileObject
      * <p>Called when this file is closed, or its type changes.  Note that
      * the file object may be reused later, so should be able to be reattached.
      */
-    protected void doDetach()
+    protected void doDetach() throws FileSystemException
     {
     }
 
@@ -137,7 +137,7 @@ public abstract class AbstractFileObject
      * Determines if this file can be read.  Is only called if {@link #doGetType}
      * does not return null. This implementation always returns true.
      */
-    protected boolean doIsReadable() throws FileSystemException
+    protected boolean doIsReadable() throws Exception
     {
         return true;
     }
@@ -147,7 +147,7 @@ public abstract class AbstractFileObject
      * {@link #doGetType} does not return null.  This implementation always
      * returns true.
      */
-    protected boolean doIsWriteable() throws FileSystemException
+    protected boolean doIsWriteable() throws Exception
     {
         return true;
     }
@@ -910,14 +910,20 @@ public abstract class AbstractFileObject
      * Detaches this file, invaliating all cached info.  This will force
      * a call to {@link #doAttach} next time this file is used.
      */
-    protected void detach()
+    protected void detach() throws FileSystemException
     {
         if ( attached )
         {
-            doDetach();
-            attached = false;
-            type = null;
-            children = null;
+            try
+            {
+                doDetach();
+            }
+            finally
+            {
+                attached = false;
+                type = null;
+                children = null;
+            }
         }
     }
 
@@ -968,7 +974,7 @@ public abstract class AbstractFileObject
      * Called when this file is created.  Updates cached info and notifies
      * the parent and file system.
      */
-    private void handleCreate( final FileType newType )
+    protected void handleCreate( final FileType newType )
     {
         // Fix up state
         type = newType;
@@ -985,7 +991,7 @@ public abstract class AbstractFileObject
      * Called when this file is deleted.  Updates cached info and notifies
      * subclasses, parent and file system.
      */
-    private void handleDelete()
+    protected void handleDelete()
     {
         // Fix up state
         type = null;
