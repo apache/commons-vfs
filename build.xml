@@ -190,6 +190,8 @@
         </get>
         <get dest="${libdir}/commons-compress-20040530.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar">
         </get>
+        <get dest="${libdir}/commons-collections-20040616.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-20040616.jar">
+        </get>
         <get dest="${libdir}/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.8.3.jar">
         </get>
         <get dest="${libdir}/webdavlib-2.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/slide/jars/webdavlib-2.0.jar">

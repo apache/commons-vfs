@@ -62,6 +62,11 @@
         </dependency>
 
         <dependency>
+            <id>commons-collections</id>
+            <version>20040616</version>
+        </dependency>
+
+        <dependency>
             <id>jcifs</id>
             <version>0.8.3</version>
         </dependency>
