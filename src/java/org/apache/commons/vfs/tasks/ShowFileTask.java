@@ -8,26 +8,22 @@
 package org.apache.commons.vfs.tasks;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileSystemManagerFactory;
 import org.apache.commons.vfs.FileType;
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
 
 /**
  * An Ant task, which writes the details of a file to Ant's log.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 01:40:45 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/23 10:58:12 $
  */
 public class ShowFileTask
-    extends Task
+    extends VfsTask
 {
     private String url;
     private boolean showContent;
@@ -35,7 +31,7 @@ public class ShowFileTask
     /**
      * The URL of the file to display.
      */
-    public void setUrl( final String url )
+    public void setFile( final String url )
     {
         this.url = url;
     }
@@ -57,9 +53,7 @@ public class ShowFileTask
         try
         {
             // Lookup the file
-            final FileSystemManager manager = FileSystemManagerFactory.getManager();
-            final File baseDir = getProject().getBaseDir();
-            final FileObject file = manager.resolveFile( baseDir, url );
+            final FileObject file = resolveFile( url );
 
             // Write details
             log( "URI: " + file.getName().getURI() );
