@@ -1,6 +1,6 @@
 <document>
     <properties>
-        <title>Getting Started</title>
+        <title>Using The API</title>
         <author email="adammurdoch@apache.org">Adam Murdoch</author>
     </properties>
 
@@ -11,12 +11,30 @@
                 interface provides access to the VFS.  Using this interface
                 you can locate files and create file systems.
                 There are a number of ways to obtain a <code>FileSystemManager</code>
-                instance.  The simplest way is to use the static
-                <a href="apidocs/org/apache/commons/vfs/VFS.html#getManager()"><code>VFS.getManager()</code></a>
-                method.  Alternatively, you can create an instance of
-                <a href="apidocs/org/apache/commons/vfs/impl/DefaultFileSystemManager.html"><code>DefaultFileSystemManager</code></a>
-                and configure it manually.
+                instance:
             </p>
+            <ul>
+                <li>
+                    Use the static
+                    <a href="apidocs/org/apache/commons/vfs/VFS.html#getManager()"><code>VFS.getManager()</code></a>
+                    method, which returns the default VFS implementation.
+                </li>
+                <li>
+                    Create an instance of
+                    <a href="apidocs/org/apache/commons/vfs/impl/DefaultFileSystemManager.html"><code>DefaultFileSystemManager</code></a>
+                    and configure it manually.  <code>DefaultFileSystemManager</code>
+                    does not include any providers or other services.  You
+                    will have to add these to make it do anything useful.
+                </li>
+                <li>
+                    Create an instance of
+                    <a href="apidocs/org/apache/commons/vfs/impl/StandardFileSystemManager.html"><code>StandardFileSystemManager</code></a>,
+                    a useful subclass of <code>DefaultFileSystemManager</code>
+                    that includes all the standard providers and services.
+                    You can add extra providers, or replace the standard
+                    providers with custom implementations.
+                </li>
+            </ul>
 
             <p>
                 Once you have a <code>FileSystemManager</code>, you can use one
@@ -51,6 +69,7 @@ for ( int i = 0; i < children.length; i++ )
 }
 ]]></source>
 
+            <p>See the Javadocs for <code>FileObject</code> for more detail.</p>
         </section>
     </body>
 </document>

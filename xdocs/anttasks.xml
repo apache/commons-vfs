@@ -29,23 +29,98 @@
         </section>
 
         <section name="Copy">
-            <p>Copies a set of files to a destination folder.</p>
+            <p>Copies a set of files to a destination folder.  Does not copy
+            source files where the destination file exists and is newer than
+            the source file.  The copy task takes the following attributes:</p>
+
+            <table>
+                <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                <tr>
+                    <td>destdir</td>
+                    <td>The destination folder.  This folder is created if it
+                    does not exist.</td>
+                    <td rowspan="2">One only</td>
+                </tr>
+                <tr>
+                    <td>destfile</td>
+                    <td>The destination file.  Can only be used if there is a
+                        single source file.</td>
+                </tr>
+                <tr>
+                    <td>overwrite</td>
+                    <td>Always copy files, ignoring the last-modified time of
+                    the destination file.</td>
+                    <td>No, default is <code>false</code>.</td>
+                </tr>
+                <tr>
+                    <td>preservelastmodified</td>
+                    <td>Set the last-modified time of destination files to
+                    the same value as the source files.  May not be supported
+                    by the destination file system.</td>
+                    <td>No, default is <code>true</code>.</td>
+                </tr>
+                <tr>
+                    <td>src</td>
+                    <td>A source file or folder to copy.  Copies all descendents
+                    of a folder.</td>
+                    <td>No</td>
+                </tr>
+            </table>
+
+            <subsection name="Nested Elements">
+                <p><b>src</b></p>
+
+                <p>Defines a source file or folder to copy.  It takes the
+                following attributes:</p>
+
+                <table>
+                    <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                    <tr>
+                        <td>file</td>
+                        <td>The source file.</td>
+                        <td>Yes</td>
+                    </tr>
+                </table>
+            </subsection>
+
         </section>
 
         <section name="Move">
-            <p>Moves a set of files to a destination folder.</p>
+            <p>Moves a set of files to a destination folder.  Has the same
+                attributes and elements as the copy task.</p>
         </section>
 
         <section name="Sync">
-            <p>Synchronises a destination folder with a set of source files.</p>
+            <p>Synchronises a destination folder with a set of source files.
+                Has the same attributes and elements as the copy task.</p>
         </section>
 
         <section name="Delete">
-            <p>Deletes a file or folder.</p>
+            <p>Deletes a file or folder.  It takes the following attributes:</p>
+
+            <table>
+                <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                <tr>
+                    <td>file</td>
+                    <td>The file or folder to delete.  All descendents of
+                        the folder are deleted.</td>
+                    <td>Yes</td>
+                </tr>
+            </table>
         </section>
 
         <section name="Mkdir">
-            <p>Creates a folder.</p>
+            <p>Creates a folder.  It takes the following attributes:</p>
+
+            <table>
+                <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                <tr>
+                    <td>dir</td>
+                    <td>The folder create.</td>
+                    <td>Yes</td>
+                </tr>
+            </table>
+
         </section>
     </body>
 </document>

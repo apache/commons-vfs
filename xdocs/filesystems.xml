@@ -7,7 +7,7 @@
 
     <body>
         <section name="Supported File Systems">
-            <p>Listed below are the supported file systems:</p>
+            <p>The VFS currently supports the following file systems:</p>
             <ul>
                 <li><a href="#Local Files">Local Files</a></li>
                 <li><a href="#Zip and Jar Files">Zip and Jar Files</a></li>
@@ -118,8 +118,8 @@
 
             <p>
                 Provides access to a temporary file system, or scratchpad,
-                that gets deleted when the VFS is closed.  The temporary file
-                system is, by default, backed by local files.
+                that is deleted when the VFS shuts down.  The temporary file
+                system is backed by a local file system.
             </p>
 
             <p><b>URI Format</b></p>

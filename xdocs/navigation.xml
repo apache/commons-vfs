@@ -8,7 +8,7 @@
     <menu name="VFS">
       <item name="Overview"                href="/index.html"/>
       <item name="Download"                href="/download.html"/>
-      <item name="Getting Started"         href="/getstarted.html"/>
+      <item name="Using the API"           href="/api.html"/>
       <item name="File Systems"            href="/filesystems.html"/> 
       <item name="Ant Tasks"               href="/anttasks.html"/>
       <item name="To Do List"              href="/todo.html"/>
