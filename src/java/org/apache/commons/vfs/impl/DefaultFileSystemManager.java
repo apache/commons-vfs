@@ -67,6 +67,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -169,13 +170,14 @@ public class DefaultFileSystemManager
                              final FileProvider provider )
         throws FileSystemException
     {
-        // Check for duplicates
+        // Warn about duplicate providers
         for ( int i = 0; i < urlSchemes.length; i++ )
         {
             final String scheme = urlSchemes[ i ];
             if ( providers.containsKey( scheme ) )
             {
-                throw new FileSystemException( "vfs.impl/multiple-providers-for-scheme.error", scheme );
+                final String message = Messages.getString( "vfs.impl/multiple-providers-for-scheme.warning", scheme );
+                getLog().warn( message );
             }
         }
 
