@@ -14,6 +14,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
+import java.security.PrivilegedActionException;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
@@ -221,10 +224,21 @@ public abstract class AbstractFileObject
      */
     public URL getURL() throws MalformedURLException
     {
-        StringBuffer buf = new StringBuffer();
-
-        return new URL( UriParser.extractScheme( m_name.getURI(), buf ), null, -1,
-                        buf.toString(), new DefaultURLStreamHandler( m_fs.getContext() ) );
+        final StringBuffer buf = new StringBuffer();
+        try
+        {
+            return (URL) AccessController.doPrivileged(
+                new PrivilegedExceptionAction() {
+                    public Object run() throws MalformedURLException {
+                        return new URL( UriParser.extractScheme( m_name.getURI(), buf ), null, -1,
+                            buf.toString(), new DefaultURLStreamHandler( m_fs.getContext() ) );
+                    }
+                } );
+        }
+        catch( PrivilegedActionException e )
+        {
+            throw (MalformedURLException) e.getException();
+        }
     }
 
     /**
@@ -306,6 +320,10 @@ public abstract class AbstractFileObject
         {
             files = doListChildren();
         }
+        catch( RuntimeException re )
+        {
+            throw re;
+        }
         catch( Exception exc )
         {
             final String message = REZ.getString( "list-children.error", m_name );
@@ -370,6 +388,10 @@ public abstract class AbstractFileObject
         try
         {
             doDelete();
+        }
+        catch( RuntimeException re )
+        {
+            throw re;
         }
         catch( Exception exc )
         {
@@ -460,6 +482,10 @@ public abstract class AbstractFileObject
                 outStr.close();
                 endOutput();
             }
+        }
+        catch( RuntimeException re )
+        {
+            throw re;
         }
         catch( Exception exc )
         {
@@ -567,6 +593,10 @@ public abstract class AbstractFileObject
                 IOUtil.shutdownStream( instr );
             }
         }
+        catch( RuntimeException re )
+        {
+            throw re;
+        }
         catch( final Exception exc )
         {
             final String message = REZ.getString( "copy-file.error", srcFile.getName(), destFile.getName() );
@@ -665,6 +695,10 @@ public abstract class AbstractFileObject
         {
             throw exc;
         }
+        catch( RuntimeException re )
+        {
+            throw re;
+        }
         catch( Exception exc )
         {
             final String message = REZ.getString( "write.error", m_name );
@@ -692,6 +726,10 @@ public abstract class AbstractFileObject
         catch( FileSystemException exc )
         {
             throw exc;
+        }
+        catch( RuntimeException re )
+        {
+            throw re;
         }
         catch( Exception exc )
         {

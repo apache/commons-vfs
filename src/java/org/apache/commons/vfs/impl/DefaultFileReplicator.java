@@ -9,6 +9,11 @@ package org.apache.commons.vfs.impl;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedExceptionAction;
+import java.security.PrivilegedActionException;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -32,15 +37,21 @@ public final class DefaultFileReplicator
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultFileReplicator.class );
 
+    private static long filecount = -1;
+
     private final DefaultFileSystemManager m_manager;
     private final File m_tempDir;
     private final ArrayList m_copies = new ArrayList();
-    private long m_filecount;
 
     public DefaultFileReplicator( final DefaultFileSystemManager manager )
     {
         m_manager = manager;
-        m_tempDir = new File( "ant_vfs_cache" ).getAbsoluteFile();
+        m_tempDir = (File) AccessController.doPrivileged(
+            new PrivilegedAction() {
+                public Object run() {
+                    return new File( "ant_vfs_cache" ).getAbsoluteFile();
+                }
+            } );
     }
 
     /**
@@ -48,19 +59,40 @@ public final class DefaultFileReplicator
      */
     public void dispose()
     {
-        while( m_copies.size() > 0 )
+    /*
+        AccessController.doPrivileged(
+            new PrivilegedAction() {
+                public Object run()
+                {
+                    while( m_copies.size() > 0 )
+                    {
+                        final FileObject file = (FileObject)m_copies.remove( 0 );
+                        try
+                        {
+                            file.delete( FileConstants.SELECT_ALL );
+                        }
+                        catch( final FileSystemException e )
+                        {
+                            final String message = REZ.getString( "delete-temp.warn", file.getName() );
+                            getLogger().warn( message, e );
+                        }
+                    }
+                    return null;
+                }
+            } );
+      */      
+    }
+
+    protected static File generateTempFile( String prefix, File tempDir )
+    {
+        if( filecount == -1 )
         {
-            final FileObject file = (FileObject)m_copies.remove( 0 );
-            try
-            {
-                file.delete( FileConstants.SELECT_ALL );
-            }
-            catch( final FileSystemException e )
-            {
-                final String message = REZ.getString( "delete-temp.warn", file.getName() );
-                getLogger().warn( message, e );
-            }
+            filecount = new Random().nextInt() & 0xffff;
         }
+        // Create a unique-ish file name
+        final String basename = prefix + "_"+ filecount + ".tmp";
+        filecount++;
+        return  new File( tempDir, basename );
     }
 
     /**
@@ -70,23 +102,24 @@ public final class DefaultFileReplicator
                                final FileSelector selector )
         throws FileSystemException
     {
-        // TODO - this is awful
-
-        // Create a unique-ish file name
-        final String basename = m_filecount + "_" + srcFile.getName().getBaseName();
-        m_filecount++;
-        final File file = new File( m_tempDir, basename );
-
+        final String basename = srcFile.getName().getBaseName();
+        final File file = generateTempFile( basename, m_tempDir );
         try
         {
             // Copy from the source file
             final FileObject destFile = m_manager.convert( file );
-            destFile.copyFrom( srcFile, selector );
+            AccessController.doPrivileged(
+                new PrivilegedExceptionAction() {
+                    public Object run() throws FileSystemException {
+                        destFile.copyFrom( srcFile, selector );
+                        return null;
+                }
+            } );
 
             // Keep track of the copy
             m_copies.add( destFile );
         }
-        catch( final FileSystemException e )
+        catch( final PrivilegedActionException e )
         {
             final String message = REZ.getString( "replicate-file.error", srcFile.getName(), file );
             throw new FileSystemException( message, e );

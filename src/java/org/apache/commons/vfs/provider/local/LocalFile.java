@@ -12,6 +12,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.FilePermission;
+import java.security.AccessController;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -36,6 +38,7 @@ final class LocalFile
 
     private File m_file;
     private final String m_fileName;
+    private FilePermission m_requiredPerm;
 
     /**
      * Creates a non-root file.
@@ -57,6 +60,7 @@ final class LocalFile
         if( m_file == null )
         {
             m_file = new File( m_fileName );
+            m_requiredPerm = new FilePermission( m_file.getAbsolutePath(), "read" );
         }
     }
 
@@ -151,6 +155,11 @@ final class LocalFile
     protected File doReplicateFile( final FileSelector selector )
         throws FileSystemException
     {
+        final SecurityManager sm = System.getSecurityManager();
+        if( sm != null )
+        {
+            sm.checkPermission( m_requiredPerm );
+        }
         return m_file;
     }
 }

@@ -8,6 +8,9 @@
 package org.apache.commons.vfs.provider.zip;
 
 import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
+import java.security.PrivilegedActionException;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -81,12 +84,25 @@ public final class ZipFileSystemProvider
         final ParsedZipUri zipUri = (ParsedZipUri)uri;
         final FileObject file = zipUri.getZipFile();
 
+        // Create the file system
+        final DefaultFileName name = new DefaultFileName( m_parser, zipUri.getRootUri(), "/" );
+
         // Make a local copy of the file
         final File zipFile = file.replicateFile( FileConstants.SELECT_SELF );
 
-        // Create the file system
-        DefaultFileName name = new DefaultFileName( m_parser, zipUri.getRootUri(), "/" );
-        return new ZipFileSystem( getContext(), name, zipFile );
+        try
+        {
+            return (ZipFileSystem)AccessController.doPrivileged(
+                new PrivilegedExceptionAction() {
+                    public Object run() throws FileSystemException {
+                        return new ZipFileSystem( getContext(), name, zipFile );
+                }
+            } );
+        }
+        catch( PrivilegedActionException pae )
+        {
+            throw (FileSystemException) pae.getException();
+        }
     }
 
 }

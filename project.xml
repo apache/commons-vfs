@@ -68,39 +68,19 @@
       <id>junit</id>
       <version>3.7</version>
     </dependency>
-    
-    <dependency>
-      <id>xml-apis</id>
-      <version>2.0.2</version>
-    </dependency>
-    
-    <dependency>
-      <id>xerces</id>
-      <version>2.0.0</version>
-    </dependency>
-    
+
     <dependency>
       <id>commons-net</id>
       <version>SNAPSHOT</version>
     </dependency>
 
     <dependency>
-      <id>commons-logging</id>
-      <version>1.0</version>
-    </dependency>
-
-    <dependency>
       <id>commons-io</id>
       <version>SNAPSHOT</version>
     </dependency>
-
-    <dependency>
-      <id>excalibur-i18n</id>
-      <version>1.0</version>
-    </dependency>
     
     <dependency>
-      <id>excalibur-logger</id>
+      <id>excalibur-i18n</id>
       <version>1.0</version>
     </dependency>
     
@@ -113,7 +93,7 @@
       <id>jcifs</id>
       <version>0.6.5</version>
     </dependency>
-    
+
   </dependencies>
   
   
@@ -128,8 +108,13 @@
     <!-- Unit test classes -->
     <unitTest>
       <includes>
-        <include>**/Test*.java</include>
+        <include>**/test/*TestCase.java</include>
       </includes>
+      <excludes>
+        <exclude>**/test/Abstract*TestCase.java</exclude>
+        <exclude>**/smb/test/**</exclude>
+        <exclude>**/ftp/test/**</exclude>
+      </excludes>
     </unitTest>
 
     

@@ -29,8 +29,7 @@ public class LocalFileSystemTestCase
      */
     protected FileObject getBaseFolder() throws Exception
     {
-        // Cheat a little
-        final File testDir = getTestResource( "../../../test/basedir" );
+        final File testDir = getTestResource( "basedir" );
         final File emptyDir = new File( testDir, "emptydir" );
         emptyDir.mkdirs();
         return m_manager.convert( testDir );

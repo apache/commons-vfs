@@ -1,5 +1,70 @@
 <project default="java:jar" xmlns:j="jelly:core">
 
   <!-- we can customize the Maven build here -->
+  <goal name="test:test-data"
+        description="Generate and copy the test data"
+        prereqs="test:compile">
+
+    <copy todir="${maven.test.data}">
+      <fileset dir="${maven.test.data.src}">
+        <exclude name="*.policy"/>
+      </fileset>
+    </copy>
+
+    <mkdir dir="${maven.test.data}/basedir/emptydir"/>
+
+    <!-- Create a zip file -->
+    <zip zipfile="${maven.test.data}/test.zip">
+      <zipfileset dir="${maven.test.data}">
+        <include name="basedir/**"/>
+      </zipfileset>
+    </zip>
+    <zip zipfile="${maven.test.data}/nested.zip">
+      <zipfileset dir="${maven.test.data}">
+        <include name="test.zip"/>
+      </zipfileset>
+    </zip>
+  </goal>
   	
+  <goal name="test:test"
+        description="Test the application"
+        prereqs="test:test-data">
+
+    <junit printSummary="yes" 
+           failureProperty="maven.test.failure"
+           fork="${maven.junit.fork}"
+           dir="${maven.junit.dir}">
+      <sysproperty key="basedir" value="${basedir}"/>
+      <sysproperty key="test.basedir" value="${maven.test.data}"/>
+      <sysproperty key="maven.repo.local" value="${maven.repo.local}"/>
+      <sysproperty key="maven.home" value="${maven.home}"/>
+      <sysproperty key="maven.build.dest" value="${maven.build.dest}"/>
+      <j:if test="${maven.test.secure}">
+      <sysproperty key="java.security.manager" value="" />
+      <sysproperty key="java.security.policy" value="${maven.test.policy}"/>
+      </j:if>
+      <formatter type="xml"/>
+      <formatter type="plain" usefile="${maven.junit.usefile}"/>
+      <classpath>
+        <path refid="maven.dependency.classpath"/>
+        <pathelement location="${maven.build.dest}"/>
+        <pathelement location="${maven.test.dest}"/>
+      </classpath>
+      <batchtest todir="${maven.test.reportsDirectory}">
+        <fileset dir="${pom.build.unitTestSourceDirectory}">
+	      <j:forEach var="pat" items="${pom.build.unitTest.includes}">
+	        <include name="${pat}"/>
+	      </j:forEach>
+	      <j:forEach var="pat" items="${pom.build.unitTest.excludes}">
+	        <exclude name="${pat}"/>
+	      </j:forEach>
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <j:if test="${maven.test.failure}">
+      <fail message="There were test failures."/>
+    </j:if>
+
+  </goal>
 </project>

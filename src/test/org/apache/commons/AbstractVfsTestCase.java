@@ -5,7 +5,7 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.aut;
+package org.apache.commons;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import org.apache.avalon.framework.logger.ConsoleLogger;
 import org.apache.avalon.framework.logger.Logger;
 
 /**
- * A base class for Myrmidon tests.  Provides utility methods for locating
+ * A base class for VFS tests.  Provides utility methods for locating
  * test resources.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
@@ -35,8 +35,9 @@ public abstract class AbstractVfsTestCase
         super( name );
         final String baseDirProp = System.getProperty( "test.basedir" );
         m_baseDir = getCanonicalFile( new File( baseDirProp ) );
-        final String packagePath = getPackageName( getClass() ).replace( '.', File.separatorChar );
-        m_testBaseDir = getCanonicalFile( new File( m_baseDir, packagePath ) );
+//        final String packagePath = getPackageName( getClass() ).replace( '.', File.separatorChar );
+//        m_testBaseDir = getCanonicalFile( new File( m_baseDir, packagePath ) );
+        m_testBaseDir = m_baseDir;
     }
 
     /**
