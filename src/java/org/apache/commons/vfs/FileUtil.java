@@ -53,71 +53,51 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.impl;
+package org.apache.commons.vfs;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileUtil;
+import java.io.InputStream;
 
 /**
- * Helper class for VFSClassLoader. This represents a resource loaded with
- * the classloader.
+ * Utility methods for dealng with FileObjects.
  *
- * @see VFSClassLoader
- *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/27 08:15:01 $
+ * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/10/27 08:15:01 $
  */
-class Resource
+public class FileUtil
 {
-    private FileObject root;
-    private FileObject resource;
+    private FileUtil()
+    {
+    }
 
     /**
-     * Creates a new instance.
+     * Returns the content of a file, as a byte array.
      *
-     * @param root The code source FileObject.
-     * @param resource The resource of the FileObject.
+     * @param file The file to get the content of.
      */
-    Resource( FileObject root, FileObject resource )
+    public static byte[] getContent( final FileObject file )
+        throws IOException
     {
-        this.root = root;
-        this.resource = resource;
-    }
-    
-    /**
-     * Returns the URL of the resource.
-     */
-    URL getURL() throws MalformedURLException
-    {
-        return resource.getURL();
+        final FileContent content = file.getContent();
+        final int size = (int) content.getSize();
+        final byte[] buf = new byte[ size ];
+
+        final InputStream in = content.getInputStream();
+        try
+        {
+            int read = 0;
+            for ( int pos = 0; pos < size && read >= 0; pos += read )
+            {
+                 read = in.read( buf, pos, size - pos );
+            }
+        }
+        finally
+        {
+            in.close();
+        }
+
+        return buf;
     }
 
-    /**
-     * Returns the FileObject of the resource.
-     */
-    FileObject getFileObject()
-    {
-        return resource;
-    }
 
-    /**
-     * Returns the code source as an URL.
-     */
-    URL getCodeSourceURL() throws MalformedURLException
-    {
-        return root.getURL();
-    }
-
-    /**
-     * Returns the data for this resource as a byte array.
-     */
-    byte[] getBytes() throws IOException
-    {
-        return FileUtil.getContent( resource );
-    }
 }
