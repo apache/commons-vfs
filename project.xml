@@ -112,6 +112,14 @@
     </dependency>
   </dependencies>
 
+  <reports>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-jxr-plugin</report>
+    <report>maven-tasklist-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-license-plugin</report>
+  </reports>
+
   <build>
     <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
