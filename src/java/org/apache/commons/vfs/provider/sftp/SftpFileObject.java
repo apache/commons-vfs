@@ -22,8 +22,11 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.MonitorOutputStream;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -39,7 +42,7 @@ import java.util.Vector;
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 1.12 $ $Date$
  */
 public class SftpFileObject
     extends AbstractFileObject
@@ -101,7 +104,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            attrs = channel.stat(getName().getPath());
+            attrs = channel.stat(getName().getPathDecoded());
         }
         catch (final SftpException e)
         {
@@ -129,7 +132,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            channel.mkdir(getName().getPath());
+            channel.mkdir(getName().getPathDecoded());
         }
         finally
         {
@@ -164,7 +167,7 @@ public class SftpFileObject
             int newMTime = (int) (modtime / 1000L);
 
             attrs.setACMODTIME(attrs.getATime(), newMTime);
-            channel.setStat(getName().getPath(), attrs);
+            channel.setStat(getName().getPathDecoded(), attrs);
         }
         finally
         {
@@ -183,11 +186,11 @@ public class SftpFileObject
         {
             if (getType() == FileType.FILE)
             {
-                channel.rm(getName().getPath());
+                channel.rm(getName().getPathDecoded());
             }
             else
             {
-                channel.rmdir(getName().getPath());
+                channel.rmdir(getName().getPathDecoded());
             }
         }
         finally
@@ -204,7 +207,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            channel.rename(getName().getPath(), newfile.getName().getPath());
+            channel.rename(getName().getPathDecoded(), newfile.getName().getPathDecoded());
         }
         finally
         {
@@ -223,7 +226,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            vector = channel.ls(getName().getPath());
+            vector = channel.ls(getName().getPathDecoded());
         }
         finally
         {
@@ -253,7 +256,7 @@ public class SftpFileObject
             }
             children.add(name);
         }
-        return (String[]) children.toArray(new String[children.size()]);
+        return UriParser.encode((String[]) children.toArray(new String[children.size()]));
     }
 
     /**
@@ -267,6 +270,46 @@ public class SftpFileObject
             throw new FileSystemException("vfs.provider.sftp/unknown-size.error");
         }
         return attrs.getSize();
+    }
+
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        return new SftpRandomAccessContent(this, mode);
+    }
+    
+    /**
+     * Creates an input stream to read the file content from.
+     */
+    InputStream getInputStream(long filePointer) throws IOException
+    {
+        throw new UnsupportedOperationException("Implemented. Yes. But have to wait for jsch release :-)");
+        /*
+        final ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            // return channel.get(getName().getPath());
+            // hmmm - using the in memory method is soooo much faster ...
+
+            // TODO - Don't read the entire file into memory.  Use the
+            // stream-based methods on ChannelSftp once they work properly
+            final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
+            try
+            {
+                channel.get(getName().getPathDecoded(), outstr, null, ChannelSftp.RESUME, filePointer);
+            }
+            catch (SftpException e)
+            {
+                throw new FileSystemException(e);
+            }
+            outstr.close();
+            return new ByteArrayInputStream(outstr.toByteArray());
+
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+        */
     }
 
     /**
@@ -284,7 +327,7 @@ public class SftpFileObject
             // TODO - Don't read the entire file into memory.  Use the
             // stream-based methods on ChannelSftp once they work properly
             final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
-            channel.get(getName().getPath(), outstr);
+            channel.get(getName().getPathDecoded(), outstr);
             outstr.close();
             return new ByteArrayInputStream(outstr.toByteArray());
 
@@ -332,7 +375,7 @@ public class SftpFileObject
             {
                 final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
                 channel.put(new ByteArrayInputStream(outstr.toByteArray()),
-                    getName().getPath());
+                    getName().getPathDecoded());
             }
             catch (final SftpException e)
             {
