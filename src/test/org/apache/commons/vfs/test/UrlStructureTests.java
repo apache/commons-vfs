@@ -63,7 +63,7 @@ import java.io.IOException;
  * URL Test cases for providers that supply structural info.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/23 00:37:21 $
  */
 public class UrlStructureTests
     extends AbstractProviderTestCase
@@ -75,7 +75,8 @@ public class UrlStructureTests
     {
         return new Capability[]
         {
-            Capability.GET_TYPE
+            Capability.GET_TYPE,
+            Capability.URI
         };
     }
 
@@ -95,7 +96,7 @@ public class UrlStructureTests
         }
         catch ( final IOException e )
         {
-            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
+            assertSameMessage( "vfs.provider/read-not-file.error", folder, e );
         }
     }
 }
