@@ -7,49 +7,31 @@
     <body>
         <section name="Using The API">
             <p>
-                The <a href="apidocs/org/apache/commons/vfs/FileSystemManager.html"><code>FileSystemManager</code></a>
+                The
+                <a href="apidocs/org/apache/commons/vfs/FileSystemManager.html">FileSystemManager</a>
                 interface provides access to Commons VFS.  Using this interface
                 you can locate files and create file systems.
-                There are a number of ways to obtain a <code>FileSystemManager</code>
-                instance:
+                There are a <a href="#Configuring Commons VFS">number of ways</a>
+                to obtain a <code>FileSystemManager</code> instance.
+                The simplest is to use the static
+                <a href="apidocs/org/apache/commons/vfs/VFS.html#getManager()">VFS.getManager()</a>
+                method, which returns the default Commons VFS implementation.
             </p>
-            <ul>
-                <li>
-                    Use the static
-                    <a href="apidocs/org/apache/commons/vfs/VFS.html#getManager()"><code>VFS.getManager()</code></a>
-                    method, which returns the default Commons VFS implementation.
-                </li>
-                <li>
-                    Create an instance of
-                    <a href="apidocs/org/apache/commons/vfs/impl/DefaultFileSystemManager.html"><code>DefaultFileSystemManager</code></a>
-                    and configure it manually.  <code>DefaultFileSystemManager</code>
-                    does not include any providers or other services.  You
-                    will have to add these to make it do anything useful.
-                </li>
-                <li>
-                    Create an instance of
-                    <a href="apidocs/org/apache/commons/vfs/impl/StandardFileSystemManager.html"><code>StandardFileSystemManager</code></a>,
-                    a useful subclass of <code>DefaultFileSystemManager</code>
-                    that includes all the standard providers and services.
-                    You can add extra providers, or replace the standard
-                    providers with custom implementations.
-                </li>
-            </ul>
 
             <p>
-                Once you have a <code>FileSystemManager</code>, you can use one
-                of its <code>resolveFile()</code> methods to locate a file by name.
+                Once you have a <code>FileSystemManager</code>, you can use its
+                <code>resolveFile()</code> methods to locate a file by name.
                 For example:
             </p>
 
             <source><![CDATA[
 FileSystemManager fsManager = VFS.getManager();
-FileObject aJarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
+FileObject jarFile = fsManager.resolveFile( "jar:lib/aJarFile.jar" );
 ]]></source>
 
             <p>
                 Each file is represented by a
-                <a href="apidocs/org/apache/commons/vfs/FileObject.html"><code>FileObject</code></a>
+                <a href="apidocs/org/apache/commons/vfs/FileObject.html">FileObject</a>
                 instance.  Using this interface you can create or delete the
                 file, list its children, read or write its content, and so on.
                 For example:
@@ -69,7 +51,158 @@ for ( int i = 0; i < children.length; i++ )
 }
 ]]></source>
 
-            <p>See the Javadocs for <code>FileObject</code> for more detail.</p>
+            <p>
+                See the
+                <a href="apidocs/org/apache/commons/vfs/FileObject.html">FileObject</a>
+                Javadocs for more detail.
+            </p>
+
+            <subsection name="Examples">
+                <p>
+                    For an example of using the API, take a look at the classes
+                    in the
+                    <a href="xref/org/apache/commons/vfs/example/package-summary.html">example</a>
+                    package.
+                </p>
+            </subsection>
+
+        </section>
+
+        <section name="Configuring Commons VFS">
+            <p>
+                Commons VFS is represented using the
+                <a href="apidocs/org/apache/commons/vfs/FileSystemManager.html">FileSystemManager</a>
+                interface.  There are a number of ways to create and configure a
+                <code>FileSystemManager</code> instance.
+            </p>
+            <p>
+                The simplest method is to use the static
+                <a href="apidocs/org/apache/commons/vfs/VFS.html#getManager()">VFS.getManager()</a>
+                method, which returns the default Commons VFS implementation.
+            </p>
+
+            <p>
+                To configure Commons VFS programatically, you can create an
+                instance of
+                <a href="apidocs/org/apache/commons/vfs/impl/DefaultFileSystemManager.html">DefaultFileSystemManager</a>
+                and configure it manually.  The default constructor
+                <code>DefaultFileSystemManager</code> creates a manager that
+                is completely empty.  You will have to add file providers to it
+                to make it do anything useful.
+            </p>
+            <p>
+                Here are the steps for using <code>DefaultFileSystemManager</code>:
+            </p>
+            <ol>
+                <li>Create an new instance.</li>
+                <li>
+                    Set the logger for the manager and all its components,
+                    using <code>setLogger()</code>.  This step is
+                    optional, and if skipped, the manager will use the default
+                    logger provided by Commons Logging.
+                </li>
+                <li>
+                    Add file providers, using <code>addProvider()</code>.
+                </li>
+                <li>
+                    Set the default provider, using
+                    <code>setDefaultProvider()</code>.  This step is optional.
+                    See
+                    <a href="apidocs/org/apache/commons/vfs/provider/url/UrlFileProvider.html">UrlFileProvider</a>
+                    for a useful default provider.
+                </li>
+                <li>
+                    Set the file replicator, using <code>setReplicator()</code>.
+                    This step is optional.
+                </li>
+                <li>
+                    Set the temporary file store, using
+                    <code>setTemporaryFileStore()</code>.
+                    This step is optional.
+                </li>
+                <li>
+                    Set the base file using <code>setBaseFile()</code>.  The
+                    base file is used to resolve relative URI passed to
+                    <code>resolveFile()</code>.  This step is optional.
+                </li>
+                <li>
+                    Initialise the manager using <code>init()</code>.
+                </li>
+            </ol>
+            <p>
+                You should make sure that you call <code>close()</code> on the
+                manager when you are finished with it.
+            </p>
+
+            <p>
+                The third method for configuring Commons VFS, is to configure
+                it from a file.  Create an instance of
+                <a href="apidocs/org/apache/commons/vfs/impl/StandardFileSystemManager.html">StandardFileSystemManager</a>,
+                and use its <code>setConfiguration()</code> method to set the
+                location of the configuration file to use.  The configuration
+                file format is described below.
+            </p>
+            <p>
+                <code>StandardFileSystemManager</code> is a subclass of
+                <code>DefaultFileSystemManager</code>, so you can also
+                also configure it programmatically, as described above.
+            </p>
+            <subsection name="Configuration File">
+                <p>
+                    The configuration file is an XML file.  The root element
+                    of the configuration file should be a
+                    <code>&lt;providers&gt;</code> element.
+                    The <code>&lt;providers&gt;</code> element may contain
+                    zero or more <code>&lt;provider&gt;</code> elements, and
+                    an optional <code>&lt;default-provider&gt;</code> element.
+                </p>
+                <p>
+                    The <code>&lt;provider&gt;</code> element defines a file
+                    provider.   It must have a <code>class-name</code> attribute,
+                    which specifies the fully-qualified name of the provider
+                    class.  The provider class must be public, and must have a
+                    public no-args constructor.
+                </p>
+                <p>
+                    The <code>&lt;provider&gt;</code> element may contain
+                    zero or more <code>&lt;scheme&gt;</code> elements,
+                    and zero or more <code>&lt;if-available&gt;</code> elements.
+                </p>
+                <p>
+                    The <code>&lt;scheme&gt;</code> element defines a URI scheme
+                    that the provider will handle.  It must have a
+                    <code>name</code> attribute, which specifies the URI scheme.
+                </p>
+                <p>
+                    The <code>&lt;if-available&gt;</code> elements is used to
+                    disable the provider if certain classes are not present in
+                    the class-path.
+                    It must have a <code>class-name</code> attribute, which
+                    specifies the fully qualified name of a class to test for.
+                    If the class cannot be found, the provider is not registered.
+                </p>
+                <p>
+                    The <code>&lt;default-provider&gt;</code> element defines
+                    the default provider.  It has the same format as the
+                    <code>&lt;provider&gt;</code> element.
+                </p>
+
+                <p>
+                    Below is an example configuration file:
+                </p>
+                <source><![CDATA[
+<providers>
+    <provider class-name="org.apache.commons.vfs.provider.zip.ZipFileProvider">
+        <scheme name="zip"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.ftp.FtpFileProvider">
+        <scheme name="ftp"/>
+        <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>
+    </provider>
+    <default-provider class-name="org.apache.commons.vfs.provider.url.UrlFileProvider"/>
+</providers>
+]]></source>
+            </subsection>
         </section>
     </body>
 </document>
