@@ -55,19 +55,19 @@
  */
 package org.apache.commons.vfs.provider.webdav.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import junit.framework.Test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.provider.webdav.WebdavFileProvider;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import junit.framework.Test;
+import org.apache.commons.vfs.provider.webdav.WebdavFileProvider;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 
 /**
  * Test cases for the WebDAV provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/17 09:22:16 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/28 10:58:53 $
  */
 public class WebdavProviderTestCase
     extends AbstractProviderTestConfig

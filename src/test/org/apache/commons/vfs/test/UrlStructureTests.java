@@ -55,15 +55,15 @@
  */
 package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.Capability;
 import java.io.IOException;
+import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileObject;
 
 /**
  * URL Test cases for providers that supply structural info.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/23 00:37:21 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/28 10:58:53 $
  */
 public class UrlStructureTests
     extends AbstractProviderTestCase

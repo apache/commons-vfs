@@ -55,26 +55,26 @@
  */
 package org.apache.commons.vfs.provider.http;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.util.DateParser;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
+import org.apache.commons.httpclient.util.DateParser;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.util.MonitorInputStream;
 
 /**
  * A file object backed by commons httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/06/28 10:50:38 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/28 10:58:52 $
  *
  * @todo status codes
  */

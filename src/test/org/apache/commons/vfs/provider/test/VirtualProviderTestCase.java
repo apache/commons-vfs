@@ -55,19 +55,19 @@
  */
 package org.apache.commons.vfs.provider.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import java.io.File;
+import junit.framework.Test;
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.AbstractVfsTestCase;
-import junit.framework.Test;
-import java.io.File;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 
 /**
  * Test cases for the virtual file system provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/24 07:28:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/06/28 10:58:53 $
  */
 public class VirtualProviderTestCase
     extends AbstractProviderTestConfig

@@ -55,8 +55,8 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileName;
 import org.apache.commons.vfs.provider.UriParser;
 
@@ -64,7 +64,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/02 06:13:54 $
+ * @version $Revision: 1.7 $ $Date: 2003/06/28 10:58:52 $
  */
 public class LocalFileName
     extends AbstractFileName

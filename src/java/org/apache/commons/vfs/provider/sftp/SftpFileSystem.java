@@ -57,15 +57,15 @@ package org.apache.commons.vfs.provider.sftp;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 import com.jcraft.jsch.JSchException;
-import java.util.Collection;
+import com.jcraft.jsch.Session;
 import java.io.IOException;
+import java.util.Collection;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
 
@@ -73,7 +73,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/06/24 10:36:30 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/28 10:58:52 $
  */
 class SftpFileSystem
     extends AbstractFileSystem

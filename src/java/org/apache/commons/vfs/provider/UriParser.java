@@ -55,8 +55,8 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * Utilities for dealing with URIs.  See RFC 2396 for details.

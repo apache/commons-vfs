@@ -59,8 +59,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Map;
+import java.util.Set;
 import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
@@ -72,7 +72,7 @@ import org.apache.commons.vfs.FileType;
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/24 07:24:58 $
+ * @version $Revision: 1.8 $ $Date: 2003/06/28 10:58:51 $
  *
  * @todo Extract subclass that overlays the children
  */

@@ -402,6 +402,11 @@ public class DefaultFileSystemManager
     public FileObject resolveFile( final FileObject baseFile, final String uri )
         throws FileSystemException
     {
+        if ( uri == null )
+        {
+            throw new IllegalArgumentException();
+        }
+
         // Extract the scheme
         final String scheme = UriParser.extractScheme( uri );
         if ( scheme != null )

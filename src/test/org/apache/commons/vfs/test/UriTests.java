@@ -55,15 +55,15 @@
  */
 package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
 
 /**
  * Absolute URI test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/21 13:18:18 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/28 10:58:53 $
  */
 public class UriTests
     extends AbstractProviderTestCase

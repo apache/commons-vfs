@@ -56,14 +56,14 @@
 package org.apache.commons.vfs.util;
 
 import java.io.BufferedInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An InputStream that provides buffering and end-of-stream monitoring.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/13 04:28:45 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/28 10:58:52 $
  */
 public class MonitorInputStream
     extends BufferedInputStream

@@ -60,8 +60,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
@@ -69,17 +69,17 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.util.HttpURL;
-import org.apache.webdav.lib.WebdavResource;
 import org.apache.webdav.lib.BaseProperty;
+import org.apache.webdav.lib.WebdavResource;
+import org.apache.webdav.lib.methods.DepthSupport;
 import org.apache.webdav.lib.methods.OptionsMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
-import org.apache.webdav.lib.methods.DepthSupport;
 
 /**
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/04/29 01:34:04 $
+ * @version $Revision: 1.9 $ $Date: 2003/06/28 10:58:52 $
  */
 public class WebdavFileObject
     extends AbstractFileObject

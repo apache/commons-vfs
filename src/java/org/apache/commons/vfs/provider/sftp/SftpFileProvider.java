@@ -55,21 +55,21 @@
  */
 package org.apache.commons.vfs.provider.sftp;
 
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.Os;
-import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs.provider.GenericFileName;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import java.io.File;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
+import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.util.Os;
 
 /**
  * A provider for accessing files over SFTP.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/06/24 10:37:11 $
+ * @version $Revision: 1.3 $ $Date: 2003/06/28 10:58:52 $
  */
 public class SftpFileProvider
     extends AbstractOriginatingFileProvider

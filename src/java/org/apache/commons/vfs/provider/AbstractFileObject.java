@@ -55,9 +55,9 @@
  */
 package org.apache.commons.vfs.provider;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
@@ -65,9 +65,9 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Collections;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -75,9 +75,9 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileUtil;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.Selectors;
-import org.apache.commons.vfs.FileUtil;
 
 /**
  * A partial file object implementation.
@@ -85,7 +85,7 @@ import org.apache.commons.vfs.FileUtil;
  * @todo Chop this class up - move all the protected methods to several
  *       interfaces, so that structure and content can be separately overridden.
  * @todo Check caps in methods like getChildren(), etc, and give better error messages
- *       (eg 'this file type does not support listing children', vs 'this is not a folder') 
+ *       (eg 'this file type does not support listing children', vs 'this is not a folder')
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.11 $ $Date: 2002/07/05 04:08:17 $

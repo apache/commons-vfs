@@ -55,19 +55,19 @@
  */
 package org.apache.commons.vfs.provider.sftp.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import junit.framework.Test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import junit.framework.Test;
+import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 
 /**
  * Test cases for the SFTP provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/20 07:32:21 $
+ * @version $Revision: 1.2 $ $Date: 2003/06/28 10:58:52 $
  */
 public class SftpProviderTestCase
     extends AbstractProviderTestConfig

@@ -55,16 +55,16 @@
  */
 package org.apache.commons.vfs.provider.smb;
 
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.UriParser;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileName;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/15 00:07:45 $
+ * @version $Revision: 1.7 $ $Date: 2003/06/28 10:58:52 $
  */
 public class SmbFileName
     extends GenericFileName

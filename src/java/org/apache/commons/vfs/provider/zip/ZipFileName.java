@@ -55,8 +55,8 @@
  */
 package org.apache.commons.vfs.provider.zip;
 
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.LayeredFileName;
 import org.apache.commons.vfs.provider.UriParser;
 
@@ -64,7 +64,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A parser for Zip file names.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/12 07:56:17 $
+ * @version $Revision: 1.5 $ $Date: 2003/06/28 10:58:52 $
  */
 public class ZipFileName
     extends LayeredFileName

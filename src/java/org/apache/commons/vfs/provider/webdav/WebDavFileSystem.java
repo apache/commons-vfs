@@ -55,8 +55,8 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
-import java.util.Collection;
 import java.io.IOException;
+import java.util.Collection;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
@@ -72,7 +72,7 @@ import org.apache.webdav.lib.WebdavResource;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/04/29 01:54:22 $
+ * @version $Revision: 1.7 $ $Date: 2003/06/28 10:58:52 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem

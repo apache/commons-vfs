@@ -55,18 +55,18 @@
  */
 package org.apache.commons.vfs.provider.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestCase;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.AbstractVfsTestCase;
 import java.io.File;
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.test.AbstractProviderTestCase;
 
 /**
  * Additional junction test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/24 07:28:19 $
+ * @version $Revision: 1.6 $ $Date: 2003/06/28 10:58:53 $
  */
 public class JunctionTests
     extends AbstractProviderTestCase

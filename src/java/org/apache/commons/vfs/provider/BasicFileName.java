@@ -55,14 +55,14 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.FileName;
 import java.net.URL;
+import org.apache.commons.vfs.FileName;
 
 /**
  * A simple file name, made up of a root URI and an absolute path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/21 13:11:36 $
+ * @version $Revision: 1.5 $ $Date: 2003/06/28 10:58:51 $
  */
 public class BasicFileName
     extends AbstractFileName
