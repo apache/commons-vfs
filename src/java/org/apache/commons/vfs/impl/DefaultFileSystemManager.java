@@ -21,6 +21,8 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FilesCache;
+import org.apache.commons.vfs.cache.DefaultFilesCache;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -91,6 +93,8 @@ public class DefaultFileSystemManager
     private final FileTypeMap map = new FileTypeMap();
     private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
     private boolean init;
+
+    private FilesCache filesCache;
 
     /**
      * Returns the logger used by this manager.
@@ -198,6 +202,30 @@ public class DefaultFileSystemManager
     }
 
     /**
+     * Sets the filesCache implementation used to cache files.<br>
+     * If you do not set the FilesCache, after {@link #init} the {@link DefaultFilesCache} will automatically be set.
+     *
+     * @see org.apache.commons.vfs.FilesCache
+     */
+    public void setFilesCache(FilesCache cache) throws FileSystemException
+    {
+        if (this.filesCache != null)
+        {
+            throw new FileSystemException("vfs.impl/cache-already-set.error");
+        }
+
+        this.filesCache = cache;
+    }
+
+    /**
+     * Returns the filesCache implementation used to cache files
+     */
+    public FilesCache getFilesCache()
+    {
+        return this.filesCache;
+    }
+
+    /**
      * Sets the file replicator to use.  The manager takes care of all
      * lifecycle management.
      */
@@ -298,6 +326,13 @@ public class DefaultFileSystemManager
     public void init() throws FileSystemException
     {
         setupComponent(vfsProvider);
+
+        if (getFilesCache() == null)
+        {
+            // set the cache to the DefaultFilesCache for backward compatibility
+            setFilesCache(new DefaultFilesCache());
+        }
+
         init = true;
     }
 
@@ -326,6 +361,10 @@ public class DefaultFileSystemManager
 
         components.clear();
         providers.clear();
+        if (filesCache != null)
+        {
+            filesCache.clear();
+        }
         localFileProvider = null;
         defaultProvider = null;
         fileReplicator = null;
@@ -503,7 +542,7 @@ public class DefaultFileSystemManager
     public FileObject createVirtualFileSystem(final FileObject rootFile)
         throws FileSystemException
     {
-        return vfsProvider.createFileSystem(rootFile);
+        return vfsProvider.createFileSystem(this, rootFile);
     }
 
     /**
@@ -512,7 +551,7 @@ public class DefaultFileSystemManager
     public FileObject createVirtualFileSystem(final String rootUri)
         throws FileSystemException
     {
-        return vfsProvider.createFileSystem(rootUri);
+        return vfsProvider.createFileSystem(this, rootUri);
     }
 
     /**

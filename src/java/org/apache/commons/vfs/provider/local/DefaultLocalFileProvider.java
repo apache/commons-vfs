@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.LocalFileProvider;
@@ -30,7 +31,7 @@ import java.io.File;
  * A file system provider, which uses direct file access.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/01 18:14:28 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/03 19:48:47 $
  */
 public final class DefaultLocalFileProvider
     extends AbstractOriginatingFileProvider
@@ -38,8 +39,10 @@ public final class DefaultLocalFileProvider
 {
     private final LocalFileNameParser parser;
 
-    public DefaultLocalFileProvider()
+    public DefaultLocalFileProvider(FileSystemManager manager)
     {
+        super(manager);
+
         if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
         {
             parser = new WindowsFileNameParser();
@@ -96,6 +99,6 @@ public final class DefaultLocalFileProvider
     {
         // Create the file system
         final LocalFileName rootName = (LocalFileName) name;
-        return new LocalFileSystem(rootName, rootName.getRootFile());
+        return new LocalFileSystem(getFileSystemManager(), rootName, rootName.getRootFile());
     }
 }

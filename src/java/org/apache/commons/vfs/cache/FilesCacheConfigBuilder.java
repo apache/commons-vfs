@@ -13,39 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs.provider.ftp;
+package org.apache.commons.vfs.cache;
 
 import org.apache.commons.vfs.FileSystemConfigBuilder;
+import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FilesCache;
 
 /**
- * The config builder for various ftp configuration options
+ * The config builder for various cache configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/03 19:48:48 $
+ * @version $Revision: 1.1 $ $Date: 2004/05/03 19:48:47 $
  */
-public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
+public class FilesCacheConfigBuilder extends FileSystemConfigBuilder
 {
-    private final static FtpFileSystemConfigBuilder builder = new FtpFileSystemConfigBuilder();
+    private final static FilesCacheConfigBuilder builder = new FilesCacheConfigBuilder();
 
-    public static FtpFileSystemConfigBuilder getInstance()
+    public static FilesCacheConfigBuilder getInstance()
     {
         return builder;
     }
 
-    /* as soon as commons-1.2 will be released
-    public void setFTPFileEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
+    public void setFilesCache(FileSystemOptions opts, FilesCache cache)
     {
-        setParam(opts, FTPFileEntryParserFactory.class.getName(), factory);
+        setParam(opts, FilesCache.class.getName(), cache);
     }
 
-    public FTPFileEntryParserFactory getFTPFileEntryParserFactory(FileSystemOptions opts)
+    public FilesCache getFilesCache(FileSystemOptions opts)
     {
-        return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
+        return (FilesCache) getParam(opts, FilesCache.class.getName());
     }
-    */
 
     protected Class getConfigClass()
     {
-        return FtpFileSystem.class;
+        return FilesCache.class;
     }
 }

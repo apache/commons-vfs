@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.temp.test;
 
-import java.io.File;
 import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
@@ -26,11 +25,13 @@ import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 
+import java.io.File;
+
 /**
  * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/03 19:48:49 $
  */
 public class TemporaryProviderTestCase
     extends AbstractProviderTestConfig
@@ -41,24 +42,24 @@ public class TemporaryProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new TemporaryProviderTestCase() );
+        return new ProviderTestSuite(new TemporaryProviderTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
         final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        manager.addProvider( "tmp", new TemporaryFileProvider( baseDir ) );
+        manager.addProvider("tmp", new TemporaryFileProvider(manager, baseDir));
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        return manager.resolveFile( "tmp:/" );
+        return manager.resolveFile("tmp:/");
     }
 }

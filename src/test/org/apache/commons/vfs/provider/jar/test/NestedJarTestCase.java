@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.jar.test;
 
-import java.io.File;
 import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
@@ -25,6 +24,8 @@ import org.apache.commons.vfs.provider.jar.JarFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
+
+import java.io.File;
 
 /**
  * Tests for the Zip file system.
@@ -40,31 +41,31 @@ public class NestedJarTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new NestedJarTestCase() );
+        return new ProviderTestSuite(new NestedJarTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider( "jar", new JarFileProvider() );
-        manager.addExtensionMap( "jar", "jar" );
+        manager.addProvider("jar", new JarFileProvider(manager));
+        manager.addExtensionMap("jar", "jar");
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         // Locate the Jar file
-        final File outerFile = AbstractVfsTestCase.getTestResource( "nested.jar" );
+        final File outerFile = AbstractVfsTestCase.getTestResource("nested.jar");
         final String uri = "jar:" + outerFile.getAbsolutePath() + "!/test.jar";
-        final FileObject jarFile = manager.resolveFile( uri );
+        final FileObject jarFile = manager.resolveFile(uri);
 
         // Now build the nested file system
-        final FileObject nestedFS = manager.createFileSystem( jarFile );
-        return nestedFS.resolveFile( "/" );
+        final FileObject nestedFS = manager.createFileSystem(jarFile);
+        return nestedFS.resolveFile("/");
     }
 }

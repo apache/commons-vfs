@@ -1099,8 +1099,12 @@ public abstract class AbstractFileObject
     {
         if (parent == null)
         {
-            // Locate the parent, if it is cached
-            parent = (AbstractFileObject) fs.getFile(name.getParent());
+            FileName parentName = name.getParent();
+            if (parentName != null)
+            {
+                // Locate the parent, if it is cached
+                parent = (AbstractFileObject) fs.getFile(name.getParent());
+            }
         }
 
         if (parent != null)

@@ -37,7 +37,7 @@ import java.util.Enumeration;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: ProviderTestSuite.java,v 1.16 2004/05/01 18:14:27 imario Exp $
+ * @version $Id: ProviderTestSuite.java,v 1.17 2004/05/03 19:48:49 imario Exp $
  */
 public class ProviderTestSuite
     extends TestSetup
@@ -149,7 +149,7 @@ public class ProviderTestSuite
 
         if (!manager.hasProvider("file"))
         {
-            manager.addProvider("file", new DefaultLocalFileProvider());
+            manager.addProvider("file", new DefaultLocalFileProvider(manager));
         }
 
         manager.init();

@@ -132,7 +132,7 @@ public interface FileObject
      *
      * @return The file system.
      */
-    FileSystem getFileSystem() throws FileSystemException;
+    FileSystem getFileSystem();
 
     /**
      * Lists the children of this file.

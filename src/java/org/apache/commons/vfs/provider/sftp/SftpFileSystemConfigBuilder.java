@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * The config builder for various sftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/01 18:14:28 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/03 19:48:49 $
  */
 public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -56,7 +56,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return (UserInfo) getParam(opts, UserInfo.class.getName());
     }
 
-    protected Class getFileSystemClass()
+    protected Class getConfigClass()
     {
         return SftpFileSystem.class;
     }

@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 
 /**
@@ -27,11 +28,16 @@ import org.apache.commons.vfs.FileSystemOptions;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.16 $ $Date: 2004/05/01 18:14:26 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/03 19:48:47 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileProvider
 {
+    public AbstractOriginatingFileProvider(FileSystemManager manager)
+    {
+        super(manager);
+    }
+
     /**
      * Locates a file object, by absolute URI.
      *

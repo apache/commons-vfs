@@ -189,4 +189,9 @@ public interface FileSystemManager
      * @param file The file to check for.
      */
     boolean canCreateFileSystem(FileObject file) throws FileSystemException;
+
+    /**
+     * Get the cache used to cache fileobjects.
+     */
+    FilesCache getFilesCache();
 }

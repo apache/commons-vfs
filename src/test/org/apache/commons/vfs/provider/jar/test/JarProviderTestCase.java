@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.jar.test;
 
-import java.io.File;
 import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
@@ -25,6 +24,8 @@ import org.apache.commons.vfs.provider.jar.JarFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
+
+import java.io.File;
 
 /**
  * Tests for the Jar file system.
@@ -40,25 +41,25 @@ public class JarProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new JarProviderTestCase() );
+        return new ProviderTestSuite(new JarProviderTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider( "jar", new JarFileProvider() );
+        manager.addProvider("jar", new JarFileProvider(manager));
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
+        final File jarFile = AbstractVfsTestCase.getTestResource("test.jar");
         final String uri = "jar:" + jarFile.getAbsolutePath() + "!/";
-        return manager.resolveFile( uri );
+        return manager.resolveFile(uri);
     }
 }

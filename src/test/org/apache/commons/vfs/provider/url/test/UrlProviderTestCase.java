@@ -15,8 +15,6 @@
  */
 package org.apache.commons.vfs.provider.url.test;
 
-import java.io.File;
-import java.net.URL;
 import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
@@ -26,37 +24,40 @@ import org.apache.commons.vfs.provider.url.UrlFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 
+import java.io.File;
+import java.net.URL;
+
 /**
  * Test cases for the generic provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/03 19:48:49 $
  */
 public class UrlProviderTestCase
     extends AbstractProviderTestConfig
 {
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new UrlProviderTestCase() );
+        return new ProviderTestSuite(new UrlProviderTestCase());
     }
 
     /**
      * Prepares the file system manager.  This implementation does nothing.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider( "file", new UrlFileProvider() );
+        manager.addProvider("file", new UrlFileProvider(manager));
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager )
+    public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
         final File baseDir = AbstractVfsTestCase.getTestDirectory();
         final URL url = baseDir.toURL();
-        return manager.resolveFile( url.toExternalForm() );
+        return manager.resolveFile(url.toExternalForm());
     }
 }

@@ -19,6 +19,7 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
@@ -34,9 +35,9 @@ class SmbFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    public SmbFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
+    public SmbFileSystem(final FileSystemManager manager, final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super(rootName, null, fileSystemOptions);
+        super(manager, rootName, null, fileSystemOptions);
     }
 
     /**

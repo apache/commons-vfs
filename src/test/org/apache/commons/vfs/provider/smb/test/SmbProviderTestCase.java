@@ -35,24 +35,24 @@ public class SmbProviderTestCase
 {
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new SmbProviderTestCase() );
+        return new ProviderTestSuite(new SmbProviderTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider( "smb", new SmbFileProvider() );
+        manager.addProvider("smb", new SmbFileProvider(manager));
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final String uri = System.getProperty( "test.smb.uri" );
-        return manager.resolveFile( uri );
+        final String uri = System.getProperty("test.smb.uri");
+        return manager.resolveFile(uri);
     }
 }

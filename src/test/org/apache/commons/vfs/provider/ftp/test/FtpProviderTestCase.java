@@ -38,23 +38,23 @@ public class FtpProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new FtpProviderTestCase() );
+        return new ProviderTestSuite(new FtpProviderTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager ) throws Exception
+    public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
-        manager.addProvider( "ftp", new FtpFileProvider() );
+        manager.addProvider("ftp", new FtpFileProvider(manager));
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final String uri = System.getProperty( "test.ftp.uri" );
-        return manager.resolveFile( uri );
+        final String uri = System.getProperty("test.ftp.uri");
+        return manager.resolveFile(uri);
     }
 }

@@ -39,31 +39,31 @@ public class NestedZipTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new NestedZipTestCase() );
+        return new ProviderTestSuite(new NestedZipTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider( "zip", new ZipFileProvider() );
-        manager.addExtensionMap( "zip", "zip" );
+        manager.addProvider("zip", new ZipFileProvider(manager));
+        manager.addExtensionMap("zip", "zip");
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         // Locate the base Zip file
-        final String zipFilePath = AbstractVfsTestCase.getTestResource( "nested.zip" ).getAbsolutePath();
+        final String zipFilePath = AbstractVfsTestCase.getTestResource("nested.zip").getAbsolutePath();
         String uri = "zip:" + zipFilePath + "!/test.zip";
-        final FileObject zipFile = manager.resolveFile( uri );
+        final FileObject zipFile = manager.resolveFile(uri);
 
         // Now build the nested file system
-        final FileObject nestedFS = manager.createFileSystem( zipFile );
-        return nestedFS.resolveFile( "/" );
+        final FileObject nestedFS = manager.createFileSystem(zipFile);
+        return nestedFS.resolveFile("/");
     }
 }

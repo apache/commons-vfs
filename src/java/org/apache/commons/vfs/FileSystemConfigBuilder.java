@@ -20,13 +20,13 @@ package org.apache.commons.vfs;
  * Abstract class which has the right to fill FileSystemOptions
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/01 18:14:27 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/03 19:48:48 $
  */
 public abstract class FileSystemConfigBuilder
 {
     protected void setParam(FileSystemOptions opts, String name, Object value)
     {
-        opts.setOption(getFileSystemClass(), name, value);
+        opts.setOption(getConfigClass(), name, value);
     }
 
     protected Object getParam(FileSystemOptions opts, String name)
@@ -36,7 +36,7 @@ public abstract class FileSystemConfigBuilder
             return null;
         }
 
-        return opts.getOption(getFileSystemClass(), name);
+        return opts.getOption(getConfigClass(), name);
     }
 
     protected boolean hasParam(FileSystemOptions opts, String name)
@@ -46,8 +46,8 @@ public abstract class FileSystemConfigBuilder
             return false;
         }
 
-        return opts.hasOption(getFileSystemClass(), name);
+        return opts.hasOption(getConfigClass(), name);
     }
 
-    protected abstract Class getFileSystemClass();
+    protected abstract Class getConfigClass();
 }

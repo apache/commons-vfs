@@ -18,6 +18,7 @@ package org.apache.commons.vfs.provider.ftp;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -26,13 +27,18 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/01 18:14:28 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/03 19:48:48 $
  */
 public final class FtpFileProvider
     extends AbstractOriginatingFileProvider
 {
     public final static String ATTR_FILE_ENTRY_PARSER = "FEP";
     private static final int DEFAULT_PORT = 21;
+
+    public FtpFileProvider(FileSystemManager manager)
+    {
+        super(manager);
+    }
 
     /**
      * Parses a URI.
@@ -51,6 +57,6 @@ public final class FtpFileProvider
     {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
-        return new FtpFileSystem(rootName, fileSystemOptions);
+        return new FtpFileSystem(getFileSystemManager(), rootName, fileSystemOptions);
     }
 }

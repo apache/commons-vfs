@@ -18,6 +18,7 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 
 import java.util.Map;
@@ -34,6 +35,18 @@ public abstract class AbstractFileProvider
     extends AbstractVfsContainer
     implements FileProvider
 {
+    private final FileSystemManager manager;
+
+    public AbstractFileProvider(FileSystemManager manager)
+    {
+        this.manager = manager;
+    }
+
+    protected FileSystemManager getFileSystemManager()
+    {
+        return this.manager;
+    }
+
     /**
      * The cached file systems.  This is a mapping from root URI to
      * FileSystem object.

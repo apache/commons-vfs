@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.zip.test;
 
-import java.io.File;
 import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
@@ -25,6 +24,8 @@ import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
+
+import java.io.File;
 
 /**
  * Tests for the Zip file system.
@@ -40,24 +41,24 @@ public class ZipProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new ZipProviderTestCase() );
+        return new ProviderTestSuite(new ZipProviderTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager ) throws Exception
+    public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
-        manager.addProvider( "zip", new ZipFileProvider() );
+        manager.addProvider("zip", new ZipFileProvider(manager));
     }
 
     /**
      * Returns the base folder for read tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File zipFile = AbstractVfsTestCase.getTestResource( "test.zip" );
+        final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
         final String uri = "zip:" + zipFile.getAbsolutePath() + "!/";
-        return manager.resolveFile( uri );
+        return manager.resolveFile(uri);
     }
 }

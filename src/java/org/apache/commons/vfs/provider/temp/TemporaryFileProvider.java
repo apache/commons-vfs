@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.BasicFileName;
@@ -32,7 +33,7 @@ import java.io.File;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/05/01 18:14:29 $
+ * @version $Revision: 1.12 $ $Date: 2004/05/03 19:48:49 $
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider
@@ -54,13 +55,16 @@ public class TemporaryFileProvider
     };
 */
 
-    public TemporaryFileProvider(final File rootFile)
+    public TemporaryFileProvider(final FileSystemManager manager, final File rootFile)
     {
+        this(manager);
+
         this.rootFile = rootFile;
     }
 
-    public TemporaryFileProvider()
+    public TemporaryFileProvider(final FileSystemManager manager)
     {
+        super(manager);
     }
 
     public int compareTo(Object o)
@@ -103,7 +107,7 @@ public class TemporaryFileProvider
             }
             final FileName rootName =
                 new BasicFileName(scheme, scheme + ":", FileName.ROOT_PATH);
-            filesystem = new LocalFileSystem(rootName, rootFile.getAbsolutePath());
+            filesystem = new LocalFileSystem(getFileSystemManager(), rootName, rootFile.getAbsolutePath());
             addFileSystem(this, filesystem);
         }
 

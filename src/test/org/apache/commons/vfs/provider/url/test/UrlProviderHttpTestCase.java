@@ -27,32 +27,32 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for HTTP with the default provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/03 19:48:49 $
  */
 public class UrlProviderHttpTestCase
     extends AbstractProviderTestConfig
 {
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new UrlProviderHttpTestCase() );
+        return new ProviderTestSuite(new UrlProviderHttpTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider( "http", new UrlFileProvider() );
+        manager.addProvider("http", new UrlFileProvider(manager));
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager )
+    public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
-        final String uri = System.getProperty( "test.http.uri" );
-        return manager.resolveFile( uri );
+        final String uri = System.getProperty("test.http.uri");
+        return manager.resolveFile(uri);
     }
 }

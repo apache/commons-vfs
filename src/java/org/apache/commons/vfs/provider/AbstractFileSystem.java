@@ -23,7 +23,9 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.util.Messages;
 
 import java.io.File;
@@ -51,7 +53,7 @@ public abstract class AbstractFileSystem
     /**
      * Map from FileName to FileObject.
      */
-    private final Map files = new HashMap();
+    private final FilesCache files;
 
     /**
      * Map from FileName to an ArrayList of listeners for that file.
@@ -63,13 +65,22 @@ public abstract class AbstractFileSystem
      */
     private final FileSystemOptions fileSystemOptions;
 
-    protected AbstractFileSystem(final FileName rootName,
+    /**
+     * FileSystemManager which requested this filesystem
+     */
+    private final FileSystemManager manager;
+
+    protected AbstractFileSystem(final FileSystemManager manager,
+                                 final FileName rootName,
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
     {
+        this.manager = manager;
         this.parentLayer = parentLayer;
         this.rootName = rootName;
         this.fileSystemOptions = fileSystemOptions;
+
+        this.files = manager.getFilesCache();
     }
 
     /**
@@ -86,7 +97,7 @@ public abstract class AbstractFileSystem
     public void close()
     {
         // Clean-up
-        files.clear();
+        files.clear(this);
     }
 
     /**
@@ -114,7 +125,8 @@ public abstract class AbstractFileSystem
      */
     protected void putFile(final FileObject file)
     {
-        files.put(file.getName(), file);
+        files.putFile(file);
+        // files.put(file.getName(), file);
     }
 
     /**
@@ -122,7 +134,8 @@ public abstract class AbstractFileSystem
      */
     protected FileObject getFile(final FileName name)
     {
-        return (FileObject) files.get(name);
+        return files.getFile(this, name);
+        // return (FileObject) files.get(name);
     }
 
     /**
@@ -192,7 +205,9 @@ public abstract class AbstractFileSystem
             throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error", new Object[]{name, rootName});
         }
 
-        FileObject file = (FileObject) files.get(name);
+        // imario@apache.org ==> use getFile
+        FileObject file = getFile(name);
+        // FileObject file = (FileObject) files.get(name);
         if (file == null)
         {
             try
@@ -203,7 +218,10 @@ public abstract class AbstractFileSystem
             {
                 throw new FileSystemException("vfs.provider/create-file.error", name);
             }
-            files.put(name, file);
+
+            // imario@apache.org ==> use putFile
+            putFile(file);
+            // files.put(name, file);
         }
         return file;
     }
@@ -230,9 +248,20 @@ public abstract class AbstractFileSystem
         }
     }
 
+    /**
+     * Return the FileSystemOptions used to instantiate this filesystem
+     */
     public FileSystemOptions getFileSystemOptions()
     {
         return fileSystemOptions;
+    }
+
+    /**
+     * Return the FileSystemManager used to instantiate this filesystem
+     */
+    public FileSystemManager getFileSystemManager()
+    {
+        return manager;
     }
 
     /**

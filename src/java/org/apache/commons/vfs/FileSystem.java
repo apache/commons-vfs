@@ -21,7 +21,7 @@ import java.io.File;
  * A file system, made up of a hierarchy of files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/01 18:14:27 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/03 19:48:48 $
  */
 public interface FileSystem
 {
@@ -153,8 +153,11 @@ public interface FileSystem
 
     /**
      * Returns the FileSystemOptions used to instantiate this filesystem
-     *
-     * @return
      */
     FileSystemOptions getFileSystemOptions();
+
+    /**
+     * Returns a reference to the FileSytemManager
+     */
+    FileSystemManager getFileSystemManager();
 }
