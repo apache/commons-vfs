@@ -70,6 +70,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * A file object implementation which uses direct file access.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author Gary D. Gregory
  * @version $Revision: 1.6 $ $Date: 2002/04/07 02:27:57 $
  */
 final class LocalFile
@@ -171,6 +172,14 @@ final class LocalFile
     protected boolean doIsWriteable() throws FileSystemException
     {
         return file.canWrite();
+    }
+
+    /**
+     * Determines if this file is hidden.
+     */
+    protected boolean doIsHidden()
+    {
+        return file.isHidden();
     }
 
     /**

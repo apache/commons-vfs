@@ -153,7 +153,10 @@ public class ProviderWriteTests
         assertTrue( file.exists() );
         assertSame( FileType.FILE, file.getType() );
         assertEquals( 0, file.getContent().getSize() );
-
+        assertFalse( file.isHidden() );
+        assertTrue( file.isReadable() );
+        assertTrue( file.isWriteable() );
+        
         // Create a descendant, where the intermediate folders don't exist
         file = scratchFolder.resolveFile( "dir1/dir1/file1.txt" );
         assertTrue( !file.exists() );
@@ -165,11 +168,16 @@ public class ProviderWriteTests
         assertEquals( 0, file.getContent().getSize() );
         assertTrue( file.getParent().exists() );
         assertTrue( file.getParent().getParent().exists() );
-
+        assertFalse( file.getParent().isHidden() );
+        assertFalse( file.getParent().getParent().isHidden() );
+        
         // Test creating a file that already exists
         assertTrue( file.exists() );
         file.createFile();
-    }
+        assertTrue( file.exists() );
+        assertTrue( file.isReadable() );
+        assertTrue( file.isWriteable() );
+       }
 
     /**
      * Tests file/folder creation with mismatched types.

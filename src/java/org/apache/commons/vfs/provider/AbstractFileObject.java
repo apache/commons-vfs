@@ -88,6 +88,7 @@ import org.apache.commons.vfs.Selectors;
  *       (eg 'this file type does not support listing children', vs 'this is not a folder')
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author Gary D. Gregory
  * @version $Revision: 1.11 $ $Date: 2002/07/05 04:08:17 $
  */
 public abstract class AbstractFileObject
@@ -140,6 +141,17 @@ public abstract class AbstractFileObject
      * value of this method is cached, so the implementation can be expensive.
      */
     protected abstract FileType doGetType() throws Exception;
+
+    /**
+     * Determines if this file is hidden.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     *
+     * This implementation always returns false.
+     */
+    protected boolean doIsHidden() throws Exception
+    {
+        return false;
+    }
 
     /**
      * Determines if this file can be read.  Is only called if {@link #doGetType}
@@ -380,6 +392,29 @@ public abstract class AbstractFileObject
     {
         attach();
         return type;
+    }
+
+    /**
+     * Determines if this file can be read.
+     */
+    public boolean isHidden() throws FileSystemException
+    {
+        try
+        {
+            attach();
+            if ( exists() )
+            {
+                return doIsHidden();
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch ( final Exception exc )
+        {
+            throw new FileSystemException( "vfs.provider/check-is-hidden.error", name, exc );
+        }
     }
 
     /**

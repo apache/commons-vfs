@@ -72,7 +72,8 @@ import org.apache.commons.vfs.FileType;
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2003/10/13 08:44:26 $
+ * @author Gary D. Gregory
+ * @version $Revision: 1.10 $ $Date: 2003/12/17 20:31:30 $
  *
  * @todo Extract subclass that overlays the children
  */
@@ -183,6 +184,21 @@ public class DelegateFileObject
         }
         else
         {
+            return false;
+        }
+    }
+
+    /**
+     * Determines if this file is hidden.
+     */
+    protected boolean doIsHidden() throws FileSystemException
+    {
+        if ( file != null )
+           {
+            return file.isHidden();
+        }
+        else
+           {
             return false;
         }
     }

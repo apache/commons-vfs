@@ -131,6 +131,17 @@ public interface FileObject
     boolean exists() throws FileSystemException;
 
     /**
+     * Determines if this file is hidden.
+     *
+     * @return
+     *      <code>true</code> if this file is hidden, <code>false</code> if not.
+     *
+     * @throws FileSystemException
+     *      On error determining if this file exists.
+     */
+    boolean isHidden() throws FileSystemException;
+
+    /**
      * Determines if this file can be read.
      *
      * @return
