@@ -27,9 +27,9 @@ import java.util.Collection;
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.19 $ $Date: 2004/05/19 19:34:07 $
+ * @version $Revision: 1.20 $ $Date: 2004/05/20 17:40:56 $
  */
-class UrlFileSystem
+public class UrlFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {

@@ -342,11 +342,14 @@ public final class UriParser
         {
             final char ch = buffer.charAt(index);
             boolean match = (ch == '%');
-            for (int i = 0; !match && i < reserved.length; i++)
+            if (reserved != null)
             {
-                if (ch == reserved[i])
+                for (int i = 0; !match && i < reserved.length; i++)
                 {
-                    match = true;
+                    if (ch == reserved[i])
+                    {
+                        match = true;
+                    }
                 }
             }
             if (match)

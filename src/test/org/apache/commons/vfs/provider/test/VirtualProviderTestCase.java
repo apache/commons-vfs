@@ -28,7 +28,7 @@ import java.io.File;
  * Test cases for the virtual file system provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/20 17:40:55 $
  */
 public class VirtualProviderTestCase
     extends AbstractProviderTestConfig
@@ -45,7 +45,7 @@ public class VirtualProviderTestCase
      */
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
+        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
         final FileObject baseFile = manager.toFileObject(baseDir);
         return manager.createVirtualFileSystem(baseFile);
     }

@@ -31,7 +31,7 @@ import java.io.File;
  * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:53 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/20 17:40:55 $
  */
 public class TemporaryProviderTestCase
     extends AbstractProviderTestConfig
@@ -51,7 +51,7 @@ public class TemporaryProviderTestCase
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
+        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
         manager.addProvider("tmp", new TemporaryFileProvider(baseDir));
     }
 

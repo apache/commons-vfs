@@ -19,10 +19,12 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.BasicFileName;
+import org.apache.commons.vfs.provider.UriParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -34,7 +36,7 @@ import java.util.Collections;
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.20 $ $Date: 2004/05/19 19:34:07 $
+ * @version $Revision: 1.21 $ $Date: 2004/05/20 17:40:56 $
  */
 public class UrlFileProvider
     extends AbstractFileProvider
@@ -61,13 +63,37 @@ public class UrlFileProvider
     {
         try
         {
-            final URL url = new URL(uri);
+            StringBuffer buf = new StringBuffer(80);
+            String scheme = UriParser.extractScheme(uri, buf);
+
+            final URL url;
+            if ("res".equals(scheme))
+            {
+                String resourceName = buf.toString();
+
+                ClassLoader cl = UrlFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
+                if (cl == null)
+                {
+                    cl = getClass().getClassLoader();
+                }
+                url = cl.getResource(resourceName);
+
+                if (url == null)
+                {
+                    throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri);
+                }
+            }
+            else
+            {
+                url = new URL(uri);
+            }
             final URL rootUrl = new URL(url, "/");
             final String key = this.getClass().getName() + rootUrl.toString();
             FileSystem fs = findFileSystem(key, fileSystemOptions);
             if (fs == null)
             {
                 final FileName rootName =
+                    // new BasicFileName(scheme, rootUrl.toExternalForm(), FileName.ROOT_PATH);
                     new BasicFileName(rootUrl, FileName.ROOT_PATH);
                 fs = new UrlFileSystem(rootName, fileSystemOptions);
                 addFileSystem(key, fs);
@@ -78,6 +104,11 @@ public class UrlFileProvider
         {
             throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri, e);
         }
+    }
+
+    public FileSystemConfigBuilder getConfigBuilder()
+    {
+        return UrlFileSystemConfigBuilder.getInstance();
     }
 
     public Collection getCapabilities()

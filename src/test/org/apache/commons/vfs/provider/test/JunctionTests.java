@@ -27,14 +27,14 @@ import java.io.File;
  * Additional junction test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/20 17:40:55 $
  */
 public class JunctionTests
     extends AbstractProviderTestCase
 {
     private FileObject getBaseDir() throws FileSystemException
     {
-        final File file = AbstractVfsTestCase.getTestDirectory();
+        final File file = AbstractVfsTestCase.getTestDirectoryFile();
         assertTrue(file.exists());
         return getManager().toFileObject(file);
     }

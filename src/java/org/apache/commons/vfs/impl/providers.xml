@@ -1,5 +1,7 @@
 <providers>
-    <default-provider class-name="org.apache.commons.vfs.provider.url.UrlFileProvider"/>
+    <default-provider class-name="org.apache.commons.vfs.provider.url.UrlFileProvider">
+        <scheme name="res"/>
+    </default-provider>
     <provider class-name="org.apache.commons.vfs.provider.local.DefaultLocalFileProvider">
         <scheme name="file"/>
     </provider>

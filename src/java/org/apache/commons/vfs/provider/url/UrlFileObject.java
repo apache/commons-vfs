@@ -24,6 +24,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -31,7 +32,7 @@ import java.net.URLConnection;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/05/10 20:09:53 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/20 17:40:56 $
  * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()
  */
@@ -56,8 +57,14 @@ class UrlFileObject
     {
         if (url == null)
         {
-            url = new URL(getName().getURI());
+            // url = new URL(getName().getURI());
+            url = createURL(getName());
         }
+    }
+
+    protected URL createURL(final FileName name) throws MalformedURLException
+    {
+        return new URL(getName().getURI());
     }
 
     /**
