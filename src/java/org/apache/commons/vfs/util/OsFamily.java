@@ -5,13 +5,13 @@
  * version 1.1, a copy of which has been included  with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.commons.vfs.nativelib;
+package org.apache.commons.vfs.util;
 
 /**
  * An enumerated type, which represents an OS family.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/05 03:21:54 $
+ * @version $Revision: 1.1 $ $Date: 2002/08/20 07:42:46 $
  */
 public final class OsFamily
 {

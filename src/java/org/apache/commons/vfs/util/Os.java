@@ -5,13 +5,14 @@
  * version 1.1, a copy of which has been included with this distribution in
  * the LICENSE.txt file.
  */
-package org.apache.commons.vfs.nativelib;
+package org.apache.commons.vfs.util;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import org.apache.commons.vfs.util.OsFamily;
 
 /**
  * Class to help determining the OS.
