@@ -29,8 +29,8 @@ import org.apache.commons.vfs.FileSystem;
  * Changes on one instance of this file are not seen by the others.</b>
  * </p>
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/17 20:13:19 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.6 $ $Date: 2004/05/21 20:54:31 $
  */
 public class NullFilesCache extends AbstractFilesCache
 {

@@ -23,8 +23,8 @@ import org.apache.commons.vfs.provider.VfsComponent;
 /**
  * Global parameters to configure the VFS system.
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/21 20:43:29 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.4 $ $Date: 2004/05/21 20:54:34 $
  */
 public final class GlobalConfiguration extends AbstractVfsComponent
 {

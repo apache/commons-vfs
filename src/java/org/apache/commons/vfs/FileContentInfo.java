@@ -18,8 +18,8 @@ package org.apache.commons.vfs;
 /**
  * Interface to the content info
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/21 20:43:29 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:34 $
  */
 public interface FileContentInfo
 {

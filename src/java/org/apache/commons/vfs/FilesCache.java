@@ -19,8 +19,8 @@ package org.apache.commons.vfs;
 /**
  * The fileCache interface
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/17 20:13:20 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.6 $ $Date: 2004/05/21 20:54:34 $
  */
 public interface FilesCache
 {

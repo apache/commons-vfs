@@ -20,8 +20,8 @@ import java.util.Collection;
 /**
  * Provides some runtime-info about the currently running vfs system
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/19 19:34:06 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:34 $
  */
 public interface SystemInfo
 {

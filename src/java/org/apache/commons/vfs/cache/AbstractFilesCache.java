@@ -21,8 +21,8 @@ import org.apache.commons.vfs.provider.AbstractVfsComponent;
 /**
  * Description
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/17 20:13:19 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:31 $
  */
 public abstract class AbstractFilesCache extends AbstractVfsComponent implements FilesCache
 {

@@ -21,8 +21,8 @@ import org.apache.commons.vfs.FileSystemOptions;
 /**
  * Description
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/19 19:34:06 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.3 $ $Date: 2004/05/21 20:54:37 $
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

@@ -29,8 +29,8 @@ import java.io.File;
 /**
  * Tests the NullFilesCache
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/20 17:40:55 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.3 $ $Date: 2004/05/21 20:54:37 $
  */
 public class NullFilesCacheTestCase
     extends AbstractProviderTestConfig

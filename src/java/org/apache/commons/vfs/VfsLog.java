@@ -22,8 +22,8 @@ import org.apache.commons.logging.Log;
  * correctly use commons-logging.<br>
  * I hope i could remove it sometimes.
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/17 20:14:33 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.3 $ $Date: 2004/05/21 20:54:34 $
  */
 public class VfsLog
 {

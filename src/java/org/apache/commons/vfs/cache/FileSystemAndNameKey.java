@@ -22,8 +22,8 @@ import org.apache.commons.vfs.FileSystem;
  * Key for various cache implementations.<br>
  * It compares the fileSystem (by hashCode) and the filename.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/10 20:09:48 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.3 $ $Date: 2004/05/21 20:54:31 $
  */
 class FileSystemAndNameKey implements Comparable
 {

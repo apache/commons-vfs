@@ -22,8 +22,8 @@ import java.util.List;
  * This class describes the configuration for a provider.<br>
  * Used by digester in StandardFileSystemManager
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/17 17:56:57 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:31 $
  */
 public class ProviderConfiguration
 {

@@ -35,8 +35,8 @@ import java.util.TreeMap;
  * This implementation caches every file as long as it is strongly reachable by the java vm.
  * As soon as the vm needs memory - every softly reachable file will be discarded.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/17 20:13:19 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.6 $ $Date: 2004/05/21 20:54:31 $
  * @see SoftReference
  */
 public class SoftRefFilesCache extends AbstractFilesCache

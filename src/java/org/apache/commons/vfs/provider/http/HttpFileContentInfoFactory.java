@@ -27,8 +27,8 @@ import org.apache.commons.vfs.impl.DefaultFileContentInfo;
 /**
  * Description
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/21 20:43:30 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:37 $
  */
 public class HttpFileContentInfoFactory implements FileContentInfoFactory
 {
