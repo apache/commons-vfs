@@ -60,7 +60,7 @@ import java.io.OutputStream;
 import java.security.cert.Certificate;
 
 /**
- * This interface is used to access the data content of a file.
+ * Represents the data content of a file.
  *
  * <p>To read from a file, use the {@link #getInputStream} method.
  *

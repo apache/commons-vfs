@@ -59,7 +59,7 @@ import java.io.File;
 import java.net.URLStreamHandlerFactory;
 
 /**
- * A FileSystemManager is manages a set of file systems.  This interface is
+ * A FileSystemManager manages a set of file systems.  This interface is
  * used to locate a {@link FileObject} by name from one of those file systems.
  *
  * <p>To locate a {@link FileObject}, use one of the <code>resolveFile()</code>

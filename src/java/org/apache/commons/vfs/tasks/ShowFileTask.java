@@ -65,10 +65,10 @@ import org.apache.commons.vfs.FileType;
 import org.apache.tools.ant.BuildException;
 
 /**
- * An Ant task, which writes the details of a file to Ant's log.
+ * An Ant task that writes the details of a file to Ant's log.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/23 13:09:45 $
  */
 public class ShowFileTask
     extends VfsTask

@@ -56,8 +56,8 @@
 package org.apache.commons.vfs;
 
 /**
- * The interface is used to perform operations on a file name.  File names
- * are immutable, and work correctly as keys in hash tables.
+ * Represents a file name.  File names are immutable, and work correctly as
+ * keys in hash tables.
  *
  * @see FileObject
  *

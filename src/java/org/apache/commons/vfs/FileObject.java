@@ -61,7 +61,7 @@ import java.net.URL;
 import java.util.List;
 
 /**
- * This interface represents a file, and is used to access the content and
+ * Represents a file, and is used to access the content and
  * structure of the file.
  *
  * <p>Files are arranged in a hierarchy.  Each hierachy forms a
@@ -96,9 +96,9 @@ import java.util.List;
  * using:
  * <ul>
  * <li>{@link #resolveFile} to find another file relative to this file.
- * <li>{@link #getChildren} to find the children of this file.
+ * <li>{@link #getChildren} and {@link #getChild} to find the children of this file.
  * <li>{@link #getParent} to find the folder containing this file.
- * <li>{@link #getFileSystem} to find another ifle in the same file system.
+ * <li>{@link #getFileSystem} to find another file in the same file system.
  * </ul>
  *
  * <p>To find files in another file system, use a {@link FileSystemManager}.
