@@ -487,11 +487,21 @@ public class UriParser
                               final String path,
                               final NameScope scope )
     {
+        if ( scope == NameScope.FILE_SYSTEM )
+        {
+            // All good
+            return true;
+        }
+
+        if ( !path.startsWith( basePath ) )
+        {
+            return false;
+        }
+        final int baseLen = basePath.length();
+
         if ( scope == NameScope.CHILD )
         {
-            final int baseLen = basePath.length();
-            if ( !path.startsWith( basePath )
-                || path.length() == baseLen
+            if ( path.length() == baseLen
                 || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar )
                 || path.indexOf( separatorChar, baseLen + 1 ) != -1 )
             {
@@ -500,9 +510,7 @@ public class UriParser
         }
         else if ( scope == NameScope.DESCENDENT )
         {
-            final int baseLen = basePath.length();
-            if ( !path.startsWith( basePath )
-                || path.length() == baseLen
+            if ( path.length() == baseLen
                 || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar ) )
             {
                 return false;
@@ -510,10 +518,9 @@ public class UriParser
         }
         else if ( scope == NameScope.DESCENDENT_OR_SELF )
         {
-            final int baseLen = basePath.length();
-            if ( !path.startsWith( basePath )
-                || ( path.length() != baseLen
-                && path.charAt( baseLen ) != separatorChar ) )
+            if ( baseLen > 1
+                && path.length() > baseLen
+                && path.charAt( baseLen ) != separatorChar )
             {
                 return false;
             }
