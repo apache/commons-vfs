@@ -63,7 +63,7 @@ public class ProviderWriteAppendTests
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
-    public void testCreateDeleteCreateSameFileSystem() throws Exception
+    public void testAppendContent() throws Exception
     {
         final FileObject scratchFolder = createScratchFolder();
 

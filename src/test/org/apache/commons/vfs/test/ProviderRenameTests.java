@@ -63,7 +63,7 @@ public class ProviderRenameTests
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
-    public void testCreateDeleteCreateSameFileSystem() throws Exception
+    public void testRenameFile() throws Exception
     {
         final FileObject scratchFolder = createScratchFolder();
 
