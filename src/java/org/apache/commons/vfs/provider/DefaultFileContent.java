@@ -136,7 +136,14 @@ public final class DefaultFileContent
         {
             throw new FileSystemException( "vfs.provider/get-last-modified-no-exist.error", file );
         }
-        return file.doGetLastModifiedTime();
+        try
+        {
+            return file.doGetLastModifiedTime();
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/get-last-modified.error", file, e );
+        }
     }
 
     /**
@@ -148,23 +155,46 @@ public final class DefaultFileContent
         {
             throw new FileSystemException( "vfs.provider/set-last-modified-no-exist.error", file );
         }
-        file.doSetLastModifiedTime( modTime );
+        try
+        {
+            file.doSetLastModifiedTime( modTime );
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/set-last-modified.error", file, e );
+        }
     }
 
     /**
      * Gets the value of an attribute.
      */
-    public Object getAttribute( String attrName ) throws FileSystemException
+    public Object getAttribute( final String attrName )
+        throws FileSystemException
     {
-        return file.doGetAttribute( attrName );
+        try
+        {
+            return file.doGetAttribute( attrName );
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/get-attribute.error", new Object[] { attrName, file }, e );
+        }
     }
 
     /**
      * Sets the value of an attribute.
      */
-    public void setAttribute( String attrName, Object value ) throws FileSystemException
+    public void setAttribute( final String attrName, final Object value )
+        throws FileSystemException
     {
-        file.doSetAttribute( attrName, value );
+        try
+        {
+            file.doSetAttribute( attrName, value );
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/set-attribute.error", new Object[] { attrName, file }, e );
+        }
     }
 
     /**
@@ -249,27 +279,13 @@ public final class DefaultFileContent
             // Close the input stream
             if ( instr != null )
             {
-                try
-                {
-                    instr.close();
-                }
-                catch ( IOException ioe )
-                {
-                    throw new FileSystemException( "vfs.provider/close-instr.error", null, ioe );
-                }
+                instr.close();
             }
 
             // Close the output stream
             if ( outstr != null )
             {
-                try
-                {
-                    outstr.close();
-                }
-                catch ( IOException ioe )
-                {
-                    throw new FileSystemException( "vfs.provider/close-outstr.error", null, ioe );
-                }
+                outstr.close();
             }
         }
         finally
@@ -357,7 +373,7 @@ public final class DefaultFileContent
         /**
          * Closes this input stream.
          */
-        public void close() throws IOException
+        public void close() throws FileSystemException
         {
             if ( finished )
             {
@@ -365,14 +381,14 @@ public final class DefaultFileContent
             }
 
             // Close the stream
-            IOException exc = null;
+            FileSystemException exc = null;
             try
             {
                 super.close();
             }
-            catch ( IOException e )
+            catch ( IOException ioe )
             {
-                exc = e;
+                exc = new FileSystemException( "vfs.provider/close-instr.error", file, ioe );
             }
 
             // Notify the file object
@@ -380,9 +396,9 @@ public final class DefaultFileContent
             {
                 endInput();
             }
-            catch ( Exception e )
+            catch ( final Exception e )
             {
-                exc = new IOException( e.getMessage() );
+                exc = new FileSystemException( "vfs.provider/close-instr.error", file, e );
             }
 
             finished = true;
@@ -408,18 +424,18 @@ public final class DefaultFileContent
         /**
          * Closes this output stream.
          */
-        public void close() throws IOException
+        public void close() throws FileSystemException
         {
-            IOException exc = null;
+            FileSystemException exc = null;
 
             // Close the output stream
             try
             {
                 super.close();
             }
-            catch ( IOException e )
+            catch ( final IOException e )
             {
-                exc = e;
+                exc = new FileSystemException( "vfs.provider/close-outstr.error", file, e );
             }
 
             // Notify of end of output
@@ -427,9 +443,9 @@ public final class DefaultFileContent
             {
                 endOutput();
             }
-            catch ( Exception e )
+            catch ( final Exception e )
             {
-                exc = new IOException( e.getMessage() );
+                exc = new FileSystemException( "vfs.provider/close-outstr.error", file, e );
             }
 
             if ( exc != null )

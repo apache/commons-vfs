@@ -207,7 +207,7 @@ public abstract class AbstractFileObject
      * The default is to just throw an exception so filesystems must
      * override it to use it.
      */
-    protected long doGetLastModifiedTime() throws FileSystemException
+    protected long doGetLastModifiedTime() throws Exception
     {
         throw new FileSystemException( "vfs.provider/get-last-modified-not-supported.error" );
     }
@@ -218,7 +218,7 @@ public abstract class AbstractFileObject
      * override it to use it.
      */
     protected void doSetLastModifiedTime( long modtime )
-        throws FileSystemException
+        throws Exception
     {
         throw new FileSystemException( "vfs.provider/set-last-modified-not-supported.error" );
     }
@@ -228,8 +228,8 @@ public abstract class AbstractFileObject
      * The default implementation just returns null so filesystems must
      * override it to use it.
      */
-    protected Object doGetAttribute( String attrName )
-        throws FileSystemException
+    protected Object doGetAttribute( final String attrName )
+        throws Exception
     {
         return null;
     }
@@ -240,7 +240,7 @@ public abstract class AbstractFileObject
      * override it to use it.
      */
     protected void doSetAttribute( String atttrName, Object value )
-        throws FileSystemException
+        throws Exception
     {
         throw new FileSystemException( "vfs.provider/set-attribute-not-supported.error" );
     }

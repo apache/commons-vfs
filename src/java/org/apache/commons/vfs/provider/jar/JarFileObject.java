@@ -72,7 +72,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileObject;
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 13:09:10 $
+ * @version $Revision: 1.5 $ $Date: 2002/10/27 08:16:20 $
  */
 class JarFileObject extends ZipFileObject
 {
@@ -86,6 +86,9 @@ class JarFileObject extends ZipFileObject
         super( name, entry, zipFile, fs );
     }
 
+    /**
+     * Returns the Jar manifest.
+     */
     Manifest getManifest() throws IOException
     {
         if ( file == null )
@@ -96,6 +99,9 @@ class JarFileObject extends ZipFileObject
         return ( (JarFile)file ).getManifest();
     }
 
+    /**
+     * Returns the attributes of this file.
+     */
     Attributes getAttributes() throws IOException
     {
         if ( attributes == null )
@@ -118,28 +124,21 @@ class JarFileObject extends ZipFileObject
     }
 
     /**
-     *
+     * Returns the value of an attribute.
      */
-    protected Object doGetAttribute( String attrName )
-        throws FileSystemException
+    protected Object doGetAttribute( final String attrName )
+        throws Exception
     {
-        try
+        final JarFileSystem fs = (JarFileSystem)getFileSystem();
+        final Attributes attr = getAttributes();
+        final Name name = fs.lookupName( attrName );
+        String value = attr.getValue( name );
+        if ( value != null )
         {
-            final JarFileSystem fs = (JarFileSystem)getFileSystem();
-            final Attributes attr = getAttributes();
-            final Name name = fs.lookupName( attrName );
-            String value = attr.getValue( name );
-            if ( value != null )
-            {
-                return value;
-            }
+            return value;
+        }
 
-            return fs.getAttribute( name );
-        }
-        catch ( IOException ioe )
-        {
-            throw new FileSystemException( attrName, ioe );
-        }
+        return fs.getAttribute( name );
     }
 
     /**

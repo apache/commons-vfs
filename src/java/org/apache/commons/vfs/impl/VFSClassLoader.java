@@ -85,7 +85,7 @@ import org.apache.commons.vfs.FileType;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.6 $ $Date: 2002/10/23 11:59:40 $
+ * @version $Revision: 1.7 $ $Date: 2002/10/27 08:16:20 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -170,11 +170,7 @@ public class VFSClassLoader
             }
             return defineClass( name, res );
         }
-        catch ( FileSystemException fse )
-        {
-            throw new ClassNotFoundException( name, fse );
-        }
-        catch ( IOException ioe )
+        catch ( final IOException ioe )
         {
             throw new ClassNotFoundException( name, ioe );
         }
@@ -183,8 +179,8 @@ public class VFSClassLoader
     /**
      * Loads and verifies the class with name and located with res.
      */
-    private Class defineClass( String name, Resource res )
-        throws IOException, FileSystemException
+    private Class defineClass( final String name, final Resource res )
+        throws IOException
     {
         URL url = res.getCodeSourceURL();
 
@@ -226,7 +222,9 @@ public class VFSClassLoader
     /**
      * Reads attributes for the package and defines it.
      */
-    private Package definePackage( String name, Resource res, URL url )
+    private Package definePackage( final String name,
+                                   final Resource res,
+                                   final URL url )
         throws FileSystemException
     {
         URL sealBase = null;

@@ -90,27 +90,13 @@ public final class DefaultURLConnection
     public InputStream getInputStream()
         throws IOException
     {
-        try
-        {
-            return content.getInputStream();
-        }
-        catch ( FileSystemException fse )
-        {
-            throw new ProtocolException( fse.getMessage() );
-        }
+        return content.getInputStream();
     }
 
     public OutputStream getOutputStream()
         throws IOException
     {
-        try
-        {
-            return content.getOutputStream();
-        }
-        catch ( FileSystemException fse )
-        {
-            throw new ProtocolException( fse.getMessage() );
-        }
+        return content.getOutputStream();
     }
 
     public int getContentLength()

@@ -82,15 +82,8 @@ public class DefaultURLStreamHandler
     protected URLConnection openConnection( final URL url )
         throws IOException
     {
-        try
-        {
-            final FileObject entry = context.resolveFile( url.toExternalForm() );
-            return new DefaultURLConnection( url, entry.getContent() );
-        }
-        catch ( FileSystemException fse )
-        {
-            throw new ProtocolException( fse.getMessage() );
-        }
+        final FileObject entry = context.resolveFile( url.toExternalForm() );
+        return new DefaultURLConnection( url, entry.getContent() );
     }
 
     protected void parseURL( final URL u,

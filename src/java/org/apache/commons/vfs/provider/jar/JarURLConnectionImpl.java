@@ -74,7 +74,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A default URL connection that will work for most file systems.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.5 $ $Date: 2002/10/23 11:59:41 $
+ * @version $Revision: 1.6 $ $Date: 2002/10/27 08:16:20 $
  */
 public class JarURLConnectionImpl
     extends JarURLConnection
@@ -115,7 +115,7 @@ public class JarURLConnectionImpl
 
     public JarFile getJarFile() throws IOException
     {
-        throw new UnsupportedOperationException( "vfs.provider.jar/jar-file-no-access.error" );
+        throw new FileSystemException( "vfs.provider.jar/jar-file-no-access.error" );
     }
 
 
@@ -127,7 +127,7 @@ public class JarURLConnectionImpl
 
     public JarEntry getJarEntry() throws IOException
     {
-        throw new UnsupportedOperationException( "vfs.provider.jar/jar-entry-no-access.error" );
+        throw new FileSystemException( "vfs.provider.jar/jar-entry-no-access.error" );
     }
 
 
@@ -151,27 +151,13 @@ public class JarURLConnectionImpl
     public InputStream getInputStream()
         throws IOException
     {
-        try
-        {
-            return content.getInputStream();
-        }
-        catch ( FileSystemException fse )
-        {
-            throw new ProtocolException( fse.getMessage() );
-        }
+        return content.getInputStream();
     }
 
     public OutputStream getOutputStream()
         throws IOException
     {
-        try
-        {
-            return content.getOutputStream();
-        }
-        catch ( FileSystemException fse )
-        {
-            throw new ProtocolException( fse.getMessage() );
-        }
+        return content.getOutputStream();
     }
 
     public int getContentLength()
