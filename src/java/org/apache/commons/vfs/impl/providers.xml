@@ -7,6 +7,13 @@
     <provider class-name="org.apache.commons.vfs.provider.zip.ZipFileProvider">
         <scheme name="zip"/>
     </provider>
+    <provider class-name="org.apache.commons.vfs.provider.bzip2.Bzip2FileProvider">
+        <scheme name="bz2"/>
+        <if-available class-name="org.apache.tools.bzip2.CBZip2InputStream"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.gzip.GzipFileProvider">
+        <scheme name="gz"/>
+    </provider>
     <provider class-name="org.apache.commons.vfs.provider.jar.JarFileProvider">
         <scheme name="jar"/>
     </provider>
@@ -41,4 +48,6 @@
     <extension-map extension="zip" scheme="zip"/>
     <mime-type-map mimetype="application/zip" scheme="zip"/>
     <extension-map extension="jar" scheme="jar"/>
+    <extension-map extension="bz2" scheme="bz2"/>
+    <extension-map extension="gz" scheme="gz"/>
 </providers>
