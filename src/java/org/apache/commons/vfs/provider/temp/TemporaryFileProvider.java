@@ -61,7 +61,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
-import org.apache.commons.vfs.provider.DefaultFileName;
+import org.apache.commons.vfs.provider.BasicFileName;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.local.LocalFileSystem;
@@ -70,7 +70,7 @@ import org.apache.commons.vfs.provider.local.LocalFileSystem;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/01/24 00:20:04 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/12 02:05:20 $
  */
 public class TemporaryFileProvider
     extends AbstractFileSystemProvider
@@ -109,7 +109,7 @@ public class TemporaryFileProvider
                 rootFile = getContext().getTemporaryFileStore().allocateFile( "tempfs" );
             }
             final FileName rootName =
-                new DefaultFileName( scheme, scheme + ":",  FileName.ROOT_PATH );
+                new BasicFileName( scheme, scheme + ":",  FileName.ROOT_PATH );
             filesystem = new LocalFileSystem( rootName, rootFile.getAbsolutePath() );
             addFileSystem( this, filesystem );
         }

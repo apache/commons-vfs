@@ -58,12 +58,13 @@ package org.apache.commons.vfs.provider.smb;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:19 $
  */
 class SmbFileName
     extends GenericFileName
@@ -71,14 +72,13 @@ class SmbFileName
     private final String share;
 
     private SmbFileName( final String scheme,
-                         final String rootUri,
                          final String hostName,
                          final String port,
                          final String userInfo,
                          final String share,
                          final String path )
     {
-        super( scheme, rootUri, hostName, port, userInfo, path );
+        super( scheme, hostName, port, userInfo, path );
         this.share = share;
     }
 
@@ -92,8 +92,6 @@ class SmbFileName
 
         // Extract the scheme and authority parts
         final Authority auth = extractToPath( uri, name );
-
-        // TODO - drop the default port
 
         // Decode and adjust separators
         UriParser.decode( name, 0, name.length() );
@@ -111,15 +109,7 @@ class SmbFileName
         UriParser.normalisePath( name );
         final String path = name.toString();
 
-        // Set the root URI
-        StringBuffer buffer = new StringBuffer();
-        appendRootUri( auth, buffer );
-        buffer.append( '/' );
-        buffer.append( share );
-        final String rootUri = buffer.toString();
-
         return new SmbFileName( auth.scheme,
-                                rootUri,
                                 auth.hostName,
                                 auth.port,
                                 auth.userInfo,
@@ -133,5 +123,34 @@ class SmbFileName
     public String getShare()
     {
         return share;
+    }
+
+    /** Returns the default port for this file name. */
+    public String getDefaultPort()
+    {
+        return "139";
+    }
+
+    /**
+     * Builds the root URI for this file name.
+     */
+    protected void appendRootUri( final StringBuffer buffer )
+    {
+        super.appendRootUri( buffer );
+        buffer.append( '/' );
+        buffer.append( share );
+    }
+
+    /**
+     * Factory method for creating name instances.
+     */
+    protected FileName createName( final String path )
+    {
+        return new SmbFileName( getScheme(),
+                                getHostName(),
+                                getPort(),
+                                getUserInfo(),
+                                share,
+                                path );
     }
 }

@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,51 +53,58 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.url;
+package org.apache.commons.vfs.provider;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
-import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.provider.BasicFileName;
+import java.net.URL;
 
 /**
- * A file provider backed by Java's URL API.
+ * A simple file name, made up of a root URI and an absolute path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/12 02:05:20 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/12 02:05:19 $
  */
-public class UrlFileProvider
-    extends AbstractFileSystemProvider
+public class BasicFileName
+    extends DefaultFileName
 {
-    /**
-     * Locates a file object, by absolute URI.
-     */
-    public FileObject findFile( final FileObject baseFile,
-                                final String uri )
-        throws FileSystemException
+    private final String rootUri;
+
+    public BasicFileName( final String rootUri, final String path )
     {
-        try
-        {
-            final URL url = new URL( uri );
-            final URL rootUrl = new URL( url, "/" );
-            FileSystem fs = findFileSystem( rootUrl );
-            if ( fs == null )
-            {
-                final FileName rootName =
-                    new BasicFileName( rootUrl, FileName.ROOT_PATH );
-                fs = new UrlFileSystem( rootName );
-                addFileSystem( rootUrl, fs );
-            }
-            return fs.resolveFile( url.getPath() );
-        }
-        catch ( final MalformedURLException e )
-        {
-            throw new FileSystemException( "vfs.provider.url/badly-formed-uri.error", uri, e );
-        }
+        this( UriParser.extractScheme( rootUri ), rootUri, path );
+    }
+
+    public BasicFileName( final String scheme,
+                          final String rootUri,
+                          final String path )
+    {
+        super( scheme, path );
+        this.rootUri = rootUri;
+    }
+
+    public BasicFileName( final FileName rootUri, final String path )
+    {
+        this( rootUri.getScheme(), rootUri.getURI(), path );
+    }
+
+    public BasicFileName( final URL rootUrl, final String path )
+    {
+        this( rootUrl.getProtocol(), rootUrl.toExternalForm(), path );
+    }
+
+    /**
+     * Factory method for creating name instances.
+     */
+    protected FileName createName( final String path )
+    {
+        return new BasicFileName( getScheme(), rootUri, path );
+    }
+
+    /**
+     * Builds the root URI for this file name.
+     */
+    protected void appendRootUri( final StringBuffer buffer )
+    {
+        buffer.append( rootUri );
     }
 }

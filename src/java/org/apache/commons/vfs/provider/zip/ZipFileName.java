@@ -56,6 +56,7 @@
 package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.LayeredFileName;
 import org.apache.commons.vfs.provider.UriParser;
 
@@ -63,7 +64,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A parser for Zip file names.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:20 $
  */
 public class ZipFileName
     extends LayeredFileName
@@ -74,23 +75,26 @@ public class ZipFileName
                         final String zipFileUri,
                         final String path )
     {
-        super( scheme,
-               formatRootUri( scheme, zipFileUri ),
-               zipFileUri, path );
+        super( scheme, zipFileUri, path );
     }
 
     /**
-     * Assembles the root URI for a Zip file.
+     * Builds the root URI for this file name.
      */
-    private static String formatRootUri( final String scheme,
-                                         final String outerFileUri )
+    protected void appendRootUri( final StringBuffer buffer )
     {
-        final StringBuffer buffer = new StringBuffer();
-        buffer.append( scheme );
+        buffer.append( getScheme() );
         buffer.append( ":" );
-        UriParser.appendEncoded( buffer, outerFileUri, ZIP_URL_RESERVED_CHARS );
+        UriParser.appendEncoded( buffer, getOuterUri(), ZIP_URL_RESERVED_CHARS );
         buffer.append( "!" );
-        return buffer.toString();
+    }
+
+    /**
+     * Factory method for creating name instances.
+     */
+    protected FileName createName( final String path )
+    {
+        return new ZipFileName( getScheme(), getOuterUri(), path );
     }
 
     /**

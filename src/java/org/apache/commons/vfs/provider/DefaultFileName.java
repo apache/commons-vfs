@@ -65,42 +65,26 @@ import org.apache.commons.vfs.NameScope;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:17 $
  */
-public class DefaultFileName
+public abstract class DefaultFileName
     implements FileName
 {
     public static final char separatorChar = UriParser.separatorChar;
     public static final String separator = UriParser.separator;
 
     private final String scheme;
-    private final String rootUri;
     private final String absPath;
 
     // Cached stuff
     private String uri;
     private String baseName;
+    private String rootUri;
+    private String extension;
 
     public DefaultFileName( final String scheme,
-                            final String rootUri,
                             final String absPath )
     {
         this.scheme = scheme;
         this.absPath = absPath;
-
-        // Remove trailing separator, if any
-        if ( rootUri.endsWith( separator ) )
-        {
-            this.rootUri = rootUri.substring( 0, rootUri.length() - 1 );
-        }
-        else
-        {
-            this.rootUri = rootUri;
-        }
-    }
-
-    public DefaultFileName( final String rootUri,
-                            final String absPath )
-    {
-        this( UriParser.extractScheme( rootUri ), rootUri, absPath );
     }
 
     /**
@@ -108,7 +92,7 @@ public class DefaultFileName
      */
     public int hashCode()
     {
-        return ( rootUri.hashCode() ^ absPath.hashCode() );
+        return ( getRootURI().hashCode() ^ absPath.hashCode() );
     }
 
     /**
@@ -117,7 +101,7 @@ public class DefaultFileName
     public boolean equals( final Object obj )
     {
         final DefaultFileName name = (DefaultFileName)obj;
-        return ( rootUri.equals( name.rootUri ) && absPath.equals( absPath ) );
+        return ( getRootURI().equals( name.getRootURI() ) && absPath.equals( absPath ) );
     }
 
     /**
@@ -129,14 +113,14 @@ public class DefaultFileName
     }
 
     /**
-     * Factory method for creating name instances.  Can be overridden.
-     *
-     * @todo Implement this for all subclasses
+     * Factory method for creating name instances.
      */
-    protected FileName createName( final String absPath )
-    {
-        return new DefaultFileName( scheme, rootUri, absPath );
-    }
+    protected abstract FileName createName( String absPath );
+
+    /**
+     * Builds the root URI for this file name.
+     */
+    protected abstract void appendRootUri( StringBuffer buffer );
 
     /**
      * Returns the base name of the file.
@@ -251,7 +235,7 @@ public class DefaultFileName
     {
         if ( uri == null )
         {
-            uri = rootUri + absPath;
+            uri = getRootURI() + absPath;
         }
         return uri;
     }
@@ -321,6 +305,19 @@ public class DefaultFileName
      */
     public String getRootURI()
     {
+        if ( rootUri == null )
+        {
+            final StringBuffer buffer = new StringBuffer();
+            appendRootUri( buffer );
+
+            // Remove trailing separator, if any
+            if ( buffer.charAt( buffer.length() - 1 ) == separatorChar )
+            {
+                buffer.deleteCharAt( buffer.length() - 1 );
+            }
+
+            rootUri = buffer.toString();
+        }
         return rootUri;
     }
 
@@ -347,17 +344,21 @@ public class DefaultFileName
      */
     public String getExtension()
     {
-        getBaseName();
-        final int pos = baseName.lastIndexOf( '.' );
-        if ( ( pos == -1 ) || ( pos == baseName.length() - 1 ) )
+        if ( extension == null )
         {
-            // No extension
-            return "";
+            getBaseName();
+            final int pos = baseName.lastIndexOf( '.' );
+            if ( ( pos == -1 ) || ( pos == baseName.length() - 1 ) )
+            {
+                // No extension
+                extension = "";
+            }
+            else
+            {
+                extension = baseName.substring( 0, pos );
+            }
         }
-        else
-        {
-            return baseName.substring( 0, pos );
-        }
+        return extension;
     }
 
     /**
@@ -365,7 +366,7 @@ public class DefaultFileName
      */
     public boolean isAncestor( final FileName ancestor )
     {
-        if ( !ancestor.getRootURI().equals( rootUri ) )
+        if ( !ancestor.getRootURI().equals( getRootURI() ) )
         {
             return false;
         }
@@ -386,7 +387,7 @@ public class DefaultFileName
     public boolean isDescendent( final FileName descendent,
                                  final NameScope scope )
     {
-        if ( !descendent.getRootURI().equals( rootUri ) )
+        if ( !descendent.getRootURI().equals( getRootURI() ) )
         {
             return false;
         }
@@ -448,5 +449,4 @@ public class DefaultFileName
 
         return true;
     }
-
 }

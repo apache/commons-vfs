@@ -56,6 +56,7 @@
 package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.UriParser;
 
@@ -63,7 +64,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:19 $
  */
 class LocalFileName
     extends DefaultFileName
@@ -71,11 +72,10 @@ class LocalFileName
     private final String rootFile;
 
     private LocalFileName( final String scheme,
-                           final String rootUri,
                            final String rootFile,
                            final String path )
     {
-        super( scheme, rootUri, path );
+        super( scheme, path );
         this.rootFile = rootFile;
     }
 
@@ -104,14 +104,7 @@ class LocalFileName
         UriParser.normalisePath( name );
         final String path = name.toString();
 
-        // Build the root URI
-        final StringBuffer buffer = new StringBuffer();
-        buffer.append( scheme );
-        buffer.append( "://" );
-        buffer.append( rootFile );
-        final String rootUri = buffer.toString();
-
-        return new LocalFileName( scheme, rootUri, rootFile, path );
+        return new LocalFileName( scheme, rootFile, path );
     }
 
     /**
@@ -120,5 +113,23 @@ class LocalFileName
     public String getRootFile()
     {
         return rootFile;
+    }
+
+    /**
+     * Factory method for creating name instances.
+     */
+    protected FileName createName( final String path )
+    {
+        return new LocalFileName( getScheme(), rootFile, path );
+    }
+
+    /**
+     * Builds the root URI for this file name.
+     */
+    protected void appendRootUri( final StringBuffer buffer )
+    {
+        buffer.append( getScheme() );
+        buffer.append( "://" );
+        buffer.append( rootFile );
     }
 }

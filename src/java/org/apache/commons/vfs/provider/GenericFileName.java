@@ -63,9 +63,9 @@ import org.apache.commons.vfs.FileSystemException;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:03 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:19 $
  */
-public class GenericFileName
+public abstract class GenericFileName
     extends DefaultFileName
 {
     private final String userInfo;
@@ -73,13 +73,12 @@ public class GenericFileName
     private final String port;
 
     protected GenericFileName( final String scheme,
-                               final String rootUri,
                                final String hostName,
                                final String port,
                                final String userInfo,
                                final String path )
     {
-        super( scheme, rootUri, path );
+        super( scheme, path );
         this.hostName = hostName;
         this.port = port;
         this.userInfo = userInfo;
@@ -102,6 +101,9 @@ public class GenericFileName
     {
         return port;
     }
+
+    /** Returns the default port for this file name. */
+    public abstract String getDefaultPort();
 
     /**
      * Extracts the scheme, userinfo, hostname and port components of a
@@ -241,25 +243,22 @@ public class GenericFileName
     }
 
     /**
-     * Assembles a generic URI, appending to the supplied StringBuffer.
+     * Builds the root URI for this file name.
      */
-    protected static void appendRootUri( final Authority auth,
-                                         final StringBuffer rootUri )
+    protected void appendRootUri( final StringBuffer buffer )
     {
-        rootUri.append( auth.scheme );
-        rootUri.append( "://" );
-        final String userInfo = auth.userInfo;
+        buffer.append( getScheme() );
+        buffer.append( "://" );
         if ( userInfo != null && userInfo.length() != 0 )
         {
-            rootUri.append( userInfo );
-            rootUri.append( "@" );
+            buffer.append( userInfo );
+            buffer.append( "@" );
         }
-        rootUri.append( auth.hostName );
-        final String port = auth.port;
-        if ( port != null && port.length() > 0 )
+        buffer.append( hostName );
+        if ( port != null && port.length() > 0 && !port.equals( getDefaultPort() ) )
         {
-            rootUri.append( ":" );
-            rootUri.append( port );
+            buffer.append( ":" );
+            buffer.append( port );
         }
     }
 

@@ -58,13 +58,14 @@ package org.apache.commons.vfs.provider.ftp;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 
 /**
  * An FTP URI.  Splits userinfo (see {@link #getUserInfo}) into username and
  * password.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/12 02:05:19 $
  */
 class FtpFileName
     extends GenericFileName
@@ -73,7 +74,6 @@ class FtpFileName
     private final String password;
 
     private FtpFileName( final String scheme,
-                         final String rootUri,
                          final String hostName,
                          final String port,
                          final String userInfo,
@@ -81,7 +81,7 @@ class FtpFileName
                          final String password,
                          final String path )
     {
-        super( scheme, rootUri, hostName, port, userInfo, path );
+        super( scheme, hostName, port, userInfo, path );
         this.password = password;
         this.userName = userName;
     }
@@ -102,13 +102,6 @@ class FtpFileName
         UriParser.decode( name, 0, name.length() );
         UriParser.normalisePath( name );
         final String path = name.toString();
-
-        // Drop the port if it is 21
-        final String port = auth.port;
-        if ( port != null && port.equals( "21" ) )
-        {
-            auth.port = null;
-        }
 
         // Split up the userinfo into a username and password
         // TODO - push this into GenericFileName
@@ -135,13 +128,7 @@ class FtpFileName
             password = null;
         }
 
-        // Now build the root URI
-        final StringBuffer buffer = new StringBuffer();
-        appendRootUri( auth, buffer );
-        final String rootUri = buffer.toString();
-
         return new FtpFileName( auth.scheme,
-                                rootUri,
                                 auth.hostName,
                                 auth.port,
                                 auth.userInfo,
@@ -164,5 +151,25 @@ class FtpFileName
     public String getPassword()
     {
         return password;
+    }
+
+    /** Returns the default port for this file name. */
+    public String getDefaultPort()
+    {
+        return "21";
+    }
+
+    /**
+     * Factory method for creating name instances.
+     */
+    protected FileName createName( final String path )
+    {
+        return new FtpFileName( getScheme(),
+                                getHostName(),
+                                getPort(),
+                                getUserInfo(),
+                                userName,
+                                password,
+                                path );
     }
 }

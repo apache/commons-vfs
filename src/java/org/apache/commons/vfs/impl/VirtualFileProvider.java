@@ -60,13 +60,14 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractVfsContainer;
 import org.apache.commons.vfs.provider.DefaultFileName;
+import org.apache.commons.vfs.provider.BasicFileName;
 
 
 /**
  * A virtual filesystem provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/01/23 12:27:23 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/12 02:05:19 $
  */
 public class VirtualFileProvider
     extends AbstractVfsContainer
@@ -78,9 +79,7 @@ public class VirtualFileProvider
         throws FileSystemException
     {
         final FileName rootName =
-            new DefaultFileName( rootFile.getName().getScheme(),
-                                 rootFile.getName().getURI(),
-                                 FileName.ROOT_PATH );
+            new BasicFileName( rootFile.getName(), FileName.ROOT_PATH );
         final VirtualFileSystem fs = new VirtualFileSystem( rootName );
         addComponent( fs );
         fs.addJunction( FileName.ROOT_PATH, rootFile );
@@ -93,7 +92,7 @@ public class VirtualFileProvider
     public FileObject createFileSystem( final String rootUri ) throws FileSystemException
     {
         final FileName rootName =
-            new DefaultFileName( rootUri, FileName.ROOT_PATH );
+            new BasicFileName( rootUri, FileName.ROOT_PATH );
         final VirtualFileSystem fs = new VirtualFileSystem( rootName );
         addComponent( fs );
         return fs.getRoot();
