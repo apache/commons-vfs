@@ -55,10 +55,7 @@
  */
 package org.apache.commons.vfs.test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
@@ -72,7 +69,7 @@ import org.apache.commons.vfs.NameScope;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/11/25 05:51:15 $
+ * @version $Revision: 1.5 $ $Date: 2003/01/21 02:42:29 $
  */
 public class ProviderReadTests
     extends AbstractProviderTestCase
@@ -725,52 +722,11 @@ public class ProviderReadTests
     {
         // Test non-empty file
         FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        FileContent content = file.getContent();
-        assertSameContent( FILE1_CONTENT, content );
+        assertSameContent( FILE1_CONTENT, file );
 
         // Test empty file
         file = getReadFolder().resolveFile( "empty.txt" );
-        content = file.getContent();
-        assertSameContent( "", content );
-    }
-
-    /**
-     * Asserts that the content of a file is the same as expected. Checks the
-     * length reported by getSize() is correct, then reads the content as
-     * a byte stream and compares the result with the expected content.
-     * Assumes files are encoded using UTF-8.
-     */
-    protected void assertSameContent( final String expected,
-                                      final FileContent content )
-        throws Exception
-    {
-        // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes( "utf-8" );
-
-        // Check lengths
-        assertEquals( "same content length", expectedBin.length, content.getSize() );
-
-        // Read content into byte array
-        final InputStream instr = content.getInputStream();
-        final ByteArrayOutputStream outstr;
-        try
-        {
-            outstr = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[ 256 ];
-            int nread = 0;
-            while ( nread >= 0 )
-            {
-                outstr.write( buffer, 0, nread );
-                nread = instr.read( buffer );
-            }
-        }
-        finally
-        {
-            instr.close();
-        }
-
-        // Compare
-        assertTrue( "same binary content", Arrays.equals( expectedBin, outstr.toByteArray() ) );
+        assertSameContent( "", file );
     }
 
     /**
@@ -823,20 +779,17 @@ public class ProviderReadTests
         assertEquals( FileType.FILE, file.getType() );
 
         // Get the file content
-        FileContent content = file.getContent();
-        assertSameContent( FILE1_CONTENT, content );
+        assertSameContent( FILE1_CONTENT, file );
 
         // Read the content again
-        content = file.getContent();
-        assertSameContent( FILE1_CONTENT, content );
+        assertSameContent( FILE1_CONTENT, file );
 
         // Close the content + file
-        content.close();
+        file.getContent().close();
         file.close();
 
         // Read the content again
-        content = file.getContent();
-        assertSameContent( FILE1_CONTENT, content );
+        assertSameContent( FILE1_CONTENT, file );
     }
 
     /**

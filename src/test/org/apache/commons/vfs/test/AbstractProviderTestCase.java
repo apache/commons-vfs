@@ -66,6 +66,8 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -79,7 +81,7 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/11/25 05:46:18 $
+ * @version $Revision: 1.5 $ $Date: 2003/01/21 02:42:29 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
@@ -251,6 +253,50 @@ public abstract class AbstractProviderTestCase
 
         // Read content into byte array
         final InputStream instr = connection.getInputStream();
+        final ByteArrayOutputStream outstr;
+        try
+        {
+            outstr = new ByteArrayOutputStream();
+            final byte[] buffer = new byte[ 256 ];
+            int nread = 0;
+            while ( nread >= 0 )
+            {
+                outstr.write( buffer, 0, nread );
+                nread = instr.read( buffer );
+            }
+        }
+        finally
+        {
+            instr.close();
+        }
+
+        // Compare
+        assertTrue( "same binary content", Arrays.equals( expectedBin, outstr.toByteArray() ) );
+    }
+
+    /**
+     * Asserts that the content of a file is the same as expected. Checks the
+     * length reported by getSize() is correct, then reads the content as
+     * a byte stream and compares the result with the expected content.
+     * Assumes files are encoded using UTF-8.
+     */
+    protected void assertSameContent( final String expected,
+                                      final FileObject file )
+        throws Exception
+    {
+        // Check the file exists, and is a file
+        assertTrue( file.exists() );
+        assertSame( FileType.FILE, file.getType() );
+
+        // Get file content as a binary stream
+        final byte[] expectedBin = expected.getBytes( "utf-8" );
+
+        // Check lengths
+        final FileContent content = file.getContent();
+        assertEquals( "same content length", expectedBin.length, content.getSize() );
+
+        // Read content into byte array
+        final InputStream instr = content.getInputStream();
         final ByteArrayOutputStream outstr;
         try
         {
