@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * An enumerated type representing the capabilities of files and file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/06/17 19:29:28 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/30 19:06:38 $
  */
 public final class Capability
 {
@@ -66,7 +66,12 @@ public final class Capability
     /**
      * File set last-modified time is supported.
      */
-    public static final Capability SET_LAST_MODIFIED = new Capability("SET_LAST_MODIFIED");
+    public static final Capability SET_LAST_MODIFIED_FILE = new Capability("SET_LAST_MODIFIED_FILE");
+
+    /**
+     * folder set last-modified time is supported.
+     */
+    public static final Capability SET_LAST_MODIFIED_FOLDER = new Capability("SET_LAST_MODIFIED_FOLDER");
 
     /**
      * File content signing is supported.

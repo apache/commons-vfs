@@ -34,7 +34,7 @@ import java.util.Map;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2004/05/10 20:09:47 $
+ * @version $Revision: 1.16 $ $Date: 2004/06/30 19:06:38 $
  * @todo Handle nested junctions.
  */
 public class VirtualFileSystem
@@ -59,7 +59,8 @@ public class VirtualFileSystem
         caps.add(Capability.GET_TYPE);
         caps.add(Capability.JUNCTIONS);
         caps.add(Capability.GET_LAST_MODIFIED);
-        caps.add(Capability.SET_LAST_MODIFIED);
+        caps.add(Capability.SET_LAST_MODIFIED_FILE);
+        caps.add(Capability.SET_LAST_MODIFIED_FOLDER);
         caps.add(Capability.LIST_CHILDREN);
         caps.add(Capability.READ_CONTENT);
         caps.add(Capability.SIGNING);

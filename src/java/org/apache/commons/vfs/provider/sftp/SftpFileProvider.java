@@ -31,10 +31,10 @@ import java.util.Collections;
 
 /**
  * A provider for accessing files over SFTP.
- * 
+ *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: SftpFileProvider.java,v 1.12 2004/05/27 19:09:37 imario Exp $
+ * @version $Id: SftpFileProvider.java,v 1.13 2004/06/30 19:06:38 imario Exp $
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {
@@ -48,7 +48,8 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         Capability.READ_CONTENT,
         Capability.URI,
         Capability.WRITE_CONTENT,
-        Capability.GET_LAST_MODIFIED
+        Capability.GET_LAST_MODIFIED,
+        Capability.SET_LAST_MODIFIED_FILE
     }));
 
     public final static String ATTR_USER_INFO = "UI";

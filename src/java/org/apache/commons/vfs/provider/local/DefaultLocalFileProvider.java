@@ -34,7 +34,7 @@ import java.util.Collections;
  * A file system provider, which uses direct file access.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/06/17 19:29:28 $
+ * @version $Revision: 1.9 $ $Date: 2004/06/30 19:06:38 $
  */
 public final class DefaultLocalFileProvider
     extends AbstractOriginatingFileProvider
@@ -47,7 +47,8 @@ public final class DefaultLocalFileProvider
         Capability.RENAME,
         Capability.GET_TYPE,
         Capability.GET_LAST_MODIFIED,
-        Capability.SET_LAST_MODIFIED,
+        Capability.SET_LAST_MODIFIED_FILE,
+        Capability.SET_LAST_MODIFIED_FOLDER,
         Capability.LIST_CHILDREN,
         Capability.READ_CONTENT,
         Capability.URI,

@@ -33,7 +33,7 @@ import java.util.Collection;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/05/27 19:09:37 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/30 19:06:38 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
@@ -145,5 +145,15 @@ class SftpFileSystem
         throws FileSystemException
     {
         return new SftpFileObject(name, this);
+    }
+
+    /**
+     * last mod time is only a int and in seconds, thus can be off by 999
+     *
+     * @return 1000
+     */
+    public double getLastModTimeAccuracy()
+    {
+        return 1000L;
     }
 }

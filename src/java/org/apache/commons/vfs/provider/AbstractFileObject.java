@@ -856,7 +856,8 @@ public abstract class AbstractFileObject
 
             destFile.copyFrom(this, Selectors.SELECT_SELF);
 
-            if (destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED) &&
+            if (((destFile.getType() == FileType.FILE && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) ||
+                (destFile.getType() == FileType.FOLDER && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))) &&
                 getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED))
             {
                 destFile.getContent().setLastModifiedTime(this.getContent().getLastModifiedTime());

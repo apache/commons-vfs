@@ -286,6 +286,16 @@ public abstract class AbstractFileSystem
     }
 
     /**
+     * Returns the accuracy of the last modification time
+     *
+     * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms
+     */
+    public double getLastModTimeAccuracy()
+    {
+        return 0;
+    }
+
+    /**
      * Creates a temporary local copy of a file and its descendents.
      */
     protected File doReplicateFile(final FileObject file,

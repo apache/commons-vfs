@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileObject;
  * Test cases for getting and setting file last modified time.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision: 1.5 $ $Date: 2004/06/30 19:06:38 $
  */
 public class LastModifiedTests
     extends AbstractProviderTestCase
@@ -57,21 +57,22 @@ public class LastModifiedTests
      */
     public void testSetLastModified() throws Exception
     {
-        if (!getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED))
-        {
-            // Can't set last modified
-            return;
-        }
         final long now = System.currentTimeMillis();
 
-        // Try a file
-        final FileObject file = getReadFolder().resolveFile("file1.txt");
-        file.getContent().setLastModifiedTime(now);
-        assertEquals(now, file.getContent().getLastModifiedTime());
+        if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
+        {
+            // Try a file
+            final FileObject file = getReadFolder().resolveFile("file1.txt");
+            file.getContent().setLastModifiedTime(now);
+            assertEquals(now, file.getContent().getLastModifiedTime(), file.getFileSystem().getLastModTimeAccuracy());
+        }
 
-        // Try a folder
-        final FileObject folder = getReadFolder().resolveFile("dir1");
-        folder.getContent().setLastModifiedTime(now);
-        assertEquals(now, folder.getContent().getLastModifiedTime());
+        if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))
+        {
+            // Try a folder
+            final FileObject folder = getReadFolder().resolveFile("dir1");
+            folder.getContent().setLastModifiedTime(now);
+            assertEquals(now, folder.getContent().getLastModifiedTime(), folder.getFileSystem().getLastModTimeAccuracy());
+        }
     }
 }

@@ -21,7 +21,7 @@ import java.io.File;
  * A file system, made up of a hierarchy of files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.16 $ $Date: 2004/05/21 20:43:29 $
+ * @version $Revision: 1.17 $ $Date: 2004/06/30 19:06:38 $
  */
 public interface FileSystem
 {
@@ -160,4 +160,11 @@ public interface FileSystem
      * Returns a reference to the FileSytemManager
      */
     FileSystemManager getFileSystemManager();
+
+    /**
+     * Returns the accuracy of the last modification time
+     *
+     * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms
+     */
+    double getLastModTimeAccuracy();
 }
