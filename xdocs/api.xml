@@ -62,23 +62,8 @@ for ( int i = 0; i < children.length; i++ )
 
             <subsection name="Cache">
                 <p>
-                    By default every resolved file will be cached in an map and - unhappily - it will never be released.
-                    This is what
-                    <a href="apidocs/org/apache/commons/vfs/cache/SoftRefFilesCache.html">SoftRefFilesCache</a>
-                    tries to address.
+                    Commons VFS uses a <a href="apidocs/org/apache/commons/vfs/cache/SoftRefFilesCache.html">SoftRefFilesCache</a> to release memory if a file is no longer used by the application.
                 </p>
-                <p>
-                    Currently you could not use VFS.getManager() to use this sort of cache, instead you have to create
-                    your own FileSytemManager instance.
-                </p>
-                <source><![CDATA[
-private static FileSystemManager manager;
-
-manager = new StandardFileSystemManager();
-manager.setFilesCache(new SoftRefFilesCache());
-manager.init();
-                    ]]></source>
-
                 <p>
                     This cache will return the same instance for a file as long as it is "strongly reachable" e.g. you
                     hold a reference to this object. If the FileObject is no longer reachable, and the jvm needs some memory,
@@ -108,6 +93,15 @@ manager.init();
                 The simplest method is to use the static
                 <a href="apidocs/org/apache/commons/vfs/VFS.html#getManager()">VFS.getManager()</a>
                 method, which returns the default Commons VFS implementation.
+            </p>
+            <p>
+                This method will also automatically scan the classpath for a /META-INF/vfs-providers.xml file
+                (also in jar files).
+                If such a file is found Commons VFS uses it in <u>addition</u> to the default providers.xml.
+                This allows you to start using a new filesystem by simply drop its implementation into the classpath.
+                The configuration file format is described below.<br />
+                <b>Notice:</b> Currently it is not allowed to override a already configured filesystem. Commons VFS throws
+                an exception if there is already a filesystem for a scheme.
             </p>
 
             <p>
@@ -178,16 +172,6 @@ manager.init();
                 <code>setConfiguration()</code> method to set the
                 location of the configuration file to use.  The configuration
                 file format is described below.
-            </p>
-
-            <p>
-                The fourth method is in addition to the default providers.xml.
-                This method automatically scans the classpath for a /META-INF/vfs-providers.xml file (even if it is within an jar).
-                If such a file is found Commons VFS uses it in addition to the default.
-                This allows you to start using a new filesystem by simply drop its implementation into the classpath.
-                The configuration file format is described below.<br />
-                <b>Notice:</b> Currently it is not allowed to override a already configured filesystem. Commons VFS throws
-                an exception if there is already a filesystem for a scheme. 
             </p>
 
             <p>
