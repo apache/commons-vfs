@@ -55,35 +55,51 @@
  */
 package org.apache.commons.vfs.tasks;
 
-import org.apache.tools.ant.Task;
+import org.apache.tools.ant.BuildException;
+import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.VFS;
-import org.apache.commons.vfs.FileSystemManager;
 
 /**
- * Base class for the VFS Ant tasks.  Provides some utility methods.
+ * An Ant task that creates a directory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/24 02:11:03 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/24 02:11:03 $
  */
-public class VfsTask
-    extends Task
+public class MkdirTask
+    extends VfsTask
 {
-    private FileSystemManager manager;
+    private String dirName;
 
     /**
-     * Resolves a URI to a file, relative to the project's base directory.
-     *
-     * @param uri The URI to resolve.
+     * Sets the directory to create.
+     * @param dir
      */
-    protected FileObject resolveFile( final String uri )
-        throws FileSystemException
+    public void setDir( final String dir )
     {
-        if ( manager == null )
+        dirName = dir;
+    }
+
+    /**
+     * Executes the task.
+     */
+    public void execute() throws BuildException
+    {
+        if ( dirName == null )
         {
-            manager = VFS.getManager();
+            final String message = Messages.getString( "vfs.tasks/no-directory-specified.error" );
+            throw new BuildException( message );
         }
-        return manager.resolveFile( getProject().getBaseDir(), uri );
+
+        try
+        {
+            final FileObject dir = resolveFile( dirName );
+            dir.create( FileType.FOLDER );
+        }
+        catch ( final FileSystemException e )
+        {
+            throw new BuildException( e );
+        }
     }
 }

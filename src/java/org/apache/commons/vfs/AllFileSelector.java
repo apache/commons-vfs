@@ -56,7 +56,7 @@
 package org.apache.commons.vfs;
 
 /**
- * A {@link FileSelector} which selects everything.
+ * A {@link FileSelector} that selects everything.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:17 $

@@ -56,13 +56,14 @@
 package org.apache.commons.vfs.tasks;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.Selectors;
-import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.util.Messages;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -78,16 +79,15 @@ import org.apache.tools.ant.Project;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/24 02:11:03 $
  *
- * @todo Detect collisions when more than one source files map to the same dest file
  * @todo Deal with case where dest file maps to a child of one of the source files
- * @todo Scan destination directory
- * @todo Use visitors
- * @todo Check last modified time
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
+ * @todo Use visitors
  * @todo Add default excludes
  * @todo Allow selector, mapper, filters, etc to be specified.
+ * @todo Handle source/dest directories as well
+ * @todo Allow selector to be specified for choosing which dest files to sync
  */
 public abstract class AbstractSyncTask
     extends VfsTask
@@ -203,15 +203,17 @@ public abstract class AbstractSyncTask
             if ( !srcFile.exists() )
             {
                 final String message =
-                    Messages.getString( "vfs.tasks/sync.src-file-no-exist.error", srcFile );
-                throw new BuildException( message );
+                    Messages.getString( "vfs.tasks/sync.src-file-no-exist.warn", srcFile );
+                log( message, Project.MSG_WARN );
             }
-            srcs.add( srcFile );
+            else
+            {
+                srcs.add( srcFile );
+            }
         }
 
-        // Scan the destination files
-
         // Scan the source files
+        final Set destFiles = new HashSet();
         for ( int i = 0; i < srcs.size(); i++ )
         {
             final FileObject rootFile = (FileObject)srcs.get( i );
@@ -223,7 +225,7 @@ public abstract class AbstractSyncTask
                 final FileObject destFile = destFolder.resolveFile( rootName.getBaseName(), NameScope.DESCENDENT );
 
                 // Do the copy
-                handleFile( rootFile, destFile );
+                handleFile( destFiles, rootFile, destFile );
             }
             else
             {
@@ -241,10 +243,47 @@ public abstract class AbstractSyncTask
                         destFolder.resolveFile( relName, NameScope.DESCENDENT );
 
                     // Do the copy
-                    handleFile( srcFile, destFile );
+                    handleFile( destFiles, srcFile, destFile );
                 }
             }
         }
+
+        // Scan the destination files for files with no source file
+        if ( detectMissingSourceFiles() )
+        {
+            final List extraFiles = destFolder.findFiles( Selectors.SELECT_FILES );
+            extraFiles.removeAll( destFiles );
+            final int count = extraFiles.size();
+            for ( int i = 0; i < count; i++ )
+            {
+                final FileObject destFile = (FileObject)extraFiles.get( i );
+                handleMissingSourceFile( destFile );
+            }
+        }
+    }
+
+    /**
+     * Handles a single file, checking for collisions where more than one
+     * source file maps to the same destination file.
+     */
+    private void handleFile( final Set destFiles,
+                             final FileObject srcFile,
+                             final FileObject destFile ) throws Exception
+
+    {
+        // Check for duplicate source files
+        if ( destFiles.contains( destFile ) )
+        {
+            final String message = Messages.getString( "vfs.tasks/sync.duplicate-source-files.warn", destFile );
+            log( message, Project.MSG_WARN );
+        }
+        else
+        {
+            destFiles.add( destFile );
+        }
+
+        // Handle the file
+        handleFile( srcFile, destFile );
     }
 
     /**
@@ -278,13 +317,62 @@ public abstract class AbstractSyncTask
 
     /**
      * Handles a single source file.
-     * @param srcFile
-     * @param destFile
-     * @throws FileSystemException
      */
-    protected abstract void handleFile( final FileObject srcFile,
+    private void handleFile( final FileObject srcFile,
+                             final FileObject destFile )
+        throws Exception
+    {
+        if ( !destFile.exists()
+            || srcFile.getContent().getLastModifiedTime() > destFile.getContent().getLastModifiedTime() )
+        {
+            // Destination file is out-of-date
+            handleOutOfDateFile( srcFile, destFile );
+        }
+        else
+        {
+            // Destination file is up-to-date
+            handleUpToDateFile( srcFile, destFile );
+        }
+    }
+
+    /**
+     * Handles an out-of-date file (a file where the destination file
+     * either doesn't exist, or is older than the source file).
+     * This implementation does nothing.
+     */
+    protected void handleOutOfDateFile( final FileObject srcFile,
                                         final FileObject destFile )
-        throws FileSystemException;
+        throws Exception
+    {
+    }
+
+    /**
+     * Handles an up-to-date file (where the destination file exists and is
+     * newer than the source file).  This implementation does nothing.
+     */
+    protected void handleUpToDateFile( final FileObject srcFile,
+                                       final FileObject destFile )
+        throws Exception
+    {
+    }
+
+    /**
+     * Handles a destination for which there is no corresponding source file.
+     * This implementation does nothing.
+     */
+    protected void handleMissingSourceFile( final FileObject destFile )
+        throws Exception
+    {
+    }
+
+    /**
+     * Check if this task cares about destination files with a missing source
+     * file.  This implementation returns false.
+     */
+    protected boolean detectMissingSourceFiles()
+    {
+        return false;
+    }
 
     /**
      * Information about a source file.

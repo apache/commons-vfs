@@ -55,35 +55,35 @@
  */
 package org.apache.commons.vfs.tasks;
 
-import org.apache.tools.ant.Task;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.VFS;
-import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.Selectors;
 
 /**
- * Base class for the VFS Ant tasks.  Provides some utility methods.
+ * A task that synchronises the destination folder to look exactly like
+ * the source folder (or folders).
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/24 02:11:03 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/24 02:11:03 $
  */
-public class VfsTask
-    extends Task
+public class SyncTask
+    extends CopyTask
 {
-    private FileSystemManager manager;
+    /**
+     * Handles a destination for which there is no corresponding source file.
+     */
+    protected void handleMissingSourceFile( final FileObject destFile )
+        throws Exception
+    {
+        log( "deleting " + destFile );
+        //destFile.delete( Selectors.SELECT_SELF );
+    }
 
     /**
-     * Resolves a URI to a file, relative to the project's base directory.
-     *
-     * @param uri The URI to resolve.
+     * Check if this task cares about destination files with a missing source
+     * file.
      */
-    protected FileObject resolveFile( final String uri )
-        throws FileSystemException
+    protected boolean detectMissingSourceFiles()
     {
-        if ( manager == null )
-        {
-            manager = VFS.getManager();
-        }
-        return manager.resolveFile( getProject().getBaseDir(), uri );
+        return true;
     }
 }

@@ -63,7 +63,7 @@ import org.apache.commons.vfs.Selectors;
  * An Ant task that moves matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/23 13:09:45 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/24 02:11:03 $
  *
  * @todo Delete matching folders
  */
@@ -73,11 +73,11 @@ public class MoveTask
     /**
      * Handles a single source file.
      */
-    protected void handleFile( final FileObject srcFile,
-                               final FileObject destFile )
+    protected void handleOutOfDateFile( final FileObject srcFile,
+                                        final FileObject destFile )
         throws FileSystemException
     {
-        super.handleFile( srcFile, destFile );
+        super.handleOutOfDateFile( srcFile, destFile );
         log( "Deleting " + srcFile );
         srcFile.delete( Selectors.SELECT_SELF );
     }

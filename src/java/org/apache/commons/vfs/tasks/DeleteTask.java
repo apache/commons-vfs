@@ -64,7 +64,7 @@ import org.apache.commons.vfs.Selectors;
  * An Ant task that deletes matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/24 02:11:03 $
  *
  * @todo Allow selector to be specified.
  */
@@ -97,7 +97,7 @@ public class DeleteTask
         {
             final FileObject srcFile = resolveFile( file );
             log( "Deleting " + srcFile );
-            //srcFile.delete( Selectors.SELECT_ALL );
+            srcFile.delete( Selectors.SELECT_ALL );
         }
         catch ( final Exception e )
         {
