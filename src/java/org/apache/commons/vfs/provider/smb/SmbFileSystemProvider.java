@@ -77,7 +77,7 @@ public final class SmbFileSystemProvider
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return new SmbFileName( uri );
+        return SmbFileName.parseUri( uri );
     }
 
     /**

@@ -55,75 +55,36 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
- * A name parser which parses absolute URIs.  See RFC 2396 for details.
+ * Utilities for dealing with URIs.  See RFC 2396 for details.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.7 $ $Date: 2002/04/07 02:27:56 $
  */
-public class UriParser
+public final class UriParser
 {
     /** The normalised separator to use. */
-    private final char separatorChar;
+    public static final char separatorChar = '/';
+
+    /** The normalised separator to use. */
+    public static final String separator = "/";
 
     /**
      * The set of valid separators.  These are all converted to the normalised one.
      * Does <i>not</i> contain the normalised separator
      */
-    private final char[] separators;
+    public static final char[] separators = { '\\' };
 
-    /**
-     * Creates a parser, using '/' and '\' as the path separators.
-     */
-    public UriParser()
+    private UriParser()
     {
-        this( null );
-    }
-
-    /**
-     * Creates a parser, using '/' and '\' as the path separators, along with
-     * a provider-specific set of separators.
-     *
-     * @param separators
-     *          Additional legal separator characters.  Any occurrences of
-     *          these in paths are replaced with the separator char.
-     */
-    protected UriParser( final char[] separators )
-    {
-        separatorChar = '/';
-
-        // Remove the separator char from the separators array
-        final HashSet set = new HashSet();
-        set.add( new Character( '\\' ) );
-        if ( separators != null )
-        {
-            for ( int i = 0; i < separators.length; i++ )
-            {
-                char separator = separators[ i ];
-                if ( separator == separatorChar )
-                {
-                    continue;
-                }
-                set.add( new Character( separator ) );
-            }
-        }
-        this.separators = new char[ set.size() ];
-        final Iterator iter = set.iterator();
-        for ( int i = 0; i < this.separators.length; i++ )
-        {
-            final Character ch = (Character)iter.next();
-            this.separators[ i ] = ch.charValue();
-        }
     }
 
     /**
      * Extracts the first element of a path.
      */
-    protected String extractFirstElement( final StringBuffer name )
+    public static String extractFirstElement( final StringBuffer name )
     {
         final int len = name.length();
         if ( len < 1 )
@@ -153,42 +114,6 @@ public class UriParser
     }
 
     /**
-     * Resolves a path, relative to a base path.  If the supplied path
-     * is an absolute path, it is normalised and returned.  If the supplied
-     * path is a relative path, it is resolved relative to the base path.
-     *
-     * @param basePath
-     *          A <i>normalised</i> path.
-     *
-     * @param path
-     *          The path to resolve.  Does not need to be normalised, but
-     *          does need to be a path (i.e. not an absolute URI).
-     *
-     */
-    public String resolvePath( final String basePath,
-                               final String path )
-        throws FileSystemException
-    {
-        final StringBuffer buffer = new StringBuffer( path );
-
-        // Adjust separators
-        fixSeparators( buffer );
-
-        // Determine whether to prepend the base path
-        if ( path.length() == 0 || path.charAt( 0 ) != separatorChar )
-        {
-            // Supplied path is not absolute
-            buffer.insert( 0, separatorChar );
-            buffer.insert( 0, basePath );
-        }
-
-        // Normalise the path
-        normalisePath( buffer );
-        return buffer.toString();
-    }
-
-
-    /**
      * Normalises a path.  Does the following:
      * <ul>
      * <li>Normalises separators, where more than one can be used.
@@ -197,7 +122,7 @@ public class UriParser
      * <li>Removes trailing separator.
      * </ul>
      */
-    public void normalisePath( final StringBuffer path )
+    public static void normalisePath( final StringBuffer path )
         throws FileSystemException
     {
         if ( path.length() == 0 )
@@ -280,9 +205,9 @@ public class UriParser
     }
 
     /**
-     * Adjusts the separators in a name.
+     * Normalises the separators in a name.
      */
-    protected boolean fixSeparators( final StringBuffer name )
+    public static boolean fixSeparators( final StringBuffer name )
     {
         if ( separators.length == 0 )
         {

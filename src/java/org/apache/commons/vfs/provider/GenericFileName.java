@@ -63,25 +63,32 @@ import org.apache.commons.vfs.FileSystemException;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:03 $
  */
 public class GenericFileName
     extends DefaultFileName
 {
-    private String userInfo;
-    private String hostName;
-    private String port;
+    private final String userInfo;
+    private final String hostName;
+    private final String port;
+
+    protected GenericFileName( final String scheme,
+                               final String rootUri,
+                               final String hostName,
+                               final String port,
+                               final String userInfo,
+                               final String path )
+    {
+        super( scheme, rootUri, path );
+        this.hostName = hostName;
+        this.port = port;
+        this.userInfo = userInfo;
+    }
 
     /** Returns the user info part of the URI. */
     public String getUserInfo()
     {
         return userInfo;
-    }
-
-    /** Sets the user info part of the URI. */
-    public void setUserInfo( final String userInfo )
-    {
-        this.userInfo = userInfo;
     }
 
     /** Returns the host name part of the URI. */
@@ -90,49 +97,10 @@ public class GenericFileName
         return hostName;
     }
 
-    /** Sets the host name part of the URI. */
-    public void setHostName( final String hostName )
-    {
-        this.hostName = hostName;
-    }
-
     /** Returns the port part of the URI. */
     public String getPort()
     {
         return port;
-    }
-
-    /** Sets the port part of the URI. */
-    public void setPort( final String port )
-    {
-        this.port = port;
-    }
-
-    /**
-     * Parses a generic URI.  Briefly, a generic URI looks like:
-     *
-     * <pre>
-     * &lt;scheme> '://' [ &lt;userinfo> '@' ] &lt;hostname> [ ':' &lt;port> ] '/' &lt;path>
-     * </pre>
-     *
-     * <p>This method differs from the RFC, in that either / or \ is allowed
-     * as a path separator.
-     *
-     * @param uri
-     *          The URI to parse.
-     */
-    protected void parseGenericUri( final String uri )
-        throws FileSystemException
-    {
-        final StringBuffer name = new StringBuffer();
-
-        // Extract the scheme and authority parts
-        extractToPath( uri, name );
-
-        // Decode and normalise the file name
-        decode( name, 0, name.length() );
-        normalisePath( name );
-        setPath( name.toString() );
     }
 
     /**
@@ -145,13 +113,14 @@ public class GenericFileName
      * @param name
      *          Used to return the remainder of the URI.
      */
-    protected void extractToPath( final String uri,
-                                  final StringBuffer name )
+    protected static Authority extractToPath( final String uri,
+                                              final StringBuffer name )
         throws FileSystemException
     {
+        final Authority auth = new Authority();
+
         // Extract the scheme
-        final String scheme = extractScheme( uri, name );
-        setScheme( scheme );
+        auth.scheme = UriParser.extractScheme( uri, name );
 
         // Expecting "//"
         if ( name.length() < 2 || name.charAt( 0 ) != '/' || name.charAt( 1 ) != '/' )
@@ -161,16 +130,15 @@ public class GenericFileName
         name.delete( 0, 2 );
 
         // Extract userinfo
-        final String userInfo = extractUserInfo( name );
-        setUserInfo( userInfo );
+        auth.userInfo = extractUserInfo( name );
 
-        // Extract hostname, and normalise
+        // Extract hostname, and normalise (lowercase)
         final String hostName = extractHostName( name );
         if ( hostName == null )
         {
             throw new FileSystemException( "vfs.provider/missing-hostname.error", uri );
         }
-        setHostName( hostName.toLowerCase() );
+        auth.hostName = hostName.toLowerCase();
 
         // Extract port
         final String port = extractPort( name );
@@ -178,20 +146,22 @@ public class GenericFileName
         {
             throw new FileSystemException( "vfs.provider/missing-port.error", uri );
         }
-        setPort( port );
+        auth.port = port;
 
         // Expecting '/' or empty name
         if ( name.length() > 0 && name.charAt( 0 ) != '/' )
         {
             throw new FileSystemException( "vfs.provider/missing-hostname-path-sep.error", uri );
         }
+
+        return auth;
     }
 
     /**
      * Extracts the user info from a URI.  The <scheme>:// part has been removed
      * already.
      */
-    protected String extractUserInfo( final StringBuffer name )
+    protected static String extractUserInfo( final StringBuffer name )
     {
         final int maxlen = name.length();
         for ( int pos = 0; pos < maxlen; pos++ )
@@ -219,7 +189,7 @@ public class GenericFileName
      * Extracts the hostname from a URI.  The <scheme>://<userinfo>@ part has
      * been removed.
      */
-    protected String extractHostName( final StringBuffer name )
+    protected static String extractHostName( final StringBuffer name )
     {
         final int maxlen = name.length();
         int pos = 0;
@@ -247,7 +217,7 @@ public class GenericFileName
      * Extracts the port from a URI.  The <scheme>://<userinfo>@<hostname>
      * part has been removed.
      */
-    protected String extractPort( final StringBuffer name )
+    protected static String extractPort( final StringBuffer name )
     {
         if ( name.length() < 1 || name.charAt( 0 ) != ':' )
         {
@@ -273,18 +243,19 @@ public class GenericFileName
     /**
      * Assembles a generic URI, appending to the supplied StringBuffer.
      */
-    protected void appendRootUri( final StringBuffer rootUri )
+    protected static void appendRootUri( final Authority auth,
+                                         final StringBuffer rootUri )
     {
-        rootUri.append( getScheme() );
+        rootUri.append( auth.scheme );
         rootUri.append( "://" );
-        final String userInfo = getUserInfo();
+        final String userInfo = auth.userInfo;
         if ( userInfo != null && userInfo.length() != 0 )
         {
             rootUri.append( userInfo );
             rootUri.append( "@" );
         }
-        rootUri.append( getHostName() );
-        final String port = getPort();
+        rootUri.append( auth.hostName );
+        final String port = auth.port;
         if ( port != null && port.length() > 0 )
         {
             rootUri.append( ":" );
@@ -292,4 +263,12 @@ public class GenericFileName
         }
     }
 
+    /** Parsed authority info (scheme, hostname, userinfo, port) */
+    protected static class Authority
+    {
+        public String scheme;
+        public String hostName;
+        public String userInfo;
+        public String port;
+    }
 }

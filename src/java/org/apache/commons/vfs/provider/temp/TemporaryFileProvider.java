@@ -70,13 +70,12 @@ import org.apache.commons.vfs.provider.local.LocalFileSystem;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/01/23 12:27:26 $
+ * @version $Revision: 1.5 $ $Date: 2003/01/24 00:20:04 $
  */
 public class TemporaryFileProvider
     extends AbstractFileSystemProvider
     implements FileProvider
 {
-    private final UriParser parser = new UriParser();
     private File rootFile;
 
     public TemporaryFileProvider( final File rootFile )
@@ -96,9 +95,9 @@ public class TemporaryFileProvider
     {
         // Parse the name
         final StringBuffer buffer = new StringBuffer( uri );
-        final String scheme = parser.extractScheme( uri, buffer );
-        parser.decode( buffer, 0, buffer.length() );
-        parser.normalisePath( buffer );
+        final String scheme = UriParser.extractScheme( uri, buffer );
+        UriParser.decode( buffer, 0, buffer.length() );
+        UriParser.normalisePath( buffer );
         final String path = buffer.toString();
 
         // Create the temp file system if it does not exist

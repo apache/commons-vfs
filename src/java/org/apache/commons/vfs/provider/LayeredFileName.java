@@ -59,12 +59,21 @@ package org.apache.commons.vfs.provider;
  * A file name for layered files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/23 12:27:23 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:03 $
  */
 public class LayeredFileName
     extends DefaultFileName
 {
-    private String outerUri;
+    private final String outerUri;
+
+    protected LayeredFileName( final String scheme,
+                               final String rootUri,
+                               final String outerUri,
+                               final String path )
+    {
+        super( scheme, rootUri, path );
+        this.outerUri = outerUri;
+    }
 
     /**
      * Returns the URI of the outer file.
@@ -72,10 +81,5 @@ public class LayeredFileName
     public String getOuterUri()
     {
         return outerUri;
-    }
-
-    public void setOuterUri( final String outerUri )
-    {
-        this.outerUri = outerUri;
     }
 }

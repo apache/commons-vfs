@@ -66,72 +66,41 @@ import org.apache.commons.vfs.NameScope;
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:17 $
  */
 public class DefaultFileName
-    extends UriParser
     implements FileName
 {
-    private static final char separatorChar = '/';
-    private static final String separator = "/";
+    public static final char separatorChar = UriParser.separatorChar;
+    public static final String separator = UriParser.separator;
 
-    private String scheme;
-    private String rootUri;
-    private String absPath;
+    private final String scheme;
+    private final String rootUri;
+    private final String absPath;
 
     // Cached stuff
     private String uri;
     private String baseName;
 
     public DefaultFileName( final String scheme,
-                            final String rootPrefix,
+                            final String rootUri,
                             final String absPath )
     {
-        setScheme( scheme );
-        setRootURI( rootPrefix );
-        setPath( absPath );
+        this.scheme = scheme;
+        this.absPath = absPath;
+
+        // Remove trailing separator, if any
+        if ( rootUri.endsWith( separator ) )
+        {
+            this.rootUri = rootUri.substring( 0, rootUri.length() - 1 );
+        }
+        else
+        {
+            this.rootUri = rootUri;
+        }
     }
 
     public DefaultFileName( final String rootUri,
                             final String absPath )
     {
-        this( extractScheme( rootUri ), rootUri, absPath );
-    }
-
-    /**
-     * @todo Get rid of this and make fields final again.
-     */
-    protected DefaultFileName()
-    {
-    }
-
-    /**
-     * Sets the scheme for this filename.
-     */
-    protected void setScheme( final String scheme )
-    {
-        this.scheme = scheme;
-    }
-
-    /**
-     * Sets the path for this filename.
-     */
-    protected void setPath( final String absPath )
-    {
-        this.absPath = absPath;
-    }
-
-    /**
-     * Sets the root URI for this filename.
-     */
-    protected void setRootURI( final String uri )
-    {
-        // Remove trailing separator, if any
-        if ( uri.endsWith( separator ) )
-        {
-            this.rootUri = uri.substring( 0, uri.length() - 1 );
-        }
-        else
-        {
-            this.rootUri = uri;
-        }
+        this( UriParser.extractScheme( rootUri ), rootUri, absPath );
     }
 
     /**
@@ -161,7 +130,8 @@ public class DefaultFileName
 
     /**
      * Factory method for creating name instances.  Can be overridden.
-     * @param absPath
+     *
+     * @todo Implement this for all subclasses
      */
     protected FileName createName( final String absPath )
     {
@@ -199,13 +169,30 @@ public class DefaultFileName
     }
 
     /**
-     * Returns the name of a child of the file.
+     * Resolves a name, relative to this file name.
      */
     public FileName resolveName( final String name,
                                  final NameScope scope )
         throws FileSystemException
     {
-        final String resolvedPath = resolvePath( absPath, name );
+        final StringBuffer buffer = new StringBuffer( name );
+
+        // Adjust separators
+        UriParser.fixSeparators( buffer );
+
+        // Determine whether to prepend the base path
+        if ( name.length() == 0 || name.charAt( 0 ) != separatorChar )
+        {
+            // Supplied path is not absolute
+            buffer.insert( 0, separatorChar );
+            buffer.insert( 0, absPath );
+        }
+
+        // Normalise the path
+        UriParser.normalisePath( buffer );
+
+        // Check the name is ok
+        final String resolvedPath = buffer.toString();
         if ( !checkName( absPath, resolvedPath, scope ) )
         {
             throw new FileSystemException( "vfs.provider/invalid-descendent-name.error", name );

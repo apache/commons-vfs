@@ -57,48 +57,62 @@ package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.LayeredFileName;
+import org.apache.commons.vfs.provider.UriParser;
 
 /**
  * A parser for Zip file names.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:04 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
  */
 public class ZipFileName
     extends LayeredFileName
 {
     private static final char[] ZIP_URL_RESERVED_CHARS = {'!'};
 
-    public ZipFileName( final String uri )
+    public ZipFileName( final String scheme,
+                        final String zipFileUri,
+                        final String path )
+    {
+        super( scheme,
+               formatRootUri( scheme, zipFileUri ),
+               zipFileUri, path );
+    }
+
+    /**
+     * Assembles the root URI for a Zip file.
+     */
+    private static String formatRootUri( final String scheme,
+                                         final String outerFileUri )
+    {
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append( scheme );
+        buffer.append( ":" );
+        UriParser.appendEncoded( buffer, outerFileUri, ZIP_URL_RESERVED_CHARS );
+        buffer.append( "!" );
+        return buffer.toString();
+    }
+
+    /**
+     * Parses a Zip URI.
+     */
+    public static ZipFileName parseUri( final String uri )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
         // Extract the scheme
-        final String scheme = extractScheme( uri, name );
-        setScheme( scheme );
+        final String scheme = UriParser.extractScheme( uri, name );
 
         // Extract the Zip file URI
         final String zipUri = extractZipName( name );
-        setOuterUri( zipUri );
 
         // Decode and normalise the path
-        decode( name, 0, name.length() );
-        normalisePath( name );
-        setPath( name.toString() );
-    }
+        UriParser.decode( name, 0, name.length() );
+        UriParser.normalisePath( name );
+        final String path = name.toString();
 
-    public ZipFileName( final String scheme,
-                              final String outerFileUri,
-                              final String path )
-    {
-        final StringBuffer rootUri = new StringBuffer();
-        rootUri.append( scheme );
-        rootUri.append( ":" );
-        appendEncoded( rootUri, outerFileUri, ZIP_URL_RESERVED_CHARS );
-        rootUri.append( "!" );
-        setRootURI( rootUri.toString() );
-        setPath( path );
+        return new ZipFileName( scheme, zipUri, path );
     }
 
     /**
@@ -126,6 +140,6 @@ public class ZipFileName
         }
 
         // Decode the name
-        return decode( prefix );
+        return UriParser.decode( prefix );
     }
 }

@@ -123,7 +123,7 @@ public final class DefaultLocalFileSystemProvider
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return new LocalFileName( uri, parser );
+        return LocalFileName.parseUri( uri, parser );
     }
 
     /**

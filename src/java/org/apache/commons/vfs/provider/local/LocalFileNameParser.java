@@ -55,7 +55,6 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import java.io.File;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.UriParser;
 
@@ -66,13 +65,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * @version $Revision: 1.5 $ $Date: 2002/03/09 10:31:30 $
  */
 abstract class LocalFileNameParser
-    extends UriParser
 {
-    public LocalFileNameParser()
-    {
-        super( new char[]{File.separatorChar, '/', '\\'} );
-    }
-
     /**
      * Determines if a name is an absolute file name.
      */
@@ -82,7 +75,7 @@ abstract class LocalFileNameParser
         StringBuffer b = new StringBuffer( name );
         try
         {
-            fixSeparators( b );
+            UriParser.fixSeparators( b );
             extractRootPrefix( name, b );
             return true;
         }

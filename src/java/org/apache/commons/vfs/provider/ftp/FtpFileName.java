@@ -56,6 +56,7 @@
 package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
@@ -63,69 +64,105 @@ import org.apache.commons.vfs.FileSystemException;
  * password.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
  */
 class FtpFileName
     extends GenericFileName
 {
-    private String userName;
-    private String password;
+    private final String userName;
+    private final String password;
 
-    public FtpFileName( final String uri )
+    private FtpFileName( final String scheme,
+                         final String rootUri,
+                         final String hostName,
+                         final String port,
+                         final String userInfo,
+                         final String userName,
+                         final String password,
+                         final String path )
+    {
+        super( scheme, rootUri, hostName, port, userInfo, path );
+        this.password = password;
+        this.userName = userName;
+    }
+
+    /**
+     * Parses an FTP URI.
+     */
+    public static FtpFileName parseUri( final String uri )
         throws FileSystemException
     {
         // FTP URI are generic URI (as per RFC 2396)
-        parseGenericUri( uri );
+        final StringBuffer name = new StringBuffer();
+
+        // Extract the scheme and authority parts
+        final Authority auth = extractToPath( uri, name );
+
+        // Decode and normalise the file name
+        UriParser.decode( name, 0, name.length() );
+        UriParser.normalisePath( name );
+        final String path = name.toString();
 
         // Drop the port if it is 21
-        final String port = getPort();
+        final String port = auth.port;
         if ( port != null && port.equals( "21" ) )
         {
-            setPort( null );
+            auth.port = null;
         }
 
         // Split up the userinfo into a username and password
         // TODO - push this into GenericFileName
-        final String userInfo = getUserInfo();
+        final String userInfo = auth.userInfo;
+        final String userName;
+        final String password;
         if ( userInfo != null )
         {
             int idx = userInfo.indexOf( ':' );
             if ( idx == -1 )
             {
-                setUserName( userInfo );
+                userName = userInfo;
+                password = null;
             }
             else
             {
-                String userName = userInfo.substring( 0, idx );
-                String password = userInfo.substring( idx + 1 );
-                setUserName( userName );
-                setPassword( password );
+                userName = userInfo.substring( 0, idx );
+                password = userInfo.substring( idx + 1 );
             }
+        }
+        else
+        {
+            userName = null;
+            password = null;
         }
 
         // Now build the root URI
-        final StringBuffer rootUri = new StringBuffer();
-        appendRootUri( rootUri );
-        setRootURI( rootUri.toString() );
+        final StringBuffer buffer = new StringBuffer();
+        appendRootUri( auth, buffer );
+        final String rootUri = buffer.toString();
+
+        return new FtpFileName( auth.scheme,
+                                rootUri,
+                                auth.hostName,
+                                auth.port,
+                                auth.userInfo,
+                                userName,
+                                password,
+                                path );
     }
 
+    /**
+     * Returns the user name.
+     */
     public String getUserName()
     {
         return userName;
     }
 
-    public void setUserName( final String userName )
-    {
-        this.userName = userName;
-    }
-
+    /**
+     * Returns the password.
+     */
     public String getPassword()
     {
         return password;
-    }
-
-    public void setPassword( final String password )
-    {
-        this.password = password;
     }
 }

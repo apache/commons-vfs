@@ -79,7 +79,7 @@ public class ZipFileSystemProvider
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return new ZipFileName( uri );
+        return ZipFileName.parseUri( uri );
     }
 
     /**

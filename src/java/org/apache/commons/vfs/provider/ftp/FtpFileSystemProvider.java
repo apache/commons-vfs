@@ -75,7 +75,7 @@ public final class FtpFileSystemProvider
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return new FtpFileName( uri );
+        return FtpFileName.parseUri( uri );
     }
 
     /**

@@ -56,62 +56,82 @@
 package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
  */
 class SmbFileName
     extends GenericFileName
 {
-    private String share;
+    private final String share;
 
-    public SmbFileName( final String uri )
+    private SmbFileName( final String scheme,
+                         final String rootUri,
+                         final String hostName,
+                         final String port,
+                         final String userInfo,
+                         final String share,
+                         final String path )
+    {
+        super( scheme, rootUri, hostName, port, userInfo, path );
+        this.share = share;
+    }
+
+    /**
+     * Parses an SMB URI.
+     */
+    public static SmbFileName parseUri( final String uri )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
         // Extract the scheme and authority parts
-        extractToPath( uri, name );
+        final Authority auth = extractToPath( uri, name );
 
         // TODO - drop the default port
 
         // Decode and adjust separators
-        decode( name, 0, name.length() );
-        fixSeparators( name );
+        UriParser.decode( name, 0, name.length() );
+        UriParser.fixSeparators( name );
 
         // Extract the share
-        final String share = extractFirstElement( name );
+        final String share = UriParser.extractFirstElement( name );
         if ( share == null )
         {
             throw new FileSystemException( "vfs.provider.smb/missing-share-name.error", uri );
         }
-        setShare( share );
 
-        // Normalise the path
-        normalisePath( name );
-
-        // Set the path
-        setPath( name.toString() );
+        // Normalise the path.  Do this after extracting the share name,
+        // to deal with things like smb://hostname/share/..
+        UriParser.normalisePath( name );
+        final String path = name.toString();
 
         // Set the root URI
-        StringBuffer rootUri = new StringBuffer();
-        appendRootUri( rootUri );
-        rootUri.append( '/' );
-        rootUri.append( share );
-        setRootURI( rootUri.toString() );
+        StringBuffer buffer = new StringBuffer();
+        appendRootUri( auth, buffer );
+        buffer.append( '/' );
+        buffer.append( share );
+        final String rootUri = buffer.toString();
+
+        return new SmbFileName( auth.scheme,
+                                rootUri,
+                                auth.hostName,
+                                auth.port,
+                                auth.userInfo,
+                                share,
+                                path );
     }
 
+    /**
+     * Returns the share name.
+     */
     public String getShare()
     {
         return share;
-    }
-
-    public void setShare( final String share )
-    {
-        this.share = share;
     }
 }

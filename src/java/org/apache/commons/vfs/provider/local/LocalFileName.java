@@ -57,54 +57,68 @@ package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.DefaultFileName;
+import org.apache.commons.vfs.provider.UriParser;
 
 /**
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
+ * @version $Revision: 1.2 $ $Date: 2003/01/24 00:20:04 $
  */
 class LocalFileName
     extends DefaultFileName
 {
-    private String rootFile;
+    private final String rootFile;
 
-    public LocalFileName( final String uri, final LocalFileNameParser parser )
+    private LocalFileName( final String scheme,
+                           final String rootUri,
+                           final String rootFile,
+                           final String path )
+    {
+        super( scheme, rootUri, path );
+        this.rootFile = rootFile;
+    }
+
+    /**
+     * Parses an absolute file URI.
+     *
+     * @todo Make parser a static field
+     */
+    public static LocalFileName parseUri( final String uri,
+                                          final LocalFileNameParser parser )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
         // Extract the scheme
-        final String scheme = extractScheme( uri, name );
-        setScheme( scheme );
+        final String scheme = UriParser.extractScheme( uri, name );
 
         // Remove encoding, and adjust the separators
-        decode( name, 0, name.length() );
-        fixSeparators( name );
+        UriParser.decode( name, 0, name.length() );
+        UriParser.fixSeparators( name );
 
         // Extract the root prefix
         final String rootFile = parser.extractRootPrefix( uri, name );
-        setRootFile( rootFile );
 
         // Normalise the path
-        normalisePath( name );
-        setPath( name.toString() );
+        UriParser.normalisePath( name );
+        final String path = name.toString();
 
         // Build the root URI
-        final StringBuffer rootUri = new StringBuffer();
-        rootUri.append( scheme );
-        rootUri.append( "://" );
-        rootUri.append( rootFile );
-        setRootURI( rootUri.toString() );
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append( scheme );
+        buffer.append( "://" );
+        buffer.append( rootFile );
+        final String rootUri = buffer.toString();
+
+        return new LocalFileName( scheme, rootUri, rootFile, path );
     }
 
+    /**
+     * Returns the root file for this file.
+     */
     public String getRootFile()
     {
         return rootFile;
-    }
-
-    public void setRootFile( final String rootPrefix )
-    {
-        rootFile = rootPrefix;
     }
 }
