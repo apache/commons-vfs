@@ -78,9 +78,7 @@ public class FtpProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        final ProviderTestSuite suite = new ProviderTestSuite( new FtpProviderTestCase() );
-        suite.addTests( FileNameTests.class );
-        return suite;
+        return new ProviderTestSuite( new FtpProviderTestCase() );
     }
 
     /**
