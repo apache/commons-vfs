@@ -15,8 +15,11 @@
  */
 package org.apache.commons.vfs;
 
+import org.apache.commons.logging.Log;
+
 import java.io.File;
 import java.net.URLStreamHandlerFactory;
+import java.util.Collection;
 
 /**
  * A FileSystemManager manages a set of file systems.  This interface is
@@ -196,14 +199,31 @@ public interface FileSystemManager
     FilesCache getFilesCache();
 
     /**
-     * Gets the system info. e.g. Available schemes, provider configuration builder, ...
-     */
-    SystemInfo getSystemInfo();
-
-    /**
      * The class to use to determine the content-type (mime-type)
-     *
-     * @return
      */
     FileContentInfoFactory getFileContentInfoFactory();
+
+    /**
+     * Get the schemes currently available.
+     */
+    public String[] getSchemes();
+
+    /**
+     * Get the capabilities for a given scheme.
+     *
+     * @throws FileSystemException if the given scheme is not konwn
+     */
+    public Collection getProviderCapabilities(final String scheme) throws FileSystemException;
+
+    /**
+     * Sets the logger to use.
+     */
+    public void setLogger(final Log log);
+
+    /**
+     * Get the configuration builder for the given scheme
+     *
+     * @throws FileSystemException if the given scheme is not konwn
+     */
+    public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException;
 }

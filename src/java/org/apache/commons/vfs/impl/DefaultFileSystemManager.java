@@ -18,11 +18,11 @@ package org.apache.commons.vfs.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
-import org.apache.commons.vfs.SystemInfo;
 import org.apache.commons.vfs.cache.DefaultFilesCache;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
@@ -100,27 +100,6 @@ public class DefaultFileSystemManager
      */
     private final DefaultVfsComponentContext context =
         new DefaultVfsComponentContext(this);
-
-    private final SystemInfo vfsSystemInfo = new SystemInfo()
-    {
-        public String[] getSchemes()
-        {
-            String schemes[] = new String[providers.size()];
-            providers.keySet().toArray(schemes);
-            return schemes;
-        }
-
-        public Collection getProviderCapabilities(String scheme) throws FileSystemException
-        {
-            FileProvider provider = (FileProvider) providers.get(scheme);
-            if (provider == null)
-            {
-                throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[]{scheme});
-            }
-
-            return provider.getCapabilities();
-        }
-    };
 
     private TemporaryFileStore tempFileStore;
     private final FileTypeMap map = new FileTypeMap();
@@ -639,12 +618,44 @@ public class DefaultFileSystemManager
     }
 
     /**
-     * get the system info. e.g. schemes, provider
-     *
-     * @return
+     * Get the schemes currently available.
      */
-    public SystemInfo getSystemInfo()
+    public String[] getSchemes()
     {
-        return vfsSystemInfo;
+        String schemes[] = new String[providers.size()];
+        providers.keySet().toArray(schemes);
+        return schemes;
+    }
+
+    /**
+     * Get the capabilities for a given scheme.
+     *
+     * @throws FileSystemException if the given scheme is not konwn
+     */
+    public Collection getProviderCapabilities(final String scheme) throws FileSystemException
+    {
+        FileProvider provider = (FileProvider) providers.get(scheme);
+        if (provider == null)
+        {
+            throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[]{scheme});
+        }
+
+        return provider.getCapabilities();
+    }
+
+    /**
+     * Get the configuration builder for the given scheme
+     *
+     * @throws FileSystemException if the given scheme is not konwn
+     */
+    public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException
+    {
+        FileProvider provider = (FileProvider) providers.get(scheme);
+        if (provider == null)
+        {
+            throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[]{scheme});
+        }
+
+        return provider.getConfigBuilder();
     }
 }
