@@ -56,27 +56,49 @@
 package org.apache.commons.vfs.provider.webdav;
 
 import java.util.Collection;
+import java.io.IOException;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.util.HttpURL;
+import org.apache.webdav.lib.WebdavResource;
 
 /**
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/15 00:17:06 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/15 02:35:35 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    public WebDavFileSystem( final GenericFileName rootName )
+    private final HttpClient client;
+
+    public WebDavFileSystem( final GenericFileName rootName ) throws FileSystemException
     {
         super( rootName, null );
+
+        // Create an Http client
+        try
+        {
+            final HttpURL url = new HttpURL( rootName.getUserName(),
+                                             rootName.getPassword(),
+                                             rootName.getHostName(),
+                                             rootName.getPort(),
+                                             "/" );
+            final WebdavResource resource = new WebdavResource( url, WebdavResource.NOACTION, 1 );
+            client = resource.retrieveSessionInstance();
+        }
+        catch ( final IOException e )
+        {
+            throw new FileSystemException( "vfs.provider.webdav/create-client.error", rootName, e );
+        }
     }
 
     /**
@@ -94,13 +116,21 @@ class WebDavFileSystem
     }
 
     /**
+     * Returns the client for this file system.
+     */
+    protected HttpClient getClient()
+    {
+        return client;
+    }
+
+    /**
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
     protected FileObject createFile( final FileName name )
         throws FileSystemException
     {
-        final GenericFileName rootName = (GenericFileName)name;
-        return new WebdavFileObject( rootName, this );
+        final GenericFileName fileName = (GenericFileName)name;
+        return new WebdavFileObject( fileName, this );
     }
 }

@@ -64,59 +64,68 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.util.HttpURL;
 import org.apache.webdav.lib.WebdavResource;
+import org.apache.webdav.lib.methods.OptionsMethod;
 
 /**
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/15 00:17:06 $
+ * @version $Revision: 1.2 $ $Date: 2003/02/15 02:35:35 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
     implements FileObject
 {
+    private final WebDavFileSystem fileSystem;
     private WebdavResource resource;
     private HttpURL url;
 
     public WebdavFileObject( final GenericFileName name,
-                             final AbstractFileSystem fileSystem ) throws FileSystemException
+                             final WebDavFileSystem fileSystem ) throws FileSystemException
     {
         super( name, fileSystem );
+        this.fileSystem = fileSystem;
+    }
+
+    /**
+     * Attaches this file object to its file resource.  This method is called
+     * before any of the doBlah() or onBlah() methods.  Sub-classes can use
+     * this method to perform lazy initialisation.
+     *
+     * This implementation does nothing.
+     */
+    protected void doAttach() throws Exception
+    {
+        final GenericFileName name = (GenericFileName)getName();
+        url = new HttpURL( name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPath() );
+        resource = new WebdavResource( fileSystem.getClient() ) { };
+        resource.setHttpURL( url, WebdavResource.NOACTION, 1 );
     }
 
     /**
      * Determines the type of the file, returns null if the file does not
      * exist.
      *
-     * @todo Pool and reuse the connections
      * @todo Bail if file is not a DAV resource
      */
     protected FileType doGetType() throws Exception
     {
-        final GenericFileName name = (GenericFileName)getName();
-        url = new HttpURL( name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPath() );
-        resource = new WebdavResource( url, WebdavResource.NOACTION, 1 );
-
         // Determine whether the resource exists, and whether it is a DAV resource
-        boolean ok = resource.optionsMethod();
-        if ( !ok )
+        final OptionsMethod optionsMethod = new OptionsMethod( getName().getPath() );
+        optionsMethod.setFollowRedirects( true );
+        final int status = fileSystem.getClient().executeMethod( optionsMethod );
+        if ( status < 200 || status > 299 )
         {
-            resource.getHttpURL().setPath( getName().getPath() + '/' );
-            ok = resource.optionsMethod();
-            if ( !ok )
-            {
-                return null;
-            }
+            return null;
         }
+        resource.getHttpURL().setPath( optionsMethod.getPath() );
 
         boolean exists = false;
-        for ( Enumeration enum = resource.getAllowedMethods(); enum.hasMoreElements(); )
+        for ( Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements(); )
         {
             final String method = (String)enum.nextElement();
             if ( method.equals( "GET" ) )
@@ -125,13 +134,6 @@ public class WebdavFileObject
                 break;
             }
         }
-        boolean isDavResource = false;
-        for ( Enumeration enum = resource.getDavCapabilities(); enum.hasMoreElements(); )
-        {
-            isDavResource = true;
-            break;
-        }
-
         if ( !exists )
         {
             return null;
@@ -167,6 +169,7 @@ public class WebdavFileObject
      */
     protected void doCreateFolder() throws Exception
     {
+        // Adjust resource path
         resource.getHttpURL().setPath( getName().getPath() + '/' );
         final boolean ok = resource.mkcolMethod();
         if ( !ok )
@@ -192,7 +195,7 @@ public class WebdavFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return new WebdavInputStream( resource );
+        return resource.getMethodData();
     }
 
     /**
@@ -211,33 +214,10 @@ public class WebdavFileObject
         return resource.getGetContentLength();
     }
 
-    /** An InputStream that reads from a Webdav resource. */
-    private static class WebdavInputStream
-        extends MonitorInputStream
-    {
-        private final WebdavResource resource;
-
-        public WebdavInputStream( final WebdavResource resource )
-            throws Exception
-        {
-            super( resource.getMethodData() );
-            this.resource = resource;
-        }
-
-        /**
-         * Called after the stream has been closed.
-         */
-        protected void onClose() throws IOException
-        {
-            // TODO - clean up
-            //resource.close();
-        }
-    }
-
     /**
      * An OutputStream that writes to a Webdav resource.
      *
-     * @todo Don't gather up the body in a ByteArrayOutputStream, write directly to connection
+     * @todo Don't gather up the body in a ByteArrayOutputStream; need to write directly to connection
      */
     private class WebdavOutputStream
         extends MonitorOutputStream
@@ -254,6 +234,7 @@ public class WebdavFileObject
         {
             final ByteArrayOutputStream outstr = (ByteArrayOutputStream)out;
 
+            // Adjust the resource path (this file object may have been a folder)
             resource.getHttpURL().setPath( getName().getPath() );
             final boolean ok = resource.putMethod( outstr.toByteArray() );
             if ( !ok )
