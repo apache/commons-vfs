@@ -132,12 +132,8 @@ public final class DefaultLocalFileSystemProvider
     protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        // Build the name of the root file.
-        final LocalFileName fileUri = (LocalFileName)name;
-        final String rootFile = fileUri.getRootFile();
-
         // Create the file system
-        final FileName rootName = fileUri.resolveName( FileName.ROOT_PATH );
-        return new LocalFileSystem( rootName, rootFile );
+        final LocalFileName rootName = (LocalFileName)name;
+        return new LocalFileSystem( rootName, rootName.getRootFile() );
     }
 }

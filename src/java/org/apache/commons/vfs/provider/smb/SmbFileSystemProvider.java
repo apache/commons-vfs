@@ -86,8 +86,6 @@ public final class SmbFileSystemProvider
     protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        final SmbFileName smbUri = (SmbFileName)name;
-        final FileName rootName = smbUri.resolveName( FileName.ROOT_PATH );
-        return new SmbFileSystem( rootName );
+        return new SmbFileSystem( name );
     }
 }

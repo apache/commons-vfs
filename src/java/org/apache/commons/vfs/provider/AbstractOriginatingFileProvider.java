@@ -66,7 +66,7 @@ import org.apache.commons.vfs.FileName;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2003/02/12 07:56:13 $
+ * @version $Revision: 1.11 $ $Date: 2003/02/15 00:07:45 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider
@@ -102,13 +102,13 @@ public abstract class AbstractOriginatingFileProvider
         throws FileSystemException
     {
         // Check in the cache for the file system
-        final String rootUri = name.getRootURI();
-        FileSystem fs = findFileSystem( rootUri );
+        final FileName rootName = name.resolveName( FileName.ROOT_PATH );
+        FileSystem fs = findFileSystem( rootName );
         if ( fs == null )
         {
             // Need to create the file system, and cache it
-            fs = doCreateFileSystem( name );
-            addFileSystem( rootUri, fs );
+            fs = doCreateFileSystem( rootName );
+            addFileSystem( rootName, fs );
         }
 
         // Locate the file
@@ -116,7 +116,7 @@ public abstract class AbstractOriginatingFileProvider
     }
 
     /**
-     * Parses a URI.
+     * Parses an absolute URI.
      *
      * @return The name of the file.  This name is used to locate the file
      *         system in the cache, using the root URI.  This name is also
@@ -126,11 +126,11 @@ public abstract class AbstractOriginatingFileProvider
         throws FileSystemException;
 
     /**
-     * Creates a filesystem.  The file system may implement {@link VfsComponent}.
+     * Creates a {@link FileSystem}.  If the returned FileSystem implements
+     * {@link VfsComponent}, it will be initialised.
      *
-     * @param name The name of the file to create the file system for.
+     * @param rootName The name of the root file of the file system to create.
      */
-    protected abstract FileSystem doCreateFileSystem( final FileName name )
+    protected abstract FileSystem doCreateFileSystem( final FileName rootName )
         throws FileSystemException;
-
 }

@@ -64,21 +64,24 @@ import org.apache.commons.vfs.FileName;
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/12 07:56:16 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/15 00:07:45 $
  */
 public class SmbFileName
     extends GenericFileName
 {
+    private static final int DEFAULT_PORT = 139;
+
     private final String share;
 
     private SmbFileName( final String scheme,
                          final String hostName,
                          final int port,
-                         final String userInfo,
+                         final String userName,
+                         final String password,
                          final String share,
                          final String path )
     {
-        super( scheme, hostName, port, userInfo, path );
+        super( scheme, hostName, port, DEFAULT_PORT, userName, password, path );
         this.share = share;
     }
 
@@ -112,7 +115,8 @@ public class SmbFileName
         return new SmbFileName( auth.scheme,
                                 auth.hostName,
                                 auth.port,
-                                auth.userInfo,
+                                auth.userName,
+                                auth.password,
                                 share,
                                 path );
     }
@@ -123,12 +127,6 @@ public class SmbFileName
     public String getShare()
     {
         return share;
-    }
-
-    /** Returns the default port for this file name. */
-    public int getDefaultPort()
-    {
-        return 139;
     }
 
     /**
@@ -149,7 +147,8 @@ public class SmbFileName
         return new SmbFileName( getScheme(),
                                 getHostName(),
                                 getPort(),
-                                getUserInfo(),
+                                getUserName(),
+                                getPassword(),
                                 share,
                                 path );
     }

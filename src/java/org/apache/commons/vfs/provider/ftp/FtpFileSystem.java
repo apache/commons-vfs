@@ -65,6 +65,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.GenericFileName;
 
 /**
  * An FTP file system.
@@ -82,16 +83,29 @@ final class FtpFileSystem
     // An idle client
     private FTPClient idleClient;
 
-    public FtpFileSystem( final FileName rootName,
-                          final String hostname,
-                          final String username,
-                          final String password )
+    public FtpFileSystem( final GenericFileName rootName )
         throws FileSystemException
     {
         super( rootName, null );
-        this.hostname = hostname;
-        this.username = username;
-        this.password = password;
+        hostname = rootName.getHostName();
+
+        // Determine the username and password to use
+        if ( rootName.getUserName() == null )
+        {
+            username = "anonymous";
+        }
+        else
+        {
+            username = rootName.getUserName();
+        }
+        if ( rootName.getPassword() == null )
+        {
+            password = "anonymous";
+        }
+        else
+        {
+            password = rootName.getPassword();
+        }
     }
 
     public void close()

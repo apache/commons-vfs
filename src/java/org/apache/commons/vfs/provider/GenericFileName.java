@@ -56,6 +56,7 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 
 /**
  * A file name that represents a 'generic' URI, as per RFC 2396.  Consists of
@@ -63,23 +64,30 @@ import org.apache.commons.vfs.FileSystemException;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/12 07:56:13 $
+ * @version $Revision: 1.6 $ $Date: 2003/02/15 00:07:45 $
  */
-public abstract class GenericFileName
+public class GenericFileName
     extends DefaultFileName
 {
-    private final String userInfo;
+    private final String userName;
     private final String hostName;
+    private final int defaultPort;
+    private final String password;
     private final int port;
 
     protected GenericFileName( final String scheme,
                                final String hostName,
                                final int port,
-                               final String userInfo,
+                               final int defaultPort,
+                               final String userName,
+                               final String password,
                                final String path )
     {
         super( scheme, path );
         this.hostName = hostName;
+        this.defaultPort = defaultPort;
+        this.password = password;
+        this.userName = userName;
         if ( port > 0 )
         {
             this.port = port;
@@ -88,29 +96,78 @@ public abstract class GenericFileName
         {
             this.port = getDefaultPort();
         }
-        this.userInfo = userInfo;
     }
 
-    /** Returns the user info part of the URI. */
-    public String getUserInfo()
+    /** Returns the user name part of this name. */
+    public String getUserName()
     {
-        return userInfo;
+        return userName;
     }
 
-    /** Returns the host name part of the URI. */
+    /** Returns the password part of this name. */
+    public String getPassword()
+    {
+        return password;
+    }
+
+    /** Returns the host name part of this name. */
     public String getHostName()
     {
         return hostName;
     }
 
-    /** Returns the port part of the URI. */
+    /** Returns the port part of this name. */
     public int getPort()
     {
         return port;
     }
 
     /** Returns the default port for this file name. */
-    public abstract int getDefaultPort();
+    public int getDefaultPort()
+    {
+        return defaultPort;
+    }
+
+    /**
+     * Factory method for creating name instances.
+     */
+    protected FileName createName( final String absPath )
+    {
+        return new GenericFileName( getScheme(),
+                                    hostName,
+                                    port,
+                                    defaultPort,
+                                    userName,
+                                    password,
+                                    absPath );
+    }
+
+    /**
+     * Parses a generic URI.
+     */
+    public static GenericFileName parseUri( final String uri,
+                                            final int defaultPort )
+        throws FileSystemException
+    {
+        // FTP URI are generic URI (as per RFC 2396)
+        final StringBuffer name = new StringBuffer();
+
+        // Extract the scheme and authority parts
+        final Authority auth = extractToPath( uri, name );
+
+        // Decode and normalise the file name
+        UriParser.decode( name, 0, name.length() );
+        UriParser.normalisePath( name );
+        final String path = name.toString();
+
+        return new GenericFileName( auth.scheme,
+                                    auth.hostName,
+                                    auth.port,
+                                    defaultPort, 
+                                    auth.userName,
+                                    auth.password,
+                                    path );
+    }
 
     /**
      * Extracts the scheme, userinfo, hostname and port components of a
@@ -138,8 +195,32 @@ public abstract class GenericFileName
         }
         name.delete( 0, 2 );
 
-        // Extract userinfo
-        auth.userInfo = extractUserInfo( name );
+        // Extract userinfo, and split into username and password
+        // TODO - need to decode username and password
+        final String userInfo = extractUserInfo( name );
+        final String userName;
+        final String password;
+        if ( userInfo != null )
+        {
+            int idx = userInfo.indexOf( ':' );
+            if ( idx == -1 )
+            {
+                userName = userInfo;
+                password = null;
+            }
+            else
+            {
+                userName = userInfo.substring( 0, idx );
+                password = userInfo.substring( idx + 1 );
+            }
+        }
+        else
+        {
+            userName = null;
+            password = null;
+        }
+        auth.userName = userName;
+        auth.password = password;
 
         // Extract hostname, and normalise (lowercase)
         final String hostName = extractHostName( name );
@@ -257,15 +338,21 @@ public abstract class GenericFileName
     {
         buffer.append( getScheme() );
         buffer.append( "://" );
-        if ( userInfo != null && userInfo.length() != 0 )
+        if ( userName != null && userName.length() != 0 )
         {
-            buffer.append( userInfo );
-            buffer.append( "@" );
+            // TODO - need to encode username and password
+            buffer.append( userName );
+            if ( password != null && password.length() != 0 )
+            {
+                buffer.append( ':' );
+                buffer.append( password );
+            }
+            buffer.append( '@' );
         }
         buffer.append( hostName );
         if ( port != getDefaultPort() )
         {
-            buffer.append( ":" );
+            buffer.append( ':' );
             buffer.append( port );
         }
     }
@@ -275,7 +362,8 @@ public abstract class GenericFileName
     {
         public String scheme;
         public String hostName;
-        public String userInfo;
+        public String userName;
+        public String password;
         public int port;
     }
 }
