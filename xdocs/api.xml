@@ -94,7 +94,7 @@ for ( int i = 0; i < children.length; i++ )
                 Here are the steps for using <code>DefaultFileSystemManager</code>:
             </p>
             <ol>
-                <li>Create an new instance.</li>
+                <li>Create a new instance.</li>
                 <li>
                     Set the logger for the manager and all its components,
                     using <code>setLogger()</code>.  This step is
@@ -152,10 +152,16 @@ for ( int i = 0; i < children.length; i++ )
                     The configuration file is an XML file.  The root element
                     of the configuration file should be a
                     <code>&lt;providers&gt;</code> element.
-                    The <code>&lt;providers&gt;</code> element may contain
-                    zero or more <code>&lt;provider&gt;</code> elements, and
-                    an optional <code>&lt;default-provider&gt;</code> element.
+                    The <code>&lt;providers&gt;</code> element may contain:
                 </p>
+                <ul>
+                    <li>Zero or more <code>&lt;provider&gt;</code> elements.</li>
+                    <li>An optional <code>&lt;default-provider&gt;</code> element.</li>
+                    <li>Zero or more <code>&lt;extension-map&gt;</code> elements.</li>
+                    <li>Zero or more <code>&lt;mime-type-map&gt;</code> elements.</li>
+                </ul>
+
+                <p><b><code>&lt;provider&gt;</code></b></p>
                 <p>
                     The <code>&lt;provider&gt;</code> element defines a file
                     provider.   It must have a <code>class-name</code> attribute,
@@ -181,10 +187,32 @@ for ( int i = 0; i < children.length; i++ )
                     specifies the fully qualified name of a class to test for.
                     If the class cannot be found, the provider is not registered.
                 </p>
+
+                <p><b><code>&lt;default-provider&gt;</code></b></p>
                 <p>
                     The <code>&lt;default-provider&gt;</code> element defines
                     the default provider.  It has the same format as the
                     <code>&lt;provider&gt;</code> element.
+                </p>
+
+                <p><b><code>&lt;extension-map&gt;</code></b></p>
+                <p>
+                    The <code>&lt;extension-map&gt;</code> element defines
+                    a mapping from a file's extension to the provider that
+                    should handle files with that extension.
+                    It must have an <code>extension</code> attribute, which
+                    specifies the extension, and a <code>scheme</code> attribute,
+                    which specifies the URI scheme of the provider.
+                </p>
+
+                <p><b><code>&lt;mime-type-map&gt;</code></b></p>
+                <p>
+                    The <code>&lt;mime-type-map&gt;</code> element defines
+                    a mapping from a file's MIME type to the provider that
+                    should handle files with that MIME type.
+                    It must have an <code>mime-type</code> attribute, which
+                    specifies the MIME type, and a <code>scheme</code> attribute,
+                    which specified the URI scheme of the provider.
                 </p>
 
                 <p>
@@ -195,6 +223,8 @@ for ( int i = 0; i < children.length; i++ )
     <provider class-name="org.apache.commons.vfs.provider.zip.ZipFileProvider">
         <scheme name="zip"/>
     </provider>
+    <extension-map extension="zip" scheme="zip"/>
+    <mime-type-map mime-type="application/zip" scheme="zip"/>
     <provider class-name="org.apache.commons.vfs.provider.ftp.FtpFileProvider">
         <scheme name="ftp"/>
         <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>

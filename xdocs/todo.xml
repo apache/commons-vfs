@@ -38,11 +38,14 @@
                 <li>WebDAV Provider:
                     <ul>
                         <li>Add plain http support, and auto-detect dav resources.</li>
+                        <li>Support attributes.</li>
+                        <li>Support last-modified.</li>
                     </ul>
                 </li>
                 <li>SFTP Provider:
                     <ul>
                         <li>Add key-based authentication.</li>
+                        <li>Support last-modified.</li>
                     </ul>
                 </li>
                 <li>Zip/Jar Provider:
@@ -54,6 +57,22 @@
                             fs as 'does-not-exist'.
                         </li>
                         <li>Add support for writing to zip/jar files.</li>
+                    </ul>
+                </li>
+                <li>FTP Provider:
+                    <ul>
+                        <li>Support last-modified.</li>
+                    </ul>
+                </li>
+                <li>SMB Provider:
+                    <ul>
+                        <li>Support last-modified.</li>
+                    </ul>
+                </li>
+                <li>URL Provider:
+                    <ul>
+                        <li>Support attributes.</li>
+                        <li>Support last-modified.</li>
                     </ul>
                 </li>
                 <li>
@@ -98,17 +117,22 @@
                     case-insensitive file systems, symbolic links, name mangling, etc).</li>
                 <li>Add more selectors: XPath, Ant style, regular expression.</li>
                 <li>Add adaptor (NodePointerFactory?) for use with JXpath.</li>
-                <li>Add contentChanged event to FileListener.</li>
+                <li>
+                    Add content-changed, attribute-changed, and move events to
+                    FileListener.  Maybe split into structure and content
+                    listeners.
+                </li>
                 <li>Provide a hook for authentication.</li>
+                <li>Get/set the file permisions.</li>
                 <li>Sort out threading model.</li>
                 <li>Add a file monitor, that watches for external changes to files.</li>
+                <li>Add a DefaultFileSystemManager subclass that is an Avalon component.</li>
                 <li>
                     Look at adding native code for fine-grained control over
                     permissions, file monitoring, faster moves, etc.  Must be
                     optional - the thing should still build and run without the
                     native code.
                 </li>
-                <li>Add a DefaultFileSystemManager subclass that is an Avalon component.</li>
             </ul>
         </section>
     </body>
