@@ -17,19 +17,19 @@
         <developer>
             <name>Adam Murdoch</name>
             <id>adammurdoch</id>
-            <email>adammurdoch@apache.org</email>
+            <email>adammurdoch -at- apache.org</email>
             <organization></organization>
         </developer>
         <developer>
             <name>James Strachan</name>
             <id>jstrachan</id>
-            <email>jstrachan@apache.org</email>
+            <email>jstrachan -at- apache.org</email>
             <organization>SpiritSoft, Inc.</organization>
         </developer>
         <developer>
             <name>Mario Ivankovits</name>
             <id>imario</id>
-            <email>imario@apache.org</email>
+            <email>imario -at- apache.org</email>
             <organization>OPS EDV Gmbh</organization>
         </developer>
     </developers>
