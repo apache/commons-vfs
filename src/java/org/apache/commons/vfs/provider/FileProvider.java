@@ -19,8 +19,6 @@ import org.apache.commons.vfs.FileSystemException;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.1 $ $Date: 2002/06/17 07:19:45 $
- *
- * @ant.role name="file-provider"
  */
 public interface FileProvider
 {
