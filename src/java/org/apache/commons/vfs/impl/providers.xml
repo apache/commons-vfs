@@ -9,7 +9,7 @@
     </provider>
     <provider class-name="org.apache.commons.vfs.provider.bzip2.Bzip2FileProvider">
         <scheme name="bz2"/>
-        <if-available class-name="org.apache.tools.bzip2.CBZip2InputStream"/>
+        <if-available class-name="org.apache.commons.compress.bzip2.CBZip2InputStream"/>
     </provider>
     <provider class-name="org.apache.commons.vfs.provider.gzip.GzipFileProvider">
         <scheme name="gz"/>

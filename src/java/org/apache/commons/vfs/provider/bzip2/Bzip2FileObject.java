@@ -15,22 +15,22 @@
  */
 package org.apache.commons.vfs.provider.bzip2;
 
+import org.apache.commons.compress.bzip2.CBZip2InputStream;
 import org.apache.commons.compress.bzip2.CBZip2OutputStream;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.compressed.CompressedFileFileObject;
 import org.apache.commons.vfs.provider.compressed.CompressedFileFileSystem;
-import org.apache.tools.bzip2.CBZip2InputStream;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
  * the bzip2 file
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/16 18:19:05 $
+ * @version $Revision: 1.2 $ $Date: 2004/08/05 18:39:46 $
  */
 public class Bzip2FileObject extends CompressedFileFileObject
 {
