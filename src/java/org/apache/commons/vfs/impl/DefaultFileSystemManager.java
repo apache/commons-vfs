@@ -43,6 +43,9 @@ public class DefaultFileSystemManager
     /** The provider for local files. */
     private LocalFileProvider m_localFileProvider;
 
+    /** The default provider. */
+    private FileProvider m_defaultProvider;
+
     /** The file replicator to use. */
     private final DefaultFileReplicator m_fileReplicator = new DefaultFileReplicator( this );
 
@@ -100,6 +103,14 @@ public class DefaultFileSystemManager
     }
 
     /**
+     * Sets the default provider.  This handles URI that contain unknown schemes.
+     */
+    public void setDefaultProvider( FileProvider provider )
+    {
+        m_defaultProvider = provider;
+    }
+
+    /**
      * Returns the file replicator.
      *
      * @return The file replicator.  Never returns null.
@@ -126,6 +137,13 @@ public class DefaultFileSystemManager
             provider.close();
         }
         m_providers.clear();
+        m_localFileProvider = null;
+
+        if ( m_defaultProvider != null )
+        {
+            m_defaultProvider.close();
+            m_defaultProvider = null;
+        }
 
         m_fileReplicator.close();
     }
@@ -188,6 +206,8 @@ public class DefaultFileSystemManager
             {
                 return provider.findFile( baseFile, uri );
             }
+
+            // Otherwise, assume a local file
         }
 
         // Decode the URI (remove %nn encodings)
@@ -202,9 +222,13 @@ public class DefaultFileSystemManager
 
         if( scheme != null )
         {
-            // Assume a bad scheme
-            final String message = REZ.getString( "unknown-scheme.error", scheme, uri );
-            throw new FileSystemException( message );
+            // An unknown scheme - hand it to the default provider
+            if ( m_defaultProvider == null )
+            {
+                final String message = REZ.getString( "unknown-scheme.error", scheme, uri );
+                throw new FileSystemException( message );
+            }
+            return m_defaultProvider.findFile( baseFile, uri );
         }
 
         // Assume a relative name - use the supplied base file

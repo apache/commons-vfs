@@ -24,7 +24,6 @@ import org.apache.avalon.excalibur.i18n.Resources;
 public abstract class AbstractVfsTestCase
     extends TestCase
 {
-    private final File m_testBaseDir;
     private final File m_baseDir;
 
     public AbstractVfsTestCase( final String name )
@@ -32,9 +31,6 @@ public abstract class AbstractVfsTestCase
         super( name );
         final String baseDirProp = System.getProperty( "test.basedir" );
         m_baseDir = getCanonicalFile( new File( baseDirProp ) );
-//        final String packagePath = getPackageName( getClass() ).replace( '.', File.separatorChar );
-//        m_testBaseDir = getCanonicalFile( new File( m_baseDir, packagePath ) );
-        m_testBaseDir = m_baseDir;
     }
 
     /**
@@ -93,7 +89,7 @@ public abstract class AbstractVfsTestCase
      */
     protected File getTestResource( final String name, final boolean mustExist )
     {
-        File file = new File( m_testBaseDir, name );
+        File file = new File( m_baseDir, name );
         file = getCanonicalFile( file );
         if( mustExist )
         {
@@ -112,7 +108,7 @@ public abstract class AbstractVfsTestCase
      */
     protected File getTestDirectory()
     {
-        return m_testBaseDir;
+        return m_baseDir;
     }
 
     /**
@@ -122,7 +118,7 @@ public abstract class AbstractVfsTestCase
      */
     protected File getTestDirectory( final String name )
     {
-        File file = new File( m_testBaseDir, name );
+        File file = new File( m_baseDir, name );
         file = getCanonicalFile( file );
         assertTrue( "Test directory \"" + file + "\" does not exist or is not a directory.",
                     file.isDirectory() || file.mkdirs() );
