@@ -33,13 +33,13 @@ import java.util.Collection;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/06/30 19:06:38 $
+ * @version $Revision: 1.13 $ $Date: 2004/07/04 18:45:56 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private final Session session;
+    private Session session;
     // private final JSch jSch;
     private ChannelSftp idleChannel;
 
@@ -51,16 +51,19 @@ class SftpFileSystem
         this.session = session;
     }
 
-    /**
-     * Closes this file system.
-     */
-    public void close()
+    protected void doCloseCommunicationLink()
     {
+        if (idleChannel != null)
+        {
+            idleChannel.disconnect();
+            idleChannel = null;
+        }
+
         if (session != null)
         {
             session.disconnect();
+            session = null;
         }
-        super.close();
     }
 
     /**
@@ -68,27 +71,30 @@ class SftpFileSystem
      */
     protected ChannelSftp getChannel() throws IOException
     {
-        /*
-        try
+        if (this.session == null)
         {
-            // Create the session
-            if (session == null)
+            // channel closed. e.g. by freeUnusedResources, but now we need it again
+            Session session;
+            try
             {
                 final GenericFileName rootName = (GenericFileName) getRootName();
-                session = jSch.getSession(rootName.getUserName(),
-                    rootName.getHostName(),
-                    rootName.getPort());
-                session.setPassword(rootName.getPassword());
 
-                UserInfo userInfo = SftpFileSystemConfigBuilder.getInstance().getUserInfo(getFileSystemOptions());
-                if (userInfo != null)
-                {
-                    session.setUserInfo(userInfo);
-                }
-
-                session.connect();
+                session = SftpClientFactory.createConnection(rootName.getHostName(),
+                    rootName.getPort(),
+                    rootName.getUserName(),
+                    rootName.getPassword(),
+                    getFileSystemOptions());
             }
-            */
+            catch (final Exception e)
+            {
+                throw new FileSystemException("vfs.provider.sftp/connect.error",
+                    getRootName(),
+                    e);
+            }
+
+            this.session = session;
+        }
+
         try
         {
             // Use the pooled channel, or create a new one

@@ -1083,19 +1083,24 @@ public abstract class AbstractFileObject
      */
     private void detach() throws Exception
     {
-        if (attached)
+        synchronized (this)
         {
-            try
+            if (attached)
             {
-                doDetach();
-            }
-            finally
-            {
-                attached = false;
-                type = null;
+                try
+                {
+                    doDetach();
+                }
+                finally
+                {
+                    attached = false;
+                    type = null;
 
-                removeChildrenCache();
-                // children = null;
+                    fs.fileDetached(this);
+
+                    removeChildrenCache();
+                    // children = null;
+                }
             }
         }
     }
@@ -1121,29 +1126,34 @@ public abstract class AbstractFileObject
      */
     private void attach() throws FileSystemException
     {
-        if (attached)
+        synchronized (this)
         {
-            return;
-        }
+            if (attached)
+            {
+                return;
+            }
 
-        try
-        {
-            // Attach and determine the file type
-            doAttach();
-            attached = true;
-            // now the type could already be injected by doAttach (e.g from parent to child)
-            if (type == null)
+            try
             {
-                type = doGetType();
+                // Attach and determine the file type
+                doAttach();
+                attached = true;
+                // now the type could already be injected by doAttach (e.g from parent to child)
+                if (type == null)
+                {
+                    type = doGetType();
+                }
+                if (type == null)
+                {
+                    type = FileType.IMAGINARY;
+                }
             }
-            if (type == null)
+            catch (Exception exc)
             {
-                type = FileType.IMAGINARY;
+                throw new FileSystemException("vfs.provider/get-type.error", new Object[]{name}, exc);
             }
-        }
-        catch (Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/get-type.error", new Object[]{name}, exc);
+
+            fs.fileAttached(this);
         }
     }
 

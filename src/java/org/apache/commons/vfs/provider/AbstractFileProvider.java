@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -94,5 +95,18 @@ public abstract class AbstractFileProvider
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return null;
+    }
+
+    public void freeUnusedResources()
+    {
+        Iterator iterFileSystems = fileSystems.values().iterator();
+        while (iterFileSystems.hasNext())
+        {
+            AbstractFileSystem fs = (AbstractFileSystem) iterFileSystems.next();
+            if (fs.isReleaseable())
+            {
+                fs.closeCommunicationLink();
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.cache.DefaultFilesCache;
+import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -393,6 +394,24 @@ public class DefaultFileSystemManager
         fileReplicator = null;
         tempFileStore = null;
         init = false;
+    }
+
+    /**
+     * Free all resources used by unused filesystems created by this manager.
+     */
+    public void freeUnusedResources()
+    {
+        if (!init)
+        {
+            return;
+        }
+
+        // Close the providers.
+        for (Iterator iterator = providers.values().iterator(); iterator.hasNext();)
+        {
+            final AbstractFileProvider provider = (AbstractFileProvider) iterator.next();
+            provider.freeUnusedResources();
+        }
     }
 
     /**

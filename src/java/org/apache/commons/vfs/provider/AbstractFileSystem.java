@@ -70,6 +70,11 @@ public abstract class AbstractFileSystem
      */
     private final FileSystemOptions fileSystemOptions;
 
+    /**
+     * How many files are activley using the filesystem
+     */
+    private long useCount;
+
     protected AbstractFileSystem(final FileName rootName,
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
@@ -94,8 +99,33 @@ public abstract class AbstractFileSystem
      */
     public void close()
     {
-        // Clean-up
-        files.clear(this);
+        try
+        {
+            closeCommunicationLink();
+        }
+        finally
+        {
+            // Clean-up
+            files.clear(this);
+        }
+    }
+
+    /**
+     * Close the underlaying link used to access the files
+     */
+    protected void closeCommunicationLink()
+    {
+        synchronized (this)
+        {
+            doCloseCommunicationLink();
+        }
+    }
+
+    /**
+     * Close the underlaying link used to access the files
+     */
+    protected void doCloseCommunicationLink()
+    {
     }
 
     /**
@@ -232,7 +262,10 @@ public abstract class AbstractFileSystem
         {
             try
             {
-                file = createFile(name);
+                synchronized (this)
+                {
+                    file = createFile(name);
+                }
             }
             catch (Exception e)
             {
@@ -368,6 +401,19 @@ public abstract class AbstractFileSystem
     }
 
     /**
+     * returns true if no file is using this filesystem
+     */
+    public boolean isReleaseable()
+    {
+        return useCount < 1;
+    }
+
+    void freeResources()
+    {
+
+    }
+
+    /**
      * Fires an event.
      */
     private void fireEvent(final ChangeEvent event)
@@ -392,6 +438,17 @@ public abstract class AbstractFileSystem
                 }
             }
         }
+    }
+
+    void fileDetached(FileObject fileObject)
+    {
+        useCount--;
+    }
+
+    void fileAttached(FileObject fileObject)
+    {
+        useCount++;
+
     }
 
     /**

@@ -17,13 +17,13 @@ package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 /**
  * A file in a Zip file system.
@@ -36,19 +36,20 @@ public class ZipFileObject
     implements FileObject
 {
     private final HashSet children = new HashSet();
-    protected final ZipFile file;
+    private final ZipFileSystem fs;
+    // protected final ZipFile file;
     protected ZipEntry entry;
     private FileType type;
 
     public ZipFileObject(FileName name,
                          ZipEntry entry,
-                         ZipFile zipFile,
-                         ZipFileSystem fs)
+                         ZipFileSystem fs,
+                         boolean zipExists) throws FileSystemException
     {
         super(name, fs);
+        this.fs = fs;
         setZipEntry(entry);
-        file = zipFile;
-        if (file == null)
+        if (!zipExists)
         {
             type = FileType.IMAGINARY;
         }
@@ -133,6 +134,6 @@ public class ZipFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return file.getInputStream(entry);
+        return fs.getZipFile().getInputStream(entry);
     }
 }

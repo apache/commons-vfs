@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.jar;
 
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.zip.ZipFileObject;
 
 import java.io.IOException;
@@ -28,24 +29,26 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 /**
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.11 $ $Date: 2004/05/10 20:09:50 $
+ * @version $Revision: 1.12 $ $Date: 2004/07/04 18:45:56 $
  */
 class JarFileObject extends ZipFileObject
 {
     private Attributes attributes;
 
+    final JarFileSystem fs;
+
     public JarFileObject(final FileName name,
                          final ZipEntry entry,
-                         final ZipFile zipFile,
-                         final JarFileSystem fs)
+                         final JarFileSystem fs,
+                         final boolean zipExists) throws FileSystemException
     {
-        super(name, entry, zipFile, fs);
+        super(name, entry, fs, zipExists);
+        this.fs = fs;
     }
 
     /**
@@ -53,12 +56,12 @@ class JarFileObject extends ZipFileObject
      */
     Manifest getManifest() throws IOException
     {
-        if (file == null)
+        if (fs.getZipFile() == null)
         {
             return null;
         }
 
-        return ((JarFile) file).getManifest();
+        return ((JarFile) fs.getZipFile()).getManifest();
     }
 
     /**

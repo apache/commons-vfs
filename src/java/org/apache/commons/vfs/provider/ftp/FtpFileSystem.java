@@ -57,15 +57,13 @@ final class FtpFileSystem
         idleClient = ftpClient;
     }
 
-    public void close()
+    protected void doCloseCommunicationLink()
     {
         // Clean up the connection
         if (idleClient != null)
         {
             closeConnection(idleClient);
         }
-
-        super.close();
     }
 
     /**

@@ -39,7 +39,7 @@ import java.util.Vector;
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/24 20:15:26 $
+ * @version $Revision: 1.10 $ $Date: 2004/07/04 18:45:56 $
  */
 class SftpFileObject
     extends AbstractFileObject
@@ -145,6 +145,38 @@ class SftpFileObject
         }
         return attrs.getMTime() * 1000L;
     }
+
+    /**
+     * Sets the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     *
+     * @param modtime is modification time in milliseconds. SFTP protocol can
+     *                send times with nanosecond precision but at the moment jsch send them
+     *                with second precision.
+     */
+    /** Wait for jsch release
+     protected void doSetLastModifiedTime(final long modtime)
+     throws Exception
+     {
+     final ChannelSftp channel = fileSystem.getChannel();
+     try
+     {
+     int newMTime = (int) (modtime / 1000L);
+
+     // this was the only way to make the long to int preserving accuracy
+     // String str = "" + modtime;
+     // int newMTime = Integer.parseInt(str.substring(0, str.length() - 3));
+
+     attrs.setACMODTIME(attrs.getATime(), newMTime);
+     channel.setStat(getName().getPath(), attrs);
+     }
+     finally
+     {
+     fileSystem.putChannel(channel);
+     }
+     }
+     */
 
     /**
      * Deletes the file.

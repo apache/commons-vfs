@@ -34,7 +34,7 @@ import java.util.Collections;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: SftpFileProvider.java,v 1.13 2004/06/30 19:06:38 imario Exp $
+ * @version $Id: SftpFileProvider.java,v 1.14 2004/07/04 18:45:56 imario Exp $
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {
@@ -48,8 +48,9 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         Capability.READ_CONTENT,
         Capability.URI,
         Capability.WRITE_CONTENT,
-        Capability.GET_LAST_MODIFIED,
-        Capability.SET_LAST_MODIFIED_FILE
+        Capability.GET_LAST_MODIFIED
+        // wait for jsch release
+        // Capability.SET_LAST_MODIFIED_FILE
     }));
 
     public final static String ATTR_USER_INFO = "UI";

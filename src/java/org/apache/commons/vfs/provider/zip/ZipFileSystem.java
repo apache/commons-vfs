@@ -46,7 +46,7 @@ public class ZipFileSystem
     private final static Log log = LogFactory.getLog(ZipFileSystem.class);
 
     private final File file;
-    protected final ZipFile zipFile;
+    private ZipFile zipFile;
 
     public ZipFileSystem(final FileName rootName,
                          final FileObject parentLayer,
@@ -74,7 +74,7 @@ public class ZipFileSystem
         super.init();
 
         // Build the index
-        Enumeration entries = zipFile.entries();
+        Enumeration entries = getZipFile().entries();
         while (entries.hasMoreElements())
         {
             ZipEntry entry = (ZipEntry) entries.nextElement();
@@ -89,7 +89,7 @@ public class ZipFileSystem
                 continue;
             }
 
-            fileObj = createZipFileObject(name, entry, zipFile);
+            fileObj = createZipFileObject(name, entry);
             putFileToCache(fileObj);
 
             // Make sure all ancestors exist
@@ -103,7 +103,7 @@ public class ZipFileSystem
                 parent = (ZipFileObject) getFileFromCache(parentName);
                 if (parent == null)
                 {
-                    parent = createZipFileObject(parentName, null, zipFile);
+                    parent = createZipFileObject(parentName, null);
                     putFileToCache(parent);
                 }
 
@@ -113,11 +113,22 @@ public class ZipFileSystem
         }
     }
 
-    protected ZipFileObject createZipFileObject(final FileName name,
-                                                final ZipEntry entry,
-                                                final ZipFile file)
+    protected ZipFile getZipFile() throws FileSystemException
     {
-        return new ZipFileObject(name, entry, file, this);
+        if (zipFile == null && this.file.exists())
+        {
+            ZipFile zipFile = createZipFile(this.file);
+
+            this.zipFile = zipFile;
+        }
+
+        return zipFile;
+    }
+
+    protected ZipFileObject createZipFileObject(final FileName name,
+                                                final ZipEntry entry) throws FileSystemException
+    {
+        return new ZipFileObject(name, entry, this, true);
     }
 
     protected ZipFile createZipFile(final File file) throws FileSystemException
@@ -132,7 +143,7 @@ public class ZipFileSystem
         }
     }
 
-    public void close()
+    protected void doCloseCommunicationLink()
     {
         // Release the zip file
         try
@@ -140,6 +151,7 @@ public class ZipFileSystem
             if (zipFile != null)
             {
                 zipFile.close();
+                zipFile = null;
             }
         }
         catch (final IOException e)
@@ -147,8 +159,6 @@ public class ZipFileSystem
             // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
             VfsLog.warn(getLogger(), log, "vfs.provider.zip/close-zip-file.error :" + file, e);
         }
-
-        super.close();
     }
 
     /**
@@ -162,9 +172,9 @@ public class ZipFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile(final FileName name)
+    protected FileObject createFile(final FileName name) throws FileSystemException
     {
         // This is only called for files which do not exist in the Zip file
-        return new ZipFileObject(name, null, null, this);
+        return new ZipFileObject(name, null, this, false);
     }
 }

@@ -13,6 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/*
+ * Copyright 2002, 2003,2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.commons.vfs.provider.jar;
 
 import org.apache.commons.vfs.FileName;
@@ -36,7 +51,7 @@ import java.util.zip.ZipFile;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.18 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.19 $ $Date: 2004/07/04 18:45:56 $
  */
 class JarFileSystem
     extends ZipFileSystem
@@ -63,10 +78,9 @@ class JarFileSystem
     }
 
     protected ZipFileObject createZipFileObject(FileName name,
-                                                ZipEntry entry,
-                                                ZipFile file)
+                                                ZipEntry entry) throws FileSystemException
     {
-        return new JarFileObject(name, entry, file, this);
+        return new JarFileObject(name, entry, this, true);
     }
 
     /**
@@ -82,7 +96,7 @@ class JarFileSystem
     {
         if (attributes == null)
         {
-            final Manifest man = ((JarFile) zipFile).getManifest();
+            final Manifest man = ((JarFile) getZipFile()).getManifest();
             if (man == null)
             {
                 attributes = new Attributes(1);
@@ -199,5 +213,10 @@ class JarFileSystem
     {
         final Name name = lookupName(attrName);
         return getAttribute(name);
+    }
+
+    protected ZipFile getZipFile() throws FileSystemException
+    {
+        return super.getZipFile();
     }
 }
