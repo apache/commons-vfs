@@ -13,32 +13,43 @@
             </p>
             <ul>
                 <li>
-                    <a href="#V-Copy"><code>&lt;v-copy&gt;</code></a>.
+                    <a href="#V-Copy">
+                        <code>&lt;v-copy&gt;</code>
+                    </a>.
                     Copies a set of source folders and files to a destination
                     folder.
                 </li>
                 <li>
-                    <a href="#V-Delete"><code>&lt;v-delete&gt;</code></a>.
+                    <a href="#V-Delete">
+                        <code>&lt;v-delete&gt;</code>
+                    </a>.
                     Deletes a file or folder.
                 </li>
                 <li>
-                    <a href="#V-Mkdir"><code>&lt;v-mkdir&gt;</code></a>.
+                    <a href="#V-Mkdir">
+                        <code>&lt;v-mkdir&gt;</code>
+                    </a>.
                     Creates a folder.
                 </li>
                 <li>
-                    <a href="#V-Move"><code>&lt;v-move&gt;</code></a>.
+                    <a href="#V-Move">
+                        <code>&lt;v-move&gt;</code>
+                    </a>.
                     Moves a set of source folders and files to a destination
                     folder.
                 </li>
                 <li>
-                    <a href="#V-Sync"><code>&lt;v-sync&gt;</code></a>.
+                    <a href="#V-Sync">
+                        <code>&lt;v-sync&gt;</code>
+                    </a>.
                     Synchronises a destination folder with a set of source
                     folder and files.
                 </li>
             </ul>
             <p>
                 All file name attributes support relative and absolute local
-                file names, and <a href="filesystems.html">absolute URI</a>.
+                file names, and
+                <a href="filesystems.html">absolute URI</a>.
                 File names are interpreted relative to the Ant project's base
                 directory.
             </p>
@@ -46,13 +57,14 @@
             <subsection name="Using the Tasks">
                 <p>
                     To use the Ant tasks, copy commons-jar.jar and its
-                    dependencies into the <code>$ANT_HOME/lib</code> directory,
+                    dependencies into the
+                    <code>$ANT_HOME/lib</code> directory,
                     and use the following in your Ant scipt to define the tasks:
                 </p>
 
                 <source><![CDATA[
 <taskdef resource="/org/apache/commons/vfs/tasks/tasks.properties"/>
-]]></source>
+                    ]]></source>
 
                 <p>
                     Alternatively, you can provide an explicit classpath when
@@ -63,7 +75,7 @@
 <taskdef resource="/org/apache/commons/vfs/tasks/tasks.properties">
     <classpath> ... </classpath>
 </taskdef>
-]]></source>
+                    ]]></source>
             </subsection>
         </section>
 
@@ -73,7 +85,11 @@
             the source file.  The copy task takes the following attributes:</p>
 
             <table>
-                <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
                 <tr>
                     <td>destdir</td>
                     <td>The destination folder.  This folder is created if it
@@ -89,14 +105,18 @@
                     <td>overwrite</td>
                     <td>Always copy files, ignoring the last-modified time of
                     the destination file.</td>
-                    <td>No, default is <code>false</code>.</td>
+                    <td>No, default is
+                        <code>false</code>.
+                    </td>
                 </tr>
                 <tr>
                     <td>preservelastmodified</td>
                     <td>Set the last-modified time of destination files to
                     the same value as the source files.  May not be supported
                     by the destination file system.</td>
-                    <td>No, default is <code>true</code>.</td>
+                    <td>No, default is
+                        <code>true</code>.
+                    </td>
                 </tr>
                 <tr>
                     <td>src</td>
@@ -107,13 +127,21 @@
             </table>
 
             <subsection name="Nested Elements">
-                <p><b><code>&lt;src&gt;</code></b></p>
+                <p>
+                    <b>
+                        <code>&lt;src&gt;</code>
+                    </b>
+                </p>
 
                 <p>Defines a source file or folder to copy.  It takes the
                 following attributes:</p>
 
                 <table>
-                    <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Required</th>
+                    </tr>
                     <tr>
                         <td>file</td>
                         <td>The source file.</td>
@@ -126,7 +154,22 @@
 
         <section name="V-Move">
             <p>Moves a set of files to a destination folder.  Has the same
-                attributes and elements as the copy task.</p>
+                attributes and elements as the copy task and following attributes:</p>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>tryRename</td>
+                    <td>The destination folder.  This folder is created if it
+                    does not exist.</td>
+                    <td>No, default is
+                        <code>false</code>
+                    </td>
+                </tr>
+            </table>
         </section>
 
         <section name="V-Sync">
@@ -138,7 +181,11 @@
             <p>Deletes a file or folder.  It takes the following attributes:</p>
 
             <table>
-                <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
                 <tr>
                     <td>file</td>
                     <td>The file or folder to delete.  All descendents of
@@ -152,7 +199,11 @@
             <p>Creates a folder.  It takes the following attributes:</p>
 
             <table>
-                <tr><th>Name</th><th>Description</th><th>Required</th></tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
                 <tr>
                     <td>dir</td>
                     <td>The folder create.</td>
