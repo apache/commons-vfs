@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/06/18 16:54:20 $
+ * @version $Revision: 1.13 $ $Date: 2004/12/03 20:33:51 $
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
  * @todo Use visitors
@@ -145,6 +145,13 @@ public abstract class AbstractSyncTask
             while (tok.hasMoreTokens())
             {
                 String nextFile = tok.nextToken();
+
+                // Basic compatibility with Ant fileset for directories
+                if (nextFile.endsWith("/**"))
+                {
+                    nextFile = nextFile.substring(0, nextFile.length() - 2);
+                }
+
                 final SourceInfo src = new SourceInfo();
                 src.setFile(srcDirUrl + nextFile);
                 addConfiguredSrc(src);
@@ -232,8 +239,8 @@ public abstract class AbstractSyncTask
                     final FileObject srcFile = files[j];
 
                     // Build the destination file name
-                    final String relName =
-                        rootName.getRelativeName(srcFile.getName());
+                    String relName = rootName.getRelativeName(srcFile.getName());
+
                     final FileObject destFile =
                         destFolder.resolveFile(relName, NameScope.DESCENDENT);
 
