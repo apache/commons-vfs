@@ -19,7 +19,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:19 $
  */
-public final class SmbFileNameParser
+class SmbFileNameParser
     extends UriParser
 {
     private static final Resources REZ =

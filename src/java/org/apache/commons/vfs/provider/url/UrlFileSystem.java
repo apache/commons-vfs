@@ -20,9 +20,9 @@ import java.net.MalformedURLException;
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 01:39:47 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/21 06:11:32 $
  */
-public class UrlFileSystem
+class UrlFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {

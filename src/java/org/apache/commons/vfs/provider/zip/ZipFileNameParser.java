@@ -16,7 +16,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:19 $
  */
-public final class ZipFileNameParser
+class ZipFileNameParser
     extends UriParser
 {
     private static final char[] ZIP_URL_RESERVED_CHARS = {'!'};

@@ -16,7 +16,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.5 $ $Date: 2002/07/05 04:08:18 $
  */
-public final class FtpFileNameParser
+class FtpFileNameParser
     extends UriParser
 {
     /**

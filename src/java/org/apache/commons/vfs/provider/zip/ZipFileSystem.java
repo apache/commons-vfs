@@ -28,7 +28,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.8 $ $Date: 2002/07/05 06:52:16 $
  */
-public final class ZipFileSystem
+class ZipFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {

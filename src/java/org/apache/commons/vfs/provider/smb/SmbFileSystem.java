@@ -20,7 +20,7 @@ import org.apache.commons.vfs.provider.FileSystemProviderContext;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:19 $
  */
-public final class SmbFileSystem
+class SmbFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
