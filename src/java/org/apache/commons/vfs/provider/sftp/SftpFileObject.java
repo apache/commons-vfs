@@ -78,15 +78,12 @@ import org.apache.commons.vfs.util.MonitorOutputStream;
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/03/17 09:04:13 $
+ * @version $Revision: 1.4 $ $Date: 2003/06/28 10:54:04 $
  */
 class SftpFileObject
     extends AbstractFileObject
     implements FileObject
 {
-    // TODO - This was copied from SftpATTRS source.  Need to fix jsch to make the constant public
-    static final int S_IFDIR = 0x4000;
-
     private final SftpFileSystem fileSystem;
     private SftpATTRS attrs;
 
@@ -101,7 +98,8 @@ class SftpFileObject
      * Determines the type of this file, returns null if the file does not
      * exist.
      */
-    protected FileType doGetType() throws Exception
+    protected FileType doGetType()
+        throws Exception
     {
         statSelf();
 
@@ -109,12 +107,12 @@ class SftpFileObject
         {
             return FileType.IMAGINARY;
         }
-        
-        if ( ( attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_PERMISSIONS ) == 0 )
+
+        if ( (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_PERMISSIONS) == 0 )
         {
             throw new FileSystemException( "vfs.provider.sftp/unknown-permissions.error" );
         }
-        if ( ( attrs.getPermissions() & S_IFDIR ) != 0 )
+        if ( attrs.isDir() )
         {
             return FileType.FOLDER;
         }
@@ -127,13 +125,15 @@ class SftpFileObject
     /**
      * Called when the type or content of this file changes.
      */
-    protected void onChange() throws Exception
+    protected void onChange()
+        throws Exception
     {
         statSelf();
     }
 
     /** Fetches file attrs from server. */
-    private void statSelf() throws Exception
+    private void statSelf()
+        throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
         try
@@ -160,7 +160,8 @@ class SftpFileObject
     /**
      * Creates this file as a folder.
      */
-    protected void doCreateFolder() throws Exception
+    protected void doCreateFolder()
+        throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
         try
@@ -176,7 +177,8 @@ class SftpFileObject
     /**
      * Deletes the file.
      */
-    protected void doDelete() throws Exception
+    protected void doDelete()
+        throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
         try
@@ -199,7 +201,8 @@ class SftpFileObject
     /**
      * Lists the children of this file.
      */
-    protected String[] doListChildren() throws Exception
+    protected String[] doListChildren()
+        throws Exception
     {
         // List the contents of the folder
         final Vector vector;
@@ -242,7 +245,8 @@ class SftpFileObject
     /**
      * Returns the size of the file content (in bytes).
      */
-    protected long doGetContentSize() throws Exception
+    protected long doGetContentSize()
+        throws Exception
     {
         if ( (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0 )
         {
@@ -254,7 +258,8 @@ class SftpFileObject
     /**
      * Creates an input stream to read the file content from.
      */
-    protected InputStream doGetInputStream() throws Exception
+    protected InputStream doGetInputStream()
+        throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
         try
@@ -275,7 +280,8 @@ class SftpFileObject
     /**
      * Creates an output stream to write the file content to.
      */
-    protected OutputStream doGetOutputStream() throws Exception
+    protected OutputStream doGetOutputStream()
+        throws Exception
     {
         // TODO - Don't write the entire file into memory.  Use the stream-based
         // methods on ChannelSftp once the work properly
@@ -301,7 +307,8 @@ class SftpFileObject
         /**
          * Called after this stream is closed.
          */
-        protected void onClose() throws IOException
+        protected void onClose()
+            throws IOException
         {
             try
             {
