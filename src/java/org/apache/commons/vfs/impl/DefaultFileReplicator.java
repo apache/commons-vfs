@@ -43,6 +43,11 @@ public final class DefaultFileReplicator
     private File tempDir;
     private long filecount;
 
+    /**
+     * constructor to set the location of the temporary directory
+     *
+     * @param tempDir
+     */
     public DefaultFileReplicator(final File tempDir)
     {
         this.tempDir = tempDir;
@@ -61,6 +66,7 @@ public final class DefaultFileReplicator
         {
             tempDir = new File("vfs_cache").getAbsoluteFile();
         }
+
         filecount = new Random().nextInt() & 0xffff;
     }
 
@@ -99,14 +105,35 @@ public final class DefaultFileReplicator
     public File allocateFile(final String baseName)
     {
         // Create a unique-ish file name
-        final String basename = baseName + "_" + filecount + ".tmp";
+        final String basename = createFilename(baseName);
         filecount++;
-        final File file = new File(tempDir, basename);
+        final File file = createFile(tempDir, basename);
 
         // Keep track to delete later
         copies.add(file);
 
         return file;
+    }
+
+    protected long getFilecount()
+    {
+        return filecount;
+    }
+
+    /**
+     * create the temporary file name
+     */
+    protected String createFilename(final String baseName)
+    {
+        return baseName + "_" + getFilecount() + ".tmp";
+    }
+
+    /**
+     * create the temporary file
+     */
+    protected File createFile(final File parent, final String name)
+    {
+        return new File(parent, name);
     }
 
     /**
