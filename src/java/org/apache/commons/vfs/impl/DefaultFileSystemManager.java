@@ -86,6 +86,7 @@ import org.apache.commons.vfs.provider.TemporaryFileStore;
  * <li>Set the file replicator using {@link #setReplicator} (optional).
  * <li>Set the temporary file store using {@link #setTemporaryFileStore} (optional).
  * <li>Set the base file using {@link #setBaseFile} (optional).
+ * <li>Initialise the manager using {@link #init}.
  * </ul>
  *
  * <p>When finished with the manager, call its {@link #close} method to clean
@@ -125,6 +126,9 @@ public class DefaultFileSystemManager
         new DefaultProviderContext( this );
 
     private TemporaryFileStore tempFileStore;
+
+    private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
+    private boolean init;
 
     /**
      * Returns the logger used by this manager.
@@ -294,11 +298,25 @@ public class DefaultFileSystemManager
     }
 
     /**
+     * Initialises this manager.
+     */
+    public void init() throws FileSystemException
+    {
+        setupComponent( vfsProvider );
+        init = true;
+    }
+
+    /**
      * Closes all files created by this manager, and cleans up any temporary
      * files.  Also closes all providers and the replicator.
      */
     public void close()
     {
+        if ( !init )
+        {
+            return;
+        }
+
         // Close the providers.
         for ( Iterator iterator = providers.values().iterator(); iterator.hasNext(); )
         {
@@ -317,6 +335,7 @@ public class DefaultFileSystemManager
         defaultProvider = null;
         fileReplicator = null;
         tempFileStore = null;
+        init = false;
     }
 
     /**
@@ -433,6 +452,24 @@ public class DefaultFileSystemManager
             throw new FileSystemException( "vfs.impl/unknown-provider.error", scheme );
         }
         return provider.createFileSystem( scheme, file );
+    }
+
+    /**
+     * Creates a virtual file system.
+     */
+    public FileObject createFileSystem( final FileObject rootFile )
+        throws FileSystemException
+    {
+        return vfsProvider.createFileSystem( rootFile );
+    }
+
+    /**
+     * Creates an empty virtual file system.
+     */
+    public FileObject createFileSystem( final String rootUri )
+        throws FileSystemException
+    {
+        return vfsProvider.createFileSystem( rootUri );
     }
 
     /**

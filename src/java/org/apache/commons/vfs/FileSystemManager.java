@@ -203,6 +203,31 @@ public interface FileSystemManager
         throws FileSystemException;
 
     /**
+     * Creates an empty virtual file system.  Can be populated by adding
+     * junctions to it.
+     *
+     * @param rootUri
+     *          The root URI to use for the new file system.  Can be null.
+     *
+     * @return
+     *          The root file of the new file system.
+     */
+    FileObject createFileSystem( String rootUri )
+        throws FileSystemException;
+
+    /**
+     * Creates a virtual file system.  The file system will contain a junction
+     * at the fs root to the supplied root file.
+     *
+     * @param rootFile The root file to backs the file system.
+     *
+     * @return
+     *          The root of the new file system.
+     */
+    FileObject createFileSystem( FileObject rootFile )
+        throws FileSystemException;
+
+    /**
      * Returns a streamhandler factory to enable URL lookup using this
      * FileSystemManager.
      */

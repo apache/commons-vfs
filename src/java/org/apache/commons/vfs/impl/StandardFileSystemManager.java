@@ -57,7 +57,6 @@ package org.apache.commons.vfs.impl;
 
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.util.Messages;
-import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.FileProvider;
 
 /**
@@ -73,7 +72,7 @@ import org.apache.commons.vfs.provider.FileProvider;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/28 02:05:06 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/01 03:29:31 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -84,7 +83,7 @@ public class StandardFileSystemManager
     public void init() throws FileSystemException
     {
         // Set the replicator and temporary file store (use the same component)
-        DefaultFileReplicator replicator = new DefaultFileReplicator();
+        final DefaultFileReplicator replicator = new DefaultFileReplicator();
         setReplicator( new PrivilegedFileReplicator( replicator ) );
         setTemporaryFileStore( replicator );
 
@@ -102,6 +101,8 @@ public class StandardFileSystemManager
         {
             setDefaultProvider( provider );
         }
+
+        super.init();
     }
 
     /**

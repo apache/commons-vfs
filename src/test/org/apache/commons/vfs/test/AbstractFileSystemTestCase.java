@@ -186,6 +186,8 @@ public abstract class AbstractFileSystemTestCase
         manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
         manager.setTemporaryFileStore( replicator );
 
+        manager.init();
+
         // Locate the base folder
         baseFolder = getBaseFolder();
 
