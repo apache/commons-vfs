@@ -23,7 +23,6 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.LayeredFileName;
-import org.apache.commons.vfs.provider.zip.ZipFileName;
 
 import java.util.Collection;
 
