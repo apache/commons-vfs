@@ -469,35 +469,53 @@ public class UriParser
         throws FileSystemException
     {
         final String resolvedPath = resolvePath( baseFile, path );
+        if ( !checkName( baseFile, resolvedPath, scope ) )
+        {
+            throw new FileSystemException( "vfs.provider/invalid-descendent-name.error", path );
+        }
+
+        return resolvedPath;
+    }
+
+    /**
+     * Checks whether a path fits in a particular scope of another path.
+     *
+     * @param basePath An absolute, normalised path.
+     * @param path An absolute, normalised path.
+     */
+    public boolean checkName( final String basePath,
+                              final String path,
+                              final NameScope scope )
+    {
         if ( scope == NameScope.CHILD )
         {
-            final int baseLen = baseFile.length();
-            if ( !resolvedPath.startsWith( baseFile )
-                || resolvedPath.length() == baseLen
-                || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != separatorChar )
-                || resolvedPath.indexOf( separatorChar, baseLen + 1 ) != -1 )
+            final int baseLen = basePath.length();
+            if ( !path.startsWith( basePath )
+                || path.length() == baseLen
+                || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar )
+                || path.indexOf( separatorChar, baseLen + 1 ) != -1 )
             {
-                throw new FileSystemException( "vfs.provider/invalid-childname.error", path );
+                return false;
             }
         }
         else if ( scope == NameScope.DESCENDENT )
         {
-            final int baseLen = baseFile.length();
-            if ( !resolvedPath.startsWith( baseFile )
-                || resolvedPath.length() == baseLen
-                || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != separatorChar ) )
+            final int baseLen = basePath.length();
+            if ( !path.startsWith( basePath )
+                || path.length() == baseLen
+                || ( baseLen > 1 && path.charAt( baseLen ) != separatorChar ) )
             {
-                throw new FileSystemException( "vfs.provider/invalid-descendent-name.error", path );
+                return false;
             }
         }
         else if ( scope == NameScope.DESCENDENT_OR_SELF )
         {
-            final int baseLen = baseFile.length();
-            if ( !resolvedPath.startsWith( baseFile )
-                || ( resolvedPath.length() != baseLen
-                && resolvedPath.charAt( baseLen ) != separatorChar ) )
+            final int baseLen = basePath.length();
+            if ( !path.startsWith( basePath )
+                || ( path.length() != baseLen
+                && path.charAt( baseLen ) != separatorChar ) )
             {
-                throw new FileSystemException( "vfs.provider/invalid-descendent-name.error", path );
+                return false;
             }
         }
         else if ( scope != NameScope.FILE_SYSTEM )
@@ -505,7 +523,27 @@ public class UriParser
             throw new IllegalArgumentException();
         }
 
-        return resolvedPath;
+        return true;
+    }
+
+    /**
+     * Returns the depth of a path.
+     *
+     * @param path A normalised path.
+     */
+    public int getDepth( final String path )
+    {
+        final int len = path.length();
+        if ( len == 0 || ( len == 1 && path.charAt( 0 ) == separatorChar ) )
+        {
+            return 0;
+        }
+        int depth = 1;
+        for ( int pos = 0; pos > -1 && pos < len; depth++ )
+        {
+            pos = path.indexOf( separatorChar, pos+1 );
+        }
+        return depth;
     }
 
     /**

@@ -72,6 +72,8 @@ public interface FileName
      * <code>/somefolder/somefile</code> is <code>somefile</code>.
      *
      * <p>The root file of a file system has an empty base name.
+     *
+     * @return The base name.  Never returns null.
      */
     String getBaseName();
 
@@ -82,13 +84,27 @@ public interface FileName
      * separator character.  The path always starts with <code>/</code>
      *
      * <p>The root of a file system has <code>/</code> as its absolute path.
+     *
+     * @return The path.  Never returns null.
      */
     String getPath();
+
+    /**
+     * Returns the depth of this file name, within its file system.  The depth
+     * of the root of a file system is 0.  The depth of any other file is
+     * 1 + the depth of its parent.
+     */
+    int getDepth();
 
     /**
      * Returns the absolute URI of this file.
      */
     String getURI();
+
+    /**
+     * Returns the root URI of the file system this file belongs to.
+     */
+    String getRootURI();
 
     /**
      * Returns the file name of the parent of this file.  The root of a
@@ -147,4 +163,14 @@ public interface FileName
      *      On error.
      */
     String getRelativeName( FileName name ) throws FileSystemException;
+
+    /**
+     * Determines if another file name is an ancestor of this file name.
+     */
+    boolean isAncestor( FileName ancestor );
+
+    /**
+     * Determines if another file name is a descendent of this file name.
+     */
+    boolean isDescendent( FileName descendent );
 }

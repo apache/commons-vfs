@@ -185,4 +185,44 @@ public final class DefaultFileName
     {
         return parser.makeRelative( absPath, name.getPath() );
     }
+
+    /**
+     * Returns the root URI of the file system this file belongs to.
+     */
+    public String getRootURI()
+    {
+        return rootPrefix;
+    }
+
+    /**
+     * Returns the depth of this file name, within its file system.
+     */
+    public int getDepth()
+    {
+        return parser.getDepth( absPath );
+    }
+
+    /**
+     * Determines if another file name is an ancestor of this file name.
+     */
+    public boolean isAncestor( final FileName ancestor )
+    {
+        if ( !ancestor.getRootURI().equals( rootPrefix ) )
+        {
+            return false;
+        }
+        return parser.checkName( ancestor.getPath(), absPath, NameScope.DESCENDENT );
+    }
+
+    /**
+     * Determines if another file name is a descendent of this file name.
+     */
+    public boolean isDescendent( FileName descendent )
+    {
+        if ( !descendent.getRootURI().equals( rootPrefix ) )
+        {
+            return false;
+        }
+        return parser.checkName( absPath, descendent.getPath(), NameScope.DESCENDENT );
+    }
 }
