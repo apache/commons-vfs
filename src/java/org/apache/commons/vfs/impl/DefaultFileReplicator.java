@@ -32,7 +32,8 @@ public final class DefaultFileReplicator
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultFileReplicator.class );
-    private static Log LOG = LogFactory.getLog( DefaultFileReplicator.class );
+    private static final Log LOG =
+        LogFactory.getLog( DefaultFileReplicator.class );
 
     private final ArrayList copies = new ArrayList();
     private FileSystemProviderContext context;
@@ -56,14 +57,14 @@ public final class DefaultFileReplicator
     public void close()
     {
         // Delete the temporary files
-        while( copies.size() > 0 )
+        while ( copies.size() > 0 )
         {
             final FileObject file = (FileObject)copies.remove( 0 );
             try
             {
                 file.delete( FileConstants.SELECT_ALL );
             }
-            catch( final FileSystemException e )
+            catch ( final FileSystemException e )
             {
                 final String message = REZ.getString( "delete-temp.warn", file.getName() );
                 LOG.warn( message, e );
@@ -84,7 +85,7 @@ public final class DefaultFileReplicator
     private File generateTempFile( String prefix )
     {
         // Create a unique-ish file name
-        final String basename = prefix + "_"+ filecount + ".tmp";
+        final String basename = prefix + "_" + filecount + ".tmp";
         filecount++;
         return new File( tempDir, basename );
     }

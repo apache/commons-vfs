@@ -28,7 +28,7 @@ public final class SmbFileSystemProvider
     extends AbstractFileSystemProvider
     implements FileProvider
 {
-    private final SmbFileNameParser m_parser = new SmbFileNameParser();
+    private final SmbFileNameParser parser = new SmbFileNameParser();
 
     /**
      * Parses a URI into its components.
@@ -37,7 +37,7 @@ public final class SmbFileSystemProvider
                                   final String uri )
         throws FileSystemException
     {
-        return m_parser.parseSmbUri( uri );
+        return parser.parseSmbUri( uri );
     }
 
     /**
@@ -47,7 +47,7 @@ public final class SmbFileSystemProvider
         throws FileSystemException
     {
         final ParsedSmbUri smbUri = (ParsedSmbUri)uri;
-        final FileName rootName = new DefaultFileName( m_parser, smbUri.getRootUri(), "/" );
+        final FileName rootName = new DefaultFileName( parser, smbUri.getRootUri(), "/" );
         return new SmbFileSystem( getContext(), rootName );
     }
 }

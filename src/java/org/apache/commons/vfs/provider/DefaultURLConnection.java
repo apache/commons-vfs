@@ -25,13 +25,13 @@ import org.apache.commons.vfs.FileSystemException;
 public final class DefaultURLConnection
     extends URLConnection
 {
-    private final FileContent m_content;
+    private final FileContent content;
 
     public DefaultURLConnection( final URL url,
                                  final FileContent content )
     {
         super( url );
-        m_content = content;
+        this.content = content;
     }
 
     public void connect()
@@ -44,9 +44,9 @@ public final class DefaultURLConnection
     {
         try
         {
-            return m_content.getInputStream();
+            return content.getInputStream();
         }
-        catch( FileSystemException fse )
+        catch ( FileSystemException fse )
         {
             throw new ProtocolException( fse.getMessage() );
         }
@@ -57,9 +57,9 @@ public final class DefaultURLConnection
     {
         try
         {
-            return m_content.getOutputStream();
+            return content.getOutputStream();
         }
-        catch( FileSystemException fse )
+        catch ( FileSystemException fse )
         {
             throw new ProtocolException( fse.getMessage() );
         }
@@ -69,9 +69,9 @@ public final class DefaultURLConnection
     {
         try
         {
-            return (int)m_content.getSize();
+            return (int)content.getSize();
         }
-        catch( FileSystemException fse )
+        catch ( FileSystemException fse )
         {
         }
 

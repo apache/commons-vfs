@@ -83,7 +83,8 @@ public interface FileName
      * @throws FileSystemException
      *      If the name is invalid.
      */
-    FileName resolveName( String name, NameScope scope ) throws FileSystemException;
+    FileName resolveName( String name, NameScope scope )
+        throws FileSystemException;
 
     /**
      * Converts a file name to a relative name, relative to this file name.

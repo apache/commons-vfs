@@ -7,19 +7,19 @@
  */
 package org.apache.commons.vfs;
 
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A static factory for {@link FileSystemManager} instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/21 06:21:25 $
+ * @version $Revision: 1.3 $ $Date: 2002/08/21 07:00:10 $
  */
 public class FileSystemManagerFactory
 {

@@ -11,23 +11,23 @@ package org.apache.commons.vfs.util;
  * An enumerated type, which represents an OS family.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/20 07:42:46 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/21 07:00:13 $
  */
 public final class OsFamily
 {
-    private final String m_name;
-    private final OsFamily[] m_families;
+    private final String name;
+    private final OsFamily[] families;
 
     OsFamily( final String name )
     {
-        m_name = name;
-        m_families = new OsFamily[ 0 ];
+        this.name = name;
+        families = new OsFamily[ 0 ];
     }
 
     OsFamily( final String name, final OsFamily[] families )
     {
-        m_name = name;
-        m_families = families;
+        this.name = name;
+        this.families = families;
     }
 
     /**
@@ -35,7 +35,7 @@ public final class OsFamily
      */
     public String getName()
     {
-        return m_name;
+        return name;
     }
 
     /**
@@ -43,6 +43,6 @@ public final class OsFamily
      */
     public OsFamily[] getFamilies()
     {
-        return m_families;
+        return families;
     }
 }

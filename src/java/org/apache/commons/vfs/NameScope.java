@@ -36,7 +36,8 @@ public final class NameScope
      * if the resolved file is not a descendent of the base file, or the base
      * files itself.
      */
-    public static final NameScope DESCENDENT_OR_SELF = new NameScope( "descendent_or_self" );
+    public static final NameScope DESCENDENT_OR_SELF =
+        new NameScope( "descendent_or_self" );
 
     /**
      * Resolve against files in the same file system as the base file.
@@ -55,22 +56,22 @@ public final class NameScope
      */
     public static final NameScope FILE_SYSTEM = new NameScope( "filesystem" );
 
-    private final String m_name;
+    private final String name;
 
     private NameScope( final String name )
     {
-        m_name = name;
+        this.name = name;
     }
 
     /** Returns the name of the scope. */
     public String toString()
     {
-        return m_name;
+        return name;
     }
 
     /** Returns the name of the scope. */
     public String getName()
     {
-        return m_name;
+        return name;
     }
 }

@@ -7,9 +7,9 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A parser for Windows file names.
@@ -47,10 +47,10 @@ final class WindowsFileNameParser
         // Skip over first 3 leading '/' chars
         int startPos = 0;
         int maxlen = Math.min( 3, name.length() );
-        for( ; startPos < maxlen && name.charAt( startPos ) == '/'; startPos++ )
+        for ( ; startPos < maxlen && name.charAt( startPos ) == '/'; startPos++ )
         {
         }
-        if( startPos == maxlen )
+        if ( startPos == maxlen )
         {
             // Too many '/'
             final String message = REZ.getString( "not-absolute-file-name.error", uri );
@@ -60,13 +60,13 @@ final class WindowsFileNameParser
 
         // Look for drive name
         String driveName = extractDrivePrefix( name );
-        if( driveName != null )
+        if ( driveName != null )
         {
             return driveName;
         }
 
         // Look for UNC name
-        if( startPos < 2 )
+        if ( startPos < 2 )
         {
             final String message = REZ.getString( "not-absolute-file-name.error", uri );
             throw new FileSystemException( message );
@@ -81,23 +81,23 @@ final class WindowsFileNameParser
     private String extractDrivePrefix( final StringBuffer name )
     {
         // Looking for <letter> ':' '/'
-        if( name.length() < 3 )
+        if ( name.length() < 3 )
         {
             // Too short
             return null;
         }
         char ch = name.charAt( 0 );
-        if( ch == '/' || ch == ':' )
+        if ( ch == '/' || ch == ':' )
         {
             // Missing drive letter
             return null;
         }
-        if( name.charAt( 1 ) != ':' )
+        if ( name.charAt( 1 ) != ':' )
         {
             // Missing ':'
             return null;
         }
-        if( name.charAt( 2 ) != '/' )
+        if ( name.charAt( 2 ) != '/' )
         {
             // Missing separator
             return null;
@@ -120,11 +120,11 @@ final class WindowsFileNameParser
         // Look for first separator
         int maxpos = name.length();
         int pos = 0;
-        for( ; pos < maxpos && name.charAt( pos ) != '/'; pos++ )
+        for ( ; pos < maxpos && name.charAt( pos ) != '/'; pos++ )
         {
         }
         pos++;
-        if( pos >= maxpos )
+        if ( pos >= maxpos )
         {
             final String message = REZ.getString( "missing-share-name.error", uri );
             throw new FileSystemException( message );
@@ -132,10 +132,10 @@ final class WindowsFileNameParser
 
         // Now have <name> '/'
         int startShareName = pos;
-        for( ; pos < maxpos && name.charAt( pos ) != '/'; pos++ )
+        for ( ; pos < maxpos && name.charAt( pos ) != '/'; pos++ )
         {
         }
-        if( pos == startShareName )
+        if ( pos == startShareName )
         {
             final String message = REZ.getString( "missing-share-name.error", uri );
             throw new FileSystemException( message );

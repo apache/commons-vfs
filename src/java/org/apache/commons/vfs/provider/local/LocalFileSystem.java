@@ -25,14 +25,14 @@ final class LocalFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private final String m_rootFile;
+    private final String rootFile;
 
     public LocalFileSystem( final FileSystemProviderContext context,
                             final DefaultFileName rootName,
                             final String rootFile )
     {
         super( context, rootName );
-        m_rootFile = rootFile;
+        this.rootFile = rootFile;
     }
 
     /**
@@ -41,7 +41,7 @@ final class LocalFileSystem
     protected FileObject createFile( final FileName name ) throws FileSystemException
     {
         // Create the file
-        final String fileName = m_rootFile + name.getPath();
+        final String fileName = rootFile + name.getPath();
         return new LocalFile( this, fileName, name );
     }
 }

@@ -12,11 +12,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.List;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.io.IOUtil;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
@@ -25,9 +28,6 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.commons.io.IOUtil;
 
 /**
  * A partial file object implementation.
@@ -46,21 +46,21 @@ public abstract class AbstractFileObject
 
     private static final FileObject[] EMPTY_FILE_ARRAY = {};
 
-    private final FileName m_name;
-    private final AbstractFileSystem m_fs;
-    private DefaultFileContent m_content;
+    private final FileName name;
+    private final AbstractFileSystem fs;
+    private DefaultFileContent content;
 
     // Cached info
-    private boolean m_attached;
-    private AbstractFileObject m_parent;
-    private FileType m_type;
-    private FileObject[] m_children;
+    private boolean attached;
+    private AbstractFileObject parent;
+    private FileType type;
+    private FileObject[] children;
 
     protected AbstractFileObject( final FileName name,
                                   final AbstractFileSystem fs )
     {
-        m_name = name;
-        m_fs = fs;
+        this.name = name;
+        this.fs = fs;
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class AbstractFileObject
      */
     protected File doReplicateFile( final FileSelector selector ) throws FileSystemException
     {
-        final FileReplicator replicator = m_fs.getContext().getReplicator();
+        final FileReplicator replicator = fs.getContext().getReplicator();
         return replicator.replicateFile( this, selector );
     }
 
@@ -208,7 +208,7 @@ public abstract class AbstractFileObject
      */
     public String toString()
     {
-        return m_name.getURI();
+        return name.getURI();
     }
 
     /**
@@ -216,7 +216,7 @@ public abstract class AbstractFileObject
      */
     public FileName getName()
     {
-        return m_name;
+        return name;
     }
 
     /**
@@ -227,17 +227,19 @@ public abstract class AbstractFileObject
         final StringBuffer buf = new StringBuffer();
         try
         {
-            return (URL) AccessController.doPrivileged(
-                new PrivilegedExceptionAction() {
-                    public Object run() throws MalformedURLException {
-                        return new URL( UriParser.extractScheme( m_name.getURI(), buf ), null, -1,
-                            buf.toString(), new DefaultURLStreamHandler( m_fs.getContext() ) );
+            return (URL)AccessController.doPrivileged(
+                new PrivilegedExceptionAction()
+                {
+                    public Object run() throws MalformedURLException
+                    {
+                        return new URL( UriParser.extractScheme( name.getURI(), buf ), null, -1,
+                                        buf.toString(), new DefaultURLStreamHandler( fs.getContext() ) );
                     }
                 } );
         }
-        catch( PrivilegedActionException e )
+        catch ( PrivilegedActionException e )
         {
-            throw (MalformedURLException) e.getException();
+            throw (MalformedURLException)e.getException();
         }
     }
 
@@ -247,7 +249,7 @@ public abstract class AbstractFileObject
     public boolean exists() throws FileSystemException
     {
         attach();
-        return ( m_type != null );
+        return ( type != null );
     }
 
     /**
@@ -256,12 +258,12 @@ public abstract class AbstractFileObject
     public FileType getType() throws FileSystemException
     {
         attach();
-        if( m_type == null )
+        if ( type == null )
         {
-            final String message = REZ.getString( "get-type-no-exist.error", m_name );
+            final String message = REZ.getString( "get-type-no-exist.error", name );
             throw new FileSystemException( message );
         }
-        return m_type;
+        return type;
     }
 
     /**
@@ -269,18 +271,18 @@ public abstract class AbstractFileObject
      */
     public FileObject getParent() throws FileSystemException
     {
-        if( this == m_fs.getRoot() )
+        if ( this == fs.getRoot() )
         {
             // Root file has no parent
             return null;
         }
 
         // Locate the parent of this file
-        if( m_parent == null )
+        if ( parent == null )
         {
-            m_parent = (AbstractFileObject)m_fs.findFile( m_name.getParent() );
+            parent = (AbstractFileObject)fs.findFile( name.getParent() );
         }
-        return m_parent;
+        return parent;
     }
 
     /**
@@ -288,7 +290,7 @@ public abstract class AbstractFileObject
      */
     public FileObject getRoot() throws FileSystemException
     {
-        return m_fs.getRoot();
+        return fs.getRoot();
     }
 
     /**
@@ -297,21 +299,21 @@ public abstract class AbstractFileObject
     public FileObject[] getChildren() throws FileSystemException
     {
         attach();
-        if( m_type == null )
+        if ( type == null )
         {
-            final String message = REZ.getString( "list-children-no-exist.error", m_name );
+            final String message = REZ.getString( "list-children-no-exist.error", name );
             throw new FileSystemException( message );
         }
-        if( m_type != FileType.FOLDER )
+        if ( type != FileType.FOLDER )
         {
-            final String message = REZ.getString( "list-children-not-folder.error", m_name );
+            final String message = REZ.getString( "list-children-not-folder.error", name );
             throw new FileSystemException( message );
         }
 
         // Use cached info, if present
-        if( m_children != null )
+        if ( children != null )
         {
-            return m_children;
+            return children;
         }
 
         // List the children
@@ -320,33 +322,33 @@ public abstract class AbstractFileObject
         {
             files = doListChildren();
         }
-        catch( RuntimeException re )
+        catch ( RuntimeException re )
         {
             throw re;
         }
-        catch( Exception exc )
+        catch ( Exception exc )
         {
-            final String message = REZ.getString( "list-children.error", m_name );
+            final String message = REZ.getString( "list-children.error", name );
             throw new FileSystemException( message, exc );
         }
 
-        if( files == null || files.length == 0 )
+        if ( files == null || files.length == 0 )
         {
             // No children
-            m_children = EMPTY_FILE_ARRAY;
+            children = EMPTY_FILE_ARRAY;
         }
         else
         {
             // Create file objects for the children
-            m_children = new FileObject[ files.length ];
-            for( int i = 0; i < files.length; i++ )
+            children = new FileObject[ files.length ];
+            for ( int i = 0; i < files.length; i++ )
             {
                 String file = files[ i ];
-                m_children[ i ] = m_fs.findFile( m_name.resolveName( file, NameScope.CHILD ) );
+                children[ i ] = fs.findFile( name.resolveName( file, NameScope.CHILD ) );
             }
         }
 
-        return m_children;
+        return children;
     }
 
     /**
@@ -355,7 +357,7 @@ public abstract class AbstractFileObject
     public FileObject resolveFile( String name, NameScope scope ) throws FileSystemException
     {
         // TODO - cache children (only if they exist)
-        return m_fs.findFile( m_name.resolveName( name, scope ) );
+        return fs.findFile( this.name.resolveName( name, scope ) );
     }
 
     /**
@@ -369,8 +371,8 @@ public abstract class AbstractFileObject
      */
     public FileObject resolveFile( final String path ) throws FileSystemException
     {
-        final FileName name = m_name.resolveName( path );
-        return m_fs.findFile( name );
+        final FileName otherName = name.resolveName( path );
+        return fs.findFile( otherName );
     }
 
     /**
@@ -378,9 +380,9 @@ public abstract class AbstractFileObject
      */
     private void deleteSelf() throws FileSystemException
     {
-        if( isReadOnly() )
+        if ( isReadOnly() )
         {
-            final String message = REZ.getString( "delete-read-only.error", m_name );
+            final String message = REZ.getString( "delete-read-only.error", name );
             throw new FileSystemException( message );
         }
 
@@ -389,13 +391,13 @@ public abstract class AbstractFileObject
         {
             doDelete();
         }
-        catch( RuntimeException re )
+        catch ( RuntimeException re )
         {
             throw re;
         }
-        catch( Exception exc )
+        catch ( Exception exc )
         {
-            final String message = REZ.getString( "delete.error", m_name );
+            final String message = REZ.getString( "delete.error", name );
             throw new FileSystemException( message, exc );
         }
 
@@ -409,7 +411,7 @@ public abstract class AbstractFileObject
     public void delete( final FileSelector selector ) throws FileSystemException
     {
         attach();
-        if( m_type == null )
+        if ( type == null )
         {
             // File does not exist
             return;
@@ -421,13 +423,13 @@ public abstract class AbstractFileObject
 
         // Delete 'em
         final int count = files.size();
-        for( int i = 0; i < count; i++ )
+        for ( int i = 0; i < count; i++ )
         {
             final AbstractFileObject file = (AbstractFileObject)files.get( i );
             file.attach();
 
             // If the file is a folder, make sure all its children have been deleted
-            if( file.m_type == FileType.FOLDER && file.getChildren().length != 0 )
+            if ( file.type == FileType.FOLDER && file.getChildren().length != 0 )
             {
                 // Skip
                 continue;
@@ -445,25 +447,25 @@ public abstract class AbstractFileObject
     public void create( FileType type ) throws FileSystemException
     {
         attach();
-        if( m_type == type )
+        if ( this.type == type )
         {
             // Already exists as correct type
             return;
         }
-        if( m_type != null )
+        if ( this.type != null )
         {
-            final String message = REZ.getString( "create-mismatched-type.error", type, m_name, m_type );
+            final String message = REZ.getString( "create-mismatched-type.error", type, name, this.type );
             throw new FileSystemException( message );
         }
-        if( isReadOnly() )
+        if ( isReadOnly() )
         {
-            final String message = REZ.getString( "create-read-only.error", type, m_name );
+            final String message = REZ.getString( "create-read-only.error", type, name );
             throw new FileSystemException( message );
         }
 
         // Traverse up the heirarchy and make sure everything is a folder
         FileObject parent = getParent();
-        if( parent != null )
+        if ( parent != null )
         {
             parent.create( FileType.FOLDER );
         }
@@ -471,25 +473,25 @@ public abstract class AbstractFileObject
         // Create the folder
         try
         {
-            if( type == FileType.FOLDER )
+            if ( type == FileType.FOLDER )
             {
                 doCreateFolder();
-                m_children = EMPTY_FILE_ARRAY;
+                children = EMPTY_FILE_ARRAY;
             }
-            else if( type == FileType.FILE )
+            else if ( type == FileType.FILE )
             {
                 OutputStream outStr = doGetOutputStream();
                 outStr.close();
                 endOutput();
             }
         }
-        catch( RuntimeException re )
+        catch ( RuntimeException re )
         {
             throw re;
         }
-        catch( Exception exc )
+        catch ( Exception exc )
         {
-            final String message = REZ.getString( "create.error", type, m_name );
+            final String message = REZ.getString( "create.error", type, name );
             throw new FileSystemException( message, exc );
         }
 
@@ -503,14 +505,14 @@ public abstract class AbstractFileObject
     public void copyFrom( final FileObject file, final FileSelector selector )
         throws FileSystemException
     {
-        if( !file.exists() )
+        if ( !file.exists() )
         {
             final String message = REZ.getString( "copy-missing-file.error", file.getName() );
             throw new FileSystemException( message );
         }
-        if( isReadOnly() )
+        if ( isReadOnly() )
         {
-            final String message = REZ.getString( "copy-read-only.error", file.getType(), file.getName(), m_name );
+            final String message = REZ.getString( "copy-read-only.error", file.getType(), file.getName(), name );
             throw new FileSystemException( message );
         }
 
@@ -520,7 +522,7 @@ public abstract class AbstractFileObject
 
         // Copy everything across
         final int count = files.size();
-        for( int i = 0; i < count; i++ )
+        for ( int i = 0; i < count; i++ )
         {
             final FileObject srcFile = (FileObject)files.get( i );
 
@@ -529,7 +531,7 @@ public abstract class AbstractFileObject
             final FileObject destFile = resolveFile( relPath, NameScope.DESCENDENT_OR_SELF );
 
             // Clean up the destination file, if necessary
-            if( destFile.exists() && destFile.getType() != srcFile.getType() )
+            if ( destFile.exists() && destFile.getType() != srcFile.getType() )
             {
                 // The destination file exists, and is not of the same type,
                 // so delete it
@@ -538,7 +540,7 @@ public abstract class AbstractFileObject
             }
 
             // Copy across
-            if( srcFile.getType() == FileType.FILE )
+            if ( srcFile.getType() == FileType.FILE )
             {
                 copyContent( srcFile, destFile );
             }
@@ -555,9 +557,9 @@ public abstract class AbstractFileObject
     public File replicateFile( final FileSelector selector )
         throws FileSystemException
     {
-        if( !exists() )
+        if ( !exists() )
         {
-            final String message = REZ.getString( "copy-missing-file.error", m_name );
+            final String message = REZ.getString( "copy-missing-file.error", name );
             throw new FileSystemException( message );
         }
 
@@ -593,11 +595,11 @@ public abstract class AbstractFileObject
                 IOUtil.shutdownStream( instr );
             }
         }
-        catch( RuntimeException re )
+        catch ( RuntimeException re )
         {
             throw re;
         }
-        catch( final Exception exc )
+        catch ( final Exception exc )
         {
             final String message = REZ.getString( "copy-file.error", srcFile.getName(), destFile.getName() );
             throw new FileSystemException( message, exc );
@@ -610,16 +612,16 @@ public abstract class AbstractFileObject
     public FileContent getContent() throws FileSystemException
     {
         attach();
-        if( m_type == FileType.FOLDER )
+        if ( type == FileType.FOLDER )
         {
-            final String message = REZ.getString( "get-folder-content.error", m_name );
+            final String message = REZ.getString( "get-folder-content.error", name );
             throw new FileSystemException( message );
         }
-        if( m_content == null )
+        if ( content == null )
         {
-            m_content = new DefaultFileContent( this );
+            content = new DefaultFileContent( this );
         }
-        return m_content;
+        return content;
     }
 
     /**
@@ -630,28 +632,28 @@ public abstract class AbstractFileObject
         FileSystemException exc = null;
 
         // Close the content
-        if( m_content != null )
+        if ( content != null )
         {
             try
             {
-                m_content.close();
+                content.close();
             }
-            catch( FileSystemException e )
+            catch ( FileSystemException e )
             {
                 exc = e;
             }
         }
 
         // Detach from the file
-        if( m_attached )
+        if ( attached )
         {
             doDetach();
-            m_attached = false;
-            m_type = null;
-            m_children = null;
+            attached = false;
+            type = null;
+            children = null;
         }
 
-        if( exc != null )
+        if ( exc != null )
         {
             throw exc;
         }
@@ -665,22 +667,22 @@ public abstract class AbstractFileObject
     public OutputStream getOutputStream() throws FileSystemException
     {
         attach();
-        if( isReadOnly() )
+        if ( isReadOnly() )
         {
-            final String message = REZ.getString( "write-read-only.error", m_name );
+            final String message = REZ.getString( "write-read-only.error", name );
             throw new FileSystemException( message );
         }
-        if( m_type == FileType.FOLDER )
+        if ( type == FileType.FOLDER )
         {
-            final String message = REZ.getString( "write-folder.error", m_name );
+            final String message = REZ.getString( "write-folder.error", name );
             throw new FileSystemException( message );
         }
 
-        if( m_type == null )
+        if ( type == null )
         {
             // Does not exist - make sure parent does
             FileObject parent = getParent();
-            if( parent != null )
+            if ( parent != null )
             {
                 parent.create( FileType.FOLDER );
             }
@@ -691,17 +693,17 @@ public abstract class AbstractFileObject
         {
             return doGetOutputStream();
         }
-        catch( FileSystemException exc )
+        catch ( FileSystemException exc )
         {
             throw exc;
         }
-        catch( RuntimeException re )
+        catch ( RuntimeException re )
         {
             throw re;
         }
-        catch( Exception exc )
+        catch ( Exception exc )
         {
-            final String message = REZ.getString( "write.error", m_name );
+            final String message = REZ.getString( "write.error", name );
             throw new FileSystemException( message, exc );
         }
     }
@@ -711,7 +713,7 @@ public abstract class AbstractFileObject
      */
     private void attach() throws FileSystemException
     {
-        if( m_attached )
+        if ( attached )
         {
             return;
         }
@@ -720,20 +722,20 @@ public abstract class AbstractFileObject
         {
             // Attach and determine the file type
             doAttach();
-            m_attached = true;
-            m_type = doGetType();
+            attached = true;
+            type = doGetType();
         }
-        catch( FileSystemException exc )
+        catch ( FileSystemException exc )
         {
             throw exc;
         }
-        catch( RuntimeException re )
+        catch ( RuntimeException re )
         {
             throw re;
         }
-        catch( Exception exc )
+        catch ( Exception exc )
         {
-            final String message = REZ.getString( "get-type.error", m_name );
+            final String message = REZ.getString( "get-type.error", name );
             throw new FileSystemException( message, exc );
         }
 
@@ -758,9 +760,9 @@ public abstract class AbstractFileObject
 
         // Detach
         doDetach();
-        m_attached = false;
-        m_type = null;
-        m_children = null;
+        attached = false;
+        type = null;
+        children = null;
     }
 
     /**
@@ -769,15 +771,15 @@ public abstract class AbstractFileObject
      */
     private void notifyParent()
     {
-        if( m_parent == null )
+        if ( parent == null )
         {
             // Locate the parent, if it is cached
-            m_parent = (AbstractFileObject)m_fs.getFile( m_name.getParent() );
+            parent = (AbstractFileObject)fs.getFile( name.getParent() );
         }
 
-        if( m_parent != null )
+        if ( parent != null )
         {
-            m_parent.invalidateChildren();
+            parent.invalidateChildren();
         }
     }
 
@@ -786,7 +788,7 @@ public abstract class AbstractFileObject
      */
     private void invalidateChildren()
     {
-        m_children = null;
+        children = null;
         onChildrenChanged();
     }
 
@@ -798,7 +800,7 @@ public abstract class AbstractFileObject
                     final boolean depthwise,
                     final List selected ) throws FileSystemException
     {
-        if( exists() )
+        if ( exists() )
         {
             // Traverse starting at this file
             final DefaultFileSelectorInfo info = new DefaultFileSelectorInfo();
@@ -823,20 +825,20 @@ public abstract class AbstractFileObject
         final FileObject file = fileInfo.getFile();
 
         // Add the file if not doing depthwise traversal
-        if( !depthwise && includeFile )
+        if ( !depthwise && includeFile )
         {
             selected.add( file );
         }
 
         // If the file is a folder, traverse it
-        if( file.getType() == FileType.FOLDER && selector.traverseDescendents( fileInfo ) )
+        if ( file.getType() == FileType.FOLDER && selector.traverseDescendents( fileInfo ) )
         {
             final int curDepth = fileInfo.getDepth();
             fileInfo.setDepth( curDepth + 1 );
 
             // Traverse the children
             final FileObject[] children = file.getChildren();
-            for( int i = 0; i < children.length; i++ )
+            for ( int i = 0; i < children.length; i++ )
             {
                 final FileObject child = children[ i ];
                 fileInfo.setFile( child );
@@ -848,7 +850,7 @@ public abstract class AbstractFileObject
         }
 
         // Add the file if doing depthwise traversal
-        if( depthwise && includeFile )
+        if ( depthwise && includeFile )
         {
             selected.add( file );
         }

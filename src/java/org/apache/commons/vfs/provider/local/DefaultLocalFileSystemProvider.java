@@ -10,12 +10,12 @@ package org.apache.commons.vfs.provider.local;
 import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.Os;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileSystem;
 import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.provider.ParsedUri;
+import org.apache.commons.vfs.util.Os;
 
 /**
  * A file system provider, which uses direct file access.
@@ -30,17 +30,17 @@ public final class DefaultLocalFileSystemProvider
     extends AbstractFileSystemProvider
     implements LocalFileProvider
 {
-    private final LocalFileNameParser m_parser;
+    private final LocalFileNameParser parser;
 
     public DefaultLocalFileSystemProvider()
     {
-        if( Os.isFamily( Os.OS_FAMILY_WINDOWS ) )
+        if ( Os.isFamily( Os.OS_FAMILY_WINDOWS ) )
         {
-            m_parser = new WindowsFileNameParser();
+            parser = new WindowsFileNameParser();
         }
         else
         {
-            m_parser = new GenericFileNameParser();
+            parser = new GenericFileNameParser();
         }
     }
 
@@ -49,7 +49,7 @@ public final class DefaultLocalFileSystemProvider
      */
     public boolean isAbsoluteLocalName( final String name )
     {
-        return m_parser.isAbsoluteName( name );
+        return parser.isAbsoluteName( name );
     }
 
     /**
@@ -85,7 +85,7 @@ public final class DefaultLocalFileSystemProvider
                                   final String uri )
         throws FileSystemException
     {
-        return m_parser.parseFileUri( uri );
+        return parser.parseFileUri( uri );
     }
 
     /**
@@ -99,7 +99,7 @@ public final class DefaultLocalFileSystemProvider
         final String rootFile = fileUri.getRootFile();
 
         // Create the file system
-        final DefaultFileName rootName = new DefaultFileName( m_parser, fileUri.getRootUri(), "/" );
+        final DefaultFileName rootName = new DefaultFileName( parser, fileUri.getRootUri(), "/" );
         return new LocalFileSystem( getContext(), rootName, rootFile );
     }
 }

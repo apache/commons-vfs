@@ -19,37 +19,37 @@ import org.apache.commons.vfs.FileSelectInfo;
 final class DefaultFileSelectorInfo
     implements FileSelectInfo
 {
-    private FileObject m_baseFolder;
-    private FileObject m_file;
-    private int m_depth;
+    private FileObject baseFolder;
+    private FileObject file;
+    private int depth;
 
     public FileObject getBaseFolder()
     {
-        return m_baseFolder;
+        return baseFolder;
     }
 
     public void setBaseFolder( final FileObject baseFolder )
     {
-        m_baseFolder = baseFolder;
+        this.baseFolder = baseFolder;
     }
 
     public FileObject getFile()
     {
-        return m_file;
+        return file;
     }
 
     public void setFile( final FileObject file )
     {
-        m_file = file;
+        this.file = file;
     }
 
     public int getDepth()
     {
-        return m_depth;
+        return depth;
     }
 
     public void setDepth( final int depth )
     {
-        m_depth = depth;
+        this.depth = depth;
     }
 }

@@ -7,9 +7,9 @@
 */
 package org.apache.commons.vfs.provider.local;
 
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A general-purpose file name parser.
@@ -33,7 +33,7 @@ final class GenericFileNameParser
         // TODO - this class isn't generic at all.  Need to fix this
 
         // Looking for <sep>
-        if( name.length() == 0 || name.charAt( 0 ) != '/' )
+        if ( name.length() == 0 || name.charAt( 0 ) != '/' )
         {
             final String message = REZ.getString( "not-absolute-file-name.error", uri );
             throw new FileSystemException( message );

@@ -24,11 +24,11 @@ import org.apache.commons.vfs.FileSystemException;
 public class DefaultURLStreamHandler
     extends URLStreamHandler
 {
-    private final FileSystemProviderContext m_context;
+    private final FileSystemProviderContext context;
 
     public DefaultURLStreamHandler( final FileSystemProviderContext context )
     {
-        m_context = context;
+        this.context = context;
     }
 
     protected URLConnection openConnection( final URL url )
@@ -36,10 +36,10 @@ public class DefaultURLStreamHandler
     {
         try
         {
-            final FileObject entry = m_context.resolveFile( url.toExternalForm() );
+            final FileObject entry = context.resolveFile( url.toExternalForm() );
             return new DefaultURLConnection( url, entry.getContent() );
         }
-        catch( FileSystemException fse )
+        catch ( FileSystemException fse )
         {
             throw new ProtocolException( fse.getMessage() );
         }
@@ -52,12 +52,12 @@ public class DefaultURLStreamHandler
     {
         try
         {
-            FileObject old = m_context.resolveFile( u.toExternalForm() );
+            FileObject old = context.resolveFile( u.toExternalForm() );
 
             FileObject newURL;
-            if( start > 0 && spec.charAt( start - 1 ) == ':' )
+            if ( start > 0 && spec.charAt( start - 1 ) == ':' )
             {
-                newURL = m_context.resolveFile( old, spec );
+                newURL = context.resolveFile( old, spec );
             }
             else
             {
@@ -70,7 +70,7 @@ public class DefaultURLStreamHandler
 
             setURL( u, protocolPart, null, -1, null, null, filePart.toString(), null, null );
         }
-        catch( FileSystemException fse )
+        catch ( FileSystemException fse )
         {
             // This is rethrown to MalformedURLException in URL anyway
             throw new RuntimeException( fse.getMessage() );

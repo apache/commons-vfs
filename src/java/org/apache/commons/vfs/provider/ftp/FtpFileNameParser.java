@@ -36,17 +36,17 @@ class FtpFileNameParser
 
         // Drop the port if it is 21
         final String port = uri.getPort();
-        if( port != null && port.equals( "21" ) )
+        if ( port != null && port.equals( "21" ) )
         {
             uri.setPort( null );
         }
 
         // Split up the userinfo into a username and password
         final String userInfo = uri.getUserInfo();
-        if( userInfo != null )
+        if ( userInfo != null )
         {
             int idx = userInfo.indexOf( ':' );
-            if( idx == -1 )
+            if ( idx == -1 )
             {
                 uri.setUserName( userInfo );
             }

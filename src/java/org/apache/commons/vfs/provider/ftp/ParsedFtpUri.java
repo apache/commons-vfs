@@ -18,26 +18,26 @@ import org.apache.commons.vfs.provider.ParsedUri;
 final class ParsedFtpUri
     extends ParsedUri
 {
-    private String m_userName;
-    private String m_password;
+    private String userName;
+    private String password;
 
     public String getUserName()
     {
-        return m_userName;
+        return userName;
     }
 
     public void setUserName( String userName )
     {
-        m_userName = userName;
+        this.userName = userName;
     }
 
     public String getPassword()
     {
-        return m_password;
+        return password;
     }
 
     public void setPassword( String password )
     {
-        m_password = password;
+        this.password = password;
     }
 }

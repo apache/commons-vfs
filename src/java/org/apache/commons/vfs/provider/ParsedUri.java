@@ -15,82 +15,82 @@ package org.apache.commons.vfs.provider;
  */
 public class ParsedUri
 {
-    private String m_scheme;
-    private String m_rootURI;
-    private String m_path;
-    private String m_userInfo;
-    private String m_hostName;
-    private String m_port;
+    private String scheme;
+    private String rootURI;
+    private String path;
+    private String userInfo;
+    private String hostName;
+    private String port;
 
     /** Returns the scheme. */
     public String getScheme()
     {
-        return m_scheme;
+        return scheme;
     }
 
     /** Sets the scheme. */
     public void setScheme( String scheme )
     {
-        m_scheme = scheme;
+        this.scheme = scheme;
     }
 
     /** Returns the root URI, used to identify the file system. */
     public String getRootUri()
     {
-        return m_rootURI;
+        return rootURI;
     }
 
     /** Sets the root URI. */
     public void setRootUri( String rootPrefix )
     {
-        m_rootURI = rootPrefix;
+        rootURI = rootPrefix;
     }
 
     /** Returns the user info part of the URI. */
     public String getUserInfo()
     {
-        return m_userInfo;
+        return userInfo;
     }
 
     /** Sets the user info part of the URI. */
     public void setUserInfo( String userInfo )
     {
-        m_userInfo = userInfo;
+        this.userInfo = userInfo;
     }
 
     /** Returns the host name part of the URI. */
     public String getHostName()
     {
-        return m_hostName;
+        return hostName;
     }
 
     /** Sets the host name part of the URI. */
     public void setHostName( String hostName )
     {
-        m_hostName = hostName;
+        this.hostName = hostName;
     }
 
     /** Returns the port part of the URI. */
     public String getPort()
     {
-        return m_port;
+        return port;
     }
 
     /** Sets the port part of the URI. */
     public void setPort( String port )
     {
-        m_port = port;
+        this.port = port;
     }
 
     /** Returns the path part of the URI.  */
     public String getPath()
     {
-        return m_path;
+        return path;
     }
 
     /** Sets the path part of the URI. */
     public void setPath( String absolutePath )
     {
-        m_path = absolutePath;
+        path = absolutePath;
     }
 }

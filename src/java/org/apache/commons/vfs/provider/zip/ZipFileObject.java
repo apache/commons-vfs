@@ -26,10 +26,10 @@ final class ZipFileObject
     extends AbstractFileObject
     implements FileObject
 {
-    private final ZipEntry m_entry;
-    private final ZipFile m_file;
-    private final FileType m_type;
-    private final HashSet m_children = new HashSet();
+    private final ZipEntry entry;
+    private final ZipFile file;
+    private final FileType type;
+    private final HashSet children = new HashSet();
 
     public ZipFileObject( FileName name,
                           ZipEntry entry,
@@ -37,9 +37,9 @@ final class ZipFileObject
                           ZipFileSystem fs )
     {
         super( name, fs );
-        m_type = FileType.FILE;
-        m_entry = entry;
-        m_file = zipFile;
+        type = FileType.FILE;
+        this.entry = entry;
+        file = zipFile;
     }
 
     public ZipFileObject( final FileName name,
@@ -47,15 +47,15 @@ final class ZipFileObject
                           final ZipFileSystem fs )
     {
         super( name, fs );
-        m_entry = null;
-        m_file = null;
-        if( exists )
+        entry = null;
+        file = null;
+        if ( exists )
         {
-            m_type = FileType.FOLDER;
+            type = FileType.FOLDER;
         }
         else
         {
-            m_type = null;
+            type = null;
         }
     }
 
@@ -64,7 +64,7 @@ final class ZipFileObject
      */
     public void attachChild( FileName childName )
     {
-        m_children.add( childName.getBaseName() );
+        children.add( childName.getBaseName() );
     }
 
     /**
@@ -80,7 +80,7 @@ final class ZipFileObject
      */
     protected FileType doGetType()
     {
-        return m_type;
+        return type;
     }
 
     /**
@@ -88,7 +88,7 @@ final class ZipFileObject
      */
     protected String[] doListChildren()
     {
-        return (String[])m_children.toArray( new String[ m_children.size() ] );
+        return (String[])children.toArray( new String[ children.size() ] );
     }
 
     /**
@@ -97,7 +97,7 @@ final class ZipFileObject
      */
     protected long doGetContentSize()
     {
-        return m_entry.getSize();
+        return entry.getSize();
     }
 
     /**
@@ -108,6 +108,6 @@ final class ZipFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return m_file.getInputStream( m_entry );
+        return file.getInputStream( entry );
     }
 }

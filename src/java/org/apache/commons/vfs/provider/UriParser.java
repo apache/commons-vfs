@@ -9,10 +9,10 @@ package org.apache.commons.vfs.provider;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.NameScope;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.NameScope;
 
 /**
  * A name parser which parses absolute URIs.  See RFC 2396 for details.
@@ -26,14 +26,14 @@ public class UriParser
         ResourceManager.getPackageResources( UriParser.class );
 
     /** The normalised separator to use. */
-    private final char m_separatorChar;
-    private final String m_separator;
+    private final char separatorChar;
+    private final String separator;
 
     /**
      * The set of valid separators.  These are all converted to the normalised one.
      * Does <i>not</i> contain the normalised separator
      */
-    private final char[] m_separators;
+    private final char[] separators;
 
     /**
      * Creates a parser, using '/' and '\' as the path separators.
@@ -53,32 +53,32 @@ public class UriParser
      */
     protected UriParser( final char[] separators )
     {
-        m_separatorChar = '/';
+        separatorChar = '/';
 
         // Remove the separator char from the separators array
         final HashSet set = new HashSet();
         set.add( new Character( '\\' ) );
-        if( separators != null )
+        if ( separators != null )
         {
-            for( int i = 0; i < separators.length; i++ )
+            for ( int i = 0; i < separators.length; i++ )
             {
                 char separator = separators[ i ];
-                if( separator == m_separatorChar )
+                if ( separator == separatorChar )
                 {
                     continue;
                 }
                 set.add( new Character( separator ) );
             }
         }
-        m_separators = new char[ set.size() ];
+        this.separators = new char[ set.size() ];
         final Iterator iter = set.iterator();
-        for( int i = 0; i < m_separators.length; i++ )
+        for ( int i = 0; i < this.separators.length; i++ )
         {
             final Character ch = (Character)iter.next();
-            m_separators[ i ] = ch.charValue();
+            this.separators[ i ] = ch.charValue();
         }
 
-        m_separator = String.valueOf( m_separatorChar );
+        separator = String.valueOf( separatorChar );
     }
 
     /**
@@ -108,14 +108,14 @@ public class UriParser
         rootUri.append( uri.getScheme() );
         rootUri.append( "://" );
         final String userInfo = uri.getUserInfo();
-        if( userInfo != null && userInfo.length() != 0 )
+        if ( userInfo != null && userInfo.length() != 0 )
         {
             rootUri.append( userInfo );
             rootUri.append( "@" );
         }
         rootUri.append( uri.getHostName() );
         final String port = uri.getPort();
-        if( port != null && port.length() > 0 )
+        if ( port != null && port.length() > 0 )
         {
             rootUri.append( ":" );
             rootUri.append( port );
@@ -183,7 +183,7 @@ public class UriParser
         parsedUri.setScheme( scheme );
 
         // Expecting "//"
-        if( name.length() < 2 || name.charAt( 0 ) != '/' || name.charAt( 1 ) != '/' )
+        if ( name.length() < 2 || name.charAt( 0 ) != '/' || name.charAt( 1 ) != '/' )
         {
             final String message = REZ.getString( "missing-double-slashes.error", uri );
             throw new FileSystemException( message );
@@ -196,7 +196,7 @@ public class UriParser
 
         // Extract hostname
         final String hostName = extractHostName( name );
-        if( hostName == null )
+        if ( hostName == null )
         {
             final String message = REZ.getString( "missing-hostname.error", uri );
             throw new FileSystemException( message );
@@ -205,7 +205,7 @@ public class UriParser
 
         // Extract port
         final String port = extractPort( name );
-        if( port != null && port.length() == 0 )
+        if ( port != null && port.length() == 0 )
         {
             final String message = REZ.getString( "missing-port.error", uri );
             throw new FileSystemException( message );
@@ -213,7 +213,7 @@ public class UriParser
         parsedUri.setPort( port );
 
         // Expecting '/' or empty name
-        if( name.length() > 0 && name.charAt( 0 ) != '/' )
+        if ( name.length() > 0 && name.charAt( 0 ) != '/' )
         {
             final String message = REZ.getString( "missing-hostname-path-sep.error", uri );
             throw new FileSystemException( message );
@@ -227,17 +227,17 @@ public class UriParser
     protected String extractUserInfo( final StringBuffer name )
     {
         final int maxlen = name.length();
-        for( int pos = 0; pos < maxlen; pos++ )
+        for ( int pos = 0; pos < maxlen; pos++ )
         {
             final char ch = name.charAt( pos );
-            if( ch == '@' )
+            if ( ch == '@' )
             {
                 // Found the end of the user info
                 String userInfo = name.substring( 0, pos );
                 name.delete( 0, pos + 1 );
                 return userInfo;
             }
-            if( ch == '/' || ch == '?' )
+            if ( ch == '/' || ch == '?' )
             {
                 // Not allowed in user info
                 break;
@@ -256,17 +256,17 @@ public class UriParser
     {
         final int maxlen = name.length();
         int pos = 0;
-        for( ; pos < maxlen; pos++ )
+        for ( ; pos < maxlen; pos++ )
         {
             final char ch = name.charAt( pos );
-            if( ch == '/' || ch == ';' || ch == '?' || ch == ':'
+            if ( ch == '/' || ch == ';' || ch == '?' || ch == ':'
                 || ch == '@' || ch == '&' || ch == '=' || ch == '+'
                 || ch == '$' || ch == ',' )
             {
                 break;
             }
         }
-        if( pos == 0 )
+        if ( pos == 0 )
         {
             return null;
         }
@@ -282,17 +282,17 @@ public class UriParser
      */
     protected String extractPort( final StringBuffer name )
     {
-        if( name.length() < 1 || name.charAt( 0 ) != ':' )
+        if ( name.length() < 1 || name.charAt( 0 ) != ':' )
         {
             return null;
         }
 
         final int maxlen = name.length();
         int pos = 1;
-        for( ; pos < maxlen; pos++ )
+        for ( ; pos < maxlen; pos++ )
         {
             final char ch = name.charAt( pos );
-            if( ch < '0' || ch > '9' )
+            if ( ch < '0' || ch > '9' )
             {
                 break;
             }
@@ -309,18 +309,18 @@ public class UriParser
     protected String extractFirstElement( final StringBuffer name )
     {
         final int len = name.length();
-        if( len < 1 )
+        if ( len < 1 )
         {
             return null;
         }
         int startPos = 0;
-        if( name.charAt( 0 ) == m_separatorChar )
+        if ( name.charAt( 0 ) == separatorChar )
         {
             startPos = 1;
         }
-        for( int pos = startPos; pos < len; pos++ )
+        for ( int pos = startPos; pos < len; pos++ )
         {
-            if( name.charAt( pos ) == m_separatorChar )
+            if ( name.charAt( pos ) == separatorChar )
             {
                 // Found a separator
                 final String elem = name.substring( startPos, pos );
@@ -349,13 +349,13 @@ public class UriParser
     {
         final StringBuffer uri = new StringBuffer( rootUri );
         final int len = uri.length();
-        if( uri.charAt( len - 1 ) == m_separatorChar )
+        if ( uri.charAt( len - 1 ) == separatorChar )
         {
             uri.delete( len - 1, len );
         }
-        if( !path.startsWith( m_separator ) )
+        if ( !path.startsWith( separator ) )
         {
-            uri.append( m_separatorChar );
+            uri.append( separatorChar );
         }
         uri.append( path );
         return uri.toString();
@@ -369,8 +369,8 @@ public class UriParser
      */
     public String getBaseName( final String path )
     {
-        final int idx = path.lastIndexOf( m_separatorChar );
-        if( idx == -1 )
+        final int idx = path.lastIndexOf( separatorChar );
+        if ( idx == -1 )
         {
             return path;
         }
@@ -400,10 +400,10 @@ public class UriParser
         fixSeparators( buffer );
 
         // Determine whether to prepend the base path
-        if( path.length() == 0 || path.charAt( 0 ) != m_separatorChar )
+        if ( path.length() == 0 || path.charAt( 0 ) != separatorChar )
         {
             // Supplied path is not absolute
-            buffer.insert( 0, m_separatorChar );
+            buffer.insert( 0, separatorChar );
             buffer.insert( 0, basePath );
         }
 
@@ -430,41 +430,41 @@ public class UriParser
         throws FileSystemException
     {
         final String resolvedPath = resolvePath( baseFile, path );
-        if( scope == NameScope.CHILD )
+        if ( scope == NameScope.CHILD )
         {
             final int baseLen = baseFile.length();
-            if( !resolvedPath.startsWith( baseFile )
+            if ( !resolvedPath.startsWith( baseFile )
                 || resolvedPath.length() == baseLen
-                || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != m_separatorChar )
-                || resolvedPath.indexOf( m_separatorChar, baseLen + 1 ) != -1 )
+                || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != separatorChar )
+                || resolvedPath.indexOf( separatorChar, baseLen + 1 ) != -1 )
             {
                 final String message = REZ.getString( "invalid-childname.error", path );
                 throw new FileSystemException( message );
             }
         }
-        else if( scope == NameScope.DESCENDENT )
+        else if ( scope == NameScope.DESCENDENT )
         {
             final int baseLen = baseFile.length();
-            if( !resolvedPath.startsWith( baseFile )
+            if ( !resolvedPath.startsWith( baseFile )
                 || resolvedPath.length() == baseLen
-                || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != m_separatorChar ) )
+                || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != separatorChar ) )
             {
                 final String message = REZ.getString( "invalid-descendent-name.error", path );
                 throw new FileSystemException( message );
             }
         }
-        else if( scope == NameScope.DESCENDENT_OR_SELF )
+        else if ( scope == NameScope.DESCENDENT_OR_SELF )
         {
             final int baseLen = baseFile.length();
-            if( !resolvedPath.startsWith( baseFile )
+            if ( !resolvedPath.startsWith( baseFile )
                 || ( resolvedPath.length() != baseLen
-                && resolvedPath.charAt( baseLen ) != m_separatorChar ) )
+                && resolvedPath.charAt( baseLen ) != separatorChar ) )
             {
                 final String message = REZ.getString( "invalid-descendent-name.error", path );
                 throw new FileSystemException( message );
             }
         }
-        else if( scope != NameScope.FILE_SYSTEM )
+        else if ( scope != NameScope.FILE_SYSTEM )
         {
             throw new IllegalArgumentException();
         }
@@ -480,16 +480,16 @@ public class UriParser
      */
     public String getParentPath( final String path )
     {
-        final int idx = path.lastIndexOf( m_separatorChar );
-        if( idx == -1 || idx == path.length() - 1 )
+        final int idx = path.lastIndexOf( separatorChar );
+        if ( idx == -1 || idx == path.length() - 1 )
         {
             // No parent
             return null;
         }
-        if( idx == 0 )
+        if ( idx == 0 )
         {
             // Root is the parent
-            return m_separator;
+            return separator;
         }
         return path.substring( 0, idx );
     }
@@ -507,27 +507,27 @@ public class UriParser
         final int pathLen = path.length();
 
         // Deal with root
-        if( basePathLen == 1 && pathLen == 1 )
+        if ( basePathLen == 1 && pathLen == 1 )
         {
             return ".";
         }
-        else if( basePathLen == 1 )
+        else if ( basePathLen == 1 )
         {
             return path.substring( 1 );
         }
 
         final int maxlen = Math.min( basePathLen, pathLen );
         int pos = 0;
-        for( ; pos < maxlen && basePath.charAt( pos ) == path.charAt( pos ); pos++ )
+        for ( ; pos < maxlen && basePath.charAt( pos ) == path.charAt( pos ); pos++ )
         {
         }
 
-        if( pos == basePathLen && pos == pathLen )
+        if ( pos == basePathLen && pos == pathLen )
         {
             // Same names
             return ".";
         }
-        else if( pos == basePathLen && pos < pathLen && path.charAt( pos ) == m_separatorChar )
+        else if ( pos == basePathLen && pos < pathLen && path.charAt( pos ) == separatorChar )
         {
             // A descendent of the base path
             return path.substring( pos + 1 );
@@ -535,21 +535,21 @@ public class UriParser
 
         // Strip the common prefix off the path
         final StringBuffer buffer = new StringBuffer();
-        if( pathLen > 1 && ( pos < pathLen || basePath.charAt( pos ) != m_separatorChar ) )
+        if ( pathLen > 1 && ( pos < pathLen || basePath.charAt( pos ) != separatorChar ) )
         {
             // Not a direct ancestor, need to back up
-            pos = basePath.lastIndexOf( m_separatorChar, pos );
+            pos = basePath.lastIndexOf( separatorChar, pos );
             buffer.append( path.substring( pos ) );
         }
 
         // Prepend a '../' for each element in the base path past the common
         // prefix
         buffer.insert( 0, ".." );
-        pos = basePath.indexOf( m_separatorChar, pos + 1 );
-        while( pos != -1 )
+        pos = basePath.indexOf( separatorChar, pos + 1 );
+        while ( pos != -1 )
         {
             buffer.insert( 0, "../" );
-            pos = basePath.indexOf( m_separatorChar, pos + 1 );
+            pos = basePath.indexOf( separatorChar, pos + 1 );
         }
 
         return buffer.toString();
@@ -567,7 +567,7 @@ public class UriParser
     public void normalisePath( final StringBuffer path )
         throws FileSystemException
     {
-        if( path.length() == 0 )
+        if ( path.length() == 0 )
         {
             return;
         }
@@ -577,9 +577,9 @@ public class UriParser
 
         // Determine the start of the first element
         int startFirstElem = 0;
-        if( path.charAt( 0 ) == m_separatorChar )
+        if ( path.charAt( 0 ) == separatorChar )
         {
-            if( path.length() == 1 )
+            if ( path.length() == 1 )
             {
                 return;
             }
@@ -589,35 +589,35 @@ public class UriParser
         // Iterate over each element
         int startElem = startFirstElem;
         int maxlen = path.length();
-        while( startElem < maxlen )
+        while ( startElem < maxlen )
         {
             // Find the end of the element
             int endElem = startElem;
-            for( ; endElem < maxlen && path.charAt( endElem ) != m_separatorChar; endElem++ )
+            for ( ; endElem < maxlen && path.charAt( endElem ) != separatorChar; endElem++ )
             {
             }
 
             final int elemLen = endElem - startElem;
-            if( elemLen == 0 )
+            if ( elemLen == 0 )
             {
                 // An empty element - axe it
                 path.delete( endElem, endElem + 1 );
                 maxlen = path.length();
                 continue;
             }
-            if( elemLen == 1 && path.charAt( startElem ) == '.' )
+            if ( elemLen == 1 && path.charAt( startElem ) == '.' )
             {
                 // A '.' element - axe it
                 path.delete( startElem, endElem + 1 );
                 maxlen = path.length();
                 continue;
             }
-            if( elemLen == 2 &&
+            if ( elemLen == 2 &&
                 path.charAt( startElem ) == '.' &&
                 path.charAt( startElem + 1 ) == '.' )
             {
                 // A '..' element - remove the previous element
-                if( startElem == startFirstElem )
+                if ( startElem == startFirstElem )
                 {
                     // Previous element is missing
                     final String message = REZ.getString( "invalid-relative-path.error" );
@@ -626,7 +626,7 @@ public class UriParser
 
                 // Find start of previous element
                 int pos = startElem - 2;
-                for( ; pos >= 0 && path.charAt( pos ) != m_separatorChar; pos-- )
+                for ( ; pos >= 0 && path.charAt( pos ) != separatorChar; pos-- )
                 {
                 }
                 startElem = pos + 1;
@@ -641,7 +641,7 @@ public class UriParser
         }
 
         // Remove trailing separator
-        if( maxlen > 0 && path.charAt( maxlen - 1 ) == m_separatorChar && maxlen > 1 )
+        if ( maxlen > 0 && path.charAt( maxlen - 1 ) == separatorChar && maxlen > 1 )
         {
             path.delete( maxlen - 1, maxlen );
         }
@@ -652,7 +652,7 @@ public class UriParser
      */
     protected boolean fixSeparators( final StringBuffer name )
     {
-        if( m_separators.length == 0 )
+        if ( separators.length == 0 )
         {
             // Only one valid separator, so don't need to do anything
             return false;
@@ -660,15 +660,15 @@ public class UriParser
 
         boolean changed = false;
         final int maxlen = name.length();
-        for( int i = 0; i < maxlen; i++ )
+        for ( int i = 0; i < maxlen; i++ )
         {
             final char ch = name.charAt( i );
-            for( int j = 0; j < m_separators.length; j++ )
+            for ( int j = 0; j < separators.length; j++ )
             {
-                char separator = m_separators[ j ];
-                if( ch == separator )
+                char separator = separators[ j ];
+                if ( ch == separator )
                 {
-                    name.setCharAt( i, m_separatorChar );
+                    name.setCharAt( i, separatorChar );
                     changed = true;
                     break;
                 }
@@ -706,35 +706,35 @@ public class UriParser
     public static String extractScheme( final String uri,
                                         final StringBuffer buffer )
     {
-        if( buffer != null )
+        if ( buffer != null )
         {
             buffer.setLength( 0 );
             buffer.append( uri );
         }
 
         final int maxPos = uri.length();
-        for( int pos = 0; pos < maxPos; pos++ )
+        for ( int pos = 0; pos < maxPos; pos++ )
         {
             final char ch = uri.charAt( pos );
 
-            if( ch == ':' )
+            if ( ch == ':' )
             {
                 // Found the end of the scheme
                 final String scheme = uri.substring( 0, pos );
-                if( buffer != null )
+                if ( buffer != null )
                 {
                     buffer.delete( 0, pos + 1 );
                 }
                 return scheme;
             }
 
-            if( ( ch >= 'a' && ch <= 'z' )
+            if ( ( ch >= 'a' && ch <= 'z' )
                 || ( ch >= 'A' && ch <= 'Z' ) )
             {
                 // A scheme character
                 continue;
             }
-            if( pos > 0 &&
+            if ( pos > 0 &&
                 ( ( ch >= '0' && ch <= '9' )
                 || ch == '+' || ch == '-' || ch == '.' ) )
             {
@@ -773,14 +773,14 @@ public class UriParser
     {
         int index = offset;
         int count = length;
-        for( ; count > 0; count--, index++ )
+        for ( ; count > 0; count--, index++ )
         {
             final char ch = buffer.charAt( index );
-            if( ch != '%' )
+            if ( ch != '%' )
             {
                 continue;
             }
-            if( count < 3 )
+            if ( count < 3 )
             {
                 final String message = REZ.getString( "invalid-escape-sequence.error", buffer.substring( index, index + count ) );
                 throw new FileSystemException( message );
@@ -789,7 +789,7 @@ public class UriParser
             // Decode
             int dig1 = Character.digit( buffer.charAt( index + 1 ), 16 );
             int dig2 = Character.digit( buffer.charAt( index + 2 ), 16 );
-            if( dig1 == -1 || dig2 == -1 )
+            if ( dig1 == -1 || dig2 == -1 )
             {
                 final String message = REZ.getString( "invalid-escape-sequence.error", buffer.substring( index, index + 3 ) );
                 throw new FileSystemException( message );
@@ -826,18 +826,18 @@ public class UriParser
     {
         int index = offset;
         int count = length;
-        for( ; count > 0; index++, count-- )
+        for ( ; count > 0; index++, count-- )
         {
             final char ch = buffer.charAt( index );
             boolean match = ( ch == '%' );
-            for( int i = 0; !match && i < reserved.length; i++ )
+            for ( int i = 0; !match && i < reserved.length; i++ )
             {
-                if( ch == reserved[ i ] )
+                if ( ch == reserved[ i ] )
                 {
                     match = true;
                 }
             }
-            if( match )
+            if ( match )
             {
                 // Encode
                 char[] digits = {

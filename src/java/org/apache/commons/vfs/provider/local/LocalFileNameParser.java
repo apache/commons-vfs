@@ -39,7 +39,7 @@ abstract class LocalFileNameParser
             extractRootPrefix( name, b );
             return true;
         }
-        catch( FileSystemException e )
+        catch ( FileSystemException e )
         {
             return false;
         }

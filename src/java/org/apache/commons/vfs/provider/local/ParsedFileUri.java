@@ -18,15 +18,15 @@ import org.apache.commons.vfs.provider.ParsedUri;
 final class ParsedFileUri
     extends ParsedUri
 {
-    private String m_rootFile;
+    private String rootFile;
 
     public String getRootFile()
     {
-        return m_rootFile;
+        return rootFile;
     }
 
     public void setRootFile( final String rootPrefix )
     {
-        m_rootFile = rootPrefix;
+        rootFile = rootPrefix;
     }
 }

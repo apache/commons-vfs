@@ -20,21 +20,21 @@ import org.apache.commons.vfs.NameScope;
 public final class DefaultFileName
     implements FileName
 {
-    private final UriParser m_parser;
-    private final String m_rootPrefix;
-    private final String m_absPath;
+    private final UriParser parser;
+    private final String rootPrefix;
+    private final String absPath;
 
     // Cached stuff
-    private String m_uri;
-    private String m_baseName;
+    private String uri;
+    private String baseName;
 
     public DefaultFileName( final UriParser parser,
                             final String rootPrefix,
                             final String absPath )
     {
-        m_parser = parser;
-        m_rootPrefix = rootPrefix;
-        m_absPath = absPath;
+        this.parser = parser;
+        this.rootPrefix = rootPrefix;
+        this.absPath = absPath;
     }
 
     /**
@@ -42,7 +42,7 @@ public final class DefaultFileName
      */
     public int hashCode()
     {
-        return ( m_rootPrefix.hashCode() ^ m_absPath.hashCode() );
+        return ( rootPrefix.hashCode() ^ absPath.hashCode() );
     }
 
     /**
@@ -51,7 +51,7 @@ public final class DefaultFileName
     public boolean equals( final Object obj )
     {
         final DefaultFileName name = (DefaultFileName)obj;
-        return ( m_rootPrefix.equals( name.m_rootPrefix ) && m_absPath.equals( m_absPath ) );
+        return ( rootPrefix.equals( name.rootPrefix ) && absPath.equals( absPath ) );
     }
 
     /**
@@ -67,11 +67,11 @@ public final class DefaultFileName
      */
     public String getBaseName()
     {
-        if( m_baseName == null )
+        if ( baseName == null )
         {
-            m_baseName = m_parser.getBaseName( m_absPath );
+            baseName = parser.getBaseName( absPath );
         }
-        return m_baseName;
+        return baseName;
     }
 
     /**
@@ -80,7 +80,7 @@ public final class DefaultFileName
      */
     public String getPath()
     {
-        return m_absPath;
+        return absPath;
     }
 
     /**
@@ -90,8 +90,8 @@ public final class DefaultFileName
                                  final NameScope scope )
         throws FileSystemException
     {
-        final String absPath = m_parser.resolvePath( m_absPath, name, scope );
-        return new DefaultFileName( m_parser, m_rootPrefix, absPath );
+        final String otherAbsPath = parser.resolvePath( absPath, name, scope );
+        return new DefaultFileName( parser, rootPrefix, otherAbsPath );
     }
 
     /**
@@ -99,12 +99,12 @@ public final class DefaultFileName
      */
     public FileName getParent()
     {
-        final String parentPath = m_parser.getParentPath( m_absPath );
-        if( parentPath == null )
+        final String parentPath = parser.getParentPath( absPath );
+        if ( parentPath == null )
         {
             return null;
         }
-        return new DefaultFileName( m_parser, m_rootPrefix, parentPath );
+        return new DefaultFileName( parser, rootPrefix, parentPath );
     }
 
     /**
@@ -123,11 +123,11 @@ public final class DefaultFileName
      */
     public String getURI()
     {
-        if( m_uri == null )
+        if ( uri == null )
         {
-            m_uri = m_parser.getUri( m_rootPrefix, m_absPath );
+            uri = parser.getUri( rootPrefix, absPath );
         }
-        return m_uri;
+        return uri;
     }
 
     /**
@@ -135,6 +135,6 @@ public final class DefaultFileName
      */
     public String getRelativeName( final FileName name ) throws FileSystemException
     {
-        return m_parser.makeRelative( m_absPath, name.getPath() );
+        return parser.makeRelative( absPath, name.getPath() );
     }
 }

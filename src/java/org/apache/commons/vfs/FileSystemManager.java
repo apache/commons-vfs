@@ -46,7 +46,8 @@ import java.net.URLStreamHandlerFactory;
  * paths against its <i>base file</i>.  Elements in the relative path can be
  * separated using <code>/</code>, <code>\</code>, or file system specific
  * separator characters.  Relative paths may also contain <code>..</code> and
- * <code>.</code> elements.  See {@link FileObject#resolveFile} for more details.</p>
+ * <code>.</code> elements.  See {@link FileObject#resolveFile} for more
+ * details.</p>
  *
  * </ul>
  *
@@ -144,7 +145,8 @@ public interface FileSystemManager
         throws FileSystemException;
 
     /**
-     * Returns a streamhandler factory to enable URL lookup using this FileSystemManager.
+     * Returns a streamhandler factory to enable URL lookup using this
+     * FileSystemManager.
      */
     URLStreamHandlerFactory getURLStreamHandlerFactory();
 }

@@ -26,7 +26,7 @@ import org.apache.commons.vfs.provider.ParsedUri;
 public final class FtpFileSystemProvider
     extends AbstractFileSystemProvider
 {
-    private final FtpFileNameParser m_parser = new FtpFileNameParser();
+    private final FtpFileNameParser parser = new FtpFileNameParser();
 
     /**
      * Parses a URI into its components.
@@ -35,7 +35,7 @@ public final class FtpFileSystemProvider
                                   final String uri )
         throws FileSystemException
     {
-        return m_parser.parseFtpUri( uri );
+        return parser.parseFtpUri( uri );
     }
 
     /**
@@ -47,16 +47,16 @@ public final class FtpFileSystemProvider
         final ParsedFtpUri ftpUri = (ParsedFtpUri)uri;
 
         // Build the root name
-        final FileName rootName = new DefaultFileName( m_parser, ftpUri.getRootUri(), "/" );
+        final FileName rootName = new DefaultFileName( parser, ftpUri.getRootUri(), "/" );
 
         // Determine the username and password to use
         String username = ftpUri.getUserName();
-        if( username == null )
+        if ( username == null )
         {
             username = "anonymous";
         }
         String password = ftpUri.getPassword();
-        if( password == null )
+        if ( password == null )
         {
             password = "anonymous";
         }

@@ -41,7 +41,7 @@ class URLStreamHandlerProxy
                     url.getPort(), url.getAuthority(), url.getUserInfo(),
                     url.getFile(), url.getQuery(), url.getRef() );
         }
-        catch( MalformedURLException mue )
+        catch ( MalformedURLException mue )
         {
             //We retrow this as a simple runtime exception.
             //It is retrown in URL as a MalformedURLException anyway.

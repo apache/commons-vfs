@@ -56,7 +56,8 @@ public class DefaultFileSystemManager
     private FileObject baseFile;
 
     /** The context to pass to providers. */
-    private final DefaultProviderContext context = new DefaultProviderContext( this );
+    private final DefaultProviderContext context =
+        new DefaultProviderContext( this );
 
     /**
      * Registers a file system provider.
@@ -76,12 +77,14 @@ public class DefaultFileSystemManager
         throws FileSystemException
     {
         // Check for duplicates
-        for( int i = 0; i < urlSchemes.length; i++ )
+        for ( int i = 0; i < urlSchemes.length; i++ )
         {
             final String scheme = urlSchemes[ i ];
-            if( providers.containsKey( scheme ) )
+            if ( providers.containsKey( scheme ) )
             {
-                final String message = REZ.getString( "multiple-providers-for-scheme.error", scheme );
+                final String message =
+                    REZ.getString( "multiple-providers-for-scheme.error",
+                                   scheme );
                 throw new FileSystemException( message );
             }
         }
@@ -90,20 +93,21 @@ public class DefaultFileSystemManager
         provider.setContext( context );
 
         // Add to map
-        for( int i = 0; i < urlSchemes.length; i++ )
+        for ( int i = 0; i < urlSchemes.length; i++ )
         {
             final String scheme = urlSchemes[ i ];
             providers.put( scheme, provider );
         }
 
-        if( provider instanceof LocalFileProvider )
+        if ( provider instanceof LocalFileProvider )
         {
             localFileProvider = (LocalFileProvider)provider;
         }
     }
 
     /**
-     * Sets the default provider.  This handles URI that contain unknown schemes.
+     * Sets the default provider.  This is the provider that will handle URI
+     * with unknown schemes.
      */
     public void setDefaultProvider( FileProvider provider )
     {
@@ -146,7 +150,7 @@ public class DefaultFileSystemManager
         // once
         final Set providers = new HashSet();
         providers.addAll( this.providers.values() );
-        for( Iterator iterator = providers.iterator(); iterator.hasNext(); )
+        for ( Iterator iterator = providers.iterator(); iterator.hasNext(); )
         {
             FileProvider provider = (FileProvider)iterator.next();
             provider.close();
@@ -170,7 +174,8 @@ public class DefaultFileSystemManager
     /**
      * Sets the base file to use when resolving relative URI.
      */
-    public void setBaseFile( final FileObject baseFile ) throws FileSystemException
+    public void setBaseFile( final FileObject baseFile )
+        throws FileSystemException
     {
         this.baseFile = baseFile;
     }
@@ -205,7 +210,8 @@ public class DefaultFileSystemManager
     public FileObject resolveFile( final File baseFile, final String uri )
         throws FileSystemException
     {
-        final FileObject baseFileObj = getLocalFileProvider().findLocalFile( baseFile );
+        final FileObject baseFileObj =
+            getLocalFileProvider().findLocalFile( baseFile );
         return resolveFile( baseFileObj, uri );
     }
 
@@ -217,11 +223,11 @@ public class DefaultFileSystemManager
     {
         // Extract the scheme
         final String scheme = UriParser.extractScheme( uri );
-        if( scheme != null )
+        if ( scheme != null )
         {
             // An absolute URI - locate the provider
             final FileProvider provider = (FileProvider)providers.get( scheme );
-            if( provider != null )
+            if ( provider != null )
             {
                 return provider.findFile( baseFile, uri );
             }
@@ -233,25 +239,26 @@ public class DefaultFileSystemManager
         final String decodedUri = UriParser.decode( uri );
 
         // Handle absolute file names
-        if( localFileProvider != null
+        if ( localFileProvider != null
             && localFileProvider.isAbsoluteLocalName( decodedUri ) )
         {
             return localFileProvider.findLocalFile( decodedUri );
         }
 
-        if( scheme != null )
+        if ( scheme != null )
         {
             // An unknown scheme - hand it to the default provider
             if ( defaultProvider == null )
             {
-                final String message = REZ.getString( "unknown-scheme.error", scheme, uri );
+                final String message =
+                    REZ.getString( "unknown-scheme.error", scheme, uri );
                 throw new FileSystemException( message );
             }
             return defaultProvider.findFile( baseFile, uri );
         }
 
         // Assume a relative name - use the supplied base file
-        if( baseFile == null )
+        if ( baseFile == null )
         {
             final String message = REZ.getString( "find-rel-file.error", uri );
             throw new FileSystemException( message );
@@ -276,9 +283,10 @@ public class DefaultFileSystemManager
         throws FileSystemException
     {
         FileProvider provider = (FileProvider)providers.get( scheme );
-        if( provider == null )
+        if ( provider == null )
         {
-            final String message = REZ.getString( "unknown-provider.error", scheme );
+            final String message =
+                REZ.getString( "unknown-provider.error", scheme );
             throw new FileSystemException( message );
         }
         return provider.createFileSystem( scheme, file );
@@ -290,9 +298,10 @@ public class DefaultFileSystemManager
     private LocalFileProvider getLocalFileProvider()
         throws FileSystemException
     {
-        if( localFileProvider == null )
+        if ( localFileProvider == null )
         {
-            final String message = REZ.getString( "no-local-file-provider.error" );
+            final String message =
+                REZ.getString( "no-local-file-provider.error" );
             throw new FileSystemException( message );
         }
         return localFileProvider;
@@ -306,13 +315,16 @@ public class DefaultFileSystemManager
         return new VfsStreamHandlerFactory();
     }
 
-    // This is an internal class because it needs access to the private member providers.
+    /**
+     * This is an internal class because it needs access to the private
+     * member providers.
+     */
     final class VfsStreamHandlerFactory implements URLStreamHandlerFactory
     {
         public URLStreamHandler createURLStreamHandler( final String protocol )
         {
-            final FileProvider provider = (FileProvider)providers.get( protocol );
-            if( provider != null )
+            FileProvider provider = (FileProvider)providers.get( protocol );
+            if ( provider != null )
             {
                 return new DefaultURLStreamHandler( context );
             }

@@ -12,13 +12,13 @@ import java.io.OutputStream;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A file in an SMB file system.
@@ -33,15 +33,15 @@ class SmbFileObject
     private static final Resources REZ =
         ResourceManager.getPackageResources( SmbFileObject.class );
 
-    private final String m_fileName;
-    private SmbFile m_file;
+    private final String fileName;
+    private SmbFile file;
 
     protected SmbFileObject( final String fileName,
                              final FileName name,
                              final SmbFileSystem fileSystem )
     {
         super( name, fileSystem );
-        m_fileName = fileName;
+        this.fileName = fileName;
     }
 
     /**
@@ -50,9 +50,9 @@ class SmbFileObject
     protected void doAttach() throws Exception
     {
         // Defer creation of the SmbFile to here
-        if( m_file == null )
+        if ( file == null )
         {
-            m_file = new SmbFile( m_fileName );
+            file = new SmbFile( fileName );
         }
     }
 
@@ -63,7 +63,7 @@ class SmbFileObject
     {
         // Need to throw away the file when the file's type changes, because
         // the SmbFile caches the type
-        m_file = null;
+        file = null;
     }
 
     /**
@@ -77,20 +77,20 @@ class SmbFileObject
         // TODO - patch jCIFS?
 
         FileObject parent = getParent();
-        if( parent != null && !parent.exists() )
+        if ( parent != null && !parent.exists() )
         {
             return null;
         }
 
-        if( !m_file.exists() )
+        if ( !file.exists() )
         {
             return null;
         }
-        if( m_file.isDirectory() )
+        if ( file.isDirectory() )
         {
             return FileType.FOLDER;
         }
-        if( m_file.isFile() )
+        if ( file.isFile() )
         {
             return FileType.FILE;
         }
@@ -104,7 +104,7 @@ class SmbFileObject
      */
     protected String[] doListChildren() throws Exception
     {
-        return m_file.list();
+        return file.list();
     }
 
     /**
@@ -112,7 +112,7 @@ class SmbFileObject
      */
     protected void doDelete() throws Exception
     {
-        m_file.delete();
+        file.delete();
     }
 
     /**
@@ -120,7 +120,7 @@ class SmbFileObject
      */
     protected void doCreateFolder() throws Exception
     {
-        m_file.mkdir();
+        file.mkdir();
     }
 
     /**
@@ -128,7 +128,7 @@ class SmbFileObject
      */
     protected long doGetContentSize() throws Exception
     {
-        return m_file.length();
+        return file.length();
     }
 
     /**
@@ -136,7 +136,7 @@ class SmbFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return new SmbFileInputStream( m_file );
+        return new SmbFileInputStream( file );
     }
 
     /**
@@ -144,6 +144,6 @@ class SmbFileObject
      */
     protected OutputStream doGetOutputStream() throws Exception
     {
-        return new SmbFileOutputStream( m_file );
+        return new SmbFileOutputStream( file );
     }
 }

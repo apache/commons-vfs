@@ -16,13 +16,13 @@ package org.apache.commons.vfs;
 public final class FileDepthSelector
     implements FileSelector
 {
-    private final int m_minDepth;
-    private final int m_maxDepth;
+    private final int minDepth;
+    private final int maxDepth;
 
     public FileDepthSelector( int minDepth, int maxDepth )
     {
-        m_minDepth = minDepth;
-        m_maxDepth = maxDepth;
+        this.minDepth = minDepth;
+        this.maxDepth = maxDepth;
     }
 
     /**
@@ -32,7 +32,7 @@ public final class FileDepthSelector
         throws FileSystemException
     {
         final int depth = fileInfo.getDepth();
-        return m_minDepth <= depth && depth <= m_maxDepth;
+        return minDepth <= depth && depth <= maxDepth;
     }
 
     /**
@@ -41,6 +41,6 @@ public final class FileDepthSelector
     public boolean traverseDescendents( final FileSelectInfo fileInfo )
         throws FileSystemException
     {
-        return fileInfo.getDepth() < m_maxDepth;
+        return fileInfo.getDepth() < maxDepth;
     }
 }

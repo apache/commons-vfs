@@ -10,18 +10,17 @@ package org.apache.commons.vfs.provider.local;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilePermission;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FilePermission;
-import java.security.AccessController;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A file object implementation which uses direct file access.
@@ -36,9 +35,9 @@ final class LocalFile
     private static final Resources REZ =
         ResourceManager.getPackageResources( LocalFile.class );
 
-    private File m_file;
-    private final String m_fileName;
-    private FilePermission m_requiredPerm;
+    private File file;
+    private final String fileName;
+    private FilePermission requiredPerm;
 
     /**
      * Creates a non-root file.
@@ -48,7 +47,7 @@ final class LocalFile
                       final FileName name )
     {
         super( name, fileSystem );
-        m_fileName = fileName;
+        this.fileName = fileName;
     }
 
     /**
@@ -57,10 +56,10 @@ final class LocalFile
     protected void doAttach()
         throws Exception
     {
-        if( m_file == null )
+        if ( file == null )
         {
-            m_file = new File( m_fileName );
-            m_requiredPerm = new FilePermission( m_file.getAbsolutePath(), "read" );
+            file = new File( fileName );
+            requiredPerm = new FilePermission( file.getAbsolutePath(), "read" );
         }
     }
 
@@ -70,20 +69,20 @@ final class LocalFile
     protected FileType doGetType()
         throws Exception
     {
-        if( !m_file.exists() )
+        if ( !file.exists() )
         {
             return null;
         }
-        if( m_file.isDirectory() )
+        if ( file.isDirectory() )
         {
             return FileType.FOLDER;
         }
-        if( m_file.isFile() )
+        if ( file.isFile() )
         {
             return FileType.FILE;
         }
 
-        final String message = REZ.getString( "get-type.error", m_file );
+        final String message = REZ.getString( "get-type.error", file );
         throw new FileSystemException( message );
     }
 
@@ -93,7 +92,7 @@ final class LocalFile
     protected String[] doListChildren()
         throws Exception
     {
-        return m_file.list();
+        return file.list();
     }
 
     /**
@@ -102,9 +101,9 @@ final class LocalFile
     protected void doDelete()
         throws Exception
     {
-        if( !m_file.delete() )
+        if ( !file.delete() )
         {
-            final String message = REZ.getString( "delete-file.error", m_file );
+            final String message = REZ.getString( "delete-file.error", file );
             throw new FileSystemException( message );
         }
     }
@@ -115,9 +114,9 @@ final class LocalFile
     protected void doCreateFolder()
         throws Exception
     {
-        if( !m_file.mkdir() )
+        if ( !file.mkdir() )
         {
-            final String message = REZ.getString( "create-folder.error", m_file );
+            final String message = REZ.getString( "create-folder.error", file );
             throw new FileSystemException( message );
         }
     }
@@ -128,7 +127,7 @@ final class LocalFile
     protected InputStream doGetInputStream()
         throws Exception
     {
-        return new FileInputStream( m_file );
+        return new FileInputStream( file );
     }
 
     /**
@@ -137,7 +136,7 @@ final class LocalFile
     protected OutputStream doGetOutputStream()
         throws Exception
     {
-        return new FileOutputStream( m_file );
+        return new FileOutputStream( file );
     }
 
     /**
@@ -146,7 +145,7 @@ final class LocalFile
     protected long doGetContentSize()
         throws Exception
     {
-        return m_file.length();
+        return file.length();
     }
 
     /**
@@ -156,10 +155,10 @@ final class LocalFile
         throws FileSystemException
     {
         final SecurityManager sm = System.getSecurityManager();
-        if( sm != null )
+        if ( sm != null )
         {
-            sm.checkPermission( m_requiredPerm );
+            sm.checkPermission( requiredPerm );
         }
-        return m_file;
+        return file;
     }
 }

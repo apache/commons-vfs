@@ -19,26 +19,26 @@ import org.apache.commons.vfs.provider.ParsedUri;
 class ParsedZipUri
     extends ParsedUri
 {
-    private String m_zipFileName;
-    private FileObject m_zipFile;
+    private String zipFileName;
+    private FileObject zipFile;
 
     public String getZipFileName()
     {
-        return m_zipFileName;
+        return zipFileName;
     }
 
     public void setZipFileName( final String zipFileName )
     {
-        m_zipFileName = zipFileName;
+        this.zipFileName = zipFileName;
     }
 
     public FileObject getZipFile()
     {
-        return m_zipFile;
+        return zipFile;
     }
 
     public void setZipFile( final FileObject zipFile )
     {
-        m_zipFile = zipFile;
+        this.zipFile = zipFile;
     }
 }

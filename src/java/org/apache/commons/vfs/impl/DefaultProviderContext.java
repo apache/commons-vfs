@@ -7,11 +7,11 @@
  */
 package org.apache.commons.vfs.impl;
 
+import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.FileSystemProviderContext;
-import java.io.File;
 
 /**
  * A provider context implementation.

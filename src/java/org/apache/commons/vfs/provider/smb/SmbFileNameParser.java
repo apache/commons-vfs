@@ -7,11 +7,11 @@
  */
 package org.apache.commons.vfs.provider.smb;
 
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.ParsedUri;
 import org.apache.commons.vfs.provider.UriParser;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A parser for SMB URI.
@@ -49,7 +49,7 @@ class SmbFileNameParser
 
         // Extract the share
         final String share = extractFirstElement( name );
-        if( share == null )
+        if ( share == null )
         {
             final String message = REZ.getString( "missing-share-name.error", uriStr );
             throw new FileSystemException( message );

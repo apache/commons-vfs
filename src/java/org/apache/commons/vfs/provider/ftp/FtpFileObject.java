@@ -9,14 +9,14 @@ package org.apache.commons.vfs.provider.ftp;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * An FTP file.
@@ -49,11 +49,11 @@ final class FtpFileObject
      */
     private FTPFile getChildFile( String name ) throws Exception
     {
-        if( m_children == null )
+        if ( m_children == null )
         {
             // List the children of this file
             m_children = m_ftpFs.getClient().listFiles( getName().getPath() );
-            if( m_children == null )
+            if ( m_children == null )
             {
                 m_children = EMPTY_FTP_FILE_ARRAY;
             }
@@ -61,10 +61,10 @@ final class FtpFileObject
 
         // Look for the requested child
         // TODO - use hash table
-        for( int i = 0; i < m_children.length; i++ )
+        for ( int i = 0; i < m_children.length; i++ )
         {
             FTPFile child = m_children[ i ];
-            if( child.getName().equals( name ) )
+            if ( child.getName().equals( name ) )
             {
                 // TODO - should be using something else to compare names
                 return child;
@@ -83,7 +83,7 @@ final class FtpFileObject
         // Get the parent folder to find the info for this file
         FtpFileObject parent = (FtpFileObject)getParent();
         m_fileInfo = parent.getChildFile( getName().getBaseName() );
-        if( m_fileInfo == null || !m_fileInfo.isDirectory() )
+        if ( m_fileInfo == null || !m_fileInfo.isDirectory() )
         {
             m_children = EMPTY_FTP_FILE_ARRAY;
         }
@@ -113,16 +113,16 @@ final class FtpFileObject
     protected FileType doGetType()
         throws Exception
     {
-        if( m_fileInfo == null )
+        if ( m_fileInfo == null )
         {
             // Does not exist
             return null;
         }
-        if( m_fileInfo.isDirectory() )
+        if ( m_fileInfo.isDirectory() )
         {
             return FileType.FOLDER;
         }
-        if( m_fileInfo.isFile() )
+        if ( m_fileInfo.isFile() )
         {
             return FileType.FILE;
         }
@@ -137,18 +137,18 @@ final class FtpFileObject
     protected String[] doListChildren()
         throws Exception
     {
-        if( m_children == null )
+        if ( m_children == null )
         {
             // List the children of this file
             m_children = m_ftpFs.getClient().listFiles( getName().getPath() );
-            if( m_children == null )
+            if ( m_children == null )
             {
                 m_children = EMPTY_FTP_FILE_ARRAY;
             }
         }
 
         String[] children = new String[ m_children.length ];
-        for( int i = 0; i < m_children.length; i++ )
+        for ( int i = 0; i < m_children.length; i++ )
         {
             FTPFile child = m_children[ i ];
             children[ i ] = child.getName();
@@ -164,7 +164,7 @@ final class FtpFileObject
     {
         final FTPClient ftpClient = m_ftpFs.getClient();
         boolean ok;
-        if( m_fileInfo.isDirectory() )
+        if ( m_fileInfo.isDirectory() )
         {
             ok = ftpClient.removeDirectory( getName().getPath() );
         }
@@ -172,7 +172,7 @@ final class FtpFileObject
         {
             ok = ftpClient.deleteFile( getName().getPath() );
         }
-        if( !ok )
+        if ( !ok )
         {
             final String message = REZ.getString( "delete-file.error", getName() );
             throw new FileSystemException( message );
@@ -185,7 +185,7 @@ final class FtpFileObject
     protected void doCreateFolder()
         throws Exception
     {
-        if( !m_ftpFs.getClient().makeDirectory( getName().getPath() ) )
+        if ( !m_ftpFs.getClient().makeDirectory( getName().getPath() ) )
         {
             final String message = REZ.getString( "create-folder.error", getName() );
             throw new FileSystemException( message );
@@ -214,7 +214,7 @@ final class FtpFileObject
     protected void doEndInput()
         throws Exception
     {
-        if( !m_ftpFs.getClient().completePendingCommand() )
+        if ( !m_ftpFs.getClient().completePendingCommand() )
         {
             final String message = REZ.getString( "finish-get.error", getName() );
             throw new FileSystemException( message );
@@ -236,7 +236,7 @@ final class FtpFileObject
     protected void doEndOutput()
         throws Exception
     {
-        if( !m_ftpFs.getClient().completePendingCommand() )
+        if ( !m_ftpFs.getClient().completePendingCommand() )
         {
             final String message = REZ.getString( "finish-put.error", getName() );
             throw new FileSystemException( message );

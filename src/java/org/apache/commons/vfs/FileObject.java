@@ -43,7 +43,8 @@ import java.net.URL;
  *
  * <h4>Finding Files</h4>
  *
- * <p>Other files in the <i>same</i> file system as this file can be found using:
+ * <p>Other files in the <i>same</i> file system as this file can be found
+ * using:
  * <ul>
  * <li>{@link #resolveFile} to find another file relative to this file.
  * <li>{@link #getChildren} to find the children of this file.
@@ -145,7 +146,8 @@ public interface FileObject
      * @throws FileSystemException
      *      On error parsing the path, or on error finding the file.
      */
-    FileObject resolveFile( String name, NameScope scope ) throws FileSystemException;
+    FileObject resolveFile( String name, NameScope scope )
+        throws FileSystemException;
 
     /**
      * Finds a file, relative to this file.  Equivalent to calling
@@ -209,7 +211,8 @@ public interface FileObject
      *      If this file is read-only, or if the source file does not exist,
      *      or on error copying the file.
      */
-    void copyFrom( FileObject srcFile, FileSelector selector ) throws FileSystemException;
+    void copyFrom( FileObject srcFile, FileSelector selector )
+        throws FileSystemException;
 
     /**
      * Creates a temporary local copy of this file, and its descendents.  If

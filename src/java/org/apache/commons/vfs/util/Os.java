@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import org.apache.commons.vfs.util.OsFamily;
 
 /**
  * Class to help determining the OS.
@@ -173,7 +172,7 @@ public final class Os
                                 final String arch,
                                 final String version )
     {
-        if( family != null || name != null || arch != null || version != null )
+        if ( family != null || name != null || arch != null || version != null )
         {
             final boolean isFamily = familyMatches( family );
             final boolean isName = nameMatches( name );
@@ -195,10 +194,10 @@ public final class Os
      */
     public static OsFamily getFamily( final String name )
     {
-        for( int i = 0; i < ALL_FAMILIES.length; i++ )
+        for ( int i = 0; i < ALL_FAMILIES.length; i++ )
         {
             final OsFamily osFamily = ALL_FAMILIES[ i ];
-            if( osFamily.getName().equalsIgnoreCase( name ) )
+            if ( osFamily.getName().equalsIgnoreCase( name ) )
             {
                 return osFamily;
             }
@@ -210,7 +209,7 @@ public final class Os
     private static boolean versionMatches( final String version )
     {
         boolean isVersion = true;
-        if( version != null )
+        if ( version != null )
         {
             isVersion = version.equalsIgnoreCase( OS_VERSION );
         }
@@ -220,7 +219,7 @@ public final class Os
     private static boolean archMatches( final String arch )
     {
         boolean isArch = true;
-        if( arch != null )
+        if ( arch != null )
         {
             isArch = arch.equalsIgnoreCase( OS_ARCH );
         }
@@ -230,7 +229,7 @@ public final class Os
     private static boolean nameMatches( final String name )
     {
         boolean isName = true;
-        if( name != null )
+        if ( name != null )
         {
             isName = name.equalsIgnoreCase( OS_NAME );
         }
@@ -239,14 +238,14 @@ public final class Os
 
     private static boolean familyMatches( final OsFamily family )
     {
-        if( family == null )
+        if ( family == null )
         {
             return false;
         }
-        for( int i = 0; i < OS_ALL_FAMILIES.length; i++ )
+        for ( int i = 0; i < OS_ALL_FAMILIES.length; i++ )
         {
             final OsFamily osFamily = OS_ALL_FAMILIES[ i ];
-            if( family == osFamily )
+            if ( family == osFamily )
             {
                 return true;
             }
@@ -258,16 +257,16 @@ public final class Os
     {
         // Determine all families the current OS belongs to
         Set allFamilies = new HashSet();
-        if( OS_FAMILY != null )
+        if ( OS_FAMILY != null )
         {
             List queue = new ArrayList();
             queue.add( OS_FAMILY );
-            while( queue.size() > 0 )
+            while ( queue.size() > 0 )
             {
                 final OsFamily family = (OsFamily)queue.remove( 0 );
                 allFamilies.add( family );
                 final OsFamily[] families = family.getFamilies();
-                for( int i = 0; i < families.length; i++ )
+                for ( int i = 0; i < families.length; i++ )
                 {
                     OsFamily parent = families[ i ];
                     queue.add( parent );
@@ -280,9 +279,9 @@ public final class Os
     private static OsFamily determineOsFamily()
     {
         // Determine the most specific OS family
-        if( OS_NAME.indexOf( "windows" ) > -1 )
+        if ( OS_NAME.indexOf( "windows" ) > -1 )
         {
-            if( OS_NAME.indexOf( "xp" ) > -1 ||
+            if ( OS_NAME.indexOf( "xp" ) > -1 ||
                 OS_NAME.indexOf( "2000" ) > -1 ||
                 OS_NAME.indexOf( "nt" ) > -1 )
             {
@@ -293,17 +292,17 @@ public final class Os
                 return OS_FAMILY_WIN9X;
             }
         }
-        else if( OS_NAME.indexOf( "os/2" ) > -1 )
+        else if ( OS_NAME.indexOf( "os/2" ) > -1 )
         {
             return OS_FAMILY_OS2;
         }
-        else if( OS_NAME.indexOf( "netware" ) > -1 )
+        else if ( OS_NAME.indexOf( "netware" ) > -1 )
         {
             return OS_FAMILY_NETWARE;
         }
-        else if( OS_NAME.indexOf( "mac" ) > -1 )
+        else if ( OS_NAME.indexOf( "mac" ) > -1 )
         {
-            if( OS_NAME.endsWith( "x" ) )
+            if ( OS_NAME.endsWith( "x" ) )
             {
                 return OS_FAMILY_OSX;
             }
@@ -312,7 +311,7 @@ public final class Os
                 return OS_FAMILY_MAC;
             }
         }
-        else if( PATH_SEP.equals( ":" ) )
+        else if ( PATH_SEP.equals( ":" ) )
         {
             return OS_FAMILY_UNIX;
         }

@@ -106,7 +106,8 @@ public interface FileContent
      *      If the file is read-only, or is being read, or if the attribute
      *      is not supported, or on error setting the attribute.
      */
-    void setAttribute( String attrName, Object value ) throws FileSystemException;
+    void setAttribute( String attrName, Object value )
+        throws FileSystemException;
 
     /**
      * Returns an input stream for reading the file's content.

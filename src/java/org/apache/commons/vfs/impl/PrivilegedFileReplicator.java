@@ -12,20 +12,20 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.FileSystemProviderContext;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
 
 /**
  * A file replicator that wraps another file replicator, performing
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 06:21:25 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/21 07:00:11 $
  */
 public class PrivilegedFileReplicator
     implements FileReplicator

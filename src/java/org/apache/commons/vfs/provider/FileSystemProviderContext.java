@@ -7,10 +7,10 @@
  */
 package org.apache.commons.vfs.provider;
 
+import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
-import java.io.File;
 
 /**
  * Used for a file system provider to access the services it needs, such

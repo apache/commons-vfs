@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -19,8 +21,6 @@ import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileSystem;
 import org.apache.commons.vfs.provider.FileSystemProviderContext;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A read-only file system for Zip/Jar files.
@@ -35,8 +35,8 @@ class ZipFileSystem
     private static final Resources REZ =
         ResourceManager.getPackageResources( ZipFileSystem.class );
 
-    private final File m_file;
-    private final ZipFile m_zipFile;
+    private final File file;
+    private final ZipFile zipFile;
 
     public ZipFileSystem( final FileSystemProviderContext context,
                           final DefaultFileName rootName,
@@ -44,38 +44,38 @@ class ZipFileSystem
         throws FileSystemException
     {
         super( context, rootName );
-        m_file = file;
+        this.file = file;
 
         // Open the Zip file
-        if( !file.exists() )
+        if ( !file.exists() )
         {
             // Don't need to do anything
-            m_zipFile = null;
+            zipFile = null;
             return;
         }
 
         try
         {
-            m_zipFile = new ZipFile( m_file );
+            zipFile = new ZipFile( this.file );
         }
-        catch( IOException ioe )
+        catch ( IOException ioe )
         {
-            final String message = REZ.getString( "open-zip-file.error", m_file );
+            final String message = REZ.getString( "open-zip-file.error", this.file );
             throw new FileSystemException( message, ioe );
         }
 
         // Build the index
-        Enumeration entries = m_zipFile.entries();
-        while( entries.hasMoreElements() )
+        Enumeration entries = zipFile.entries();
+        while ( entries.hasMoreElements() )
         {
             ZipEntry entry = (ZipEntry)entries.nextElement();
             FileName name = rootName.resolveName( entry.getName() );
 
             // Create the file
             ZipFileObject fileObj;
-            if( entry.isDirectory() )
+            if ( entry.isDirectory() )
             {
-                if( getFile( name ) != null )
+                if ( getFile( name ) != null )
                 {
                     // Already created implicitly
                     continue;
@@ -84,20 +84,20 @@ class ZipFileSystem
             }
             else
             {
-                fileObj = new ZipFileObject( name, entry, m_zipFile, this );
+                fileObj = new ZipFileObject( name, entry, zipFile, this );
             }
             putFile( fileObj );
 
             // Make sure all ancestors exist
             // TODO - create these on demand
             ZipFileObject parent;
-            for( FileName parentName = name.getParent();
-                 parentName != null;
-                 fileObj = parent, parentName = parentName.getParent() )
+            for ( FileName parentName = name.getParent();
+                  parentName != null;
+                  fileObj = parent, parentName = parentName.getParent() )
             {
                 // Locate the parent
                 parent = (ZipFileObject)getFile( parentName );
-                if( parent == null )
+                if ( parent == null )
                 {
                     parent = new ZipFileObject( parentName, true, this );
                     putFile( parent );
@@ -114,14 +114,14 @@ class ZipFileSystem
         // Release the zip file
         try
         {
-            if( m_zipFile != null )
+            if ( zipFile != null )
             {
-                m_zipFile.close();
+                zipFile.close();
             }
         }
-        catch( final IOException e )
+        catch ( final IOException e )
         {
-            final String message = REZ.getString( "close-zip-file.error", m_file );
+            final String message = REZ.getString( "close-zip-file.error", file );
             getLogger().warn( message, e );
         }
 

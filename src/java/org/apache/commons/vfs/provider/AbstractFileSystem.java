@@ -9,11 +9,11 @@ package org.apache.commons.vfs.provider;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * A partial file system implementation.
@@ -24,24 +24,24 @@ import org.apache.commons.logging.LogFactory;
 public abstract class AbstractFileSystem
     implements FileSystem
 {
-    private FileObject m_root;
-    private final FileName m_rootName;
-    private final FileSystemProviderContext m_context;
+    private FileObject root;
+    private final FileName rootName;
+    private final FileSystemProviderContext context;
 
     /** Map from FileName to FileObject. */
-    private final Map m_files = new HashMap();
+    private final Map files = new HashMap();
 
     protected AbstractFileSystem( final FileSystemProviderContext context,
                                   final FileName rootName )
     {
-        m_rootName = rootName;
-        m_context = context;
+        this.rootName = rootName;
+        this.context = context;
     }
 
     public void close()
     {
         // Clean-up
-        m_files.clear();
+        files.clear();
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class AbstractFileSystem
      */
     protected void putFile( final FileObject file )
     {
-        m_files.put( file.getName(), file );
+        files.put( file.getName(), file );
     }
 
     /**
@@ -63,7 +63,7 @@ public abstract class AbstractFileSystem
      */
     protected FileObject getFile( final FileName name )
     {
-        return (FileObject)m_files.get( name );
+        return (FileObject)files.get( name );
     }
 
     /**
@@ -71,7 +71,7 @@ public abstract class AbstractFileSystem
      */
     public FileSystemProviderContext getContext()
     {
-        return m_context;
+        return context;
     }
 
     /**
@@ -79,11 +79,11 @@ public abstract class AbstractFileSystem
      */
     public FileObject getRoot() throws FileSystemException
     {
-        if( m_root == null )
+        if ( root == null )
         {
-            m_root = findFile( m_rootName );
+            root = findFile( rootName );
         }
-        return m_root;
+        return root;
     }
 
     /**
@@ -92,7 +92,7 @@ public abstract class AbstractFileSystem
     public FileObject findFile( final String nameStr ) throws FileSystemException
     {
         // Resolve the name, and create the file
-        final FileName name = m_rootName.resolveName( nameStr );
+        final FileName name = rootName.resolveName( nameStr );
         return findFile( name );
     }
 
@@ -102,11 +102,11 @@ public abstract class AbstractFileSystem
     public FileObject findFile( final FileName name ) throws FileSystemException
     {
         // TODO - assert that name is from this file system
-        FileObject file = (FileObject)m_files.get( name );
-        if( file == null )
+        FileObject file = (FileObject)files.get( name );
+        if ( file == null )
         {
             file = createFile( name );
-            m_files.put( name, file );
+            files.put( name, file );
         }
         return file;
     }

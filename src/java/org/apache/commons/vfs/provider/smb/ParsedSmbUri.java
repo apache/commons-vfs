@@ -18,15 +18,15 @@ import org.apache.commons.vfs.provider.ParsedUri;
 final class ParsedSmbUri
     extends ParsedUri
 {
-    private String m_share;
+    private String share;
 
     public String getShare()
     {
-        return m_share;
+        return share;
     }
 
     public void setShare( String share )
     {
-        m_share = share;
+        this.share = share;
     }
 }

@@ -7,20 +7,20 @@
  */
 package org.apache.commons.vfs.provider.url;
 
-import org.apache.commons.vfs.provider.FileSystem;
-import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import java.net.URL;
-import java.net.MalformedURLException;
+import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.FileSystem;
+import org.apache.commons.vfs.provider.FileSystemProviderContext;
 
 /**
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/21 06:11:32 $
+ * @version $Revision: 1.3 $ $Date: 2002/08/21 07:00:12 $
  */
 class UrlFileSystem
     extends AbstractFileSystem

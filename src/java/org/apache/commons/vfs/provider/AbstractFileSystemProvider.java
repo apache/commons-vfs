@@ -10,10 +10,10 @@ package org.apache.commons.vfs.provider;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A partial file system provider implementation.
@@ -31,19 +31,19 @@ public abstract class AbstractFileSystemProvider
      * The cached file systems.  This is a mapping from root URI to
      * FileSystem object.
      */
-    private final Map m_fileSystems = new HashMap();
+    private final Map fileSystems = new HashMap();
 
     /**
      * Closes the file systems created by this provider.
      */
     public void close()
     {
-        for( Iterator iterator = m_fileSystems.values().iterator(); iterator.hasNext(); )
+        for ( Iterator iterator = fileSystems.values().iterator(); iterator.hasNext(); )
         {
             FileSystem fileSystem = (FileSystem)iterator.next();
             fileSystem.close();
         }
-        m_fileSystems.clear();
+        fileSystems.clear();
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class AbstractFileSystemProvider
         {
             parsedUri = parseUri( baseFile, uri );
         }
-        catch( FileSystemException exc )
+        catch ( FileSystemException exc )
         {
             final String message = REZ.getString( "invalid-absolute-uri.error", uri );
             throw new FileSystemException( message, exc );
@@ -79,12 +79,12 @@ public abstract class AbstractFileSystemProvider
     {
         // Check in the cache for the file system
         final String rootUri = parsedUri.getRootUri();
-        FileSystem fs = (FileSystem)m_fileSystems.get( rootUri );
-        if( fs == null )
+        FileSystem fs = (FileSystem)fileSystems.get( rootUri );
+        if ( fs == null )
         {
             // Need to create the file system, and cache it
             fs = createFileSystem( parsedUri );
-            m_fileSystems.put( rootUri, fs );
+            fileSystems.put( rootUri, fs );
         }
 
         // Locate the file

@@ -8,6 +8,8 @@
 package org.apache.commons.vfs.provider.ftp;
 
 import java.io.IOException;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -16,8 +18,6 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.FileSystemProviderContext;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * An FTP file system.
@@ -31,7 +31,7 @@ final class FtpFileSystem
     private static final Resources REZ =
         ResourceManager.getPackageResources( FtpFileSystem.class );
 
-    private final FTPClient m_client;
+    private final FTPClient client;
 
     public FtpFileSystem( final FileSystemProviderContext context,
                           final FileName rootName,
@@ -43,31 +43,31 @@ final class FtpFileSystem
         super( context, rootName );
         try
         {
-            m_client = new FTPClient();
-            m_client.connect( hostname );
+            client = new FTPClient();
+            client.connect( hostname );
 
-            int reply = m_client.getReplyCode();
-            if( !FTPReply.isPositiveCompletion( reply ) )
+            int reply = client.getReplyCode();
+            if ( !FTPReply.isPositiveCompletion( reply ) )
             {
                 final String message = REZ.getString( "connect-rejected.error", hostname );
                 throw new FileSystemException( message );
             }
 
             // Login
-            if( !m_client.login( username, password ) )
+            if ( !client.login( username, password ) )
             {
                 final String message = REZ.getString( "login.error", hostname, username );
                 throw new FileSystemException( message );
             }
 
             // Set binary mode
-            if( !m_client.setFileType( FTP.BINARY_FILE_TYPE ) )
+            if ( !client.setFileType( FTP.BINARY_FILE_TYPE ) )
             {
                 final String message = REZ.getString( "set-binary.error", hostname );
                 throw new FileSystemException( message );
             }
         }
-        catch( final Exception exc )
+        catch ( final Exception exc )
         {
             closeConnection();
             final String message = REZ.getString( "connect.error", hostname );
@@ -91,12 +91,12 @@ final class FtpFileSystem
         try
         {
             // Clean up
-            if( m_client.isConnected() )
+            if ( client.isConnected() )
             {
-                m_client.disconnect();
+                client.disconnect();
             }
         }
-        catch( final IOException e )
+        catch ( final IOException e )
         {
             final String message = REZ.getString( "close-connection.error" );
             getLogger().warn( message, e );
@@ -109,7 +109,7 @@ final class FtpFileSystem
     public FTPClient getClient()
     {
         // TODO - connect on demand, and garbage collect connections
-        return m_client;
+        return client;
     }
 
     /**

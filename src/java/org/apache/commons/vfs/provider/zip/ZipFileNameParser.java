@@ -71,13 +71,13 @@ class ZipFileNameParser
         // Looking for <name>!<abspath>
         int maxlen = uri.length();
         int pos = 0;
-        for( ; pos < maxlen && uri.charAt( pos ) != '!'; pos++ )
+        for ( ; pos < maxlen && uri.charAt( pos ) != '!'; pos++ )
         {
         }
 
         // Extract the name
         String prefix = uri.substring( 0, pos );
-        if( pos < maxlen )
+        if ( pos < maxlen )
         {
             uri.delete( 0, pos + 1 );
         }

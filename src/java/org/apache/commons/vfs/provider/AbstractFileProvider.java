@@ -17,14 +17,14 @@ package org.apache.commons.vfs.provider;
 public abstract class AbstractFileProvider
     implements FileProvider
 {
-    private FileSystemProviderContext m_context;
+    private FileSystemProviderContext context;
 
     /**
      * Returns the context for this provider.
      */
     protected FileSystemProviderContext getContext()
     {
-        return m_context;
+        return context;
     }
 
     /**
@@ -33,7 +33,7 @@ public abstract class AbstractFileProvider
      */
     public void setContext( final FileSystemProviderContext context )
     {
-        m_context = context;
+        this.context = context;
     }
 
     /**

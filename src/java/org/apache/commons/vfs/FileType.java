@@ -25,29 +25,31 @@ public final class FileType
      * A folder, which can contain other files, but does not have any data
      * content.
      */
-    public static final FileType FOLDER = new FileType( REZ.getString( "folder.name" ) );
+    public static final FileType FOLDER =
+        new FileType( REZ.getString( "folder.name" ) );
 
     /**
      * A regular file, which has data content, but cannot contain other files.
      */
-    public static final FileType FILE = new FileType( REZ.getString( "file.name" ) );
+    public static final FileType FILE =
+        new FileType( REZ.getString( "file.name" ) );
 
-    private final String m_name;
+    private final String name;
 
     private FileType( final String name )
     {
-        m_name = name;
+        this.name = name;
     }
 
     /** Returns the name of the type. */
     public String toString()
     {
-        return m_name;
+        return name;
     }
 
     /** Returns the name of the type. */
     public String getName()
     {
-        return m_name;
+        return name;
     }
 }

@@ -12,11 +12,11 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * The content of a file.
@@ -34,14 +34,14 @@ public final class DefaultFileContent
     private static final int STATE_READING = 1;
     private static final int STATE_WRITING = 2;
 
-    private final AbstractFileObject m_file;
-    private int _state = STATE_NONE;
-    private FileContentInputStream m_instr;
-    private FileContentOutputStream m_outstr;
+    private final AbstractFileObject file;
+    private int state = STATE_NONE;
+    private FileContentInputStream instr;
+    private FileContentOutputStream outstr;
 
     public DefaultFileContent( final AbstractFileObject file )
     {
-        m_file = file;
+        this.file = file;
     }
 
     /**
@@ -49,7 +49,7 @@ public final class DefaultFileContent
      */
     public FileObject getFile()
     {
-        return m_file;
+        return file;
     }
 
     /**
@@ -58,25 +58,25 @@ public final class DefaultFileContent
     public long getSize() throws FileSystemException
     {
         // Do some checking
-        if( !m_file.exists() )
+        if ( !file.exists() )
         {
-            final String message = REZ.getString( "get-size-no-exist.error", m_file );
+            final String message = REZ.getString( "get-size-no-exist.error", file );
             throw new FileSystemException( message );
         }
-        if( _state == STATE_WRITING )
+        if ( state == STATE_WRITING )
         {
-            final String message = REZ.getString( "get-size-write.error", m_file );
+            final String message = REZ.getString( "get-size-write.error", file );
             throw new FileSystemException( message );
         }
 
         try
         {
             // Get the size
-            return m_file.doGetContentSize();
+            return file.doGetContentSize();
         }
-        catch( Exception exc )
+        catch ( Exception exc )
         {
-            final String message = REZ.getString( "get-size.error", m_file );
+            final String message = REZ.getString( "get-size.error", file );
             throw new FileSystemException( message, exc );
         }
     }
@@ -122,14 +122,14 @@ public final class DefaultFileContent
      */
     public InputStream getInputStream() throws FileSystemException
     {
-        if( !m_file.exists() )
+        if ( !file.exists() )
         {
-            final String message = REZ.getString( "read-no-exist.error", m_file );
+            final String message = REZ.getString( "read-no-exist.error", file );
             throw new FileSystemException( message );
         }
-        if( _state != STATE_NONE )
+        if ( state != STATE_NONE )
         {
-            final String message = REZ.getString( "read-in-use.error", m_file );
+            final String message = REZ.getString( "read-in-use.error", file );
             throw new FileSystemException( message );
         }
 
@@ -137,18 +137,18 @@ public final class DefaultFileContent
         InputStream instr;
         try
         {
-            instr = m_file.doGetInputStream();
+            instr = file.doGetInputStream();
         }
-        catch( Exception exc )
+        catch ( Exception exc )
         {
-            final String message = REZ.getString( "read.error", m_file );
+            final String message = REZ.getString( "read.error", file );
             throw new FileSystemException( message, exc );
         }
 
         // TODO - reuse
-        m_instr = new FileContentInputStream( instr );
-        _state = STATE_READING;
-        return m_instr;
+        this.instr = new FileContentInputStream( instr );
+        state = STATE_READING;
+        return this.instr;
     }
 
     /**
@@ -156,20 +156,20 @@ public final class DefaultFileContent
      */
     public OutputStream getOutputStream() throws FileSystemException
     {
-        if( _state != STATE_NONE )
+        if ( state != STATE_NONE )
         {
-            final String message = REZ.getString( "write-in-use.error", m_file );
+            final String message = REZ.getString( "write-in-use.error", file );
             throw new FileSystemException( message );
         }
 
         // Get the raw output stream
-        OutputStream outstr = m_file.getOutputStream();
+        OutputStream outstr = file.getOutputStream();
 
         // Create wrapper
         // TODO - reuse
-        m_outstr = new FileContentOutputStream( outstr );
-        _state = STATE_WRITING;
-        return m_outstr;
+        this.outstr = new FileContentOutputStream( outstr );
+        state = STATE_WRITING;
+        return this.outstr;
     }
 
     /**
@@ -182,13 +182,13 @@ public final class DefaultFileContent
         try
         {
             // Close the input stream
-            if( m_instr != null )
+            if ( instr != null )
             {
                 try
                 {
-                    m_instr.close();
+                    instr.close();
                 }
-                catch( IOException ioe )
+                catch ( IOException ioe )
                 {
                     final String message = REZ.getString( "close-instr.error" );
                     throw new FileSystemException( message, ioe );
@@ -196,13 +196,13 @@ public final class DefaultFileContent
             }
 
             // Close the output stream
-            if( m_outstr != null )
+            if ( outstr != null )
             {
                 try
                 {
-                    m_outstr.close();
+                    outstr.close();
                 }
-                catch( IOException ioe )
+                catch ( IOException ioe )
                 {
                     final String message = REZ.getString( "close-outstr.error" );
                     throw new FileSystemException( message, ioe );
@@ -211,7 +211,7 @@ public final class DefaultFileContent
         }
         finally
         {
-            _state = STATE_NONE;
+            state = STATE_NONE;
         }
     }
 
@@ -220,9 +220,9 @@ public final class DefaultFileContent
      */
     private void endInput() throws Exception
     {
-        m_instr = null;
-        _state = STATE_NONE;
-        m_file.doEndInput();
+        instr = null;
+        state = STATE_NONE;
+        file.doEndInput();
     }
 
     /**
@@ -230,9 +230,9 @@ public final class DefaultFileContent
      */
     private void endOutput() throws Exception
     {
-        m_outstr = null;
-        _state = STATE_NONE;
-        m_file.endOutput();
+        outstr = null;
+        state = STATE_NONE;
+        file.endOutput();
     }
 
     /**
@@ -253,13 +253,13 @@ public final class DefaultFileContent
          */
         public int read() throws IOException
         {
-            if( _finished )
+            if ( _finished )
             {
                 return -1;
             }
 
             int ch = super.read();
-            if( ch != -1 )
+            if ( ch != -1 )
             {
                 return ch;
             }
@@ -275,13 +275,13 @@ public final class DefaultFileContent
         public int read( byte[] buffer, int offset, int length )
             throws IOException
         {
-            if( _finished )
+            if ( _finished )
             {
                 return -1;
             }
 
             int nread = super.read( buffer, offset, length );
-            if( nread != -1 )
+            if ( nread != -1 )
             {
                 return nread;
             }
@@ -296,7 +296,7 @@ public final class DefaultFileContent
          */
         public void close() throws IOException
         {
-            if( _finished )
+            if ( _finished )
             {
                 return;
             }
@@ -307,7 +307,7 @@ public final class DefaultFileContent
             {
                 super.close();
             }
-            catch( IOException e )
+            catch ( IOException e )
             {
                 exc = e;
             }
@@ -317,14 +317,14 @@ public final class DefaultFileContent
             {
                 endInput();
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
                 exc = new IOException( e.getMessage() );
             }
 
             _finished = true;
 
-            if( exc != null )
+            if ( exc != null )
             {
                 throw exc;
             }
@@ -354,7 +354,7 @@ public final class DefaultFileContent
             {
                 super.close();
             }
-            catch( IOException e )
+            catch ( IOException e )
             {
                 exc = e;
             }
@@ -364,12 +364,12 @@ public final class DefaultFileContent
             {
                 endOutput();
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
                 exc = new IOException( e.getMessage() );
             }
 
-            if( exc != null )
+            if ( exc != null )
             {
                 throw exc;
             }
