@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +17,7 @@ package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -42,37 +40,21 @@ final class FtpFileSystem
 {
     private final static Log log = LogFactory.getLog(FtpFileSystem.class);
 
-    private final String hostname;
-    private final int port;
-    private final String username;
-    private final String password;
+//    private final String hostname;
+//    private final int port;
+//    private final String username;
+//    private final String password;
 
     // An idle client
     private FTPClient idleClient;
 
-    public FtpFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
+    public FtpFileSystem(final GenericFileName rootName, final FTPClient ftpClient, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
-        hostname = rootName.getHostName();
-        port = rootName.getPort();
+        // hostname = rootName.getHostName();
+        // port = rootName.getPort();
 
-        // Determine the username and password to use
-        if (rootName.getUserName() == null)
-        {
-            username = "anonymous";
-        }
-        else
-        {
-            username = rootName.getUserName();
-        }
-        if (rootName.getPassword() == null)
-        {
-            password = "anonymous";
-        }
-        else
-        {
-            password = rootName.getPassword();
-        }
+        idleClient = ftpClient;
     }
 
     public void close()
@@ -121,7 +103,14 @@ final class FtpFileSystem
     {
         if (idleClient == null)
         {
-            return createConnection();
+            final GenericFileName rootName = (GenericFileName) getRoot().getName();
+
+            return FtpClientFactory.createConnection(rootName.getHostName(),
+                rootName.getPort(),
+                rootName.getUserName(),
+                rootName.getPassword(),
+                rootName.getPath());
+            // return createConnection();
         }
         else
         {
@@ -156,70 +145,4 @@ final class FtpFileSystem
     {
         return new FtpFileObject(name, this, getRootName());
     }
-
-    /**
-     * Creates a new connection to the server.
-     */
-    private FTPClient createConnection()
-        throws FileSystemException
-    {
-        try
-        {
-            final FTPClient client = new FTPClient();
-
-            /* as soon as commons-1.2 will be released
-            FTPFileEntryParserFactory myFactory = FtpFileSystemConfigBuilder.getInstance().getFTPFileEntryParserFactory(getFileSystemOptions());
-            if (myFactory != null)
-            {
-                client.setParserFactory(myFactory);
-            }
-            */
-
-            try
-            {
-                client.connect(hostname, port);
-
-                int reply = client.getReplyCode();
-                if (!FTPReply.isPositiveCompletion(reply))
-                {
-                    throw new FileSystemException("vfs.provider.ftp/connect-rejected.error", hostname);
-                }
-
-                // Login
-                if (!client.login(username, password))
-                {
-                    throw new FileSystemException("vfs.provider.ftp/login.error", new Object[]{hostname, username}, null);
-                }
-
-                // Set binary mode
-                if (!client.setFileType(FTP.BINARY_FILE_TYPE))
-                {
-                    throw new FileSystemException("vfs.provider.ftp/set-binary.error", hostname);
-                }
-
-                // Change to root by default
-                // All file operations a relative to the filesystem-root
-                String root = getRoot().getName().getPath();
-                if (root != null)
-                {
-                    if (!client.changeWorkingDirectory(root))
-                    {
-                        throw new FileSystemException("vfs.provider/get-attributes-no-exist.error", "/");
-                    }
-                }
-            }
-            catch (final IOException e)
-            {
-                closeConnection(client);
-                throw e;
-            }
-
-            return client;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider.ftp/connect.error", new Object[]{hostname}, exc);
-        }
-    }
-
 }
