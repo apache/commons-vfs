@@ -70,7 +70,7 @@ public final class DefaultFileContent implements FileContent
         FileContentThreadData data = (FileContentThreadData) this.threadData.get();
         if (data == null)
         {
-            data = new FileContentThreadData(this);
+            data = new FileContentThreadData();
             this.threadData.set(data);
         }
         return data;
@@ -341,7 +341,7 @@ public final class DefaultFileContent implements FileContent
      */
     public void close() throws FileSystemException
     {
-        // try
+        try
         {
             // Close the input stream
             while (getThreadData().getInstrsSize() > 0)
@@ -353,7 +353,7 @@ public final class DefaultFileContent implements FileContent
             // Close the output stream
             if (this.getThreadData().getOutstr() != null)
             {
-                this.getThreadData().getOutstr().close();
+                this.getThreadData().closeOutstr();
             }
 
             // Close the random access stream
@@ -361,7 +361,7 @@ public final class DefaultFileContent implements FileContent
             {
                 try
                 {
-                    this.getThreadData().getRastr().close();
+                    this.getThreadData().closeRastr();
                 }
                 catch (IOException e)
                 {
@@ -369,12 +369,10 @@ public final class DefaultFileContent implements FileContent
                 }
             }
         }
-        /*
         finally
         {
-            setState(STATE_CLOSED);
+            threadData.set(null);
         }
-        */
     }
 
     /**

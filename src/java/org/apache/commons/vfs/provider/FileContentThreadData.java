@@ -15,8 +15,10 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.RandomAccessContent;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -31,11 +33,8 @@ class FileContentThreadData
     private DefaultFileContent.FileContentOutputStream outstr;
     private RandomAccessContent rastr;
 
-    private final DefaultFileContent defaultFileContent;
-
-    FileContentThreadData(DefaultFileContent defaultFileContent)
+    FileContentThreadData()
     {
-        this.defaultFileContent = defaultFileContent;
     }
 
     /*
@@ -93,5 +92,17 @@ class FileContentThreadData
     public boolean hasStreams()
     {
         return instrs.size() > 0 || outstr != null || rastr != null;
+    }
+
+    public void closeOutstr() throws FileSystemException
+    {
+        outstr.close();
+        outstr = null;
+    }
+
+    public void closeRastr() throws IOException
+    {
+        rastr.close();
+        rastr = null;
     }
 }
