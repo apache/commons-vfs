@@ -331,6 +331,16 @@ public final class DefaultFileContent
     }
 
     /**
+     * check if a input and/or output stream is open.
+     *
+     * @return true if this is the case
+     */
+    public boolean isOpen()
+    {
+        return state != STATE_NONE;
+    }
+
+    /**
      * An input stream for reading content.  Provides buffering, and
      * end-of-stream monitoring.
      */

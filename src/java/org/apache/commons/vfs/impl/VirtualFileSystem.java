@@ -35,7 +35,7 @@ import java.util.Map;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/03 19:48:47 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/08 19:48:30 $
  * @todo Handle nested junctions.
  */
 public class VirtualFileSystem
@@ -115,7 +115,7 @@ public class VirtualFileSystem
             junctions.put(junctionName, targetFile);
 
             // Attach to file
-            final DelegateFileObject junctionFile = (DelegateFileObject) getFile(junctionName);
+            final DelegateFileObject junctionFile = (DelegateFileObject) getFileFromCache(junctionName);
             if (junctionFile != null)
             {
                 junctionFile.setFile(targetFile);
@@ -128,11 +128,11 @@ public class VirtualFileSystem
                  !done && parentName != null;
                  childName = parentName, parentName = parentName.getParent())
             {
-                DelegateFileObject file = (DelegateFileObject) getFile(parentName);
+                DelegateFileObject file = (DelegateFileObject) getFileFromCache(parentName);
                 if (file == null)
                 {
                     file = new DelegateFileObject(parentName, this, null);
-                    putFile(file);
+                    putFileToCache(file);
                 }
                 else
                 {

@@ -123,7 +123,7 @@ public abstract class AbstractFileSystem
     /**
      * Adds a file object to the cache.
      */
-    protected void putFile(final FileObject file)
+    protected void putFileToCache(final FileObject file)
     {
         files.putFile(file);
         // files.put(file.getName(), file);
@@ -132,10 +132,18 @@ public abstract class AbstractFileSystem
     /**
      * Returns a cached file.
      */
-    protected FileObject getFile(final FileName name)
+    protected FileObject getFileFromCache(final FileName name)
     {
         return files.getFile(this, name);
         // return (FileObject) files.get(name);
+    }
+
+    /**
+     * remove a cached file.
+     */
+    protected void removeFileFromCache(final FileName name)
+    {
+        files.removeFile(this, name);
     }
 
     /**
@@ -205,8 +213,8 @@ public abstract class AbstractFileSystem
             throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error", new Object[]{name, rootName});
         }
 
-        // imario@apache.org ==> use getFile
-        FileObject file = getFile(name);
+        // imario@apache.org ==> use getFileFromCache
+        FileObject file = getFileFromCache(name);
         // FileObject file = (FileObject) files.get(name);
         if (file == null)
         {
@@ -219,8 +227,8 @@ public abstract class AbstractFileSystem
                 throw new FileSystemException("vfs.provider/create-file.error", name);
             }
 
-            // imario@apache.org ==> use putFile
-            putFile(file);
+            // imario@apache.org ==> use putFileToCache
+            putFileToCache(file);
             // files.put(name, file);
         }
         return file;

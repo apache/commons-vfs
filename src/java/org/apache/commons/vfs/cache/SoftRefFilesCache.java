@@ -36,7 +36,7 @@ import java.util.TreeMap;
  * As soon as the vm needs memory - every softly reachable file will be discarded.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/07 19:09:56 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/08 19:48:30 $
  * @see SoftReference
  */
 public class SoftRefFilesCache implements FilesCache
@@ -187,6 +187,11 @@ public class SoftRefFilesCache implements FilesCache
             files.clear();
             refReverseMap.clear();
         }
+    }
+
+    public void removeFile(FileSystem filesystem, FileName name)
+    {
+        removeFile(new FileSystemAndNameKey(filesystem, name));
     }
 
     private void removeFile(final FileSystemAndNameKey key)

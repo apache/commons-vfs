@@ -573,6 +573,12 @@ public abstract class AbstractFileObject
             throw new FileSystemException("vfs.provider/delete-read-only.error", name);
         }
 
+        if (type == FileType.IMAGINARY)
+        {
+            // File does not exist
+            return;
+        }
+
         try
         {
             // Delete the file
@@ -979,9 +985,27 @@ public abstract class AbstractFileObject
             {
                 attached = false;
                 type = null;
-                children = null;
+
+                removeChildrenCache();
+                // children = null;
             }
         }
+    }
+
+    private void removeChildrenCache()
+    {
+        /*
+        if (children != null)
+        {
+            for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
+            {
+                fs.removeFileFromCache(children[iterChildren].getName());
+            }
+
+            children = null;
+        }
+        */
+        children = null;
     }
 
     /**
@@ -1042,6 +1066,8 @@ public abstract class AbstractFileObject
         {
             // Fix up state
             type = newType;
+
+            removeChildrenCache();
             children = EMPTY_FILE_ARRAY;
 
             // Notify subclass
@@ -1065,7 +1091,8 @@ public abstract class AbstractFileObject
         {
             // Fix up state
             type = FileType.IMAGINARY;
-            children = null;
+            removeChildrenCache();
+            // children = null;
 
             // Notify subclass
             onChange();
@@ -1087,7 +1114,8 @@ public abstract class AbstractFileObject
     {
         // TODO - this may be called when not attached
 
-        children = null;
+        removeChildrenCache();
+        // children = null;
         onChildrenChanged();
     }
 
@@ -1103,7 +1131,9 @@ public abstract class AbstractFileObject
             if (parentName != null)
             {
                 // Locate the parent, if it is cached
-                parent = (AbstractFileObject) fs.getFile(name.getParent());
+                parent = (AbstractFileObject) fs.getFileFromCache(parentName);
+
+                System.err.println("find parent: " + parentName.toString() + " found: " + parent);
             }
         }
 
@@ -1185,5 +1215,20 @@ public abstract class AbstractFileObject
                 selected.add(index, file);
             }
         }
+    }
+
+    /**
+     * Check if the content stream is open
+     *
+     * @return true it this is the case
+     */
+    public boolean isContentOpen()
+    {
+        if (content == null)
+        {
+            return false;
+        }
+
+        return content.isOpen();
     }
 }

@@ -75,15 +75,15 @@ public class ZipFileSystem
 
             // Create the file
             ZipFileObject fileObj;
-            if (entry.isDirectory() && getFile(name) != null)
+            if (entry.isDirectory() && getFileFromCache(name) != null)
             {
-                fileObj = (ZipFileObject) getFile(name);
+                fileObj = (ZipFileObject) getFileFromCache(name);
                 fileObj.setZipEntry(entry);
                 continue;
             }
 
             fileObj = createZipFileObject(name, entry, zipFile);
-            putFile(fileObj);
+            putFileToCache(fileObj);
 
             // Make sure all ancestors exist
             // TODO - create these on demand
@@ -93,11 +93,11 @@ public class ZipFileSystem
                  fileObj = parent, parentName = parentName.getParent())
             {
                 // Locate the parent
-                parent = (ZipFileObject) getFile(parentName);
+                parent = (ZipFileObject) getFileFromCache(parentName);
                 if (parent == null)
                 {
                     parent = createZipFileObject(parentName, null, zipFile);
-                    putFile(parent);
+                    putFileToCache(parent);
                 }
 
                 // Attach child to parent

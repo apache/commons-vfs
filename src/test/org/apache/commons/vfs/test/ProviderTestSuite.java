@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.cache.SoftRefFilesCache;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -37,7 +38,7 @@ import java.util.Enumeration;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: ProviderTestSuite.java,v 1.17 2004/05/03 19:48:49 imario Exp $
+ * @version $Id: ProviderTestSuite.java,v 1.18 2004/05/08 19:48:30 imario Exp $
  */
 public class ProviderTestSuite
     extends TestSetup
@@ -140,6 +141,8 @@ public class ProviderTestSuite
 
         // Create the file system manager
         manager = new DefaultFileSystemManager();
+
+        manager.setFilesCache(new SoftRefFilesCache());
 
         final DefaultFileReplicator replicator = new DefaultFileReplicator(tempDir);
         manager.setReplicator(new PrivilegedFileReplicator(replicator));

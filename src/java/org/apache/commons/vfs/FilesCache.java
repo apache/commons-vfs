@@ -15,11 +15,12 @@
  */
 package org.apache.commons.vfs;
 
+
 /**
  * The fileCache interface
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/03 19:48:48 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/08 19:48:30 $
  */
 public interface FilesCache
 {
@@ -47,4 +48,12 @@ public interface FilesCache
      * purge the whole cache
      */
     public void clear();
+
+    /**
+     * removes a file from cache
+     *
+     * @param filesystem filesystem
+     * @param name       filename
+     */
+    public void removeFile(final FileSystem filesystem, final FileName name);
 }
