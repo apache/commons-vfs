@@ -27,6 +27,7 @@ import org.apache.tools.ant.Project;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 /**
  * An abstract file synchronization task.  Scans a set of source files and
@@ -39,7 +40,7 @@ import java.util.Set;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision: 1.12 $ $Date: 2004/06/18 16:54:20 $
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
  * @todo Use visitors
@@ -54,6 +55,8 @@ public abstract class AbstractSyncTask
     private final ArrayList srcFiles = new ArrayList();
     private String destFileUrl;
     private String destDirUrl;
+    private String srcDirUrl;
+    private String filesList;
 
     /**
      * Sets the destination file.
@@ -82,6 +85,22 @@ public abstract class AbstractSyncTask
     }
 
     /**
+     * Sets the source directory
+     */
+    public void setSrcDir(final String srcDir)
+    {
+        this.srcDirUrl = srcDir;
+    }
+
+    /**
+     * Sets the files to includes
+     */
+    public void setIncludes(final String filesList)
+    {
+        this.filesList = filesList;
+    }
+
+    /**
      * Adds a nested <src> element.
      */
     public void addConfiguredSrc(final SourceInfo srcInfo)
@@ -107,11 +126,29 @@ public abstract class AbstractSyncTask
                 Messages.getString("vfs.tasks/sync.no-destination.error");
             throw new BuildException(message);
         }
+
         if (destFileUrl != null && destDirUrl != null)
         {
             final String message =
                 Messages.getString("vfs.tasks/sync.too-many-destinations.error");
             throw new BuildException(message);
+        }
+
+        // Add the files of the includes attribute to the list
+        if (srcDirUrl != null && !srcDirUrl.equals(destDirUrl) && filesList != null && filesList.length() > 0)
+        {
+            if (!srcDirUrl.endsWith("/"))
+            {
+                srcDirUrl += "/";
+            }
+            StringTokenizer tok = new StringTokenizer(filesList, ", \t\n\r\f", false);
+            while (tok.hasMoreTokens())
+            {
+                String nextFile = tok.nextToken();
+                final SourceInfo src = new SourceInfo();
+                src.setFile(srcDirUrl + nextFile);
+                addConfiguredSrc(src);
+            }
         }
 
         if (srcFiles.size() == 0)

@@ -102,6 +102,17 @@
                         single source file.</td>
                 </tr>
                 <tr>
+                    <td>srcdir</td>
+                    <td>The source folder. If used the includes and desdir 
+                        attributes should be specified.</td>
+                </tr>
+                <tr>
+                    <td>includes</td>
+                    <td>A comma or space separated list of files. The files
+                        are resolved in combination with the specified 
+                        srcdir attribute.</td>
+                </tr>
+                <tr>
                     <td>overwrite</td>
                     <td>Always copy files, ignoring the last-modified time of
                     the destination file.</td>
@@ -190,7 +201,18 @@
                     <td>file</td>
                     <td>The file or folder to delete.  All descendents of
                         the folder are deleted.</td>
-                    <td>Yes</td>
+                    <td rowspan="2">One only</td>
+                </tr>
+                <tr>
+                    <td>srcdir</td>
+                    <td>The source folder. If used the includes attribute 
+                        should be specified.</td>
+                </tr>
+                <tr>
+                    <td>includes</td>
+                    <td>A comma or space separated list of files. The files
+                        are resolved in combination with the specified 
+                        srcdir attribute.</td>
                 </tr>
             </table>
         </section>
