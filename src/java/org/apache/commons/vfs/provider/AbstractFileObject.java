@@ -182,7 +182,6 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Renames the file.  Is only called when:
      * <ul>
-     * <li>{@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <li>{@link #doIsWriteable} returns true.
      * </ul>
      * <p/>
