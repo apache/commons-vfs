@@ -3,4 +3,4 @@ target
 dist
 lib
 *.log
-
+build.properties
