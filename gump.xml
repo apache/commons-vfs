@@ -17,7 +17,7 @@
         <depend project="commons-compress"/>
         <option project="commons-httpclient"/>
         <option project="commons-net"/>
-        <option project="jakarta-slide" ids="webdavlib"/>
+        <option project="jakarta-slide" ids="client-webdavlib"/>
         <option project="jcifs"/>
         <option project="jsch"/>
 
