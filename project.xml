@@ -71,11 +71,6 @@
     </dependency>
 
     <dependency>
-      <id>junit</id>
-      <version>3.8</version>
-    </dependency>
-
-    <dependency>
       <id>commons-net</id>
       <version>SNAPSHOT</version>
     </dependency>

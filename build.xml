@@ -6,6 +6,16 @@
   <property name="classesdir" value="target/classes"></property>
   <property name="testclassesdir" value="target/test-classes"></property>
   <property name="testreportdir" value="target/test-reports"></property>
+  
+  
+  
+  
+  	
+		
+  
+  
+  <property name="resourcedir" value="C:\user\vfs\jakarta-commons-sandbox\vfs/src/java"></property>
+  
   <property name="distdir" value="dist"></property>
   <property name="javadocdir" value="target/docs/apidocs"></property>
   <property name="final.name" value="commons-vfs-1.0-dev"></property>
@@ -33,6 +43,24 @@
     </javac>
     
     
+ 
+    
+ 
+    <copy todir="${classesdir}">
+      
+      <fileset dir="${resourcedir}">
+      
+      
+        <include name="**/*.properties"></include>
+      
+      
+      </fileset>
+    </copy>
+ 
+    
+
+    
+		
 
   </target>
     
@@ -61,7 +89,8 @@
     
       <mkdir dir="${testreportdir}"></mkdir>
       <junit dir="./" failureproperty="test.failure" printSummary="yes" fork="true" haltonerror="true">
-        <sysproperty key="basedir" value="src/test"></sysproperty>
+        
+        <sysproperty key="basedir" value="C:\user\vfs\jakarta-commons-sandbox\vfs"></sysproperty>
         <formatter type="xml"></formatter>
         <formatter usefile="true" type="plain"></formatter>
         <classpath>
@@ -111,14 +140,6 @@
       
    
       
- 
-      <copy todir="${testclassesdir}">
-        <fileset dir="src/test">
-          
-          
-        </fileset>
-      </copy>
-      
     
   </target>
 
@@ -132,7 +153,7 @@
       <format pattern="2002-yyyy" property="year"></format>
     </tstamp>
  
-    <property name="copyright" value="Copyright &amp;copy;  Apache Software Foundation. All Rights Reserved."></property>
+    <property name="copyright" value="Copyright &amp;copy;  Apache Jakarta Project. All Rights Reserved."></property>
  
     <property name="title" value="commons-vfs 1.0-dev API"></property>
  
@@ -151,7 +172,6 @@
   
     
     <get dest="lib/ant-1.5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.5.jar"></get>
-    <get dest="lib/junit-3.7.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/junit/jars/junit-3.7.jar"></get>
     <get dest="lib/commons-net-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-SNAPSHOT.jar"></get>
     <get dest="lib/commons-logging-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.jar"></get>
     <get dest="lib/jcifs-0.7.0b5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.7.0b5.jar"></get>
