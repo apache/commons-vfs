@@ -67,6 +67,7 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.DefaultFileContent;
 
 /**
  * A file object implementation which uses direct file access.
@@ -175,6 +176,23 @@ final class LocalFile
     protected boolean doIsReadable() throws FileSystemException
     {
         return file.canRead();
+    }
+
+    /**
+     * Gets the last modified time of this file.
+     */
+    protected long doGetLastModifiedTime() throws FileSystemException
+    {
+        return file.lastModified();
+    }
+
+    /**
+     * Sets the last modified time of this file.
+     */
+    protected void doSetLastModifiedTime( final long modtime )
+        throws FileSystemException
+    {
+        file.setLastModified( modtime );
     }
 
     /**
