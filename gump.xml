@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <module name="commons-vfs">
-  <description>Commons CFS</description>
+  <description>Commons VFS</description>
   <url href="http://jakarta.apache.org/commons/sandbox/vfs/">
   </url>
   <cvs module="jakarta-commons-sandbox/vfs" repository="jakarta">
