@@ -161,11 +161,11 @@
     </get>
     <get dest="${libdir}/jcifs-0.7.0b5.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.7.0b5.jar">
     </get>
-    <get dest="${libdir}/client-webdavlib-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jakarta-slide/jars/client-webdavlib-SNAPSHOT.jar">
+    <get dest="${libdir}/webdavlib-20030224.jar" usetimestamp="true" ignoreerrors="true" src="file://${basedir}/lib/slide/jars/webdavlib-20030224.jar">
     </get>
     <get dest="${libdir}/commons-httpclient-2.0-alpha2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0-alpha2.jar">
     </get>
-    <get dest="${libdir}/jsch-0.1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jsch/jars/jsch-0.1.0.jar">
+    <get dest="${libdir}/jsch-0.1.0.jar" usetimestamp="true" ignoreerrors="true" src="file://${basedir}/lib/jsch/jars/jsch-0.1.0.jar">
     </get>
     <get dest="${libdir}/xml-apis-2.0.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-2.0.0.jar">
     </get>
