@@ -117,6 +117,14 @@ class SmbFileObject
     }
 
     /**
+     * Determines if this file is hidden.
+     */
+    protected boolean doIsHidden() throws Exception
+    {
+        return file.isHidden();
+    }
+
+    /**
      * Deletes the file.
      */
     protected void doDelete() throws Exception
