@@ -19,13 +19,14 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.FileSystemProviderContext;
+import org.apache.commons.logging.Log;
 
 /**
  * A file replicator that wraps another file replicator, performing
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/21 07:00:11 $
+ * @version $Revision: 1.3 $ $Date: 2002/08/21 14:28:07 $
  */
 public class PrivilegedFileReplicator
     implements FileReplicator
@@ -41,11 +42,35 @@ public class PrivilegedFileReplicator
     }
 
     /**
+     * Sets the Logger to use for the component.
+     */
+    public void setLogger( final Log logger )
+    {
+        replicator.setLogger( logger );
+    }
+
+    /**
      * Sets the context for the replicator.
      */
     public void setContext( final FileSystemProviderContext context )
     {
-        AccessController.doPrivileged( new SetContextAction( context ) );
+        replicator.setContext( context );
+    }
+
+    /**
+     * Initialises the component.
+     */
+    public void init() throws FileSystemException
+    {
+        try
+        {
+            AccessController.doPrivileged( new InitAction() );
+        }
+        catch ( final PrivilegedActionException e )
+        {
+            final String message = REZ.getString( "init-replicator.error" );
+            throw new FileSystemException( message, e );
+        }
     }
 
     /**
@@ -74,22 +99,15 @@ public class PrivilegedFileReplicator
         AccessController.doPrivileged( new CloseAction() );
     }
 
-    /** An action that sets the context of the wrapped replicator. */
-    private class SetContextAction implements PrivilegedAction
+    /** An action that initialises the wrapped replicator. */
+    private class InitAction implements PrivilegedExceptionAction
     {
-        private final FileSystemProviderContext context;
-
-        public SetContextAction( final FileSystemProviderContext context )
-        {
-            this.context = context;
-        }
-
         /**
          * Performs the action.
          */
-        public Object run()
+        public Object run() throws Exception
         {
-            replicator.setContext( context );
+            replicator.init();
             return null;
         }
     }

@@ -100,6 +100,6 @@ public final class DefaultLocalFileSystemProvider
 
         // Create the file system
         final DefaultFileName rootName = new DefaultFileName( parser, fileUri.getRootUri(), "/" );
-        return new LocalFileSystem( getContext(), rootName, rootFile );
+        return new LocalFileSystem( rootName, rootFile );
     }
 }

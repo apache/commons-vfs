@@ -27,11 +27,10 @@ final class LocalFileSystem
 {
     private final String rootFile;
 
-    public LocalFileSystem( final FileSystemProviderContext context,
-                            final DefaultFileName rootName,
+    public LocalFileSystem( final FileName rootName,
                             final String rootFile )
     {
-        super( context, rootName, null );
+        super( rootName, null );
         this.rootFile = rootFile;
     }
 

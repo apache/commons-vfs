@@ -19,13 +19,8 @@ import org.apache.commons.vfs.FileSystemException;
  * @version $Revision: 1.1 $ $Date: 2002/04/07 02:27:56 $
  */
 public interface FileReplicator
+    extends VfsComponent
 {
-    /**
-     * Sets the context for the replicator.
-     * @todo Move to a lifecycle interface.
-     */
-    void setContext( FileSystemProviderContext context );
-
     /**
      * Creates a local copy of the file, and all its descendents.
      *
@@ -39,10 +34,4 @@ public interface FileReplicator
      */
     File replicateFile( FileObject srcFile, FileSelector selector )
         throws FileSystemException;
-
-    /**
-     * Closes the replicator.
-     * @todo Move to a lifecycle interface.
-     */
-    void close();
 }

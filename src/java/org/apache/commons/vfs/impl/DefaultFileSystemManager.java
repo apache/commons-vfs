@@ -10,13 +10,13 @@ package org.apache.commons.vfs.impl;
 import java.io.File;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -25,6 +25,7 @@ import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.VfsComponent;
 
 /**
  * A default file system manager implementation.
@@ -52,15 +53,22 @@ public class DefaultFileSystemManager
     /** Mapping from URI scheme to FileProvider. */
     private final Map providers = new HashMap();
 
+    /** All components used by this manager. */
+    private final ArrayList components = new ArrayList();
+
     /** The base file to use for relative URI. */
     private FileObject baseFile;
+
+    /** The logger to use. */
+    private Log log = LogFactory.getLog( DefaultFileSystemManager.class );
 
     /** The context to pass to providers. */
     private final DefaultProviderContext context =
         new DefaultProviderContext( this );
 
     /**
-     * Registers a file system provider.
+     * Registers a file system provider.  The manager takes care of all
+     * lifecycle management.
      */
     public void addProvider( final String urlScheme,
                              final FileProvider provider )
@@ -70,7 +78,8 @@ public class DefaultFileSystemManager
     }
 
     /**
-     * Registers a file system provider.
+     * Registers a file system provider.  The manager takes care of all
+     * lifecycle management.
      */
     public void addProvider( final String[] urlSchemes,
                              final FileProvider provider )
@@ -90,7 +99,7 @@ public class DefaultFileSystemManager
         }
 
         // Contextualise
-        provider.setContext( context );
+        setupComponent( provider );
 
         // Add to map
         for ( int i = 0; i < urlSchemes.length; i++ )
@@ -107,21 +116,48 @@ public class DefaultFileSystemManager
 
     /**
      * Sets the default provider.  This is the provider that will handle URI
-     * with unknown schemes.
+     * with unknown schemes.  The manager takes care of all lifecycle
+     * management.
      */
-    public void setDefaultProvider( FileProvider provider )
+    public void setDefaultProvider( final FileProvider provider )
+        throws FileSystemException
     {
+        setupComponent( provider );
         defaultProvider = provider;
     }
 
     /**
-     * Sets the file replicator to use.
+     * Sets the file replicator to use.  The manager takes care of all
+     * lifecycle management.
      */
-    public void setReplicator( FileReplicator replicator )
+    public void setReplicator( final FileReplicator replicator )
+        throws FileSystemException
     {
-        // Contextualise the replicator
-        replicator.setContext( context );
+        setupComponent( replicator );
         fileReplicator = replicator;
+    }
+
+    /**
+     * Sets the logger to use.
+     */
+    public void setLogger( final Log log )
+    {
+        this.log = log;
+    }
+
+    /**
+     * Adds a component to the set of components owned by this manager.
+     */
+    private void setupComponent( final VfsComponent component )
+        throws FileSystemException
+    {
+        if ( !components.contains( component ) )
+        {
+            component.setLogger( log );
+            component.setContext( context );
+            component.init();
+            components.add( component );
+        }
     }
 
     /**
@@ -146,29 +182,27 @@ public class DefaultFileSystemManager
      */
     public void close()
     {
-        // Dispose the providers (making sure we only dispose each provider
-        // once
-        final Set providers = new HashSet();
-        providers.addAll( this.providers.values() );
-        for ( Iterator iterator = providers.iterator(); iterator.hasNext(); )
+        // Dispose the components (making sure we only dispose each provider
+        // only once).  Close the replicator last.
+        for ( int i = 0; i < components.size(); i++ )
         {
-            FileProvider provider = (FileProvider)iterator.next();
-            provider.close();
+            VfsComponent component = (VfsComponent)components.get( i );
+            if ( component == fileReplicator )
+            {
+                continue;
+            }
+            component.close();
         }
-        this.providers.clear();
-        localFileProvider = null;
-
-        if ( defaultProvider != null )
-        {
-            defaultProvider.close();
-            defaultProvider = null;
-        }
-
         if ( fileReplicator != null )
         {
             fileReplicator.close();
-            fileReplicator = null;
         }
+
+        this.components.clear();
+        this.providers.clear();
+        localFileProvider = null;
+        defaultProvider = null;
+        fileReplicator = null;
     }
 
     /**

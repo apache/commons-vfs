@@ -19,7 +19,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 01:39:47 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/21 14:28:08 $
  */
 public class UrlFileProvider
     extends AbstractFileSystemProvider
@@ -42,6 +42,6 @@ public class UrlFileProvider
         throws FileSystemException
     {
         final DefaultFileName rootName = new DefaultFileName( parser, uri.getRootUri(), "/" );
-        return new UrlFileSystem( getContext(), rootName );
+        return new UrlFileSystem( rootName );
     }
 }

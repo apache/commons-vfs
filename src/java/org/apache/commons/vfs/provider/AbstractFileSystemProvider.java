@@ -22,7 +22,8 @@ import org.apache.commons.vfs.FileSystemException;
  * @version $Revision: 1.9 $ $Date: 2002/07/05 03:47:04 $
  */
 public abstract class AbstractFileSystemProvider
-    extends AbstractFileProvider
+    extends AbstractVfsComponent
+    implements FileProvider
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractFileSystemProvider.class );
@@ -84,11 +85,24 @@ public abstract class AbstractFileSystemProvider
         {
             // Need to create the file system, and cache it
             fs = createFileSystem( parsedUri );
-            fileSystems.put( rootUri, fs );
+            addFileSystem( rootUri, fs );
         }
 
         // Locate the file
         return fs.findFile( parsedUri.getPath() );
+    }
+
+    /** Adds a file system. */
+    private void addFileSystem( final String rootUri, final FileSystem fs )
+        throws FileSystemException
+    {
+        // Initialise
+        fs.setLogger( getLogger() );
+        fs.setContext( getContext() );
+        fs.init();
+
+        // Add to the cache
+        fileSystems.put( rootUri, fs );
     }
 
     /**

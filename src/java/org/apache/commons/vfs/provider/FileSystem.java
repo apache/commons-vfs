@@ -18,6 +18,7 @@ import org.apache.commons.vfs.FileSystemException;
  * @version $Revision: 1.2 $ $Date: 2002/04/07 02:27:56 $
  */
 public interface FileSystem
+    extends VfsComponent
 {
     /**
      * Returns the root of this file system.
@@ -85,9 +86,4 @@ public interface FileSystem
      *          The name of the file.  This must be an absolute path.
      */
     FileObject findFile( String name ) throws FileSystemException;
-
-    /**
-     * Closes this file system.
-     */
-    void close();
 }

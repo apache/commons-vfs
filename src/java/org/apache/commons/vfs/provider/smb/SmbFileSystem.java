@@ -24,10 +24,9 @@ class SmbFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    public SmbFileSystem( final FileSystemProviderContext context,
-                          final FileName rootName )
+    public SmbFileSystem( final FileName rootName )
     {
-        super( context, rootName, null );
+        super( rootName, null );
     }
 
     /**

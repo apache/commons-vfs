@@ -21,7 +21,6 @@ import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileSystem;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
 
 /**
  * A read-only file system for Zip/Jar files.
@@ -39,12 +38,11 @@ class ZipFileSystem
     private final File file;
     private final ZipFile zipFile;
 
-    public ZipFileSystem( final FileSystemProviderContext context,
-                          final DefaultFileName rootName,
+    public ZipFileSystem( final DefaultFileName rootName,
                           final FileObject parentLayer )
         throws FileSystemException
     {
-        super( context, rootName, parentLayer );
+        super( rootName, parentLayer );
 
         // Make a local copy of the file
         final File file = parentLayer.replicateFile( FileConstants.SELECT_SELF );

@@ -48,6 +48,6 @@ public final class SmbFileSystemProvider
     {
         final ParsedSmbUri smbUri = (ParsedSmbUri)uri;
         final FileName rootName = new DefaultFileName( parser, smbUri.getRootUri(), "/" );
-        return new SmbFileSystem( getContext(), rootName );
+        return new SmbFileSystem( rootName );
     }
 }

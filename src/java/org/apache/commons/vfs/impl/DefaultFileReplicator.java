@@ -12,14 +12,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.FileReplicator;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
 
 /**
  * A simple file replicator.
@@ -28,25 +26,21 @@ import org.apache.commons.vfs.provider.FileSystemProviderContext;
  * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:18 $
  */
 public final class DefaultFileReplicator
+    extends AbstractVfsComponent
     implements FileReplicator
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultFileReplicator.class );
-    private static final Log LOG =
-        LogFactory.getLog( DefaultFileReplicator.class );
 
     private final ArrayList copies = new ArrayList();
-    private FileSystemProviderContext context;
     private File tempDir;
     private long filecount;
 
     /**
-     * Sets the context for the replicator.
-     * @todo Move to a lifecycle interface.
+     * Initialises this component.
      */
-    public void setContext( FileSystemProviderContext context )
+    public void init() throws FileSystemException
     {
-        this.context = context;
         tempDir = new File( "vfs_cache" ).getAbsoluteFile();
         filecount = new Random().nextInt() & 0xffff;
     }
@@ -67,7 +61,7 @@ public final class DefaultFileReplicator
             catch ( final FileSystemException e )
             {
                 final String message = REZ.getString( "delete-temp.warn", file.getName() );
-                LOG.warn( message, e );
+                getLogger().warn( message, e );
             }
         }
 
@@ -101,7 +95,7 @@ public final class DefaultFileReplicator
         final File file = generateTempFile( basename );
 
         // Copy from the source file
-        final FileObject destFile = context.getFile( file );
+        final FileObject destFile = getContext().getFile( file );
         destFile.copyFrom( srcFile, selector );
 
         // Keep track of the copy

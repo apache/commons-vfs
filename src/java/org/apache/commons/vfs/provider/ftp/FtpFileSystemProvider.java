@@ -62,6 +62,6 @@ public final class FtpFileSystemProvider
         }
 
         // Create the file system
-        return new FtpFileSystem( getContext(), rootName, ftpUri.getHostName(), username, password );
+        return new FtpFileSystem( rootName, ftpUri.getHostName(), username, password );
     }
 }

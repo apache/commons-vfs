@@ -14,12 +14,14 @@ import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A static factory for {@link FileSystemManager} instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/08/21 07:00:10 $
+ * @version $Revision: 1.4 $ $Date: 2002/08/21 14:28:07 $
  */
 public class FileSystemManagerFactory
 {
@@ -50,9 +52,14 @@ public class FileSystemManagerFactory
      * @todo Load manager config from a file.
      * @todo Ignore missing providers.
      */
-    private static FileSystemManager doCreateManager() throws FileSystemException
+    private static FileSystemManager doCreateManager()
+        throws FileSystemException
     {
         final DefaultFileSystemManager mgr = new DefaultFileSystemManager();
+
+        // Set the logger
+        final Log logger = LogFactory.getLog( FileSystemManagerFactory.class );
+        mgr.setLogger( logger );
 
         // Set the replicator
         FileReplicator replicator = new DefaultFileReplicator();

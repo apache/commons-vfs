@@ -94,7 +94,7 @@ public final class ZipFileSystemProvider
                 {
                     public Object run() throws FileSystemException
                     {
-                        return new ZipFileSystem( getContext(), name, file );
+                        return new ZipFileSystem( name, file );
                     }
                 } );
         }

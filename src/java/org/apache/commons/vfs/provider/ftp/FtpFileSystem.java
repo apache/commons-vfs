@@ -33,14 +33,13 @@ final class FtpFileSystem
 
     private final FTPClient client;
 
-    public FtpFileSystem( final FileSystemProviderContext context,
-                          final FileName rootName,
+    public FtpFileSystem( final FileName rootName,
                           final String hostname,
                           final String username,
                           final String password )
         throws FileSystemException
     {
-        super( context, rootName, null );
+        super( rootName, null );
         try
         {
             client = new FTPClient();

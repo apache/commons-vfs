@@ -804,9 +804,9 @@ public abstract class AbstractFileSystemTestCase
 
     /**
      * Asserts that the content of a file is the same as expected. Checks the
-     * length reported by getSize() is correct, then reads the content as
-     * a byte stream, and as a char stream, and compares the result with
-     * the expected content.  Assumes files are encoded using UTF-8.
+     * length reported by getContentLength() is correct, then reads the content
+     * as a byte stream and compares the result with the expected content.
+     * Assumes files are encoded using UTF-8.
      */
     protected void assertSameURLContent( final String expected,
                                          final URLConnection connection )
@@ -894,8 +894,8 @@ public abstract class AbstractFileSystemTestCase
     /**
      * Asserts that the content of a file is the same as expected. Checks the
      * length reported by getSize() is correct, then reads the content as
-     * a byte stream, and as a char stream, and compares the result with
-     * the expected content.  Assumes files are encoded using UTF-8.
+     * a byte stream and compares the result with the expected content.
+     * Assumes files are encoded using UTF-8.
      */
     protected void assertSameContent( final String expected,
                                       final FileContent content )

@@ -14,21 +14,12 @@ import org.apache.commons.vfs.FileSystemException;
  * A file provider.  Each file provider is responsible for handling files for
  * a particular URI scheme.
  *
- * <p>A provider may implement the LogEnabled and Disposable interfaces
- * from Avalon.
- *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.1 $ $Date: 2002/06/17 07:19:45 $
  */
 public interface FileProvider
+    extends VfsComponent
 {
-    /**
-     * Sets the context for this file provider.  This method is called before
-     * any of the other provider methods.
-     * @todo Move to a lifecycle interface.
-     */
-    void setContext( FileSystemProviderContext context );
-
     /**
      * Locates a file object, by absolute URI.
      *
@@ -51,10 +42,4 @@ public interface FileProvider
      */
     FileObject createFileSystem( String scheme, FileObject file )
         throws FileSystemException;
-
-    /**
-     * Closes the provider.
-     * @todo Move to a lifecycle interface.
-     */
-    void close();
 }
