@@ -368,6 +368,45 @@ public class ProviderWriteTests
     }
 
     /**
+     * Tests overwriting a file on the same file system.
+     */
+    public void testOverwriteSameFileSystem() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile( "file1.txt" );
+        assertTrue( !file.exists() );
+
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+        final OutputStream os = file.getContent().getOutputStream();
+        try
+        {
+            os.write( content.getBytes( "utf-8" ) );
+        }
+        finally
+        {
+            os.close();
+        }
+
+        assertSameContent( content, file );
+
+        // Make sure we can copy the new file to another file on the same filesystem
+        FileObject fileCopy = scratchFolder.resolveFile( "file1copy.txt" );
+        assertTrue( !fileCopy.exists() );
+        fileCopy.copyFrom( file, Selectors.SELECT_SELF );
+
+        assertSameContent( content, fileCopy );
+        
+        // Make sure we can copy the same new file to the same target file on the same filesystem
+        assertTrue( fileCopy.exists() );
+        fileCopy.copyFrom( file, Selectors.SELECT_SELF );
+
+        assertSameContent( content, fileCopy );
+    }
+
+    /**
      * Test that children are handled correctly by create and delete.
      */
     public void testListChildren() throws Exception
