@@ -28,7 +28,7 @@ import org.apache.commons.vfs.impl.DefaultFileContentInfo;
  * Description
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:37 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/22 20:33:05 $
  */
 public class HttpFileContentInfoFactory implements FileContentInfoFactory
 {
@@ -42,7 +42,7 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
         Header header = httpFile.getHeadMethod().getResponseHeader("content-type");
         if (header != null)
         {
-            HeaderElement[] element = new org.apache.commons.httpclient.HeaderElement[0];
+            HeaderElement[] element;
             try
             {
                 element = header.getValues();
