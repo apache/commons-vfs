@@ -56,6 +56,7 @@
 package org.apache.commons.vfs;
 
 import org.apache.commons.vfs.util.Messages;
+import java.io.IOException;
 
 /**
  * Thrown for file system errors.
@@ -64,7 +65,7 @@ import org.apache.commons.vfs.util.Messages;
  * @version $Revision: 1.5 $ $Date: 2002/07/05 04:08:17 $
  */
 public final class FileSystemException
-    extends Exception
+    extends IOException
 {
     /**
      * The Throwable that caused this exception to be thrown.
