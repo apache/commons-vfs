@@ -39,7 +39,7 @@
                     <td>
                         Jakarta
                         <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>.
-                        Version 2.0 alpha 2 or later.
+                        Version 2.0 beta 1 or later.
                     </td>
                     <td>WebDAV</td>
                 </tr>
@@ -54,13 +54,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jcifs.samba.org/">jCIFS</a> Version 0.7.0 b5 or later.
+                        <a href="http://jcifs.samba.org/">jCIFS</a> Version 0.7.8 or later.
                     </td>
                     <td>CIFS</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.2 or later.
+                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.5 or later.
                         Note that JSch requires Java 1.4 or later.
                     </td>
                     <td>SFTP</td>
@@ -95,7 +95,7 @@
                 <li>
                     Use
                     <a href="http://jakarta.apache.org/turbine/maven">Maven</a>
-                    beta 8 or later. Use the <code>jar</code> goal to download
+                    beta 9 or later. Use the <code>jar</code> goal to download
                     the dependencies, and build the VFS jar.  Maven builds the
                     jar file into the <code>target</code> directory.
                 </li>

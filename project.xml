@@ -87,28 +87,28 @@
 
     <dependency>
       <id>jcifs</id>
-      <version>0.7.0b5</version>
+      <version>0.7.8</version>
     </dependency>
 
     <dependency>
       <groupId>slide</groupId>
-      <artifactId>webdavlib</artifactId>
+      <artifactId>webdavlib</artifactId> <!-- ?? -->
       <version>20030224</version>
     </dependency>
 
     <dependency>
        <id>commons-httpclient</id>
-       <version>2.0-alpha2</version>
+       <version>2.0-beta1</version>
     </dependency>
 
     <dependency>
       <id>jsch</id>
-      <version>0.1.2</version>
+      <version>0.1.5</version>
     </dependency>
 
     <dependency>
       <id>xml-apis</id>
-      <version>2.0.0</version>
+      <version>1.0.b2</version>
     </dependency>
   </dependencies>
 
