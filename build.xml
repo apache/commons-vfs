@@ -165,7 +165,7 @@
     </get>
     <get dest="${libdir}/commons-httpclient-2.0-alpha2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0-alpha2.jar">
     </get>
-    <get dest="${libdir}/jsch-0.1.0.jar" usetimestamp="true" ignoreerrors="true" src="file://${basedir}/lib/jsch/jars/jsch-0.1.0.jar">
+    <get dest="${libdir}/jsch-0.1.2.jar" usetimestamp="true" ignoreerrors="true" src="file://${basedir}/lib/jsch/jars/jsch-0.1.2.jar">
     </get>
     <get dest="${libdir}/xml-apis-2.0.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-2.0.0.jar">
     </get>

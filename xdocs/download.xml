@@ -60,7 +60,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.0 or later.
+                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.2 or later.
                         Note that JSch requires Java 1.4 or later.
                     </td>
                     <td>SFTP</td>

@@ -55,31 +55,30 @@
  */
 package org.apache.commons.vfs.provider.sftp;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.MonitorOutputStream;
-import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.commons.vfs.provider.TemporaryFileStore;
-import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.SftpATTRS;
+import com.jcraft.jsch.SftpException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Vector;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.SftpATTRS;
+import java.util.Vector;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.util.MonitorOutputStream;
 
 /**
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/23 00:40:38 $
+ * @version $Revision: 1.3 $ $Date: 2003/03/17 09:04:13 $
  */
 class SftpFileObject
     extends AbstractFileObject
@@ -90,15 +89,12 @@ class SftpFileObject
 
     private final SftpFileSystem fileSystem;
     private SftpATTRS attrs;
-    private TemporaryFileStore tempFileStore;
 
     public SftpFileObject( final FileName name,
-                           final SftpFileSystem fileSystem,
-                           final TemporaryFileStore tempFileStore )
+                           final SftpFileSystem fileSystem )
     {
         super( name, fileSystem );
         this.fileSystem = fileSystem;
-        this.tempFileStore = tempFileStore;
     }
 
     /**
@@ -111,7 +107,6 @@ class SftpFileObject
 
         if ( attrs == null )
         {
-            // TODO - not quite true, but ChannelSftp.stat() swallows exceptions
             return FileType.IMAGINARY;
         }
         
@@ -145,6 +140,17 @@ class SftpFileObject
         {
             attrs = channel.stat( getName().getPath() );
         }
+        catch ( final SftpException e )
+        {
+            // TODO - not strictly true, but jsch 0.1.2 does not give us
+            // enough info in the exception.  Should be using:
+            // if ( e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE )
+            // However, sometimes the exception has the correct id, and sometimes
+            // it does not.  Need to look into why.
+
+            // Does not exist
+            attrs = null;
+        }
         finally
         {
             fileSystem.putChannel( channel );
@@ -159,11 +165,7 @@ class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            final boolean ok = channel.mkdir( getName().getPath() );
-            if ( !ok )
-            {
-                throw new FileSystemException( "vfs.provider.sftp/create-folder.error" );
-            }
+            channel.mkdir( getName().getPath() );
         }
         finally
         {
@@ -179,18 +181,13 @@ class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            final boolean ok;
             if ( getType() == FileType.FILE )
             {
-                ok = channel.rm( getName().getPath() );
+                channel.rm( getName().getPath() );
             }
             else
             {
-                ok = channel.rmdir( getName().getPath() );
-            }
-            if ( !ok )
-            {
-                throw new FileSystemException( "vfs.provider.sftp/delete.error" );
+                channel.rmdir( getName().getPath() );
             }
         }
         finally
@@ -262,16 +259,12 @@ class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            // TODO - this is a dud, need to add stream based methods to Jsch
-            // TODO - reuse the cached file
-            // TODO - delete the file on end-of-stream
-            final File file = tempFileStore.allocateFile( getName().getBaseName() );
-            final boolean ok = channel.get( getName().getPath(), '/' + file.getAbsolutePath() );
-            if ( !ok )
-            {
-                throw new FileSystemException( "vfs.provider.sftp/get-file.error" );
-            }
-            return new FileInputStream( file );
+            // TODO - Don't read the entire file into memory.  Use the
+            // stream-based methods on ChannelSftp once they work properly
+            final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
+            channel.get( getName().getPath(), outstr );
+            outstr.close();
+            return new ByteArrayInputStream( outstr.toByteArray() );
         }
         finally
         {
@@ -284,45 +277,25 @@ class SftpFileObject
      */
     protected OutputStream doGetOutputStream() throws Exception
     {
-        // TODO - this is a dud, need to add stream based methods to Jsch
-        // TODO - reuse the same file for all content operations
-        final File file = tempFileStore.allocateFile( getName().getBaseName() );
-        return new SftpOutputStream( file );
-    }
-
-    /**
-     * Writes the content from a file.
-     */
-    private void putContent( final File file ) throws IOException
-    {
+        // TODO - Don't write the entire file into memory.  Use the stream-based
+        // methods on ChannelSftp once the work properly
         final ChannelSftp channel = fileSystem.getChannel();
-        try
-        {
-            final boolean ok = channel.put( '/' + file.getAbsolutePath(), getName().getPath() );
-            if ( !ok )
-            {
-                throw new FileSystemException( "vfs.provider.sftp/put-file.error" );
-            }
-        }
-        finally
-        {
-            fileSystem.putChannel( channel );
-        }
+        return new SftpOutputStream( channel );
     }
 
     /**
-     * An output stream that pushes content to the server when this stream
-     * is closed.
+     * An OutputStream that wraps an sftp OutputStream, and closes the channel
+     * when the stream is closed.
      */
     private class SftpOutputStream
         extends MonitorOutputStream
     {
-        private File file;
+        private final ChannelSftp channel;
 
-        public SftpOutputStream( final File file ) throws IOException
+        public SftpOutputStream( final ChannelSftp channel )
         {
-            super( new FileOutputStream( file ) );
-            this.file = file;
+            super( new ByteArrayOutputStream() );
+            this.channel = channel;
         }
 
         /**
@@ -330,8 +303,20 @@ class SftpFileObject
          */
         protected void onClose() throws IOException
         {
-            // TODO - need to delete the file
-            putContent( file );
+            try
+            {
+                final ByteArrayOutputStream outstr = (ByteArrayOutputStream)out;
+                channel.put( new ByteArrayInputStream( outstr.toByteArray() ),
+                             getName().getPath() );
+            }
+            catch ( final SftpException e )
+            {
+                throw new FileSystemException( e );
+            }
+            finally
+            {
+                fileSystem.putChannel( channel );
+            }
         }
     }
 }

@@ -73,7 +73,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/20 07:30:36 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/17 09:04:14 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
@@ -95,10 +95,10 @@ class SftpFileSystem
      */
     protected ChannelSftp getChannel() throws IOException
     {
-        // Create the session
-        if ( session == null )
+        try
         {
-            try
+            // Create the session
+            if ( session == null )
             {
                 final GenericFileName rootName = (GenericFileName)getRootName();
                 session = jSch.getSession( rootName.getUserName(),
@@ -107,26 +107,28 @@ class SftpFileSystem
                 session.setPassword( rootName.getPassword() );
                 session.connect();
             }
-            catch ( final JSchException e )
+
+            // Use the pooled channel, or create a new one
+            final ChannelSftp channel;
+            if ( idleChannel != null )
             {
-                throw new FileSystemException( "vfs.provider.sftp/connect.error", getRootName(), e );
+                channel = idleChannel;
+                idleChannel = null;
             }
-        }
+            else
+            {
+                channel = (ChannelSftp)session.openChannel( "sftp" );
+                channel.connect();
+            }
 
-        // Use the pooled channel, or create a new one
-        final ChannelSftp channel;
-        if ( idleChannel != null )
-        {
-            channel = idleChannel;
-            idleChannel = null;
+            return channel;
         }
-        else
+        catch ( final JSchException e )
         {
-            channel = (ChannelSftp)session.openChannel( "sftp" );
-            channel.connect();
+            throw new FileSystemException( "vfs.provider.sftp/connect.error",
+                                           getRootName(),
+                                           e );
         }
-
-        return channel;
     }
 
     /**
@@ -165,6 +167,6 @@ class SftpFileSystem
     protected FileObject createFile( final FileName name )
         throws FileSystemException
     {
-        return new SftpFileObject( name, this, getContext().getTemporaryFileStore() );
+        return new SftpFileObject( name, this );
     }
 }
