@@ -62,7 +62,7 @@ import java.net.URL;
  * A simple file name, made up of a root URI and an absolute path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/17 09:22:14 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/21 13:11:36 $
  */
 public class BasicFileName
     extends AbstractFileName
@@ -71,15 +71,23 @@ public class BasicFileName
 
     public BasicFileName( final String rootUri, final String path )
     {
-        this( UriParser.extractScheme( rootUri ), rootUri, path );
+        this( UriParser.extractScheme( rootUri ), rootUri, path, false );
     }
 
     public BasicFileName( final String scheme,
                           final String rootUri,
                           final String path )
     {
+        this( scheme, rootUri, path, false );
+    }
+
+    private BasicFileName( final String scheme,
+                          final String rootUri,
+                          final String path,
+                          final boolean normalised )
+    {
         super( scheme, path );
-        if ( rootUri.endsWith( SEPARATOR ) )
+        if ( !normalised && rootUri.endsWith( SEPARATOR ) )
         {
             // Remove trailing separator
             this.rootUri = rootUri.substring( 0, rootUri.length() - 1 );
@@ -92,12 +100,12 @@ public class BasicFileName
 
     public BasicFileName( final FileName rootUri, final String path )
     {
-        this( rootUri.getScheme(), rootUri.getURI(), path );
+        this( rootUri.getScheme(), rootUri.getURI(), path, false );
     }
 
     public BasicFileName( final URL rootUrl, final String path )
     {
-        this( rootUrl.getProtocol(), rootUrl.toExternalForm(), path );
+        this( rootUrl.getProtocol(), rootUrl.toExternalForm(), path, false );
     }
 
     /**
@@ -105,7 +113,7 @@ public class BasicFileName
      */
     protected FileName createName( final String path )
     {
-        return new BasicFileName( getScheme(), rootUri, path );
+        return new BasicFileName( getScheme(), rootUri, path, true );
     }
 
     /**
