@@ -74,7 +74,7 @@ import org.apache.webdav.lib.methods.OptionsMethod;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/17 09:20:01 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/21 13:08:59 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -85,7 +85,7 @@ public class WebdavFileObject
     private HttpURL url;
 
     public WebdavFileObject( final GenericFileName name,
-                             final WebDavFileSystem fileSystem ) throws FileSystemException
+                             final WebDavFileSystem fileSystem )
     {
         super( name, fileSystem );
         this.fileSystem = fileSystem;

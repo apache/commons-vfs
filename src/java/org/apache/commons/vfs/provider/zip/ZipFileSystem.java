@@ -141,15 +141,14 @@ public class ZipFileSystem
         }
     }
 
-    protected ZipFileObject createZipFileObject( FileName name,
-                                                 ZipEntry entry,
-                                                 ZipFile file )
-        throws FileSystemException
+    protected ZipFileObject createZipFileObject( final FileName name,
+                                                 final ZipEntry entry,
+                                                 final ZipFile file )
     {
         return new ZipFileObject( name, entry, file, this );
     }
 
-    protected ZipFile createZipFile( File file ) throws FileSystemException
+    protected ZipFile createZipFile( final File file ) throws FileSystemException
     {
         try
         {
@@ -194,7 +193,7 @@ public class ZipFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( FileName name ) throws FileSystemException
+    protected FileObject createFile( final FileName name )
     {
         // This is only called for files which do not exist in the Zip file
         return new ZipFileObject( name, null, null, this );

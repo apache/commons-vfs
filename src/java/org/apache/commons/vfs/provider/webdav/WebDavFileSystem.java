@@ -72,7 +72,7 @@ import org.apache.webdav.lib.WebdavResource;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/20 07:32:55 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/21 13:08:59 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
@@ -131,7 +131,6 @@ class WebDavFileSystem
      * file is not cached.
      */
     protected FileObject createFile( final FileName name )
-        throws FileSystemException
     {
         final GenericFileName fileName = (GenericFileName)name;
         return new WebdavFileObject( fileName, this );

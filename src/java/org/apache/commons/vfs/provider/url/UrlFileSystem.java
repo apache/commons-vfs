@@ -60,14 +60,13 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 /**
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/12 07:56:17 $
+ * @version $Revision: 1.12 $ $Date: 2003/02/21 13:09:00 $
  */
 class UrlFileSystem
     extends AbstractFileSystem
@@ -81,7 +80,7 @@ class UrlFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( final FileName name ) throws FileSystemException
+    protected FileObject createFile( final FileName name )
     {
         return new UrlFileObject( this, name );
     }

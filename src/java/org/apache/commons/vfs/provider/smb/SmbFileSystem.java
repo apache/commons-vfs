@@ -60,7 +60,6 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 /**
@@ -81,7 +80,7 @@ class SmbFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( final FileName name ) throws FileSystemException
+    protected FileObject createFile( final FileName name )
     {
         return new SmbFileObject( name, this );
     }

@@ -121,7 +121,7 @@ public abstract class AbstractFileSystem
      * file is not cached.
      */
     protected abstract FileObject createFile( final FileName name )
-        throws FileSystemException;
+        throws Exception;
 
     /**
      * Adds the capabilities of this file system.
@@ -220,7 +220,14 @@ public abstract class AbstractFileSystem
         FileObject file = (FileObject)files.get( name );
         if ( file == null )
         {
-            file = createFile( name );
+            try
+            {
+                file = createFile( name );
+            }
+            catch ( Exception e )
+            {
+                throw new FileSystemException( "vfs.provider/create-file.error", name );
+            }
             files.put( name, file );
         }
         return file;

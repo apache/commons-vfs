@@ -75,7 +75,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystem;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.11 $ $Date: 2003/02/12 07:56:15 $
+ * @version $Revision: 1.12 $ $Date: 2003/02/21 13:09:00 $
  */
 class JarFileSystem
     extends ZipFileSystem
@@ -103,7 +103,6 @@ class JarFileSystem
     protected ZipFileObject createZipFileObject( FileName name,
                                                  ZipEntry entry,
                                                  ZipFile file )
-        throws FileSystemException
     {
         return new JarFileObject( name, entry, file, this );
     }
