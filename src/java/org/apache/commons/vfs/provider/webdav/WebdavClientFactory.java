@@ -27,7 +27,7 @@ import java.io.IOException;
  * Create a HttpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/27 19:09:37 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/11 19:31:29 $
  */
 public class WebdavClientFactory
 {
@@ -50,7 +50,10 @@ public class WebdavClientFactory
                 port,
                 "/");
 
-            WebdavResource resource = null;
+            // WebdavResource resource = null;
+            WebdavResource resource = new WebdavResource()
+            {
+            };
 
             if (fileSystemOptions != null)
             {
@@ -59,16 +62,19 @@ public class WebdavClientFactory
 
                 if (proxyHost != null && proxyPort > 0)
                 {
-                    resource = new WebdavResource(url, proxyHost, proxyPort);
+                    // resource = new WebdavResource(url, proxyHost, proxyPort);
                     resource.setProxy(proxyHost, proxyPort);
                 }
             }
 
+            /*
             if (resource == null)
             {
                 resource = new WebdavResource(url);
             }
             resource.setProperties(WebdavResource.NOACTION, 1);
+            */
+            resource.setHttpURL(url, WebdavResource.NOACTION, 1);
 
             client = resource.retrieveSessionInstance();
         }
