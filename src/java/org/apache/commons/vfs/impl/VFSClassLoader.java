@@ -85,7 +85,7 @@ import org.apache.commons.vfs.NameScope;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.13 $ $Date: 2003/01/21 02:45:32 $
+ * @version $Revision: 1.14 $ $Date: 2003/01/23 04:34:36 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -181,11 +181,21 @@ public class VFSClassLoader
                 // Does not exist - skip
                 continue;
             }
+
             if ( file.getType() == FileType.FILE )
             {
-                // Open as Jar file
                 // TODO - use federation instead
-                file = manager.createFileSystem( "jar", file );
+                final String extension = file.getName().getExtension();
+                if ( extension.equalsIgnoreCase( "jar" ) )
+                {
+                    // Open as Jar file
+                    file = manager.createFileSystem( "jar", file );
+                }
+                else if ( extension.equalsIgnoreCase( "zip" ) )
+                {
+                    // Open as a Zip file
+                    file = manager.createFileSystem( "zip", file );
+                }
             }
 
             resources.add( file );
