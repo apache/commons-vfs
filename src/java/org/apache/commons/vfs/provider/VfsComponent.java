@@ -69,7 +69,7 @@ import org.apache.commons.vfs.FileSystemException;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/28 02:05:06 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/17 03:37:11 $
  */
 public interface VfsComponent
 {
@@ -85,7 +85,7 @@ public interface VfsComponent
      *
      * @param context The context.
      */
-    void setContext( FileSystemProviderContext context );
+    void setContext( VfsComponentContext context );
 
     /**
      * Initialises the component.

@@ -62,12 +62,12 @@ import org.apache.commons.vfs.FileSystemException;
  * A partial {@link VfsComponent} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/23 11:59:40 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/17 03:37:11 $
  */
 public abstract class AbstractVfsComponent
     implements VfsComponent
 {
-    private FileSystemProviderContext context;
+    private VfsComponentContext context;
     private Log log;
 
     /**
@@ -81,7 +81,7 @@ public abstract class AbstractVfsComponent
     /**
      * Sets the context for this file system provider.
      */
-    public final void setContext( final FileSystemProviderContext context )
+    public final void setContext( final VfsComponentContext context )
     {
         this.context = context;
     }
@@ -111,7 +111,7 @@ public abstract class AbstractVfsComponent
     /**
      * Returns the context for this provider.
      */
-    protected final FileSystemProviderContext getContext()
+    protected final VfsComponentContext getContext()
     {
         return context;
     }

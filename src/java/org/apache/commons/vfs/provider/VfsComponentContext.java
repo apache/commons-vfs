@@ -53,71 +53,54 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.impl;
+package org.apache.commons.vfs.provider;
 
 import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.FileReplicator;
-import org.apache.commons.vfs.provider.FileSystemProviderContext;
-import org.apache.commons.vfs.provider.TemporaryFileStore;
+import org.apache.commons.vfs.FileSystemManager;
 
 /**
- * A provider context implementation.
+ * Allows VFS components to access the services they need, such as the file
+ * replicator.  A VFS component is supplied with a context as part of its
+ * initialisation.
+ *
+ * @see VfsComponent#setContext
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/07/05 03:21:54 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/17 03:37:11 $
  */
-final class DefaultProviderContext
-    implements FileSystemProviderContext
+public interface VfsComponentContext
 {
-    private final DefaultFileSystemManager manager;
-
-    public DefaultProviderContext( final DefaultFileSystemManager manager )
-    {
-        this.manager = manager;
-    }
+    /**
+     * Locate a file by name.  See
+     * {@link FileSystemManager#resolveFile(FileObject, String)} for a
+     * description of how this works.
+     */
+    FileObject resolveFile( FileObject baseFile, String name )
+        throws FileSystemException;
 
     /**
-     * Locate a file by name.
+     * Locate a file by name.  See
+     * {@link FileSystemManager#resolveFile( String)} for a
+     * description of how this works.
      */
-    public FileObject resolveFile( final FileObject baseFile, final String name )
-        throws FileSystemException
-    {
-        return manager.resolveFile( baseFile, name );
-    }
-
-    /**
-     * Locate a file by name.
-     */
-    public FileObject resolveFile( final String name )
-        throws FileSystemException
-    {
-        return manager.resolveFile( name );
-    }
-
-    /**
-     * Returns a {@link FileObject} for a local file.
-     */
-    public FileObject toFileObject( File file )
-        throws FileSystemException
-    {
-        return manager.toFileObject( file );
-    }
+    FileObject resolveFile( String name )
+        throws FileSystemException;
 
     /**
      * Locates a file replicator for the provider to use.
      */
-    public FileReplicator getReplicator() throws FileSystemException
-    {
-        return manager.getReplicator();
-    }
+    FileReplicator getReplicator() throws FileSystemException;
 
     /**
      * Locates a temporary file store for the provider to use.
      */
-    public TemporaryFileStore getTemporaryFileStore() throws FileSystemException
-    {
-        return manager.getTemporaryFileStore();
-    }
+    TemporaryFileStore getTemporaryFileStore() throws FileSystemException;
+    
+    /**
+     * Returns a {@link FileObject} for a local file.
+     */
+    FileObject toFileObject( File file )
+        throws FileSystemException;
 }

@@ -71,9 +71,9 @@ import org.apache.commons.vfs.FileSystemException;
 public class DefaultURLStreamHandler
     extends URLStreamHandler
 {
-    private final FileSystemProviderContext context;
+    private final VfsComponentContext context;
 
-    public DefaultURLStreamHandler( final FileSystemProviderContext context )
+    public DefaultURLStreamHandler( final VfsComponentContext context )
     {
         this.context = context;
     }

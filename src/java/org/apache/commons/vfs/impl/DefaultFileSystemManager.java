@@ -80,7 +80,7 @@ import org.apache.commons.vfs.provider.TemporaryFileStore;
  * <ul>
  * <li>Create an instance of this class.
  * <li>Call {@link #setLogger} to set the logger that the manager, and its
- * components, should use.
+ * components, should use (optional).
  * <li>Add one or more file providers using {@link #addProvider}.
  * <li>Set the default provider using {@link #setDefaultProvider} (optional).
  * <li>Set the file replicator using {@link #setReplicator} (optional).
@@ -122,8 +122,8 @@ public class DefaultFileSystemManager
     private Log log = LogFactory.getLog( DefaultFileSystemManager.class );
 
     /** The context to pass to providers. */
-    private final DefaultProviderContext context =
-        new DefaultProviderContext( this );
+    private final DefaultVfsComponentContext context =
+        new DefaultVfsComponentContext( this );
 
     private TemporaryFileStore tempFileStore;
 
@@ -135,6 +135,10 @@ public class DefaultFileSystemManager
      */
     protected Log getLog()
     {
+        if ( log == null )
+        {
+            log = LogFactory.getLog( this.getClass() );
+        }
         return log;
     }
 
@@ -244,7 +248,7 @@ public class DefaultFileSystemManager
             if ( component instanceof VfsComponent )
             {
                 final VfsComponent vfsComponent = (VfsComponent)component;
-                vfsComponent.setLogger( log );
+                vfsComponent.setLogger( getLog() );
                 vfsComponent.setContext( context );
                 vfsComponent.init();
             }
