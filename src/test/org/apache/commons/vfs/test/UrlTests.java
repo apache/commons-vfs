@@ -17,10 +17,12 @@ package org.apache.commons.vfs.test;
 
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.MalformedURLException;
 
 /**
  * URL test cases for providers.
@@ -54,7 +56,15 @@ public class UrlTests
 
         assertEquals(file.getName().getURI(), url.toExternalForm());
 
-        final URL parentURL = new URL(url, "..");
+        final URL parentURL;
+        try
+        {
+            parentURL = new URL(url, "..");
+        }
+        catch (MalformedURLException e)
+        {
+            throw e;
+        }
         assertEquals(file.getParent().getURL(), parentURL);
 
         final URL rootURL = new URL(url, "/");

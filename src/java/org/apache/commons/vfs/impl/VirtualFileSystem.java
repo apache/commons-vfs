@@ -101,7 +101,7 @@ public class VirtualFileSystem
                             final FileObject targetFile)
         throws FileSystemException
     {
-        final FileName junctionName = getRootName().resolveName(junctionPoint);
+        final FileName junctionName = getFileSystemManager().resolveName(getRootName(), junctionPoint);
 
         // Check for nested junction - these are not supported yet
         if (getJunctionForFile(junctionName) != null)
@@ -155,7 +155,7 @@ public class VirtualFileSystem
     public void removeJunction(final String junctionPoint)
         throws FileSystemException
     {
-        final FileName junctionName = getRootName().resolveName(junctionPoint);
+        final FileName junctionName = getFileSystemManager().resolveName(getRootName(), junctionPoint);
         junctions.remove(junctionName);
 
         // TODO - remove from parents of junction point

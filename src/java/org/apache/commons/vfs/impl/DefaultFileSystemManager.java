@@ -17,6 +17,7 @@ package org.apache.commons.vfs.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs.FileContentInfoFactory;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
@@ -24,7 +25,9 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
+import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.cache.SoftRefFilesCache;
+import org.apache.commons.vfs.provider.AbstractFileName;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
@@ -489,6 +492,11 @@ public class DefaultFileSystemManager
     public FileObject resolveFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
+        // TODO: use resolveName and use this name to resolve the fileObject
+
+
+        UriParser.checkUriEncoding(uri);
+
         if (uri == null)
         {
             throw new IllegalArgumentException();
@@ -504,19 +512,14 @@ public class DefaultFileSystemManager
             {
                 return provider.findFile(baseFile, uri, fileSystemOptions);
             }
-
 // Otherwise, assume a local file
         }
 
-
-// Decode the URI (remove %nn encodings)
-        final String decodedUri = UriParser.decode(uri);
-
 // Handle absolute file names
         if (localFileProvider != null
-            && localFileProvider.isAbsoluteLocalName(decodedUri))
+            && localFileProvider.isAbsoluteLocalName(uri))
         {
-            return localFileProvider.findLocalFile(decodedUri);
+            return localFileProvider.findLocalFile(uri);
         }
 
         if (scheme != null)
@@ -535,7 +538,110 @@ public class DefaultFileSystemManager
             throw new FileSystemException("vfs.impl/find-rel-file.error", uri);
         }
 
-        return baseFile.resolveFile(decodedUri);
+        return baseFile.resolveFile(uri);
+    }
+
+    /**
+     * Resolves a name, relative to the file.  If the supplied name is an
+     * absolute path, then it is resolved relative to the root of the
+     * file system that the file belongs to.  If a relative name is supplied,
+     * then it is resolved relative to this file name.
+     */
+    public FileName resolveName(final FileName root, final String path) throws FileSystemException
+    {
+        return resolveName(root, path, NameScope.FILE_SYSTEM);
+    }
+
+    /**
+     * Resolves a name, relative to the root.
+     *
+     * @param root the base filename
+     * @param name the name
+     * @param scope the {@link NameScope}
+     * @return
+     * @throws FileSystemException
+     */
+    public FileName resolveName(final FileName root,
+                                final String name,
+                                final NameScope scope)
+        throws FileSystemException
+    {
+        final StringBuffer buffer = new StringBuffer(name);
+
+        // Adjust separators
+        UriParser.fixSeparators(buffer);
+
+        // Determine whether to prepend the base path
+        if (name.length() == 0 || name.charAt(0) != FileName.SEPARATOR_CHAR)
+        {
+            // Supplied path is not absolute
+            buffer.insert(0, FileName.SEPARATOR_CHAR);
+            buffer.insert(0, root.getPath());
+        }
+
+        //// UriParser.canonicalizePath(buffer, 0, name.length());
+
+        // Normalise the path
+        UriParser.normalisePath(buffer);
+
+        // Check the name is ok
+        final String resolvedPath = buffer.toString();
+        if (!AbstractFileName.checkName(root.getPath(), resolvedPath, scope))
+        {
+            throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
+        }
+
+        // todo: pass this down to the fileProvider
+        return ((AbstractFileName) root).createName(resolvedPath);
+    }
+
+    public FileName resolveURI(String uri) throws FileSystemException
+    {
+        UriParser.checkUriEncoding(uri);
+
+        if (uri == null)
+        {
+            throw new IllegalArgumentException();
+        }
+
+// Extract the scheme
+        final String scheme = UriParser.extractScheme(uri);
+        if (scheme != null)
+        {
+// An absolute URI - locate the provider
+            final FileProvider provider = (FileProvider) providers.get(scheme);
+            if (provider != null)
+            {
+                return provider.parseUri(scheme, uri);
+            }
+
+// Otherwise, assume a local file
+        }
+
+// Handle absolute file names
+        if (localFileProvider != null
+            && localFileProvider.isAbsoluteLocalName(uri))
+        {
+            return localFileProvider.parseUri(null, uri);
+        }
+
+        if (scheme != null)
+        {
+// An unknown scheme - hand it to the default provider
+            if (defaultProvider == null)
+            {
+                throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[]{scheme, uri});
+            }
+            return defaultProvider.parseUri(null, uri);
+        }
+
+// Assume a relative name - use the supplied base file
+        if (baseFile == null)
+        {
+            throw new FileSystemException("vfs.impl/find-rel-file.error", uri);
+        }
+
+        return resolveName(baseFile.getName(), uri, NameScope.FILE_SYSTEM);
     }
 
     /**

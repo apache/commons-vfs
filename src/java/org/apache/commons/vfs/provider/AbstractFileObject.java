@@ -566,7 +566,8 @@ public abstract class AbstractFileObject implements FileObject
                 {
                     final String file = files[i];
                     // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
-                    children[i] = name.resolveName(file, NameScope.CHILD);
+                    // children[i] = name.resolveName(file, NameScope.CHILD);
+                    children[i] = getFileSystem().getFileSystemManager().resolveName(name, file, NameScope.CHILD);
                 }
             }
 
@@ -638,7 +639,8 @@ public abstract class AbstractFileObject implements FileObject
     public FileObject resolveFile(final String name, final NameScope scope)
         throws FileSystemException
     {
-        return fs.resolveFile(this.name.resolveName(name, scope));
+        // return fs.resolveFile(this.name.resolveName(name, scope));
+        return fs.resolveFile(getFileSystem().getFileSystemManager().resolveName(this.name, name, scope));
     }
 
     /**
@@ -651,7 +653,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public FileObject resolveFile(final String path) throws FileSystemException
     {
-        final FileName otherName = name.resolveName(path);
+        final FileName otherName = getFileSystem().getFileSystemManager().resolveName(name, path);
         return fs.resolveFile(otherName);
     }
 

@@ -20,6 +20,8 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.provider.local.GenericFileNameParser;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -36,8 +38,21 @@ public abstract class AbstractFileProvider
     extends AbstractVfsContainer
     implements FileProvider
 {
+    private FileNameParser parser;
+
     public AbstractFileProvider()
     {
+        parser = GenericFileNameParser.getInstance();
+    }
+
+    protected FileNameParser getFileNameParser()
+    {
+        return parser;
+    }
+
+    protected void setFileNameParser(FileNameParser parser)
+    {
+        this.parser = parser;
     }
 
     /**
@@ -133,5 +148,22 @@ public abstract class AbstractFileProvider
             removeComponent(fileSystems);
             fs.close();
         }
+    }
+
+    /**
+     * Parses an absolute URI.
+     *
+     * @param schme
+     * @param uri The URI to parse.
+     */
+    public FileName parseUri(String schme, String uri) throws FileSystemException
+    {
+        if (getFileNameParser() != null)
+        {
+            return getFileNameParser().parseUri(getContext(), uri);
+        }
+
+        throw new FileSystemException("vfs.provider/filename-parser-missing.error");
+        // return GenericFileName.parseUri(getFileNameParser(), uri, 0);
     }
 }

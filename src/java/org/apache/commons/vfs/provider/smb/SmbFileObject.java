@@ -25,6 +25,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.InputStream;
@@ -45,10 +46,10 @@ public class SmbFileObject
     private SmbFile file;
 
     protected SmbFileObject(final FileName name,
-                            final SmbFileSystem fileSystem)
+                            final SmbFileSystem fileSystem) throws FileSystemException
     {
         super(name, fileSystem);
-        this.fileName = name.getURI();
+        this.fileName = UriParser.decode(name.getURI());
     }
 
     /**
@@ -113,7 +114,7 @@ public class SmbFileObject
      */
     protected String[] doListChildren() throws Exception
     {
-        return file.list();
+        return UriParser.encode(file.list());
     }
 
     /**

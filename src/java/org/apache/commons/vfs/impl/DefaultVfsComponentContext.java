@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
 import org.apache.commons.vfs.provider.VfsComponentContext;
@@ -58,6 +59,11 @@ final class DefaultVfsComponentContext
         throws FileSystemException
     {
         return manager.resolveFile(name, fileSystemOptions);
+    }
+
+    public FileName parseURI(String uri) throws FileSystemException
+    {
+        return manager.resolveURI(uri);
     }
 
     /**

@@ -52,15 +52,7 @@ public class HttpFileProvider
     public HttpFileProvider()
     {
         super();
-    }
-
-    /**
-     * Parses an abolute URI.
-     */
-    protected FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return GenericFileName.parseUri(uri, 80);
+        setFileNameParser(HttpFileNameParser.getInstance());
     }
 
     /**

@@ -56,15 +56,7 @@ public class SmbFileProvider
     public SmbFileProvider()
     {
         super();
-    }
-
-    /**
-     * Parses a URI.
-     */
-    protected FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return SmbFileName.parseUri(uri);
+        setFileNameParser(SmbFileNameParser.getInstance());
     }
 
     /**

@@ -35,6 +35,7 @@ public abstract class AbstractLayeredFileProvider
     public AbstractLayeredFileProvider()
     {
         super();
+        setFileNameParser(LayeredFileNameParser.getInstance());
     }
 
     /**
@@ -45,13 +46,13 @@ public abstract class AbstractLayeredFileProvider
                                final FileSystemOptions properties) throws FileSystemException
     {
         // Split the URI up into its parts
-        final LayeredFileName name = (LayeredFileName) parseUri(uri);
+        final LayeredFileName name = (LayeredFileName) parseUri(baseFile!=null?baseFile.getName().getScheme():null, uri);
 
         // Make the URI canonical
 
         // Resolve the outer file name
-        final String fileName = name.getOuterUri();
-        final FileObject file = getContext().resolveFile(baseFile, fileName, properties);
+        final FileName fileName = name.getOuterName();
+        final FileObject file = getContext().resolveFile(baseFile, fileName.getURI(), properties);
 
         // Create the file system
         final FileObject rootFile = createFileSystem(name.getScheme(), file, properties);
@@ -93,11 +94,4 @@ public abstract class AbstractLayeredFileProvider
                                                      final FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
-    /**
-     * Parses an absolute URI.
-     *
-     * @param uri The URI to parse.
-     */
-    protected abstract FileName parseUri(String uri)
-        throws FileSystemException;
 }

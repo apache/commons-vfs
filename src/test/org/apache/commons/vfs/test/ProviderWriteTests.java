@@ -117,6 +117,17 @@ public class ProviderWriteTests
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
         
+        // Create direct child of the test folder - special name
+        file = scratchFolder.resolveFile("file1%25.txt");
+        assertTrue(!file.exists());
+        file.createFile();
+        assertTrue(file.exists());
+        assertSame(FileType.FILE, file.getType());
+        assertEquals(0, file.getContent().getSize());
+        assertFalse(file.isHidden());
+        assertTrue(file.isReadable());
+        assertTrue(file.isWriteable());
+
         // Create a descendant, where the intermediate folders don't exist
         file = scratchFolder.resolveFile("dir1/dir1/file1.txt");
         assertTrue(!file.exists());
@@ -195,12 +206,19 @@ public class ProviderWriteTests
         // Set-up the test structure
         FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();
+        folder.resolveFile("file%25.txt").createFile();
         folder.resolveFile("emptydir").createFolder();
         folder.resolveFile("dir1/file1.txt").createFile();
         folder.resolveFile("dir1/dir2/file2.txt").createFile();
 
         // Delete a file
         FileObject file = folder.resolveFile("file1.txt");
+        assertTrue(file.exists());
+        file.delete(Selectors.SELECT_ALL);
+        assertTrue(!file.exists());
+
+        // Delete a special name file
+        file = folder.resolveFile("file%25.txt");
         assertTrue(file.exists());
         file.delete(Selectors.SELECT_ALL);
         assertTrue(!file.exists());

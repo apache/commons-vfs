@@ -54,15 +54,8 @@ public class WebdavFileProvider
     public WebdavFileProvider()
     {
         super();
-    }
 
-    /**
-     * Parses an abolute URI.
-     */
-    protected FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return GenericFileName.parseUri(uri, 80);
+        setFileNameParser(WebdavFileNameParser.getInstance());
     }
 
     /**

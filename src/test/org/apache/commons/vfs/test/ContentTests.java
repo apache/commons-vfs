@@ -56,7 +56,7 @@ public class ContentTests
             final FileInfo fileInfo = (FileInfo) iterator.next();
             final FileObject child = folder.resolveFile(fileInfo.baseName, NameScope.CHILD);
 
-            assertTrue(child.exists());
+            assertTrue(child.getName().toString(), child.exists());
             if (fileInfo.type == FileType.FILE)
             {
                 assertSameContent(fileInfo.content, child);

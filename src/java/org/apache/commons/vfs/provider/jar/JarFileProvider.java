@@ -23,6 +23,8 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.zip.ZipFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileProvider;
+import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.LayeredFileName;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,7 +78,7 @@ public class JarFileProvider
         throws FileSystemException
     {
         final FileName name =
-            new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
+            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH);
         return new JarFileSystem(name, file, fileSystemOptions);
     }
 

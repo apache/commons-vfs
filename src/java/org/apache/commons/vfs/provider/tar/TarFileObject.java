@@ -76,7 +76,7 @@ public class TarFileObject
     /**
      * Attaches a child
      */
-    public void attachChild(FileName childName)
+    protected void attachChild(FileName childName)
     {
         children.add(childName.getBaseName());
     }

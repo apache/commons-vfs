@@ -235,7 +235,7 @@ public class AbstractTestSuite
     {
         if (tempDir.exists())
         {
-            assertTrue(assertMsg, tempDir.isDirectory() && tempDir.list().length == 0);
+            assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")", tempDir.isDirectory() && tempDir.list().length == 0);
         }
     }
 

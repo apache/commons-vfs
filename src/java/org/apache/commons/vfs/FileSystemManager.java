@@ -126,6 +126,30 @@ public interface FileSystemManager
         throws FileSystemException;
 
     /**
+     * Resolves a name, relative to this file name.  Equivalent to calling
+     * <code>resolveName( path, NameScope.FILE_SYSTEM )</code>.
+     *
+     * @param root the base filename
+     * @param name The name to resolve.
+     * @return A {@link FileName} object representing the resolved file name.
+     * @throws FileSystemException If the name is invalid.
+     */
+    FileName resolveName(final FileName root, final String name) throws FileSystemException;
+
+    /**
+     * Resolves a name, relative to the "root" file name.  Refer to {@link NameScope}
+     * for a description of how names are resolved.
+     *
+     * @param root the base filename
+     * @param name  The name to resolve.
+     * @param scope The {@link NameScope} to use when resolving the name.
+     * @return A {@link FileName} object representing the resolved file name.
+     * @throws FileSystemException If the name is invalid.
+     */
+    FileName resolveName(final FileName root, String name, NameScope scope)
+        throws FileSystemException;
+
+    /**
      * Converts a local file into a {@link FileObject}.
      *
      * @param file The file to convert.
@@ -226,4 +250,6 @@ public interface FileSystemManager
      * @throws FileSystemException if the given scheme is not konwn
      */
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException;
+
+    public FileName resolveURI(String uri) throws FileSystemException;
 }

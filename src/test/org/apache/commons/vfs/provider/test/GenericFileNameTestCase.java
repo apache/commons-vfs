@@ -18,6 +18,8 @@ package org.apache.commons.vfs.provider.test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.URLFileNameParser;
+import org.apache.commons.vfs.provider.local.GenericFileNameParser;
 
 /**
  * Some GenericFileName test cases.
@@ -33,8 +35,9 @@ public class GenericFileNameTestCase
      */
     public void testParseUri() throws Exception
     {
+        URLFileNameParser urlParser = new URLFileNameParser(21);
         // Simple name
-        GenericFileName name = GenericFileName.parseUri("ftp://hostname/file", 21);
+        GenericFileName name = (GenericFileName) urlParser.parseUri(null, "ftp://hostname/file");
         assertEquals("ftp", name.getScheme());
         assertNull(name.getUserName());
         assertNull(name.getPassword());
@@ -46,7 +49,7 @@ public class GenericFileNameTestCase
         assertEquals("ftp://hostname/file", name.getURI());
 
         // Name with port
-        name = GenericFileName.parseUri("ftp://hostname:9090/file", 21);
+        name = (GenericFileName) urlParser.parseUri(null, "ftp://hostname:9090/file");
         assertEquals("ftp", name.getScheme());
         assertNull(name.getUserName());
         assertNull(name.getPassword());
@@ -57,7 +60,7 @@ public class GenericFileNameTestCase
         assertEquals("ftp://hostname:9090/file", name.getURI());
 
         // Name with no path
-        name = GenericFileName.parseUri("ftp://hostname", 21);
+        name = (GenericFileName) urlParser.parseUri(null, "ftp://hostname");
         assertEquals("ftp", name.getScheme());
         assertNull(name.getUserName());
         assertNull(name.getPassword());
@@ -68,7 +71,7 @@ public class GenericFileNameTestCase
         assertEquals("ftp://hostname/", name.getURI());
 
         // Name with username
-        name = GenericFileName.parseUri("ftp://user@hostname/file", 21);
+        name = (GenericFileName) urlParser.parseUri(null, "ftp://user@hostname/file");
         assertEquals("ftp", name.getScheme());
         assertEquals("user", name.getUserName());
         assertNull(name.getPassword());
@@ -79,7 +82,7 @@ public class GenericFileNameTestCase
         assertEquals("ftp://user@hostname/file", name.getURI());
 
         // Name with username and password
-        name = GenericFileName.parseUri("ftp://user:password@hostname/file", 21);
+        name = (GenericFileName) urlParser.parseUri(null, "ftp://user:password@hostname/file");
         assertEquals("ftp", name.getScheme());
         assertEquals("user", name.getUserName());
         assertEquals("password", name.getPassword());
@@ -90,7 +93,7 @@ public class GenericFileNameTestCase
         assertEquals("ftp://user:password@hostname/file", name.getURI());
 
         // Encoded username and password
-        name = GenericFileName.parseUri("ftp://%75ser%3A:%40@hostname", 21);
+        name = (GenericFileName) urlParser.parseUri(null, "ftp://%75ser%3A:%40@hostname");
         assertEquals("ftp", name.getScheme());
         assertEquals("user:", name.getUserName());
         assertEquals("@", name.getPassword());
@@ -133,7 +136,7 @@ public class GenericFileNameTestCase
     {
         try
         {
-            GenericFileName.parseUri(uri, 21);
+            GenericFileNameParser.getInstance().parseUri(null, uri);
             fail();
         }
         catch (final FileSystemException e)

@@ -64,6 +64,22 @@ public interface FileName extends Comparable
     String getPath();
 
     /**
+     * Returns the absolute path of this file, within its file system.  This
+     * path is normalised, so that <code>.</code> and <code>..</code> elements
+     * have been removed.  Also, the path only contains <code>/</code> as its
+     * separator character.  The path always starts with <code>/</code>
+     * <p/>
+     * <p>The root of a file system has <code>/</code> as its absolute path.
+     * <p/>
+     * In contrast to {@link #getPath()} the path is decoded i.e. all %nn stuff
+     * replaced by its character.
+     *
+     * @return The path.  Never returns null.
+     * @throws FileSystemException if the path is not correctly encoded 
+     */
+    String getPathDecoded() throws FileSystemException;
+
+    /**
      * Returns the extension of this file name.
      *
      * @return The extension.  Returns an empty string if the name has no
@@ -110,7 +126,7 @@ public interface FileName extends Comparable
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
      */
-    FileName resolveName(String name) throws FileSystemException;
+    // FileName resolveName(String name) throws FileSystemException;
 
     /**
      * Resolves a name, relative to this file name.  Refer to {@link NameScope}
@@ -121,8 +137,8 @@ public interface FileName extends Comparable
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
      */
-    FileName resolveName(String name, NameScope scope)
-        throws FileSystemException;
+    // FileName resolveName(String name, NameScope scope)
+    //     throws FileSystemException;
 
     /**
      * Converts a file name to a relative name, relative to this file name.

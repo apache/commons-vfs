@@ -22,6 +22,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
@@ -60,12 +61,12 @@ public class FtpFileObject
     {
         super(name, fileSystem);
         ftpFs = fileSystem;
-        String relPath = rootName.getRelativeName(name);
+        String relPath = UriParser.decode(rootName.getRelativeName(name));
         if (".".equals(relPath))
         {
             // do not use the "." as path against the ftp-server
             // e.g. the uu.net ftp-server do a recursive listing then
-            this.relPath = rootName.getPath();
+            this.relPath = UriParser.decode(rootName.getPath());
         }
         else
         {
@@ -75,9 +76,11 @@ public class FtpFileObject
 
     /**
      * Called by child file objects, to locate their ftp file info.
+     *
+     * @param name the filename in its native form ie. without uri stuff (%nn)
+     * @param flush recreate children cache
      */
-    private FTPFile getChildFile(final String name, final boolean flush)
-        throws IOException
+    private FTPFile getChildFile(final String name, final boolean flush) throws IOException
     {
         if (flush)
         {
@@ -161,7 +164,7 @@ public class FtpFileObject
         final FtpFileObject parent = (FtpFileObject) getParent();
         if (parent != null)
         {
-            fileInfo = parent.getChildFile(getName().getBaseName(), flush);
+            fileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
         }
         else
         {
@@ -234,7 +237,7 @@ public class FtpFileObject
             {
                 relativeTo = getName();
             }
-            FileName linkDestinationName = relativeTo.resolveName(path);
+            FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
             linkDestination = getFileSystem().resolveFile(linkDestinationName);
         }
 
@@ -267,7 +270,7 @@ public class FtpFileObject
             childNames[i] = child.getName();
         }
 
-        return childNames;
+        return UriParser.encode(childNames);
     }
 
     /**

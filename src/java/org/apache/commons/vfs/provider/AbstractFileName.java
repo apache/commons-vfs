@@ -36,6 +36,7 @@ public abstract class AbstractFileName
     private String baseName;
     private String rootUri;
     private String extension;
+    private String decodedAbsPath;
 
     public AbstractFileName(final String scheme,
                             final String absPath)
@@ -56,7 +57,7 @@ public abstract class AbstractFileName
      */
     public int hashCode()
     {
-        return (getRootURI().hashCode() ^ absPath.hashCode());
+        return (getRootURI().hashCode() ^ getPath().hashCode());
     }
 
     /**
@@ -65,7 +66,7 @@ public abstract class AbstractFileName
     public boolean equals(final Object obj)
     {
         final AbstractFileName name = (AbstractFileName) obj;
-        return (getRootURI().equals(name.getRootURI()) && absPath.equals(name.absPath));
+        return (getRootURI().equals(name.getRootURI()) && getPath().equals(name.getPath()));
     }
 
     /**
@@ -83,7 +84,15 @@ public abstract class AbstractFileName
             return ret;
         }
 
-        return absPath.compareTo(name.absPath);
+        // return absPath.compareTo(name.absPath);
+        try
+        {
+            return getPathDecoded().compareTo(name.getPathDecoded());
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     /**
@@ -97,7 +106,7 @@ public abstract class AbstractFileName
     /**
      * Factory method for creating name instances.
      */
-    protected abstract FileName createName(String absPath);
+    public abstract FileName createName(String absPath);
 
     /**
      * Builds the root URI for this file name.  Note that the root URI must not
@@ -112,14 +121,14 @@ public abstract class AbstractFileName
     {
         if (baseName == null)
         {
-            final int idx = absPath.lastIndexOf(SEPARATOR_CHAR);
+            final int idx = getPath().lastIndexOf(SEPARATOR_CHAR);
             if (idx == -1)
             {
-                baseName = absPath;
+                baseName = getPath();
             }
             else
             {
-                baseName = absPath.substring(idx + 1);
+                baseName = getPath().substring(idx + 1);
             }
         }
 
@@ -135,37 +144,14 @@ public abstract class AbstractFileName
         return absPath;
     }
 
-    /**
-     * Resolves a name, relative to this file name.
-     */
-    public FileName resolveName(final String name,
-                                final NameScope scope)
-        throws FileSystemException
+    public String getPathDecoded() throws FileSystemException
     {
-        final StringBuffer buffer = new StringBuffer(name);
-
-        // Adjust separators
-        UriParser.fixSeparators(buffer);
-
-        // Determine whether to prepend the base path
-        if (name.length() == 0 || name.charAt(0) != SEPARATOR_CHAR)
+        if (decodedAbsPath == null)
         {
-            // Supplied path is not absolute
-            buffer.insert(0, SEPARATOR_CHAR);
-            buffer.insert(0, absPath);
+            decodedAbsPath = UriParser.decode(absPath);
         }
 
-        // Normalise the path
-        UriParser.normalisePath(buffer);
-
-        // Check the name is ok
-        final String resolvedPath = buffer.toString();
-        if (!checkName(absPath, resolvedPath, scope))
-        {
-            throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
-        }
-
-        return createName(resolvedPath);
+        return decodedAbsPath;
     }
 
     /**
@@ -174,8 +160,8 @@ public abstract class AbstractFileName
     public FileName getParent()
     {
         final String parentPath;
-        final int idx = absPath.lastIndexOf(SEPARATOR_CHAR);
-        if (idx == -1 || idx == absPath.length() - 1)
+        final int idx = getPath().lastIndexOf(SEPARATOR_CHAR);
+        if (idx == -1 || idx == getPath().length() - 1)
         {
             // No parent
             return null;
@@ -187,20 +173,9 @@ public abstract class AbstractFileName
         }
         else
         {
-            parentPath = absPath.substring(0, idx);
+            parentPath = getPath().substring(0, idx);
         }
         return createName(parentPath);
-    }
-
-    /**
-     * Resolves a name, relative to the file.  If the supplied name is an
-     * absolute path, then it is resolved relative to the root of the
-     * file system that the file belongs to.  If a relative name is supplied,
-     * then it is resolved relative to this file name.
-     */
-    public FileName resolveName(final String path) throws FileSystemException
-    {
-        return resolveName(path, NameScope.FILE_SYSTEM);
     }
 
     /**
@@ -220,7 +195,7 @@ public abstract class AbstractFileName
         {
             final StringBuffer buffer = new StringBuffer();
             appendRootUri(buffer);
-            buffer.append(absPath);
+            buffer.append(getPath());
             uri = buffer.toString();
         }
         return uri;
@@ -234,7 +209,7 @@ public abstract class AbstractFileName
         final String path = name.getPath();
 
         // Calculate the common prefix
-        final int basePathLen = absPath.length();
+        final int basePathLen = getPath().length();
         final int pathLen = path.length();
 
         // Deal with root
@@ -249,7 +224,7 @@ public abstract class AbstractFileName
 
         final int maxlen = Math.min(basePathLen, pathLen);
         int pos = 0;
-        for (; pos < maxlen && absPath.charAt(pos) == path.charAt(pos); pos++)
+        for (; pos < maxlen && getPath().charAt(pos) == path.charAt(pos); pos++)
         {
         }
 
@@ -266,21 +241,21 @@ public abstract class AbstractFileName
 
         // Strip the common prefix off the path
         final StringBuffer buffer = new StringBuffer();
-        if (pathLen > 1 && (pos < pathLen || absPath.charAt(pos) != SEPARATOR_CHAR))
+        if (pathLen > 1 && (pos < pathLen || getPath().charAt(pos) != SEPARATOR_CHAR))
         {
             // Not a direct ancestor, need to back up
-            pos = absPath.lastIndexOf(SEPARATOR_CHAR, pos);
+            pos = getPath().lastIndexOf(SEPARATOR_CHAR, pos);
             buffer.append(path.substring(pos));
         }
 
         // Prepend a '../' for each element in the base path past the common
         // prefix
         buffer.insert(0, "..");
-        pos = absPath.indexOf(SEPARATOR_CHAR, pos + 1);
+        pos = getPath().indexOf(SEPARATOR_CHAR, pos + 1);
         while (pos != -1)
         {
             buffer.insert(0, "../");
-            pos = absPath.indexOf(SEPARATOR_CHAR, pos + 1);
+            pos = getPath().indexOf(SEPARATOR_CHAR, pos + 1);
         }
 
         return buffer.toString();
@@ -306,15 +281,15 @@ public abstract class AbstractFileName
      */
     public int getDepth()
     {
-        final int len = absPath.length();
-        if (len == 0 || (len == 1 && absPath.charAt(0) == SEPARATOR_CHAR))
+        final int len = getPath().length();
+        if (len == 0 || (len == 1 && getPath().charAt(0) == SEPARATOR_CHAR))
         {
             return 0;
         }
         int depth = 1;
         for (int pos = 0; pos > -1 && pos < len; depth++)
         {
-            pos = absPath.indexOf(SEPARATOR_CHAR, pos + 1);
+            pos = getPath().indexOf(SEPARATOR_CHAR, pos + 1);
         }
         return depth;
     }
@@ -355,7 +330,7 @@ public abstract class AbstractFileName
         {
             return false;
         }
-        return checkName(ancestor.getPath(), absPath, NameScope.DESCENDENT);
+        return checkName(ancestor.getPath(), getPath(), NameScope.DESCENDENT);
     }
 
     /**
@@ -376,7 +351,7 @@ public abstract class AbstractFileName
         {
             return false;
         }
-        return checkName(absPath, descendent.getPath(), scope);
+        return checkName(getPath(), descendent.getPath(), scope);
     }
 
     /**
@@ -385,7 +360,7 @@ public abstract class AbstractFileName
      * @param basePath An absolute, normalised path.
      * @param path     An absolute, normalised path.
      */
-    private boolean checkName(final String basePath,
+    public static boolean checkName(final String basePath,
                               final String path,
                               final NameScope scope)
     {

@@ -48,9 +48,9 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         Capability.READ_CONTENT,
         Capability.URI,
         Capability.WRITE_CONTENT,
-        Capability.GET_LAST_MODIFIED
-        // wait for jsch release
-        // Capability.SET_LAST_MODIFIED_FILE
+        Capability.GET_LAST_MODIFIED,
+        Capability.SET_LAST_MODIFIED_FILE
+//        Capability.RANDOM_ACCESS_READ
     }));
 
     public final static String ATTR_USER_INFO = "UI";
@@ -60,6 +60,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     public SftpFileProvider()
     {
         super();
+        setFileNameParser(SftpFileNameParser.getInstance());
     }
 
     /**
@@ -109,14 +110,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
      */
     public void init() throws FileSystemException
     {
-    }
-
-    /**
-     * Parses an absolute URI.
-     */
-    protected FileName parseUri(final String uri) throws FileSystemException
-    {
-        return GenericFileName.parseUri(uri, 22);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

@@ -28,6 +28,7 @@ import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.bzip2.Bzip2FileObject;
 
 import java.io.File;
@@ -86,7 +87,7 @@ public class TarFileSystem
             TarEntry entry;
             while ((entry = getTarFile().getNextEntry()) != null)
             {
-                FileName name = getRootName().resolveName(entry.getName());
+                FileName name = getFileSystemManager().resolveName(getRootName(), UriParser.encode(entry.getName()));
 
                 // Create the file
                 TarFileObject fileObj;

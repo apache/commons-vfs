@@ -40,6 +40,25 @@
             </ul>
         </section>
 
+        <section name="Naming">
+
+            <p>All filenames are treated as URIs. One of the consequences of this is you have to encode the '%'
+                character using <code>%25</code>. <br />
+                Depending on the filesystem additional characters are encoded if needet. This is done automatically, but
+                might be reflected in the filename.
+                </p>
+
+            <p>
+                <b>Examples</b>
+            </p>
+            <ul>
+                <li>
+                    <code>file:///somedir/some%25file.txt</code>
+                </li>
+            </ul>
+
+        </section>
+
         <section name="Local Files">
 
             <p>Provides access to the files on the local physical file system.</p>
@@ -112,13 +131,9 @@
             <p>
                 Where
                 <code>zip-file-uri</code> refers to a file of any
-                supported type, including other zip files.  Note that any
-                ! characters in
-                <code>
-                    <i>zip-file-uri</i>
-                </code> must be escaped
-                using
-                <code>%21</code>.
+                supported type, including other zip files.  Note: if you would like
+                to use the ! as normal character it must be escaped
+                using <code>%21</code>.
             </p>
 
             <p>
@@ -132,7 +147,10 @@
                     <code>zip:http://somehost/downloads/somefile.zip</code>
                 </li>
                 <li>
-                    <code>jar:zip:outer.zip%21/nested.jar!/somedir</code>
+                    <code>jar:zip:outer.zip!/nested.jar!/somedir</code>
+                </li>
+                <li>
+                    <code>jar:zip:outer.zip!/nested.jar!/some%21dir</code>
                 </li>
             </ul>
 

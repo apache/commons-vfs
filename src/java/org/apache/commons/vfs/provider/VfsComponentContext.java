@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileName;
 
 import java.io.File;
 
@@ -48,6 +49,8 @@ public interface VfsComponentContext
      */
     FileObject resolveFile(String name, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
+
+    FileName parseURI(String uri) throws FileSystemException;
 
     /**
      * Locates a file replicator for the provider to use.

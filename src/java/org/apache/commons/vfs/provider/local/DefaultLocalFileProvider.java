@@ -23,6 +23,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.LocalFileProvider;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.Os;
 
 import java.io.File;
@@ -91,7 +92,7 @@ public class DefaultLocalFileProvider
         StringBuffer uri = new StringBuffer(name.length() + 5);
         uri.append("file:");
         uri.append(name);
-        FileName filename = parseUri(uri.toString(), false);
+        FileName filename = parseUri("file", uri.toString());
         return findFile(filename, null);
     }
 
@@ -101,25 +102,8 @@ public class DefaultLocalFileProvider
     public FileObject findLocalFile(final File file)
         throws FileSystemException
     {
-        return findLocalFile(file.getAbsolutePath());
-    }
-
-    /**
-     * Parses a URI.
-     */
-    protected FileName parseUri(final String uri, final boolean uriEncoded)
-        throws FileSystemException
-    {
-        return LocalFileName.parseUri(uri, uriEncoded, parser);
-    }
-
-    /**
-     * Parses a URI.
-     */
-    protected FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return parseUri(uri, true);
+        return findLocalFile(UriParser.encode(file.getAbsolutePath()));
+        // return findLocalFile(file.getAbsolutePath());
     }
 
     /**

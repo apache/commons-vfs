@@ -23,6 +23,8 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.LayeredFileName;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -51,17 +53,6 @@ public class TarFileProvider
     }
 
     /**
-     * Parses an absolute URI.
-     *
-     * @param uri The URI to parse.
-     */
-    protected FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return TarFileName.parseUri(uri);
-    }
-
-    /**
      * Creates a layered file system.  This method is called if the file system
      * is not cached.
      *
@@ -75,7 +66,7 @@ public class TarFileProvider
         throws FileSystemException
     {
         final FileName rootName =
-            new TarFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
+            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH);
         return new TarFileSystem(rootName, file, fileSystemOptions);
     }
 

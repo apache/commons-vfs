@@ -15,8 +15,11 @@
  */
 package org.apache.commons.vfs.provider.local;
 
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.provider.AbstractFileNameParser;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.VfsComponentContext;
 
 /**
  * A name parser.
@@ -24,7 +27,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public abstract class LocalFileNameParser
+public abstract class LocalFileNameParser extends AbstractFileNameParser
 {
     /**
      * Determines if a name is an absolute file name.
@@ -52,4 +55,29 @@ public abstract class LocalFileNameParser
                                                 final StringBuffer name)
         throws FileSystemException;
 
+
+    public FileName parseUri(final VfsComponentContext context, final String filename) throws FileSystemException
+    {
+        final StringBuffer name = new StringBuffer();
+
+        // Extract the scheme
+        String scheme = UriParser.extractScheme(filename, name);
+        if (scheme == null)
+        {
+            scheme = "file";
+        }
+
+        // Remove encoding, and adjust the separators
+        UriParser.canonicalizePath(name, 0, name.length(), this);
+        UriParser.fixSeparators(name);
+
+        // Extract the root prefix
+        final String rootFile = extractRootPrefix(filename, name);
+
+        // Normalise the path
+        UriParser.normalisePath(name);
+        final String path = name.toString();
+
+        return new LocalFileName(scheme, rootFile, path);
+    }
 }

@@ -256,6 +256,7 @@ public abstract class AbstractProviderTestCase
         // Build the expected structure
         final FileInfo base = new FileInfo(getReadFolder().getName().getBaseName(), FileType.FOLDER);
         base.addFile("file1.txt", FILE1_CONTENT);
+        base.addFile("file%25.txt", FILE1_CONTENT);
         base.addFile("empty.txt", "");
         base.addFolder("emptydir");
 

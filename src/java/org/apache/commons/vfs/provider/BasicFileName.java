@@ -72,7 +72,7 @@ public class BasicFileName
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName(final String path)
+    public FileName createName(final String path)
     {
         return new BasicFileName(getScheme(), rootUri, path, true);
     }

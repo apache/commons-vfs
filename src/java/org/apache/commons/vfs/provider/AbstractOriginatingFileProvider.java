@@ -50,7 +50,7 @@ public abstract class AbstractOriginatingFileProvider
         final FileName name;
         try
         {
-            name = parseUri(uri);
+            name = parseUri(baseFile!=null?baseFile.getName().getScheme():null, uri);
         }
         catch (FileSystemException exc)
         {
@@ -68,7 +68,7 @@ public abstract class AbstractOriginatingFileProvider
         throws FileSystemException
     {
         // Check in the cache for the file system
-        final FileName rootName = name.resolveName(FileName.ROOT_PATH);
+        final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
         FileSystem fs = findFileSystem(rootName, fileSystemOptions);
         if (fs == null)
         {
@@ -80,16 +80,6 @@ public abstract class AbstractOriginatingFileProvider
         // Locate the file
         return fs.resolveFile(name.getPath());
     }
-
-    /**
-     * Parses an absolute URI.
-     *
-     * @return The name of the file.  This name is used to locate the file
-     *         system in the cache, using the root URI.  This name is also
-     *         passed to {@link #doCreateFileSystem} to create the file system.
-     */
-    protected abstract FileName parseUri(final String uri)
-        throws FileSystemException;
 
     /**
      * Creates a {@link FileSystem}.  If the returned FileSystem implements

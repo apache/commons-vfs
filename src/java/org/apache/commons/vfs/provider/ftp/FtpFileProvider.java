@@ -38,7 +38,6 @@ public class FtpFileProvider
     extends AbstractOriginatingFileProvider
 {
     public final static String ATTR_FILE_ENTRY_PARSER = "FEP";
-    private static final int DEFAULT_PORT = 21;
 
     final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
@@ -60,15 +59,7 @@ public class FtpFileProvider
     public FtpFileProvider()
     {
         super();
-    }
-
-    /**
-     * Parses a URI.
-     */
-    protected FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return GenericFileName.parseUri(uri, DEFAULT_PORT);
+        setFileNameParser(FtpFileNameParser.getInstance());
     }
 
     /**

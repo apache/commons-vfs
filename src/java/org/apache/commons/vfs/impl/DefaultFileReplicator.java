@@ -25,6 +25,7 @@ import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.Messages;
 
 import java.io.File;
@@ -107,7 +108,7 @@ public final class DefaultFileReplicator
     /**
      * Allocates a new temporary file.
      */
-    public File allocateFile(final String baseName)
+    public File allocateFile(final String baseName) throws FileSystemException
     {
         // Create a unique-ish file name
         final String basename = createFilename(baseName);
@@ -138,9 +139,9 @@ public final class DefaultFileReplicator
     /**
      * create the temporary file
      */
-    protected File createFile(final File parent, final String name)
+    protected File createFile(final File parent, final String name) throws FileSystemException
     {
-        return new File(parent, name);
+        return new File(parent, UriParser.decode(name));
     }
 
     /**

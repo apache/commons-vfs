@@ -69,23 +69,23 @@ public class NamingTests
 
         // Encode "some file"
         FileObject file = getManager().resolveFile("%73%6f%6d%65%20%66%69%6c%65");
-        assertEquals(path + "/some file", file.getName().getPath());
+        assertEquals(path + "/some file", file.getName().getPathDecoded());
 
         // Encode "."
         file = getManager().resolveFile("%2e");
-        assertEquals(path, file.getName().getPath());
+        assertEquals(path + "/.", file.getName().getPathDecoded());
 
         // Encode '%'
         file = getManager().resolveFile("a%25");
-        assertEquals(path + "/a%", file.getName().getPath());
+        assertEquals(path + "/a%", file.getName().getPathDecoded());
 
         // Encode /
         file = getManager().resolveFile("dir%2fchild");
-        assertEquals(path + "/dir/child", file.getName().getPath());
+        assertEquals(path + "/dir/child", file.getName().getPathDecoded());
 
         // Encode \
         file = getManager().resolveFile("dir%5cchild");
-        assertEquals(path + "/dir/child", file.getName().getPath());
+        assertEquals(path + "/dir\\child", file.getName().getPathDecoded());
 
         // Use "%" literal
         try
@@ -146,7 +146,7 @@ public class NamingTests
     {
         final FileName baseName = getReadFolder().getName();
         final String basePath = baseName.getPath();
-        final FileName name = baseName.resolveName("some-child", NameScope.CHILD);
+        final FileName name = getManager().resolveName(baseName, "some-child", NameScope.CHILD);
 
         // Test path is absolute
         assertTrue("is absolute", basePath.startsWith("/"));
@@ -216,17 +216,17 @@ public class NamingTests
         throws Exception
     {
         // Try the supplied name
-        FileName name = baseName.resolveName(relName, scope);
+        FileName name = getManager().resolveName(baseName, relName, scope);
         assertEquals(expectedPath, name.getPath());
 
         // Replace the separators
         relName.replace('\\', '/');
-        name = baseName.resolveName(relName, scope);
+        name = getManager().resolveName(baseName, relName, scope);
         assertEquals(expectedPath, name.getPath());
 
         // And again
         relName.replace('/', '\\');
-        name = baseName.resolveName(relName, scope);
+        name = getManager().resolveName(baseName, relName, scope);
         assertEquals(expectedPath, name.getPath());
     }
 
@@ -341,7 +341,7 @@ public class NamingTests
         checkAbsoluteNames(name);
 
         // Test against some unknown file
-        name = name.resolveName("a/b/unknown");
+        name = getManager().resolveName(name, "a/b/unknown");
         checkAbsoluteNames(name);
     }
 
@@ -377,7 +377,7 @@ public class NamingTests
     {
         try
         {
-            name.resolveName(relName, scope);
+            getManager().resolveName(name, relName, scope);
             fail("expected failure");
         }
         catch (FileSystemException e)
@@ -394,7 +394,7 @@ public class NamingTests
         final FileName baseName = getReadFolder().getName();
 
         String path = "/test1/test2";
-        FileName name = baseName.resolveName(path);
+        FileName name = getManager().resolveName(baseName, path);
         assertEquals(path, name.getPath());
 
         // Try child and descendent names
@@ -425,7 +425,7 @@ public class NamingTests
 
         // Test against root
         path = "/";
-        name = baseName.resolveName(path);
+        name = getManager().resolveName(baseName, path);
         assertEquals(path, name.getPath());
 
         // Try child and descendent names (against root)
@@ -443,7 +443,7 @@ public class NamingTests
                              final String relPath)
         throws Exception
     {
-        final FileName expectedName = baseName.resolveName(relPath);
+        final FileName expectedName = getManager().resolveName(baseName, relPath);
 
         // Convert to relative path, and check
         final String actualRelPath = baseName.getRelativeName(expectedName);

@@ -26,6 +26,7 @@ import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.UriParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,7 +83,7 @@ public class ZipFileSystem
         while (entries.hasMoreElements())
         {
             ZipEntry entry = (ZipEntry) entries.nextElement();
-            FileName name = getRootName().resolveName(entry.getName());
+            FileName name = getFileSystemManager().resolveName(getRootName(), UriParser.encode(entry.getName()));
 
             // Create the file
             ZipFileObject fileObj;

@@ -23,6 +23,8 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.LayeredFileName;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,17 +57,6 @@ public class ZipFileProvider
     }
 
     /**
-     * Parses an absolute URI.
-     *
-     * @param uri The URI to parse.
-     */
-    protected FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return ZipFileName.parseUri(uri);
-    }
-
-    /**
      * Creates a layered file system.  This method is called if the file system
      * is not cached.
      *
@@ -79,7 +70,7 @@ public class ZipFileProvider
         throws FileSystemException
     {
         final FileName rootName =
-            new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
+            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH);
         return new ZipFileSystem(rootName, file, fileSystemOptions);
     }
 

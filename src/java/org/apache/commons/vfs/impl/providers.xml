@@ -28,7 +28,7 @@
     </provider>
     <provider class-name="org.apache.commons.vfs.provider.ftp.FtpFileProvider">
         <scheme name="ftp"/>
-        <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>
+        <if-available class-name="org.apache.commons.net.ftp.FTPFileX"/>
     </provider>
     <provider class-name="org.apache.commons.vfs.provider.smb.SmbFileProvider">
         <scheme name="smb"/>

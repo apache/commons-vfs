@@ -16,7 +16,6 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A file name that represents a 'generic' URI, as per RFC 2396.  Consists of
@@ -103,7 +102,7 @@ public class GenericFileName
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName(final String absPath)
+    public FileName createName(final String absPath)
     {
         return new GenericFileName(getScheme(),
             hostName,
@@ -112,192 +111,6 @@ public class GenericFileName
             userName,
             password,
             absPath);
-    }
-
-    /**
-     * Parses a generic URI.
-     */
-    public static GenericFileName parseUri(final String uri,
-                                           final int defaultPort)
-        throws FileSystemException
-    {
-        // FTP URI are generic URI (as per RFC 2396)
-        final StringBuffer name = new StringBuffer();
-
-        // Extract the scheme and authority parts
-        final Authority auth = extractToPath(uri, name);
-
-        // Decode and normalise the file name
-        UriParser.decode(name, 0, name.length());
-        UriParser.normalisePath(name);
-        final String path = name.toString();
-
-        return new GenericFileName(auth.scheme,
-            auth.hostName,
-            auth.port,
-            defaultPort,
-            auth.userName,
-            auth.password,
-            path);
-    }
-
-    /**
-     * Extracts the scheme, userinfo, hostname and port components of a
-     * generic URI.
-     *
-     * @param uri  The absolute URI to parse.
-     * @param name Used to return the remainder of the URI.
-     */
-    protected static Authority extractToPath(final String uri,
-                                             final StringBuffer name)
-        throws FileSystemException
-    {
-        final Authority auth = new Authority();
-
-        // Extract the scheme
-        auth.scheme = UriParser.extractScheme(uri, name);
-
-        // Expecting "//"
-        if (name.length() < 2 || name.charAt(0) != '/' || name.charAt(1) != '/')
-        {
-            throw new FileSystemException("vfs.provider/missing-double-slashes.error", uri);
-        }
-        name.delete(0, 2);
-
-        // Extract userinfo, and split into username and password
-        final String userInfo = extractUserInfo(name);
-        final String userName;
-        final String password;
-        if (userInfo != null)
-        {
-            int idx = userInfo.indexOf(':');
-            if (idx == -1)
-            {
-                userName = userInfo;
-                password = null;
-            }
-            else
-            {
-                userName = userInfo.substring(0, idx);
-                password = userInfo.substring(idx + 1);
-            }
-        }
-        else
-        {
-            userName = null;
-            password = null;
-        }
-        auth.userName = UriParser.decode(userName);
-        auth.password = UriParser.decode(password);
-
-        // Extract hostname, and normalise (lowercase)
-        final String hostName = extractHostName(name);
-        if (hostName == null)
-        {
-            throw new FileSystemException("vfs.provider/missing-hostname.error", uri);
-        }
-        auth.hostName = hostName.toLowerCase();
-
-        // Extract port
-        auth.port = extractPort(name, uri);
-
-        // Expecting '/' or empty name
-        if (name.length() > 0 && name.charAt(0) != '/')
-        {
-            throw new FileSystemException("vfs.provider/missing-hostname-path-sep.error", uri);
-        }
-
-        return auth;
-    }
-
-    /**
-     * Extracts the user info from a URI.  The scheme:// part has been removed
-     * already.
-     */
-    protected static String extractUserInfo(final StringBuffer name)
-    {
-        final int maxlen = name.length();
-        for (int pos = 0; pos < maxlen; pos++)
-        {
-            final char ch = name.charAt(pos);
-            if (ch == '@')
-            {
-                // Found the end of the user info
-                String userInfo = name.substring(0, pos);
-                name.delete(0, pos + 1);
-                return userInfo;
-            }
-            if (ch == '/' || ch == '?')
-            {
-                // Not allowed in user info
-                break;
-            }
-        }
-
-        // Not found
-        return null;
-    }
-
-    /**
-     * Extracts the hostname from a URI.  The scheme://userinfo@ part has
-     * been removed.
-     */
-    protected static String extractHostName(final StringBuffer name)
-    {
-        final int maxlen = name.length();
-        int pos = 0;
-        for (; pos < maxlen; pos++)
-        {
-            final char ch = name.charAt(pos);
-            if (ch == '/' || ch == ';' || ch == '?' || ch == ':'
-                || ch == '@' || ch == '&' || ch == '=' || ch == '+'
-                || ch == '$' || ch == ',')
-            {
-                break;
-            }
-        }
-        if (pos == 0)
-        {
-            return null;
-        }
-
-        final String hostname = name.substring(0, pos);
-        name.delete(0, pos);
-        return hostname;
-    }
-
-    /**
-     * Extracts the port from a URI.  The scheme://userinfo@hostname
-     * part has been removed.
-     *
-     * @return The port, or -1 if the URI does not contain a port.
-     */
-    private static int extractPort(final StringBuffer name, final String uri) throws FileSystemException
-    {
-        if (name.length() < 1 || name.charAt(0) != ':')
-        {
-            return -1;
-        }
-
-        final int maxlen = name.length();
-        int pos = 1;
-        for (; pos < maxlen; pos++)
-        {
-            final char ch = name.charAt(pos);
-            if (ch < '0' || ch > '9')
-            {
-                break;
-            }
-        }
-
-        final String port = name.substring(1, pos);
-        name.delete(0, pos);
-        if (port.length() == 0)
-        {
-            throw new FileSystemException("vfs.provider/missing-port.error", uri);
-        }
-
-        return Integer.parseInt(port);
     }
 
     /**
@@ -323,17 +136,5 @@ public class GenericFileName
             buffer.append(':');
             buffer.append(port);
         }
-    }
-
-    /**
-     * Parsed authority info (scheme, hostname, userinfo, port)
-     */
-    protected static class Authority
-    {
-        public String scheme;
-        public String hostName;
-        public String userName;
-        public String password;
-        public int port;
     }
 }

@@ -19,6 +19,8 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.LayeredFileName;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.AbstractFileProvider;
+import org.apache.commons.vfs.provider.FileNameParser;
 
 /**
  * A parser for Zip file names.
@@ -29,7 +31,7 @@ import org.apache.commons.vfs.provider.UriParser;
 public class UrlFileName extends LayeredFileName
 {
     public UrlFileName(final String scheme,
-                       final String zipFileUri,
+                       final FileName zipFileUri,
                        final String path)
     {
         super(scheme, zipFileUri, path);
@@ -43,21 +45,22 @@ public class UrlFileName extends LayeredFileName
         buffer.append(getScheme());
         buffer.append(":");
         // buffer.append("!");
-        UriParser.appendEncoded(buffer, getOuterUri(), null);
+        buffer.append(getOuterName().getURI());
     }
 
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName(final String path)
+    public FileName createName(final String path)
     {
-        return new UrlFileName(getScheme(), getOuterUri(), path);
+        return new UrlFileName(getScheme(), getOuterName(), path);
     }
 
     /**
      * Parses a Zip URI.
      */
-    public static UrlFileName parseUri(final String uri)
+    /*
+    public static UrlFileName parseUri(final FileNameParser fileNameParser, final String uri)
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
@@ -66,19 +69,23 @@ public class UrlFileName extends LayeredFileName
         final String scheme = UriParser.extractScheme(uri, name);
 
         // Extract the Zip file URI
-        final String zipUri = extractZipName(name);
+        final String zipUriName = extractZipName(name);
+        FileName zipUri = parseUri(fileNameParser,  zipUriName);
 
         // Decode and normalise the path
         UriParser.decode(name, 0, name.length());
+        UriParser.canonicalizePath(name, 0, name.length(), fileNameParser);
         UriParser.normalisePath(name);
         final String path = name.toString();
 
         return new UrlFileName(scheme, zipUri, path);
     }
+    */
 
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
+    /*
     private static String extractZipName(final StringBuffer uri)
         throws FileSystemException
     {
@@ -105,5 +112,5 @@ public class UrlFileName extends LayeredFileName
         // Decode the name
         return UriParser.decode(prefix);
         */
-    }
+    // }
 }

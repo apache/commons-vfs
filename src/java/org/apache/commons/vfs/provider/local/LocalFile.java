@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.File;
@@ -48,10 +49,10 @@ public class LocalFile
      */
     protected LocalFile(final LocalFileSystem fileSystem,
                         final String fileName,
-                        final FileName name)
+                        final FileName name) throws FileSystemException
     {
         super(name, fileSystem);
-        this.fileName = fileName;
+        this.fileName = UriParser.decode(fileName);
     }
 
     /**
@@ -102,7 +103,7 @@ public class LocalFile
     protected String[] doListChildren()
         throws Exception
     {
-        return file.list();
+        return UriParser.encode(file.list());
     }
 
     /**

@@ -244,7 +244,7 @@ public abstract class AbstractFileSystem
     public FileObject resolveFile(final String nameStr) throws FileSystemException
     {
         // Resolve the name, and create the file
-        final FileName name = rootName.resolveName(nameStr);
+        final FileName name = getFileSystemManager().resolveName(rootName, nameStr);
         return resolveFile(name);
     }
 

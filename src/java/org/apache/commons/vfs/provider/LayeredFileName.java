@@ -15,20 +15,22 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
+
 /**
  * A file name for layered files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public abstract class LayeredFileName
-    extends AbstractFileName
+public class LayeredFileName extends AbstractFileName
 {
-    private final String outerUri;
+    private final FileName outerUri;
 
-    protected LayeredFileName(final String scheme,
-                              final String outerUri,
-                              final String path)
+    public LayeredFileName(final String scheme,
+                           final FileName outerUri,
+                           final String path)
     {
         super(scheme, path);
         this.outerUri = outerUri;
@@ -37,8 +39,21 @@ public abstract class LayeredFileName
     /**
      * Returns the URI of the outer file.
      */
-    public String getOuterUri()
+    public FileName getOuterName()
     {
         return outerUri;
+    }
+
+    public FileName createName(String path)
+    {
+        return new LayeredFileName(getScheme(), getOuterName(), path);
+    }
+
+    protected void appendRootUri(StringBuffer buffer)
+    {
+        buffer.append(getScheme());
+        buffer.append(":");
+        buffer.append(getOuterName().getURI());
+        buffer.append("!");
     }
 }

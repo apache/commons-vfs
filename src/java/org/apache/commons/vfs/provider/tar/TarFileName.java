@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.LayeredFileName;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.FileNameParser;
 
 /**
  * A parser for Tar file names.
@@ -28,10 +29,8 @@ import org.apache.commons.vfs.provider.UriParser;
  */
 public class TarFileName extends LayeredFileName
 {
-    private static final char[] TAR_URL_RESERVED_CHARS = {'!'};
-
     public TarFileName(final String scheme,
-                       final String tarFileUri,
+                       final FileName tarFileUri,
                        final String path)
     {
         super(scheme, tarFileUri, path);
@@ -42,67 +41,20 @@ public class TarFileName extends LayeredFileName
      */
     protected void appendRootUri(final StringBuffer buffer)
     {
+        /*
         buffer.append(getScheme());
         buffer.append(":");
-        UriParser.appendEncoded(buffer, getOuterUri(), TAR_URL_RESERVED_CHARS);
+        UriParser.appendEncoded(buffer, getOuterName().getURI(), TAR_URL_RESERVED_CHARS);
         buffer.append("!");
+        */
     }
 
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName(final String path)
+    public FileName createName(final String path)
     {
-        return new TarFileName(getScheme(), getOuterUri(), path);
+        return null;
     }
 
-    /**
-     * Parses a Tar URI.
-     */
-    public static TarFileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        final StringBuffer name = new StringBuffer();
-
-        // Extract the scheme
-        final String scheme = UriParser.extractScheme(uri, name);
-
-        // Extract the Tar file URI
-        final String tarUri = extractTarName(name);
-
-        // Decode and normalise the path
-        UriParser.decode(name, 0, name.length());
-        UriParser.normalisePath(name);
-        final String path = name.toString();
-
-        return new TarFileName(scheme, tarUri, path);
-    }
-
-    /**
-     * Pops the root prefix off a URI, which has had the scheme removed.
-     */
-    private static String extractTarName(final StringBuffer uri)
-        throws FileSystemException
-    {
-        // Looking for <name>!<abspath>
-        int maxlen = uri.length();
-        int pos = 0;
-        for (; pos < maxlen && uri.charAt(pos) != '!'; pos++)
-        {
-        }
-
-        // Extract the name
-        String prefix = uri.substring(0, pos);
-        if (pos < maxlen)
-        {
-            uri.delete(0, pos + 1);
-        }
-        else
-        {
-            uri.setLength(0);
-        }
-
-        // Decode the name
-        return UriParser.decode(prefix);
-    }
 }

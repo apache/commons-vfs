@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.LayeredFileName;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.FileNameParser;
 
 /**
  * A parser for Zip file names.
@@ -32,7 +33,7 @@ public class ZipFileName
     private static final char[] ZIP_URL_RESERVED_CHARS = {'!'};
 
     public ZipFileName(final String scheme,
-                       final String zipFileUri,
+                       final FileName zipFileUri,
                        final String path)
     {
         super(scheme, zipFileUri, path);
@@ -45,65 +46,15 @@ public class ZipFileName
     {
         buffer.append(getScheme());
         buffer.append(":");
-        UriParser.appendEncoded(buffer, getOuterUri(), ZIP_URL_RESERVED_CHARS);
+        buffer.append(getOuterName().getURI());
         buffer.append("!");
     }
 
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName(final String path)
+    public FileName createName(final String path)
     {
-        return new ZipFileName(getScheme(), getOuterUri(), path);
-    }
-
-    /**
-     * Parses a Zip URI.
-     */
-    public static ZipFileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        final StringBuffer name = new StringBuffer();
-
-        // Extract the scheme
-        final String scheme = UriParser.extractScheme(uri, name);
-
-        // Extract the Zip file URI
-        final String zipUri = extractZipName(name);
-
-        // Decode and normalise the path
-        UriParser.decode(name, 0, name.length());
-        UriParser.normalisePath(name);
-        final String path = name.toString();
-
-        return new ZipFileName(scheme, zipUri, path);
-    }
-
-    /**
-     * Pops the root prefix off a URI, which has had the scheme removed.
-     */
-    private static String extractZipName(final StringBuffer uri)
-        throws FileSystemException
-    {
-        // Looking for <name>!<abspath>
-        int maxlen = uri.length();
-        int pos = 0;
-        for (; pos < maxlen && uri.charAt(pos) != '!'; pos++)
-        {
-        }
-
-        // Extract the name
-        String prefix = uri.substring(0, pos);
-        if (pos < maxlen)
-        {
-            uri.delete(0, pos + 1);
-        }
-        else
-        {
-            uri.setLength(0);
-        }
-
-        // Decode the name
-        return UriParser.decode(prefix);
+        return new ZipFileName(getScheme(), getOuterName(), path);
     }
 }

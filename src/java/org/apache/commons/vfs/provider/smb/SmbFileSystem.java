@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 import java.util.Collection;
@@ -41,7 +42,7 @@ public class SmbFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile(final FileName name)
+    protected FileObject createFile(final FileName name) throws FileSystemException
     {
         return new SmbFileObject(name, this);
     }

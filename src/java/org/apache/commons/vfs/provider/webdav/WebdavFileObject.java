@@ -24,6 +24,7 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.WebdavResource;
@@ -97,7 +98,9 @@ public class WebdavFileObject
         if (resource == null)
         {
             final GenericFileName name = (GenericFileName) getName();
-            HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPath());
+            // HttpURL url = new HttpURL(name.getHostName(), name.getPort(), name.getPath());
+            HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPathDecoded());
+            url.setEscapedPath(name.getPath());
             resource = new WebdavResource(fileSystem.getClient())
             {
             };
@@ -132,7 +135,7 @@ public class WebdavFileObject
             }
             // handle the (maybe) redirected url
             redirectionResolved = true;
-            resource.getHttpURL().setPath(optionsMethod.getPath());
+            resource.getHttpURL().setEscapedPath(optionsMethod.getPath());
 
             setAllowedMethods(optionsMethod.getAllowedMethods());
             boolean exists = false;
@@ -284,7 +287,16 @@ public class WebdavFileObject
         {
             WebdavResource dav = children[i];
 
-            WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(getName().resolveName(dav.getName(), NameScope.CHILD));
+            /*
+            WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(
+                    getName().resolveName(
+                        UriParser.encode(dav.getName()), NameScope.CHILD));
+             */
+            WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(
+                    getFileSystem().getFileSystemManager().resolveName(
+                        getName(),
+                        UriParser.encode(dav.getName()),
+                        NameScope.CHILD));
             fo.setDavResource(dav, false);
 
             vfs[i] = fo;
@@ -299,7 +311,7 @@ public class WebdavFileObject
     protected void doCreateFolder() throws Exception
     {
         // Adjust resource path
-        resource.getHttpURL().setPath(getName().getPath() + '/');
+        resource.getHttpURL().setEscapedPath(getName().getPath() + '/');
         final boolean ok = resource.mkcolMethod();
         if (!ok)
         {
@@ -315,7 +327,7 @@ public class WebdavFileObject
      */
     protected void doDelete() throws Exception
     {
-        final boolean ok = resource.deleteMethod(getName().getPath() /*url.getPath()*/);
+        final boolean ok = resource.deleteMethod(getName().getPathDecoded() /*url.getPath()*/);
         if (!ok)
         {
             throw new FileSystemException("vfs.provider.webdav/delete-file.error", resource.getStatusMessage());
@@ -390,7 +402,7 @@ public class WebdavFileObject
             final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
 
             // Adjust the resource path (this file object may have been a folder)
-            resource.getHttpURL().setPath(getName().getPath());
+            resource.getHttpURL().setEscapedPath(getName().getPath());
             final boolean ok = resource.putMethod(outstr.toByteArray());
             if (!ok)
             {

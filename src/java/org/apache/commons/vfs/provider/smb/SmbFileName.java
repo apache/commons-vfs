@@ -19,6 +19,8 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.AbstractFileProvider;
+import org.apache.commons.vfs.provider.FileNameParser;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
@@ -33,7 +35,7 @@ public class SmbFileName
 
     private final String share;
 
-    private SmbFileName(final String scheme,
+    protected SmbFileName(final String scheme,
                         final String hostName,
                         final int port,
                         final String userName,
@@ -43,42 +45,6 @@ public class SmbFileName
     {
         super(scheme, hostName, port, DEFAULT_PORT, userName, password, path);
         this.share = share;
-    }
-
-    /**
-     * Parses an SMB URI.
-     */
-    public static SmbFileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        final StringBuffer name = new StringBuffer();
-
-        // Extract the scheme and authority parts
-        final Authority auth = extractToPath(uri, name);
-
-        // Decode and adjust separators
-        UriParser.decode(name, 0, name.length());
-        UriParser.fixSeparators(name);
-
-        // Extract the share
-        final String share = UriParser.extractFirstElement(name);
-        if (share == null || share.length() == 0)
-        {
-            throw new FileSystemException("vfs.provider.smb/missing-share-name.error", uri);
-        }
-
-        // Normalise the path.  Do this after extracting the share name,
-        // to deal with things like smb://hostname/share/..
-        UriParser.normalisePath(name);
-        final String path = name.toString();
-
-        return new SmbFileName(auth.scheme,
-            auth.hostName,
-            auth.port,
-            auth.userName,
-            auth.password,
-            share,
-            path);
     }
 
     /**
@@ -102,7 +68,7 @@ public class SmbFileName
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName(final String path)
+    public FileName createName(final String path)
     {
         return new SmbFileName(getScheme(),
             getHostName(),

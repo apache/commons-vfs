@@ -365,4 +365,89 @@ public final class UriParser
             }
         }
     }
+
+    /**
+     * Removes %nn encodings from a string.
+     */
+    public static String encode(final String decodedStr)
+    {
+        return encode(decodedStr,  null);
+    }
+
+    public static String encode(final String decodedStr, final char[] reserved)
+    {
+        if (decodedStr == null)
+        {
+            return null;
+        }
+        final StringBuffer buffer = new StringBuffer(decodedStr);
+        encode(buffer, 0, buffer.length(), reserved);
+        return buffer.toString();
+    }
+
+    public static String[] encode(String[] strings)
+    {
+        for (int i = 0; i<strings.length; i++)
+        {
+            strings[i] = encode(strings[i]);
+        }
+        return strings;
+    }
+
+    public static void checkUriEncoding(String uri) throws FileSystemException
+    {
+        decode(uri);
+    }
+
+    public static void canonicalizePath(StringBuffer buffer, int offset, int length, FileNameParser fileNameParser) throws FileSystemException
+    {
+        int index = offset;
+        int count = length;
+        for (; count > 0; count--, index++)
+        {
+            final char ch = buffer.charAt(index);
+            if (ch == '%')
+            {
+                if (count < 3)
+                {
+                    throw new FileSystemException("vfs.provider/invalid-escape-sequence.error", buffer.substring(index, index + count));
+                }
+
+                // Decode
+                int dig1 = Character.digit(buffer.charAt(index + 1), 16);
+                int dig2 = Character.digit(buffer.charAt(index + 2), 16);
+                if (dig1 == -1 || dig2 == -1)
+                {
+                    throw new FileSystemException("vfs.provider/invalid-escape-sequence.error", buffer.substring(index, index + 3));
+                }
+                char value = (char) (dig1 << 4 | dig2);
+
+                boolean match = (ch == '%') || (fileNameParser != null && fileNameParser.encodeCharacter(ch));
+
+                if (match)
+                {
+                    // this is a reserved character, not allowed to decode
+                    index+=2;
+                    count-=2;
+                    continue;
+                }
+
+                // Replace
+                buffer.setCharAt(index, value);
+                buffer.delete(index + 1, index + 3);
+                count -= 2;
+            }
+            else if (fileNameParser.encodeCharacter(ch))
+            {
+                // Encode
+                char[] digits = {
+                    Character.forDigit(((ch >> 4) & 0xF), 16),
+                    Character.forDigit((ch & 0xF), 16)
+                };
+                buffer.setCharAt(index, '%');
+                buffer.insert(index + 1, digits);
+                index += 2;
+            }
+        }
+    }
 }

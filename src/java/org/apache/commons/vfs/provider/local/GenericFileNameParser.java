@@ -26,6 +26,17 @@ import org.apache.commons.vfs.FileSystemException;
 public class GenericFileNameParser
     extends LocalFileNameParser
 {
+    private static final GenericFileNameParser INSTANCE = new GenericFileNameParser();
+
+    /**
+     * retrieve a instance to this parser
+     * @return the parser
+     */
+    public static GenericFileNameParser getInstance()
+    {
+        return INSTANCE;
+    }
+
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */

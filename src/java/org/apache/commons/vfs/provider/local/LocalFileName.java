@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileName;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.FileNameParser;
 
 /**
  * A local file URI.
@@ -40,37 +41,6 @@ public class LocalFileName
     }
 
     /**
-     * Parses an absolute file URI.
-     *
-     * @todo Make parser a static field
-     */
-    public static LocalFileName parseUri(final String uri, final boolean uriEncoded,
-                                         final LocalFileNameParser parser)
-        throws FileSystemException
-    {
-        final StringBuffer name = new StringBuffer();
-
-        // Extract the scheme
-        final String scheme = UriParser.extractScheme(uri, name);
-
-        // Remove encoding, and adjust the separators
-        if (uriEncoded)
-        {
-            UriParser.decode(name, 0, name.length());
-        }
-        UriParser.fixSeparators(name);
-
-        // Extract the root prefix
-        final String rootFile = parser.extractRootPrefix(uri, name);
-
-        // Normalise the path
-        UriParser.normalisePath(name);
-        final String path = name.toString();
-
-        return new LocalFileName(scheme, rootFile, path);
-    }
-
-    /**
      * Returns the root file for this file.
      */
     public String getRootFile()
@@ -81,7 +51,7 @@ public class LocalFileName
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName(final String path)
+    public FileName createName(final String path)
     {
         return new LocalFileName(getScheme(), rootFile, path);
     }
@@ -94,5 +64,5 @@ public class LocalFileName
         buffer.append(getScheme());
         buffer.append("://");
         buffer.append(rootFile);
-    }
+    } 
 }

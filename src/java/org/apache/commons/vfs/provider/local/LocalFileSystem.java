@@ -19,7 +19,9 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.UriParser;
 
 import java.io.File;
 import java.io.FilePermission;
@@ -47,10 +49,11 @@ public class LocalFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile(final FileName name)
+    protected FileObject createFile(final FileName name) throws FileSystemException
     {
         // Create the file
-        final String fileName = rootFile + name.getPath();
+        String fileName = rootFile + name.getPath();
+        fileName = fileName;
         return new LocalFile(this, fileName, name);
     }
 
