@@ -25,13 +25,13 @@ import java.util.Collection;
 
 /**
  * Filesytem to handle compressed files using the bzip2 method
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/16 18:19:05 $
+ * @version $Revision: 1.2 $ $Date: 2005/01/11 16:14:45 $
  */
 public class Bzip2FileSystem extends CompressedFileFileSystem
 {
-    public Bzip2FileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected Bzip2FileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         super(rootName, parentLayer, fileSystemOptions);
     }

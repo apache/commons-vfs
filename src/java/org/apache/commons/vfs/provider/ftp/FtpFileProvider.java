@@ -32,9 +32,9 @@ import java.util.Collections;
  * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/10/18 18:20:39 $
+ * @version $Revision: 1.12 $ $Date: 2005/01/11 16:14:46 $
  */
-public final class FtpFileProvider
+public class FtpFileProvider
     extends AbstractOriginatingFileProvider
 {
     public final static String ATTR_FILE_ENTRY_PARSER = "FEP";

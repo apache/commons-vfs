@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,16 +51,16 @@ import java.util.zip.ZipFile;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.19 $ $Date: 2004/07/04 18:45:56 $
+ * @version $Revision: 1.20 $ $Date: 2005/01/11 16:14:46 $
  */
-class JarFileSystem
+public class JarFileSystem
     extends ZipFileSystem
 {
     private Attributes attributes;
 
-    public JarFileSystem(final FileName rootName,
-                         final FileObject file,
-                         final FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected JarFileSystem(final FileName rootName,
+                            final FileObject file,
+                            final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         super(rootName, file, fileSystemOptions);
     }

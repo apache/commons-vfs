@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,9 +34,9 @@ import java.util.Hashtable;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.14 $ $Date: 2004/08/26 16:40:02 $
+ * @version $Revision: 1.15 $ $Date: 2005/01/11 16:14:46 $
  */
-class SftpFileSystem
+public class SftpFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
@@ -44,9 +44,9 @@ class SftpFileSystem
     // private final JSch jSch;
     private ChannelSftp idleChannel;
 
-    public SftpFileSystem(final GenericFileName rootName,
-                          final Session session,
-                          final FileSystemOptions fileSystemOptions)
+    protected SftpFileSystem(final GenericFileName rootName,
+                             final Session session,
+                             final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
         this.session = session;

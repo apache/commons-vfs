@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ import java.util.zip.GZIPInputStream;
  * A read-only file system for Tar files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2004/11/08 21:07:44 $
+ * @version $Revision: 1.2 $ $Date: 2005/01/11 16:14:46 $
  */
 public class TarFileSystem
     extends AbstractFileSystem
@@ -51,9 +51,9 @@ public class TarFileSystem
     private final File file;
     private TarInputStream tarFile;
 
-    public TarFileSystem(final FileName rootName,
-                         final FileObject parentLayer,
-                         final FileSystemOptions fileSystemOptions)
+    protected TarFileSystem(final FileName rootName,
+                            final FileObject parentLayer,
+                            final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         super(rootName, parentLayer, fileSystemOptions);
