@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <pomVersion>3</pomVersion>
+  <name>commons-vfs</name>
+  <id>commons-vfs</id>
+  <currentVersion>1.0-dev</currentVersion>
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org</url>
+  </organization>
+  <inceptionYear>2002</inceptionYear>
+  <package>org.apache.commons.vfs</package>
+  <shortDescription>Commons Jelly</shortDescription>
+
+  <!-- Gump integration -->
+  <gumpRepositoryId>jakarta</gumpRepositoryId>
+  
+  <description>
+  	VFS is a Virtual File System library.
+  </description>
+  
+  <url>http://jakarta.apache.org/commons/sandbox/vfs/</url>
+  <issueTrackingUrl>http://nagoya.apache.org/scarab/servlet/scarab/</issueTrackingUrl>
+  <siteAddress>jakarta.apache.org</siteAddress>
+  <siteDirectory>/www/jakarta.apache.org/commons/sandbox/vfs/</siteDirectory>
+  <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons-sandbox/vfs/</distributionDirectory>
+  <repository>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:jakarta-commons-sandbox/vfs</connection>
+    <url>http://cvs.apache.org/viewcvs/jakarta-commons-sandbox/vfs/</url>
+  </repository>
+  
+  <versions>
+    <version>
+      <id>b1</id>
+      <name>1.0-b1</name>
+      <tag>HEAD</tag>
+    </version>
+  </versions>
+  <branches></branches>
+  
+  <mailingLists>
+    <mailingList>
+      <name>Commons Dev List</name>
+      <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=commons-dev@jakarta.apache.org</archive>
+    </mailingList>
+  </mailingLists>
+  
+  <developers>
+    <developer>
+      <name>Adam Murdoch</name>
+      <id>adammurdoch</id>
+      <email>adammurdoch@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <name>James Strachan</name>
+      <id>jstrachan</id>
+      <email>jstrachan@apache.org</email>
+      <organization>SpiritSoft, Inc.</organization>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <dependency>
+      <id>junit</id>
+      <version>3.7</version>
+    </dependency>
+    
+    <dependency>
+      <id>xml-apis</id>
+      <version>2.0.2</version>
+    </dependency>
+    
+    <dependency>
+      <id>xerces</id>
+      <version>2.0.0</version>
+    </dependency>
+    
+    <dependency>
+      <id>commons-logging</id>
+      <version>1.0</version>
+    </dependency>
+  </dependencies>
+  
+  
+  <build>
+    <nagEmailAddress>commons-dev@jakarta.apache.org</nagEmailAddress>
+    <sourceDirectory>src/java</sourceDirectory>
+    <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+    
+    <integrationUnitTestSourceDirectory/>
+    <aspectSourceDirectory/>
+    
+    <!-- Unit test classes -->
+    <unitTest>
+      <includes>
+        <include>**/Test*.java</include>
+      </includes>
+    </unitTest>
+
+    
+    <!-- Integration unit test classes -->
+
+    <integrationUnitTestPatterns></integrationUnitTestPatterns>
+
+    <!-- J A R  R E S O U R C E S -->
+    <!-- Resources that are packaged up inside the JAR file -->
+    <resources>
+      <includes>
+        <include>**/*.properties</include>
+      </includes>
+    </resources>
+  </build>
+</project>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<document>
+
+ <properties>
+  <title>VFS : Virtual File System component</title>
+  <author email="jstrachan@apache.org">James Strachan</author>
+ </properties>
+
+<body>
+
+<section name="VFS : Virtual File System component">
+
+<p><em>VFS</em> implements a Virtual File System abstraction on top of a number of different
+providers such as files, FTP, SMB, ZIP etc.
+</p>
+
+<p>
+VFS can be used inside a number of projects such as Ant, Anteater, Jelly, Latka, Maven etc.
+</p>
+
+</section>
+
+
+</body>
+</document>
+

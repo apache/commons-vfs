@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<document>
+  <properties>
+    <title>TODO</title>
+    <author email="jstrachan@apache.org">James Strachan</author>
+  </properties>
+
+  <body>
+    <section name="TODO"> 
+      <p>
+        The following is a list of items that need to be completed in
+        Jelly.  Contributions are welcome!.
+      </p>
+      
+      <ul>
+        <li>fix compile errors!</li>
+        <li>use the FTP client from the 'net' component in the sandbox?</li>
+        <li>document!</li>
+	  </ul>
+    </section>
+  </body>
+</document>
+
