@@ -54,6 +54,14 @@
       <condition property="jsch.avail">
           <available classname="com.jcraft.jsch.ChannelSftp" classpathref="classpath"/>
       </condition>
+      <patternset id="excludes">
+          <exclude name="**/provider/ftp/**" unless="commons-net.avail" />
+          <exclude name="**/provider/http/**" unless="commons-httpclient.avail" />
+          <exclude name="**/provider/webdav/**" unless="commons-httpclient.avail" />
+          <exclude name="**/provider/webdav/**" unless="slide.avail" />
+          <exclude name="**/provider/smb/**" unless="jcifs.avail" />
+          <exclude name="**/provider/sftp/**" unless="jsch.avail" />
+      </patternset>
 
     <mkdir dir="${classesdir}">
     </mkdir>
@@ -62,12 +70,7 @@
         <pathelement location="src/java">
         </pathelement>
       </src>
-        <exclude name="**/provider/ftp/**" unless="commons-net.avail" />
-        <exclude name="**/provider/http/**" unless="commons-httpclient.avail" />
-        <exclude name="**/provider/webdav/**" unless="commons-httpclient.avail" />
-        <exclude name="**/provider/webdav/**" unless="slide.avail" />
-        <exclude name="**/provider/smb/**" unless="jcifs.avail" />
-        <exclude name="**/provider/sftp/**" unless="jsch.avail" />
+        <patternset refid="excludes"/>
       <classpath refid="classpath"/>
     </javac>
     <copy todir="${classesdir}">
@@ -143,6 +146,7 @@
         <pathelement location="src/test">
         </pathelement>
       </src>
+        <patternset refid="excludes"/>
       <classpath>
         <fileset dir="${libdir}">
           <include name="*.jar">
