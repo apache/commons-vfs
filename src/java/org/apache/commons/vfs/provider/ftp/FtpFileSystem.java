@@ -75,11 +75,12 @@ final class FtpFileSystem
         }
     }
 
-    public void dispose()
+    public void close()
     {
         // Clean up the connection
-        super.dispose();
         closeConnection();
+
+        super.close();
     }
 
     /**

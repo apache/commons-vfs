@@ -109,10 +109,8 @@ public final class ZipFileSystem
         }
     }
 
-    public void dispose()
+    public void close()
     {
-        super.dispose();
-
         // Release the zip file
         try
         {
@@ -126,6 +124,8 @@ public final class ZipFileSystem
             final String message = REZ.getString( "close-zip-file.error", m_file );
             getLogger().warn( message, e );
         }
+
+        super.close();
     }
 
     /**

@@ -12,8 +12,8 @@ import java.util.Map;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A partial file system implementation.
@@ -22,8 +22,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @version $Revision: 1.2 $ $Date: 2002/04/07 02:27:56 $
  */
 public abstract class AbstractFileSystem
-    extends AbstractLogEnabled
-    implements FileSystem, Disposable
+    implements FileSystem
 {
     private FileObject m_root;
     private final FileName m_rootName;
@@ -39,7 +38,7 @@ public abstract class AbstractFileSystem
         m_context = context;
     }
 
-    public void dispose()
+    public void close()
     {
         // Clean-up
         m_files.clear();
@@ -110,5 +109,13 @@ public abstract class AbstractFileSystem
             m_files.put( name, file );
         }
         return file;
+    }
+
+    /**
+     * Returns the logger for this file system to use.
+     */
+    protected Log getLogger()
+    {
+        return LogFactory.getLog( getClass() );
     }
 }

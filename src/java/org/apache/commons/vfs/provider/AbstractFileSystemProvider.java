@@ -14,7 +14,6 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Disposable;
 
 /**
  * A partial file system provider implementation.
@@ -24,7 +23,6 @@ import org.apache.avalon.framework.activity.Disposable;
  */
 public abstract class AbstractFileSystemProvider
     extends AbstractFileProvider
-    implements Disposable
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( AbstractFileSystemProvider.class );
@@ -38,16 +36,12 @@ public abstract class AbstractFileSystemProvider
     /**
      * Closes the file systems created by this provider.
      */
-    public void dispose()
+    public void close()
     {
         for( Iterator iterator = m_fileSystems.values().iterator(); iterator.hasNext(); )
         {
             FileSystem fileSystem = (FileSystem)iterator.next();
-            if( fileSystem instanceof Disposable )
-            {
-                Disposable disposable = (Disposable)fileSystem;
-                disposable.dispose();
-            }
+            fileSystem.close();
         }
         m_fileSystems.clear();
     }
@@ -90,7 +84,6 @@ public abstract class AbstractFileSystemProvider
         {
             // Need to create the file system, and cache it
             fs = createFileSystem( parsedUri );
-            setupLogger( fs );
             m_fileSystems.put( rootUri, fs );
         }
 

@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -23,11 +25,6 @@ import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.provider.UriParser;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * A default file system manager implementation.
@@ -38,8 +35,7 @@ import org.apache.avalon.framework.logger.Logger;
  * @version $Revision: 1.12 $ $Date: 2002/07/05 06:51:45 $
  */
 public class DefaultFileSystemManager
-    extends AbstractLogEnabled
-    implements FileSystemManager, Disposable
+    implements FileSystemManager
 {
     private static final Resources REZ
         = ResourceManager.getPackageResources( DefaultFileSystemManager.class );
@@ -88,7 +84,6 @@ public class DefaultFileSystemManager
         }
 
         // Contextualise
-        setupLogger( provider );
         provider.setContext( m_context );
 
         // Add to map
@@ -116,19 +111,10 @@ public class DefaultFileSystemManager
     }
 
     /**
-     * Enable logging.
-     */
-    public void enableLogging( final Logger logger )
-    {
-        super.enableLogging( logger );
-        setupLogger( m_fileReplicator );
-    }
-
-    /**
      * Closes all files created by this manager, and cleans up any temporary
      * files.
      */
-    public void dispose()
+    public void close()
     {
         // Dispose the providers (making sure we only dispose each provider
         // once
@@ -136,16 +122,12 @@ public class DefaultFileSystemManager
         providers.addAll( m_providers.values() );
         for( Iterator iterator = providers.iterator(); iterator.hasNext(); )
         {
-            Object provider = iterator.next();
-            if( provider instanceof Disposable )
-            {
-                Disposable disposable = (Disposable)provider;
-                disposable.dispose();
-            }
+            FileProvider provider = (FileProvider)iterator.next();
+            provider.close();
         }
         m_providers.clear();
 
-        m_fileReplicator.dispose();
+        m_fileReplicator.close();
     }
 
     /**

@@ -8,21 +8,18 @@
 package org.apache.commons.vfs.impl;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Random;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
-import org.apache.commons.vfs.FileConstants;
+import java.security.PrivilegedExceptionAction;
+import java.util.ArrayList;
+import java.util.Random;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.activity.Disposable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * A simple file replicator.
@@ -31,8 +28,7 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:18 $
  */
 public final class DefaultFileReplicator
-    extends AbstractLogEnabled
-    implements FileReplicator, Disposable
+    implements FileReplicator
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultFileReplicator.class );
@@ -49,15 +45,15 @@ public final class DefaultFileReplicator
         m_tempDir = (File) AccessController.doPrivileged(
             new PrivilegedAction() {
                 public Object run() {
-                    return new File( "ant_vfs_cache" ).getAbsoluteFile();
+                    return new File( "vfs_cache" ).getAbsoluteFile();
                 }
             } );
     }
 
     /**
-     * Deletes the temporary files.
+     * Closes the replicator, deleting the temporary files.
      */
-    public void dispose()
+    public void close()
     {
     /*
         AccessController.doPrivileged(

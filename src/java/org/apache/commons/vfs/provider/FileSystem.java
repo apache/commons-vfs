@@ -39,4 +39,9 @@ public interface FileSystem
      *          The name of the file.  This must be an absolute path.
      */
     FileObject findFile( String name ) throws FileSystemException;
+
+    /**
+     * Closes this file system.
+     */
+    void close();
 }

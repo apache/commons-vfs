@@ -57,4 +57,9 @@ public interface FileProvider
      */
     FileObject createFileSystem( String scheme, FileObject file )
         throws FileSystemException;
+
+    /**
+     * Closes the provider.
+     */
+    void close();
 }

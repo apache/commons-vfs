@@ -33,4 +33,9 @@ public interface FileReplicator
      */
     File replicateFile( FileObject srcFile, FileSelector selector )
         throws FileSystemException;
+
+    /**
+     * Closes the replicator.
+     */
+    void close();
 }

@@ -7,7 +7,6 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * A partial FileProvider implementation.
@@ -16,7 +15,6 @@ import org.apache.avalon.framework.logger.AbstractLogEnabled;
  * @version $Revision: 1.1 $ $Date: 2002/06/17 07:19:45 $
  */
 public abstract class AbstractFileProvider
-    extends AbstractLogEnabled
     implements FileProvider
 {
     private FileSystemProviderContext m_context;

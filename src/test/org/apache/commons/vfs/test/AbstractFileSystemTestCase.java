@@ -113,7 +113,6 @@ public abstract class AbstractFileSystemTestCase
     {
         // Create the file system manager
         m_manager = new DefaultFileSystemManager();
-        m_manager.enableLogging( getLogger() );
         m_manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
 
         // Locate the base folder
@@ -132,7 +131,7 @@ public abstract class AbstractFileSystemTestCase
      */
     protected void tearDown() throws Exception
     {
-        m_manager.dispose();
+        m_manager.close();
     }
 
     /**

@@ -9,12 +9,10 @@ package org.apache.commons;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import junit.framework.TestCase;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.framework.ExceptionUtil;
-import org.apache.avalon.framework.logger.ConsoleLogger;
-import org.apache.avalon.framework.logger.Logger;
 
 /**
  * A base class for VFS tests.  Provides utility methods for locating
@@ -28,7 +26,6 @@ public abstract class AbstractVfsTestCase
 {
     private final File m_testBaseDir;
     private final File m_baseDir;
-    private Logger m_logger;
 
     public AbstractVfsTestCase( final String name )
     {
@@ -148,18 +145,6 @@ public abstract class AbstractVfsTestCase
     }
 
     /**
-     * Creates a logger.
-     */
-    protected Logger getLogger()
-    {
-        if( m_logger == null )
-        {
-            m_logger = new ConsoleLogger( ConsoleLogger.LEVEL_DEBUG );
-        }
-        return m_logger;
-    }
-
-    /**
      * Asserts that an exception chain contains the expected messages.
      *
      * @param messages The messages, in order.  A null entry in this array
@@ -178,7 +163,23 @@ public abstract class AbstractVfsTestCase
             }
 
             // Get the next exception in the chain
-            current = ExceptionUtil.getCause( current, true );
+            current = getCause( current );
+        }
+    }
+
+    /**
+     * Returns the cause of an exception.
+     */
+    private Throwable getCause( Throwable throwable )
+    {
+        try
+        {
+            Method method = throwable.getClass().getMethod( "getCause", null );
+            return (Throwable)method.invoke( throwable, null );
+        }
+        catch ( Exception e )
+        {
+            return null;
         }
     }
 

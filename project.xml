@@ -80,15 +80,15 @@
     </dependency>
     
     <dependency>
+      <id>commons-logging</id>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
       <id>excalibur-i18n</id>
       <version>1.0</version>
     </dependency>
-    
-    <dependency>
-      <id>avalon-framework</id>
-      <version>4.0</version>
-    </dependency>
-    
+
     <dependency>
       <id>jcifs</id>
       <version>0.6.5</version>
