@@ -64,34 +64,13 @@ import org.apache.commons.vfs.NameScope;
  * Test cases for file naming.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/02/12 07:44:16 $
+ * @version $Revision: 1.3 $ $Date: 2003/02/21 13:18:17 $
  *
  * @todo Add tests for all FileName methods 
  */
 public class NamingTests
     extends AbstractProviderTestCase
 {
-    /**
-     * Tests resolution of absolute URI.
-     */
-    public void testAbsoluteURI() throws Exception
-    {
-        final FileObject readFolder = getReadFolder();
-
-        // Try fetching base folder again by its URI
-        final String uri = readFolder.getName().getURI();
-        FileObject file = getManager().resolveFile( uri );
-        assertSame( "file object", readFolder, file );
-
-        // Try fetching the filesystem root by its URI
-        final String rootUri = readFolder.getName().getRootURI();
-        file = getManager().resolveFile( rootUri );
-        assertSame( readFolder.getFileSystem().getRoot(), file );
-        assertEquals( rootUri, file.getName().getRootURI() );
-        assertEquals( rootUri, file.getName().getURI() );
-        assertEquals( FileName.ROOT_PATH, file.getName().getPath() );
-    }
-
     /**
      * Tests resolution of relative file names via the FS manager
      */

@@ -2,7 +2,7 @@
  *
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2003 The Apache Software Foundation.  All rights
+ * Copyright (c) 2003 The Apache Software Foundation.  All rights
  * reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,95 +53,47 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.test;
+package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestCase;
-import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.AbstractVfsTestCase;
-import java.io.File;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.Capability;
 
 /**
- * Additional junction test cases.
+ * Absolute URI test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/21 13:18:17 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/21 13:18:18 $
  */
-public class JunctionTests
+public class UriTests
     extends AbstractProviderTestCase
 {
-    private FileObject getBaseDir() throws FileSystemException
-    {
-        final File file = AbstractVfsTestCase.getTestDirectory();
-        assertTrue( file.exists() );
-        return getManager().toFileObject( file );
-    }
-    
     /**
-     * Checks nested junctions are not supported.
+     * Returns the capabilities required by the tests of this test case.
      */
-    public void testNestedJunction() throws Exception
+    protected Capability[] getRequiredCaps()
     {
-        final FileSystem fs = getManager().createFileSystem( "vfs:" ).getFileSystem();
-        final FileObject baseDir = getBaseDir();
-        fs.addJunction( "/a", baseDir );
-
-        // Nested
-        try
-        {
-            fs.addJunction( "/a/b", baseDir );
-            fail();
-        }
-        catch ( final Exception e )
-        {
-            assertSameMessage( "vfs.impl/nested-junction.error", "vfs:/a/b", e );
-        }
-
-        // At same point
-        try
-        {
-            fs.addJunction( "/a", baseDir );
-            fail();
-        }
-        catch ( final Exception e )
-        {
-            assertSameMessage( "vfs.impl/nested-junction.error", "vfs:/a", e );
-        }
+        return new Capability[]{Capability.URI};
     }
 
     /**
-     * Checks ancestors are created when a junction is created.
+     * Tests resolution of absolute URI.
      */
-    public void testAncestors() throws Exception
+    public void testAbsoluteURI() throws Exception
     {
-        final FileSystem fs = getManager().createFileSystem( "vfs://" ).getFileSystem();
-        final FileObject baseDir = getBaseDir();
+        final FileObject readFolder = getReadFolder();
 
-        // Make sure the file at the junction point and its ancestors do not exist
-        FileObject file = fs.resolveFile( "/a/b" );
-        assertFalse( file.exists() );
-        file = file.getParent();
-        assertFalse( file.exists() );
-        file = file.getParent();
-        assertFalse( file.exists() );
+        // Try fetching base folder again by its URI
+        final String uri = readFolder.getName().getURI();
+        FileObject file = getManager().resolveFile( uri );
+        assertSame( "file object", readFolder, file );
 
-        // Add the junction
-        fs.addJunction( "/a/b", baseDir );
-
-        // Make sure the file at the junction point and its ancestors exist
-        file = fs.resolveFile( "/a/b" );
-        assertTrue( "Does not exist", file.exists() );
-        file = file.getParent();
-        assertTrue( "Does not exist", file.exists() );
-        file = file.getParent();
-        assertTrue( "Does not exist", file.exists() );
+        // Try fetching the filesystem root by its URI
+        final String rootUri = readFolder.getName().getRootURI();
+        file = getManager().resolveFile( rootUri );
+        assertSame( readFolder.getFileSystem().getRoot(), file );
+        assertEquals( rootUri, file.getName().getRootURI() );
+        assertEquals( rootUri, file.getName().getURI() );
+        assertEquals( FileName.ROOT_PATH, file.getName().getPath() );
     }
-
-    // Check that file @ junction point exists only when backing file exists
-    // Add 2 junctions with common parent
-    // Compare real and virtual files
-    // Events
-    // Remove junctions
-
 }

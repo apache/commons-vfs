@@ -74,7 +74,7 @@ import org.apache.commons.AbstractVfsTestCase;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2003/02/21 05:13:59 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/21 13:18:18 $
  */
 public class ProviderTestSuite
     extends TestSetup
@@ -121,6 +121,7 @@ public class ProviderTestSuite
      */
     private void addBaseTests() throws Exception
     {
+        addTests( UriTests.class );
         addTests( NamingTests.class );
         addTests( ContentTests.class );
         addTests( ProviderReadTests.class );
