@@ -10,6 +10,9 @@
             <p>Commons VFS currently supports the following file systems:</p>
             <ul>
                 <li>
+                    <a href="#CIFS">CIFS</a>
+                </li>
+                <li>
                     <a href="#FTP">FTP</a>
                 </li>
                 <li>
@@ -17,9 +20,6 @@
                 </li>
                 <li>
                     <a href="#HTTP and HTTPS">HTTP and HTTPS</a>
-                </li>
-                <li>
-                    <a href="#CIFS">CIFS</a>
                 </li>
                 <li>
                     <a href="#SFTP">SFTP</a>
@@ -92,12 +92,13 @@
 
             <p><b>URI Format</b></p>
 
-            <p><code>http://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
-            <p><code>https://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>http://[<i>username</i>[:<i>password</i>]@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>https://[<i>username</i>[:<i>password</i>]@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
 
             <p><b>Examples</b></p>
             <ul>
                 <li><code>http://somehost:8080/downloads/somefile.jar</code></li>
+                <li><code>http://myusername@somehost/index.html</code></li>
             </ul>
         </section>
 
@@ -107,7 +108,7 @@
 
             <p><b>URI Format</b></p>
 
-            <p><code>webdav://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>webdav://[<i>username</i>[:<i>password</i>]@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
 
             <p><b>Examples</b></p>
             <ul>
@@ -121,11 +122,11 @@
 
             <p><b>URI Format</b></p>
 
-            <p><code>ftp://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>ftp://[<i>username</i>[:<i>password</i>]@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
 
             <p><b>Examples</b></p>
             <ul>
-                <li><code>ftp://mypassword:myusername@somehost/pub/downloads/somefile.tgz</code></li>
+                <li><code>ftp://myusername:mypassword@somehost/pub/downloads/somefile.tgz</code></li>
             </ul>
 
         </section>
@@ -139,12 +140,12 @@
 
             <p><b>URI Format</b></p>
 
-            <p><code>sftp://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>sftp://[<i>username</i>[:<i>password</i>]@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
 
             <p><b>Examples</b></p>
             <ul>
                 <li>
-                    <code>sftp://mypassword:myusername@somehost/pub/downloads/somefile.tgz</code>
+                    <code>sftp://myusername:mypassword@somehost/pub/downloads/somefile.tgz</code>
                 </li>
             </ul>
 
@@ -158,7 +159,7 @@
             </p>
             <p><b>URI Format</b></p>
 
-            <p><code>smb://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>smb://[<i>username</i>[:<i>password</i>]@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
 
             <p><b>Examples</b></p>
 
