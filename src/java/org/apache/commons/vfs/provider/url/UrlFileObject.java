@@ -68,9 +68,9 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/06/24 10:34:41 $
+ * @version $Revision: 1.8 $ $Date: 2003/06/28 10:54:28 $
  *
- * @todo Implement get/set lastModified and get/set attribute
+ * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()
  */
 class UrlFileObject
