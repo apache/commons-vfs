@@ -66,7 +66,6 @@ import java.security.PrivilegedExceptionAction;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -75,6 +74,7 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.Selectors;
 
 /**
  * A partial file object implementation.
@@ -433,6 +433,7 @@ public abstract class AbstractFileObject
         {
             if ( fs.getParentLayer() != null )
             {
+                // Return the parent of the parent layer
                 return fs.getParentLayer().getParent();
             }
             else
@@ -554,7 +555,7 @@ public abstract class AbstractFileObject
      */
     private void deleteSelf() throws FileSystemException
     {
-        if ( exists() && !isWriteable() )
+        if ( !isWriteable() )
         {
             throw new FileSystemException( "vfs.provider/delete-read-only.error", name );
         }
@@ -574,7 +575,17 @@ public abstract class AbstractFileObject
         }
 
         // Update cached info
-        updateType();
+        handleDelete();
+    }
+
+    /**
+     * Deletes this file.
+     *
+     * @todo This will not fail if this is a non-empty folder.
+     */
+    public void delete() throws FileSystemException
+    {
+        delete( Selectors.SELECT_SELF );
     }
 
     /**
@@ -603,6 +614,7 @@ public abstract class AbstractFileObject
             // If the file is a folder, make sure all its children have been deleted
             if ( file.type == FileType.FOLDER && file.getChildren().length != 0 )
             {
+                // TODO - fail??
                 // Skip
                 continue;
             }
@@ -613,13 +625,33 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Creates this file, if it does not exist.  Also creates any ancestor
+     * Creates this file, if it does not exist.
+     */
+    public void createFile() throws FileSystemException
+    {
+        try
+        {
+            getOutputStream().close();
+            endOutput();
+        }
+        catch ( final RuntimeException re )
+        {
+            throw re;
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/create-file.error", name, e );
+        }
+    }
+
+    /**
+     * Creates this folder, if it does not exist.  Also creates any ancestor
      * files which do not exist.
      */
-    public void create( FileType type ) throws FileSystemException
+    public void createFolder() throws FileSystemException
     {
         attach();
-        if ( this.type == type )
+        if ( this.type == FileType.FOLDER )
         {
             // Already exists as correct type
             return;
@@ -637,35 +669,25 @@ public abstract class AbstractFileObject
         FileObject parent = getParent();
         if ( parent != null )
         {
-            parent.create( FileType.FOLDER );
+            parent.createFolder();
         }
 
         // Create the folder
         try
         {
-            if ( type == FileType.FOLDER )
-            {
-                doCreateFolder();
-                children = EMPTY_FILE_ARRAY;
-            }
-            else if ( type == FileType.FILE )
-            {
-                OutputStream outStr = doGetOutputStream();
-                outStr.close();
-                endOutput();
-            }
+            doCreateFolder();
         }
-        catch ( RuntimeException re )
+        catch ( final RuntimeException re )
         {
             throw re;
         }
-        catch ( Exception exc )
+        catch ( final Exception exc )
         {
-            throw new FileSystemException( "vfs.provider/create.error", new Object[]{type, name}, exc );
+            throw new FileSystemException( "vfs.provider/create-folder.error", name, exc );
         }
 
         // Update cached info
-        updateType();
+        handleCreate( FileType.FOLDER );
     }
 
     /**
@@ -713,7 +735,7 @@ public abstract class AbstractFileObject
             }
             else
             {
-                destFile.create( FileType.FOLDER );
+                destFile.createFolder();
             }
         }
     }
@@ -750,19 +772,31 @@ public abstract class AbstractFileObject
                                      final FileObject destFile )
         throws FileSystemException
     {
-        InputStream instr = null;
-        OutputStream outstr = null;
         try
         {
-            instr = srcFile.getContent().getInputStream();
-            // Create the output stream via getContent(), to pick up the
-            // validation it does
-            outstr = destFile.getContent().getOutputStream();
-            final byte[] buffer = new byte[ 1024 * 4 ];
-            int n = 0;
-            while ( -1 != ( n = instr.read( buffer ) ) )
+            final InputStream instr = srcFile.getContent().getInputStream();
+            try
             {
-                outstr.write( buffer, 0, n );
+                // Create the output stream via getContent(), to pick up the
+                // validation it does
+                final OutputStream outstr = destFile.getContent().getOutputStream();
+                try
+                {
+                    final byte[] buffer = new byte[ 1024 * 4 ];
+                    int n = 0;
+                    while ( -1 != ( n = instr.read( buffer ) ) )
+                    {
+                        outstr.write( buffer, 0, n );
+                    }
+                }
+                finally
+                {
+                    outstr.close();
+                }
+            }
+            finally
+            {
+                instr.close();
             }
         }
         catch ( RuntimeException re )
@@ -772,31 +806,6 @@ public abstract class AbstractFileObject
         catch ( final Exception exc )
         {
             throw new FileSystemException( "vfs.provider/copy-file.error", new Object[]{srcFile, destFile}, exc );
-        }
-        finally
-        {
-            if ( instr != null )
-            {
-                try
-                {
-                    instr.close();
-                }
-                catch ( final Exception exc )
-                {
-                    //ignore
-                }
-            }
-            if ( outstr != null )
-            {
-                try
-                {
-                    outstr.close();
-                }
-                catch ( final Exception exc )
-                {
-                    //ignore
-                }
-            }
         }
     }
 
@@ -842,13 +851,7 @@ public abstract class AbstractFileObject
         }
 
         // Detach from the file
-        if ( attached )
-        {
-            doDetach();
-            attached = false;
-            type = null;
-            children = null;
-        }
+        detach();
 
         if ( exc != null )
         {
@@ -879,7 +882,7 @@ public abstract class AbstractFileObject
             FileObject parent = getParent();
             if ( parent != null )
             {
-                parent.create( FileType.FOLDER );
+                parent.createFolder();
             }
         }
 
@@ -888,10 +891,6 @@ public abstract class AbstractFileObject
         {
             return doGetOutputStream();
         }
-        catch ( FileSystemException exc )
-        {
-            throw exc;
-        }
         catch ( RuntimeException re )
         {
             throw re;
@@ -899,6 +898,21 @@ public abstract class AbstractFileObject
         catch ( Exception exc )
         {
             throw new FileSystemException( "vfs.provider/write.error", new Object[]{name}, exc );
+        }
+    }
+
+    /**
+     * Detaches this file, invaliating all cached info.  This will force
+     * a call to {@link #doAttach} next time this file is used.
+     */
+    protected void detach()
+    {
+        if ( attached )
+        {
+            doDetach();
+            attached = false;
+            type = null;
+            children = null;
         }
     }
 
@@ -919,10 +933,6 @@ public abstract class AbstractFileObject
             attached = true;
             type = doGetType();
         }
-        catch ( FileSystemException exc )
-        {
-            throw exc;
-        }
         catch ( RuntimeException re )
         {
             throw re;
@@ -931,31 +941,56 @@ public abstract class AbstractFileObject
         {
             throw new FileSystemException( "vfs.provider/get-type.error", new Object[]{name}, exc );
         }
-
     }
 
     /**
      * Called when the ouput stream for this file is closed.
      */
-    public void endOutput() throws Exception
+    protected void endOutput() throws Exception
     {
-        updateType();
+        boolean newFile = ( type == null );
+
         doEndOutput();
+
+        if ( newFile )
+        {
+            // File was created
+            handleCreate( FileType.FILE );
+        }
     }
 
     /**
-     * Update cached info when this file's type changes.
+     * Called when this file is created.  Updates cached info and notifies
+     * the parent and file system.
      */
-    private void updateType()
+    private void handleCreate( final FileType newType )
     {
+        // Fix up state
+        type = newType;
+        children = EMPTY_FILE_ARRAY;
+
         // Notify parent that its child list may no longer be valid
         notifyParent();
 
-        // Detach
-        doDetach();
-        attached = false;
+        // Notify the file system
+        fs.fireFileCreated( this );
+    }
+
+    /**
+     * Called when this file is deleted.  Updates cached info and notifies
+     * subclasses, parent and file system.
+     */
+    private void handleDelete()
+    {
+        // Fix up state
         type = null;
         children = null;
+
+        // Notify parent that its child list may no longer be valid
+        notifyParent();
+
+        // Notify the file system
+        fs.fireFileDeleted( this );
     }
 
     /**
@@ -978,6 +1013,7 @@ public abstract class AbstractFileObject
 
     /**
      * Notifies a file that children have been created or deleted.
+     * @todo Indicate whether the child was added or removed, and which child.
      */
     private void invalidateChildren()
     {
@@ -1014,10 +1050,10 @@ public abstract class AbstractFileObject
     /**
      * Traverses a file.
      */
-    private void traverse( final DefaultFileSelectorInfo fileInfo,
-                           final FileSelector selector,
-                           final boolean depthwise,
-                           final List selected )
+    private static void traverse( final DefaultFileSelectorInfo fileInfo,
+                                  final FileSelector selector,
+                                  final boolean depthwise,
+                                  final List selected )
         throws Exception
     {
         // Check the file itself

@@ -218,6 +218,8 @@ final class FtpFileObject
         {
             throw new FileSystemException( "vfs.provider.ftp/delete-file.error", getName() );
         }
+        fileInfo = null;
+        children = EMPTY_FTP_FILE_ARRAY;
     }
 
     /**
@@ -230,6 +232,7 @@ final class FtpFileObject
         {
             throw new FileSystemException( "vfs.provider.ftp/create-folder.error", getName() );
         }
+        detach();
     }
 
     /**
@@ -279,5 +282,6 @@ final class FtpFileObject
         {
             throw new FileSystemException( "vfs.provider.ftp/finish-put.error", getName() );
         }
+        detach();
     }
 }

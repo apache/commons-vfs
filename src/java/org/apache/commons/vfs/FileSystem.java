@@ -61,7 +61,7 @@ package org.apache.commons.vfs;
  * <p>A file system can also implement {@link org.apache.commons.vfs.provider.VfsComponent}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 11:59:39 $
+ * @version $Revision: 1.5 $ $Date: 2002/10/25 03:59:09 $
  */
 public interface FileSystem
 {
@@ -136,4 +136,20 @@ public interface FileSystem
      * @return The file.  Never returns null.
      */
     FileObject resolveFile( String name ) throws FileSystemException;
+
+    /**
+     * Adds a listener on a file in this file system.
+     *
+     * @param file The file to attach the listener to.
+     * @param listener The listener to add.
+     */
+    void addListener( FileObject file, FileListener listener );
+
+    /**
+     * Removes a listener from a file in this file system.
+     *
+     * @param file The file to remove the listener from.
+     * @param listener The listener to remove.
+     */
+    void removeListener( FileObject file, FileListener listener );
 }

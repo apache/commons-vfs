@@ -53,55 +53,28 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.tasks;
-
-import org.apache.tools.ant.BuildException;
-import org.apache.commons.vfs.util.Messages;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystemException;
+package org.apache.commons.vfs;
 
 /**
- * An Ant task that creates a directory.
+ * An event fired when a file is changed.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/25 03:59:10 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/25 03:59:09 $
  */
-public class MkdirTask
-    extends VfsTask
+public class FileChangeEvent
 {
-    private String dirName;
+    private final FileObject file;
 
-    /**
-     * Sets the directory to create.
-     * @param dir
-     */
-    public void setDir( final String dir )
+    public FileChangeEvent( final FileObject file )
     {
-        dirName = dir;
+        this.file = file;
     }
 
     /**
-     * Executes the task.
+     * Returns the file that changed.
      */
-    public void execute() throws BuildException
+    public FileObject getFile()
     {
-        if ( dirName == null )
-        {
-            final String message = Messages.getString( "vfs.tasks/no-directory-specified.error" );
-            throw new BuildException( message );
-        }
-
-        try
-        {
-            final FileObject dir = resolveFile( dirName );
-            final String message = Messages.getString( "vfs.tasks/mkdir.create-folder.info", dir );
-            log( message );
-            dir.createFolder();
-        }
-        catch ( final FileSystemException e )
-        {
-            throw new BuildException( e );
-        }
+        return file;
     }
 }

@@ -79,7 +79,7 @@ import org.apache.tools.ant.Project;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/24 02:11:03 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/25 03:59:10 $
  *
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
@@ -191,7 +191,7 @@ public abstract class AbstractSyncTask
     {
         // Locate the destination folder, and make sure it exists
         final FileObject destFolder = resolveFile( destDirUrl );
-        destFolder.create( FileType.FOLDER );
+        destFolder.createFolder();
 
         // Locate the source files, and make sure they exist
         final ArrayList srcs = new ArrayList();

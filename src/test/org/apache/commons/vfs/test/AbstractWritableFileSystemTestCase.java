@@ -58,10 +58,14 @@ package org.apache.commons.vfs.test;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.ArrayList;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileListener;
+import org.apache.commons.vfs.FileChangeEvent;
 
 /**
  * File system test that check that a file system can be modified.
@@ -90,7 +94,7 @@ public abstract class AbstractWritableFileSystemTestCase
 
         // Make sure the test folder is empty
         scratchFolder.delete( Selectors.EXCLUDE_SELF );
-        scratchFolder.create( FileType.FOLDER );
+        scratchFolder.createFolder();
 
         return scratchFolder;
     }
@@ -105,7 +109,7 @@ public abstract class AbstractWritableFileSystemTestCase
         // Create direct child of the test folder
         FileObject folder = scratchFolder.resolveFile( "dir1" );
         assertTrue( !folder.exists() );
-        folder.create( FileType.FOLDER );
+        folder.createFolder();
         assertTrue( folder.exists() );
         assertSame( FileType.FOLDER, folder.getType() );
         assertEquals( 0, folder.getChildren().length );
@@ -115,7 +119,7 @@ public abstract class AbstractWritableFileSystemTestCase
         assertTrue( !folder.exists() );
         assertTrue( !folder.getParent().exists() );
         assertTrue( !folder.getParent().getParent().exists() );
-        folder.create( FileType.FOLDER );
+        folder.createFolder();
         assertTrue( folder.exists() );
         assertSame( FileType.FOLDER, folder.getType() );
         assertEquals( 0, folder.getChildren().length );
@@ -124,7 +128,7 @@ public abstract class AbstractWritableFileSystemTestCase
 
         // Test creating a folder that already exists
         assertTrue( folder.exists() );
-        folder.create( FileType.FOLDER );
+        folder.createFolder();
     }
 
     /**
@@ -137,7 +141,7 @@ public abstract class AbstractWritableFileSystemTestCase
         // Create direct child of the test folder
         FileObject file = scratchFolder.resolveFile( "file1.txt" );
         assertTrue( !file.exists() );
-        file.create( FileType.FILE );
+        file.createFile();
         assertTrue( file.exists() );
         assertSame( FileType.FILE, file.getType() );
         assertEquals( 0, file.getContent().getSize() );
@@ -147,7 +151,7 @@ public abstract class AbstractWritableFileSystemTestCase
         assertTrue( !file.exists() );
         assertTrue( !file.getParent().exists() );
         assertTrue( !file.getParent().getParent().exists() );
-        file.create( FileType.FILE );
+        file.createFile();
         assertTrue( file.exists() );
         assertSame( FileType.FILE, file.getType() );
         assertEquals( 0, file.getContent().getSize() );
@@ -156,7 +160,7 @@ public abstract class AbstractWritableFileSystemTestCase
 
         // Test creating a file that already exists
         assertTrue( file.exists() );
-        file.create( FileType.FILE );
+        file.createFile();
     }
 
     /**
@@ -168,17 +172,17 @@ public abstract class AbstractWritableFileSystemTestCase
 
         // Create a test file and folder
         FileObject file = scratchFolder.resolveFile( "dir1/file1.txt" );
-        file.create( FileType.FILE );
+        file.createFile();
         assertEquals( FileType.FILE, file.getType() );
 
         FileObject folder = scratchFolder.resolveFile( "dir1/dir2" );
-        folder.create( FileType.FOLDER );
+        folder.createFolder();
         assertEquals( FileType.FOLDER, folder.getType() );
 
         // Attempt to create a file that already exists as a folder
         try
         {
-            folder.create( FileType.FILE );
+            folder.createFile();
             fail();
         }
         catch( FileSystemException exc )
@@ -188,7 +192,7 @@ public abstract class AbstractWritableFileSystemTestCase
         // Attempt to create a folder that already exists as a file
         try
         {
-            file.create( FileType.FOLDER );
+            file.createFolder();
             fail();
         }
         catch( FileSystemException exc )
@@ -199,7 +203,7 @@ public abstract class AbstractWritableFileSystemTestCase
         FileObject folder2 = file.resolveFile( "some-child" );
         try
         {
-            folder2.create( FileType.FOLDER );
+            folder2.createFolder();
             fail();
         }
         catch( FileSystemException exc )
@@ -214,10 +218,10 @@ public abstract class AbstractWritableFileSystemTestCase
     {
         // Set-up the test structure
         FileObject folder = createScratchFolder();
-        folder.resolveFile( "file1.txt" ).create( FileType.FILE );
-        folder.resolveFile( "emptydir" ).create( FileType.FOLDER );
-        folder.resolveFile( "dir1/file1.txt" ).create( FileType.FILE );
-        folder.resolveFile( "dir1/dir2/file2.txt" ).create( FileType.FILE );
+        folder.resolveFile( "file1.txt" ).createFile();
+        folder.resolveFile( "emptydir" ).createFolder();
+        folder.resolveFile( "dir1/file1.txt" ).createFile();
+        folder.resolveFile( "dir1/dir2/file2.txt" ).createFile();
 
         // Delete a file
         FileObject file = folder.resolveFile( "file1.txt" );
@@ -259,17 +263,17 @@ public abstract class AbstractWritableFileSystemTestCase
         assertEquals( 0, folder.getChildren().length );
 
         // Create a child folder
-        folder.resolveFile( "dir1" ).create( FileType.FOLDER );
+        folder.resolveFile( "dir1" ).createFolder();
         names.add( "dir1" );
         assertSameFileSet( names, folder.getChildren() );
 
         // Create a child file
-        folder.resolveFile( "file1.html" ).create( FileType.FILE );
+        folder.resolveFile( "file1.html" ).createFile();
         names.add( "file1.html" );
         assertSameFileSet( names, folder.getChildren() );
 
         // Create a descendent
-        folder.resolveFile( "dir2/file1.txt" ).create( FileType.FILE );
+        folder.resolveFile( "dir2/file1.txt" ).createFile();
         names.add( "dir2" );
         assertSameFileSet( names, folder.getChildren() );
 
@@ -291,8 +295,68 @@ public abstract class AbstractWritableFileSystemTestCase
 
         // Recreate the folder
         folder.delete( Selectors.SELECT_ALL );
-        folder.create( FileType.FOLDER );
+        folder.createFolder();
         assertEquals( 0, folder.getChildren().length );
+    }
+
+    /**
+     * Check listeners are notified of changes.
+     */
+    public void testListener() throws Exception
+    {
+        final FileObject baseFile = createScratchFolder();
+
+        FileObject child = baseFile.resolveFile( "newfile.txt" );
+        assertTrue( !child.exists() );
+
+        FileSystem fs = baseFile.getFileSystem();
+        TestListener listener = new TestListener( child );
+        fs.addListener( child, listener );
+
+        // Create as a folder
+        listener.addCreateEvent();
+        child.createFolder();
+        listener.assertFinished();
+
+        // Create the folder again.  Should not get an event.
+        child.createFolder();
+
+        // Delete
+        listener.addDeleteEvent();
+        child.delete();
+        listener.assertFinished();
+
+        // Delete again.  Should not get an event
+        child.delete();
+
+        // Create as a file
+        listener.addCreateEvent();
+        child.createFile();
+        listener.assertFinished();
+
+        // Create the file again.  Should not get an event
+        child.createFile();
+
+        listener.addDeleteEvent();
+        child.delete();
+
+        // Create as a file, by writing to it.
+        listener.addCreateEvent();
+        child.getContent().getOutputStream().close();
+        listener.assertFinished();
+
+        // Recreate the file by writing to it
+        child.getContent().getOutputStream().close();
+
+        // Copy another file over the top
+        final FileObject otherChild = baseFile.resolveFile( "folder1" );
+        otherChild.createFolder();
+        listener.addDeleteEvent();
+        listener.addCreateEvent();
+        child.copyFrom( otherChild, Selectors.SELECT_SELF );
+        listener.assertFinished();
+
+        fs.removeListener( child, listener );
     }
 
     /**
@@ -308,6 +372,72 @@ public abstract class AbstractWritableFileSystemTestCase
         {
             FileObject file = files[ i ];
             assertTrue( names.contains( file.getName().getBaseName() ) );
+        }
+    }
+
+    /**
+     * A test listener.
+     */
+    private static class TestListener
+        implements FileListener
+    {
+        private final FileObject file;
+        private final ArrayList events = new ArrayList();
+        private static final Object CREATE = "create";
+        private static final Object DELETE = "delete";
+
+        public TestListener( final FileObject file )
+        {
+            this.file = file;
+        }
+
+        /**
+         * Called when a file is created.
+         */
+        public void fileCreated( final FileChangeEvent event )
+        {
+            assertTrue( events.size() > 0 && events.remove( 0 ) == CREATE );
+            assertSame( file, event.getFile() );
+            try
+            {
+                assertTrue( file.exists() );
+            }
+            catch ( FileSystemException e )
+            {
+                fail();
+            }
+        }
+
+        /**
+         * Called when a file is deleted.
+         */
+        public void fileDeleted( final FileChangeEvent event )
+        {
+            assertTrue( events.size() > 0 && events.remove( 0 ) == DELETE );
+            assertSame( file, event.getFile() );
+            try
+            {
+                assertTrue( !file.exists() );
+            }
+            catch ( FileSystemException e )
+            {
+                fail();
+            }
+        }
+
+        public void addCreateEvent()
+        {
+            events.add( CREATE );
+        }
+
+        public void addDeleteEvent()
+        {
+            events.add( DELETE );
+        }
+
+        public void assertFinished()
+        {
+            assertEquals( "Missing event", 0, events.size() );
         }
     }
 }

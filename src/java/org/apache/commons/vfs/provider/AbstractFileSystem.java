@@ -57,10 +57,13 @@ package org.apache.commons.vfs.provider;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileListener;
+import org.apache.commons.vfs.FileChangeEvent;
 
 /**
  * A partial {@link org.apache.commons.vfs.FileSystem} implementation.
@@ -78,6 +81,9 @@ public abstract class AbstractFileSystem
 
     /** Map from FileName to FileObject. */
     private final Map files = new HashMap();
+
+    /** Map from FileName to an ArrayList of listeners for that file. */
+    private final Map listenerMap = new HashMap();
 
     protected AbstractFileSystem( final FileName rootName,
                                   final FileObject parentLayer )
@@ -119,7 +125,7 @@ public abstract class AbstractFileSystem
      * Retrieves the attribute with the specified name. The default
      * implementation simply throws an exception.
      */
-    public Object getAttribute( String attrName ) throws FileSystemException
+    public Object getAttribute( final String attrName ) throws FileSystemException
     {
         throw new FileSystemException( "vfs.provider/get-attribute-not-supported.error" );
     }
@@ -128,7 +134,7 @@ public abstract class AbstractFileSystem
      * Sets the attribute with the specified name. The default
      * implementation simply throws an exception.
      */
-    public void setAttribute( String attrName, Object value )
+    public void setAttribute( final String attrName, final Object value )
         throws FileSystemException
     {
         throw new FileSystemException( "vfs.provider/set-attribute-not-supported.error" );
@@ -177,5 +183,69 @@ public abstract class AbstractFileSystem
             files.put( name, file );
         }
         return file;
+    }
+
+    /**
+     * Adds a listener on a file in this file system.
+     */
+    public void addListener( final FileObject file,
+                             final FileListener listener )
+    {
+        ArrayList listeners = (ArrayList)listenerMap.get( file.getName() );
+        if ( listeners == null )
+        {
+            listeners = new ArrayList();
+            listenerMap.put( file.getName(), listeners );
+        }
+        listeners.add( listener );
+    }
+
+    /**
+     * Removes a listener from a file in this file system.
+     */
+    public void removeListener( final FileObject file,
+                                final FileListener listener )
+    {
+        final ArrayList listeners = (ArrayList)listenerMap.get( file.getName() );
+        if ( listeners != null )
+        {
+            listeners.remove( listener );
+        }
+    }
+
+    /**
+     * Fires a file create event.
+     */
+    protected void fireFileCreated( final FileObject file )
+    {
+        final FileChangeEvent event = new FileChangeEvent( file );
+        final ArrayList listeners = (ArrayList)listenerMap.get( file.getName() );
+        if ( listeners != null )
+        {
+            final int count = listeners.size();
+            for ( int i = 0; i < count; i++ )
+            {
+                final FileListener listener = (FileListener)listeners.get( i );
+                listener.fileCreated( event );
+            }
+        }
+    }
+
+    /**
+     * Fires a file delete event.
+     */
+    protected void fireFileDeleted( final FileObject file )
+    {
+        final FileChangeEvent event = new FileChangeEvent( file );
+        final ArrayList listeners = (ArrayList)listenerMap.get( file.getName() );
+        if ( listeners != null )
+        {
+            final int count = listeners.size();
+            for ( int i = 0; i < count; i++ )
+            {
+                final FileListener listener = (FileListener)listeners.get( i );
+                listener.fileDeleted( event );
+            }
+        }
     }
 }

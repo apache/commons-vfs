@@ -84,11 +84,11 @@ import java.util.List;
  *
  * <h4>Creating and Deleting a File</h4>
  *
- * <p>A file is created using either {@link #create}, or by writing to the
- * file using one of the {@link FileContent} methods.
+ * <p>A file is created using either {@link #createFolder}, {@link #create},
+ * or by writing to the file using one of the {@link FileContent} methods.
  *
- * <p>A file is deleted using {@link #delete}.  Deletion is recursive, so
- * that when a folder is deleted, so are all its child files.
+ * <p>A file is deleted using {@link #delete}.  Recursive deletion can be
+ * done using {@link #delete(FileSelector)}.
  *
  * <h4>Finding Files</h4>
  *
@@ -261,8 +261,19 @@ public interface FileObject
     List findFiles( FileSelector selector ) throws FileSystemException;
 
     /**
-     * Deletes this file, and all descendents.  Does nothing if the file
-     * does not exist.
+     * Deletes this file.  Does nothing if this file does not exist.  Does
+     * not delete any descendents of this file, use {@link #delete(FileSelector)}
+     * for that.
+     *
+     * @throws FileSystemException
+     *      If this file is a non-empty folder, or if this file is read-only,
+     *      or on error deleteing this file.
+     */
+    void delete() throws FileSystemException;
+
+    /**
+     * Deletes all descendents of this file that match a selector.  Does
+     * nothing if this file does not exist.
      *
      * <p>This method is not transactional.  If it fails and throws an
      * exception, this file will potentially only be partially deleted.
@@ -276,19 +287,28 @@ public interface FileObject
     void delete( FileSelector selector ) throws FileSystemException;
 
     /**
+     * Creates this folder, if it does not exist.  Also creates any ancestor
+     * folders which do not exist.  This method does nothing if the folder
+     * already exists.
+     *
+     * @throws FileSystemException
+     *      If the folder already exists with the wrong type, or the parent
+     *      folder is read-only, or on error creating this folder or one of
+     *      its ancestors.
+     */
+    void createFolder() throws FileSystemException;
+
+    /**
      * Creates this file, if it does not exist.  Also creates any ancestor
      * folders which do not exist.  This method does nothing if the file
-     * already exists with the requested type.
-     *
-     * @param type
-     *      The type of file to create.
+     * already exists and is a file.
      *
      * @throws FileSystemException
      *      If the file already exists with the wrong type, or the parent
      *      folder is read-only, or on error creating this file or one of
      *      its ancestors.
      */
-    void create( FileType type ) throws FileSystemException;
+    void createFile() throws FileSystemException;
 
     /**
      * Copies another file, and all its descendents, to this file.
