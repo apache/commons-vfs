@@ -55,18 +55,18 @@
  */
 package org.apache.commons.vfs.provider.smb.test;
 
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.smb.SmbFileName;
-import org.apache.commons.vfs.test.AbstractProviderTestCase;
 
 /**
  * Some additional SMB file name test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/12 07:44:56 $
+ * @version $Revision: 1.1 $ $Date: 2003/02/15 00:14:45 $
  */
-public class FileNameTests
-    extends AbstractProviderTestCase
+public class FileNameTestCase
+    extends AbstractVfsTestCase
 {
     /**
      * Tests parsing a URI into its parts.
@@ -76,7 +76,8 @@ public class FileNameTests
         // Simple name
         SmbFileName name = SmbFileName.parseUri( "smb://hostname/share/file" );
         assertEquals( "smb", name.getScheme() );
-        assertNull( name.getUserInfo() );
+        assertNull( name.getUserName() );
+        assertNull( name.getPassword() );
         assertEquals( "hostname", name.getHostName() );
         assertEquals( 139, name.getPort() );
         assertEquals( name.getDefaultPort(), name.getPort() );
@@ -88,7 +89,8 @@ public class FileNameTests
         // Name with port
         name = SmbFileName.parseUri( "smb://hostname:9090/share/file" );
         assertEquals( "smb", name.getScheme() );
-        assertNull( name.getUserInfo() );
+        assertNull( name.getUserName() );
+        assertNull( name.getPassword() );
         assertEquals( "hostname", name.getHostName() );
         assertEquals( 9090, name.getPort() );
         assertEquals( "share", name.getShare() );
@@ -99,7 +101,8 @@ public class FileNameTests
         // Name with no path
         name = SmbFileName.parseUri( "smb://hostname/share" );
         assertEquals( "smb", name.getScheme() );
-        assertNull( name.getUserInfo() );
+        assertNull( name.getUserName() );
+        assertNull( name.getPassword() );
         assertEquals( "hostname", name.getHostName() );
         assertEquals( 139, name.getPort() );
         assertEquals( "share", name.getShare() );
@@ -110,7 +113,8 @@ public class FileNameTests
         // Name with username
         name = SmbFileName.parseUri( "smb://user@hostname/share/file" );
         assertEquals( "smb", name.getScheme() );
-        assertEquals( "user", name.getUserInfo() );
+        assertEquals( "user", name.getUserName() );
+        assertNull( name.getPassword() );
         assertEquals( "hostname", name.getHostName() );
         assertEquals( 139, name.getPort() );
         assertEquals( "share", name.getShare() );

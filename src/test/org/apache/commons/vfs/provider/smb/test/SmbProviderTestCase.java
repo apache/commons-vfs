@@ -75,9 +75,7 @@ public class SmbProviderTestCase
 {
     public static Test suite() throws Exception
     {
-        final ProviderTestSuite suite = new ProviderTestSuite( new SmbProviderTestCase() );
-        suite.addTests( FileNameTests.class );
-        return suite;
+        return new ProviderTestSuite( new SmbProviderTestCase() );
     }
 
     /**
