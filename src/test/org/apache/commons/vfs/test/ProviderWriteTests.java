@@ -537,13 +537,13 @@ public class ProviderWriteTests
     /**
      * A test listener.
      */
-    private static class TestListener
-        implements FileListener
+    private static class TestListener implements FileListener
     {
         private final FileObject file;
         private final ArrayList events = new ArrayList();
         private static final Object CREATE = "create";
         private static final Object DELETE = "delete";
+        private static final Object CHANGED = "changed";
 
         public TestListener(final FileObject file)
         {
@@ -575,6 +575,21 @@ public class ProviderWriteTests
         {
             assertTrue("Unexpected delete event", events.size() > 0);
             assertSame("Expecting a delete event", DELETE, events.remove(0));
+            assertSame(file, event.getFile());
+            try
+            {
+                assertTrue(!file.exists());
+            }
+            catch (FileSystemException e)
+            {
+                fail();
+            }
+        }
+
+        public void fileChanged(FileChangeEvent event) throws Exception
+        {
+            assertTrue("Unexpected changed event", events.size() > 0);
+            assertSame("Expecting a changed event", CHANGED, events.remove(0));
             assertSame(file, event.getFile());
             try
             {

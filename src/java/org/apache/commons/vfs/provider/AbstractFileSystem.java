@@ -18,7 +18,6 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -29,6 +28,10 @@ import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.VfsLog;
+import org.apache.commons.vfs.events.AbstractFileChangeEvent;
+import org.apache.commons.vfs.events.ChangedEvent;
+import org.apache.commons.vfs.events.CreateEvent;
+import org.apache.commons.vfs.events.DeleteEventAbstractFile;
 import org.apache.commons.vfs.util.Messages;
 
 import java.io.File;
@@ -250,13 +253,26 @@ public abstract class AbstractFileSystem
      */
     public synchronized FileObject resolveFile(final FileName name) throws FileSystemException
     {
+        return resolveFile(name, true);
+    }
+
+    public synchronized FileObject resolveFile(final FileName name, final boolean useCache) throws FileSystemException
+    {
         if (!rootName.getRootURI().equals(name.getRootURI()))
         {
             throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error", new Object[]{name, rootName});
         }
 
         // imario@apache.org ==> use getFileFromCache
-        FileObject file = getFileFromCache(name);
+        FileObject file;
+        if (useCache)
+        {
+            file = getFileFromCache(name);
+        }
+        else
+        {
+            file = null;
+        }
         // FileObject file = (FileObject) files.get(name);
         if (file == null)
         {
@@ -273,7 +289,10 @@ public abstract class AbstractFileSystem
             }
 
             // imario@apache.org ==> use putFileToCache
-            putFileToCache(file);
+            if (useCache)
+            {
+                putFileToCache(file);
+            }
             // files.put(name, file);
         }
         return file;
@@ -393,7 +412,7 @@ public abstract class AbstractFileSystem
     /**
      * Fires a file create event.
      */
-    protected void fireFileCreated(final FileObject file)
+    public void fireFileCreated(final FileObject file)
     {
         fireEvent(new CreateEvent(file));
     }
@@ -401,9 +420,18 @@ public abstract class AbstractFileSystem
     /**
      * Fires a file delete event.
      */
-    protected void fireFileDeleted(final FileObject file)
+    public void fireFileDeleted(final FileObject file)
     {
-        fireEvent(new DeleteEvent(file));
+        fireEvent(new DeleteEventAbstractFile(file));
+    }
+
+    /**
+     * Fires a file changed event. <br />
+     * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
+     */
+    public void fireFileChanged(final FileObject file)
+    {
+        fireEvent(new ChangedEvent(file));
     }
 
     /**
@@ -422,7 +450,7 @@ public abstract class AbstractFileSystem
     /**
      * Fires an event.
      */
-    private void fireEvent(final ChangeEvent event)
+    private void fireEvent(final AbstractFileChangeEvent event)
     {
         synchronized (listenerMap)
         {
@@ -468,50 +496,5 @@ public abstract class AbstractFileSystem
     FileSystemKey getCacheKey()
     {
         return this.cacheKey;
-    }
-
-    /**
-     * A change event that knows how to notify a listener.
-     */
-    private abstract static class ChangeEvent extends FileChangeEvent
-    {
-        public ChangeEvent(final FileObject file)
-        {
-            super(file);
-        }
-
-        public abstract void notify(final FileListener listener) throws Exception;
-    }
-
-    /**
-     * File creation event.
-     */
-    private static class CreateEvent extends ChangeEvent
-    {
-        public CreateEvent(final FileObject file)
-        {
-            super(file);
-        }
-
-        public void notify(final FileListener listener) throws Exception
-        {
-            listener.fileCreated(this);
-        }
-    }
-
-    /**
-     * File deletion event.
-     */
-    private static class DeleteEvent extends ChangeEvent
-    {
-        public DeleteEvent(final FileObject file)
-        {
-            super(file);
-        }
-
-        public void notify(final FileListener listener) throws Exception
-        {
-            listener.fileDeleted(this);
-        }
     }
 }

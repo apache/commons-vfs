@@ -1273,6 +1273,16 @@ public abstract class AbstractFileObject
     }
 
     /**
+     * Called when this file is changed.<br />
+     * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
+     */
+    protected void handleChanged() throws Exception
+    {
+        // Notify the file system
+        fs.fireFileChanged(this);
+    }
+
+    /**
      * Notifies the file that its children have changed.
      *
      * @todo Indicate whether the child was added or removed, and which child.

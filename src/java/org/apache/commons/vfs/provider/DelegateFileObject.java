@@ -34,7 +34,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Revision: 1.13 $ $Date: 2004/05/10 20:09:43 $
+ * @version $Revision: 1.14 $ $Date: 2004/10/11 19:27:53 $
  * @todo Extract subclass that overlays the children
  */
 public class DelegateFileObject
@@ -308,6 +308,19 @@ public class DelegateFileObject
         if (!ignoreEvent)
         {
             handleDelete();
+        }
+    }
+
+    /**
+     * Called when a file is changed.
+     * <p/>
+     * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
+     */
+    public void fileChanged(FileChangeEvent event) throws Exception
+    {
+        if (!ignoreEvent)
+        {
+            handleChanged();
         }
     }
 }

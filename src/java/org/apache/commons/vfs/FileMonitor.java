@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,26 +16,20 @@
 package org.apache.commons.vfs;
 
 /**
- * Listens for changes to a file.
+ * FileMonitor interface
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/10/11 19:27:53 $
+ * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @version $Revision: 1.1 $ $Date: 2004/10/11 19:27:53 $
  */
-public interface FileListener
+public interface FileMonitor
 {
     /**
-     * Called when a file is created.
+     * Adds a file to be monitored.
      */
-    void fileCreated(FileChangeEvent event) throws Exception;
+    public void addFile(final FileObject file);
 
     /**
-     * Called when a file is deleted.
+     * Removes a file from being monitored.
      */
-    void fileDeleted(FileChangeEvent event) throws Exception;
-
-    /**
-     * Called when a file is changed.<br />
-     * This will only happen if you monitor the file using {@link FileMonitor}.
-     */
-    void fileChanged(FileChangeEvent event) throws Exception;
+    public void removeFile(final FileObject file);
 }
