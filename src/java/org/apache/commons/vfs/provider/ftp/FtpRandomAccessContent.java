@@ -234,8 +234,9 @@ class FtpRandomAccessContent extends AbstractRandomAccessContent
         return data;
     }
 
-    public InputStream getInputStream()
+    public InputStream getInputStream() throws IOException
     {
+        createStream();
         return dis;
     }
 }

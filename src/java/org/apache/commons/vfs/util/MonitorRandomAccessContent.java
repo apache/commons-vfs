@@ -243,7 +243,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent
         return content.readUTF();
     }
 
-    public InputStream getInputStream()
+    public InputStream getInputStream() throws IOException
     {
         return content.getInputStream();
     }

@@ -22,7 +22,7 @@ import java.io.InputStream;
 
 /**
  * Description
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision: 1.1 $ $Date$
  */
@@ -82,5 +82,5 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * <b>Notice: If you use {@link #seek(long)} you have to reget the InputStream</b>
      * @return
      */
-    public InputStream getInputStream();
+    public InputStream getInputStream() throws IOException;
 }

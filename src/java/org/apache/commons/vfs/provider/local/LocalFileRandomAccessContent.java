@@ -28,7 +28,7 @@ import java.io.EOFException;
 
 /**
  * RandomAccess for local files
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision: 1.1 $ $Date$
  */
@@ -257,7 +257,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
         raf.writeUTF(str);
     }
 
-    public InputStream getInputStream()
+    public InputStream getInputStream() throws IOException
     {
         return rafis;
     }

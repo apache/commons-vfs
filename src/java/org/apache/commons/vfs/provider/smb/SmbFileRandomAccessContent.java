@@ -258,7 +258,7 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
         raf.writeUTF(str);
     }
 
-    public InputStream getInputStream()
+    public InputStream getInputStream() throws IOException
     {
         return rafis;
     }
