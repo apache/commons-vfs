@@ -23,7 +23,7 @@ import org.apache.commons.vfs.provider.smb.SmbFileName;
  * Some additional SMB file name test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/17 18:22:17 $
  */
 public class FileNameTestCase
     extends AbstractVfsTestCase
@@ -81,6 +81,34 @@ public class FileNameTestCase
         assertEquals("/file", name.getPath());
         assertEquals("smb://user@hostname/share/", name.getRootURI());
         assertEquals("smb://user@hostname/share/file", name.getURI());
+
+        // Name with extension
+        name = SmbFileName.parseUri("smb://user@hostname/share/file.txt");
+        assertEquals("smb", name.getScheme());
+        assertEquals("user", name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(139, name.getPort());
+        assertEquals("share", name.getShare());
+        assertEquals("/file.txt", name.getPath());
+        assertEquals("file.txt", name.getBaseName());
+        assertEquals("txt", name.getExtension());
+        assertEquals("smb://user@hostname/share/", name.getRootURI());
+        assertEquals("smb://user@hostname/share/file.txt", name.getURI());
+
+        // Name look likes extension, but isnt
+        name = SmbFileName.parseUri("smb://user@hostname/share/.bashrc");
+        assertEquals("smb", name.getScheme());
+        assertEquals("user", name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(139, name.getPort());
+        assertEquals("share", name.getShare());
+        assertEquals("/.bashrc", name.getPath());
+        assertEquals(".bashrc", name.getBaseName());
+        assertEquals("", name.getExtension());
+        assertEquals("smb://user@hostname/share/", name.getRootURI());
+        assertEquals("smb://user@hostname/share/.bashrc", name.getURI());
     }
 
     /**

@@ -23,7 +23,7 @@ import org.apache.commons.vfs.NameScope;
  * A default file name implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:42 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/17 18:22:17 $
  */
 public abstract class AbstractFileName
     implements FileName
@@ -328,7 +328,12 @@ public abstract class AbstractFileName
         {
             getBaseName();
             final int pos = baseName.lastIndexOf('.');
-            if ((pos == -1) || (pos == baseName.length() - 1))
+            // if ((pos == -1) || (pos == baseName.length() - 1))
+            // imario@ops.co.at: Review of patch from adagoubard@chello.nl
+            // do not treat filenames like
+            // .bashrc c:\windows\.java c:\windows\.javaws c:\windows\.jedit c:\windows\.appletviewer
+            // as extension
+            if ((pos < 1) || (pos == baseName.length() - 1))
             {
                 // No extension
                 extension = "";
