@@ -31,50 +31,42 @@ import java.util.Stack;
 
 
 /**
- * Implementation Documentation
- * ============================
- *
- * The FileMonitor is a Thread based polling file system monitor with a 1 second delay.
- *
- * Design:
- *   There is a Map of monitors known as FileMonitorAgents. With the thread running,
- *   each FileMonitorAgent object is asked to "check" on the file it is responsible for.
- *   To do this check, the cache is cleared. If the file existed before the refresh and
- *   it no longer exists, a delete event is fired. If the file existed before the refresh
- *   and it still exists, check the last modified timestamp to see if that has changed.
- *   If it has, fire a change event (BUG no change event, fires a create event instead).
- *   With each file delete, the FileMonitorAgent of the parent is asked to re-build its
- *   list of children, so that they can be accurately checked when there are new children.
- *   New files are detected during each "check" as each file does a check for new children.
- *   If new children are found, create events are fired recursively if recursive descent is
- *   enabled.
- *
- * Example usage:
-
- try {
- FileSystemManager fsManager = VFS.getManager();
- FileObject listendir = fsManager.resolveFile("/home/username/monitored/");
-
- DefaultFileMonitor fm = new DefaultFileMonitor(new CustomFileListener());
- fm.setRecursive(true);
- fm.addFile(listendir);
- fm.start();
- }
- catch (FileSystemException fse)
- {
- fse.printStackTrace();
- }
-
- *
- * where CustomFileSystemListener is a class that implements the FileListener interface.
- */
-
-
-/**
- * A polling FileMonitor implementation.
+ * A polling {@link FileMonitor} implementation.<br />
+ * <br />
+ * The DefaultFileMonitor is a Thread based polling file system monitor with a 1 second delay.<br />
+ * <br />
+ * <b>Design:</b>
+ * <p/>
+ * There is a Map of monitors known as FileMonitorAgents. With the thread running,
+ * each FileMonitorAgent object is asked to "check" on the file it is responsible for.
+ * To do this check, the cache is cleared.
+ * </p>
+ * <ul>
+ * <li>If the file existed before the refresh and it no longer exists, a delete event is fired.
+ * <li>If the file existed before the refresh and it still exists, check the last modified timestamp to see if that has changed.
+ * <li>If it has, fire a change event.
+ * </ul>
+ * <p/>
+ * With each file delete, the FileMonitorAgent of the parent is asked to re-build its
+ * list of children, so that they can be accurately checked when there are new children.<br/>
+ * New files are detected during each "check" as each file does a check for new children.
+ * If new children are found, create events are fired recursively if recursive descent is
+ * enabled.
+ * </p>
+ * <p/>
+ * <br /><b>Example usage:</b><pre>
+ * FileSystemManager fsManager = VFS.getManager();
+ * FileObject listendir = fsManager.resolveFile("/home/username/monitored/");
+ * <p/>
+ * DefaultFileMonitor fm = new DefaultFileMonitor(new CustomFileListener());
+ * fm.setRecursive(true);
+ * fm.addFile(listendir);
+ * fm.start();
+ * </pre>
+ * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  *
  * @author <a href="mailto:xknight@users.sourceforge.net">Christopher Ottley</a>
- * @version $Revision: 1.1 $ $Date: 2004/10/11 19:27:53 $
+ * @version $Revision: 1.2 $ $Date: 2004/10/12 13:16:23 $
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor
 {
