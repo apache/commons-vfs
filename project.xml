@@ -80,17 +80,7 @@
     </dependency>
 
     <dependency>
-      <id>commons-io</id>
-      <version>SNAPSHOT</version>
-    </dependency>
-    
-    <dependency>
       <id>commons-logging</id>
-      <version>1.0</version>
-    </dependency>
-
-    <dependency>
-      <id>excalibur-i18n</id>
       <version>1.0</version>
     </dependency>
 

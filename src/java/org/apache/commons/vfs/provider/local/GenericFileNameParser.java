@@ -7,8 +7,6 @@
 */
 package org.apache.commons.vfs.provider.local;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
@@ -20,9 +18,6 @@ import org.apache.commons.vfs.FileSystemException;
 final class GenericFileNameParser
     extends LocalFileNameParser
 {
-    private static final Resources REZ
-        = ResourceManager.getPackageResources( GenericFileNameParser.class );
-
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
@@ -35,8 +30,7 @@ final class GenericFileNameParser
         // Looking for <sep>
         if ( name.length() == 0 || name.charAt( 0 ) != '/' )
         {
-            final String message = REZ.getString( "not-absolute-file-name.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.local/not-absolute-file-name.error", uri );
         }
 
         return "/";

@@ -15,8 +15,6 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -28,14 +26,11 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystem;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/22 01:32:49 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/21 01:40:38 $
  */
 public class JarFileSystem
     extends ZipFileSystem
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( JarFileSystem.class );
-
     private Attributes attributes;
 
     public JarFileSystem( final DefaultFileName rootName,
@@ -52,8 +47,7 @@ public class JarFileSystem
         }
         catch( IOException ioe )
         {
-            final String message = REZ.getString( "open-jar-file.error", file );
-            throw new FileSystemException( message, ioe );
+            throw new FileSystemException( "vfs.provider.jar/open-jar-file.error", new Object[]{file}, ioe );
         }
     }
 
@@ -178,7 +172,7 @@ public class JarFileSystem
             return new Name( attrName );
         }
     }
-    
+
     /**
      * Retrives the attribute with the specified name. The default
      * implementation simply throws an exception.

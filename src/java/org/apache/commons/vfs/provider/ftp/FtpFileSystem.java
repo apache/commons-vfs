@@ -8,8 +8,6 @@
 package org.apache.commons.vfs.provider.ftp;
 
 import java.io.IOException;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -28,9 +26,6 @@ import org.apache.commons.vfs.provider.FileSystemProviderContext;
 final class FtpFileSystem
     extends AbstractFileSystem
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( FtpFileSystem.class );
-
     private final FTPClient client;
 
     public FtpFileSystem( final FileName rootName,
@@ -48,29 +43,25 @@ final class FtpFileSystem
             int reply = client.getReplyCode();
             if ( !FTPReply.isPositiveCompletion( reply ) )
             {
-                final String message = REZ.getString( "connect-rejected.error", hostname );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider.ftp/connect-rejected.error", hostname );
             }
 
             // Login
             if ( !client.login( username, password ) )
             {
-                final String message = REZ.getString( "login.error", hostname, username );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider.ftp/login.error", new Object[]{hostname, username}, null );
             }
 
             // Set binary mode
             if ( !client.setFileType( FTP.BINARY_FILE_TYPE ) )
             {
-                final String message = REZ.getString( "set-binary.error", hostname );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider.ftp/set-binary.error", hostname );
             }
         }
         catch ( final Exception exc )
         {
             closeConnection();
-            final String message = REZ.getString( "connect.error", hostname );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider.ftp/connect.error", new Object[]{hostname}, exc );
         }
     }
 
@@ -97,8 +88,7 @@ final class FtpFileSystem
         }
         catch ( final IOException e )
         {
-            final String message = REZ.getString( "close-connection.error" );
-            getLogger().warn( message, e );
+            getLogger().warn( "vfs.provider.ftp/close-connection.error", e );
         }
     }
 

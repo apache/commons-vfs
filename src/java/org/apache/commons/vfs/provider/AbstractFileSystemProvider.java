@@ -10,8 +10,6 @@ package org.apache.commons.vfs.provider;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 
@@ -26,9 +24,6 @@ public abstract class AbstractFileSystemProvider
     extends AbstractVfsComponent
     implements FileProvider
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( AbstractFileSystemProvider.class );
-
     /**
      * The cached file systems.  This is a mapping from root URI to
      * FileSystem object.

@@ -7,8 +7,6 @@
  */
 package org.apache.commons.vfs;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -21,12 +19,10 @@ import org.apache.commons.logging.LogFactory;
  * A static factory for {@link FileSystemManager} instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/08/22 02:13:30 $
+ * @version $Revision: 1.6 $ $Date: 2002/10/21 01:40:37 $
  */
 public class FileSystemManagerFactory
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( FileSystemManagerFactory.class );
     private static FileSystemManager instance;
 
     private FileSystemManagerFactory()
@@ -96,8 +92,7 @@ public class FileSystemManagerFactory
         }
         catch ( final Exception e )
         {
-            final String message = REZ.getString( "create-provider.error", providerClassName );
-            throw new FileSystemException( message, e );
+            throw new FileSystemException("vfs/create-provider.error", new Object[]{providerClassName}, e );
         }
     }
 }

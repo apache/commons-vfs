@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -32,9 +30,6 @@ public class ZipFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( ZipFileSystem.class );
-
     private final File file;
     protected final ZipFile zipFile;
 
@@ -75,7 +70,7 @@ public class ZipFileSystem
                 fileObj.setZipEntry( entry );
                 continue;
             }
-            
+
             fileObj = createZipFileObject( name, entry, zipFile );
             putFile( fileObj );
 
@@ -100,7 +95,7 @@ public class ZipFileSystem
         }
     }
 
-    protected ZipFileObject createZipFileObject( FileName name, 
+    protected ZipFileObject createZipFileObject( FileName name,
                                                  ZipEntry entry,
                                                  ZipFile file )
         throws FileSystemException
@@ -116,8 +111,7 @@ public class ZipFileSystem
         }
         catch ( IOException ioe )
         {
-            final String message = REZ.getString( "open-zip-file.error", file );
-            throw new FileSystemException( message, ioe );
+            throw new FileSystemException( "vfs.provider.zip/open-zip-file.error", new Object[]{file}, ioe );
         }
     }
 
@@ -133,8 +127,7 @@ public class ZipFileSystem
         }
         catch ( final IOException e )
         {
-            final String message = REZ.getString( "close-zip-file.error", file );
-            getLogger().warn( message, e );
+            getLogger().warn( "vfs.provider.zip/close-zip-file.error :"+ file, e );
         }
 
         super.close();

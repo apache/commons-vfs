@@ -12,8 +12,6 @@ import java.io.OutputStream;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -30,9 +28,6 @@ class SmbFileObject
     extends AbstractFileObject
     implements FileObject
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( SmbFileObject.class );
-
     private final String fileName;
     private SmbFile file;
 
@@ -94,8 +89,7 @@ class SmbFileObject
         {
             return FileType.FILE;
         }
-        final String message = REZ.getString( "get-type.error", getName() );
-        throw new FileSystemException( message );
+        throw new FileSystemException( "vfs.provider.smb/get-type.error", getName() );
     }
 
     /**

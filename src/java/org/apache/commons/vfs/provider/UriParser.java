@@ -9,8 +9,6 @@ package org.apache.commons.vfs.provider;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.NameScope;
 
@@ -22,9 +20,6 @@ import org.apache.commons.vfs.NameScope;
  */
 public class UriParser
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( UriParser.class );
-
     /** The normalised separator to use. */
     private final char separatorChar;
     private final String separator;
@@ -185,8 +180,7 @@ public class UriParser
         // Expecting "//"
         if ( name.length() < 2 || name.charAt( 0 ) != '/' || name.charAt( 1 ) != '/' )
         {
-            final String message = REZ.getString( "missing-double-slashes.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/missing-double-slashes.error", uri );
         }
         name.delete( 0, 2 );
 
@@ -198,8 +192,7 @@ public class UriParser
         final String hostName = extractHostName( name );
         if ( hostName == null )
         {
-            final String message = REZ.getString( "missing-hostname.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/missing-hostname.error", uri );
         }
         parsedUri.setHostName( hostName );
 
@@ -207,16 +200,14 @@ public class UriParser
         final String port = extractPort( name );
         if ( port != null && port.length() == 0 )
         {
-            final String message = REZ.getString( "missing-port.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/missing-port.error", uri );
         }
         parsedUri.setPort( port );
 
         // Expecting '/' or empty name
         if ( name.length() > 0 && name.charAt( 0 ) != '/' )
         {
-            final String message = REZ.getString( "missing-hostname-path-sep.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/missing-hostname-path-sep.error", uri );
         }
     }
 
@@ -438,8 +429,7 @@ public class UriParser
                 || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != separatorChar )
                 || resolvedPath.indexOf( separatorChar, baseLen + 1 ) != -1 )
             {
-                final String message = REZ.getString( "invalid-childname.error", path );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider/invalid-childname.error", path );
             }
         }
         else if ( scope == NameScope.DESCENDENT )
@@ -449,8 +439,7 @@ public class UriParser
                 || resolvedPath.length() == baseLen
                 || ( baseLen > 1 && resolvedPath.charAt( baseLen ) != separatorChar ) )
             {
-                final String message = REZ.getString( "invalid-descendent-name.error", path );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider/invalid-descendent-name.error", path );
             }
         }
         else if ( scope == NameScope.DESCENDENT_OR_SELF )
@@ -460,8 +449,7 @@ public class UriParser
                 || ( resolvedPath.length() != baseLen
                 && resolvedPath.charAt( baseLen ) != separatorChar ) )
             {
-                final String message = REZ.getString( "invalid-descendent-name.error", path );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider/invalid-descendent-name.error", path );
             }
         }
         else if ( scope != NameScope.FILE_SYSTEM )
@@ -620,8 +608,7 @@ public class UriParser
                 if ( startElem == startFirstElem )
                 {
                     // Previous element is missing
-                    final String message = REZ.getString( "invalid-relative-path.error" );
-                    throw new FileSystemException( message );
+                    throw new FileSystemException( "vfs.provider/invalid-relative-path.error" );
                 }
 
                 // Find start of previous element
@@ -782,8 +769,7 @@ public class UriParser
             }
             if ( count < 3 )
             {
-                final String message = REZ.getString( "invalid-escape-sequence.error", buffer.substring( index, index + count ) );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider/invalid-escape-sequence.error", buffer.substring( index, index + count ) );
             }
 
             // Decode
@@ -791,8 +777,7 @@ public class UriParser
             int dig2 = Character.digit( buffer.charAt( index + 2 ), 16 );
             if ( dig1 == -1 || dig2 == -1 )
             {
-                final String message = REZ.getString( "invalid-escape-sequence.error", buffer.substring( index, index + 3 ) );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.provider/invalid-escape-sequence.error", buffer.substring( index, index + 3 ) );
             }
             char value = (char)( dig1 << 4 | dig2 );
 

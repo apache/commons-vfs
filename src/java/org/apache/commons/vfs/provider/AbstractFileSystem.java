@@ -9,8 +9,6 @@ package org.apache.commons.vfs.provider;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -26,9 +24,6 @@ public abstract class AbstractFileSystem
     extends AbstractVfsComponent
     implements FileSystem
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( AbstractFileSystem.class );
-        
     private FileObject parentLayer;
     private FileObject root;
     private final FileName rootName;
@@ -78,8 +73,7 @@ public abstract class AbstractFileSystem
      */
     public Object getAttribute( String attrName ) throws FileSystemException
     {
-        final String message = REZ.getString( "get-attribute-not-supported.error" );
-        throw new FileSystemException( message ); 
+        throw new FileSystemException( "vfs.provider/get-attribute-not-supported.error" );
     }
 
     /**
@@ -89,8 +83,7 @@ public abstract class AbstractFileSystem
     public void setAttribute( String attrName, Object value )
         throws FileSystemException
     {
-        final String message = REZ.getString( "set-attribute-not-supported.error" );
-        throw new FileSystemException( message ); 
+        throw new FileSystemException( "vfs.provider/set-attribute-not-supported.error" );
     }
 
     /**

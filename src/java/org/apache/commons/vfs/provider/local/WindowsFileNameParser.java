@@ -7,8 +7,6 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
@@ -20,9 +18,6 @@ import org.apache.commons.vfs.FileSystemException;
 final class WindowsFileNameParser
     extends LocalFileNameParser
 {
-    private static final Resources REZ
-        = ResourceManager.getPackageResources( WindowsFileNameParser.class );
-
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
@@ -53,8 +48,7 @@ final class WindowsFileNameParser
         if ( startPos == maxlen )
         {
             // Too many '/'
-            final String message = REZ.getString( "not-absolute-file-name.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.local/not-absolute-file-name.error", uri );
         }
         name.delete( 0, startPos );
 
@@ -68,8 +62,7 @@ final class WindowsFileNameParser
         // Look for UNC name
         if ( startPos < 2 )
         {
-            final String message = REZ.getString( "not-absolute-file-name.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.local/not-absolute-file-name.error", uri );
         }
 
         return "//" + extractUNCPrefix( uri, name );
@@ -126,8 +119,7 @@ final class WindowsFileNameParser
         pos++;
         if ( pos >= maxpos )
         {
-            final String message = REZ.getString( "missing-share-name.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.local/missing-share-name.error", uri );
         }
 
         // Now have <name> '/'
@@ -137,8 +129,7 @@ final class WindowsFileNameParser
         }
         if ( pos == startShareName )
         {
-            final String message = REZ.getString( "missing-share-name.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.local/missing-share-name.error", uri );
         }
 
         // Now have <name> '/' <name> ( '/' | <end> )

@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -28,9 +26,6 @@ import org.apache.commons.vfs.FileSystemException;
 public final class DefaultFileContent
     implements FileContent
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultFileContent.class );
-
     private static final int STATE_NONE = 0;
     private static final int STATE_READING = 1;
     private static final int STATE_WRITING = 2;
@@ -60,20 +55,17 @@ public final class DefaultFileContent
     {
         if( file.isFolder() )
         {
-            final String message = REZ.getString( "get-size-folder.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/get-size-folder.error", file );
         }
 
         // Do some checking
         if ( !file.exists() )
         {
-            final String message = REZ.getString( "get-size-no-exist.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/get-size-no-exist.error", file );
         }
         if ( state == STATE_WRITING )
         {
-            final String message = REZ.getString( "get-size-write.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/get-size-write.error", file );
         }
 
         try
@@ -83,8 +75,7 @@ public final class DefaultFileContent
         }
         catch ( Exception exc )
         {
-            final String message = REZ.getString( "get-size.error", file );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/get-size.error", new Object[]{file}, exc );
         }
     }
 
@@ -95,8 +86,7 @@ public final class DefaultFileContent
     {
         if( !file.exists() )
         {
-            final String message = REZ.getString( "get-last-modified-no-exist.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/get-last-modified-no-exist.error", file );
         }
         return file.doGetLastModifiedTime();
     }
@@ -108,8 +98,7 @@ public final class DefaultFileContent
     {
         if( !file.exists() )
         {
-            final String message = REZ.getString( "set-last-modified-no-exist.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/set-last-modified-no-exist.error", file );
         }
         file.doSetLastModifiedTime( modTime );
     }
@@ -137,8 +126,7 @@ public final class DefaultFileContent
     {
         if( !file.exists() )
         {
-            final String message = REZ.getString( "get-certificates-no-exist.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/get-certificates-no-exist.error", file );
         }
         return file.doGetCertificates();
     }
@@ -150,18 +138,15 @@ public final class DefaultFileContent
     {
         if( file.isFolder() )
         {
-            final String message = REZ.getString( "read-folder.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/read-folder.error", file );
         }
         if ( !file.exists() )
         {
-            final String message = REZ.getString( "read-no-exist.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/read-no-exist.error", file );
         }
         if ( state != STATE_NONE )
         {
-            final String message = REZ.getString( "read-in-use.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/read-in-use.error", file );
         }
 
         // Get the raw input stream
@@ -172,8 +157,7 @@ public final class DefaultFileContent
         }
         catch ( Exception exc )
         {
-            final String message = REZ.getString( "read.error", file );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/read.error", new Object[]{file}, exc );
         }
 
         // TODO - reuse
@@ -189,13 +173,11 @@ public final class DefaultFileContent
     {
         if( file.isFolder() )
         {
-            final String message = REZ.getString( "write-folder.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/write-folder.error", file );
         }
         if ( state != STATE_NONE )
         {
-            final String message = REZ.getString( "write-in-use.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/write-in-use.error", file );
         }
 
         // Get the raw output stream
@@ -226,8 +208,7 @@ public final class DefaultFileContent
                 }
                 catch ( IOException ioe )
                 {
-                    final String message = REZ.getString( "close-instr.error" );
-                    throw new FileSystemException( message, ioe );
+                    throw new FileSystemException( "vfs.provider/close-instr.error", null, ioe );
                 }
             }
 
@@ -240,8 +221,7 @@ public final class DefaultFileContent
                 }
                 catch ( IOException ioe )
                 {
-                    final String message = REZ.getString( "close-outstr.error" );
-                    throw new FileSystemException( message, ioe );
+                    throw new FileSystemException( "vfs.provider/close-outstr.error", null, ioe );
                 }
             }
         }

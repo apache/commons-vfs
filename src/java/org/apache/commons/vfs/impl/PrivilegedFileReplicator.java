@@ -12,8 +12,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
@@ -27,14 +25,11 @@ import org.apache.commons.logging.Log;
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/08/22 02:24:37 $
+ * @version $Revision: 1.5 $ $Date: 2002/10/21 01:40:38 $
  */
 public class PrivilegedFileReplicator
     implements FileReplicator, VfsComponent
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( PrivilegedFileReplicator.class );
-
     private final FileReplicator replicator;
     private final VfsComponent replicatorComponent;
 
@@ -86,8 +81,7 @@ public class PrivilegedFileReplicator
             }
             catch ( final PrivilegedActionException e )
             {
-                final String message = REZ.getString( "init-replicator.error" );
-                throw new FileSystemException( message, e );
+                throw new FileSystemException( "vfs.impl/init-replicator.error", null, e );
             }
         }
     }
@@ -116,8 +110,7 @@ public class PrivilegedFileReplicator
         }
         catch ( final PrivilegedActionException e )
         {
-            final String message = REZ.getString( "replicate-file.error", srcFile.getName() );
-            throw new FileSystemException( message, e );
+            throw new FileSystemException( "vfs.impl/replicate-file.error", new Object[]{srcFile.getName()}, e );
         }
     }
 

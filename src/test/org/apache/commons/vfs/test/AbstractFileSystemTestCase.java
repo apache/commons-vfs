@@ -17,21 +17,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs.impl.VFSClassLoader;
-import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
 
 /**
@@ -47,9 +44,6 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
 public abstract class AbstractFileSystemTestCase
     extends AbstractVfsTestCase
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( AbstractFileObject.class );
-
     protected FileObject m_baseFolder;
     protected DefaultFileSystemManager m_manager;
 
@@ -674,8 +668,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( FileSystemException e )
         {
-            final String message = REZ.getString( "get-type-no-exist.error", file );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/get-type-no-exist.error", file, e );
         }
     }
 
@@ -735,8 +728,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( FileSystemException e )
         {
-            final String message = REZ.getString( "list-children-not-folder.error", file );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/list-children-not-folder.error", file, e );
         }
 
         // Should be able to get child by name
@@ -753,8 +745,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( FileSystemException e )
         {
-            final String message = REZ.getString( "list-children-no-exist.error", file );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/list-children-no-exist.error", file, e );
         }
 
         // Should be able to get child by name
@@ -885,8 +876,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( IOException e )
         {
-            final String message = REZ.getString( "read-folder.error", folder );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
         }
 
         // Try getting the content of an unknown file
@@ -899,8 +889,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( IOException e )
         {
-            final String message = REZ.getString( "read-no-exist.error", unknownFile );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/read-no-exist.error", unknownFile, e );
         }
         assertEquals( -1, connection.getContentLength() );
     }
@@ -974,8 +963,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( FileSystemException e )
         {
-            final String message = REZ.getString( "read-folder.error", folder );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
         }
 
         // Try getting the content of an unknown file
@@ -988,8 +976,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( FileSystemException e )
         {
-            final String message = REZ.getString( "read-no-exist.error", unknownFile );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/read-no-exist.error", unknownFile, e );
         }
         try
         {
@@ -998,8 +985,7 @@ public abstract class AbstractFileSystemTestCase
         }
         catch( FileSystemException e )
         {
-            final String message = REZ.getString( "get-size-no-exist.error", unknownFile );
-            assertSameMessage( message, e );
+            assertSameMessage( "vfs.provider/get-size-no-exist.error", unknownFile, e );
         }
     }
 

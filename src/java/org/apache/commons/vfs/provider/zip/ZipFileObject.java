@@ -54,8 +54,8 @@ public class ZipFileObject
         {
             return;
         }
-          
-        if ( entry == null || entry.isDirectory() )
+
+        if ((entry == null) || ( entry.isDirectory() ))
         {
             type = FileType.FOLDER;
         }
@@ -78,9 +78,9 @@ public class ZipFileObject
     /**
      * Returns true if this file is read-only.
      */
-    protected boolean isReadOnly()
+    public boolean isWriteable()
     {
-        return true;
+        return false;
     }
 
     /**

@@ -13,8 +13,6 @@ import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
@@ -38,8 +36,6 @@ import org.apache.commons.vfs.provider.VfsComponent;
 public class DefaultFileSystemManager
     implements FileSystemManager
 {
-    private static final Resources REZ
-        = ResourceManager.getPackageResources( DefaultFileSystemManager.class );
 
     /** The provider for local files. */
     private LocalFileProvider localFileProvider;
@@ -91,10 +87,7 @@ public class DefaultFileSystemManager
             final String scheme = urlSchemes[ i ];
             if ( providers.containsKey( scheme ) )
             {
-                final String message =
-                    REZ.getString( "multiple-providers-for-scheme.error",
-                                   scheme );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.impl/multiple-providers-for-scheme.error", scheme );
             }
         }
 
@@ -186,8 +179,7 @@ public class DefaultFileSystemManager
     {
         if ( fileReplicator == null )
         {
-            final String message = REZ.getString( "no-replicator.error" );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.impl/no-replicator.error" );
         }
         return fileReplicator;
     }
@@ -300,9 +292,7 @@ public class DefaultFileSystemManager
             // An unknown scheme - hand it to the default provider
             if ( defaultProvider == null )
             {
-                final String message =
-                    REZ.getString( "unknown-scheme.error", scheme, uri );
-                throw new FileSystemException( message );
+                throw new FileSystemException( "vfs.impl/unknown-scheme.error", new Object[]{scheme, uri} );
             }
             return defaultProvider.findFile( baseFile, uri );
         }
@@ -310,8 +300,7 @@ public class DefaultFileSystemManager
         // Assume a relative name - use the supplied base file
         if ( baseFile == null )
         {
-            final String message = REZ.getString( "find-rel-file.error", uri );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.impl/find-rel-file.error", uri );
         }
         return baseFile.resolveFile( decodedUri );
     }
@@ -335,9 +324,7 @@ public class DefaultFileSystemManager
         FileProvider provider = (FileProvider)providers.get( scheme );
         if ( provider == null )
         {
-            final String message =
-                REZ.getString( "unknown-provider.error", scheme );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.impl/unknown-provider.error", scheme );
         }
         return provider.createFileSystem( scheme, file );
     }
@@ -350,9 +337,7 @@ public class DefaultFileSystemManager
     {
         if ( localFileProvider == null )
         {
-            final String message =
-                REZ.getString( "no-local-file-provider.error" );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.impl/no-local-file-provider.error" );
         }
         return localFileProvider;
     }

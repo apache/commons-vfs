@@ -13,8 +13,6 @@ import java.io.FileOutputStream;
 import java.io.FilePermission;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -32,9 +30,6 @@ final class LocalFile
     extends AbstractFileObject
     implements FileObject
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( LocalFile.class );
-
     private File file;
     private final String fileName;
     private FilePermission requiredPerm;
@@ -82,8 +77,7 @@ final class LocalFile
             return FileType.FILE;
         }
 
-        final String message = REZ.getString( "get-type.error", file );
-        throw new FileSystemException( message );
+        throw new FileSystemException( "vfs.provider.local/get-type.error", file );
     }
 
     /**
@@ -103,8 +97,7 @@ final class LocalFile
     {
         if ( !file.delete() )
         {
-            final String message = REZ.getString( "delete-file.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.local/delete-file.error", file );
         }
     }
 
@@ -116,9 +109,24 @@ final class LocalFile
     {
         if ( !file.mkdir() )
         {
-            final String message = REZ.getString( "create-folder.error", file );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.local/create-folder.error", file );
         }
+    }
+
+    /**
+     * Determines if this file can be written to.
+     */
+    protected boolean doIsWriteable() throws FileSystemException
+    {
+        return file.canWrite();
+    }
+
+    /**
+     * Determines if this file can be read.
+     */
+    protected boolean doIsReadable() throws FileSystemException
+    {
+        return file.canRead();
     }
 
     /**

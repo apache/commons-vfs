@@ -7,8 +7,6 @@
  */
 package org.apache.commons.vfs.provider.smb;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.ParsedUri;
 import org.apache.commons.vfs.provider.UriParser;
@@ -22,9 +20,6 @@ import org.apache.commons.vfs.provider.UriParser;
 class SmbFileNameParser
     extends UriParser
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( SmbFileNameParser.class );
-
     /**
      * Parses an absolute URI, splitting it into its components.
      */
@@ -51,8 +46,7 @@ class SmbFileNameParser
         final String share = extractFirstElement( name );
         if ( share == null )
         {
-            final String message = REZ.getString( "missing-share-name.error", uriStr );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.smb/missing-share-name.error", uriStr );
         }
         uri.setShare( share );
 

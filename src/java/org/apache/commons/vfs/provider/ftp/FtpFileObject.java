@@ -9,8 +9,6 @@ package org.apache.commons.vfs.provider.ftp;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
@@ -27,9 +25,6 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
 final class FtpFileObject
     extends AbstractFileObject
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( FtpFileObject.class );
-
     private static final FTPFile[] EMPTY_FTP_FILE_ARRAY = {};
 
     private final FtpFileSystem ftpFs;
@@ -127,8 +122,7 @@ final class FtpFileObject
             return FileType.FILE;
         }
 
-        final String message = REZ.getString( "get-type.error", getName() );
-        throw new FileSystemException( message );
+        throw new FileSystemException( "vfs.provider.ftp/get-type.error", getName() );
     }
 
     /**
@@ -174,8 +168,7 @@ final class FtpFileObject
         }
         if ( !ok )
         {
-            final String message = REZ.getString( "delete-file.error", getName() );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.ftp/delete-file.error", getName() );
         }
     }
 
@@ -187,8 +180,7 @@ final class FtpFileObject
     {
         if ( !ftpFs.getClient().makeDirectory( getName().getPath() ) )
         {
-            final String message = REZ.getString( "create-folder.error", getName() );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.ftp/create-folder.error", getName() );
         }
     }
 
@@ -216,8 +208,7 @@ final class FtpFileObject
     {
         if ( !ftpFs.getClient().completePendingCommand() )
         {
-            final String message = REZ.getString( "finish-get.error", getName() );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.ftp/finish-get.error", getName() );
         }
     }
 
@@ -238,8 +229,7 @@ final class FtpFileObject
     {
         if ( !ftpFs.getClient().completePendingCommand() )
         {
-            final String message = REZ.getString( "finish-put.error", getName() );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider.ftp/finish-put.error", getName() );
         }
     }
 }

@@ -10,8 +10,6 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
 
 /**
  * A {@link FileProvider} that handles physical files, such as the files in a
@@ -19,14 +17,11 @@ import org.apache.avalon.excalibur.i18n.ResourceManager;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/22 08:00:38 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/21 01:40:38 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( AbstractOriginatingFileProvider.class );
-
     /**
      * Creates a layered file system.
      */
@@ -34,8 +29,7 @@ public abstract class AbstractOriginatingFileProvider
         throws FileSystemException
     {
         // Can't create a layered file system
-        final String message = REZ.getString( "not-layered-fs.error", scheme );
-        throw new FileSystemException( message );
+        throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
     }
 
     /**
@@ -55,8 +49,7 @@ public abstract class AbstractOriginatingFileProvider
         }
         catch ( FileSystemException exc )
         {
-            final String message = REZ.getString( "invalid-absolute-uri.error", uri );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/invalid-absolute-uri.error", new Object[]{uri}, exc );
         }
 
         // Locate the file

@@ -10,8 +10,6 @@ package org.apache.commons.vfs.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -29,8 +27,6 @@ public final class DefaultFileReplicator
     extends AbstractVfsComponent
     implements FileReplicator
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( DefaultFileReplicator.class );
 
     private final ArrayList copies = new ArrayList();
     private File tempDir;
@@ -60,8 +56,9 @@ public final class DefaultFileReplicator
             }
             catch ( final FileSystemException e )
             {
-                final String message = REZ.getString( "delete-temp.warn", file.getName() );
-                getLogger().warn( message, e );
+                //TODO - fix this
+                //final String message = REZ.getString( "delete-temp.warn", file.getName() );
+                getLogger().warn( "vfs.impl/delete-temp.warn", e );
             }
         }
 

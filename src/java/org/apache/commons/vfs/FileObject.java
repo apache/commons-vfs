@@ -85,6 +85,28 @@ public interface FileObject
     boolean exists() throws FileSystemException;
 
     /**
+     * Determines if this file can be read (only files that exist can be read).
+     *
+     * @return
+     *      <code>true</code> if this file is readable, <code>false</code> if not.
+     *
+     * @throws FileSystemException
+     *      On error determining if this file exists.
+     */
+    boolean isReadable() throws FileSystemException;
+
+    /**
+     * Determines if this file can be written to.
+     *
+     * @return
+     *      <code>true</code> if this file is writeable, <code>false</code> if not.
+     *
+     * @throws FileSystemException
+     *      On error determining if this file exists.
+     */
+    boolean isWriteable() throws FileSystemException;
+
+    /**
      * Returns this file's type.
      *
      * @return

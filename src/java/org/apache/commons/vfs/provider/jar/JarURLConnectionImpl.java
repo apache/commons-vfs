@@ -19,8 +19,6 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileSystemException;
 
@@ -28,14 +26,11 @@ import org.apache.commons.vfs.FileSystemException;
  * A default URL connection that will work for most file systems.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/22 02:42:46 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/21 01:40:38 $
  */
 public class JarURLConnectionImpl
     extends JarURLConnection
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( JarURLConnectionImpl.class );
-        
     // This is because JarURLConnection SUCKS
     private static final String HACK_URL = "jar:http://somehost/somejar.jar!/";
 
@@ -72,8 +67,7 @@ public class JarURLConnectionImpl
 
     public JarFile getJarFile() throws IOException
     {
-        final String message = REZ.getString( "jar-file-no-access.error" );
-        throw new UnsupportedOperationException( message );
+        throw new UnsupportedOperationException( "vfs.provider.jar/jar-file-no-access.error" );
     }
 
 
@@ -85,8 +79,7 @@ public class JarURLConnectionImpl
 
     public JarEntry getJarEntry() throws IOException
     {
-        final String message = REZ.getString( "jar-entry-no-access.error" );
-        throw new UnsupportedOperationException( message );
+        throw new UnsupportedOperationException( "vfs.provider.jar/jar-entry-no-access.error" );
     }
 
 
@@ -94,13 +87,13 @@ public class JarURLConnectionImpl
     {
         return file.getAttributes();
     }
-    
+
 
     public Certificate[] getCertificates()
     {
         return file.doGetCertificates();
     }
-    
+
 
     public void connect()
     {

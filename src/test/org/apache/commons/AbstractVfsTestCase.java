@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import junit.framework.TestCase;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 /**
  * A base class for VFS tests.  Provides utility methods for locating
@@ -31,20 +29,6 @@ public abstract class AbstractVfsTestCase
         super( name );
         final String baseDirProp = System.getProperty( "test.basedir" );
         m_baseDir = getCanonicalFile( new File( baseDirProp ) );
-    }
-
-    /**
-     * Locates the error message resources for a class.
-     */
-    protected static final Resources getResourcesForTested( final Class clazz )
-    {
-        String baseName = getPackageName( clazz );
-        if( baseName.endsWith( ".test" ) )
-        {
-            baseName = baseName.substring( 0, baseName.length() - 5 );
-        }
-
-        return ResourceManager.getBaseResources( baseName + ".Resources", AbstractVfsTestCase.class.getClassLoader() );
     }
 
     /**
@@ -182,9 +166,33 @@ public abstract class AbstractVfsTestCase
     /**
      * Asserts that an exception contains the expected message.
      */
-    protected void assertSameMessage( final String message, final Throwable throwable )
+    protected void assertSameMessage( final String message,
+                                      final Throwable throwable )
     {
-        assertSameMessage( new String[]{message}, throwable );
+        // TODO - implement this
+        fail( "Not implemented." );
+    }
+
+    /**
+     * Asserts that an exception contains the expected message.
+     */
+    protected void assertSameMessage( final String message,
+                                      final Object[] info,
+                                      final Throwable throwable )
+    {
+        // TODO - implement this
+        fail( "Not implemented." );
+    }
+
+    /**
+     * Asserts that an exception contains the expected message.
+     */
+    protected void assertSameMessage( final String message,
+                                      final Object info,
+                                      final Throwable throwable )
+    {
+        // TODO - implement this
+        fail( "Not implemented." );
     }
 
     /**

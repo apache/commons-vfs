@@ -10,29 +10,21 @@
  */
 package org.apache.commons.vfs;
 
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-
 /**
  * An enumeration that represents a file's type.
  */
 public final class FileType
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( FileType.class );
-
     /**
      * A folder, which can contain other files, but does not have any data
      * content.
      */
-    public static final FileType FOLDER =
-        new FileType( REZ.getString( "folder.name" ) );
+    public static final FileType FOLDER = new FileType("folder");
 
     /**
      * A regular file, which has data content, but cannot contain other files.
      */
-    public static final FileType FILE =
-        new FileType( REZ.getString( "file.name" ) );
+    public static final FileType FILE = new FileType("file");
 
     private final String name;
 

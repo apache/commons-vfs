@@ -18,9 +18,6 @@ import java.security.PrivilegedExceptionAction;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.commons.io.IOUtil;
 import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
@@ -43,9 +40,6 @@ import org.apache.commons.vfs.FileSystem;
 public abstract class AbstractFileObject
     implements FileObject
 {
-    private static final Resources REZ =
-        ResourceManager.getPackageResources( AbstractFileObject.class );
-
     private static final FileObject[] EMPTY_FILE_ARRAY = {};
 
     private final FileName name;
@@ -71,14 +65,6 @@ public abstract class AbstractFileObject
     public FileSystem getFileSystem()
     {
         return fs;
-    }
-
-    /**
-     * Returns true if this file is read-only.
-     */
-    protected boolean isReadOnly()
-    {
-        return false;
     }
 
     /**
@@ -108,6 +94,25 @@ public abstract class AbstractFileObject
     protected abstract FileType doGetType() throws Exception;
 
     /**
+     * Determines if this file can be read.  Is only called if {@link #doGetType}
+     * does not return null. This implementation always returns true.
+     */
+    protected boolean doIsReadable() throws FileSystemException
+    {
+        return true;
+    }
+
+    /**
+     * Determines if this file can be written to.  Is only called if
+     * {@link #doGetType} does not return null.  This implementation always
+     * returns true.
+     */
+    protected boolean doIsWriteable() throws FileSystemException
+    {
+        return true;
+    }
+
+    /**
      * Lists the children of the file.  Is only called if {@link #doGetType}
      * returns {@link FileType#FOLDER}.  The return value of this method
      * is cached, so the implementation can be expensive.
@@ -117,21 +122,20 @@ public abstract class AbstractFileObject
     /**
      * Deletes the file.  Is only called when:
      * <ul>
-     * <li>{@link #isReadOnly} returns false.
+     * <li>{@link #isWriteable} returns true.
      * <li>{@link #doGetType} does not return null.
      * <li>This file has no children.
      * </ul>
      */
     protected void doDelete() throws Exception
     {
-        final String message = REZ.getString( "delete-not-supported.error" );
-        throw new FileSystemException( message );
+        throw new FileSystemException( "vfs.provider/delete-not-supported.error" );
     }
 
     /**
      * Creates this file as a folder.  Is only called when:
      * <ul>
-     * <li>{@link #isReadOnly} returns false.
+     * <li>{@link #isWriteable} returns true.
      * <li>{@link #doGetType} returns null.
      * <li>The parent folder exists or this file is the root of the file
      *     system.
@@ -139,8 +143,7 @@ public abstract class AbstractFileObject
      */
     protected void doCreateFolder() throws Exception
     {
-        final String message = REZ.getString( "create-folder-not-supported.error" );
-        throw new FileSystemException( message );
+        throw new FileSystemException( "vfs.provider/create-folder-not-supported.error" );
     }
 
     /**
@@ -166,8 +169,7 @@ public abstract class AbstractFileObject
      */
     protected long doGetLastModifiedTime() throws FileSystemException
     {
-        final String message = REZ.getString( "get-last-modified-not-supported.error" );
-        throw new FileSystemException( message ); 
+        throw new FileSystemException( "vfs.provider/get-last-modified-not-supported.error" );
     }
 
     /**
@@ -178,8 +180,7 @@ public abstract class AbstractFileObject
     protected void doSetLastModifiedTime( long modtime )
         throws FileSystemException
     {
-        final String message = REZ.getString( "set-last-modified-not-supported.error" );
-        throw new FileSystemException( message ); 
+        throw new FileSystemException( "vfs.provider/set-last-modified-not-supported.error" );
     }
 
     /**
@@ -201,8 +202,7 @@ public abstract class AbstractFileObject
     protected void doSetAttribute( String atttrName, Object value )
         throws FileSystemException
     {
-        final String message = REZ.getString( "set-attribute-not-supported.error" );
-        throw new FileSystemException( message ); 
+        throw new FileSystemException( "vfs.provider/set-attribute-not-supported.error" );
     }
 
     /**
@@ -249,8 +249,7 @@ public abstract class AbstractFileObject
      */
     protected OutputStream doGetOutputStream() throws Exception
     {
-        final String message = REZ.getString( "write-not-supported.error" );
-        throw new FileSystemException( message );
+        throw new FileSystemException( "vfs.provider/write-not-supported.error" );
     }
 
     /**
@@ -326,10 +325,54 @@ public abstract class AbstractFileObject
         attach();
         if ( type == null )
         {
-            final String message = REZ.getString( "get-type-no-exist.error", name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/get-type-no-exist.error", name );
         }
         return type;
+    }
+
+    /**
+     * Determines if this file can be read.
+     */
+    public boolean isReadable() throws FileSystemException
+    {
+        try
+        {
+            doAttach();
+            if ( exists() )
+            {
+                return doIsReadable();
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch ( final Exception exc )
+        {
+            throw new FileSystemException( "vfs.provider/check-is-readable.error", name, exc );
+        }
+    }
+
+    /**
+     * Determines if this file can be written to.
+     */
+    public boolean isWriteable() throws FileSystemException
+    {
+        try
+        {
+            if ( exists() )
+            {
+                return doIsWriteable();
+            }
+            else
+            {
+                return getParent().isWriteable();
+            }
+        }
+        catch ( final Exception exc )
+        {
+            throw new FileSystemException( "vfs.provider/check-is-writeable.error", name, exc );
+        }
     }
 
     /**
@@ -366,13 +409,11 @@ public abstract class AbstractFileObject
         attach();
         if ( type == null )
         {
-            final String message = REZ.getString( "list-children-no-exist.error", name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/list-children-no-exist.error", name );
         }
         if ( type != FileType.FOLDER )
         {
-            final String message = REZ.getString( "list-children-not-folder.error", name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/list-children-not-folder.error", name );
         }
 
         // Use cached info, if present
@@ -393,8 +434,7 @@ public abstract class AbstractFileObject
         }
         catch ( Exception exc )
         {
-            final String message = REZ.getString( "list-children.error", name );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/list-children.error", new Object[]{name}, exc );
         }
 
         if ( files == null || files.length == 0 )
@@ -445,10 +485,9 @@ public abstract class AbstractFileObject
      */
     private void deleteSelf() throws FileSystemException
     {
-        if ( isReadOnly() )
+        if ( exists() && !isWriteable() )
         {
-            final String message = REZ.getString( "delete-read-only.error", name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/delete-read-only.error", name );
         }
 
         // Delete the file
@@ -462,8 +501,7 @@ public abstract class AbstractFileObject
         }
         catch ( Exception exc )
         {
-            final String message = REZ.getString( "delete.error", name );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/delete.error", new Object[]{name}, exc );
         }
 
         // Update cached info
@@ -519,13 +557,11 @@ public abstract class AbstractFileObject
         }
         if ( this.type != null )
         {
-            final String message = REZ.getString( "create-mismatched-type.error", type, name, this.type );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/create-mismatched-type.error", new Object[]{type, name, this.type}, null );
         }
-        if ( isReadOnly() )
+        if ( !isWriteable() )
         {
-            final String message = REZ.getString( "create-read-only.error", type, name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/create-read-only.error", new Object[]{type, name}, null );
         }
 
         // Traverse up the heirarchy and make sure everything is a folder
@@ -556,8 +592,7 @@ public abstract class AbstractFileObject
         }
         catch ( Exception exc )
         {
-            final String message = REZ.getString( "create.error", type, name );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/create.error", new Object[]{type, name}, exc );
         }
 
         // Update cached info
@@ -572,13 +607,11 @@ public abstract class AbstractFileObject
     {
         if ( !file.exists() )
         {
-            final String message = REZ.getString( "copy-missing-file.error", file.getName() );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/copy-missing-file.error", file );
         }
-        if ( isReadOnly() )
+        if ( !isWriteable() )
         {
-            final String message = REZ.getString( "copy-read-only.error", file.getType(), file.getName(), name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/copy-read-only.error", new Object[]{file.getType(), file.getName(), this}, null );
         }
 
         // Locate the files to copy across
@@ -624,8 +657,7 @@ public abstract class AbstractFileObject
     {
         if ( !exists() )
         {
-            final String message = REZ.getString( "copy-missing-file.error", name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/copy-missing-file.error", name );
         }
 
         return doReplicateFile( selector );
@@ -638,26 +670,19 @@ public abstract class AbstractFileObject
                                      final FileObject destFile )
         throws FileSystemException
     {
+        InputStream instr = null;
+        OutputStream outstr = null;
         try
         {
-            final InputStream instr = srcFile.getContent().getInputStream();
-            try
+            instr = srcFile.getContent().getInputStream();
+            // Create the output stream via getContent(), to pick up the
+            // validation it does
+            outstr = destFile.getContent().getOutputStream();
+            final byte[] buffer = new byte[ 1024*4 ];
+            int n = 0;
+            while( -1 != ( n = instr.read( buffer ) ) )
             {
-                // Create the output stream via getContent(), to pick up the
-                // validation it does
-                final OutputStream outstr = destFile.getContent().getOutputStream();
-                try
-                {
-                    IOUtil.copy( instr, outstr );
-                }
-                finally
-                {
-                    IOUtil.shutdownStream( outstr );
-                }
-            }
-            finally
-            {
-                IOUtil.shutdownStream( instr );
+                outstr.write( buffer, 0, n );
             }
         }
         catch ( RuntimeException re )
@@ -666,8 +691,30 @@ public abstract class AbstractFileObject
         }
         catch ( final Exception exc )
         {
-            final String message = REZ.getString( "copy-file.error", srcFile.getName(), destFile.getName() );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/copy-file.error", new Object[]{srcFile, destFile}, exc );
+        }
+        finally
+        {
+            if (instr != null)
+            {
+                try {
+                    instr.close();
+                }
+                catch( final Exception exc )
+                {
+                    //ignore
+                }
+            }
+            if (outstr != null)
+            {
+                try {
+                    outstr.close();
+                }
+                catch( final Exception exc )
+                {
+                    //ignore
+                }
+            }
         }
     }
 
@@ -735,15 +782,13 @@ public abstract class AbstractFileObject
     public OutputStream getOutputStream() throws FileSystemException
     {
         attach();
-        if ( isReadOnly() )
+        if ( !isWriteable() )
         {
-            final String message = REZ.getString( "write-read-only.error", name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/write-read-only.error", name );
         }
         if ( type == FileType.FOLDER )
         {
-            final String message = REZ.getString( "write-folder.error", name );
-            throw new FileSystemException( message );
+            throw new FileSystemException( "vfs.provider/write-folder.error", name );
         }
 
         if ( type == null )
@@ -771,8 +816,7 @@ public abstract class AbstractFileObject
         }
         catch ( Exception exc )
         {
-            final String message = REZ.getString( "write.error", name );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/write.error", new Object[]{name}, exc );
         }
     }
 
@@ -803,8 +847,7 @@ public abstract class AbstractFileObject
         }
         catch ( Exception exc )
         {
-            final String message = REZ.getString( "get-type.error", name );
-            throw new FileSystemException( message, exc );
+            throw new FileSystemException( "vfs.provider/get-type.error", new Object[]{name}, exc );
         }
 
     }

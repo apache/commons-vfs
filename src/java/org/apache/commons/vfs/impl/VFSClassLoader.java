@@ -18,8 +18,6 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
-import org.apache.avalon.excalibur.i18n.ResourceManager;
-import org.apache.avalon.excalibur.i18n.Resources;
 
 
 /**
@@ -33,17 +31,14 @@ import org.apache.avalon.excalibur.i18n.Resources;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/22 02:42:45 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/21 01:40:38 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
 {
-    private static final Resources REZ
-        = ResourceManager.getPackageResources( VFSClassLoader.class );
-
     private ArrayList resources;
     private FileSystemManager manager;
-   
+
     /**
      * Constructors a new VFSClassLoader for the given FileObjects.
      * The FileObjects will be searched in the order specified.
@@ -92,7 +87,7 @@ public class VFSClassLoader
             addFileObject( files[i] );
         }
     }
-    
+
     /**
      * Appends the specified FileObject to the list of FileObjects to search
      * for classes and resources.
@@ -103,7 +98,7 @@ public class VFSClassLoader
     {
         resources.add( file );
     }
-    
+
     /**
      * Finds and loads the class with the specified name from the search
      * path.
@@ -117,9 +112,7 @@ public class VFSClassLoader
             Resource res = loadResource( path );
             if ( res == null )
             {
-                final String message =
-                    REZ.getString( "class-not-found.error", name );
-                throw new ClassNotFoundException( message );
+                throw new ClassNotFoundException(name);
             }
             return defineClass( name, res );
         }
@@ -152,18 +145,14 @@ public class VFSClassLoader
                 {
                     if ( !pkg.isSealed( url ) )
                     {
-                        final String message = REZ.getString(
-                            "pkg-sealed-other-url", pkgName );
-                        throw new SecurityException( message );
+                        throw new FileSystemException( "vfs.impl/pkg-sealed-other-url", pkgName );
                     }
                 }
                 else
                 {
                     if ( isSealed( res ) )
                     {
-                        final String message = REZ.getString(
-                            "pkg-sealing-unsealed", pkgName );
-                        throw new SecurityException( message );
+                        throw new FileSystemException( "vfs.impl/pkg-sealing-unsealed", pkgName );
                     }
                 }
             }
@@ -221,7 +210,7 @@ public class VFSClassLoader
         final FileContent content =
             res.getFileObject().getParent().getContent();
         String sealed = (String) content.getAttribute( Name.SEALED.toString() );
-        
+
         return "true".equalsIgnoreCase( sealed );
     }
 
@@ -246,7 +235,7 @@ public class VFSClassLoader
             {
                 return super.getPermissions( cs );
             }
-        
+
             Permissions combi = new Permissions();
             PermissionCollection permCollect = super.getPermissions( cs );
             copyPermissions( permCollect, combi );
@@ -303,7 +292,7 @@ public class VFSClassLoader
         }
         return null;
     }
-       
+
     /**
      * Finds the resource with the specified name from the search path.
      * This returns null if the resource is not found.
