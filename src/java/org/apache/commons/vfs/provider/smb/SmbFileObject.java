@@ -154,6 +154,15 @@ class SmbFileObject
     }
 
     /**
+     * Returns the last modified time of this file.
+     */
+    protected long doGetLastModifiedTime()
+        throws Exception
+    {
+        return file.getLastModified();
+    }
+
+    /**
      * Creates an input stream to read the file content from.
      */
     protected InputStream doGetInputStream() throws Exception
