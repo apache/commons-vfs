@@ -19,10 +19,10 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 
 /**
- * Description
+ * Configuration options for HTTP
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/21 20:54:37 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/22 20:33:14 $
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
