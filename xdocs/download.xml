@@ -41,7 +41,10 @@
                         <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>.
                         Version 2.0 beta 1 or later.
                     </td>
-                    <td>WebDAV</td>
+                    <td>
+                        WebDAV<br/>
+                        HTTP (optional).
+                    </td>
                 </tr>
                 <tr>
                     <td>
@@ -61,7 +64,6 @@
                 <tr>
                     <td>
                         <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.5 or later.
-                        Note that JSch requires Java 1.4 or later.
                     </td>
                     <td>SFTP</td>
                 </tr>
