@@ -141,8 +141,7 @@ public abstract class AbstractFileSystemTestCase
         assertTrue( !baseFolder.getName().getPath().equals( "/" ) );
 
         // Build the expected content of "file1.txt"
-        final String eol = "\n";
-        charContent = "This is a test file." + eol + "With 2 lines in it." + eol;
+        charContent = "This is a test file.";
     }
 
     /**
