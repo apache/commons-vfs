@@ -26,7 +26,10 @@
     </provider>
     <provider class-name="org.apache.commons.vfs.provider.sftp.SftpFileProvider">
         <scheme name="sftp"/>
-        <if-available class-name="javax.crypto.Cypher"/>
+        <if-available class-name="javax.crypto.Cipher"/>
         <if-available class-name="com.jcraft.jsch.JSch"/>
     </provider>
+    <extension-map extension="zip" scheme="zip"/>
+    <mime-type-map mimetype="application/zip" scheme="zip"/>
+    <extension-map extension="jar" scheme="jar"/>
 </providers>

@@ -70,7 +70,7 @@ import org.w3c.dom.NodeList;
  * from an XML configuration file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2003/02/21 05:12:03 $
+ * @version $Revision: 1.13 $ $Date: 2003/02/24 07:31:08 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -162,11 +162,47 @@ public class StandardFileSystemManager
                 final Element provider = (Element)defProviders.item( 0 );
                 addProvider( provider, true );
             }
+
+            // Add the mime-type maps
+            final NodeList mimeTypes = config.getElementsByTagName( "mime-type-map" );
+            for ( int i = 0; i < mimeTypes.getLength(); i++ )
+            {
+                final Element map = (Element)mimeTypes.item( i );
+                addMimeTypeMap( map );
+            }
+
+            // Add the extension maps
+            final NodeList extensions = config.getElementsByTagName( "extension-map" );
+            for ( int i = 0; i < extensions.getLength(); i++ )
+            {
+                final Element map = (Element)extensions.item( i );
+                addExtensionMap( map );
+            }
         }
         catch ( final Exception e )
         {
             throw new FileSystemException( "vfs.impl/load-config.error", configUri, e );
         }
+    }
+
+    /**
+     * Adds an extension map.
+     */
+    private void addExtensionMap( final Element map )
+    {
+        final String extension = map.getAttribute( "extension" );
+        final String scheme = map.getAttribute( "scheme" );
+        addExtensionMap( extension, scheme );
+    }
+
+    /**
+     * Adds a mime-type map.
+     */
+    private void addMimeTypeMap( final Element map )
+    {
+        final String mimeType = map.getAttribute( "mime-type" );
+        final String scheme = map.getAttribute( "scheme" );
+        addMimeTypeMap( mimeType, scheme );
     }
 
     /**

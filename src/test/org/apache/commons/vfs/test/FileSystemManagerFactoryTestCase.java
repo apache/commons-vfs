@@ -60,12 +60,13 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.FileType;
 
 /**
  * Test cases for the VFS factory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.9 $ $Date: 2003/02/24 07:31:09 $
  */
 public class FileSystemManagerFactoryTestCase
     extends AbstractVfsTestCase
@@ -78,11 +79,18 @@ public class FileSystemManagerFactoryTestCase
         // Locate the default manager
         final FileSystemManager manager = VFS.getManager();
 
-        // Lookup a test file
-        final File testDir = getTestResource( "read-tests" );
-        final FileObject file = manager.toFileObject( testDir );
+        // Lookup a test jar file
+        final File jarFile = getTestResource( "test.jar" );
+        FileObject file = manager.toFileObject( jarFile );
         assertNotNull( file );
         assertTrue( file.exists() );
+        assertSame( FileType.FILE, file.getType() );
+
+        // Expand it
+        file = manager.createFileSystem( file );
+        assertNotNull( file );
+        assertTrue( file.exists() );
+        assertSame( FileType.FOLDER, file.getType() );
     }
 
 }
