@@ -53,7 +53,6 @@ public class LocalFileSystem
     {
         // Create the file
         String fileName = rootFile + name.getPath();
-        fileName = fileName;
         return new LocalFile(this, fileName, name);
     }
 

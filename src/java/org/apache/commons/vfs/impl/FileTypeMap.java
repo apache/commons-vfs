@@ -57,7 +57,7 @@ class FileTypeMap
         // Check the file's mime type for a match
         final FileContent content = file.getContent();
         // final String mimeType = (String) content.getAttribute("content-type");
-        final String mimeType = (String) content.getContentInfo().getContentType();
+        final String mimeType = content.getContentInfo().getContentType();
         if (mimeType != null)
         {
             return (String) mimeTypeMap.get(mimeType);
