@@ -67,7 +67,7 @@ import org.apache.commons.vfs.FileType;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2003/02/23 00:40:37 $
+ * @version $Revision: 1.10 $ $Date: 2003/03/14 03:48:37 $
  *
  * @todo Test getLastModified(), getAttribute()
  */
@@ -164,6 +164,15 @@ public class ProviderReadTests
         // Test an unknown file
         file = getReadFolder().resolveFile( "unknown-child" );
         assertSame( FileType.IMAGINARY, file.getType() );
+    }
+
+    /**
+     * Tests the contents of root of file system can be listed.
+     */
+    public void testRoot() throws FileSystemException
+    {
+        final FileObject file = getReadFolder().getFileSystem().getRoot();
+        file.getChildren();
     }
 
     /**

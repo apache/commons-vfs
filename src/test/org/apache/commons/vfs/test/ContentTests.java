@@ -68,7 +68,7 @@ import org.apache.commons.vfs.NameScope;
  * Test cases for reading file content.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/23 00:40:37 $
+ * @version $Revision: 1.5 $ $Date: 2003/03/14 03:48:37 $
  */
 public class ContentTests
     extends AbstractProviderTestCase
@@ -115,18 +115,34 @@ public class ContentTests
         // Test a file
         FileObject file = getReadFolder().resolveFile( "file1.txt" );
         assertTrue( "file exists", file.exists() );
+        assertTrue( "file exists", file.getType() != FileType.IMAGINARY );
 
         // Test a folder
         file = getReadFolder().resolveFile( "dir1" );
         assertTrue( "folder exists", file.exists() );
+        assertTrue( "folder exists", file.getType() != FileType.IMAGINARY );
 
         // Test an unknown file
         file = getReadFolder().resolveFile( "unknown-child" );
         assertTrue( "unknown file does not exist", !file.exists() );
+        assertTrue( "unknown file does not exist",
+                    file.getType() == FileType.IMAGINARY );
 
         // Test an unknown file in an unknown folder
         file = getReadFolder().resolveFile( "unknown-folder/unknown-child" );
         assertTrue( "unknown file does not exist", !file.exists() );
+        assertTrue( "unknown file does not exist",
+                    file.getType() == FileType.IMAGINARY );
+    }
+
+    /**
+     * Tests root of file system exists.
+     */
+    public void testRoot() throws FileSystemException
+    {
+        final FileObject file = getReadFolder().getFileSystem().getRoot();
+        assertTrue( file.exists() );
+        assertTrue( file.getType() != FileType.IMAGINARY );
     }
 
     /**
