@@ -64,7 +64,7 @@ import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/11/23 00:41:10 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/25 05:46:03 $
  */
 public class ProviderTestSuite
     extends TestSuite
@@ -101,19 +101,26 @@ public class ProviderTestSuite
      */
     private void addBaseTests() throws Exception
     {
-        addTestClass( ProviderReadTests.class );
-        addTestClass( ProviderWriteTests.class );
-        addTestClass( UrlTests.class );
-        addTestClass( VfsClassLoaderTests.class );
+        addTests( ProviderReadTests.class );
+        addTests( ProviderWriteTests.class );
+        addTests( UrlTests.class );
+        addTests( VfsClassLoaderTests.class );
     }
 
     /**
-     * Adds the tests from a class to this suite.  Looks for a no-args constructor
-     * which it uses to create instances of the test class.  Adds an instance
-     * for each public test method provided by the class.
+     * Adds the tests from a class to this suite.  The supplied class must be
+     * a subclass of {@link AbstractProviderTestCase} and have a public a
+     * no-args constructor.  This method creates an instance of the supplied
+     * class for each public 'testNnnn' method provided by the class.
      */
-    private void addTestClass( final Class testClass ) throws Exception
+    public void addTests( final Class testClass ) throws Exception
     {
+        // Verify the class
+        if ( !AbstractProviderTestCase.class.isAssignableFrom( testClass ) )
+        {
+            throw new Exception( "Test class " + testClass.getName() + " is not assignable to " + AbstractProviderTestCase.class.getName() );
+        }
+
         // Locate the test methods
         final Method[] methods = testClass.getMethods();
         for ( int i = 0; i < methods.length; i++ )
