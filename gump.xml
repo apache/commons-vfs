@@ -12,21 +12,19 @@
       </property>
     </ant>
     <package>org.apache.commons.vfs</package>
-    <depend project="ant:ant">
+    <depend project="commons-httpclient">
     </depend>
-    <depend project="commons-httpclient:commons-httpclient">
+    <depend project="commons-logging">
     </depend>
-    <depend project="commons-logging:commons-logging">
-    </depend>
-    <depend project="commons-net:commons-net">
+    <depend project="commons-net">
     </depend>
     <depend project="jakarta-ant">
     </depend>
-    <depend project="jakarta-slide:client-webdavlib">
+    <depend project="jakarta-slide">
     </depend>
-    <depend project="jcifs:jcifs">
+    <depend project="jcifs">
     </depend>
-    <depend project="junit:junit">
+    <depend project="junit">
     </depend>
     <depend project="xml-xerces">
     </depend>
