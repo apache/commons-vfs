@@ -56,13 +56,13 @@
 
     <dependency>
       <groupId>slide</groupId>
-      <artifactId>webdavlib</artifactId> <!-- ?? -->
-      <version>20030224</version>
+      <artifactId>webdavlib</artifactId>
+      <version>2.0beta1</version>   
     </dependency>
 
     <dependency>
        <id>commons-httpclient</id>
-       <version>2.0-beta1</version>
+       <version>2.0</version>
     </dependency>
 
     <dependency>
