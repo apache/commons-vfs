@@ -56,12 +56,14 @@
 package org.apache.commons.vfs.provider.ftp;
 
 import java.io.IOException;
+import java.util.Collection;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 /**
@@ -118,6 +120,19 @@ final class FtpFileSystem
         closeConnection();
 
         super.close();
+    }
+
+    /**
+     * Adds the capabilities of this file system.
+     */
+    protected void addCapabilities( final Collection caps )
+    {
+        caps.add( Capability.CREATE );
+        caps.add( Capability.DELETE );
+        caps.add( Capability.LIST_CHILDREN );
+        caps.add( Capability.READ_CONTENT );
+        caps.add( Capability.URI );
+        caps.add( Capability.WRITE_CONTENT ); 
     }
 
     /**

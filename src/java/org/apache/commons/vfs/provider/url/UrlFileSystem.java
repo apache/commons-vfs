@@ -55,17 +55,19 @@
  */
 package org.apache.commons.vfs.provider.url;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import java.util.Collection;
 
 /**
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.9 $ $Date: 2002/11/23 00:12:30 $
  */
 class UrlFileSystem
     extends AbstractFileSystem
@@ -82,5 +84,14 @@ class UrlFileSystem
     protected FileObject createFile( final FileName name ) throws FileSystemException
     {
         return new UrlFileObject( this, name );
+    }
+
+    /**
+     * Returns the capabilities of this file system.
+     */
+    protected void addCapabilities( final Collection caps )
+    {
+        caps.add( Capability.READ_CONTENT );
+        caps.add( Capability.URI );
     }
 }

@@ -59,7 +59,9 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import java.util.Collection;
 
 /**
  * An SMB file system.
@@ -82,5 +84,18 @@ class SmbFileSystem
     protected FileObject createFile( final FileName name ) throws FileSystemException
     {
         return new SmbFileObject( name, this );
+    }
+
+    /**
+     * Returns the capabilities of this file system.
+     */
+    protected void addCapabilities( final Collection caps )
+    {
+        caps.add( Capability.CREATE );
+        caps.add( Capability.DELETE );
+        caps.add( Capability.LIST_CHILDREN );
+        caps.add( Capability.READ_CONTENT );
+        caps.add( Capability.URI );
+        caps.add( Capability.WRITE_CONTENT );
     }
 }
