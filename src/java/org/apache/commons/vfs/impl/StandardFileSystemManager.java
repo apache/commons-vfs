@@ -29,10 +29,13 @@ import java.util.ArrayList;
 
 /**
  * A {@link org.apache.commons.vfs.FileSystemManager} that configures itself
- * from an XML configuration file.
+ * from an XML (Default: providers.xml) configuration file.<br>
+ * Certain providers are only loaded and available if the dependend library is in your
+ * classpath. You have to configure your debugging facility to log "debug" messages to see
+ * if a provider was skipped due to "unresolved externals".
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.17 $ $Date: 2004/05/10 20:09:47 $
+ * @version $Revision: 1.18 $ $Date: 2004/05/15 09:15:11 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -197,9 +200,9 @@ public class StandardFileSystemManager
             final String requiredClass = requiredClasses[i];
             if (!findClass(requiredClass))
             {
-                final String msg = Messages.getString("vfs.impl/skipping-provider.warn",
+                final String msg = Messages.getString("vfs.impl/skipping-provider.debug",
                     new String[]{classname, requiredClass});
-                getLog().warn(msg);
+                getLog().debug(msg);
                 return;
             }
         }
