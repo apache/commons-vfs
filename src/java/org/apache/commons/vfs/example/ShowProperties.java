@@ -1,5 +1,5 @@
 /*
- * Copyright 2003,2004 The Apache Software Foundation.
+* Copyright 2003,2004 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,17 +18,22 @@ package org.apache.commons.vfs.example;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.VFS;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * A simple that prints the properties of the file passed as first parameter.
  *
  * @author <a href="mailto:anthony@antcommander.com">Anthony Goubard</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/17 18:30:45 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/25 08:05:55 $
  */
+
+
 public class ShowProperties
 {
-
     public static void main(String[] args)
     {
         if (args.length == 0)
@@ -37,27 +42,48 @@ public class ShowProperties
             System.err.println("e.g. java org.apache.commons.vfs.example.ShowProperties LICENSE.txt");
             return;
         }
-        try
+        for (int i = 0; i < args.length; i++)
         {
-            FileSystemManager mgr = VFS.getManager();
-            FileObject file = mgr.resolveFile(args[0]);
-            System.out.println("file " + file);
-            System.out.println("file.getURL() " + file.getURL());
-            System.out.println("file.getURL().toExternalForm() " + file.getURL().toExternalForm());
-            System.out.println("file.getName() " + file.getName());
-            System.out.println("file.getName().getBaseName() " + file.getName().getBaseName());
-            System.out.println("file.getName().getExtension() " + file.getName().getExtension());
-            System.out.println("file.getName().getPath() " + file.getName().getPath());
-            System.out.println("file.getName().getScheme() " + file.getName().getScheme());
-            System.out.println("file.getName().getURI() " + file.getName().getURI());
-            System.out.println("file.getName().getRootURI() " + file.getName().getRootURI());
-            System.out.println("file.getName().getParent() " + file.getName().getParent());
-            System.out.println("file.getType() " + file.getType());
-            System.out.println("file.getFileSystem().getRoot().getName().getPath() " + file.getFileSystem().getRoot().getName().getPath());
-        }
-        catch (FileSystemException ex)
-        {
-            ex.printStackTrace();
+            try
+            {
+                FileSystemManager mgr = VFS.getManager();
+                System.out.println();
+                System.out.println("Parsing: " + args[i]);
+                FileObject file = mgr.resolveFile(args[i]);
+                System.out.println("URL: " + file.getURL());
+                System.out.println("getName(): " + file.getName());
+                System.out.println("BaseName: " + file.getName().getBaseName());
+                System.out.println("Extension: " + file.getName().getExtension());
+                System.out.println("Path: " + file.getName().getPath());
+                System.out.println("Scheme: " + file.getName().getScheme());
+                System.out.println("URI: " + file.getName().getURI());
+                System.out.println("Root URI: " + file.getName().getRootURI());
+                System.out.println("Parent: " + file.getName().getParent());
+                System.out.println("Type: " + file.getType());
+                System.out.println("Root path: " + file.getFileSystem().getRoot().getName().getPath());
+                if (file.exists() && file.isReadable())
+                {
+                    if (file.getType().equals(FileType.FILE))
+                    {
+                        System.out.println("Size: " + file.getContent().getSize() + " bytes");
+                    }
+                    else if (file.getType().equals(FileType.FOLDER))
+                    {
+                        System.out.println("Directory with " + file.getChildren().length + " files");
+                    }
+                    System.out.println("Last modified: " + DateFormat.getInstance().format(new Date(file.getContent().getLastModifiedTime())));
+                }
+                else
+                {
+                    System.out.println("The file does not exist");
+                }
+                file.close();
+            }
+            catch (FileSystemException ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 }
+
