@@ -57,12 +57,13 @@ package org.apache.commons.vfs;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Utility methods for dealng with FileObjects.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2003/02/12 07:56:09 $
+ * @version $Revision: 1.4 $ $Date: 2003/02/21 05:15:51 $
  */
 public class FileUtil
 {
@@ -99,5 +100,31 @@ public class FileUtil
         return buf;
     }
 
+    /**
+     * Writes the content of a file to an OutputStream.
+     */
+    public static void writeContent( final FileObject file,
+                                     final OutputStream outstr )
+        throws IOException
+    {
+        final InputStream instr = file.getContent().getInputStream();
+        try
+        {
+            final byte[] buffer = new byte[ 1024 ];
+            while ( true )
+            {
+                final int nread = instr.read( buffer );
+                if ( nread < 0 )
+                {
+                    break;
+                }
+                outstr.write( buffer, 0, nread );
+            }
+        }
+        finally
+        {
+            instr.close();
+        }
+    }
 
 }
