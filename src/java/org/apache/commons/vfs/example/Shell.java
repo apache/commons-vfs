@@ -75,7 +75,8 @@ import org.apache.commons.vfs.VFS;
  * A simple command-line shell for performing file operations.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/10/13 08:45:23 $
+ * @author Gary D. Gregory
+ * @version $Id: Shell.java,v 1.5 2003/11/28 17:27:16 ggregory Exp $
  */
 public class Shell
 {
@@ -242,24 +243,28 @@ public class Shell
         System.out.println( "Current folder is " + cwd.getName() );
     }
 
-    /** Does a 'cd' command. */
-    private void cd( final String[] cmd ) throws Exception
-    {
+    /** 
+     * Does a 'cd' command.
+     * If the taget directory does not exist, a message is printed to <code>System.err</code>. 
+     */
+    private void cd(final String[] cmd) throws Exception {
         final String path;
-        if ( cmd.length > 1 )
-        {
-            path = cmd[ 1 ];
-        }
-        else
-        {
-            path = System.getProperty( "user.home" );
+        if (cmd.length > 1) {
+            path = cmd[1];
+        } else {
+            path = System.getProperty("user.home");
         }
 
         // Locate and validate the folder
-        cwd = mgr.resolveFile( cwd, path );
-        System.out.println( "Current folder is " + cwd.getName() );
+        FileObject tmp = mgr.resolveFile(cwd, path);
+        if (tmp.exists()) {
+            cwd = tmp;
+        } else {
+            System.out.println("Folder does not exist: " + tmp.getName());
+        }
+        System.out.println("Current folder is " + cwd.getName());
     }
-
+    
     /** Does an 'ls' command. */
     private void ls( final String[] cmd ) throws FileSystemException
     {
