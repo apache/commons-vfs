@@ -161,9 +161,9 @@ public abstract class AbstractFileObject
     /**
      * Deletes the file.  Is only called when:
      * <ul>
-     * <li>{@link #isWriteable} returns true.
      * <li>{@link #doGetType} does not return null.
-     * <li>This file has no children.
+     * <li>{@link #doIsWriteable} returns true.
+     * <li>This file has no children, if a folder.
      * </ul>
      */
     protected void doDelete() throws Exception
@@ -174,10 +174,9 @@ public abstract class AbstractFileObject
     /**
      * Creates this file as a folder.  Is only called when:
      * <ul>
-     * <li>{@link #isWriteable} returns true.
      * <li>{@link #doGetType} returns null.
-     * <li>The parent folder exists or this file is the root of the file
-     *     system.
+     * <li>The parent folder exists and is writeable, or this file is the
+     *     root of the file system.
      * </ul>
      */
     protected void doCreateFolder() throws Exception
@@ -193,9 +192,9 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#getLastModifiedTime}.
-     * The default is to just throw an exception so filesystems must
-     * override it to use it.
+     * Returns the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return null. This implementation throws
+     * an exception.
      */
     protected long doGetLastModifiedTime() throws Exception
     {
@@ -203,9 +202,9 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#setLastModifiedTime}.
-     * The default is to just throw an exception so filesystems must
-     * override it to use it.
+     * Sets the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return null.  This implementation
+     * throws an exception.
      */
     protected void doSetLastModifiedTime( long modtime )
         throws Exception
@@ -214,9 +213,8 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#getAttribute}.
-     * The default implementation just returns null so filesystems must
-     * override it to use it.
+     * Gets an attribute of this file.  Is only called if {@link #doGetType}
+     * does not return null.  This implementation return null.
      */
     protected Object doGetAttribute( final String attrName )
         throws Exception
@@ -225,9 +223,8 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#setAttribute}.
-     * The default is to just throw an exception so filesystems must
-     * override it to use it.
+     * Sets an attribute of this file.  Is only called if {@link #doGetType}
+     * does not return null.  This implementation throws an exception.
      */
     protected void doSetAttribute( String atttrName, Object value )
         throws Exception
@@ -236,9 +233,9 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#getCertificates}.
-     * The default implementation just returns null so filesystems must
-     * override it to use it.
+     * Returns the certificates used to sign this file.  Is only called if
+     * {@link #doGetType} does not return null.  This implementation returns
+     * null.
      */
     protected Certificate[] doGetCertificates() throws FileSystemException
     {
@@ -253,7 +250,7 @@ public abstract class AbstractFileObject
 
     /**
      * Creates an input stream to read the file content from.  Is only called
-     * if  {@link #doGetType} returns {@link FileType#FILE}.
+     * if {@link #doGetType} returns {@link FileType#FILE}.
      *
      * <p>There is guaranteed never to be more than one stream for this file
      * (input or output) open at any given time.
@@ -266,7 +263,7 @@ public abstract class AbstractFileObject
      * Creates an output stream to write the file content to.  Is only
      * called if:
      * <ul>
-     * <li>This file is not read-only.
+     * <li>{@link #doIsWriteable} returns true.
      * <li>{@link #doGetType} returns {@link FileType#FILE}, or
      * {@link #doGetType} returns null, and the file's parent exists
      * and is a folder.
@@ -646,18 +643,18 @@ public abstract class AbstractFileObject
     public void createFolder() throws FileSystemException
     {
         attach();
-        if ( this.type == FileType.FOLDER )
+        if ( type == FileType.FOLDER )
         {
             // Already exists as correct type
             return;
         }
-        if ( this.type != null )
+        if ( type != null )
         {
-            throw new FileSystemException( "vfs.provider/create-mismatched-type.error", new Object[]{type, name, this.type}, null );
+            throw new FileSystemException( "vfs.provider/create-folder-mismatched-type.error", name );
         }
         if ( !isWriteable() )
         {
-            throw new FileSystemException( "vfs.provider/create-read-only.error", new Object[]{type, name}, null );
+            throw new FileSystemException( "vfs.provider/create-folder-read-only.error", name );
         }
 
         // Traverse up the heirarchy and make sure everything is a folder
