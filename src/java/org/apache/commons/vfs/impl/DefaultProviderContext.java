@@ -11,6 +11,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.FileSystemProviderContext;
+import java.io.File;
 
 /**
  * A provider context implementation.
@@ -21,11 +22,11 @@ import org.apache.commons.vfs.provider.FileSystemProviderContext;
 final class DefaultProviderContext
     implements FileSystemProviderContext
 {
-    private final DefaultFileSystemManager m_manager;
+    private final DefaultFileSystemManager manager;
 
     public DefaultProviderContext( final DefaultFileSystemManager manager )
     {
-        m_manager = manager;
+        this.manager = manager;
     }
 
     /**
@@ -34,7 +35,7 @@ final class DefaultProviderContext
     public FileObject resolveFile( final FileObject baseFile, final String name )
         throws FileSystemException
     {
-        return m_manager.resolveFile( baseFile, name );
+        return manager.resolveFile( baseFile, name );
     }
 
     /**
@@ -43,7 +44,16 @@ final class DefaultProviderContext
     public FileObject resolveFile( final String name )
         throws FileSystemException
     {
-        return m_manager.resolveFile( name );
+        return manager.resolveFile( name );
+    }
+
+    /**
+     * Returns a {@link FileObject} for a local file.
+     */
+    public FileObject getFile( File file )
+        throws FileSystemException
+    {
+        return manager.convert( file );
     }
 
     /**
@@ -51,6 +61,6 @@ final class DefaultProviderContext
      */
     public FileReplicator getReplicator() throws FileSystemException
     {
-        return m_manager.getReplicator();
+        return manager.getReplicator();
     }
 }

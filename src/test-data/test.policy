@@ -10,8 +10,8 @@ grant codeBase "file:${maven.home}/-" {
 };
 
 grant codeBase "file:${maven.build.dest}" {
-    permission java.io.FilePermission "${user.dir}/ant_vfs_cache/-", "read, write, delete";
-    permission java.io.FilePermission "${user.dir}/ant_vfs_cache", "read, write";
+    permission java.io.FilePermission "${user.dir}/vfs_cache/-", "read, write, delete";
+    permission java.io.FilePermission "${user.dir}/vfs_cache", "read, write, delete";
     permission java.io.FilePermission "${user.dir}", "read";
     permission java.net.NetPermission "specifyStreamHandler";
 };

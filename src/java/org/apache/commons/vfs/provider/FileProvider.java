@@ -22,14 +22,10 @@ import org.apache.commons.vfs.FileSystemException;
  */
 public interface FileProvider
 {
-    String ROLE = FileProvider.class.getName();
-
     /**
      * Sets the context for this file provider.  This method is called before
      * any of the other provider methods.
-     *
-     * @todo - move this to a lifecycle interface (this interface is accessable
-     * to other providers, so need to prevent this being called).
+     * @todo Move to a lifecycle interface.
      */
     void setContext( FileSystemProviderContext context );
 
@@ -58,6 +54,7 @@ public interface FileProvider
 
     /**
      * Closes the provider.
+     * @todo Move to a lifecycle interface.
      */
     void close();
 }

@@ -8,7 +8,10 @@
 package org.apache.commons.vfs;
 
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileReplicator;
+import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 
@@ -16,7 +19,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
  * A static factory for {@link FileSystemManager} instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 01:44:56 $
+ * @version $Revision: 1.2 $ $Date: 2002/08/21 06:21:25 $
  */
 public class FileSystemManagerFactory
 {
@@ -50,6 +53,11 @@ public class FileSystemManagerFactory
     private static FileSystemManager doCreateManager() throws FileSystemException
     {
         final DefaultFileSystemManager mgr = new DefaultFileSystemManager();
+
+        // Set the replicator
+        FileReplicator replicator = new DefaultFileReplicator();
+        replicator = new PrivilegedFileReplicator( replicator );
+        mgr.setReplicator( replicator );
 
         // Add the default providers
         FileProvider provider = createProvider( "org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider" );

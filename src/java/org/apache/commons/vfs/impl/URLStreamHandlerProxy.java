@@ -19,7 +19,7 @@ import java.net.URLStreamHandler;
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
  * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:18 $
  */
-public final class URLStreamHandlerProxy
+class URLStreamHandlerProxy
     extends URLStreamHandler
 {
     protected URLConnection openConnection( final URL url )

@@ -21,6 +21,12 @@ import org.apache.commons.vfs.FileSystemException;
 public interface FileReplicator
 {
     /**
+     * Sets the context for the replicator.
+     * @todo Move to a lifecycle interface.
+     */
+    void setContext( FileSystemProviderContext context );
+
+    /**
      * Creates a local copy of the file, and all its descendents.
      *
      * @param srcFile The file to copy.
@@ -36,6 +42,7 @@ public interface FileReplicator
 
     /**
      * Closes the replicator.
+     * @todo Move to a lifecycle interface.
      */
     void close();
 }

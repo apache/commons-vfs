@@ -8,18 +8,18 @@
 package org.apache.commons.vfs.impl;
 
 import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Random;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
+import org.apache.commons.vfs.provider.FileSystemProviderContext;
 
 /**
  * A simple file replicator.
@@ -32,63 +32,61 @@ public final class DefaultFileReplicator
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( DefaultFileReplicator.class );
+    private static Log LOG = LogFactory.getLog( DefaultFileReplicator.class );
 
-    private static long filecount = -1;
+    private final ArrayList copies = new ArrayList();
+    private FileSystemProviderContext context;
+    private File tempDir;
+    private long filecount;
 
-    private final DefaultFileSystemManager m_manager;
-    private final File m_tempDir;
-    private final ArrayList m_copies = new ArrayList();
-
-    public DefaultFileReplicator( final DefaultFileSystemManager manager )
+    /**
+     * Sets the context for the replicator.
+     * @todo Move to a lifecycle interface.
+     */
+    public void setContext( FileSystemProviderContext context )
     {
-        m_manager = manager;
-        m_tempDir = (File) AccessController.doPrivileged(
-            new PrivilegedAction() {
-                public Object run() {
-                    return new File( "vfs_cache" ).getAbsoluteFile();
-                }
-            } );
+        this.context = context;
+        tempDir = new File( "vfs_cache" ).getAbsoluteFile();
+        filecount = new Random().nextInt() & 0xffff;
     }
 
     /**
-     * Closes the replicator, deleting the temporary files.
+     * Closes the replicator, deleting all temporary files.
      */
     public void close()
     {
-    /*
-        AccessController.doPrivileged(
-            new PrivilegedAction() {
-                public Object run()
-                {
-                    while( m_copies.size() > 0 )
-                    {
-                        final FileObject file = (FileObject)m_copies.remove( 0 );
-                        try
-                        {
-                            file.delete( FileConstants.SELECT_ALL );
-                        }
-                        catch( final FileSystemException e )
-                        {
-                            final String message = REZ.getString( "delete-temp.warn", file.getName() );
-                            getLogger().warn( message, e );
-                        }
-                    }
-                    return null;
-                }
-            } );
-      */      
+        // Delete the temporary files
+        while( copies.size() > 0 )
+        {
+            final FileObject file = (FileObject)copies.remove( 0 );
+            try
+            {
+                file.delete( FileConstants.SELECT_ALL );
+            }
+            catch( final FileSystemException e )
+            {
+                final String message = REZ.getString( "delete-temp.warn", file.getName() );
+                LOG.warn( message, e );
+            }
+        }
+
+        // Clean up the temp directory, if it is empty
+        if ( tempDir != null && tempDir.exists() && tempDir.list().length == 0 )
+        {
+            tempDir.delete();
+            tempDir = null;
+        }
     }
 
-    protected static File generateTempFile( String prefix, File tempDir )
+    /**
+     * Generates a new temp file name.
+     */
+    private File generateTempFile( String prefix )
     {
-        if( filecount == -1 )
-        {
-            filecount = new Random().nextInt() & 0xffff;
-        }
         // Create a unique-ish file name
         final String basename = prefix + "_"+ filecount + ".tmp";
         filecount++;
-        return  new File( tempDir, basename );
+        return new File( tempDir, basename );
     }
 
     /**
@@ -99,27 +97,14 @@ public final class DefaultFileReplicator
         throws FileSystemException
     {
         final String basename = srcFile.getName().getBaseName();
-        final File file = generateTempFile( basename, m_tempDir );
-        try
-        {
-            // Copy from the source file
-            final FileObject destFile = m_manager.convert( file );
-            AccessController.doPrivileged(
-                new PrivilegedExceptionAction() {
-                    public Object run() throws FileSystemException {
-                        destFile.copyFrom( srcFile, selector );
-                        return null;
-                }
-            } );
+        final File file = generateTempFile( basename );
 
-            // Keep track of the copy
-            m_copies.add( destFile );
-        }
-        catch( final PrivilegedActionException e )
-        {
-            final String message = REZ.getString( "replicate-file.error", srcFile.getName(), file );
-            throw new FileSystemException( message, e );
-        }
+        // Copy from the source file
+        final FileObject destFile = context.getFile( file );
+        destFile.copyFrom( srcFile, selector );
+
+        // Keep track of the copy
+        copies.add( destFile );
 
         return file;
     }

@@ -10,6 +10,7 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import java.io.File;
 
 /**
  * Used for a file system provider to access the services it needs, such
@@ -40,4 +41,10 @@ public interface FileSystemProviderContext
      * Locates a file replicator for the provider to use.
      */
     FileReplicator getReplicator() throws FileSystemException;
+
+    /**
+     * Returns a {@link FileObject} for a local file.
+     */
+    FileObject getFile( File file )
+        throws FileSystemException;
 }

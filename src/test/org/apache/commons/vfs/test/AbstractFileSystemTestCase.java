@@ -27,6 +27,8 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
+import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
 
@@ -114,6 +116,7 @@ public abstract class AbstractFileSystemTestCase
         // Create the file system manager
         m_manager = new DefaultFileSystemManager();
         m_manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
+        m_manager.setReplicator( new PrivilegedFileReplicator( new DefaultFileReplicator() ) );
 
         // Locate the base folder
         m_baseFolder = getBaseFolder();
