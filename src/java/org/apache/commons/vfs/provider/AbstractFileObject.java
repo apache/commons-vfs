@@ -146,6 +146,18 @@ public abstract class AbstractFileObject
     protected abstract String[] doListChildren() throws Exception;
 
     /**
+     * Lists the children of this file.  Is only called if {@link #doGetType}
+     * returns {@link FileType#FOLDER}.  The return value of this method
+     * is cached, so the implementation can be expensive.<br>
+     * Other than <code>doListChildren</code> you could return FileObject's to e.g. reinitialize the type of the file.<br>
+     * (Introduced for Webdav: "permission denied on resource" during getType())
+     */
+    protected FileObject[] doListChildrenResolved() throws Exception
+    {
+        return null;
+    }
+
+    /**
      * Deletes the file.  Is only called when:
      * <ul>
      * <li>{@link #doGetType} does not return {@link FileType#IMAGINARY}.
@@ -488,15 +500,26 @@ public abstract class AbstractFileObject
             return children;
         }
 
+        // allow the filesystem to return resolved children. e.g. prefill type for webdav
+        try
+        {
+            children = doListChildrenResolved();
+        }
+        catch (Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
+        }
+
+        if (children != null)
+        {
+            return children;
+        }
+
         // List the children
         final String[] files;
         try
         {
             files = doListChildren();
-        }
-        catch (RuntimeException re)
-        {
-            throw re;
         }
         catch (Exception exc)
         {
@@ -1031,15 +1054,15 @@ public abstract class AbstractFileObject
             // Attach and determine the file type
             doAttach();
             attached = true;
-            type = doGetType();
             if (type == null)
             {
-                type = FileType.IMAGINARY;
+                // type not injected
+                type = doGetType();
+                if (type == null)
+                {
+                    type = FileType.IMAGINARY;
+                }
             }
-        }
-        catch (RuntimeException re)
-        {
-            throw re;
         }
         catch (Exception exc)
         {
@@ -1255,5 +1278,10 @@ public abstract class AbstractFileObject
     {
         GlobalConfiguration gc = getFileSystem().getFileSystemManager().getGlobalConfiguration();
         return gc.getFileContentInfoFactory();
+    }
+
+    protected void injectType(FileType fileType)
+    {
+        type = fileType;
     }
 }

@@ -33,7 +33,7 @@ import java.util.Collection;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.14 $ $Date: 2004/05/19 19:34:07 $
+ * @version $Revision: 1.15 $ $Date: 2004/05/22 20:32:04 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
@@ -70,7 +70,27 @@ class WebDavFileSystem
                     rootName.getHostName(),
                     rootName.getPort(),
                     "/");
-                final WebdavResource resource = new WebdavResource(url, WebdavResource.NOACTION, 1);
+
+                WebdavResource resource = null;
+
+                FileSystemOptions fso = getFileSystemOptions();
+                if (fso != null)
+                {
+                    String proxyHost = WebdavFileSystemConfigBuilder.getInstance().getProxyHost(fso);
+                    int proxyPort = WebdavFileSystemConfigBuilder.getInstance().getProxyPort(fso);
+
+                    if (proxyHost != null && proxyPort > 0)
+                    {
+                        resource = new WebdavResource(url, proxyHost, proxyPort);
+                    }
+                }
+
+                if (resource == null)
+                {
+                    resource = new WebdavResource(url);
+                }
+                resource.setProperties(WebdavResource.NOACTION, 1);
+
                 client = resource.retrieveSessionInstance();
             }
             catch (final IOException e)
