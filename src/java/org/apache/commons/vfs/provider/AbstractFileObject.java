@@ -84,6 +84,8 @@ import org.apache.commons.vfs.FileUtil;
  *
  * @todo Chop this class up - move all the protected methods to several
  *       interfaces, so that structure and content can be separately overridden.
+ * @todo Check caps in methods like getChildren(), etc, and give better error messages
+ *       (eg 'this file type does not support listing children, vs 'this is not a folder') 
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.11 $ $Date: 2002/07/05 04:08:17 $

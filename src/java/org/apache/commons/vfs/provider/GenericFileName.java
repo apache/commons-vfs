@@ -64,7 +64,7 @@ import org.apache.commons.vfs.FileName;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/17 09:22:14 $
+ * @version $Revision: 1.8 $ $Date: 2003/03/17 09:07:32 $
  */
 public class GenericFileName
     extends AbstractFileName
@@ -243,7 +243,7 @@ public class GenericFileName
     }
 
     /**
-     * Extracts the user info from a URI.  The <scheme>:// part has been removed
+     * Extracts the user info from a URI.  The scheme:// part has been removed
      * already.
      */
     protected static String extractUserInfo( final StringBuffer name )
@@ -271,7 +271,7 @@ public class GenericFileName
     }
 
     /**
-     * Extracts the hostname from a URI.  The <scheme>://<userinfo>@ part has
+     * Extracts the hostname from a URI.  The scheme://userinfo@ part has
      * been removed.
      */
     protected static String extractHostName( final StringBuffer name )
@@ -299,7 +299,7 @@ public class GenericFileName
     }
 
     /**
-     * Extracts the port from a URI.  The <scheme>://<userinfo>@<hostname>
+     * Extracts the port from a URI.  The scheme://userinfo@hostname
      * part has been removed.
      * @return The port, or -1 if the URI does not contain a port.
      */
