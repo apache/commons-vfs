@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="jar" name="commons-vfs" basedir=".">
+
+  <target name="jar" depends="get-deps">
+
+    <mkdir dir="target/classes"></mkdir>
+
+    <javac destdir="target/classes" deprecation="false" debug="false" optimize="false" excludes="**/package.html">
+      <src>
+        <pathelement location="src/java"></pathelement>
+      </src>
+      <classpath>
+        <fileset dir="lib">
+          <include name="*.jar"></include>
+        </fileset>
+      </classpath>
+    </javac>
+
+    <jar jarfile="target/commons-vfs-1.0-dev.jar" excludes="**/package.html" basedir="target/classes"></jar>
+
+  </target>
+  
+  <target name="clean">
+    <delete dir="target"></delete>
+    <delete dir="dist"></delete>
+  </target>
+
+  <target name="dist" depends="jar">
+    <mkdir dir="dist"></mkdir>
+    <copy todir="dist">
+      <fileset dir="target"></fileset>
+    </copy>
+  </target>
+
+  <target name="get-deps">
+  
+    <mkdir dir="lib"></mkdir>
+    
+    <get dest="lib/junit-3.7.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/junit/jars/junit-3.7.jar"></get>
+    <get dest="lib/xml-apis-2.0.2.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xml-apis/jars/xml-apis-2.0.2.jar"></get>
+    <get dest="lib/xerces-2.0.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/xerces/jars/xerces-2.0.0.jar"></get>
+    <get dest="lib/commons-net-SNAPSHOT.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-net/jars/commons-net-SNAPSHOT.jar"></get>
+    <get dest="lib/commons-logging-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-logging/jars/commons-logging-1.0.jar"></get>
+    <get dest="lib/commons-io-SNAPSHOT.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/commons-io/jars/commons-io-SNAPSHOT.jar"></get>
+    <get dest="lib/excalibur-i18n-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/excalibur-i18n/jars/excalibur-i18n-1.0.jar"></get>
+    <get dest="lib/excalibur-logger-1.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/excalibur-logger/jars/excalibur-logger-1.0.jar"></get>
+    <get dest="lib/avalon-framework-4.0.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/avalon-framework/jars/avalon-framework-4.0.jar"></get>
+    <get dest="lib/jcifs-0.6.5.jar" usetimestamp="true" src="http://jakarta.apache.org/turbine/jars2/jcifs/jars/jcifs-0.6.5.jar"></get>
+  
+  </target>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <target name="install-maven">
+
+    
+
+    <get dest="${user.home}/maven-install-latest.jar" usetimestamp="true" src="${maven.repo.remote}maven/maven-install-latest.jar"></get>
+    
+    <unjar dest="${maven.home}" src="${user.home}/maven-install-latest.jar"></unjar>
+    
+  </target>
+
+</project>
+    
