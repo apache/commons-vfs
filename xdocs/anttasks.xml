@@ -132,6 +132,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>srcdirisbase</td>
+                    <td>Set whether the source directory should be used as base directory.
+                    If set to true, the subdirectories of the specified directories will be copied as well.</td>
+                    <td>No, default is
+                        <code>false</code>.
+                    </td>
+                </tr>
+                <tr>
                     <td>src</td>
                     <td>A source file or folder to copy.  Copies all descendents
                     of a folder.</td>

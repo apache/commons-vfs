@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/12/03 20:33:51 $
+ * @version $Revision: 1.13 $ $Date$
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
  * @todo Use visitors
@@ -56,6 +56,7 @@ public abstract class AbstractSyncTask
     private String destFileUrl;
     private String destDirUrl;
     private String srcDirUrl;
+    private boolean srcDirIsBase;
     private String filesList;
 
     /**
@@ -90,6 +91,14 @@ public abstract class AbstractSyncTask
     public void setSrcDir(final String srcDir)
     {
         this.srcDirUrl = srcDir;
+    }
+
+    /**
+     * Sets whether the source directory should be consider as the base directory.
+     */
+    public void setSrcDirIsBase(final boolean srcDirIsBase)
+    {
+        this.srcDirIsBase = srcDirIsBase;
     }
 
     /**
@@ -197,6 +206,11 @@ public abstract class AbstractSyncTask
         destFolder.createFolder();
 
         // Locate the source files, and make sure they exist
+        FileName srcDirName = null;
+        if (srcDirUrl !=null )
+        {
+            srcDirName = resolveFile(srcDirUrl).getName();
+        }
         final ArrayList srcs = new ArrayList();
         for (int i = 0; i < srcFiles.size(); i++)
         {
@@ -225,7 +239,16 @@ public abstract class AbstractSyncTask
             if (rootFile.getType() == FileType.FILE)
             {
                 // Build the destination file name
-                final FileObject destFile = destFolder.resolveFile(rootName.getBaseName(), NameScope.DESCENDENT);
+                String relName = null;
+                if (srcDirName == null || !srcDirIsBase)
+                {
+                    relName = rootName.getBaseName();
+                }
+                else
+                {
+                    relName = srcDirName.getRelativeName(rootName);
+                }
+                final FileObject destFile = destFolder.resolveFile(relName, NameScope.DESCENDENT);
 
                 // Do the copy
                 handleFile(destFiles, rootFile, destFile);
@@ -233,13 +256,23 @@ public abstract class AbstractSyncTask
             else
             {
                 // Find matching files
-                final FileObject[] files = rootFile.findFiles(Selectors.SELECT_FILES);
+                // If srcDirIsBase is true, select also the sub-directories
+                final FileObject[] files = rootFile.findFiles(srcDirIsBase ? Selectors.SELECT_ALL : Selectors.SELECT_FILES);
+
                 for (int j = 0; j < files.length; j++)
                 {
                     final FileObject srcFile = files[j];
 
                     // Build the destination file name
-                    String relName = rootName.getRelativeName(srcFile.getName());
+                    String relName = null;
+                    if (srcDirName == null || !srcDirIsBase)
+                    {
+                        relName = rootName.getRelativeName(srcFile.getName());
+                    }
+                    else
+                    {
+                        relName = srcDirName.getRelativeName(srcFile.getName());
+                    }
 
                     final FileObject destFile =
                         destFolder.resolveFile(relName, NameScope.DESCENDENT);
