@@ -23,8 +23,7 @@ import org.apache.commons.vfs.Selectors;
  * An Ant task that copies matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:52 $
- *
+ * @version $Revision: 1.8 $ $Date: 2004/05/08 20:04:45 $
  * @todo Copy folders that do not contain files
  */
 public class CopyTask
@@ -36,7 +35,7 @@ public class CopyTask
     /**
      * Enable/disable overwriting of up-to-date files.
      */
-    public void setOverwrite( boolean overwrite )
+    public void setOverwrite(boolean overwrite)
     {
         this.overwrite = overwrite;
     }
@@ -44,38 +43,54 @@ public class CopyTask
     /**
      * Enable/disable preserving last modified time of copied files.
      */
-    public void setPreserveLastModified( boolean preserveLastModified )
+    public void setPreserveLastModified(boolean preserveLastModified)
     {
         this.preserveLastModified = preserveLastModified;
     }
 
     /**
+     * @return the curent value of overwrite
+     */
+    public boolean isOverwrite()
+    {
+        return overwrite;
+    }
+
+    /**
+     * @return the curent value of preserveLastModified
+     */
+    public boolean isPreserveLastModified()
+    {
+        return preserveLastModified;
+    }
+
+    /**
      * Handles an out-of-date file.
      */
-    protected void handleOutOfDateFile( final FileObject srcFile,
-                                        final FileObject destFile )
+    protected void handleOutOfDateFile(final FileObject srcFile,
+                                       final FileObject destFile)
         throws FileSystemException
     {
-        log( "Copying " + srcFile + " to " + destFile );
-        destFile.copyFrom( srcFile, Selectors.SELECT_SELF );
-        if ( preserveLastModified )
+        log("Copying " + srcFile + " to " + destFile);
+        destFile.copyFrom(srcFile, Selectors.SELECT_SELF);
+        if (preserveLastModified)
         {
             final long lastModTime = srcFile.getContent().getLastModifiedTime();
-            destFile.getContent().setLastModifiedTime( lastModTime );
+            destFile.getContent().setLastModifiedTime(lastModTime);
         }
     }
 
     /**
      * Handles an up-to-date file.
      */
-    protected void handleUpToDateFile( final FileObject srcFile,
-                                       final FileObject destFile )
+    protected void handleUpToDateFile(final FileObject srcFile,
+                                      final FileObject destFile)
         throws FileSystemException
     {
-        if ( overwrite )
+        if (overwrite)
         {
             // Copy the file anyway
-            handleOutOfDateFile( srcFile, destFile );
+            handleOutOfDateFile(srcFile, destFile);
         }
     }
 }
