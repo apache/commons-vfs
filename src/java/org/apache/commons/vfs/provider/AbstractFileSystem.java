@@ -55,17 +55,20 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.util.Messages;
 
 /**
@@ -81,6 +84,7 @@ public abstract class AbstractFileSystem
     private final FileName rootName;
     private FileObject parentLayer;
     private FileObject root;
+    private final Collection caps = new HashSet();
 
     /** Map from FileName to FileObject. */
     private final Map files = new HashMap();
@@ -95,6 +99,17 @@ public abstract class AbstractFileSystem
         this.rootName = rootName;
     }
 
+    /**
+     * Initialises this component.
+     */
+    public void init() throws FileSystemException
+    {
+        addCapabilities( caps );
+    }
+
+    /**
+     * Closes this component.
+     */
     public void close()
     {
         // Clean-up
@@ -108,7 +123,12 @@ public abstract class AbstractFileSystem
     protected abstract FileObject createFile( final FileName name )
         throws FileSystemException;
 
-    /** Returns the name of the root of this file system. */ 
+    /**
+     * Adds the capabilities of this file system.
+     */
+    protected abstract void addCapabilities( Collection caps );
+
+    /** Returns the name of the root of this file system. */
     protected FileName getRootName()
     {
         return rootName;
@@ -128,6 +148,14 @@ public abstract class AbstractFileSystem
     protected FileObject getFile( final FileName name )
     {
         return (FileObject)files.get( name );
+    }
+
+    /**
+     * Determines if this file system has a particular capability.
+     */
+    public boolean hasCapability( final Capability capability )
+    {
+        return caps.contains( capability );
     }
 
     /**
@@ -233,7 +261,7 @@ public abstract class AbstractFileSystem
     /**
      * Adds a junction to this file system.
      */
-    public void addJunction( final FileName junctionPoint,
+    public void addJunction( final String junctionPoint,
                              final FileObject targetFile )
         throws FileSystemException
     {
@@ -243,7 +271,7 @@ public abstract class AbstractFileSystem
     /**
      * Removes a junction from this file system.
      */
-    public void removeJuntion( final FileName junctionPoint ) throws FileSystemException
+    public void removeJuntion( final String junctionPoint ) throws FileSystemException
     {
         throw new FileSystemException( "vfs.provider/junctions-not-supported.error", rootName );
     }

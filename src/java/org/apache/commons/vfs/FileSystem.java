@@ -61,7 +61,7 @@ import java.io.File;
  * A file system, made up of a hierarchy of files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2002/11/17 03:39:20 $
+ * @version $Revision: 1.8 $ $Date: 2002/11/23 00:11:53 $
  */
 public interface FileSystem
 {
@@ -71,8 +71,22 @@ public interface FileSystem
     FileObject getRoot() throws FileSystemException;
 
     /**
+     * Determines if this file system has a particular capability.
+     *
+     * @param capability The capability to check for.
+     *
+     * @return true if this filesystem has the requested capability.
+     *         Note that not all files in the file system may have the
+     *         capability.
+     *
+     * @todo Move this to another interface, so that set of capabilities can be queried.
+     */
+    boolean hasCapability( Capability capability );
+
+    /**
      * Returns the parent layer if this is a layered file system.
-     * This returns null if this is not a layered file system.
+     *
+     * @return The parent layer, or null if this is not a layered file system.
      */
     FileObject getParentLayer() throws FileSystemException;
 
@@ -166,7 +180,7 @@ public interface FileSystem
      *      point or target file is invalid (the file system may not support
      *      nested junctions, for example).
      */
-    void addJunction( FileName junctionPoint, FileObject targetFile )
+    void addJunction( String junctionPoint, FileObject targetFile )
         throws FileSystemException;
 
     /**
@@ -177,7 +191,7 @@ public interface FileSystem
      * @throws FileSystemException
      *      On error removing the junction.
      */
-    void removeJuntion( FileName junctionPoint ) throws FileSystemException;
+    void removeJuntion( String junctionPoint ) throws FileSystemException;
 
     /**
      * Creates a temporary local copy of a file and its descendents.  If
