@@ -23,6 +23,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.compressed.CompressedFileFileObject;
 import org.apache.commons.vfs.provider.compressed.CompressedFileFileSystem;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -30,7 +31,7 @@ import java.io.OutputStream;
  * the bzip2 file
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/08/05 18:39:46 $
+ * @version $Revision: 1.3 $ $Date: 2004/11/08 21:07:43 $
  */
 public class Bzip2FileObject extends CompressedFileFileObject
 {
@@ -43,11 +44,16 @@ public class Bzip2FileObject extends CompressedFileFileObject
     {
         // check file
         InputStream is = getContainer().getContent().getInputStream();
+        return wrapInputStream(getName().getURI(), is);
+    }
+
+    public static InputStream wrapInputStream(final String name, final InputStream is) throws IOException
+    {
         final int b1 = is.read();
         final int b2 = is.read();
         if (b1 != 'B' || b2 != 'Z')
         {
-            throw new FileSystemException("vfs.provider.compressedFile/not-a-compressedFile-file.error", getName());
+            throw new FileSystemException("vfs.provider.compressedFile/not-a-compressedFile-file.error", name);
         }
         return new CBZip2InputStream(is);
     }

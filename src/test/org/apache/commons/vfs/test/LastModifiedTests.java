@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.test;
 
+import junit.framework.AssertionFailedError;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
 
@@ -22,7 +23,7 @@ import org.apache.commons.vfs.FileObject;
  * Test cases for getting and setting file last modified time.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/06/30 19:06:38 $
+ * @version $Revision: 1.6 $ $Date: 2004/11/08 21:07:44 $
  */
 public class LastModifiedTests
     extends AbstractProviderTestCase
@@ -64,7 +65,22 @@ public class LastModifiedTests
             // Try a file
             final FileObject file = getReadFolder().resolveFile("file1.txt");
             file.getContent().setLastModifiedTime(now);
-            assertEquals(now, file.getContent().getLastModifiedTime(), file.getFileSystem().getLastModTimeAccuracy());
+            try
+            {
+                assertEquals(now, file.getContent().getLastModifiedTime(), file.getFileSystem().getLastModTimeAccuracy());
+            }
+            catch (AssertionFailedError e)
+            {
+                // on linux ext3 the above check is not necessarily true
+                if (file.getFileSystem().getLastModTimeAccuracy() < 1000L)
+                {
+                    assertEquals(now, file.getContent().getLastModifiedTime(), 1000L);
+                }
+                else
+                {
+                    throw e;
+                }
+            }
         }
 
         if (getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))
@@ -72,7 +88,22 @@ public class LastModifiedTests
             // Try a folder
             final FileObject folder = getReadFolder().resolveFile("dir1");
             folder.getContent().setLastModifiedTime(now);
-            assertEquals(now, folder.getContent().getLastModifiedTime(), folder.getFileSystem().getLastModTimeAccuracy());
+            try
+            {
+                assertEquals(now, folder.getContent().getLastModifiedTime(), folder.getFileSystem().getLastModTimeAccuracy());
+            }
+            catch (AssertionFailedError e)
+            {
+                // on linux ext3 the above check is not necessarily true
+                if (folder.getFileSystem().getLastModTimeAccuracy() < 1000L)
+                {
+                    assertEquals(now, folder.getContent().getLastModifiedTime(), 1000L);
+                }
+                else
+                {
+                    throw e;
+                }
+            }
         }
     }
 }

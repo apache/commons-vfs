@@ -285,7 +285,7 @@ public abstract class AbstractFileSystem
             }
             catch (Exception e)
             {
-                throw new FileSystemException("vfs.provider/create-file.error", name);
+                throw new FileSystemException("vfs.provider/resolve-file.error", name, e);
             }
 
             // imario@apache.org ==> use putFileToCache

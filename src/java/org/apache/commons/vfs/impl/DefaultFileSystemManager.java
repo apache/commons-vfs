@@ -572,6 +572,7 @@ public class DefaultFileSystemManager
         {
             throw new FileSystemException("vfs.impl/no-provider-for-file.error", file);
         }
+
         return createFileSystem(scheme, file);
     }
 

@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * if a provider was skipped due to "unresolved externals".
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.20 $ $Date: 2004/05/17 20:13:20 $
+ * @version $Revision: 1.21 $ $Date: 2004/11/08 21:07:44 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -166,7 +166,10 @@ public class StandardFileSystemManager
     {
         final String extension = map.getAttribute("extension");
         final String scheme = map.getAttribute("scheme");
-        addExtensionMap(extension, scheme);
+        if (scheme != null && scheme.length() > 0)
+        {
+            addExtensionMap(extension, scheme);
+        }
     }
 
     /**
@@ -186,6 +189,20 @@ public class StandardFileSystemManager
         throws FileSystemException
     {
         final String classname = providerDef.getAttribute("class-name");
+
+        // Make sure all required schemes are available
+        final String[] requiredSchemes = getRequiredSchemes(providerDef);
+        for (int i = 0; i < requiredSchemes.length; i++)
+        {
+            final String requiredScheme = requiredSchemes[i];
+            if (!hasProvider(requiredScheme))
+            {
+                final String msg = Messages.getString("vfs.impl/skipping-provider-scheme.debug",
+                    new String[]{classname, requiredScheme});
+                VfsLog.debug(getLogger(), log, msg);
+                return;
+            }
+        }
 
         // Make sure all required classes are in classpath
         final String[] requiredClasses = getRequiredClasses(providerDef);
@@ -243,9 +260,33 @@ public class StandardFileSystemManager
         for (int i = 0; i < count; i++)
         {
             final Element dep = (Element) deps.item(i);
-            classes.add(dep.getAttribute("class-name"));
+            String className = dep.getAttribute("class-name");
+            if (className != null && className.length() > 0)
+            {
+                classes.add(className);
+            }
         }
         return (String[]) classes.toArray(new String[classes.size()]);
+    }
+
+    /**
+     * Extracts the required schemes from a provider definition.
+     */
+    private String[] getRequiredSchemes(final Element providerDef)
+    {
+        final ArrayList schemes = new ArrayList();
+        final NodeList deps = providerDef.getElementsByTagName("if-available");
+        final int count = deps.getLength();
+        for (int i = 0; i < count; i++)
+        {
+            final Element dep = (Element) deps.item(i);
+            String scheme = dep.getAttribute("scheme");
+            if (scheme != null && scheme.length() > 0)
+            {
+                schemes.add(scheme);
+            }
+        }
+        return (String[]) schemes.toArray(new String[schemes.size()]);
     }
 
     /**

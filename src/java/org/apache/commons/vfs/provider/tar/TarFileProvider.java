@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs.provider.jar;
+package org.apache.commons.vfs.provider.tar;
 
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
@@ -21,45 +21,44 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.provider.zip.ZipFileName;
-import org.apache.commons.vfs.provider.zip.ZipFileProvider;
+import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
+import org.apache.commons.vfs.provider.FileProvider;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A file system provider for Jar files.  Provides read-only file
- * systems.  This provides access to Jar specific features like Signing and
- * Manifest Attributes.
- *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.8 $ $Date: 2004/11/08 21:07:44 $
+ * A file system provider for Tar files.  Provides read-only file systems.
  */
-public class JarFileProvider
-    extends ZipFileProvider
+public class TarFileProvider
+    extends AbstractLayeredFileProvider
+    implements FileProvider
 {
-    final static Collection capabilities;
-
-    static
+    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
-        Collection combined = new ArrayList();
-        combined.addAll(ZipFileProvider.capabilities);
-        combined.addAll(Arrays.asList(new Capability[]
-        {
-            Capability.ATTRIBUTES,
-            Capability.FS_ATTRIBUTES,
-            Capability.SIGNING,
-            Capability.MANIFEST_ATTRIBUTES,
-            Capability.VIRTUAL
-        }));
-        capabilities = Collections.unmodifiableCollection(combined);
-    }
+        Capability.GET_LAST_MODIFIED,
+        Capability.GET_TYPE,
+        Capability.LIST_CHILDREN,
+        Capability.READ_CONTENT,
+        Capability.URI,
+        Capability.VIRTUAL
+    }));
 
-    public JarFileProvider()
+    public TarFileProvider()
     {
         super();
+    }
+
+    /**
+     * Parses an absolute URI.
+     *
+     * @param uri The URI to parse.
+     */
+    protected FileName parseUri(final String uri)
+        throws FileSystemException
+    {
+        return TarFileName.parseUri(uri);
     }
 
     /**
@@ -75,9 +74,9 @@ public class JarFileProvider
                                             final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        final FileName name =
-            new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
-        return new JarFileSystem(name, file, fileSystemOptions);
+        final FileName rootName =
+            new TarFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
+        return new TarFileSystem(rootName, file, fileSystemOptions);
     }
 
     public Collection getCapabilities()
