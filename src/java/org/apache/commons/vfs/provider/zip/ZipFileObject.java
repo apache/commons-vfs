@@ -158,9 +158,7 @@ public class ZipFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#getLastModifiedTime}.
-     * The default is to just throw an exception so filesystems must
-     * override it to use it.
+     * Returns the last modified time of this file.
      */
     protected long doGetLastModifiedTime() throws Exception
     {

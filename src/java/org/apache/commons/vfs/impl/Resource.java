@@ -57,10 +57,8 @@ package org.apache.commons.vfs.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileUtil;
 
 /**
@@ -70,12 +68,12 @@ import org.apache.commons.vfs.FileUtil;
  * @see VFSClassLoader
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/27 08:15:01 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/01 03:29:53 $
  */
 class Resource
 {
-    private FileObject root;
-    private FileObject resource;
+    private final FileObject root;
+    private final FileObject resource;
 
     /**
      * Creates a new instance.
@@ -83,7 +81,7 @@ class Resource
      * @param root The code source FileObject.
      * @param resource The resource of the FileObject.
      */
-    Resource( FileObject root, FileObject resource )
+    Resource( final FileObject root, final FileObject resource )
     {
         this.root = root;
         this.resource = resource;

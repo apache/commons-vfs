@@ -56,7 +56,6 @@
 package org.apache.commons.vfs.provider;
 
 import java.io.IOException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
