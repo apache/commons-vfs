@@ -58,6 +58,8 @@ package org.apache.commons.vfs.impl.test;
 import java.net.URL;
 import java.net.URLConnection;
 import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.VFSClassLoader;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
 
@@ -65,7 +67,7 @@ import org.apache.commons.vfs.test.AbstractProviderTestCase;
  * VfsClassLoader test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:33:54 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/25 05:40:59 $
  */
 public class VfsClassLoaderTests
     extends AbstractProviderTestCase
@@ -83,39 +85,86 @@ public class VfsClassLoaderTests
     }
 
     /**
-     * Tests VFSClassLoader.
+     * Creates the classloader to use when testing.
      */
-    public void testVFSClassLoader() throws Exception
+    private VFSClassLoader createClassLoader() throws FileSystemException
     {
         final VFSClassLoader loader =
             new VFSClassLoader( getReadFolder(), getManager() );
+        return loader;
+    }
+
+    /**
+     * Tests loading a class.
+     */
+    public void testLoadClass() throws Exception
+    {
+        final VFSClassLoader loader = createClassLoader();
 
         final Class testClass = loader.loadClass( "code.ClassToLoad" );
-        assertTrue( verifyPackage( testClass.getPackage() ) );
+        final Package pack = testClass.getPackage();
+        assertEquals( "code", pack.getName() );
+        verifyPackage( getReadFolder(), pack, false );
 
         final Object testObject = testClass.newInstance();
-        assertSame( "**PRIVATE**", testObject.toString() );
+        assertEquals( "**PRIVATE**", testObject.toString() );
+    }
+
+    /**
+     * Tests loading a resource.
+     */
+    public void testLoadResource() throws Exception
+    {
+        final VFSClassLoader loader = createClassLoader();
 
         final URL resource = loader.getResource( "file1.txt" );
+
         assertNotNull( resource );
         final URLConnection urlCon = resource.openConnection();
         assertSameURLContent( FILE1_CONTENT, urlCon );
     }
 
     /**
-     * Verify the package loaded with class loader.
-     * If the provider supports attributes override this method.
+     * Tests package sealing.
+     * @todo No it doesn't.
      */
-    protected boolean verifyPackage( final Package pack )
+    public void testSealing() throws Exception
     {
-        return "code".equals( pack.getName() ) &&
-            pack.getImplementationTitle() == null &&
-            pack.getImplementationVendor() == null &&
-            pack.getImplementationVersion() == null &&
-            pack.getSpecificationTitle() == null &&
-            pack.getSpecificationVendor() == null &&
-            pack.getSpecificationVersion() == null &&
-            !pack.isSealed();
+        final VFSClassLoader loader = createClassLoader();
+        final Class testClass = loader.loadClass( "code.sealed.AnotherClass" );
+        final Package pack = testClass.getPackage();
+        assertEquals( "code.sealed", pack.getName() );
+        verifyPackage( getReadFolder(), pack, true );
+    }
+
+    /**
+     * Verify the package loaded with class loader.
+     */
+    private void verifyPackage( final FileObject baseFolder,
+                                final Package pack,
+                                boolean sealed )
+        throws FileSystemException
+    {
+        if ( baseFolder.getFileSystem().hasCapability( Capability.MANIFEST_ATTRIBUTES ) )
+        {
+            assertEquals( "ImplTitle", pack.getImplementationTitle() );
+            assertEquals( "ImplVendor", pack.getImplementationVendor() );
+            assertEquals( "1.1", pack.getImplementationVersion() );
+            assertEquals( "SpecTitle", pack.getSpecificationTitle() );
+            assertEquals( "SpecVendor", pack.getSpecificationVendor() );
+            assertEquals( "1.0", pack.getSpecificationVersion() );
+            assertEquals( sealed, pack.isSealed() );
+        }
+        else
+        {
+            assertNull( pack.getImplementationTitle() );
+            assertNull( pack.getImplementationVendor() );
+            assertNull( pack.getImplementationVersion() );
+            assertNull( pack.getSpecificationTitle() );
+            assertNull( pack.getSpecificationVendor() );
+            assertNull( pack.getSpecificationVersion() );
+            assertFalse( pack.isSealed() );
+        }
     }
 
 }
