@@ -59,19 +59,17 @@ public class DefaultLocalFileProvider
         Capability.RANDOM_ACCESS_WRITE
     }));
 
-    private final LocalFileNameParser parser;
-
     public DefaultLocalFileProvider()
     {
         super();
 
         if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
         {
-            parser = new WindowsFileNameParser();
+            setFileNameParser(new WindowsFileNameParser());
         }
         else
         {
-            parser = new GenericFileNameParser();
+            setFileNameParser(new GenericFileNameParser());
         }
     }
 
@@ -80,7 +78,7 @@ public class DefaultLocalFileProvider
      */
     public boolean isAbsoluteLocalName(final String name)
     {
-        return parser.isAbsoluteName(name);
+        return ((LocalFileNameParser) getFileNameParser()).isAbsoluteName(name);
     }
 
     /**
