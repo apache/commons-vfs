@@ -56,9 +56,10 @@
 package org.apache.commons.vfs.impl;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.jar.Attributes;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileUtil;
 
 /**
@@ -68,12 +69,14 @@ import org.apache.commons.vfs.FileUtil;
  * @see VFSClassLoader
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/23 00:41:09 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/25 05:38:02 $
  */
 class Resource
 {
     private final FileObject root;
     private final FileObject resource;
+    private final FileObject packageFolder;
+    private final String packageName;
 
     /**
      * Creates a new instance.
@@ -81,24 +84,61 @@ class Resource
      * @param root The code source FileObject.
      * @param resource The resource of the FileObject.
      */
-    Resource( final FileObject root, final FileObject resource )
+    public Resource( final String name,
+                     final FileObject root,
+                     final FileObject resource )
+        throws FileSystemException
     {
         this.root = root;
         this.resource = resource;
+        packageFolder = resource.getParent();
+        final int pos = name.lastIndexOf( '/' );
+        if ( pos == -1 )
+        {
+            packageName = null;
+        }
+        else
+        {
+            packageName = name.substring( 0, pos ).replace( '/', '.' );
+        }
     }
 
     /**
      * Returns the URL of the resource.
      */
-    URL getURL() throws MalformedURLException
+    public URL getURL() throws FileSystemException
     {
         return resource.getURL();
     }
 
     /**
+     * Returns the name of the package containing the resource.
+     */
+    public String getPackageName()
+    {
+        return packageName;
+    }
+
+    /**
+     * Returns an attribute of the package containing the resource.
+     */
+    public String getPackageAttribute( final Attributes.Name attrName ) throws FileSystemException
+    {
+        return (String)packageFolder.getContent().getAttribute( attrName.toString() );
+    }
+
+    /**
+     * Returns the folder for the package containing the resource.
+     */
+    public FileObject getPackageFolder()
+    {
+        return packageFolder;
+    }
+
+    /**
      * Returns the FileObject of the resource.
      */
-    FileObject getFileObject()
+    public FileObject getFileObject()
     {
         return resource;
     }
@@ -106,7 +146,7 @@ class Resource
     /**
      * Returns the code source as an URL.
      */
-    URL getCodeSourceURL() throws MalformedURLException
+    public URL getCodeSourceURL() throws FileSystemException
     {
         return root.getURL();
     }
@@ -114,7 +154,7 @@ class Resource
     /**
      * Returns the data for this resource as a byte array.
      */
-    byte[] getBytes() throws IOException
+    public byte[] getBytes() throws IOException
     {
         return FileUtil.getContent( resource );
     }

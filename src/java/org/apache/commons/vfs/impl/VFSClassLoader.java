@@ -56,7 +56,6 @@
 package org.apache.commons.vfs.impl;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.CodeSource;
 import java.security.Permission;
@@ -69,7 +68,6 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
-import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -87,7 +85,7 @@ import org.apache.commons.vfs.NameScope;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.11 $ $Date: 2002/11/23 00:41:09 $
+ * @version $Revision: 1.12 $ $Date: 2002/11/25 05:38:02 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -224,11 +222,9 @@ public class VFSClassLoader
         throws IOException
     {
         final URL url = res.getCodeSourceURL();
-
-        int i = name.lastIndexOf( "." );
-        if ( i != -1 )
+        final String pkgName = res.getPackageName();
+        if ( pkgName != null )
         {
-            final String pkgName = name.substring( 0, i );
             final Package pkg = getPackage( pkgName );
             if ( pkg != null )
             {
@@ -249,7 +245,7 @@ public class VFSClassLoader
             }
             else
             {
-                definePackage( pkgName, res, url );
+                definePackage( pkgName, res );
             }
         }
 
@@ -266,9 +262,7 @@ public class VFSClassLoader
     private boolean isSealed( final Resource res )
         throws FileSystemException
     {
-        final FileContent content = res.getFileObject().getParent().getContent();
-        final String sealed = (String)content.getAttribute( Attributes.Name.SEALED.toString() );
-
+        final String sealed = res.getPackageAttribute( Attributes.Name.SEALED );
         return "true".equalsIgnoreCase( sealed );
     }
 
@@ -276,32 +270,26 @@ public class VFSClassLoader
      * Reads attributes for the package and defines it.
      */
     private Package definePackage( final String name,
-                                   final Resource res,
-                                   final URL url )
+                                   final Resource res )
         throws FileSystemException
     {
-        URL sealBase = null;
-        final FileContent content =
-            res.getFileObject().getParent().getContent();
-        String specTitle = (String)content.getAttribute(
-            Name.SPECIFICATION_TITLE.toString() );
+        final String specTitle = res.getPackageAttribute( Name.SPECIFICATION_TITLE );
+        final String specVendor = res.getPackageAttribute( Attributes.Name.SPECIFICATION_VENDOR );
+        final String specVersion = res.getPackageAttribute( Name.SPECIFICATION_VERSION );
+        final String implTitle = res.getPackageAttribute( Name.IMPLEMENTATION_TITLE );
+        final String implVendor = res.getPackageAttribute( Name.IMPLEMENTATION_VENDOR );
+        final String implVersion = res.getPackageAttribute( Name.IMPLEMENTATION_VERSION );
 
-        String specVersion = (String)content.getAttribute(
-            Name.SPECIFICATION_VERSION.toString() );
-        String specVendor = (String)content.getAttribute(
-            Name.SPECIFICATION_VENDOR.toString() );
-        String implTitle = (String)content.getAttribute(
-            Name.IMPLEMENTATION_TITLE.toString() );
-        String implVersion = (String)content.getAttribute(
-            Name.IMPLEMENTATION_VERSION.toString() );
-        String implVendor = (String)content.getAttribute(
-            Name.IMPLEMENTATION_VENDOR.toString() );
-        String seal = (String)content.getAttribute( Name.SEALED.toString() );
-
-        if ( "true".equalsIgnoreCase( seal ) )
+        final URL sealBase;
+        if ( isSealed( res ) )
         {
-            sealBase = url;
+            sealBase = res.getCodeSourceURL();
         }
+        else
+        {
+            sealBase = null;
+        }
+
         return definePackage( name, specTitle, specVersion, specVendor,
                               implTitle, implVersion, implVendor, sealBase );
     }
@@ -344,13 +332,9 @@ public class VFSClassLoader
 
             return combi;
         }
-        catch ( FileSystemException fse )
+        catch ( final FileSystemException fse )
         {
             throw new SecurityException( fse.getMessage() );
-        }
-        catch ( MalformedURLException mue )
-        {
-            throw new SecurityException( mue.getMessage() );
         }
     }
 
@@ -373,7 +357,7 @@ public class VFSClassLoader
      */
     private FileObject lookupFileObject( final String name )
     {
-        Iterator it = resources.iterator();
+        final Iterator it = resources.iterator();
         while ( it.hasNext() )
         {
             final FileObject object = (FileObject)it.next();
@@ -443,7 +427,7 @@ public class VFSClassLoader
                 baseFile.resolveFile( name, NameScope.DESCENDENT_OR_SELF );
             if ( file.exists() )
             {
-                return new Resource( baseFile, file );
+                return new Resource( name, baseFile, file );
             }
         }
 
