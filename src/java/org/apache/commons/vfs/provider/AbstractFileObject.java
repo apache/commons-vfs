@@ -339,8 +339,15 @@ public abstract class AbstractFileObject
     {
         if ( this == fs.getRoot() )
         {
-            // Root file has no parent
-            return null;
+            if (fs.getParentLayer() != null)
+            {
+                return fs.getParentLayer().getParent();
+            }
+            else
+            {
+                // Root file has no parent
+                return null;
+            }
         }
 
         // Locate the parent of this file

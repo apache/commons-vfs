@@ -90,7 +90,7 @@ public class ZipFileSystem
                 parent = (ZipFileObject) getFile( parentName );
                 if ( parent == null )
                 {
-                    parent = createZipFileObject( parentName, null, null );
+                    parent = createZipFileObject( parentName, null, zipFile );
                     putFile( parent );
                 }
 

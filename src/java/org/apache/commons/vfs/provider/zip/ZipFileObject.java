@@ -45,17 +45,24 @@ public class ZipFileObject
         }
     }
 
-    protected void setZipEntry( ZipEntry entry )
+    /**
+     * Sets the details for this file object.
+     */
+    protected void setZipEntry( final ZipEntry entry )
     {
-        if ( entry == null || this.entry != null )
+        if ( this.entry != null )
         {
             return;
         }
           
-        if ( entry.isDirectory() )
+        if ( entry == null || entry.isDirectory() )
+        {
             type = FileType.FOLDER;
+        }
         else
+        {
             type = FileType.FILE;
+        }
 
         this.entry = entry;
     }
