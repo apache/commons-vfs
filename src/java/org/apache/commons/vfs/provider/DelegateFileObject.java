@@ -60,6 +60,7 @@ import java.io.OutputStream;
 import java.security.cert.Certificate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
 import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
@@ -71,7 +72,7 @@ import org.apache.commons.vfs.FileType;
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/23 00:40:38 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/24 07:24:58 $
  *
  * @todo Extract subclass that overlays the children
  */
@@ -249,16 +250,16 @@ public class DelegateFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#getAttribute}.
+     * Returns the attributes of this file.
      */
-    protected Object doGetAttribute( final String attrName )
+    protected Map doGetAttributes()
         throws Exception
     {
-        return file.getContent().getAttribute( attrName );
+        return file.getContent().getAttributes();
     }
 
     /**
-     * Called from {@link DefaultFileContent#setAttribute}.
+     * Sets an attribute of this file.
      */
     protected void doSetAttribute( final String atttrName,
                                    final Object value )
@@ -268,7 +269,7 @@ public class DelegateFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#getCertificates}.
+     * Returns the certificates of this file.
      */
     protected Certificate[] doGetCertificates() throws Exception
     {
@@ -276,7 +277,7 @@ public class DelegateFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#getLastModifiedTime}.
+     * Returns the last-modified time of this file.
      */
     protected long doGetLastModifiedTime() throws Exception
     {
@@ -284,7 +285,7 @@ public class DelegateFileObject
     }
 
     /**
-     * Called from {@link DefaultFileContent#setLastModifiedTime}.
+     * Sets the last-modified time of this file.
      */
     protected void doSetLastModifiedTime( final long modtime )
         throws Exception

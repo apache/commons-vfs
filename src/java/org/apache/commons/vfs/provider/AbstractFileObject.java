@@ -66,6 +66,8 @@ import java.security.PrivilegedExceptionAction;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Collections;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -139,7 +141,7 @@ public abstract class AbstractFileObject
 
     /**
      * Determines if this file can be read.  Is only called if {@link #doGetType}
-     * does not return null.
+     * does not return {@link FileType#IMAGINARY}.
      *
      * This implementation always returns true.
      */
@@ -150,7 +152,7 @@ public abstract class AbstractFileObject
 
     /**
      * Determines if this file can be written to.  Is only called if
-     * {@link #doGetType} does not return null.
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      *
      * This implementation always returns true.
      */
@@ -169,7 +171,7 @@ public abstract class AbstractFileObject
     /**
      * Deletes the file.  Is only called when:
      * <ul>
-     * <li>{@link #doGetType} does not return null.
+     * <li>{@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <li>{@link #doIsWriteable} returns true.
      * <li>This file has no children, if a folder.
      * </ul>
@@ -184,7 +186,7 @@ public abstract class AbstractFileObject
     /**
      * Creates this file as a folder.  Is only called when:
      * <ul>
-     * <li>{@link #doGetType} returns null.
+     * <li>{@link #doGetType} returns {@link FileType#IMAGINARY}.
      * <li>The parent folder exists and is writeable, or this file is the
      *     root of the file system.
      * </ul>
@@ -217,7 +219,7 @@ public abstract class AbstractFileObject
 
     /**
      * Returns the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return null.
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      *
      * This implementation throws an exception.
      */
@@ -228,7 +230,7 @@ public abstract class AbstractFileObject
 
     /**
      * Sets the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return null.
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      *
      * This implementation throws an exception.
      */
@@ -239,20 +241,20 @@ public abstract class AbstractFileObject
     }
 
     /**
-     * Gets an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return null.
+     * Returns the attributes of this file.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
      *
-     * This implementation always returns null.
+     * This implementation always returns an empty map.
      */
-    protected Object doGetAttribute( final String attrName )
+    protected Map doGetAttributes()
         throws Exception
     {
-        return null;
+        return Collections.EMPTY_MAP;
     }
 
     /**
      * Sets an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return null.
+     * does not return {@link FileType#IMAGINARY}.
      *
      * This implementation throws an exception.
      */
@@ -264,7 +266,7 @@ public abstract class AbstractFileObject
 
     /**
      * Returns the certificates used to sign this file.  Is only called if
-     * {@link #doGetType} does not return null.
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      *
      * This implementation always returns null.
      */
@@ -296,8 +298,8 @@ public abstract class AbstractFileObject
      * <ul>
      * <li>{@link #doIsWriteable} returns true.
      * <li>{@link #doGetType} returns {@link FileType#FILE}, or
-     * {@link #doGetType} returns null, and the file's parent exists
-     * and is a folder.
+     * {@link #doGetType} returns {@link FileType#IMAGINARY}, and the file's
+     * parent exists and is a folder.
      * </ul>
      *
      * <p>It is guaranteed that there are no open stream (input or output) for

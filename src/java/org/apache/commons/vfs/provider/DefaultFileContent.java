@@ -60,6 +60,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Collections;
+import java.util.Set;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -83,6 +86,8 @@ public final class DefaultFileContent
     private int state = STATE_NONE;
     private final ArrayList instrs = new ArrayList();
     private FileContentOutputStream outstr;
+    private Map attrs;
+    private Map roAttrs;
 
     public DefaultFileContent( final AbstractFileObject file )
     {
@@ -117,7 +122,7 @@ public final class DefaultFileContent
             // Get the size
             return file.doGetContentSize();
         }
-        catch ( Exception exc )
+        catch ( final Exception exc )
         {
             throw new FileSystemException( "vfs.provider/get-size.error", new Object[]{file}, exc );
         }
@@ -128,6 +133,10 @@ public final class DefaultFileContent
      */
     public long getLastModifiedTime() throws FileSystemException
     {
+        if ( state == STATE_WRITING )
+        {
+            throw new FileSystemException( "vfs.provider/get-last-modified-writing.error", file );
+        }
         if ( !file.getType().hasAttributes() )
         {
             throw new FileSystemException( "vfs.provider/get-last-modified-no-exist.error", file );
@@ -145,8 +154,12 @@ public final class DefaultFileContent
     /**
      * Sets the last-modified timestamp.
      */
-    public void setLastModifiedTime( long modTime ) throws FileSystemException
+    public void setLastModifiedTime( final long modTime ) throws FileSystemException
     {
+        if ( state == STATE_WRITING )
+        {
+            throw new FileSystemException( "vfs.provider/set-last-modified-writing.error", file );
+        }
         if ( !file.getType().hasAttributes() )
         {
             throw new FileSystemException( "vfs.provider/set-last-modified-no-exist.error", file );
@@ -162,19 +175,47 @@ public final class DefaultFileContent
     }
 
     /**
+     * Returns a read-only map of this file's attributes.
+     */
+    public Map getAttributes() throws FileSystemException
+    {
+        if ( !file.getType().hasAttributes() )
+        {
+            throw new FileSystemException( "vfs.provider/get-attributes-no-exist.error", file );
+        }
+        if ( roAttrs == null )
+        {
+            try
+            {
+                attrs = file.doGetAttributes();
+                roAttrs = Collections.unmodifiableMap( attrs );
+            }
+            catch ( final Exception e )
+            {
+                throw new FileSystemException( "vfs.provider/get-attributes.error", file, e );
+            }
+        }
+        return roAttrs;
+    }
+
+    /**
+     * Lists the attributes of this file.
+     */
+    public String[] getAttributeNames() throws FileSystemException
+    {
+        getAttributes();
+        final Set names = attrs.keySet();
+        return (String[])names.toArray( new String[ names.size() ] );
+    }
+
+    /**
      * Gets the value of an attribute.
      */
     public Object getAttribute( final String attrName )
         throws FileSystemException
     {
-        try
-        {
-            return file.doGetAttribute( attrName );
-        }
-        catch ( final Exception e )
-        {
-            throw new FileSystemException( "vfs.provider/get-attribute.error", new Object[]{attrName, file}, e );
-        }
+        getAttributes();
+        return attrs.get( attrName.toLowerCase() );
     }
 
     /**
@@ -183,6 +224,10 @@ public final class DefaultFileContent
     public void setAttribute( final String attrName, final Object value )
         throws FileSystemException
     {
+        if ( !file.getType().hasAttributes() )
+        {
+            throw new FileSystemException( "vfs.provider/set-attribute-no-exist.error", new Object[]{attrName, file} );
+        }
         try
         {
             file.doSetAttribute( attrName, value );
@@ -190,6 +235,11 @@ public final class DefaultFileContent
         catch ( final Exception e )
         {
             throw new FileSystemException( "vfs.provider/set-attribute.error", new Object[]{attrName, file}, e );
+        }
+
+        if ( attrs != null )
+        {
+            attrs.put( attrName, value );
         }
     }
 
@@ -202,10 +252,22 @@ public final class DefaultFileContent
         {
             throw new FileSystemException( "vfs.provider/get-certificates-no-exist.error", file );
         }
+        if ( state == STATE_WRITING )
+        {
+            throw new FileSystemException( "vfs.provider/get-certificates-writing.error", file );
+        }
 
         try
         {
-            return file.doGetCertificates();
+            final Certificate[] certs = file.doGetCertificates();
+            if ( certs != null )
+            {
+                return certs;
+            }
+            else
+            {
+                return new Certificate[ 0 ];
+            }
         }
         catch ( final Exception e )
         {

@@ -336,7 +336,7 @@ public interface FileObject
      *      This file's content.
      *
      * @throws FileSystemException
-     *      If this file is a folder.
+     *      On error getting this file's content.
      */
     FileContent getContent() throws FileSystemException;
 

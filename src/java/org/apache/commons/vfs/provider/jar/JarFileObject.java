@@ -57,8 +57,10 @@ package org.apache.commons.vfs.provider.jar;
 
 import java.io.IOException;
 import java.security.cert.Certificate;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.jar.Attributes;
-import java.util.jar.Attributes.Name;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -71,7 +73,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileObject;
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/12 07:56:15 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/24 07:24:59 $
  */
 class JarFileObject extends ZipFileObject
 {
@@ -125,19 +127,30 @@ class JarFileObject extends ZipFileObject
     /**
      * Returns the value of an attribute.
      */
-    protected Object doGetAttribute( final String attrName )
+    protected Map doGetAttributes()
         throws Exception
     {
-        final JarFileSystem fs = (JarFileSystem)getFileSystem();
-        final Attributes attr = getAttributes();
-        final Name name = fs.lookupName( attrName );
-        String value = attr.getValue( name );
-        if ( value != null )
-        {
-            return value;
-        }
+        final Map attrs = new HashMap();
 
-        return fs.getAttribute( name );
+        // Add the file system's attributes first
+        final JarFileSystem fs = (JarFileSystem)getFileSystem();
+        addAll( fs.getAttributes(), attrs );
+
+        // Add this file's attributes
+        addAll( getAttributes(), attrs );
+
+        return attrs;
+    }
+
+    /** Adds the source attributes to the destination map. */
+    private void addAll( final Attributes src, final Map dest )
+    {
+        for ( Iterator iterator = src.entrySet().iterator(); iterator.hasNext(); )
+        {
+            final Map.Entry entry = (Map.Entry)iterator.next();
+            final String name = entry.getKey().toString().toLowerCase();
+            dest.put( name, entry.getValue() );
+        }
     }
 
     /**

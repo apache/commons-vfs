@@ -58,6 +58,7 @@ package org.apache.commons.vfs;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
+import java.util.Map;
 
 /**
  * Represents the data content of a file.
@@ -117,28 +118,42 @@ public interface FileContent
      *      The time to set the last-modified timestamp to.
      *
      * @throws FileSystemException
-     *      If the file is read-only, or is being read, or on error setting
-     *      the last-modified timestamp.
+     *      If the file is read-only, or is being written to, or on error
+     *      setting the last-modified timestamp.
      */
     void setLastModifiedTime( long modTime ) throws FileSystemException;
 
     /**
-     * Gets the value of an attribute of the file's content.
-     *
-     * <p>TODO - change to <code>Map getAttributes()</code> instead?
-     *
-     * <p>TODO - define the standard attribute names, and define which attrs
-     * are guaranteed to be present.
-     *
-     * @param attrName
-     *      The name of the attribute.
-     *
-     * @return
-     *      The value of the attribute.
+     * Returns a read-only map of this file's attributes.
      *
      * @throws FileSystemException
-     *      If the file does not exist, or is being written, or if the
-     *      attribute is unknown.
+     *      If the file does not exist, or does not support attributes.
+     */
+    Map getAttributes() throws FileSystemException;
+
+    /**
+     * Lists the attributes of the file's content.
+     *
+     * @return
+     *      The names of the attributes.  Never returns null;
+     *
+     * @throws FileSystemException
+     *      If the file does not exist, or does not support attributes.
+     */
+    String[] getAttributeNames() throws FileSystemException;
+
+    /**
+     * Gets the value of an attribute of the file's content.
+     *
+     * @param attrName
+     *      The name of the attribute.  Attribute names are case insensitive.
+     *
+     * @return
+     *      The value of the attribute, or null if the attribute value is
+     *      unknown.
+     *
+     * @throws FileSystemException
+     *      If the file does not exist, or does not support attributes.
      */
     Object getAttribute( String attrName ) throws FileSystemException;
 
@@ -153,16 +168,18 @@ public interface FileContent
      *      The value of the attribute.
      *
      * @throws FileSystemException
-     *      If the file is read-only, or is being read, or if the attribute
-     *      is not supported, or on error setting the attribute.
+     *      If the file does not exist, or is read-only, or does not support
+     *      attributes, or on error setting the attribute.
      */
     void setAttribute( String attrName, Object value )
         throws FileSystemException;
 
     /**
-     * Retrives the certificates if any used to sign this file or folder.
-     * This will return null if there is no certificates or the file system
-     * does not support signing.
+     * Retrieves the certificates if any used to sign this file or folder.
+     *
+     * @return
+     *      The certificates, or an empty array if there are no certificates or
+     *      the file does not support signing.
      *
      * @throws FileSystemException
      *      If the file does not exist, or is being written.
