@@ -22,7 +22,7 @@ import org.apache.commons.vfs.test.AbstractProviderTestCase;
  * NullFilesCache
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:37 $
+ * @version $Revision: 1.3 $ $Date: 2004/06/17 19:25:40 $
  */
 public class NullFilesCacheTests extends AbstractProviderTestCase
 {
@@ -31,8 +31,8 @@ public class NullFilesCacheTests extends AbstractProviderTestCase
         FileObject scratchFolder = getWriteFolder();
 
         FileObject dir1 = scratchFolder.resolveFile("dir1");
-        FileObject dir2 = scratchFolder.resolveFile("dir2");
+        FileObject dir1_2 = scratchFolder.resolveFile("dir1");
 
-        assertFalse(dir1 == dir2);
+        assertFalse(dir1 == dir1_2);
     }
 }
