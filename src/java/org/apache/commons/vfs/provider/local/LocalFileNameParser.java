@@ -64,7 +64,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.5 $ $Date: 2002/03/09 10:31:30 $
  */
-abstract class LocalFileNameParser
+public abstract class LocalFileNameParser
 {
     /**
      * Determines if a name is an absolute file name.

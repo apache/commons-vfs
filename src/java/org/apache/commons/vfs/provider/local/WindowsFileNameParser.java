@@ -63,7 +63,7 @@ import org.apache.commons.vfs.FileSystemException;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:18 $
  */
-final class WindowsFileNameParser
+public class WindowsFileNameParser
     extends LocalFileNameParser
 {
     /**

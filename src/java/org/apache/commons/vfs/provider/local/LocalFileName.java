@@ -64,16 +64,16 @@ import org.apache.commons.vfs.provider.UriParser;
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/02/17 09:22:15 $
+ * @version $Revision: 1.6 $ $Date: 2003/04/02 06:13:54 $
  */
-class LocalFileName
+public class LocalFileName
     extends AbstractFileName
 {
     private final String rootFile;
 
-    private LocalFileName( final String scheme,
-                           final String rootFile,
-                           final String path )
+    protected LocalFileName( final String scheme,
+                             final String rootFile,
+                             final String path )
     {
         super( scheme, path );
         this.rootFile = rootFile;
