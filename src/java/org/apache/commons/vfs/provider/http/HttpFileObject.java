@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HeaderElement;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -30,12 +31,14 @@ import org.apache.commons.vfs.util.MonitorInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A file object backed by commons httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/20 19:34:01 $
  * @todo status codes
  */
 public class HttpFileObject
@@ -184,5 +187,23 @@ public class HttpFileObject
         {
             method.releaseConnection();
         }
+    }
+
+    protected Map doGetAttributes() throws Exception
+    {
+        TreeMap map = new TreeMap();
+
+        Header contentType = method.getResponseHeader("content-type");
+        if (contentType != null)
+        {
+            HeaderElement[] element = contentType.getValues();
+            if (element != null && element.length > 0)
+            {
+                map.put("content-type", element[0].getName());
+            }
+        }
+
+        map.put("content-encoding", method.getResponseCharSet());
+        return map;
     }
 }
