@@ -67,6 +67,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
@@ -223,6 +224,13 @@ final class FtpFileObject
         else if ( fileInfo.isFile() )
         {
             return FileType.FILE;
+        }
+        else if ( fileInfo.isSymbolicLink() )
+        {
+            // TODO - add generic support for links
+            final String path = fileInfo.getLink();
+            final FileObject target = getParent().resolveFile( path );
+            return target.getType();
         }
 
         throw new FileSystemException( "vfs.provider.ftp/get-type.error", getName() );
