@@ -27,29 +27,35 @@ import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: AbstractTestSuite.java,v 1.3 2004/06/23 18:17:44 imario Exp $
+ * @version $Id: AbstractTestSuite.java,v 1.4 2004/07/07 20:01:35 imario Exp $
  */
 public class AbstractTestSuite
     extends TestSetup
 {
     private final ProviderTestConfig providerConfig;
     private final String prefix;
-    private final TestSuite testSuite;
+    private TestSuite testSuite;
 
     private FileObject baseFolder;
     private FileObject readFolder;
     private FileObject writeFolder;
     private DefaultFileSystemManager manager;
     private File tempDir;
+
+    private Thread[] startThreadSnapshot;
+    private Thread[] endThreadSnapshot;
 
     /**
      * Adds the tests for a file system to this suite.
@@ -122,6 +128,8 @@ public class AbstractTestSuite
 
     protected void setUp() throws Exception
     {
+        startThreadSnapshot = createThreadSnapshot();
+
         // Locate the temp directory, and clean it up
         tempDir = AbstractVfsTestCase.getTestDirectory("temp");
         checkTempDir("Temp dir not empty before test");
@@ -167,6 +175,51 @@ public class AbstractTestSuite
 
     protected void tearDown() throws Exception
     {
+        readFolder.close();
+        writeFolder.close();
+        baseFolder.close();
+
+        readFolder = null;
+        writeFolder = null;
+        baseFolder = null;
+        testSuite = null;
+        fTest = null;
+
+        // force the SoftRefFilesChache to free all files
+        System.err.println(".");
+        System.gc();
+        Thread.sleep(1000);
+        System.err.println(".");
+        System.gc();
+        Thread.sleep(1000);
+        System.err.println(".");
+        System.gc();
+        Thread.sleep(1000);
+        System.err.println(".");
+        System.gc();
+        Thread.sleep(1000);
+
+        manager.freeUnusedResources();
+        endThreadSnapshot = createThreadSnapshot();
+
+        Thread[] diffThreadSnapshot = diffThreadSnapshot(startThreadSnapshot, endThreadSnapshot);
+        if (diffThreadSnapshot.length > 0)
+        {
+            String message = dumpThreadSnapshot(diffThreadSnapshot);
+            /*
+            if (providerConfig.checkCleanThreadState())
+            {
+                // close the manager to do a "not thread safe" release of all resources
+                // and allow the vm to shutdown
+                manager.close();
+                fail(message);
+            }
+            else
+            {
+            */
+            System.out.println(message);
+            // }
+        }
         manager.close();
 
         // Make sure temp directory is empty or gone
@@ -184,4 +237,106 @@ public class AbstractTestSuite
         }
     }
 
+    private String dumpThreadSnapshot(Thread[] threadSnapshot)
+    {
+        StringBuffer sb = new StringBuffer(256);
+        sb.append("created threads still running:\n");
+
+        Field threadTargetField = null;
+        try
+        {
+            threadTargetField = Thread.class.getDeclaredField("target");
+            threadTargetField.setAccessible(true);
+        }
+        catch (NoSuchFieldException e)
+        {
+            ;
+        }
+
+        for (int iter = 0; iter < threadSnapshot.length; iter++)
+        {
+            Thread thread = threadSnapshot[iter];
+            if (thread == null)
+            {
+                continue;
+            }
+
+            sb.append("#");
+            sb.append(iter + 1);
+            sb.append(": ");
+            sb.append(thread.getThreadGroup().getName());
+            sb.append("\t");
+            sb.append(thread.getName());
+            sb.append("\t");
+            if (thread.isDaemon())
+            {
+                sb.append("daemon");
+            }
+            else
+            {
+                sb.append("not_a_daemon");
+            }
+
+            if (threadTargetField != null)
+            {
+                sb.append("\t");
+                try
+                {
+                    Object threadTarget = threadTargetField.get(thread);
+                    if (threadTarget != null)
+                    {
+                        sb.append(threadTarget.getClass());
+                    }
+                    else
+                    {
+                        sb.append("null");
+                    }
+                }
+                catch (IllegalAccessException e)
+                {
+                    sb.append("unknown class");
+                }
+            }
+
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    private Thread[] diffThreadSnapshot(Thread[] startThreadSnapshot, Thread[] endThreadSnapshot)
+    {
+        List diff = new ArrayList(10);
+
+        nextEnd: for (int iterEnd = 0; iterEnd < endThreadSnapshot.length; iterEnd++)
+        {
+            nextStart: for (int iterStart = 0; iterStart < startThreadSnapshot.length; iterStart++)
+            {
+                if (startThreadSnapshot[iterStart] == endThreadSnapshot[iterEnd])
+                {
+                    continue nextEnd;
+                }
+            }
+
+            diff.add(endThreadSnapshot[iterEnd]);
+        }
+
+        Thread ret[] = new Thread[diff.size()];
+        diff.toArray(ret);
+        return ret;
+    }
+
+    private Thread[] createThreadSnapshot()
+    {
+        ThreadGroup tg = Thread.currentThread().getThreadGroup();
+        while (tg.getParent() != null)
+        {
+            tg = tg.getParent();
+        }
+
+        Thread snapshot[] = new Thread[200];
+        tg.enumerate(snapshot, true);
+
+        return snapshot;
+    }
 }

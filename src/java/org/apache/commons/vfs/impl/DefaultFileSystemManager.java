@@ -418,6 +418,7 @@ public class DefaultFileSystemManager
     /**
      * Sets the base file to use when resolving relative URI.
      */
+    // public void setBaseFile(final FileObject baseFile)
     public void setBaseFile(final FileObject baseFile)
         throws FileSystemException
     {
@@ -435,7 +436,7 @@ public class DefaultFileSystemManager
     /**
      * Returns the base file used to resolve relative URI.
      */
-    public FileObject getBaseFile()
+    public FileObject getBaseFile() throws FileSystemException
     {
         return baseFile;
     }
@@ -445,7 +446,8 @@ public class DefaultFileSystemManager
      */
     public FileObject resolveFile(final String uri) throws FileSystemException
     {
-        return resolveFile(baseFile, uri);
+        // return resolveFile(baseFile, uri);
+        return resolveFile(getBaseFile(), uri);
     }
 
     /**
@@ -454,7 +456,8 @@ public class DefaultFileSystemManager
 
     public FileObject resolveFile(final String uri, final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
-        return resolveFile(baseFile, uri, fileSystemOptions);
+        // return resolveFile(baseFile, uri, fileSystemOptions);
+        return resolveFile(getBaseFile(), uri, fileSystemOptions);
     }
 
     /**
@@ -528,6 +531,7 @@ public class DefaultFileSystemManager
         {
             throw new FileSystemException("vfs.impl/find-rel-file.error", uri);
         }
+
         return baseFile.resolveFile(decodedUri);
     }
 

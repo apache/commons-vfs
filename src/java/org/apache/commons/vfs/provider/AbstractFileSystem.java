@@ -52,7 +52,7 @@ public abstract class AbstractFileSystem
 
     private final FileName rootName;
     private FileObject parentLayer;
-    private FileObject root;
+    // private FileObject root;
     private final Collection caps = new HashSet();
 
     /**
@@ -79,6 +79,7 @@ public abstract class AbstractFileSystem
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
     {
+        // this.parentLayer = parentLayer;
         this.parentLayer = parentLayer;
         this.rootName = rootName;
         this.fileSystemOptions = fileSystemOptions;
@@ -99,15 +100,7 @@ public abstract class AbstractFileSystem
      */
     public void close()
     {
-        try
-        {
-            closeCommunicationLink();
-        }
-        finally
-        {
-            // Clean-up
-            files.clear(this);
-        }
+        closeCommunicationLink();
     }
 
     /**
@@ -228,11 +221,14 @@ public abstract class AbstractFileSystem
      */
     public FileObject getRoot() throws FileSystemException
     {
+        return resolveFile(rootName);
+        /*
         if (root == null)
         {
             root = resolveFile(rootName);
         }
         return root;
+        */
     }
 
     /**

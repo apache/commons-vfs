@@ -24,7 +24,7 @@ import org.apache.commons.vfs.NameScope;
  * Test cases for file naming.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision: 1.7 $ $Date: 2004/07/07 20:01:35 $
  * @todo Add tests for all FileName methods
  */
 public class NamingTests
@@ -53,6 +53,9 @@ public class NamingTests
         // Locate parent
         file = getManager().resolveFile("..");
         assertSame("file object", getReadFolder().getParent(), file);
+
+        // free basefile
+        getManager().setBaseFile((FileObject) null);
     }
 
     /**
@@ -113,6 +116,9 @@ public class NamingTests
         catch (FileSystemException e)
         {
         }
+
+        // free basefile
+        getManager().setBaseFile((FileObject) null);
     }
 
     /**

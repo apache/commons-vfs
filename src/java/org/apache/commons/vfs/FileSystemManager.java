@@ -70,7 +70,7 @@ public interface FileSystemManager
     /**
      * Returns the base file used to resolve relative paths.
      */
-    FileObject getBaseFile();
+    FileObject getBaseFile() throws FileSystemException;
 
     /**
      * Locates a file by name.  Equivalent to calling

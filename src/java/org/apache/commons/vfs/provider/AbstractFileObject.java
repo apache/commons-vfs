@@ -58,7 +58,8 @@ import java.util.Map;
 public abstract class AbstractFileObject
     implements FileObject
 {
-    private static final FileObject[] EMPTY_FILE_ARRAY = {};
+    // private static final FileObject[] EMPTY_FILE_ARRAY = {};
+    private static final FileName[] EMPTY_FILE_ARRAY = {};
 
     private final FileName name;
     private final AbstractFileSystem fs;
@@ -68,7 +69,11 @@ public abstract class AbstractFileObject
     private boolean attached;
     private FileType type;
     private AbstractFileObject parent;
-    private FileObject[] children;
+
+    // Changed to hold only the name of the children and let the object
+    // go into the global files cache
+    // private FileObject[] children;
+    private FileName[] children;
 
     protected AbstractFileObject(final FileName name,
                                  final AbstractFileSystem fs)
@@ -511,22 +516,24 @@ public abstract class AbstractFileObject
         // Use cached info, if present
         if (children != null)
         {
-            return children;
+            return resolveFiles(children);
         }
 
         // allow the filesystem to return resolved children. e.g. prefill type for webdav
+        FileObject[] childrenObjects;
         try
         {
-            children = doListChildrenResolved();
+            childrenObjects = doListChildrenResolved();
+            children = extractNames(childrenObjects);
         }
         catch (Exception exc)
         {
             throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
         }
 
-        if (children != null)
+        if (childrenObjects != null)
         {
-            return children;
+            return childrenObjects;
         }
 
         // List the children
@@ -548,15 +555,54 @@ public abstract class AbstractFileObject
         else
         {
             // Create file objects for the children
-            children = new FileObject[files.length];
+            // children = new FileObject[files.length];
+            children = new FileName[files.length];
             for (int i = 0; i < files.length; i++)
             {
                 final String file = files[i];
-                children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
+                // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
+                children[i] = name.resolveName(file, NameScope.CHILD);
             }
         }
 
-        return children;
+        return resolveFiles(children);
+    }
+
+    private FileName[] extractNames(FileObject[] objects)
+    {
+        if (objects == null)
+        {
+            return null;
+        }
+
+        FileName names[] = new FileName[objects.length];
+        for (int iterObjects = 0; iterObjects < objects.length; iterObjects++)
+        {
+            names[iterObjects] = objects[iterObjects].getName();
+        }
+
+        return names;
+    }
+
+    private FileObject[] resolveFiles(FileName[] children) throws FileSystemException
+    {
+        if (children == null)
+        {
+            return null;
+        }
+
+        FileObject objects[] = new FileObject[children.length];
+        for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
+        {
+            objects[iterChildren] = resolveFile(children[iterChildren]);
+        }
+
+        return objects;
+    }
+
+    private FileObject resolveFile(FileName child) throws FileSystemException
+    {
+        return fs.resolveFile(child);
     }
 
     /**
@@ -568,11 +614,13 @@ public abstract class AbstractFileObject
         getChildren();
         for (int i = 0; i < children.length; i++)
         {
-            final FileObject child = children[i];
+            // final FileObject child = children[i];
+            final FileName child = children[i];
             // TODO - use a comparator to compare names
-            if (child.getName().getBaseName().equals(name))
+            // if (child.getName().getBaseName().equals(name))
+            if (child.getBaseName().equals(name))
             {
-                return child;
+                return resolveFile(child);
             }
         }
         return null;
@@ -1095,6 +1143,7 @@ public abstract class AbstractFileObject
                 {
                     attached = false;
                     type = null;
+                    parent = null;
 
                     fs.fileDetached(this);
 

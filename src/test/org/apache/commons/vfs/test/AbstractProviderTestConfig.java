@@ -16,14 +16,14 @@
 package org.apache.commons.vfs.test;
 
 import org.apache.commons.vfs.FilesCache;
-import org.apache.commons.vfs.cache.DefaultFilesCache;
+import org.apache.commons.vfs.cache.SoftRefFilesCache;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
 /**
  * A partial {@link org.apache.commons.vfs.test.ProviderTestConfig} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision: 1.8 $ $Date: 2004/07/07 20:01:35 $
  */
 public abstract class AbstractProviderTestConfig
     implements ProviderTestConfig
@@ -42,7 +42,8 @@ public abstract class AbstractProviderTestConfig
     {
         if (cache == null)
         {
-            cache = new DefaultFilesCache();
+            // cache = new DefaultFilesCache();
+            cache = new SoftRefFilesCache();
         }
 
         return cache;

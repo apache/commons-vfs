@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.VfsLog;
+import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.util.Messages;
 
 import java.lang.ref.Reference;
@@ -36,7 +37,7 @@ import java.util.TreeMap;
  * As soon as the vm needs memory - every softly reachable file will be discarded.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/21 20:54:31 $
+ * @version $Revision: 1.7 $ $Date: 2004/07/07 20:01:35 $
  * @see SoftReference
  */
 public class SoftRefFilesCache extends AbstractFilesCache
@@ -46,7 +47,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
      */
     private Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
-    private final Map files = new TreeMap();
+    private final Map filesystemCache = new HashMap();
     private final Map refReverseMap = new HashMap(100);
     private final ReferenceQueue refqueue = new ReferenceQueue();
 
@@ -80,7 +81,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
                         {
                             FileSystemAndNameKey key = (FileSystemAndNameKey) refReverseMap.get(ref);
 
-                            removeFile(key);
+                            if (key != null)
+                            {
+                                removeFile(key);
+                            }
                         }
                     }
                 }
@@ -122,14 +126,18 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         synchronized (this)
         {
+            Map files = getOrCreateFilesystemCache(file.getFileSystem());
+            /*
             if (files.size() < 1)
             {
                 startThread();
             }
+            */
 
             SoftReference ref = new SoftReference(file, refqueue);
             FileSystemAndNameKey key = new FileSystemAndNameKey(file.getFileSystem(), file.getName());
-            files.put(key, ref);
+            // files.put(key, ref);
+            files.put(file.getName(), ref);
             refReverseMap.put(ref, key);
         }
     }
@@ -138,9 +146,11 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         synchronized (this)
         {
-            FileSystemAndNameKey key = new FileSystemAndNameKey(filesystem, name);
+            Map files = getOrCreateFilesystemCache(filesystem);
+            // FileSystemAndNameKey key = new FileSystemAndNameKey(filesystem, name);
 
-            SoftReference ref = (SoftReference) files.get(key);
+            // SoftReference ref = (SoftReference) files.get(key);
+            SoftReference ref = (SoftReference) files.get(name);
             if (ref == null)
             {
                 return null;
@@ -149,7 +159,8 @@ public class SoftRefFilesCache extends AbstractFilesCache
             FileObject fo = (FileObject) ref.get();
             if (fo == null)
             {
-                removeFile(key);
+                // removeFile(key);
+                removeFile(filesystem, name);
             }
             return fo;
         }
@@ -159,23 +170,38 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         synchronized (this)
         {
-            Iterator iterKeys = files.keySet().iterator();
+            Map files = getOrCreateFilesystemCache(filesystem);
+
+            Iterator iterKeys = refReverseMap.values().iterator();
+            // Iterator iterKeys = files.keySet().iterator();
             while (iterKeys.hasNext())
             {
                 FileSystemAndNameKey key = (FileSystemAndNameKey) iterKeys.next();
                 if (key.getFileSystem() == filesystem)
                 {
-                    Object ref = files.get(key);
+                    // Object ref = files.get(key);
                     iterKeys.remove();
-                    refReverseMap.remove(ref);
+                    files.remove(key.getFileName());
+                    // refReverseMap.remove(ref);
                 }
             }
 
             if (files.size() < 1)
             {
+                filesystemClose(filesystem);
+            }
+            /*
+            if (files.size() < 1)
+            {
                 endThread();
             }
+            */
         }
+    }
+
+    private void filesystemClose(FileSystem filesystem)
+    {
+        ((AbstractFileSystem) filesystem).close();
     }
 
     public void close()
@@ -186,7 +212,8 @@ public class SoftRefFilesCache extends AbstractFilesCache
         {
             endThread();
 
-            files.clear();
+            // files.clear();
+            filesystemCache.clear();
             refReverseMap.clear();
         }
     }
@@ -204,7 +231,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         synchronized (this)
         {
-            Object ref = files.remove(key);
+            Map files = getOrCreateFilesystemCache(key.getFileSystem());
+
+            // Object ref = files.remove(key);
+            Object ref = files.remove(key.getFileName());
             if (ref != null)
             {
                 refReverseMap.remove(ref);
@@ -212,9 +242,32 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
             if (files.size() < 1)
             {
+                filesystemClose(key.getFileSystem());
+            }
+
+            /*
+            if (files.size() < 1)
+            {
                 endThread();
             }
+            */
         }
     }
 
+    protected Map getOrCreateFilesystemCache(final FileSystem filesystem)
+    {
+        if (filesystemCache.size() < 1)
+        {
+            startThread();
+        }
+
+        Map files = (Map) filesystemCache.get(filesystem);
+        if (files == null)
+        {
+            files = new TreeMap();
+            filesystemCache.put(filesystem, files);
+        }
+
+        return files;
+    }
 }
