@@ -23,10 +23,10 @@ import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.FileSystem;
 
 /**
  * A partial file object implementation.
@@ -57,14 +57,6 @@ public abstract class AbstractFileObject
     {
         this.name = name;
         this.fs = fs;
-    }
-
-    /**
-     * Returns the file system this file belongs to.
-     */
-    public FileSystem getFileSystem()
-    {
-        return fs;
     }
 
     /**
@@ -188,7 +180,7 @@ public abstract class AbstractFileObject
      * The default implementation just returns null so filesystems must
      * override it to use it.
      */
-    protected Object doGetAttribute( String atttrName )
+    protected Object doGetAttribute( String attrName )
         throws FileSystemException
     {
         return null;
@@ -282,6 +274,14 @@ public abstract class AbstractFileObject
     public FileName getName()
     {
         return name;
+    }
+
+    /**
+     * Returns the file system this file belongs to.
+     */
+    public FileSystem getFileSystem()
+    {
+        return fs;
     }
 
     /**
@@ -957,7 +957,7 @@ public abstract class AbstractFileObject
                 fileInfo.setFile( child );
                 traverse( fileInfo, selector, depthwise, selected );
             }
-
+            
             fileInfo.setFile( file );
             fileInfo.setDepth( curDepth );
         }

@@ -35,7 +35,8 @@ final class LocalFileSystem
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( final FileName name ) throws FileSystemException
+    protected FileObject createFile( final FileName name )
+        throws FileSystemException
     {
         // Create the file
         final String fileName = rootFile + name.getPath();

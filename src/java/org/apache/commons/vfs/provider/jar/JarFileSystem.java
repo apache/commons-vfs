@@ -26,9 +26,9 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystem;
  * A read-only file system for Jar files.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/21 01:40:38 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/22 11:51:30 $
  */
-public class JarFileSystem
+class JarFileSystem
     extends ZipFileSystem
 {
     private Attributes attributes;

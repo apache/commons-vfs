@@ -31,12 +31,11 @@ class SmbFileObject
     private final String fileName;
     private SmbFile file;
 
-    protected SmbFileObject( final String fileName,
-                             final FileName name,
+    protected SmbFileObject( final FileName name,
                              final SmbFileSystem fileSystem )
     {
         super( name, fileSystem );
-        this.fileName = fileName;
+        this.fileName = name.getURI();
     }
 
     /**

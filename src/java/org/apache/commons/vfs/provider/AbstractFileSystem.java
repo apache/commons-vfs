@@ -24,9 +24,9 @@ public abstract class AbstractFileSystem
     extends AbstractVfsComponent
     implements FileSystem
 {
+    private final FileName rootName;
     private FileObject parentLayer;
     private FileObject root;
-    private final FileName rootName;
 
     /** Map from FileName to FileObject. */
     private final Map files = new HashMap();
@@ -68,7 +68,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Retrives the attribute with the specified name. The default
+     * Retrieves the attribute with the specified name. The default
      * implementation simply throws an exception.
      */
     public Object getAttribute( String attrName ) throws FileSystemException

@@ -33,7 +33,6 @@ class SmbFileSystem
      */
     protected FileObject createFile( final FileName name ) throws FileSystemException
     {
-        final String fileName = name.getURI();
-        return new SmbFileObject( fileName, name, this );
+        return new SmbFileObject( name, this );
     }
 }

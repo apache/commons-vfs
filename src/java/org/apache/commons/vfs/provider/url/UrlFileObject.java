@@ -19,7 +19,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 01:39:47 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/22 11:51:31 $
  */
 class UrlFileObject
     extends AbstractFileObject
@@ -27,12 +27,23 @@ class UrlFileObject
 {
     private URL url;
 
-    public UrlFileObject( UrlFileSystem fs,
-                          FileName fileName,
-                          URL url )
+    public UrlFileObject( final UrlFileSystem fs,
+                          final FileName fileName )
     {
         super( fileName, fs );
-        this.url = url;
+    }
+
+    /**
+     * Attaches this file object to its file resource.  This method is called
+     * before any of the doBlah() or onBlah() methods.  Sub-classes can use
+     * this method to perform lazy initialisation.
+     */
+    protected void doAttach() throws Exception
+    {
+        if ( url == null )
+        {
+            url = new URL( getName().getURI() );
+        }
     }
 
     /**

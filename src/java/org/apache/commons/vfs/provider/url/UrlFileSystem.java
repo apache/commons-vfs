@@ -7,19 +7,17 @@
  */
 package org.apache.commons.vfs.provider.url;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.FileSystem;
 
 /**
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/08/22 02:42:46 $
+ * @version $Revision: 1.7 $ $Date: 2002/10/22 11:51:31 $
  */
 class UrlFileSystem
     extends AbstractFileSystem
@@ -35,14 +33,6 @@ class UrlFileSystem
      */
     protected FileObject createFile( final FileName name ) throws FileSystemException
     {
-        try
-        {
-            final URL url = new URL( name.getURI() );
-            return new UrlFileObject( this, name, url );
-        }
-        catch ( MalformedURLException e )
-        {
-            throw new FileSystemException( e );
-        }
+        return new UrlFileObject( this, name );
     }
 }

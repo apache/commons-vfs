@@ -21,7 +21,6 @@ import org.apache.commons.vfs.FileType;
 
 
 /**
- *
  * A class loader that can load classes and resources from a search path
  * VFS FileObjects refering both to folders and JAR files. Any FileObject
  * of type {@link FileType#FILE} is asumed to be a JAR and is opened
@@ -31,7 +30,7 @@ import org.apache.commons.vfs.FileType;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/21 02:52:40 $
+ * @version $Revision: 1.5 $ $Date: 2002/10/22 11:51:30 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
