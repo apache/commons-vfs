@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FilesCache;
+import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.util.Messages;
 
 import java.lang.ref.Reference;
@@ -36,10 +36,10 @@ import java.util.TreeMap;
  * As soon as the vm needs memory - every softly reachable file will be discarded.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/14 18:35:37 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/17 20:13:19 $
  * @see SoftReference
  */
-public class SoftRefFilesCache implements FilesCache
+public class SoftRefFilesCache extends AbstractFilesCache
 {
     /**
      * The logger to use.
@@ -86,7 +86,7 @@ public class SoftRefFilesCache implements FilesCache
                 }
                 catch (InterruptedException e)
                 {
-                    log.info(Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
+                    VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
                     break loop;
                 }
             }
@@ -178,8 +178,10 @@ public class SoftRefFilesCache implements FilesCache
         }
     }
 
-    public void clear()
+    public void close()
     {
+        super.close();
+
         synchronized (this)
         {
             endThread();

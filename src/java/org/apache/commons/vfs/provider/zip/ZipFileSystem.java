@@ -15,6 +15,8 @@
  */
 package org.apache.commons.vfs.provider.zip;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -22,6 +24,7 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 import java.io.File;
@@ -41,6 +44,8 @@ public class ZipFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
+    private final static Log log = LogFactory.getLog(ZipFileSystem.class);
+
     private final File file;
     protected final ZipFile zipFile;
 
@@ -140,7 +145,8 @@ public class ZipFileSystem
         }
         catch (final IOException e)
         {
-            getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
+            // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
+            VfsLog.warn(getLogger(), log, "vfs.provider.zip/close-zip-file.error :" + file, e);
         }
 
         super.close();

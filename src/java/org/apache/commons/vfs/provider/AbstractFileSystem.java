@@ -15,6 +15,8 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
@@ -26,6 +28,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
+import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.util.Messages;
 
 import java.io.File;
@@ -45,6 +48,8 @@ public abstract class AbstractFileSystem
     extends AbstractVfsComponent
     implements FileSystem
 {
+    private final static Log log = LogFactory.getLog(AbstractFileSystem.class);
+
     private final FileName rootName;
     private FileObject parentLayer;
     private FileObject root;
@@ -372,7 +377,8 @@ public abstract class AbstractFileSystem
                 catch (final Exception e)
                 {
                     final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
-                    getLogger().warn(message, e);
+                    // getLogger().warn(message, e);
+                    VfsLog.warn(getLogger(), log, message, e);
                 }
             }
         }

@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A partial {@link VfsComponent} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:42 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/17 20:13:20 $
  */
 public abstract class AbstractVfsComponent
     implements VfsComponent

@@ -15,9 +15,6 @@
  */
 package org.apache.commons.vfs;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -26,7 +23,7 @@ import java.lang.reflect.Method;
  * instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:46 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/17 20:13:20 $
  */
 public class VFS
 {
@@ -61,6 +58,7 @@ public class VFS
             final Class mgrClass = Class.forName(managerClassName);
             final FileSystemManager mgr = (FileSystemManager) mgrClass.newInstance();
 
+            /*
             try
             {
                 // Set the logger
@@ -72,6 +70,7 @@ public class VFS
             {
                 // Ignore; don't set the logger
             }
+            */
 
             try
             {

@@ -18,7 +18,6 @@ package org.apache.commons.vfs.cache;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FilesCache;
 
 /**
  * <p/>
@@ -31,9 +30,9 @@ import org.apache.commons.vfs.FilesCache;
  * </p>
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/14 18:35:37 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/17 20:13:19 $
  */
-public class NullFilesCache implements FilesCache
+public class NullFilesCache extends AbstractFilesCache
 {
     public void putFile(final FileObject file)
     {
@@ -48,8 +47,9 @@ public class NullFilesCache implements FilesCache
     {
     }
 
-    public void clear()
+    public void close()
     {
+        super.close();
     }
 
     public void removeFile(FileSystem filesystem, FileName name)

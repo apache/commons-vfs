@@ -15,10 +15,13 @@
  */
 package org.apache.commons.vfs.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
@@ -38,6 +41,7 @@ public final class DefaultFileReplicator
     extends AbstractVfsComponent
     implements FileReplicator, TemporaryFileStore
 {
+    private final static Log log = LogFactory.getLog(DefaultFileReplicator.class);
 
     private final ArrayList copies = new ArrayList();
     private File tempDir;
@@ -87,7 +91,8 @@ public final class DefaultFileReplicator
             catch (final FileSystemException e)
             {
                 final String message = Messages.getString("vfs.impl/delete-temp.warn", file.getName());
-                getLogger().warn(message, e);
+                // getLogger().warn(message, e);
+                VfsLog.warn(getLogger(), log, message, e);
             }
         }
 

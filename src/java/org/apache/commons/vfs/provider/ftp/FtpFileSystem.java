@@ -15,6 +15,8 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -23,6 +25,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
 
@@ -38,6 +41,8 @@ import java.util.Collection;
 final class FtpFileSystem
     extends AbstractFileSystem
 {
+    private final static Log log = LogFactory.getLog(FtpFileSystem.class);
+
     private final String hostname;
     private final int port;
     private final String username;
@@ -115,7 +120,8 @@ final class FtpFileSystem
         }
         catch (final IOException e)
         {
-            getLogger().warn("vfs.provider.ftp/close-connection.error", e);
+            // getLogger().warn("vfs.provider.ftp/close-connection.error", e);
+            VfsLog.warn(getLogger(), log, "vfs.provider.ftp/close-connection.error", e);
         }
     }
 

@@ -16,7 +16,6 @@
 package org.apache.commons.vfs.impl;
 
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
@@ -81,7 +80,7 @@ public class DefaultFileSystemManager
     /**
      * The logger to use.
      */
-    private Log log = LogFactory.getLog(DefaultFileSystemManager.class);
+    private Log log;
 
     /**
      * The context to pass to providers.
@@ -99,12 +98,8 @@ public class DefaultFileSystemManager
     /**
      * Returns the logger used by this manager.
      */
-    protected Log getLog()
+    protected Log getLogger()
     {
-        if (log == null)
-        {
-            log = LogFactory.getLog(this.getClass());
-        }
         return log;
     }
 
@@ -214,6 +209,7 @@ public class DefaultFileSystemManager
         }
 
         this.globalConfiguration = globalConfiguration;
+        setupComponent(this.globalConfiguration);
     }
 
 
@@ -274,7 +270,7 @@ public class DefaultFileSystemManager
             if (component instanceof VfsComponent)
             {
                 final VfsComponent vfsComponent = (VfsComponent) component;
-                vfsComponent.setLogger(getLog());
+                vfsComponent.setLogger(getLogger());
                 vfsComponent.setContext(context);
                 vfsComponent.init();
             }
@@ -335,7 +331,7 @@ public class DefaultFileSystemManager
     {
         if (globalConfiguration == null)
         {
-            globalConfiguration = new GlobalConfiguration();
+            setGlobalConfiguration(new GlobalConfiguration());
         }
         globalConfiguration.init();
 
@@ -369,10 +365,6 @@ public class DefaultFileSystemManager
 
         components.clear();
         providers.clear();
-        if (this.globalConfiguration.getFilesCache() != null)
-        {
-            this.globalConfiguration.getFilesCache().clear();
-        }
         localFileProvider = null;
         defaultProvider = null;
         fileReplicator = null;

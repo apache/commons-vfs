@@ -15,7 +15,10 @@
  */
 package org.apache.commons.vfs.impl;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.util.Messages;
 import org.w3c.dom.Element;
@@ -34,11 +37,13 @@ import java.util.ArrayList;
  * if a provider was skipped due to "unresolved externals".
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.19 $ $Date: 2004/05/17 17:56:35 $
+ * @version $Revision: 1.20 $ $Date: 2004/05/17 20:13:20 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
 {
+    private Log log = LogFactory.getLog(StandardFileSystemManager.class);
+
     private static final String CONFIG_RESOURCE = "providers.xml";
 
     private String configUri;
@@ -191,7 +196,7 @@ public class StandardFileSystemManager
             {
                 final String msg = Messages.getString("vfs.impl/skipping-provider.debug",
                     new String[]{classname, requiredClass});
-                getLog().debug(msg);
+                VfsLog.debug(getLogger(), log, msg);
                 return;
             }
         }

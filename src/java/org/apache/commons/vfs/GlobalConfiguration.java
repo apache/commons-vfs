@@ -16,14 +16,16 @@
 package org.apache.commons.vfs;
 
 import org.apache.commons.vfs.cache.DefaultFilesCache;
+import org.apache.commons.vfs.provider.AbstractVfsComponent;
+import org.apache.commons.vfs.provider.VfsComponent;
 
 /**
  * Global parameters to configure the VFS system.
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/17 17:56:57 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/17 20:13:20 $
  */
-public final class GlobalConfiguration
+public final class GlobalConfiguration extends AbstractVfsComponent
 {
     private boolean inUse = false;
 
@@ -50,9 +52,34 @@ public final class GlobalConfiguration
      * init
      * marks this configuration as "in use"
      */
-    public void init()
+    public void init() throws FileSystemException
     {
+        super.init();
+
+        setupComponent(this.filesCache);
+
         inUse = true;
+    }
+
+    private void setupComponent(final Object component) throws FileSystemException
+    {
+        if (component instanceof VfsComponent)
+        {
+            final VfsComponent vfsComponent = (VfsComponent) component;
+            vfsComponent.setLogger(getLogger());
+            vfsComponent.setContext(getContext());
+            vfsComponent.init();
+        }
+    }
+
+    /**
+     * close this component
+     */
+    public void close()
+    {
+        super.close();
+
+        filesCache.close();
     }
 
     /**

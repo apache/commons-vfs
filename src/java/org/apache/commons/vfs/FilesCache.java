@@ -20,7 +20,7 @@ package org.apache.commons.vfs;
  * The fileCache interface
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/14 18:35:37 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/17 20:13:20 $
  */
 public interface FilesCache
 {
@@ -47,7 +47,7 @@ public interface FilesCache
     /**
      * purge the whole cache
      */
-    public void clear();
+    public void close();
 
     /**
      * removes a file from cache

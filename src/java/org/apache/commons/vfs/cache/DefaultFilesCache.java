@@ -18,7 +18,6 @@ package org.apache.commons.vfs.cache;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FilesCache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,9 +28,9 @@ import java.util.TreeMap;
  * This implementation caches every file for the complete lifetime of the used {@link org.apache.commons.vfs.FileSystemManager}.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/14 18:35:37 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/17 20:13:19 $
  */
-public class DefaultFilesCache implements FilesCache
+public class DefaultFilesCache extends AbstractFilesCache
 {
     private final Map filesystemCache = new HashMap(10);
 
@@ -65,8 +64,10 @@ public class DefaultFilesCache implements FilesCache
         return files;
     }
 
-    public void clear()
+    public void close()
     {
+        super.close();
+
         filesystemCache.clear();
     }
 
