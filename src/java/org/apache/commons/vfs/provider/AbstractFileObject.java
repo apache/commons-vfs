@@ -1451,7 +1451,7 @@ public abstract class AbstractFileObject implements FileObject
      * This method is meant to add a object where this object holds a strong reference then.
      * E.g. a archive-filesystem creates a list of all childs and they shouldnt get
      * garbage collected until the container is garbage collected
-     * 
+     *
      * @param strongRef
      */
     public void holdObject(Object strongRef)

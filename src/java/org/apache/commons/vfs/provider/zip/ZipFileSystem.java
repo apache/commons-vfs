@@ -96,6 +96,7 @@ public class ZipFileSystem
             fileObj = createZipFileObject(name, entry);
             putFileToCache(fileObj);
             strongRef.add(fileObj);
+            fileObj.holdObject(strongRef);
 
             // Make sure all ancestors exist
             // TODO - create these on demand
@@ -111,13 +112,13 @@ public class ZipFileSystem
                     parent = createZipFileObject(parentName, null);
                     putFileToCache(parent);
                     strongRef.add(parent);
+                    parent.holdObject(strongRef);
                 }
 
                 // Attach child to parent
                 parent.attachChild(fileObj.getName());
             }
         }
-        ((AbstractFileObject) getParentLayer()).holdObject(strongRef);
     }
 
     protected ZipFile getZipFile() throws FileSystemException
