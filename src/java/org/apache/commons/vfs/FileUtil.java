@@ -63,7 +63,7 @@ import java.io.OutputStream;
  * Utility methods for dealng with FileObjects.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/21 05:15:51 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/23 00:34:24 $
  */
 public class FileUtil
 {
@@ -124,6 +124,26 @@ public class FileUtil
         finally
         {
             instr.close();
+        }
+    }
+
+    /**
+     * Copies the content from a source file to a destination file.
+     */
+    public static void copyContent( final FileObject srcFile,
+                                    final FileObject destFile )
+        throws IOException
+    {
+        // Create the output stream via getContent(), to pick up the
+        // validation it does
+        final OutputStream outstr = destFile.getContent().getOutputStream();
+        try
+        {
+            writeContent( srcFile, outstr );
+        }
+        finally
+        {
+            outstr.close();
         }
     }
 
