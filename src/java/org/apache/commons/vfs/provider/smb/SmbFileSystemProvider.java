@@ -77,7 +77,7 @@ public final class SmbFileSystemProvider
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return new SmbUri( uri );
+        return new SmbFileName( uri );
     }
 
     /**
@@ -86,7 +86,7 @@ public final class SmbFileSystemProvider
     protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        final SmbUri smbUri = (SmbUri)name;
+        final SmbFileName smbUri = (SmbFileName)name;
         final FileName rootName = smbUri.resolveName( FileName.ROOT_PATH );
         return new SmbFileSystem( rootName );
     }

@@ -58,13 +58,14 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
- * A 'generic' URI, as per RFC 2396.  Consists of a scheme, userinfo (typically
- * username and password), hostname, port, and path.
+ * A file name that represents a 'generic' URI, as per RFC 2396.  Consists of
+ * a scheme, userinfo (typically username and password), hostname, port, and
+ * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/23 12:27:23 $
+ * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
  */
-public class GenericUri
+public class GenericFileName
     extends DefaultFileName
 {
     private String userInfo;
@@ -268,7 +269,7 @@ public class GenericUri
         name.delete( 0, pos );
         return port;
     }
-    
+
     /**
      * Assembles a generic URI, appending to the supplied StringBuffer.
      */

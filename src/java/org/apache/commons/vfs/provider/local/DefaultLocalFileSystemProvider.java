@@ -123,7 +123,7 @@ public final class DefaultLocalFileSystemProvider
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return new LocalFileUri( uri, parser );
+        return new LocalFileName( uri, parser );
     }
 
     /**
@@ -133,7 +133,7 @@ public final class DefaultLocalFileSystemProvider
         throws FileSystemException
     {
         // Build the name of the root file.
-        final LocalFileUri fileUri = (LocalFileUri)name;
+        final LocalFileName fileUri = (LocalFileName)name;
         final String rootFile = fileUri.getRootFile();
 
         // Create the file system

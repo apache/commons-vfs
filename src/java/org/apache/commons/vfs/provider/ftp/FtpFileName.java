@@ -53,79 +53,79 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.zip;
+package org.apache.commons.vfs.provider.ftp;
 
+import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.LayeredFileName;
 
 /**
- * A parser for Zip file names.
+ * An FTP URI.  Splits userinfo (see {@link #getUserInfo}) into username and
+ * password.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:19 $
+ * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
  */
-public class ZipFileNameParser
-    extends LayeredFileName
+class FtpFileName
+    extends GenericFileName
 {
-    private static final char[] ZIP_URL_RESERVED_CHARS = {'!'};
+    private String userName;
+    private String password;
 
-    public ZipFileNameParser( final String uri )
+    public FtpFileName( final String uri )
         throws FileSystemException
     {
-        final StringBuffer name = new StringBuffer();
+        // FTP URI are generic URI (as per RFC 2396)
+        parseGenericUri( uri );
 
-        // Extract the scheme
-        final String scheme = extractScheme( uri, name );
-        setScheme( scheme );
+        // Drop the port if it is 21
+        final String port = getPort();
+        if ( port != null && port.equals( "21" ) )
+        {
+            setPort( null );
+        }
 
-        // Extract the Zip file URI
-        final String zipUri = extractZipName( name );
-        setOuterUri( zipUri );
+        // Split up the userinfo into a username and password
+        // TODO - push this into GenericFileName
+        final String userInfo = getUserInfo();
+        if ( userInfo != null )
+        {
+            int idx = userInfo.indexOf( ':' );
+            if ( idx == -1 )
+            {
+                setUserName( userInfo );
+            }
+            else
+            {
+                String userName = userInfo.substring( 0, idx );
+                String password = userInfo.substring( idx + 1 );
+                setUserName( userName );
+                setPassword( password );
+            }
+        }
 
-        // Decode and normalise the path
-        decode( name, 0, name.length() );
-        normalisePath( name );
-        setPath( name.toString() );
-    }
-
-    public ZipFileNameParser( final String scheme,
-                              final String outerFileUri,
-                              final String path )
-    {
+        // Now build the root URI
         final StringBuffer rootUri = new StringBuffer();
-        rootUri.append( scheme );
-        rootUri.append( ":" );
-        appendEncoded( rootUri, outerFileUri, ZIP_URL_RESERVED_CHARS );
-        rootUri.append( "!" );
+        appendRootUri( rootUri );
         setRootURI( rootUri.toString() );
-        setPath( path );
     }
 
-    /**
-     * Pops the root prefix off a URI, which has had the scheme removed.
-     */
-    private static String extractZipName( final StringBuffer uri )
-        throws FileSystemException
+    public String getUserName()
     {
-        // Looking for <name>!<abspath>
-        int maxlen = uri.length();
-        int pos = 0;
-        for ( ; pos < maxlen && uri.charAt( pos ) != '!'; pos++ )
-        {
-        }
+        return userName;
+    }
 
-        // Extract the name
-        String prefix = uri.substring( 0, pos );
-        if ( pos < maxlen )
-        {
-            uri.delete( 0, pos + 1 );
-        }
-        else
-        {
-            uri.setLength( 0 );
-        }
+    public void setUserName( final String userName )
+    {
+        this.userName = userName;
+    }
 
-        // Decode the name
-        return decode( prefix );
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword( final String password )
+    {
+        this.password = password;
     }
 }

@@ -62,14 +62,14 @@ import org.apache.commons.vfs.provider.DefaultFileName;
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/23 12:27:24 $
+ * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
  */
-class LocalFileUri
+class LocalFileName
     extends DefaultFileName
 {
     private String rootFile;
 
-    public LocalFileUri( final String uri, final LocalFileNameParser parser )
+    public LocalFileName( final String uri, final LocalFileNameParser parser )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();

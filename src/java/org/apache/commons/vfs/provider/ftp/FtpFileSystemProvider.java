@@ -75,7 +75,7 @@ public final class FtpFileSystemProvider
     protected FileName parseUri( final String uri )
         throws FileSystemException
     {
-        return new FtpUri( uri );
+        return new FtpFileName( uri );
     }
 
     /**
@@ -84,7 +84,7 @@ public final class FtpFileSystemProvider
     protected FileSystem doCreateFileSystem( final FileName name )
         throws FileSystemException
     {
-        final FtpUri ftpUri = (FtpUri)name;
+        final FtpFileName ftpUri = (FtpFileName)name;
 
         // Build the root name
         final FileName rootName = ftpUri.resolveName( FileName.ROOT_PATH );

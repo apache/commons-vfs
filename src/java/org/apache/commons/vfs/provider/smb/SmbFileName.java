@@ -55,21 +55,21 @@
  */
 package org.apache.commons.vfs.provider.smb;
 
-import org.apache.commons.vfs.provider.GenericUri;
+import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2003/01/23 12:27:24 $
+ * @version $Revision: 1.1 $ $Date: 2003/01/23 12:33:02 $
  */
-class SmbUri
-    extends GenericUri
+class SmbFileName
+    extends GenericFileName
 {
     private String share;
 
-    public SmbUri( final String uri )
+    public SmbFileName( final String uri )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
