@@ -39,7 +39,7 @@ import java.util.Vector;
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:51 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/24 20:15:26 $
  */
 class SftpFileObject
     extends AbstractFileObject
@@ -137,6 +137,15 @@ class SftpFileObject
         }
     }
 
+    protected long doGetLastModifiedTime() throws Exception
+    {
+        if (attrs == null || (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_ACMODTIME) == 0)
+        {
+            throw new FileSystemException("vfs.provider.sftp/unknown-modtime.error");
+        }
+        return attrs.getMTime() * 1000L;
+    }
+
     /**
      * Deletes the file.
      */
@@ -227,7 +236,7 @@ class SftpFileObject
     protected long doGetContentSize()
         throws Exception
     {
-        if ((attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0)
+        if (attrs == null || (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0)
         {
             throw new FileSystemException("vfs.provider.sftp/unknown-size.error");
         }
@@ -243,12 +252,16 @@ class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
+            // return channel.get(getName().getPath());
+            // hmmm - using the in memory method is soooo much faster ...
+
             // TODO - Don't read the entire file into memory.  Use the
             // stream-based methods on ChannelSftp once they work properly
             final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
             channel.get(getName().getPath(), outstr);
             outstr.close();
             return new ByteArrayInputStream(outstr.toByteArray());
+
         }
         finally
         {

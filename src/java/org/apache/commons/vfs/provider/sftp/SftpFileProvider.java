@@ -37,7 +37,7 @@ import java.util.Collections;
  * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: SftpFileProvider.java,v 1.10 2004/05/19 19:34:06 imario Exp $
+ * @version $Id: SftpFileProvider.java,v 1.11 2004/05/24 20:15:26 imario Exp $
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {
@@ -50,14 +50,15 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         Capability.LIST_CHILDREN,
         Capability.READ_CONTENT,
         Capability.URI,
-        Capability.WRITE_CONTENT
+        Capability.WRITE_CONTENT,
+        Capability.GET_LAST_MODIFIED
     }));
 
     public final static String ATTR_USER_INFO = "UI";
 
     private static final String SSH_DIR_NAME = ".ssh";
 
-    private JSch jSch = new JSch();
+    // private JSch jSch = new JSch();
 
     public SftpFileProvider()
     {
@@ -67,9 +68,79 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     /**
      * Creates a {@link FileSystem}.
      */
-    protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
+    protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
-        return new SftpFileSystem((GenericFileName) rootName, this.getJSch(), fileSystemOptions);
+        JSch jsch = createJSch(fileSystemOptions);
+
+        return new SftpFileSystem((GenericFileName) rootName, jsch, fileSystemOptions);
+    }
+
+    private JSch createJSch(FileSystemOptions fileSystemOptions) throws FileSystemException
+    {
+        JSch jsch = new JSch();
+
+        File sshDir = null;
+
+        // new style - user passed
+        File knownHostsFile = SftpFileSystemConfigBuilder.getInstance().getKnownHosts(fileSystemOptions);
+        File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(fileSystemOptions);
+
+        if (knownHostsFile != null)
+        {
+            jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+        }
+        else
+        {
+            if (sshDir == null)
+            {
+                sshDir = this.findSshDir();
+            }
+            // Load the known hosts file
+            knownHostsFile = new File(sshDir, "known_hosts");
+            if (knownHostsFile.isFile() && knownHostsFile.canRead())
+            {
+                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+            }
+        }
+
+        if (identities != null)
+        {
+            for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++)
+            {
+                final File privateKeyFile = identities[iterIdentities];
+                try
+                {
+                    jsch.addIdentity(privateKeyFile.getAbsolutePath());
+                }
+                catch (final JSchException e)
+                {
+                    throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
+                }
+            }
+        }
+        else
+        {
+            if (sshDir == null)
+            {
+                sshDir = this.findSshDir();
+            }
+
+            // Load the private key (rsa-key only)
+            final File privateKeyFile = new File(sshDir, "id_rsa");
+            if (privateKeyFile.isFile() && privateKeyFile.canRead())
+            {
+                try
+                {
+                    jsch.addIdentity(privateKeyFile.getAbsolutePath());
+                }
+                catch (final JSchException e)
+                {
+                    throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
+                }
+            }
+        }
+
+        return jsch;
     }
 
     /**
@@ -128,39 +199,18 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
      *
      * @return Returns the jSch.
      */
+    /*
     private JSch getJSch()
     {
         return this.jSch;
     }
+    */
 
     /**
      * Initialises the component.
      */
     public void init() throws FileSystemException
     {
-        // Figure out where the ssh directory is
-        File sshDir = this.findSshDir();
-
-        // Load the known hosts file
-        final File knownHostsFile = new File(sshDir, "known_hosts");
-        if (knownHostsFile.isFile() && knownHostsFile.canRead())
-        {
-            this.getJSch().setKnownHosts(knownHostsFile.getAbsolutePath());
-        }
-
-        // Load the private key
-        final File privateKeyFile = new File(sshDir, "id_rsa");
-        if (privateKeyFile.isFile() && privateKeyFile.canRead())
-        {
-            try
-            {
-                this.getJSch().addIdentity(privateKeyFile.getAbsolutePath());
-            }
-            catch (final JSchException e)
-            {
-                throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
-            }
-        }
     }
 
     /**
