@@ -15,6 +15,9 @@
  */
 package org.apache.commons.vfs.provider.jar;
 
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileSystemException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,14 +29,12 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A default URL connection that will work for most file systems.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.11 $ $Date: 2004/05/10 20:09:50 $
  */
 public class JarURLConnectionImpl
     extends JarURLConnection
@@ -46,11 +47,11 @@ public class JarURLConnectionImpl
     private JarFileObject file;
     private String entryName;
 
-    public JarURLConnectionImpl( JarFileObject file, FileContent content )
+    public JarURLConnectionImpl(JarFileObject file, FileContent content)
         throws MalformedURLException, FileSystemException
     {
         //This is because JarURLConnection SUCKS!!
-        super( new URL( HACK_URL ) );
+        super(new URL(HACK_URL));
 
         this.url = file.getURL();
         this.content = content;
@@ -74,7 +75,7 @@ public class JarURLConnectionImpl
 
     public JarFile getJarFile() throws IOException
     {
-        throw new FileSystemException( "vfs.provider.jar/jar-file-no-access.error" );
+        throw new FileSystemException("vfs.provider.jar/jar-file-no-access.error");
     }
 
 
@@ -86,7 +87,7 @@ public class JarURLConnectionImpl
 
     public JarEntry getJarEntry() throws IOException
     {
-        throw new FileSystemException( "vfs.provider.jar/jar-entry-no-access.error" );
+        throw new FileSystemException("vfs.provider.jar/jar-entry-no-access.error");
     }
 
 
@@ -123,9 +124,9 @@ public class JarURLConnectionImpl
     {
         try
         {
-            return (int)content.getSize();
+            return (int) content.getSize();
         }
-        catch ( FileSystemException fse )
+        catch (FileSystemException fse)
         {
         }
 

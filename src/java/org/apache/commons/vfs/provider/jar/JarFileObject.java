@@ -15,6 +15,9 @@
  */
 package org.apache.commons.vfs.provider.jar;
 
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.provider.zip.ZipFileObject;
+
 import java.io.IOException;
 import java.security.cert.Certificate;
 import java.util.HashMap;
@@ -26,25 +29,23 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.provider.zip.ZipFileObject;
 
 /**
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.11 $ $Date: 2004/05/10 20:09:50 $
  */
 class JarFileObject extends ZipFileObject
 {
     private Attributes attributes;
 
-    public JarFileObject( final FileName name,
-                          final ZipEntry entry,
-                          final ZipFile zipFile,
-                          final JarFileSystem fs )
+    public JarFileObject(final FileName name,
+                         final ZipEntry entry,
+                         final ZipFile zipFile,
+                         final JarFileSystem fs)
     {
-        super( name, entry, zipFile, fs );
+        super(name, entry, zipFile, fs);
     }
 
     /**
@@ -52,12 +53,12 @@ class JarFileObject extends ZipFileObject
      */
     Manifest getManifest() throws IOException
     {
-        if ( file == null )
+        if (file == null)
         {
             return null;
         }
 
-        return ( (JarFile)file ).getManifest();
+        return ((JarFile) file).getManifest();
     }
 
     /**
@@ -65,18 +66,18 @@ class JarFileObject extends ZipFileObject
      */
     Attributes getAttributes() throws IOException
     {
-        if ( attributes == null )
+        if (attributes == null)
         {
-            if ( entry == null )
+            if (entry == null)
             {
-                attributes = new Attributes( 1 );
+                attributes = new Attributes(1);
             }
             else
             {
-                attributes = ( (JarEntry)entry ).getAttributes();
-                if ( attributes == null )
+                attributes = ((JarEntry) entry).getAttributes();
+                if (attributes == null)
                 {
-                    attributes = new Attributes( 1 );
+                    attributes = new Attributes(1);
                 }
             }
         }
@@ -93,23 +94,25 @@ class JarFileObject extends ZipFileObject
         final Map attrs = new HashMap();
 
         // Add the file system's attributes first
-        final JarFileSystem fs = (JarFileSystem)getFileSystem();
-        addAll( fs.getAttributes(), attrs );
+        final JarFileSystem fs = (JarFileSystem) getFileSystem();
+        addAll(fs.getAttributes(), attrs);
 
         // Add this file's attributes
-        addAll( getAttributes(), attrs );
+        addAll(getAttributes(), attrs);
 
         return attrs;
     }
 
-    /** Adds the source attributes to the destination map. */
-    private void addAll( final Attributes src, final Map dest )
+    /**
+     * Adds the source attributes to the destination map.
+     */
+    private void addAll(final Attributes src, final Map dest)
     {
-        for ( Iterator iterator = src.entrySet().iterator(); iterator.hasNext(); )
+        for (Iterator iterator = src.entrySet().iterator(); iterator.hasNext();)
         {
-            final Map.Entry entry = (Map.Entry)iterator.next();
+            final Map.Entry entry = (Map.Entry) iterator.next();
             final String name = entry.getKey().toString().toLowerCase();
-            dest.put( name, entry.getValue() );
+            dest.put(name, entry.getValue());
         }
     }
 
@@ -118,11 +121,11 @@ class JarFileObject extends ZipFileObject
      */
     protected Certificate[] doGetCertificates()
     {
-        if ( entry == null )
+        if (entry == null)
         {
             return null;
         }
 
-        return ( (JarEntry)entry ).getCertificates();
+        return ((JarEntry) entry).getCertificates();
     }
 }

@@ -18,10 +18,9 @@ package org.apache.commons.vfs;
 /**
  * This interface is used to select files when traversing a file hierarchy.
  *
- * @see Selectors
- *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.1 $ $Date: 2002/04/07 02:27:55 $
+ * @see Selectors
  */
 public interface FileSelector
 {
@@ -33,21 +32,20 @@ public interface FileSelector
      * @param fileInfo the file or folder to select.
      * @return true if the file should be selected.
      */
-    boolean includeFile( FileSelectInfo fileInfo )
+    boolean includeFile(FileSelectInfo fileInfo)
         throws Exception;
 
     /**
      * Determines whether a folder should be traversed.  If this method returns
      * true, {@link #includeFile} is called for each of the children of
      * the folder, and each of the child folders is recursively traversed.
-     *
+     * <p/>
      * <p>This method is called on a folder before {@link #includeFile}
      * is called.
      *
      * @param fileInfo the file or folder to select.
-     *
      * @return true if the folder should be traversed.
      */
-    boolean traverseDescendents( FileSelectInfo fileInfo )
+    boolean traverseDescendents(FileSelectInfo fileInfo)
         throws Exception;
 }

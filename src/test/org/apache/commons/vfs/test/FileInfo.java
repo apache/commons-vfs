@@ -15,9 +15,10 @@
  */
 package org.apache.commons.vfs.test;
 
+import org.apache.commons.vfs.FileType;
+
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.vfs.FileType;
 
 /**
  * Info about a file.
@@ -30,14 +31,14 @@ class FileInfo
     Map children = new HashMap();
     FileInfo parent;
 
-    public FileInfo( final String name, final FileType type )
+    public FileInfo(final String name, final FileType type)
     {
         baseName = name;
         this.type = type;
         this.content = null;
     }
 
-    public FileInfo( final String name, final FileType type, final String content )
+    public FileInfo(final String name, final FileType type, final String content)
     {
         baseName = name;
         this.type = type;
@@ -49,26 +50,32 @@ class FileInfo
         return parent;
     }
 
-    /** Adds a child. */
-    public void addChild( final FileInfo child )
+    /**
+     * Adds a child.
+     */
+    public void addChild(final FileInfo child)
     {
-        children.put( child.baseName, child );
+        children.put(child.baseName, child);
         child.parent = this;
     }
 
-    /** Adds a child file. */
-    public FileInfo addFile( final String baseName, final String content )
+    /**
+     * Adds a child file.
+     */
+    public FileInfo addFile(final String baseName, final String content)
     {
-        final FileInfo child = new FileInfo( baseName, FileType.FILE, content );
-        addChild( child );
+        final FileInfo child = new FileInfo(baseName, FileType.FILE, content);
+        addChild(child);
         return child;
     }
 
-    /** Adds a child folder. */
-    public FileInfo addFolder( final String baseName )
+    /**
+     * Adds a child folder.
+     */
+    public FileInfo addFolder(final String baseName)
     {
-        final FileInfo child = new FileInfo( baseName, FileType.FOLDER, null );
-        addChild( child );
+        final FileInfo child = new FileInfo(baseName, FileType.FOLDER, null);
+        addChild(child);
         return child;
     }
 }

@@ -36,7 +36,7 @@ final class DefaultFileSelectorInfo
         return baseFolder;
     }
 
-    public void setBaseFolder( final FileObject baseFolder )
+    public void setBaseFolder(final FileObject baseFolder)
     {
         this.baseFolder = baseFolder;
     }
@@ -46,7 +46,7 @@ final class DefaultFileSelectorInfo
         return file;
     }
 
-    public void setFile( final FileObject file )
+    public void setFile(final FileObject file)
     {
         this.file = file;
     }
@@ -56,7 +56,7 @@ final class DefaultFileSelectorInfo
         return depth;
     }
 
-    public void setDepth( final int depth )
+    public void setDepth(final int depth)
     {
         this.depth = depth;
     }

@@ -23,7 +23,7 @@ import org.apache.commons.vfs.provider.smb.SmbFileName;
  * Some additional SMB file name test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:49 $
  */
 public class FileNameTestCase
     extends AbstractVfsTestCase
@@ -34,53 +34,53 @@ public class FileNameTestCase
     public void testParseUri() throws Exception
     {
         // Simple name
-        SmbFileName name = SmbFileName.parseUri( "smb://hostname/share/file" );
-        assertEquals( "smb", name.getScheme() );
-        assertNull( name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 139, name.getPort() );
-        assertEquals( name.getDefaultPort(), name.getPort() );
-        assertEquals( "share", name.getShare() );
-        assertEquals( "/file", name.getPath() );
-        assertEquals( "smb://hostname/share/", name.getRootURI() );
-        assertEquals( "smb://hostname/share/file", name.getURI() );
+        SmbFileName name = SmbFileName.parseUri("smb://hostname/share/file");
+        assertEquals("smb", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(139, name.getPort());
+        assertEquals(name.getDefaultPort(), name.getPort());
+        assertEquals("share", name.getShare());
+        assertEquals("/file", name.getPath());
+        assertEquals("smb://hostname/share/", name.getRootURI());
+        assertEquals("smb://hostname/share/file", name.getURI());
 
         // Name with port
-        name = SmbFileName.parseUri( "smb://hostname:9090/share/file" );
-        assertEquals( "smb", name.getScheme() );
-        assertNull( name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 9090, name.getPort() );
-        assertEquals( "share", name.getShare() );
-        assertEquals( "/file", name.getPath() );
-        assertEquals( "smb://hostname:9090/share/", name.getRootURI() );
-        assertEquals( "smb://hostname:9090/share/file", name.getURI() );
+        name = SmbFileName.parseUri("smb://hostname:9090/share/file");
+        assertEquals("smb", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(9090, name.getPort());
+        assertEquals("share", name.getShare());
+        assertEquals("/file", name.getPath());
+        assertEquals("smb://hostname:9090/share/", name.getRootURI());
+        assertEquals("smb://hostname:9090/share/file", name.getURI());
 
         // Name with no path
-        name = SmbFileName.parseUri( "smb://hostname/share" );
-        assertEquals( "smb", name.getScheme() );
-        assertNull( name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 139, name.getPort() );
-        assertEquals( "share", name.getShare() );
-        assertEquals( "/", name.getPath() );
-        assertEquals( "smb://hostname/share/", name.getRootURI() );
-        assertEquals( "smb://hostname/share/", name.getURI() );
+        name = SmbFileName.parseUri("smb://hostname/share");
+        assertEquals("smb", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(139, name.getPort());
+        assertEquals("share", name.getShare());
+        assertEquals("/", name.getPath());
+        assertEquals("smb://hostname/share/", name.getRootURI());
+        assertEquals("smb://hostname/share/", name.getURI());
 
         // Name with username
-        name = SmbFileName.parseUri( "smb://user@hostname/share/file" );
-        assertEquals( "smb", name.getScheme() );
-        assertEquals( "user", name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 139, name.getPort() );
-        assertEquals( "share", name.getShare() );
-        assertEquals( "/file", name.getPath() );
-        assertEquals( "smb://user@hostname/share/", name.getRootURI() );
-        assertEquals( "smb://user@hostname/share/file", name.getURI() );
+        name = SmbFileName.parseUri("smb://user@hostname/share/file");
+        assertEquals("smb", name.getScheme());
+        assertEquals("user", name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(139, name.getPort());
+        assertEquals("share", name.getShare());
+        assertEquals("/file", name.getPath());
+        assertEquals("smb://user@hostname/share/", name.getRootURI());
+        assertEquals("smb://user@hostname/share/file", name.getURI());
     }
 
     /**
@@ -89,41 +89,43 @@ public class FileNameTestCase
     public void testBadlyFormedUri() throws Exception
     {
         // Does not start with smb://
-        testBadlyFormedUri( "smb:", "vfs.provider/missing-double-slashes.error" );
-        testBadlyFormedUri( "smb:/", "vfs.provider/missing-double-slashes.error" );
-        testBadlyFormedUri( "smb:a", "vfs.provider/missing-double-slashes.error" );
+        testBadlyFormedUri("smb:", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("smb:/", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("smb:a", "vfs.provider/missing-double-slashes.error");
 
         // Missing hostname
-        testBadlyFormedUri( "smb://", "vfs.provider/missing-hostname.error" );
-        testBadlyFormedUri( "smb://:21/share", "vfs.provider/missing-hostname.error" );
-        testBadlyFormedUri( "smb:///share", "vfs.provider/missing-hostname.error" );
+        testBadlyFormedUri("smb://", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("smb://:21/share", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("smb:///share", "vfs.provider/missing-hostname.error");
 
         // Empty port
-        testBadlyFormedUri( "smb://host:", "vfs.provider/missing-port.error" );
-        testBadlyFormedUri( "smb://host:/share", "vfs.provider/missing-port.error" );
-        testBadlyFormedUri( "smb://host:port/share/file", "vfs.provider/missing-port.error" );
+        testBadlyFormedUri("smb://host:", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("smb://host:/share", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("smb://host:port/share/file", "vfs.provider/missing-port.error");
 
         // Missing absolute path
-        testBadlyFormedUri( "smb://host:90a", "vfs.provider/missing-hostname-path-sep.error" );
-        testBadlyFormedUri( "smb://host?a", "vfs.provider/missing-hostname-path-sep.error" );
+        testBadlyFormedUri("smb://host:90a", "vfs.provider/missing-hostname-path-sep.error");
+        testBadlyFormedUri("smb://host?a", "vfs.provider/missing-hostname-path-sep.error");
 
         // Missing share name
-        testBadlyFormedUri( "smb://host", "vfs.provider.smb/missing-share-name.error" );
-        testBadlyFormedUri( "smb://host/", "vfs.provider.smb/missing-share-name.error" );
-        testBadlyFormedUri( "smb://host:9090/", "vfs.provider.smb/missing-share-name.error" );
+        testBadlyFormedUri("smb://host", "vfs.provider.smb/missing-share-name.error");
+        testBadlyFormedUri("smb://host/", "vfs.provider.smb/missing-share-name.error");
+        testBadlyFormedUri("smb://host:9090/", "vfs.provider.smb/missing-share-name.error");
     }
 
-    /** Tests that parsing a URI fails with the expected error. */
-    private void testBadlyFormedUri( final String uri, final String errorMsg )
+    /**
+     * Tests that parsing a URI fails with the expected error.
+     */
+    private void testBadlyFormedUri(final String uri, final String errorMsg)
     {
         try
         {
-            SmbFileName.parseUri( uri );
+            SmbFileName.parseUri(uri);
             fail();
         }
-        catch ( final FileSystemException e )
+        catch (final FileSystemException e)
         {
-            assertSameMessage( errorMsg, uri, e );
+            assertSameMessage(errorMsg, uri, e);
         }
     }
 }

@@ -17,6 +17,7 @@ package org.apache.commons.vfs.impl;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
@@ -29,7 +30,7 @@ import java.io.File;
  * The default context implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/01 18:14:27 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:47 $
  */
 final class DefaultVfsComponentContext
     implements VfsComponentContext
@@ -82,5 +83,15 @@ final class DefaultVfsComponentContext
     public TemporaryFileStore getTemporaryFileStore() throws FileSystemException
     {
         return manager.getTemporaryFileStore();
+    }
+
+    /**
+     * Returns the filesystem manager for the current context
+     *
+     * @return the filesystem manager
+     */
+    public FileSystemManager getFileSystemManager()
+    {
+        return manager;
     }
 }

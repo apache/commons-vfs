@@ -19,7 +19,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.zip.ZipFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileProvider;
@@ -30,14 +29,14 @@ import org.apache.commons.vfs.provider.zip.ZipFileProvider;
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/03 19:48:48 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:50 $
  */
 public class JarFileProvider
     extends ZipFileProvider
 {
-    public JarFileProvider(FileSystemManager manager)
+    public JarFileProvider()
     {
-        super(manager);
+        super();
     }
 
     /**
@@ -55,6 +54,6 @@ public class JarFileProvider
     {
         final FileName name =
             new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
-        return new JarFileSystem(getFileSystemManager(), name, file, fileSystemOptions);
+        return new JarFileSystem(name, file, fileSystemOptions);
     }
 }

@@ -15,14 +15,15 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.io.File;
 import org.apache.commons.vfs.FileSystemException;
+
+import java.io.File;
 
 /**
  * Manages a repository of temporary local files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:43 $
  */
 public interface TemporaryFileStore
 {
@@ -30,7 +31,7 @@ public interface TemporaryFileStore
      * Allocates a new temporary file.  The file (and all its descendents)
      * will be deleted when this store is closed.
      *
-     * @param basename  The name of the file.
+     * @param basename The name of the file.
      */
-    File allocateFile( String basename ) throws FileSystemException;
+    File allocateFile(String basename) throws FileSystemException;
 }

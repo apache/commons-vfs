@@ -49,7 +49,7 @@ public class ZipProviderTestCase
      */
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
-        manager.addProvider("zip", new ZipFileProvider(manager));
+        manager.addProvider("zip", new ZipFileProvider());
     }
 
     /**

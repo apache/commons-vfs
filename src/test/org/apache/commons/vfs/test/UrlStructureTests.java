@@ -15,15 +15,16 @@
  */
 package org.apache.commons.vfs.test;
 
-import java.io.IOException;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
+
+import java.io.IOException;
 
 /**
  * URL Test cases for providers that supply structural info.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:44 $
  */
 public class UrlStructureTests
     extends AbstractProviderTestCase
@@ -45,8 +46,8 @@ public class UrlStructureTests
      */
     public void testFolderURL() throws Exception
     {
-        final FileObject folder = getReadFolder().resolveFile( "dir1" );
-        assertTrue( folder.exists() );
+        final FileObject folder = getReadFolder().resolveFile("dir1");
+        assertTrue(folder.exists());
 
         // Try getting the content of a folder
         try
@@ -54,9 +55,9 @@ public class UrlStructureTests
             folder.getURL().openConnection().getInputStream();
             fail();
         }
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            assertSameMessage( "vfs.provider/read-not-file.error", folder, e );
+            assertSameMessage("vfs.provider/read-not-file.error", folder, e);
         }
     }
 }

@@ -11,7 +11,7 @@ package code;
  * The test class for the VFS classloader.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 13:10:57 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/10 20:09:46 $
  */
 public class ClassToLoad
 {

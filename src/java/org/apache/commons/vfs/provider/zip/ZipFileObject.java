@@ -15,14 +15,15 @@
  */
 package org.apache.commons.vfs.provider.zip;
 
-import java.io.InputStream;
-import java.util.HashSet;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * A file in a Zip file system.
@@ -39,15 +40,15 @@ public class ZipFileObject
     protected ZipEntry entry;
     private FileType type;
 
-    public ZipFileObject( FileName name,
-                          ZipEntry entry,
-                          ZipFile zipFile,
-                          ZipFileSystem fs )
+    public ZipFileObject(FileName name,
+                         ZipEntry entry,
+                         ZipFile zipFile,
+                         ZipFileSystem fs)
     {
-        super( name, fs );
-        setZipEntry( entry );
+        super(name, fs);
+        setZipEntry(entry);
         file = zipFile;
-        if ( file == null )
+        if (file == null)
         {
             type = FileType.IMAGINARY;
         }
@@ -56,14 +57,14 @@ public class ZipFileObject
     /**
      * Sets the details for this file object.
      */
-    protected void setZipEntry( final ZipEntry entry )
+    protected void setZipEntry(final ZipEntry entry)
     {
-        if ( this.entry != null )
+        if (this.entry != null)
         {
             return;
         }
 
-        if ( ( entry == null ) || ( entry.isDirectory() ) )
+        if ((entry == null) || (entry.isDirectory()))
         {
             type = FileType.FOLDER;
         }
@@ -78,9 +79,9 @@ public class ZipFileObject
     /**
      * Attaches a child
      */
-    public void attachChild( FileName childName )
+    public void attachChild(FileName childName)
     {
-        children.add( childName.getBaseName() );
+        children.add(childName.getBaseName());
     }
 
     /**
@@ -104,7 +105,7 @@ public class ZipFileObject
      */
     protected String[] doListChildren()
     {
-        return (String[])children.toArray( new String[ children.size() ] );
+        return (String[]) children.toArray(new String[children.size()]);
     }
 
     /**
@@ -132,6 +133,6 @@ public class ZipFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return file.getInputStream( entry );
+        return file.getInputStream(entry);
     }
 }

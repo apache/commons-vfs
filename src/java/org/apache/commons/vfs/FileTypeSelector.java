@@ -19,14 +19,14 @@ package org.apache.commons.vfs;
  * A {@link FileSelector} that selects files of a particular type.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 03:35:49 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:45 $
  */
 public class FileTypeSelector
     implements FileSelector
 {
     private final FileType type;
 
-    public FileTypeSelector( final FileType type )
+    public FileTypeSelector(final FileType type)
     {
         this.type = type;
     }
@@ -34,16 +34,16 @@ public class FileTypeSelector
     /**
      * Determines if a file or folder should be selected.
      */
-    public boolean includeFile( final FileSelectInfo fileInfo )
+    public boolean includeFile(final FileSelectInfo fileInfo)
         throws FileSystemException
     {
-        return ( fileInfo.getFile().getType() == type );
+        return (fileInfo.getFile().getType() == type);
     }
 
     /**
      * Determines whether a folder should be traversed.
      */
-    public boolean traverseDescendents( final FileSelectInfo fileInfo )
+    public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
         return true;
     }

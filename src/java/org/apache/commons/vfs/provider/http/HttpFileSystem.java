@@ -24,7 +24,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -35,7 +34,7 @@ import java.util.Collection;
  * An HTTP file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/03 19:48:48 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:49 $
  */
 public class HttpFileSystem
     extends AbstractFileSystem
@@ -44,9 +43,9 @@ public class HttpFileSystem
 {
     private HttpClient client;
 
-    public HttpFileSystem(final FileSystemManager manager, final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
+    public HttpFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super(manager, rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions);
     }
 
     /**

@@ -23,7 +23,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * Some GenericFileName test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:49 $
  */
 public class GenericFileNameTestCase
     extends AbstractVfsTestCase
@@ -34,71 +34,71 @@ public class GenericFileNameTestCase
     public void testParseUri() throws Exception
     {
         // Simple name
-        GenericFileName name = GenericFileName.parseUri( "ftp://hostname/file", 21 );
-        assertEquals( "ftp", name.getScheme() );
-        assertNull( name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 21, name.getPort() );
-        assertEquals( name.getDefaultPort(), name.getPort() );
-        assertEquals( "/file", name.getPath() );
-        assertEquals( "ftp://hostname/", name.getRootURI() );
-        assertEquals( "ftp://hostname/file", name.getURI() );
+        GenericFileName name = GenericFileName.parseUri("ftp://hostname/file", 21);
+        assertEquals("ftp", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals(name.getDefaultPort(), name.getPort());
+        assertEquals("/file", name.getPath());
+        assertEquals("ftp://hostname/", name.getRootURI());
+        assertEquals("ftp://hostname/file", name.getURI());
 
         // Name with port
-        name = GenericFileName.parseUri( "ftp://hostname:9090/file", 21 );
-        assertEquals( "ftp", name.getScheme() );
-        assertNull( name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 9090, name.getPort() );
-        assertEquals( "/file", name.getPath() );
-        assertEquals( "ftp://hostname:9090/", name.getRootURI() );
-        assertEquals( "ftp://hostname:9090/file", name.getURI() );
+        name = GenericFileName.parseUri("ftp://hostname:9090/file", 21);
+        assertEquals("ftp", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(9090, name.getPort());
+        assertEquals("/file", name.getPath());
+        assertEquals("ftp://hostname:9090/", name.getRootURI());
+        assertEquals("ftp://hostname:9090/file", name.getURI());
 
         // Name with no path
-        name = GenericFileName.parseUri( "ftp://hostname", 21 );
-        assertEquals( "ftp", name.getScheme() );
-        assertNull( name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 21, name.getPort() );
-        assertEquals( "/", name.getPath() );
-        assertEquals( "ftp://hostname/", name.getRootURI() );
-        assertEquals( "ftp://hostname/", name.getURI() );
+        name = GenericFileName.parseUri("ftp://hostname", 21);
+        assertEquals("ftp", name.getScheme());
+        assertNull(name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("/", name.getPath());
+        assertEquals("ftp://hostname/", name.getRootURI());
+        assertEquals("ftp://hostname/", name.getURI());
 
         // Name with username
-        name = GenericFileName.parseUri( "ftp://user@hostname/file", 21 );
-        assertEquals( "ftp", name.getScheme() );
-        assertEquals( "user", name.getUserName() );
-        assertNull( name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 21, name.getPort() );
-        assertEquals( "/file", name.getPath() );
-        assertEquals( "ftp://user@hostname/", name.getRootURI() );
-        assertEquals( "ftp://user@hostname/file", name.getURI() );
+        name = GenericFileName.parseUri("ftp://user@hostname/file", 21);
+        assertEquals("ftp", name.getScheme());
+        assertEquals("user", name.getUserName());
+        assertNull(name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("/file", name.getPath());
+        assertEquals("ftp://user@hostname/", name.getRootURI());
+        assertEquals("ftp://user@hostname/file", name.getURI());
 
         // Name with username and password
-        name = GenericFileName.parseUri( "ftp://user:password@hostname/file", 21 );
-        assertEquals( "ftp", name.getScheme() );
-        assertEquals( "user", name.getUserName() );
-        assertEquals( "password", name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 21, name.getPort() );
-        assertEquals( "/file", name.getPath() );
-        assertEquals( "ftp://user:password@hostname/", name.getRootURI() );
-        assertEquals( "ftp://user:password@hostname/file", name.getURI() );
+        name = GenericFileName.parseUri("ftp://user:password@hostname/file", 21);
+        assertEquals("ftp", name.getScheme());
+        assertEquals("user", name.getUserName());
+        assertEquals("password", name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("/file", name.getPath());
+        assertEquals("ftp://user:password@hostname/", name.getRootURI());
+        assertEquals("ftp://user:password@hostname/file", name.getURI());
 
         // Encoded username and password
-        name = GenericFileName.parseUri( "ftp://%75ser%3A:%40@hostname", 21 );
-        assertEquals( "ftp", name.getScheme() );
-        assertEquals( "user:", name.getUserName() );
-        assertEquals( "@", name.getPassword() );
-        assertEquals( "hostname", name.getHostName() );
-        assertEquals( 21, name.getPort() );
-        assertEquals( "/", name.getPath() );
-        assertEquals( "ftp://user%3a:%40@hostname/", name.getRootURI() );
-        assertEquals( "ftp://user%3a:%40@hostname/", name.getURI() );
+        name = GenericFileName.parseUri("ftp://%75ser%3A:%40@hostname", 21);
+        assertEquals("ftp", name.getScheme());
+        assertEquals("user:", name.getUserName());
+        assertEquals("@", name.getPassword());
+        assertEquals("hostname", name.getHostName());
+        assertEquals(21, name.getPort());
+        assertEquals("/", name.getPath());
+        assertEquals("ftp://user%3a:%40@hostname/", name.getRootURI());
+        assertEquals("ftp://user%3a:%40@hostname/", name.getURI());
     }
 
     /**
@@ -107,36 +107,38 @@ public class GenericFileNameTestCase
     public void testBadlyFormedUri() throws Exception
     {
         // Does not start with ftp://
-        testBadlyFormedUri( "ftp:", "vfs.provider/missing-double-slashes.error" );
-        testBadlyFormedUri( "ftp:/", "vfs.provider/missing-double-slashes.error" );
-        testBadlyFormedUri( "ftp:a", "vfs.provider/missing-double-slashes.error" );
+        testBadlyFormedUri("ftp:", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("ftp:/", "vfs.provider/missing-double-slashes.error");
+        testBadlyFormedUri("ftp:a", "vfs.provider/missing-double-slashes.error");
 
         // Missing hostname
-        testBadlyFormedUri( "ftp://", "vfs.provider/missing-hostname.error" );
-        testBadlyFormedUri( "ftp://:21/file", "vfs.provider/missing-hostname.error" );
-        testBadlyFormedUri( "ftp:///file", "vfs.provider/missing-hostname.error" );
+        testBadlyFormedUri("ftp://", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("ftp://:21/file", "vfs.provider/missing-hostname.error");
+        testBadlyFormedUri("ftp:///file", "vfs.provider/missing-hostname.error");
 
         // Empty port
-        testBadlyFormedUri( "ftp://host:", "vfs.provider/missing-port.error" );
-        testBadlyFormedUri( "ftp://host:/file", "vfs.provider/missing-port.error" );
-        testBadlyFormedUri( "ftp://host:port/file", "vfs.provider/missing-port.error" );
+        testBadlyFormedUri("ftp://host:", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("ftp://host:/file", "vfs.provider/missing-port.error");
+        testBadlyFormedUri("ftp://host:port/file", "vfs.provider/missing-port.error");
 
         // Missing absolute path
-        testBadlyFormedUri( "ftp://host:90a", "vfs.provider/missing-hostname-path-sep.error" );
-        testBadlyFormedUri( "ftp://host?a", "vfs.provider/missing-hostname-path-sep.error" );
+        testBadlyFormedUri("ftp://host:90a", "vfs.provider/missing-hostname-path-sep.error");
+        testBadlyFormedUri("ftp://host?a", "vfs.provider/missing-hostname-path-sep.error");
     }
 
-    /** Tests that parsing a URI fails with the expected error. */
-    private void testBadlyFormedUri( final String uri, final String errorMsg )
+    /**
+     * Tests that parsing a URI fails with the expected error.
+     */
+    private void testBadlyFormedUri(final String uri, final String errorMsg)
     {
         try
         {
-            GenericFileName.parseUri( uri, 21 );
+            GenericFileName.parseUri(uri, 21);
             fail();
         }
-        catch ( final FileSystemException e )
+        catch (final FileSystemException e)
         {
-            assertSameMessage( errorMsg, uri, e );
+            assertSameMessage(errorMsg, uri, e);
         }
     }
 }

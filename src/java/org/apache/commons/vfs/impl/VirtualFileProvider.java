@@ -18,7 +18,6 @@ package org.apache.commons.vfs.impl;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.provider.AbstractVfsContainer;
 import org.apache.commons.vfs.provider.BasicFileName;
 
@@ -27,7 +26,7 @@ import org.apache.commons.vfs.provider.BasicFileName;
  * A virtual filesystem provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/05/03 19:48:47 $
+ * @version $Revision: 1.12 $ $Date: 2004/05/10 20:09:47 $
  */
 public class VirtualFileProvider
     extends AbstractVfsContainer
@@ -35,12 +34,12 @@ public class VirtualFileProvider
     /**
      * Creates a virtual file system, with the supplied file as its root.
      */
-    public FileObject createFileSystem(final FileSystemManager manager, final FileObject rootFile)
+    public FileObject createFileSystem(final FileObject rootFile)
         throws FileSystemException
     {
         final FileName rootName =
             new BasicFileName(rootFile.getName(), FileName.ROOT_PATH);
-        final VirtualFileSystem fs = new VirtualFileSystem(manager, rootName, null);
+        final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         fs.addJunction(FileName.ROOT_PATH, rootFile);
         return fs.getRoot();
@@ -49,11 +48,11 @@ public class VirtualFileProvider
     /**
      * Creates an empty virtual file system.
      */
-    public FileObject createFileSystem(final FileSystemManager manager, final String rootUri) throws FileSystemException
+    public FileObject createFileSystem(final String rootUri) throws FileSystemException
     {
         final FileName rootName =
             new BasicFileName(rootUri, FileName.ROOT_PATH);
-        final VirtualFileSystem fs = new VirtualFileSystem(manager, rootName, null);
+        final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         return fs.getRoot();
     }

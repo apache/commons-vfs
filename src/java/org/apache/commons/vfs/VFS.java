@@ -15,17 +15,18 @@
  */
 package org.apache.commons.vfs;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * The main entry point for the VFS.  Used to create {@link FileSystemManager}
  * instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:46 $
  */
 public class VFS
 {
@@ -41,9 +42,9 @@ public class VFS
     public static synchronized FileSystemManager getManager()
         throws FileSystemException
     {
-        if ( instance == null )
+        if (instance == null)
         {
-            instance = createManager( "org.apache.commons.vfs.impl.StandardFileSystemManager" );
+            instance = createManager("org.apache.commons.vfs.impl.StandardFileSystemManager");
         }
         return instance;
     }
@@ -51,23 +52,23 @@ public class VFS
     /**
      * Creates a file system manager instance.
      */
-    private static FileSystemManager createManager( final String managerClassName )
+    private static FileSystemManager createManager(final String managerClassName)
         throws FileSystemException
     {
         try
         {
             // Create instance
-            final Class mgrClass = Class.forName( managerClassName );
-            final FileSystemManager mgr = (FileSystemManager)mgrClass.newInstance();
+            final Class mgrClass = Class.forName(managerClassName);
+            final FileSystemManager mgr = (FileSystemManager) mgrClass.newInstance();
 
             try
             {
                 // Set the logger
-                final Method setLogMethod = mgrClass.getMethod( "setLogger", new Class[]{Log.class} );
-                final Log logger = LogFactory.getLog( VFS.class );
-                setLogMethod.invoke( mgr, new Object[]{logger} );
+                final Method setLogMethod = mgrClass.getMethod("setLogger", new Class[]{Log.class});
+                final Log logger = LogFactory.getLog(VFS.class);
+                setLogMethod.invoke(mgr, new Object[]{logger});
             }
-            catch ( final NoSuchMethodException e )
+            catch (final NoSuchMethodException e)
             {
                 // Ignore; don't set the logger
             }
@@ -75,27 +76,27 @@ public class VFS
             try
             {
                 // Initialise
-                final Method initMethod = mgrClass.getMethod( "init", null );
-                initMethod.invoke( mgr, null );
+                final Method initMethod = mgrClass.getMethod("init", null);
+                initMethod.invoke(mgr, null);
             }
-            catch ( final NoSuchMethodException e )
+            catch (final NoSuchMethodException e)
             {
                 // Ignore; don't initialize
             }
 
             return mgr;
         }
-        catch ( final InvocationTargetException e )
+        catch (final InvocationTargetException e)
         {
-            throw new FileSystemException( "vfs/create-manager.error",
-                                           managerClassName,
-                                           e.getTargetException() );
+            throw new FileSystemException("vfs/create-manager.error",
+                managerClassName,
+                e.getTargetException());
         }
-        catch ( final Exception e )
+        catch (final Exception e)
         {
-            throw new FileSystemException( "vfs/create-manager.error",
-                                           managerClassName,
-                                           e );
+            throw new FileSystemException("vfs/create-manager.error",
+                managerClassName,
+                e);
         }
     }
 }

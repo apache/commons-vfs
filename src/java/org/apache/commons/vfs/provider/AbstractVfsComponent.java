@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A partial {@link VfsComponent} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:42 $
  */
 public abstract class AbstractVfsComponent
     implements VfsComponent
@@ -33,7 +33,7 @@ public abstract class AbstractVfsComponent
     /**
      * Sets the Logger to use for the component.
      */
-    public final void setLogger( final Log log )
+    public final void setLogger(final Log log)
     {
         this.log = log;
     }
@@ -41,7 +41,7 @@ public abstract class AbstractVfsComponent
     /**
      * Sets the context for this file system provider.
      */
-    public final void setContext( final VfsComponentContext context )
+    public final void setContext(final VfsComponentContext context)
     {
         this.context = context;
     }

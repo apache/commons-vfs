@@ -19,7 +19,6 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
@@ -29,15 +28,15 @@ import java.util.Collection;
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.17 $ $Date: 2004/05/03 19:48:49 $
+ * @version $Revision: 1.18 $ $Date: 2004/05/10 20:09:53 $
  */
 class UrlFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    public UrlFileSystem(final FileSystemManager manager, final FileName rootName, final FileSystemOptions fileSystemOptions)
+    public UrlFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super(manager, rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions);
     }
 
     /**

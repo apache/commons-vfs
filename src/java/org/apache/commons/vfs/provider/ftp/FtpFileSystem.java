@@ -22,7 +22,6 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -47,9 +46,9 @@ final class FtpFileSystem
     // An idle client
     private FTPClient idleClient;
 
-    public FtpFileSystem(final FileSystemManager manager, final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
+    public FtpFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super(manager, rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions);
         hostname = rootName.getHostName();
         port = rootName.getPort();
 

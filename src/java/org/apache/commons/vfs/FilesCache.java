@@ -20,7 +20,7 @@ package org.apache.commons.vfs;
  * The fileCache interface
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/08 19:48:30 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/10 20:09:45 $
  */
 public interface FilesCache
 {
@@ -56,4 +56,12 @@ public interface FilesCache
      * @param name       filename
      */
     public void removeFile(final FileSystem filesystem, final FileName name);
+
+    /**
+     * if the cache uses timestamps it could use this method to handle
+     * updates of them
+     *
+     * @param file filename
+     */
+    public void accessFile(final FileObject file);
 }

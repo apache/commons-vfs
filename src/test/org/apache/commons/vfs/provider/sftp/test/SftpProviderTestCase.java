@@ -30,7 +30,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the SFTP provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/03 19:48:49 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:52 $
  */
 public class SftpProviderTestCase
     extends AbstractProviderTestConfig
@@ -46,7 +46,7 @@ public class SftpProviderTestCase
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider("sftp", new SftpFileProvider(manager));
+        manager.addProvider("sftp", new SftpFileProvider());
     }
 
     /**

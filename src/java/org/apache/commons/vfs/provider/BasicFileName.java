@@ -15,42 +15,43 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.net.URL;
 import org.apache.commons.vfs.FileName;
+
+import java.net.URL;
 
 /**
  * A simple file name, made up of a root URI and an absolute path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:42 $
  */
 public class BasicFileName
     extends AbstractFileName
 {
     private final String rootUri;
 
-    public BasicFileName( final String rootUri, final String path )
+    public BasicFileName(final String rootUri, final String path)
     {
-        this( UriParser.extractScheme( rootUri ), rootUri, path, false );
+        this(UriParser.extractScheme(rootUri), rootUri, path, false);
     }
 
-    public BasicFileName( final String scheme,
-                          final String rootUri,
-                          final String path )
+    public BasicFileName(final String scheme,
+                         final String rootUri,
+                         final String path)
     {
-        this( scheme, rootUri, path, false );
+        this(scheme, rootUri, path, false);
     }
 
-    private BasicFileName( final String scheme,
+    private BasicFileName(final String scheme,
                           final String rootUri,
                           final String path,
-                          final boolean normalised )
+                          final boolean normalised)
     {
-        super( scheme, path );
-        if ( !normalised && rootUri.endsWith( SEPARATOR ) )
+        super(scheme, path);
+        if (!normalised && rootUri.endsWith(SEPARATOR))
         {
             // Remove trailing separator
-            this.rootUri = rootUri.substring( 0, rootUri.length() - 1 );
+            this.rootUri = rootUri.substring(0, rootUri.length() - 1);
         }
         else
         {
@@ -58,29 +59,29 @@ public class BasicFileName
         }
     }
 
-    public BasicFileName( final FileName rootUri, final String path )
+    public BasicFileName(final FileName rootUri, final String path)
     {
-        this( rootUri.getScheme(), rootUri.getURI(), path, false );
+        this(rootUri.getScheme(), rootUri.getURI(), path, false);
     }
 
-    public BasicFileName( final URL rootUrl, final String path )
+    public BasicFileName(final URL rootUrl, final String path)
     {
-        this( rootUrl.getProtocol(), rootUrl.toExternalForm(), path, false );
+        this(rootUrl.getProtocol(), rootUrl.toExternalForm(), path, false);
     }
 
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName( final String path )
+    protected FileName createName(final String path)
     {
-        return new BasicFileName( getScheme(), rootUri, path, true );
+        return new BasicFileName(getScheme(), rootUri, path, true);
     }
 
     /**
      * Builds the root URI for this file name.
      */
-    protected void appendRootUri( final StringBuffer buffer )
+    protected void appendRootUri(final StringBuffer buffer)
     {
-        buffer.append( rootUri );
+        buffer.append(rootUri);
     }
 }

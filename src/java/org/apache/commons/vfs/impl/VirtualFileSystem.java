@@ -19,7 +19,6 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
@@ -35,7 +34,7 @@ import java.util.Map;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.14 $ $Date: 2004/05/08 19:48:30 $
+ * @version $Revision: 1.15 $ $Date: 2004/05/10 20:09:47 $
  * @todo Handle nested junctions.
  */
 public class VirtualFileSystem
@@ -43,9 +42,9 @@ public class VirtualFileSystem
 {
     private final Map junctions = new HashMap();
 
-    public VirtualFileSystem(final FileSystemManager manager, final FileName rootName, final FileSystemOptions fileSystemOptions)
+    public VirtualFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super(manager, rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions);
     }
 
     /**

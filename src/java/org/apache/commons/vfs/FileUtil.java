@@ -23,7 +23,7 @@ import java.io.OutputStream;
  * Utility methods for dealng with FileObjects.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:49 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:45 $
  */
 public class FileUtil
 {
@@ -36,20 +36,20 @@ public class FileUtil
      *
      * @param file The file to get the content of.
      */
-    public static byte[] getContent( final FileObject file )
+    public static byte[] getContent(final FileObject file)
         throws IOException
     {
         final FileContent content = file.getContent();
-        final int size = (int)content.getSize();
-        final byte[] buf = new byte[ size ];
+        final int size = (int) content.getSize();
+        final byte[] buf = new byte[size];
 
         final InputStream in = content.getInputStream();
         try
         {
             int read = 0;
-            for ( int pos = 0; pos < size && read >= 0; pos += read )
+            for (int pos = 0; pos < size && read >= 0; pos += read)
             {
-                read = in.read( buf, pos, size - pos );
+                read = in.read(buf, pos, size - pos);
             }
         }
         finally
@@ -63,22 +63,22 @@ public class FileUtil
     /**
      * Writes the content of a file to an OutputStream.
      */
-    public static void writeContent( final FileObject file,
-                                     final OutputStream outstr )
+    public static void writeContent(final FileObject file,
+                                    final OutputStream outstr)
         throws IOException
     {
         final InputStream instr = file.getContent().getInputStream();
         try
         {
-            final byte[] buffer = new byte[ 1024 ];
-            while ( true )
+            final byte[] buffer = new byte[1024];
+            while (true)
             {
-                final int nread = instr.read( buffer );
-                if ( nread < 0 )
+                final int nread = instr.read(buffer);
+                if (nread < 0)
                 {
                     break;
                 }
-                outstr.write( buffer, 0, nread );
+                outstr.write(buffer, 0, nread);
             }
         }
         finally
@@ -90,8 +90,8 @@ public class FileUtil
     /**
      * Copies the content from a source file to a destination file.
      */
-    public static void copyContent( final FileObject srcFile,
-                                    final FileObject destFile )
+    public static void copyContent(final FileObject srcFile,
+                                   final FileObject destFile)
         throws IOException
     {
         // Create the output stream via getContent(), to pick up the
@@ -99,7 +99,7 @@ public class FileUtil
         final OutputStream outstr = destFile.getContent().getOutputStream();
         try
         {
-            writeContent( srcFile, outstr );
+            writeContent(srcFile, outstr);
         }
         finally
         {

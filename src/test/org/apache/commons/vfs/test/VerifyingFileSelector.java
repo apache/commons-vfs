@@ -15,10 +15,6 @@
  */
 package org.apache.commons.vfs.test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import junit.framework.Assert;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelectInfo;
@@ -26,12 +22,17 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * A file selector that asserts that all files are visited, in the correct
  * order.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:44 $
  */
 public class VerifyingFileSelector
     extends Assert
@@ -45,70 +46,70 @@ public class VerifyingFileSelector
     private Set children;
     private List stack = new ArrayList();
 
-    public VerifyingFileSelector( final FileInfo fileInfo )
+    public VerifyingFileSelector(final FileInfo fileInfo)
     {
         this.rootFile = fileInfo;
         children = new HashSet();
-        children.add( rootFile.baseName );
+        children.add(rootFile.baseName);
     }
 
     /**
      * Determines if a file or folder should be selected.
      */
-    public boolean includeFile( final FileSelectInfo fileInfo )
+    public boolean includeFile(final FileSelectInfo fileInfo)
         throws FileSystemException
     {
         final FileObject file = fileInfo.getFile();
-        if ( file == currentFolder )
+        if (file == currentFolder)
         {
             // Pop current folder
-            assertEquals( 0, children.size() );
+            assertEquals(0, children.size());
             currentFolder = currentFolder.getParent();
             currentFolderInfo = currentFolderInfo.getParent();
-            children = (Set)stack.remove( 0 );
+            children = (Set) stack.remove(0);
         }
 
         final String baseName = file.getName().getBaseName();
 
-        final FileInfo childInfo = getChild( baseName );
-        assertSame( childInfo.type, file.getType() );
+        final FileInfo childInfo = getChild(baseName);
+        assertSame(childInfo.type, file.getType());
 
-        final boolean isChild = children.remove( baseName );
-        assertTrue( isChild );
+        final boolean isChild = children.remove(baseName);
+        assertTrue(isChild);
 
-        files.add( file );
+        files.add(file);
         return true;
     }
 
     /**
      * Determines whether a folder should be traversed.
      */
-    public boolean traverseDescendents( final FileSelectInfo fileInfo )
+    public boolean traverseDescendents(final FileSelectInfo fileInfo)
         throws FileSystemException
     {
         // Check that the given file is a folder
         final FileObject folder = fileInfo.getFile();
-        assertSame( FileType.FOLDER, folder.getType() );
+        assertSame(FileType.FOLDER, folder.getType());
 
         // Locate the info for the folder
         final String baseName = folder.getName().getBaseName();
-        if ( currentFolder == null )
+        if (currentFolder == null)
         {
-            assertEquals( rootFile.baseName, baseName );
+            assertEquals(rootFile.baseName, baseName);
             currentFolderInfo = rootFile;
         }
         else
         {
-            assertSame( currentFolder, folder.getParent() );
+            assertSame(currentFolder, folder.getParent());
 
             // Locate the info for the child, and make sure it is folder
-            currentFolderInfo = getChild( baseName );
-            assertSame( FileType.FOLDER, currentFolderInfo.type );
+            currentFolderInfo = getChild(baseName);
+            assertSame(FileType.FOLDER, currentFolderInfo.type);
         }
 
         // Push the folder
-        stack.add( 0, children );
-        children = new HashSet( currentFolderInfo.children.keySet() );
+        stack.add(0, children);
+        children = new HashSet(currentFolderInfo.children.keySet());
         currentFolder = folder;
 
         return true;
@@ -117,28 +118,29 @@ public class VerifyingFileSelector
     /**
      * Finds a child of the current folder.
      */
-    private FileInfo getChild( final String baseName )
+    private FileInfo getChild(final String baseName)
     {
-        if ( currentFolderInfo == null )
+        if (currentFolderInfo == null)
         {
-            assertEquals( rootFile.baseName, baseName );
+            assertEquals(rootFile.baseName, baseName);
             return rootFile;
         }
         else
         {
-            final FileInfo child = (FileInfo)currentFolderInfo.children.get( baseName );
-            assertNotNull( child );
+            final FileInfo child = (FileInfo) currentFolderInfo.children.get(baseName);
+            assertNotNull(child);
             return child;
         }
     }
 
     /**
      * Asserts that the selector has seen all the files.
+     *
      * @return The files in the order they where visited.
      */
     public List finish()
     {
-        assertEquals( 0, children.size() );
+        assertEquals(0, children.size());
         return files;
     }
 }

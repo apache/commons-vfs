@@ -30,30 +30,30 @@ import java.net.URLStreamHandler;
 class URLStreamHandlerProxy
     extends URLStreamHandler
 {
-    protected URLConnection openConnection( final URL url )
+    protected URLConnection openConnection(final URL url)
         throws IOException
     {
-        final URL proxyURL = new URL( url.toExternalForm() );
+        final URL proxyURL = new URL(url.toExternalForm());
         return proxyURL.openConnection();
     }
 
-    protected void parseURL( final URL u,
-                             final String spec,
-                             final int start,
-                             final int limit )
+    protected void parseURL(final URL u,
+                            final String spec,
+                            final int start,
+                            final int limit)
     {
         try
         {
-            final URL url = new URL( u, spec );
-            setURL( u, url.getProtocol(), url.getHost(),
-                    url.getPort(), url.getAuthority(), url.getUserInfo(),
-                    url.getFile(), url.getQuery(), url.getRef() );
+            final URL url = new URL(u, spec);
+            setURL(u, url.getProtocol(), url.getHost(),
+                url.getPort(), url.getAuthority(), url.getUserInfo(),
+                url.getFile(), url.getQuery(), url.getRef());
         }
-        catch ( MalformedURLException mue )
+        catch (MalformedURLException mue)
         {
             //We retrow this as a simple runtime exception.
             //It is retrown in URL as a MalformedURLException anyway.
-            throw new RuntimeException( mue.getMessage() );
+            throw new RuntimeException(mue.getMessage());
         }
     }
 }

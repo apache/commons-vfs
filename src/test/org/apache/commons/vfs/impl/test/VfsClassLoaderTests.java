@@ -15,18 +15,19 @@
  */
 package org.apache.commons.vfs.impl.test;
 
-import java.net.URL;
-import java.net.URLConnection;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.VFSClassLoader;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
 
+import java.net.URL;
+import java.net.URLConnection;
+
 /**
  * VfsClassLoader test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:54 $
  */
 public class VfsClassLoaderTests
     extends AbstractProviderTestCase
@@ -49,7 +50,7 @@ public class VfsClassLoaderTests
     private VFSClassLoader createClassLoader() throws FileSystemException
     {
         final VFSClassLoader loader =
-            new VFSClassLoader( getBaseFolder(), getManager() );
+            new VFSClassLoader(getBaseFolder(), getManager());
         return loader;
     }
 
@@ -60,13 +61,13 @@ public class VfsClassLoaderTests
     {
         final VFSClassLoader loader = createClassLoader();
 
-        final Class testClass = loader.loadClass( "code.ClassToLoad" );
+        final Class testClass = loader.loadClass("code.ClassToLoad");
         final Package pack = testClass.getPackage();
-        assertEquals( "code", pack.getName() );
-        verifyPackage( pack, false );
+        assertEquals("code", pack.getName());
+        verifyPackage(pack, false);
 
         final Object testObject = testClass.newInstance();
-        assertEquals( "**PRIVATE**", testObject.toString() );
+        assertEquals("**PRIVATE**", testObject.toString());
     }
 
     /**
@@ -76,11 +77,11 @@ public class VfsClassLoaderTests
     {
         final VFSClassLoader loader = createClassLoader();
 
-        final URL resource = loader.getResource( "read-tests/file1.txt" );
+        final URL resource = loader.getResource("read-tests/file1.txt");
 
-        assertNotNull( resource );
+        assertNotNull(resource);
         final URLConnection urlCon = resource.openConnection();
-        assertSameURLContent( FILE1_CONTENT, urlCon );
+        assertSameURLContent(FILE1_CONTENT, urlCon);
     }
 
     /**
@@ -89,38 +90,38 @@ public class VfsClassLoaderTests
     public void testSealing() throws Exception
     {
         final VFSClassLoader loader = createClassLoader();
-        final Class testClass = loader.loadClass( "code.sealed.AnotherClass" );
+        final Class testClass = loader.loadClass("code.sealed.AnotherClass");
         final Package pack = testClass.getPackage();
-        assertEquals( "code.sealed", pack.getName() );
-        verifyPackage( pack, true );
+        assertEquals("code.sealed", pack.getName());
+        verifyPackage(pack, true);
     }
 
     /**
      * Verify the package loaded with class loader.
      */
-    private void verifyPackage( final Package pack,
-                                final boolean sealed )
+    private void verifyPackage(final Package pack,
+                               final boolean sealed)
         throws FileSystemException
     {
-        if ( getBaseFolder().getFileSystem().hasCapability( Capability.MANIFEST_ATTRIBUTES ) )
+        if (getBaseFolder().getFileSystem().hasCapability(Capability.MANIFEST_ATTRIBUTES))
         {
-            assertEquals( "ImplTitle", pack.getImplementationTitle() );
-            assertEquals( "ImplVendor", pack.getImplementationVendor() );
-            assertEquals( "1.1", pack.getImplementationVersion() );
-            assertEquals( "SpecTitle", pack.getSpecificationTitle() );
-            assertEquals( "SpecVendor", pack.getSpecificationVendor() );
-            assertEquals( "1.0", pack.getSpecificationVersion() );
-            assertEquals( sealed, pack.isSealed() );
+            assertEquals("ImplTitle", pack.getImplementationTitle());
+            assertEquals("ImplVendor", pack.getImplementationVendor());
+            assertEquals("1.1", pack.getImplementationVersion());
+            assertEquals("SpecTitle", pack.getSpecificationTitle());
+            assertEquals("SpecVendor", pack.getSpecificationVendor());
+            assertEquals("1.0", pack.getSpecificationVersion());
+            assertEquals(sealed, pack.isSealed());
         }
         else
         {
-            assertNull( pack.getImplementationTitle() );
-            assertNull( pack.getImplementationVendor() );
-            assertNull( pack.getImplementationVersion() );
-            assertNull( pack.getSpecificationTitle() );
-            assertNull( pack.getSpecificationVendor() );
-            assertNull( pack.getSpecificationVersion() );
-            assertFalse( pack.isSealed() );
+            assertNull(pack.getImplementationTitle());
+            assertNull(pack.getImplementationVendor());
+            assertNull(pack.getImplementationVersion());
+            assertNull(pack.getSpecificationTitle());
+            assertNull(pack.getSpecificationVendor());
+            assertNull(pack.getSpecificationVersion());
+            assertFalse(pack.isSealed());
         }
     }
 

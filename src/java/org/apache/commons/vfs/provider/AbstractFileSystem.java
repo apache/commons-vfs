@@ -53,7 +53,7 @@ public abstract class AbstractFileSystem
     /**
      * Map from FileName to FileObject.
      */
-    private final FilesCache files;
+    private FilesCache files;
 
     /**
      * Map from FileName to an ArrayList of listeners for that file.
@@ -65,22 +65,15 @@ public abstract class AbstractFileSystem
      */
     private final FileSystemOptions fileSystemOptions;
 
-    /**
-     * FileSystemManager which requested this filesystem
-     */
-    private final FileSystemManager manager;
-
-    protected AbstractFileSystem(final FileSystemManager manager,
-                                 final FileName rootName,
+    protected AbstractFileSystem(final FileName rootName,
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
     {
-        this.manager = manager;
         this.parentLayer = parentLayer;
         this.rootName = rootName;
         this.fileSystemOptions = fileSystemOptions;
 
-        this.files = manager.getFilesCache();
+        this.files = null;
     }
 
     /**
@@ -125,8 +118,22 @@ public abstract class AbstractFileSystem
      */
     protected void putFileToCache(final FileObject file)
     {
-        files.putFile(file);
+        getCache().putFile(file);
         // files.put(file.getName(), file);
+    }
+
+    private FilesCache getCache()
+    {
+        if (this.files == null)
+        {
+            this.files = getContext().getFileSystemManager().getFilesCache();
+            if (this.files == null)
+            {
+                throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
+            }
+        }
+
+        return this.files;
     }
 
     /**
@@ -134,7 +141,7 @@ public abstract class AbstractFileSystem
      */
     protected FileObject getFileFromCache(final FileName name)
     {
-        return files.getFile(this, name);
+        return getCache().getFile(this, name);
         // return (FileObject) files.get(name);
     }
 
@@ -143,7 +150,7 @@ public abstract class AbstractFileSystem
      */
     protected void removeFileFromCache(final FileName name)
     {
-        files.removeFile(this, name);
+        getCache().removeFile(this, name);
     }
 
     /**
@@ -269,7 +276,8 @@ public abstract class AbstractFileSystem
      */
     public FileSystemManager getFileSystemManager()
     {
-        return manager;
+        return getContext().getFileSystemManager();
+        // return manager;
     }
 
     /**

@@ -20,7 +20,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
@@ -45,13 +44,12 @@ public class ZipFileSystem
     private final File file;
     protected final ZipFile zipFile;
 
-    public ZipFileSystem(final FileSystemManager manager,
-                         final FileName rootName,
+    public ZipFileSystem(final FileName rootName,
                          final FileObject parentLayer,
                          final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        super(manager, rootName, parentLayer, fileSystemOptions);
+        super(rootName, parentLayer, fileSystemOptions);
 
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
@@ -65,13 +63,18 @@ public class ZipFileSystem
         }
 
         zipFile = createZipFile(this.file);
+    }
+
+    public void init() throws FileSystemException
+    {
+        super.init();
 
         // Build the index
         Enumeration entries = zipFile.entries();
         while (entries.hasMoreElements())
         {
             ZipEntry entry = (ZipEntry) entries.nextElement();
-            FileName name = rootName.resolveName(entry.getName());
+            FileName name = getRootName().resolveName(entry.getName());
 
             // Create the file
             ZipFileObject fileObj;

@@ -15,17 +15,18 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A helper class that determines the provider to use for a file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:47 $
  */
 class FileTypeMap
 {
@@ -35,31 +36,31 @@ class FileTypeMap
     /**
      * Adds a MIME type mapping.
      */
-    public void addMimeType( final String mimeType, final String scheme )
+    public void addMimeType(final String mimeType, final String scheme)
     {
-        mimeTypeMap.put( mimeType, scheme );
+        mimeTypeMap.put(mimeType, scheme);
     }
 
     /**
      * Adds a filename extension mapping.
      */
-    public void addExtension( final String extension, final String scheme )
+    public void addExtension(final String extension, final String scheme)
     {
-        extensionMap.put( extension, scheme );
+        extensionMap.put(extension, scheme);
     }
 
     /**
      * Finds the provider to use to create a filesystem from a given file.
      */
-    public String getScheme( final FileObject file ) throws FileSystemException
+    public String getScheme(final FileObject file) throws FileSystemException
     {
         // Check the file's mime type for a match
         final FileContent content = file.getContent();
-        final String mimeType = (String)content.getAttribute( "content-type" );
-        if ( mimeType != null )
+        final String mimeType = (String) content.getAttribute("content-type");
+        if (mimeType != null)
         {
-            final String scheme = (String)mimeTypeMap.get( mimeType );
-            if ( scheme != null )
+            final String scheme = (String) mimeTypeMap.get(mimeType);
+            if (scheme != null)
             {
                 return scheme;
             }
@@ -67,6 +68,6 @@ class FileTypeMap
 
         // Check the file's extension for a match
         final String extension = file.getName().getExtension();
-        return (String)extensionMap.get( extension );
+        return (String) extensionMap.get(extension);
     }
 }

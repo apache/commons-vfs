@@ -46,7 +46,7 @@ public class FtpProviderTestCase
      */
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
-        manager.addProvider("ftp", new FtpFileProvider(manager));
+        manager.addProvider("ftp", new FtpFileProvider());
     }
 
     /**

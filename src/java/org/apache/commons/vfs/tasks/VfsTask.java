@@ -30,7 +30,7 @@ import org.apache.tools.ant.Task;
  * utility methods.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:45 $
  */
 public class VfsTask
     extends Task
@@ -42,117 +42,121 @@ public class VfsTask
      *
      * @param uri The URI to resolve.
      */
-    protected FileObject resolveFile( final String uri )
+    protected FileObject resolveFile(final String uri)
         throws FileSystemException
     {
-        if ( manager == null )
+        if (manager == null)
         {
             manager = new StandardFileSystemManager();
-            manager.setLogger( new AntLogger() );
+            manager.setLogger(new AntLogger());
             manager.init();
-            getProject().addBuildListener( new CloseListener() );
+            getProject().addBuildListener(new CloseListener());
         }
-        return manager.resolveFile( getProject().getBaseDir(), uri );
+        return manager.resolveFile(getProject().getBaseDir(), uri);
     }
 
-    /** Closes the VFS manager when the project finishes. */
+    /**
+     * Closes the VFS manager when the project finishes.
+     */
     private class CloseListener
         implements BuildListener
     {
-        public void buildFinished( BuildEvent event )
+        public void buildFinished(BuildEvent event)
         {
-            if ( manager != null )
+            if (manager != null)
             {
                 manager.close();
                 manager = null;
             }
         }
 
-        public void buildStarted( BuildEvent event )
+        public void buildStarted(BuildEvent event)
         {
         }
 
-        public void messageLogged( BuildEvent event )
+        public void messageLogged(BuildEvent event)
         {
         }
 
-        public void targetFinished( BuildEvent event )
+        public void targetFinished(BuildEvent event)
         {
         }
 
-        public void targetStarted( BuildEvent event )
+        public void targetStarted(BuildEvent event)
         {
         }
 
-        public void taskFinished( BuildEvent event )
+        public void taskFinished(BuildEvent event)
         {
         }
 
-        public void taskStarted( BuildEvent event )
+        public void taskStarted(BuildEvent event)
         {
         }
     }
 
-    /** A commons-logging wrapper for Ant logging. */
+    /**
+     * A commons-logging wrapper for Ant logging.
+     */
     private class AntLogger
         implements Log
     {
-        public void debug( final Object o )
+        public void debug(final Object o)
         {
-            log( String.valueOf( o ), Project.MSG_DEBUG );
+            log(String.valueOf(o), Project.MSG_DEBUG);
         }
 
-        public void debug( Object o, Throwable throwable )
+        public void debug(Object o, Throwable throwable)
         {
-            debug( o );
+            debug(o);
         }
 
-        public void error( Object o )
+        public void error(Object o)
         {
-            log( String.valueOf( o ), Project.MSG_ERR );
+            log(String.valueOf(o), Project.MSG_ERR);
         }
 
-        public void error( Object o, Throwable throwable )
+        public void error(Object o, Throwable throwable)
         {
-            error( o );
+            error(o);
         }
 
-        public void fatal( Object o )
+        public void fatal(Object o)
         {
-            log( String.valueOf( o ), Project.MSG_ERR );
+            log(String.valueOf(o), Project.MSG_ERR);
         }
 
-        public void fatal( Object o, Throwable throwable )
+        public void fatal(Object o, Throwable throwable)
         {
-            fatal( o );
+            fatal(o);
         }
 
-        public void info( Object o )
+        public void info(Object o)
         {
-            log( String.valueOf( o ), Project.MSG_INFO );
+            log(String.valueOf(o), Project.MSG_INFO);
         }
 
-        public void info( Object o, Throwable throwable )
+        public void info(Object o, Throwable throwable)
         {
-            info( o );
+            info(o);
         }
 
-        public void trace( Object o )
-        {
-        }
-
-        public void trace( Object o, Throwable throwable )
+        public void trace(Object o)
         {
         }
 
-        public void warn( Object o )
+        public void trace(Object o, Throwable throwable)
         {
-            log( String.valueOf( o ), Project.MSG_WARN );
         }
 
-        public void warn( Object o, Throwable throwable )
+        public void warn(Object o)
         {
-            warn( o );
+            log(String.valueOf(o), Project.MSG_WARN);
+        }
+
+        public void warn(Object o, Throwable throwable)
+        {
+            warn(o);
         }
 
         public boolean isDebugEnabled()

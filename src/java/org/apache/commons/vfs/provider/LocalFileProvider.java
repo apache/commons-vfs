@@ -15,9 +15,10 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+
+import java.io.File;
 
 /**
  * A file provider which handles local files.
@@ -31,21 +32,20 @@ public interface LocalFileProvider
     /**
      * Determines if a name is an absolute file name.
      *
-     * @todo Move this to a general file name parser interface.
-     *
      * @param name The name to test.
+     * @todo Move this to a general file name parser interface.
      */
-    boolean isAbsoluteLocalName( final String name );
+    boolean isAbsoluteLocalName(final String name);
 
     /**
      * Finds a local file, from its local name.
      */
-    FileObject findLocalFile( final String name )
+    FileObject findLocalFile(final String name)
         throws FileSystemException;
 
     /**
      * Converts from java.io.File to FileObject.
      */
-    FileObject findLocalFile( final File file )
+    FileObject findLocalFile(final File file)
         throws FileSystemException;
 }

@@ -27,7 +27,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for HTTP with the default provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/03 19:48:49 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:53 $
  */
 public class UrlProviderHttpTestCase
     extends AbstractProviderTestConfig
@@ -43,7 +43,7 @@ public class UrlProviderHttpTestCase
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider("http", new UrlFileProvider(manager));
+        manager.addProvider("http", new UrlFileProvider());
     }
 
     /**

@@ -15,9 +15,6 @@
  */
 package org.apache.commons.vfs.provider.http;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
@@ -30,12 +27,15 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.util.MonitorInputStream;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+
 /**
  * A file object backed by commons httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:51 $
- *
+ * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:49 $
  * @todo status codes
  */
 public class HttpFileObject
@@ -44,10 +44,10 @@ public class HttpFileObject
     private final HttpFileSystem fileSystem;
     private HeadMethod method;
 
-    public HttpFileObject( final FileName name,
-                           final HttpFileSystem fileSystem )
+    public HttpFileObject(final FileName name,
+                          final HttpFileSystem fileSystem)
     {
-        super( name, fileSystem );
+        super(name, fileSystem);
         this.fileSystem = fileSystem;
     }
 
@@ -69,22 +69,22 @@ public class HttpFileObject
     {
         // Use the HEAD method to probe the file.
         method = new HeadMethod();
-        setupMethod( method );
+        setupMethod(method);
         final HttpClient client = fileSystem.getClient();
-        final int status = client.executeMethod( method );
+        final int status = client.executeMethod(method);
         method.releaseConnection();
-        if ( status == HttpURLConnection.HTTP_OK )
+        if (status == HttpURLConnection.HTTP_OK)
         {
             return FileType.FILE;
         }
-        else if ( status == HttpURLConnection.HTTP_NOT_FOUND
-                  || status == HttpURLConnection.HTTP_GONE )
+        else if (status == HttpURLConnection.HTTP_NOT_FOUND
+            || status == HttpURLConnection.HTTP_GONE)
         {
             return FileType.IMAGINARY;
         }
         else
         {
-            throw new FileSystemException( "vfs.provider.http/head.error", getName() );
+            throw new FileSystemException("vfs.provider.http/head.error", getName());
         }
     }
 
@@ -94,7 +94,7 @@ public class HttpFileObject
     protected String[] doListChildren()
         throws Exception
     {
-        throw new Exception( "Not implemented." );
+        throw new Exception("Not implemented.");
     }
 
     /**
@@ -103,74 +103,76 @@ public class HttpFileObject
     protected long doGetContentSize()
         throws Exception
     {
-        final Header header = method.getResponseHeader( "content-length" );
-        if ( header == null )
+        final Header header = method.getResponseHeader("content-length");
+        if (header == null)
         {
             // Assume 0 content-length
             return 0;
         }
-        return Integer.parseInt( header.getValue() );
+        return Integer.parseInt(header.getValue());
     }
 
     /**
      * Returns the last modified time of this file.
-     *
+     * <p/>
      * This implementation throws an exception.
      */
     protected long doGetLastModifiedTime()
         throws Exception
     {
-        final Header header = method.getResponseHeader( "last-modified" );
-        if ( header == null )
+        final Header header = method.getResponseHeader("last-modified");
+        if (header == null)
         {
-            throw new FileSystemException( "vfs.provider.http/last-modified.error", getName() );
+            throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
         }
-        return DateParser.parseDate( header.getValue() ).getTime();
+        return DateParser.parseDate(header.getValue()).getTime();
     }
 
     /**
      * Creates an input stream to read the file content from.  Is only called
      * if {@link #doGetType} returns {@link FileType#FILE}.
-     *
+     * <p/>
      * <p>It is guaranteed that there are no open output streams for this file
      * when this method is called.
-     *
+     * <p/>
      * <p>The returned stream does not have to be buffered.
      */
     protected InputStream doGetInputStream()
         throws Exception
     {
         final GetMethod getMethod = new GetMethod();
-        setupMethod( getMethod );
-        final int status = fileSystem.getClient().executeMethod( getMethod );
-        if ( status != HttpURLConnection.HTTP_OK )
+        setupMethod(getMethod);
+        final int status = fileSystem.getClient().executeMethod(getMethod);
+        if (status != HttpURLConnection.HTTP_OK)
         {
-            throw new FileSystemException( "vfs.provider.http/get.error", getName() );
+            throw new FileSystemException("vfs.provider.http/get.error", getName());
         }
 
-        return new HttpInputStream( getMethod );
+        return new HttpInputStream(getMethod);
     }
 
     /**
      * Prepares a Method object.
      */
-    private void setupMethod( final HttpMethod method )
+    private void setupMethod(final HttpMethod method)
     {
-        method.setPath( getName().getPath() );
-        method.setFollowRedirects( true );
-        method.setRequestHeader( "User-Agent", "Jakarta-Commons-VFS" );
+        method.setPath(getName().getPath());
+        method.setFollowRedirects(true);
+        method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
     }
 
-    /** An InputStream that cleans up the HTTP connection on close. */
+    /**
+     * An InputStream that cleans up the HTTP connection on close.
+     */
     private static class HttpInputStream
         extends MonitorInputStream
     {
         private final GetMethod method;
 
-        public HttpInputStream( final GetMethod method )
+        public HttpInputStream(final GetMethod method)
             throws IOException
         {
-            super( method.getResponseBodyAsStream() );
+            super(method.getResponseBodyAsStream());
             this.method = method;
         }
 

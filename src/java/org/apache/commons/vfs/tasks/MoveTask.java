@@ -23,7 +23,7 @@ import org.apache.commons.vfs.Selectors;
  * An Ant task that moves matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/08 20:05:47 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:45 $
  * @todo Delete matching folders
  */
 public class MoveTask

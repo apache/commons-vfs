@@ -24,7 +24,7 @@ import org.apache.tools.ant.BuildException;
  * An Ant task that creates a directory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:45 $
  */
 public class MkdirTask
     extends VfsTask
@@ -33,9 +33,10 @@ public class MkdirTask
 
     /**
      * Sets the directory to create.
+     *
      * @param dir
      */
-    public void setDir( final String dir )
+    public void setDir(final String dir)
     {
         dirName = dir;
     }
@@ -45,22 +46,22 @@ public class MkdirTask
      */
     public void execute() throws BuildException
     {
-        if ( dirName == null )
+        if (dirName == null)
         {
-            final String message = Messages.getString( "vfs.tasks/no-directory-specified.error" );
-            throw new BuildException( message );
+            final String message = Messages.getString("vfs.tasks/no-directory-specified.error");
+            throw new BuildException(message);
         }
 
         try
         {
-            final FileObject dir = resolveFile( dirName );
-            final String message = Messages.getString( "vfs.tasks/mkdir.create-folder.info", dir );
-            log( message );
+            final FileObject dir = resolveFile(dirName);
+            final String message = Messages.getString("vfs.tasks/mkdir.create-folder.info", dir);
+            log(message);
             dir.createFolder();
         }
-        catch ( final FileSystemException e )
+        catch (final FileSystemException e)
         {
-            throw new BuildException( e );
+            throw new BuildException(e);
         }
     }
 }

@@ -50,7 +50,7 @@ public class NestedJarTestCase
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider("jar", new JarFileProvider(manager));
+        manager.addProvider("jar", new JarFileProvider());
         manager.addExtensionMap("jar", "jar");
     }
 

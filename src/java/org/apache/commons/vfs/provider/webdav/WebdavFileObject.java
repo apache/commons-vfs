@@ -40,7 +40,7 @@ import java.util.Map;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/01 18:14:29 $
+ * @version $Revision: 1.14 $ $Date: 2004/05/10 20:09:54 $
  */
 public class WebdavFileObject
     extends AbstractFileObject

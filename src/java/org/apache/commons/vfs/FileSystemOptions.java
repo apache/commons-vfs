@@ -24,7 +24,7 @@ import java.util.TreeMap;
  * * = the filesystem provider short name
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/01 18:14:27 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/10 20:09:45 $
  * @see org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs.provider.ftp.FtpFileSystemConfigBuilder
  */

@@ -1,52 +1,56 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs.provider.test;
+package org.apache.commons.vfs.cache;
 
 import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.test.CacheTestSuite;
+import org.apache.commons.vfs.test.ProviderTestConfig;
 
 import java.io.File;
 
 /**
- * Test cases for the virtual file system provider.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:49 $
+ * Tests the NullFilesCache
+ * 
+ * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
+ * @version $Revision: 1.1 $ $Date: 2004/05/10 20:09:51 $
  */
-public class VirtualProviderTestCase
+public class NullFilesCacheTestCase
     extends AbstractProviderTestConfig
+    implements ProviderTestConfig
 {
     public static Test suite() throws Exception
     {
-        final ProviderTestSuite testSuite = new ProviderTestSuite(new VirtualProviderTestCase());
-        testSuite.addTests(JunctionTests.class);
-        return testSuite;
+        CacheTestSuite suite = new CacheTestSuite(new org.apache.commons.vfs.cache.NullFilesCacheTestCase());
+        suite.addTests(NullFilesCacheTests.class);
+        return suite;
     }
 
-    /**
-     * Returns the base folder for tests.
-     */
+    public FilesCache getFilesCache()
+    {
+        return new NullFilesCache();
+    }
+
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        final FileObject baseFile = manager.toFileObject(baseDir);
-        return manager.createVirtualFileSystem(baseFile);
+        final File testDir = AbstractVfsTestCase.getTestDirectory();
+        return manager.toFileObject(testDir);
     }
 }

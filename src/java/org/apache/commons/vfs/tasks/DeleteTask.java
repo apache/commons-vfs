@@ -24,8 +24,7 @@ import org.apache.tools.ant.BuildException;
  * An Ant task that deletes matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:52 $
- *
+ * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:45 $
  * @todo Allow selector to be specified.
  */
 public class DeleteTask
@@ -35,9 +34,10 @@ public class DeleteTask
 
     /**
      * Sets the file/folder to delete.
+     *
      * @param file
      */
-    public void setFile( final String file )
+    public void setFile(final String file)
     {
         this.file = file;
     }
@@ -47,21 +47,21 @@ public class DeleteTask
      */
     public void execute() throws BuildException
     {
-        if ( file == null )
+        if (file == null)
         {
-            final String message = Messages.getString( "vfs.tasks/delete.no-source-files.error" );
-            throw new BuildException( message );
+            final String message = Messages.getString("vfs.tasks/delete.no-source-files.error");
+            throw new BuildException(message);
         }
 
         try
         {
-            final FileObject srcFile = resolveFile( file );
-            log( "Deleting " + srcFile );
-            srcFile.delete( Selectors.SELECT_ALL );
+            final FileObject srcFile = resolveFile(file);
+            log("Deleting " + srcFile);
+            srcFile.delete(Selectors.SELECT_ALL);
         }
-        catch ( final Exception e )
+        catch (final Exception e)
         {
-            throw new BuildException( e );
+            throw new BuildException(e);
         }
     }
 }

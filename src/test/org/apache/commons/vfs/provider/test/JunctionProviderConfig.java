@@ -18,6 +18,7 @@ package org.apache.commons.vfs.provider.test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 
@@ -26,38 +27,43 @@ import org.apache.commons.vfs.test.ProviderTestConfig;
  * junctions.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:49 $
  */
 public class JunctionProviderConfig
     implements ProviderTestConfig
 {
     private final ProviderTestConfig config;
 
-    public JunctionProviderConfig( final ProviderTestConfig config )
+    public JunctionProviderConfig(final ProviderTestConfig config)
     {
         this.config = config;
+    }
+
+    public FilesCache getFilesCache()
+    {
+        return config.getFilesCache();
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager ) throws Exception
+    public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
-        config.prepare( manager );
+        config.prepare(manager);
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final FileObject baseFolder = config.getBaseTestFolder( manager );
+        final FileObject baseFolder = config.getBaseTestFolder(manager);
 
         // Create an empty file system, then link in the base folder
-        final FileSystem newFs = manager.createVirtualFileSystem( "vfs:" ).getFileSystem();
+        final FileSystem newFs = manager.createVirtualFileSystem("vfs:").getFileSystem();
         final String junctionPoint = "/some/dir";
-        newFs.addJunction( junctionPoint, baseFolder );
+        newFs.addJunction(junctionPoint, baseFolder);
 
-        return newFs.resolveFile( junctionPoint );
+        return newFs.resolveFile(junctionPoint);
     }
 }

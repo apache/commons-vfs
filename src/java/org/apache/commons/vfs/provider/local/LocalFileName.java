@@ -24,18 +24,18 @@ import org.apache.commons.vfs.provider.UriParser;
  * A local file URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:48 $
  */
 public class LocalFileName
     extends AbstractFileName
 {
     private final String rootFile;
 
-    protected LocalFileName( final String scheme,
-                             final String rootFile,
-                             final String path )
+    protected LocalFileName(final String scheme,
+                            final String rootFile,
+                            final String path)
     {
-        super( scheme, path );
+        super(scheme, path);
         this.rootFile = rootFile;
     }
 
@@ -44,27 +44,27 @@ public class LocalFileName
      *
      * @todo Make parser a static field
      */
-    public static LocalFileName parseUri( final String uri,
-                                          final LocalFileNameParser parser )
+    public static LocalFileName parseUri(final String uri,
+                                         final LocalFileNameParser parser)
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme( uri, name );
+        final String scheme = UriParser.extractScheme(uri, name);
 
         // Remove encoding, and adjust the separators
-        UriParser.decode( name, 0, name.length() );
-        UriParser.fixSeparators( name );
+        UriParser.decode(name, 0, name.length());
+        UriParser.fixSeparators(name);
 
         // Extract the root prefix
-        final String rootFile = parser.extractRootPrefix( uri, name );
+        final String rootFile = parser.extractRootPrefix(uri, name);
 
         // Normalise the path
-        UriParser.normalisePath( name );
+        UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return new LocalFileName( scheme, rootFile, path );
+        return new LocalFileName(scheme, rootFile, path);
     }
 
     /**
@@ -78,18 +78,18 @@ public class LocalFileName
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName( final String path )
+    protected FileName createName(final String path)
     {
-        return new LocalFileName( getScheme(), rootFile, path );
+        return new LocalFileName(getScheme(), rootFile, path);
     }
 
     /**
      * Builds the root URI for this file name.
      */
-    protected void appendRootUri( final StringBuffer buffer )
+    protected void appendRootUri(final StringBuffer buffer)
     {
-        buffer.append( getScheme() );
-        buffer.append( "://" );
-        buffer.append( rootFile );
+        buffer.append(getScheme());
+        buffer.append("://");
+        buffer.append(rootFile);
     }
 }

@@ -29,7 +29,7 @@ import java.util.TreeMap;
  * This implementation caches every file for the complete lifetime of the used {@link org.apache.commons.vfs.FileSystemManager}.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/08 19:48:30 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/10 20:09:47 $
  */
 public class DefaultFilesCache implements FilesCache
 {
@@ -74,5 +74,9 @@ public class DefaultFilesCache implements FilesCache
     {
         Map files = getOrCreateFilesystemCache(filesystem);
         files.remove(name);
+    }
+
+    public void accessFile(FileObject file)
+    {
     }
 }

@@ -15,8 +15,6 @@
  */
 package org.apache.commons.vfs.test;
 
-import java.io.InputStream;
-import java.util.Iterator;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -24,11 +22,14 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 
+import java.io.InputStream;
+import java.util.Iterator;
+
 /**
  * Test cases for reading file content.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:44 $
  */
 public class ContentTests
     extends AbstractProviderTestCase
@@ -41,28 +42,28 @@ public class ContentTests
         final FileInfo baseInfo = buildExpectedStructure();
         final FileObject baseFolder = getReadFolder();
 
-        assertSameContent( baseInfo, baseFolder );
+        assertSameContent(baseInfo, baseFolder);
     }
 
     /**
      * Asserts every file in a folder exists and has the expected content.
      */
-    private void assertSameContent( final FileInfo expected,
-                                    final FileObject folder ) throws Exception
+    private void assertSameContent(final FileInfo expected,
+                                   final FileObject folder) throws Exception
     {
-        for ( Iterator iterator = expected.children.values().iterator(); iterator.hasNext(); )
+        for (Iterator iterator = expected.children.values().iterator(); iterator.hasNext();)
         {
-            final FileInfo fileInfo = (FileInfo)iterator.next();
-            final FileObject child = folder.resolveFile( fileInfo.baseName, NameScope.CHILD );
+            final FileInfo fileInfo = (FileInfo) iterator.next();
+            final FileObject child = folder.resolveFile(fileInfo.baseName, NameScope.CHILD);
 
-            assertTrue( child.exists() );
-            if ( fileInfo.type == FileType.FILE )
+            assertTrue(child.exists());
+            if (fileInfo.type == FileType.FILE)
             {
-                assertSameContent( fileInfo.content, child );
+                assertSameContent(fileInfo.content, child);
             }
             else
             {
-                assertSameContent( fileInfo, child );
+                assertSameContent(fileInfo, child);
             }
         }
     }
@@ -73,26 +74,26 @@ public class ContentTests
     public void testExists() throws Exception
     {
         // Test a file
-        FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertTrue( "file exists", file.exists() );
-        assertTrue( "file exists", file.getType() != FileType.IMAGINARY );
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertTrue("file exists", file.exists());
+        assertTrue("file exists", file.getType() != FileType.IMAGINARY);
 
         // Test a folder
-        file = getReadFolder().resolveFile( "dir1" );
-        assertTrue( "folder exists", file.exists() );
-        assertTrue( "folder exists", file.getType() != FileType.IMAGINARY );
+        file = getReadFolder().resolveFile("dir1");
+        assertTrue("folder exists", file.exists());
+        assertTrue("folder exists", file.getType() != FileType.IMAGINARY);
 
         // Test an unknown file
-        file = getReadFolder().resolveFile( "unknown-child" );
-        assertTrue( "unknown file does not exist", !file.exists() );
-        assertTrue( "unknown file does not exist",
-                    file.getType() == FileType.IMAGINARY );
+        file = getReadFolder().resolveFile("unknown-child");
+        assertTrue("unknown file does not exist", !file.exists());
+        assertTrue("unknown file does not exist",
+            file.getType() == FileType.IMAGINARY);
 
         // Test an unknown file in an unknown folder
-        file = getReadFolder().resolveFile( "unknown-folder/unknown-child" );
-        assertTrue( "unknown file does not exist", !file.exists() );
-        assertTrue( "unknown file does not exist",
-                    file.getType() == FileType.IMAGINARY );
+        file = getReadFolder().resolveFile("unknown-folder/unknown-child");
+        assertTrue("unknown file does not exist", !file.exists());
+        assertTrue("unknown file does not exist",
+            file.getType() == FileType.IMAGINARY);
     }
 
     /**
@@ -101,8 +102,8 @@ public class ContentTests
     public void testRoot() throws FileSystemException
     {
         final FileObject file = getReadFolder().getFileSystem().getRoot();
-        assertTrue( file.exists() );
-        assertTrue( file.getType() != FileType.IMAGINARY );
+        assertTrue(file.exists());
+        assertTrue(file.getType() != FileType.IMAGINARY);
     }
 
     /**
@@ -111,38 +112,38 @@ public class ContentTests
     public void testParent() throws FileSystemException
     {
         // Test when both exist
-        FileObject folder = getReadFolder().resolveFile( "dir1" );
-        FileObject child = folder.resolveFile( "file3.txt" );
-        assertTrue( "folder exists", folder.exists() );
-        assertTrue( "child exists", child.exists() );
-        assertSame( folder, child.getParent() );
+        FileObject folder = getReadFolder().resolveFile("dir1");
+        FileObject child = folder.resolveFile("file3.txt");
+        assertTrue("folder exists", folder.exists());
+        assertTrue("child exists", child.exists());
+        assertSame(folder, child.getParent());
 
         // Test when file does not exist
-        child = folder.resolveFile( "unknown-file" );
-        assertTrue( "folder exists", folder.exists() );
-        assertTrue( "child does not exist", !child.exists() );
-        assertSame( folder, child.getParent() );
+        child = folder.resolveFile("unknown-file");
+        assertTrue("folder exists", folder.exists());
+        assertTrue("child does not exist", !child.exists());
+        assertSame(folder, child.getParent());
 
         // Test when neither exists
-        folder = getReadFolder().resolveFile( "unknown-folder" );
-        child = folder.resolveFile( "unknown-file" );
-        assertTrue( "folder does not exist", !folder.exists() );
-        assertTrue( "child does not exist", !child.exists() );
-        assertSame( folder, child.getParent() );
+        folder = getReadFolder().resolveFile("unknown-folder");
+        child = folder.resolveFile("unknown-file");
+        assertTrue("folder does not exist", !folder.exists());
+        assertTrue("child does not exist", !child.exists());
+        assertSame(folder, child.getParent());
 
         // Test the parent of the root of the file system
         // TODO - refactor out test cases for layered vs originating fs
         final FileSystem fileSystem = getReadFolder().getFileSystem();
         FileObject root = fileSystem.getRoot();
-        if ( fileSystem.getParentLayer() == null )
+        if (fileSystem.getParentLayer() == null)
         {
             // No parent layer, so parent should be null
-            assertNull( "root has null parent", root.getParent() );
+            assertNull("root has null parent", root.getParent());
         }
         else
         {
             // Parent should be parent of parent layer.
-            assertSame( fileSystem.getParentLayer().getParent(), root.getParent() );
+            assertSame(fileSystem.getParentLayer().getParent(), root.getParent());
         }
     }
 
@@ -152,38 +153,38 @@ public class ContentTests
     public void testChildren() throws FileSystemException
     {
         // Check for file
-        FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertSame( FileType.FILE, file.getType() );
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertSame(FileType.FILE, file.getType());
         try
         {
             file.getChildren();
             fail();
         }
-        catch ( FileSystemException e )
+        catch (FileSystemException e)
         {
-            assertSameMessage( "vfs.provider/list-children-not-folder.error", file, e );
+            assertSameMessage("vfs.provider/list-children-not-folder.error", file, e);
         }
 
         // Should be able to get child by name
-        file = file.resolveFile( "some-child" );
-        assertNotNull( file );
+        file = file.resolveFile("some-child");
+        assertNotNull(file);
 
         // Check for unknown file
-        file = getReadFolder().resolveFile( "unknown-file" );
-        assertTrue( !file.exists() );
+        file = getReadFolder().resolveFile("unknown-file");
+        assertTrue(!file.exists());
         try
         {
             file.getChildren();
             fail();
         }
-        catch ( final FileSystemException e )
+        catch (final FileSystemException e)
         {
-            assertSameMessage( "vfs.provider/list-children-not-folder.error", file, e );
+            assertSameMessage("vfs.provider/list-children-not-folder.error", file, e);
         }
 
         // Should be able to get child by name
-        FileObject child = file.resolveFile( "some-child" );
-        assertNotNull( child );
+        FileObject child = file.resolveFile("some-child");
+        assertNotNull(child);
     }
 
     /**
@@ -192,12 +193,12 @@ public class ContentTests
     public void testContent() throws Exception
     {
         // Test non-empty file
-        FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertSameContent( FILE1_CONTENT, file );
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertSameContent(FILE1_CONTENT, file);
 
         // Test empty file
-        file = getReadFolder().resolveFile( "empty.txt" );
-        assertSameContent( "", file );
+        file = getReadFolder().resolveFile("empty.txt");
+        assertSameContent("", file);
     }
 
     /**
@@ -207,25 +208,25 @@ public class ContentTests
     {
 
         // Try getting the content of an unknown file
-        FileObject unknownFile = getReadFolder().resolveFile( "unknown-file" );
+        FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
         FileContent content = unknownFile.getContent();
         try
         {
             content.getInputStream();
             fail();
         }
-        catch ( FileSystemException e )
+        catch (FileSystemException e)
         {
-            assertSameMessage( "vfs.provider/read-not-file.error", unknownFile, e );
+            assertSameMessage("vfs.provider/read-not-file.error", unknownFile, e);
         }
         try
         {
             content.getSize();
             fail();
         }
-        catch ( final FileSystemException e )
+        catch (final FileSystemException e)
         {
-            assertSameMessage( "vfs.provider/get-size-not-file.error", unknownFile, e );
+            assertSameMessage("vfs.provider/get-size-not-file.error", unknownFile, e);
         }
     }
 
@@ -234,8 +235,8 @@ public class ContentTests
      */
     public void testConcurrentRead() throws Exception
     {
-        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertTrue( file.exists() );
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertTrue(file.exists());
 
         // Start reading from the file
         final InputStream instr = file.getContent().getInputStream();
@@ -255,17 +256,17 @@ public class ContentTests
      */
     public void testConcurrentReadFiles() throws Exception
     {
-        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertTrue( file.exists() );
-        final FileObject emptyFile = getReadFolder().resolveFile( "empty.txt" );
-        assertTrue( emptyFile.exists() );
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertTrue(file.exists());
+        final FileObject emptyFile = getReadFolder().resolveFile("empty.txt");
+        assertTrue(emptyFile.exists());
 
         // Start reading from the file
         final InputStream instr = file.getContent().getInputStream();
         try
         {
             // Try to read from other file
-            assertSameContent( "", emptyFile );
+            assertSameContent("", emptyFile);
         }
         finally
         {
@@ -279,21 +280,21 @@ public class ContentTests
     public void testReuse() throws Exception
     {
         // Get the test file
-        FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertEquals( FileType.FILE, file.getType() );
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertEquals(FileType.FILE, file.getType());
 
         // Get the file content
-        assertSameContent( FILE1_CONTENT, file );
+        assertSameContent(FILE1_CONTENT, file);
 
         // Read the content again
-        assertSameContent( FILE1_CONTENT, file );
+        assertSameContent(FILE1_CONTENT, file);
 
         // Close the content + file
         file.getContent().close();
         file.close();
 
         // Read the content again
-        assertSameContent( FILE1_CONTENT, file );
+        assertSameContent(FILE1_CONTENT, file);
     }
 
     /**
@@ -302,20 +303,20 @@ public class ContentTests
     public void testInstrCleanup() throws Exception
     {
         // Get the test file
-        FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertEquals( FileType.FILE, file.getType() );
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertEquals(FileType.FILE, file.getType());
 
         // Open some input streams
         final InputStream instr1 = file.getContent().getInputStream();
-        assertTrue( instr1.read() == FILE1_CONTENT.charAt( 0 ) );
+        assertTrue(instr1.read() == FILE1_CONTENT.charAt(0));
         final InputStream instr2 = file.getContent().getInputStream();
-        assertTrue( instr2.read() == FILE1_CONTENT.charAt( 0 ) );
+        assertTrue(instr2.read() == FILE1_CONTENT.charAt(0));
 
         // Close the file
         file.close();
 
         // Check
-        assertTrue( instr1.read() == -1 );
-        assertTrue( instr2.read() == -1 );
+        assertTrue(instr1.read() == -1);
+        assertTrue(instr2.read() == -1);
     }
 }

@@ -15,9 +15,6 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Random;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
@@ -26,6 +23,10 @@ import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
 import org.apache.commons.vfs.util.Messages;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A simple file replicator and temporary file store.
@@ -42,7 +43,7 @@ public final class DefaultFileReplicator
     private File tempDir;
     private long filecount;
 
-    public DefaultFileReplicator( final File tempDir )
+    public DefaultFileReplicator(final File tempDir)
     {
         this.tempDir = tempDir;
     }
@@ -56,9 +57,9 @@ public final class DefaultFileReplicator
      */
     public void init() throws FileSystemException
     {
-        if ( tempDir == null )
+        if (tempDir == null)
         {
-            tempDir = new File( "vfs_cache" ).getAbsoluteFile();
+            tempDir = new File("vfs_cache").getAbsoluteFile();
         }
         filecount = new Random().nextInt() & 0xffff;
     }
@@ -69,23 +70,23 @@ public final class DefaultFileReplicator
     public void close()
     {
         // Delete the temporary files
-        while ( copies.size() > 0 )
+        while (copies.size() > 0)
         {
-            final File file = (File)copies.remove( 0 );
+            final File file = (File) copies.remove(0);
             try
             {
-                final FileObject fileObject = getContext().toFileObject( file );
-                fileObject.delete( Selectors.SELECT_ALL );
+                final FileObject fileObject = getContext().toFileObject(file);
+                fileObject.delete(Selectors.SELECT_ALL);
             }
-            catch ( final FileSystemException e )
+            catch (final FileSystemException e)
             {
-                final String message = Messages.getString( "vfs.impl/delete-temp.warn", file.getName() );
-                getLogger().warn( message, e );
+                final String message = Messages.getString("vfs.impl/delete-temp.warn", file.getName());
+                getLogger().warn(message, e);
             }
         }
 
         // Clean up the temp directory, if it is empty
-        if ( tempDir != null && tempDir.exists() && tempDir.list().length == 0 )
+        if (tempDir != null && tempDir.exists() && tempDir.list().length == 0)
         {
             tempDir.delete();
             tempDir = null;
@@ -95,15 +96,15 @@ public final class DefaultFileReplicator
     /**
      * Allocates a new temporary file.
      */
-    public File allocateFile( final String baseName )
+    public File allocateFile(final String baseName)
     {
         // Create a unique-ish file name
         final String basename = baseName + "_" + filecount + ".tmp";
         filecount++;
-        final File file = new File( tempDir, basename );
+        final File file = new File(tempDir, basename);
 
         // Keep track to delete later
-        copies.add( file );
+        copies.add(file);
 
         return file;
     }
@@ -111,16 +112,16 @@ public final class DefaultFileReplicator
     /**
      * Creates a local copy of the file, and all its descendents.
      */
-    public File replicateFile( final FileObject srcFile,
-                               final FileSelector selector )
+    public File replicateFile(final FileObject srcFile,
+                              final FileSelector selector)
         throws FileSystemException
     {
         final String basename = srcFile.getName().getBaseName();
-        final File file = allocateFile( basename );
+        final File file = allocateFile(basename);
 
         // Copy from the source file
-        final FileObject destFile = getContext().toFileObject( file );
-        destFile.copyFrom( srcFile, selector );
+        final FileObject destFile = getContext().toFileObject(file);
+        destFile.copyFrom(srcFile, selector);
 
         return file;
     }

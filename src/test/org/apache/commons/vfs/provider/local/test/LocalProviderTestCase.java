@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.local.test;
 
-import java.io.File;
 import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
@@ -23,6 +22,8 @@ import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
+
+import java.io.File;
 
 /**
  * Tests for the local file system.
@@ -38,17 +39,17 @@ public class LocalProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        final ProviderTestSuite testSuite = new ProviderTestSuite( new LocalProviderTestCase() );
-        testSuite.addTests( FileNameTests.class );
+        final ProviderTestSuite testSuite = new ProviderTestSuite(new LocalProviderTestCase());
+        testSuite.addTests(FileNameTests.class);
         return testSuite;
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File testDir = AbstractVfsTestCase.getTestDirectory();
-        return manager.toFileObject( testDir );
+        return manager.toFileObject(testDir);
     }
 }

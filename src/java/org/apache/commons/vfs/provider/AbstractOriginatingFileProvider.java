@@ -19,7 +19,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 
 /**
@@ -28,14 +27,14 @@ import org.apache.commons.vfs.FileSystemOptions;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.17 $ $Date: 2004/05/03 19:48:47 $
+ * @version $Revision: 1.18 $ $Date: 2004/05/10 20:09:42 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileProvider
 {
-    public AbstractOriginatingFileProvider(FileSystemManager manager)
+    public AbstractOriginatingFileProvider()
     {
-        super(manager);
+        super();
     }
 
     /**

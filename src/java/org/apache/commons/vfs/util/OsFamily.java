@@ -19,20 +19,20 @@ package org.apache.commons.vfs.util;
  * An enumerated type, which represents an OS family.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:50 $
  */
 public final class OsFamily
 {
     private final String name;
     private final OsFamily[] families;
 
-    OsFamily( final String name )
+    OsFamily(final String name)
     {
         this.name = name;
-        families = new OsFamily[ 0 ];
+        families = new OsFamily[0];
     }
 
-    OsFamily( final String name, final OsFamily[] families )
+    OsFamily(final String name, final OsFamily[] families)
     {
         this.name = name;
         this.families = families;

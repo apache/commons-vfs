@@ -20,7 +20,6 @@ import com.jcraft.jsch.JSchException;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -33,7 +32,7 @@ import java.io.File;
  * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: SftpFileProvider.java,v 1.8 2004/05/03 19:48:49 imario Exp $
+ * @version $Id: SftpFileProvider.java,v 1.9 2004/05/10 20:09:51 imario Exp $
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {
@@ -43,9 +42,9 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
 
     private JSch jSch = new JSch();
 
-    public SftpFileProvider(FileSystemManager manager)
+    public SftpFileProvider()
     {
-        super(manager);
+        super();
     }
 
     /**
@@ -53,7 +52,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
      */
     protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        return new SftpFileSystem(getFileSystemManager(), (GenericFileName) rootName, this.getJSch(), fileSystemOptions);
+        return new SftpFileSystem((GenericFileName) rootName, this.getJSch(), fileSystemOptions);
     }
 
     /**

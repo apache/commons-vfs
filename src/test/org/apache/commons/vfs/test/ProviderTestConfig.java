@@ -17,20 +17,21 @@ package org.apache.commons.vfs.test;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
 /**
  * Test configuration for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:44 $
  */
 public interface ProviderTestConfig
 {
     /**
      * Prepares the file system manager.
      */
-    void prepare( DefaultFileSystemManager manager ) throws Exception;
+    void prepare(DefaultFileSystemManager manager) throws Exception;
 
     /**
      * Returns the base folder for tests.  This folder must exist, and contain
@@ -40,5 +41,10 @@ public interface ProviderTestConfig
      * <li>/write-tests
      * </ul>
      */
-    FileObject getBaseTestFolder( FileSystemManager manager ) throws Exception;
+    FileObject getBaseTestFolder(FileSystemManager manager) throws Exception;
+
+    /**
+     * Returns the filesCache implementation used for tests.
+     */
+    FilesCache getFilesCache();
 }

@@ -44,7 +44,7 @@ public class SmbProviderTestCase
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider("smb", new SmbFileProvider(manager));
+        manager.addProvider("smb", new SmbFileProvider());
     }
 
     /**

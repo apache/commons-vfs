@@ -15,17 +15,18 @@
  */
 package org.apache.commons.vfs.test;
 
+import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileObject;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileObject;
 
 /**
  * URL test cases for providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:44 $
  */
 public class UrlTests
     extends AbstractProviderTestCase
@@ -35,7 +36,7 @@ public class UrlTests
      * tests are not run if the provider being tested does not support all
      * the required capabilities.  Return null or an empty array to always
      * run the tests.
-     *
+     * <p/>
      * <p>This implementation returns null.
      */
     protected Capability[] getRequiredCaps()
@@ -48,16 +49,16 @@ public class UrlTests
      */
     public void testURL() throws Exception
     {
-        final FileObject file = getReadFolder().resolveFile( "some-dir/" );
+        final FileObject file = getReadFolder().resolveFile("some-dir/");
         final URL url = file.getURL();
 
-        assertEquals( file.getName().getURI(), url.toExternalForm() );
+        assertEquals(file.getName().getURI(), url.toExternalForm());
 
-        final URL parentURL = new URL( url, ".." );
-        assertEquals( file.getParent().getURL(), parentURL );
+        final URL parentURL = new URL(url, "..");
+        assertEquals(file.getParent().getURL(), parentURL);
 
-        final URL rootURL = new URL( url, "/" );
-        assertEquals( file.getFileSystem().getRoot().getURL(), rootURL );
+        final URL rootURL = new URL(url, "/");
+        assertEquals(file.getFileSystem().getRoot().getURL(), rootURL);
     }
 
     /**
@@ -66,18 +67,18 @@ public class UrlTests
     public void testURLContent() throws Exception
     {
         // Test non-empty file
-        FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        assertTrue( file.exists() );
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertTrue(file.exists());
 
         URLConnection urlCon = file.getURL().openConnection();
-        assertSameURLContent( FILE1_CONTENT, urlCon );
+        assertSameURLContent(FILE1_CONTENT, urlCon);
 
         // Test empty file
-        file = getReadFolder().resolveFile( "empty.txt" );
-        assertTrue( file.exists() );
+        file = getReadFolder().resolveFile("empty.txt");
+        assertTrue(file.exists());
 
         urlCon = file.getURL().openConnection();
-        assertSameURLContent( "", urlCon );
+        assertSameURLContent("", urlCon);
     }
 
     /**
@@ -86,8 +87,8 @@ public class UrlTests
     public void testUnknownURL() throws Exception
     {
         // Try getting the content of an unknown file
-        final FileObject unknownFile = getReadFolder().resolveFile( "unknown-file" );
-        assertFalse( unknownFile.exists() );
+        final FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
+        assertFalse(unknownFile.exists());
 
         final URLConnection connection = unknownFile.getURL().openConnection();
         try
@@ -95,11 +96,11 @@ public class UrlTests
             connection.getInputStream();
             fail();
         }
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            assertSameMessage( "vfs.provider/read-not-file.error", unknownFile, e );
+            assertSameMessage("vfs.provider/read-not-file.error", unknownFile, e);
         }
-        assertEquals( -1, connection.getContentLength() );
+        assertEquals(-1, connection.getContentLength());
     }
 
 }

@@ -20,7 +20,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 import java.io.File;
@@ -39,11 +38,10 @@ public final class LocalFileSystem
 {
     private final String rootFile;
 
-    public LocalFileSystem(final FileSystemManager manager,
-                           final FileName rootName,
+    public LocalFileSystem(final FileName rootName,
                            final String rootFile)
     {
-        super(manager, rootName, null, null);
+        super(rootName, null, null);
         this.rootFile = rootFile;
     }
 

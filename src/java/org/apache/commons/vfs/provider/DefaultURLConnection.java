@@ -15,13 +15,14 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileSystemException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A default URL connection that will work for most file systems.
@@ -34,10 +35,10 @@ public final class DefaultURLConnection
 {
     private final FileContent content;
 
-    public DefaultURLConnection( final URL url,
-                                 final FileContent content )
+    public DefaultURLConnection(final URL url,
+                                final FileContent content)
     {
-        super( url );
+        super(url);
         this.content = content;
     }
 
@@ -62,9 +63,9 @@ public final class DefaultURLConnection
     {
         try
         {
-            return (int)content.getSize();
+            return (int) content.getSize();
         }
-        catch ( FileSystemException fse )
+        catch (FileSystemException fse)
         {
         }
 

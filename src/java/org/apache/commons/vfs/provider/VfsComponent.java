@@ -29,7 +29,7 @@ import org.apache.commons.vfs.FileSystemException;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:43 $
  */
 public interface VfsComponent
 {
@@ -38,14 +38,14 @@ public interface VfsComponent
      *
      * @param logger
      */
-    void setLogger( Log logger );
+    void setLogger(Log logger);
 
     /**
      * Sets the context for the component.
      *
      * @param context The context.
      */
-    void setContext( VfsComponentContext context );
+    void setContext(VfsComponentContext context);
 
     /**
      * Initialises the component.

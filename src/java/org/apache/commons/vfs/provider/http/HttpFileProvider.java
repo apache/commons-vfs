@@ -18,7 +18,6 @@ package org.apache.commons.vfs.provider.http;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -28,14 +27,14 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * An HTTP provider that uses commons-httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/03 19:48:48 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:49 $
  */
 public class HttpFileProvider
     extends AbstractOriginatingFileProvider
 {
-    public HttpFileProvider(FileSystemManager manager)
+    public HttpFileProvider()
     {
-        super(manager);
+        super();
     }
 
     /**
@@ -53,6 +52,6 @@ public class HttpFileProvider
     protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        return new HttpFileSystem(getFileSystemManager(), (GenericFileName) rootName, fileSystemOptions);
+        return new HttpFileSystem((GenericFileName) rootName, fileSystemOptions);
     }
 }

@@ -27,7 +27,7 @@ public final class FileDepthSelector
     private final int minDepth;
     private final int maxDepth;
 
-    public FileDepthSelector( int minDepth, int maxDepth )
+    public FileDepthSelector(int minDepth, int maxDepth)
     {
         this.minDepth = minDepth;
         this.maxDepth = maxDepth;
@@ -36,17 +36,17 @@ public final class FileDepthSelector
     /**
      * Determines if a file or folder should be selected.
      */
-    public boolean includeFile( final FileSelectInfo fileInfo )
+    public boolean includeFile(final FileSelectInfo fileInfo)
     {
         final int depth = fileInfo.getDepth();
-        return ( minDepth <= depth && depth <= maxDepth );
+        return (minDepth <= depth && depth <= maxDepth);
     }
 
     /**
      * Determines whether a folder should be traversed.
      */
-    public boolean traverseDescendents( final FileSelectInfo fileInfo )
+    public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
-        return ( fileInfo.getDepth() < maxDepth );
+        return (fileInfo.getDepth() < maxDepth);
     }
 }

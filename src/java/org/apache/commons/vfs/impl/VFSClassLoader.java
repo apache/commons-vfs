@@ -15,6 +15,12 @@
  */
 package org.apache.commons.vfs.impl;
 
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.NameScope;
+
 import java.io.IOException;
 import java.net.URL;
 import java.security.CodeSource;
@@ -28,11 +34,6 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.NameScope;
 
 
 /**
@@ -43,9 +44,9 @@ import org.apache.commons.vfs.NameScope;
  * </p><p>
  * TODO - Test this with signed Jars and a SecurityManager.
  *
- * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.18 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.19 $ $Date: 2004/05/10 20:09:47 $
+ * @see FileSystemManager#createFileSystem
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -55,73 +56,63 @@ public class VFSClassLoader
     /**
      * Constructors a new VFSClassLoader for the given file.
      *
-     * @param file the file to load the classes and resources from.
-     *
-     * @param manager
-     *      the FileManager to use when trying create a layered Jar file
-     *      system.
+     * @param file    the file to load the classes and resources from.
+     * @param manager the FileManager to use when trying create a layered Jar file
+     *                system.
      */
-    public VFSClassLoader( final FileObject file,
-                           final FileSystemManager manager )
+    public VFSClassLoader(final FileObject file,
+                          final FileSystemManager manager)
         throws FileSystemException
     {
-        this( new FileObject[]{file}, manager, null );
+        this(new FileObject[]{file}, manager, null);
     }
 
     /**
      * Constructors a new VFSClassLoader for the given file.
      *
-     * @param file the file to load the classes and resources from.
-     *
-     * @param manager
-     *      the FileManager to use when trying create a layered Jar file
-     *      system.
-     *
-     * @param parent the parent class loader for delegation.
+     * @param file    the file to load the classes and resources from.
+     * @param manager the FileManager to use when trying create a layered Jar file
+     *                system.
+     * @param parent  the parent class loader for delegation.
      */
-    public VFSClassLoader( final FileObject file,
-                           final FileSystemManager manager,
-                           final ClassLoader parent )
+    public VFSClassLoader(final FileObject file,
+                          final FileSystemManager manager,
+                          final ClassLoader parent)
         throws FileSystemException
     {
-        this( new FileObject[]{file}, manager, parent );
+        this(new FileObject[]{file}, manager, parent);
     }
 
     /**
      * Constructors a new VFSClassLoader for the given files.  The files will
      * be searched in the order specified.
      *
-     * @param files the files to load the classes and resources from.
-     *
-     * @param manager
-     *      the FileManager to use when trying create a layered Jar file
-     *      system.
+     * @param files   the files to load the classes and resources from.
+     * @param manager the FileManager to use when trying create a layered Jar file
+     *                system.
      */
-    public VFSClassLoader( final FileObject[] files,
-                           final FileSystemManager manager )
+    public VFSClassLoader(final FileObject[] files,
+                          final FileSystemManager manager)
         throws FileSystemException
     {
-        this( files, manager, null );
+        this(files, manager, null);
     }
 
     /**
      * Constructors a new VFSClassLoader for the given FileObjects.
      * The FileObjects will be searched in the order specified.
      *
-     * @param files the FileObjects to load the classes and resources from.
-     *
-     * @param manager
-     *      the FileManager to use when trying create a layered Jar file
-     *      system.
-     *
-     * @param parent the parent class loader for delegation.
+     * @param files   the FileObjects to load the classes and resources from.
+     * @param manager the FileManager to use when trying create a layered Jar file
+     *                system.
+     * @param parent  the parent class loader for delegation.
      */
-    public VFSClassLoader( final FileObject[] files,
-                           final FileSystemManager manager,
-                           final ClassLoader parent ) throws FileSystemException
+    public VFSClassLoader(final FileObject[] files,
+                          final FileSystemManager manager,
+                          final ClassLoader parent) throws FileSystemException
     {
-        super( parent );
-        addFileObjects( manager, files );
+        super(parent);
+        addFileObjects(manager, files);
     }
 
     /**
@@ -130,120 +121,121 @@ public class VFSClassLoader
      *
      * @param files the FileObjects to append to the search path.
      */
-    private void addFileObjects( final FileSystemManager manager,
-                                 final FileObject[] files ) throws FileSystemException
+    private void addFileObjects(final FileSystemManager manager,
+                                final FileObject[] files) throws FileSystemException
     {
-        for ( int i = 0; i < files.length; i++ )
+        for (int i = 0; i < files.length; i++)
         {
-            FileObject file = files[ i ];
-            if ( !file.exists() )
+            FileObject file = files[i];
+            if (!file.exists())
             {
                 // Does not exist - skip
                 continue;
             }
 
             // TODO - use federation instead
-            if ( manager.canCreateFileSystem( file ) )
+            if (manager.canCreateFileSystem(file))
             {
                 // Use contents of the file
-                file = manager.createFileSystem( file );
+                file = manager.createFileSystem(file);
             }
 
-            resources.add( file );
+            resources.add(file);
         }
     }
 
     /**
      * Finds and loads the class with the specified name from the search
      * path.
+     *
      * @throws ClassNotFoundException if the class is not found.
      */
-    protected Class findClass( final String name ) throws ClassNotFoundException
+    protected Class findClass(final String name) throws ClassNotFoundException
     {
         try
         {
-            final String path = name.replace( '.', '/' ).concat( ".class" );
-            final Resource res = loadResource( path );
-            if ( res == null )
+            final String path = name.replace('.', '/').concat(".class");
+            final Resource res = loadResource(path);
+            if (res == null)
             {
-                throw new ClassNotFoundException( name );
+                throw new ClassNotFoundException(name);
             }
-            return defineClass( name, res );
+            return defineClass(name, res);
         }
-        catch ( final IOException ioe )
+        catch (final IOException ioe)
         {
-            throw new ClassNotFoundException( name, ioe );
+            throw new ClassNotFoundException(name, ioe);
         }
     }
 
     /**
      * Loads and verifies the class with name and located with res.
      */
-    private Class defineClass( final String name, final Resource res )
+    private Class defineClass(final String name, final Resource res)
         throws IOException
     {
         final URL url = res.getCodeSourceURL();
         final String pkgName = res.getPackageName();
-        if ( pkgName != null )
+        if (pkgName != null)
         {
-            final Package pkg = getPackage( pkgName );
-            if ( pkg != null )
+            final Package pkg = getPackage(pkgName);
+            if (pkg != null)
             {
-                if ( pkg.isSealed() )
+                if (pkg.isSealed())
                 {
-                    if ( !pkg.isSealed( url ) )
+                    if (!pkg.isSealed(url))
                     {
-                        throw new FileSystemException( "vfs.impl/pkg-sealed-other-url", pkgName );
+                        throw new FileSystemException("vfs.impl/pkg-sealed-other-url", pkgName);
                     }
                 }
                 else
                 {
-                    if ( isSealed( res ) )
+                    if (isSealed(res))
                     {
-                        throw new FileSystemException( "vfs.impl/pkg-sealing-unsealed", pkgName );
+                        throw new FileSystemException("vfs.impl/pkg-sealing-unsealed", pkgName);
                     }
                 }
             }
             else
             {
-                definePackage( pkgName, res );
+                definePackage(pkgName, res);
             }
         }
 
         final byte[] bytes = res.getBytes();
         final Certificate[] certs =
             res.getFileObject().getContent().getCertificates();
-        final CodeSource cs = new CodeSource( url, certs );
-        return defineClass( name, bytes, 0, bytes.length, cs );
+        final CodeSource cs = new CodeSource(url, certs);
+        return defineClass(name, bytes, 0, bytes.length, cs);
     }
 
     /**
      * Returns true if the we should seal the package where res resides.
      */
-    private boolean isSealed( final Resource res )
+    private boolean isSealed(final Resource res)
         throws FileSystemException
     {
-        final String sealed = res.getPackageAttribute( Attributes.Name.SEALED );
-        return "true".equalsIgnoreCase( sealed );
+        final String sealed = res.getPackageAttribute(Attributes.Name.SEALED);
+        return "true".equalsIgnoreCase(sealed);
     }
 
     /**
      * Reads attributes for the package and defines it.
      */
-    private Package definePackage( final String name,
-                                   final Resource res )
+    private Package definePackage(final String name,
+                                  final Resource res)
         throws FileSystemException
     {
         // TODO - check for MANIFEST_ATTRIBUTES capability first
-        final String specTitle = res.getPackageAttribute( Name.SPECIFICATION_TITLE );
-        final String specVendor = res.getPackageAttribute( Attributes.Name.SPECIFICATION_VENDOR );
-        final String specVersion = res.getPackageAttribute( Name.SPECIFICATION_VERSION );
-        final String implTitle = res.getPackageAttribute( Name.IMPLEMENTATION_TITLE );
-        final String implVendor = res.getPackageAttribute( Name.IMPLEMENTATION_VENDOR );
-        final String implVersion = res.getPackageAttribute( Name.IMPLEMENTATION_VERSION );
+        final String specTitle = res.getPackageAttribute(Name.SPECIFICATION_TITLE);
+        final String specVendor = res.getPackageAttribute(Attributes.Name.SPECIFICATION_VENDOR);
+        final String specVersion = res.getPackageAttribute(Name.SPECIFICATION_VERSION);
+        final String implTitle = res.getPackageAttribute(Name.IMPLEMENTATION_TITLE);
+        final String implVendor = res.getPackageAttribute(Name.IMPLEMENTATION_VENDOR);
+        final String implVersion = res.getPackageAttribute(Name.IMPLEMENTATION_VERSION);
 
         final URL sealBase;
-        if ( isSealed( res ) )
+        if (isSealed(res))
         {
             sealBase = res.getCodeSourceURL();
         }
@@ -252,64 +244,64 @@ public class VFSClassLoader
             sealBase = null;
         }
 
-        return definePackage( name, specTitle, specVersion, specVendor,
-                              implTitle, implVersion, implVendor, sealBase );
+        return definePackage(name, specTitle, specVersion, specVendor,
+            implTitle, implVersion, implVendor, sealBase);
     }
 
     /**
      * Calls super.getPermissions both for the code source and also
      * adds the permissions granted to the parent layers.
      */
-    protected PermissionCollection getPermissions( final CodeSource cs )
+    protected PermissionCollection getPermissions(final CodeSource cs)
     {
         try
         {
             final String url = cs.getLocation().toString();
-            FileObject file = lookupFileObject( url );
-            if ( file == null )
+            FileObject file = lookupFileObject(url);
+            if (file == null)
             {
-                return super.getPermissions( cs );
+                return super.getPermissions(cs);
             }
 
             FileObject parentLayer = file.getFileSystem().getParentLayer();
-            if ( parentLayer == null )
+            if (parentLayer == null)
             {
-                return super.getPermissions( cs );
+                return super.getPermissions(cs);
             }
 
             Permissions combi = new Permissions();
-            PermissionCollection permCollect = super.getPermissions( cs );
-            copyPermissions( permCollect, combi );
+            PermissionCollection permCollect = super.getPermissions(cs);
+            copyPermissions(permCollect, combi);
 
-            for ( FileObject parent = parentLayer;
-                  parent != null;
-                  parent = parent.getFileSystem().getParentLayer() )
+            for (FileObject parent = parentLayer;
+                 parent != null;
+                 parent = parent.getFileSystem().getParentLayer())
             {
                 final CodeSource parentcs =
-                    new CodeSource( parent.getURL(),
-                                    parent.getContent().getCertificates() );
-                permCollect = super.getPermissions( parentcs );
-                copyPermissions( permCollect, combi );
+                    new CodeSource(parent.getURL(),
+                        parent.getContent().getCertificates());
+                permCollect = super.getPermissions(parentcs);
+                copyPermissions(permCollect, combi);
             }
 
             return combi;
         }
-        catch ( final FileSystemException fse )
+        catch (final FileSystemException fse)
         {
-            throw new SecurityException( fse.getMessage() );
+            throw new SecurityException(fse.getMessage());
         }
     }
 
     /**
      * Copies the permissions from src to dest.
      */
-    protected void copyPermissions( final PermissionCollection src,
-                                    final PermissionCollection dest )
+    protected void copyPermissions(final PermissionCollection src,
+                                   final PermissionCollection dest)
     {
-        for ( Enumeration elem = src.elements(); elem.hasMoreElements(); )
+        for (Enumeration elem = src.elements(); elem.hasMoreElements();)
         {
-            final Permission permission = (Permission)elem.nextElement();
-            dest.add( permission );
+            final Permission permission = (Permission) elem.nextElement();
+            dest.add(permission);
         }
     }
 
@@ -317,13 +309,13 @@ public class VFSClassLoader
      * Does a reverse lookup to find the FileObject when we only have the
      * URL.
      */
-    private FileObject lookupFileObject( final String name )
+    private FileObject lookupFileObject(final String name)
     {
         final Iterator it = resources.iterator();
-        while ( it.hasNext() )
+        while (it.hasNext())
         {
-            final FileObject object = (FileObject)it.next();
-            if ( name.equals( object.getName().getURI() ) )
+            final FileObject object = (FileObject) it.next();
+            if (name.equals(object.getName().getURI()))
             {
                 return object;
             }
@@ -335,17 +327,17 @@ public class VFSClassLoader
      * Finds the resource with the specified name from the search path.
      * This returns null if the resource is not found.
      */
-    protected URL findResource( final String name )
+    protected URL findResource(final String name)
     {
         try
         {
-            final Resource res = loadResource( name );
-            if ( res != null )
+            final Resource res = loadResource(name);
+            if (res != null)
             {
                 return res.getURL();
             }
         }
-        catch ( final Exception mue )
+        catch (final Exception mue)
         {
             // Ignore
             // TODO - report?
@@ -359,7 +351,7 @@ public class VFSClassLoader
      * with the specified name.
      * TODO - Implement this.
      */
-    protected Enumeration findResources( final String name )
+    protected Enumeration findResources(final String name)
     {
         return new Enumeration()
         {
@@ -379,17 +371,17 @@ public class VFSClassLoader
      * Searches through the search path of for the first class or resource
      * with specified name.
      */
-    private Resource loadResource( final String name ) throws FileSystemException
+    private Resource loadResource(final String name) throws FileSystemException
     {
         final Iterator it = resources.iterator();
-        while ( it.hasNext() )
+        while (it.hasNext())
         {
-            final FileObject baseFile = (FileObject)it.next();
+            final FileObject baseFile = (FileObject) it.next();
             final FileObject file =
-                baseFile.resolveFile( name, NameScope.DESCENDENT_OR_SELF );
-            if ( file.exists() )
+                baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
+            if (file.exists())
             {
-                return new Resource( name, baseFile, file );
+                return new Resource(name, baseFile, file);
             }
         }
 

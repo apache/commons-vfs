@@ -28,7 +28,7 @@ import java.io.File;
  * initialisation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/01 18:14:26 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:43 $
  * @see VfsComponent#setContext
  */
 public interface VfsComponentContext
@@ -64,4 +64,11 @@ public interface VfsComponentContext
      */
     FileObject toFileObject(File file)
         throws FileSystemException;
+
+    /**
+     * Returns the filesystem manager for the current context
+     *
+     * @return the filesystem manager
+     */
+    FileSystemManager getFileSystemManager();
 }

@@ -19,18 +19,18 @@ package org.apache.commons.vfs.provider;
  * A file name for layered files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:43 $
  */
 public abstract class LayeredFileName
     extends AbstractFileName
 {
     private final String outerUri;
 
-    protected LayeredFileName( final String scheme,
-                               final String outerUri,
-                               final String path )
+    protected LayeredFileName(final String scheme,
+                              final String outerUri,
+                              final String path)
     {
-        super( scheme, path );
+        super(scheme, path);
         this.outerUri = outerUri;
     }
 

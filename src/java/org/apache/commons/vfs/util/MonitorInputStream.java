@@ -23,16 +23,16 @@ import java.io.InputStream;
  * An InputStream that provides buffering and end-of-stream monitoring.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:50 $
  */
 public class MonitorInputStream
     extends BufferedInputStream
 {
     private boolean finished;
 
-    public MonitorInputStream( final InputStream in )
+    public MonitorInputStream(final InputStream in)
     {
-        super( in );
+        super(in);
     }
 
     /**
@@ -40,13 +40,13 @@ public class MonitorInputStream
      */
     public int read() throws IOException
     {
-        if ( finished )
+        if (finished)
         {
             return -1;
         }
 
         final int ch = super.read();
-        if ( ch != -1 )
+        if (ch != -1)
         {
             return ch;
         }
@@ -59,16 +59,16 @@ public class MonitorInputStream
     /**
      * Reads bytes from this input stream.error occurs.
      */
-    public int read( final byte[] buffer, final int offset, final int length )
+    public int read(final byte[] buffer, final int offset, final int length)
         throws IOException
     {
-        if ( finished )
+        if (finished)
         {
             return -1;
         }
 
-        final int nread = super.read( buffer, offset, length );
-        if ( nread != -1 )
+        final int nread = super.read(buffer, offset, length);
+        if (nread != -1)
         {
             return nread;
         }
@@ -84,7 +84,7 @@ public class MonitorInputStream
      */
     public void close() throws IOException
     {
-        if ( finished )
+        if (finished)
         {
             return;
         }
@@ -95,7 +95,7 @@ public class MonitorInputStream
         {
             super.close();
         }
-        catch ( final IOException ioe )
+        catch (final IOException ioe)
         {
             exc = ioe;
         }
@@ -105,13 +105,13 @@ public class MonitorInputStream
         {
             onClose();
         }
-        catch ( final IOException ioe )
+        catch (final IOException ioe)
         {
             exc = ioe;
         }
 
         finished = true;
-        if ( exc != null )
+        if (exc != null)
         {
             throw exc;
         }

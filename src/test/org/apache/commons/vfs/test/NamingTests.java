@@ -24,9 +24,8 @@ import org.apache.commons.vfs.NameScope;
  * Test cases for file naming.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 03:35:53 $
- *
- * @todo Add tests for all FileName methods 
+ * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:44 $
+ * @todo Add tests for all FileName methods
  */
 public class NamingTests
     extends AbstractProviderTestCase
@@ -37,23 +36,23 @@ public class NamingTests
     public void testRelativeURI() throws Exception
     {
         // Build base dir
-        getManager().setBaseFile( getReadFolder() );
+        getManager().setBaseFile(getReadFolder());
 
         // Locate the base dir
-        FileObject file = getManager().resolveFile( "." );
-        assertSame( "file object", getReadFolder(), file );
+        FileObject file = getManager().resolveFile(".");
+        assertSame("file object", getReadFolder(), file);
 
         // Locate a child
-        file = getManager().resolveFile( "some-child" );
-        assertSame( "file object", getReadFolder(), file.getParent() );
+        file = getManager().resolveFile("some-child");
+        assertSame("file object", getReadFolder(), file.getParent());
 
         // Locate a descendent
-        file = getManager().resolveFile( "some-folder/some-file" );
-        assertSame( "file object", getReadFolder(), file.getParent().getParent() );
+        file = getManager().resolveFile("some-folder/some-file");
+        assertSame("file object", getReadFolder(), file.getParent().getParent());
 
         // Locate parent
-        file = getManager().resolveFile( ".." );
-        assertSame( "file object", getReadFolder().getParent(), file );
+        file = getManager().resolveFile("..");
+        assertSame("file object", getReadFolder().getParent(), file);
     }
 
     /**
@@ -62,56 +61,56 @@ public class NamingTests
     public void testRelativeUriEncoding() throws Exception
     {
         // Build base dir
-        getManager().setBaseFile( getReadFolder() );
+        getManager().setBaseFile(getReadFolder());
         final String path = getReadFolder().getName().getPath();
 
         // Encode "some file"
-        FileObject file = getManager().resolveFile( "%73%6f%6d%65%20%66%69%6c%65" );
-        assertEquals( path + "/some file", file.getName().getPath() );
+        FileObject file = getManager().resolveFile("%73%6f%6d%65%20%66%69%6c%65");
+        assertEquals(path + "/some file", file.getName().getPath());
 
         // Encode "."
-        file = getManager().resolveFile( "%2e" );
-        assertEquals( path, file.getName().getPath() );
+        file = getManager().resolveFile("%2e");
+        assertEquals(path, file.getName().getPath());
 
         // Encode '%'
-        file = getManager().resolveFile( "a%25" );
-        assertEquals( path + "/a%", file.getName().getPath() );
+        file = getManager().resolveFile("a%25");
+        assertEquals(path + "/a%", file.getName().getPath());
 
         // Encode /
-        file = getManager().resolveFile( "dir%2fchild" );
-        assertEquals( path + "/dir/child", file.getName().getPath() );
+        file = getManager().resolveFile("dir%2fchild");
+        assertEquals(path + "/dir/child", file.getName().getPath());
 
         // Encode \
-        file = getManager().resolveFile( "dir%5cchild" );
-        assertEquals( path + "/dir/child", file.getName().getPath() );
+        file = getManager().resolveFile("dir%5cchild");
+        assertEquals(path + "/dir/child", file.getName().getPath());
 
         // Use "%" literal
         try
         {
-            getManager().resolveFile( "%" );
+            getManager().resolveFile("%");
             fail();
         }
-        catch ( FileSystemException e )
+        catch (FileSystemException e)
         {
         }
 
         // Not enough digits in encoded char
         try
         {
-            getManager().resolveFile( "%5" );
+            getManager().resolveFile("%5");
             fail();
         }
-        catch ( FileSystemException e )
+        catch (FileSystemException e)
         {
         }
 
         // Invalid digit in encoded char
         try
         {
-            getManager().resolveFile( "%q" );
+            getManager().resolveFile("%q");
             fail();
         }
-        catch ( FileSystemException e )
+        catch (FileSystemException e)
         {
         }
     }
@@ -125,13 +124,13 @@ public class NamingTests
         final FileName rootName = getReadFolder().getFileSystem().getRoot().getName();
 
         // Test that the root path is "/"
-        assertEquals( "root path", "/", rootName.getPath() );
+        assertEquals("root path", "/", rootName.getPath());
 
         // Test that the root basname is ""
-        assertEquals( "root base name", "", rootName.getBaseName() );
+        assertEquals("root base name", "", rootName.getBaseName());
 
         // Test that the root name has no parent
-        assertNull( "root parent", rootName.getParent() );
+        assertNull("root parent", rootName.getParent());
     }
 
     /**
@@ -141,99 +140,99 @@ public class NamingTests
     {
         final FileName baseName = getReadFolder().getName();
         final String basePath = baseName.getPath();
-        final FileName name = baseName.resolveName( "some-child", NameScope.CHILD );
+        final FileName name = baseName.resolveName("some-child", NameScope.CHILD);
 
         // Test path is absolute
-        assertTrue( "is absolute", basePath.startsWith( "/" ) );
+        assertTrue("is absolute", basePath.startsWith("/"));
 
         // Test base name
-        assertEquals( "base name", "some-child", name.getBaseName() );
+        assertEquals("base name", "some-child", name.getBaseName());
 
         // Test absolute path
-        assertEquals( "absolute path", basePath + "/some-child", name.getPath() );
+        assertEquals("absolute path", basePath + "/some-child", name.getPath());
 
         // Test parent path
-        assertEquals( "parent absolute path", basePath, name.getParent().getPath() );
+        assertEquals("parent absolute path", basePath, name.getParent().getPath());
 
         // Try using a compound name to find a child
-        assertBadName( name, "a/b", NameScope.CHILD );
+        assertBadName(name, "a/b", NameScope.CHILD);
 
         // Check other invalid names
-        checkDescendentNames( name, NameScope.CHILD );
+        checkDescendentNames(name, NameScope.CHILD);
     }
 
     /**
      * Name resolution tests that are common for CHILD or DESCENDENT scope.
      */
-    private void checkDescendentNames( final FileName name,
-                                       final NameScope scope )
+    private void checkDescendentNames(final FileName name,
+                                      final NameScope scope)
         throws Exception
     {
         // Make some assumptions about the name
-        assertTrue( !name.getPath().equals( "/" ) );
-        assertTrue( !name.getPath().endsWith( "/a" ) );
-        assertTrue( !name.getPath().endsWith( "/a/b" ) );
+        assertTrue(!name.getPath().equals("/"));
+        assertTrue(!name.getPath().endsWith("/a"));
+        assertTrue(!name.getPath().endsWith("/a/b"));
 
         // Test names with the same prefix
         String path = name.getPath() + "/a";
-        assertSameName( path, name, path, scope );
-        assertSameName( path, name, "../" + name.getBaseName() + "/a", scope );
+        assertSameName(path, name, path, scope);
+        assertSameName(path, name, "../" + name.getBaseName() + "/a", scope);
 
         // Test an empty name
-        assertBadName( name, "", scope );
+        assertBadName(name, "", scope);
 
         // Test . name
-        assertBadName( name, ".", scope );
-        assertBadName( name, "./", scope );
+        assertBadName(name, ".", scope);
+        assertBadName(name, "./", scope);
 
         // Test ancestor names
-        assertBadName( name, "..", scope );
-        assertBadName( name, "../a", scope );
-        assertBadName( name, "../" + name.getBaseName() + "a", scope );
-        assertBadName( name, "a/..", scope );
+        assertBadName(name, "..", scope);
+        assertBadName(name, "../a", scope);
+        assertBadName(name, "../" + name.getBaseName() + "a", scope);
+        assertBadName(name, "a/..", scope);
 
         // Test absolute names
-        assertBadName( name, "/", scope );
-        assertBadName( name, "/a", scope );
-        assertBadName( name, "/a/b", scope );
-        assertBadName( name, name.getPath(), scope );
-        assertBadName( name, name.getPath() + "a", scope );
+        assertBadName(name, "/", scope);
+        assertBadName(name, "/a", scope);
+        assertBadName(name, "/a/b", scope);
+        assertBadName(name, name.getPath(), scope);
+        assertBadName(name, name.getPath() + "a", scope);
     }
 
     /**
      * Checks that a relative name resolves to the expected absolute path.
      * Tests both forward and back slashes.
      */
-    private void assertSameName( final String expectedPath,
-                                 final FileName baseName,
-                                 final String relName,
-                                 final NameScope scope )
+    private void assertSameName(final String expectedPath,
+                                final FileName baseName,
+                                final String relName,
+                                final NameScope scope)
         throws Exception
     {
         // Try the supplied name
-        FileName name = baseName.resolveName( relName, scope );
-        assertEquals( expectedPath, name.getPath() );
+        FileName name = baseName.resolveName(relName, scope);
+        assertEquals(expectedPath, name.getPath());
 
         // Replace the separators
-        relName.replace( '\\', '/' );
-        name = baseName.resolveName( relName, scope );
-        assertEquals( expectedPath, name.getPath() );
+        relName.replace('\\', '/');
+        name = baseName.resolveName(relName, scope);
+        assertEquals(expectedPath, name.getPath());
 
         // And again
-        relName.replace( '/', '\\' );
-        name = baseName.resolveName( relName, scope );
-        assertEquals( expectedPath, name.getPath() );
+        relName.replace('/', '\\');
+        name = baseName.resolveName(relName, scope);
+        assertEquals(expectedPath, name.getPath());
     }
 
     /**
      * Checks that a relative name resolves to the expected absolute path.
      * Tests both forward and back slashes.
      */
-    private void assertSameName( String expectedPath,
-                                 FileName baseName,
-                                 String relName ) throws Exception
+    private void assertSameName(String expectedPath,
+                                FileName baseName,
+                                String relName) throws Exception
     {
-        assertSameName( expectedPath, baseName, relName, NameScope.FILE_SYSTEM );
+        assertSameName(expectedPath, baseName, relName, NameScope.FILE_SYSTEM);
     }
 
     /**
@@ -247,54 +246,54 @@ public class NamingTests
         final String childPath = path + "/some-child";
 
         // Test empty relative path
-        assertSameName( path, baseName, "" );
+        assertSameName(path, baseName, "");
 
         // Test . relative path
-        assertSameName( path, baseName, "." );
+        assertSameName(path, baseName, ".");
 
         // Test ./ relative path
-        assertSameName( path, baseName, "./" );
+        assertSameName(path, baseName, "./");
 
         // Test .// relative path
-        assertSameName( path, baseName, ".//" );
+        assertSameName(path, baseName, ".//");
 
         // Test .///.///. relative path
-        assertSameName( path, baseName, ".///.///." );
-        assertSameName( path, baseName, "./\\/.\\//." );
+        assertSameName(path, baseName, ".///.///.");
+        assertSameName(path, baseName, "./\\/.\\//.");
 
         // Test <elem>/.. relative path
-        assertSameName( path, baseName, "a/.." );
+        assertSameName(path, baseName, "a/..");
 
         // Test .. relative path
-        assertSameName( parentPath, baseName, ".." );
+        assertSameName(parentPath, baseName, "..");
 
         // Test ../ relative path
-        assertSameName( parentPath, baseName, "../" );
+        assertSameName(parentPath, baseName, "../");
 
         // Test ..//./ relative path
-        assertSameName( parentPath, baseName, "..//./" );
-        assertSameName( parentPath, baseName, "..//.\\" );
+        assertSameName(parentPath, baseName, "..//./");
+        assertSameName(parentPath, baseName, "..//.\\");
 
         // Test <elem>/../.. relative path
-        assertSameName( parentPath, baseName, "a/../.." );
+        assertSameName(parentPath, baseName, "a/../..");
 
         // Test <elem> relative path
-        assertSameName( childPath, baseName, "some-child" );
+        assertSameName(childPath, baseName, "some-child");
 
         // Test ./<elem> relative path
-        assertSameName( childPath, baseName, "./some-child" );
+        assertSameName(childPath, baseName, "./some-child");
 
         // Test ./<elem>/ relative path
-        assertSameName( childPath, baseName, "./some-child/" );
+        assertSameName(childPath, baseName, "./some-child/");
 
         // Test <elem>/././././ relative path
-        assertSameName( childPath, baseName, "./some-child/././././" );
+        assertSameName(childPath, baseName, "./some-child/././././");
 
         // Test <elem>/../<elem> relative path
-        assertSameName( childPath, baseName, "a/../some-child" );
+        assertSameName(childPath, baseName, "a/../some-child");
 
         // Test <elem>/<elem>/../../<elem> relative path
-        assertSameName( childPath, baseName, "a/b/../../some-child" );
+        assertSameName(childPath, baseName, "a/b/../../some-child");
     }
 
     /**
@@ -307,19 +306,19 @@ public class NamingTests
 
         // Test direct child
         String path = baseName.getPath() + "/some-child";
-        assertSameName( path, baseName, "some-child", NameScope.DESCENDENT );
+        assertSameName(path, baseName, "some-child", NameScope.DESCENDENT);
 
         // Test compound name
         path = path + "/grand-child";
-        assertSameName( path, baseName, "some-child/grand-child", NameScope.DESCENDENT );
+        assertSameName(path, baseName, "some-child/grand-child", NameScope.DESCENDENT);
 
         // Test relative names
-        assertSameName( path, baseName, "./some-child/grand-child", NameScope.DESCENDENT );
-        assertSameName( path, baseName, "./nada/../some-child/grand-child", NameScope.DESCENDENT );
-        assertSameName( path, baseName, "some-child/./grand-child", NameScope.DESCENDENT );
+        assertSameName(path, baseName, "./some-child/grand-child", NameScope.DESCENDENT);
+        assertSameName(path, baseName, "./nada/../some-child/grand-child", NameScope.DESCENDENT);
+        assertSameName(path, baseName, "some-child/./grand-child", NameScope.DESCENDENT);
 
         // Test badly formed descendent names
-        checkDescendentNames( baseName, NameScope.DESCENDENT );
+        checkDescendentNames(baseName, NameScope.DESCENDENT);
     }
 
     /**
@@ -329,53 +328,53 @@ public class NamingTests
     {
         // Test against the base folder
         FileName name = getReadFolder().getName();
-        checkAbsoluteNames( name );
+        checkAbsoluteNames(name);
 
         // Test against the root
         name = getReadFolder().getFileSystem().getRoot().getName();
-        checkAbsoluteNames( name );
+        checkAbsoluteNames(name);
 
         // Test against some unknown file
-        name = name.resolveName( "a/b/unknown" );
-        checkAbsoluteNames( name );
+        name = name.resolveName("a/b/unknown");
+        checkAbsoluteNames(name);
     }
 
     /**
      * Tests resolution of absolute names.
      */
-    private void checkAbsoluteNames( final FileName name ) throws Exception
+    private void checkAbsoluteNames(final FileName name) throws Exception
     {
         // Root
-        assertSameName( "/", name, "/" );
-        assertSameName( "/", name, "//" );
-        assertSameName( "/", name, "/." );
-        assertSameName( "/", name, "/some file/.." );
+        assertSameName("/", name, "/");
+        assertSameName("/", name, "//");
+        assertSameName("/", name, "/.");
+        assertSameName("/", name, "/some file/..");
 
         // Some absolute names
-        assertSameName( "/a", name, "/a" );
-        assertSameName( "/a", name, "/./a" );
-        assertSameName( "/a", name, "/a/." );
-        assertSameName( "/a/b", name, "/a/b" );
+        assertSameName("/a", name, "/a");
+        assertSameName("/a", name, "/./a");
+        assertSameName("/a", name, "/a/.");
+        assertSameName("/a/b", name, "/a/b");
 
         // Some bad names
-        assertBadName( name, "/..", NameScope.FILE_SYSTEM );
-        assertBadName( name, "/a/../..", NameScope.FILE_SYSTEM );
+        assertBadName(name, "/..", NameScope.FILE_SYSTEM);
+        assertBadName(name, "/a/../..", NameScope.FILE_SYSTEM);
     }
 
     /**
      * Asserts that a particular relative name is invalid for a particular
      * scope.
      */
-    private void assertBadName( final FileName name,
-                                final String relName,
-                                final NameScope scope )
+    private void assertBadName(final FileName name,
+                               final String relName,
+                               final NameScope scope)
     {
         try
         {
-            name.resolveName( relName, scope );
-            fail( "expected failure" );
+            name.resolveName(relName, scope);
+            fail("expected failure");
         }
-        catch ( FileSystemException e )
+        catch (FileSystemException e)
         {
             // TODO - should check error message
         }
@@ -389,59 +388,59 @@ public class NamingTests
         final FileName baseName = getReadFolder().getName();
 
         String path = "/test1/test2";
-        FileName name = baseName.resolveName( path );
-        assertEquals( path, name.getPath() );
+        FileName name = baseName.resolveName(path);
+        assertEquals(path, name.getPath());
 
         // Try child and descendent names
-        testRelName( name, "child" );
-        testRelName( name, "child1/child2" );
+        testRelName(name, "child");
+        testRelName(name, "child1/child2");
 
         // Try own name
-        testRelName( name, "." );
+        testRelName(name, ".");
 
         // Try parent, and root
-        testRelName( name, ".." );
-        testRelName( name, "../.." );
+        testRelName(name, "..");
+        testRelName(name, "../..");
 
         // Try sibling and descendent of sibling
-        testRelName( name, "../sibling" );
-        testRelName( name, "../sibling/child" );
+        testRelName(name, "../sibling");
+        testRelName(name, "../sibling/child");
 
         // Try siblings with similar names
-        testRelName( name, "../test2_not" );
-        testRelName( name, "../test2_not/child" );
-        testRelName( name, "../test" );
-        testRelName( name, "../test/child" );
+        testRelName(name, "../test2_not");
+        testRelName(name, "../test2_not/child");
+        testRelName(name, "../test");
+        testRelName(name, "../test/child");
 
         // Try unrelated
-        testRelName( name, "../../unrelated" );
-        testRelName( name, "../../test" );
-        testRelName( name, "../../test/child" );
+        testRelName(name, "../../unrelated");
+        testRelName(name, "../../test");
+        testRelName(name, "../../test/child");
 
         // Test against root
         path = "/";
-        name = baseName.resolveName( path );
-        assertEquals( path, name.getPath() );
+        name = baseName.resolveName(path);
+        assertEquals(path, name.getPath());
 
         // Try child and descendent names (against root)
-        testRelName( name, "child" );
-        testRelName( name, "child1/child2" );
+        testRelName(name, "child");
+        testRelName(name, "child1/child2");
 
         // Try own name (against root)
-        testRelName( name, "." );
+        testRelName(name, ".");
     }
 
     /**
      * Checks that a file name converts to an expected relative path
      */
-    private void testRelName( final FileName baseName,
-                              final String relPath )
+    private void testRelName(final FileName baseName,
+                             final String relPath)
         throws Exception
     {
-        final FileName expectedName = baseName.resolveName( relPath );
+        final FileName expectedName = baseName.resolveName(relPath);
 
         // Convert to relative path, and check
-        final String actualRelPath = baseName.getRelativeName( expectedName );
-        assertEquals( relPath, actualRelPath );
+        final String actualRelPath = baseName.getRelativeName(expectedName);
+        assertEquals(relPath, actualRelPath);
     }
 }

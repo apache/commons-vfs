@@ -19,17 +19,17 @@ package org.apache.commons.vfs;
  * Listens for changes to a file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 03:35:49 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:45 $
  */
 public interface FileListener
 {
     /**
      * Called when a file is created.
      */
-    void fileCreated( FileChangeEvent event ) throws Exception;
+    void fileCreated(FileChangeEvent event) throws Exception;
 
     /**
      * Called when a file is deleted.
      */
-    void fileDeleted( FileChangeEvent event ) throws Exception;
+    void fileDeleted(FileChangeEvent event) throws Exception;
 }

@@ -15,21 +15,21 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.jar.Attributes;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileUtil;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.jar.Attributes;
 
 /**
  * Helper class for VFSClassLoader. This represents a resource loaded with
  * the classloader.
  *
- * @see VFSClassLoader
- *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:47 $
+ * @see VFSClassLoader
  */
 class Resource
 {
@@ -41,25 +41,25 @@ class Resource
     /**
      * Creates a new instance.
      *
-     * @param root The code source FileObject.
+     * @param root     The code source FileObject.
      * @param resource The resource of the FileObject.
      */
-    public Resource( final String name,
-                     final FileObject root,
-                     final FileObject resource )
+    public Resource(final String name,
+                    final FileObject root,
+                    final FileObject resource)
         throws FileSystemException
     {
         this.root = root;
         this.resource = resource;
         packageFolder = resource.getParent();
-        final int pos = name.lastIndexOf( '/' );
-        if ( pos == -1 )
+        final int pos = name.lastIndexOf('/');
+        if (pos == -1)
         {
             packageName = null;
         }
         else
         {
-            packageName = name.substring( 0, pos ).replace( '/', '.' );
+            packageName = name.substring(0, pos).replace('/', '.');
         }
     }
 
@@ -82,9 +82,9 @@ class Resource
     /**
      * Returns an attribute of the package containing the resource.
      */
-    public String getPackageAttribute( final Attributes.Name attrName ) throws FileSystemException
+    public String getPackageAttribute(final Attributes.Name attrName) throws FileSystemException
     {
-        return (String)packageFolder.getContent().getAttribute( attrName.toString() );
+        return (String) packageFolder.getContent().getAttribute(attrName.toString());
     }
 
     /**
@@ -116,6 +116,6 @@ class Resource
      */
     public byte[] getBytes() throws IOException
     {
-        return FileUtil.getContent( resource );
+        return FileUtil.getContent(resource);
     }
 }

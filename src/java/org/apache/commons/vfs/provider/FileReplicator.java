@@ -15,14 +15,15 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 
+import java.io.File;
+
 /**
  * Responsible for making local replicas of files.
- *
+ * <p/>
  * <p>A file replicator may also implement {@link VfsComponent}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
@@ -33,14 +34,11 @@ public interface FileReplicator
     /**
      * Creates a local copy of the file, and all its descendents.
      *
-     * @param srcFile The file to copy.
+     * @param srcFile  The file to copy.
      * @param selector Selects the files to copy.
-     *
      * @return The local copy of the source file.
-     *
-     * @throws FileSystemException
-     *      If the source files does not exist, or on error copying.
+     * @throws FileSystemException If the source files does not exist, or on error copying.
      */
-    File replicateFile( FileObject srcFile, FileSelector selector )
+    File replicateFile(FileObject srcFile, FileSelector selector)
         throws FileSystemException;
 }

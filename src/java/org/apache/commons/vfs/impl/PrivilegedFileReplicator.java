@@ -15,11 +15,6 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -28,12 +23,18 @@ import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.VfsComponent;
 import org.apache.commons.vfs.provider.VfsComponentContext;
 
+import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
+
 /**
  * A file replicator that wraps another file replicator, performing
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/10 20:09:47 $
  */
 public class PrivilegedFileReplicator
     implements FileReplicator, VfsComponent
@@ -41,12 +42,12 @@ public class PrivilegedFileReplicator
     private final FileReplicator replicator;
     private final VfsComponent replicatorComponent;
 
-    public PrivilegedFileReplicator( FileReplicator replicator )
+    public PrivilegedFileReplicator(FileReplicator replicator)
     {
         this.replicator = replicator;
-        if ( replicator instanceof VfsComponent )
+        if (replicator instanceof VfsComponent)
         {
-            replicatorComponent = (VfsComponent)replicator;
+            replicatorComponent = (VfsComponent) replicator;
         }
         else
         {
@@ -57,22 +58,22 @@ public class PrivilegedFileReplicator
     /**
      * Sets the Logger to use for the component.
      */
-    public void setLogger( final Log logger )
+    public void setLogger(final Log logger)
     {
-        if ( replicatorComponent != null )
+        if (replicatorComponent != null)
         {
-            replicatorComponent.setLogger( logger );
+            replicatorComponent.setLogger(logger);
         }
     }
 
     /**
      * Sets the context for the replicator.
      */
-    public void setContext( final VfsComponentContext context )
+    public void setContext(final VfsComponentContext context)
     {
-        if ( replicatorComponent != null )
+        if (replicatorComponent != null)
         {
-            replicatorComponent.setContext( context );
+            replicatorComponent.setContext(context);
         }
     }
 
@@ -81,15 +82,15 @@ public class PrivilegedFileReplicator
      */
     public void init() throws FileSystemException
     {
-        if ( replicatorComponent != null )
+        if (replicatorComponent != null)
         {
             try
             {
-                AccessController.doPrivileged( new InitAction() );
+                AccessController.doPrivileged(new InitAction());
             }
-            catch ( final PrivilegedActionException e )
+            catch (final PrivilegedActionException e)
             {
-                throw new FileSystemException( "vfs.impl/init-replicator.error", null, e );
+                throw new FileSystemException("vfs.impl/init-replicator.error", null, e);
             }
         }
     }
@@ -99,30 +100,32 @@ public class PrivilegedFileReplicator
      */
     public void close()
     {
-        if ( replicatorComponent != null )
+        if (replicatorComponent != null)
         {
-            AccessController.doPrivileged( new CloseAction() );
+            AccessController.doPrivileged(new CloseAction());
         }
     }
 
     /**
      * Creates a local copy of the file, and all its descendents.
      */
-    public File replicateFile( FileObject srcFile, FileSelector selector )
+    public File replicateFile(FileObject srcFile, FileSelector selector)
         throws FileSystemException
     {
         try
         {
-            final ReplicateAction action = new ReplicateAction( srcFile, selector );
-            return (File)AccessController.doPrivileged( action );
+            final ReplicateAction action = new ReplicateAction(srcFile, selector);
+            return (File) AccessController.doPrivileged(action);
         }
-        catch ( final PrivilegedActionException e )
+        catch (final PrivilegedActionException e)
         {
-            throw new FileSystemException( "vfs.impl/replicate-file.error", new Object[]{srcFile.getName()}, e );
+            throw new FileSystemException("vfs.impl/replicate-file.error", new Object[]{srcFile.getName()}, e);
         }
     }
 
-    /** An action that initialises the wrapped replicator. */
+    /**
+     * An action that initialises the wrapped replicator.
+     */
     private class InitAction implements PrivilegedExceptionAction
     {
         /**
@@ -135,32 +138,40 @@ public class PrivilegedFileReplicator
         }
     }
 
-    /** An action that replicates a file using the wrapped replicator. */
+    /**
+     * An action that replicates a file using the wrapped replicator.
+     */
     private class ReplicateAction implements PrivilegedExceptionAction
     {
         private final FileObject srcFile;
         private final FileSelector selector;
 
-        public ReplicateAction( final FileObject srcFile,
-                                final FileSelector selector )
+        public ReplicateAction(final FileObject srcFile,
+                               final FileSelector selector)
         {
             this.srcFile = srcFile;
             this.selector = selector;
         }
 
-        /** Performs the action. */
+        /**
+         * Performs the action.
+         */
         public Object run() throws Exception
         {
             // TODO - Do not pass the selector through.  It is untrusted
             // TODO - Need to determine which files can be read
-            return replicator.replicateFile( srcFile, selector );
+            return replicator.replicateFile(srcFile, selector);
         }
     }
 
-    /** An action that closes the wrapped replicator. */
+    /**
+     * An action that closes the wrapped replicator.
+     */
     private class CloseAction implements PrivilegedAction
     {
-        /** Performs the action. */
+        /**
+         * Performs the action.
+         */
         public Object run()
         {
             replicatorComponent.close();

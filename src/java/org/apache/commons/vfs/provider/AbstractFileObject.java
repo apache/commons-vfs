@@ -1138,8 +1138,6 @@ public abstract class AbstractFileObject
             {
                 // Locate the parent, if it is cached
                 parent = (AbstractFileObject) fs.getFileFromCache(parentName);
-
-                System.err.println("find parent: " + parentName.toString() + " found: " + parent);
             }
         }
 
@@ -1226,7 +1224,7 @@ public abstract class AbstractFileObject
     /**
      * Check if the content stream is open
      *
-     * @return true it this is the case
+     * @return true if this is the case
      */
     public boolean isContentOpen()
     {
@@ -1236,5 +1234,15 @@ public abstract class AbstractFileObject
         }
 
         return content.isOpen();
+    }
+
+    /**
+     * Check if the internal state is "attached"
+     *
+     * @return true if this is the case
+     */
+    public boolean isAttached()
+    {
+        return attached;
     }
 }

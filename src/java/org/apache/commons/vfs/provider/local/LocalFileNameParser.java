@@ -29,17 +29,17 @@ public abstract class LocalFileNameParser
     /**
      * Determines if a name is an absolute file name.
      */
-    public boolean isAbsoluteName( final String name )
+    public boolean isAbsoluteName(final String name)
     {
         // TODO - this is yucky
-        StringBuffer b = new StringBuffer( name );
+        StringBuffer b = new StringBuffer(name);
         try
         {
-            UriParser.fixSeparators( b );
-            extractRootPrefix( name, b );
+            UriParser.fixSeparators(b);
+            extractRootPrefix(name, b);
             return true;
         }
-        catch ( FileSystemException e )
+        catch (FileSystemException e)
         {
             return false;
         }
@@ -48,8 +48,8 @@ public abstract class LocalFileNameParser
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
-    protected abstract String extractRootPrefix( final String uri,
-                                                 final StringBuffer name )
+    protected abstract String extractRootPrefix(final String uri,
+                                                final StringBuffer name)
         throws FileSystemException;
 
 }

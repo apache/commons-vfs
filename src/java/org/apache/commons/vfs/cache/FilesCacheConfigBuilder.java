@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FilesCache;
  * The config builder for various cache configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/03 19:48:47 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/10 20:09:48 $
  */
 public class FilesCacheConfigBuilder extends FileSystemConfigBuilder
 {

@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileObject;
  * Test cases for getting and setting file last modified time.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:44 $
  */
 public class LastModifiedTests
     extends AbstractProviderTestCase
@@ -32,7 +32,7 @@ public class LastModifiedTests
      */
     protected Capability[] getRequiredCaps()
     {
-        return new Capability[] {
+        return new Capability[]{
             Capability.GET_LAST_MODIFIED
         };
     }
@@ -40,9 +40,10 @@ public class LastModifiedTests
     /**
      * Tests getting the last modified time of a file.
      */
-    public void testGetLastModified() throws Exception {
+    public void testGetLastModified() throws Exception
+    {
         // Try a file.
-        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
         file.getContent().getLastModifiedTime();
 
         // TODO - switch this on
@@ -54,8 +55,9 @@ public class LastModifiedTests
     /**
      * Tests setting the last modified time of file.
      */
-    public void testSetLastModified() throws Exception {
-        if ( !getReadFolder().getFileSystem().hasCapability( Capability.SET_LAST_MODIFIED ) )
+    public void testSetLastModified() throws Exception
+    {
+        if (!getReadFolder().getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED))
         {
             // Can't set last modified
             return;
@@ -63,13 +65,13 @@ public class LastModifiedTests
         final long now = System.currentTimeMillis();
 
         // Try a file
-        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        file.getContent().setLastModifiedTime( now);
-        assertEquals( now, file.getContent().getLastModifiedTime() );
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
+        file.getContent().setLastModifiedTime(now);
+        assertEquals(now, file.getContent().getLastModifiedTime());
 
         // Try a folder
-        final FileObject folder = getReadFolder().resolveFile( "dir1" );
-        folder.getContent().setLastModifiedTime( now );
-        assertEquals( now, folder.getContent().getLastModifiedTime() );
+        final FileObject folder = getReadFolder().resolveFile("dir1");
+        folder.getContent().setLastModifiedTime(now);
+        assertEquals(now, folder.getContent().getLastModifiedTime());
     }
 }

@@ -542,7 +542,7 @@ public class DefaultFileSystemManager
     public FileObject createVirtualFileSystem(final FileObject rootFile)
         throws FileSystemException
     {
-        return vfsProvider.createFileSystem(this, rootFile);
+        return vfsProvider.createFileSystem(rootFile);
     }
 
     /**
@@ -551,7 +551,7 @@ public class DefaultFileSystemManager
     public FileObject createVirtualFileSystem(final String rootUri)
         throws FileSystemException
     {
-        return vfsProvider.createFileSystem(this, rootUri);
+        return vfsProvider.createFileSystem(rootUri);
     }
 
     /**

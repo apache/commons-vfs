@@ -25,7 +25,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -37,7 +36,7 @@ import java.util.Collection;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/03 19:48:49 $
+ * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:51 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
@@ -47,12 +46,11 @@ class SftpFileSystem
     private final JSch jSch;
     private ChannelSftp idleChannel;
 
-    public SftpFileSystem(final FileSystemManager manager,
-                          final GenericFileName rootName,
+    public SftpFileSystem(final GenericFileName rootName,
                           final JSch jSch,
                           final FileSystemOptions fileSystemOptions)
     {
-        super(manager, rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions);
         this.jSch = jSch;
     }
 

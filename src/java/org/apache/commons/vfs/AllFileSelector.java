@@ -27,7 +27,7 @@ public final class AllFileSelector
     /**
      * Determines if a file or folder should be selected.
      */
-    public boolean includeFile( final FileSelectInfo fileInfo )
+    public boolean includeFile(final FileSelectInfo fileInfo)
     {
         return true;
     }
@@ -35,7 +35,7 @@ public final class AllFileSelector
     /**
      * Determines whether a folder should be traversed.
      */
-    public boolean traverseDescendents( final FileSelectInfo fileInfo )
+    public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
         return true;
     }

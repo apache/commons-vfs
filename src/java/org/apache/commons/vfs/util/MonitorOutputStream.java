@@ -23,16 +23,16 @@ import java.io.OutputStream;
  * An OutputStream that provides buffering and end-of-stream monitoring.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:50 $
  */
 public class MonitorOutputStream
     extends BufferedOutputStream
 {
     private boolean finished;
 
-    public MonitorOutputStream( final OutputStream out )
+    public MonitorOutputStream(final OutputStream out)
     {
-        super( out );
+        super(out);
     }
 
     /**
@@ -40,7 +40,7 @@ public class MonitorOutputStream
      */
     public void close() throws IOException
     {
-        if ( finished )
+        if (finished)
         {
             return;
         }
@@ -51,7 +51,7 @@ public class MonitorOutputStream
         {
             super.close();
         }
-        catch ( final IOException ioe )
+        catch (final IOException ioe)
         {
             exc = ioe;
         }
@@ -61,14 +61,14 @@ public class MonitorOutputStream
         {
             onClose();
         }
-        catch ( final IOException ioe )
+        catch (final IOException ioe)
         {
             exc = ioe;
         }
 
         finished = true;
 
-        if ( exc != null )
+        if (exc != null)
         {
             throw exc;
         }

@@ -16,7 +16,6 @@
 package org.apache.commons.vfs.impl;
 
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.util.Messages;
@@ -25,7 +24,6 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -34,7 +32,7 @@ import java.util.ArrayList;
  * from an XML configuration file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.16 $ $Date: 2004/05/03 19:48:47 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/10 20:09:47 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -278,9 +276,7 @@ public class StandardFileSystemManager
         try
         {
             final Class providerClass = classLoader.loadClass(providerClassName);
-            Constructor constructor = providerClass.getConstructor(new Class[]{FileSystemManager.class});
-            return (FileProvider) constructor.newInstance(new Object[]{this});
-            // return (FileProvider)providerClass.newInstance();
+            return (FileProvider) providerClass.newInstance();
         }
         catch (final Exception e)
         {

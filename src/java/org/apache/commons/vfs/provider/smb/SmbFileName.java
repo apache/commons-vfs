@@ -24,7 +24,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:52 $
  */
 public class SmbFileName
     extends GenericFileName
@@ -33,52 +33,52 @@ public class SmbFileName
 
     private final String share;
 
-    private SmbFileName( final String scheme,
-                         final String hostName,
-                         final int port,
-                         final String userName,
-                         final String password,
-                         final String share,
-                         final String path )
+    private SmbFileName(final String scheme,
+                        final String hostName,
+                        final int port,
+                        final String userName,
+                        final String password,
+                        final String share,
+                        final String path)
     {
-        super( scheme, hostName, port, DEFAULT_PORT, userName, password, path );
+        super(scheme, hostName, port, DEFAULT_PORT, userName, password, path);
         this.share = share;
     }
 
     /**
      * Parses an SMB URI.
      */
-    public static SmbFileName parseUri( final String uri )
+    public static SmbFileName parseUri(final String uri)
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
         // Extract the scheme and authority parts
-        final Authority auth = extractToPath( uri, name );
+        final Authority auth = extractToPath(uri, name);
 
         // Decode and adjust separators
-        UriParser.decode( name, 0, name.length() );
-        UriParser.fixSeparators( name );
+        UriParser.decode(name, 0, name.length());
+        UriParser.fixSeparators(name);
 
         // Extract the share
-        final String share = UriParser.extractFirstElement( name );
-        if ( share == null || share.length() == 0 )
+        final String share = UriParser.extractFirstElement(name);
+        if (share == null || share.length() == 0)
         {
-            throw new FileSystemException( "vfs.provider.smb/missing-share-name.error", uri );
+            throw new FileSystemException("vfs.provider.smb/missing-share-name.error", uri);
         }
 
         // Normalise the path.  Do this after extracting the share name,
         // to deal with things like smb://hostname/share/..
-        UriParser.normalisePath( name );
+        UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return new SmbFileName( auth.scheme,
-                                auth.hostName,
-                                auth.port,
-                                auth.userName,
-                                auth.password,
-                                share,
-                                path );
+        return new SmbFileName(auth.scheme,
+            auth.hostName,
+            auth.port,
+            auth.userName,
+            auth.password,
+            share,
+            path);
     }
 
     /**
@@ -92,24 +92,24 @@ public class SmbFileName
     /**
      * Builds the root URI for this file name.
      */
-    protected void appendRootUri( final StringBuffer buffer )
+    protected void appendRootUri(final StringBuffer buffer)
     {
-        super.appendRootUri( buffer );
-        buffer.append( '/' );
-        buffer.append( share );
+        super.appendRootUri(buffer);
+        buffer.append('/');
+        buffer.append(share);
     }
 
     /**
      * Factory method for creating name instances.
      */
-    protected FileName createName( final String path )
+    protected FileName createName(final String path)
     {
-        return new SmbFileName( getScheme(),
-                                getHostName(),
-                                getPort(),
-                                getUserName(),
-                                getPassword(),
-                                share,
-                                path );
+        return new SmbFileName(getScheme(),
+            getHostName(),
+            getPort(),
+            getUserName(),
+            getPassword(),
+            share,
+            path);
     }
 }

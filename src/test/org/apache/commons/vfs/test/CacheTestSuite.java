@@ -13,14 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package code.sealed;
+package org.apache.commons.vfs.test;
+
 
 /**
- * A test class for the ClassLoader tests.
+ * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:46 $
+ * @author Gary D. Gregory
+ * @version $Id: CacheTestSuite.java,v 1.1 2004/05/10 20:09:44 imario Exp $
  */
-public class AnotherClass
+public class CacheTestSuite
+    extends AbstractTestSuite
 {
+    /**
+     * Adds the tests for a file system to this suite.
+     */
+    public CacheTestSuite(final ProviderTestConfig providerConfig) throws Exception
+    {
+        this(providerConfig, "", false);
+    }
+
+    protected CacheTestSuite(final ProviderTestConfig providerConfig,
+                             final String prefix,
+                             final boolean nested)
+        throws Exception
+    {
+        super(providerConfig, prefix, nested);
+    }
 }

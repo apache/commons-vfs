@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileSystem;
  * It compares the fileSystem (by hashCode) and the filename.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/07 19:09:56 $
+ * @version $Revision: 1.2 $ $Date: 2004/05/10 20:09:48 $
  */
 class FileSystemAndNameKey implements Comparable
 {

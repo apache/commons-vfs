@@ -19,7 +19,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
@@ -28,15 +27,15 @@ import org.apache.commons.vfs.provider.FileProvider;
  * A file system provider for Zip files.  Provides read-only file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/03 19:48:49 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:54 $
  */
 public class ZipFileProvider
     extends AbstractLayeredFileProvider
     implements FileProvider
 {
-    public ZipFileProvider(FileSystemManager manager)
+    public ZipFileProvider()
     {
-        super(manager);
+        super();
     }
 
     /**
@@ -65,6 +64,6 @@ public class ZipFileProvider
     {
         final FileName rootName =
             new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
-        return new ZipFileSystem(getFileSystemManager(), rootName, file, fileSystemOptions);
+        return new ZipFileSystem(rootName, file, fileSystemOptions);
     }
 }

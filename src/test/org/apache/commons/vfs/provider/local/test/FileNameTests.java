@@ -15,15 +15,16 @@
  */
 package org.apache.commons.vfs.provider.local.test;
 
-import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
+
+import java.io.File;
 
 /**
  * Additional naming tests for local file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:49 $
  */
 public class FileNameTests
     extends AbstractProviderTestCase
@@ -34,13 +35,13 @@ public class FileNameTests
     public void testAbsoluteFileName() throws Exception
     {
         // Locate file by absolute file name
-        String fileName = new File( "testdir" ).getAbsolutePath();
-        FileObject absFile = getManager().resolveFile( fileName );
+        String fileName = new File("testdir").getAbsolutePath();
+        FileObject absFile = getManager().resolveFile(fileName);
 
         // Locate file by URI
-        String uri = "file://" + fileName.replace( File.separatorChar, '/' );
-        FileObject uriFile = getManager().resolveFile( uri );
+        String uri = "file://" + fileName.replace(File.separatorChar, '/');
+        FileObject uriFile = getManager().resolveFile(uri);
 
-        assertSame( "file object", absFile, uriFile );
+        assertSame("file object", absFile, uriFile);
     }
 }

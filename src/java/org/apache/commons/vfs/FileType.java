@@ -27,29 +27,29 @@ public final class FileType
      * A folder.  May contain other files, and have attributes, but does not
      * have any data content.
      */
-    public static final FileType FOLDER = new FileType( "folder", true, false, true );
+    public static final FileType FOLDER = new FileType("folder", true, false, true);
 
     /**
      * A regular file.  May have data content and attributes, but cannot
      * contain other files.
      */
-    public static final FileType FILE = new FileType( "file", false, true, true );
+    public static final FileType FILE = new FileType("file", false, true, true);
 
     /**
      * A file that does not exist.  May not have data content, attributes,
      * or contain other files.
      */
-    public static final FileType IMAGINARY = new FileType( "imaginary", false, false, false );
+    public static final FileType IMAGINARY = new FileType("imaginary", false, false, false);
 
     private final String name;
     private final boolean hasChildren;
     private final boolean hasContent;
     private final boolean hasAttrs;
 
-    private FileType( final String name,
-                      final boolean hasChildren,
-                      final boolean hasContent,
-                      final boolean hasAttrs )
+    private FileType(final String name,
+                     final boolean hasChildren,
+                     final boolean hasContent,
+                     final boolean hasAttrs)
     {
         this.name = name;
         this.hasChildren = hasChildren;

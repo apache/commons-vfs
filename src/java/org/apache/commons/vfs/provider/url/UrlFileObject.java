@@ -15,23 +15,23 @@
  */
 package org.apache.commons.vfs.provider.url;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+
 /**
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/28 03:35:52 $
- *
+ * @version $Revision: 1.12 $ $Date: 2004/05/10 20:09:53 $
  * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()
  */
@@ -41,10 +41,10 @@ class UrlFileObject
 {
     private URL url;
 
-    public UrlFileObject( final UrlFileSystem fs,
-                          final FileName fileName )
+    public UrlFileObject(final UrlFileSystem fs,
+                         final FileName fileName)
     {
-        super( fileName, fs );
+        super(fileName, fs);
     }
 
     /**
@@ -54,9 +54,9 @@ class UrlFileObject
      */
     protected void doAttach() throws Exception
     {
-        if ( url == null )
+        if (url == null)
         {
-            url = new URL( getName().getURI() );
+            url = new URL(getName().getURI());
         }
     }
 
@@ -74,9 +74,9 @@ class UrlFileObject
             {
                 if (conn instanceof HttpURLConnection)
                 {
-                    final int status = ((HttpURLConnection)conn).getResponseCode();
+                    final int status = ((HttpURLConnection) conn).getResponseCode();
                     // 200 is good, maybe add more later...
-                    if ( HttpURLConnection.HTTP_OK != status)
+                    if (HttpURLConnection.HTTP_OK != status)
                     {
                         return FileType.IMAGINARY;
                     }
@@ -89,7 +89,7 @@ class UrlFileObject
                 in.close();
             }
         }
-        catch ( final FileNotFoundException e )
+        catch (final FileNotFoundException e)
         {
             return FileType.IMAGINARY;
         }
@@ -135,7 +135,7 @@ class UrlFileObject
      */
     protected String[] doListChildren() throws Exception
     {
-        throw new FileSystemException( "Not implemented." );
+        throw new FileSystemException("Not implemented.");
     }
 
     /**

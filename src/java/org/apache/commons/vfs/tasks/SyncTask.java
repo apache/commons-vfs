@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileObject;
  * the source folder (or folders).
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:45 $
  */
 public class SyncTask
     extends CopyTask
@@ -30,10 +30,10 @@ public class SyncTask
     /**
      * Handles a destination for which there is no corresponding source file.
      */
-    protected void handleMissingSourceFile( final FileObject destFile )
+    protected void handleMissingSourceFile(final FileObject destFile)
         throws Exception
     {
-        log( "deleting " + destFile );
+        log("deleting " + destFile);
         //destFile.delete( Selectors.SELECT_SELF );
     }
 

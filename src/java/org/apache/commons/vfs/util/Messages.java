@@ -25,11 +25,13 @@ import java.util.ResourceBundle;
  * Formats messages.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:50 $
  */
 public class Messages
 {
-    /** Map from message code to MessageFormat object for the message. */
+    /**
+     * Map from message code to MessageFormat object for the message.
+     */
     private static Map messages = new HashMap();
     private static ResourceBundle resources;
 
@@ -43,38 +45,38 @@ public class Messages
      * @param code The message code.
      * @return The formatted message.
      */
-    public static String getString( final String code )
+    public static String getString(final String code)
     {
-        return getString( code, new Object[ 0 ] );
+        return getString(code, new Object[0]);
     }
 
     /**
      * Formats a message.
      *
-     * @param code The message code.
+     * @param code  The message code.
      * @param param The message parameter.
      * @return The formatted message.
      */
-    public static String getString( final String code, final Object param )
+    public static String getString(final String code, final Object param)
     {
-        return getString( code, new Object[]{param} );
+        return getString(code, new Object[]{param});
     }
 
     /**
      * Formats a message.
      *
-     * @param code The message code.
+     * @param code   The message code.
      * @param params The message parameters.
      * @return The formatted message.
      */
-    public static String getString( final String code, final Object[] params )
+    public static String getString(final String code, final Object[] params)
     {
         try
         {
-            final MessageFormat msg = findMessage( code );
-            return msg.format( params );
+            final MessageFormat msg = findMessage(code);
+            return msg.format(params);
         }
-        catch ( final MissingResourceException mre )
+        catch (final MissingResourceException mre)
         {
             return "Unknown message with code \"" + code + "\".";
         }
@@ -83,24 +85,24 @@ public class Messages
     /**
      * Locates a message by its code.
      */
-    private static synchronized MessageFormat findMessage( final String code )
+    private static synchronized MessageFormat findMessage(final String code)
         throws MissingResourceException
     {
         // Check if the message is cached
-        MessageFormat msg = (MessageFormat)messages.get( code );
-        if ( msg != null )
+        MessageFormat msg = (MessageFormat) messages.get(code);
+        if (msg != null)
         {
             return msg;
         }
 
         // Locate the message
-        if ( resources == null )
+        if (resources == null)
         {
-            resources = ResourceBundle.getBundle( "org.apache.commons.vfs.Resources" );
+            resources = ResourceBundle.getBundle("org.apache.commons.vfs.Resources");
         }
-        final String msgText = resources.getString( code );
-        msg = new MessageFormat( msgText );
-        messages.put( code, msg );
+        final String msgText = resources.getString(code);
+        msg = new MessageFormat(msgText);
+        messages.put(code, msg);
         return msg;
     }
 }

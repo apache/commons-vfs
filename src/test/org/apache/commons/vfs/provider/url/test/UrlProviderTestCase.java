@@ -31,7 +31,7 @@ import java.net.URL;
  * Test cases for the generic provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/03 19:48:49 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:53 $
  */
 public class UrlProviderTestCase
     extends AbstractProviderTestConfig
@@ -47,7 +47,7 @@ public class UrlProviderTestCase
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider("file", new UrlFileProvider(manager));
+        manager.addProvider("file", new UrlFileProvider());
     }
 
     /**

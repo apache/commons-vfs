@@ -15,18 +15,19 @@
  */
 package org.apache.commons.vfs.test;
 
-import java.io.File;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.VFS;
 
+import java.io.File;
+
 /**
  * Test cases for the VFS factory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/10 20:09:44 $
  */
 public class FileSystemManagerFactoryTestCase
     extends AbstractVfsTestCase
@@ -40,17 +41,17 @@ public class FileSystemManagerFactoryTestCase
         final FileSystemManager manager = VFS.getManager();
 
         // Lookup a test jar file
-        final File jarFile = getTestResource( "test.jar" );
-        FileObject file = manager.toFileObject( jarFile );
-        assertNotNull( file );
-        assertTrue( file.exists() );
-        assertSame( FileType.FILE, file.getType() );
+        final File jarFile = getTestResource("test.jar");
+        FileObject file = manager.toFileObject(jarFile);
+        assertNotNull(file);
+        assertTrue(file.exists());
+        assertSame(FileType.FILE, file.getType());
 
         // Expand it
-        file = manager.createFileSystem( file );
-        assertNotNull( file );
-        assertTrue( file.exists() );
-        assertSame( FileType.FOLDER, file.getType() );
+        file = manager.createFileSystem(file);
+        assertNotNull(file);
+        assertTrue(file.exists());
+        assertSame(FileType.FOLDER, file.getType());
     }
 
 }

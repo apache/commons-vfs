@@ -15,8 +15,9 @@
  */
 package org.apache.commons.vfs;
 
-import java.io.IOException;
 import org.apache.commons.vfs.util.Messages;
+
+import java.io.IOException;
 
 /**
  * Thrown for file system errors.
@@ -45,72 +46,72 @@ public final class FileSystemException
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param   code   the error code of the message.
+     * @param code the error code of the message.
      */
-    public FileSystemException( final String code )
+    public FileSystemException(final String code)
     {
-        this( code, null, null );
+        this(code, null, null);
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param   code   the error code of the message.
-     * @param   info0  one context information.
+     * @param code  the error code of the message.
+     * @param info0 one context information.
      */
-    public FileSystemException( final String code, final Object info0 )
+    public FileSystemException(final String code, final Object info0)
     {
-        this( code, new Object[]{info0}, null );
+        this(code, new Object[]{info0}, null);
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param   code   the error code of the message.
-     * @param   info0  one context information.
-     * @param   throwable the cause.
+     * @param code      the error code of the message.
+     * @param info0     one context information.
+     * @param throwable the cause.
      */
-    public FileSystemException( final String code,
-                                final Object info0,
-                                final Throwable throwable )
+    public FileSystemException(final String code,
+                               final Object info0,
+                               final Throwable throwable)
     {
-        this( code, new Object[]{info0}, throwable );
+        this(code, new Object[]{info0}, throwable);
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param   code   the error code of the message.
-     * @param   info   array of complementary info (context).
+     * @param code the error code of the message.
+     * @param info array of complementary info (context).
      */
-    public FileSystemException( final String code, final Object[] info )
+    public FileSystemException(final String code, final Object[] info)
     {
-        this( code, info, null );
+        this(code, info, null);
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param   code   the error code of the message.
-     * @param   info   array of complementary info (context).
-     * @param   throwable the cause.
+     * @param code      the error code of the message.
+     * @param info      array of complementary info (context).
+     * @param throwable the cause.
      */
-    public FileSystemException( final String code,
-                                final Object[] info,
-                                final Throwable throwable )
+    public FileSystemException(final String code,
+                               final Object[] info,
+                               final Throwable throwable)
     {
-        super( Messages.getString( code, info ) );
+        super(Messages.getString(code, info));
 
-        if ( info == null )
+        if (info == null)
         {
-            this.info = new String[ 0 ];
+            this.info = new String[0];
         }
         else
         {
-            this.info = new String[ info.length ];
-            for ( int i = 0; i < info.length; i++ )
+            this.info = new String[info.length];
+            for (int i = 0; i < info.length; i++)
             {
-                this.info[ i ] = String.valueOf( info[ i ] );
+                this.info[i] = String.valueOf(info[i]);
             }
         }
         this.code = code;
@@ -122,9 +123,9 @@ public final class FileSystemException
      *
      * @param throwable the root cause to wrap.
      */
-    public FileSystemException( final Throwable throwable )
+    public FileSystemException(final Throwable throwable)
     {
-        this( throwable.getMessage(), null, throwable );
+        this(throwable.getMessage(), null, throwable);
     }
 
     /**

@@ -29,16 +29,16 @@ public class GenericFileNameParser
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
-    protected String extractRootPrefix( final String uri,
-                                        final StringBuffer name )
+    protected String extractRootPrefix(final String uri,
+                                       final StringBuffer name)
         throws FileSystemException
     {
         // TODO - this class isn't generic at all.  Need to fix this
 
         // Looking for <sep>
-        if ( name.length() == 0 || name.charAt( 0 ) != '/' )
+        if (name.length() == 0 || name.charAt(0) != '/')
         {
-            throw new FileSystemException( "vfs.provider.local/not-absolute-file-name.error", uri );
+            throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);
         }
 
         return "/";

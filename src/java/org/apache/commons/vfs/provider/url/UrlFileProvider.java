@@ -19,7 +19,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.BasicFileName;
@@ -31,14 +30,14 @@ import java.net.URL;
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.18 $ $Date: 2004/05/03 19:48:49 $
+ * @version $Revision: 1.19 $ $Date: 2004/05/10 20:09:53 $
  */
 public class UrlFileProvider
     extends AbstractFileProvider
 {
-    public UrlFileProvider(FileSystemManager manager)
+    public UrlFileProvider()
     {
-        super(manager);
+        super();
     }
 
     /**
@@ -59,7 +58,7 @@ public class UrlFileProvider
             {
                 final FileName rootName =
                     new BasicFileName(rootUrl, FileName.ROOT_PATH);
-                fs = new UrlFileSystem(getFileSystemManager(), rootName, fileSystemOptions);
+                fs = new UrlFileSystem(rootName, fileSystemOptions);
                 addFileSystem(key, fs);
             }
             return fs.resolveFile(url.getPath());

@@ -31,7 +31,7 @@ import org.apache.commons.vfs.FilesCache;
  * </p>
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/08 19:48:30 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/10 20:09:48 $
  */
 public class NullFilesCache implements FilesCache
 {
@@ -53,6 +53,10 @@ public class NullFilesCache implements FilesCache
     }
 
     public void removeFile(FileSystem filesystem, FileName name)
+    {
+    }
+
+    public void accessFile(FileObject file)
     {
     }
 }
