@@ -34,7 +34,7 @@ import java.util.Collection;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.14 $ $Date: 2004/05/19 19:34:07 $
+ * @version $Revision: 1.15 $ $Date: 2004/08/26 16:42:15 $
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider
@@ -87,7 +87,7 @@ public class TemporaryFileProvider
     /**
      * Locates a file object, by absolute URI.
      */
-    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions properties)
+    public synchronized FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions properties)
         throws FileSystemException
     {
         // Parse the name

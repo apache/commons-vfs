@@ -35,7 +35,7 @@ import java.util.Collections;
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.22 $ $Date: 2004/05/20 18:47:30 $
+ * @version $Revision: 1.23 $ $Date: 2004/08/26 16:44:38 $
  */
 public class UrlFileProvider
     extends AbstractFileProvider
@@ -55,9 +55,9 @@ public class UrlFileProvider
     /**
      * Locates a file object, by absolute URI.
      */
-    public FileObject findFile(final FileObject baseFile,
-                               final String uri,
-                               final FileSystemOptions fileSystemOptions)
+    public synchronized FileObject findFile(final FileObject baseFile,
+                                            final String uri,
+                                            final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         try
