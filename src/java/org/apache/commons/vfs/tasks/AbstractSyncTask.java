@@ -57,7 +57,6 @@ package org.apache.commons.vfs.tasks;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -79,7 +78,7 @@ import org.apache.tools.ant.Project;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/25 03:59:10 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/20 23:57:13 $
  *
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
@@ -230,11 +229,10 @@ public abstract class AbstractSyncTask
             else
             {
                 // Find matching files
-                final List files = rootFile.findFiles( Selectors.SELECT_FILES );
-                final int count = files.size();
-                for ( int j = 0; j < count; j++ )
+                final FileObject[] files = rootFile.findFiles( Selectors.SELECT_FILES );
+                for ( int j = 0; j < files.length; j++ )
                 {
-                    final FileObject srcFile = (FileObject)files.get( j );
+                    final FileObject srcFile = files[ j ];
 
                     // Build the destination file name
                     final String relName =
@@ -251,13 +249,14 @@ public abstract class AbstractSyncTask
         // Scan the destination files for files with no source file
         if ( detectMissingSourceFiles() )
         {
-            final List extraFiles = destFolder.findFiles( Selectors.SELECT_FILES );
-            extraFiles.removeAll( destFiles );
-            final int count = extraFiles.size();
-            for ( int i = 0; i < count; i++ )
+            final FileObject[] allDestFiles = destFolder.findFiles( Selectors.SELECT_FILES );
+            for ( int i = 0; i < allDestFiles.length; i++ )
             {
-                final FileObject destFile = (FileObject)extraFiles.get( i );
-                handleMissingSourceFile( destFile );
+                final FileObject destFile = allDestFiles[ i ];
+                if ( ! destFiles.contains( destFile ) )
+                {
+                    handleMissingSourceFile( destFile );
+                }
             }
         }
     }

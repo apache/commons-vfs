@@ -1096,16 +1096,16 @@ public abstract class AbstractFileSystemTestCase
         final VerifyingFileSelector selector = new VerifyingFileSelector( fileInfo );
 
         // Find the files
-        final List actualFiles = baseFolder.findFiles( selector );
+        final FileObject[] actualFiles = baseFolder.findFiles( selector );
 
         // Compare actual and expected list of files
         final List expectedFiles = selector.finish();
-        assertEquals( expectedFiles.size(), actualFiles.size() );
+        assertEquals( expectedFiles.size(), actualFiles.length );
         final int count = expectedFiles.size();
         for ( int i = 0; i < count; i++ )
         {
             final FileObject expected = (FileObject)expectedFiles.get( i );
-            final FileObject actual = (FileObject)actualFiles.get( i );
+            final FileObject actual = actualFiles[ i ];
             assertEquals( expected, actual );
         }
     }

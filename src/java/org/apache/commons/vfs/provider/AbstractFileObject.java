@@ -739,11 +739,11 @@ public abstract class AbstractFileObject
      * Finds the set of matching descendents of this file, in depthwise
      * order.
      */
-    public List findFiles( final FileSelector selector ) throws FileSystemException
+    public FileObject[] findFiles( final FileSelector selector ) throws FileSystemException
     {
         final ArrayList list = new ArrayList();
         findFiles( selector, true, list );
-        return list;
+        return (FileObject[])list.toArray( new FileObject[ list.size() ] );
     }
 
     /**

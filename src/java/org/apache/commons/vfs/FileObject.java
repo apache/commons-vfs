@@ -57,7 +57,6 @@ package org.apache.commons.vfs;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
 /**
  * Represents a file, and is used to access the content and
@@ -259,7 +258,7 @@ public interface FileObject
      *
      * @todo Use the same return type for getChildren() and findFiles().
      */
-    List findFiles( FileSelector selector ) throws FileSystemException;
+    FileObject[] findFiles( FileSelector selector ) throws FileSystemException;
 
     /**
      * Deletes this file.  Does nothing if this file does not exist.  Does
