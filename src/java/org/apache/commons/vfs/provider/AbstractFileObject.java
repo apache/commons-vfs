@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -24,6 +25,7 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileUtil;
+import org.apache.commons.vfs.GlobalConfiguration;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.Selectors;
 
@@ -849,7 +851,7 @@ public abstract class AbstractFileObject
         attach();
         if (content == null)
         {
-            content = new DefaultFileContent(this);
+            content = new DefaultFileContent(this, createFileContentInfoFactory());
         }
         return content;
     }
@@ -1244,5 +1246,14 @@ public abstract class AbstractFileObject
     public boolean isAttached()
     {
         return attached;
+    }
+
+    /**
+     * create the filecontentinfo implementation
+     */
+    protected FileContentInfoFactory createFileContentInfoFactory()
+    {
+        GlobalConfiguration gc = getFileSystem().getFileSystemManager().getGlobalConfiguration();
+        return gc.getFileContentInfoFactory();
     }
 }

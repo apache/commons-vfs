@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileSystemException;
 
@@ -73,6 +72,31 @@ public final class DefaultURLConnection
         return -1;
     }
 
+    public String getContentType()
+    {
+        try
+        {
+            return content.getContentInfo().getContentType();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getContentEncoding()
+    {
+        try
+        {
+            return content.getContentInfo().getContentEncoding();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /*
     public String getHeaderField(String name)
     {
         try
@@ -93,4 +117,5 @@ public final class DefaultURLConnection
             throw new RuntimeException(e);
         }
     }
+    */
 }

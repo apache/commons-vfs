@@ -16,12 +16,12 @@
 package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HeaderElement;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.DateParser;
+import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
@@ -31,14 +31,12 @@ import org.apache.commons.vfs.util.MonitorInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * A file object backed by commons httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/20 19:34:01 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/21 20:43:30 $
  * @todo status codes
  */
 public class HttpFileObject
@@ -189,6 +187,18 @@ public class HttpFileObject
         }
     }
 
+
+    protected FileContentInfoFactory createFileContentInfoFactory()
+    {
+        return new HttpFileContentInfoFactory();
+    }
+
+    HeadMethod getHeadMethod()
+    {
+        return method;
+    }
+
+    /*
     protected Map doGetAttributes() throws Exception
     {
         TreeMap map = new TreeMap();
@@ -206,4 +216,5 @@ public class HttpFileObject
         map.put("content-encoding", method.getResponseCharSet());
         return map;
     }
+    */
 }

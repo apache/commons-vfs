@@ -179,4 +179,10 @@ public interface FileContent
      * method.
      */
     void close() throws FileSystemException;
+
+
+    /**
+     * get the content info. e.g. type, encoding, ...
+     */
+    public FileContentInfo getContentInfo() throws FileSystemException;
 }

@@ -16,6 +16,8 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileContentInfo;
+import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.util.MonitorInputStream;
@@ -49,10 +51,13 @@ public final class DefaultFileContent
     private FileContentOutputStream outstr;
     private Map attrs;
     private Map roAttrs;
+    private FileContentInfo fileContentInfo;
+    private final FileContentInfoFactory fileContentInfoFactory;
 
-    public DefaultFileContent(final AbstractFileObject file)
+    public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory)
     {
         this.file = file;
+        this.fileContentInfoFactory = fileContentInfoFactory;
     }
 
     /**
@@ -422,4 +427,16 @@ public final class DefaultFileContent
         }
     }
 
+    /**
+     * get the content info. e.g. content-type, content-encoding
+     */
+    public FileContentInfo getContentInfo() throws FileSystemException
+    {
+        if (fileContentInfo == null)
+        {
+            fileContentInfo = fileContentInfoFactory.create(this);
+        }
+
+        return fileContentInfo;
+    }
 }

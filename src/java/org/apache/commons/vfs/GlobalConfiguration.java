@@ -16,6 +16,7 @@
 package org.apache.commons.vfs;
 
 import org.apache.commons.vfs.cache.DefaultFilesCache;
+import org.apache.commons.vfs.impl.FileContentInfoFilenameFactory;
 import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.VfsComponent;
 
@@ -23,13 +24,14 @@ import org.apache.commons.vfs.provider.VfsComponent;
  * Global parameters to configure the VFS system.
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/17 20:13:20 $
+ * @version $Revision: 1.3 $ $Date: 2004/05/21 20:43:29 $
  */
 public final class GlobalConfiguration extends AbstractVfsComponent
 {
     private boolean inUse = false;
 
     private FilesCache filesCache = new DefaultFilesCache();
+    private FileContentInfoFactory fileContentInfoFactory = new FileContentInfoFilenameFactory();
 
     public GlobalConfiguration()
     {
@@ -102,5 +104,21 @@ public final class GlobalConfiguration extends AbstractVfsComponent
     public FilesCache getFilesCache()
     {
         return filesCache;
+    }
+
+    /**
+     * returns the fileContentInfoFactory used to determine the infos of a file content.
+     */
+    public FileContentInfoFactory getFileContentInfoFactory()
+    {
+        return fileContentInfoFactory;
+    }
+
+    /**
+     * set the fileContentInfoFactory used to determine the infos of a file content.
+     */
+    public void setFileContentInfoFactory(FileContentInfoFactory fileContentInfoFactory)
+    {
+        this.fileContentInfoFactory = fileContentInfoFactory;
     }
 }
