@@ -35,4 +35,11 @@ public abstract class AbstractFileProvider
     {
         m_context = context;
     }
+
+    /**
+     * Closes the provider.  This implementation does nothing.
+     */
+    public void close()
+    {
+    }
 }
