@@ -12,8 +12,8 @@
                 <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>.
             </p>
             <p>
-                You will also need to download the jars used by VFS.  These are
-                listed below:
+                You will also need to download the jars used by Commons VFS.
+                These are listed below:
             </p>
             <table>
                 <tr>
@@ -31,10 +31,32 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/net/index.html">Commons Net</a>.
+                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a>.
+                        You will need to use a recent snapshot.
                     </td>
                     <td>
                         FTP file system.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Jakarta
+                        <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>.
+                        Version 2.0 alpha 2 or later.
+                    </td>
+                    <td>
+                        WebDAV file system.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Jakarta
+                        <a href="http://jakarta.apache.org/slide/">Slide</a>.
+                        You will need <code>webdavlib.jar</code> from a recent
+                        snapshot.
+                    </td>
+                    <td>
+                        WebDAV file system.
                     </td>
                 </tr>
                 <tr>

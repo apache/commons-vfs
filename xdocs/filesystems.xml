@@ -7,13 +7,14 @@
 
     <body>
         <section name="Supported File Systems">
-            <p>The VFS currently supports the following file systems:</p>
+            <p>Commons VFS currently supports the following file systems:</p>
             <ul>
                 <li><a href="#Local Files">Local Files</a></li>
                 <li><a href="#Zip and Jar Files">Zip and Jar Files</a></li>
                 <li><a href="#HTTP and HTTPS">HTTP and HTTPS</a></li>
+                <li><a href="#WebDAV">WebDAV</a></li>
                 <li><a href="#FTP">FTP</a></li>
-                <li><a href="#CIFS">CIFS</a></li>
+                <li><a href="#CIFS">SMB and CIFS</a></li>
                 <li><a href="#Temporary Files">Temporary Files</a></li>
             </ul>
         </section>
@@ -74,12 +75,26 @@
 
             <p><b>URI Format</b></p>
 
-            <p><code>http://<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
-            <p><code>https://<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>http://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+            <p><code>https://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
 
             <p><b>Examples</b></p>
             <ul>
                 <li><code>http://somehost:8080/downloads/somefile.jar</code></li>
+            </ul>
+        </section>
+
+        <section name="WebDAV">
+
+            <p>Provides access to files on an WebDAV server.</p>
+
+            <p><b>URI Format</b></p>
+
+            <p><code>webdav://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+
+            <p><b>Examples</b></p>
+            <ul>
+                <li><code>webdav://somehost:8080/dist</code></li>
             </ul>
         </section>
 
@@ -120,7 +135,7 @@
 
             <p>
                 Provides access to a temporary file system, or scratchpad,
-                that is deleted when the VFS shuts down.  The temporary file
+                that is deleted when Commons VFS shuts down.  The temporary file
                 system is backed by a local file system.
             </p>
 
