@@ -58,14 +58,14 @@ package org.apache.commons.vfs.test;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.util.Arrays;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -79,7 +79,7 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:55 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase

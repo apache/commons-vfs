@@ -55,17 +55,16 @@
  */
 package org.apache.commons.vfs.tasks;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.util.Messages;
+import org.apache.tools.ant.BuildException;
 
 /**
  * An Ant task that creates a directory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/25 03:59:10 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:54 $
  */
 public class MkdirTask
     extends VfsTask

@@ -55,24 +55,24 @@
  */
 package org.apache.commons.vfs.impl;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.DelegateFileObject;
-import java.util.Map;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Collection;
+import java.util.Map;
+import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.DelegateFileObject;
 
 /**
  * A logical file system, made up of set of junctions, or links, to files from
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:14:45 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:52 $
  *
  * @todo Handle nested junctions.
  */

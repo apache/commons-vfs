@@ -55,22 +55,22 @@
  */
 package org.apache.commons.vfs.provider.url.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.provider.url.UrlFileProvider;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.AbstractVfsTestCase;
-import junit.framework.Test;
 import java.io.File;
 import java.net.URL;
+import junit.framework.Test;
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.provider.url.UrlFileProvider;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 
 /**
  * Test cases for the generic provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:33:55 $
  */
 public class UrlProviderTestCase
     extends AbstractProviderTestConfig

@@ -55,9 +55,9 @@
  */
 package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.FileType;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.vfs.FileType;
 
 /**
  * Info about a file.

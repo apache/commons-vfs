@@ -55,10 +55,10 @@
  */
 package org.apache.commons.vfs.provider.jar;
 
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
 
@@ -68,7 +68,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.6 $ $Date: 2002/11/23 00:05:26 $
+ * @version $Revision: 1.7 $ $Date: 2002/11/23 00:33:53 $
  */
 public class JarFileSystemProvider
     extends ZipFileSystemProvider

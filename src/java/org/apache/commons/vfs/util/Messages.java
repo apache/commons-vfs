@@ -55,17 +55,17 @@
  */
 package org.apache.commons.vfs.util;
 
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.util.Map;
-import java.util.HashMap;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
  * Formats messages.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 13:09:10 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/23 00:33:54 $
  */
 public class Messages
 {

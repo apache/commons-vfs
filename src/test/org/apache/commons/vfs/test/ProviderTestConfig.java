@@ -57,14 +57,13 @@ package org.apache.commons.vfs.test;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
 /**
  * Test configuration for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:55 $
  */
 public interface ProviderTestConfig
 {

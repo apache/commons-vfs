@@ -63,7 +63,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.commons.vfs.provider.DefaultFileContent;
 
 /**
  * A file in a Zip file system.

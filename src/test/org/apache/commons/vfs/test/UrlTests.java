@@ -55,17 +55,17 @@
  */
 package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.Capability;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.io.IOException;
+import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileObject;
 
 /**
  * URL test cases for providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:33:55 $
  */
 public class UrlTests
     extends AbstractProviderTestCase

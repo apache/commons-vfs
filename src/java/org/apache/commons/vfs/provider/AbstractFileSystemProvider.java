@@ -56,11 +56,10 @@
 package org.apache.commons.vfs.provider;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileObject;
 
 /**
  * A partial {@link FileProvider} implementation.  Takes care of managing the

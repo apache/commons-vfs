@@ -57,20 +57,20 @@ package org.apache.commons.vfs.provider.temp.test;
 
 import java.io.File;
 import junit.framework.Test;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 
 /**
  * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:54 $
  */
 public class TemporaryProviderTestCase
     extends AbstractProviderTestConfig

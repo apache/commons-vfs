@@ -56,8 +56,8 @@
 package org.apache.commons.vfs.impl;
 
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.util.Messages;
 
 /**
  * A {@link org.apache.commons.vfs.FileSystemManager} that configures itself
@@ -71,7 +71,7 @@ import org.apache.commons.vfs.provider.FileProvider;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/17 03:37:28 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/23 00:33:52 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager

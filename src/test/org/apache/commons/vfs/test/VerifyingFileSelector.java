@@ -56,9 +56,9 @@
 package org.apache.commons.vfs.test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 import junit.framework.Assert;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelectInfo;
@@ -71,7 +71,7 @@ import org.apache.commons.vfs.FileType;
  * order.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/23 11:59:39 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:55 $
  */
 public class VerifyingFileSelector
     extends Assert

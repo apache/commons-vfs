@@ -60,8 +60,8 @@ import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Iterator;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
@@ -71,9 +71,9 @@ import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.LocalFileProvider;
+import org.apache.commons.vfs.provider.TemporaryFileStore;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponent;
-import org.apache.commons.vfs.provider.TemporaryFileStore;
 
 /**
  * A default file system manager implementation.  To use this class:

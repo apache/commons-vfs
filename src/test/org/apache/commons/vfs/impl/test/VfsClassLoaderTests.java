@@ -57,15 +57,15 @@ package org.apache.commons.vfs.impl.test;
 
 import java.net.URL;
 import java.net.URLConnection;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.impl.VFSClassLoader;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
-import org.apache.commons.vfs.Capability;
 
 /**
  * VfsClassLoader test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:33:54 $
  */
 public class VfsClassLoaderTests
     extends AbstractProviderTestCase

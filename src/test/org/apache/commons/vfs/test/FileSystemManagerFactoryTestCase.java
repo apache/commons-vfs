@@ -55,17 +55,17 @@
  */
 package org.apache.commons.vfs.test;
 
+import java.io.File;
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.VFS;
-import org.apache.commons.vfs.FileObject;
-import java.io.File;
 
 /**
  * Test cases for the VFS factory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.7 $ $Date: 2002/11/23 00:33:55 $
  */
 public class FileSystemManagerFactoryTestCase
     extends AbstractVfsTestCase

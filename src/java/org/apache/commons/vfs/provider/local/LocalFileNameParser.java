@@ -57,8 +57,8 @@ package org.apache.commons.vfs.provider.local;
 
 import java.io.File;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.Uri;
+import org.apache.commons.vfs.provider.UriParser;
 
 /**
  * A name parser.

@@ -56,17 +56,17 @@
 package org.apache.commons.vfs.test;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.ArrayList;
-import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileChangeEvent;
+import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileListener;
-import org.apache.commons.vfs.FileChangeEvent;
-import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.Selectors;
 
 /**
  * File system test that check that a file system can be modified.

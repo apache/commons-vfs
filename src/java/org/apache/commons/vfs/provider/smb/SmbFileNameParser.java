@@ -56,8 +56,8 @@
 package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.Uri;
+import org.apache.commons.vfs.provider.UriParser;
 
 /**
  * A parser for SMB URI.

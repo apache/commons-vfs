@@ -55,16 +55,16 @@
  */
 package org.apache.commons.vfs.tasks;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.util.Messages;
+import org.apache.tools.ant.BuildException;
 
 /**
  * An Ant task that deletes matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/24 02:11:03 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/23 00:33:54 $
  *
  * @todo Allow selector to be specified.
  */

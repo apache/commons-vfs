@@ -56,8 +56,8 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A {@link FileProvider} that handles physical files, such as the files in a
@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileSystem;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2002/10/31 10:40:57 $
+ * @version $Revision: 1.8 $ $Date: 2002/11/23 00:33:53 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider

@@ -65,14 +65,13 @@ import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.zip.ZipFileObject;
 
 /**
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.5 $ $Date: 2002/10/27 08:16:20 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/23 00:33:53 $
  */
 class JarFileObject extends ZipFileObject
 {

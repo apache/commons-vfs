@@ -58,14 +58,14 @@ package org.apache.commons.vfs.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.Messages;
+import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.AbstractVfsComponent;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
+import org.apache.commons.vfs.util.Messages;
 
 /**
  * A simple file replicator and temporary file store.

@@ -56,14 +56,13 @@
 package org.apache.commons.vfs.tasks;
 
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.Selectors;
 
 /**
  * A task that synchronises the destination folder to look exactly like
  * the source folder (or folders).
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/24 02:11:03 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:33:54 $
  */
 public class SyncTask
     extends CopyTask

@@ -60,7 +60,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.JarURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.security.cert.Certificate;
 import java.util.jar.Attributes;
@@ -74,7 +73,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A default URL connection that will work for most file systems.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.6 $ $Date: 2002/10/27 08:16:20 $
+ * @version $Revision: 1.7 $ $Date: 2002/11/23 00:33:53 $
  */
 public class JarURLConnectionImpl
     extends JarURLConnection

@@ -59,14 +59,14 @@ import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
-import org.apache.commons.vfs.provider.VfsComponentContext;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
+import org.apache.commons.vfs.provider.VfsComponentContext;
 
 /**
  * The default context implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/17 03:37:11 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:33:52 $
  */
 final class DefaultVfsComponentContext
     implements VfsComponentContext

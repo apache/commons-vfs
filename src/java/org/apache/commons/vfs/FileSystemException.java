@@ -55,8 +55,8 @@
  */
 package org.apache.commons.vfs;
 
-import org.apache.commons.vfs.util.Messages;
 import java.io.IOException;
+import org.apache.commons.vfs.util.Messages;
 
 /**
  * Thrown for file system errors.

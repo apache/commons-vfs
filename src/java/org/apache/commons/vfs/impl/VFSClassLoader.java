@@ -67,8 +67,8 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.jar.Attributes.Name;
 import java.util.jar.Attributes;
+import java.util.jar.Attributes.Name;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -87,7 +87,7 @@ import org.apache.commons.vfs.NameScope;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.9 $ $Date: 2002/11/22 23:55:45 $
+ * @version $Revision: 1.10 $ $Date: 2002/11/23 00:33:52 $
  */
 public class VFSClassLoader
     extends SecureClassLoader

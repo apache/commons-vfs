@@ -57,18 +57,18 @@ package org.apache.commons.vfs.provider.zip;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.Capability;
 
 /**
  * A read-only file system for Zip/Jar files.
