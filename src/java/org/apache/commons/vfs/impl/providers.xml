@@ -26,6 +26,7 @@
     </provider>
     <provider class-name="org.apache.commons.vfs.provider.sftp.SftpFileProvider">
         <scheme name="sftp"/>
+        <if-available class-name="javax.crypto.Cypher"/>
         <if-available class-name="com.jcraft.jsch.JSch"/>
     </provider>
 </providers>
