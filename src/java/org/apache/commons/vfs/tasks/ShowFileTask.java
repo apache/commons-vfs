@@ -68,13 +68,15 @@ import org.apache.tools.ant.BuildException;
  * An Ant task that writes the details of a file to Ant's log.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 13:09:45 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/01 03:21:38 $
  */
 public class ShowFileTask
     extends VfsTask
 {
     private String url;
     private boolean showContent;
+    private boolean recursive;
+    private static final String INDENT = "  ";
 
     /**
      * The URL of the file to display.
@@ -94,45 +96,23 @@ public class ShowFileTask
     }
 
     /**
+     * Recursively shows the decendents of the file.
+     */
+    public void setRecursive( final boolean recursive )
+    {
+        this.recursive = recursive;
+    }
+
+    /**
      * Executes the task.
      */
     public void execute() throws BuildException
     {
         try
         {
-            // Lookup the file
             final FileObject file = resolveFile( url );
-
-            // Write details
-            log( "URI: " + file.getName().getURI() );
-            log( "Exists: " + file.exists() );
-            if ( !file.exists() )
-            {
-                return;
-            }
-            log( "Type: " + file.getType().getName() );
-            if ( file.getType() == FileType.FILE )
-            {
-                final FileContent content = file.getContent();
-                log( "Content-Length: " + content.getSize() );
-                log( "Last-Modified" + new Date( content.getLastModifiedTime() ) );
-                if ( showContent )
-                {
-                    log( "Content:" );
-                    logContent( file );
-                }
-            }
-            else
-            {
-                final FileObject[] children = file.getChildren();
-                log( "Child Count: " + children.length );
-                log( "Children:" );
-                for ( int i = 0; i < children.length; i++ )
-                {
-                    FileObject child = children[ i ];
-                    log( "    " + child.getName().getBaseName() );
-                }
-            }
+            log( "Details of " + file.getName().getURI() );
+            showFile( file, INDENT );
         }
         catch ( final Exception e )
         {
@@ -141,9 +121,63 @@ public class ShowFileTask
     }
 
     /**
+     * Logs the details of a file.
+     */
+    private void showFile( final FileObject file, final String prefix ) throws Exception
+    {
+        // Write details
+        StringBuffer msg = new StringBuffer( prefix );
+        msg.append( file.getName().getBaseName() );
+        if ( file.exists() )
+        {
+            msg.append( " (" );
+            msg.append( file.getType().getName() );
+            msg.append( ")" );
+        }
+        else
+        {
+            msg.append( " (unknown)" );
+        }
+        log( msg.toString() );
+
+        if ( file.exists() )
+        {
+            final String newPrefix = prefix + INDENT;
+            if ( file.getType() == FileType.FILE )
+            {
+                final FileContent content = file.getContent();
+                log( newPrefix + "Content-Length: " + content.getSize() );
+                log( newPrefix + "Last-Modified" + new Date( content.getLastModifiedTime() ) );
+                if ( showContent )
+                {
+                    log( newPrefix + "Content:" );
+                    logContent( file, newPrefix );
+                }
+            }
+            else
+            {
+                final FileObject[] children = file.getChildren();
+                for ( int i = 0; i < children.length; i++ )
+                {
+                    FileObject child = children[ i ];
+                    if ( recursive )
+                    {
+                        showFile( child, newPrefix );
+                    }
+                    else
+                    {
+                        log( newPrefix + child.getName().getBaseName() );
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Writes the content of the file to Ant log.
      */
-    private void logContent( FileObject file ) throws Exception
+    private void logContent( final FileObject file, final String prefix )
+        throws Exception
     {
         final InputStream instr = file.getContent().getInputStream();
         try
@@ -156,7 +190,7 @@ public class ShowFileTask
                 {
                     break;
                 }
-                log( line );
+                log( prefix + line );
             }
         }
         finally
