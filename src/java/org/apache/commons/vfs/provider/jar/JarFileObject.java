@@ -72,16 +72,16 @@ import org.apache.commons.vfs.provider.zip.ZipFileObject;
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/23 11:59:41 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/23 13:09:10 $
  */
 class JarFileObject extends ZipFileObject
 {
     private Attributes attributes;
 
-    public JarFileObject( FileName name,
-                          ZipEntry entry,
-                          ZipFile zipFile,
-                          JarFileSystem fs )
+    public JarFileObject( final FileName name,
+                          final ZipEntry entry,
+                          final ZipFile zipFile,
+                          final JarFileSystem fs )
     {
         super( name, entry, zipFile, fs );
     }
@@ -89,7 +89,9 @@ class JarFileObject extends ZipFileObject
     Manifest getManifest() throws IOException
     {
         if ( file == null )
+        {
             return null;
+        }
 
         return ( (JarFile)file ).getManifest();
     }
@@ -146,7 +148,9 @@ class JarFileObject extends ZipFileObject
     protected Certificate[] doGetCertificates()
     {
         if ( entry == null )
+        {
             return null;
+        }
 
         return ( (JarEntry)entry ).getCertificates();
     }

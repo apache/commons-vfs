@@ -65,12 +65,12 @@ import java.text.MessageFormat;
  * Formats messages.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/23 13:09:10 $
  */
 public class Messages
 {
     /** Map from message code to MessageFormat object for the message. */
-    private static final Map messages = new HashMap();
+    private static Map messages = new HashMap();
     private static ResourceBundle resources;
 
     private Messages()

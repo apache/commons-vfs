@@ -304,7 +304,7 @@ public final class DefaultFileContent
      */
     private final class FileContentInputStream extends BufferedInputStream
     {
-        private boolean _finished;
+        private boolean finished;
 
         FileContentInputStream( InputStream instr )
         {
@@ -316,7 +316,7 @@ public final class DefaultFileContent
          */
         public int read() throws IOException
         {
-            if ( _finished )
+            if ( finished )
             {
                 return -1;
             }
@@ -338,7 +338,7 @@ public final class DefaultFileContent
         public int read( byte[] buffer, int offset, int length )
             throws IOException
         {
-            if ( _finished )
+            if ( finished )
             {
                 return -1;
             }
@@ -359,7 +359,7 @@ public final class DefaultFileContent
          */
         public void close() throws IOException
         {
-            if ( _finished )
+            if ( finished )
             {
                 return;
             }
@@ -385,7 +385,7 @@ public final class DefaultFileContent
                 exc = new IOException( e.getMessage() );
             }
 
-            _finished = true;
+            finished = true;
 
             if ( exc != null )
             {
