@@ -72,7 +72,7 @@ import org.apache.commons.vfs.Selectors;
  * A simple command-line shell for performing file operations.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2003/02/21 05:15:51 $
+ * @version $Revision: 1.2 $ $Date: 2003/03/17 09:07:55 $
  */
 public class Shell
 {
@@ -163,6 +163,10 @@ public class Shell
         {
             rm( cmd );
         }
+        else if ( cmdName.equalsIgnoreCase( "touch" ) )
+        {
+            touch( cmd );
+        }
         else
         {
             System.err.println( "Unknown command \"" + cmdName + "\"." );
@@ -180,6 +184,7 @@ public class Shell
         System.out.println( "ls [-R] [folder]   Lists contents of a folder." );
         System.out.println( "pwd                Displays current folder." );
         System.out.println( "rm <path>          Deletes a file or folder." );
+        System.out.println( "touch <path>       Sets the last-modified time of a file." );
     }
 
     /** Does an 'rm' command. */
@@ -280,6 +285,21 @@ public class Shell
         // List the contents
         System.out.println( "Contents of " + dir.getName() );
         listChildren( dir, recursive, "" );
+    }
+
+    /** Does a 'touch' command. */
+    private void touch( final String[] cmd ) throws Exception
+    {
+        if ( cmd.length < 2 )
+        {
+            throw new Exception( "USAGE: touch <path>" );
+        }
+        final FileObject file = mgr.resolveFile( cwd, cmd[ 1 ] );
+        if ( !file.exists() )
+        {
+            file.createFile();
+        }
+        file.getContent().setLastModifiedTime( System.currentTimeMillis() );
     }
 
     /** Lists the children of a folder. */
