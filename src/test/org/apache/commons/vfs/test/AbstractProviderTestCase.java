@@ -56,7 +56,6 @@
 package org.apache.commons.vfs.test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -67,11 +66,7 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
-import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 
 /**
  * File system test cases, which verifies the structure and naming
@@ -81,7 +76,7 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2003/02/17 09:22:16 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/20 09:22:13 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
@@ -90,8 +85,6 @@ public abstract class AbstractProviderTestCase
     private FileObject readFolder;
     private FileObject writeFolder;
     private DefaultFileSystemManager manager;
-    private ProviderTestConfig providerConfig;
-    private File tempDir;
     private Method method;
 
     // Expected contents of "file1.txt"
@@ -100,12 +93,22 @@ public abstract class AbstractProviderTestCase
     // Expected contents of test files
     public static final String TEST_FILE_CONTENT = "A test file.";
 
-    /** Sets the provider test config, if any. */
-    public void setConfig( final Method method,
-                           final ProviderTestConfig providerConfig )
+    /** Sets the test method. */
+    public void setMethod( final Method method )
     {
         this.method = method;
-        this.providerConfig = providerConfig;
+    }
+
+    /** Configures this test. */
+    public void setConfig( final DefaultFileSystemManager manager,
+                           final FileObject baseFolder,
+                           final FileObject readFolder,
+                           final FileObject writeFolder )
+    {
+        this.manager = manager;
+        this.baseFolder = baseFolder;
+        this.readFolder = readFolder;
+        this.writeFolder = writeFolder;
     }
 
     /**
@@ -155,37 +158,6 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
-     * Sets up the test
-     */
-    protected void setUp() throws Exception
-    {
-        // Locate the temp directory, and clean it up
-        tempDir = getTestDirectory( "temp" );
-        checkTempDir( "Temp dir not empty before test" );
-
-        // Create the file system manager
-        manager = new DefaultFileSystemManager();
-        manager.addProvider( "file", new DefaultLocalFileProvider() );
-
-        final DefaultFileReplicator replicator = new DefaultFileReplicator( tempDir );
-        manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
-        manager.setTemporaryFileStore( replicator );
-
-        providerConfig.prepare( manager );
-
-        manager.init();
-
-        // Locate the base folders
-        baseFolder = providerConfig.getBaseTestFolder( manager );
-        readFolder = baseFolder.resolveFile( "read-tests" );
-        writeFolder = baseFolder.resolveFile( "write-tests" );
-
-        // Make some assumptions about the read folder
-        assertTrue( readFolder.exists() );
-        assertFalse( readFolder.getName().getPath().equals( FileName.ROOT_PATH ) );
-    }
-
-    /**
      * Runs the test.  This implementation short-circuits the test if the
      * provider being tested does not have the capabilities required by this
      * test.
@@ -225,26 +197,6 @@ public abstract class AbstractProviderTestCase
         else
         {
             super.runTest();
-        }
-    }
-
-    /**
-     * Cleans-up test.
-     */
-    protected void tearDown() throws Exception
-    {
-        manager.close();
-
-        // Make sure temp directory is empty or gone
-        checkTempDir( "Temp dir not empty after test" );
-    }
-
-    /** Asserts that the temp dir is empty or gone. */
-    private void checkTempDir( final String assertMsg )
-    {
-        if ( tempDir.exists() )
-        {
-            assertTrue( assertMsg, tempDir.isDirectory() && tempDir.list().length == 0 );
         }
     }
 

@@ -57,20 +57,37 @@ package org.apache.commons.vfs.test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.io.File;
+import java.util.Enumeration;
+import junit.extensions.TestSetup;
 import junit.framework.TestSuite;
 import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileReplicator;
+import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.AbstractVfsTestCase;
 
 /**
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/12 07:56:19 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/20 09:22:13 $
  */
 public class ProviderTestSuite
-    extends TestSuite
+    extends TestSetup
 {
     private final ProviderTestConfig providerConfig;
     private final String prefix;
+    private final TestSuite testSuite;
+
+    private FileObject baseFolder;
+    private FileObject readFolder;
+    private FileObject writeFolder;
+    private DefaultFileSystemManager manager;
+    private File tempDir;
 
     /**
      * Adds the tests for a file system to this suite.
@@ -85,6 +102,8 @@ public class ProviderTestSuite
                                final boolean nested )
         throws Exception
     {
+        super( new TestSuite() );
+        testSuite = (TestSuite)fTest;
         this.providerConfig = providerConfig;
         this.prefix = prefix;
         addBaseTests();
@@ -140,9 +159,63 @@ public class ProviderTestSuite
 
             // Create instance
             final AbstractProviderTestCase testCase = (AbstractProviderTestCase)testClass.newInstance();
-            testCase.setConfig( method, providerConfig );
+            testCase.setMethod( method );
             testCase.setName( prefix + method.getName() );
-            addTest( testCase );
+            testSuite.addTest( testCase );
         }
     }
+
+    protected void setUp() throws Exception
+    {
+        // Locate the temp directory, and clean it up
+        tempDir = AbstractVfsTestCase.getTestDirectory( "temp" );
+        checkTempDir( "Temp dir not empty before test" );
+
+        // Create the file system manager
+        manager = new DefaultFileSystemManager();
+        manager.addProvider( "file", new DefaultLocalFileProvider() );
+
+        final DefaultFileReplicator replicator = new DefaultFileReplicator( tempDir );
+        manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
+        manager.setTemporaryFileStore( replicator );
+
+        providerConfig.prepare( manager );
+
+        manager.init();
+
+        // Locate the base folders
+        baseFolder = providerConfig.getBaseTestFolder( manager );
+        readFolder = baseFolder.resolveFile( "read-tests" );
+        writeFolder = baseFolder.resolveFile( "write-tests" );
+
+        // Make some assumptions about the read folder
+        assertTrue( readFolder.exists() );
+        assertFalse( readFolder.getName().getPath().equals( FileName.ROOT_PATH ) );
+
+        // Configure the tests
+        final Enumeration tests = testSuite.tests();
+        while ( tests.hasMoreElements() )
+        {
+            final AbstractProviderTestCase test = (AbstractProviderTestCase)tests.nextElement();
+            test.setConfig( manager, baseFolder, readFolder, writeFolder );
+        }
+    }
+
+    protected void tearDown() throws Exception
+    {
+        manager.close();
+
+        // Make sure temp directory is empty or gone
+        checkTempDir( "Temp dir not empty after test" );
+    }
+
+    /** Asserts that the temp dir is empty or gone. */
+    private void checkTempDir( final String assertMsg )
+    {
+        if ( tempDir.exists() )
+        {
+            assertTrue( assertMsg, tempDir.isDirectory() && tempDir.list().length == 0 );
+        }
+    }
+
 }
