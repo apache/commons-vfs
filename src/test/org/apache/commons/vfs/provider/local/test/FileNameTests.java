@@ -24,7 +24,7 @@ import java.io.File;
  * Additional naming tests for local file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision$ $Date$
  */
 public class FileNameTests
     extends AbstractProviderTestCase

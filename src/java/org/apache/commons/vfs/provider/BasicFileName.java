@@ -23,7 +23,7 @@ import java.net.URL;
  * A simple file name, made up of a root URI and an absolute path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:42 $
+ * @version $Revision$ $Date$
  */
 public class BasicFileName
     extends AbstractFileName

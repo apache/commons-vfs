@@ -24,7 +24,7 @@ import org.apache.tools.ant.BuildException;
  * An Ant task that creates a directory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  */
 public class MkdirTask
     extends VfsTask

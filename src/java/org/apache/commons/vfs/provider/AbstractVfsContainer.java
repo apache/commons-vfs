@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * A {@link VfsComponent} that contains a set of sub-components.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/07/09 21:02:51 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractVfsContainer
     extends AbstractVfsComponent

@@ -23,7 +23,7 @@ import java.io.File;
  * Manages a repository of temporary local files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:43 $
+ * @version $Revision$ $Date$
  */
 public interface TemporaryFileStore
 {

@@ -31,7 +31,7 @@ import java.io.OutputStream;
  * the bzip2 file
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.4 $ $Date: 2005/01/11 16:07:13 $
+ * @version $Revision$ $Date$
  */
 public class Bzip2FileObject extends CompressedFileFileObject
 {

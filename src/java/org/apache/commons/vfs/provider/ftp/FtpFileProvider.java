@@ -32,7 +32,7 @@ import java.util.Collections;
  * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class FtpFileProvider
     extends AbstractOriginatingFileProvider

@@ -29,7 +29,7 @@ import java.util.Collection;
  * A local file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision$ $Date$
  */
 public class LocalFileSystem
     extends AbstractFileSystem

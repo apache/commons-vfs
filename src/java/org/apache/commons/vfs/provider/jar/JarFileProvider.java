@@ -35,7 +35,7 @@ import java.util.Collections;
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.8 $ $Date: 2004/11/08 21:07:44 $
+ * @version $Revision$ $Date$
  */
 public class JarFileProvider
     extends ZipFileProvider

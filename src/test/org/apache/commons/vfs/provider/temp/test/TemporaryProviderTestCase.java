@@ -31,7 +31,7 @@ import java.io.File;
  * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/20 17:40:55 $
+ * @version $Revision$ $Date$
  */
 public class TemporaryProviderTestCase
     extends AbstractProviderTestConfig

@@ -30,7 +30,7 @@ import java.io.File;
  * Tests the NullFilesCache
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/21 20:54:37 $
+ * @version $Revision$ $Date$
  */
 public class NullFilesCacheTestCase
     extends AbstractProviderTestConfig

@@ -23,7 +23,7 @@ import java.io.OutputStream;
  * An OutputStream that provides buffering and end-of-stream monitoring.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/10 20:09:50 $
+ * @version $Revision$ $Date$
  */
 public class MonitorOutputStream
     extends BufferedOutputStream

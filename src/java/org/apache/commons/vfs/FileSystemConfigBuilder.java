@@ -20,7 +20,7 @@ package org.apache.commons.vfs;
  * Abstract class which has the right to fill FileSystemOptions
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  */
 public abstract class FileSystemConfigBuilder
 {

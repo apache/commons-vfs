@@ -29,7 +29,7 @@ import java.util.Iterator;
  * Test cases for reading file content.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision$ $Date$
  */
 public class ContentTests
     extends AbstractProviderTestCase

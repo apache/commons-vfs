@@ -27,7 +27,7 @@ import java.net.URLConnection;
  * VfsClassLoader test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:54 $
+ * @version $Revision$ $Date$
  */
 public class VfsClassLoaderTests
     extends AbstractProviderTestCase

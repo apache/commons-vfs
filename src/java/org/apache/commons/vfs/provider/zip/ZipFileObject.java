@@ -29,7 +29,7 @@ import java.util.zip.ZipEntry;
  * A file in a Zip file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:19 $
+ * @version $Revision$ $Date$
  */
 public class ZipFileObject
     extends AbstractFileObject

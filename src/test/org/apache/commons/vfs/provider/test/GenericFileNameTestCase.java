@@ -23,7 +23,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * Some GenericFileName test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:49 $
+ * @version $Revision$ $Date$
  */
 public class GenericFileNameTestCase
     extends AbstractVfsTestCase

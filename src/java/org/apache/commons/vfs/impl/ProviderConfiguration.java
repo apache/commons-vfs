@@ -23,7 +23,7 @@ import java.util.List;
  * Used by digester in StandardFileSystemManager
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:31 $
+ * @version $Revision$ $Date$
  */
 public class ProviderConfiguration
 {

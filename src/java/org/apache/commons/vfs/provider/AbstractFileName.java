@@ -23,7 +23,7 @@ import org.apache.commons.vfs.NameScope;
  * A default file name implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/17 18:22:17 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractFileName
     implements FileName

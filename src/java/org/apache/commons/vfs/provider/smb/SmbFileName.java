@@ -24,7 +24,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * An SMB URI.  Adds a share name to the generic URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:52 $
+ * @version $Revision$ $Date$
  */
 public class SmbFileName
     extends GenericFileName

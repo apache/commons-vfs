@@ -23,7 +23,7 @@ import org.apache.commons.vfs.provider.url.UrlFileSystem;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/09/20 11:32:42 $
+ * @version $Revision$ $Date$
  */
 public class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
  * Formats messages.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/05/26 08:21:29 $
+ * @version $Revision$ $Date$
  */
 public class Messages
 {

@@ -30,7 +30,7 @@ import java.util.Collection;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.18 $ $Date: 2005/01/11 16:14:46 $
+ * @version $Revision$ $Date$
  */
 public class WebDavFileSystem
     extends AbstractFileSystem

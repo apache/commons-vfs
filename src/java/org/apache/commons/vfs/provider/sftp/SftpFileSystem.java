@@ -34,7 +34,7 @@ import java.util.Hashtable;
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2005/01/11 16:14:46 $
+ * @version $Revision$ $Date$
  */
 public class SftpFileSystem
     extends AbstractFileSystem

@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * Listens for changes to a file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/10/11 19:27:53 $
+ * @version $Revision$ $Date$
  */
 public interface FileListener
 {

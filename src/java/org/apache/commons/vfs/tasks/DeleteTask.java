@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
  * An Ant task that deletes matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/06/19 18:31:11 $
+ * @version $Revision$ $Date$
  * @todo Allow selector to be specified.
  */
 public class DeleteTask

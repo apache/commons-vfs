@@ -21,7 +21,7 @@ import java.io.File;
  * A file system, made up of a hierarchy of files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.18 $ $Date: 2004/07/09 21:02:52 $
+ * @version $Revision$ $Date$
  */
 public interface FileSystem
 {

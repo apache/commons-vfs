@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
  * instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/17 20:13:20 $
+ * @version $Revision$ $Date$
  */
 public class VFS
 {

@@ -39,7 +39,7 @@ import java.util.Vector;
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2005/01/11 16:07:13 $
+ * @version $Revision$ $Date$
  */
 public class SftpFileObject
     extends AbstractFileObject

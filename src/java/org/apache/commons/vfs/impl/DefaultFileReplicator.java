@@ -35,7 +35,7 @@ import java.util.Random;
  * A simple file replicator and temporary file store.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision$ $Date$
  */
 public final class DefaultFileReplicator
     extends AbstractVfsComponent

@@ -29,7 +29,7 @@ import java.util.Collection;
  * An HTTP file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2005/01/11 16:14:46 $
+ * @version $Revision$ $Date$
  */
 public class HttpFileSystem
     extends AbstractFileSystem

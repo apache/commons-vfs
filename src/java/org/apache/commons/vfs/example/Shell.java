@@ -37,11 +37,11 @@ import java.util.StringTokenizer;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: Shell.java,v 1.8 2004/05/10 20:09:52 imario Exp $
+ * @version $Id$
  */
 public class Shell
 {
-    private static final String CVS_ID = "$Id: Shell.java,v 1.8 2004/05/10 20:09:52 imario Exp $";
+    private static final String CVS_ID = "$Id$";
     private final FileSystemManager mgr;
     private FileObject cwd;
     private BufferedReader reader;

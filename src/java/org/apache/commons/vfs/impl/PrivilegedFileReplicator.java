@@ -34,7 +34,7 @@ import java.security.PrivilegedExceptionAction;
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/10 20:09:47 $
+ * @version $Revision$ $Date$
  */
 public class PrivilegedFileReplicator
     implements FileReplicator, VfsComponent

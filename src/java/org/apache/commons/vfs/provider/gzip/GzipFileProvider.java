@@ -31,7 +31,7 @@ import java.util.Collections;
  * Provides access to the content of gzip compressed files
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/11/08 21:07:44 $
+ * @version $Revision$ $Date$
  */
 public class GzipFileProvider extends CompressedFileFileProvider
 {

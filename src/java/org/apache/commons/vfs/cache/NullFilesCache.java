@@ -30,7 +30,7 @@ import org.apache.commons.vfs.FileSystem;
  * </p>
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/21 20:54:31 $
+ * @version $Revision$ $Date$
  */
 public class NullFilesCache extends AbstractFilesCache
 {

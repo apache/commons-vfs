@@ -34,7 +34,7 @@ import java.util.Collection;
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2004/08/26 16:42:15 $
+ * @version $Revision$ $Date$
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider

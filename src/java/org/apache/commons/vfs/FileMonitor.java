@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * FileMonitor interface
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/10/11 19:27:53 $
+ * @version $Revision$ $Date$
  */
 public interface FileMonitor
 {

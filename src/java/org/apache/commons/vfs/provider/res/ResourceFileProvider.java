@@ -33,7 +33,7 @@ import java.util.Collections;
  * Description
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/09/20 11:32:42 $
+ * @version $Revision$ $Date$
  */
 public class ResourceFileProvider extends AbstractFileProvider
 {

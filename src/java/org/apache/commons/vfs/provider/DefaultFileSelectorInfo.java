@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSelectInfo;
  * A default {@link FileSelectInfo} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:17 $
+ * @version $Revision$ $Date$
  */
 final class DefaultFileSelectorInfo
     implements FileSelectInfo

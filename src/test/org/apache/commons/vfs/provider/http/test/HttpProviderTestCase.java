@@ -27,7 +27,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the HTTP provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:50 $
+ * @version $Revision$ $Date$
  */
 public class HttpProviderTestCase
     extends AbstractProviderTestConfig

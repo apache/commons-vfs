@@ -23,7 +23,7 @@ import org.apache.commons.vfs.Selectors;
  * An Ant task that copies matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  * @todo Copy folders that do not contain files
  */
 public class CopyTask

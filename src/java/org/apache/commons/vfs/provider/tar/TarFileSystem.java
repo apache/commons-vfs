@@ -43,7 +43,7 @@ import java.util.zip.GZIPInputStream;
  * A read-only file system for Tar files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2005/01/27 08:06:11 $
+ * @version $Revision$ $Date$
  */
 public class TarFileSystem
     extends AbstractFileSystem

@@ -35,7 +35,7 @@ import java.util.Collections;
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.24 $ $Date: 2004/09/20 11:32:42 $
+ * @version $Revision$ $Date$
  */
 public class UrlFileProvider
     extends AbstractFileProvider

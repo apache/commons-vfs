@@ -30,7 +30,7 @@ import org.apache.tools.ant.Task;
  * utility methods.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  */
 public class VfsTask
     extends Task

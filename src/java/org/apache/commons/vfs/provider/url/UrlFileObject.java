@@ -32,7 +32,7 @@ import java.net.URLConnection;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.14 $ $Date: 2005/01/11 16:07:13 $
+ * @version $Revision$ $Date$
  * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()
  */

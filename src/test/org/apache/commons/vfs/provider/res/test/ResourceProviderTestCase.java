@@ -31,7 +31,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the resource provider.
  *
  * @author Emmanuel Bourg
- * @version $Revision: 1.2 $, $Date: 2004/05/20 18:47:30 $
+ * @version $Revision$, $Date$
  */
 public class ResourceProviderTestCase extends AbstractProviderTestConfig
 {

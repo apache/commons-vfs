@@ -28,7 +28,7 @@ import java.util.Date;
  * An Ant task that writes the details of a file to Ant's log.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  */
 public class ShowFileTask
     extends VfsTask

@@ -24,7 +24,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A parser for Zip file names.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/20 17:40:56 $
+ * @version $Revision$ $Date$
  */
 public class UrlFileName extends LayeredFileName
 {

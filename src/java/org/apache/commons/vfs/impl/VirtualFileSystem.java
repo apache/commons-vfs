@@ -34,7 +34,7 @@ import java.util.Map;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.16 $ $Date: 2004/06/30 19:06:38 $
+ * @version $Revision$ $Date$
  * @todo Handle nested junctions.
  */
 public class VirtualFileSystem

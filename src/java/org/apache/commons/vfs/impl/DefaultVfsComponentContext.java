@@ -30,7 +30,7 @@ import java.io.File;
  * The default context implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:47 $
+ * @version $Revision$ $Date$
  */
 final class DefaultVfsComponentContext
     implements VfsComponentContext

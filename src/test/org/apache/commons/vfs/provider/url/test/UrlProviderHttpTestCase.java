@@ -27,7 +27,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for HTTP with the default provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/10 20:09:53 $
+ * @version $Revision$ $Date$
  */
 public class UrlProviderHttpTestCase
     extends AbstractProviderTestConfig

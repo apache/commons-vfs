@@ -61,7 +61,7 @@ import java.net.URL;
  * <p>To find files in another file system, use a {@link FileSystemManager}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/07/05 03:21:54 $
+ * @version $Revision$ $Date$
  * @see FileSystemManager
  * @see FileContent
  * @see FileName

@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.20 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class WebdavFileObject
     extends AbstractFileObject

@@ -29,7 +29,7 @@ import java.net.URLStreamHandler;
  * A default URL stream handler that will work for most file systems.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.5 $ $Date: 2002/07/05 04:08:17 $
+ * @version $Revision$ $Date$
  */
 public class DefaultURLStreamHandler
     extends URLStreamHandler

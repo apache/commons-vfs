@@ -66,7 +66,7 @@ import java.util.Stack;
  * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  *
  * @author <a href="mailto:xknight@users.sourceforge.net">Christopher Ottley</a>
- * @version $Revision: 1.4 $ $Date: 2004/12/29 19:47:34 $
+ * @version $Revision$ $Date$
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor
 {

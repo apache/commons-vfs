@@ -19,7 +19,7 @@ package org.apache.commons.vfs.util;
  * An enumerated type representing the modes of a random access content.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision$ $Date$
  */
 public class RandomAccessMode
 {

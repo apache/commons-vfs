@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * Description
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/11/08 21:07:43 $
+ * @version $Revision$ $Date$
  */
 public abstract class CompositeFileProvider extends AbstractFileProvider
 {

@@ -20,7 +20,7 @@ package org.apache.commons.vfs;
  * to a file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/04/07 02:27:55 $
+ * @version $Revision$ $Date$
  */
 public final class NameScope
 {

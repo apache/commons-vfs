@@ -23,7 +23,7 @@ import java.io.OutputStream;
  * Utility methods for dealng with FileObjects.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  */
 public class FileUtil
 {

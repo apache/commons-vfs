@@ -26,7 +26,7 @@ import java.util.Map;
  * A helper class that determines the provider to use for a file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/11/08 21:07:44 $
+ * @version $Revision$ $Date$
  */
 class FileTypeMap
 {

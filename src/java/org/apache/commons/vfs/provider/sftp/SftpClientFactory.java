@@ -29,7 +29,7 @@ import java.io.File;
  * Create a HttpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/09/10 17:26:58 $
+ * @version $Revision$ $Date$
  */
 public class SftpClientFactory
 {

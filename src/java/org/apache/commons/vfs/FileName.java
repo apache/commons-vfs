@@ -20,7 +20,7 @@ package org.apache.commons.vfs;
  * keys in hash tables.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/04/07 02:27:55 $
+ * @version $Revision$ $Date$
  * @see FileObject
  */
 public interface FileName extends Comparable

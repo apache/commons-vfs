@@ -45,7 +45,7 @@ import java.util.Map;
  * A partial {@link org.apache.commons.vfs.FileSystem} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/04/07 02:27:56 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractFileSystem
     extends AbstractVfsComponent

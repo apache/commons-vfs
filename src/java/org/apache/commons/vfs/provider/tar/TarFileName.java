@@ -24,7 +24,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A parser for Tar file names.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2004/11/08 21:07:44 $
+ * @version $Revision$ $Date$
  */
 public class TarFileName extends LayeredFileName
 {

@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * An enumerated type representing the capabilities of files and file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/11/08 21:07:43 $
+ * @version $Revision$ $Date$
  */
 public final class Capability
 {

@@ -24,7 +24,7 @@ import org.apache.commons.vfs.FileSystemException;
  * path.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/05/10 20:09:43 $
+ * @version $Revision$ $Date$
  */
 public class GenericFileName
     extends AbstractFileName

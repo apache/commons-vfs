@@ -27,7 +27,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * Create a HttpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/27 19:09:37 $
+ * @version $Revision$ $Date$
  */
 public class HttpClientFactory
 {

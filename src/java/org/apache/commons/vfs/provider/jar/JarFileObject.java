@@ -34,7 +34,7 @@ import java.util.zip.ZipEntry;
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.13 $ $Date: 2005/01/11 16:07:13 $
+ * @version $Revision$ $Date$
  */
 public class JarFileObject extends ZipFileObject
 {

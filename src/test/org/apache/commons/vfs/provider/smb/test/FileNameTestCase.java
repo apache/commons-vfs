@@ -23,7 +23,7 @@ import org.apache.commons.vfs.provider.smb.SmbFileName;
  * Some additional SMB file name test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/17 18:22:17 $
+ * @version $Revision$ $Date$
  */
 public class FileNameTestCase
     extends AbstractVfsTestCase

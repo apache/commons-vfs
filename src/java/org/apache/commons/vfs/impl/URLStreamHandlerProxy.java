@@ -25,7 +25,7 @@ import java.net.URLStreamHandler;
  * A proxy for URLs that are supported by the standard stream handler factory.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision$ $Date$
  */
 class URLStreamHandlerProxy
     extends URLStreamHandler

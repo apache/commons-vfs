@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date$
+ * @version $Revision$ $Date$
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
  * @todo Use visitors

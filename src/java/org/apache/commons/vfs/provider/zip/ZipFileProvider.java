@@ -32,7 +32,7 @@ import java.util.Collections;
  * A file system provider for Zip files.  Provides read-only file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/11/08 21:07:44 $
+ * @version $Revision$ $Date$
  */
 public class ZipFileProvider
     extends AbstractLayeredFileProvider

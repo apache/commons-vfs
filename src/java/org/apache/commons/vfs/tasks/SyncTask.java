@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileObject;
  * the source folder (or folders).
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  */
 public class SyncTask
     extends CopyTask

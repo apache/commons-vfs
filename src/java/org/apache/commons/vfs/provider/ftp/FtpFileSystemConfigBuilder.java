@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.9 $ $Date$
+ * @version $Revision$ $Date$
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

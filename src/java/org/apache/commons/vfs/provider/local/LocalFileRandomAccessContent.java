@@ -30,7 +30,7 @@ import java.io.EOFException;
  * RandomAccess for local files
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date$
+ * @version $Revision$ $Date$
  */
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent
 {

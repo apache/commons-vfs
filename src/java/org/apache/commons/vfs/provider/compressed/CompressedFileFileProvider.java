@@ -31,7 +31,7 @@ import java.util.Collection;
  * systems.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/06/16 18:19:05 $
+ * @version $Revision$ $Date$
  */
 public abstract class CompressedFileFileProvider
     extends AbstractLayeredFileProvider

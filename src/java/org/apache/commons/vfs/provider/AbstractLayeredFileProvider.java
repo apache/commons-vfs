@@ -26,7 +26,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * contents of a zip or tar file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2004/08/26 16:36:41 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileProvider

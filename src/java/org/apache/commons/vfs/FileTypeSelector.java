@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * A {@link FileSelector} that selects files of a particular type.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision$ $Date$
  */
 public class FileTypeSelector
     implements FileSelector

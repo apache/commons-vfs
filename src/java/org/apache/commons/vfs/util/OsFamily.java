@@ -19,7 +19,7 @@ package org.apache.commons.vfs.util;
  * An enumerated type, which represents an OS family.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:50 $
+ * @version $Revision$ $Date$
  */
 public final class OsFamily
 {

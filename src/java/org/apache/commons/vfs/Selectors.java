@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * Several standard file selectors.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:46 $
+ * @version $Revision$ $Date$
  */
 public interface Selectors
 {

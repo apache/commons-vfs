@@ -40,7 +40,7 @@ import java.util.zip.ZipFile;
  * A read-only file system for Zip/Jar files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2002/07/05 06:52:16 $
+ * @version $Revision$ $Date$
  */
 public class ZipFileSystem
     extends AbstractFileSystem

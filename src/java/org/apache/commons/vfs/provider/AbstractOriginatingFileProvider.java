@@ -27,7 +27,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.19 $ $Date: 2004/08/26 16:36:41 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileProvider

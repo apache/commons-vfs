@@ -26,7 +26,7 @@ import java.io.IOException;
  * (for read-only random access implementations)
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date$
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent
 {

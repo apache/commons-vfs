@@ -37,7 +37,7 @@ import java.util.TreeMap;
  * As soon as the vm needs memory - every softly reachable file will be discarded.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.8 $ $Date: 2004/07/09 21:02:52 $
+ * @version $Revision$ $Date$
  * @see SoftReference
  */
 public class SoftRefFilesCache extends AbstractFilesCache

@@ -35,7 +35,7 @@ import java.net.MalformedURLException;
  * A file in an SMB file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/07/05 04:08:19 $
+ * @version $Revision$ $Date$
  */
 public class SmbFileObject
     extends AbstractFileObject

@@ -31,7 +31,7 @@ import java.util.Collections;
  * Provides access to the content of bzip2 compressed files
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/11/08 21:07:43 $
+ * @version $Revision$ $Date$
  */
 public class Bzip2FileProvider extends CompressedFileFileProvider
 {

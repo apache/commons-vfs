@@ -34,7 +34,7 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Revision: 1.6 $ $Date: 2002/04/07 02:27:57 $
+ * @version $Revision$ $Date$
  */
 public class LocalFile
     extends AbstractFileObject

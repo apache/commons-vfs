@@ -49,7 +49,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Revision: 1.11 $ $Date: 2002/07/05 04:08:17 $
+ * @version $Revision$ $Date$
  * @todo Chop this class up - move all the protected methods to several
  * interfaces, so that structure and content can be separately overridden.
  * @todo Check caps in methods like getChildren(), etc, and give better error messages

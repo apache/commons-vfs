@@ -31,7 +31,7 @@ import java.net.URL;
  * Test cases for the generic provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/05/20 17:40:56 $
+ * @version $Revision$ $Date$
  */
 public class UrlProviderTestCase
     extends AbstractProviderTestConfig

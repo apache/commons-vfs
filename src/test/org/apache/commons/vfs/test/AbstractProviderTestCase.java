@@ -37,7 +37,7 @@ import java.util.Arrays;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.14 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase

@@ -28,7 +28,7 @@ import java.util.TreeMap;
  * This implementation caches every file for the complete lifetime of the used {@link org.apache.commons.vfs.FileSystemManager}.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/21 20:54:31 $
+ * @version $Revision$ $Date$
  */
 public class DefaultFilesCache extends AbstractFilesCache
 {

@@ -34,7 +34,7 @@ import java.util.Collections;
  * An HTTP provider that uses commons-httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision$ $Date$
  */
 public class HttpFileProvider
     extends AbstractOriginatingFileProvider

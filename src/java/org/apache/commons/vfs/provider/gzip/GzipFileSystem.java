@@ -27,7 +27,7 @@ import java.util.Collection;
  * Filesytem to handle compressed files using the gzip method
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2005/01/11 16:14:46 $
+ * @version $Revision$ $Date$
  */
 public class GzipFileSystem extends CompressedFileFileSystem
 {

@@ -24,7 +24,7 @@ import java.io.File;
  * A file provider which handles local files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/06/17 07:19:45 $
+ * @version $Revision$ $Date$
  */
 public interface LocalFileProvider
     extends FileProvider

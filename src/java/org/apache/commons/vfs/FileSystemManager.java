@@ -63,7 +63,7 @@ import java.util.Collection;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2002/06/17 00:06:16 $
+ * @version $Revision$ $Date$
  */
 public interface FileSystemManager
 {

@@ -46,7 +46,7 @@ import java.util.TreeMap;
  * </code>
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/28 19:47:05 $
+ * @version $Revision$ $Date$
  */
 public class DelegatingFileSystemOptionsBuilder
 {

@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * Configuration options for WebDav
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/22 20:32:04 $
+ * @version $Revision$ $Date$
  */
 public class WebdavFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

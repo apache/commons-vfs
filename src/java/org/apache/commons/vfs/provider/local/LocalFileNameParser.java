@@ -22,7 +22,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * A name parser.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/03/09 10:31:30 $
+ * @version $Revision$ $Date$
  */
 public abstract class LocalFileNameParser
 {

@@ -31,7 +31,7 @@ import java.util.Collections;
  * A provider for SMB (Samba, Windows share) file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2005/01/11 16:14:46 $
+ * @version $Revision$ $Date$
  */
 public class SmbFileProvider
     extends AbstractOriginatingFileProvider

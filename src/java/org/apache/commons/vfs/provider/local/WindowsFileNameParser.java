@@ -21,7 +21,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A parser for Windows file names.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision$ $Date$
  */
 public class WindowsFileNameParser
     extends LocalFileNameParser

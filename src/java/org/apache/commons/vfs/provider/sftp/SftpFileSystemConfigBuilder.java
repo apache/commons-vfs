@@ -26,7 +26,7 @@ import java.io.File;
  * The config builder for various sftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.6 $ $Date: 2004/08/26 16:40:02 $
+ * @version $Revision$ $Date$
  */
 public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

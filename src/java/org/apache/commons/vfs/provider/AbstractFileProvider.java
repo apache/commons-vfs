@@ -30,7 +30,7 @@ import java.util.TreeMap;
  * file systems created by the provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2002/07/05 03:47:04 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractFileProvider
     extends AbstractVfsContainer

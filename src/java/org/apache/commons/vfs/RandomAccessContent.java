@@ -24,7 +24,7 @@ import java.io.InputStream;
  * Description
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date$
+ * @version $Revision$ $Date$
  */
 public interface RandomAccessContent extends DataOutput, DataInput
 {

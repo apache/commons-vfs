@@ -35,7 +35,7 @@ import java.util.Map;
  * The default constructor uses a LRU size of 100 per filesystem.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/16 20:21:55 $
+ * @version $Revision$ $Date$
  */
 public class LRUFilesCache extends AbstractFilesCache
 {

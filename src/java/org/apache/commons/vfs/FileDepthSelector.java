@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * A {@link FileSelector} that selects all files in a particular depth range.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:17 $
+ * @version $Revision$ $Date$
  */
 public class FileDepthSelector
     implements FileSelector

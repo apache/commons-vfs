@@ -28,7 +28,7 @@ import java.io.IOException;
  * Create a FtpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/12/21 21:55:41 $
+ * @version $Revision$ $Date$
  */
 public class FtpClientFactory
 {

@@ -28,7 +28,7 @@ import java.util.Date;
  * A simple that prints the properties of the file passed as first parameter.
  *
  * @author <a href="mailto:anthony@antcommander.com">Anthony Goubard</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/27 20:06:56 $
+ * @version $Revision$ $Date$
  */
 
 

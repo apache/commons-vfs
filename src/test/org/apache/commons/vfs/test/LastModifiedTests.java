@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileObject;
  * Test cases for getting and setting file last modified time.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/11/08 21:07:44 $
+ * @version $Revision$ $Date$
  */
 public class LastModifiedTests
     extends AbstractProviderTestCase

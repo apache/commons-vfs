@@ -28,7 +28,7 @@ import java.net.URLConnection;
  * The content-encoding is not resolved.
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/05/21 20:54:31 $
+ * @version $Revision$ $Date$
  */
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory
 {

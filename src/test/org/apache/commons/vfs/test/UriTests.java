@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileObject;
  * Absolute URI test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision$ $Date$
  */
 public class UriTests
     extends AbstractProviderTestCase

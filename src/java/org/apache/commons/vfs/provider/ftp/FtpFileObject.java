@@ -38,7 +38,7 @@ import java.util.GregorianCalendar;
  * An FTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:18 $
+ * @version $Revision$ $Date$
  */
 public class FtpFileObject
     extends AbstractFileObject

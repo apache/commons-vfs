@@ -24,7 +24,7 @@ import org.apache.commons.vfs.impl.DefaultFileSystemManager;
  * Test configuration for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision$ $Date$
  */
 public interface ProviderTestConfig
 {

@@ -27,7 +27,7 @@ import java.io.IOException;
  * Create a HttpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/10/11 19:31:29 $
+ * @version $Revision$ $Date$
  */
 public class WebdavClientFactory
 {

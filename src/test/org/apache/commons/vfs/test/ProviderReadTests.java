@@ -28,7 +28,7 @@ import java.util.List;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision$ $Date$
  * @todo Test getLastModified(), getAttribute()
  */
 public class ProviderReadTests

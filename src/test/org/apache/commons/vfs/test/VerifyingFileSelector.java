@@ -32,7 +32,7 @@ import java.util.Set;
  * order.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/10 20:09:44 $
+ * @version $Revision$ $Date$
  */
 public class VerifyingFileSelector
     extends Assert

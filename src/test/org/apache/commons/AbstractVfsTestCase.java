@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  * test resources.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/07/14 06:14:37 $
+ * @version $Revision$ $Date$
  */
 public abstract class AbstractVfsTestCase
     extends TestCase

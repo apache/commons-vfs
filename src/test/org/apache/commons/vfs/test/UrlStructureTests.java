@@ -25,7 +25,7 @@ import java.io.IOException;
  * URL Test cases for providers that supply structural info.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision$ $Date$
  */
 public class UrlStructureTests
     extends AbstractProviderTestCase

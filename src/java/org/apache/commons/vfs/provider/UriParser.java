@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSystemException;
  * Utilities for dealing with URIs.  See RFC 2396 for details.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2002/04/07 02:27:56 $
+ * @version $Revision$ $Date$
  */
 public final class UriParser
 {

@@ -34,7 +34,7 @@ import java.util.Collections;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id: SftpFileProvider.java,v 1.14 2004/07/04 18:45:56 imario Exp $
+ * @version $Id$
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {

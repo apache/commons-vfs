@@ -28,7 +28,7 @@ import java.util.jar.Attributes;
  * the classloader.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.10 $ $Date: 2004/05/10 20:09:47 $
+ * @version $Revision$ $Date$
  * @see VFSClassLoader
  */
 class Resource
