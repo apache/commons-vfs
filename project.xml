@@ -2,7 +2,7 @@
 
 <project>
     <extend>../sandbox-build/project.xml</extend>
-    <name>commons-vfs</name>
+    <name>Commons VFS</name>
     <id>commons-vfs</id>
     <logo>/images/vfs-logo-white.png</logo>
     <currentVersion>1.0-dev</currentVersion>
