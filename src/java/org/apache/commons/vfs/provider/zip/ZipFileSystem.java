@@ -14,10 +14,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
+import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileSystem;
@@ -28,7 +28,7 @@ import org.apache.commons.vfs.provider.FileSystem;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.8 $ $Date: 2002/07/05 06:52:16 $
  */
-class ZipFileSystem
+public class ZipFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
@@ -36,7 +36,7 @@ class ZipFileSystem
         ResourceManager.getPackageResources( ZipFileSystem.class );
 
     private final File file;
-    private final ZipFile zipFile;
+    protected final ZipFile zipFile;
 
     public ZipFileSystem( final DefaultFileName rootName,
                           final FileObject parentLayer )
@@ -57,15 +57,7 @@ class ZipFileSystem
             return;
         }
 
-        try
-        {
-            zipFile = new ZipFile( this.file );
-        }
-        catch ( IOException ioe )
-        {
-            final String message = REZ.getString( "open-zip-file.error", this.file );
-            throw new FileSystemException( message, ioe );
-        }
+        zipFile = createZipFile( this.file );
 
         // Build the index
         Enumeration entries = zipFile.entries();
@@ -76,39 +68,56 @@ class ZipFileSystem
 
             // Create the file
             ZipFileObject fileObj;
-            if ( entry.isDirectory() )
+            if ( entry.isDirectory() &&
+                 getFile( name ) != null )
             {
-                if ( getFile( name ) != null )
-                {
-                    // Already created implicitly
-                    continue;
-                }
-                fileObj = new ZipFileObject( name, true, this );
+                fileObj = (ZipFileObject) getFile( name );
+                fileObj.setZipEntry( entry );
+                continue;
             }
-            else
-            {
-                fileObj = new ZipFileObject( name, entry, zipFile, this );
-            }
+            
+            fileObj = createZipFileObject( name, entry, zipFile );
             putFile( fileObj );
 
             // Make sure all ancestors exist
             // TODO - create these on demand
-            ZipFileObject parent;
+            ZipFileObject parent = null;
             for ( FileName parentName = name.getParent();
                   parentName != null;
                   fileObj = parent, parentName = parentName.getParent() )
             {
                 // Locate the parent
-                parent = (ZipFileObject)getFile( parentName );
+                parent = (ZipFileObject) getFile( parentName );
                 if ( parent == null )
                 {
-                    parent = new ZipFileObject( parentName, true, this );
+                    parent = createZipFileObject( parentName, null, null );
                     putFile( parent );
                 }
 
                 // Attach child to parent
                 parent.attachChild( fileObj.getName() );
             }
+        }
+    }
+
+    protected ZipFileObject createZipFileObject( FileName name, 
+                                                 ZipEntry entry,
+                                                 ZipFile file )
+        throws FileSystemException
+    {
+        return new ZipFileObject( name, entry, file, this );
+    }
+
+    protected ZipFile createZipFile( File file ) throws FileSystemException
+    {
+        try
+        {
+            return new ZipFile( file );
+        }
+        catch ( IOException ioe )
+        {
+            final String message = REZ.getString( "open-zip-file.error", file );
+            throw new FileSystemException( message, ioe );
         }
     }
 
@@ -137,6 +146,6 @@ class ZipFileSystem
     protected FileObject createFile( FileName name ) throws FileSystemException
     {
         // This is only called for files which do not exist in the Zip file
-        return new ZipFileObject( name, false, this );
+        return new ZipFileObject( name, null, null, this );
     }
 }

@@ -12,10 +12,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.cert.Certificate;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
+import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
@@ -62,6 +62,11 @@ public abstract class AbstractFileObject
     {
         this.name = name;
         this.fs = fs;
+    }
+
+    public FileSystem getFileSystem()
+    {
+        return fs;
     }
 
     /**

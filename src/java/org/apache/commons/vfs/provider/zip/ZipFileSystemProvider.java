@@ -7,11 +7,9 @@
  */
 package org.apache.commons.vfs.provider.zip;
 
-import java.io.File;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
@@ -29,7 +27,7 @@ import org.apache.commons.vfs.provider.ParsedUri;
  *
  * @ant.type type="file-provider" name="zip"
  */
-public final class ZipFileSystemProvider
+public class ZipFileSystemProvider
     extends AbstractFileSystemProvider
     implements FileProvider
 {
@@ -73,6 +71,14 @@ public final class ZipFileSystemProvider
         uri.setRootUri( rootUri );
         uri.setPath( "/" );
         return uri;
+    }
+
+    /**
+     * Returns the URI parser.
+     */
+    protected ZipFileNameParser getParser()
+    {
+        return parser;
     }
 
     /**

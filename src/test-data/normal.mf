@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Specification-Title: NormalSpec
+Specification-Vendor: NormalSpecVendor
+Specification-Version: 0.1
+Implementation-Title: NormalTitle
+Implementation-Vendor: NormalVendor
+Implementation-Version: 1.2
+
+Name: code/
+Sealed: true
+
+

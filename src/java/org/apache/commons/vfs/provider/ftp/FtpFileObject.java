@@ -147,14 +147,14 @@ final class FtpFileObject
             }
         }
 
-        String[] children = new String[ children.length ];
-        for ( int i = 0; i < this.children.length; i++ )
+        String[] childNames = new String[ children.length ];
+        for ( int i = 0; i < children.length; i++ )
         {
-            FTPFile child = this.children[ i ];
-            children[ i ] = child.getName();
+            FTPFile child = children[ i ];
+            childNames[ i ] = child.getName();
         }
 
-        return children;
+        return childNames;
     }
 
     /**

@@ -2,12 +2,11 @@
 
   <!-- we can customize the Maven build here -->
   <goal name="test:test-data"
-        description="Generate and copy the test data"
-        prereqs="test:compile">
+        description="Generate and copy the test data">
 
     <copy todir="${test.data}">
       <fileset dir="${test.data.src}">
-        <exclude name="*.policy"/>
+        <include name="basedir/**"/>
       </fileset>
     </copy>
     
@@ -37,11 +36,26 @@
         <include name="test.zip"/>
       </zipfileset>
     </zip>
+    
+    <jar
+      jarfile="${test.data}/test.jar"
+      basedir="${test.data}"
+      includes="basedir/**"
+      manifest="${test.data.src}/test.mf"/>
+
+    <jar
+      jarfile="${test.data}/normal.jar"
+      basedir="${test.data}/basedir"
+      manifest="${test.data.src}/normal.mf"/>
+    <jar
+      jarfile="${test.data}/nested.jar"
+      basedir="${test.data}"
+      includes="test.jar,normal.jar"/>
   </goal>
   	
   <goal name="test:test"
         description="Test the application"
-        prereqs="test:test-data">
+        prereqs="test:test-data,test:compile">
 
     <junit printSummary="yes" 
            failureProperty="maven.test.failure"

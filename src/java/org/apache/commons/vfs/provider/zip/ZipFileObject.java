@@ -22,14 +22,14 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:19 $
  */
-final class ZipFileObject
+public class ZipFileObject
     extends AbstractFileObject
     implements FileObject
 {
-    private final ZipEntry entry;
-    private final ZipFile file;
-    private final FileType type;
     private final HashSet children = new HashSet();
+    protected final ZipFile file;
+    protected ZipEntry entry;
+    private FileType type;
 
     public ZipFileObject( FileName name,
                           ZipEntry entry,
@@ -37,26 +37,27 @@ final class ZipFileObject
                           ZipFileSystem fs )
     {
         super( name, fs );
-        type = FileType.FILE;
-        this.entry = entry;
+        setZipEntry( entry );
         file = zipFile;
-    }
-
-    public ZipFileObject( final FileName name,
-                          final boolean exists,
-                          final ZipFileSystem fs )
-    {
-        super( name, fs );
-        entry = null;
-        file = null;
-        if ( exists )
-        {
-            type = FileType.FOLDER;
-        }
-        else
+        if ( file == null )
         {
             type = null;
         }
+    }
+
+    protected void setZipEntry( ZipEntry entry )
+    {
+        if ( entry == null || this.entry != null )
+        {
+            return;
+        }
+          
+        if ( entry.isDirectory() )
+            type = FileType.FOLDER;
+        else
+            type = FileType.FILE;
+
+        this.entry = entry;
     }
 
     /**

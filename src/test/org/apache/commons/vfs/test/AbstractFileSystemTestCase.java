@@ -26,10 +26,10 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.impl.VFSClassLoader;
-import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
+import org.apache.commons.vfs.impl.VFSClassLoader;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
 
@@ -101,7 +101,7 @@ public abstract class AbstractFileSystemTestCase
         dir.addChild( "file1.txt", FileType.FILE );
         dir.addChild( "file2.txt", FileType.FILE );
         dir.addChild( "file3.txt", FileType.FILE );
-        
+
         final FileInfo code = new FileInfo( "code", FileType.FOLDER );
         base.addChild( code );
         code.addChild( "ClassToLoad.class", FileType.FILE );
@@ -760,6 +760,8 @@ public abstract class AbstractFileSystemTestCase
             new VFSClassLoader( objects, m_manager );
 
         Class testClass = loader.loadClass( "code.ClassToLoad" );
+        assertTrue( verifyPackage( testClass.getPackage() ) );
+
         Object testObject = testClass.newInstance();
         assertSame( "**PRIVATE**", testObject.toString() );
 
@@ -767,6 +769,22 @@ public abstract class AbstractFileSystemTestCase
         assertNotNull( resource );
         URLConnection urlCon = resource.openConnection();
         assertSameURLContent( m_charContent, urlCon );
+    }
+
+    /**
+     * Verify the package loaded with class loader.
+     * If the provider supports attributes override this method.
+     */
+    protected boolean verifyPackage( Package pack )
+    {
+        return "code".equals( pack.getName() ) &&
+               pack.getImplementationTitle() == null &&
+               pack.getImplementationVendor() == null &&
+               pack.getImplementationVersion() == null &&
+               pack.getSpecificationTitle() == null &&
+               pack.getSpecificationVendor() == null &&
+               pack.getSpecificationVersion() == null &&
+               !pack.isSealed();
     }
 
     /**
