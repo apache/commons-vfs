@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,7 +44,7 @@ public class LocalFileName
      *
      * @todo Make parser a static field
      */
-    public static LocalFileName parseUri(final String uri,
+    public static LocalFileName parseUri(final String uri, final boolean uriEncoded,
                                          final LocalFileNameParser parser)
         throws FileSystemException
     {
@@ -54,7 +54,10 @@ public class LocalFileName
         final String scheme = UriParser.extractScheme(uri, name);
 
         // Remove encoding, and adjust the separators
-        UriParser.decode(name, 0, name.length());
+        if (uriEncoded)
+        {
+            UriParser.decode(name, 0, name.length());
+        }
         UriParser.fixSeparators(name);
 
         // Extract the root prefix

@@ -88,9 +88,11 @@ public class DefaultLocalFileProvider
     public FileObject findLocalFile(final String name)
         throws FileSystemException
     {
-        // TODO - tidy this up, no need to turn the name into an absolute URI,
-        // and then straight back again
-        return findFile(null, "file:" + name, null);
+        StringBuffer uri = new StringBuffer(name.length() + 5);
+        uri.append("file:");
+        uri.append(name);
+        FileName filename = parseUri(uri.toString(), false);
+        return findFile(filename, null);
     }
 
     /**
@@ -99,8 +101,16 @@ public class DefaultLocalFileProvider
     public FileObject findLocalFile(final File file)
         throws FileSystemException
     {
-        // TODO - tidy this up, should build file object straight from the file
-        return findFile(null, "file:" + file.getAbsolutePath(), null);
+        return findLocalFile(file.getAbsolutePath());
+    }
+
+    /**
+     * Parses a URI.
+     */
+    protected FileName parseUri(final String uri, final boolean uriEncoded)
+        throws FileSystemException
+    {
+        return LocalFileName.parseUri(uri, uriEncoded, parser);
     }
 
     /**
@@ -109,7 +119,7 @@ public class DefaultLocalFileProvider
     protected FileName parseUri(final String uri)
         throws FileSystemException
     {
-        return LocalFileName.parseUri(uri, parser);
+        return parseUri(uri, true);
     }
 
     /**
