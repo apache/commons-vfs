@@ -63,7 +63,7 @@ import org.apache.commons.vfs.impl.DefaultFileSystemManager;
  * Test configuration for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:33:55 $
+ * @version $Revision: 1.4 $ $Date: 2003/01/21 02:45:32 $
  */
 public interface ProviderTestConfig
 {
@@ -73,12 +73,12 @@ public interface ProviderTestConfig
     void prepare( DefaultFileSystemManager manager ) throws Exception;
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the base folder for tests.  This folder must exist, and contain
+     * the following structure:
+     * <ul>
+     * <li>/read-tests
+     * <li>/write-tests
+     * </ul>
      */
     FileObject getBaseTestFolder( FileSystemManager manager ) throws Exception;
-
-    /**
-     * Returns the expected file system capabilities.
-     */
-    //Capability[] getExpectedCapabilities();
 }

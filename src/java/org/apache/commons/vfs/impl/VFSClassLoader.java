@@ -85,7 +85,7 @@ import org.apache.commons.vfs.NameScope;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.12 $ $Date: 2002/11/25 05:38:02 $
+ * @version $Revision: 1.13 $ $Date: 2003/01/21 02:45:32 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -273,6 +273,7 @@ public class VFSClassLoader
                                    final Resource res )
         throws FileSystemException
     {
+        // TODO - check for MANIFEST_ATTRIBUTES capability first
         final String specTitle = res.getPackageAttribute( Name.SPECIFICATION_TITLE );
         final String specVendor = res.getPackageAttribute( Attributes.Name.SPECIFICATION_VENDOR );
         final String specVersion = res.getPackageAttribute( Name.SPECIFICATION_VERSION );
