@@ -55,38 +55,63 @@
  */
 package org.apache.commons.vfs.provider.smb.test;
 
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.smb.SmbFileSystemProvider;
-import org.apache.commons.vfs.test.AbstractWritableFileSystemTestCase;
+import junit.framework.Test;
 
 /**
  * Tests for the SMB file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class SmbFileSystemTestCase extends AbstractWritableFileSystemTestCase
+public class SmbFileSystemTestCase
+    extends AbstractProviderTestConfig
+    implements ProviderTestConfig
 {
-    public SmbFileSystemTestCase( String name )
+    public static Test suite() throws Exception
     {
-        super( name );
+        return new ProviderTestSuite( new SmbFileSystemTestCase() );
     }
 
     /**
-     * Returns the URI for the base folder.
+     * Prepares the file system manager.  This implementation does nothing.
      */
-    protected FileObject getBaseFolder() throws Exception
+    public void prepare( final DefaultFileSystemManager manager )
+        throws Exception
+    {
+        manager.addProvider( "smb", new SmbFileSystemProvider() );
+    }
+
+    /**
+     * Returns the base folder for read tests.
+     */
+    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
     {
         final String uri = System.getProperty( "test.smb.uri" ) + "/read-tests";
-        getManager().addProvider( "smb", new SmbFileSystemProvider() );
-        return getManager().resolveFile( uri );
+        return manager.resolveFile( uri );
     }
 
     /**
-     * Returns the URI for the area to do tests in.
+     * Returns true if the write tests should be run for this provider.
      */
-    protected FileObject getWriteFolder() throws Exception
+    public boolean runWriteTests()
+    {
+        return true;
+    }
+
+    /**
+     * Returns the base folder for write tests.  This implementation returns
+     * null.
+     */
+    public FileObject getWriteTestFolder( final FileSystemManager manager )
+        throws Exception
     {
         final String uri = System.getProperty( "test.smb.uri" ) + "/write-tests";
-        return getManager().resolveFile( uri );
+        return manager.resolveFile( uri );
     }
 }

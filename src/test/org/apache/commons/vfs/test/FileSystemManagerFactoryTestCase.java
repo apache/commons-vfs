@@ -65,16 +65,11 @@ import java.io.File;
  * Test cases for the VFS factory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 13:12:15 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/21 04:25:58 $
  */
 public class FileSystemManagerFactoryTestCase
     extends AbstractVfsTestCase
 {
-    public FileSystemManagerFactoryTestCase( String name )
-    {
-        super( name );
-    }
-
     /**
      * Sanity test.
      */

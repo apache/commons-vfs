@@ -53,68 +53,37 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.jar.test;
+package org.apache.commons.vfs.test;
 
-import java.io.File;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.jar.JarFileSystemProvider;
-import junit.framework.Test;
 
 /**
- * Tests for the Jar file system.
+ * Test configuration for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
  */
-public class JarFileSystemTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public interface ProviderTestConfig
 {
-    /**
-     * Creates the test suite for the jar file system.
-     */
-    public static Test suite() throws Exception
-    {
-        return new ProviderTestSuite( new JarFileSystemTestCase() );
-    }
-
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
-    {
-        manager.addProvider( "jar", new JarFileSystemProvider() );
-    }
+    void prepare( DefaultFileSystemManager manager ) throws Exception;
 
     /**
      * Returns the base folder for read tests.
      */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
-    {
-        final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
-        final String uri = "jar:" + jarFile.getAbsolutePath() + "!basedir";
-        return manager.resolveFile( uri );
-    }
+    FileObject getReadTestFolder( FileSystemManager manager ) throws Exception;
 
     /**
-     * Verify the package loaded with class loader.
-     * If the provider supports attributes override this method.
+     * Returns true if the write tests should be run for this provider.
      */
-    protected boolean verifyPackage( Package pack )
-    {
-        return "code".equals( pack.getName() ) &&
-               "ImplTitle".equals( pack.getImplementationTitle() ) &&
-               "ImplVendor".equals( pack.getImplementationVendor() ) &&
-               "1.1".equals( pack.getImplementationVersion() ) &&
-               "SpecTitle".equals( pack.getSpecificationTitle() ) &&
-               "SpecVendor".equals( pack.getSpecificationVendor() ) &&
-               "1.0".equals( pack.getSpecificationVersion() ) &&
-               !pack.isSealed();
-    }
+    boolean runWriteTests();
+
+    /**
+     * Returns the base folder for write tests.
+     */
+    FileObject getWriteTestFolder( FileSystemManager manager ) throws Exception;
 }

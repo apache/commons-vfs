@@ -72,19 +72,9 @@ import org.apache.commons.vfs.FileChangeEvent;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public abstract class AbstractWritableFileSystemTestCase
+public class AbstractWritableFileSystemTestCase
     extends AbstractFileSystemTestCase
 {
-    public AbstractWritableFileSystemTestCase( String name )
-    {
-        super( name );
-    }
-
-    /**
-     * Returns the URI for the area to do tests in.
-     */
-    protected abstract FileObject getWriteFolder() throws Exception;
-
     /**
      * Sets up a scratch folder for the test to use.
      */

@@ -72,14 +72,7 @@ import org.apache.commons.vfs.util.Messages;
 public abstract class AbstractVfsTestCase
     extends TestCase
 {
-    private final File baseDir;
-
-    public AbstractVfsTestCase( final String name )
-    {
-        super( name );
-        final String baseDirProp = System.getProperty( "test.basedir" );
-        baseDir = getCanonicalFile( new File( baseDirProp ) );
-    }
+    private static File baseDir;
 
     /**
      * Returns the name of the package containing a class.
@@ -87,16 +80,16 @@ public abstract class AbstractVfsTestCase
      * @return The . delimited package name, or an empty string if the class
      *         is in the default package.
      */
-    protected static String getPackageName( final Class clazz )
+    public static String getPackageName( final Class clazz )
     {
         final Package pkg = clazz.getPackage();
-        if( null != pkg )
+        if ( null != pkg )
         {
             return pkg.getName();
         }
 
         final String name = clazz.getName();
-        if( -1 == name.lastIndexOf( "." ) )
+        if ( -1 == name.lastIndexOf( "." ) )
         {
             return "";
         }
@@ -111,7 +104,7 @@ public abstract class AbstractVfsTestCase
      *
      * @param name path of the resource, relative to this test's base directory.
      */
-    protected File getTestResource( final String name )
+    public static File getTestResource( final String name )
     {
         return getTestResource( name, true );
     }
@@ -121,11 +114,11 @@ public abstract class AbstractVfsTestCase
      *
      * @param name path of the resource, relative to this test's base directory.
      */
-    protected File getTestResource( final String name, final boolean mustExist )
+    public static File getTestResource( final String name, final boolean mustExist )
     {
-        File file = new File( baseDir, name );
+        File file = new File( getTestDirectory(), name );
         file = getCanonicalFile( file );
-        if( mustExist )
+        if ( mustExist )
         {
             assertTrue( "Test file \"" + file + "\" does not exist.", file.exists() );
         }
@@ -140,8 +133,13 @@ public abstract class AbstractVfsTestCase
     /**
      * Locates the base directory for this test.
      */
-    protected File getTestDirectory()
+    public static File getTestDirectory()
     {
+        if ( baseDir == null )
+        {
+            final String baseDirProp = System.getProperty( "test.basedir" );
+            baseDir = getCanonicalFile( new File( baseDirProp ) );
+        }
         return baseDir;
     }
 
@@ -150,9 +148,9 @@ public abstract class AbstractVfsTestCase
      *
      * @param name path of the directory, relative to this test's base directory.
      */
-    protected File getTestDirectory( final String name )
+    public static File getTestDirectory( final String name )
     {
-        File file = new File( baseDir, name );
+        File file = new File( getTestDirectory(), name );
         file = getCanonicalFile( file );
         assertTrue( "Test directory \"" + file + "\" does not exist or is not a directory.",
                     file.isDirectory() || file.mkdirs() );
@@ -162,13 +160,13 @@ public abstract class AbstractVfsTestCase
     /**
      * Makes a file canonical
      */
-    private File getCanonicalFile( final File file )
+    public static File getCanonicalFile( final File file )
     {
         try
         {
             return file.getCanonicalFile();
         }
-        catch( IOException e )
+        catch ( IOException e )
         {
             return file.getAbsoluteFile();
         }
@@ -180,14 +178,14 @@ public abstract class AbstractVfsTestCase
      * @param messages The messages, in order.  A null entry in this array
      *                 indicates that the message should be ignored.
      */
-    protected void assertSameMessage( final String[] messages, final Throwable throwable )
+    public static void assertSameMessage( final String[] messages, final Throwable throwable )
     {
         Throwable current = throwable;
-        for( int i = 0; i < messages.length; i++ )
+        for ( int i = 0; i < messages.length; i++ )
         {
             String message = messages[ i ];
             assertNotNull( current );
-            if( message != null )
+            if ( message != null )
             {
                 assertEquals( message, current.getMessage() );
             }
@@ -200,7 +198,7 @@ public abstract class AbstractVfsTestCase
     /**
      * Returns the cause of an exception.
      */
-    private Throwable getCause( Throwable throwable )
+    public static Throwable getCause( Throwable throwable )
     {
         try
         {
@@ -216,8 +214,8 @@ public abstract class AbstractVfsTestCase
     /**
      * Asserts that an exception contains the expected message.
      */
-    protected void assertSameMessage( final String code,
-                                      final Throwable throwable )
+    public static void assertSameMessage( final String code,
+                                          final Throwable throwable )
     {
         assertSameMessage( code, new Object[ 0 ], throwable );
     }
@@ -225,9 +223,9 @@ public abstract class AbstractVfsTestCase
     /**
      * Asserts that an exception contains the expected message.
      */
-    protected void assertSameMessage( final String code,
-                                      final Object[] params,
-                                      final Throwable throwable )
+    public static void assertSameMessage( final String code,
+                                          final Object[] params,
+                                          final Throwable throwable )
     {
         if ( throwable instanceof FileSystemException )
         {
@@ -251,11 +249,11 @@ public abstract class AbstractVfsTestCase
     /**
      * Asserts that an exception contains the expected message.
      */
-    protected void assertSameMessage( final String code,
-                                      final Object param,
-                                      final Throwable throwable )
+    public static void assertSameMessage( final String code,
+                                          final Object param,
+                                          final Throwable throwable )
     {
-        assertSameMessage( code, new Object[] { param }, throwable );
+        assertSameMessage( code, new Object[]{param}, throwable );
     }
 
     /**
@@ -264,11 +262,11 @@ public abstract class AbstractVfsTestCase
      */
     public static boolean equals( final Object o1, final Object o2 )
     {
-        if( o1 == null && o2 == null )
+        if ( o1 == null && o2 == null )
         {
             return true;
         }
-        if( o1 == null || o2 == null )
+        if ( o1 == null || o2 == null )
         {
             return false;
         }

@@ -55,41 +55,69 @@
  */
 package org.apache.commons.vfs.provider.temp.test;
 
-import org.apache.commons.vfs.test.AbstractWritableFileSystemTestCase;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
 import java.io.File;
+import junit.framework.Test;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.test.ProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
 
 /**
  * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/25 11:11:51 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/21 04:25:58 $
  */
 public class TemporaryFileProiderTestCase
-    extends AbstractWritableFileSystemTestCase
+    extends AbstractProviderTestConfig
+    implements ProviderTestConfig
 {
-    public TemporaryFileProiderTestCase( String name )
+    /**
+     * Creates the test suite for the tmp file system.
+     */
+    public static Test suite() throws Exception
     {
-        super( name );
+        return new ProviderTestSuite( new TemporaryFileProiderTestCase() );
     }
 
     /**
-     * Returns the base folder to run the tests against.
+     * Prepares the file system manager.  This implementation does nothing.
      */
-    protected FileObject getBaseFolder() throws Exception
+    public void prepare( final DefaultFileSystemManager manager )
+        throws Exception
     {
-        final File baseDir = getTestDirectory();
-        getManager().addProvider( "tmp-read", new TemporaryFileProvider( baseDir ) );
-        return getManager().resolveFile( "tmp-read:/basedir" );
+        final File baseDir = AbstractVfsTestCase.getTestDirectory();
+        manager.addProvider( "tmp-read", new TemporaryFileProvider( baseDir ) );
+        manager.addProvider( "tmp-write", new TemporaryFileProvider() );
     }
 
     /**
-     * Returns the URI for the area to do tests in.
+     * Returns the base folder for read tests.
      */
-    protected FileObject getWriteFolder() throws Exception
+    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
     {
-        getManager().addProvider( "tmp", new TemporaryFileProvider() );
-        return getManager().resolveFile( "tmp:/write-tests" );
+        return manager.resolveFile( "tmp-read:/basedir" );
+    }
+
+    /**
+     * Returns true if the write tests should be run for this provider.
+     */
+    public boolean runWriteTests()
+    {
+        return true;
+    }
+
+    /**
+     * Returns the base folder for write tests.  This implementation returns
+     * null.
+     */
+    public FileObject getWriteTestFolder( final FileSystemManager manager )
+        throws Exception
+    {
+        return manager.resolveFile( "tmp-write:/write-tests" );
     }
 }

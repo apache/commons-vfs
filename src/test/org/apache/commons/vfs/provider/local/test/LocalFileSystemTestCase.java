@@ -56,8 +56,14 @@
 package org.apache.commons.vfs.provider.local.test;
 
 import java.io.File;
+import junit.framework.Test;
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.test.ProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.test.AbstractWritableFileSystemTestCase;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
 /**
  * Tests for the local file system.
@@ -65,46 +71,50 @@ import org.apache.commons.vfs.test.AbstractWritableFileSystemTestCase;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class LocalFileSystemTestCase
-    extends AbstractWritableFileSystemTestCase
+    extends AbstractProviderTestConfig
+    implements ProviderTestConfig
 {
-    public LocalFileSystemTestCase( String name )
+    /**
+     * Creates the test suite for the local file system.
+     */
+    public static Test suite() throws Exception
     {
-        super( name );
+        return new ProviderTestSuite( new LocalFileSystemTestCase() );
     }
 
     /**
-     * Returns the URI for the base folder.
+     * Prepares the file system manager.
      */
-    protected FileObject getBaseFolder() throws Exception
+    public void prepare( final DefaultFileSystemManager manager ) throws Exception
     {
-        final File testDir = getTestDirectory( "basedir" );
+    }
+
+    /**
+     * Returns the base folder for read tests.
+     */
+    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    {
+        final File testDir = AbstractVfsTestCase.getTestDirectory( "basedir" );
         final File emptyDir = new File( testDir, "emptydir" );
         emptyDir.mkdirs();
-        return getManager().toFileObject( testDir );
+        return manager.toFileObject( testDir );
     }
 
     /**
-     * Returns the URI for the area to do tests in.
+     * Returns true if the write tests should be run for this provider.
      */
-    protected FileObject getWriteFolder() throws Exception
+    public boolean runWriteTests()
     {
-        final File testDir = getTestDirectory( "write-tests" );
-        return getManager().toFileObject( testDir );
+        return true;
     }
 
     /**
-     * Tests resolution of an absolute file name.
+     * Returns the base folder for write tests.  Should return null to
+     * skip the write tests.
      */
-    public void testAbsoluteFileName() throws Exception
+    public FileObject getWriteTestFolder( final FileSystemManager manager ) throws Exception
     {
-        // Locate file by absolute file name
-        String fileName = new File( "testdir" ).getAbsolutePath();
-        FileObject absFile = getManager().resolveFile( fileName );
-
-        // Locate file by URI
-        String uri = "file://" + fileName.replace( File.separatorChar, '/' );
-        FileObject uriFile = getManager().resolveFile( uri );
-
-        assertSame( "file object", absFile, uriFile );
+        final File testDir = AbstractVfsTestCase.getTestDirectory( "write-tests" );
+        return manager.toFileObject( testDir );
     }
 }

@@ -56,30 +56,48 @@
 package org.apache.commons.vfs.provider.zip.test;
 
 import java.io.File;
+import junit.framework.Test;
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.test.ProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
-import org.apache.commons.vfs.test.AbstractReadOnlyFileSystemTestCase;
 
 /**
  * Tests for the Zip file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class ZipFileSystemTestCase extends AbstractReadOnlyFileSystemTestCase
+public class ZipFileSystemTestCase
+    extends AbstractProviderTestConfig
+    implements ProviderTestConfig
 {
-    public ZipFileSystemTestCase( String name )
+    /**
+     * Creates the test suite for the zip file system.
+     */
+    public static Test suite() throws Exception
     {
-        super( name );
+        return new ProviderTestSuite( new ZipFileSystemTestCase() );
     }
 
     /**
-     * Returns the URI for the base folder.
+     * Prepares the file system manager.
      */
-    protected FileObject getBaseFolder() throws Exception
+    public void prepare( final DefaultFileSystemManager manager ) throws Exception
     {
-        File zipFile = getTestResource( "test.zip" );
-        String uri = "zip:" + zipFile.getAbsolutePath() + "!basedir";
-        getManager().addProvider( "zip", new ZipFileSystemProvider() );
-        return getManager().resolveFile( uri );
+        manager.addProvider( "zip", new ZipFileSystemProvider() );
+    }
+
+    /**
+     * Returns the base folder for read tests.
+     */
+    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    {
+        final File zipFile = AbstractVfsTestCase.getTestResource( "test.zip" );
+        final String uri = "zip:" + zipFile.getAbsolutePath() + "!basedir";
+        return manager.resolveFile( uri );
     }
 }

@@ -63,8 +63,4 @@ package org.apache.commons.vfs.test;
  */
 public abstract class AbstractReadOnlyFileSystemTestCase extends AbstractFileSystemTestCase
 {
-    public AbstractReadOnlyFileSystemTestCase( String name )
-    {
-        super( name );
-    }
 }

@@ -55,9 +55,15 @@
  */
 package org.apache.commons.vfs.provider.zip.test;
 
+import junit.framework.Test;
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
-import org.apache.commons.vfs.test.AbstractReadOnlyFileSystemTestCase;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 
 /**
  * Tests for the Zip file system, using a zip file nested inside another zip file.
@@ -65,27 +71,38 @@ import org.apache.commons.vfs.test.AbstractReadOnlyFileSystemTestCase;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class NestedZipFileSystemTestCase
-    extends AbstractReadOnlyFileSystemTestCase
+    extends AbstractProviderTestConfig
+    implements ProviderTestConfig
 {
-    public NestedZipFileSystemTestCase( String name )
+    /**
+     * Creates the test suite for nested zip files.
+     */
+    public static Test suite() throws Exception
     {
-        super( name );
+        return new ProviderTestSuite( new NestedZipFileSystemTestCase() );
     }
 
     /**
-     * Returns the URI for the base folder.
+     * Prepares the file system manager.  This implementation does nothing.
      */
-    protected FileObject getBaseFolder() throws Exception
+    public void prepare( final DefaultFileSystemManager manager )
+        throws Exception
     {
-        getManager().addProvider( "zip", new ZipFileSystemProvider() );
+        manager.addProvider( "zip", new ZipFileSystemProvider() );
+    }
 
+    /**
+     * Returns the base folder for read tests.
+     */
+    public FileObject getReadTestFolder( FileSystemManager manager ) throws Exception
+    {
         // Locate the base Zip file
-        final String zipFilePath = getTestResource( "nested.zip" ).getAbsolutePath();
+        final String zipFilePath = AbstractVfsTestCase.getTestResource( "nested.zip" ).getAbsolutePath();
         String uri = "zip:" + zipFilePath + "!/test.zip";
-        final FileObject zipFile = getManager().resolveFile( uri );
+        final FileObject zipFile = manager.resolveFile( uri );
 
         // Now build the nested file system
-        final FileObject nestedFS = getManager().createFileSystem( "zip", zipFile );
+        final FileObject nestedFS = manager.createFileSystem( "zip", zipFile );
         return nestedFS.resolveFile( "/basedir" );
     }
 }

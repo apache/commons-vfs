@@ -53,68 +53,34 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.jar.test;
+package org.apache.commons.vfs.provider.local.test;
 
 import java.io.File;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.jar.JarFileSystemProvider;
-import junit.framework.Test;
+import org.apache.commons.vfs.test.AbstractFileSystemTestCase;
 
 /**
- * Tests for the Jar file system.
+ * Additional naming tests for local file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
  */
-public class JarFileSystemTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public class FileNameTestCase
+    extends AbstractFileSystemTestCase
 {
     /**
-     * Creates the test suite for the jar file system.
+     * Tests resolution of an absolute file name.
      */
-    public static Test suite() throws Exception
+    public void testAbsoluteFileName() throws Exception
     {
-        return new ProviderTestSuite( new JarFileSystemTestCase() );
-    }
+        // Locate file by absolute file name
+        String fileName = new File( "testdir" ).getAbsolutePath();
+        FileObject absFile = getManager().resolveFile( fileName );
 
-    /**
-     * Prepares the file system manager.
-     */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
-    {
-        manager.addProvider( "jar", new JarFileSystemProvider() );
-    }
+        // Locate file by URI
+        String uri = "file://" + fileName.replace( File.separatorChar, '/' );
+        FileObject uriFile = getManager().resolveFile( uri );
 
-    /**
-     * Returns the base folder for read tests.
-     */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
-    {
-        final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
-        final String uri = "jar:" + jarFile.getAbsolutePath() + "!basedir";
-        return manager.resolveFile( uri );
-    }
-
-    /**
-     * Verify the package loaded with class loader.
-     * If the provider supports attributes override this method.
-     */
-    protected boolean verifyPackage( Package pack )
-    {
-        return "code".equals( pack.getName() ) &&
-               "ImplTitle".equals( pack.getImplementationTitle() ) &&
-               "ImplVendor".equals( pack.getImplementationVendor() ) &&
-               "1.1".equals( pack.getImplementationVersion() ) &&
-               "SpecTitle".equals( pack.getSpecificationTitle() ) &&
-               "SpecVendor".equals( pack.getSpecificationVendor() ) &&
-               "1.0".equals( pack.getSpecificationVersion() ) &&
-               !pack.isSealed();
+        assertSame( "file object", absFile, uriFile );
     }
 }

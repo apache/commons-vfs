@@ -53,68 +53,59 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.jar.test;
+package org.apache.commons.vfs.test;
 
-import java.io.File;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.jar.JarFileSystemProvider;
-import junit.framework.Test;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import junit.framework.TestSuite;
 
 /**
- * Tests for the Jar file system.
+ * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
  */
-public class JarFileSystemTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public class ProviderTestSuite
+    extends TestSuite
 {
+    private final ProviderTestConfig providerConfig;
+
     /**
-     * Creates the test suite for the jar file system.
+     * Adds the tests for a file system to this suite.
      */
-    public static Test suite() throws Exception
+    public ProviderTestSuite( final ProviderTestConfig fsConfig ) throws Exception
     {
-        return new ProviderTestSuite( new JarFileSystemTestCase() );
+        providerConfig = fsConfig;
+        addTestClass( ProviderReadTests.class );
+        if ( providerConfig.runWriteTests() )
+        {
+            addTestClass( AbstractWritableFileSystemTestCase.class );
+        }
     }
 
     /**
-     * Prepares the file system manager.
+     * Adds the tests from a class to this suite.  Looks for a no-args constructor
+     * which it uses to create instances of the test class.  Adds an instance
+     * for each public test method provided by the class.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
+    private void addTestClass( final Class testClass ) throws Exception
     {
-        manager.addProvider( "jar", new JarFileSystemProvider() );
-    }
+        // Locate the test methods
+        final Method[] methods = testClass.getMethods();
+        for ( int i = 0; i < methods.length; i++ )
+        {
+            final Method method = methods[ i ];
+            if ( ! method.getName().startsWith( "test")
+                || Modifier.isStatic( method.getModifiers() ) )
+            {
+                continue;
+            }
 
-    /**
-     * Returns the base folder for read tests.
-     */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
-    {
-        final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
-        final String uri = "jar:" + jarFile.getAbsolutePath() + "!basedir";
-        return manager.resolveFile( uri );
-    }
-
-    /**
-     * Verify the package loaded with class loader.
-     * If the provider supports attributes override this method.
-     */
-    protected boolean verifyPackage( Package pack )
-    {
-        return "code".equals( pack.getName() ) &&
-               "ImplTitle".equals( pack.getImplementationTitle() ) &&
-               "ImplVendor".equals( pack.getImplementationVendor() ) &&
-               "1.1".equals( pack.getImplementationVersion() ) &&
-               "SpecTitle".equals( pack.getSpecificationTitle() ) &&
-               "SpecVendor".equals( pack.getSpecificationVendor() ) &&
-               "1.0".equals( pack.getSpecificationVersion() ) &&
-               !pack.isSealed();
+            // Create instance
+            final AbstractFileSystemTestCase testCase = (AbstractFileSystemTestCase)testClass.newInstance();
+            testCase.setConfig( providerConfig );
+            testCase.setName( method.getName() );
+            addTest( testCase );
+        }
     }
 }
