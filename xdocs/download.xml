@@ -34,7 +34,7 @@
                         <a href="http://jakarta.apache.org/commons/logging/">Commons Collections</a>
                         Version 3.1-dev
                     </td>
-                    <td>LRU Cache</td>
+                    <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
