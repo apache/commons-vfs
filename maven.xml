@@ -43,13 +43,9 @@
       manifest="${test.data.src}/test.mf"/>
 
     <jar
-      jarfile="${test.basedir}/normal.jar"
-      basedir="${test.basedir}/read-tests"
-      manifest="${test.data.src}/normal.mf"/>
-    <jar
       jarfile="${test.basedir}/nested.jar"
       basedir="${test.basedir}"
-      includes="test.jar,normal.jar"/>
+      includes="test.jar"/>
   </postGoal>
     
 </project>
