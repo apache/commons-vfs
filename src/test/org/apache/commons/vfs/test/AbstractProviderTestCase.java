@@ -53,65 +53,105 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.smb.test;
+package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import java.io.File;
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.smb.SmbFileSystemProvider;
-import junit.framework.Test;
+import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
 
 /**
- * Tests for the SMB file system.
+ * File system test cases, which verifies the structure and naming
+ * functionality.
+ *
+ * Works from a base folder, and assumes a particular structure under
+ * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/11/21 04:31:38 $
  */
-public class SmbFileSystemTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public class AbstractProviderTestCase
+    extends AbstractVfsTestCase
 {
-    public static Test suite() throws Exception
+    private FileObject readFolder;
+    private FileObject writeFolder;
+    private DefaultFileSystemManager manager;
+    private ProviderTestConfig providerConfig;
+    private File tempDir;
+
+    /** Sets the provider test config, if any. */
+    public void setConfig( final ProviderTestConfig providerConfig )
     {
-        return new ProviderTestSuite( new SmbFileSystemTestCase() );
+        this.providerConfig = providerConfig;
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Returns the file system manager used by this test.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
+    protected DefaultFileSystemManager getManager()
     {
-        manager.addProvider( "smb", new SmbFileSystemProvider() );
+        return manager;
     }
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the read test folder.
      */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    protected FileObject getReadFolder()
     {
-        final String uri = System.getProperty( "test.smb.uri" ) + "/read-tests";
-        return manager.resolveFile( uri );
+        return readFolder;
     }
 
     /**
-     * Returns true if the write tests should be run for this provider.
+     * Returns the write test folder.
      */
-    public boolean runWriteTests()
+    protected FileObject getWriteFolder()
     {
-        return true;
+        return writeFolder;
     }
 
     /**
-     * Returns the base folder for write tests.  This implementation returns
-     * null.
+     * Sets up the test
      */
-    public FileObject getWriteTestFolder( final FileSystemManager manager )
-        throws Exception
+    protected void setUp() throws Exception
     {
-        final String uri = System.getProperty( "test.smb.uri" ) + "/write-tests";
-        return manager.resolveFile( uri );
+        // Create the file system manager
+        manager = new DefaultFileSystemManager();
+        manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
+
+        tempDir = getTestDirectory( "temp" );
+        final DefaultFileReplicator replicator = new DefaultFileReplicator( tempDir );
+        manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
+        manager.setTemporaryFileStore( replicator );
+
+        if ( providerConfig != null )
+        {
+            providerConfig.prepare( manager );
+        }
+
+        manager.init();
+
+        if ( providerConfig != null )
+        {
+            // Locate the base folder
+            readFolder = providerConfig.getReadTestFolder( manager );
+            writeFolder = providerConfig.getWriteTestFolder( manager );
+
+            // Make some assumptions absout the name
+            assertTrue( !readFolder.getName().getPath().equals( "/" ) );
+        }
+    }
+
+    /**
+     * Cleans-up test.
+     */
+    protected void tearDown() throws Exception
+    {
+        manager.close();
+
+        // Make sure temp directory is empty or gone
+        assertTrue( ( ! tempDir.exists() ) || ( tempDir.isDirectory() && tempDir.list().length == 0 ) );
     }
 }

@@ -63,7 +63,7 @@ import junit.framework.TestSuite;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/21 04:31:38 $
  */
 public class ProviderTestSuite
     extends TestSuite
@@ -79,7 +79,7 @@ public class ProviderTestSuite
         addTestClass( ProviderReadTests.class );
         if ( providerConfig.runWriteTests() )
         {
-            addTestClass( AbstractWritableFileSystemTestCase.class );
+            addTestClass( ProviderWriteTests.class );
         }
     }
 
@@ -102,7 +102,7 @@ public class ProviderTestSuite
             }
 
             // Create instance
-            final AbstractFileSystemTestCase testCase = (AbstractFileSystemTestCase)testClass.newInstance();
+            final AbstractProviderTestCase testCase = (AbstractProviderTestCase)testClass.newInstance();
             testCase.setConfig( providerConfig );
             testCase.setName( method.getName() );
             addTest( testCase );

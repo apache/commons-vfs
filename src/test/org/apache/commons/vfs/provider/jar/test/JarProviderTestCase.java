@@ -53,10 +53,9 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.zip.test;
+package org.apache.commons.vfs.provider.jar.test;
 
 import java.io.File;
-import junit.framework.Test;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
@@ -64,31 +63,33 @@ import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
+import org.apache.commons.vfs.provider.jar.JarFileSystemProvider;
+import junit.framework.Test;
 
 /**
- * Tests for the Zip file system.
+ * Tests for the Jar file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class ZipFileSystemTestCase
+public class JarProviderTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
     /**
-     * Creates the test suite for the zip file system.
+     * Creates the test suite for the jar file system.
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new ZipFileSystemTestCase() );
+        return new ProviderTestSuite( new JarProviderTestCase() );
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager ) throws Exception
+    public void prepare( final DefaultFileSystemManager manager )
+        throws Exception
     {
-        manager.addProvider( "zip", new ZipFileSystemProvider() );
+        manager.addProvider( "jar", new JarFileSystemProvider() );
     }
 
     /**
@@ -96,8 +97,24 @@ public class ZipFileSystemTestCase
      */
     public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
     {
-        final File zipFile = AbstractVfsTestCase.getTestResource( "test.zip" );
-        final String uri = "zip:" + zipFile.getAbsolutePath() + "!basedir";
+        final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
+        final String uri = "jar:" + jarFile.getAbsolutePath() + "!basedir";
         return manager.resolveFile( uri );
+    }
+
+    /**
+     * Verify the package loaded with class loader.
+     * If the provider supports attributes override this method.
+     */
+    protected boolean verifyPackage( Package pack )
+    {
+        return "code".equals( pack.getName() ) &&
+               "ImplTitle".equals( pack.getImplementationTitle() ) &&
+               "ImplVendor".equals( pack.getImplementationVendor() ) &&
+               "1.1".equals( pack.getImplementationVersion() ) &&
+               "SpecTitle".equals( pack.getSpecificationTitle() ) &&
+               "SpecVendor".equals( pack.getSpecificationVendor() ) &&
+               "1.0".equals( pack.getSpecificationVersion() ) &&
+               !pack.isSealed();
     }
 }

@@ -53,33 +53,35 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.zip.test;
+package org.apache.commons.vfs.provider.temp.test;
 
+import java.io.File;
 import junit.framework.Test;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.test.ProviderTestConfig;
+import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
 
 /**
- * Tests for the Zip file system, using a zip file nested inside another zip file.
+ * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/11/21 04:31:37 $
  */
-public class NestedZipFileSystemTestCase
+public class TemporaryProviderTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
     /**
-     * Creates the test suite for nested zip files.
+     * Creates the test suite for the tmp file system.
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new NestedZipFileSystemTestCase() );
+        return new ProviderTestSuite( new TemporaryProviderTestCase() );
     }
 
     /**
@@ -88,21 +90,34 @@ public class NestedZipFileSystemTestCase
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-        manager.addProvider( "zip", new ZipFileSystemProvider() );
+        final File baseDir = AbstractVfsTestCase.getTestDirectory();
+        manager.addProvider( "tmp-read", new TemporaryFileProvider( baseDir ) );
+        manager.addProvider( "tmp-write", new TemporaryFileProvider() );
     }
 
     /**
      * Returns the base folder for read tests.
      */
-    public FileObject getReadTestFolder( FileSystemManager manager ) throws Exception
+    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
     {
-        // Locate the base Zip file
-        final String zipFilePath = AbstractVfsTestCase.getTestResource( "nested.zip" ).getAbsolutePath();
-        String uri = "zip:" + zipFilePath + "!/test.zip";
-        final FileObject zipFile = manager.resolveFile( uri );
+        return manager.resolveFile( "tmp-read:/basedir" );
+    }
 
-        // Now build the nested file system
-        final FileObject nestedFS = manager.createFileSystem( "zip", zipFile );
-        return nestedFS.resolveFile( "/basedir" );
+    /**
+     * Returns true if the write tests should be run for this provider.
+     */
+    public boolean runWriteTests()
+    {
+        return true;
+    }
+
+    /**
+     * Returns the base folder for write tests.  This implementation returns
+     * null.
+     */
+    public FileObject getWriteTestFolder( final FileSystemManager manager )
+        throws Exception
+    {
+        return manager.resolveFile( "tmp-write:/write-tests" );
     }
 }

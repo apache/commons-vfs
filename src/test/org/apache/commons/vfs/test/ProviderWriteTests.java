@@ -72,8 +72,8 @@ import org.apache.commons.vfs.FileChangeEvent;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class AbstractWritableFileSystemTestCase
-    extends AbstractFileSystemTestCase
+public class ProviderWriteTests
+    extends AbstractProviderTestCase
 {
     /**
      * Sets up a scratch folder for the test to use.

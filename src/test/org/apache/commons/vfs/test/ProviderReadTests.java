@@ -76,10 +76,10 @@ import java.io.IOException;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/21 04:31:38 $
  */
 public class ProviderReadTests
-    extends AbstractFileSystemTestCase
+    extends AbstractProviderTestCase
 {
     // Contents of "file1.txt"
     private String charContent = "This is a test file.";

@@ -53,35 +53,29 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.temp.test;
+package org.apache.commons.vfs.provider.smb.test;
 
-import java.io.File;
-import junit.framework.Test;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
+import org.apache.commons.vfs.provider.smb.SmbFileSystemProvider;
+import junit.framework.Test;
 
 /**
- * Test cases for the tmp: file provider.
+ * Tests for the SMB file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/21 04:25:58 $
  */
-public class TemporaryFileProiderTestCase
+public class SmbProviderTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
-    /**
-     * Creates the test suite for the tmp file system.
-     */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new TemporaryFileProiderTestCase() );
+        return new ProviderTestSuite( new SmbProviderTestCase() );
     }
 
     /**
@@ -90,9 +84,7 @@ public class TemporaryFileProiderTestCase
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        manager.addProvider( "tmp-read", new TemporaryFileProvider( baseDir ) );
-        manager.addProvider( "tmp-write", new TemporaryFileProvider() );
+        manager.addProvider( "smb", new SmbFileSystemProvider() );
     }
 
     /**
@@ -100,7 +92,8 @@ public class TemporaryFileProiderTestCase
      */
     public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
     {
-        return manager.resolveFile( "tmp-read:/basedir" );
+        final String uri = System.getProperty( "test.smb.uri" ) + "/read-tests";
+        return manager.resolveFile( uri );
     }
 
     /**
@@ -118,6 +111,7 @@ public class TemporaryFileProiderTestCase
     public FileObject getWriteTestFolder( final FileSystemManager manager )
         throws Exception
     {
-        return manager.resolveFile( "tmp-write:/write-tests" );
+        final String uri = System.getProperty( "test.smb.uri" ) + "/write-tests";
+        return manager.resolveFile( uri );
     }
 }

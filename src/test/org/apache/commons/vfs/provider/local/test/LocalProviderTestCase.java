@@ -70,7 +70,7 @@ import org.apache.commons.vfs.impl.DefaultFileSystemManager;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class LocalFileSystemTestCase
+public class LocalProviderTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
@@ -79,7 +79,7 @@ public class LocalFileSystemTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new LocalFileSystemTestCase() );
+        return new ProviderTestSuite( new LocalProviderTestCase() );
     }
 
     /**

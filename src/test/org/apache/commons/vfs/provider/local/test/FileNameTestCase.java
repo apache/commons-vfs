@@ -57,16 +57,16 @@ package org.apache.commons.vfs.provider.local.test;
 
 import java.io.File;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.test.AbstractFileSystemTestCase;
+import org.apache.commons.vfs.test.AbstractProviderTestCase;
 
 /**
  * Additional naming tests for local file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/21 04:31:37 $
  */
 public class FileNameTestCase
-    extends AbstractFileSystemTestCase
+    extends AbstractProviderTestCase
 {
     /**
      * Tests resolution of an absolute file name.

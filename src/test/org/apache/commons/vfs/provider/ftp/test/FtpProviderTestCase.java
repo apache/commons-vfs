@@ -53,43 +53,40 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.jar.test;
+package org.apache.commons.vfs.provider.ftp.test;
 
-import java.io.File;
-import org.apache.commons.AbstractVfsTestCase;
+import junit.framework.Test;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.jar.JarFileSystemProvider;
-import junit.framework.Test;
+import org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider;
 
 /**
- * Tests for the Jar file system.
+ * Tests for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class JarFileSystemTestCase
+public class FtpProviderTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
     /**
-     * Creates the test suite for the jar file system.
+     * Creates the test suite for the ftp file system.
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new JarFileSystemTestCase() );
+        return new ProviderTestSuite( new FtpProviderTestCase() );
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
+    public void prepare( final DefaultFileSystemManager manager ) throws Exception
     {
-        manager.addProvider( "jar", new JarFileSystemProvider() );
+        manager.addProvider( "ftp", new FtpFileSystemProvider() );
     }
 
     /**
@@ -97,24 +94,25 @@ public class JarFileSystemTestCase
      */
     public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
     {
-        final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
-        final String uri = "jar:" + jarFile.getAbsolutePath() + "!basedir";
+        final String uri = System.getProperty( "test.ftp.uri" ) + "/read-tests";
         return manager.resolveFile( uri );
     }
 
     /**
-     * Verify the package loaded with class loader.
-     * If the provider supports attributes override this method.
+     * Returns true if the write tests should be run for this provider.
      */
-    protected boolean verifyPackage( Package pack )
+    public boolean runWriteTests()
     {
-        return "code".equals( pack.getName() ) &&
-               "ImplTitle".equals( pack.getImplementationTitle() ) &&
-               "ImplVendor".equals( pack.getImplementationVendor() ) &&
-               "1.1".equals( pack.getImplementationVersion() ) &&
-               "SpecTitle".equals( pack.getSpecificationTitle() ) &&
-               "SpecVendor".equals( pack.getSpecificationVendor() ) &&
-               "1.0".equals( pack.getSpecificationVersion() ) &&
-               !pack.isSealed();
+        return true;
+    }
+
+    /**
+     * Returns the base folder for write tests.  Should return null to
+     * skip the write tests.
+     */
+    public FileObject getWriteTestFolder( final FileSystemManager manager ) throws Exception
+    {
+        final String uri = System.getProperty( "test.ftp.uri" ) + "/write-tests";
+        return manager.resolveFile( uri );
     }
 }

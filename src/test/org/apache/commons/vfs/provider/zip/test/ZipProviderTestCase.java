@@ -53,32 +53,34 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.ftp.test;
+package org.apache.commons.vfs.provider.zip.test;
 
+import java.io.File;
 import junit.framework.Test;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
+import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider;
+import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
 
 /**
- * Tests for FTP file systems.
+ * Tests for the Zip file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class FtpFileSystemTestCase
+public class ZipProviderTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
     /**
-     * Creates the test suite for the ftp file system.
+     * Creates the test suite for the zip file system.
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new FtpFileSystemTestCase() );
+        return new ProviderTestSuite( new ZipProviderTestCase() );
     }
 
     /**
@@ -86,7 +88,7 @@ public class FtpFileSystemTestCase
      */
     public void prepare( final DefaultFileSystemManager manager ) throws Exception
     {
-        manager.addProvider( "ftp", new FtpFileSystemProvider() );
+        manager.addProvider( "zip", new ZipFileSystemProvider() );
     }
 
     /**
@@ -94,25 +96,8 @@ public class FtpFileSystemTestCase
      */
     public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
     {
-        final String uri = System.getProperty( "test.ftp.uri" ) + "/read-tests";
-        return manager.resolveFile( uri );
-    }
-
-    /**
-     * Returns true if the write tests should be run for this provider.
-     */
-    public boolean runWriteTests()
-    {
-        return true;
-    }
-
-    /**
-     * Returns the base folder for write tests.  Should return null to
-     * skip the write tests.
-     */
-    public FileObject getWriteTestFolder( final FileSystemManager manager ) throws Exception
-    {
-        final String uri = System.getProperty( "test.ftp.uri" ) + "/write-tests";
+        final File zipFile = AbstractVfsTestCase.getTestResource( "test.zip" );
+        final String uri = "zip:" + zipFile.getAbsolutePath() + "!basedir";
         return manager.resolveFile( uri );
     }
 }

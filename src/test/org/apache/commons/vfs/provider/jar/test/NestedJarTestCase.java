@@ -71,7 +71,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class NestedJarFileSystemTestCase
+public class NestedJarTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
@@ -80,7 +80,7 @@ public class NestedJarFileSystemTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new NestedJarFileSystemTestCase() );
+        return new ProviderTestSuite( new NestedJarTestCase() );
     }
 
     /**
