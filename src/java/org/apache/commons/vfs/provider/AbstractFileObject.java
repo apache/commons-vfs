@@ -55,7 +55,6 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
@@ -184,15 +183,6 @@ public abstract class AbstractFileObject
     protected void doCreateFolder() throws Exception
     {
         throw new FileSystemException( "vfs.provider/create-folder-not-supported.error" );
-    }
-
-    /**
-     * Creates a local copy of this file.
-     */
-    protected File doReplicateFile( final FileSelector selector ) throws FileSystemException
-    {
-        final FileReplicator replicator = fs.getContext().getReplicator();
-        return replicator.replicateFile( this, selector );
     }
 
     /**
@@ -754,20 +744,6 @@ public abstract class AbstractFileObject
         final ArrayList list = new ArrayList();
         findFiles( selector, true, list );
         return list;
-    }
-
-    /**
-     * Creates a temporary local copy of this file, and its descendents.
-     */
-    public File replicateFile( final FileSelector selector )
-        throws FileSystemException
-    {
-        if ( !exists() )
-        {
-            throw new FileSystemException( "vfs.provider/copy-missing-file.error", name );
-        }
-
-        return doReplicateFile( selector );
     }
 
     /**

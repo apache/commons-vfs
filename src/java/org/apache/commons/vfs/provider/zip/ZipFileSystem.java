@@ -88,9 +88,7 @@ public class ZipFileSystem
         super( rootName, parentLayer );
 
         // Make a local copy of the file
-        final File file = parentLayer.replicateFile( Selectors.SELECT_SELF );
-
-        this.file = file;
+        file = parentLayer.getFileSystem().replicateFile( parentLayer, Selectors.SELECT_SELF );
 
         // Open the Zip file
         if ( !file.exists() )

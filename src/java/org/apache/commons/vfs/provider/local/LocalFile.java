@@ -58,16 +58,13 @@ package org.apache.commons.vfs.provider.local;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilePermission;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.commons.vfs.provider.DefaultFileContent;
 
 /**
  * A file object implementation which uses direct file access.
@@ -81,7 +78,6 @@ final class LocalFile
 {
     private File file;
     private final String fileName;
-    private FilePermission requiredPerm;
 
     /**
      * Creates a non-root file.
@@ -95,6 +91,14 @@ final class LocalFile
     }
 
     /**
+     * Returns the local file that this file object represents.
+     */
+    public File getLocalFile()
+    {
+        return file;
+    }
+
+    /**
      * Attaches this file object to its file resource.
      */
     protected void doAttach()
@@ -103,7 +107,6 @@ final class LocalFile
         if ( file == null )
         {
             file = new File( fileName );
-            requiredPerm = new FilePermission( file.getAbsolutePath(), "read" );
         }
     }
 
@@ -220,19 +223,5 @@ final class LocalFile
         throws Exception
     {
         return file.length();
-    }
-
-    /**
-     * Creates a temporary local copy of this file, and its descendents.
-     */
-    protected File doReplicateFile( final FileSelector selector )
-        throws FileSystemException
-    {
-        final SecurityManager sm = System.getSecurityManager();
-        if ( sm != null )
-        {
-            sm.checkPermission( requiredPerm );
-        }
-        return file;
     }
 }

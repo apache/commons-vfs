@@ -55,7 +55,6 @@
  */
 package org.apache.commons.vfs;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -330,26 +329,6 @@ public interface FileObject
      */
     void copyFrom( FileObject srcFile, FileSelector selector )
         throws FileSystemException;
-
-    /**
-     * Creates a temporary local copy of this file, and its descendents.  If
-     * this file is a local file, a copy is not made.
-     *
-     * <p>Note that the local copy may include additonal files, that were
-     * not selected by the given selector.
-     *
-     * @todo Add options to indicate whether the caller is happy to deal with
-     *       extra files being present locally (eg if the file has been
-     *       replicated previously), or whether the caller expects only
-     *       the selected files to be present.
-     *
-     * @param selector the selector to use to select the files to replicate.
-     * @return The local copy of this file.
-     *
-     * @throws FileSystemException
-     *      If this file does not exist, or on error replicating the file.
-     */
-    File replicateFile( FileSelector selector ) throws FileSystemException;
 
     /**
      * Returns this file's content.  The {@link FileContent} returned by this

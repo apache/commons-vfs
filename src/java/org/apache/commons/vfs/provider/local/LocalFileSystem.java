@@ -59,7 +59,10 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import java.io.File;
+import java.io.FilePermission;
 
 /**
  * A local file system.
@@ -90,4 +93,23 @@ public final class LocalFileSystem
         final String fileName = rootFile + name.getPath();
         return new LocalFile( this, fileName, name );
     }
+
+    /**
+     * Creates a temporary local copy of a file and its descendents.
+     */
+    protected File doReplicateFile( final FileObject fileObject,
+                                    final FileSelector selector )
+        throws Exception
+    {
+        final LocalFile localFile = (LocalFile)fileObject;
+        final File file = localFile.getLocalFile();
+        final SecurityManager sm = System.getSecurityManager();
+        if ( sm != null )
+        {
+            final FilePermission requiredPerm = new FilePermission( file.getAbsolutePath(), "read" );
+            sm.checkPermission( requiredPerm );
+        }
+        return file;
+    }
+
 }

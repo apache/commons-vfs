@@ -58,12 +58,14 @@ package org.apache.commons.vfs.provider;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.util.Messages;
 
 /**
@@ -194,6 +196,38 @@ public abstract class AbstractFileSystem
             files.put( name, file );
         }
         return file;
+    }
+
+    /**
+     * Creates a temporary local copy of a file and its descendents.
+     */
+    public File replicateFile( final FileObject file,
+                               final FileSelector selector )
+        throws FileSystemException
+    {
+        if ( !file.exists() )
+        {
+            throw new FileSystemException( "vfs.provider/replicate-missing-file.error", file.getName() );
+        }
+
+        try
+        {
+            return doReplicateFile( file, selector );
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/replicate-file.error", file.getName(), e );
+        }
+    }
+
+    /**
+     * Creates a temporary local copy of a file and its descendents.
+     */
+    protected File doReplicateFile( final FileObject file,
+                                    final FileSelector selector )
+        throws Exception
+    {
+        return getContext().getReplicator().replicateFile( file, selector );
     }
 
     /**
