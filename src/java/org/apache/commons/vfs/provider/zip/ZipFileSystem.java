@@ -110,7 +110,7 @@ public class ZipFileSystem
                 {
                     parent = createZipFileObject(parentName, null);
                     putFileToCache(parent);
-                    strongRef.add(fileObj);
+                    strongRef.add(parent);
                 }
 
                 // Attach child to parent

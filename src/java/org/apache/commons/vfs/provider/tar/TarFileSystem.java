@@ -43,7 +43,7 @@ import java.util.zip.GZIPInputStream;
  * A read-only file system for Tar files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2005/01/27 07:15:49 $
+ * @version $Revision: 1.4 $ $Date: 2005/01/27 07:33:08 $
  */
 public class TarFileSystem
     extends AbstractFileSystem
@@ -114,7 +114,7 @@ public class TarFileSystem
                     {
                         parent = createTarFileObject(parentName, null);
                         putFileToCache(parent);
-                        strongRef.add(fileObj);
+                        strongRef.add(parent);
                     }
 
                     // Attach child to parent
