@@ -86,6 +86,7 @@ public class ProviderWriteTests
         {
             Capability.CREATE,
             Capability.DELETE,
+            Capability.GET_TYPE,
             Capability.LIST_CHILDREN,
             Capability.READ_CONTENT,
             Capability.WRITE_CONTENT

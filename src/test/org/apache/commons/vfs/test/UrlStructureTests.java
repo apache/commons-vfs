@@ -55,60 +55,47 @@
  */
 package org.apache.commons.vfs.test;
 
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.Capability;
+import java.io.IOException;
 
 /**
- * Info about a file.
+ * URL Test cases for providers that supply structural info.
+ *
+ * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2003/01/23 04:41:56 $
  */
-class FileInfo
+public class UrlStructureTests
+    extends AbstractProviderTestCase
 {
-    String baseName;
-    FileType type;
-    String content;
-    Map children = new HashMap();
-    FileInfo parent;
-
-    public FileInfo( final String name, final FileType type )
+    /**
+     * Returns the capabilities required by the tests of this test case.
+     */
+    protected Capability[] getRequiredCaps()
     {
-        baseName = name;
-        this.type = type;
-        this.content = null;
+        return new Capability[]
+        {
+            Capability.GET_TYPE
+        };
     }
 
-    public FileInfo( final String name, final FileType type, final String content )
+    /**
+     * Tests that folders have no content.
+     */
+    public void testFolderURL() throws Exception
     {
-        baseName = name;
-        this.type = type;
-        this.content = content;
-    }
+        final FileObject folder = getReadFolder().resolveFile( "dir1" );
+        assertTrue( folder.exists() );
 
-    public FileInfo getParent()
-    {
-        return parent;
-    }
-
-    /** Adds a child. */
-    public void addChild( final FileInfo child )
-    {
-        children.put( child.baseName, child );
-        child.parent = this;
-    }
-
-    /** Adds a child file. */
-    public FileInfo addFile( final String baseName, final String content )
-    {
-        final FileInfo child = new FileInfo( baseName, FileType.FILE, content );
-        addChild( child );
-        return child;
-    }
-
-    /** Adds a child folder. */
-    public FileInfo addFolder( final String baseName )
-    {
-        final FileInfo child = new FileInfo( baseName, FileType.FOLDER, null );
-        addChild( child );
-        return child;
+        // Try getting the content of a folder
+        try
+        {
+            folder.getURL().openConnection().getInputStream();
+            fail();
+        }
+        catch ( final IOException e )
+        {
+            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
+        }
     }
 }

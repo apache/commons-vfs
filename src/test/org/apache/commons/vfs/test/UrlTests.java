@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileObject;
  * URL test cases for providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:41:10 $
+ * @version $Revision: 1.4 $ $Date: 2003/01/23 04:41:56 $
  */
 public class UrlTests
     extends AbstractProviderTestCase
@@ -107,44 +107,39 @@ public class UrlTests
     {
         // Test non-empty file
         FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        assertTrue( file.exists() );
+
         URLConnection urlCon = file.getURL().openConnection();
         assertSameURLContent( FILE1_CONTENT, urlCon );
 
         // Test empty file
         file = getReadFolder().resolveFile( "empty.txt" );
+        assertTrue( file.exists() );
+
         urlCon = file.getURL().openConnection();
         assertSameURLContent( "", urlCon );
     }
 
     /**
-     * Tests that folders and unknown files have no content.
+     * Tests that unknown files have no content.
      */
-    public void testNoURLContent() throws Exception
+    public void testUnknownURL() throws Exception
     {
-        // Try getting the content of a folder
-        final FileObject folder = getReadFolder().resolveFile( "dir1" );
-        try
-        {
-            folder.getURL().openConnection().getInputStream();
-            fail();
-        }
-        catch ( IOException e )
-        {
-            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
-        }
-
         // Try getting the content of an unknown file
         final FileObject unknownFile = getReadFolder().resolveFile( "unknown-file" );
+        assertFalse( unknownFile.exists() );
+
         final URLConnection connection = unknownFile.getURL().openConnection();
         try
         {
             connection.getInputStream();
             fail();
         }
-        catch ( IOException e )
+        catch ( final IOException e )
         {
             assertSameMessage( "vfs.provider/read-no-exist.error", unknownFile, e );
         }
         assertEquals( -1, connection.getContentLength() );
     }
+
 }

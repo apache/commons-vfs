@@ -81,7 +81,7 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/01/21 23:58:24 $
+ * @version $Revision: 1.7 $ $Date: 2003/01/23 04:41:55 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
@@ -96,6 +96,9 @@ public abstract class AbstractProviderTestCase
 
     // Expected contents of "file1.txt"
     public static final String FILE1_CONTENT = "This is a test file.";
+
+    // Expected contents of test files
+    public static final String TEST_FILE_CONTENT = "A test file.";
 
     /** Sets the provider test config, if any. */
     public void setConfig( final Method method,
@@ -326,5 +329,24 @@ public abstract class AbstractProviderTestCase
 
         // Compare
         assertTrue( "same binary content", Arrays.equals( expectedBin, outstr.toByteArray() ) );
+    }
+
+    /**
+     * Builds the expected structure of the read tests folder.
+     */
+    protected FileInfo buildExpectedStructure()
+    {
+        // Build the expected structure
+        final FileInfo base = new FileInfo( getReadFolder().getName().getBaseName(), FileType.FOLDER );
+        base.addFile( "file1.txt", FILE1_CONTENT );
+        base.addFile( "empty.txt", "" );
+        base.addFolder( "emptydir" );
+
+        final FileInfo dir = base.addFolder( "dir1" );
+        dir.addFile( "file1.txt", TEST_FILE_CONTENT );
+        dir.addFile( "file2.txt", TEST_FILE_CONTENT );
+        dir.addFile( "file3.txt", TEST_FILE_CONTENT );
+
+        return base;
     }
 }

@@ -64,7 +64,7 @@ import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/25 05:46:03 $
+ * @version $Revision: 1.6 $ $Date: 2003/01/23 04:41:56 $
  */
 public class ProviderTestSuite
     extends TestSuite
@@ -91,6 +91,7 @@ public class ProviderTestSuite
         if ( !nested )
         {
             // Add nested tests
+            // TODO - move nested jar and zip tests here
             // TODO - enable this again
             //addTest( new ProviderTestSuite( new JunctionProviderConfig( providerConfig ), "junction.", true ));
         }
@@ -101,9 +102,12 @@ public class ProviderTestSuite
      */
     private void addBaseTests() throws Exception
     {
+        addTests( NamingTests.class );
+        addTests( ContentTests.class );
         addTests( ProviderReadTests.class );
         addTests( ProviderWriteTests.class );
         addTests( UrlTests.class );
+        addTests( UrlStructureTests.class );
         addTests( VfsClassLoaderTests.class );
     }
 
