@@ -72,7 +72,7 @@ import org.apache.commons.vfs.provider.DelegateFileObject;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2003/02/20 01:34:31 $
+ * @version $Revision: 1.8 $ $Date: 2003/02/21 13:16:39 $
  *
  * @todo Handle nested junctions.
  */
@@ -109,7 +109,7 @@ public class VirtualFileSystem
      * file is not cached.
      */
     protected FileObject createFile( final FileName name )
-        throws FileSystemException
+        throws Exception
     {
         // Find the file that the name points to
         final FileName junctionPoint = getJunctionForFile( name );
@@ -149,6 +149,13 @@ public class VirtualFileSystem
         {
             // Add to junction table
             junctions.put( junctionName, targetFile );
+
+            // Attach to file
+            final DelegateFileObject junctionFile = (DelegateFileObject)getFile( junctionName );
+            if ( junctionFile != null )
+            {
+                junctionFile.setFile( targetFile );
+            }
 
             // Create ancestors of junction point
             FileName childName = junctionName;

@@ -95,8 +95,8 @@ public abstract class AbstractFileObject
 
     // Cached info
     private boolean attached;
-    private AbstractFileObject parent;
     private FileType type;
+    private AbstractFileObject parent;
     private FileObject[] children;
 
     protected AbstractFileObject( final FileName name,
@@ -481,7 +481,7 @@ public abstract class AbstractFileObject
         }
 
         // List the children
-        String[] files;
+        final String[] files;
         try
         {
             files = doListChildren();
@@ -506,7 +506,7 @@ public abstract class AbstractFileObject
             children = new FileObject[ files.length ];
             for ( int i = 0; i < files.length; i++ )
             {
-                String file = files[ i ];
+                final String file = files[ i ];
                 children[ i ] = fs.resolveFile( name.resolveName( file, NameScope.CHILD ) );
             }
         }
@@ -674,7 +674,7 @@ public abstract class AbstractFileObject
         }
 
         // Traverse up the heirarchy and make sure everything is a folder
-        FileObject parent = getParent();
+        final FileObject parent = getParent();
         if ( parent != null )
         {
             parent.createFolder();
@@ -973,15 +973,18 @@ public abstract class AbstractFileObject
      */
     protected void handleCreate( final FileType newType ) throws Exception
     {
-        // Fix up state
-        type = newType;
-        children = EMPTY_FILE_ARRAY;
+        if ( attached )
+        {
+            // Fix up state
+            type = newType;
+            children = EMPTY_FILE_ARRAY;
+
+            // Notify subclass
+            onChange();
+        }
 
         // Notify parent that its child list may no longer be valid
         notifyParent();
-
-        // Notify subclass
-        onChange();
 
         // Notify the file system
         fs.fireFileCreated( this );
@@ -993,18 +996,33 @@ public abstract class AbstractFileObject
      */
     protected void handleDelete() throws Exception
     {
-        // Fix up state
-        type = null;
-        children = null;
+        if ( attached )
+        {
+            // Fix up state
+            type = null;
+            children = null;
+
+            // Notify subclass
+            onChange();
+        }
 
         // Notify parent that its child list may no longer be valid
         notifyParent();
 
-        // Notify subclass
-        onChange();
-
         // Notify the file system
         fs.fireFileDeleted( this );
+    }
+
+    /**
+     * Notifies the file that its children have changed.
+     * @todo Indicate whether the child was added or removed, and which child.
+     */
+    protected void childrenChanged() throws Exception
+    {
+        // TODO - this may be called when not attached
+
+        children = null;
+        onChildrenChanged();
     }
 
     /**
@@ -1023,16 +1041,6 @@ public abstract class AbstractFileObject
         {
             parent.childrenChanged();
         }
-    }
-
-    /**
-     * Notifies the file that its children have changed.
-     * @todo Indicate whether the child was added or removed, and which child.
-     */
-    protected void childrenChanged() throws Exception
-    {
-        children = null;
-        onChildrenChanged();
     }
 
     /**

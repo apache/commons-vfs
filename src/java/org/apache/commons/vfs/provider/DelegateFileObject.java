@@ -71,9 +71,8 @@ import org.apache.commons.vfs.FileType;
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/13 04:28:45 $
+ * @version $Revision: 1.5 $ $Date: 2003/02/21 13:16:39 $
  *
- * @todo Deal with case where backing file == null
  * @todo Extract subclass that overlays the children
  */
 public class DelegateFileObject
@@ -82,43 +81,54 @@ public class DelegateFileObject
 {
     private FileObject file;
     private final Set children = new HashSet();
+    private boolean ignoreEvent;
 
     public DelegateFileObject( final FileName name,
                                final AbstractFileSystem fileSystem,
-                               final FileObject file )
+                               final FileObject file ) throws FileSystemException
     {
         super( name, fileSystem );
         this.file = file;
-    }
-
-    /** Adds a child to this file. */
-    public void attachChild( final String baseName ) throws Exception
-    {
-        if ( children.add( baseName ) )
-        {
-            childrenChanged();
-        }
-    }
-
-    /**
-     * Attaches this file object to its file resource.
-     */
-    protected void doAttach() throws Exception
-    {
         if ( file != null )
         {
             file.getFileSystem().addListener( file, this );
         }
     }
 
-    /**
-     * Detaches this file object from its file resource.
-     */
-    protected void doDetach() throws Exception
+    /** Adds a child to this file. */
+    public void attachChild( final String baseName ) throws Exception
     {
+        final FileType oldType = doGetType();
+        if ( children.add( baseName ) )
+        {
+            childrenChanged();
+        }
+        maybeTypeChanged( oldType );
+    }
+
+    /** Attaches or detaches the target file. */
+    public void setFile( final FileObject file ) throws Exception
+    {
+        final FileType oldType = doGetType();
+
         if ( file != null )
         {
-            file.getFileSystem().removeListener( file, this );
+            file.getFileSystem().addListener( file, this );
+        }
+        this.file = file;
+        maybeTypeChanged( oldType );
+    }
+
+    private void maybeTypeChanged( final FileType oldType ) throws Exception
+    {
+        final FileType newType = doGetType();
+        if ( oldType == null && newType != null )
+        {
+            handleCreate( newType );
+        }
+        else if ( oldType != null && newType == null )
+        {
+            handleDelete();
         }
     }
 
@@ -126,7 +136,7 @@ public class DelegateFileObject
      * Determines the type of the file, returns null if the file does not
      * exist.
      */
-    protected FileType doGetType() throws Exception
+    protected FileType doGetType() throws FileSystemException
     {
         if ( file != null )
         {
@@ -199,7 +209,15 @@ public class DelegateFileObject
      */
     protected void doCreateFolder() throws Exception
     {
-        file.createFolder();
+        ignoreEvent = true;
+        try
+        {
+            file.createFolder();
+        }
+        finally
+        {
+            ignoreEvent = false;
+        }
     }
 
     /**
@@ -207,7 +225,15 @@ public class DelegateFileObject
      */
     protected void doDelete() throws Exception
     {
-        file.delete();
+        ignoreEvent = true;
+        try
+        {
+            file.delete();
+        }
+        finally
+        {
+            ignoreEvent = false;
+        }
     }
 
     /**
@@ -284,7 +310,10 @@ public class DelegateFileObject
      */
     public void fileCreated( final FileChangeEvent event ) throws Exception
     {
-        handleCreate( file.getType() );
+        if ( !ignoreEvent )
+        {
+            handleCreate( file.getType() );
+        }
     }
 
     /**
@@ -292,6 +321,9 @@ public class DelegateFileObject
      */
     public void fileDeleted( final FileChangeEvent event ) throws Exception
     {
-        handleDelete();
+        if ( !ignoreEvent )
+        {
+            handleDelete();
+        }
     }
 }
