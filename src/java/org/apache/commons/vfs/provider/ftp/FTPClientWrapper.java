@@ -160,7 +160,12 @@ class FTPClientWrapper implements FtpClient
 
     public boolean completePendingCommand() throws IOException
     {
-        return getFtpClient().completePendingCommand();
+        if (ftpClient != null)
+        {
+            return getFtpClient().completePendingCommand();
+        }
+
+        return true;
     }
 
     public InputStream retrieveFileStream(String relPath) throws IOException
@@ -173,6 +178,24 @@ class FTPClientWrapper implements FtpClient
         {
             disconnect();
             return getFtpClient().retrieveFileStream(relPath);
+        }
+    }
+
+    public InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException
+    {
+        try
+        {
+            FTPClient client = getFtpClient();
+            client.setRestartOffset(restartOffset);
+            return client.retrieveFileStream(relPath);
+        }
+        catch (FTPConnectionClosedException e)
+        {
+            disconnect();
+
+            FTPClient client = getFtpClient();
+            client.setRestartOffset(restartOffset);
+            return client.retrieveFileStream(relPath);
         }
     }
 
@@ -200,5 +223,24 @@ class FTPClientWrapper implements FtpClient
             disconnect();
             return getFtpClient().storeFileStream(relPath);
         }
+    }
+
+    public boolean abort() throws IOException
+    {
+        try
+        {
+            // imario@apache.org: 2005-02-14
+            // it should be better to really "abort" the transfer, but
+            // currently I didnt manage to make it work - so lets "abort" the hard way.
+            // return getFtpClient().abort();
+            
+            disconnect();
+            return true;
+        }
+        catch (FTPConnectionClosedException e)
+        {
+            disconnect();
+        }
+        return true;
     }
 }

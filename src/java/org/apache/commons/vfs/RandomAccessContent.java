@@ -18,12 +18,13 @@ package org.apache.commons.vfs;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Description
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/17 19:29:28 $
+ * @version $Revision: 1.1 $ $Date$
  */
 public interface RandomAccessContent extends DataOutput, DataInput
 {
@@ -43,6 +44,8 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * of the file does not change the file length.  The file length will
      * change only by writing after the offset has been set beyond the end
      * of the file.
+     * <br/>
+     * <b>Notice: If you use {@link #getInputStream()} you have to reget the InputStream after calling {@link #seek(long)}</b>
      *
      * @param pos the offset position, measured in bytes from the
      *            beginning of the file, at which to set the file
@@ -72,4 +75,12 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * @throws IOException if an I/O error occurs.
      */
     public void close() throws IOException;
+
+    /**
+     * get the inputstream interface
+     * <br/>
+     * <b>Notice: If you use {@link #seek(long)} you have to reget the InputStream</b>
+     * @return
+     */
+    public InputStream getInputStream();
 }

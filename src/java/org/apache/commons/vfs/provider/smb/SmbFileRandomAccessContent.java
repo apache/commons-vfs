@@ -23,6 +23,7 @@ import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
@@ -30,11 +31,12 @@ import java.net.UnknownHostException;
  * RandomAccess for smb files
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision: 1.1 $ $Date$
  */
 class SmbFileRandomAccessContent extends AbstractRandomAccessContent
 {
     private final SmbRandomAccessFile raf;
+    private final InputStream rafis;
 
     SmbFileRandomAccessContent(final SmbFile smbFile, final RandomAccessMode mode) throws FileSystemException
     {
@@ -53,6 +55,34 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
         try
         {
             raf = new SmbRandomAccessFile(smbFile, modes.toString());
+            rafis = new InputStream()
+            {
+                public int read() throws IOException
+                {
+                    return raf.readByte();
+                }
+
+                public long skip(long n) throws IOException
+                {
+                    raf.seek(raf.getFilePointer() + n);
+                    return n;
+                }
+
+                public void close() throws IOException
+                {
+                    raf.close();
+                }
+
+                public int read(byte b[]) throws IOException
+                {
+                    return raf.read(b);
+                }
+
+                public int read(byte b[], int off, int len) throws IOException
+                {
+                    return raf.read(b, off, len);
+                }
+            };
         }
         catch (MalformedURLException e)
         {
@@ -226,5 +256,10 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
     public void writeUTF(String str) throws IOException
     {
         raf.writeUTF(str);
+    }
+
+    public InputStream getInputStream()
+    {
+        return rafis;
     }
 }

@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.9 $ $Date: 2004/12/21 21:55:41 $
+ * @version $Revision: 1.9 $ $Date$
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -99,7 +99,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setPassiveMode(FileSystemOptions opts, boolean passiveMode)
     {
-        setParam(opts, PASSIVE_MODE, Boolean.valueOf(passiveMode));
+        setParam(opts, PASSIVE_MODE, passiveMode?Boolean.TRUE:Boolean.FALSE);
     }
 
     /**

@@ -44,8 +44,11 @@ public interface FtpClient
     boolean completePendingCommand() throws IOException;
 
     InputStream retrieveFileStream(String relPath) throws IOException;
+    InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException;
 
     OutputStream appendFileStream(String relPath) throws IOException;
 
     OutputStream storeFileStream(String relPath) throws IOException;
+
+    public boolean abort() throws IOException;
 }

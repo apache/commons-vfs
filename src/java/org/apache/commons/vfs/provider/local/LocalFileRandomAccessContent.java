@@ -23,17 +23,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.InputStream;
+import java.io.EOFException;
 
 /**
  * RandomAccess for local files
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision: 1.1 $ $Date$
  */
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent
 {
     // private final LocalFile localFile;
     final private RandomAccessFile raf;
+    final private InputStream rafis;
 
     LocalFileRandomAccessContent(final File localFile, final RandomAccessMode mode) throws FileSystemException
     {
@@ -52,6 +55,41 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
         try
         {
             raf = new RandomAccessFile(localFile, modes.toString());
+            rafis = new InputStream()
+            {
+                public int read() throws IOException
+                {
+                    try
+                    {
+                        return raf.readByte();
+                    }
+                    catch (EOFException e)
+                    {
+                        return -1;
+                    }
+                }
+
+                public long skip(long n) throws IOException
+                {
+                    raf.seek(raf.getFilePointer() + n);
+                    return n;
+                }
+
+                public void close() throws IOException
+                {
+                    raf.close();
+                }
+
+                public int read(byte b[]) throws IOException
+                {
+                    return raf.read(b);
+                }
+
+                public int read(byte b[], int off, int len) throws IOException
+                {
+                    return raf.read(b, off, len);
+                }
+            };
         }
         catch (FileNotFoundException e)
         {
@@ -217,5 +255,10 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
     public void writeUTF(String str) throws IOException
     {
         raf.writeUTF(str);
+    }
+
+    public InputStream getInputStream()
+    {
+        return rafis;
     }
 }

@@ -20,9 +20,11 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -419,6 +421,11 @@ public class FtpFileObject
         return new FtpInputStream(client, instr);
     }
 
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        return new FtpRandomAccessContent(this, mode);
+    }
+
     /**
      * Creates an output stream to write the file content to.
      */
@@ -436,10 +443,22 @@ public class FtpFileObject
         }
     }
 
+    String getRelPath()
+    {
+        return relPath;
+    }
+
+    FtpInputStream getInputStream(long filePointer) throws IOException
+    {
+        final FtpClient client = ftpFs.getClient();
+        final InputStream instr = client.retrieveFileStream(relPath, filePointer);
+        return new FtpInputStream(client, instr);
+    }
+
     /**
      * An InputStream that monitors for end-of-file.
      */
-    private class FtpInputStream
+    class FtpInputStream
         extends MonitorInputStream
     {
         private final FtpClient client;
@@ -450,6 +469,11 @@ public class FtpFileObject
             this.client = client;
         }
 
+        void abort() throws IOException
+        {
+            client.abort();
+            close();
+        }
         /**
          * Called after the stream has been closed.
          */

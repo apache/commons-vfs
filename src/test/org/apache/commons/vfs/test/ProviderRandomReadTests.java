@@ -24,7 +24,7 @@ import org.apache.commons.vfs.util.RandomAccessMode;
  * RanomdRead-only test cases for file providers.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision: 1.1 $ $Date$
  */
 public class ProviderRandomReadTests
     extends AbstractProviderTestCase
@@ -57,30 +57,37 @@ public class ProviderRandomReadTests
             // read first byte
             byte c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(0));
+            assertEquals("fp", ra.getFilePointer(), 1);
 
             // start at pos 4
             ra.seek(3);
             c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(3));
+            assertEquals("fp", ra.getFilePointer(), 4);
 
             c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(4));
+            assertEquals("fp", ra.getFilePointer(), 5);
 
             // restart at pos 4
             ra.seek(3);
             c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(3));
+            assertEquals("fp", ra.getFilePointer(), 4);
 
             c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(4));
+            assertEquals("fp", ra.getFilePointer(), 5);
 
             // advance to pos 11
             ra.seek(10);
             c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(10));
+            assertEquals("fp", ra.getFilePointer(), 11);
 
             c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(11));
+            assertEquals("fp", ra.getFilePointer(), 12);
         }
         finally
         {

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs.provider.http;
+package org.apache.commons.vfs.provider.ftp;
 
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
 import org.apache.commons.vfs.util.MonitorInputStream;
@@ -25,23 +24,21 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FilterInputStream;
-import java.net.HttpURLConnection;
 
-class HttpRandomAccesContent extends AbstractRandomAccessContent
+class FtpRandomAccessContent extends AbstractRandomAccessContent
 {
-    private final HttpFileObject fileObject;
-    private final HttpFileSystem fileSystem;
+    private final FtpFileObject fileObject;
 
     protected long filePointer = 0;
     private DataInputStream dis = null;
-    private MonitorInputStream mis = null;
+    private FtpFileObject.FtpInputStream mis = null;
 
-    HttpRandomAccesContent(final HttpFileObject fileObject, RandomAccessMode mode)
+    FtpRandomAccessContent(final FtpFileObject fileObject, RandomAccessMode mode)
     {
         super(mode);
 
         this.fileObject = fileObject;
-        fileSystem = (HttpFileSystem) this.fileObject.getFileSystem();
+        // fileSystem = (FtpFileSystem) this.fileObject.getFileSystem();
     }
 
     public long getFilePointer() throws IOException
@@ -80,20 +77,8 @@ class HttpRandomAccesContent extends AbstractRandomAccessContent
             return;
         }
 
-        final GetMethod getMethod = new GetMethod();
-        fileObject.setupMethod(getMethod);
-        getMethod.setRequestHeader("Range", "bytes=" + filePointer + "-");
-        final int status = fileSystem.getClient().executeMethod(getMethod);
-        if (status != HttpURLConnection.HTTP_PARTIAL)
-        {
-            throw new FileSystemException("vfs.provider.http/get-range.error", new Object[]
-            {
-                fileObject.getName(),
-                new Long(filePointer)
-            });
-        }
-
-        mis = new HttpFileObject.HttpInputStream(getMethod);
+        // FtpClient client = fileSystem.getClient();
+        mis = fileObject.getInputStream(filePointer);
         dis = new DataInputStream(new FilterInputStream(mis)
         {
             public int read() throws IOException
@@ -125,6 +110,11 @@ class HttpRandomAccesContent extends AbstractRandomAccessContent
                 }
                 return ret;
             }
+
+            public void close() throws IOException
+            {
+                FtpRandomAccessContent.this.close();
+            }
         });
     }
 
@@ -133,8 +123,12 @@ class HttpRandomAccesContent extends AbstractRandomAccessContent
     {
         if (dis != null)
         {
-            dis.close();
+            mis.abort();
+
+            // this is to avoid recursive close
+            DataInputStream oldDis = dis;
             dis = null;
+            oldDis.close();
             mis = null;
         }
     }

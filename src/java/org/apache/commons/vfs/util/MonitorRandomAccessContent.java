@@ -18,12 +18,13 @@ package org.apache.commons.vfs.util;
 import org.apache.commons.vfs.RandomAccessContent;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An RandomAccessContent that provides end-of-stream monitoring.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/17 19:29:29 $
+ * @version $Revision: 1.1 $ $Date$
  */
 public class MonitorRandomAccessContent implements RandomAccessContent
 {
@@ -43,7 +44,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent
     }
 
     /**
-     * Closes this output stream.
+     * Closes this content.
      */
     public void close() throws IOException
     {
@@ -240,5 +241,10 @@ public class MonitorRandomAccessContent implements RandomAccessContent
     public String readUTF() throws IOException
     {
         return content.readUTF();
+    }
+
+    public InputStream getInputStream()
+    {
+        return content.getInputStream();
     }
 }

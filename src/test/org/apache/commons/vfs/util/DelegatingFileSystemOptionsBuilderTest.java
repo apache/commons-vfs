@@ -30,7 +30,7 @@ import java.lang.reflect.InvocationTargetException;
  * Some tests for the DelegatingFileSystemOptionsBuilder
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/28 19:47:05 $
+ * @version $Revision: 1.1 $ $Date$
  */
 public class DelegatingFileSystemOptionsBuilderTest extends TestCase
 {
@@ -100,7 +100,7 @@ public class DelegatingFileSystemOptionsBuilderTest extends TestCase
         catch (FileSystemException e)
         {
             assertEquals(e.getCause().getClass(), InvocationTargetException.class);
-            assertEquals(e.getCause().getCause().getClass(), NumberFormatException.class);
+            assertEquals(((InvocationTargetException) e.getCause()).getTargetException().getClass(), NumberFormatException.class);
         }
 
         try
