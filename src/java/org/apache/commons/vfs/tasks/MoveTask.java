@@ -23,22 +23,44 @@ import org.apache.commons.vfs.Selectors;
  * An Ant task that moves matching files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:52 $
- *
+ * @version $Revision: 1.8 $ $Date: 2004/05/08 20:05:47 $
  * @todo Delete matching folders
  */
 public class MoveTask
     extends CopyTask
 {
+    private boolean tryRename = false;
+
+    /**
+     * Enable/disable move/rename of file (if possible)
+     */
+    public void setTryRename(boolean tryRename)
+    {
+        this.tryRename = tryRename;
+    }
+
     /**
      * Handles a single source file.
      */
-    protected void handleOutOfDateFile( final FileObject srcFile,
-                                        final FileObject destFile )
+    protected void handleOutOfDateFile(final FileObject srcFile,
+                                       final FileObject destFile)
         throws FileSystemException
     {
-        super.handleOutOfDateFile( srcFile, destFile );
-        log( "Deleting " + srcFile );
-        srcFile.delete( Selectors.SELECT_SELF );
+        if (!tryRename || !srcFile.canRenameTo(destFile))
+        {
+            super.handleOutOfDateFile(srcFile, destFile);
+
+            log("Deleting " + srcFile);
+            srcFile.delete(Selectors.SELECT_SELF);
+        }
+        else
+        {
+            log("Rename " + srcFile + " to " + destFile);
+            srcFile.moveTo(destFile);
+            if (!isPreserveLastModified())
+            {
+                destFile.getContent().setLastModifiedTime(System.currentTimeMillis());
+            }
+        }
     }
 }
