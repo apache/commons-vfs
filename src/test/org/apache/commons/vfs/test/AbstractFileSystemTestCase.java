@@ -58,6 +58,7 @@ package org.apache.commons.vfs.test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -95,6 +96,7 @@ public abstract class AbstractFileSystemTestCase
 
     // Contents of "file1.txt"
     private String charContent;
+    private File tempDir;
 
     public AbstractFileSystemTestCase( String name )
     {
@@ -178,7 +180,11 @@ public abstract class AbstractFileSystemTestCase
         // Create the file system manager
         manager = new DefaultFileSystemManager();
         manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
-        manager.setReplicator( new PrivilegedFileReplicator( new DefaultFileReplicator() ) );
+
+        tempDir = getTestDirectory( "temp" );
+        final DefaultFileReplicator replicator = new DefaultFileReplicator( tempDir );
+        manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
+        manager.setTemporaryFileStore( replicator );
 
         // Locate the base folder
         baseFolder = getBaseFolder();
@@ -196,6 +202,9 @@ public abstract class AbstractFileSystemTestCase
     protected void tearDown() throws Exception
     {
         manager.close();
+
+        // Make sure temp directory is empty or gone
+        assertTrue( ( ! tempDir.exists() ) || ( tempDir.isDirectory() && tempDir.list().length == 0 ) );
     }
 
     /**

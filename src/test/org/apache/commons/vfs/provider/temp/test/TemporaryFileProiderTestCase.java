@@ -53,34 +53,35 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.local.test;
+package org.apache.commons.vfs.provider.temp.test;
 
-import java.io.File;
-import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.test.AbstractWritableFileSystemTestCase;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
+import java.io.File;
 
 /**
- * Tests for the local file system.
+ * Test cases for the tmp: file provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @version $Revision: 1.1 $ $Date: 2002/10/25 11:11:51 $
  */
-public class LocalFileSystemTestCase
+public class TemporaryFileProiderTestCase
     extends AbstractWritableFileSystemTestCase
 {
-    public LocalFileSystemTestCase( String name )
+    public TemporaryFileProiderTestCase( String name )
     {
         super( name );
     }
 
     /**
-     * Returns the URI for the base folder.
+     * Returns the base folder to run the tests against.
      */
     protected FileObject getBaseFolder() throws Exception
     {
-        final File testDir = getTestDirectory( "basedir" );
-        final File emptyDir = new File( testDir, "emptydir" );
-        emptyDir.mkdirs();
-        return getManager().toFileObject( testDir );
+        final File baseDir = getTestDirectory();
+        getManager().addProvider( "tmp-read", new TemporaryFileProvider( baseDir ) );
+        return getManager().resolveFile( "tmp-read:/basedir" );
     }
 
     /**
@@ -88,23 +89,7 @@ public class LocalFileSystemTestCase
      */
     protected FileObject getWriteFolder() throws Exception
     {
-        final File testDir = getTestDirectory( "write-tests" );
-        return getManager().toFileObject( testDir );
-    }
-
-    /**
-     * Tests resolution of an absolute file name.
-     */
-    public void testAbsoluteFileName() throws Exception
-    {
-        // Locate file by absolute file name
-        String fileName = new File( "testdir" ).getAbsolutePath();
-        FileObject absFile = getManager().resolveFile( fileName );
-
-        // Locate file by URI
-        String uri = "file://" + fileName.replace( File.separatorChar, '/' );
-        FileObject uriFile = getManager().resolveFile( uri );
-
-        assertSame( "file object", absFile, uriFile );
+        getManager().addProvider( "tmp", new TemporaryFileProvider() );
+        return getManager().resolveFile( "tmp:/write-tests" );
     }
 }
