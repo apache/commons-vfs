@@ -20,7 +20,7 @@ import org.apache.commons.vfs.provider.FileSystemProviderContext;
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/08/21 07:00:12 $
+ * @version $Revision: 1.4 $ $Date: 2002/08/21 13:10:57 $
  */
 class UrlFileSystem
     extends AbstractFileSystem
@@ -29,7 +29,7 @@ class UrlFileSystem
     public UrlFileSystem( final FileSystemProviderContext context,
                           final FileName rootName )
     {
-        super( context, rootName );
+        super( context, rootName, null );
     }
 
     /**

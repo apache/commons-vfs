@@ -17,6 +17,7 @@ import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileConstants;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileSystem;
@@ -40,10 +41,14 @@ class ZipFileSystem
 
     public ZipFileSystem( final FileSystemProviderContext context,
                           final DefaultFileName rootName,
-                          final File file )
+                          final FileObject parentLayer )
         throws FileSystemException
     {
-        super( context, rootName );
+        super( context, rootName, parentLayer );
+
+        // Make a local copy of the file
+        final File file = parentLayer.replicateFile( FileConstants.SELECT_SELF );
+
         this.file = file;
 
         // Open the Zip file

@@ -40,7 +40,7 @@ final class FtpFileSystem
                           final String password )
         throws FileSystemException
     {
-        super( context, rootName );
+        super( context, rootName, null );
         try
         {
             client = new FTPClient();

@@ -9,6 +9,7 @@ package org.apache.commons.vfs;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.cert.Certificate;
 
 /**
  * This interface is used to access the data content of a file.
@@ -108,6 +109,16 @@ public interface FileContent
      */
     void setAttribute( String attrName, Object value )
         throws FileSystemException;
+
+    /**
+     * Retrives the certificates if any used to sign this file or folder.
+     * This will return null if there is no certificates or the file system
+     * does not support signing.
+     *
+     * @throws FileSystemException
+     *      If the file does not exist, or is being written.
+     */
+    Certificate[] getCertificates() throws FileSystemException;
 
     /**
      * Returns an input stream for reading the file's content.

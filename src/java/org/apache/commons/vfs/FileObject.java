@@ -95,6 +95,19 @@ public interface FileObject
      *      If the file does not exist, or on error determining the file's type.
      */
     FileType getType() throws FileSystemException;
+    
+    /**
+     * Returns the parent layer if this file resides in a layered file
+     * system.
+     *
+     * @return
+     *      The file object that this file is layered on top. Returns null
+     *      if this file is not from a layered file system.
+     *
+     * @throws FileSystemException
+     *      In case of errors finding the parent layer.
+     */
+    FileObject getParentLayer() throws FileSystemException;
 
     /**
      * Returns the folder that contains this file.
@@ -241,12 +254,6 @@ public interface FileObject
      * <p>This method can be called if the file does not exist, and
      * the returned {@link FileContent} can be used to create the file
      * by writing its content.
-     *
-     * @todo Do not throw an exception if this file is a folder.  Instead,
-     *       throw the exceptions when (if) any methods on the returned object
-     *       are called.  This is to hand 2 cases: when the folder is deleted
-     *       and recreated as a file, and to allow attributes of the folder
-     *       to be set (last modified time, permissions, etc).
      *
      * @return
      *      This file's content.

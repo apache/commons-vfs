@@ -87,9 +87,6 @@ public final class ZipFileSystemProvider
         // Create the file system
         final DefaultFileName name = new DefaultFileName( parser, zipUri.getRootUri(), "/" );
 
-        // Make a local copy of the file
-        final File zipFile = file.replicateFile( FileConstants.SELECT_SELF );
-
         try
         {
             return (ZipFileSystem)AccessController.doPrivileged(
@@ -97,7 +94,7 @@ public final class ZipFileSystemProvider
                 {
                     public Object run() throws FileSystemException
                     {
-                        return new ZipFileSystem( getContext(), name, zipFile );
+                        return new ZipFileSystem( getContext(), name, file );
                     }
                 } );
         }

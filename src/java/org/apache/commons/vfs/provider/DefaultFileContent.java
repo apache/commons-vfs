@@ -12,6 +12,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.cert.Certificate;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.vfs.FileContent;
@@ -57,6 +58,12 @@ public final class DefaultFileContent
      */
     public long getSize() throws FileSystemException
     {
+        if( file.isFolder() )
+        {
+            final String message = REZ.getString( "get-size-folder.error", file );
+            throw new FileSystemException( message );
+        }
+
         // Do some checking
         if ( !file.exists() )
         {
@@ -86,8 +93,12 @@ public final class DefaultFileContent
      */
     public long getLastModifiedTime() throws FileSystemException
     {
-        // TODO - implement this
-        throw new FileSystemException( "Not implemented." );
+        if( !file.exists() )
+        {
+            final String message = REZ.getString( "get-last-modified-no-exist.error", file );
+            throw new FileSystemException( message );
+        }
+        return file.doGetLastModifiedTime();
     }
 
     /**
@@ -95,8 +106,12 @@ public final class DefaultFileContent
      */
     public void setLastModifiedTime( long modTime ) throws FileSystemException
     {
-        // TODO - implement this
-        throw new FileSystemException( "Not implemented." );
+        if( !file.exists() )
+        {
+            final String message = REZ.getString( "set-last-modified-no-exist.error", file );
+            throw new FileSystemException( message );
+        }
+        file.doSetLastModifiedTime( modTime );
     }
 
     /**
@@ -104,8 +119,7 @@ public final class DefaultFileContent
      */
     public Object getAttribute( String attrName ) throws FileSystemException
     {
-        // TODO - implement this
-        throw new FileSystemException( "Not implemented." );
+        return file.doGetAttribute( attrName );
     }
 
     /**
@@ -113,8 +127,20 @@ public final class DefaultFileContent
      */
     public void setAttribute( String attrName, Object value ) throws FileSystemException
     {
-        // TODO - implement this
-        throw new FileSystemException( "Not implemented." );
+        file.doSetAttribute( attrName, value );
+    }
+
+    /**
+     * Returns the certificates used to sign this file.
+     */
+    public Certificate[] getCertificates() throws FileSystemException
+    {
+        if( !file.exists() )
+        {
+            final String message = REZ.getString( "get-certificates-no-exist.error", file );
+            throw new FileSystemException( message );
+        }
+        return file.doGetCertificates();
     }
 
     /**
@@ -122,6 +148,11 @@ public final class DefaultFileContent
      */
     public InputStream getInputStream() throws FileSystemException
     {
+        if( file.isFolder() )
+        {
+            final String message = REZ.getString( "read-folder.error", file );
+            throw new FileSystemException( message );
+        }
         if ( !file.exists() )
         {
             final String message = REZ.getString( "read-no-exist.error", file );
@@ -156,6 +187,11 @@ public final class DefaultFileContent
      */
     public OutputStream getOutputStream() throws FileSystemException
     {
+        if( file.isFolder() )
+        {
+            final String message = REZ.getString( "write-folder.error", file );
+            throw new FileSystemException( message );
+        }
         if ( state != STATE_NONE )
         {
             final String message = REZ.getString( "write-in-use.error", file );

@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.cert.Certificate;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -150,6 +151,62 @@ public abstract class AbstractFileObject
     }
 
     /**
+     * Called from {@link DefaultFileContent#getLastModifiedTime}.
+     * The default is to just throw an exception so filesystems must
+     * override it to use it.
+     */
+    protected long doGetLastModifiedTime() throws FileSystemException
+    {
+        final String message = REZ.getString( "get-last-modified-not-supported.error" );
+        throw new FileSystemException( message ); 
+    }
+
+    /**
+     * Called from {@link DefaultFileContent#setLastModifiedTime}.
+     * The default is to just throw an exception so filesystems must
+     * override it to use it.
+     */
+    protected void doSetLastModifiedTime( long modtime )
+        throws FileSystemException
+    {
+        final String message = REZ.getString( "set-last-modified-not-supported.error" );
+        throw new FileSystemException( message ); 
+    }
+
+    /**
+     * Called from {@link DefaultFileContent#getAttribute}.
+     * The default implementation just returns null so filesystems must
+     * override it to use it.
+     */
+    protected Object doGetAttribute( String atttrName )
+        throws FileSystemException
+    {
+        return null;
+    }
+
+    /**
+     * Called from {@link DefaultFileContent#setAttribute}.
+     * The default is to just throw an exception so filesystems must
+     * override it to use it.
+     */
+    protected void doSetAttribute( String atttrName, Object value )
+        throws FileSystemException
+    {
+        final String message = REZ.getString( "set-attribute-not-supported.error" );
+        throw new FileSystemException( message ); 
+    }
+
+    /**
+     * Called from {@link DefaultFileContent#getCertificates}.
+     * The default implementation just returns null so filesystems must
+     * override it to use it.
+     */
+    protected Certificate[] doGetCertificates() throws FileSystemException
+    {
+        return null;
+    }
+
+    /**
      * Returns the size of the file content (in bytes).  Is only called if
      * {@link #doGetType} returns {@link FileType#FILE}.
      */
@@ -283,6 +340,14 @@ public abstract class AbstractFileObject
             parent = (AbstractFileObject)fs.findFile( name.getParent() );
         }
         return parent;
+    }
+
+    /**
+     * Returns the parent layer of the file system containing the file.
+     */
+    public FileObject getParentLayer() throws FileSystemException
+    {
+        return fs.getParentLayer();
     }
 
     /**
@@ -607,16 +672,19 @@ public abstract class AbstractFileObject
     }
 
     /**
+     * Returns true if this is a Folder.
+     */
+    boolean isFolder()
+    {
+        return type == FileType.FOLDER;
+    }
+
+    /**
      * Returns the file's content.
      */
     public FileContent getContent() throws FileSystemException
     {
         attach();
-        if ( type == FileType.FOLDER )
-        {
-            final String message = REZ.getString( "get-folder-content.error", name );
-            throw new FileSystemException( message );
-        }
         if ( content == null )
         {
             content = new DefaultFileContent( this );

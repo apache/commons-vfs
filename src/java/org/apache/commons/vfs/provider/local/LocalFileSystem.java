@@ -31,7 +31,7 @@ final class LocalFileSystem
                             final DefaultFileName rootName,
                             final String rootFile )
     {
-        super( context, rootName );
+        super( context, rootName, null );
         this.rootFile = rootFile;
     }
 

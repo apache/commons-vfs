@@ -23,6 +23,10 @@ grant {
     permission java.io.FilePermission "${test.basedir}/write-tests/-", "read, write, delete";
     permission java.io.FilePermission "${test.basedir}/-", "read";
     permission java.io.FilePermission "${test.basedir}", "read";
+
+    //This is needed for the ClassLoader tests.
+    permission java.lang.RuntimePermission "createClassLoader";
+
 	// Allows any thread to stop itself using the java.lang.Thread.stop()
 	// method that takes no argument.
 	// Note that this permission is granted by default only to remain

@@ -9,6 +9,8 @@ package org.apache.commons.vfs.provider;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.avalon.excalibur.i18n.ResourceManager;
+import org.apache.avalon.excalibur.i18n.Resources;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileName;
@@ -24,6 +26,10 @@ import org.apache.commons.vfs.FileSystemException;
 public abstract class AbstractFileSystem
     implements FileSystem
 {
+    private static final Resources REZ =
+        ResourceManager.getPackageResources( AbstractFileSystem.class );
+        
+    private FileObject parentLayer;
     private FileObject root;
     private final FileName rootName;
     private final FileSystemProviderContext context;
@@ -32,8 +38,10 @@ public abstract class AbstractFileSystem
     private final Map files = new HashMap();
 
     protected AbstractFileSystem( final FileSystemProviderContext context,
-                                  final FileName rootName )
+                                  final FileName rootName,
+                                  final FileObject parentLayer )
     {
+        this.parentLayer = parentLayer;
         this.rootName = rootName;
         this.context = context;
     }
@@ -43,6 +51,7 @@ public abstract class AbstractFileSystem
         // Clean-up
         files.clear();
     }
+
 
     /**
      * Creates a file object.  This method is called only if the requested
@@ -72,6 +81,35 @@ public abstract class AbstractFileSystem
     public FileSystemProviderContext getContext()
     {
         return context;
+    }
+    
+    /**
+     * Retrives the attribute with the specified name. The default
+     * implementation simply throws an exception.
+     */
+    public Object getAttribute( String attrName ) throws FileSystemException
+    {
+        final String message = REZ.getString( "get-attribute-not-supported.error" );
+        throw new FileSystemException( message ); 
+    }
+
+    /**
+     * Sets the attribute with the specified name. The default
+     * implementation simply throws an exception.
+     */
+    public void setAttribute( String attrName, Object value )
+        throws FileSystemException
+    {
+        final String message = REZ.getString( "set-attribute-not-supported.error" );
+        throw new FileSystemException( message ); 
+    }
+
+    /**
+     * Returns the parent layer if this is a layered file system.
+     */
+    public FileObject getParentLayer() throws FileSystemException
+    {
+        return parentLayer;
     }
 
     /**

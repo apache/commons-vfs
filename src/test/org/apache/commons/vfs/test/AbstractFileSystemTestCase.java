@@ -27,6 +27,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.impl.VFSClassLoader;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.provider.AbstractFileObject;
@@ -52,7 +53,7 @@ public abstract class AbstractFileSystemTestCase
     protected DefaultFileSystemManager m_manager;
 
     // Contents of "file1.txt"
-    private String m_charContent;
+    protected String m_charContent;
 
     public AbstractFileSystemTestCase( String name )
     {
@@ -100,6 +101,10 @@ public abstract class AbstractFileSystemTestCase
         dir.addChild( "file1.txt", FileType.FILE );
         dir.addChild( "file2.txt", FileType.FILE );
         dir.addChild( "file3.txt", FileType.FILE );
+        
+        final FileInfo code = new FileInfo( "code", FileType.FOLDER );
+        base.addChild( code );
+        code.addChild( "ClassToLoad.class", FileType.FILE );
         return base;
     }
 
@@ -746,6 +751,25 @@ public abstract class AbstractFileSystemTestCase
     }
 
     /**
+     * Tests VFSClassLoader.
+     */
+    public void testVFSClassLoader() throws Exception
+    {
+        final FileObject[] objects = { m_baseFolder };
+        VFSClassLoader loader =
+            new VFSClassLoader( objects, m_manager );
+
+        Class testClass = loader.loadClass( "code.ClassToLoad" );
+        Object testObject = testClass.newInstance();
+        assertSame( "**PRIVATE**", testObject.toString() );
+
+        URL resource = loader.getResource( "file1.txt" );
+        assertNotNull( resource );
+        URLConnection urlCon = resource.openConnection();
+        assertSameURLContent( m_charContent, urlCon );
+    }
+
+    /**
      * Tests url.
      */
     public void testURL() throws Exception
@@ -826,12 +850,12 @@ public abstract class AbstractFileSystemTestCase
         FileObject folder = m_baseFolder.resolveFile( "dir1" );
         try
         {
-            folder.getURL().openConnection();
+            folder.getURL().openConnection().getInputStream();
             fail();
         }
         catch( IOException e )
         {
-            final String message = REZ.getString( "get-folder-content.error", folder );
+            final String message = REZ.getString( "read-folder.error", folder );
             assertSameMessage( message, e );
         }
 
@@ -915,12 +939,12 @@ public abstract class AbstractFileSystemTestCase
         FileObject folder = m_baseFolder.resolveFile( "dir1" );
         try
         {
-            folder.getContent();
+            folder.getContent().getInputStream();
             fail();
         }
         catch( FileSystemException e )
         {
-            final String message = REZ.getString( "get-folder-content.error", folder );
+            final String message = REZ.getString( "read-folder.error", folder );
             assertSameMessage( message, e );
         }
 

@@ -27,7 +27,7 @@ class SmbFileSystem
     public SmbFileSystem( final FileSystemProviderContext context,
                           final FileName rootName )
     {
-        super( context, rootName );
+        super( context, rootName, null );
     }
 
     /**

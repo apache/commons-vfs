@@ -11,7 +11,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.provider.ParsedUri;
 
 /**
- * A parsed Zip URI.
+ * A parsed Zip URI. These have the form "<scheme>:<zip-file>!/<path>".
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:19 $
@@ -22,21 +22,33 @@ class ParsedZipUri
     private String zipFileName;
     private FileObject zipFile;
 
+    /**
+     * Returns the zip-file part of the URI.
+     */
     public String getZipFileName()
     {
         return zipFileName;
     }
 
+    /**
+     * Sets the zip-file part of the URI.
+     */
     public void setZipFileName( final String zipFileName )
     {
         this.zipFileName = zipFileName;
     }
 
+    /**
+     * Returns the FileObject representing the zip-file part.
+     */
     public FileObject getZipFile()
     {
         return zipFile;
     }
 
+    /**
+     * Sets the FileObject representing the zip-file part.
+     */
     public void setZipFile( final FileObject zipFile )
     {
         this.zipFile = zipFile;

@@ -25,6 +25,52 @@ public interface FileSystem
     FileObject getRoot() throws FileSystemException;
 
     /**
+     * Returns the parent layerer if this is a layered file system.
+     * This returns null if this is not a layered file system.
+     */
+    FileObject getParentLayer() throws FileSystemException;
+
+    /**
+     * Gets the value of an attribute of the file system.
+     *
+     * <p>TODO - change to <code>Map getAttributes()</code> instead?
+     *
+     * <p>TODO - define the standard attribute names, and define which attrs
+     * are guaranteed to be present.
+     *
+     * @see org.apache.commons.vfs.FileContent#getAttribute
+     *
+     * @param attrName
+     *      The name of the attribute.
+     *
+     * @return
+     *      The value of the attribute.
+     *
+     * @throws FileSystemException
+     *      If the file does not exist, or is being written, or if the
+     *      attribute is unknown.
+     */
+    Object getAttribute( String attrName ) throws FileSystemException;
+
+    /**
+     * Sets the value of an attribute of the file's content.  Creates the
+     * file if it does not exist.
+     *
+     * @see org.apache.commons.vfs.FileContent#setAttribute
+     *
+     * @param attrName
+     *      The name of the attribute.
+     *
+     * @param value
+     *      The value of the attribute.
+     *
+     * @throws FileSystemException
+     *      If the file is read-only, or is being read, or if the attribute
+     *      is not supported, or on error setting the attribute.
+     */
+    void setAttribute( String attrName, Object value ) throws FileSystemException;
+
+    /**
      * Finds a file in this file system.
      *
      * @param name

@@ -10,6 +10,19 @@
         <exclude name="*.policy"/>
       </fileset>
     </copy>
+    
+    <!-- Compile the code for the class loader test -->
+    <javac
+      destdir="${test.data}/basedir"
+      debug="${maven.compile.debug}"
+      deprecation="${maven.compile.deprecation}"
+      optimize="${maven.compile.optimize}">
+      <src>
+        <path>
+          <pathelement location="${test.data.src}"/>
+        </path>
+      </src>
+    </javac>
 
     <mkdir dir="${test.data}/basedir/emptydir"/>
 
