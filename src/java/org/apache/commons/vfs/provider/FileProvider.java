@@ -17,11 +17,13 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
+
 
 /**
  * A file provider.  Each file provider is responsible for handling files for
  * a particular URI scheme.
- *
+ * <p/>
  * <p>A file provider may also implement {@link VfsComponent}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
@@ -32,23 +34,21 @@ public interface FileProvider
     /**
      * Locates a file object, by absolute URI.
      *
-     * @param baseFile
-     *          The base file to use for resolving the individual parts of
-     *          a compound URI.
-     * @param uri
-     *          The absolute URI of the file to find.
+     * @param baseFile          The base file to use for resolving the individual parts of
+     *                          a compound URI.
+     * @param uri               The absolute URI of the file to find.
+     * @param fileSystemOptions
      */
-    FileObject findFile( FileObject baseFile, String uri )
+    FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
     /**
      * Creates a layered file system.
      *
-     * @param scheme
-     *          The URI scheme for the layered file system.
-     * @param file
-     *          The file to build the file system on.
+     * @param scheme            The URI scheme for the layered file system.
+     * @param file              The file to build the file system on.
+     * @param fileSystemOptions
      */
-    FileObject createFileSystem( String scheme, FileObject file )
+    FileObject createFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 }

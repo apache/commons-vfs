@@ -15,30 +15,46 @@
  */
 package org.apache.commons.vfs.provider.temp;
 
-import java.io.File;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.BasicFileName;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.local.LocalFileSystem;
 
+import java.io.File;
+
 /**
  * A provider for temporary files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.11 $ $Date: 2004/05/01 18:14:29 $
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider
-    implements FileProvider
+    implements FileProvider, Comparable
 {
     private File rootFile;
 
-    public TemporaryFileProvider( final File rootFile )
+    /*
+    private final static FileName tmpFileName = new AbstractFileName("tmp", "/")
+    {
+        protected FileName createName(String absPath)
+        {
+            return null;
+        }
+
+        protected void appendRootUri(StringBuffer buffer)
+        {
+        }
+    };
+*/
+
+    public TemporaryFileProvider(final File rootFile)
     {
         this.rootFile = rootFile;
     }
@@ -47,34 +63,51 @@ public class TemporaryFileProvider
     {
     }
 
+    public int compareTo(Object o)
+    {
+        int h1 = hashCode();
+        int h2 = o.hashCode();
+        if (h1 < h2)
+        {
+            return -1;
+        }
+        if (h1 > h2)
+        {
+            return 1;
+        }
+
+        return 0;
+    }
+
     /**
      * Locates a file object, by absolute URI.
      */
-    public FileObject findFile( final FileObject baseFile, final String uri )
+    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions properties)
         throws FileSystemException
     {
         // Parse the name
-        final StringBuffer buffer = new StringBuffer( uri );
-        final String scheme = UriParser.extractScheme( uri, buffer );
-        UriParser.decode( buffer, 0, buffer.length() );
-        UriParser.normalisePath( buffer );
+        final StringBuffer buffer = new StringBuffer(uri);
+        final String scheme = UriParser.extractScheme(uri, buffer);
+        UriParser.decode(buffer, 0, buffer.length());
+        UriParser.normalisePath(buffer);
         final String path = buffer.toString();
 
         // Create the temp file system if it does not exist
-        FileSystem filesystem = findFileSystem( this );
-        if ( filesystem == null )
+        // FileSystem filesystem = findFileSystem( this, (Properties) null);
+        FileSystem filesystem = findFileSystem(this, properties);
+        if (filesystem == null)
         {
-            if ( rootFile == null )
+            if (rootFile == null)
             {
-                rootFile = getContext().getTemporaryFileStore().allocateFile( "tempfs" );
+                rootFile = getContext().getTemporaryFileStore().allocateFile("tempfs");
             }
             final FileName rootName =
-                new BasicFileName( scheme, scheme + ":",  FileName.ROOT_PATH );
-            filesystem = new LocalFileSystem( rootName, rootFile.getAbsolutePath() );
-            addFileSystem( this, filesystem );
+                new BasicFileName(scheme, scheme + ":", FileName.ROOT_PATH);
+            filesystem = new LocalFileSystem(rootName, rootFile.getAbsolutePath());
+            addFileSystem(this, filesystem);
         }
 
         // Find the file
-        return filesystem.resolveFile( path );
+        return filesystem.resolveFile(path);
     }
 }

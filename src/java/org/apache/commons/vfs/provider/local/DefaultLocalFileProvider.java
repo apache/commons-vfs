@@ -15,20 +15,22 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import java.io.File;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.util.Os;
+
+import java.io.File;
 
 /**
  * A file system provider, which uses direct file access.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/01 18:14:28 $
  */
 public final class DefaultLocalFileProvider
     extends AbstractOriginatingFileProvider
@@ -38,7 +40,7 @@ public final class DefaultLocalFileProvider
 
     public DefaultLocalFileProvider()
     {
-        if ( Os.isFamily( Os.OS_FAMILY_WINDOWS ) )
+        if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
         {
             parser = new WindowsFileNameParser();
         }
@@ -51,49 +53,49 @@ public final class DefaultLocalFileProvider
     /**
      * Determines if a name is an absolute file name.
      */
-    public boolean isAbsoluteLocalName( final String name )
+    public boolean isAbsoluteLocalName(final String name)
     {
-        return parser.isAbsoluteName( name );
+        return parser.isAbsoluteName(name);
     }
 
     /**
      * Finds a local file, from its local name.
      */
-    public FileObject findLocalFile( final String name )
+    public FileObject findLocalFile(final String name)
         throws FileSystemException
     {
         // TODO - tidy this up, no need to turn the name into an absolute URI,
         // and then straight back again
-        return findFile( null, "file:" + name );
+        return findFile(null, "file:" + name, null);
     }
 
     /**
      * Finds a local file.
      */
-    public FileObject findLocalFile( final File file )
+    public FileObject findLocalFile(final File file)
         throws FileSystemException
     {
         // TODO - tidy this up, should build file object straight from the file
-        return findFile( null, "file:" + file.getAbsolutePath() );
+        return findFile(null, "file:" + file.getAbsolutePath(), null);
     }
 
     /**
      * Parses a URI.
      */
-    protected FileName parseUri( final String uri )
+    protected FileName parseUri(final String uri)
         throws FileSystemException
     {
-        return LocalFileName.parseUri( uri, parser );
+        return LocalFileName.parseUri(uri, parser);
     }
 
     /**
      * Creates the filesystem.
      */
-    protected FileSystem doCreateFileSystem( final FileName name )
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         // Create the file system
-        final LocalFileName rootName = (LocalFileName)name;
-        return new LocalFileSystem( rootName, rootName.getRootFile() );
+        final LocalFileName rootName = (LocalFileName) name;
+        return new LocalFileSystem(rootName, rootName.getRootFile());
     }
 }

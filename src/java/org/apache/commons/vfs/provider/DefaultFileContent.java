@@ -15,6 +15,12 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.util.MonitorInputStream;
+import org.apache.commons.vfs.util.MonitorOutputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,11 +29,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.MonitorInputStream;
-import org.apache.commons.vfs.util.MonitorOutputStream;
 
 /**
  * The content of a file.
@@ -49,7 +50,7 @@ public final class DefaultFileContent
     private Map attrs;
     private Map roAttrs;
 
-    public DefaultFileContent( final AbstractFileObject file )
+    public DefaultFileContent(final AbstractFileObject file)
     {
         this.file = file;
     }
@@ -68,13 +69,13 @@ public final class DefaultFileContent
     public long getSize() throws FileSystemException
     {
         // Do some checking
-        if ( !file.getType().hasContent() )
+        if (!file.getType().hasContent())
         {
-            throw new FileSystemException( "vfs.provider/get-size-not-file.error", file );
+            throw new FileSystemException("vfs.provider/get-size-not-file.error", file);
         }
-        if ( state == STATE_WRITING )
+        if (state == STATE_WRITING)
         {
-            throw new FileSystemException( "vfs.provider/get-size-write.error", file );
+            throw new FileSystemException("vfs.provider/get-size-write.error", file);
         }
 
         try
@@ -82,9 +83,9 @@ public final class DefaultFileContent
             // Get the size
             return file.doGetContentSize();
         }
-        catch ( final Exception exc )
+        catch (final Exception exc)
         {
-            throw new FileSystemException( "vfs.provider/get-size.error", new Object[]{file}, exc );
+            throw new FileSystemException("vfs.provider/get-size.error", new Object[]{file}, exc);
         }
     }
 
@@ -93,44 +94,44 @@ public final class DefaultFileContent
      */
     public long getLastModifiedTime() throws FileSystemException
     {
-        if ( state == STATE_WRITING )
+        if (state == STATE_WRITING)
         {
-            throw new FileSystemException( "vfs.provider/get-last-modified-writing.error", file );
+            throw new FileSystemException("vfs.provider/get-last-modified-writing.error", file);
         }
-        if ( !file.getType().hasAttributes() )
+        if (!file.getType().hasAttributes())
         {
-            throw new FileSystemException( "vfs.provider/get-last-modified-no-exist.error", file );
+            throw new FileSystemException("vfs.provider/get-last-modified-no-exist.error", file);
         }
         try
         {
             return file.doGetLastModifiedTime();
         }
-        catch ( final Exception e )
+        catch (final Exception e)
         {
-            throw new FileSystemException( "vfs.provider/get-last-modified.error", file, e );
+            throw new FileSystemException("vfs.provider/get-last-modified.error", file, e);
         }
     }
 
     /**
      * Sets the last-modified timestamp.
      */
-    public void setLastModifiedTime( final long modTime ) throws FileSystemException
+    public void setLastModifiedTime(final long modTime) throws FileSystemException
     {
-        if ( state == STATE_WRITING )
+        if (state == STATE_WRITING)
         {
-            throw new FileSystemException( "vfs.provider/set-last-modified-writing.error", file );
+            throw new FileSystemException("vfs.provider/set-last-modified-writing.error", file);
         }
-        if ( !file.getType().hasAttributes() )
+        if (!file.getType().hasAttributes())
         {
-            throw new FileSystemException( "vfs.provider/set-last-modified-no-exist.error", file );
+            throw new FileSystemException("vfs.provider/set-last-modified-no-exist.error", file);
         }
         try
         {
-            file.doSetLastModifiedTime( modTime );
+            file.doSetLastModifiedTime(modTime);
         }
-        catch ( final Exception e )
+        catch (final Exception e)
         {
-            throw new FileSystemException( "vfs.provider/set-last-modified.error", file, e );
+            throw new FileSystemException("vfs.provider/set-last-modified.error", file, e);
         }
     }
 
@@ -139,20 +140,20 @@ public final class DefaultFileContent
      */
     public Map getAttributes() throws FileSystemException
     {
-        if ( !file.getType().hasAttributes() )
+        if (!file.getType().hasAttributes())
         {
-            throw new FileSystemException( "vfs.provider/get-attributes-no-exist.error", file );
+            throw new FileSystemException("vfs.provider/get-attributes-no-exist.error", file);
         }
-        if ( roAttrs == null )
+        if (roAttrs == null)
         {
             try
             {
                 attrs = file.doGetAttributes();
-                roAttrs = Collections.unmodifiableMap( attrs );
+                roAttrs = Collections.unmodifiableMap(attrs);
             }
-            catch ( final Exception e )
+            catch (final Exception e)
             {
-                throw new FileSystemException( "vfs.provider/get-attributes.error", file, e );
+                throw new FileSystemException("vfs.provider/get-attributes.error", file, e);
             }
         }
         return roAttrs;
@@ -165,41 +166,41 @@ public final class DefaultFileContent
     {
         getAttributes();
         final Set names = attrs.keySet();
-        return (String[])names.toArray( new String[ names.size() ] );
+        return (String[]) names.toArray(new String[names.size()]);
     }
 
     /**
      * Gets the value of an attribute.
      */
-    public Object getAttribute( final String attrName )
+    public Object getAttribute(final String attrName)
         throws FileSystemException
     {
         getAttributes();
-        return attrs.get( attrName.toLowerCase() );
+        return attrs.get(attrName.toLowerCase());
     }
 
     /**
      * Sets the value of an attribute.
      */
-    public void setAttribute( final String attrName, final Object value )
+    public void setAttribute(final String attrName, final Object value)
         throws FileSystemException
     {
-        if ( !file.getType().hasAttributes() )
+        if (!file.getType().hasAttributes())
         {
-            throw new FileSystemException( "vfs.provider/set-attribute-no-exist.error", new Object[]{attrName, file} );
+            throw new FileSystemException("vfs.provider/set-attribute-no-exist.error", new Object[]{attrName, file});
         }
         try
         {
-            file.doSetAttribute( attrName, value );
+            file.doSetAttribute(attrName, value);
         }
-        catch ( final Exception e )
+        catch (final Exception e)
         {
-            throw new FileSystemException( "vfs.provider/set-attribute.error", new Object[]{attrName, file}, e );
+            throw new FileSystemException("vfs.provider/set-attribute.error", new Object[]{attrName, file}, e);
         }
 
-        if ( attrs != null )
+        if (attrs != null)
         {
-            attrs.put( attrName, value );
+            attrs.put(attrName, value);
         }
     }
 
@@ -208,30 +209,30 @@ public final class DefaultFileContent
      */
     public Certificate[] getCertificates() throws FileSystemException
     {
-        if ( !file.exists() )
+        if (!file.exists())
         {
-            throw new FileSystemException( "vfs.provider/get-certificates-no-exist.error", file );
+            throw new FileSystemException("vfs.provider/get-certificates-no-exist.error", file);
         }
-        if ( state == STATE_WRITING )
+        if (state == STATE_WRITING)
         {
-            throw new FileSystemException( "vfs.provider/get-certificates-writing.error", file );
+            throw new FileSystemException("vfs.provider/get-certificates-writing.error", file);
         }
 
         try
         {
             final Certificate[] certs = file.doGetCertificates();
-            if ( certs != null )
+            if (certs != null)
             {
                 return certs;
             }
             else
             {
-                return new Certificate[ 0 ];
+                return new Certificate[0];
             }
         }
-        catch ( final Exception e )
+        catch (final Exception e)
         {
-            throw new FileSystemException( "vfs.provider/get-certificates.error", file, e );
+            throw new FileSystemException("vfs.provider/get-certificates.error", file, e);
         }
     }
 
@@ -240,15 +241,15 @@ public final class DefaultFileContent
      */
     public InputStream getInputStream() throws FileSystemException
     {
-        if ( state == STATE_WRITING )
+        if (state == STATE_WRITING)
         {
-            throw new FileSystemException( "vfs.provider/read-in-use.error", file );
+            throw new FileSystemException("vfs.provider/read-in-use.error", file);
         }
 
         // Get the raw input stream
         final InputStream instr = file.getInputStream();
-        final InputStream wrappedInstr = new FileContentInputStream( instr );
-        this.instrs.add( wrappedInstr );
+        final InputStream wrappedInstr = new FileContentInputStream(instr);
+        this.instrs.add(wrappedInstr);
         state = STATE_READING;
         return wrappedInstr;
     }
@@ -258,16 +259,24 @@ public final class DefaultFileContent
      */
     public OutputStream getOutputStream() throws FileSystemException
     {
-        if ( state != STATE_NONE )
+        return getOutputStream(false);
+    }
+
+    /**
+     * Returns an output stream for writing the content in append mode.
+     */
+    public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
+    {
+        if (state != STATE_NONE)
         {
-            throw new FileSystemException( "vfs.provider/write-in-use.error", file );
+            throw new FileSystemException("vfs.provider/write-in-use.error", file);
         }
 
         // Get the raw output stream
-        final OutputStream outstr = file.getOutputStream();
+        final OutputStream outstr = file.getOutputStream(bAppend);
 
         // Create wrapper
-        this.outstr = new FileContentOutputStream( outstr );
+        this.outstr = new FileContentOutputStream(outstr);
         state = STATE_WRITING;
         return this.outstr;
     }
@@ -281,14 +290,14 @@ public final class DefaultFileContent
         try
         {
             // Close the input stream
-            while ( instrs.size() > 0 )
+            while (instrs.size() > 0)
             {
-                final FileContentInputStream instr = (FileContentInputStream)instrs.remove( 0 );
+                final FileContentInputStream instr = (FileContentInputStream) instrs.remove(0);
                 instr.close();
             }
 
             // Close the output stream
-            if ( outstr != null )
+            if (outstr != null)
             {
                 outstr.close();
             }
@@ -302,10 +311,10 @@ public final class DefaultFileContent
     /**
      * Handles the end of input stream.
      */
-    private void endInput( final FileContentInputStream instr )
+    private void endInput(final FileContentInputStream instr)
     {
-        instrs.remove( instr );
-        if ( instrs.size() == 0 )
+        instrs.remove(instr);
+        if (instrs.size() == 0)
         {
             state = STATE_NONE;
         }
@@ -328,9 +337,9 @@ public final class DefaultFileContent
     private final class FileContentInputStream
         extends MonitorInputStream
     {
-        FileContentInputStream( final InputStream instr )
+        FileContentInputStream(final InputStream instr)
         {
-            super( instr );
+            super(instr);
         }
 
         /**
@@ -342,9 +351,9 @@ public final class DefaultFileContent
             {
                 super.close();
             }
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                throw new FileSystemException( "vfs.provider/close-instr.error", file, e );
+                throw new FileSystemException("vfs.provider/close-instr.error", file, e);
             }
         }
 
@@ -353,7 +362,7 @@ public final class DefaultFileContent
          */
         protected void onClose() throws IOException
         {
-            endInput( this );
+            endInput(this);
         }
     }
 
@@ -363,9 +372,9 @@ public final class DefaultFileContent
     private final class FileContentOutputStream
         extends MonitorOutputStream
     {
-        FileContentOutputStream( final OutputStream outstr )
+        FileContentOutputStream(final OutputStream outstr)
         {
-            super( outstr );
+            super(outstr);
         }
 
         /**
@@ -377,13 +386,13 @@ public final class DefaultFileContent
             {
                 super.close();
             }
-            catch ( final FileSystemException e )
+            catch (final FileSystemException e)
             {
                 throw e;
             }
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                throw new FileSystemException( "vfs.provider/close-outstr.error", file, e );
+                throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
             }
         }
 
@@ -396,9 +405,9 @@ public final class DefaultFileContent
             {
                 endOutput();
             }
-            catch ( final Exception e )
+            catch (final Exception e)
             {
-                throw new FileSystemException( "vfs.provider/close-outstr.error", file, e );
+                throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
             }
         }
     }

@@ -18,6 +18,7 @@ package org.apache.commons.vfs.provider.webdav;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
 
@@ -25,7 +26,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
  * A provider for WebDAV.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/01 18:14:29 $
  */
 public class WebdavFileProvider
     extends AbstractOriginatingFileProvider
@@ -33,19 +34,19 @@ public class WebdavFileProvider
     /**
      * Parses an abolute URI.
      */
-    protected FileName parseUri( final String uri )
+    protected FileName parseUri(final String uri)
         throws FileSystemException
     {
-        return GenericFileName.parseUri( uri, 80 );
+        return GenericFileName.parseUri(uri, 80);
     }
 
     /**
      * Creates a filesystem.
      */
-    protected FileSystem doCreateFileSystem( final FileName name )
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        final GenericFileName rootName = (GenericFileName)name;
-        return new WebDavFileSystem( rootName );
+        final GenericFileName rootName = (GenericFileName) name;
+        return new WebDavFileSystem(rootName, fileSystemOptions);
     }
 }

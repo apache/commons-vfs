@@ -15,8 +15,6 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
-import java.io.IOException;
-import java.util.Collection;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.vfs.Capability;
@@ -24,15 +22,19 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.webdav.lib.WebdavResource;
+
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2004/03/03 07:05:35 $
+ * @version $Revision: 1.11 $ $Date: 2004/05/01 18:14:29 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
@@ -40,25 +42,26 @@ class WebDavFileSystem
 {
     private HttpClient client;
 
-    public WebDavFileSystem( final GenericFileName rootName )
+    public WebDavFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super( rootName, null );
+        super(rootName, null, fileSystemOptions);
     }
 
     /**
      * Adds the capabilities of this file system.
      */
-    protected void addCapabilities( final Collection caps )
+    protected void addCapabilities(final Collection caps)
     {
-        caps.add( Capability.CREATE );
-        caps.add( Capability.DELETE );
-        caps.add( Capability.GET_TYPE );
-        caps.add( Capability.LIST_CHILDREN );
-        caps.add( Capability.READ_CONTENT );
-        caps.add( Capability.URI );
-        caps.add( Capability.WRITE_CONTENT );
-        caps.add( Capability.GET_LAST_MODIFIED );
-        caps.add( Capability.ATTRIBUTES );
+        caps.add(Capability.CREATE);
+        caps.add(Capability.DELETE);
+        caps.add(Capability.RENAME);
+        caps.add(Capability.GET_TYPE);
+        caps.add(Capability.LIST_CHILDREN);
+        caps.add(Capability.READ_CONTENT);
+        caps.add(Capability.URI);
+        caps.add(Capability.WRITE_CONTENT);
+        caps.add(Capability.GET_LAST_MODIFIED);
+        caps.add(Capability.ATTRIBUTES);
     }
 
     /**
@@ -66,23 +69,23 @@ class WebDavFileSystem
      */
     protected HttpClient getClient() throws FileSystemException
     {
-        if ( client == null )
+        if (client == null)
         {
             // Create an Http client
             try
             {
-                final GenericFileName rootName = (GenericFileName)getRootName();
-                final HttpURL url = new HttpURL( rootName.getUserName(),
-                                                 rootName.getPassword(),
-                                                 rootName.getHostName(),
-                                                 rootName.getPort(),
-                                                 "/" );
-                final WebdavResource resource = new WebdavResource( url, WebdavResource.NOACTION, 1 );
+                final GenericFileName rootName = (GenericFileName) getRootName();
+                final HttpURL url = new HttpURL(rootName.getUserName(),
+                    rootName.getPassword(),
+                    rootName.getHostName(),
+                    rootName.getPort(),
+                    "/");
+                final WebdavResource resource = new WebdavResource(url, WebdavResource.NOACTION, 1);
                 client = resource.retrieveSessionInstance();
             }
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                throw new FileSystemException( "vfs.provider.webdav/create-client.error", getRootName(), e );
+                throw new FileSystemException("vfs.provider.webdav/create-client.error", getRootName(), e);
             }
         }
         return client;
@@ -92,9 +95,9 @@ class WebDavFileSystem
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
-    protected FileObject createFile( final FileName name )
+    protected FileObject createFile(final FileName name)
     {
-        final GenericFileName fileName = (GenericFileName)name;
-        return new WebdavFileObject( fileName, this );
+        final GenericFileName fileName = (GenericFileName) name;
+        return new WebdavFileObject(fileName, this);
     }
 }

@@ -15,20 +15,22 @@
  */
 package org.apache.commons.vfs.provider.url;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.BasicFileName;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * A file provider backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.16 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.17 $ $Date: 2004/05/01 18:14:29 $
  */
 public class UrlFileProvider
     extends AbstractFileProvider
@@ -36,27 +38,29 @@ public class UrlFileProvider
     /**
      * Locates a file object, by absolute URI.
      */
-    public FileObject findFile( final FileObject baseFile,
-                                final String uri )
+    public FileObject findFile(final FileObject baseFile,
+                               final String uri,
+                               final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         try
         {
-            final URL url = new URL( uri );
-            final URL rootUrl = new URL( url, "/" );
-            FileSystem fs = findFileSystem( rootUrl );
-            if ( fs == null )
+            final URL url = new URL(uri);
+            final URL rootUrl = new URL(url, "/");
+            final String key = this.getClass().getName() + rootUrl.toString();
+            FileSystem fs = findFileSystem(key, fileSystemOptions);
+            if (fs == null)
             {
                 final FileName rootName =
-                    new BasicFileName( rootUrl, FileName.ROOT_PATH );
-                fs = new UrlFileSystem( rootName );
-                addFileSystem( rootUrl, fs );
+                    new BasicFileName(rootUrl, FileName.ROOT_PATH);
+                fs = new UrlFileSystem(rootName, fileSystemOptions);
+                addFileSystem(key, fs);
             }
-            return fs.resolveFile( url.getPath() );
+            return fs.resolveFile(url.getPath());
         }
-        catch ( final MalformedURLException e )
+        catch (final MalformedURLException e)
         {
-            throw new FileSystemException( "vfs.provider.url/badly-formed-uri.error", uri, e );
+            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri, e);
         }
     }
 }

@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileObject;
  * Absolute URI test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/01 18:14:27 $
  */
 public class UriTests
     extends AbstractProviderTestCase
@@ -45,15 +45,15 @@ public class UriTests
 
         // Try fetching base folder again by its URI
         final String uri = readFolder.getName().getURI();
-        FileObject file = getManager().resolveFile( uri );
-        assertSame( "file object", readFolder, file );
+        FileObject file = getManager().resolveFile(uri, readFolder.getFileSystem().getFileSystemOptions());
+        assertSame("file object", readFolder, file);
 
         // Try fetching the filesystem root by its URI
         final String rootUri = readFolder.getName().getRootURI();
-        file = getManager().resolveFile( rootUri );
-        assertSame( readFolder.getFileSystem().getRoot(), file );
-        assertEquals( rootUri, file.getName().getRootURI() );
-        assertEquals( rootUri, file.getName().getURI() );
-        assertEquals( FileName.ROOT_PATH, file.getName().getPath() );
+        file = getManager().resolveFile(rootUri, readFolder.getFileSystem().getFileSystemOptions());
+        assertSame(readFolder.getFileSystem().getRoot(), file);
+        assertEquals(rootUri, file.getName().getRootURI());
+        assertEquals(rootUri, file.getName().getURI());
+        assertEquals(FileName.ROOT_PATH, file.getName().getPath());
     }
 }

@@ -1,102 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <extend>../sandbox-build/project.xml</extend>
-  <name>commons-vfs</name>
-  <id>commons-vfs</id>
-  <currentVersion>1.0-dev</currentVersion>
-  <inceptionYear>2002</inceptionYear>
-  <package>org.apache.commons.vfs</package>
-  <shortDescription>Commons VFS</shortDescription>
+    <extend>../sandbox-build/project.xml</extend>
+    <name>commons-vfs</name>
+    <id>commons-vfs</id>
+    <currentVersion>1.0-dev</currentVersion>
+    <inceptionYear>2002</inceptionYear>
+    <package>org.apache.commons.vfs</package>
+    <shortDescription>Commons VFS</shortDescription>
 
-  <description>
+    <description>
   	VFS is a Virtual File System library.
-  </description>
-  
-  <developers>
-    <developer>
-      <name>Adam Murdoch</name>
-      <id>adammurdoch</id>
-      <email>adammurdoch@apache.org</email>
-      <organization></organization>
-    </developer>
-    <developer>
-      <name>James Strachan</name>
-      <id>jstrachan</id>
-      <email>jstrachan@apache.org</email>
-      <organization>SpiritSoft, Inc.</organization>
-    </developer>
-  </developers>
+    </description>
 
-  <dependencies>
-    <dependency>
-      <id>ant</id>
-      <version>1.5</version>
-    </dependency>
+    <developers>
+        <developer>
+            <name>Adam Murdoch</name>
+            <id>adammurdoch</id>
+            <email>adammurdoch@apache.org</email>
+            <organization></organization>
+        </developer>
+        <developer>
+            <name>James Strachan</name>
+            <id>jstrachan</id>
+            <email>jstrachan@apache.org</email>
+            <organization>SpiritSoft, Inc.</organization>
+        </developer>
+        <developer>
+            <name>Mario Ivankovits</name>
+            <id>imario</id>
+            <email>imario@apache.org</email>
+            <organization>OPS EDV Gmbh</organization>
+        </developer>
+    </developers>
 
-    <dependency>
-      <id>junit</id>
-      <version>3.8.1</version>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <id>ant</id>
+            <version>1.5</version>
+        </dependency>
 
-    <dependency>
-      <id>commons-net</id>
-      <version>1.0.0</version>
-    </dependency>
+        <dependency>
+            <id>junit</id>
+            <version>3.8.1</version>
+        </dependency>
 
-    <dependency>
-      <id>commons-logging</id>
-      <version>1.0</version>
-    </dependency>
+        <dependency>
+            <id>commons-net</id>
+            <version>1.1.0</version>
+        </dependency>
 
-    <dependency>
-      <id>jcifs</id>
-      <version>0.7.8</version>
-    </dependency>
+        <dependency>
+            <id>commons-logging</id>
+            <version>1.0</version>
+        </dependency>
 
-    <dependency>
-      <groupId>slide</groupId>
-      <artifactId>webdavlib</artifactId>
-      <version>2.0beta1</version>   
-    </dependency>
+        <dependency>
+            <id>jcifs</id>
+            <version>0.7.9</version>
+        </dependency>
 
-    <dependency>
-       <id>commons-httpclient</id>
-       <version>2.0</version>
-    </dependency>
+        <dependency>
+            <groupId>slide</groupId>
+            <artifactId>webdavlib</artifactId>
+            <version>2.0beta1</version>
+        </dependency>
 
-    <dependency>
-      <id>jsch</id>
-      <version>0.1.5</version>
-    </dependency>
+        <dependency>
+            <id>commons-httpclient</id>
+            <version>2.0</version>
+        </dependency>
 
-    <dependency>
-      <id>xml-apis</id>
-      <version>1.0.b2</version>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <id>jsch</id>
+            <version>0.1.14</version>
+        </dependency>
 
-  <build>
-    <!-- Unit test classes -->
-    <unitTest>
-      <includes>
-        <include>**/test/*TestCase.java</include>
-      </includes>
-      <excludes>
-        <exclude>**/test/Abstract*TestCase.java</exclude>
-      </excludes>
-    </unitTest>
+        <dependency>
+            <id>xml-apis</id>
+            <version>1.0.b2</version>
+        </dependency>
+    </dependencies>
 
-    <!-- J A R  R E S O U R C E S -->
-    <!-- Resources that are packaged up inside the JAR file -->
-    <resources>
-        <resource>
-            <directory>src/java</directory>
+    <build>
+        <!-- Unit test classes -->
+        <unitTest>
             <includes>
-                <include>**/*.properties</include>
-                <include>**/*.xml</include>
+                <include>**/test/*TestCase.java</include>
             </includes>
-        </resource>
-    </resources>
-  </build>
+            <excludes>
+                <exclude>**/test/Abstract*TestCase.java</exclude>
+            </excludes>
+        </unitTest>
+
+        <!-- J A R  R E S O U R C E S -->
+        <!-- Resources that are packaged up inside the JAR file -->
+        <resources>
+            <resource>
+                <directory>src/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

@@ -22,22 +22,21 @@ import java.util.Map;
 
 /**
  * Represents the data content of a file.
- *
+ * <p/>
  * <p>To read from a file, use the <code>InputStream</code> returned by
  * {@link #getInputStream}.
- *
+ * <p/>
  * <p>To write to a file, use the <code>OutputStream</code> returned by
  * {@link #getOutputStream} method.  This will create the file, and the parent
  * folder, if necessary.
- *
+ * <p/>
  * <p>To prevent concurrency problems, a file may not have an OutputStream and
  * an InputStream open at the same time.  A file may have multiple InputStreams
  * open at the sametime.
  *
- * @see FileObject#getContent
- *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.3 $ $Date: 2002/04/07 02:27:55 $
+ * @see FileObject#getContent
  */
 public interface FileContent
 {
@@ -49,24 +48,18 @@ public interface FileContent
     /**
      * Determines the size of the file, in bytes.
      *
-     * @return
-     *      The size of the file, in bytes.
-     *
-     * @throws FileSystemException
-     *      If the file does not exist, or is being written to, or on error
-     *      determining the size.
+     * @return The size of the file, in bytes.
+     * @throws FileSystemException If the file does not exist, or is being written to, or on error
+     *                             determining the size.
      */
     long getSize() throws FileSystemException;
 
     /**
      * Determines the last-modified timestamp of the file.
      *
-     * @return
-     *      The last-modified timestamp.
-     *
-     * @throws FileSystemException
-     *      If the file does not exist, or is being written to, or on error
-     *      determining the last-modified timestamp.
+     * @return The last-modified timestamp.
+     * @throws FileSystemException If the file does not exist, or is being written to, or on error
+     *                             determining the last-modified timestamp.
      */
     long getLastModifiedTime() throws FileSystemException;
 
@@ -74,120 +67,113 @@ public interface FileContent
      * Sets the last-modified timestamp of the file.  Creates the file if
      * it does not exist.
      *
-     * @param modTime
-     *      The time to set the last-modified timestamp to.
-     *
-     * @throws FileSystemException
-     *      If the file is read-only, or is being written to, or on error
-     *      setting the last-modified timestamp.
+     * @param modTime The time to set the last-modified timestamp to.
+     * @throws FileSystemException If the file is read-only, or is being written to, or on error
+     *                             setting the last-modified timestamp.
      */
-    void setLastModifiedTime( long modTime ) throws FileSystemException;
+    void setLastModifiedTime(long modTime) throws FileSystemException;
 
     /**
      * Returns a read-only map of this file's attributes.
      *
-     * @throws FileSystemException
-     *      If the file does not exist, or does not support attributes.
+     * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
     Map getAttributes() throws FileSystemException;
 
     /**
      * Lists the attributes of the file's content.
      *
-     * @return
-     *      The names of the attributes.  Never returns null;
-     *
-     * @throws FileSystemException
-     *      If the file does not exist, or does not support attributes.
+     * @return The names of the attributes.  Never returns null;
+     * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
     String[] getAttributeNames() throws FileSystemException;
 
     /**
      * Gets the value of an attribute of the file's content.
      *
-     * @param attrName
-     *      The name of the attribute.  Attribute names are case insensitive.
-     *
-     * @return
-     *      The value of the attribute, or null if the attribute value is
-     *      unknown.
-     *
-     * @throws FileSystemException
-     *      If the file does not exist, or does not support attributes.
+     * @param attrName The name of the attribute.  Attribute names are case insensitive.
+     * @return The value of the attribute, or null if the attribute value is
+     *         unknown.
+     * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
-    Object getAttribute( String attrName ) throws FileSystemException;
+    Object getAttribute(String attrName) throws FileSystemException;
 
     /**
      * Sets the value of an attribute of the file's content.  Creates the
      * file if it does not exist.
      *
-     * @param attrName
-     *      The name of the attribute.
-     *
-     * @param value
-     *      The value of the attribute.
-     *
-     * @throws FileSystemException
-     *      If the file does not exist, or is read-only, or does not support
-     *      attributes, or on error setting the attribute.
+     * @param attrName The name of the attribute.
+     * @param value    The value of the attribute.
+     * @throws FileSystemException If the file does not exist, or is read-only, or does not support
+     *                             attributes, or on error setting the attribute.
      */
-    void setAttribute( String attrName, Object value )
+    void setAttribute(String attrName, Object value)
         throws FileSystemException;
 
     /**
      * Retrieves the certificates if any used to sign this file or folder.
      *
-     * @return
-     *      The certificates, or an empty array if there are no certificates or
-     *      the file does not support signing.
-     *
-     * @throws FileSystemException
-     *      If the file does not exist, or is being written.
+     * @return The certificates, or an empty array if there are no certificates or
+     *         the file does not support signing.
+     * @throws FileSystemException If the file does not exist, or is being written.
      */
     Certificate[] getCertificates() throws FileSystemException;
 
     /**
      * Returns an input stream for reading the file's content.
-     *
+     * <p/>
      * <p>There may only be a single input or output stream open for the
      * file at any time.
      *
-     * @return
-     *      An input stream to read the file's content from.  The input
-     *      stream is buffered, so there is no need to wrap it in a
-     *      <code>BufferedInputStream</code>.
-     *
-     * @throws FileSystemException
-     *      If the file does not exist, or is being read, or is being written,
-     *      or on error opening the stream.
+     * @return An input stream to read the file's content from.  The input
+     *         stream is buffered, so there is no need to wrap it in a
+     *         <code>BufferedInputStream</code>.
+     * @throws FileSystemException If the file does not exist, or is being read, or is being written,
+     *                             or on error opening the stream.
      */
     InputStream getInputStream() throws FileSystemException;
 
     /**
      * Returns an output stream for writing the file's content.
-     *
+     * <p/>
      * If the file does not exist, this method creates it, and the parent
      * folder, if necessary.  If the file does exist, it is replaced with
      * whatever is written to the output stream.
-     *
+     * <p/>
      * <p>There may only be a single input or output stream open for the
      * file at any time.
      *
-     * @return
-     *      An output stream to write the file's content to.  The stream is
-     *      buffered, so there is no need to wrap it in a
-     *      <code>BufferedOutputStream</code>.
-     *
-     * @throws FileSystemException
-     *      If the file is read-only, or is being read, or is being written,
-     *      or on error opening the stream.
+     * @return An output stream to write the file's content to.  The stream is
+     *         buffered, so there is no need to wrap it in a
+     *         <code>BufferedOutputStream</code>.
+     * @throws FileSystemException If the file is read-only, or is being read, or is being written,
+     *                             or on error opening the stream.
      */
     OutputStream getOutputStream() throws FileSystemException;
 
     /**
+     * Returns an output stream for writing the file's content.
+     * <p/>
+     * If the file does not exist, this method creates it, and the parent
+     * folder, if necessary.  If the file does exist, it is replaced with
+     * whatever is written to the output stream.
+     * <p/>
+     * <p>There may only be a single input or output stream open for the
+     * file at any time.
+     *
+     * @param bAppend true if you would like to append to the file
+     * @return An output stream to write the file's content to.  The stream is
+     *         buffered, so there is no need to wrap it in a
+     *         <code>BufferedOutputStream</code>.
+     * @throws FileSystemException If the file is read-only, or is being read, or is being written,
+     *                             or on error opening the stream.
+     */
+    OutputStream getOutputStream(boolean bAppend) throws FileSystemException;
+
+    /**
      * Closes all resources used by the content, including any open stream.
      * Commits pending changes to the file.
-     *
+     * <p/>
      * <p>This method is a hint to the implementation that it can release
      * resources.  This object can continue to be used after calling this
      * method.

@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 
@@ -26,7 +27,7 @@ import org.apache.commons.vfs.provider.FileProvider;
  * A file system provider for Zip files.  Provides read-only file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/01 18:14:29 $
  */
 public class ZipFileProvider
     extends AbstractLayeredFileProvider
@@ -34,27 +35,30 @@ public class ZipFileProvider
 {
     /**
      * Parses an absolute URI.
+     *
      * @param uri The URI to parse.
      */
-    protected FileName parseUri( final String uri )
+    protected FileName parseUri(final String uri)
         throws FileSystemException
     {
-        return ZipFileName.parseUri( uri );
+        return ZipFileName.parseUri(uri);
     }
 
     /**
      * Creates a layered file system.  This method is called if the file system
      * is not cached.
+     *
      * @param scheme The URI scheme.
-     * @param file The file to create the file system on top of.
+     * @param file   The file to create the file system on top of.
      * @return The file system.
      */
-    protected FileSystem doCreateFileSystem( final String scheme,
-                                             final FileObject file )
+    protected FileSystem doCreateFileSystem(final String scheme,
+                                            final FileObject file,
+                                            final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         final FileName rootName =
-            new ZipFileName( scheme, file.getName().getURI(), FileName.ROOT_PATH );
-        return new ZipFileSystem( rootName, file );
+            new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
+        return new ZipFileSystem(rootName, file, fileSystemOptions);
     }
 }

@@ -15,43 +15,45 @@
  */
 package org.apache.commons.vfs.provider.url;
 
-import java.util.Collection;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+
+import java.util.Collection;
 
 /**
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/01 18:14:29 $
  */
 class UrlFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    public UrlFileSystem( final FileName rootName )
+    public UrlFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super( rootName, null );
+        super(rootName, null, fileSystemOptions);
     }
 
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( final FileName name )
+    protected FileObject createFile(final FileName name)
     {
-        return new UrlFileObject( this, name );
+        return new UrlFileObject(this, name);
     }
 
     /**
      * Returns the capabilities of this file system.
      */
-    protected void addCapabilities( final Collection caps )
+    protected void addCapabilities(final Collection caps)
     {
-        caps.add( Capability.READ_CONTENT );
-        caps.add( Capability.URI );
-        caps.add( Capability.GET_LAST_MODIFIED );
+        caps.add(Capability.READ_CONTENT);
+        caps.add(Capability.URI);
+        caps.add(Capability.GET_LAST_MODIFIED);
     }
 }

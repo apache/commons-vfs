@@ -15,12 +15,14 @@
  */
 package org.apache.commons.vfs.provider.smb;
 
-import java.util.Collection;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+
+import java.util.Collection;
 
 /**
  * An SMB file system.
@@ -32,31 +34,33 @@ class SmbFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    public SmbFileSystem( final FileName rootName )
+    public SmbFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super( rootName, null );
+        super(rootName, null, fileSystemOptions);
     }
 
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( final FileName name )
+    protected FileObject createFile(final FileName name)
     {
-        return new SmbFileObject( name, this );
+        return new SmbFileObject(name, this);
     }
 
     /**
      * Returns the capabilities of this file system.
      */
-    protected void addCapabilities( final Collection caps )
+    protected void addCapabilities(final Collection caps)
     {
-        caps.add( Capability.CREATE );
-        caps.add( Capability.DELETE );
-        caps.add( Capability.GET_TYPE );
-        caps.add( Capability.GET_LAST_MODIFIED );
-        caps.add( Capability.LIST_CHILDREN );
-        caps.add( Capability.READ_CONTENT );
-        caps.add( Capability.URI );
-        caps.add( Capability.WRITE_CONTENT );
+        caps.add(Capability.CREATE);
+        caps.add(Capability.DELETE);
+        caps.add(Capability.RENAME);
+        caps.add(Capability.GET_TYPE);
+        caps.add(Capability.GET_LAST_MODIFIED);
+        caps.add(Capability.LIST_CHILDREN);
+        caps.add(Capability.READ_CONTENT);
+        caps.add(Capability.URI);
+        caps.add(Capability.WRITE_CONTENT);
+        caps.add(Capability.APPEND_CONTENT);
     }
 }

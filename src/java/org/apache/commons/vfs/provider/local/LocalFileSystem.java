@@ -15,15 +15,16 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import java.io.File;
-import java.io.FilePermission;
-import java.util.Collection;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+
+import java.io.File;
+import java.io.FilePermission;
+import java.util.Collection;
 
 /**
  * A local file system.
@@ -37,53 +38,55 @@ public final class LocalFileSystem
 {
     private final String rootFile;
 
-    public LocalFileSystem( final FileName rootName,
-                            final String rootFile )
+    public LocalFileSystem(final FileName rootName,
+                           final String rootFile)
     {
-        super( rootName, null );
+        super(rootName, null, null);
         this.rootFile = rootFile;
     }
 
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( final FileName name )
+    protected FileObject createFile(final FileName name)
     {
         // Create the file
         final String fileName = rootFile + name.getPath();
-        return new LocalFile( this, fileName, name );
+        return new LocalFile(this, fileName, name);
     }
 
     /**
      * Returns the capabilities of this file system.
      */
-    protected void addCapabilities( final Collection caps )
+    protected void addCapabilities(final Collection caps)
     {
-        caps.add( Capability.CREATE );
-        caps.add( Capability.DELETE );
-        caps.add( Capability.GET_TYPE );
-        caps.add( Capability.GET_LAST_MODIFIED );
-        caps.add( Capability.SET_LAST_MODIFIED );
-        caps.add( Capability.LIST_CHILDREN );
-        caps.add( Capability.READ_CONTENT );
-        caps.add( Capability.URI );
-        caps.add( Capability.WRITE_CONTENT );
+        caps.add(Capability.CREATE);
+        caps.add(Capability.DELETE);
+        caps.add(Capability.RENAME);
+        caps.add(Capability.GET_TYPE);
+        caps.add(Capability.GET_LAST_MODIFIED);
+        caps.add(Capability.SET_LAST_MODIFIED);
+        caps.add(Capability.LIST_CHILDREN);
+        caps.add(Capability.READ_CONTENT);
+        caps.add(Capability.URI);
+        caps.add(Capability.WRITE_CONTENT);
+        caps.add(Capability.APPEND_CONTENT);
     }
 
     /**
      * Creates a temporary local copy of a file and its descendents.
      */
-    protected File doReplicateFile( final FileObject fileObject,
-                                    final FileSelector selector )
+    protected File doReplicateFile(final FileObject fileObject,
+                                   final FileSelector selector)
         throws Exception
     {
-        final LocalFile localFile = (LocalFile)fileObject;
+        final LocalFile localFile = (LocalFile) fileObject;
         final File file = localFile.getLocalFile();
         final SecurityManager sm = System.getSecurityManager();
-        if ( sm != null )
+        if (sm != null)
         {
-            final FilePermission requiredPerm = new FilePermission( file.getAbsolutePath(), "read" );
-            sm.checkPermission( requiredPerm );
+            final FilePermission requiredPerm = new FilePermission(file.getAbsolutePath(), "read");
+            sm.checkPermission(requiredPerm);
         }
         return file;
     }

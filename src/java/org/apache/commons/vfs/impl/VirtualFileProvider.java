@@ -26,7 +26,7 @@ import org.apache.commons.vfs.provider.BasicFileName;
  * A virtual filesystem provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/01 18:14:27 $
  */
 public class VirtualFileProvider
     extends AbstractVfsContainer
@@ -34,26 +34,26 @@ public class VirtualFileProvider
     /**
      * Creates a virtual file system, with the supplied file as its root.
      */
-    public FileObject createFileSystem( final FileObject rootFile )
+    public FileObject createFileSystem(final FileObject rootFile)
         throws FileSystemException
     {
         final FileName rootName =
-            new BasicFileName( rootFile.getName(), FileName.ROOT_PATH );
-        final VirtualFileSystem fs = new VirtualFileSystem( rootName );
-        addComponent( fs );
-        fs.addJunction( FileName.ROOT_PATH, rootFile );
+            new BasicFileName(rootFile.getName(), FileName.ROOT_PATH);
+        final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
+        addComponent(fs);
+        fs.addJunction(FileName.ROOT_PATH, rootFile);
         return fs.getRoot();
     }
 
     /**
      * Creates an empty virtual file system.
      */
-    public FileObject createFileSystem( final String rootUri ) throws FileSystemException
+    public FileObject createFileSystem(final String rootUri) throws FileSystemException
     {
         final FileName rootName =
-            new BasicFileName( rootUri, FileName.ROOT_PATH );
-        final VirtualFileSystem fs = new VirtualFileSystem( rootName );
-        addComponent( fs );
+            new BasicFileName(rootUri, FileName.ROOT_PATH);
+        final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
+        addComponent(fs);
         return fs.getRoot();
     }
 }

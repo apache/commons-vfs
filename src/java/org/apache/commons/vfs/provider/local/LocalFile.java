@@ -15,16 +15,17 @@
  */
 package org.apache.commons.vfs.provider.local;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * A file object implementation which uses direct file access.
@@ -43,11 +44,11 @@ final class LocalFile
     /**
      * Creates a non-root file.
      */
-    public LocalFile( final LocalFileSystem fileSystem,
-                      final String fileName,
-                      final FileName name )
+    public LocalFile(final LocalFileSystem fileSystem,
+                     final String fileName,
+                     final FileName name)
     {
-        super( name, fileSystem );
+        super(name, fileSystem);
         this.fileName = fileName;
     }
 
@@ -65,9 +66,9 @@ final class LocalFile
     protected void doAttach()
         throws Exception
     {
-        if ( file == null )
+        if (file == null)
         {
-            file = new File( fileName );
+            file = new File(fileName);
         }
     }
 
@@ -77,20 +78,20 @@ final class LocalFile
     protected FileType doGetType()
         throws Exception
     {
-        if ( !file.exists() )
+        if (!file.exists())
         {
             return FileType.IMAGINARY;
         }
-        else if ( file.isDirectory() )
+        else if (file.isDirectory())
         {
             return FileType.FOLDER;
         }
-        else if ( file.isFile() )
+        else if (file.isFile())
         {
             return FileType.FILE;
         }
 
-        throw new FileSystemException( "vfs.provider.local/get-type.error", file );
+        throw new FileSystemException("vfs.provider.local/get-type.error", file);
     }
 
     /**
@@ -108,9 +109,21 @@ final class LocalFile
     protected void doDelete()
         throws Exception
     {
-        if ( !file.delete() )
+        if (!file.delete())
         {
-            throw new FileSystemException( "vfs.provider.local/delete-file.error", file );
+            throw new FileSystemException("vfs.provider.local/delete-file.error", file);
+        }
+    }
+
+    /**
+     * rename this file
+     */
+    protected void doRename(FileObject newfile) throws Exception
+    {
+        if (!file.renameTo(((LocalFile) newfile).getLocalFile()))
+        {
+            throw new FileSystemException("vfs.provider.local/rename-file.error",
+                new String[]{file.toString(), newfile.toString()});
         }
     }
 
@@ -120,9 +133,9 @@ final class LocalFile
     protected void doCreateFolder()
         throws Exception
     {
-        if ( !file.mkdirs() )
+        if (!file.mkdirs())
         {
-            throw new FileSystemException( "vfs.provider.local/create-folder.error", file );
+            throw new FileSystemException("vfs.provider.local/create-folder.error", file);
         }
     }
 
@@ -161,10 +174,10 @@ final class LocalFile
     /**
      * Sets the last modified time of this file.
      */
-    protected void doSetLastModifiedTime( final long modtime )
+    protected void doSetLastModifiedTime(final long modtime)
         throws FileSystemException
     {
-        file.setLastModified( modtime );
+        file.setLastModified(modtime);
     }
 
     /**
@@ -173,16 +186,16 @@ final class LocalFile
     protected InputStream doGetInputStream()
         throws Exception
     {
-        return new FileInputStream( file );
+        return new FileInputStream(file);
     }
 
     /**
      * Creates an output stream to write the file content to.
      */
-    protected OutputStream doGetOutputStream()
+    protected OutputStream doGetOutputStream(boolean bAppend)
         throws Exception
     {
-        return new FileOutputStream( file );
+        return new FileOutputStream(file, bAppend);
     }
 
     /**

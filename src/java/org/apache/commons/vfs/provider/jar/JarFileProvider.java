@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.zip.ZipFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 
@@ -28,7 +29,7 @@ import org.apache.commons.vfs.provider.zip.ZipFileProvider;
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.3 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.4 $ $Date: 2004/05/01 18:14:28 $
  */
 public class JarFileProvider
     extends ZipFileProvider
@@ -36,16 +37,18 @@ public class JarFileProvider
     /**
      * Creates a layered file system.  This method is called if the file system
      * is not cached.
+     *
      * @param scheme The URI scheme.
-     * @param file The file to create the file system on top of.
+     * @param file   The file to create the file system on top of.
      * @return The file system.
      */
-    protected FileSystem doCreateFileSystem( String scheme,
-                                             FileObject file )
+    protected FileSystem doCreateFileSystem(final String scheme,
+                                            final FileObject file,
+                                            final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         final FileName name =
-            new ZipFileName( scheme, file.getName().getURI(), FileName.ROOT_PATH );
-        return new JarFileSystem( name, file );
+            new ZipFileName(scheme, file.getName().getURI(), FileName.ROOT_PATH);
+        return new JarFileSystem(name, file, fileSystemOptions);
     }
 }

@@ -15,20 +15,21 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
+
+import java.io.File;
 
 /**
  * Allows VFS components to access the services they need, such as the file
  * replicator.  A VFS component is supplied with a context as part of its
  * initialisation.
  *
- * @see VfsComponent#setContext
- *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/01 18:14:26 $
+ * @see VfsComponent#setContext
  */
 public interface VfsComponentContext
 {
@@ -37,7 +38,7 @@ public interface VfsComponentContext
      * {@link FileSystemManager#resolveFile(FileObject, String)} for a
      * description of how this works.
      */
-    FileObject resolveFile( FileObject baseFile, String name )
+    FileObject resolveFile(FileObject baseFile, String name, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
     /**
@@ -45,7 +46,7 @@ public interface VfsComponentContext
      * {@link FileSystemManager#resolveFile( String)} for a
      * description of how this works.
      */
-    FileObject resolveFile( String name )
+    FileObject resolveFile(String name, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
     /**
@@ -61,6 +62,6 @@ public interface VfsComponentContext
     /**
      * Returns a {@link FileObject} for a local file.
      */
-    FileObject toFileObject( File file )
+    FileObject toFileObject(File file)
         throws FileSystemException;
 }

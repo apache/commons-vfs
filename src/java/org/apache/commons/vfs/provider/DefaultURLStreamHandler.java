@@ -15,12 +15,13 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 
 /**
  * A default URL stream handler that will work for most file systems.
@@ -33,51 +34,51 @@ public class DefaultURLStreamHandler
 {
     private final VfsComponentContext context;
 
-    public DefaultURLStreamHandler( final VfsComponentContext context )
+    public DefaultURLStreamHandler(final VfsComponentContext context)
     {
         this.context = context;
     }
 
-    protected URLConnection openConnection( final URL url )
+    protected URLConnection openConnection(final URL url)
         throws IOException
     {
-        final FileObject entry = context.resolveFile( url.toExternalForm() );
-        return new DefaultURLConnection( url, entry.getContent() );
+        final FileObject entry = context.resolveFile(url.toExternalForm(), null);
+        return new DefaultURLConnection(url, entry.getContent());
     }
 
-    protected void parseURL( final URL u,
-                             final String spec,
-                             final int start,
-                             final int limit )
+    protected void parseURL(final URL u,
+                            final String spec,
+                            final int start,
+                            final int limit)
     {
         try
         {
-            FileObject old = context.resolveFile( u.toExternalForm() );
+            FileObject old = context.resolveFile(u.toExternalForm(), null);
 
             FileObject newURL;
-            if ( start > 0 && spec.charAt( start - 1 ) == ':' )
+            if (start > 0 && spec.charAt(start - 1) == ':')
             {
-                newURL = context.resolveFile( old, spec );
+                newURL = context.resolveFile(old, spec, null);
             }
             else
             {
-                newURL = old.resolveFile( spec );
+                newURL = old.resolveFile(spec);
             }
 
             final String url = newURL.getName().getURI();
             final StringBuffer filePart = new StringBuffer();
-            final String protocolPart = UriParser.extractScheme( url, filePart );
+            final String protocolPart = UriParser.extractScheme(url, filePart);
 
-            setURL( u, protocolPart, null, -1, null, null, filePart.toString(), null, null );
+            setURL(u, protocolPart, null, -1, null, null, filePart.toString(), null, null);
         }
-        catch ( FileSystemException fse )
+        catch (FileSystemException fse)
         {
             // This is rethrown to MalformedURLException in URL anyway
-            throw new RuntimeException( fse.getMessage() );
+            throw new RuntimeException(fse.getMessage());
         }
     }
 
-    protected String toExternalForm( final URL u )
+    protected String toExternalForm(final URL u)
     {
         return u.getProtocol() + ":" + u.getFile();
     }

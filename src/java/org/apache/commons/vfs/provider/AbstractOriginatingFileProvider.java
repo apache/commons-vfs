@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 
 /**
  * A {@link FileProvider} that handles physical files, such as the files in a
@@ -26,7 +27,7 @@ import org.apache.commons.vfs.FileSystemException;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.15 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.16 $ $Date: 2004/05/01 18:14:26 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileProvider
@@ -35,44 +36,44 @@ public abstract class AbstractOriginatingFileProvider
      * Locates a file object, by absolute URI.
      *
      * @param uri
-     *          The absolute URI of the file to find.
      */
-    public FileObject findFile( final FileObject baseFile,
-                                final String uri ) throws FileSystemException
+    public FileObject findFile(final FileObject baseFile,
+                               final String uri,
+                               final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         // Parse the URI
         final FileName name;
         try
         {
-            name = parseUri( uri );
+            name = parseUri(uri);
         }
-        catch ( FileSystemException exc )
+        catch (FileSystemException exc)
         {
-            throw new FileSystemException( "vfs.provider/invalid-absolute-uri.error", uri, exc );
+            throw new FileSystemException("vfs.provider/invalid-absolute-uri.error", uri, exc);
         }
 
         // Locate the file
-        return findFile( name );
+        return findFile(name, fileSystemOptions);
     }
 
     /**
      * Locates a file from its parsed URI.
      */
-    private FileObject findFile( final FileName name )
+    private FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         // Check in the cache for the file system
-        final FileName rootName = name.resolveName( FileName.ROOT_PATH );
-        FileSystem fs = findFileSystem( rootName );
-        if ( fs == null )
+        final FileName rootName = name.resolveName(FileName.ROOT_PATH);
+        FileSystem fs = findFileSystem(rootName, fileSystemOptions);
+        if (fs == null)
         {
             // Need to create the file system, and cache it
-            fs = doCreateFileSystem( rootName );
-            addFileSystem( rootName, fs );
+            fs = doCreateFileSystem(rootName, fileSystemOptions);
+            addFileSystem(rootName, fs);
         }
 
         // Locate the file
-        return fs.resolveFile( name.getPath() );
+        return fs.resolveFile(name.getPath());
     }
 
     /**
@@ -82,7 +83,7 @@ public abstract class AbstractOriginatingFileProvider
      *         system in the cache, using the root URI.  This name is also
      *         passed to {@link #doCreateFileSystem} to create the file system.
      */
-    protected abstract FileName parseUri( final String uri )
+    protected abstract FileName parseUri(final String uri)
         throws FileSystemException;
 
     /**
@@ -91,6 +92,6 @@ public abstract class AbstractOriginatingFileProvider
      *
      * @param rootName The name of the root file of the file system to create.
      */
-    protected abstract FileSystem doCreateFileSystem( final FileName rootName )
+    protected abstract FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 }

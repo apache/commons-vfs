@@ -15,12 +15,6 @@
  */
 package org.apache.commons.vfs.test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URLConnection;
-import java.util.Arrays;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContent;
@@ -28,15 +22,22 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URLConnection;
+import java.util.Arrays;
+
 /**
  * File system test cases, which verifies the structure and naming
  * functionality.
- *
+ * <p/>
  * Works from a base folder, and assumes a particular structure under
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/02/28 03:35:53 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/01 18:14:27 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
@@ -53,17 +54,21 @@ public abstract class AbstractProviderTestCase
     // Expected contents of test files
     public static final String TEST_FILE_CONTENT = "A test file.";
 
-    /** Sets the test method. */
-    public void setMethod( final Method method )
+    /**
+     * Sets the test method.
+     */
+    public void setMethod(final Method method)
     {
         this.method = method;
     }
 
-    /** Configures this test. */
-    public void setConfig( final DefaultFileSystemManager manager,
-                           final FileObject baseFolder,
-                           final FileObject readFolder,
-                           final FileObject writeFolder )
+    /**
+     * Configures this test.
+     */
+    public void setConfig(final DefaultFileSystemManager manager,
+                          final FileObject baseFolder,
+                          final FileObject readFolder,
+                          final FileObject writeFolder)
     {
         this.manager = manager;
         this.baseFolder = baseFolder;
@@ -109,7 +114,7 @@ public abstract class AbstractProviderTestCase
      * tests are not run if the provider being tested does not support all
      * the required capabilities.  Return null or an empty array to always
      * run the tests.
-     *
+     * <p/>
      * <p>This implementation returns null.
      */
     protected Capability[] getRequiredCaps()
@@ -129,27 +134,27 @@ public abstract class AbstractProviderTestCase
     {
         // Check the capabilities
         final Capability[] caps = getRequiredCaps();
-        if ( caps != null )
+        if (caps != null)
         {
-            for ( int i = 0; i < caps.length; i++ )
+            for (int i = 0; i < caps.length; i++)
             {
-                final Capability cap = caps[ i ];
-                if ( !readFolder.getFileSystem().hasCapability( cap ) )
+                final Capability cap = caps[i];
+                if (!readFolder.getFileSystem().hasCapability(cap))
                 {
-                    System.out.println( "skipping " + getName() + " because fs does not have cap " + cap );
+                    System.out.println("skipping " + getName() + " because fs does not have cap " + cap);
                     return;
                 }
             }
         }
 
         // Provider has all the capabilities - execute the test
-        if ( method != null )
+        if (method != null)
         {
             try
             {
-                method.invoke( this, null );
+                method.invoke(this, null);
             }
-            catch ( final InvocationTargetException e )
+            catch (final InvocationTargetException e)
             {
                 throw e.getTargetException();
             }
@@ -166,15 +171,15 @@ public abstract class AbstractProviderTestCase
      * as a byte stream and compares the result with the expected content.
      * Assumes files are encoded using UTF-8.
      */
-    protected void assertSameURLContent( final String expected,
-                                         final URLConnection connection )
+    protected void assertSameURLContent(final String expected,
+                                        final URLConnection connection)
         throws Exception
     {
         // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes( "utf-8" );
+        final byte[] expectedBin = expected.getBytes("utf-8");
 
         // Check lengths
-        assertEquals( "same content length", expectedBin.length, connection.getContentLength() );
+        assertEquals("same content length", expectedBin.length, connection.getContentLength());
 
         // Read content into byte array
         final InputStream instr = connection.getInputStream();
@@ -182,12 +187,12 @@ public abstract class AbstractProviderTestCase
         try
         {
             outstr = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[ 256 ];
+            final byte[] buffer = new byte[256];
             int nread = 0;
-            while ( nread >= 0 )
+            while (nread >= 0)
             {
-                outstr.write( buffer, 0, nread );
-                nread = instr.read( buffer );
+                outstr.write(buffer, 0, nread);
+                nread = instr.read(buffer);
             }
         }
         finally
@@ -196,7 +201,7 @@ public abstract class AbstractProviderTestCase
         }
 
         // Compare
-        assertTrue( "same binary content", Arrays.equals( expectedBin, outstr.toByteArray() ) );
+        assertTrue("same binary content", Arrays.equals(expectedBin, outstr.toByteArray()));
     }
 
     /**
@@ -205,33 +210,33 @@ public abstract class AbstractProviderTestCase
      * a byte stream and compares the result with the expected content.
      * Assumes files are encoded using UTF-8.
      */
-    protected void assertSameContent( final String expected,
-                                      final FileObject file )
+    protected void assertSameContent(final String expected,
+                                     final FileObject file)
         throws Exception
     {
         // Check the file exists, and is a file
-        assertTrue( file.exists() );
-        assertSame( FileType.FILE, file.getType() );
+        assertTrue(file.exists());
+        assertSame(FileType.FILE, file.getType());
 
         // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes( "utf-8" );
+        final byte[] expectedBin = expected.getBytes("utf-8");
 
         // Check lengths
         final FileContent content = file.getContent();
-        assertEquals( "same content length", expectedBin.length, content.getSize() );
+        assertEquals("same content length", expectedBin.length, content.getSize());
 
         // Read content into byte array
         final InputStream instr = content.getInputStream();
         final ByteArrayOutputStream outstr;
         try
         {
-            outstr = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[ 256 ];
+            outstr = new ByteArrayOutputStream(expectedBin.length);
+            final byte[] buffer = new byte[256];
             int nread = 0;
-            while ( nread >= 0 )
+            while (nread >= 0)
             {
-                outstr.write( buffer, 0, nread );
-                nread = instr.read( buffer );
+                outstr.write(buffer, 0, nread);
+                nread = instr.read(buffer);
             }
         }
         finally
@@ -240,7 +245,7 @@ public abstract class AbstractProviderTestCase
         }
 
         // Compare
-        assertTrue( "same binary content", Arrays.equals( expectedBin, outstr.toByteArray() ) );
+        assertTrue("same binary content", Arrays.equals(expectedBin, outstr.toByteArray()));
     }
 
     /**
@@ -249,15 +254,30 @@ public abstract class AbstractProviderTestCase
     protected FileInfo buildExpectedStructure()
     {
         // Build the expected structure
-        final FileInfo base = new FileInfo( getReadFolder().getName().getBaseName(), FileType.FOLDER );
-        base.addFile( "file1.txt", FILE1_CONTENT );
-        base.addFile( "empty.txt", "" );
-        base.addFolder( "emptydir" );
+        final FileInfo base = new FileInfo(getReadFolder().getName().getBaseName(), FileType.FOLDER);
+        base.addFile("file1.txt", FILE1_CONTENT);
+        base.addFile("empty.txt", "");
+        base.addFolder("emptydir");
 
-        final FileInfo dir = base.addFolder( "dir1" );
-        dir.addFile( "file1.txt", TEST_FILE_CONTENT );
-        dir.addFile( "file2.txt", TEST_FILE_CONTENT );
-        dir.addFile( "file3.txt", TEST_FILE_CONTENT );
+        final FileInfo dir = base.addFolder("dir1");
+        dir.addFile("file1.txt", TEST_FILE_CONTENT);
+        dir.addFile("file2.txt", TEST_FILE_CONTENT);
+        dir.addFile("file3.txt", TEST_FILE_CONTENT);
+
+        final FileInfo subdir1 = dir.addFolder("subdir1");
+        subdir1.addFile("file1.txt", TEST_FILE_CONTENT);
+        subdir1.addFile("file2.txt", TEST_FILE_CONTENT);
+        subdir1.addFile("file3.txt", TEST_FILE_CONTENT);
+
+        final FileInfo subdir2 = dir.addFolder("subdir2");
+        subdir2.addFile("file1.txt", TEST_FILE_CONTENT);
+        subdir2.addFile("file2.txt", TEST_FILE_CONTENT);
+        subdir2.addFile("file3.txt", TEST_FILE_CONTENT);
+
+        final FileInfo subdir3 = dir.addFolder("subdir3");
+        subdir3.addFile("file1.txt", TEST_FILE_CONTENT);
+        subdir3.addFile("file2.txt", TEST_FILE_CONTENT);
+        subdir3.addFile("file3.txt", TEST_FILE_CONTENT);
 
         return base;
     }

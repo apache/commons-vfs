@@ -15,11 +15,13 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * A partial {@link FileProvider} implementation.  Takes care of managing the
@@ -36,7 +38,8 @@ public abstract class AbstractFileProvider
      * The cached file systems.  This is a mapping from root URI to
      * FileSystem object.
      */
-    private final Map fileSystems = new HashMap();
+    // private final Map fileSystems = new HashMap();
+    private final Map fileSystems = new TreeMap();
 
     /**
      * Closes the file systems created by this provider.
@@ -50,31 +53,36 @@ public abstract class AbstractFileProvider
     /**
      * Creates a layered file system.  This method throws a 'not supported' exception.
      */
-    public FileObject createFileSystem( final String scheme, final FileObject file )
+    public FileObject createFileSystem(final String scheme, final FileObject file, final FileSystemOptions properties)
         throws FileSystemException
     {
         // Can't create a layered file system
-        throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
+        throw new FileSystemException("vfs.provider/not-layered-fs.error", scheme);
     }
 
     /**
      * Adds a file system to those cached by this provider.  The file system
      * may implement {@link VfsComponent}, in which case it is initialised.
      */
-    protected void addFileSystem( final Object key, final FileSystem fs )
+    protected void addFileSystem(final Comparable key, final FileSystem fs)
         throws FileSystemException
     {
         // Add to the cache
-        addComponent( fs );
-        fileSystems.put( key, fs );
+        addComponent(fs);
+
+        FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
+        fileSystems.put(treeKey, fs);
     }
 
     /**
      * Locates a cached file system
+     *
      * @return The provider, or null if it is not cached.
      */
-    protected FileSystem findFileSystem( final Object key )
+    protected FileSystem findFileSystem(final Comparable key, final FileSystemOptions fileSystemProps)
     {
-        return (FileSystem)fileSystems.get( key );
+        FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
+
+        return (FileSystem) fileSystems.get(treeKey);
     }
 }

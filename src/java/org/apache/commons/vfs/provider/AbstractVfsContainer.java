@@ -15,19 +15,22 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.util.ArrayList;
 import org.apache.commons.vfs.FileSystemException;
+
+import java.util.ArrayList;
 
 /**
  * A {@link VfsComponent} that contains a set of sub-components.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/01 18:14:26 $
  */
 public abstract class AbstractVfsContainer
     extends AbstractVfsComponent
 {
-    /** The components contained by this component. */
+    /**
+     * The components contained by this component.
+     */
     private final ArrayList components = new ArrayList();
 
     /**
@@ -35,22 +38,22 @@ public abstract class AbstractVfsContainer
      * {@link VfsComponent}, it is initialised.  All sub-components are closed
      * when this component is closed.
      */
-    protected void addComponent( final Object component )
+    protected void addComponent(final Object component)
         throws FileSystemException
     {
-        if ( !components.contains( component ) )
+        if (!components.contains(component))
         {
             // Initialise
-            if ( component instanceof VfsComponent )
+            if (component instanceof VfsComponent)
             {
-                VfsComponent vfsComponent = (VfsComponent)component;
-                vfsComponent.setLogger( getLogger() );
-                vfsComponent.setContext( getContext() );
+                VfsComponent vfsComponent = (VfsComponent) component;
+                vfsComponent.setLogger(getLogger());
+                vfsComponent.setContext(getContext());
                 vfsComponent.init();
             }
 
             // Keep track of component, to close it later
-            components.add( component );
+            components.add(component);
         }
     }
 
@@ -61,12 +64,12 @@ public abstract class AbstractVfsContainer
     {
         // Close all components
         final int count = components.size();
-        for ( int i = 0; i < count; i++ )
+        for (int i = 0; i < count; i++)
         {
-            final Object component = components.get( i );
-            if ( component instanceof VfsComponent )
+            final Object component = components.get(i);
+            if (component instanceof VfsComponent)
             {
-                final VfsComponent vfsComponent = (VfsComponent)component;
+                final VfsComponent vfsComponent = (VfsComponent) component;
                 vfsComponent.close();
             }
         }

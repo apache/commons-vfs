@@ -15,18 +15,12 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.io.File;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.FileReplicator;
@@ -34,6 +28,14 @@ import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponent;
+
+import java.io.File;
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * A default file system manager implementation.
@@ -44,30 +46,46 @@ import org.apache.commons.vfs.provider.VfsComponent;
 public class DefaultFileSystemManager
     implements FileSystemManager
 {
-    /** The provider for local files. */
+    /**
+     * The provider for local files.
+     */
     private LocalFileProvider localFileProvider;
 
-    /** The default provider. */
+    /**
+     * The default provider.
+     */
     private FileProvider defaultProvider;
 
-    /** The file replicator to use. */
+    /**
+     * The file replicator to use.
+     */
     private FileReplicator fileReplicator;
 
-    /** Mapping from URI scheme to FileProvider. */
+    /**
+     * Mapping from URI scheme to FileProvider.
+     */
     private final Map providers = new HashMap();
 
-    /** All components used by this manager. */
+    /**
+     * All components used by this manager.
+     */
     private final ArrayList components = new ArrayList();
 
-    /** The base file to use for relative URI. */
+    /**
+     * The base file to use for relative URI.
+     */
     private FileObject baseFile;
 
-    /** The logger to use. */
-    private Log log = LogFactory.getLog( DefaultFileSystemManager.class );
+    /**
+     * The logger to use.
+     */
+    private Log log = LogFactory.getLog(DefaultFileSystemManager.class);
 
-    /** The context to pass to providers. */
+    /**
+     * The context to pass to providers.
+     */
     private final DefaultVfsComponentContext context =
-        new DefaultVfsComponentContext( this );
+        new DefaultVfsComponentContext(this);
 
     private TemporaryFileStore tempFileStore;
     private final FileTypeMap map = new FileTypeMap();
@@ -79,9 +97,9 @@ public class DefaultFileSystemManager
      */
     protected Log getLog()
     {
-        if ( log == null )
+        if (log == null)
         {
-            log = LogFactory.getLog( this.getClass() );
+            log = LogFactory.getLog(this.getClass());
         }
         return log;
     }
@@ -91,13 +109,13 @@ public class DefaultFileSystemManager
      * lifecycle management.  A provider may be registered multiple times.
      *
      * @param urlScheme The scheme the provider will handle.
-     * @param provider The provider.
+     * @param provider  The provider.
      */
-    public void addProvider( final String urlScheme,
-                             final FileProvider provider )
+    public void addProvider(final String urlScheme,
+                            final FileProvider provider)
         throws FileSystemException
     {
-        addProvider( new String[]{urlScheme}, provider );
+        addProvider(new String[]{urlScheme}, provider);
     }
 
     /**
@@ -105,64 +123,66 @@ public class DefaultFileSystemManager
      * lifecycle management.  A provider may be registered multiple times.
      *
      * @param urlSchemes The schemes the provider will handle.
-     * @param provider The provider.
+     * @param provider   The provider.
      */
-    public void addProvider( final String[] urlSchemes,
-                             final FileProvider provider )
+    public void addProvider(final String[] urlSchemes,
+                            final FileProvider provider)
         throws FileSystemException
     {
         // Warn about duplicate providers
-        for ( int i = 0; i < urlSchemes.length; i++ )
+        for (int i = 0; i < urlSchemes.length; i++)
         {
-            final String scheme = urlSchemes[ i ];
-            if ( providers.containsKey( scheme ) )
+            final String scheme = urlSchemes[i];
+            if (providers.containsKey(scheme))
             {
-                throw new FileSystemException( "vfs.impl/multiple-providers-for-scheme.error", scheme );
+                throw new FileSystemException("vfs.impl/multiple-providers-for-scheme.error", scheme);
             }
         }
 
         // Contextualise the component (if not already)
-        setupComponent( provider );
+        setupComponent(provider);
 
         // Add to map
-        for ( int i = 0; i < urlSchemes.length; i++ )
+        for (int i = 0; i < urlSchemes.length; i++)
         {
-            final String scheme = urlSchemes[ i ];
-            providers.put( scheme, provider );
+            final String scheme = urlSchemes[i];
+            providers.put(scheme, provider);
         }
 
-        if ( provider instanceof LocalFileProvider )
+        if (provider instanceof LocalFileProvider)
         {
-            localFileProvider = (LocalFileProvider)provider;
+            localFileProvider = (LocalFileProvider) provider;
         }
     }
 
     /**
      * Returns true if this manager has a provider for a particular scheme.
      */
-    public boolean hasProvider( final String scheme )
+    public boolean hasProvider(final String scheme)
     {
-        return providers.containsKey( scheme );
+        return providers.containsKey(scheme);
     }
 
     /**
      * Adds an filename extension mapping.
+     *
      * @param extension The file name extension.
-     * @param scheme The scheme to use for files with this extension.
+     * @param scheme    The scheme to use for files with this extension.
      */
-    public void addExtensionMap( final String extension, final String scheme )
+    public void addExtensionMap(final String extension, final String scheme)
     {
-        map.addExtension( extension, scheme );
+        map.addExtension(extension, scheme);
     }
 
     /**
      * Adds a mime type mapping.
+     *
      * @param mimeType The mime type.
-     * @param scheme The scheme to use for files with this mime type.
+     * @param scheme   The scheme to use for files with this mime type.
      */
-    public void addMimeTypeMap( final String mimeType, final String scheme )
+    public void addMimeTypeMap(final String mimeType, final String scheme)
     {
-        map.addMimeType( mimeType, scheme );
+        map.addMimeType(mimeType, scheme);
     }
 
     /**
@@ -170,10 +190,10 @@ public class DefaultFileSystemManager
      * with unknown schemes.  The manager takes care of all lifecycle
      * management.
      */
-    public void setDefaultProvider( final FileProvider provider )
+    public void setDefaultProvider(final FileProvider provider)
         throws FileSystemException
     {
-        setupComponent( provider );
+        setupComponent(provider);
         defaultProvider = provider;
     }
 
@@ -181,10 +201,10 @@ public class DefaultFileSystemManager
      * Sets the file replicator to use.  The manager takes care of all
      * lifecycle management.
      */
-    public void setReplicator( final FileReplicator replicator )
+    public void setReplicator(final FileReplicator replicator)
         throws FileSystemException
     {
-        setupComponent( replicator );
+        setupComponent(replicator);
         fileReplicator = replicator;
     }
 
@@ -192,17 +212,17 @@ public class DefaultFileSystemManager
      * Sets the temporary file store to use.  The manager takes care of all
      * lifecycle management.
      */
-    public void setTemporaryFileStore( final TemporaryFileStore tempFileStore )
+    public void setTemporaryFileStore(final TemporaryFileStore tempFileStore)
         throws FileSystemException
     {
-        setupComponent( tempFileStore );
+        setupComponent(tempFileStore);
         this.tempFileStore = tempFileStore;
     }
 
     /**
      * Sets the logger to use.
      */
-    public void setLogger( final Log log )
+    public void setLogger(final Log log)
     {
         this.log = log;
     }
@@ -210,35 +230,35 @@ public class DefaultFileSystemManager
     /**
      * Initialises a component, if it has not already been initialised.
      */
-    private void setupComponent( final Object component )
+    private void setupComponent(final Object component)
         throws FileSystemException
     {
-        if ( !components.contains( component ) )
+        if (!components.contains(component))
         {
-            if ( component instanceof VfsComponent )
+            if (component instanceof VfsComponent)
             {
-                final VfsComponent vfsComponent = (VfsComponent)component;
-                vfsComponent.setLogger( getLog() );
-                vfsComponent.setContext( context );
+                final VfsComponent vfsComponent = (VfsComponent) component;
+                vfsComponent.setLogger(getLog());
+                vfsComponent.setContext(context);
                 vfsComponent.init();
             }
-            components.add( component );
+            components.add(component);
         }
     }
 
     /**
      * Closes a component, if it has not already been closed.
      */
-    private void closeComponent( final Object component )
+    private void closeComponent(final Object component)
     {
-        if ( component != null && components.contains( component ) )
+        if (component != null && components.contains(component))
         {
-            if ( component instanceof VfsComponent )
+            if (component instanceof VfsComponent)
             {
-                final VfsComponent vfsComponent = (VfsComponent)component;
+                final VfsComponent vfsComponent = (VfsComponent) component;
                 vfsComponent.close();
             }
-            components.remove( component );
+            components.remove(component);
         }
     }
 
@@ -250,23 +270,24 @@ public class DefaultFileSystemManager
     public FileReplicator getReplicator()
         throws FileSystemException
     {
-        if ( fileReplicator == null )
+        if (fileReplicator == null)
         {
-            throw new FileSystemException( "vfs.impl/no-replicator.error" );
+            throw new FileSystemException("vfs.impl/no-replicator.error");
         }
         return fileReplicator;
     }
 
     /**
      * Returns the temporary file store.
+     *
      * @return The file store.  Never returns null.
      */
     public TemporaryFileStore getTemporaryFileStore()
         throws FileSystemException
     {
-        if ( tempFileStore == null )
+        if (tempFileStore == null)
         {
-            throw new FileSystemException( "vfs.impl/no-temp-file-store.error" );
+            throw new FileSystemException("vfs.impl/no-temp-file-store.error");
         }
         return tempFileStore;
     }
@@ -276,7 +297,7 @@ public class DefaultFileSystemManager
      */
     public void init() throws FileSystemException
     {
-        setupComponent( vfsProvider );
+        setupComponent(vfsProvider);
         init = true;
     }
 
@@ -286,22 +307,22 @@ public class DefaultFileSystemManager
      */
     public void close()
     {
-        if ( !init )
+        if (!init)
         {
             return;
         }
 
         // Close the providers.
-        for ( Iterator iterator = providers.values().iterator(); iterator.hasNext(); )
+        for (Iterator iterator = providers.values().iterator(); iterator.hasNext();)
         {
             final Object provider = iterator.next();
-            closeComponent( provider );
+            closeComponent(provider);
         }
 
         // Close the other components
-        closeComponent( defaultProvider );
-        closeComponent( fileReplicator );
-        closeComponent( tempFileStore );
+        closeComponent(defaultProvider);
+        closeComponent(fileReplicator);
+        closeComponent(tempFileStore);
 
         components.clear();
         providers.clear();
@@ -315,7 +336,7 @@ public class DefaultFileSystemManager
     /**
      * Sets the base file to use when resolving relative URI.
      */
-    public void setBaseFile( final FileObject baseFile )
+    public void setBaseFile(final FileObject baseFile)
         throws FileSystemException
     {
         this.baseFile = baseFile;
@@ -324,9 +345,9 @@ public class DefaultFileSystemManager
     /**
      * Sets the base file to use when resolving relative URI.
      */
-    public void setBaseFile( final File baseFile ) throws FileSystemException
+    public void setBaseFile(final File baseFile) throws FileSystemException
     {
-        this.baseFile = getLocalFileProvider().findLocalFile( baseFile );
+        this.baseFile = getLocalFileProvider().findLocalFile(baseFile);
     }
 
     /**
@@ -340,111 +361,130 @@ public class DefaultFileSystemManager
     /**
      * Locates a file by URI.
      */
-    public FileObject resolveFile( final String uri ) throws FileSystemException
+    public FileObject resolveFile(final String uri) throws FileSystemException
     {
-        return resolveFile( baseFile, uri );
+        return resolveFile(baseFile, uri);
+    }
+
+    /**
+     * Locate a file by URI, use the FileSystemOptions for file-system creation
+     */
+
+    public FileObject resolveFile(final String uri, final FileSystemOptions fileSystemOptions) throws FileSystemException
+    {
+        return resolveFile(baseFile, uri, fileSystemOptions);
     }
 
     /**
      * Locates a file by URI.
      */
-    public FileObject resolveFile( final File baseFile, final String uri )
+    public FileObject resolveFile(final File baseFile, final String uri)
         throws FileSystemException
     {
         final FileObject baseFileObj =
-            getLocalFileProvider().findLocalFile( baseFile );
-        return resolveFile( baseFileObj, uri );
+            getLocalFileProvider().findLocalFile(baseFile);
+        return resolveFile(baseFileObj, uri);
     }
 
     /**
      * Resolves a URI, relative to a base file.
      */
-    public FileObject resolveFile( final FileObject baseFile, final String uri )
+    public FileObject resolveFile(final FileObject baseFile, final String uri)
         throws FileSystemException
     {
-        if ( uri == null )
+        return resolveFile(baseFile, uri, baseFile == null ? null : baseFile.getFileSystem().getFileSystemOptions());
+    }
+
+    /**
+     * Resolves a URI, realtive to a base file with specified FileSystem configuration
+     */
+    public FileObject resolveFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
+        throws FileSystemException
+    {
+        if (uri == null)
         {
             throw new IllegalArgumentException();
         }
 
-        // Extract the scheme
-        final String scheme = UriParser.extractScheme( uri );
-        if ( scheme != null )
+// Extract the scheme
+        final String scheme = UriParser.extractScheme(uri);
+        if (scheme != null)
         {
-            // An absolute URI - locate the provider
-            final FileProvider provider = (FileProvider)providers.get( scheme );
-            if ( provider != null )
+// An absolute URI - locate the provider
+            final FileProvider provider = (FileProvider) providers.get(scheme);
+            if (provider != null)
             {
-                return provider.findFile( baseFile, uri );
+                return provider.findFile(baseFile, uri, fileSystemOptions);
             }
 
-            // Otherwise, assume a local file
+// Otherwise, assume a local file
         }
 
-        // Decode the URI (remove %nn encodings)
-        final String decodedUri = UriParser.decode( uri );
 
-        // Handle absolute file names
-        if ( localFileProvider != null
-            && localFileProvider.isAbsoluteLocalName( decodedUri ) )
+// Decode the URI (remove %nn encodings)
+        final String decodedUri = UriParser.decode(uri);
+
+// Handle absolute file names
+        if (localFileProvider != null
+            && localFileProvider.isAbsoluteLocalName(decodedUri))
         {
-            return localFileProvider.findLocalFile( decodedUri );
+            return localFileProvider.findLocalFile(decodedUri);
         }
 
-        if ( scheme != null )
+        if (scheme != null)
         {
-            // An unknown scheme - hand it to the default provider
-            if ( defaultProvider == null )
+// An unknown scheme - hand it to the default provider
+            if (defaultProvider == null)
             {
-                throw new FileSystemException( "vfs.impl/unknown-scheme.error", new Object[]{scheme, uri} );
+                throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[]{scheme, uri});
             }
-            return defaultProvider.findFile( baseFile, uri );
+            return defaultProvider.findFile(baseFile, uri, fileSystemOptions);
         }
 
-        // Assume a relative name - use the supplied base file
-        if ( baseFile == null )
+// Assume a relative name - use the supplied base file
+        if (baseFile == null)
         {
-            throw new FileSystemException( "vfs.impl/find-rel-file.error", uri );
+            throw new FileSystemException("vfs.impl/find-rel-file.error", uri);
         }
-        return baseFile.resolveFile( decodedUri );
+        return baseFile.resolveFile(decodedUri);
     }
 
     /**
      * Converts a local file into a {@link FileObject}.
      */
-    public FileObject toFileObject( final File file )
+    public FileObject toFileObject(final File file)
         throws FileSystemException
     {
-        return getLocalFileProvider().findLocalFile( file );
+        return getLocalFileProvider().findLocalFile(file);
     }
 
     /**
      * Creates a layered file system.
      */
-    public FileObject createFileSystem( final String scheme,
-                                        final FileObject file )
+    public FileObject createFileSystem(final String scheme,
+                                       final FileObject file)
         throws FileSystemException
     {
-        final FileProvider provider = (FileProvider)providers.get( scheme );
-        if ( provider == null )
+        final FileProvider provider = (FileProvider) providers.get(scheme);
+        if (provider == null)
         {
-            throw new FileSystemException( "vfs.impl/unknown-provider.error", new Object[] { scheme, file } );
+            throw new FileSystemException("vfs.impl/unknown-provider.error", new Object[]{scheme, file});
         }
-        return provider.createFileSystem( scheme, file );
+        return provider.createFileSystem(scheme, file, file.getFileSystem().getFileSystemOptions());
     }
 
     /**
      * Creates a layered file system.
      */
-    public FileObject createFileSystem( final FileObject file )
+    public FileObject createFileSystem(final FileObject file)
         throws FileSystemException
     {
-        final String scheme = map.getScheme( file );
-        if ( scheme == null )
+        final String scheme = map.getScheme(file);
+        if (scheme == null)
         {
-            throw new FileSystemException( "vfs.impl/no-provider-for-file.error", file );
+            throw new FileSystemException("vfs.impl/no-provider-for-file.error", file);
         }
-        return createFileSystem( scheme, file );
+        return createFileSystem(scheme, file);
     }
 
     /**
@@ -452,27 +492,27 @@ public class DefaultFileSystemManager
      *
      * @param file The file to check for.
      */
-    public boolean canCreateFileSystem( final FileObject file ) throws FileSystemException
+    public boolean canCreateFileSystem(final FileObject file) throws FileSystemException
     {
-        return ( map.getScheme( file ) != null );
+        return (map.getScheme(file) != null);
     }
 
     /**
      * Creates a virtual file system.
      */
-    public FileObject createVirtualFileSystem( final FileObject rootFile )
+    public FileObject createVirtualFileSystem(final FileObject rootFile)
         throws FileSystemException
     {
-        return vfsProvider.createFileSystem( rootFile );
+        return vfsProvider.createFileSystem(rootFile);
     }
 
     /**
      * Creates an empty virtual file system.
      */
-    public FileObject createVirtualFileSystem( final String rootUri )
+    public FileObject createVirtualFileSystem(final String rootUri)
         throws FileSystemException
     {
-        return vfsProvider.createFileSystem( rootUri );
+        return vfsProvider.createFileSystem(rootUri);
     }
 
     /**
@@ -481,9 +521,9 @@ public class DefaultFileSystemManager
     private LocalFileProvider getLocalFileProvider()
         throws FileSystemException
     {
-        if ( localFileProvider == null )
+        if (localFileProvider == null)
         {
-            throw new FileSystemException( "vfs.impl/no-local-file-provider.error" );
+            throw new FileSystemException("vfs.impl/no-local-file-provider.error");
         }
         return localFileProvider;
     }
@@ -502,12 +542,12 @@ public class DefaultFileSystemManager
      */
     final class VfsStreamHandlerFactory implements URLStreamHandlerFactory
     {
-        public URLStreamHandler createURLStreamHandler( final String protocol )
+        public URLStreamHandler createURLStreamHandler(final String protocol)
         {
-            FileProvider provider = (FileProvider)providers.get( protocol );
-            if ( provider != null )
+            FileProvider provider = (FileProvider) providers.get(protocol);
+            if (provider != null)
             {
-                return new DefaultURLStreamHandler( context );
+                return new DefaultURLStreamHandler(context);
             }
 
             //Route all other calls to the default URLStreamHandlerFactory

@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.http;
 
-import java.util.Collection;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
@@ -25,14 +24,17 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
+
+import java.util.Collection;
 
 /**
  * An HTTP file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/01 18:14:28 $
  */
 public class HttpFileSystem
     extends AbstractFileSystem
@@ -41,20 +43,20 @@ public class HttpFileSystem
 {
     private HttpClient client;
 
-    public HttpFileSystem( final GenericFileName rootName )
+    public HttpFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super( rootName, null );
+        super(rootName, null, fileSystemOptions);
     }
 
     /**
      * Adds the capabilities of this file system.
      */
-    protected void addCapabilities( final Collection caps )
+    protected void addCapabilities(final Collection caps)
     {
-        caps.add( Capability.READ_CONTENT );
-        caps.add( Capability.URI );
-        caps.add( Capability.GET_LAST_MODIFIED );
-        caps.add( Capability.ATTRIBUTES );
+        caps.add(Capability.READ_CONTENT);
+        caps.add(Capability.URI);
+        caps.add(Capability.GET_LAST_MODIFIED);
+        caps.add(Capability.ATTRIBUTES);
     }
 
     /**
@@ -63,17 +65,17 @@ public class HttpFileSystem
     protected HttpClient getClient()
         throws FileSystemException
     {
-        if ( client == null )
+        if (client == null)
         {
             // Create an Http client
-            final GenericFileName rootName = (GenericFileName)getRootName();
-            client = new HttpClient( new MultiThreadedHttpConnectionManager() );
+            final GenericFileName rootName = (GenericFileName) getRootName();
+            client = new HttpClient(new MultiThreadedHttpConnectionManager());
             final HostConfiguration config = new HostConfiguration();
-            config.setHost( rootName.getHostName(), rootName.getPort() );
-            client.setHostConfiguration( config );
+            config.setHost(rootName.getHostName(), rootName.getPort());
+            client.setHostConfiguration(config);
             final UsernamePasswordCredentials creds =
-                new UsernamePasswordCredentials( rootName.getUserName(), rootName.getPassword() );
-            client.getState().setCredentials( null, rootName.getHostName(), creds );
+                new UsernamePasswordCredentials(rootName.getUserName(), rootName.getPassword());
+            client.getState().setCredentials(null, rootName.getHostName(), creds);
         }
         return client;
     }
@@ -82,9 +84,9 @@ public class HttpFileSystem
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
-    protected FileObject createFile( final FileName name )
+    protected FileObject createFile(final FileName name)
         throws Exception
     {
-        return new HttpFileObject( name, this );
+        return new HttpFileObject(name, this);
     }
 }

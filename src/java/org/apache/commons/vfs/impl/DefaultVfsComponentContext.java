@@ -15,25 +15,28 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.io.File;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
 import org.apache.commons.vfs.provider.VfsComponentContext;
+
+import java.io.File;
+
 
 /**
  * The default context implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.6 $ $Date: 2004/05/01 18:14:27 $
  */
 final class DefaultVfsComponentContext
     implements VfsComponentContext
 {
     private final DefaultFileSystemManager manager;
 
-    public DefaultVfsComponentContext( final DefaultFileSystemManager manager )
+    public DefaultVfsComponentContext(final DefaultFileSystemManager manager)
     {
         this.manager = manager;
     }
@@ -41,28 +44,28 @@ final class DefaultVfsComponentContext
     /**
      * Locate a file by name.
      */
-    public FileObject resolveFile( final FileObject baseFile, final String name )
+    public FileObject resolveFile(final FileObject baseFile, final String name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        return manager.resolveFile( baseFile, name );
+        return manager.resolveFile(baseFile, name, fileSystemOptions);
     }
 
     /**
      * Locate a file by name.
      */
-    public FileObject resolveFile( final String name )
+    public FileObject resolveFile(final String name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        return manager.resolveFile( name );
+        return manager.resolveFile(name, fileSystemOptions);
     }
 
     /**
      * Returns a {@link FileObject} for a local file.
      */
-    public FileObject toFileObject( File file )
+    public FileObject toFileObject(File file)
         throws FileSystemException
     {
-        return manager.toFileObject( file );
+        return manager.toFileObject(file);
     }
 
     /**

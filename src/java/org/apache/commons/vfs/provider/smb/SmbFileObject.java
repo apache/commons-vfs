@@ -15,8 +15,7 @@
  */
 package org.apache.commons.vfs.provider.smb;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
@@ -25,6 +24,10 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
 
 /**
  * A file in an SMB file system.
@@ -39,10 +42,10 @@ class SmbFileObject
     private final String fileName;
     private SmbFile file;
 
-    protected SmbFileObject( final FileName name,
-                             final SmbFileSystem fileSystem )
+    protected SmbFileObject(final FileName name,
+                            final SmbFileSystem fileSystem)
     {
-        super( name, fileSystem );
+        super(name, fileSystem);
         this.fileName = name.getURI();
     }
 
@@ -52,10 +55,32 @@ class SmbFileObject
     protected void doAttach() throws Exception
     {
         // Defer creation of the SmbFile to here
-        if ( file == null )
+        if (file == null)
         {
-            file = new SmbFile( fileName );
+            file = createSmbFile(fileName);
         }
+    }
+
+    protected void doDetach() throws Exception
+    {
+        // file closed through content-streams
+        file = null;
+    }
+
+    private SmbFile createSmbFile(String path) throws MalformedURLException, SmbException
+    {
+        SmbFile f = new SmbFile(path);
+        return createSmbFile(f);
+    }
+
+    private SmbFile createSmbFile(SmbFile file) throws MalformedURLException, SmbException
+    {
+        if (file.isDirectory() && !file.toString().endsWith("/"))
+        {
+            String listDirPath = file.toString() + "/";
+            file = new SmbFile(listDirPath);
+        }
+        return file;
     }
 
     /**
@@ -64,20 +89,20 @@ class SmbFileObject
      */
     protected FileType doGetType() throws Exception
     {
-        if ( !file.exists() )
+        if (!file.exists())
         {
             return FileType.IMAGINARY;
         }
-        else if ( file.isDirectory() )
+        else if (file.isDirectory())
         {
             return FileType.FOLDER;
         }
-        else if ( file.isFile() )
+        else if (file.isFile())
         {
             return FileType.FILE;
         }
-        
-        throw new FileSystemException( "vfs.provider.smb/get-type.error", getName() );
+
+        throw new FileSystemException("vfs.provider.smb/get-type.error", getName());
     }
 
     /**
@@ -97,12 +122,18 @@ class SmbFileObject
         file.delete();
     }
 
+    protected void doRename(FileObject newfile) throws Exception
+    {
+        file.renameTo(createSmbFile(newfile.getName().getURI()));
+    }
+
     /**
      * Creates this file as a folder.
      */
     protected void doCreateFolder() throws Exception
     {
         file.mkdir();
+        file = createSmbFile(file);
     }
 
     /**
@@ -127,14 +158,14 @@ class SmbFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return new SmbFileInputStream( file );
+        return new SmbFileInputStream(file);
     }
 
     /**
      * Creates an output stream to write the file content to.
      */
-    protected OutputStream doGetOutputStream() throws Exception
+    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
-        return new SmbFileOutputStream( file );
+        return new SmbFileOutputStream(file, bAppend);
     }
 }

@@ -21,16 +21,16 @@ import java.net.URLStreamHandlerFactory;
 /**
  * A FileSystemManager manages a set of file systems.  This interface is
  * used to locate a {@link FileObject} by name from one of those file systems.
- *
+ * <p/>
  * <p>To locate a {@link FileObject}, use one of the <code>resolveFile()</code>
  * methods.</p>
- *
+ * <p/>
  * <h4><a name="naming">File Naming</a></h4>
- *
+ * <p/>
  * <p>A file system manager can recognise several types of file names:
- *
+ * <p/>
  * <ul>
- *
+ * <p/>
  * <li><p>Absolute URI.  These must start with a scheme, such as
  * <code>file:</code> or <code>ftp:</code>, followed by a scheme dependent
  * file name.  Some examples:</p>
@@ -38,7 +38,7 @@ import java.net.URLStreamHandlerFactory;
  * file:/c:/somefile
  * ftp://somewhere.org/somefile
  * </pre>
- *
+ * <p/>
  * <li><p>Absolute local file name.  For example,
  * <code>/home/someuser/a-file</code> or <code>c:\dir\somefile.html</code>.
  * Elements in the name can be separated using any of the following
@@ -48,7 +48,7 @@ import java.net.URLStreamHandlerFactory;
  * c:\somedir\somefile.xml
  * c:/somedir/somefile.xml
  * </pre>
- *
+ * <p/>
  * <li><p>Relative path.  For example: <code>../somefile</code> or
  * <code>somedir/file.txt</code>.   The file system manager resolves relative
  * paths against its <i>base file</i>.  Elements in the relative path can be
@@ -56,7 +56,7 @@ import java.net.URLStreamHandlerFactory;
  * separator characters.  Relative paths may also contain <code>..</code> and
  * <code>.</code> elements.  See {@link FileObject#resolveFile} for more
  * details.</p>
- *
+ * <p/>
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
@@ -74,12 +74,22 @@ public interface FileSystemManager
      * <code>resolveFile(uri, getBaseName())</code>.
      *
      * @param name The name of the file.
-     *
      * @return The file.  Never returns null.
-     *
      * @throws FileSystemException On error parsing the file name.
      */
-    FileObject resolveFile( String name )
+    FileObject resolveFile(String name)
+        throws FileSystemException;
+
+    /**
+     * Locates a file by name.  Equivalent to calling
+     * <code>resolveFile(uri, getBaseName())</code>.
+     *
+     * @param name              The name of the file.
+     * @param fileSystemOptions The FileSystemOptions used for FileSystem creation
+     * @return The file.  Never returns null.
+     * @throws FileSystemException On error parsing the file name.
+     */
+    FileObject resolveFile(String name, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
     /**
@@ -87,19 +97,16 @@ public interface FileSystemManager
      * <a href="#naming">above</a>.  That is, the name can be either
      * an absolute URI, an absolute file name, or a relative path to
      * be resolved against <code>baseFile</code>.
-     *
+     * <p/>
      * <p>Note that the file does not have to exist when this method is called.
      *
-     * @param name The name of the file.
-     *
+     * @param name     The name of the file.
      * @param baseFile The base file to use to resolve relative paths.
-     *        May be null.
-     *
+     *                 May be null.
      * @return The file.  Never returns null.
-     *
      * @throws FileSystemException On error parsing the file name.
      */
-    FileObject resolveFile( FileObject baseFile, String name )
+    FileObject resolveFile(FileObject baseFile, String name)
         throws FileSystemException;
 
     /**
@@ -107,29 +114,23 @@ public interface FileSystemManager
      * for details.
      *
      * @param baseFile The base file to use to resolve relative paths.
-     *        May be null.
-     *
-     * @param name The name of the file.
-     *
+     *                 May be null.
+     * @param name     The name of the file.
      * @return The file.  Never returns null.
-     *
      * @throws FileSystemException On error parsing the file name.
-     *
      */
-    FileObject resolveFile( File baseFile, String name )
+    FileObject resolveFile(File baseFile, String name)
         throws FileSystemException;
 
     /**
      * Converts a local file into a {@link FileObject}.
      *
      * @param file The file to convert.
-     *
      * @return The {@link FileObject} that represents the local file.  Never
      *         returns null.
-     *
      * @throws FileSystemException On error converting the file.
      */
-    FileObject toFileObject( File file )
+    FileObject toFileObject(File file)
         throws FileSystemException;
 
     /**
@@ -137,15 +138,12 @@ public interface FileSystemManager
      * that is created from the contents of a file, such as a zip or tar file.
      *
      * @param provider The name of the file system provider to use.  This name
-     *        is the same as the scheme used in URI to identify the provider.
-     *
-     * @param file The file to use to create the file system.
-     *
+     *                 is the same as the scheme used in URI to identify the provider.
+     * @param file     The file to use to create the file system.
      * @return The root file of the new file system.
-     *
      * @throws FileSystemException On error creating the file system.
      */
-    FileObject createFileSystem( String provider, FileObject file )
+    FileObject createFileSystem(String provider, FileObject file)
         throws FileSystemException;
 
     /**
@@ -153,12 +151,10 @@ public interface FileSystemManager
      * that is created from the contents of a file, such as a zip or tar file.
      *
      * @param file The file to use to create the file system.
-     *
      * @return The root file of the new file system.
-     *
      * @throws FileSystemException On error creating the file system.
      */
-    FileObject createFileSystem( FileObject file )
+    FileObject createFileSystem(FileObject file)
         throws FileSystemException;
 
     /**
@@ -166,10 +162,9 @@ public interface FileSystemManager
      * junctions to it.
      *
      * @param rootUri The root URI to use for the new file system.  Can be null.
-     *
      * @return The root file of the new file system.
      */
-    FileObject createVirtualFileSystem( String rootUri )
+    FileObject createVirtualFileSystem(String rootUri)
         throws FileSystemException;
 
     /**
@@ -177,10 +172,9 @@ public interface FileSystemManager
      * at the fs root to the supplied root file.
      *
      * @param rootFile The root file to backs the file system.
-     *
      * @return The root of the new file system.
      */
-    FileObject createVirtualFileSystem( FileObject rootFile )
+    FileObject createVirtualFileSystem(FileObject rootFile)
         throws FileSystemException;
 
     /**
@@ -194,5 +188,5 @@ public interface FileSystemManager
      *
      * @param file The file to check for.
      */
-    boolean canCreateFileSystem( FileObject file ) throws FileSystemException;
+    boolean canCreateFileSystem(FileObject file) throws FileSystemException;
 }

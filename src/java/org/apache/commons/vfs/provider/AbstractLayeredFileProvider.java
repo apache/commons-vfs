@@ -19,13 +19,14 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 
 /**
  * A {@link FileProvider} that is layered on top of another, such as the
  * contents of a zip or tar file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.11 $ $Date: 2004/02/28 03:35:50 $
+ * @version $Revision: 1.12 $ $Date: 2004/05/01 18:14:26 $
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileProvider
@@ -34,40 +35,42 @@ public abstract class AbstractLayeredFileProvider
     /**
      * Locates a file object, by absolute URI.
      */
-    public FileObject findFile( final FileObject baseFile,
-                                final String uri ) throws FileSystemException
+    public FileObject findFile(final FileObject baseFile,
+                               final String uri,
+                               final FileSystemOptions properties) throws FileSystemException
     {
         // Split the URI up into its parts
-        final LayeredFileName name = (LayeredFileName)parseUri( uri );
+        final LayeredFileName name = (LayeredFileName) parseUri(uri);
 
         // Make the URI canonical
 
         // Resolve the outer file name
         final String fileName = name.getOuterUri();
-        final FileObject file = getContext().resolveFile( baseFile, fileName );
+        final FileObject file = getContext().resolveFile(baseFile, fileName, properties);
 
         // Create the file system
-        final FileObject rootFile = createFileSystem( name.getScheme(), file );
+        final FileObject rootFile = createFileSystem(name.getScheme(), file, properties);
 
         // Resolve the file
-        return rootFile.resolveFile( name.getPath() );
+        return rootFile.resolveFile(name.getPath());
     }
 
     /**
      * Creates a layered file system.
      */
-    public FileObject createFileSystem( final String scheme,
-                                        final FileObject file )
+    public FileObject createFileSystem(final String scheme,
+                                       final FileObject file,
+                                       final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         // Check if cached
         final FileName rootName = file.getName();
-        FileSystem fs = findFileSystem( rootName );
-        if ( fs == null )
+        FileSystem fs = findFileSystem(rootName, null);
+        if (fs == null)
         {
             // Create the file system
-            fs = doCreateFileSystem( scheme, file );
-            addFileSystem( rootName, fs );
+            fs = doCreateFileSystem(scheme, file, fileSystemOptions);
+            addFileSystem(rootName, fs);
         }
         return fs.getRoot();
     }
@@ -77,17 +80,19 @@ public abstract class AbstractLayeredFileProvider
      * is not cached.  The file system may implement {@link VfsComponent}.
      *
      * @param scheme The URI scheme.
-     * @param file The file to create the file system on top of.
+     * @param file   The file to create the file system on top of.
      * @return The file system.
      */
-    protected abstract FileSystem doCreateFileSystem( String scheme,
-                                                      FileObject file )
+    protected abstract FileSystem doCreateFileSystem(final String scheme,
+                                                     final FileObject file,
+                                                     final FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
     /**
      * Parses an absolute URI.
+     *
      * @param uri The URI to parse.
      */
-    protected abstract FileName parseUri( String uri )
+    protected abstract FileName parseUri(String uri)
         throws FileSystemException;
 }

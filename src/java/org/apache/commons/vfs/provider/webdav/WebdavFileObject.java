@@ -15,13 +15,6 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -35,11 +28,19 @@ import org.apache.webdav.lib.methods.DepthSupport;
 import org.apache.webdav.lib.methods.OptionsMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2004/03/03 07:05:35 $
+ * @version $Revision: 1.13 $ $Date: 2004/05/01 18:14:29 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -49,10 +50,10 @@ public class WebdavFileObject
     private WebdavResource resource;
     private HttpURL url;
 
-    public WebdavFileObject( final GenericFileName name,
-                             final WebDavFileSystem fileSystem )
+    public WebdavFileObject(final GenericFileName name,
+                            final WebDavFileSystem fileSystem)
     {
-        super( name, fileSystem );
+        super(name, fileSystem);
         this.fileSystem = fileSystem;
     }
 
@@ -61,10 +62,12 @@ public class WebdavFileObject
      */
     protected void doAttach() throws Exception
     {
-        final GenericFileName name = (GenericFileName)getName();
-        url = new HttpURL( name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPath() );
-        resource = new WebdavResource( fileSystem.getClient() ) { };
-        resource.setHttpURL( url, WebdavResource.NOACTION, 1 );
+        final GenericFileName name = (GenericFileName) getName();
+        url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPath());
+        resource = new WebdavResource(fileSystem.getClient())
+        {
+        };
+        resource.setHttpURL(url, WebdavResource.NOACTION, 1);
     }
 
     /**
@@ -76,42 +79,42 @@ public class WebdavFileObject
     protected FileType doGetType() throws Exception
     {
         // Determine whether the resource exists, and whether it is a DAV resource
-        final OptionsMethod optionsMethod = new OptionsMethod( getName().getPath() );
-        optionsMethod.setFollowRedirects( true );
-        final int status = fileSystem.getClient().executeMethod( optionsMethod );
-        if ( status < 200 || status > 299 )
+        final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
+        optionsMethod.setFollowRedirects(true);
+        final int status = fileSystem.getClient().executeMethod(optionsMethod);
+        if (status < 200 || status > 299)
         {
             return FileType.IMAGINARY;
         }
-        resource.getHttpURL().setPath( optionsMethod.getPath() );
+        resource.getHttpURL().setPath(optionsMethod.getPath());
 
         // Resource exists if we can do a GET on it
         boolean exists = false;
-        for ( Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements(); )
+        for (Enumeration enum = optionsMethod.getAllowedMethods(); enum.hasMoreElements();)
         {
-            final String method = (String)enum.nextElement();
-            if ( method.equals( "GET" ) )
+            final String method = (String) enum.nextElement();
+            if (method.equals("GET"))
             {
                 exists = true;
                 break;
             }
         }
-        if ( !exists )
+        if (!exists)
         {
             return FileType.IMAGINARY;
         }
 
         // Check if the resource is a DAV resource
         final boolean davResource = optionsMethod.getDavCapabilities().hasMoreElements();
-        if ( !davResource )
+        if (!davResource)
         {
             // Assume a folder, and don't get the properties
             return FileType.FOLDER;
         }
 
         // Get the properties of the resource
-        resource.setProperties( WebdavResource.DEFAULT, 1 );
-        if ( resource.isCollection() )
+        resource.setProperties(WebdavResource.DEFAULT, 1);
+        if (resource.isCollection())
         {
             return FileType.FOLDER;
         }
@@ -127,9 +130,9 @@ public class WebdavFileObject
     protected String[] doListChildren() throws Exception
     {
         final String[] children = resource.list();
-        if ( children == null )
+        if (children == null)
         {
-            throw new FileSystemException( "vfs.provider.webdav/list-children.error", resource.getStatusMessage() );
+            throw new FileSystemException("vfs.provider.webdav/list-children.error", resource.getStatusMessage());
         }
         return children;
     }
@@ -140,11 +143,11 @@ public class WebdavFileObject
     protected void doCreateFolder() throws Exception
     {
         // Adjust resource path
-        resource.getHttpURL().setPath( getName().getPath() + '/' );
+        resource.getHttpURL().setPath(getName().getPath() + '/');
         final boolean ok = resource.mkcolMethod();
-        if ( !ok )
+        if (!ok)
         {
-            throw new FileSystemException( "vfs.provider.webdav/create-collection.error", resource.getStatusMessage() );
+            throw new FileSystemException("vfs.provider.webdav/create-collection.error", resource.getStatusMessage());
         }
     }
 
@@ -153,10 +156,22 @@ public class WebdavFileObject
      */
     protected void doDelete() throws Exception
     {
-        final boolean ok = resource.deleteMethod( url.getPath() );
-        if ( !ok )
+        final boolean ok = resource.deleteMethod(url.getPath());
+        if (!ok)
         {
-            throw new FileSystemException( "vfs.provider.webdav/delete-file.error", resource.getStatusMessage() );
+            throw new FileSystemException("vfs.provider.webdav/delete-file.error", resource.getStatusMessage());
+        }
+    }
+
+    /**
+     * Rename the file.
+     */
+    protected void doRename(FileObject newfile) throws Exception
+    {
+        final boolean ok = resource.moveMethod(newfile.getName().getPath());
+        if (!ok)
+        {
+            throw new FileSystemException("vfs.provider.webdav/rename-file.error", resource.getStatusMessage());
         }
     }
 
@@ -171,7 +186,7 @@ public class WebdavFileObject
     /**
      * Creates an output stream to write the file content to.
      */
-    protected OutputStream doGetOutputStream() throws Exception
+    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         return new WebdavOutputStream();
     }
@@ -194,7 +209,7 @@ public class WebdavFileObject
     {
         public WebdavOutputStream()
         {
-            super( new ByteArrayOutputStream() );
+            super(new ByteArrayOutputStream());
         }
 
         /**
@@ -202,14 +217,14 @@ public class WebdavFileObject
          */
         protected void onClose() throws IOException
         {
-            final ByteArrayOutputStream outstr = (ByteArrayOutputStream)out;
+            final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
 
             // Adjust the resource path (this file object may have been a folder)
-            resource.getHttpURL().setPath( getName().getPath() );
-            final boolean ok = resource.putMethod( outstr.toByteArray() );
-            if ( !ok )
+            resource.getHttpURL().setPath(getName().getPath());
+            final boolean ok = resource.putMethod(outstr.toByteArray());
+            if (!ok)
             {
-                throw new FileSystemException( "vfs.provider.webdav/write-file.error", resource.getStatusMessage() );
+                throw new FileSystemException("vfs.provider.webdav/write-file.error", resource.getStatusMessage());
             }
         }
     }
@@ -229,15 +244,15 @@ public class WebdavFileObject
     protected Map doGetAttributes() throws Exception
     {
         final Map attributes = new HashMap();
-        final Enumeration e = resource.propfindMethod( DepthSupport.DEPTH_0 );
+        final Enumeration e = resource.propfindMethod(DepthSupport.DEPTH_0);
         while (e.hasMoreElements())
         {
-            final XMLResponseMethodBase.Response response = (XMLResponseMethodBase.Response)e.nextElement();
+            final XMLResponseMethodBase.Response response = (XMLResponseMethodBase.Response) e.nextElement();
             final Enumeration properties = response.getProperties();
-            while ( properties.hasMoreElements() )
+            while (properties.hasMoreElements())
             {
                 final BaseProperty property = (BaseProperty) properties.nextElement();
-                attributes.put( property.getLocalName(), property.getPropertyAsString() );
+                attributes.put(property.getLocalName(), property.getPropertyAsString());
             }
         }
 

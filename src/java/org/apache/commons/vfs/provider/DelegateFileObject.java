@@ -15,12 +15,6 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.cert.Certificate;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 import org.apache.commons.vfs.FileChangeEvent;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
@@ -28,13 +22,19 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.cert.Certificate;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * A file backed by another file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Revision: 1.11 $ $Date: 2004/02/28 03:35:50 $
- *
+ * @version $Revision: 1.12 $ $Date: 2004/05/01 18:14:26 $
  * @todo Extract subclass that overlays the children
  */
 public class DelegateFileObject
@@ -45,54 +45,58 @@ public class DelegateFileObject
     private final Set children = new HashSet();
     private boolean ignoreEvent;
 
-    public DelegateFileObject( final FileName name,
-                               final AbstractFileSystem fileSystem,
-                               final FileObject file ) throws FileSystemException
+    public DelegateFileObject(final FileName name,
+                              final AbstractFileSystem fileSystem,
+                              final FileObject file) throws FileSystemException
     {
-        super( name, fileSystem );
+        super(name, fileSystem);
         this.file = file;
-        if ( file != null )
+        if (file != null)
         {
-            file.getFileSystem().addListener( file, this );
+            file.getFileSystem().addListener(file, this);
         }
     }
 
-    /** Adds a child to this file. */
-    public void attachChild( final String baseName ) throws Exception
+    /**
+     * Adds a child to this file.
+     */
+    public void attachChild(final String baseName) throws Exception
     {
         final FileType oldType = doGetType();
-        if ( children.add( baseName ) )
+        if (children.add(baseName))
         {
             childrenChanged();
         }
-        maybeTypeChanged( oldType );
+        maybeTypeChanged(oldType);
     }
 
-    /** Attaches or detaches the target file. */
-    public void setFile( final FileObject file ) throws Exception
+    /**
+     * Attaches or detaches the target file.
+     */
+    public void setFile(final FileObject file) throws Exception
     {
         final FileType oldType = doGetType();
 
-        if ( file != null )
+        if (file != null)
         {
-            file.getFileSystem().addListener( file, this );
+            file.getFileSystem().addListener(file, this);
         }
         this.file = file;
-        maybeTypeChanged( oldType );
+        maybeTypeChanged(oldType);
     }
 
     /**
      * Checks whether the file's type has changed, and fires the appropriate
      * events.
      */
-    private void maybeTypeChanged( final FileType oldType ) throws Exception
+    private void maybeTypeChanged(final FileType oldType) throws Exception
     {
         final FileType newType = doGetType();
-        if ( oldType == FileType.IMAGINARY && newType != FileType.IMAGINARY )
+        if (oldType == FileType.IMAGINARY && newType != FileType.IMAGINARY)
         {
-            handleCreate( newType );
+            handleCreate(newType);
         }
-        else if ( oldType != FileType.IMAGINARY && newType == FileType.IMAGINARY )
+        else if (oldType != FileType.IMAGINARY && newType == FileType.IMAGINARY)
         {
             handleDelete();
         }
@@ -104,11 +108,11 @@ public class DelegateFileObject
      */
     protected FileType doGetType() throws FileSystemException
     {
-        if ( file != null )
+        if (file != null)
         {
             return file.getType();
         }
-        else if ( children.size() > 0 )
+        else if (children.size() > 0)
         {
             return FileType.FOLDER;
         }
@@ -123,7 +127,7 @@ public class DelegateFileObject
      */
     protected boolean doIsReadable() throws FileSystemException
     {
-        if ( file != null )
+        if (file != null)
         {
             return file.isReadable();
         }
@@ -138,7 +142,7 @@ public class DelegateFileObject
      */
     protected boolean doIsWriteable() throws FileSystemException
     {
-        if ( file != null )
+        if (file != null)
         {
             return file.isWriteable();
         }
@@ -153,12 +157,12 @@ public class DelegateFileObject
      */
     protected boolean doIsHidden() throws FileSystemException
     {
-        if ( file != null )
-           {
+        if (file != null)
+        {
             return file.isHidden();
         }
         else
-           {
+        {
             return false;
         }
     }
@@ -168,19 +172,19 @@ public class DelegateFileObject
      */
     protected String[] doListChildren() throws Exception
     {
-        if ( file != null )
+        if (file != null)
         {
             final FileObject[] children = file.getChildren();
-            final String[] childNames = new String[ children.length ];
-            for ( int i = 0; i < children.length; i++ )
+            final String[] childNames = new String[children.length];
+            for (int i = 0; i < children.length; i++)
             {
-                childNames[ i ] = children[ i ].getName().getBaseName();
+                childNames[i] = children[i].getName().getBaseName();
             }
             return childNames;
         }
         else
         {
-            return (String[])children.toArray( new String[ children.size() ] );
+            return (String[]) children.toArray(new String[children.size()]);
         }
     }
 
@@ -237,11 +241,11 @@ public class DelegateFileObject
     /**
      * Sets an attribute of this file.
      */
-    protected void doSetAttribute( final String atttrName,
-                                   final Object value )
+    protected void doSetAttribute(final String atttrName,
+                                  final Object value)
         throws Exception
     {
-        file.getContent().setAttribute( atttrName, value );
+        file.getContent().setAttribute(atttrName, value);
     }
 
     /**
@@ -263,10 +267,10 @@ public class DelegateFileObject
     /**
      * Sets the last-modified time of this file.
      */
-    protected void doSetLastModifiedTime( final long modtime )
+    protected void doSetLastModifiedTime(final long modtime)
         throws Exception
     {
-        file.getContent().setLastModifiedTime( modtime );
+        file.getContent().setLastModifiedTime(modtime);
     }
 
     /**
@@ -280,28 +284,28 @@ public class DelegateFileObject
     /**
      * Creates an output stream to write the file content to.
      */
-    protected OutputStream doGetOutputStream() throws Exception
+    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
-        return file.getContent().getOutputStream();
+        return file.getContent().getOutputStream(bAppend);
     }
 
     /**
      * Called when a file is created.
      */
-    public void fileCreated( final FileChangeEvent event ) throws Exception
+    public void fileCreated(final FileChangeEvent event) throws Exception
     {
-        if ( !ignoreEvent )
+        if (!ignoreEvent)
         {
-            handleCreate( file.getType() );
+            handleCreate(file.getType());
         }
     }
 
     /**
      * Called when a file is deleted.
      */
-    public void fileDeleted( final FileChangeEvent event ) throws Exception
+    public void fileDeleted(final FileChangeEvent event) throws Exception
     {
-        if ( !ignoreEvent )
+        if (!ignoreEvent)
         {
             handleDelete();
         }

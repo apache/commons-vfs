@@ -19,65 +19,98 @@ package org.apache.commons.vfs;
  * An enumerated type representing the capabilities of files and file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/02/28 03:35:49 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/01 18:14:27 $
  */
 public final class Capability
 {
-    /** File content can be read. */
-    public static final Capability READ_CONTENT = new Capability( "READ_CONTENT" );
+    /**
+     * File content can be read.
+     */
+    public static final Capability READ_CONTENT = new Capability("READ_CONTENT");
 
-    /** File content can be written. */
-    public static final Capability WRITE_CONTENT = new Capability( "WRITE_CONTENT" );
+    /**
+     * File content can be written.
+     */
+    public static final Capability WRITE_CONTENT = new Capability("WRITE_CONTENT");
 
-    /** File attributes are supported. */
-    public static final Capability ATTRIBUTES = new Capability( "ATTRIBUTES" );
+    /**
+     * File content can be appended.
+     */
+    public static final Capability APPEND_CONTENT = new Capability("APPEND_CONTENT");
 
-    /** File last-modified time is supported.
-     * @deprecated use GET_LAST_MODIFIED and SET_LAST_MODIFIED */
-    public static final Capability LAST_MODIFIED = new Capability( "LAST_MODIFIED" );
+    /**
+     * File attributes are supported.
+     */
+    public static final Capability ATTRIBUTES = new Capability("ATTRIBUTES");
 
-    /** File get last-modified time is supported. */
-    public static final Capability GET_LAST_MODIFIED = new Capability( "GET_LAST_MODIFIED" );
+    /** File last-modified time is supported. */
+    public static final Capability LAST_MODIFIED = new Capability("LAST_MODIFIED");
 
-    /** File set last-modified time is supported. */
-    public static final Capability SET_LAST_MODIFIED = new Capability( "SET_LAST_MODIFIED" );
+    /**
+     * File get last-modified time is supported.
+     */
+    public static final Capability GET_LAST_MODIFIED = new Capability("GET_LAST_MODIFIED");
 
-    /** File content signing is supported. */
-    public static final Capability SIGNING = new Capability( "SIGNING" );
+    /**
+     * File set last-modified time is supported.
+     */
+    public static final Capability SET_LAST_MODIFIED = new Capability("SET_LAST_MODIFIED");
 
-    /** Files can be created. */
-    public static final Capability CREATE = new Capability( "CREATE" );
+    /**
+     * File content signing is supported.
+     */
+    public static final Capability SIGNING = new Capability("SIGNING");
 
-    /** Files can be deleted. */
-    public static final Capability DELETE = new Capability( "DELETE" );
+    /**
+     * Files can be created.
+     */
+    public static final Capability CREATE = new Capability("CREATE");
 
-    /** The file type can be determined. */
-    public static final Capability GET_TYPE = new Capability( "GET_TYPE" );
+    /**
+     * Files can be deleted.
+     */
+    public static final Capability DELETE = new Capability("DELETE");
 
-    /** Children of files can be listed. */
-    public static final Capability LIST_CHILDREN = new Capability( "LIST_CHILDREN" );
+    /**
+     * Files can be renamed.
+     */
+    public static final Capability RENAME = new Capability("RENAME");
+
+    /**
+     * The file type can be determined.
+     */
+    public static final Capability GET_TYPE = new Capability("GET_TYPE");
+
+    /**
+     * Children of files can be listed.
+     */
+    public static final Capability LIST_CHILDREN = new Capability("LIST_CHILDREN");
 
     /**
      * URI are supported.  Files without this capability use URI that do not
      * globally and uniquely identify the file.
      */
-    public static final Capability URI = new Capability( "URI" );
+    public static final Capability URI = new Capability("URI");
 
-    /** File system attributes are supported. */
-    public static final Capability FS_ATTRIBUTES = new Capability( "FS_ATTRIBUTE" );
+    /**
+     * File system attributes are supported.
+     */
+    public static final Capability FS_ATTRIBUTES = new Capability("FS_ATTRIBUTE");
 
-    /** Junctions are supported. */
-    public static final Capability JUNCTIONS = new Capability( "JUNCTIONS" );
+    /**
+     * Junctions are supported.
+     */
+    public static final Capability JUNCTIONS = new Capability("JUNCTIONS");
 
     /**
      * The set of attributes defined by the Jar manifest specification are
      * supported.  The attributes aren't necessarily stored in a manifest file.
      */
-    public static final Capability MANIFEST_ATTRIBUTES = new Capability( "MANIFEST_ATTRIBUTES" );
+    public static final Capability MANIFEST_ATTRIBUTES = new Capability("MANIFEST_ATTRIBUTES");
 
     private final String name;
 
-    private Capability( final String name )
+    private Capability(final String name)
     {
         this.name = name;
     }

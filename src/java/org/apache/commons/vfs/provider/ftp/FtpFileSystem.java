@@ -15,8 +15,6 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
-import java.io.IOException;
-import java.util.Collection;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -24,8 +22,12 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
+
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * An FTP file system.
@@ -44,14 +46,14 @@ final class FtpFileSystem
     // An idle client
     private FTPClient idleClient;
 
-    public FtpFileSystem( final GenericFileName rootName )
+    public FtpFileSystem(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
     {
-        super( rootName, null );
+        super(rootName, null, fileSystemOptions);
         hostname = rootName.getHostName();
         port = rootName.getPort();
 
         // Determine the username and password to use
-        if ( rootName.getUserName() == null )
+        if (rootName.getUserName() == null)
         {
             username = "anonymous";
         }
@@ -59,7 +61,7 @@ final class FtpFileSystem
         {
             username = rootName.getUserName();
         }
-        if ( rootName.getPassword() == null )
+        if (rootName.getPassword() == null)
         {
             password = "anonymous";
         }
@@ -72,9 +74,9 @@ final class FtpFileSystem
     public void close()
     {
         // Clean up the connection
-        if ( idleClient != null )
+        if (idleClient != null)
         {
-            closeConnection( idleClient );
+            closeConnection(idleClient);
         }
 
         super.close();
@@ -83,35 +85,37 @@ final class FtpFileSystem
     /**
      * Adds the capabilities of this file system.
      */
-    protected void addCapabilities( final Collection caps )
+    protected void addCapabilities(final Collection caps)
     {
-        caps.add( Capability.CREATE );
-        caps.add( Capability.DELETE );
-        caps.add( Capability.GET_TYPE );
-        caps.add( Capability.LIST_CHILDREN );
-        caps.add( Capability.READ_CONTENT );
-        caps.add( Capability.SET_LAST_MODIFIED );
-        caps.add( Capability.GET_LAST_MODIFIED );
-        caps.add( Capability.URI );
-        caps.add( Capability.WRITE_CONTENT );
+        caps.add(Capability.CREATE);
+        caps.add(Capability.DELETE);
+        caps.add(Capability.RENAME);
+        caps.add(Capability.GET_TYPE);
+        caps.add(Capability.LIST_CHILDREN);
+        caps.add(Capability.READ_CONTENT);
+        caps.add(Capability.SET_LAST_MODIFIED);
+        caps.add(Capability.GET_LAST_MODIFIED);
+        caps.add(Capability.URI);
+        caps.add(Capability.WRITE_CONTENT);
+        caps.add(Capability.APPEND_CONTENT);
     }
 
     /**
      * Cleans up the connection to the server.
      */
-    private void closeConnection( final FTPClient client )
+    private void closeConnection(final FTPClient client)
     {
         try
         {
             // Clean up
-            if ( client.isConnected() )
+            if (client.isConnected())
             {
                 client.disconnect();
             }
         }
-        catch ( final IOException e )
+        catch (final IOException e)
         {
-            getLogger().warn( "vfs.provider.ftp/close-connection.error", e );
+            getLogger().warn("vfs.provider.ftp/close-connection.error", e);
         }
     }
 
@@ -120,7 +124,7 @@ final class FtpFileSystem
      */
     public FTPClient getClient() throws FileSystemException
     {
-        if ( idleClient == null )
+        if (idleClient == null)
         {
             return createConnection();
         }
@@ -135,9 +139,9 @@ final class FtpFileSystem
     /**
      * Returns an FTP client after use.
      */
-    public void putClient( final FTPClient client )
+    public void putClient(final FTPClient client)
     {
-        if ( idleClient == null )
+        if (idleClient == null)
         {
             // Hang on to client for later
             idleClient = client;
@@ -145,17 +149,17 @@ final class FtpFileSystem
         else
         {
             // Close the client
-            closeConnection( client );
+            closeConnection(client);
         }
     }
 
     /**
      * Creates a file object.
      */
-    protected FileObject createFile( final FileName name )
+    protected FileObject createFile(final FileName name)
         throws FileSystemException
     {
-        return new FtpFileObject( name, this, getRootName() );
+        return new FtpFileObject(name, this, getRootName());
     }
 
     /**
@@ -168,39 +172,58 @@ final class FtpFileSystem
         {
             final FTPClient client = new FTPClient();
 
+            /* as soon as commons-1.2 will be released
+            FTPFileEntryParserFactory myFactory = FtpFileSystemConfigBuilder.getInstance().getFTPFileEntryParserFactory(getFileSystemOptions());
+            if (myFactory != null)
+            {
+                client.setParserFactory(myFactory);
+            }
+            */
+
             try
             {
-                client.connect( hostname, port );
+                client.connect(hostname, port);
 
                 int reply = client.getReplyCode();
-                if ( !FTPReply.isPositiveCompletion( reply ) )
+                if (!FTPReply.isPositiveCompletion(reply))
                 {
-                    throw new FileSystemException( "vfs.provider.ftp/connect-rejected.error", hostname );
+                    throw new FileSystemException("vfs.provider.ftp/connect-rejected.error", hostname);
                 }
 
                 // Login
-                if ( !client.login( username, password ) )
+                if (!client.login(username, password))
                 {
-                    throw new FileSystemException( "vfs.provider.ftp/login.error", new Object[]{hostname, username}, null );
+                    throw new FileSystemException("vfs.provider.ftp/login.error", new Object[]{hostname, username}, null);
                 }
 
                 // Set binary mode
-                if ( !client.setFileType( FTP.BINARY_FILE_TYPE ) )
+                if (!client.setFileType(FTP.BINARY_FILE_TYPE))
                 {
-                    throw new FileSystemException( "vfs.provider.ftp/set-binary.error", hostname );
+                    throw new FileSystemException("vfs.provider.ftp/set-binary.error", hostname);
+                }
+
+                // Change to root by default
+                // All file operations a relative to the filesystem-root
+                String root = getRoot().getName().getPath();
+                if (root != null)
+                {
+                    if (!client.changeWorkingDirectory(root))
+                    {
+                        throw new FileSystemException("vfs.provider/get-attributes-no-exist.error", "/");
+                    }
                 }
             }
-            catch ( final IOException e )
+            catch (final IOException e)
             {
-                closeConnection( client );
+                closeConnection(client);
                 throw e;
             }
 
             return client;
         }
-        catch ( final Exception exc )
+        catch (final Exception exc)
         {
-            throw new FileSystemException( "vfs.provider.ftp/connect.error", new Object[]{hostname}, exc );
+            throw new FileSystemException("vfs.provider.ftp/connect.error", new Object[]{hostname}, exc);
         }
     }
 

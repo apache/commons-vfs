@@ -18,6 +18,13 @@ package org.apache.commons.vfs.provider.sftp;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.util.MonitorOutputStream;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,18 +34,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.commons.vfs.util.MonitorOutputStream;
 
 /**
  * An SFTP file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2004/02/28 03:35:51 $
+ * @version $Revision: 1.7 $ $Date: 2004/05/01 18:14:28 $
  */
 class SftpFileObject
     extends AbstractFileObject
@@ -47,10 +48,10 @@ class SftpFileObject
     private final SftpFileSystem fileSystem;
     private SftpATTRS attrs;
 
-    public SftpFileObject( final FileName name,
-                           final SftpFileSystem fileSystem )
+    public SftpFileObject(final FileName name,
+                          final SftpFileSystem fileSystem)
     {
-        super( name, fileSystem );
+        super(name, fileSystem);
         this.fileSystem = fileSystem;
     }
 
@@ -63,16 +64,16 @@ class SftpFileObject
     {
         statSelf();
 
-        if ( attrs == null )
+        if (attrs == null)
         {
             return FileType.IMAGINARY;
         }
 
-        if ( (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_PERMISSIONS) == 0 )
+        if ((attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_PERMISSIONS) == 0)
         {
-            throw new FileSystemException( "vfs.provider.sftp/unknown-permissions.error" );
+            throw new FileSystemException("vfs.provider.sftp/unknown-permissions.error");
         }
-        if ( attrs.isDir() )
+        if (attrs.isDir())
         {
             return FileType.FOLDER;
         }
@@ -91,16 +92,18 @@ class SftpFileObject
         statSelf();
     }
 
-    /** Fetches file attrs from server. */
+    /**
+     * Fetches file attrs from server.
+     */
     private void statSelf()
         throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            attrs = channel.stat( getName().getPath() );
+            attrs = channel.stat(getName().getPath());
         }
-        catch ( final SftpException e )
+        catch (final SftpException e)
         {
             // TODO - not strictly true, but jsch 0.1.2 does not give us
             // enough info in the exception.  Should be using:
@@ -113,7 +116,7 @@ class SftpFileObject
         }
         finally
         {
-            fileSystem.putChannel( channel );
+            fileSystem.putChannel(channel);
         }
     }
 
@@ -126,11 +129,11 @@ class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            channel.mkdir( getName().getPath() );
+            channel.mkdir(getName().getPath());
         }
         finally
         {
-            fileSystem.putChannel( channel );
+            fileSystem.putChannel(channel);
         }
     }
 
@@ -143,18 +146,34 @@ class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            if ( getType() == FileType.FILE )
+            if (getType() == FileType.FILE)
             {
-                channel.rm( getName().getPath() );
+                channel.rm(getName().getPath());
             }
             else
             {
-                channel.rmdir( getName().getPath() );
+                channel.rmdir(getName().getPath());
             }
         }
         finally
         {
-            fileSystem.putChannel( channel );
+            fileSystem.putChannel(channel);
+        }
+    }
+
+    /**
+     * Rename the file.
+     */
+    protected void doRename(FileObject newfile) throws Exception
+    {
+        final ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            channel.rename(getName().getPath(), newfile.getName().getPath());
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
         }
     }
 
@@ -169,37 +188,37 @@ class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            vector = channel.ls( getName().getPath() );
+            vector = channel.ls(getName().getPath());
         }
         finally
         {
-            fileSystem.putChannel( channel );
+            fileSystem.putChannel(channel);
         }
-        if ( vector == null )
+        if (vector == null)
         {
-            throw new FileSystemException( "vfs.provider.sftp/list-children.error" );
+            throw new FileSystemException("vfs.provider.sftp/list-children.error");
         }
 
         // Extract the child names
         final ArrayList children = new ArrayList();
-        for ( Iterator iterator = vector.iterator(); iterator.hasNext(); )
+        for (Iterator iterator = vector.iterator(); iterator.hasNext();)
         {
             // Each entry is in unix ls format <perms> <?> <user> <group> <size> <date> <name>
-            final String stat = (String)iterator.next();
-            final StringTokenizer tokens = new StringTokenizer( stat );
+            final String stat = (String) iterator.next();
+            final StringTokenizer tokens = new StringTokenizer(stat);
             // TODO - check there are the correct number of tokens
             // TODO - handle names with spaces in 'em
-            for ( int i = 0; i < 8; tokens.nextToken(), i++ )
+            for (int i = 0; i < 8; tokens.nextToken(), i++)
             {
             }
             final String name = tokens.nextToken();
-            if ( name.equals( "." ) || name.equals( ".." ) )
+            if (name.equals(".") || name.equals(".."))
             {
                 continue;
             }
-            children.add( name );
+            children.add(name);
         }
-        return (String[])children.toArray( new String[ children.size() ] );
+        return (String[]) children.toArray(new String[children.size()]);
     }
 
     /**
@@ -208,9 +227,9 @@ class SftpFileObject
     protected long doGetContentSize()
         throws Exception
     {
-        if ( (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0 )
+        if ((attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0)
         {
-            throw new FileSystemException( "vfs.provider.sftp/unknown-size.error" );
+            throw new FileSystemException("vfs.provider.sftp/unknown-size.error");
         }
         return attrs.getSize();
     }
@@ -227,26 +246,26 @@ class SftpFileObject
             // TODO - Don't read the entire file into memory.  Use the
             // stream-based methods on ChannelSftp once they work properly
             final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
-            channel.get( getName().getPath(), outstr );
+            channel.get(getName().getPath(), outstr);
             outstr.close();
-            return new ByteArrayInputStream( outstr.toByteArray() );
+            return new ByteArrayInputStream(outstr.toByteArray());
         }
         finally
         {
-            fileSystem.putChannel( channel );
+            fileSystem.putChannel(channel);
         }
     }
 
     /**
      * Creates an output stream to write the file content to.
      */
-    protected OutputStream doGetOutputStream()
+    protected OutputStream doGetOutputStream(boolean bAppend)
         throws Exception
     {
         // TODO - Don't write the entire file into memory.  Use the stream-based
         // methods on ChannelSftp once the work properly
         final ChannelSftp channel = fileSystem.getChannel();
-        return new SftpOutputStream( channel );
+        return new SftpOutputStream(channel);
     }
 
     /**
@@ -258,9 +277,9 @@ class SftpFileObject
     {
         private final ChannelSftp channel;
 
-        public SftpOutputStream( final ChannelSftp channel )
+        public SftpOutputStream(final ChannelSftp channel)
         {
-            super( new ByteArrayOutputStream() );
+            super(new ByteArrayOutputStream());
             this.channel = channel;
         }
 
@@ -272,17 +291,17 @@ class SftpFileObject
         {
             try
             {
-                final ByteArrayOutputStream outstr = (ByteArrayOutputStream)out;
-                channel.put( new ByteArrayInputStream( outstr.toByteArray() ),
-                             getName().getPath() );
+                final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
+                channel.put(new ByteArrayInputStream(outstr.toByteArray()),
+                    getName().getPath());
             }
-            catch ( final SftpException e )
+            catch (final SftpException e)
             {
-                throw new FileSystemException( e );
+                throw new FileSystemException(e);
             }
             finally
             {
-                fileSystem.putChannel( channel );
+                fileSystem.putChannel(channel);
             }
         }
     }

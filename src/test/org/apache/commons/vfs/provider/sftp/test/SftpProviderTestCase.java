@@ -18,8 +18,11 @@ package org.apache.commons.vfs.provider.sftp.test;
 import junit.framework.Test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
+import org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder;
+import org.apache.commons.vfs.provider.sftp.TrustEveryoneUserInfo;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 
@@ -27,31 +30,35 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the SFTP provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2004/02/28 03:35:52 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/01 18:14:28 $
  */
 public class SftpProviderTestCase
     extends AbstractProviderTestConfig
 {
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new SftpProviderTestCase() );
+        return new ProviderTestSuite(new SftpProviderTestCase());
     }
 
     /**
      * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider( "sftp", new SftpFileProvider() );
+        manager.addProvider("sftp", new SftpFileProvider());
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final String uri = System.getProperty( "test.sftp.uri" );
-        return manager.resolveFile( uri );
+        final String uri = System.getProperty("test.sftp.uri");
+
+        FileSystemOptions fileSystemOptions = new FileSystemOptions();
+        SftpFileSystemConfigBuilder.getInstance().setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
+
+        return manager.resolveFile(uri, fileSystemOptions);
     }
 }
