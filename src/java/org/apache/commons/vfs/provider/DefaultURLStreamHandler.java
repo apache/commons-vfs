@@ -17,6 +17,8 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,16 +35,23 @@ public class DefaultURLStreamHandler
     extends URLStreamHandler
 {
     private final VfsComponentContext context;
+    private final FileSystemOptions fileSystemOptions;
 
     public DefaultURLStreamHandler(final VfsComponentContext context)
     {
+        this(context, null);
+    }
+
+    public DefaultURLStreamHandler(final VfsComponentContext context, final FileSystemOptions fileSystemOptions)
+    {
         this.context = context;
+        this.fileSystemOptions = fileSystemOptions;
     }
 
     protected URLConnection openConnection(final URL url)
         throws IOException
     {
-        final FileObject entry = context.resolveFile(url.toExternalForm(), null);
+        final FileObject entry = context.resolveFile(url.toExternalForm(), fileSystemOptions);
         return new DefaultURLConnection(url, entry.getContent());
     }
 
@@ -53,16 +62,24 @@ public class DefaultURLStreamHandler
     {
         try
         {
-            FileObject old = context.resolveFile(u.toExternalForm(), null);
+            FileObject old = context.resolveFile(u.toExternalForm(), fileSystemOptions);
 
             FileObject newURL;
             if (start > 0 && spec.charAt(start - 1) == ':')
             {
-                newURL = context.resolveFile(old, spec, null);
+                newURL = context.resolveFile(old, spec, fileSystemOptions);
             }
             else
             {
-                newURL = old.resolveFile(spec);
+                if (old.getType() == FileType.FILE && old.getParent() != null)
+                {
+                    // for files we have to resolve relative
+                    newURL = old.getParent().resolveFile(spec);
+                }
+                else
+                {
+                    newURL = old.resolveFile(spec);
+                }
             }
 
             final String url = newURL.getName().getURI();
