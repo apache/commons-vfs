@@ -33,7 +33,7 @@ import java.util.Collections;
  * Description
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/07/09 21:02:52 $
+ * @version $Revision: 1.4 $ $Date: 2004/09/20 11:32:42 $
  */
 public class ResourceFileProvider extends AbstractFileProvider
 {
@@ -59,7 +59,7 @@ public class ResourceFileProvider extends AbstractFileProvider
         UriParser.extractScheme(uri, buf);
         String resourceName = buf.toString();
 
-        ClassLoader cl = ResourcelFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
+        ClassLoader cl = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
         if (cl == null)
         {
             cl = getClass().getClassLoader();
@@ -77,7 +77,7 @@ public class ResourceFileProvider extends AbstractFileProvider
 
     public FileSystemConfigBuilder getConfigBuilder()
     {
-        return org.apache.commons.vfs.provider.res.ResourcelFileSystemConfigBuilder.getInstance();
+        return org.apache.commons.vfs.provider.res.ResourceFileSystemConfigBuilder.getInstance();
     }
 
     public void closeFileSystem(FileSystem filesystem)

@@ -23,18 +23,18 @@ import org.apache.commons.vfs.provider.url.UrlFileSystem;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/20 18:47:30 $
+ * @version $Revision: 1.1 $ $Date: 2004/09/20 11:32:42 $
  */
-public class ResourcelFileSystemConfigBuilder extends FileSystemConfigBuilder
+public class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-    private final static ResourcelFileSystemConfigBuilder builder = new ResourcelFileSystemConfigBuilder();
+    private final static ResourceFileSystemConfigBuilder builder = new ResourceFileSystemConfigBuilder();
 
-    public static ResourcelFileSystemConfigBuilder getInstance()
+    public static ResourceFileSystemConfigBuilder getInstance()
     {
         return builder;
     }
 
-    private ResourcelFileSystemConfigBuilder()
+    private ResourceFileSystemConfigBuilder()
     {
     }
 
