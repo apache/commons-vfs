@@ -252,11 +252,8 @@ public interface FileObject
      *
      * @param selector The selector to use to select matching files.
      *
-     * @return A list of matching {@link FileObject} files.  The files are
-     *      returned in depthwise order (that is, a child appears in the
-     *      list before its parent).
-     *
-     * @todo Use the same return type for getChildren() and findFiles().
+     * @return The matching files.  The files are returned in depthwise order
+     *         (that is, a child appears in the list before its parent).
      */
     FileObject[] findFiles( FileSelector selector ) throws FileSystemException;
 
