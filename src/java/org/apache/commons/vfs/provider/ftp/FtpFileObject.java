@@ -50,6 +50,7 @@ final class FtpFileObject
     // Cached info
     private FTPFile fileInfo;
     private FTPFile[] children;
+    private FileObject linkDestination;
 
     public FtpFileObject(final FileName name,
                          final FtpFileSystem fileSystem,
@@ -215,13 +216,37 @@ final class FtpFileObject
         }
         else if (fileInfo.isSymbolicLink())
         {
-            // TODO - add generic support for links
-            final String path = fileInfo.getLink();
-            final FileObject target = getParent().resolveFile(path);
-            return target.getType();
+            return getLinkDestination().getType();
         }
 
         throw new FileSystemException("vfs.provider.ftp/get-type.error", getName());
+    }
+
+    private FileObject getLinkDestination() throws FileSystemException
+    {
+        if (linkDestination == null)
+        {
+            final String path = fileInfo.getLink();
+            FileName relativeTo = getName().getParent();
+            if (relativeTo == null)
+            {
+                relativeTo = getName();
+            }
+            FileName linkDestinationName = relativeTo.resolveName(path);
+            linkDestination = getFileSystem().resolveFile(linkDestinationName);
+        }
+
+        return linkDestination;
+    }
+
+    protected FileObject[] doListChildrenResolved() throws Exception
+    {
+        if (fileInfo.isSymbolicLink())
+        {
+            return getLinkDestination().getChildren();
+        }
+
+        return null;
     }
 
     /**
@@ -328,7 +353,14 @@ final class FtpFileObject
      */
     protected long doGetContentSize() throws Exception
     {
-        return fileInfo.getSize();
+        if (fileInfo.isSymbolicLink())
+        {
+            return getLinkDestination().getContent().getSize();
+        }
+        else
+        {
+            return fileInfo.getSize();
+        }
     }
 
     /**
@@ -338,14 +370,21 @@ final class FtpFileObject
      */
     protected long doGetLastModifiedTime() throws Exception
     {
-        Calendar timestamp = fileInfo.getTimestamp();
-        if (timestamp == null)
+        if (fileInfo.isSymbolicLink())
         {
-            return 0L;
+            return getLinkDestination().getContent().getLastModifiedTime();
         }
         else
         {
-            return (timestamp.getTime().getTime());
+            Calendar timestamp = fileInfo.getTimestamp();
+            if (timestamp == null)
+            {
+                return 0L;
+            }
+            else
+            {
+                return (timestamp.getTime().getTime());
+            }
         }
     }
 
@@ -357,10 +396,17 @@ final class FtpFileObject
      */
     protected void doSetLastModifiedTime(final long modtime) throws Exception
     {
-        final Date d = new Date(modtime);
-        final Calendar c = new GregorianCalendar();
-        c.setTime(d);
-        fileInfo.setTimestamp(c);
+        if (fileInfo.isSymbolicLink())
+        {
+            getLinkDestination().getContent().setLastModifiedTime(modtime);
+        }
+        else
+        {
+            final Date d = new Date(modtime);
+            final Calendar c = new GregorianCalendar();
+            c.setTime(d);
+            fileInfo.setTimestamp(c);
+        }
     }
 
     /**
