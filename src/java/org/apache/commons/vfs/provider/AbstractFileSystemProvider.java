@@ -39,10 +39,15 @@ public abstract class AbstractFileSystemProvider
      */
     public void close()
     {
+        // Close all the filesystems created by this provider
         for ( Iterator iterator = fileSystems.values().iterator(); iterator.hasNext(); )
         {
-            FileSystem fileSystem = (FileSystem)iterator.next();
-            fileSystem.close();
+            Object fileSystem = iterator.next();
+            if ( fileSystem instanceof VfsComponent )
+            {
+                final VfsComponent vfsComponent = (VfsComponent)fileSystem;
+                vfsComponent.close();
+            }
         }
         fileSystems.clear();
     }
@@ -97,9 +102,13 @@ public abstract class AbstractFileSystemProvider
         throws FileSystemException
     {
         // Initialise
-        fs.setLogger( getLogger() );
-        fs.setContext( getContext() );
-        fs.init();
+        if ( fs instanceof VfsComponent )
+        {
+            VfsComponent vfsComponent = (VfsComponent)fs;
+            vfsComponent.setLogger( getLogger() );
+            vfsComponent.setContext( getContext() );
+            vfsComponent.init();
+        }
 
         // Add to the cache
         fileSystems.put( rootUri, fs );

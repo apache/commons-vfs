@@ -148,15 +148,31 @@ public class DefaultFileSystemManager
     /**
      * Adds a component to the set of components owned by this manager.
      */
-    private void setupComponent( final VfsComponent component )
+    private void setupComponent( final Object component )
         throws FileSystemException
     {
         if ( !components.contains( component ) )
         {
-            component.setLogger( log );
-            component.setContext( context );
-            component.init();
+            if ( component instanceof VfsComponent )
+            {
+                final VfsComponent vfsComponent = (VfsComponent)component;
+                vfsComponent.setLogger( log );
+                vfsComponent.setContext( context );
+                vfsComponent.init();
+            }
             components.add( component );
+        }
+    }
+
+    /**
+     * Closes a component.
+     */
+    private void closeComponent( final Object component )
+    {
+        if ( component instanceof VfsComponent )
+        {
+            final VfsComponent vfsComponent = (VfsComponent)component;
+            vfsComponent.close();
         }
     }
 
@@ -186,20 +202,20 @@ public class DefaultFileSystemManager
         // only once).  Close the replicator last.
         for ( int i = 0; i < components.size(); i++ )
         {
-            VfsComponent component = (VfsComponent)components.get( i );
+            Object component = components.get( i );
             if ( component == fileReplicator )
             {
                 continue;
             }
-            component.close();
+            closeComponent( component );
         }
         if ( fileReplicator != null )
         {
-            fileReplicator.close();
+            closeComponent( fileReplicator );
         }
 
-        this.components.clear();
-        this.providers.clear();
+        components.clear();
+        providers.clear();
         localFileProvider = null;
         defaultProvider = null;
         fileReplicator = null;

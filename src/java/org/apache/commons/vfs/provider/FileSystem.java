@@ -14,14 +14,15 @@ import org.apache.commons.vfs.FileSystemException;
 /**
  * A file system.
  *
+ * <p>A file system can also implement {@link VfsComponent}.
+ *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.2 $ $Date: 2002/04/07 02:27:56 $
  */
 public interface FileSystem
-    extends VfsComponent
 {
     /**
-     * Returns the root of this file system.
+     * Returns the root file of this file system.
      */
     FileObject getRoot() throws FileSystemException;
 
@@ -69,7 +70,8 @@ public interface FileSystem
      *      If the file is read-only, or is being read, or if the attribute
      *      is not supported, or on error setting the attribute.
      */
-    void setAttribute( String attrName, Object value ) throws FileSystemException;
+    void setAttribute( String attrName, Object value )
+        throws FileSystemException;
 
     /**
      * Finds a file in this file system.

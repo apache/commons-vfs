@@ -14,11 +14,12 @@ import org.apache.commons.vfs.FileSystemException;
  * A file provider.  Each file provider is responsible for handling files for
  * a particular URI scheme.
  *
+ * <p>A file provider may also implement {@link VfsComponent}.
+ *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.1 $ $Date: 2002/06/17 07:19:45 $
  */
 public interface FileProvider
-    extends VfsComponent
 {
     /**
      * Locates a file object, by absolute URI.

@@ -15,11 +15,12 @@ import org.apache.commons.vfs.FileSystemException;
 /**
  * Responsible for making local replicas of files.
  *
+ * <p>A file replicator may also implement {@link VfsComponent}.
+ *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.1 $ $Date: 2002/04/07 02:27:56 $
  */
 public interface FileReplicator
-    extends VfsComponent
 {
     /**
      * Creates a local copy of the file, and all its descendents.

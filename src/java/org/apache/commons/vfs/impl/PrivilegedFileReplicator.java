@@ -19,6 +19,7 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.FileSystemProviderContext;
+import org.apache.commons.vfs.provider.VfsComponent;
 import org.apache.commons.logging.Log;
 
 /**
@@ -26,19 +27,28 @@ import org.apache.commons.logging.Log;
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/08/21 14:28:07 $
+ * @version $Revision: 1.4 $ $Date: 2002/08/22 02:24:37 $
  */
 public class PrivilegedFileReplicator
-    implements FileReplicator
+    implements FileReplicator, VfsComponent
 {
     private static final Resources REZ =
         ResourceManager.getPackageResources( PrivilegedFileReplicator.class );
 
     private final FileReplicator replicator;
+    private final VfsComponent replicatorComponent;
 
     public PrivilegedFileReplicator( FileReplicator replicator )
     {
         this.replicator = replicator;
+        if ( replicator instanceof VfsComponent )
+        {
+            replicatorComponent = (VfsComponent)replicator;
+        }
+        else
+        {
+            replicatorComponent = null;
+        }
     }
 
     /**
@@ -46,7 +56,10 @@ public class PrivilegedFileReplicator
      */
     public void setLogger( final Log logger )
     {
-        replicator.setLogger( logger );
+        if ( replicatorComponent != null  )
+        {
+            replicatorComponent.setLogger( logger );
+        }
     }
 
     /**
@@ -54,7 +67,10 @@ public class PrivilegedFileReplicator
      */
     public void setContext( final FileSystemProviderContext context )
     {
-        replicator.setContext( context );
+        if ( replicatorComponent != null )
+        {
+            replicatorComponent.setContext( context );
+        }
     }
 
     /**
@@ -62,14 +78,28 @@ public class PrivilegedFileReplicator
      */
     public void init() throws FileSystemException
     {
-        try
+        if ( replicatorComponent != null )
         {
-            AccessController.doPrivileged( new InitAction() );
+            try
+            {
+                AccessController.doPrivileged( new InitAction() );
+            }
+            catch ( final PrivilegedActionException e )
+            {
+                final String message = REZ.getString( "init-replicator.error" );
+                throw new FileSystemException( message, e );
+            }
         }
-        catch ( final PrivilegedActionException e )
+    }
+
+    /**
+     * Closes the replicator.
+     */
+    public void close()
+    {
+        if ( replicatorComponent != null )
         {
-            final String message = REZ.getString( "init-replicator.error" );
-            throw new FileSystemException( message, e );
+            AccessController.doPrivileged( new CloseAction() );
         }
     }
 
@@ -91,14 +121,6 @@ public class PrivilegedFileReplicator
         }
     }
 
-    /**
-     * Closes the replicator.
-     */
-    public void close()
-    {
-        AccessController.doPrivileged( new CloseAction() );
-    }
-
     /** An action that initialises the wrapped replicator. */
     private class InitAction implements PrivilegedExceptionAction
     {
@@ -107,7 +129,7 @@ public class PrivilegedFileReplicator
          */
         public Object run() throws Exception
         {
-            replicator.init();
+            replicatorComponent.init();
             return null;
         }
     }
@@ -118,7 +140,8 @@ public class PrivilegedFileReplicator
         private final FileObject srcFile;
         private final FileSelector selector;
 
-        public ReplicateAction( final FileObject srcFile, final FileSelector selector )
+        public ReplicateAction( final FileObject srcFile,
+                                final FileSelector selector )
         {
             this.srcFile = srcFile;
             this.selector = selector;
@@ -139,7 +162,7 @@ public class PrivilegedFileReplicator
         /** Performs the action. */
         public Object run()
         {
-            replicator.close();
+            replicatorComponent.close();
             return null;
         }
     }
