@@ -85,13 +85,6 @@ public class LocalProviderTestCase
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    public void prepare( final DefaultFileSystemManager manager ) throws Exception
-    {
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
