@@ -53,52 +53,98 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.temp.test;
+package org.apache.commons.vfs.test;
 
-import java.io.File;
-import junit.framework.Test;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
+import org.apache.commons.vfs.Capability;
+import java.net.URL;
+import java.net.URLConnection;
+import java.io.IOException;
 
 /**
- * Test cases for the tmp: file provider.
+ * URL test cases for providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
  */
-public class TemporaryProviderTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public class UrlTests
+    extends AbstractProviderTestCase
 {
     /**
-     * Creates the test suite for the tmp file system.
+     * Returns the capabilities required by the tests of this test case.  The
+     * tests are not run if the provider being tested does not support all
+     * the required capabilities.  Return null or an empty array to always
+     * run the tests.
+     *
+     * <p>This implementation returns null.
      */
-    public static Test suite() throws Exception
+    protected Capability[] getRequiredCaps()
     {
-        return new ProviderTestSuite( new TemporaryProviderTestCase() );
+        return new Capability[] { Capability.URI };
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Tests url.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
+    public void testURL() throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        manager.addProvider( "tmp", new TemporaryFileProvider( baseDir ) );
+        final FileObject file = getReadFolder().resolveFile( "some-dir/" );
+        final URL url = file.getURL();
+
+        assertEquals( file.getName().getURI(), url.toExternalForm() );
+
+        final URL parentURL = new URL( url, ".." );
+        assertEquals( file.getParent().getURL(), parentURL );
+
+        final URL rootURL = new URL( url, "/" );
+        assertEquals( file.getFileSystem().getRoot().getURL(), rootURL );
     }
 
     /**
-     * Returns the base folder for tests.
+     * Tests content.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public void testURLContent() throws Exception
     {
-        return manager.resolveFile( "tmp:/" );
+        // Test non-empty file
+        FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        URLConnection urlCon = file.getURL().openConnection();
+        assertSameURLContent( FILE1_CONTENT, urlCon );
+
+        // Test empty file
+        file = getReadFolder().resolveFile( "empty.txt" );
+        urlCon = file.getURL().openConnection();
+        assertSameURLContent( "", urlCon );
+    }
+
+    /**
+     * Tests that folders and unknown files have no content.
+     */
+    public void testNoURLContent() throws Exception
+    {
+        // Try getting the content of a folder
+        final FileObject folder = getReadFolder().resolveFile( "dir1" );
+        try
+        {
+            folder.getURL().openConnection().getInputStream();
+            fail();
+        }
+        catch ( IOException e )
+        {
+            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
+        }
+
+        // Try getting the content of an unknown file
+        final FileObject unknownFile = getReadFolder().resolveFile( "unknown-file" );
+        final URLConnection connection = unknownFile.getURL().openConnection();
+        try
+        {
+            connection.getInputStream();
+            fail();
+        }
+        catch ( IOException e )
+        {
+            assertSameMessage( "vfs.provider/read-no-exist.error", unknownFile, e );
+        }
+        assertEquals( -1, connection.getContentLength() );
     }
 }

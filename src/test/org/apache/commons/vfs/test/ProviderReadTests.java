@@ -55,35 +55,28 @@
  */
 package org.apache.commons.vfs.test;
 
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.impl.VFSClassLoader;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.net.URL;
-import java.net.URLConnection;
-import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.List;
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.NameScope;
 
 /**
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/21 04:31:38 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:32:12 $
  */
 public class ProviderReadTests
     extends AbstractProviderTestCase
 {
-    // Contents of "file1.txt"
-    private String charContent = "This is a test file.";
-
     /**
      * Tests resolution of absolute URI.
      */
@@ -724,147 +717,6 @@ public class ProviderReadTests
     }
 
     /**
-     * Tests VFSClassLoader.
-     */
-    public void testVFSClassLoader() throws Exception
-    {
-        final FileObject[] objects = {getReadFolder()};
-        VFSClassLoader loader =
-            new VFSClassLoader( objects, getManager() );
-
-        Class testClass = loader.loadClass( "code.ClassToLoad" );
-        assertTrue( verifyPackage( testClass.getPackage() ) );
-
-        Object testObject = testClass.newInstance();
-        assertSame( "**PRIVATE**", testObject.toString() );
-
-        URL resource = loader.getResource( "file1.txt" );
-        assertNotNull( resource );
-        URLConnection urlCon = resource.openConnection();
-        assertSameURLContent( charContent, urlCon );
-    }
-
-    /**
-     * Verify the package loaded with class loader.
-     * If the provider supports attributes override this method.
-     */
-    protected boolean verifyPackage( Package pack )
-    {
-        return "code".equals( pack.getName() ) &&
-            pack.getImplementationTitle() == null &&
-            pack.getImplementationVendor() == null &&
-            pack.getImplementationVersion() == null &&
-            pack.getSpecificationTitle() == null &&
-            pack.getSpecificationVendor() == null &&
-            pack.getSpecificationVersion() == null &&
-            !pack.isSealed();
-    }
-
-    /**
-     * Tests url.
-     */
-    public void testURL() throws Exception
-    {
-        FileObject file = getReadFolder().resolveFile( "some-dir/" );
-        URL url = file.getURL();
-
-        assertEquals( file.getName().getURI(), url.toExternalForm() );
-
-        URL parentURL = new URL( url, ".." );
-        assertEquals( getReadFolder().getURL(), parentURL );
-
-        URL rootURL = new URL( url, "/" );
-        assertEquals( file.getFileSystem().getRoot().getURL(), rootURL );
-    }
-
-    /**
-     * Tests content.
-     */
-    public void testURLContent() throws Exception
-    {
-        // Test non-empty file
-        FileObject file = getReadFolder().resolveFile( "file1.txt" );
-        URLConnection urlCon = file.getURL().openConnection();
-        assertSameURLContent( charContent, urlCon );
-
-        // Test empty file
-        file = getReadFolder().resolveFile( "empty.txt" );
-        urlCon = file.getURL().openConnection();
-        assertSameURLContent( "", urlCon );
-    }
-
-    /**
-     * Asserts that the content of a file is the same as expected. Checks the
-     * length reported by getContentLength() is correct, then reads the content
-     * as a byte stream and compares the result with the expected content.
-     * Assumes files are encoded using UTF-8.
-     */
-    protected void assertSameURLContent( final String expected,
-                                         final URLConnection connection )
-        throws Exception
-    {
-        // Get file content as a binary stream
-        final byte[] expectedBin = expected.getBytes( "utf-8" );
-
-        // Check lengths
-        assertEquals( "same content length", expectedBin.length, connection.getContentLength() );
-
-        // Read content into byte array
-        final InputStream instr = connection.getInputStream();
-        final ByteArrayOutputStream outstr;
-        try
-        {
-            outstr = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[ 256 ];
-            int nread = 0;
-            while ( nread >= 0 )
-            {
-                outstr.write( buffer, 0, nread );
-                nread = instr.read( buffer );
-            }
-        }
-        finally
-        {
-            instr.close();
-        }
-
-        // Compare
-        assertTrue( "same binary content", Arrays.equals( expectedBin, outstr.toByteArray() ) );
-    }
-
-    /**
-     * Tests that folders and unknown files have no content.
-     */
-    public void testNoURLContent() throws Exception
-    {
-        // Try getting the content of a folder
-        FileObject folder = getReadFolder().resolveFile( "dir1" );
-        try
-        {
-            folder.getURL().openConnection().getInputStream();
-            fail();
-        }
-        catch ( IOException e )
-        {
-            assertSameMessage( "vfs.provider/read-folder.error", folder, e );
-        }
-
-        // Try getting the content of an unknown file
-        FileObject unknownFile = getReadFolder().resolveFile( "unknown-file" );
-        URLConnection connection = unknownFile.getURL().openConnection();
-        try
-        {
-            connection.getInputStream();
-            fail();
-        }
-        catch ( IOException e )
-        {
-            assertSameMessage( "vfs.provider/read-no-exist.error", unknownFile, e );
-        }
-        assertEquals( -1, connection.getContentLength() );
-    }
-
-    /**
      * Tests content.
      */
     public void testContent() throws Exception
@@ -872,7 +724,7 @@ public class ProviderReadTests
         // Test non-empty file
         FileObject file = getReadFolder().resolveFile( "file1.txt" );
         FileContent content = file.getContent();
-        assertSameContent( charContent, content );
+        assertSameContent( FILE1_CONTENT, content );
 
         // Test empty file
         file = getReadFolder().resolveFile( "empty.txt" );
@@ -970,11 +822,11 @@ public class ProviderReadTests
 
         // Get the file content
         FileContent content = file.getContent();
-        assertSameContent( charContent, content );
+        assertSameContent( FILE1_CONTENT, content );
 
         // Read the content again
         content = file.getContent();
-        assertSameContent( charContent, content );
+        assertSameContent( FILE1_CONTENT, content );
 
         // Close the content + file
         content.close();
@@ -982,7 +834,7 @@ public class ProviderReadTests
 
         // Read the content again
         content = file.getContent();
-        assertSameContent( charContent, content );
+        assertSameContent( FILE1_CONTENT, content );
     }
 
     /**

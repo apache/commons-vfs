@@ -55,9 +55,17 @@
  */
 package org.apache.commons.vfs.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.util.Arrays;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -71,9 +79,9 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/21 04:31:38 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
  */
-public class AbstractProviderTestCase
+public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
 {
     private FileObject readFolder;
@@ -81,11 +89,25 @@ public class AbstractProviderTestCase
     private DefaultFileSystemManager manager;
     private ProviderTestConfig providerConfig;
     private File tempDir;
+    private Method method;
+
+    // Expected contents of "file1.txt"
+    public static final String FILE1_CONTENT = "This is a test file.";
 
     /** Sets the provider test config, if any. */
-    public void setConfig( final ProviderTestConfig providerConfig )
+    public void setConfig( final Method method,
+                           final ProviderTestConfig providerConfig )
     {
+        this.method = method;
         this.providerConfig = providerConfig;
+    }
+
+    /**
+     * Returns the provider config for this test.
+     */
+    public ProviderTestConfig getProviderConfig()
+    {
+        return providerConfig;
     }
 
     /**
@@ -113,15 +135,31 @@ public class AbstractProviderTestCase
     }
 
     /**
+     * Returns the capabilities required by the tests of this test case.  The
+     * tests are not run if the provider being tested does not support all
+     * the required capabilities.  Return null or an empty array to always
+     * run the tests.
+     *
+     * <p>This implementation returns null.
+     */
+    protected Capability[] getRequiredCaps()
+    {
+        return null;
+    }
+
+    /**
      * Sets up the test
      */
     protected void setUp() throws Exception
     {
+        // Locate the temp directory, and clean it up
+        tempDir = getTestDirectory( "temp" );
+        checkTempDir( "Temp dir not empty before test" );
+
         // Create the file system manager
         manager = new DefaultFileSystemManager();
         manager.addProvider( "file", new DefaultLocalFileSystemProvider() );
 
-        tempDir = getTestDirectory( "temp" );
         final DefaultFileReplicator replicator = new DefaultFileReplicator( tempDir );
         manager.setReplicator( new PrivilegedFileReplicator( replicator ) );
         manager.setTemporaryFileStore( replicator );
@@ -136,11 +174,55 @@ public class AbstractProviderTestCase
         if ( providerConfig != null )
         {
             // Locate the base folder
-            readFolder = providerConfig.getReadTestFolder( manager );
-            writeFolder = providerConfig.getWriteTestFolder( manager );
+            final FileObject baseFolder = providerConfig.getBaseTestFolder( manager );
+            readFolder = baseFolder.resolveFile( "read-tests" );
+            writeFolder = baseFolder.resolveFile( "write-tests" );
 
-            // Make some assumptions absout the name
-            assertTrue( !readFolder.getName().getPath().equals( "/" ) );
+            // Make some assumptions about the name
+            assertFalse( readFolder.getName().getPath().equals( FileName.ROOT_PATH ) );
+        }
+    }
+
+    /**
+     * Runs the test.  This implementation short-circuits the test if the
+     * provider being tested does not have the capabilities required by this
+     * test.
+     *
+     * @todo Handle negative caps as well - ie, only run a test if the provider does not have certain caps.
+     * @todo Figure out how to remove the test from the TestResult if the test is skipped.
+     */
+    protected void runTest() throws Throwable
+    {
+        // Check the capabilities
+        final Capability[] caps = getRequiredCaps();
+        if ( caps != null )
+        {
+            for ( int i = 0; i < caps.length; i++ )
+            {
+                final Capability cap = caps[ i ];
+                if ( !readFolder.getFileSystem().hasCapability( cap ) )
+                {
+                    System.out.println( "skipping " + getName() + " because fs does not have cap " + cap );
+                    return;
+                }
+            }
+        }
+
+        // Provider has all the capabilities - execute the test
+        if ( method != null )
+        {
+            try
+            {
+                method.invoke( this, null );
+            }
+            catch ( final InvocationTargetException e )
+            {
+                throw e.getTargetException();
+            }
+        }
+        else
+        {
+            super.runTest();
         }
     }
 
@@ -152,6 +234,54 @@ public class AbstractProviderTestCase
         manager.close();
 
         // Make sure temp directory is empty or gone
-        assertTrue( ( ! tempDir.exists() ) || ( tempDir.isDirectory() && tempDir.list().length == 0 ) );
+        checkTempDir( "Temp dir not empty after test" );
+    }
+
+    /** Asserts that the temp dir is empty or gone. */
+    private void checkTempDir( final String assertMsg )
+    {
+        if ( tempDir.exists() )
+        {
+            assertTrue( assertMsg, tempDir.isDirectory() && tempDir.list().length == 0 );
+        }
+    }
+
+    /**
+     * Asserts that the content of a file is the same as expected. Checks the
+     * length reported by getContentLength() is correct, then reads the content
+     * as a byte stream and compares the result with the expected content.
+     * Assumes files are encoded using UTF-8.
+     */
+    protected void assertSameURLContent( final String expected,
+                                         final URLConnection connection )
+        throws Exception
+    {
+        // Get file content as a binary stream
+        final byte[] expectedBin = expected.getBytes( "utf-8" );
+
+        // Check lengths
+        assertEquals( "same content length", expectedBin.length, connection.getContentLength() );
+
+        // Read content into byte array
+        final InputStream instr = connection.getInputStream();
+        final ByteArrayOutputStream outstr;
+        try
+        {
+            outstr = new ByteArrayOutputStream();
+            final byte[] buffer = new byte[ 256 ];
+            int nread = 0;
+            while ( nread >= 0 )
+            {
+                outstr.write( buffer, 0, nread );
+                nread = instr.read( buffer );
+            }
+        }
+        finally
+        {
+            instr.close();
+        }
+
+        // Compare
+        assertTrue( "same binary content", Arrays.equals( expectedBin, outstr.toByteArray() ) );
     }
 }

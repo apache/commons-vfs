@@ -90,31 +90,11 @@ public class LocalProviderTestCase
     }
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the base folder for tests.
      */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
     {
-        final File testDir = AbstractVfsTestCase.getTestDirectory( "basedir" );
-        final File emptyDir = new File( testDir, "emptydir" );
-        emptyDir.mkdirs();
-        return manager.toFileObject( testDir );
-    }
-
-    /**
-     * Returns true if the write tests should be run for this provider.
-     */
-    public boolean runWriteTests()
-    {
-        return true;
-    }
-
-    /**
-     * Returns the base folder for write tests.  Should return null to
-     * skip the write tests.
-     */
-    public FileObject getWriteTestFolder( final FileSystemManager manager ) throws Exception
-    {
-        final File testDir = AbstractVfsTestCase.getTestDirectory( "write-tests" );
+        final File testDir = AbstractVfsTestCase.getTestDirectory();
         return manager.toFileObject( testDir );
     }
 }

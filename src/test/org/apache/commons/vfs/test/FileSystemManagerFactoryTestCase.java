@@ -65,7 +65,7 @@ import java.io.File;
  * Test cases for the VFS factory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/21 04:25:58 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/23 00:32:12 $
  */
 public class FileSystemManagerFactoryTestCase
     extends AbstractVfsTestCase
@@ -79,7 +79,7 @@ public class FileSystemManagerFactoryTestCase
         final FileSystemManager manager = VFS.getManager();
 
         // Lookup a test file
-        final File testDir = getTestResource( "basedir" );
+        final File testDir = getTestResource( "read-tests" );
         final FileObject file = manager.toFileObject( testDir );
         assertNotNull( file );
         assertTrue( file.exists() );

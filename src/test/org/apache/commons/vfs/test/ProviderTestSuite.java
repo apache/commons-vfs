@@ -58,29 +58,53 @@ package org.apache.commons.vfs.test;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import junit.framework.TestSuite;
+import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
 
 /**
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/21 04:31:38 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:32:12 $
  */
 public class ProviderTestSuite
     extends TestSuite
 {
     private final ProviderTestConfig providerConfig;
+    private final String prefix;
 
     /**
      * Adds the tests for a file system to this suite.
      */
-    public ProviderTestSuite( final ProviderTestConfig fsConfig ) throws Exception
+    public ProviderTestSuite( final ProviderTestConfig providerConfig ) throws Exception
     {
-        providerConfig = fsConfig;
-        addTestClass( ProviderReadTests.class );
-        if ( providerConfig.runWriteTests() )
+        this( providerConfig, "", false );
+    }
+
+    private ProviderTestSuite( final ProviderTestConfig providerConfig,
+                               final String prefix,
+                               final boolean nested )
+        throws Exception
+    {
+        this.providerConfig = providerConfig;
+        this.prefix = prefix;
+        addBaseTests();
+        if ( !nested )
         {
-            addTestClass( ProviderWriteTests.class );
+            // Add nested tests
+            // TODO - enable this again
+            //addTest( new ProviderTestSuite( new JunctionProviderConfig( providerConfig ), "junction.", true ));
         }
+    }
+
+    /**
+     * Adds base tests - excludes the nested test cases.
+     */
+    private void addBaseTests() throws Exception
+    {
+        addTestClass( ProviderReadTests.class );
+        addTestClass( ProviderWriteTests.class );
+        addTestClass( UrlTests.class );
+        addTestClass( VfsClassLoaderTests.class );
     }
 
     /**
@@ -96,15 +120,17 @@ public class ProviderTestSuite
         {
             final Method method = methods[ i ];
             if ( ! method.getName().startsWith( "test")
-                || Modifier.isStatic( method.getModifiers() ) )
+                || Modifier.isStatic( method.getModifiers() )
+                || method.getReturnType() != Void.TYPE
+                || method.getParameterTypes().length != 0 )
             {
                 continue;
             }
 
             // Create instance
             final AbstractProviderTestCase testCase = (AbstractProviderTestCase)testClass.newInstance();
-            testCase.setConfig( providerConfig );
-            testCase.setName( method.getName() );
+            testCase.setConfig( method, providerConfig );
+            testCase.setName( prefix + method.getName() );
             addTest( testCase );
         }
     }

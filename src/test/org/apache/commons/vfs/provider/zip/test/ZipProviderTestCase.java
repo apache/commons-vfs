@@ -94,10 +94,10 @@ public class ZipProviderTestCase
     /**
      * Returns the base folder for read tests.
      */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
     {
         final File zipFile = AbstractVfsTestCase.getTestResource( "test.zip" );
-        final String uri = "zip:" + zipFile.getAbsolutePath() + "!basedir";
+        final String uri = "zip:" + zipFile.getAbsolutePath() + "!/";
         return manager.resolveFile( uri );
     }
 }

@@ -66,6 +66,7 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileChangeEvent;
+import org.apache.commons.vfs.Capability;
 
 /**
  * File system test that check that a file system can be modified.
@@ -75,6 +76,21 @@ import org.apache.commons.vfs.FileChangeEvent;
 public class ProviderWriteTests
     extends AbstractProviderTestCase
 {
+    /**
+     * Returns the capabilities required by the tests of this test case.
+     */
+    protected Capability[] getRequiredCaps()
+    {
+        return new Capability[]
+        {
+            Capability.CREATE,
+            Capability.DELETE,
+            Capability.LIST_CHILDREN,
+            Capability.READ_CONTENT,
+            Capability.WRITE_CONTENT
+        };
+    }
+
     /**
      * Sets up a scratch folder for the test to use.
      */

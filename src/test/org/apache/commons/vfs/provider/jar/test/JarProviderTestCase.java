@@ -93,12 +93,12 @@ public class JarProviderTestCase
     }
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the base folder for tests.
      */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
     {
         final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
-        final String uri = "jar:" + jarFile.getAbsolutePath() + "!basedir";
+        final String uri = "jar:" + jarFile.getAbsolutePath() + "!/";
         return manager.resolveFile( uri );
     }
 

@@ -5,15 +5,13 @@
   <!-- Set up the test files -->
   <postGoal name="test:test-resources">
 
-    <copy todir="${test.basedir}">
-      <fileset dir="${test.data.src}">
-        <include name="basedir/**"/>
-      </fileset>
+    <copy todir="${test.basedir}/read-tests">
+      <fileset dir="${test.data.src}/basedir"/>
     </copy>
     
     <!-- Compile the code for the class loader test -->
     <javac
-      destdir="${test.basedir}/basedir"
+      destdir="${test.basedir}/read-tests"
       debug="${maven.compile.debug}"
       deprecation="${maven.compile.deprecation}"
       optimize="${maven.compile.optimize}">
@@ -24,12 +22,12 @@
       </src>
     </javac>
 
-    <mkdir dir="${test.basedir}/basedir/emptydir"/>
+    <mkdir dir="${test.basedir}/read-tests/emptydir"/>
 
     <!-- Create a zip file -->
     <zip zipfile="${test.basedir}/test.zip">
       <zipfileset dir="${test.basedir}">
-        <include name="basedir/**"/>
+        <include name="read-tests/**"/>
       </zipfileset>
     </zip>
     <zip zipfile="${test.basedir}/nested.zip">
@@ -41,12 +39,12 @@
     <jar
       jarfile="${test.basedir}/test.jar"
       basedir="${test.basedir}"
-      includes="basedir/**"
+      includes="read-tests/**"
       manifest="${test.data.src}/test.mf"/>
 
     <jar
       jarfile="${test.basedir}/normal.jar"
-      basedir="${test.basedir}/basedir"
+      basedir="${test.basedir}/read-tests"
       manifest="${test.data.src}/normal.mf"/>
     <jar
       jarfile="${test.basedir}/nested.jar"

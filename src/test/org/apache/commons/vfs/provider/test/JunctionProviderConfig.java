@@ -53,45 +53,37 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.temp.test;
+package org.apache.commons.vfs.provider.test;
 
-import java.io.File;
-import junit.framework.Test;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
+import org.apache.commons.vfs.test.ProviderTestConfig;
 
 /**
- * Test cases for the tmp: file provider.
+ * A provider config that wraps another provider, to run the tests via
+ * junctions.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
  */
-public class TemporaryProviderTestCase
-    extends AbstractProviderTestConfig
+public class JunctionProviderConfig
     implements ProviderTestConfig
 {
-    /**
-     * Creates the test suite for the tmp file system.
-     */
-    public static Test suite() throws Exception
+    private final ProviderTestConfig config;
+
+    public JunctionProviderConfig( final ProviderTestConfig config )
     {
-        return new ProviderTestSuite( new TemporaryProviderTestCase() );
+        this.config = config;
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Prepares the file system manager.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
+    public void prepare( final DefaultFileSystemManager manager ) throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        manager.addProvider( "tmp", new TemporaryFileProvider( baseDir ) );
+        config.prepare( manager );
     }
 
     /**
@@ -99,6 +91,14 @@ public class TemporaryProviderTestCase
      */
     public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
     {
-        return manager.resolveFile( "tmp:/" );
+        final FileObject baseFolder = config.getBaseTestFolder( manager );
+
+        // Create an empty file system, then link in read-tests and write-tests
+        final FileSystem newFs = manager.createFileSystem( "vfs:" ).getFileSystem();
+        final String junctionPoint = "/some/dir";
+        newFs.addJunction( junctionPoint + "/read-tests", baseFolder.resolveFile( "read-tests") );
+        newFs.addJunction( junctionPoint + "/write-tests", baseFolder.resolveFile( "write-tests/subdir") );
+
+        return newFs.resolveFile( junctionPoint );
     }
 }

@@ -92,9 +92,9 @@ public class NestedZipTestCase
     }
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the base folder for tests.
      */
-    public FileObject getReadTestFolder( FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
     {
         // Locate the base Zip file
         final String zipFilePath = AbstractVfsTestCase.getTestResource( "nested.zip" ).getAbsolutePath();
@@ -103,6 +103,6 @@ public class NestedZipTestCase
 
         // Now build the nested file system
         final FileObject nestedFS = manager.createFileSystem( "zip", zipFile );
-        return nestedFS.resolveFile( "/basedir" );
+        return nestedFS.resolveFile( "/" );
     }
 }

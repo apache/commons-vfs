@@ -57,13 +57,14 @@ package org.apache.commons.vfs.test;
 
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
 /**
  * Test configuration for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
  */
 public interface ProviderTestConfig
 {
@@ -75,15 +76,10 @@ public interface ProviderTestConfig
     /**
      * Returns the base folder for read tests.
      */
-    FileObject getReadTestFolder( FileSystemManager manager ) throws Exception;
+    FileObject getBaseTestFolder( FileSystemManager manager ) throws Exception;
 
     /**
-     * Returns true if the write tests should be run for this provider.
+     * Returns the expected file system capabilities.
      */
-    boolean runWriteTests();
-
-    /**
-     * Returns the base folder for write tests.
-     */
-    FileObject getWriteTestFolder( FileSystemManager manager ) throws Exception;
+    //Capability[] getExpectedCapabilities();
 }

@@ -63,7 +63,7 @@ import org.apache.commons.vfs.FileSystemManager;
  * A partial {@link org.apache.commons.vfs.test.ProviderTestConfig} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/21 04:25:58 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
  */
 public abstract class AbstractProviderTestConfig
     implements ProviderTestConfig
@@ -74,23 +74,5 @@ public abstract class AbstractProviderTestConfig
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-    }
-
-    /**
-     * Returns true if the write tests should be run for this provider.
-     */
-    public boolean runWriteTests()
-    {
-        return false;
-    }
-
-    /**
-     * Returns the base folder for write tests.  This implementation returns
-     * null.
-     */
-    public FileObject getWriteTestFolder( final FileSystemManager manager )
-        throws Exception
-    {
-        return null;
     }
 }

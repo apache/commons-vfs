@@ -90,29 +90,11 @@ public class FtpProviderTestCase
     }
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the base folder for tests.
      */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
     {
-        final String uri = System.getProperty( "test.ftp.uri" ) + "/read-tests";
-        return manager.resolveFile( uri );
-    }
-
-    /**
-     * Returns true if the write tests should be run for this provider.
-     */
-    public boolean runWriteTests()
-    {
-        return true;
-    }
-
-    /**
-     * Returns the base folder for write tests.  Should return null to
-     * skip the write tests.
-     */
-    public FileObject getWriteTestFolder( final FileSystemManager manager ) throws Exception
-    {
-        final String uri = System.getProperty( "test.ftp.uri" ) + "/write-tests";
+        final String uri = System.getProperty( "test.ftp.uri" );
         return manager.resolveFile( uri );
     }
 }

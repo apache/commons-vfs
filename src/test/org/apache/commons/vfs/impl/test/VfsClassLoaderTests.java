@@ -53,52 +53,69 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.temp.test;
+package org.apache.commons.vfs.impl.test;
 
-import java.io.File;
-import junit.framework.Test;
-import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
-import org.apache.commons.vfs.test.ProviderTestSuite;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
+import java.net.URL;
+import java.net.URLConnection;
+import org.apache.commons.vfs.impl.VFSClassLoader;
+import org.apache.commons.vfs.test.AbstractProviderTestCase;
+import org.apache.commons.vfs.Capability;
 
 /**
- * Test cases for the tmp: file provider.
+ * VfsClassLoader test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
  */
-public class TemporaryProviderTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public class VfsClassLoaderTests
+    extends AbstractProviderTestCase
 {
     /**
-     * Creates the test suite for the tmp file system.
+     * Returns the capabilities required by the tests of this test case.
      */
-    public static Test suite() throws Exception
+    protected Capability[] getRequiredCaps()
     {
-        return new ProviderTestSuite( new TemporaryProviderTestCase() );
+        return new Capability[]
+        {
+            Capability.READ_CONTENT,
+            Capability.URI
+        };
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Tests VFSClassLoader.
      */
-    public void prepare( final DefaultFileSystemManager manager )
-        throws Exception
+    public void testVFSClassLoader() throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        manager.addProvider( "tmp", new TemporaryFileProvider( baseDir ) );
+        final VFSClassLoader loader =
+            new VFSClassLoader( getReadFolder(), getManager() );
+
+        final Class testClass = loader.loadClass( "code.ClassToLoad" );
+        assertTrue( verifyPackage( testClass.getPackage() ) );
+
+        final Object testObject = testClass.newInstance();
+        assertSame( "**PRIVATE**", testObject.toString() );
+
+        final URL resource = loader.getResource( "file1.txt" );
+        assertNotNull( resource );
+        final URLConnection urlCon = resource.openConnection();
+        assertSameURLContent( FILE1_CONTENT, urlCon );
     }
 
     /**
-     * Returns the base folder for tests.
+     * Verify the package loaded with class loader.
+     * If the provider supports attributes override this method.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    protected boolean verifyPackage( final Package pack )
     {
-        return manager.resolveFile( "tmp:/" );
+        return "code".equals( pack.getName() ) &&
+            pack.getImplementationTitle() == null &&
+            pack.getImplementationVendor() == null &&
+            pack.getImplementationVersion() == null &&
+            pack.getSpecificationTitle() == null &&
+            pack.getSpecificationVendor() == null &&
+            pack.getSpecificationVersion() == null &&
+            !pack.isSealed();
     }
+
 }

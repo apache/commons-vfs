@@ -93,9 +93,9 @@ public class NestedJarTestCase
     }
 
     /**
-     * Returns the base folder for read tests.
+     * Returns the base folder for tests.
      */
-    public FileObject getReadTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
     {
         // Locate the Jar file
         final File outerFile = AbstractVfsTestCase.getTestResource( "nested.jar" );
@@ -104,7 +104,7 @@ public class NestedJarTestCase
 
         // Now build the nested file system
         final FileObject nestedFS = manager.createFileSystem( "jar", jarFile );
-        return nestedFS.resolveFile( "/basedir" );
+        return nestedFS.resolveFile( "/" );
     }
 
     /**

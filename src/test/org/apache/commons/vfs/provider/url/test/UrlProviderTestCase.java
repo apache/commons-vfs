@@ -53,35 +53,31 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.provider.temp.test;
+package org.apache.commons.vfs.provider.url.test;
 
-import java.io.File;
-import junit.framework.Test;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.provider.url.UrlFileProvider;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
+import org.apache.commons.AbstractVfsTestCase;
+import junit.framework.Test;
+import java.io.File;
+import java.net.URL;
 
 /**
- * Test cases for the tmp: file provider.
+ * Test cases for the generic provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
  */
-public class TemporaryProviderTestCase
+public class UrlProviderTestCase
     extends AbstractProviderTestConfig
-    implements ProviderTestConfig
 {
-    /**
-     * Creates the test suite for the tmp file system.
-     */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite( new TemporaryProviderTestCase() );
+        return new ProviderTestSuite( new UrlProviderTestCase() );
     }
 
     /**
@@ -90,15 +86,18 @@ public class TemporaryProviderTestCase
     public void prepare( final DefaultFileSystemManager manager )
         throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        manager.addProvider( "tmp", new TemporaryFileProvider( baseDir ) );
+        manager.addProvider( "jar", new UrlFileProvider() );
     }
 
     /**
      * Returns the base folder for tests.
      */
-    public FileObject getBaseTestFolder( final FileSystemManager manager ) throws Exception
+    public FileObject getBaseTestFolder( final FileSystemManager manager )
+        throws Exception
     {
-        return manager.resolveFile( "tmp:/" );
+        final File jarFile = AbstractVfsTestCase.getTestResource( "test.jar" );
+        final String uri = "jar:" + jarFile.toURL().toExternalForm() + "!/";
+        final URL url = new URL( uri );
+        return manager.resolveFile( url.toExternalForm() );
     }
 }
