@@ -103,7 +103,7 @@ public class ZipFileObject
             return;
         }
 
-        if ((entry == null) || ( entry.isDirectory() ))
+        if ( ( entry == null ) || ( entry.isDirectory() ) )
         {
             type = FileType.FOLDER;
         }

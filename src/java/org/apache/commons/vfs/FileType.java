@@ -67,12 +67,12 @@ public final class FileType
      * A folder, which can contain other files, but does not have any data
      * content.
      */
-    public static final FileType FOLDER = new FileType("folder");
+    public static final FileType FOLDER = new FileType( "folder" );
 
     /**
      * A regular file, which has data content, but cannot contain other files.
      */
-    public static final FileType FILE = new FileType("file");
+    public static final FileType FILE = new FileType( "file" );
 
     private final String name;
 

@@ -96,7 +96,7 @@ public abstract class AbstractFileSystemProvider
         // Can't create a layered file system
         throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
     }
-    
+
     /**
      * Adds a file system to those cached by this provider.  The file system
      * may implement {@link VfsComponent}, in which case it is initialised.

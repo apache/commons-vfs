@@ -71,7 +71,7 @@ import org.apache.commons.vfs.util.Messages;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2002/11/23 00:33:52 $
+ * @version $Revision: 1.7 $ $Date: 2002/11/23 00:41:09 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -138,7 +138,7 @@ public class StandardFileSystemManager
         }
         catch ( final Exception e )
         {
-            throw new FileSystemException("vfs.impl/create-provider.error", providerClassName, e );
+            throw new FileSystemException( "vfs.impl/create-provider.error", providerClassName, e );
         }
     }
 

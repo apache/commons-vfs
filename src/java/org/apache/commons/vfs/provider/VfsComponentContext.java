@@ -68,7 +68,7 @@ import org.apache.commons.vfs.FileSystemManager;
  * @see VfsComponent#setContext
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/17 03:37:11 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:41:09 $
  */
 public interface VfsComponentContext
 {
@@ -97,7 +97,7 @@ public interface VfsComponentContext
      * Locates a temporary file store for the provider to use.
      */
     TemporaryFileStore getTemporaryFileStore() throws FileSystemException;
-    
+
     /**
      * Returns a {@link FileObject} for a local file.
      */

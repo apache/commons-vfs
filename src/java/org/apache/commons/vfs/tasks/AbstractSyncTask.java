@@ -78,7 +78,7 @@ import org.apache.tools.ant.Project;
  * <li>Up-to-date destination file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/20 23:57:13 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/23 00:41:10 $
  *
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
@@ -253,7 +253,7 @@ public abstract class AbstractSyncTask
             for ( int i = 0; i < allDestFiles.length; i++ )
             {
                 final FileObject destFile = allDestFiles[ i ];
-                if ( ! destFiles.contains( destFile ) )
+                if ( !destFiles.contains( destFile ) )
                 {
                     handleMissingSourceFile( destFile );
                 }

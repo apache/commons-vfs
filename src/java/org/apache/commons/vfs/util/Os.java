@@ -330,8 +330,8 @@ public final class Os
         if ( OS_NAME.indexOf( "windows" ) > -1 )
         {
             if ( OS_NAME.indexOf( "xp" ) > -1
-                 || OS_NAME.indexOf( "2000" ) > -1
-                 || OS_NAME.indexOf( "nt" ) > -1 )
+                || OS_NAME.indexOf( "2000" ) > -1
+                || OS_NAME.indexOf( "nt" ) > -1 )
             {
                 return OS_FAMILY_WINNT;
             }

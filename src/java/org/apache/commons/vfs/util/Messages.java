@@ -65,7 +65,7 @@ import java.util.ResourceBundle;
  * Formats messages.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/23 00:33:54 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/23 00:41:10 $
  */
 public class Messages
 {
@@ -97,7 +97,7 @@ public class Messages
      */
     public static String getString( final String code, final Object param )
     {
-        return getString( code, new Object[] { param } );
+        return getString( code, new Object[]{param} );
     }
 
     /**

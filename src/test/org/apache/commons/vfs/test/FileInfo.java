@@ -96,7 +96,7 @@ class FileInfo
     /** Adds a bunch of children. */
     public void addChildren( final String[] baseNames, final FileType type )
     {
-        for( int i = 0; i < baseNames.length; i++ )
+        for ( int i = 0; i < baseNames.length; i++ )
         {
             String baseName = baseNames[ i ];
             addChild( new FileInfo( baseName, type ) );

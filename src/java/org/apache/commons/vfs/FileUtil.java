@@ -62,7 +62,7 @@ import java.io.InputStream;
  * Utility methods for dealng with FileObjects.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/27 08:15:01 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:41:09 $
  */
 public class FileUtil
 {
@@ -79,7 +79,7 @@ public class FileUtil
         throws IOException
     {
         final FileContent content = file.getContent();
-        final int size = (int) content.getSize();
+        final int size = (int)content.getSize();
         final byte[] buf = new byte[ size ];
 
         final InputStream in = content.getInputStream();
@@ -88,7 +88,7 @@ public class FileUtil
             int read = 0;
             for ( int pos = 0; pos < size && read >= 0; pos += read )
             {
-                 read = in.read( buf, pos, size - pos );
+                read = in.read( buf, pos, size - pos );
             }
         }
         finally

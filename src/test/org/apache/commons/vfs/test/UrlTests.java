@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileObject;
  * URL test cases for providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/11/23 00:33:55 $
+ * @version $Revision: 1.3 $ $Date: 2002/11/23 00:41:10 $
  */
 public class UrlTests
     extends AbstractProviderTestCase
@@ -80,7 +80,7 @@ public class UrlTests
      */
     protected Capability[] getRequiredCaps()
     {
-        return new Capability[] { Capability.URI };
+        return new Capability[]{Capability.URI};
     }
 
     /**

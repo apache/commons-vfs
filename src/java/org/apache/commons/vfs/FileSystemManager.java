@@ -195,7 +195,7 @@ public interface FileSystemManager
      *
      * @return
      *          The root file of the new file system.
-     * 
+     *
      * @throws FileSystemException
      *          On error creating the file system.
      */

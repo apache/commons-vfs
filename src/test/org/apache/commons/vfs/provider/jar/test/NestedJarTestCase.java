@@ -114,13 +114,13 @@ public class NestedJarTestCase
     protected boolean verifyPackage( Package pack )
     {
         return "code".equals( pack.getName() ) &&
-               "ImplTitle".equals( pack.getImplementationTitle() ) &&
-               "ImplVendor".equals( pack.getImplementationVendor() ) &&
-               "1.1".equals( pack.getImplementationVersion() ) &&
-               "SpecTitle".equals( pack.getSpecificationTitle() ) &&
-               "SpecVendor".equals( pack.getSpecificationVendor() ) &&
-               "1.0".equals( pack.getSpecificationVersion() ) &&
-               !pack.isSealed();
+            "ImplTitle".equals( pack.getImplementationTitle() ) &&
+            "ImplVendor".equals( pack.getImplementationVendor() ) &&
+            "1.1".equals( pack.getImplementationVersion() ) &&
+            "SpecTitle".equals( pack.getSpecificationTitle() ) &&
+            "SpecVendor".equals( pack.getSpecificationVendor() ) &&
+            "1.0".equals( pack.getSpecificationVersion() ) &&
+            !pack.isSealed();
     }
 
     /*
@@ -152,12 +152,12 @@ public class NestedJarTestCase
     protected boolean verifyNormalPackage( Package pack )
     {
         return "code".equals( pack.getName() ) &&
-               "NormalTitle".equals( pack.getImplementationTitle() ) &&
-               "NormalVendor".equals( pack.getImplementationVendor() ) &&
-               "1.2".equals( pack.getImplementationVersion() ) &&
-               "NormalSpec".equals( pack.getSpecificationTitle() ) &&
-               "NormalSpecVendor".equals( pack.getSpecificationVendor() ) &&
-               "0.1".equals( pack.getSpecificationVersion() ) &&
-               pack.isSealed();
+            "NormalTitle".equals( pack.getImplementationTitle() ) &&
+            "NormalVendor".equals( pack.getImplementationVendor() ) &&
+            "1.2".equals( pack.getImplementationVersion() ) &&
+            "NormalSpec".equals( pack.getSpecificationTitle() ) &&
+            "NormalSpecVendor".equals( pack.getSpecificationVendor() ) &&
+            "0.1".equals( pack.getSpecificationVersion() ) &&
+            pack.isSealed();
     }
 }

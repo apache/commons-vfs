@@ -548,7 +548,7 @@ public class UriParser
         int depth = 1;
         for ( int pos = 0; pos > -1 && pos < len; depth++ )
         {
-            pos = path.indexOf( separatorChar, pos+1 );
+            pos = path.indexOf( separatorChar, pos + 1 );
         }
         return depth;
     }
@@ -694,8 +694,8 @@ public class UriParser
                 continue;
             }
             if ( elemLen == 2
-                 && path.charAt( startElem ) == '.'
-                 && path.charAt( startElem + 1 ) == '.' )
+                && path.charAt( startElem ) == '.'
+                && path.charAt( startElem + 1 ) == '.' )
             {
                 // A '..' element - remove the previous element
                 if ( startElem == startFirstElem )

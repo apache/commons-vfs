@@ -66,7 +66,7 @@ import org.apache.commons.vfs.test.ProviderTestConfig;
  * junctions.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:41:10 $
  */
 public class JunctionProviderConfig
     implements ProviderTestConfig
@@ -96,8 +96,8 @@ public class JunctionProviderConfig
         // Create an empty file system, then link in read-tests and write-tests
         final FileSystem newFs = manager.createFileSystem( "vfs:" ).getFileSystem();
         final String junctionPoint = "/some/dir";
-        newFs.addJunction( junctionPoint + "/read-tests", baseFolder.resolveFile( "read-tests") );
-        newFs.addJunction( junctionPoint + "/write-tests", baseFolder.resolveFile( "write-tests/subdir") );
+        newFs.addJunction( junctionPoint + "/read-tests", baseFolder.resolveFile( "read-tests" ) );
+        newFs.addJunction( junctionPoint + "/write-tests", baseFolder.resolveFile( "write-tests/subdir" ) );
 
         return newFs.resolveFile( junctionPoint );
     }

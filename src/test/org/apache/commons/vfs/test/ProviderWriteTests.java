@@ -191,7 +191,7 @@ public class ProviderWriteTests
             folder.createFile();
             fail();
         }
-        catch( FileSystemException exc )
+        catch ( FileSystemException exc )
         {
         }
 
@@ -201,7 +201,7 @@ public class ProviderWriteTests
             file.createFolder();
             fail();
         }
-        catch( FileSystemException exc )
+        catch ( FileSystemException exc )
         {
         }
 
@@ -212,7 +212,7 @@ public class ProviderWriteTests
             folder2.createFolder();
             fail();
         }
-        catch( FileSystemException exc )
+        catch ( FileSystemException exc )
         {
         }
     }
@@ -374,7 +374,7 @@ public class ProviderWriteTests
         assertEquals( names.size(), files.length );
 
         // Check for unexpected names
-        for( int i = 0; i < files.length; i++ )
+        for ( int i = 0; i < files.length; i++ )
         {
             FileObject file = files[ i ];
             assertTrue( names.contains( file.getName().getBaseName() ) );

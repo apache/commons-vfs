@@ -76,7 +76,7 @@ import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.Selectors;
 
 /**
- * A partial file object implementation.   
+ * A partial file object implementation.
  *
  * @todo Chop this class up - move all the protected methods to several
  *       interfaces, so that structure and content can be separately overridden.
@@ -1058,7 +1058,7 @@ public abstract class AbstractFileObject
                 fileInfo.setFile( child );
                 traverse( fileInfo, selector, depthwise, selected );
             }
-            
+
             fileInfo.setFile( file );
             fileInfo.setDepth( curDepth );
         }

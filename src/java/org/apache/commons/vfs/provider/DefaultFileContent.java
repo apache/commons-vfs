@@ -177,7 +177,7 @@ public final class DefaultFileContent
         }
         catch ( final Exception e )
         {
-            throw new FileSystemException( "vfs.provider/get-attribute.error", new Object[] { attrName, file }, e );
+            throw new FileSystemException( "vfs.provider/get-attribute.error", new Object[]{attrName, file}, e );
         }
     }
 
@@ -193,7 +193,7 @@ public final class DefaultFileContent
         }
         catch ( final Exception e )
         {
-            throw new FileSystemException( "vfs.provider/set-attribute.error", new Object[] { attrName, file }, e );
+            throw new FileSystemException( "vfs.provider/set-attribute.error", new Object[]{attrName, file}, e );
         }
     }
 

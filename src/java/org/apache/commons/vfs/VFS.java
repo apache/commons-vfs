@@ -65,7 +65,7 @@ import org.apache.commons.logging.LogFactory;
  * instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/23 13:12:14 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:41:09 $
  */
 public class VFS
 {
@@ -105,9 +105,9 @@ public class VFS
             try
             {
                 // Set the logger
-                final Method setLogMethod = mgrClass.getMethod( "setLogger", new Class[] { Log.class } );
+                final Method setLogMethod = mgrClass.getMethod( "setLogger", new Class[]{Log.class} );
                 final Log logger = LogFactory.getLog( VFS.class );
-                setLogMethod.invoke( mgr, new Object[] { logger } );
+                setLogMethod.invoke( mgr, new Object[]{logger} );
             }
             catch ( final NoSuchMethodException e )
             {

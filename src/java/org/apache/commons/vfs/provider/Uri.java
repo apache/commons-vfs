@@ -59,7 +59,7 @@ package org.apache.commons.vfs.provider;
  * Represents the parts of a parsed URI.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/10/31 10:40:57 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:41:09 $
  */
 public class Uri
 {
@@ -90,7 +90,7 @@ public class Uri
     {
         this.path = path;
     }
-    
+
     /** Returns the root URI, used to identify the file system. */
     public String getContainerUri()
     {

@@ -68,7 +68,7 @@ import org.apache.commons.vfs.FileUtil;
  * @see VFSClassLoader
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.4 $ $Date: 2002/11/01 03:29:53 $
+ * @version $Revision: 1.5 $ $Date: 2002/11/23 00:41:09 $
  */
 class Resource
 {
@@ -86,7 +86,7 @@ class Resource
         this.root = root;
         this.resource = resource;
     }
-    
+
     /**
      * Returns the URL of the resource.
      */

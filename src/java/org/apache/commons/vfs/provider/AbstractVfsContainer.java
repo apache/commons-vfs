@@ -62,7 +62,7 @@ import org.apache.commons.vfs.FileSystemException;
  * A {@link VfsComponent} that contains a set of sub-components.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/11/01 03:25:51 $
+ * @version $Revision: 1.2 $ $Date: 2002/11/23 00:41:09 $
  */
 public abstract class AbstractVfsContainer
     extends AbstractVfsComponent
@@ -78,7 +78,7 @@ public abstract class AbstractVfsContainer
     protected void addComponent( final Object component )
         throws FileSystemException
     {
-        if ( ! components.contains( component ) )
+        if ( !components.contains( component ) )
         {
             // Initialise
             if ( component instanceof VfsComponent )

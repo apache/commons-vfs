@@ -87,7 +87,7 @@ import org.apache.commons.vfs.NameScope;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.10 $ $Date: 2002/11/23 00:33:52 $
+ * @version $Revision: 1.11 $ $Date: 2002/11/23 00:41:09 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -107,7 +107,7 @@ public class VFSClassLoader
                            final FileSystemManager manager )
         throws FileSystemException
     {
-        this( new FileObject[] { file }, manager, null );
+        this( new FileObject[]{file}, manager, null );
     }
 
     /**
@@ -126,7 +126,7 @@ public class VFSClassLoader
                            final ClassLoader parent )
         throws FileSystemException
     {
-        this( new FileObject[] { file }, manager, parent );
+        this( new FileObject[]{file}, manager, parent );
     }
 
     /**

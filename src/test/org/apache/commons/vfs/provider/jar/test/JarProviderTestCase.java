@@ -109,12 +109,12 @@ public class JarProviderTestCase
     protected boolean verifyPackage( Package pack )
     {
         return "code".equals( pack.getName() ) &&
-               "ImplTitle".equals( pack.getImplementationTitle() ) &&
-               "ImplVendor".equals( pack.getImplementationVendor() ) &&
-               "1.1".equals( pack.getImplementationVersion() ) &&
-               "SpecTitle".equals( pack.getSpecificationTitle() ) &&
-               "SpecVendor".equals( pack.getSpecificationVendor() ) &&
-               "1.0".equals( pack.getSpecificationVersion() ) &&
-               !pack.isSealed();
+            "ImplTitle".equals( pack.getImplementationTitle() ) &&
+            "ImplVendor".equals( pack.getImplementationVendor() ) &&
+            "1.1".equals( pack.getImplementationVersion() ) &&
+            "SpecTitle".equals( pack.getSpecificationTitle() ) &&
+            "SpecVendor".equals( pack.getSpecificationVendor() ) &&
+            "1.0".equals( pack.getSpecificationVersion() ) &&
+            !pack.isSealed();
     }
 }

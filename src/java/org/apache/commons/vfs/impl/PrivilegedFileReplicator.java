@@ -73,7 +73,7 @@ import org.apache.commons.vfs.provider.VfsComponentContext;
  * the replication as a privileged action.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2002/11/23 00:33:52 $
+ * @version $Revision: 1.9 $ $Date: 2002/11/23 00:41:09 $
  */
 public class PrivilegedFileReplicator
     implements FileReplicator, VfsComponent
@@ -99,7 +99,7 @@ public class PrivilegedFileReplicator
      */
     public void setLogger( final Log logger )
     {
-        if ( replicatorComponent != null  )
+        if ( replicatorComponent != null )
         {
             replicatorComponent.setLogger( logger );
         }

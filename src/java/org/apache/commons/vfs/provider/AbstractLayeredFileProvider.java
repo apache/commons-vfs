@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileSystemException;
  * contents of a zip or tar file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/11/23 00:33:53 $
+ * @version $Revision: 1.6 $ $Date: 2002/11/23 00:41:09 $
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileSystemProvider
@@ -115,7 +115,7 @@ public abstract class AbstractLayeredFileProvider
     /**
      * Creates a layered file system.  This method is called if the file system
      * is not cached.  The file system may implement {@link VfsComponent}.
-     * 
+     *
      * @param scheme The URI scheme.
      * @param file The file to create the file system on top of.
      * @return The file system.

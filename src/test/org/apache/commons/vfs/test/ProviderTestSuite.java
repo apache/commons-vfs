@@ -64,7 +64,7 @@ import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
  * The suite of tests for a file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/23 00:32:12 $
+ * @version $Revision: 1.4 $ $Date: 2002/11/23 00:41:10 $
  */
 public class ProviderTestSuite
     extends TestSuite
@@ -119,7 +119,7 @@ public class ProviderTestSuite
         for ( int i = 0; i < methods.length; i++ )
         {
             final Method method = methods[ i ];
-            if ( ! method.getName().startsWith( "test")
+            if ( !method.getName().startsWith( "test" )
                 || Modifier.isStatic( method.getModifiers() )
                 || method.getReturnType() != Void.TYPE
                 || method.getParameterTypes().length != 0 )

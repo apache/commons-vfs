@@ -132,7 +132,7 @@ final class FtpFileSystem
         caps.add( Capability.LIST_CHILDREN );
         caps.add( Capability.READ_CONTENT );
         caps.add( Capability.URI );
-        caps.add( Capability.WRITE_CONTENT ); 
+        caps.add( Capability.WRITE_CONTENT );
     }
 
     /**
