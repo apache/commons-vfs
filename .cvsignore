@@ -1,7 +1,0 @@
-.project
-target
-dist
-lib
-*.log
-build.properties
-.classpath
