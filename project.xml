@@ -37,37 +37,44 @@
 
     <dependencies>
         <dependency>
-            <id>ant</id>
+            <groupId>ant</groupId>
+            <artifactId>ant</artifactId>            
             <version>1.5</version>
         </dependency>
 
         <dependency>
-            <id>junit</id>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>            
             <version>3.8.1</version>
         </dependency>
 
         <dependency>
-            <id>commons-net</id>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>            
             <version>1.2.1</version>
         </dependency>
 
         <dependency>
-            <id>commons-logging</id>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>            
             <version>1.0.3</version>
         </dependency>
 
         <dependency>
-            <id>commons-compress</id>
+            <groupId>commons-compress</groupId>
+            <artifactId>commons-compress</artifactId>            
             <version>20040530</version>
         </dependency>
 
         <dependency>
-            <id>commons-collections</id>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>            
             <version>20040616</version>
         </dependency>
 
         <dependency>
-            <id>jcifs</id>
+            <groupId>jcifs</groupId>
+            <artifactId>jcifs</artifactId>            
             <version>0.8.3</version>
         </dependency>
 
@@ -78,17 +85,20 @@
         </dependency>
 
         <dependency>
-            <id>commons-httpclient</id>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
             <version>2.0</version>
         </dependency>
 
         <dependency>
-            <id>jsch</id>
+            <groupId>jsch</groupId>
+            <artifactId>jsch</artifactId>            
             <version>0.1.14</version>
         </dependency>
 
         <dependency>
-            <id>xml-apis</id>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>            
             <version>1.0.b2</version>
         </dependency>
     </dependencies>
