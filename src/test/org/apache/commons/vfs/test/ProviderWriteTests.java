@@ -56,6 +56,7 @@
 package org.apache.commons.vfs.test;
 
 import java.io.OutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -258,10 +259,38 @@ public class ProviderWriteTests
     }
 
     /**
+     * Tests concurrent read and write on the same file fails.
+     */
+    public void testConcurrentReadWrite() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+
+        final FileObject file = scratchFolder.resolveFile( "file1.txt" );
+        file.createFile();
+
+        // Start reading from the file
+        final InputStream instr = file.getContent().getInputStream();
+
+        try
+        {
+            // Try to write to the file
+            file.getContent().getOutputStream();
+            fail();
+        }
+        catch ( final FileSystemException e )
+        {
+            // Check error message
+            assertSameMessage( "vfs.provider/write-in-use.error", file, e );
+        }
+        finally
+        {
+            instr.close();
+        }
+    }
+    
+    /**
      * Tests file copy to and from the same filesystem type.  This was a problem
      * w/ FTP.
-     *
-     * @see org.apache.commons.vfs.provider.ftp.FtpFileObject#copyFrom
      */
     public void testCopySameFileSystem() throws Exception
     {

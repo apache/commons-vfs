@@ -57,6 +57,7 @@ package org.apache.commons.vfs.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.InputStream;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -69,7 +70,7 @@ import org.apache.commons.vfs.NameScope;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/01/21 02:42:29 $
+ * @version $Revision: 1.6 $ $Date: 2003/01/21 23:58:24 $
  */
 public class ProviderReadTests
     extends AbstractProviderTestCase
@@ -526,12 +527,6 @@ public class ProviderReadTests
         dir.addChild( "file2.txt", FileType.FILE );
         dir.addChild( "file3.txt", FileType.FILE );
 
-        final FileInfo code = base.addChild( "code", FileType.FOLDER );
-        code.addChild( "ClassToLoad.class", FileType.FILE );
-
-        final FileInfo sealed = code.addChild( "sealed", FileType.FOLDER );
-        sealed.addChild( "AnotherClass.class", FileType.FILE );
-        
         return base;
     }
 
@@ -766,6 +761,62 @@ public class ProviderReadTests
         catch ( FileSystemException e )
         {
             assertSameMessage( "vfs.provider/get-size-no-exist.error", unknownFile, e );
+        }
+    }
+
+    /**
+     * Tests concurrent reads on a file fail.
+     *
+     * @todo Change model so that concurrent reads are allowed (maybe optional)
+     */
+    public void testConcurrentRead() throws Exception
+    {
+        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        assertTrue( file.exists() );
+
+        // Start reading from the file
+        final InputStream instr = file.getContent().getInputStream();
+        try
+        {
+            // Start reading again
+            file.getContent().getInputStream();
+            fail();
+        }
+        catch ( final Exception e )
+        {
+            assertSameMessage( "vfs.provider/read-in-use.error", file, e );
+        }
+        finally
+        {
+            instr.close();
+        }
+    }
+
+    /**
+     * Tests concurrent reads on different files works.
+     */
+    public void testConcurrentReadFiles() throws Exception
+    {
+        final FileObject file = getReadFolder().resolveFile( "file1.txt" );
+        assertTrue( file.exists() );
+        final FileObject emptyFile = getReadFolder().resolveFile( "empty.txt" );
+        assertTrue( emptyFile.exists() );
+        final FileObject folder = getReadFolder().resolveFile( "dir1" );
+        assertTrue( folder.exists() );
+
+        // Start reading from the file
+        final InputStream instr = file.getContent().getInputStream();
+        try
+        {
+            // Try to read from other file
+            assertSameContent( "", emptyFile );
+
+            // Try to list children of other folder
+            folder.getChildren();
+        }
+        finally
+        {
+            instr.close();
         }
     }
 

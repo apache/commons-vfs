@@ -64,10 +64,10 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -81,11 +81,12 @@ import org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2003/01/21 02:42:29 $
+ * @version $Revision: 1.6 $ $Date: 2003/01/21 23:58:24 $
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase
 {
+    private FileObject baseFolder;
     private FileObject readFolder;
     private FileObject writeFolder;
     private DefaultFileSystemManager manager;
@@ -113,7 +114,16 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
-     * Returns the read test folder.  Asserts that the read folder exists.
+     * Returns the base test folder.  This is the parent of both the read
+     * test and write test folders.
+     */
+    public FileObject getBaseFolder()
+    {
+        return baseFolder;
+    }
+
+    /**
+     * Returns the read test folder.
      */
     protected FileObject getReadFolder()
     {
@@ -162,8 +172,8 @@ public abstract class AbstractProviderTestCase
 
         manager.init();
 
-        // Locate the base folder
-        final FileObject baseFolder = providerConfig.getBaseTestFolder( manager );
+        // Locate the base folders
+        baseFolder = providerConfig.getBaseTestFolder( manager );
         readFolder = baseFolder.resolveFile( "read-tests" );
         writeFolder = baseFolder.resolveFile( "write-tests" );
 

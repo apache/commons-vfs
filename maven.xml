@@ -1,51 +1,55 @@
 <project default="java:jar" xmlns:j="jelly:core">
 
-  <!-- we can customize the Maven build here -->
+    <!-- we can customize the Maven build here -->
 
-  <!-- Set up the test files -->
-  <postGoal name="test:test-resources">
+    <!-- Set up the test files -->
+    <postGoal name="test:test-resources">
 
-    <copy todir="${test.basedir}/read-tests">
-      <fileset dir="${test.data.src}/basedir"/>
-    </copy>
-    
-    <!-- Compile the code for the class loader test -->
-    <javac
-      destdir="${test.basedir}/read-tests"
-      debug="${maven.compile.debug}"
-      deprecation="${maven.compile.deprecation}"
-      optimize="${maven.compile.optimize}">
-      <src>
-        <path>
-          <pathelement location="${test.data.src}"/>
-        </path>
-      </src>
-    </javac>
+        <copy todir="${test.basedir}/read-tests">
+            <fileset dir="${test.data.src}/basedir"/>
+        </copy>
 
-    <mkdir dir="${test.basedir}/read-tests/emptydir"/>
+        <!-- Compile the code for the class loader test -->
+        <javac
+            destdir="${test.basedir}"
+            debug="${maven.compile.debug}"
+            deprecation="${maven.compile.deprecation}"
+            optimize="${maven.compile.optimize}">
+            <src>
+                <path>
+                    <pathelement location="${test.data.src}"/>
+                </path>
+            </src>
+        </javac>
 
-    <!-- Create a zip file -->
-    <zip zipfile="${test.basedir}/test.zip">
-      <zipfileset dir="${test.basedir}">
-        <include name="read-tests/**"/>
-      </zipfileset>
-    </zip>
-    <zip zipfile="${test.basedir}/nested.zip">
-      <zipfileset dir="${test.basedir}">
-        <include name="test.zip"/>
-      </zipfileset>
-    </zip>
-    
-    <jar
-      jarfile="${test.basedir}/test.jar"
-      basedir="${test.basedir}"
-      includes="read-tests/**"
-      manifest="${test.data.src}/test.mf"/>
+        <mkdir dir="${test.basedir}/read-tests/emptydir"/>
 
-    <jar
-      jarfile="${test.basedir}/nested.jar"
-      basedir="${test.basedir}"
-      includes="test.jar"/>
-  </postGoal>
-    
+        <!-- Create a zip file -->
+        <zip zipfile="${test.basedir}/test.zip">
+            <zipfileset dir="${test.basedir}">
+                <include name="read-tests/**"/>
+                <include name="code/**"/>
+            </zipfileset>
+        </zip>
+        <zip zipfile="${test.basedir}/nested.zip">
+            <zipfileset dir="${test.basedir}">
+                <include name="test.zip"/>
+            </zipfileset>
+        </zip>
+
+        <jar
+            jarfile="${test.basedir}/test.jar"
+            manifest="${test.data.src}/test.mf">
+            <fileset dir="${test.basedir}">
+                <include name="read-tests/**"/>
+                <include name="code/**"/>
+            </fileset>
+        </jar>
+
+        <jar
+            jarfile="${test.basedir}/nested.jar"
+            basedir="${test.basedir}"
+            includes="test.jar"/>
+    </postGoal>
+
 </project>

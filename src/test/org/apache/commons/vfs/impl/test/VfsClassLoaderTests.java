@@ -58,7 +58,6 @@ package org.apache.commons.vfs.impl.test;
 import java.net.URL;
 import java.net.URLConnection;
 import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.VFSClassLoader;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
@@ -67,7 +66,7 @@ import org.apache.commons.vfs.test.AbstractProviderTestCase;
  * VfsClassLoader test cases.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/11/25 05:40:59 $
+ * @version $Revision: 1.4 $ $Date: 2003/01/21 23:58:24 $
  */
 public class VfsClassLoaderTests
     extends AbstractProviderTestCase
@@ -90,7 +89,7 @@ public class VfsClassLoaderTests
     private VFSClassLoader createClassLoader() throws FileSystemException
     {
         final VFSClassLoader loader =
-            new VFSClassLoader( getReadFolder(), getManager() );
+            new VFSClassLoader( getBaseFolder(), getManager() );
         return loader;
     }
 
@@ -104,7 +103,7 @@ public class VfsClassLoaderTests
         final Class testClass = loader.loadClass( "code.ClassToLoad" );
         final Package pack = testClass.getPackage();
         assertEquals( "code", pack.getName() );
-        verifyPackage( getReadFolder(), pack, false );
+        verifyPackage( pack, false );
 
         final Object testObject = testClass.newInstance();
         assertEquals( "**PRIVATE**", testObject.toString() );
@@ -117,7 +116,7 @@ public class VfsClassLoaderTests
     {
         final VFSClassLoader loader = createClassLoader();
 
-        final URL resource = loader.getResource( "file1.txt" );
+        final URL resource = loader.getResource( "read-tests/file1.txt" );
 
         assertNotNull( resource );
         final URLConnection urlCon = resource.openConnection();
@@ -126,7 +125,6 @@ public class VfsClassLoaderTests
 
     /**
      * Tests package sealing.
-     * @todo No it doesn't.
      */
     public void testSealing() throws Exception
     {
@@ -134,18 +132,17 @@ public class VfsClassLoaderTests
         final Class testClass = loader.loadClass( "code.sealed.AnotherClass" );
         final Package pack = testClass.getPackage();
         assertEquals( "code.sealed", pack.getName() );
-        verifyPackage( getReadFolder(), pack, true );
+        verifyPackage( pack, true );
     }
 
     /**
      * Verify the package loaded with class loader.
      */
-    private void verifyPackage( final FileObject baseFolder,
-                                final Package pack,
-                                boolean sealed )
+    private void verifyPackage( final Package pack,
+                                final boolean sealed )
         throws FileSystemException
     {
-        if ( baseFolder.getFileSystem().hasCapability( Capability.MANIFEST_ATTRIBUTES ) )
+        if ( getBaseFolder().getFileSystem().hasCapability( Capability.MANIFEST_ATTRIBUTES ) )
         {
             assertEquals( "ImplTitle", pack.getImplementationTitle() );
             assertEquals( "ImplVendor", pack.getImplementationVendor() );
