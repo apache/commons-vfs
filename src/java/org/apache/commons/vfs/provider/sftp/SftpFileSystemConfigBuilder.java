@@ -17,13 +17,16 @@ package org.apache.commons.vfs.provider.sftp;
 
 import com.jcraft.jsch.UserInfo;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+
+import java.io.File;
 
 /**
  * The config builder for various sftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.5 $ $Date: 2004/05/24 20:11:21 $
  */
 public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -58,6 +61,50 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public UserInfo getUserInfo(FileSystemOptions opts)
     {
         return (UserInfo) getParam(opts, UserInfo.class.getName());
+    }
+
+    /**
+     * Set the known_hosts file. e.g. /home/user/.ssh/known_hosts2<br>
+     * Need to use a java.io.File as JSch cant deal with vfs FileObjects ;-)
+     *
+     * @param opts
+     * @param sshdir
+     */
+    public void setKnownHosts(FileSystemOptions opts, File sshdir) throws FileSystemException
+    {
+        setParam(opts, "knownHosts", sshdir);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setKnownHosts
+     */
+    public File getKnownHosts(FileSystemOptions opts)
+    {
+        return (File) getParam(opts, "knownHosts");
+    }
+
+    /**
+     * Set the identity files (your private key files).<br>
+     * Need to use a java.io.File as JSch cant deal with vfs FileObjects ;-)
+     *
+     * @param opts
+     * @param identities
+     */
+    public void setIdentities(FileSystemOptions opts, File[] identities) throws FileSystemException
+    {
+        setParam(opts, "identities", identities);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setIdentities
+     */
+    public File[] getIdentities(FileSystemOptions opts)
+    {
+        return (File[]) getParam(opts, "identities");
     }
 
     protected Class getConfigClass()
