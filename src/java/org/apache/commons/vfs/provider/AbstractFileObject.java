@@ -590,8 +590,10 @@ public abstract class AbstractFileObject
 
     /**
      * Deletes this file, once all its children have been deleted
+     *
+     * @return true if this file has been deleted
      */
-    private void deleteSelf() throws FileSystemException
+    private boolean deleteSelf() throws FileSystemException
     {
         if (!isWriteable())
         {
@@ -601,7 +603,7 @@ public abstract class AbstractFileObject
         if (type == FileType.IMAGINARY)
         {
             // File does not exist
-            return;
+            return false;
         }
 
         try
@@ -620,28 +622,36 @@ public abstract class AbstractFileObject
         {
             throw new FileSystemException("vfs.provider/delete.error", new Object[]{name}, exc);
         }
+
+        return true;
     }
 
     /**
      * Deletes this file.
      *
+     * @return true if this object has been deleted
      * @todo This will not fail if this is a non-empty folder.
      */
-    public void delete() throws FileSystemException
+    public boolean delete() throws FileSystemException
     {
-        delete(Selectors.SELECT_SELF);
+        return delete(Selectors.SELECT_SELF) > 0;
     }
 
     /**
      * Deletes this file, and all children.
+     *
+     * @return the number of deleted files
      */
-    public void delete(final FileSelector selector) throws FileSystemException
+    public int delete(final FileSelector selector) throws FileSystemException
     {
         attach();
+
+        int nuofDeleted = 0;
+
         if (type == FileType.IMAGINARY)
         {
             // File does not exist
-            return;
+            return nuofDeleted;
         }
 
         // Locate all the files to delete
@@ -658,14 +668,19 @@ public abstract class AbstractFileObject
             // If the file is a folder, make sure all its children have been deleted
             if (file.type == FileType.FOLDER && file.getChildren().length != 0)
             {
-                // TODO - fail??
-                // Skip
+                // Skip - as the selector forced us not to delete all files
                 continue;
             }
 
             // Delete the file
-            file.deleteSelf();
+            boolean deleted = file.deleteSelf();
+            if (deleted)
+            {
+                nuofDeleted++;
+            }
         }
+
+        return nuofDeleted;
     }
 
     /**

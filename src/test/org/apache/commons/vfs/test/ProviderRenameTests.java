@@ -100,6 +100,6 @@ public class ProviderRenameTests
 
         // Delete the file.
         assertTrue(fileMove.exists());
-        fileMove.delete();
+        assertTrue(fileMove.delete());
     }
 }

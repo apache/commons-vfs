@@ -401,7 +401,7 @@ public class ProviderWriteTests
 
         // Delete the file.
         assertTrue(fileCopy.exists());
-        fileCopy.delete();
+        assertTrue(fileCopy.delete());
         
         // Make sure we can copy the same new file to the same target file on the same filesystem
         assertTrue(!fileCopy.exists());

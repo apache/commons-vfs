@@ -189,14 +189,15 @@ public interface FileObject
     FileObject[] findFiles(FileSelector selector) throws FileSystemException;
 
     /**
-     * Deletes this file.  Does nothing if this file does not exist.  Does
-     * not delete any descendents of this file, use {@link #delete(FileSelector)}
-     * for that.
+     * Deletes this file.  Does nothing if this file does not exist of if it is a
+     * folder that has children.  Does not delete any descendents of this file,
+     * use {@link #delete(FileSelector)} for that.
      *
+     * @return true if this object has been deleted
      * @throws FileSystemException If this file is a non-empty folder, or if this file is read-only,
      *                             or on error deleteing this file.
      */
-    void delete() throws FileSystemException;
+    boolean delete() throws FileSystemException;
 
     /**
      * Deletes all descendents of this file that match a selector.  Does
@@ -206,10 +207,11 @@ public interface FileObject
      * exception, this file will potentially only be partially deleted.
      *
      * @param selector The selector to use to select which files to delete.
+     * @return the number of deleted objects
      * @throws FileSystemException If this file or one of its descendents is read-only, or on error
      *                             deleting this file or one of its descendents.
      */
-    void delete(FileSelector selector) throws FileSystemException;
+    int delete(FileSelector selector) throws FileSystemException;
 
     /**
      * Creates this folder, if it does not exist.  Also creates any ancestor

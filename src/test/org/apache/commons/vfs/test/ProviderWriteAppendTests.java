@@ -107,6 +107,6 @@ public class ProviderWriteAppendTests
 
         // Delete the file.
         assertTrue(fileCopy.exists());
-        fileCopy.delete();
+        assertTrue(fileCopy.delete());
     }
 }
