@@ -6,11 +6,77 @@
     </properties>
 
     <body>
+        <section name="Building VFS">
+            <p>
+                Firstly, you will need to check the VFS source out of CVS, as
+                described on the
+                <a href="cvs-usage.html">Source Repository</a> page.
+            </p>
+            <p>
+                To build VFS, you can use either
+                <a href="http://ant.apache.org">Ant</a> or
+                <a href="http://jakarta.apache.org/turbine/maven">Maven</a>.
+            </p>
+            <p>
+                To build using Ant, you will need Ant 1.5 or later.  Use the
+                <code>build.xml</code> file in the root source directory.
+                The default target downloads the dependencies used to build
+                VFS, and then builds the VFS jar file into the <code>target</code>
+                directory.
+            </p>
+            <p>
+                To build using Maven, you will need to use Maven beta 7 or later.
+                Use the <code>jar</code> goal to download the dependencies,
+                and build the VFS jar.  Maven builds the jar file into the
+                <code>target</code> directory.
+            </p>
+        </section>
         <section name="Download">
             <p>
-                Nightly builds of the VFS can be found
-                <a href="http://gump.covalent.net/jars/latest/commons-vfs/">here</a>.
+                Nightly builds of VFS are performed as part of the
+                <a href="http://jakarta.apache.org/gump">gump</a>
+                nightly builds.
+                You can download the VFS jar from the
+                <a href="http://gump.covalent.net/jars/latest/commons-vfs/">latest build</a>.
             </p>
+            <p>
+                Note that sometimes the gump VFS build does not get run for some
+                reason.  If that is the case, you can download the VFS jar
+                from one of the
+                <a href="http://gump.covalent.net/jars/">archived builds</a>.
+            </p>
+            <p>
+                You will also need to download the jars used by VFS.
+                These are listed below:
+            </p>
+            <table>
+                <tr>
+                    <th>Dependency</th><th>Required For</th>
+                </tr>
+                <tr>
+                    <td>
+                        Jakarta <a href="http://jakarta.apache.org/commons/logging.html">Commons Logging</a>
+                        Version 1.0 or later.
+                    </td>
+                    <td>All</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://jcifs.samba.org/">jCIFS</a> Version 0.7.0 b5 or later.
+                    </td>
+                    <td>
+                        CIFS file system.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Jakarta <a href="http://jakarta.apache.org/commons/sandbox/net/index.html">Commons Net</a>.
+                    </td>
+                    <td>
+                        FTP file system.
+                    </td>
+                </tr>
+            </table>
         </section>
     </body>
 </document>

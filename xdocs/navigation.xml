@@ -7,7 +7,7 @@
   <body>
     <menu name="VFS">
       <item name="Overview"                href="/index.html"/>
-      <item name="Download"                href="/download.html"/>
+      <item name="Download and Build"      href="/download.html"/>
       <item name="Using the API"           href="/api.html"/>
       <item name="API JavaDocs"            href="/apidocs/org/apache/commons/vfs/package-summary.html"/>
       <item name="File Systems"            href="/filesystems.html"/>

@@ -10,17 +10,17 @@
         <section name="VFS : Virtual File System">
 
             <p>
-                The VFS component provides a common API for accessing
+                Commons VFS provides a single API for accessing
                 various different file systems.  It presents a uniform view of
                 the files from various different sources, such as the files on
                 local disk, on an HTTP server, or inside a Zip archive.
             </p>
 
-            <p>Some of the features of the VFS component are:</p>
+            <p>Some of the features of Commons VFS are:</p>
             <ul>
-                <li>A consistent API for accessing files of different types.</li>
+                <li>A single API for accessing files of different types.</li>
                 <li>Support for numerous <a href="filesystems.html">file system types</a>.</li>
-                <li>Utilities like a VFS ClassLoader and URLStreamHandlerFactory.</li>
+                <li>Utilities like a VFS-aware ClassLoader and URLStreamHandlerFactory.</li>
                 <li>A set of VFS <a href="anttasks.html">Ant tasks</a>.</li>
                 <li>More coming soon ...</li>
             </ul>
