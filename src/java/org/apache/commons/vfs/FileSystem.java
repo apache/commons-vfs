@@ -13,7 +13,7 @@ package org.apache.commons.vfs;
  * <p>A file system can also implement {@link org.apache.commons.vfs.provider.VfsComponent}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/21 02:52:40 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/23 10:56:32 $
  */
 public interface FileSystem
 {
@@ -23,7 +23,7 @@ public interface FileSystem
     FileObject getRoot() throws FileSystemException;
 
     /**
-     * Returns the parent layerer if this is a layered file system.
+     * Returns the parent layer if this is a layered file system.
      * This returns null if this is not a layered file system.
      */
     FileObject getParentLayer() throws FileSystemException;
@@ -54,7 +54,7 @@ public interface FileSystem
      * Sets the value of an attribute of the file's content.  Creates the
      * file if it does not exist.
      *
-     * @see org.apache.commons.vfs.FileContent#setAttribute
+     * @see FileContent#setAttribute
      *
      * @param attrName
      *      The name of the attribute.
@@ -62,7 +62,7 @@ public interface FileSystem
      * @param value
      *      The value of the attribute.
      *
-     * @throws org.apache.commons.vfs.FileSystemException
+     * @throws FileSystemException
      *      If the file is read-only, or is being read, or if the attribute
      *      is not supported, or on error setting the attribute.
      */
@@ -74,14 +74,18 @@ public interface FileSystem
      *
      * @param name
      *          The name of the file.
+     *
+     * @return The file.  Never returns null.
      */
-    FileObject findFile( FileName name ) throws FileSystemException;
+    FileObject resolveFile( FileName name ) throws FileSystemException;
 
     /**
      * Finds a file in this file system.
      *
      * @param name
      *          The name of the file.  This must be an absolute path.
+     *
+     * @return The file.  Never returns null.
      */
-    FileObject findFile( String name ) throws FileSystemException;
+    FileObject resolveFile( String name ) throws FileSystemException;
 }

@@ -18,7 +18,7 @@ import java.security.PrivilegedExceptionAction;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.vfs.FileConstants;
+import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -337,7 +337,7 @@ public abstract class AbstractFileObject
     {
         try
         {
-            doAttach();
+            attach();
             if ( exists() )
             {
                 return doIsReadable();
@@ -360,6 +360,7 @@ public abstract class AbstractFileObject
     {
         try
         {
+            attach();
             if ( exists() )
             {
                 return doIsWriteable();
@@ -396,7 +397,7 @@ public abstract class AbstractFileObject
         // Locate the parent of this file
         if ( parent == null )
         {
-            parent = (AbstractFileObject)fs.findFile( name.getParent() );
+            parent = (AbstractFileObject)fs.resolveFile( name.getParent() );
         }
         return parent;
     }
@@ -449,7 +450,7 @@ public abstract class AbstractFileObject
             for ( int i = 0; i < files.length; i++ )
             {
                 String file = files[ i ];
-                children[ i ] = fs.findFile( name.resolveName( file, NameScope.CHILD ) );
+                children[ i ] = fs.resolveFile( name.resolveName( file, NameScope.CHILD ) );
             }
         }
 
@@ -457,12 +458,32 @@ public abstract class AbstractFileObject
     }
 
     /**
+     * Returns a child of this file.
+     */
+    public FileObject getChild( final String name ) throws FileSystemException
+    {
+        // TODO - use a hashtable when there are a large number of children
+        getChildren();
+        for ( int i = 0; i < children.length; i++ )
+        {
+            final FileObject child = children[ i ];
+            // TODO - use a comparator to compare names
+            if ( child.getName().getBaseName().equals( name ) )
+            {
+                return child;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Returns a child by name.
      */
-    public FileObject resolveFile( String name, NameScope scope ) throws FileSystemException
+    public FileObject resolveFile( final String name, final NameScope scope )
+        throws FileSystemException
     {
         // TODO - cache children (only if they exist)
-        return fs.findFile( this.name.resolveName( name, scope ) );
+        return fs.resolveFile( this.name.resolveName( name, scope ) );
     }
 
     /**
@@ -477,7 +498,7 @@ public abstract class AbstractFileObject
     public FileObject resolveFile( final String path ) throws FileSystemException
     {
         final FileName otherName = name.resolveName( path );
-        return fs.findFile( otherName );
+        return fs.resolveFile( otherName );
     }
 
     /**
@@ -634,7 +655,7 @@ public abstract class AbstractFileObject
                 // The destination file exists, and is not of the same type,
                 // so delete it
                 // TODO - add a pluggable policy for deleting and overwriting existing files
-                destFile.delete( FileConstants.SELECT_ALL );
+                destFile.delete( Selectors.SELECT_ALL );
             }
 
             // Copy across
@@ -647,6 +668,17 @@ public abstract class AbstractFileObject
                 destFile.create( FileType.FOLDER );
             }
         }
+    }
+
+    /**
+     * Finds the set of matching descendents of this file, in depthwise
+     * order.
+     */
+    public List findFiles( final FileSelector selector ) throws FileSystemException
+    {
+        final ArrayList list = new ArrayList();
+        findFiles( selector, true, list );
+        return list;
     }
 
     /**
@@ -725,7 +757,7 @@ public abstract class AbstractFileObject
      */
     boolean isFolder()
     {
-        return type == FileType.FOLDER;
+        return ( type == FileType.FOLDER );
     }
 
     /**
@@ -909,18 +941,25 @@ public abstract class AbstractFileObject
      * Traverses the descendents of this file, and builds a list of selected
      * files.
      */
-    void findFiles( final FileSelector selector,
-                    final boolean depthwise,
-                    final List selected ) throws FileSystemException
+    private void findFiles( final FileSelector selector,
+                            final boolean depthwise,
+                            final List selected ) throws FileSystemException
     {
-        if ( exists() )
+        try
         {
-            // Traverse starting at this file
-            final DefaultFileSelectorInfo info = new DefaultFileSelectorInfo();
-            info.setBaseFolder( this );
-            info.setDepth( 0 );
-            info.setFile( this );
-            traverse( info, selector, depthwise, selected );
+            if ( exists() )
+            {
+                // Traverse starting at this file
+                final DefaultFileSelectorInfo info = new DefaultFileSelectorInfo();
+                info.setBaseFolder( this );
+                info.setDepth( 0 );
+                info.setFile( this );
+                traverse( info, selector, depthwise, selected );
+            }
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs.provider/find-files.error", name, e );
         }
     }
 
@@ -931,17 +970,11 @@ public abstract class AbstractFileObject
                            final FileSelector selector,
                            final boolean depthwise,
                            final List selected )
-        throws FileSystemException
+        throws Exception
     {
         // Check the file itself
-        final boolean includeFile = selector.includeFile( fileInfo );
         final FileObject file = fileInfo.getFile();
-
-        // Add the file if not doing depthwise traversal
-        if ( !depthwise && includeFile )
-        {
-            selected.add( file );
-        }
+        final int index = selected.size();
 
         // If the file is a folder, traverse it
         if ( file.getType() == FileType.FOLDER && selector.traverseDescendents( fileInfo ) )
@@ -963,9 +996,18 @@ public abstract class AbstractFileObject
         }
 
         // Add the file if doing depthwise traversal
-        if ( depthwise && includeFile )
+        if ( selector.includeFile( fileInfo ) )
         {
-            selected.add( file );
+            if ( depthwise )
+            {
+                // Add this file after its descendents
+                selected.add( file );
+            }
+            else
+            {
+                // Add this file before its descendents
+                selected.add( index, file );
+            }
         }
     }
 

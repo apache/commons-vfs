@@ -53,7 +53,7 @@ final class DefaultProviderContext
     public FileObject getFile( File file )
         throws FileSystemException
     {
-        return manager.convert( file );
+        return manager.toFileObject( file );
     }
 
     /**

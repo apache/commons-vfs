@@ -14,9 +14,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileName;
@@ -102,7 +100,7 @@ public abstract class AbstractFileSystemTestCase
     private FileInfo buildExpectedStructure()
     {
         // Build the expected structure
-        final FileInfo base = new FileInfo( "test", FileType.FOLDER );
+        final FileInfo base = new FileInfo( baseFolder.getName().getBaseName(), FileType.FOLDER );
         base.addChild( "file1.txt", FileType.FILE );
         base.addChild( "empty.txt", FileType.FILE );
         base.addChild( "emptydir", FileType.FOLDER );
@@ -609,9 +607,9 @@ public abstract class AbstractFileSystemTestCase
             final FileInfo info = (FileInfo)queueExpected.remove( 0 );
 
             // Check the type is correct
-            assertSame( file.getType(), info.m_type );
+            assertSame( file.getType(), info.type );
 
-            if( info.m_type == FileType.FILE )
+            if( info.type == FileType.FILE )
             {
                 continue;
             }
@@ -621,13 +619,13 @@ public abstract class AbstractFileSystemTestCase
 
             // Make sure all children were found
             assertNotNull( children );
-            assertEquals( "count children of \"" + file.getName() + "\"", info.m_children.size(), children.length );
+            assertEquals( "count children of \"" + file.getName() + "\"", info.children.size(), children.length );
 
             // Recursively check each child
             for( int i = 0; i < children.length; i++ )
             {
                 final FileObject child = children[ i ];
-                final FileInfo childInfo = (FileInfo)info.m_children.get( child.getName().getBaseName() );
+                final FileInfo childInfo = (FileInfo)info.children.get( child.getName().getBaseName() );
 
                 // Make sure the child is expected
                 assertNotNull( childInfo );
@@ -1031,40 +1029,25 @@ public abstract class AbstractFileSystemTestCase
     }
 
     /**
-     * Info about a file.
+     * Tests that findFiles() works.
      */
-    protected static final class FileInfo
+    public void testFindFiles() throws Exception
     {
-        String m_baseName;
-        FileType m_type;
-        Map m_children = new HashMap();
+        final FileInfo fileInfo = buildExpectedStructure();
+        final VerifyingFileSelector selector = new VerifyingFileSelector( fileInfo );
 
-        public FileInfo( final String name, final FileType type )
-        {
-            m_baseName = name;
-            m_type = type;
-        }
+        // Find the files
+        final List actualFiles = baseFolder.findFiles( selector );
 
-        /** Adds a child. */
-        public void addChild( final FileInfo child )
+        // Compare actual and expected list of files
+        final List expectedFiles = selector.finish();
+        assertEquals( expectedFiles.size(), actualFiles.size() );
+        final int count = expectedFiles.size();
+        for ( int i = 0; i < count; i++ )
         {
-            m_children.put( child.m_baseName, child );
-        }
-
-        /** Adds a child. */
-        public void addChild( final String baseName, final FileType type )
-        {
-            addChild( new FileInfo( baseName, type ) );
-        }
-
-        /** Adds a bunch of children. */
-        public void addChildren( final String[] baseNames, final FileType type )
-        {
-            for( int i = 0; i < baseNames.length; i++ )
-            {
-                String baseName = baseNames[ i ];
-                addChild( new FileInfo( baseName, type ) );
-            }
+            final FileObject expected = (FileObject)expectedFiles.get( i );
+            final FileObject actual = (FileObject)actualFiles.get( i );
+            assertEquals( expected, actual );
         }
     }
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.commons.vfs.FileConstants;
+import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -40,7 +40,7 @@ public class ZipFileSystem
         super( rootName, parentLayer );
 
         // Make a local copy of the file
-        final File file = parentLayer.replicateFile( FileConstants.SELECT_SELF );
+        final File file = parentLayer.replicateFile( Selectors.SELECT_SELF );
 
         this.file = file;
 

@@ -8,38 +8,48 @@
 package org.apache.commons.vfs;
 
 /**
- * Several constants for use in the VFS API.
+ * Several standard file selectors.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/04/07 02:27:55 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/23 10:56:32 $
  */
-public interface FileConstants
+public interface Selectors
 {
     /**
-     * A {@link FileSelector} which selects only the base file/folder.
+     * A {@link FileSelector} that selects only the base file/folder.
      */
     FileSelector SELECT_SELF = new FileDepthSelector( 0, 0 );
 
     /**
-     * A {@link FileSelector} which selects the base file/folder and its
+     * A {@link FileSelector} that selects the base file/folder and its
      * direct children.
      */
     FileSelector SELECT_SELF_AND_CHILDREN = new FileDepthSelector( 0, 1 );
 
     /**
-     * A {@link FileSelector} which selects only the direct children
+     * A {@link FileSelector} that selects only the direct children
      * of the base folder.
      */
     FileSelector SELECT_CHILDREN = new FileDepthSelector( 1, 1 );
 
     /**
-     * A {@link FileSelector} which selects all the descendents of the
+     * A {@link FileSelector} that selects all the descendents of the
      * base folder, but does not select the base folder itself.
      */
     FileSelector EXCLUDE_SELF = new FileDepthSelector( 1, Integer.MAX_VALUE );
 
     /**
-     * A {@link FileSelector} which selects the base file/folder, plus all
+     * A {@link FileSelector} that only files (not folders).
+     */
+    FileSelector SELECT_FILES = new FileTypeSelector( FileType.FILE );
+
+    /**
+     * A {@link FileSelector} that only folders (not files).
+     */
+    FileSelector SELECT_FOLDERS = new FileTypeSelector( FileType.FOLDER );
+
+    /**
+     * A {@link FileSelector} that selects the base file/folder, plus all
      * its descendents.
      */
     FileSelector SELECT_ALL = new AllFileSelector();

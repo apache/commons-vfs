@@ -17,7 +17,7 @@ import java.io.File;
  * Test cases for the FileSystemManagerFactory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.1 $ $Date: 2002/08/21 01:44:56 $
+ * @version $Revision: 1.2 $ $Date: 2002/10/23 10:56:33 $
  */
 public class FileSystemManagerFactoryTestCase
     extends AbstractVfsTestCase
@@ -37,7 +37,7 @@ public class FileSystemManagerFactoryTestCase
 
         // Lookup a test file
         final File testDir = getTestResource( "basedir" );
-        final FileObject file = manager.convert( testDir );
+        final FileObject file = manager.toFileObject( testDir );
         assertNotNull( file );
         assertTrue( file.exists() );
     }

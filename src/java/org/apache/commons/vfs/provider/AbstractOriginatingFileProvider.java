@@ -17,7 +17,7 @@ import org.apache.commons.vfs.FileSystem;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/21 01:40:38 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/23 10:56:33 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider
@@ -73,7 +73,7 @@ public abstract class AbstractOriginatingFileProvider
         }
 
         // Locate the file
-        return fs.findFile( parsedUri.getPath() );
+        return fs.resolveFile( parsedUri.getPath() );
     }
 
     /**

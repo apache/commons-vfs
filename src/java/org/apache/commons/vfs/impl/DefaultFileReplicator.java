@@ -10,7 +10,7 @@ package org.apache.commons.vfs.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-import org.apache.commons.vfs.FileConstants;
+import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
@@ -53,7 +53,7 @@ public final class DefaultFileReplicator
             final FileObject file = (FileObject)copies.remove( 0 );
             try
             {
-                file.delete( FileConstants.SELECT_ALL );
+                file.delete( Selectors.SELECT_ALL );
             }
             catch ( final FileSystemException e )
             {

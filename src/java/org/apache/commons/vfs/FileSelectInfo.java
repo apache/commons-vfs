@@ -13,6 +13,8 @@ package org.apache.commons.vfs;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.1 $ $Date: 2002/04/07 02:27:55 $
+ *
+ * @todo Rename this interface, as it is used by both FileSelector and FileVisitor.
  */
 public interface FileSelectInfo
 {

@@ -10,7 +10,7 @@ package org.apache.commons.vfs.test;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.vfs.FileConstants;
+import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
@@ -41,7 +41,7 @@ public abstract class AbstractWritableFileSystemTestCase
         FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
-        scratchFolder.delete( FileConstants.EXCLUDE_SELF );
+        scratchFolder.delete( Selectors.EXCLUDE_SELF );
         scratchFolder.create( FileType.FOLDER );
 
         return scratchFolder;
@@ -174,13 +174,13 @@ public abstract class AbstractWritableFileSystemTestCase
         // Delete a file
         FileObject file = folder.resolveFile( "file1.txt" );
         assertTrue( file.exists() );
-        file.delete( FileConstants.SELECT_ALL );
+        file.delete( Selectors.SELECT_ALL );
         assertTrue( !file.exists() );
 
         // Delete an empty folder
         file = folder.resolveFile( "emptydir" );
         assertTrue( file.exists() );
-        file.delete( FileConstants.SELECT_ALL );
+        file.delete( Selectors.SELECT_ALL );
         assertTrue( !file.exists() );
 
         // Recursive delete
@@ -188,14 +188,14 @@ public abstract class AbstractWritableFileSystemTestCase
         FileObject file2 = file.resolveFile( "dir2/file2.txt" );
         assertTrue( file.exists() );
         assertTrue( file2.exists() );
-        file.delete( FileConstants.SELECT_ALL );
+        file.delete( Selectors.SELECT_ALL );
         assertTrue( !file.exists() );
         assertTrue( !file2.exists() );
 
         // Delete a file that does not exist
         file = folder.resolveFile( "some-folder/some-file" );
         assertTrue( !file.exists() );
-        file.delete( FileConstants.SELECT_ALL );
+        file.delete( Selectors.SELECT_ALL );
         assertTrue( !file.exists() );
     }
 
@@ -232,17 +232,17 @@ public abstract class AbstractWritableFileSystemTestCase
         assertSameFileSet( names, folder.getChildren() );
 
         // Delete a child folder
-        folder.resolveFile( "dir1" ).delete( FileConstants.SELECT_ALL );
+        folder.resolveFile( "dir1" ).delete( Selectors.SELECT_ALL );
         names.remove( "dir1" );
         assertSameFileSet( names, folder.getChildren() );
 
         // Delete a child file
-        folder.resolveFile( "file1.html" ).delete( FileConstants.SELECT_ALL );
+        folder.resolveFile( "file1.html" ).delete( Selectors.SELECT_ALL );
         names.remove( "file1.html" );
         assertSameFileSet( names, folder.getChildren() );
 
         // Recreate the folder
-        folder.delete( FileConstants.SELECT_ALL );
+        folder.delete( Selectors.SELECT_ALL );
         folder.create( FileType.FOLDER );
         assertEquals( 0, folder.getChildren().length );
     }

@@ -16,23 +16,28 @@ package org.apache.commons.vfs;
 public interface FileSelector
 {
     /**
-     * Determines if a file or folder should be selected.
+     * Determines if a file or folder should be selected.  This method is
+     * called in depthwise order (that is, it is called for the children
+     * of a folder before it is called for the folder itself).
      *
      * @param fileInfo the file or folder to select.
      * @return true if the file should be selected.
      */
     boolean includeFile( FileSelectInfo fileInfo )
-        throws FileSystemException;
+        throws Exception;
 
     /**
      * Determines whether a folder should be traversed.  If this method returns
      * true, {@link #includeFile} is called for each of the children of
      * the folder, and each of the child folders is recursively traversed.
      *
+     * <p>This method is called on a folder before {@link #includeFile}
+     * is called.
+     *
      * @param fileInfo the file or folder to select.
      *
      * @return true if the folder should be traversed.
      */
     boolean traverseDescendents( FileSelectInfo fileInfo )
-        throws FileSystemException;
+        throws Exception;
 }

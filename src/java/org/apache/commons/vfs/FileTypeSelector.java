@@ -8,20 +8,28 @@
 package org.apache.commons.vfs;
 
 /**
- * A {@link FileSelector} which selects everything.
+ * A {@link FileSelector} that selects files of a particular type.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/07/05 04:08:17 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/23 10:56:32 $
  */
-public final class AllFileSelector
+public class FileTypeSelector
     implements FileSelector
 {
+    private final FileType type;
+
+    public FileTypeSelector( final FileType type )
+    {
+        this.type = type;
+    }
+
     /**
      * Determines if a file or folder should be selected.
      */
     public boolean includeFile( final FileSelectInfo fileInfo )
+        throws FileSystemException
     {
-        return true;
+        return ( fileInfo.getFile().getType() == type );
     }
 
     /**

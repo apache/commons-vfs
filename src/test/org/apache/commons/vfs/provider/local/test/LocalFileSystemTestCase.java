@@ -32,7 +32,7 @@ public class LocalFileSystemTestCase
         final File testDir = getTestResource( "basedir" );
         final File emptyDir = new File( testDir, "emptydir" );
         emptyDir.mkdirs();
-        return getManager().convert( testDir );
+        return getManager().toFileObject( testDir );
     }
 
     /**
@@ -41,7 +41,7 @@ public class LocalFileSystemTestCase
     protected FileObject getWriteFolder() throws Exception
     {
         final File testDir = getTestDirectory( "write-tests" );
-        return getManager().convert( testDir );
+        return getManager().toFileObject( testDir );
     }
 
     /**

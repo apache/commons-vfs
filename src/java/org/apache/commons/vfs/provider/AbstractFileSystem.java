@@ -101,7 +101,7 @@ public abstract class AbstractFileSystem
     {
         if ( root == null )
         {
-            root = findFile( rootName );
+            root = resolveFile( rootName );
         }
         return root;
     }
@@ -109,17 +109,17 @@ public abstract class AbstractFileSystem
     /**
      * Finds a file in this file system.
      */
-    public FileObject findFile( final String nameStr ) throws FileSystemException
+    public FileObject resolveFile( final String nameStr ) throws FileSystemException
     {
         // Resolve the name, and create the file
         final FileName name = rootName.resolveName( nameStr );
-        return findFile( name );
+        return resolveFile( name );
     }
 
     /**
      * Finds a file in this file system.
      */
-    public FileObject findFile( final FileName name ) throws FileSystemException
+    public FileObject resolveFile( final FileName name ) throws FileSystemException
     {
         // TODO - assert that name is from this file system
         FileObject file = (FileObject)files.get( name );

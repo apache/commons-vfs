@@ -26,7 +26,19 @@ import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponent;
 
 /**
- * A default file system manager implementation.
+ * A default file system manager implementation.  To use this class:
+ * <ul>
+ * <li>Create an instance of this class.
+ * <li>Call {@link #setLogger} to set the logger that the manager, and its
+ * components, should use.
+ * <li>Add one or more file providers using {@link #addProvider}.
+ * <li>Set the default provider using {@link #setDefaultProvider} (optional).
+ * <li>Set the file replicator using {@link #setReplicator} (optional).
+ * <li>Set the base file using {@link #setBaseFile} (optional).
+ * </ul>
+ *
+ * <p>When finished with the manager, call its {@link #close} method to clean
+ * up any resources it is using.
  *
  * @todo - Extract an AbstractFileSystemManager super-class from this class.
  *
@@ -91,7 +103,7 @@ public class DefaultFileSystemManager
             }
         }
 
-        // Contextualise
+        // Contextualise the component (if not already)
         setupComponent( provider );
 
         // Add to map
@@ -186,7 +198,7 @@ public class DefaultFileSystemManager
 
     /**
      * Closes all files created by this manager, and cleans up any temporary
-     * files.
+     * files.  Also closes all providers and the replicator.
      */
     public void close()
     {
@@ -308,7 +320,7 @@ public class DefaultFileSystemManager
     /**
      * Converts a local file into a {@link FileObject}.
      */
-    public FileObject convert( final File file )
+    public FileObject toFileObject( final File file )
         throws FileSystemException
     {
         return getLocalFileProvider().findLocalFile( file );

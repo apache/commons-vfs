@@ -68,6 +68,8 @@ public interface FileSystemManager
      * @param name
      *          The name of the file.
      *
+     * @return The file.  Never returns null.
+     *
      * @throws FileSystemException
      *          On error parsing the file name.
      */
@@ -86,7 +88,9 @@ public interface FileSystemManager
      *          The name of the file.
      *
      * @param baseFile
-     *          The base file to use to resolve relative paths.
+     *          The base file to use to resolve relative paths.  May be null.
+     *
+     * @return The file.  Never returns null.
      *
      * @throws FileSystemException
      *          On error parsing the file name.
@@ -99,10 +103,12 @@ public interface FileSystemManager
      * for details.
      *
      * @param baseFile
-     *          The base file to use to resolve relative paths.
+     *          The base file to use to resolve relative paths.  May be null.
      *
      * @param name
      *          The name of the file.
+     *
+     * @return The file.  Never returns null.
      *
      * @throws FileSystemException
      *          On error parsing the file name.
@@ -118,12 +124,13 @@ public interface FileSystemManager
      *          The file to convert.
      *
      * @return
-     *          The {@link FileObject} that represents the local file.
+     *          The {@link FileObject} that represents the local file.  Never
+     *          returns null.
      *
      * @throws FileSystemException
      *          On error converting the file.
      */
-    FileObject convert( File file )
+    FileObject toFileObject( File file )
         throws FileSystemException;
 
     /**

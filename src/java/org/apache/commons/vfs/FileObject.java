@@ -10,6 +10,7 @@ package org.apache.commons.vfs;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * This interface represents a file, and is used to access the content and
@@ -69,7 +70,7 @@ public interface FileObject
     FileName getName();
 
     /**
-     * Returns a URL representing the file.
+     * Returns a URL representing this file.
      */
     URL getURL() throws MalformedURLException;
 
@@ -152,6 +153,23 @@ public interface FileObject
     FileObject[] getChildren() throws FileSystemException;
 
     /**
+     * Returns a child of this file.  Note that this method returns <code>null</code>
+     * when the child does not exist.  This differs from
+     * {@link #resolveFile( String, NameScope)} which never returns null.
+     *
+     * @param name
+     *      The name of the child.
+     *
+     * @return
+     *      The child, or null if there is no such child.
+     *
+     * @throws FileSystemException
+     *      If this file does not exist, or is not a folder, or on error
+     *      determining this file's children.
+     */
+    FileObject getChild( String name ) throws FileSystemException;
+
+    /**
      * Finds a file, relative to this file.  Refer to {@link NameScope}
      * for a description of how names are resolved in the different scopes.
      *
@@ -182,6 +200,17 @@ public interface FileObject
      *      On error parsing the path, or on error finding the file.
      */
     FileObject resolveFile( String path ) throws FileSystemException;
+
+    /**
+     * Finds the set of matching descendents of this file, in depthwise order.
+     *
+     * @param selector The selector to use to select matching files.
+     *
+     * @return A list of matching {@link FileObject} files.  The files are
+     *      returned in depthwise order (that is, a child appears in the
+     *      list before its parent).
+     */
+    List findFiles( FileSelector selector ) throws FileSystemException;
 
     /**
      * Deletes this file, and all descendents.  Does nothing if the file

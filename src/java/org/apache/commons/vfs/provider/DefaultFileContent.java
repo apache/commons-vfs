@@ -196,7 +196,6 @@ public final class DefaultFileContent
      */
     public void close() throws FileSystemException
     {
-
         try
         {
             // Close the input stream
