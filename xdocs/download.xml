@@ -23,15 +23,15 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/logging.html">Commons Logging</a>
-                        Version 1.0 or later.
+                        <a href="http://jakarta.apache.org/commons/logging/">Commons Logging</a>
+                        Version 1.0.3 or later.
                     </td>
                     <td>All</td>
                 </tr>
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a> Version 1.0 or later.
+                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a> Version 1.1.0 or later.
                     </td>
                     <td>FTP</td>
                 </tr>
@@ -42,28 +42,27 @@
                         Version 2.0 beta 1 or later.
                     </td>
                     <td>
-                        WebDAV<br/>
+                        WebDAV
+                        <br/>
                         HTTP (optional).
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/slide/">Slide</a>.
-                        You will need <code>webdavlib.jar</code> from a recent
-                        snapshot.
+                        <a href="http://jakarta.apache.org/slide/">Slide</a> Version 2.0beta1.
                     </td>
                     <td>WebDAV</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jcifs.samba.org/">jCIFS</a> Version 0.7.8 or later.
+                        <a href="http://jcifs.samba.org/">jCIFS</a> Version 0.8.3 or later.
                     </td>
                     <td>CIFS</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.5 or later.
+                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.14 or later.
                     </td>
                     <td>SFTP</td>
                 </tr>
@@ -88,18 +87,23 @@
             </p>
             <ul>
                 <li>
-                    Use <a href="http://ant.apache.org">Ant</a> 1.5 or later.
-                    Use the <code>build.xml</code> file in the root source
+                    Use
+                    <a href="http://ant.apache.org">Ant</a> 1.5 or later.
+                    Use the
+                    <code>build.xml</code> file in the root source
                     directory.  The default target downloads the dependencies
                     used to build Commons VFS, and then builds the jar file
-                    into the <code>target</code> directory.
+                    into the
+                    <code>target</code> directory.
                 </li>
                 <li>
                     Use
                     <a href="http://jakarta.apache.org/turbine/maven">Maven</a>
-                    beta 9 or later. Use the <code>jar</code> goal to download
+                    beta 9 or later. Use the
+                    <code>jar</code> goal to download
                     the dependencies, and build the VFS jar.  Maven builds the
-                    jar file into the <code>target</code> directory.
+                    jar file into the
+                    <code>target</code> directory.
                 </li>
             </ul>
         </section>
