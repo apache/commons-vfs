@@ -23,13 +23,14 @@ import org.apache.commons.vfs.FileSystemOptions;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.8 $ $Date: 2004/09/21 05:32:56 $
+ * @version $Revision: 1.9 $ $Date: 2004/12/21 21:55:41 $
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private final static FtpFileSystemConfigBuilder builder = new FtpFileSystemConfigBuilder();
 
     private final static String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
+    private final static String PASSIVE_MODE = FTPFileEntryParserFactory.class.getName() + ".PASSIVE";
 
     public static FtpFileSystemConfigBuilder getInstance()
     {
@@ -88,5 +89,26 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     protected Class getConfigClass()
     {
         return FtpFileSystem.class;
+    }
+
+    /**
+     * enter into passive mode
+     *
+     * @param opts
+     * @param passiveMode
+     */
+    public void setPassiveMode(FileSystemOptions opts, boolean passiveMode)
+    {
+        setParam(opts, PASSIVE_MODE, Boolean.valueOf(passiveMode));
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setPassiveMode
+     */
+    public Boolean getPassiveMode(FileSystemOptions opts)
+    {
+        return (Boolean) getParam(opts, PASSIVE_MODE);
     }
 }

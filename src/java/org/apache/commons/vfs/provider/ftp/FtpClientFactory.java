@@ -28,7 +28,7 @@ import java.io.IOException;
  * Create a FtpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/09/20 11:31:53 $
+ * @version $Revision: 1.4 $ $Date: 2004/12/21 21:55:41 $
  */
 public class FtpClientFactory
 {
@@ -93,6 +93,12 @@ public class FtpClientFactory
                     {
                         throw new FileSystemException("vfs.provider/get-attributes-no-exist.error", "/");
                     }
+                }
+
+                Boolean passiveMode = FtpFileSystemConfigBuilder.getInstance().getPassiveMode(fileSystemOptions);
+                if (passiveMode != null && passiveMode.booleanValue())
+                {
+                    client.enterLocalPassiveMode();
                 }
             }
             catch (final IOException e)
