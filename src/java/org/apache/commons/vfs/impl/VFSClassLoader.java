@@ -87,7 +87,7 @@ import org.apache.commons.vfs.NameScope;
  *
  * @see FileSystemManager#createFileSystem
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.8 $ $Date: 2002/11/01 03:24:03 $
+ * @version $Revision: 1.9 $ $Date: 2002/11/22 23:55:45 $
  */
 public class VFSClassLoader
     extends SecureClassLoader
@@ -95,10 +95,45 @@ public class VFSClassLoader
     private final ArrayList resources = new ArrayList();
 
     /**
-     * Constructors a new VFSClassLoader for the given FileObjects.
-     * The FileObjects will be searched in the order specified.
+     * Constructors a new VFSClassLoader for the given file.
      *
-     * @param files the FileObjects to load the classes and resources from.
+     * @param file the file to load the classes and resources from.
+     *
+     * @param manager
+     *      the FileManager to use when trying create a layered Jar file
+     *      system.
+     */
+    public VFSClassLoader( final FileObject file,
+                           final FileSystemManager manager )
+        throws FileSystemException
+    {
+        this( new FileObject[] { file }, manager, null );
+    }
+
+    /**
+     * Constructors a new VFSClassLoader for the given file.
+     *
+     * @param file the file to load the classes and resources from.
+     *
+     * @param manager
+     *      the FileManager to use when trying create a layered Jar file
+     *      system.
+     *
+     * @param parent the parent class loader for delegation.
+     */
+    public VFSClassLoader( final FileObject file,
+                           final FileSystemManager manager,
+                           final ClassLoader parent )
+        throws FileSystemException
+    {
+        this( new FileObject[] { file }, manager, parent );
+    }
+
+    /**
+     * Constructors a new VFSClassLoader for the given files.  The files will
+     * be searched in the order specified.
+     *
+     * @param files the files to load the classes and resources from.
      *
      * @param manager
      *      the FileManager to use when trying create a layered Jar file
@@ -108,8 +143,7 @@ public class VFSClassLoader
                            final FileSystemManager manager )
         throws FileSystemException
     {
-        super();
-        addFileObjects( manager, files );
+        this( files, manager, null );
     }
 
     /**
@@ -138,8 +172,8 @@ public class VFSClassLoader
      *
      * @param files the FileObjects to append to the search path.
      */
-    protected void addFileObjects( final FileSystemManager manager,
-                                   final FileObject[] files ) throws FileSystemException
+    private void addFileObjects( final FileSystemManager manager,
+                                 final FileObject[] files ) throws FileSystemException
     {
         for ( int i = 0; i < files.length; i++ )
         {
