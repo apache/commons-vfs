@@ -45,6 +45,16 @@ public final class FileSystemException
     }
 
     /**
+     * Constructs exception with the specified detail message.
+     *
+     */
+    public FileSystemException( final Throwable throwable )
+    {
+        super( throwable.getMessage() );
+        m_throwable = throwable;
+    }
+
+    /**
      * Retrieve root cause of the exception.
      *
      * @return the root cause
