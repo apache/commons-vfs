@@ -58,6 +58,10 @@ package org.apache.commons.vfs.provider.ftp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
@@ -301,6 +305,28 @@ final class FtpFileObject
     protected long doGetContentSize() throws Exception
     {
         return fileInfo.getSize();
+    }
+
+    /**
+     * get the last modified time on an ftp file
+     * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetLastModifiedTime()
+     */
+    protected long doGetLastModifiedTime() throws Exception
+    {
+        return ( fileInfo.getTimestamp().getTime().getTime() );
+    }
+
+    /**
+     * get the last modified time on an ftp file
+     * @param modtime the time to set on the ftp file
+     * @see org.apache.commons.vfs.provider.AbstractFileObject#doSetLastModifiedTime(long)
+     */
+    protected void doSetLastModifiedTime( final long modtime ) throws Exception
+    {
+        final Date d = new Date( modtime );
+        final Calendar c = new GregorianCalendar();
+        c.setTime( d );
+        fileInfo.setTimestamp( c );
     }
 
     /**
