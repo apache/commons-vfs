@@ -5,6 +5,7 @@
         <title>TODO</title>
         <author email="jstrachan@apache.org">James Strachan</author>
         <author email="adammurdoch@apache.org">Adam Murdoch</author>
+        <author email="imario@apache.org">Mario Ivankovits</author>
     </properties>
 
     <body>
@@ -16,15 +17,23 @@
 
             <ul>
                 <li>More documentation (status, file naming etc).</li>
-                <li>Fix the <a href="task-list.html">TODO items</a> in the code.</li>
+                <li>Fix the
+                    <a href="task-list.html">TODO items</a> in the code.
+                </li>
                 <li>Add more providers:
                     <ul>
                         <li>nfs</li>
                         <li>tar</li>
-                        <li>gzip</li>
-                        <li>bzip2</li>
+                        <li>
+                            <strike>gzip</strike> (done)
+                        </li>
+                        <li>
+                            <strike>bzip2</strike> (done)
+                        </li>
                         <li>rsync</li>
-                        <li>ClassLoader resources</li>
+                        <li>
+                            <strike>ClassLoader resources</strike> (done)
+                        </li>
                         <li>cvs</li>
                         <li>subversion</li>
                         <li>jdbc filesystem</li>
@@ -42,14 +51,20 @@
                     <ul>
                         <li>Add plain http support, and auto-detect dav resources.</li>
                         <li>Add set last-modified.</li>
-                        <li>Add proxy support</li>
+                        <li>
+                            <strike>Add proxy support</strike> (done)
+                        </li>
                         <li>HTTPS</li>
                     </ul>
                 </li>
                 <li>SFTP Provider:
                     <ul>
-                        <li>Add key-based authentication.</li>
-                        <li>Support last-modified.</li>
+                        <li>
+                            <strike>Add key-based authentication.</strike> (done)
+                        </li>
+                        <li>
+                            <strike>Support last-modified.</strike> (done)
+                        </li>
                     </ul>
                 </li>
                 <li>Zip/Jar Provider:
@@ -65,7 +80,9 @@
                 </li>
                 <li>FTP Provider:
                     <ul>
-                        <li>Fix set last-modified.</li>
+                        <li>
+                            <strike>Fix set last-modified.</strike> (done)
+                        </li>
                         <li>Support passive mode.</li>
                         <li>Add proxy support.</li>
                     </ul>
@@ -82,10 +99,12 @@
                     </ul>
                 </li>
                 <li>
-                    The in-memory caching mechanism is pretty rudimentary at
+                    <strike>The in-memory caching mechanism is pretty rudimentary at
                     this stage. It needs work to make it size capped. In addition,
                     some mechanism needs to be provided to release and refresh
-                    cached info.
+                    cached info.</strike> (done)
+                    <br/>
+                    Some mechanism needs to be provided refresh cached info
                 </li>
                 <li>
                     The local disk caching mechanism also needs more work.  Needs
@@ -105,8 +124,10 @@
                     of a Jar file).
                 </li>
                 <li>
-                    Add Filtering file systems, which sit on top of another
+                    <strike>Add Filtering file systems, which sit on top of another
                     file system, and alter the contents.  For example, gzip or bzip2.
+                    </strike>
+                    <br/>No longer needet - VFS handles compressed files like a filesystem with only one entry
                 </li>
                 <li>Add an equivalent of the fileScanner Jelly tag.</li>
                 <li>
