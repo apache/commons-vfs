@@ -11,12 +11,13 @@ import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
+import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.provider.ParsedUri;
+import org.apache.commons.vfs.provider.ParsedLayeredUri;
 
 /**
  * A file system provider for Zip/Jar files.  Provides read-only file
@@ -24,53 +25,37 @@ import org.apache.commons.vfs.provider.ParsedUri;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:19 $
- *
- * @ant.type type="file-provider" name="zip"
  */
 public class ZipFileSystemProvider
-    extends AbstractFileSystemProvider
+    extends AbstractLayeredFileProvider
     implements FileProvider
 {
     private final ZipFileNameParser parser = new ZipFileNameParser();
 
     /**
-     * Parses a URI into its components.
+     * Parses an absolute URI.
+     * @param uri The URI to parse.
      */
-    protected ParsedUri parseUri( final FileObject baseFile,
-                                  final String uriStr )
+    protected ParsedLayeredUri parseUri( final String uri )
         throws FileSystemException
     {
-        // Parse the URI
-        final ParsedZipUri uri = parser.parseZipUri( uriStr );
-
-        // Make the URI canonical
-
-        // Resolve the Zip file name
-        final String fileName = uri.getZipFileName();
-        final FileObject file = getContext().resolveFile( baseFile, fileName );
-        uri.setZipFile( file );
-
-        // Rebuild the root URI
-        final String rootUri = parser.buildRootUri( uri );
-        uri.setRootUri( rootUri );
-
-        return uri;
+        return parser.parseZipUri( uri );
     }
 
     /**
-     * Builds the URI for the root of a layered file system.
+     * Creates a layered file system.  This method is called if the file system
+     * is not cached.
+     * @param scheme The URI scheme.
+     * @param file The file to create the file system on top of.
+     * @return The file system.
      */
-    protected ParsedUri buildUri( final String scheme,
-                                  final FileObject file )
+    protected FileSystem doCreateFileSystem( final String scheme,
+                                             final FileObject file )
         throws FileSystemException
     {
-        ParsedZipUri uri = new ParsedZipUri();
-        uri.setScheme( scheme );
-        uri.setZipFile( file );
-        final String rootUri = parser.buildRootUri( uri );
-        uri.setRootUri( rootUri );
-        uri.setPath( "/" );
-        return uri;
+        final String rootUri = parser.buildRootUri( scheme, file.getName().getURI() );
+        final DefaultFileName name = new DefaultFileName( parser, rootUri, "/" );
+        return new ZipFileSystem( name, file );
     }
 
     /**
@@ -79,35 +64,6 @@ public class ZipFileSystemProvider
     protected ZipFileNameParser getParser()
     {
         return parser;
-    }
-
-    /**
-     * Creates the filesystem.
-     */
-    protected FileSystem createFileSystem( final ParsedUri uri )
-        throws FileSystemException
-    {
-        final ParsedZipUri zipUri = (ParsedZipUri)uri;
-        final FileObject file = zipUri.getZipFile();
-
-        // Create the file system
-        final DefaultFileName name = new DefaultFileName( parser, zipUri.getRootUri(), "/" );
-
-        try
-        {
-            return (ZipFileSystem)AccessController.doPrivileged(
-                new PrivilegedExceptionAction()
-                {
-                    public Object run() throws FileSystemException
-                    {
-                        return new ZipFileSystem( name, file );
-                    }
-                } );
-        }
-        catch ( PrivilegedActionException pae )
-        {
-            throw (FileSystemException)pae.getException();
-        }
     }
 
 }

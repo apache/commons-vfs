@@ -9,10 +9,10 @@ package org.apache.commons.vfs.provider.local;
 
 import java.io.File;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
-import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
+import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.provider.ParsedUri;
 import org.apache.commons.vfs.util.Os;
@@ -22,12 +22,9 @@ import org.apache.commons.vfs.util.Os;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.3 $ $Date: 2002/07/05 04:08:18 $
- *
- * @ant.type type="file-provider" name="file"
- *
  */
 public final class DefaultLocalFileSystemProvider
-    extends AbstractFileSystemProvider
+    extends AbstractOriginatingFileProvider
     implements LocalFileProvider
 {
     private final LocalFileNameParser parser;
@@ -76,7 +73,7 @@ public final class DefaultLocalFileSystemProvider
     /**
      * Parses a URI into its components.  The returned value is used to
      * locate the file system in the cache (using the root prefix), and is
-     * passed to {@link #createFileSystem} to create the file system.
+     * passed to {@link #doCreateFileSystem} to create the file system.
      *
      * <p>The provider can annotate this object with any additional
      * information it requires to create a file system from the URI.
@@ -91,7 +88,7 @@ public final class DefaultLocalFileSystemProvider
     /**
      * Creates the filesystem.
      */
-    protected FileSystem createFileSystem( final ParsedUri uri )
+    protected FileSystem doCreateFileSystem( final ParsedUri uri )
         throws FileSystemException
     {
         // Build the name of the root file.

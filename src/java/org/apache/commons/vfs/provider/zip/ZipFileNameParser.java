@@ -9,6 +9,7 @@ package org.apache.commons.vfs.provider.zip;
 
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.ParsedLayeredUri;
 
 /**
  * A parser for Zip file names.
@@ -16,7 +17,7 @@ import org.apache.commons.vfs.provider.UriParser;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.4 $ $Date: 2002/07/05 04:08:19 $
  */
-class ZipFileNameParser
+public class ZipFileNameParser
     extends UriParser
 {
     private static final char[] ZIP_URL_RESERVED_CHARS = {'!'};
@@ -27,11 +28,11 @@ class ZipFileNameParser
      * @param uriStr
      *          The URI.
      */
-    public ParsedZipUri parseZipUri( final String uriStr )
+    public ParsedLayeredUri parseZipUri( final String uriStr )
         throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
-        final ParsedZipUri uri = new ParsedZipUri();
+        final ParsedLayeredUri uri = new ParsedLayeredUri();
 
         // Extract the scheme
         final String scheme = extractScheme( uriStr, name );
@@ -39,7 +40,7 @@ class ZipFileNameParser
 
         // Extract the Zip file name
         final String zipName = extractZipName( name );
-        uri.setZipFileName( zipName );
+        uri.setOuterFileUri( zipName );
 
         // Decode and normalise the file name
         decode( name, 0, name.length() );
@@ -52,12 +53,12 @@ class ZipFileNameParser
     /**
      * Assembles a root URI from the components of a parsed URI.
      */
-    public String buildRootUri( final ParsedZipUri uri )
+    public String buildRootUri( final String scheme, final String outerFileUri )
     {
         final StringBuffer rootUri = new StringBuffer();
-        rootUri.append( uri.getScheme() );
+        rootUri.append( scheme );
         rootUri.append( ":" );
-        appendEncoded( rootUri, uri.getZipFile().getName().getURI(), ZIP_URL_RESERVED_CHARS );
+        appendEncoded( rootUri, outerFileUri, ZIP_URL_RESERVED_CHARS );
         rootUri.append( "!" );
         return rootUri.toString();
     }

@@ -9,11 +9,11 @@ package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractFileSystemProvider;
+import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.DefaultFileName;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.provider.ParsedUri;
 
 /**
@@ -21,11 +21,9 @@ import org.apache.commons.vfs.provider.ParsedUri;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:19 $
- *
- * @ant.type type="file-provider" name="smb"
  */
 public final class SmbFileSystemProvider
-    extends AbstractFileSystemProvider
+    extends AbstractOriginatingFileProvider
     implements FileProvider
 {
     private final SmbFileNameParser parser = new SmbFileNameParser();
@@ -43,7 +41,7 @@ public final class SmbFileSystemProvider
     /**
      * Creates the filesystem.
      */
-    protected FileSystem createFileSystem( final ParsedUri uri )
+    protected FileSystem doCreateFileSystem( final ParsedUri uri )
         throws FileSystemException
     {
         final ParsedSmbUri smbUri = (ParsedSmbUri)uri;

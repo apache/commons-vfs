@@ -170,7 +170,7 @@ public class UriParser
      * @param name
      *          Used to return the remainder of the URI.
      *
-     * @parsedUri
+     * @param parsedUri
      *          Used to return the extracted components.
      */
     protected void extractToPath( final String uri,

@@ -8,11 +8,9 @@
 package org.apache.commons.vfs.provider.jar;
 
 import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.DefaultFileName;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.provider.ParsedUri;
-import org.apache.commons.vfs.provider.zip.ParsedZipUri;
 import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
 
 /**
@@ -22,23 +20,24 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.2 $ $Date: 2002/08/22 02:42:46 $
+ * @version $Revision: 1.3 $ $Date: 2002/08/22 08:00:39 $
  */
 public class JarFileSystemProvider
     extends ZipFileSystemProvider
 {
     /**
-     * Creates the filesystem.
+     * Creates a layered file system.  This method is called if the file system
+     * is not cached.
+     * @param scheme The URI scheme.
+     * @param file The file to create the file system on top of.
+     * @return The file system.
      */
-    protected FileSystem createFileSystem( final ParsedUri uri )
+    protected FileSystem doCreateFileSystem( String scheme,
+                                             FileObject file )
         throws FileSystemException
     {
-        final ParsedZipUri jarUri = (ParsedZipUri)uri;
-        final FileObject file = jarUri.getZipFile();
-
-        // Create the file system
-        DefaultFileName name = new DefaultFileName( getParser(), jarUri.getRootUri(), "/" );
+        final String rootUri = getParser().buildRootUri( scheme, file.getName().getURI() );
+        final DefaultFileName name = new DefaultFileName( getParser(), rootUri, "/" );
         return new JarFileSystem( name, file );
     }
-
 }

@@ -12,12 +12,12 @@ import java.util.Iterator;
 import java.util.Map;
 import org.apache.avalon.excalibur.i18n.ResourceManager;
 import org.apache.avalon.excalibur.i18n.Resources;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
- * A partial file system provider implementation.
+ * A partial {@link FileProvider} implementation.  Takes care of managing the
+ * file systems created by the provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.9 $ $Date: 2002/07/05 03:47:04 $
@@ -54,52 +54,9 @@ public abstract class AbstractFileSystemProvider
     }
 
     /**
-     * Locates a file object, by absolute URI.
-     *
-     * @param uri
-     *          The absolute URI of the file to find.
+     * Adds a file system to those cached by this provider.
      */
-    public FileObject findFile( final FileObject baseFile,
-                                final String uri ) throws FileSystemException
-    {
-        // Parse the URI
-        ParsedUri parsedUri;
-        try
-        {
-            parsedUri = parseUri( baseFile, uri );
-        }
-        catch ( FileSystemException exc )
-        {
-            final String message = REZ.getString( "invalid-absolute-uri.error", uri );
-            throw new FileSystemException( message, exc );
-        }
-
-        // Locate the file
-        return findFile( parsedUri );
-    }
-
-    /**
-     * Locates a file from its parsed URI.
-     */
-    private FileObject findFile( final ParsedUri parsedUri )
-        throws FileSystemException
-    {
-        // Check in the cache for the file system
-        final String rootUri = parsedUri.getRootUri();
-        FileSystem fs = (FileSystem)fileSystems.get( rootUri );
-        if ( fs == null )
-        {
-            // Need to create the file system, and cache it
-            fs = createFileSystem( parsedUri );
-            addFileSystem( rootUri, fs );
-        }
-
-        // Locate the file
-        return fs.findFile( parsedUri.getPath() );
-    }
-
-    /** Adds a file system. */
-    private void addFileSystem( final String rootUri, final FileSystem fs )
+    protected void addFileSystem( final Object key, final FileSystem fs )
         throws FileSystemException
     {
         // Initialise
@@ -112,48 +69,15 @@ public abstract class AbstractFileSystemProvider
         }
 
         // Add to the cache
-        fileSystems.put( rootUri, fs );
+        fileSystems.put( key, fs );
     }
 
     /**
-     * Creates a layered file system.
+     * Locates a cached file system
+     * @return The provider, or null if it is not cached.
      */
-    public FileObject createFileSystem( final String scheme, final FileObject file )
-        throws FileSystemException
+    protected FileSystem findFileSystem( final Object key )
     {
-        // TODO - this is a pretty shonky model for layered FS; need to revise
-
-        // Build the URI
-        final ParsedUri uri = buildUri( scheme, file );
-
-        // Locate the file
-        return findFile( uri );
+        return (FileSystem)fileSystems.get( key );
     }
-
-    /**
-     * Parses a URI into its components.  The returned value is used to
-     * locate the file system in the cache (using the root prefix).
-     *
-     * <p>The provider can annotate this object with any additional
-     * information it requires to create a file system from the URI.
-     */
-    protected abstract ParsedUri parseUri( final FileObject baseFile, final String uri )
-        throws FileSystemException;
-
-    /**
-     * Builds the URI for the root of a layered file system.
-     */
-    protected ParsedUri buildUri( final String scheme,
-                                  final FileObject file )
-        throws FileSystemException
-    {
-        final String message = REZ.getString( "not-layered-fs.error" );
-        throw new FileSystemException( message );
-    }
-
-    /**
-     * Creates the filesystem.
-     */
-    protected abstract FileSystem createFileSystem( final ParsedUri uri )
-        throws FileSystemException;
 }
