@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
+import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
@@ -32,7 +33,7 @@ import java.util.Collections;
  * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.7 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.8 $ $Date: 2004/05/26 08:20:27 $
  */
 public final class FtpFileProvider
     extends AbstractOriginatingFileProvider
@@ -77,7 +78,14 @@ public final class FtpFileProvider
     {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
-        return new FtpFileSystem(rootName, fileSystemOptions);
+
+        FTPClient ftpClient = FtpClientFactory.createConnection(rootName.getHostName(),
+            rootName.getPort(),
+            rootName.getUserName(),
+            rootName.getPassword(),
+            rootName.getPath());
+
+        return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()
