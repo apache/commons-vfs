@@ -68,7 +68,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/23 00:40:39 $
+ * @version $Revision: 1.7 $ $Date: 2003/06/24 10:34:41 $
  *
  * @todo Implement get/set lastModified and get/set attribute
  * @todo Implement getOutputStream()
@@ -122,6 +122,15 @@ class UrlFileObject
     protected long doGetContentSize() throws Exception
     {
         return url.openConnection().getContentLength();
+    }
+
+    /**
+     * Returns the last modified time of this file.
+     */
+    protected long doGetLastModifiedTime()
+        throws Exception
+    {
+        return url.openConnection().getLastModified();
     }
 
     /**

@@ -66,7 +66,7 @@ import org.apache.commons.vfs.provider.AbstractFileSystem;
  * A File system backed by Java's URL API.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.12 $ $Date: 2003/02/21 13:09:00 $
+ * @version $Revision: 1.13 $ $Date: 2003/06/24 10:34:42 $
  */
 class UrlFileSystem
     extends AbstractFileSystem
@@ -92,5 +92,6 @@ class UrlFileSystem
     {
         caps.add( Capability.READ_CONTENT );
         caps.add( Capability.URI );
+        caps.add( Capability.GET_LAST_MODIFIED );
     }
 }
