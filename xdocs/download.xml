@@ -34,9 +34,7 @@
                         <a href="http://jakarta.apache.org/commons/net/">Commons Net</a>.
                         You will need to use a recent snapshot.
                     </td>
-                    <td>
-                        FTP file system.
-                    </td>
+                    <td>FTP</td>
                 </tr>
                 <tr>
                     <td>
@@ -44,9 +42,7 @@
                         <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>.
                         Version 2.0 alpha 2 or later.
                     </td>
-                    <td>
-                        WebDAV file system.
-                    </td>
+                    <td>WebDAV</td>
                 </tr>
                 <tr>
                     <td>
@@ -55,17 +51,20 @@
                         You will need <code>webdavlib.jar</code> from a recent
                         snapshot.
                     </td>
-                    <td>
-                        WebDAV file system.
-                    </td>
+                    <td>WebDAV</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://jcifs.samba.org/">jCIFS</a> Version 0.7.0 b5 or later.
                     </td>
+                    <td>CIFS</td>
+                </tr>
+                <tr>
                     <td>
-                        CIFS file system.
+                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.0 or later.
+                        Note that JSch requires Java 1.4 or later.
                     </td>
+                    <td>SFTP</td>
                 </tr>
             </table>
         </section>

@@ -9,13 +9,30 @@
         <section name="Supported File Systems">
             <p>Commons VFS currently supports the following file systems:</p>
             <ul>
-                <li><a href="#Local Files">Local Files</a></li>
-                <li><a href="#Zip and Jar Files">Zip and Jar Files</a></li>
-                <li><a href="#HTTP and HTTPS">HTTP and HTTPS</a></li>
-                <li><a href="#WebDAV">WebDAV</a></li>
-                <li><a href="#FTP">FTP</a></li>
-                <li><a href="#CIFS">SMB and CIFS</a></li>
-                <li><a href="#Temporary Files">Temporary Files</a></li>
+                <li>
+                    <a href="#FTP">FTP</a>
+                </li>
+                <li>
+                    <a href="#Local Files">Local Files</a>
+                </li>
+                <li>
+                    <a href="#HTTP and HTTPS">HTTP and HTTPS</a>
+                </li>
+                <li>
+                    <a href="#CIFS">CIFS</a>
+                </li>
+                <li>
+                    <a href="#SFTP">SFTP</a>
+                </li>
+                <li>
+                    <a href="#Temporary Files">Temporary Files</a>
+                </li>
+                <li>
+                    <a href="#WebDAV">WebDAV</a>
+                </li>
+                <li>
+                    <a href="#Zip and Jar">Zip and Jar</a>
+                </li>
             </ul>
         </section>
 
@@ -44,7 +61,7 @@
             </ul>
         </section>
 
-        <section name="Zip and Jar Files">
+        <section name="Zip and Jar">
 
             <p>Provides read-only access to the contents of Zip and Jar files.</p>
 
@@ -109,6 +126,26 @@
             <p><b>Examples</b></p>
             <ul>
                 <li><code>ftp://mypassword:myusername@somehost/pub/downloads/somefile.tgz</code></li>
+            </ul>
+
+        </section>
+
+        <section name="SFTP">
+
+            <p>
+                Provides access to the files on an SFTP server (that is, an SSH
+                or SCP server).
+            </p>
+
+            <p><b>URI Format</b></p>
+
+            <p><code>sftp://[[<i>password</i>:]<i>username</i>@]<i>hostname</i>[:<i>port</i>][<i>absolute-path</i>]</code></p>
+
+            <p><b>Examples</b></p>
+            <ul>
+                <li>
+                    <code>sftp://mypassword:myusername@somehost/pub/downloads/somefile.tgz</code>
+                </li>
             </ul>
 
         </section>

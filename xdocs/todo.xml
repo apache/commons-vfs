@@ -19,7 +19,6 @@
                 <li>Fix all the todo items in the code.</li>
                 <li>Add more providers:
                     <ul>
-                        <li>http and webdav</li>
                         <li>nfs</li>
                         <li>tar</li>
                         <li>gzip</li>
@@ -27,15 +26,36 @@
                         <li>ClassLoader resources</li>
                         <li>cvs</li>
                         <li>subversion</li>
-                        <li>scp</li>
                         <li>jdbc filesystem</li>
                         <li>xml filesystem</li>
                         <li>jndi</li>
                         <li>imap</li>
+                        <li>local mirror</li>
                         <li>...</li>
                     </ul>
                 </li>
                 <li>Formalise the provider API.</li>
+                <li>WebDAV Provider:
+                    <ul>
+                        <li>Add plain http support, and auto-detect dav resources.</li>
+                    </ul>
+                </li>
+                <li>SFTP Provider:
+                    <ul>
+                        <li>Add key-based authentication.</li>
+                    </ul>
+                </li>
+                <li>Zip/Jar Provider:
+                    <ul>
+                        <li>Extract an AbstractLayerFileSystem out of ZipFileSystem.</li>
+                        <li>
+                            Track changes to the parent layer.  Eg when the
+                            parent layer is deleted, mark all the files in the
+                            fs as 'does-not-exist'.
+                        </li>
+                        <li>Add support for writing to zip/jar files.</li>
+                    </ul>
+                </li>
                 <li>
                     The in-memory caching mechanism is pretty rudimentary at
                     this stage. It needs work to make it size capped. In addition,
@@ -46,15 +66,10 @@
                     to check last-modified time.  Replicator needs to be more
                     configurable.</li>
                 <li>Add persistent replicator.</li>
-                <li>Add local mirroring.</li>
-                <li>Extract AbstractLayerFileSystem out of ZipFileSystem.</li>
                 <li>
-                    Change AbstractLayeredFileSystem to track changes to
-                    the parent layer.  Eg when the parent layer is deleted,
-                    mark all the files in the fs as 'does-not-exist'.</li>
-                <li>Change AbstractLayeredFileSystem to support writeable
-                    layered fs.</li>
-                <li>Make StandardFileSystemManager configurable from an XML descriptor.</li>
+                    Make StandardFileSystemManager configurable from an XML
+                    descriptor or properties file.
+                </li>
                 <li>Change the model so that folders may have content.</li>
                 <li>
                     Finish support for junctions:  Make ancestors of a junction
@@ -66,7 +81,8 @@
                     of a Jar file).</li>
                 <li>
                     Add Filtering file systems, which sit on top of another
-                    file system, and alter the contents.  For example, gzip or bzip2.</li>
+                    file system, and alter the contents.  For example, gzip or bzip2.
+                </li>
                 <li>Add an equivalent of the fileScanner Jelly tag.</li>
                 <li>
                     Add an equivalent of Ant path, fileset, dirset, filelist, etc.
@@ -75,7 +91,7 @@
                 <li>
                     Allow selectors, name mappers, and filters to be specified
                     for the Ant tasks.</li>
-                <li>Capabilities discovery.</li>
+                <li>Finish capabilities discovery.</li>
                 <li>Attributes and attribute schema.</li>
                 <li>
                     Handle file canonicalisation better (for cases like
@@ -87,9 +103,10 @@
                 <li>Sort out threading model.</li>
                 <li>Add a file monitor, that watches for external changes to files.</li>
                 <li>
-                    Look at adding native code for fine-grained control over permissions,
-                    file monitoring, faster moves, etc.  Must be optional - the
-                    thing should still build and run without the native code.
+                    Look at adding native code for fine-grained control over
+                    permissions, file monitoring, faster moves, etc.  Must be
+                    optional - the thing should still build and run without the
+                    native code.
                 </li>
                 <li>Add a DefaultFileSystemManager subclass that is an Avalon component.</li>
             </ul>
