@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileSystemOptions;
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.7 $ $Date: 2004/09/20 11:31:53 $
+ * @version $Revision: 1.8 $ $Date: 2004/09/21 05:32:56 $
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -62,13 +62,15 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the key for using as argument to FTPFileEntryParserFactory.<br />
-     * If you use the default implementation in commons-net and you set a FQCN, this class will be instantiated and used for ftp-entry parsing.<br />
+     * set the FQCN of your FileEntryParser used to parse the directory listing from your server.<br />
+     * <br />
+     * <i>If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using {@link #setEntryParserFactory}
+     * this is the "key" parameter passed as argument into your custom factory</i>
      *
      * @param opts
      * @param key
      */
-    public void setEntryParserFactoryKey(FileSystemOptions opts, String key)
+    public void setEntryParser(FileSystemOptions opts, String key)
     {
         setParam(opts, FACTORY_KEY, key);
     }
@@ -76,9 +78,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * @param opts
      * @return
-     * @see #setEntryParserFactoryKey
+     * @see #setEntryParser
      */
-    public String getEntryParserFactoryKey(FileSystemOptions opts)
+    public String getEntryParser(FileSystemOptions opts)
     {
         return (String) getParam(opts, FACTORY_KEY);
     }

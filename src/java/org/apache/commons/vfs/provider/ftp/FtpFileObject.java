@@ -114,7 +114,7 @@ final class FtpFileObject
         final FTPClient client = ftpFs.getClient();
         try
         {
-            String key = FtpFileSystemConfigBuilder.getInstance().getEntryParserFactoryKey(getFileSystem().getFileSystemOptions());
+            String key = FtpFileSystemConfigBuilder.getInstance().getEntryParser(getFileSystem().getFileSystemOptions());
             final FTPFile[] tmpChildren = client.listFiles(key, relPath);
             if (tmpChildren == null || tmpChildren.length == 0)
             {
