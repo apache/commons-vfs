@@ -27,7 +27,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  * Such a file do only have one child (the compressed filename with stripped last extension)
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.2 $ $Date: 2004/06/16 18:19:05 $
+ * @version $Revision: 1.3 $ $Date: 2005/01/11 16:07:13 $
  */
 public abstract class CompressedFileFileObject
     extends AbstractFileObject
@@ -36,7 +36,7 @@ public abstract class CompressedFileFileObject
     private final FileObject container;
     private String[] children;
 
-    public CompressedFileFileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
+    protected CompressedFileFileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
     {
         super(name, fs);
         this.container = container;

@@ -1,12 +1,12 @@
 /*
  * Copyright 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ import java.net.HttpURLConnection;
  * A file object backed by commons httpclient.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/06/23 18:17:44 $
+ * @version $Revision: 1.10 $ $Date: 2005/01/11 16:07:13 $
  * @todo status codes
  */
 public class HttpFileObject
@@ -47,8 +47,8 @@ public class HttpFileObject
     private final HttpFileSystem fileSystem;
     private HeadMethod method;
 
-    public HttpFileObject(final FileName name,
-                          final HttpFileSystem fileSystem)
+    protected HttpFileObject(final FileName name,
+                             final HttpFileSystem fileSystem)
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;

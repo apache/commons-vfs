@@ -31,11 +31,11 @@ import java.io.OutputStream;
  * the bzip2 file
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.3 $ $Date: 2004/11/08 21:07:43 $
+ * @version $Revision: 1.4 $ $Date: 2005/01/11 16:07:13 $
  */
 public class Bzip2FileObject extends CompressedFileFileObject
 {
-    public Bzip2FileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
+    protected Bzip2FileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
     {
         super(name, container, fs);
     }

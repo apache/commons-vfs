@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.19 $ $Date: 2004/05/28 19:26:05 $
+ * @version $Revision: 1.20 $ $Date: 2005/01/11 16:07:13 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -58,8 +58,8 @@ public class WebdavFileObject
     private Set allowedMethods = null;
     // private HttpURL url;
 
-    public WebdavFileObject(final GenericFileName name,
-                            final WebDavFileSystem fileSystem)
+    protected WebdavFileObject(final GenericFileName name,
+                               final WebDavFileSystem fileSystem)
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;

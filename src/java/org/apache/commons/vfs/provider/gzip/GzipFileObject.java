@@ -29,11 +29,11 @@ import java.util.zip.GZIPOutputStream;
  * the gzip file
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/06/16 18:19:05 $
+ * @version $Revision: 1.2 $ $Date: 2005/01/11 16:07:13 $
  */
 public class GzipFileObject extends CompressedFileFileObject
 {
-    public GzipFileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
+    protected GzipFileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
     {
         super(name, container, fs);
     }

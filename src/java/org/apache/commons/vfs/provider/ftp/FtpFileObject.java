@@ -38,7 +38,7 @@ import java.util.GregorianCalendar;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:18 $
  */
-final class FtpFileObject
+public class FtpFileObject
     extends AbstractFileObject
 {
     private static final FTPFile[] EMPTY_FTP_FILE_ARRAY = {};
@@ -51,9 +51,9 @@ final class FtpFileObject
     private FTPFile[] children;
     private FileObject linkDestination;
 
-    public FtpFileObject(final FileName name,
-                         final FtpFileSystem fileSystem,
-                         final FileName rootName)
+    protected FtpFileObject(final FileName name,
+                            final FtpFileSystem fileSystem,
+                            final FileName rootName)
         throws FileSystemException
     {
         super(name, fileSystem);

@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ import java.io.OutputStream;
  * @author Gary D. Gregory
  * @version $Revision: 1.6 $ $Date: 2002/04/07 02:27:57 $
  */
-final class LocalFile
+public class LocalFile
     extends AbstractFileObject
     implements FileObject
 {
@@ -46,9 +46,9 @@ final class LocalFile
     /**
      * Creates a non-root file.
      */
-    public LocalFile(final LocalFileSystem fileSystem,
-                     final String fileName,
-                     final FileName name)
+    protected LocalFile(final LocalFileSystem fileSystem,
+                        final String fileName,
+                        final FileName name)
     {
         super(name, fileSystem);
         this.fileName = fileName;
@@ -57,7 +57,7 @@ final class LocalFile
     /**
      * Returns the local file that this file object represents.
      */
-    public File getLocalFile()
+    protected File getLocalFile()
     {
         return file;
     }

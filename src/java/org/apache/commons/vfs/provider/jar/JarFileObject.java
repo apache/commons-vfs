@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,18 +34,18 @@ import java.util.zip.ZipEntry;
  * A file in a Jar file system.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.12 $ $Date: 2004/07/04 18:45:56 $
+ * @version $Revision: 1.13 $ $Date: 2005/01/11 16:07:13 $
  */
-class JarFileObject extends ZipFileObject
+public class JarFileObject extends ZipFileObject
 {
     private Attributes attributes;
 
     final JarFileSystem fs;
 
-    public JarFileObject(final FileName name,
-                         final ZipEntry entry,
-                         final JarFileSystem fs,
-                         final boolean zipExists) throws FileSystemException
+    protected JarFileObject(final FileName name,
+                            final ZipEntry entry,
+                            final JarFileSystem fs,
+                            final boolean zipExists) throws FileSystemException
     {
         super(name, entry, fs, zipExists);
         this.fs = fs;
