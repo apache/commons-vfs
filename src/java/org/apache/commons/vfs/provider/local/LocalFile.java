@@ -156,7 +156,7 @@ final class LocalFile
     protected void doCreateFolder()
         throws Exception
     {
-        if ( !file.mkdir() )
+        if ( !file.mkdirs() )
         {
             throw new FileSystemException( "vfs.provider.local/create-folder.error", file );
         }
