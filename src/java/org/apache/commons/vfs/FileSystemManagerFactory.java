@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * A static factory for {@link FileSystemManager} instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/08/21 14:28:07 $
+ * @version $Revision: 1.5 $ $Date: 2002/08/22 02:13:30 $
  */
 public class FileSystemManagerFactory
 {
@@ -71,6 +71,7 @@ public class FileSystemManagerFactory
         mgr.addProvider( "file", provider );
         provider = createProvider( "org.apache.commons.vfs.provider.zip.ZipFileSystemProvider" );
         mgr.addProvider( "zip", provider );
+        provider = createProvider( "org.apache.commons.vfs.provider.jar.JarFileSystemProvider" );
         mgr.addProvider( "jar", provider );
         provider = createProvider( "org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider" );
         mgr.addProvider( "ftp", provider );
