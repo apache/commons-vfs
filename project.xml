@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-    <extend>../commons-build/sandbox-project.xml</extend>
+    <pomVersion>3</pomVersion>
     <name>Commons VFS</name>
     <id>commons-vfs</id>
     <logo>/images/vfs-logo-white.png</logo>
+    <url>http://jakarta.apache.org/commons/sandbox/vfs/</url>
     <currentVersion>1.0-dev</currentVersion>
     <inceptionYear>2002</inceptionYear>
     <package>org.apache.commons.vfs</package>
@@ -13,6 +14,42 @@
     <description>
   	VFS is a Virtual File System library.
     </description>
+
+    <organization>
+        <name>The Apache Software Foundation</name>
+        <url>http://jakarta.apache.org</url>
+        <logo>http://jakarta.apache.org/images/original-jakarta-logo.gif</logo>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>/LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>  
+    <siteAddress>cvs.apache.org</siteAddress>
+    <siteDirectory>/www/jakarta.apache.org/commons/sandbox/vfs/</siteDirectory>
+    <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons-sandbox/vfs/</distributionDirectory> 
+    <repository>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/sandbox/vfs/trunk</connection>
+        <url>http://svn.apache.org/viewcvs.cgi</url>
+    </repository>
+    <mailingLists>
+        <mailingList>
+            <name>Commons Dev List</name>
+            <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
+            <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
+            <archive>http://mail-archives.eu.apache.org/mod_mbox/jakarta-commons-dev/</archive>
+        </mailingList>
+        <mailingList>
+            <name>Commons User List</name>
+            <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
+            <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
+            <archive>http://mail-archives.eu.apache.org/mod_mbox/jakarta-commons-user/</archive>
+        </mailingList>
+    </mailingLists>
 
     <developers>
         <developer>
@@ -141,4 +178,22 @@
             </resource>
         </resources>
     </build>
+
+    <reports>
+        <report>maven-changelog-plugin</report>
+        <report>maven-changes-plugin</report>
+        <report>maven-checkstyle-plugin</report>
+        <report>maven-clover-plugin</report>
+        <report>maven-developer-activity-plugin</report>
+        <report>maven-file-activity-plugin</report>
+        <report>maven-javadoc-plugin</report>
+        <report>maven-jellydoc-plugin</report>
+        <report>maven-junit-report-plugin</report>
+        <report>maven-jxr-plugin</report>
+        <report>maven-license-plugin</report>
+        <!-- <report>maven-linkcheck-plugin</report> -->
+        <!-- <report>maven-statcvs-plugin</report> -->
+        <report>maven-tasklist-plugin</report>
+    </reports>
+
 </project>
