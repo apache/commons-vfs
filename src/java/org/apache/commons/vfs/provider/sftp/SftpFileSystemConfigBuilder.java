@@ -26,7 +26,7 @@ import java.io.File;
  * The config builder for various sftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.5 $ $Date: 2004/05/24 20:11:21 $
+ * @version $Revision: 1.6 $ $Date: 2004/08/26 16:40:02 $
  */
 public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -95,6 +95,30 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setIdentities(FileSystemOptions opts, File[] identities) throws FileSystemException
     {
         setParam(opts, "identities", identities);
+    }
+
+    /**
+     * configure the compression to use.<br>
+     * e.g. pass "zlib,none" to enable the compression.<br>
+     * See the jsch documentation for details.
+     *
+     * @param opts
+     * @param compression
+     * @throws FileSystemException
+     */
+    public void setCompression(FileSystemOptions opts, String compression) throws FileSystemException
+    {
+        setParam(opts, "compression", compression);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setCompression
+     */
+    public String getCompression(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, "compression");
     }
 
     /**

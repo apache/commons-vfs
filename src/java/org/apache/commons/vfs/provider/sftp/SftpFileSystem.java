@@ -28,12 +28,13 @@ import org.apache.commons.vfs.provider.GenericFileName;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Hashtable;
 
 /**
  * Represents the files on an SFTP server.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.13 $ $Date: 2004/07/04 18:45:56 $
+ * @version $Revision: 1.14 $ $Date: 2004/08/26 16:40:02 $
  */
 class SftpFileSystem
     extends AbstractFileSystem
@@ -84,6 +85,24 @@ class SftpFileSystem
                     rootName.getUserName(),
                     rootName.getPassword(),
                     getFileSystemOptions());
+
+                Hashtable config = null;
+
+                String compression = SftpFileSystemConfigBuilder.getInstance().getCompression(getFileSystemOptions());
+                if (compression != null)
+                {
+                    if (config == null)
+                    {
+                        config = new Hashtable();
+                    }
+                    config.put("compression.c2s", compression);
+                    config.put("compression.s2c", compression);
+                }
+
+                if (config != null)
+                {
+                    session.setConfig(config);
+                }
             }
             catch (final Exception e)
             {
