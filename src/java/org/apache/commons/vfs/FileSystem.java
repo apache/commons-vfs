@@ -61,7 +61,7 @@ import java.io.File;
  * A file system, made up of a hierarchy of files.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2003/02/12 07:56:09 $
+ * @version $Revision: 1.10 $ $Date: 2003/02/20 01:34:33 $
  */
 public interface FileSystem
 {
@@ -191,7 +191,7 @@ public interface FileSystem
      * @throws FileSystemException
      *      On error removing the junction.
      */
-    void removeJuntion( String junctionPoint ) throws FileSystemException;
+    void removeJunction( String junctionPoint ) throws FileSystemException;
 
     /**
      * Creates a temporary local copy of a file and its descendents.  If

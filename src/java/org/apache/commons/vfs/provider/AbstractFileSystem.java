@@ -271,7 +271,7 @@ public abstract class AbstractFileSystem
     /**
      * Removes a junction from this file system.
      */
-    public void removeJuntion( final String junctionPoint ) throws FileSystemException
+    public void removeJunction( final String junctionPoint ) throws FileSystemException
     {
         throw new FileSystemException( "vfs.provider/junctions-not-supported.error", rootName );
     }

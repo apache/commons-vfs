@@ -72,7 +72,7 @@ import org.apache.commons.vfs.provider.DelegateFileObject;
  * other file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/02/13 04:28:45 $
+ * @version $Revision: 1.7 $ $Date: 2003/02/20 01:34:31 $
  *
  * @todo Handle nested junctions.
  */
@@ -181,7 +181,7 @@ public class VirtualFileSystem
     /**
      * Removes a junction from this file system.
      */
-    public void removeJuntion( final String junctionPoint )
+    public void removeJunction( final String junctionPoint )
         throws FileSystemException
     {
         final FileName junctionName = getRootName().resolveName( junctionPoint );
