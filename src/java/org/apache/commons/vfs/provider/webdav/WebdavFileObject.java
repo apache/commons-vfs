@@ -74,7 +74,7 @@ import org.apache.webdav.lib.methods.OptionsMethod;
  * A WebDAV file.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.6 $ $Date: 2003/03/14 03:48:14 $
+ * @version $Revision: 1.7 $ $Date: 2003/04/14 01:09:25 $
  */
 public class WebdavFileObject
     extends AbstractFileObject
@@ -247,5 +247,13 @@ public class WebdavFileObject
                 throw new FileSystemException( "vfs.provider.webdav/write-file.error", resource.getStatusMessage() );
             }
         }
+    }
+
+    /**
+     * Returns the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     */
+    protected long doGetLastModifiedTime() throws Exception {
+        return resource.getGetLastModified();
     }
 }

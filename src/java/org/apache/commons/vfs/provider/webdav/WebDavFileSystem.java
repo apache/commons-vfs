@@ -72,7 +72,7 @@ import org.apache.webdav.lib.WebdavResource;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2003/02/21 13:08:59 $
+ * @version $Revision: 1.5 $ $Date: 2003/04/14 01:09:25 $
  */
 class WebDavFileSystem
     extends AbstractFileSystem
@@ -97,6 +97,7 @@ class WebDavFileSystem
         caps.add( Capability.READ_CONTENT );
         caps.add( Capability.URI );
         caps.add( Capability.WRITE_CONTENT );
+        caps.add( Capability.GET_LAST_MODIFIED );
     }
 
     /**

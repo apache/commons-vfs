@@ -183,7 +183,7 @@ public class ZipFileSystem
      */
     protected void addCapabilities( final Collection caps )
     {
-        caps.add( Capability.LAST_MODIFIED );
+        caps.add( Capability.GET_LAST_MODIFIED );
         caps.add( Capability.GET_TYPE );
         caps.add( Capability.LIST_CHILDREN );
         caps.add( Capability.READ_CONTENT );
