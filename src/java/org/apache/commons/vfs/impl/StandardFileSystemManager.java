@@ -53,84 +53,66 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs;
+package org.apache.commons.vfs.impl;
 
-import org.apache.commons.vfs.impl.DefaultFileReplicator;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
-import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.provider.FileReplicator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs.provider.FileProvider;
 
 /**
- * A static factory for {@link FileSystemManager} instances.
+ * A {@link org.apache.commons.vfs.FileSystemManager} that configures itself
+ * to use the standard providers and other components.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.8 $ $Date: 2002/10/23 11:59:39 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/23 13:12:14 $
  */
-public class FileSystemManagerFactory
+public class StandardFileSystemManager
+    extends DefaultFileSystemManager
 {
-    private static FileSystemManager instance;
-
-    private FileSystemManagerFactory()
-    {
-    }
-
     /**
-     * Returns the default {@link FileSystemManager} instance.
+     * Initializes this manager.  Adds the providers and replicator.
      */
-    public static synchronized FileSystemManager getManager()
-        throws FileSystemException
+    public void init() throws FileSystemException
     {
-        if ( instance == null )
-        {
-            instance = doCreateManager();
-        }
-        return instance;
-    }
-
-    /**
-     * Creates a file system manager instance.
-     *
-     * @todo Load manager config from a file.
-     * @todo Ignore missing providers.
-     */
-    private static FileSystemManager doCreateManager()
-        throws FileSystemException
-    {
-        final DefaultFileSystemManager mgr = new DefaultFileSystemManager();
-
-        // Set the logger
-        final Log logger = LogFactory.getLog( FileSystemManagerFactory.class );
-        mgr.setLogger( logger );
-
         // Set the replicator
         FileReplicator replicator = new DefaultFileReplicator();
         replicator = new PrivilegedFileReplicator( replicator );
-        mgr.setReplicator( replicator );
+        setReplicator( replicator );
 
-        // Add the default providers
-        FileProvider provider = createProvider( "org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider" );
-        mgr.addProvider( "file", provider );
-        provider = createProvider( "org.apache.commons.vfs.provider.zip.ZipFileSystemProvider" );
-        mgr.addProvider( "zip", provider );
-        provider = createProvider( "org.apache.commons.vfs.provider.jar.JarFileSystemProvider" );
-        mgr.addProvider( "jar", provider );
-        provider = createProvider( "org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider" );
-        mgr.addProvider( "ftp", provider );
-        provider = createProvider( "org.apache.commons.vfs.provider.smb.SmbFileSystemProvider" );
-        mgr.addProvider( "smb", provider );
-        provider = createProvider( "org.apache.commons.vfs.provider.url.UrlFileProvider" );
-        mgr.setDefaultProvider( provider );
+        // Add the standard providers
+        addProvider( "file", "org.apache.commons.vfs.provider.local.DefaultLocalFileSystemProvider" );
+        addProvider( "zip", "org.apache.commons.vfs.provider.zip.ZipFileSystemProvider" );
+        addProvider( "jar", "org.apache.commons.vfs.provider.jar.JarFileSystemProvider" );
+        addProvider( "ftp", "org.apache.commons.vfs.provider.ftp.FtpFileSystemProvider" );
+        addProvider( "smb", "org.apache.commons.vfs.provider.smb.SmbFileSystemProvider" );
 
-        return mgr;
+        // Add a default provider
+        final FileProvider provider = createProvider( "org.apache.commons.vfs.provider.url.UrlFileProvider" );
+        if ( provider != null )
+        {
+            setDefaultProvider( provider );
+        }
+    }
+
+    /**
+     * Adds a provider.
+     */
+    private void addProvider( final String scheme,
+                              final String providerClassName )
+        throws FileSystemException
+    {
+        final FileProvider provider = createProvider( providerClassName );
+        if ( provider != null )
+        {
+            addProvider( scheme, provider );
+        }
     }
 
     /**
      * Creates a provider.
      */
-    private static FileProvider createProvider( final String providerClassName )
+    private FileProvider createProvider( final String providerClassName )
         throws FileSystemException
     {
         try
@@ -138,9 +120,17 @@ public class FileSystemManagerFactory
             final Class providerClass = Class.forName( providerClassName );
             return (FileProvider)providerClass.newInstance();
         }
+        catch ( final ClassNotFoundException e )
+        {
+            // Ignore
+            final String message = Messages.getString( "vfs.impl/create-provider.warn", providerClassName );
+            getLog().warn( message, e );
+            return null;
+        }
         catch ( final Exception e )
         {
-            throw new FileSystemException("vfs/create-provider.error", new Object[]{providerClassName}, e );
+            throw new FileSystemException("vfs.impl/create-provider.error", providerClassName, e );
         }
     }
+
 }

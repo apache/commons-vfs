@@ -96,7 +96,6 @@ import org.apache.commons.vfs.provider.VfsComponent;
 public class DefaultFileSystemManager
     implements FileSystemManager
 {
-
     /** The provider for local files. */
     private LocalFileProvider localFileProvider;
 
@@ -121,6 +120,14 @@ public class DefaultFileSystemManager
     /** The context to pass to providers. */
     private final DefaultProviderContext context =
         new DefaultProviderContext( this );
+
+    /**
+     * Returns the logger used by this manager.
+     */
+    protected Log getLog()
+    {
+        return log;
+    }
 
     /**
      * Registers a file system provider.  The manager takes care of all

@@ -53,41 +53,91 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs.test;
+package org.apache.commons.vfs;
 
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.VFS;
-import org.apache.commons.vfs.FileObject;
-import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
- * Test cases for the VFS factory.
+ * The main entry point for the VFS.  Used to create {@link FileSystemManager}
+ * instances.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 13:12:15 $
+ * @version $Revision: 1.1 $ $Date: 2002/10/23 13:12:14 $
  */
-public class FileSystemManagerFactoryTestCase
-    extends AbstractVfsTestCase
+public class VFS
 {
-    public FileSystemManagerFactoryTestCase( String name )
+    private static FileSystemManager instance;
+
+    private VFS()
     {
-        super( name );
     }
 
     /**
-     * Sanity test.
+     * Returns the default {@link FileSystemManager} instance.
      */
-    public void testDefaultInstance() throws Exception
+    public static synchronized FileSystemManager getManager()
+        throws FileSystemException
     {
-        // Locate the default manager
-        final FileSystemManager manager = VFS.getManager();
-
-        // Lookup a test file
-        final File testDir = getTestResource( "basedir" );
-        final FileObject file = manager.toFileObject( testDir );
-        assertNotNull( file );
-        assertTrue( file.exists() );
+        if ( instance == null )
+        {
+            instance = createManager( "org.apache.commons.vfs.impl.StandardFileSystemManager" );
+        }
+        return instance;
     }
 
+    /**
+     * Creates a file system manager instance.
+     *
+     * @todo Load manager config from a file.
+     */
+    private static FileSystemManager createManager( final String managerClassName )
+        throws FileSystemException
+    {
+        try
+        {
+            // Create instance
+            final Class mgrClass = Class.forName( managerClassName );
+            final FileSystemManager mgr = (FileSystemManager)mgrClass.newInstance();
+
+            try
+            {
+                // Set the logger
+                final Method setLogMethod = mgrClass.getMethod( "setLogger", new Class[] { Log.class } );
+                final Log logger = LogFactory.getLog( VFS.class );
+                setLogMethod.invoke( mgr, new Object[] { logger } );
+            }
+            catch ( final NoSuchMethodException e )
+            {
+                // Ignore; don't set the logger
+            }
+
+            try
+            {
+                // Initialise
+                final Method initMethod = mgrClass.getMethod( "init", null );
+                initMethod.invoke( mgr, null );
+            }
+            catch ( final NoSuchMethodException e )
+            {
+                // Ignore; don't initialize
+            }
+
+            return mgr;
+        }
+        catch ( final InvocationTargetException e )
+        {
+            throw new FileSystemException( "vfs/create-manager.error",
+                                           managerClassName,
+                                           e.getTargetException() );
+        }
+        catch ( final Exception e )
+        {
+            throw new FileSystemException( "vfs/create-manager.error",
+                                           managerClassName,
+                                           e );
+        }
+    }
 }

@@ -58,14 +58,14 @@ package org.apache.commons.vfs.tasks;
 import org.apache.tools.ant.Task;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManagerFactory;
+import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.FileSystemManager;
 
 /**
  * Base class for the VFS Ant tasks.  Provides some utility methods.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/23 11:59:42 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/23 13:12:14 $
  */
 public class VfsTask
     extends Task
@@ -83,7 +83,7 @@ public class VfsTask
     {
         if ( manager == null )
         {
-            manager = FileSystemManagerFactory.getManager();
+            manager = VFS.getManager();
         }
         return manager.resolveFile( getProject().getBaseDir(), uri );
     }
