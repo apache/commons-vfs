@@ -26,6 +26,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.impl.DefaultFileReplicator;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.impl.PrivilegedFileReplicator;
@@ -703,9 +704,20 @@ public abstract class AbstractFileSystemTestCase
         assertTrue( "child does not exist", !child.exists() );
         assertSame( folder, child.getParent() );
 
-        // Test root of the file system has no parent
-        FileObject root = m_baseFolder.getFileSystem().getRoot();
-        assertNull( "root has null parent", root.getParent() );
+        // Test the parent of the root of the file system
+        // TODO - refactor out test cases for layered vs originating fs
+        final FileSystem fileSystem = m_baseFolder.getFileSystem();
+        FileObject root = fileSystem.getRoot();
+        if ( fileSystem.getParentLayer() == null )
+        {
+            // No parent layer, so parent should be null
+            assertNull( "root has null parent", root.getParent() );
+        }
+        else
+        {
+            // Parent should be parent of parent layer.
+            assertSame( fileSystem.getParentLayer().getParent(), root.getParent() );
+        }
     }
 
     /**
