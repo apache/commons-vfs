@@ -71,7 +71,7 @@ import org.apache.commons.vfs.util.Messages;
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.10 $ $Date: 2003/02/17 09:22:14 $
+ * @version $Revision: 1.11 $ $Date: 2003/02/20 07:30:36 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
@@ -93,6 +93,7 @@ public class StandardFileSystemManager
         addProvider( "ftp", "org.apache.commons.vfs.provider.ftp.FtpFileProvider" );
         addProvider( "smb", "org.apache.commons.vfs.provider.smb.SmbFileProvider" );
         addProvider( "webdav", "org.apache.commons.vfs.provider.webdav.WebdavFileProvider" );
+        addProvider( "sftp", "org.apache.commons.vfs.provider.sftp.SftpFileProvider" );
         addProvider( "tmp", "org.apache.commons.vfs.provider.temp.TemporaryFileProvider" );
 
         // Add a default provider
