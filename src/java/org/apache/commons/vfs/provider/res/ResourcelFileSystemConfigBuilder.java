@@ -13,27 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs.provider.url;
+package org.apache.commons.vfs.provider.res;
 
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.provider.url.UrlFileSystem;
 
 /**
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/20 17:40:56 $
+ * @version $Revision: 1.1 $ $Date: 2004/05/20 18:47:30 $
  */
-public class UrlFileSystemConfigBuilder extends FileSystemConfigBuilder
+public class ResourcelFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-    private final static UrlFileSystemConfigBuilder builder = new UrlFileSystemConfigBuilder();
+    private final static ResourcelFileSystemConfigBuilder builder = new ResourcelFileSystemConfigBuilder();
 
-    public static UrlFileSystemConfigBuilder getInstance()
+    public static ResourcelFileSystemConfigBuilder getInstance()
     {
         return builder;
     }
 
-    private UrlFileSystemConfigBuilder()
+    private ResourcelFileSystemConfigBuilder()
     {
     }
 

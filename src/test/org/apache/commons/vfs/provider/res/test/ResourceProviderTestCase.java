@@ -21,6 +21,8 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.provider.jar.JarFileProvider;
+import org.apache.commons.vfs.provider.res.ResourceFileProvider;
 import org.apache.commons.vfs.provider.url.UrlFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
@@ -29,7 +31,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the resource provider.
  *
  * @author Emmanuel Bourg
- * @version $Revision: 1.1 $, $Date: 2004/05/20 17:40:55 $
+ * @version $Revision: 1.2 $, $Date: 2004/05/20 18:47:30 $
  */
 public class ResourceProviderTestCase extends AbstractProviderTestConfig
 {
@@ -44,7 +46,9 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig
     public void prepare(DefaultFileSystemManager manager)
         throws Exception
     {
-        manager.addProvider(new String[]{"res", "file"}, new UrlFileProvider());
+        manager.addProvider("res", new ResourceFileProvider());
+        manager.addProvider("file", new UrlFileProvider());
+        manager.addProvider("jar", new JarFileProvider());
     }
 
     /**

@@ -1,6 +1,5 @@
 <providers>
     <default-provider class-name="org.apache.commons.vfs.provider.url.UrlFileProvider">
-        <scheme name="res"/>
     </default-provider>
     <provider class-name="org.apache.commons.vfs.provider.local.DefaultLocalFileProvider">
         <scheme name="file"/>
@@ -35,6 +34,9 @@
         <scheme name="sftp"/>
         <if-available class-name="javax.crypto.Cipher"/>
         <if-available class-name="com.jcraft.jsch.JSch"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs.provider.res.ResourceFileProvider">
+        <scheme name="res"/>
     </provider>
     <extension-map extension="zip" scheme="zip"/>
     <mime-type-map mimetype="application/zip" scheme="zip"/>

@@ -1,53 +1,47 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs.provider.url;
+package org.apache.commons.vfs.provider.res;
 
 import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
-import org.apache.commons.vfs.provider.BasicFileName;
+import org.apache.commons.vfs.provider.UriParser;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A file provider backed by Java's URL API.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.22 $ $Date: 2004/05/20 18:47:30 $
+ * Description
+ * 
+ * @author <a href="mailto:imario@apache.org">Mario Ivanovits</a>
+ * @version $Revision: 1.1 $ $Date: 2004/05/20 18:47:30 $
  */
-public class UrlFileProvider
-    extends AbstractFileProvider
+public class ResourceFileProvider extends AbstractFileProvider
 {
     protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.GET_LAST_MODIFIED
+        Capability.DISPATCHER
     }));
 
-    public UrlFileProvider()
+    public ResourceFileProvider()
     {
         super();
     }
@@ -60,26 +54,24 @@ public class UrlFileProvider
                                final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        try
-        {
-            final URL url = new URL(uri);
+        StringBuffer buf = new StringBuffer(80);
+        UriParser.extractScheme(uri, buf);
+        String resourceName = buf.toString();
 
-            URL rootUrl = new URL(url, "/");
-            final String key = this.getClass().getName() + rootUrl.toString();
-            FileSystem fs = findFileSystem(key, fileSystemOptions);
-            if (fs == null)
-            {
-                final FileName rootName =
-                    new BasicFileName(rootUrl, FileName.ROOT_PATH);
-                fs = new UrlFileSystem(rootName, fileSystemOptions);
-                addFileSystem(key, fs);
-            }
-            return fs.resolveFile(url.getPath());
-        }
-        catch (final MalformedURLException e)
+        ClassLoader cl = ResourcelFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
+        if (cl == null)
         {
-            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri, e);
+            cl = getClass().getClassLoader();
         }
+        final URL url = cl.getResource(resourceName);
+
+        if (url == null)
+        {
+            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri);
+        }
+
+        FileObject fo = getContext().getFileSystemManager().resolveFile(url.toExternalForm());
+        return fo;
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

@@ -19,7 +19,7 @@ package org.apache.commons.vfs;
  * An enumerated type representing the capabilities of files and file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/05/10 20:09:45 $
+ * @version $Revision: 1.10 $ $Date: 2004/05/20 18:47:30 $
  */
 public final class Capability
 {
@@ -109,6 +109,14 @@ public final class Capability
      * supported.  The attributes aren't necessarily stored in a manifest file.
      */
     public static final Capability MANIFEST_ATTRIBUTES = new Capability("MANIFEST_ATTRIBUTES");
+
+    /**
+     * The provider itself do not provide a filesystem. It simply resolves a full name
+     * and dispatches the request back to the filesystemmanager.<br>
+     * A provider with this capability cant tell much about the capabilities about the
+     * finally used filesystem in advance.
+     */
+    public static final Capability DISPATCHER = new Capability("DISPATCHER");
 
     private final String name;
 
