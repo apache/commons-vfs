@@ -55,67 +55,61 @@
  */
 package org.apache.commons.vfs.provider;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import org.apache.commons.vfs.FileSystem;
+import java.util.ArrayList;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileObject;
 
 /**
- * A partial {@link FileProvider} implementation.  Takes care of managing the
- * file systems created by the provider.
+ * A {@link VfsComponent} that contains a set of sub-components.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2002/07/05 03:47:04 $
+ * @version $Revision: 1.1 $ $Date: 2002/11/01 03:25:51 $
  */
-public abstract class AbstractFileSystemProvider
-    extends AbstractVfsContainer
-    implements FileProvider
+public abstract class AbstractVfsContainer
+    extends AbstractVfsComponent
 {
-    /**
-     * The cached file systems.  This is a mapping from root URI to
-     * FileSystem object.
-     */
-    private final Map fileSystems = new HashMap();
+    /** The components contained by this component. */
+    private final ArrayList components = new ArrayList();
 
     /**
-     * Closes the file systems created by this provider.
+     * Adds a sub-component to this component.  If the sub-component implements
+     * {@link VfsComponent}, it is initialised.  All sub-components are closed
+     * when this component is closed.
+     */
+    protected void addComponent( final Object component )
+        throws FileSystemException
+    {
+        if ( ! components.contains( component ) )
+        {
+            // Initialise
+            if ( component instanceof VfsComponent )
+            {
+                VfsComponent vfsComponent = (VfsComponent)component;
+                vfsComponent.setLogger( getLogger() );
+                vfsComponent.setContext( getContext() );
+                vfsComponent.init();
+            }
+
+            // Keep track of component, to close it later
+            components.add( component );
+        }
+    }
+
+    /**
+     * Closes the sub-components of this component.
      */
     public void close()
     {
-        fileSystems.clear();
-        super.close();
-    }
-
-    /**
-     * Creates a layered file system.  This method throws a 'not supported' exception.
-     */
-    public FileObject createFileSystem( final String scheme, final FileObject file )
-        throws FileSystemException
-    {
-        // Can't create a layered file system
-        throw new FileSystemException( "vfs.provider/not-layered-fs.error", scheme );
-    }
-    
-    /**
-     * Adds a file system to those cached by this provider.  The file system
-     * may implement {@link VfsComponent}, in which case it is initialised.
-     */
-    protected void addFileSystem( final Object key, final FileSystem fs )
-        throws FileSystemException
-    {
-        // Add to the cache
-        addComponent( fs );
-        fileSystems.put( key, fs );
-    }
-
-    /**
-     * Locates a cached file system
-     * @return The provider, or null if it is not cached.
-     */
-    protected FileSystem findFileSystem( final Object key )
-    {
-        return (FileSystem)fileSystems.get( key );
+        // Close all components
+        final int count = components.size();
+        for ( int i = 0; i < count; i++ )
+        {
+            final Object component = components.get( i );
+            if ( component instanceof VfsComponent )
+            {
+                final VfsComponent vfsComponent = (VfsComponent)component;
+                vfsComponent.close();
+            }
+        }
+        components.clear();
     }
 }
