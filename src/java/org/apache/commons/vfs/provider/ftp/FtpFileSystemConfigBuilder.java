@@ -15,13 +15,15 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
+import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
+import org.apache.commons.vfs.FileSystemOptions;
 
 /**
  * The config builder for various ftp configuration options
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.4 $ $Date: 2004/05/19 19:34:06 $
+ * @version $Revision: 1.5 $ $Date: 2004/08/26 16:37:55 $
  */
 public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -36,7 +38,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
     }
 
-    /* as soon as commons-1.2 will be released
     public void setFTPFileEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
     {
         setParam(opts, FTPFileEntryParserFactory.class.getName(), factory);
@@ -46,7 +47,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
     }
-    */
 
     protected Class getConfigClass()
     {

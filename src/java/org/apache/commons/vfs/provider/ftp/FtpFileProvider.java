@@ -33,7 +33,7 @@ import java.util.Collections;
  * A provider for FTP file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.9 $ $Date: 2004/06/30 19:06:38 $
+ * @version $Revision: 1.10 $ $Date: 2004/08/26 16:37:55 $
  */
 public final class FtpFileProvider
     extends AbstractOriginatingFileProvider
@@ -84,7 +84,8 @@ public final class FtpFileProvider
             rootName.getPort(),
             rootName.getUserName(),
             rootName.getPassword(),
-            rootName.getPath());
+            rootName.getPath(),
+            fileSystemOptions);
 
         return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
     }

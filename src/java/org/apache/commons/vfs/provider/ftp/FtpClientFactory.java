@@ -18,7 +18,9 @@ package org.apache.commons.vfs.provider.ftp;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemOptions;
 
 import java.io.IOException;
 
@@ -26,7 +28,7 @@ import java.io.IOException;
  * Create a FtpClient instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 1.1 $ $Date: 2004/05/26 08:13:35 $
+ * @version $Revision: 1.2 $ $Date: 2004/08/26 16:37:55 $
  */
 public class FtpClientFactory
 {
@@ -37,7 +39,7 @@ public class FtpClientFactory
     /**
      * Creates a new connection to the server.
      */
-    public static FTPClient createConnection(String hostname, int port, String username, String password, String workingDirectory) throws FileSystemException
+    public static FTPClient createConnection(String hostname, int port, String username, String password, String workingDirectory, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         // Determine the username and password to use
         if (username == null)
@@ -54,13 +56,11 @@ public class FtpClientFactory
         {
             final FTPClient client = new FTPClient();
 
-            /* as soon as commons-1.2 will be released
-            FTPFileEntryParserFactory myFactory = FtpFileSystemConfigBuilder.getInstance().getFTPFileEntryParserFactory(getFileSystemOptions());
+            FTPFileEntryParserFactory myFactory = FtpFileSystemConfigBuilder.getInstance().getFTPFileEntryParserFactory(fileSystemOptions);
             if (myFactory != null)
             {
-            client.setParserFactory(myFactory);
+                client.setParserFactory(myFactory);
             }
-            */
 
             try
             {

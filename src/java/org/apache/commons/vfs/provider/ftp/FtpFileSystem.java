@@ -107,7 +107,8 @@ final class FtpFileSystem
                 rootName.getPort(),
                 rootName.getUserName(),
                 rootName.getPassword(),
-                rootName.getPath());
+                rootName.getPath(),
+                getFileSystemOptions());
             // return createConnection();
         }
         else
