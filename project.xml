@@ -4,6 +4,7 @@
     <extend>../sandbox-build/project.xml</extend>
     <name>commons-vfs</name>
     <id>commons-vfs</id>
+    <logo>/images/vfs-logo-white.png</logo>
     <currentVersion>1.0-dev</currentVersion>
     <inceptionYear>2002</inceptionYear>
     <package>org.apache.commons.vfs</package>
