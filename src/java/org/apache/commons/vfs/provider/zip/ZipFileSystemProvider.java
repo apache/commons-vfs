@@ -64,8 +64,7 @@ import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.ParsedLayeredUri;
 
 /**
- * A file system provider for Zip/Jar files.  Provides read-only file
- * systems, for local Zip files only.
+ * A file system provider for Zip files.  Provides read-only file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.7 $ $Date: 2002/07/05 04:08:19 $

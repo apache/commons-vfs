@@ -65,10 +65,11 @@ import org.apache.commons.vfs.FileSystemException;
  * <li>{@link FileProvider}
  * <li>{@link org.apache.commons.vfs.FileSystem}
  * <li>{@link FileReplicator}
+ * <li>{@link TemporaryFileStore}
  * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.3 $ $Date: 2002/10/23 11:59:40 $
+ * @version $Revision: 1.4 $ $Date: 2002/10/28 02:05:06 $
  */
 public interface VfsComponent
 {

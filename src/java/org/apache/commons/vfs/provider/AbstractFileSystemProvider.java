@@ -98,7 +98,7 @@ public abstract class AbstractFileSystemProvider
     }
 
     /**
-     * Creates a layered file system.
+     * Creates a layered file system.  This method throws a 'not supported' exception.
      */
     public FileObject createFileSystem( final String scheme, final FileObject file )
         throws FileSystemException
@@ -108,7 +108,8 @@ public abstract class AbstractFileSystemProvider
     }
     
     /**
-     * Adds a file system to those cached by this provider.
+     * Adds a file system to those cached by this provider.  The file system
+     * may implement {@link VfsComponent}.
      */
     protected void addFileSystem( final Object key, final FileSystem fs )
         throws FileSystemException

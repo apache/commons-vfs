@@ -63,12 +63,11 @@ import org.apache.commons.vfs.provider.zip.ZipFileSystemProvider;
 
 /**
  * A file system provider for Jar files.  Provides read-only file
- * systems, for local Jar files only.
- * This provides access to Jar specific features like Signing and
+ * systems.  This provides access to Jar specific features like Signing and
  * Manifest Attributes.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision: 1.4 $ $Date: 2002/10/23 11:59:41 $
+ * @version $Revision: 1.5 $ $Date: 2002/10/28 02:05:06 $
  */
 public class JarFileSystemProvider
     extends ZipFileSystemProvider

@@ -257,6 +257,8 @@ public interface FileObject
      * @return A list of matching {@link FileObject} files.  The files are
      *      returned in depthwise order (that is, a child appears in the
      *      list before its parent).
+     *
+     * @todo Use the same return type for getChildren() and findFiles().
      */
     List findFiles( FileSelector selector ) throws FileSystemException;
 

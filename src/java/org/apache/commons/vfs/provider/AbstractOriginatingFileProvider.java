@@ -65,7 +65,7 @@ import org.apache.commons.vfs.FileSystem;
  * layered on top of another file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.5 $ $Date: 2002/10/25 11:07:39 $
+ * @version $Revision: 1.6 $ $Date: 2002/10/28 02:05:06 $
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileSystemProvider
@@ -126,7 +126,7 @@ public abstract class AbstractOriginatingFileProvider
         throws FileSystemException;
 
     /**
-     * Creates the filesystem.
+     * Creates the filesystem.  The file system may implement {@link VfsComponent}.
      */
     protected abstract FileSystem doCreateFileSystem( final ParsedUri uri )
         throws FileSystemException;

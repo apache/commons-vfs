@@ -58,6 +58,8 @@ package org.apache.commons.vfs;
 /**
  * This interface is used to select files when traversing a file hierarchy.
  *
+ * @see Selectors
+ * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision: 1.1 $ $Date: 2002/04/07 02:27:55 $
  */

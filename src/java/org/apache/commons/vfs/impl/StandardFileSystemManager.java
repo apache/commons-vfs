@@ -62,10 +62,18 @@ import org.apache.commons.vfs.provider.FileProvider;
 
 /**
  * A {@link org.apache.commons.vfs.FileSystemManager} that configures itself
- * to use the standard providers and other components.
+ * to use the standard providers and other components.  To use this
+ * manager:
+ *
+ * <ul>
+ * <li>Create an instance of this class.
+ * <li>Set the logger using {@link #setLogger}.
+ * <li>Configure the manager using {@link #init}.
+ * <li>Add additional providers, or replace the default services.
+ * </ul>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 1.2 $ $Date: 2002/10/25 11:07:39 $
+ * @version $Revision: 1.3 $ $Date: 2002/10/28 02:05:06 $
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager

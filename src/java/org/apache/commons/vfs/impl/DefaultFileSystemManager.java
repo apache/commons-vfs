@@ -84,6 +84,7 @@ import org.apache.commons.vfs.provider.TemporaryFileStore;
  * <li>Add one or more file providers using {@link #addProvider}.
  * <li>Set the default provider using {@link #setDefaultProvider} (optional).
  * <li>Set the file replicator using {@link #setReplicator} (optional).
+ * <li>Set the temporary file store using {@link #setTemporaryFileStore} (optional).
  * <li>Set the base file using {@link #setBaseFile} (optional).
  * </ul>
  *
