@@ -29,29 +29,41 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-
 /**
  * A polling {@link FileMonitor} implementation.<br />
  * <br />
- * The DefaultFileMonitor is a Thread based polling file system monitor with a 1 second delay.<br />
+ * The DefaultFileMonitor is a Thread based polling file system monitor with a 1
+ * second delay.<br />
  * <br />
  * <b>Design:</b>
  * <p/>
  * There is a Map of monitors known as FileMonitorAgents. With the thread running,
- * each FileMonitorAgent object is asked to "check" on the file it is responsible for.
+ * each FileMonitorAgent object is asked to "check" on the file it is
+ * responsible for.
  * To do this check, the cache is cleared.
  * </p>
  * <ul>
- * <li>If the file existed before the refresh and it no longer exists, a delete event is fired.</li>
- * <li>If the file existed before the refresh and it still exists, check the last modified timestamp to see if that has changed.</li>
+ * <li>If the file existed before the refresh and it no longer exists, a delete
+ * event is fired.</li>
+ * <li>If the file existed before the refresh and it still exists, check the
+ * last modified timestamp to see if that has changed.</li>
  * <li>If it has, fire a change event.</li>
  * </ul>
  * <p/>
- * With each file delete, the FileMonitorAgent of the parent is asked to re-build its
- * list of children, so that they can be accurately checked when there are new children.<br/>
- * New files are detected during each "check" as each file does a check for new children.
- * If new children are found, create events are fired recursively if recursive descent is
+ * With each file delete, the FileMonitorAgent of the parent is asked to
+ * re-build its
+ * list of children, so that they can be accurately checked when there are new
+ * children.<br/>
+ * New files are detected during each "check" as each file does a check for new
+ * children.
+ * If new children are found, create events are fired recursively if recursive
+ * descent is
  * enabled.
+ * </p>
+ * <p/>
+ * For performance reasons, added a delay that increases as the number of files
+ * monitored
+ * increases. The default is a delay of 1 second for every 1000 files processed.
  * </p>
  * <p/>
  * <br /><b>Example usage:</b><pre>
@@ -63,7 +75,8 @@ import java.util.Stack;
  * fm.addFile(listendir);
  * fm.start();
  * </pre>
- * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
+ * <i>(where CustomFileListener is a class that implements the FileListener
+ * interface.)</i>
  *
  * @author <a href="mailto:xknight@users.sourceforge.net">Christopher Ottley</a>
  * @version $Revision$ $Date$
@@ -106,6 +119,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      * Set the delay between checks
      */
     private long delay = 1000;
+
+    /**
+     * Set the number of files to check until a delay will be inserted
+     */
+    private int checksPerRun = 1000;
 
     /**
      * A listener object that if set, is notified on file creation and deletion.
@@ -151,7 +169,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         {
             if (this.monitorMap.get(file.getName()) == null)
             {
-                this.monitorMap.put(file.getName(), new FileMonitorAgent(this, file));
+                this.monitorMap.put(file.getName(), new FileMonitorAgent(this,
+                        file));
 
                 try
                 {
@@ -236,7 +255,33 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      */
     public void setDelay(long delay)
     {
-        this.delay = delay;
+        if (delay > 0)
+        {
+            this.delay = delay;
+        }
+        else
+        {
+            this.delay = 1000;
+        }
+    }
+
+    /**
+     * get the number of files to check per run
+     */
+    public int getChecksPerRun()
+    {
+        return checksPerRun;
+    }
+
+    /**
+     * set the number of files to check per run.
+     * a additional delay will be added if there are more files to check
+     *  
+     * @param checksPerRun a value less than 1 will disable this feature
+     */
+    public void setChecksPerRun(int checksPerRun)
+    {
+        this.checksPerRun = checksPerRun;
     }
 
     /**
@@ -274,7 +319,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      */
     public void run()
     {
-        mainloop: while (!Thread.currentThread().isInterrupted() && this.shouldRun)
+        mainloop:
+        while (!Thread.currentThread().isInterrupted() && this.shouldRun)
         {
             while (!this.deleteStack.empty())
             {
@@ -287,7 +333,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 fileNames = this.monitorMap.keySet().toArray();
             }
-            for (int iterFileNames = 0; iterFileNames < fileNames.length; iterFileNames++)
+            for (int iterFileNames = 0; iterFileNames < fileNames.length;
+                 iterFileNames++)
             {
                 FileName fileName = (FileName) fileNames[iterFileNames];
                 FileMonitorAgent agent;
@@ -298,6 +345,21 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 if (agent != null)
                 {
                     agent.check();
+                }
+
+                if (getChecksPerRun() > 0)
+                {
+                    if ((iterFileNames % getChecksPerRun()) == 0)
+                    {
+                        try
+                        {
+                            Thread.sleep(getDelay());
+                        }
+                        catch (InterruptedException e)
+                        {
+
+                        }
+                    }
                 }
 
                 if (Thread.currentThread().isInterrupted() || !this.shouldRun)
@@ -374,7 +436,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     FileObject[] childrenList = this.file.getChildren();
                     for (int i = 0; i < childrenList.length; i++)
                     {
-                        this.children.put(childrenList[i].getName(), new Object()); // null?
+                        this.children.put(childrenList[i].getName(), new
+                            Object()); // null?
                     }
                 }
             }
@@ -423,7 +486,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             // Remove it because a listener is added in the queueAddFile
             if (this.fm.getFileListener() != null)
             {
-                child.getFileSystem().removeListener(child, this.fm.getFileListener());
+                child.getFileSystem().removeListener(child,
+                    this.fm.getFileListener());
             }
 
             this.fm.queueAddFile(child); // Add
@@ -469,9 +533,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                         for (int i = 0; i < newChildren.length; i++)
                         {
-                            newChildrenMap.put(newChildren[i].getName(), new Object()); // null ?
+                            newChildrenMap.put(newChildren[i].getName(), new
+                                Object()); // null ?
                             // If the child's not there
-                            if (!this.children.containsKey(newChildren[i].getName()))
+                            if
+                            (!this.children.containsKey(newChildren[i].getName()))
                             {
                                 missingChildren.push(newChildren[i]);
                             }
@@ -485,7 +551,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                             while (!missingChildren.empty())
                             {
-                                FileObject child = (FileObject) missingChildren.pop();
+                                FileObject child = (FileObject)
+                                    missingChildren.pop();
                                 this.fireAllCreate(child);
                             }
                         }
@@ -500,7 +567,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         }
                         for (int i = 0; i < newChildren.length; i++)
                         {
-                            this.children.put(newChildren[i].getName(), new Object()); // null?
+                            this.children.put(newChildren[i].getName(), new
+                                Object()); // null?
                             this.fireAllCreate(newChildren[i]);
                         }
                     }
@@ -526,7 +594,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                     // Fire delete event
 
-                    ((AbstractFileSystem) this.file.getFileSystem()).fireFileDeleted(this.file);
+                    ((AbstractFileSystem)
+                        this.file.getFileSystem()).fireFileDeleted(this.file);
 
                     // Remove listener in case file is re-created. Don't want to fire twice.
                     if (this.fm.getFileListener() != null)
@@ -542,16 +611,19 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 {
 
                     // Check the timestamp to see if it has been modified
-                    if (this.timestamp != this.file.getContent().getLastModifiedTime())
+                    if (this.timestamp !=
+                            this.file.getContent().getLastModifiedTime())
                     {
-                        this.timestamp = this.file.getContent().getLastModifiedTime();
+                        this.timestamp =
+                            this.file.getContent().getLastModifiedTime();
                         // Fire change event
 
                         // Don't fire if it's a folder because new file children
                         // and deleted files in a folder have their own event triggered.
                         if (this.file.getType() != FileType.FOLDER)
                         {
-                            ((AbstractFileSystem) this.file.getFileSystem()).fireFileChanged(this.file);
+                            ((AbstractFileSystem)
+                                this.file.getFileSystem()).fireFileChanged(this.file);
                         }
                     }
 
@@ -569,4 +641,3 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     }
 
 }
-
