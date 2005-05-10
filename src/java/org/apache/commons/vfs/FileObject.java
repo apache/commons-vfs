@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 package org.apache.commons.vfs;
 
 import java.net.URL;
+import java.util.List;
 
 /**
  * Represents a file, and is used to access the content and
@@ -187,6 +188,18 @@ public interface FileObject
      *         (that is, a child appears in the list before its parent).
      */
     FileObject[] findFiles(FileSelector selector) throws FileSystemException;
+
+    /**
+         * Finds the set of matching descendents of this file.
+         *
+         * @param selector  the selector used to determine if the file should be selected
+         * @param depthwise controls the ordering in the list. e.g. deepest first
+         * @param selected  container for selected files. list needs not to be empty.
+         * @throws FileSystemException
+         */
+    void findFiles(FileSelector selector,
+                   boolean depthwise,
+                   List selected) throws FileSystemException;
 
     /**
      * Deletes this file.  Does nothing if this file does not exist of if it is a

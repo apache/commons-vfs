@@ -1,12 +1,12 @@
 /*
  * Copyright 2002, 2003,2004 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -841,7 +841,7 @@ public abstract class AbstractFileObject implements FileObject
 
         // Locate the files to copy across
         final ArrayList files = new ArrayList();
-        ((AbstractFileObject) file).findFiles(selector, false, files);
+        file.findFiles(selector, false, files);
 
         // Copy everything across
         final int count = files.size();
@@ -1340,7 +1340,7 @@ public abstract class AbstractFileObject implements FileObject
      * Traverses the descendents of this file, and builds a list of selected
      * files.
      */
-    private void findFiles(final FileSelector selector,
+    public void findFiles(final FileSelector selector,
                            final boolean depthwise,
                            final List selected) throws FileSystemException
     {
