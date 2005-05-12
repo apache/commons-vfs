@@ -26,6 +26,7 @@
       <item name="File Systems"            href="/filesystems.html"/>
       <item name="Ant Tasks"               href="/anttasks.html"/>
       <item name="To Do List"              href="/todo.html"/>
+      <item name="Development"             href="/testserver.html"/>
     </menu>
     &common-menus;
   </body>

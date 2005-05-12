@@ -35,9 +35,9 @@
                     <li>You need maven to build the local test-data structure. This is done automatically during build of VFS.</li>
                     <li>Create a user 'vfsusr' with password 'vfsusr' and home directory '/home/vfsusr'
                         <br/>
-                        <code><![CDATA[
-useradd -p vfsusr -m vfsusr</code>
-                    ]]></code>
+                        <source><![CDATA[
+useradd -p vfsusr -m vfsusr
+                    ]]></source>
                     </li>
                     <li>Create the directories
                         <ol>
@@ -45,9 +45,9 @@ useradd -p vfsusr -m vfsusr</code>
                             <li>/vfstest/write-tests</li>
                         </ol>
                         and copy from your local 'target/test-data' the directories
-                        <code>code,read-tests</code> into it.<br />
+                        <source>code,read-tests</source> into it.<br />
                         Now your structure looks like this:<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 /vfstest
 /vfstest/write-tests
 /vfstest/read-tests
@@ -75,29 +75,33 @@ useradd -p vfsusr -m vfsusr</code>
 /vfstest/code/sealed
 /vfstest/code/sealed/AnotherClass.class
 /vfstest/code/ClassToLoad.class
-                    ]]></code>
+                    ]]></source>
                     </li>
                     <li>Setup a symbolic link to '/vfstest'<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 ln -s /vfstest /home/vfsusr/vfstest
-                    ]]></code>
+                    ]]></source>
                     </li>
                     <li>Set permissions
                         <br/>
-                        <code><![CDATA[
+                        <source><![CDATA[
 find /vfstest -print0 | xargs -0 chown vfsusr.users
-                    ]]></code>
+                    ]]></source>
                     </li>
-                    <li>After setup the server ensure they are installed and running
+                    <li>After you followed the steps below and setup the server ensure they
+                        are activated and running.<br />
+                        This is only needet if you installed a fresh system. Otherwise simply restart them.
                         <br/>
-                        <code><![CDATA[
+                        <source><![CDATA[
+insserv xinetd
 insserv apache2
 insserv smb
 insserv nmb
+/etc/rc.d/xinetd restart
 /etc/rc.d/apache2 restart
 /etc/rc.d/smb restart
 /etc/rc.d/nmb restart
-                        ]]></code>
+                        ]]></source>
                         </li>
                 </ol>
             </subsection>
@@ -105,7 +109,7 @@ insserv nmb
             <subsection name="Apache 2 Webserver">
                 <ol>
                     <li>Create a file named '/etc/apache2/conf.d/vfstest.conf' with this content<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 #
 # VFSTEST
 #
@@ -133,28 +137,29 @@ DAVMinTimeout 600
                 Require user vfsusr
         </Limit>
 </Location>
-                            ]]></code>
+                            ]]></source>
                     </li>
                     <li>change the permission on
-                        <code><![CDATA[
+                        <source><![CDATA[
 chown vfsusr.users /var/lib/apache2
-                        ]]></code>
+                        ]]></source>
                     </li>
                     <li>Activate the WebDAV module by adding 'dav' and 'dav_fs' to the list of modules in '/etc/sysconfig/apache2'. e.g <br/>
-                        <code><![CDATA[
-APACHE_MODULES="access actions alias auth auth_dbm autoindex cgi dir env expires include log_config mime negotiation setenvif ssl suexec userdir php4 php5 dav dav_fs"
-                            ]]></code>
+                        <source><![CDATA[
+APACHE_MODULES="access actions alias auth auth_dbm autoindex cgi dir env expires include log_config
+mime negotiation setenvif ssl suexec userdir php4 php5 dav dav_fs"
+                            ]]></source>
                     </li>
                     <li>Setup the webserver to use user-id 'vfsusr' and group 'users'. This can be done by changing the file '/etc/apache2/uid.conf'<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 User vfsusr
 Group users
-                        ]]></code>
+                        ]]></source>
                     </li>
                     <li>Create the VFS user to access the Webdav resource<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 htpasswd2 -cmb /etc/apache2/passwd  vfsusr vfsusr
-                        ]]></code>
+                        ]]></source>
                     </li>
                 </ol>
             </subsection>
@@ -162,18 +167,18 @@ htpasswd2 -cmb /etc/apache2/passwd  vfsusr vfsusr
             <subsection name="Samba 3">
                 <ol>
                     <li>Create a share 'vfsusr'<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 [vfsusr]
    comment = VFS Test Directory
    path = /home/vfsusr
    guest ok = yes
    writable = yes
-                        ]]></code>
+                        ]]></source>
                     </li>
                     <li>Setup a 'vfsusr' with password 'vfsusr'<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 smbpasswd -a vfsusr
-                        ]]></code>
+                        ]]></source>
                     </li>
                 </ol>
             </subsection>
@@ -181,9 +186,9 @@ smbpasswd -a vfsusr
             <subsection name="ssh">
                 <ol>
                     <li>In '/etc/ssh/sshd_config' ensure<br />
-                        <code><![CDATA[
+                        <source><![CDATA[
 PasswordAuthentication yes
-                        ]]></code>
+                        ]]></source>
                     </li>
                 </ol>
             </subsection>
@@ -191,19 +196,37 @@ PasswordAuthentication yes
             <subsection name="vsftp">
                 <ol>
                     <li>Ensure the server is not disabled in the xinetd configuration<br />
-                        Set <code>disable=no</code> in '/etc/xinetd.d/vsftpd'
+                        Set <source>disable=no</source> in '/etc/xinetd.d/vsftpd'
                     </li>
 
                     <li>Setup the server config: '/etc/vsftpd.conf'<br/>
-                        <code>
+                        <source>
 write_enable=YES
 local_enable=YES
-                        </code>
+                        </source>
 
                     </li>
                 </ol>
             </subsection>
 
+            <subsection name="Tests">
+                Now we are finished and you can try to activate the tests by
+                <ol>
+                    <li>reactivate the tests in 'build.xml'.<br/>
+                    Search for <code><![CDATA[<!-- tests disabled -->]]></code> and comment the exclude.</li>
+                    <source><![CDATA[
+<!-- tests disabled
+<exclude name="**/*.java">
+</exclude>
+ -->
+                    ]]></source>
+                    <li>or use the class org.apache.commons.vfs.RunTest where you have
+                        to adapt some properties at the top of the file and choose which test
+                        you would like to run by comment the others.<br />
+                        This is the way how I debug a failed testcase.
+                    </li>
+                </ol>
+            </subsection>
         </section>
     </body>
 </document>

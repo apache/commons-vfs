@@ -132,6 +132,7 @@
                     </include>
                     <exclude name="**/test/Abstract*TestCase.java">
                     </exclude>
+                    <!-- tests disabled -->
                     <exclude name="**/*.java">
                     </exclude>
                 </fileset>
