@@ -47,6 +47,8 @@
         </section>
 
         <section name="News">
+            <p>2005-05 - imario@apache.org: Find the "How to setup a VFS Testserver" documentation in the developer area.</p>
+
             <p>2005-03 - imario@apache.org: easier configuration for plugins - see api section for details</p>
 
             <p>2005-03 - imario@apache.org: The filename parsing and api has changed.
