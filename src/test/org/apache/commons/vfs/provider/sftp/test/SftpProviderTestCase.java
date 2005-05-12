@@ -57,6 +57,7 @@ public class SftpProviderTestCase
         final String uri = System.getProperty("test.sftp.uri");
 
         FileSystemOptions fileSystemOptions = new FileSystemOptions();
+        SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(fileSystemOptions, "no");
         SftpFileSystemConfigBuilder.getInstance().setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
 
         return manager.resolveFile(uri, fileSystemOptions);

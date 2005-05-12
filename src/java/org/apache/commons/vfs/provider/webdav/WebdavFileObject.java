@@ -31,6 +31,7 @@ import org.apache.webdav.lib.WebdavResource;
 import org.apache.webdav.lib.methods.DepthSupport;
 import org.apache.webdav.lib.methods.OptionsMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
+import org.apache.webdav.lib.methods.DeleteMethod;
 import org.apache.webdav.lib.properties.ResourceTypeProperty;
 
 import java.io.ByteArrayOutputStream;
@@ -90,6 +91,12 @@ public class WebdavFileObject
         }
     }
 
+    /**
+     * set the davResource
+     * @param resource
+     * @param bCheckExists might be removed soon
+     * @throws Exception
+     */
     private void setDavResource(WebdavResource resource, boolean bCheckExists) throws Exception
     {
         redirectionResolved = false;
@@ -109,7 +116,7 @@ public class WebdavFileObject
 
         this.resource = resource;
 
-        if (bCheckExists)
+        // if (bCheckExists)
         {
             /* now fill the dav properties */
             final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
@@ -213,7 +220,7 @@ public class WebdavFileObject
         if (status >= 200 && status <= 299)
         {
             setAllowedMethods(optionsMethod.getAllowedMethods());
-            resource.getHttpURL().setPath(optionsMethod.getPath());
+            resource.getHttpURL().setEscapedPath(optionsMethod.getPath());
             redirectionResolved = true;
         }
     }
@@ -327,7 +334,9 @@ public class WebdavFileObject
      */
     protected void doDelete() throws Exception
     {
-        final boolean ok = resource.deleteMethod(getName().getPathDecoded() /*url.getPath()*/);
+        resolveRedirection();
+        // final boolean ok = resource.deleteMethod(getName().getPathDecoded() /*url.getPath()*/);
+        final boolean ok = resource.deleteMethod();
         if (!ok)
         {
             throw new FileSystemException("vfs.provider.webdav/delete-file.error", resource.getStatusMessage());

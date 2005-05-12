@@ -8,6 +8,10 @@
         <copy todir="${test.basedir}/read-tests">
             <fileset dir="${test.data.src}/basedir"/>
         </copy>
+        <copy todir="${test.basedir}/">
+            <fileset dir="${test.data.src}" includes="nested.*,test.*"/>
+        </copy>
+
 
         <!-- Compile the code for the class loader test -->
         <javac
@@ -24,7 +28,8 @@
 
         <mkdir dir="${test.basedir}/read-tests/emptydir"/>
 
-        <!-- Create a zip file -->
+        <!-- Create a zip file - its not possible to create tgz, tar and tbz2 so we provide
+				the whole set for download now
         <zip zipfile="${test.basedir}/test.zip">
             <zipfileset dir="${test.basedir}">
                 <include name="read-tests/**"/>
@@ -50,6 +55,7 @@
             jarfile="${test.basedir}/nested.jar"
             basedir="${test.basedir}"
             includes="test.jar"/>
+        -->
     </postGoal>
 
 </project>
