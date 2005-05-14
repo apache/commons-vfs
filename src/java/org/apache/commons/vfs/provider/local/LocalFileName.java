@@ -64,5 +64,5 @@ public class LocalFileName
         buffer.append(getScheme());
         buffer.append("://");
         buffer.append(rootFile);
-    } 
+    }
 }

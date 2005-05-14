@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileName;
 
 /**
  * A general-purpose file name parser.
@@ -52,6 +53,17 @@ public class GenericFileNameParser
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);
         }
 
+        // do not strip the separator, BUT also return it ...
         return "/";
+    }
+
+    /*
+     * ... this is why whe need this:
+     * here the rootFilename can only be "/" (see above) put this "/" is also in the pathname
+     * so its of no value for the LocalFileName instance
+     */
+    protected FileName createFileName(String scheme, final String rootFile, final String path)
+    {
+        return new LocalFileName(scheme, "", path);
     }
 }

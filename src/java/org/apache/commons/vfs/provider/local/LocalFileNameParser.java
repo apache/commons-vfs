@@ -78,6 +78,8 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return new LocalFileName(scheme, rootFile, path);
+        return createFileName(scheme, rootFile, path);
     }
+
+    protected abstract FileName createFileName(String scheme, final String rootFile, final String path);
 }
