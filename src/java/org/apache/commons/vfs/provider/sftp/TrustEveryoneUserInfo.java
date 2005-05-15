@@ -1,8 +1,5 @@
-/*
- * Created by IntelliJ IDEA.
- * User: im
- * Date: 26.03.2004
- * Time: 08:03:29
+/**
+ * Helper class to trust a new host
  */
 package org.apache.commons.vfs.provider.sftp;
 
