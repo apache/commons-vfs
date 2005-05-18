@@ -80,6 +80,14 @@
                     </td>
                     <td>SFTP</td>
                 </tr>
+                <tr>
+                    <td>
+                        <a href="http://jakarta.apache.org/commons/sandbox/compress/">Commons Compress</a> Nightly build 20040530<br />
+                        There are no other nigtlies than the one I created for maven, so please download it from the link below until this changes:<br/>
+                        <a href="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar">http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar</a>
+                    </td>
+                    <td>tar, bz2</td>
+                </tr>
             </table>
         </section>
         <section name="Building Commons VFS">

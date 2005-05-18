@@ -32,10 +32,13 @@
                     <a href="#WebDAV">WebDAV</a>
                 </li>
                 <li>
-                    <a href="#Zip and Jar">Zip and Jar</a>
+                    <a href="#Zip, Jar and Tar">Zip, Jar and Tar (uncompressed, tgz or tbz2)</a>
                 </li>
                 <li>
                     <a href="#gzip and bzip2">gzip and bzip2</a>
+                </li>
+                <li>
+                    <a href="#res">res</a>
                 </li>
             </ul>
         </section>
@@ -107,9 +110,9 @@
             </ul>
         </section>
 
-        <section name="Zip and Jar">
+        <section name="Zip, Jar and Tar">
 
-            <p>Provides read-only access to the contents of Zip and Jar files.</p>
+            <p>Provides read-only access to the contents of Zip, Jar and Tar files.</p>
 
             <p>
                 <b>URI Format</b>
@@ -117,23 +120,42 @@
 
             <p>
                 <code>zip://
-                    <i>zip-file-uri</i>[!
+                    <i>arch-file-uri</i>[!
                     <i>absolute-path</i>]
                 </code>
             </p>
             <p>
                 <code>jar://
-                    <i>zip-file-uri</i>[!
+                    <i>arch-file-uri</i>[!
+                    <i>absolute-path</i>]
+                </code>
+            </p>
+            <p>
+                <code>tar://
+                    <i>arch-file-uri</i>[!
+                    <i>absolute-path</i>]
+                </code>
+            </p>
+            <p>
+                <code>tgz://
+                    <i>arch-file-uri</i>[!
+                    <i>absolute-path</i>]
+                </code>
+            </p>
+            <p>
+                <code>tbz2://
+                    <i>arch-file-uri</i>[!
                     <i>absolute-path</i>]
                 </code>
             </p>
 
             <p>
                 Where
-                <code>zip-file-uri</code> refers to a file of any
+                <code>arch-file-uri</code> refers to a file of any
                 supported type, including other zip files.  Note: if you would like
                 to use the ! as normal character it must be escaped
-                using <code>%21</code>.
+                using <code>%21</code>.<br />
+                <code>tgz</code> and <code>tbz2</code> are convenience for <code>tar:gz</code> and <code>tar:bz2</code>.
             </p>
 
             <p>
@@ -151,6 +173,12 @@
                 </li>
                 <li>
                     <code>jar:zip:outer.zip!/nested.jar!/some%21dir</code>
+                </li>
+                <li>
+                    <code>tar:gz:http://anyhost/dir/mytar.tar.gz!/mytar.tar!/path/in/tar/README.txt</code>
+                </li>
+                <li>
+                    <code>tgz:file://anyhost/dir/mytar.tgz!/somepath/somefile</code>
                 </li>
             </ul>
 
@@ -380,6 +408,36 @@
             <ul>
                 <li>
                     <code>tmp://dir/somefile.txt</code>
+                </li>
+            </ul>
+        </section>
+
+        <section name="res">
+
+            <p>
+                This is not really a filesystem, it just tries to lookup a resource using javas <code>ClassLoader.getResource()</code>
+                and creates a VFS url for further processing.
+            </p>
+
+            <p>
+                <b>RES Format</b>
+            </p>
+
+            <p>
+                <code>res://[
+                    <i>path</i>]
+                </code>
+            </p>
+
+            <p>
+                <b>Examples</b>
+            </p>
+
+            <ul>
+                <li>
+                    <code>res:path/in/classpath/image.png</code><br/>
+                    might result in
+                    <code>jar:file://my/path/to/images.jar!/path/in/classpath/image.png</code><br/>
                 </li>
             </ul>
         </section>
