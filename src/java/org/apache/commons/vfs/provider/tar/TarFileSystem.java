@@ -27,7 +27,6 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.bzip2.Bzip2FileObject;
 
@@ -35,9 +34,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -154,17 +153,33 @@ public class TarFileSystem
         // with an input stream.
         if (this.file.exists())
         {
-            TarInputStream tarFile = createTarFile(this.file);
-            this.tarFile = tarFile;
+            recreateTarFile();
         }
+    }
+
+    private void recreateTarFile() throws FileSystemException
+    {
+        if (this.tarFile != null)
+        {
+            try
+            {
+                this.tarFile.close();
+            }
+            catch (IOException e)
+            {
+                throw new FileSystemException("vfs.provider.tar/close-tar-file.error", file, e);
+            }
+            tarFile = null;
+        }
+        TarInputStream tarFile = createTarFile(this.file);
+        this.tarFile = tarFile;
     }
 
     protected TarInputStream getTarFile() throws FileSystemException
     {
         if (tarFile == null && this.file.exists())
         {
-            TarInputStream tarFile = createTarFile(this.file);
-            this.tarFile = tarFile;
+            recreateTarFile();
         }
 
         return tarFile;
