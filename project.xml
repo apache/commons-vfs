@@ -28,7 +28,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>  
+    <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>
     <siteAddress>cvs.apache.org</siteAddress>
     <siteDirectory>/www/jakarta.apache.org/commons/vfs/</siteDirectory>
     <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/vfs/</distributionDirectory>
@@ -156,6 +156,7 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>src/java</sourceDirectory>
         <!-- Unit test classes -->
         <unitTest>
             <includes>
