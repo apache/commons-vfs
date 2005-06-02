@@ -582,7 +582,7 @@ public abstract class AbstractFileObject implements FileObject
             return null;
         }
 
-        FileName names[] = new FileName[objects.length];
+        FileName[] names = new FileName[objects.length];
         for (int iterObjects = 0; iterObjects < objects.length; iterObjects++)
         {
             names[iterObjects] = objects[iterObjects].getName();
@@ -598,7 +598,7 @@ public abstract class AbstractFileObject implements FileObject
             return null;
         }
 
-        FileObject objects[] = new FileObject[children.length];
+        FileObject[] objects = new FileObject[children.length];
         for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
         {
             objects[iterChildren] = resolveFile(children[iterChildren]);
@@ -885,11 +885,11 @@ public abstract class AbstractFileObject implements FileObject
     {
         if (!isWriteable())
         {
-            throw new FileSystemException("vfs.provider/rename-read-only.error", name);
+            throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
         }
         if (destFile.getType() != FileType.IMAGINARY)
         {
-            throw new FileSystemException("vfs.provider/rename-dest-exists.error", name);
+            throw new FileSystemException("vfs.provider/rename-dest-exists.error", destFile.getName());
         }
 
         if (canRenameTo(destFile))
@@ -908,7 +908,11 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/rename.error", new Object[]{name}, exc);
+                throw new FileSystemException("vfs.provider/rename.error", new Object[]
+                {
+                    getName(),
+                    destFile.getName()
+                }, exc);
             }
         }
         else
