@@ -48,6 +48,11 @@ public final class DefaultFileReplicator
     private File tempDir;
     private long filecount;
 
+    private char[] TMP_RESERVED_CHARS = new char[]
+    {
+        '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
+    };
+
     /**
      * constructor to set the location of the temporary directory
      *
@@ -133,7 +138,11 @@ public final class DefaultFileReplicator
     {
         // BUG29007
         // return baseName + "_" + getFilecount() + ".tmp";
-        return "tmp_" + getFilecount() + "_" + baseName;
+
+        // imario@apache.org: BUG34976 get rid of maybe reserved and dangerous characters
+        // e.g. to allow replication of http://hostname.org/fileservlet?file=abc.txt
+        String safeBasename = UriParser.encode(baseName, TMP_RESERVED_CHARS).replace('%', '_');
+        return "tmp_" + getFilecount() + "_" + safeBasename;
     }
 
     /**
