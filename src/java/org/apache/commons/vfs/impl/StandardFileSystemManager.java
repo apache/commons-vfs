@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2005 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.jar.JarFile;
@@ -54,13 +55,28 @@ public class StandardFileSystemManager
     private static final String CONFIG_RESOURCE = "providers.xml";
     private static final String PLUGIN_CONFIG_RESOURCE = "META-INF/vfs-providers.xml";
 
-    private String configUri;
+    private URL configUri;
     private ClassLoader classLoader;
 
     /**
      * Sets the configuration file for this manager.
      */
     public void setConfiguration(final String configUri)
+    {
+        try
+        {
+            setConfiguration(new URL(configUri));
+        }
+        catch (MalformedURLException e)
+        {
+            log.warn(e.getLocalizedMessage(), e);
+        }
+    }
+
+    /**
+     * Sets the configuration file for this manager.
+     */
+    public void setConfiguration(final URL configUri)
     {
         this.configUri = configUri;
     }
@@ -97,7 +113,7 @@ public class StandardFileSystemManager
             {
                 throw new FileSystemException("vfs.impl/find-config-file.error", CONFIG_RESOURCE);
             }
-            configUri = url.toExternalForm();
+            configUri = url;
         }
 
         // Configure
@@ -122,7 +138,7 @@ public class StandardFileSystemManager
             // huh? why should that be?
             return;
         }
-        
+
         StringTokenizer st = new StringTokenizer(classpath, File.pathSeparator, false);
         while (st.hasMoreTokens())
         {
@@ -168,7 +184,14 @@ public class StandardFileSystemManager
                 File config = new File(path, PLUGIN_CONFIG_RESOURCE);
                 if (config.exists() && config.canRead())
                 {
-                    configure(config.getAbsolutePath());
+                    try
+                    {
+                      configure(config.toURL());
+                    }
+                    catch (MalformedURLException e)
+                    {
+                      log.warn(e.getLocalizedMessage(), e);
+                    }
                 }
             }
         }
@@ -182,20 +205,36 @@ public class StandardFileSystemManager
     /**
      * Configures this manager from an XML configuration file.
      */
-    private void configure(final String configUri) throws FileSystemException
+    private void configure(final URL configUri) throws FileSystemException
     {
+        InputStream configStream = null;
         try
         {
             // Load up the config
             // TODO - validate
             final DocumentBuilder builder = createDocumentBuilder();
-            final Element config = builder.parse(configUri).getDocumentElement();
+            configStream = configUri.openStream();
+            final Element config = builder.parse(configStream).getDocumentElement();
 
             configure(config);
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.impl/load-config.error", configUri, e);
+            throw new FileSystemException("vfs.impl/load-config.error", configUri.toString(), e);
+        }
+        finally
+        {
+            if (configStream != null)
+            {
+                try
+                {
+                    configStream.close();
+                }
+                catch (IOException e)
+                {
+                    log.warn(e.getLocalizedMessage(), e);
+                }
+            }
         }
     }
 
