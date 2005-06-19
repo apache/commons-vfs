@@ -32,9 +32,8 @@ import java.util.Map;
  * {@link #getOutputStream} method.  This will create the file, and the parent
  * folder, if necessary.
  * <p/>
- * <p>To prevent concurrency problems, a file may not have an OutputStream and
- * an InputStream open at the same time.  A file may have multiple InputStreams
- * open at the sametime.
+ * <p>A file may have multiple InputStreams open at the sametime.
+ * <p/>
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
