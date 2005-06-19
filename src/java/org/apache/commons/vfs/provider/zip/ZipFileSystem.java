@@ -25,15 +25,14 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 

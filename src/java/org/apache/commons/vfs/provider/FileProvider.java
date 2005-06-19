@@ -15,11 +15,11 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.FileName;
 
 import java.util.Collection;
 
@@ -68,5 +68,5 @@ public interface FileProvider
      */
     public Collection getCapabilities();
 
-    public FileName parseUri(String schme, String uri) throws FileSystemException;
+    public FileName parseUri(FileName root, String uri) throws FileSystemException;
 }

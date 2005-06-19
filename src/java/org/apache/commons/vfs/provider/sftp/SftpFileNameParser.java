@@ -17,14 +17,10 @@ package org.apache.commons.vfs.provider.sftp;
 
 import org.apache.commons.vfs.provider.FileNameParser;
 import org.apache.commons.vfs.provider.URLFileNameParser;
-import org.apache.commons.vfs.provider.ftp.FtpFileNameParser;
-import org.apache.commons.vfs.provider.http.HttpFileNameParser;
-import org.apache.commons.vfs.provider.webdav.WebdavFileNameParser;
+
 
 /**
- * Implementation for the webdav filesystem.
- * < p/>
- * Additionally encodes every character below space (' ')
+ * Implementation for sftp. set default port to 22
  */
 public class SftpFileNameParser extends URLFileNameParser
 {
@@ -34,12 +30,7 @@ public class SftpFileNameParser extends URLFileNameParser
     {
         super(22);
     }
-
-    public boolean encodeCharacter(char ch)
-    {
-        return super.encodeCharacter(ch) || ch < ' ';
-    }
-
+    
     public static FileNameParser getInstance()
     {
         return INSTANCE;

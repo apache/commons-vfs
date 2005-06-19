@@ -35,7 +35,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 /**
@@ -243,13 +242,30 @@ public class SftpFileObject
         {
             // Each entry is in unix ls format <perms> <?> <user> <group> <size> <date> <name>
             final String stat = (String) iterator.next();
-            final StringTokenizer tokens = new StringTokenizer(stat);
-            // TODO - check there are the correct number of tokens
-            // TODO - handle names with spaces in 'em
-            for (int i = 0; i < 8; tokens.nextToken(), i++)
+
+            // parse entry ==> 2005-06-19 imario@apache.org
+            // we can get rid of it as soon as jsch releases the next version
+            // which allows access to the raw stat object.
+            boolean trigger = true;
+            int state = 0;
+            StringBuffer nameBuf = new StringBuffer(stat.length());
+            for (int i = 0; i<stat.length(); i++)
             {
+                char c = stat.charAt(i);
+                if (state == 16)
+                {
+                    nameBuf.append(c);
+                    continue;
+                }
+                if ((c != ' ' && trigger) || (c == ' ' && !trigger))
+                {
+                    state++;
+                    trigger=!trigger;
+                }
             }
-            final String name = tokens.nextToken();
+            // <==
+
+            final String name = nameBuf.toString();
             if (name.equals(".") || name.equals(".."))
             {
                 continue;

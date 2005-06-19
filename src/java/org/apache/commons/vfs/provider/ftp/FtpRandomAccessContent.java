@@ -17,13 +17,12 @@ package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
-import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.DataInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FilterInputStream;
 
 class FtpRandomAccessContent extends AbstractRandomAccessContent
 {

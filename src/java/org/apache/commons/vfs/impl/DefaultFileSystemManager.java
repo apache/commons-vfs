@@ -555,13 +555,13 @@ public class DefaultFileSystemManager
     /**
      * Resolves a name, relative to the root.
      *
-     * @param root the base filename
+     * @param base the base filename
      * @param name the name
      * @param scope the {@link NameScope}
      * @return
      * @throws FileSystemException
      */
-    public FileName resolveName(final FileName root,
+    public FileName resolveName(final FileName base,
                                 final String name,
                                 final NameScope scope)
         throws FileSystemException
@@ -576,7 +576,7 @@ public class DefaultFileSystemManager
         {
             // Supplied path is not absolute
             buffer.insert(0, FileName.SEPARATOR_CHAR);
-            buffer.insert(0, root.getPath());
+            buffer.insert(0, base.getPath());
         }
 
         //// UriParser.canonicalizePath(buffer, 0, name.length());
@@ -586,13 +586,27 @@ public class DefaultFileSystemManager
 
         // Check the name is ok
         final String resolvedPath = buffer.toString();
-        if (!AbstractFileName.checkName(root.getPath(), resolvedPath, scope))
+        if (!AbstractFileName.checkName(base.getPath(), resolvedPath, scope))
         {
             throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
         }
 
-        // todo: pass this down to the fileProvider
-        return ((AbstractFileName) root).createName(resolvedPath);
+        String scheme = base.getScheme();
+        final FileProvider provider = (FileProvider) providers.get(scheme);
+        if (provider != null)
+        {
+            // todo: extend the filename parser to be able to parse
+            // only a pathname and take the missing informations from
+            // the base. Then we can get rid of the string operation.
+            //// String fullPath = base.getRootURI() + resolvedPath.substring(1);
+            String fullPath = base.getRootURI() + resolvedPath;
+
+            return provider.parseUri(base, fullPath);
+        }
+
+        // todo: avoid fallback to this point
+        // this happens if we have a virtual filesystem (no provider for scheme)
+        return ((AbstractFileName) base).createName(null, resolvedPath);
     }
 
     public FileName resolveURI(String uri) throws FileSystemException
@@ -612,7 +626,7 @@ public class DefaultFileSystemManager
             final FileProvider provider = (FileProvider) providers.get(scheme);
             if (provider != null)
             {
-                return provider.parseUri(scheme, uri);
+                return provider.parseUri(null, uri);
             }
 
 // Otherwise, assume a local file

@@ -16,10 +16,7 @@
 package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileName;
-import org.apache.commons.vfs.provider.UriParser;
-import org.apache.commons.vfs.provider.FileNameParser;
 
 /**
  * A local file URI.
@@ -27,16 +24,16 @@ import org.apache.commons.vfs.provider.FileNameParser;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public class LocalFileName
-    extends AbstractFileName
+public class LocalFileName extends AbstractFileName
 {
     private final String rootFile;
 
-    protected LocalFileName(final String scheme,
+    protected LocalFileName(final String rootUri,
+                            final String scheme,
                             final String rootFile,
                             final String path)
     {
-        super(scheme, path);
+        super(rootUri, scheme, path);
         this.rootFile = rootFile;
     }
 
@@ -51,9 +48,9 @@ public class LocalFileName
     /**
      * Factory method for creating name instances.
      */
-    public FileName createName(final String path)
+    public FileName createName(final String rootURI, final String path)
     {
-        return new LocalFileName(getScheme(), rootFile, path);
+        return new LocalFileName(rootURI, getScheme(), rootFile, path);
     }
 
     /**

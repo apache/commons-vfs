@@ -15,11 +15,11 @@
  */
 package org.apache.commons.vfs.impl;
 
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.FileReplicator;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
 import org.apache.commons.vfs.provider.VfsComponentContext;

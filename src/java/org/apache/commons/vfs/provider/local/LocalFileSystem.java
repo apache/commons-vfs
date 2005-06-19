@@ -21,7 +21,6 @@ import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.UriParser;
 
 import java.io.File;
 import java.io.FilePermission;

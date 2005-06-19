@@ -23,6 +23,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.http.HttpFileNameParser;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,7 +56,7 @@ public class WebdavFileProvider
     {
         super();
 
-        setFileNameParser(WebdavFileNameParser.getInstance());
+        setFileNameParser(HttpFileNameParser.getInstance());
     }
 
     /**

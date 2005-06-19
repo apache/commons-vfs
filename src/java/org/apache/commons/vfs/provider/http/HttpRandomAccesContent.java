@@ -22,9 +22,9 @@ import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.DataInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FilterInputStream;
 import java.net.HttpURLConnection;
 
 class HttpRandomAccesContent extends AbstractRandomAccessContent

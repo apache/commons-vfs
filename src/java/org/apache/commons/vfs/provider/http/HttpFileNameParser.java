@@ -19,9 +19,7 @@ import org.apache.commons.vfs.provider.FileNameParser;
 import org.apache.commons.vfs.provider.URLFileNameParser;
 
 /**
- * Implementation for the webdav filesystem.
- * < p/>
- * Additionally encodes every character below space (' ')
+ * Implementation for http. set default port to 80
  */
 public class HttpFileNameParser extends URLFileNameParser
 {
@@ -30,11 +28,6 @@ public class HttpFileNameParser extends URLFileNameParser
     public HttpFileNameParser()
     {
         super(80);
-    }
-
-    public boolean encodeCharacter(char ch)
-    {
-        return super.encodeCharacter(ch) || ch < ' ';
     }
 
     public static FileNameParser getInstance()

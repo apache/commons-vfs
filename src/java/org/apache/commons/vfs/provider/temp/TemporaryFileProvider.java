@@ -21,7 +21,6 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
-import org.apache.commons.vfs.provider.BasicFileName;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
@@ -106,7 +105,9 @@ public class TemporaryFileProvider
                 rootFile = getContext().getTemporaryFileStore().allocateFile("tempfs");
             }
             final FileName rootName =
-                new BasicFileName(scheme, scheme + ":", FileName.ROOT_PATH);
+                getContext().parseURI(scheme + ":" + FileName.ROOT_PATH);
+            // final FileName rootName =
+            //    new LocalFileName(scheme, scheme + ":", FileName.ROOT_PATH);
             filesystem = new LocalFileSystem(rootName, rootFile.getAbsolutePath());
             addFileSystem(this, filesystem);
         }

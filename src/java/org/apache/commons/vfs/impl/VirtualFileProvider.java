@@ -19,7 +19,6 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractVfsContainer;
-import org.apache.commons.vfs.provider.BasicFileName;
 
 
 /**
@@ -38,7 +37,9 @@ public class VirtualFileProvider
         throws FileSystemException
     {
         final FileName rootName =
-            new BasicFileName(rootFile.getName(), FileName.ROOT_PATH);
+            getContext().getFileSystemManager().resolveName(rootFile.getName(), FileName.ROOT_PATH);
+        // final FileName rootName =
+        //    new BasicFileName(rootFile.getName(), FileName.ROOT_PATH);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         fs.addJunction(FileName.ROOT_PATH, rootFile);
@@ -51,7 +52,9 @@ public class VirtualFileProvider
     public FileObject createFileSystem(final String rootUri) throws FileSystemException
     {
         final FileName rootName =
-            new BasicFileName(rootUri, FileName.ROOT_PATH);
+            new VirtualFileName(null, rootUri, FileName.ROOT_PATH);
+        // final FileName rootName =
+        //    new BasicFileName(rootUri, FileName.ROOT_PATH);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         return fs.getRoot();

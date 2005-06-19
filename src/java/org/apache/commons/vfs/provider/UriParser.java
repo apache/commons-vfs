@@ -422,7 +422,7 @@ public final class UriParser
                 }
                 char value = (char) (dig1 << 4 | dig2);
 
-                boolean match = (ch == '%') || (fileNameParser != null && fileNameParser.encodeCharacter(ch));
+                boolean match = (value == '%') || (fileNameParser != null && fileNameParser.encodeCharacter(value));
 
                 if (match)
                 {
@@ -449,5 +449,20 @@ public final class UriParser
                 index += 2;
             }
         }
+    }
+
+    public static String extractQueryString(StringBuffer name)
+    {
+        for (int pos = 0; pos < name.length(); pos++)
+        {
+            if (name.charAt(pos) == '?')
+            {
+                String queryString = name.substring(pos+1);
+                name.delete(pos, name.length());
+                return queryString;
+            }
+        }
+
+        return null;
     }
 }

@@ -67,27 +67,33 @@ public class NamingTests
         getManager().setBaseFile(getReadFolder());
         final String path = getReadFolder().getName().getPath();
 
-        // Encode "some file"
+        // §1 Encode "some file"
         FileObject file = getManager().resolveFile("%73%6f%6d%65%20%66%69%6c%65");
         assertEquals(path + "/some file", file.getName().getPathDecoded());
 
-        // Encode "."
+        // §2 Encode "."
         file = getManager().resolveFile("%2e");
-        assertEquals(path + "/.", file.getName().getPathDecoded());
+        // 18-6-2005 imario@apache.org: no need to keep the "current directory"
+        // assertEquals(path + "/.", file.getName().getPathDecoded());
+        assertEquals(path, file.getName().getPathDecoded());
 
-        // Encode '%'
+        // §3 Encode '%'
         file = getManager().resolveFile("a%25");
         assertEquals(path + "/a%", file.getName().getPathDecoded());
 
-        // Encode /
+        // §4 Encode /
         file = getManager().resolveFile("dir%2fchild");
         assertEquals(path + "/dir/child", file.getName().getPathDecoded());
 
-        // Encode \
+        // §5 Encode \
         file = getManager().resolveFile("dir%5cchild");
-        assertEquals(path + "/dir\\child", file.getName().getPathDecoded());
+        // 18-6-2005 imario@apache.org: all file separators normalized to "/"
+        // decided to do this to get the same behaviour as in §4 on windows
+        // platforms
+        // assertEquals(path + "/dir\\child", file.getName().getPathDecoded());
+        assertEquals(path + "/dir/child", file.getName().getPathDecoded());
 
-        // Use "%" literal
+        // §6 Use "%" literal
         try
         {
             getManager().resolveFile("%");
@@ -97,7 +103,7 @@ public class NamingTests
         {
         }
 
-        // Not enough digits in encoded char
+        // §7 Not enough digits in encoded char
         try
         {
             getManager().resolveFile("%5");
@@ -107,7 +113,7 @@ public class NamingTests
         {
         }
 
-        // Invalid digit in encoded char
+        // §8 Invalid digit in encoded char
         try
         {
             getManager().resolveFile("%q");

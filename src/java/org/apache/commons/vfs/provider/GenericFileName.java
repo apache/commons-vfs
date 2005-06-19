@@ -25,8 +25,7 @@ import org.apache.commons.vfs.FileName;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public class GenericFileName
-    extends AbstractFileName
+public class GenericFileName extends AbstractFileName
 {
     private final String userName;
     private final String hostName;
@@ -36,7 +35,8 @@ public class GenericFileName
     private static final char[] USERNAME_RESERVED = {':', '@'};
     private static final char[] PASSWORD_RESERVED = {'@'};
 
-    protected GenericFileName(final String scheme,
+    protected GenericFileName(final String rootUri,
+                              final String scheme,
                               final String hostName,
                               final int port,
                               final int defaultPort,
@@ -44,7 +44,7 @@ public class GenericFileName
                               final String password,
                               final String path)
     {
-        super(scheme, path);
+        super(rootUri, scheme, path);
         this.hostName = hostName;
         this.defaultPort = defaultPort;
         this.password = password;
@@ -99,12 +99,10 @@ public class GenericFileName
         return defaultPort;
     }
 
-    /**
-     * Factory method for creating name instances.
-     */
-    public FileName createName(final String absPath)
+    public FileName createName(String rootURI, String absPath)
     {
-        return new GenericFileName(getScheme(),
+        return new GenericFileName(rootURI,
+            getScheme(),
             hostName,
             port,
             defaultPort,

@@ -37,7 +37,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
         return super.encodeCharacter(ch) || ch == '!';
     }
 
-    public FileName parseUri(final VfsComponentContext context, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 

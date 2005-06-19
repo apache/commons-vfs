@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileName;
 
 /**
@@ -32,7 +31,7 @@ public class LayeredFileName extends AbstractFileName
                            final FileName outerUri,
                            final String path)
     {
-        super(scheme, path);
+        super(null, scheme, path);
         this.outerUri = outerUri;
     }
 
@@ -44,7 +43,7 @@ public class LayeredFileName extends AbstractFileName
         return outerUri;
     }
 
-    public FileName createName(String path)
+    public FileName createName(String rootURI, String path)
     {
         return new LayeredFileName(getScheme(), getOuterName(), path);
     }

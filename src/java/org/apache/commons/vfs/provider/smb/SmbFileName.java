@@ -16,11 +16,7 @@
 package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.commons.vfs.provider.UriParser;
-import org.apache.commons.vfs.provider.AbstractFileProvider;
-import org.apache.commons.vfs.provider.FileNameParser;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
@@ -35,15 +31,17 @@ public class SmbFileName
 
     private final String share;
 
-    protected SmbFileName(final String scheme,
-                        final String hostName,
-                        final int port,
-                        final String userName,
-                        final String password,
-                        final String share,
-                        final String path)
+    protected SmbFileName(
+        final String rootUri,
+        final String scheme,
+        final String hostName,
+        final int port,
+        final String userName,
+        final String password,
+        final String share,
+        final String path)
     {
-        super(scheme, hostName, port, DEFAULT_PORT, userName, password, path);
+        super(rootUri, scheme, hostName, port, DEFAULT_PORT, userName, password, path);
         this.share = share;
     }
 
@@ -68,9 +66,10 @@ public class SmbFileName
     /**
      * Factory method for creating name instances.
      */
-    public FileName createName(final String path)
+    public FileName createName(final String rootURI, final String path)
     {
-        return new SmbFileName(getScheme(),
+        return new SmbFileName(getRootURI(),
+            getScheme(),
             getHostName(),
             getPort(),
             getUserName(),

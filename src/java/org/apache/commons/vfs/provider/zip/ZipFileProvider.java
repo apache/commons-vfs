@@ -23,7 +23,6 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
-import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.LayeredFileName;
 
 import java.util.Arrays;

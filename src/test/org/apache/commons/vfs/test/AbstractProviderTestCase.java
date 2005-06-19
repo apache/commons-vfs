@@ -20,6 +20,9 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
 import java.io.ByteArrayOutputStream;
@@ -251,12 +254,26 @@ public abstract class AbstractProviderTestCase
     /**
      * Builds the expected structure of the read tests folder.
      */
-    protected FileInfo buildExpectedStructure()
+    protected FileInfo buildExpectedStructure() throws FileSystemException
     {
         // Build the expected structure
         final FileInfo base = new FileInfo(getReadFolder().getName().getBaseName(), FileType.FOLDER);
         base.addFile("file1.txt", FILE1_CONTENT);
+        // file%.txt - test out encoding
         base.addFile("file%25.txt", FILE1_CONTENT);
+
+        // file?test.txt - test out encoding (test.txt is not the queryString)
+        // as we do not know if the current file provider we need to
+        // ask it to normalize the name
+        // todo: move this into the FileInfo class to do it generally?
+        /* webdav-bug?: didnt manage to get the "?" correctly through webdavlib
+        FileSystemManager fsm = getReadFolder().getFileSystem().getFileSystemManager();
+        FileName fn = fsm.resolveName(getReadFolder().getName(), "file%3ftest.txt");
+        String baseName = fn.getBaseName();
+        base.addFile(baseName, FILE1_CONTENT);
+        */
+        base.addFile("file space.txt", FILE1_CONTENT);
+
         base.addFile("empty.txt", "");
         base.addFolder("emptydir");
 

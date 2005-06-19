@@ -24,22 +24,23 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.WebdavResource;
 import org.apache.webdav.lib.methods.DepthSupport;
 import org.apache.webdav.lib.methods.OptionsMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
-import org.apache.webdav.lib.methods.DeleteMethod;
 import org.apache.webdav.lib.properties.ResourceTypeProperty;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -93,6 +94,7 @@ public class WebdavFileObject
 
     /**
      * set the davResource
+     *
      * @param resource
      * @param bCheckExists might be removed soon
      * @throws Exception
@@ -101,13 +103,15 @@ public class WebdavFileObject
     {
         redirectionResolved = false;
 
+        final URLFileName name = (URLFileName) getName();
+
         // System.err.println("set on " + System.identityHashCode(this) + " " + getName() + ":" + bCheckExists);
         if (resource == null)
         {
-            final GenericFileName name = (GenericFileName) getName();
             // HttpURL url = new HttpURL(name.getHostName(), name.getPort(), name.getPath());
-            HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), name.getPathDecoded());
-            url.setEscapedPath(name.getPath());
+            String pathEncoded = name.getPathQueryEncoded();
+            HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort());
+            url.setEscapedPath(pathEncoded);
             resource = new WebdavResource(fileSystem.getClient())
             {
             };
@@ -119,7 +123,8 @@ public class WebdavFileObject
         // if (bCheckExists)
         {
             /* now fill the dav properties */
-            final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
+            String pathEncoded = name.getPathQueryEncoded();
+            final OptionsMethod optionsMethod = new OptionsMethod(pathEncoded);
             optionsMethod.setFollowRedirects(true);
             final int status = fileSystem.getClient().executeMethod(optionsMethod);
             if (status < 200 || status > 299)
@@ -142,7 +147,7 @@ public class WebdavFileObject
             }
             // handle the (maybe) redirected url
             redirectionResolved = true;
-            resource.getHttpURL().setEscapedPath(optionsMethod.getPath());
+            resource.getHttpURL().setEscapedPath(optionsMethod.getURI().getPath());
 
             setAllowedMethods(optionsMethod.getAllowedMethods());
             boolean exists = false;
@@ -181,6 +186,7 @@ public class WebdavFileObject
             injectType(FileType.FILE);
         }
     }
+
 
     private void setAllowedMethods(Enumeration allowedMethods)
     {
@@ -289,27 +295,32 @@ public class WebdavFileObject
             throw new FileSystemException("vfs.provider.webdav/list-children.error", resource.getStatusMessage());
         }
 
-        WebdavFileObject[] vfs = new WebdavFileObject[children.length];
+        List vfs = new ArrayList(children.length);
+        // WebdavFileObject[] vfs = new WebdavFileObject[children.length];
         for (int i = 0; i < children.length; i++)
         {
             WebdavResource dav = children[i];
 
-            /*
+            String davName = dav.getHttpURL().getEscapedName();
+            if ("".equals(davName))
+            {
+                // current file
+                continue;
+            }
+
             WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(
-                    getName().resolveName(
-                        UriParser.encode(dav.getName()), NameScope.CHILD));
-             */
-            WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(
-                    getFileSystem().getFileSystemManager().resolveName(
-                        getName(),
-                        UriParser.encode(dav.getName()),
-                        NameScope.CHILD));
+                getFileSystem().getFileSystemManager().resolveName(
+                    getName(),
+                    davName,
+                    NameScope.CHILD));
             fo.setDavResource(dav, false);
 
-            vfs[i] = fo;
+            // vfs[i] = fo;
+            vfs.add(fo);
         }
 
-        return vfs;
+        return (WebdavFileObject[]) vfs.toArray(new WebdavFileObject[vfs.size()]);
+        // return vfs;
     }
 
     /**
@@ -318,7 +329,8 @@ public class WebdavFileObject
     protected void doCreateFolder() throws Exception
     {
         // Adjust resource path
-        resource.getHttpURL().setEscapedPath(getName().getPath() + '/');
+        //// resource.getHttpURL().setEscapedPath(getName().getPath() + '/');
+        resource.getHttpURL().setPath(getName().getPathDecoded() + '/');
         final boolean ok = resource.mkcolMethod();
         if (!ok)
         {
@@ -411,7 +423,8 @@ public class WebdavFileObject
             final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
 
             // Adjust the resource path (this file object may have been a folder)
-            resource.getHttpURL().setEscapedPath(getName().getPath());
+            //// resource.getHttpURL().setEscapedPath(getName().getPath());
+            resource.getHttpURL().setPath(getName().getPathDecoded());
             final boolean ok = resource.putMethod(outstr.toByteArray());
             if (!ok)
             {

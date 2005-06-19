@@ -21,8 +21,8 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 import org.apache.commons.vfs.provider.LayeredFileName;
+import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;

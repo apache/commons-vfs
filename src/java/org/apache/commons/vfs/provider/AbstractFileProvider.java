@@ -15,12 +15,12 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.provider.local.GenericFileNameParser;
 
 import java.util.Iterator;
@@ -153,14 +153,14 @@ public abstract class AbstractFileProvider
     /**
      * Parses an absolute URI.
      *
-     * @param schme
+     * @param base The base file - if null the <code>uri</code> needs to be absolute
      * @param uri The URI to parse.
      */
-    public FileName parseUri(String schme, String uri) throws FileSystemException
+    public FileName parseUri(FileName base, String uri) throws FileSystemException
     {
         if (getFileNameParser() != null)
         {
-            return getFileNameParser().parseUri(getContext(), uri);
+            return getFileNameParser().parseUri(getContext(), base, uri);
         }
 
         throw new FileSystemException("vfs.provider/filename-parser-missing.error");

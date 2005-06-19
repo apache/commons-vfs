@@ -56,7 +56,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         throws FileSystemException;
 
 
-    public FileName parseUri(final VfsComponentContext context, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
@@ -78,8 +78,12 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return createFileName(scheme, rootFile, path);
+        return createFileName(
+            base!=null?base.getRootURI():null,
+            scheme,
+            rootFile,
+            path);
     }
 
-    protected abstract FileName createFileName(String scheme, final String rootFile, final String path);
+    protected abstract FileName createFileName(String rootURI, String scheme, final String rootFile, final String path);
 }

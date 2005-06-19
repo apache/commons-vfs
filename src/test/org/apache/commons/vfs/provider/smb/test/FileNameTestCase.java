@@ -35,7 +35,7 @@ public class FileNameTestCase
     public void testParseUri() throws Exception
     {
         // Simple name
-        SmbFileName name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, "smb://hostname/share/file");
+        SmbFileName name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://hostname/share/file");
         assertEquals("smb", name.getScheme());
         assertNull(name.getUserName());
         assertNull(name.getPassword());
@@ -48,7 +48,7 @@ public class FileNameTestCase
         assertEquals("smb://hostname/share/file", name.getURI());
 
         // Name with port
-        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, "smb://hostname:9090/share/file");
+        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://hostname:9090/share/file");
         assertEquals("smb", name.getScheme());
         assertNull(name.getUserName());
         assertNull(name.getPassword());
@@ -60,7 +60,7 @@ public class FileNameTestCase
         assertEquals("smb://hostname:9090/share/file", name.getURI());
 
         // Name with no path
-        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, "smb://hostname/share");
+        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://hostname/share");
         assertEquals("smb", name.getScheme());
         assertNull(name.getUserName());
         assertNull(name.getPassword());
@@ -72,7 +72,7 @@ public class FileNameTestCase
         assertEquals("smb://hostname/share/", name.getURI());
 
         // Name with username
-        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, "smb://user@hostname/share/file");
+        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://user@hostname/share/file");
         assertEquals("smb", name.getScheme());
         assertEquals("user", name.getUserName());
         assertNull(name.getPassword());
@@ -84,7 +84,7 @@ public class FileNameTestCase
         assertEquals("smb://user@hostname/share/file", name.getURI());
 
         // Name with extension
-        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, "smb://user@hostname/share/file.txt");
+        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://user@hostname/share/file.txt");
         assertEquals("smb", name.getScheme());
         assertEquals("user", name.getUserName());
         assertNull(name.getPassword());
@@ -98,7 +98,7 @@ public class FileNameTestCase
         assertEquals("smb://user@hostname/share/file.txt", name.getURI());
 
         // Name look likes extension, but isnt
-        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, "smb://user@hostname/share/.bashrc");
+        name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://user@hostname/share/.bashrc");
         assertEquals("smb", name.getScheme());
         assertEquals("user", name.getUserName());
         assertNull(name.getPassword());
@@ -149,7 +149,7 @@ public class FileNameTestCase
     {
         try
         {
-            SmbFileNameParser.getInstance().parseUri(null, uri);
+            SmbFileNameParser.getInstance().parseUri(null, null, uri);
             fail();
         }
         catch (final FileSystemException e)

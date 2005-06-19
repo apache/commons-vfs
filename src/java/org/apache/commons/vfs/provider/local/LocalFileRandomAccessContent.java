@@ -19,12 +19,12 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.io.InputStream;
-import java.io.EOFException;
+import java.io.RandomAccessFile;
 
 /**
  * RandomAccess for local files

@@ -18,15 +18,18 @@ package org.apache.commons.vfs.provider.http;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.DateParser;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
@@ -162,11 +165,18 @@ public class HttpFileObject
     /**
      * Prepares a Method object.
      */
-    void setupMethod(final HttpMethod method)
+    void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
-        method.setPath(getName().getPath());
+        String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded();
+        method.setPath(pathEncoded);
         method.setFollowRedirects(true);
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
+    }
+
+    protected String encodePath(final String decodedPath) throws URIException
+    {
+        String pathEncoded = URIUtil.encodePath(decodedPath);
+        return pathEncoded;
     }
 
     /**

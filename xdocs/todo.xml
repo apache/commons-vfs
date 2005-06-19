@@ -127,5 +127,18 @@
                 </ul>
             </subsection>
         </section>
+
+        <section name="Library upgrades">
+            <p>
+                The following describes things I discovered during testing newer dependencies.
+            </p>
+
+            <subsection name="webdavlib 2.1">
+                <ul>
+                    <li>resource.listWebdavResources() do no longer list directories?<br />Figure out what to do</li>
+                </ul>
+            </subsection>
+
+        </section>
     </body>
 </document>

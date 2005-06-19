@@ -23,9 +23,7 @@ import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponentContext;
 
 /**
- * Implementation for the webdav filesystem.
- * < p/>
- * Additionally encodes every character below space (' ')
+ * Implementation for sftp. set default port to 139
  */
 public class SmbFileNameParser extends URLFileNameParser
 {
@@ -41,7 +39,7 @@ public class SmbFileNameParser extends URLFileNameParser
         return INSTANCE;
     }
 
-    public FileName parseUri(final VfsComponentContext context, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
@@ -64,7 +62,9 @@ public class SmbFileNameParser extends URLFileNameParser
         UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return new SmbFileName(auth.scheme,
+        return new SmbFileName(
+            base!=null?base.getRootURI():null,
+            auth.scheme,
             auth.hostName,
             auth.port,
             auth.userName,

@@ -32,9 +32,10 @@ public interface FileNameParser
 
     /**
      * parses a String into a filename
+     * @param base
      * @param filename
      * @return
      * @throws org.apache.commons.vfs.FileSystemException
      */
-    public FileName parseUri(final VfsComponentContext context, final String filename) throws FileSystemException;
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename) throws FileSystemException;
 }

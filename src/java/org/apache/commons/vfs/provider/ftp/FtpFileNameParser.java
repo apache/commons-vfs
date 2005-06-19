@@ -16,27 +16,18 @@
 package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.vfs.provider.FileNameParser;
-import org.apache.commons.vfs.provider.URLFileNameParser;
-import org.apache.commons.vfs.provider.http.HttpFileNameParser;
-import org.apache.commons.vfs.provider.webdav.WebdavFileNameParser;
+import org.apache.commons.vfs.provider.HostFileNameParser;
 
 /**
- * Implementation for the webdav filesystem.
- * < p/>
- * Additionally encodes every character below space (' ')
+ * Implementation for ftp. set default port to 21
  */
-public class FtpFileNameParser extends URLFileNameParser
+public class FtpFileNameParser extends HostFileNameParser
 {
     private final static FtpFileNameParser INSTANCE = new FtpFileNameParser();
 
     public FtpFileNameParser()
     {
         super(21);
-    }
-
-    public boolean encodeCharacter(char ch)
-    {
-        return super.encodeCharacter(ch) || ch < ' ';
     }
 
     public static FileNameParser getInstance()

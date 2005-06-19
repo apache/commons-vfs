@@ -46,7 +46,7 @@ public abstract class AbstractLayeredFileProvider
                                final FileSystemOptions properties) throws FileSystemException
     {
         // Split the URI up into its parts
-        final LayeredFileName name = (LayeredFileName) parseUri(baseFile!=null?baseFile.getName().getScheme():null, uri);
+        final LayeredFileName name = (LayeredFileName) parseUri(baseFile!=null?baseFile.getName():null, uri);
 
         // Make the URI canonical
 

@@ -90,7 +90,7 @@ public class DefaultLocalFileProvider
         StringBuffer uri = new StringBuffer(name.length() + 5);
         uri.append("file:");
         uri.append(name);
-        FileName filename = parseUri("file", uri.toString());
+        FileName filename = parseUri(null, uri.toString());
         return findFile(filename, null);
     }
 

@@ -110,6 +110,11 @@ public interface FileName extends Comparable
     String getRootURI();
 
     /**
+     * find the root of the filesystem
+     */
+    public FileName getRoot();
+
+    /**
      * Returns the file name of the parent of this file.  The root of a
      * file system has no parent.
      *

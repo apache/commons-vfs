@@ -34,13 +34,16 @@ public abstract class AbstractFileName
     // Cached stuff
     private String uri;
     private String baseName;
-    private String rootUri;
+    // will be set by BasicFileName too
+    protected String rootUri;
     private String extension;
     private String decodedAbsPath;
 
-    public AbstractFileName(final String scheme,
+    public AbstractFileName(final String rootUri,
+                            final String scheme,
                             final String absPath)
     {
+        this.rootUri = rootUri;
         this.scheme = scheme;
         if (absPath != null && absPath.length() > 0)
         {
@@ -106,7 +109,7 @@ public abstract class AbstractFileName
     /**
      * Factory method for creating name instances.
      */
-    public abstract FileName createName(String absPath);
+    public abstract FileName createName(String rootURI, String absPath);
 
     /**
      * Builds the root URI for this file name.  Note that the root URI must not
@@ -175,7 +178,21 @@ public abstract class AbstractFileName
         {
             parentPath = getPath().substring(0, idx);
         }
-        return createName(parentPath);
+        return createName(getRootURI(), parentPath);
+    }
+
+    /**
+     * find the root of the filesystem
+     */
+    public FileName getRoot()
+    {
+        FileName root = this;
+        while (root.getParent() != null)
+        {
+            root = root.getParent();
+        }
+
+        return root;
     }
 
     /**
@@ -193,12 +210,17 @@ public abstract class AbstractFileName
     {
         if (uri == null)
         {
-            final StringBuffer buffer = new StringBuffer();
-            appendRootUri(buffer);
-            buffer.append(getPath());
-            uri = buffer.toString();
+            uri = createURI();
         }
         return uri;
+    }
+
+    protected String createURI()
+    {
+        final StringBuffer buffer = new StringBuffer();
+        appendRootUri(buffer);
+        buffer.append(getPath());
+        return buffer.toString();
     }
 
     /**
