@@ -48,6 +48,7 @@ public class HttpFileObject
     extends AbstractFileObject
 {
     private final HttpFileSystem fileSystem;
+    private final String urlCharset;
     private HeadMethod method;
 
     protected HttpFileObject(final FileName name,
@@ -55,6 +56,7 @@ public class HttpFileObject
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;
+        urlCharset = HttpFileSystemConfigBuilder.getInstance().getUrlCharset(getFileSystem().getFileSystemOptions());
     }
 
     /**
@@ -167,7 +169,7 @@ public class HttpFileObject
      */
     void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
-        String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded();
+        String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
         method.setPath(pathEncoded);
         method.setFollowRedirects(true);
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");

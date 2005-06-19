@@ -38,6 +38,26 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * Set the charset used for url encoding<br>
+     *
+     * @param chaset the chaset
+     */
+    public void setUrlCharset(FileSystemOptions opts, String chaset)
+    {
+        setParam(opts, "urlCharset", chaset);
+    }
+
+    /**
+     * Set the charset used for url encoding<br>
+     *
+     * @return the chaset
+     */
+    public String getUrlCharset(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, "urlCharset");
+    }
+
+    /**
      * Set the proxy to use for http connection.<br>
      * You have to set the ProxyPort too if you would like to have the proxy relly used.
      *

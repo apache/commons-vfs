@@ -56,6 +56,7 @@ public class WebdavFileObject
     implements FileObject
 {
     private final WebDavFileSystem fileSystem;
+    private final String urlCharset;
     private WebdavResource resource;
     private boolean redirectionResolved = false;
     private Set allowedMethods = null;
@@ -66,6 +67,7 @@ public class WebdavFileObject
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;
+        this.urlCharset = WebdavFileSystemConfigBuilder.getInstance().getUrlCharset(getFileSystem().getFileSystemOptions());
     }
 
     /**
@@ -75,7 +77,7 @@ public class WebdavFileObject
     {
         if (resource == null)
         {
-            setDavResource(null, true);
+            setDavResource(null);
         }
     }
 
@@ -96,10 +98,9 @@ public class WebdavFileObject
      * set the davResource
      *
      * @param resource
-     * @param bCheckExists might be removed soon
      * @throws Exception
      */
-    private void setDavResource(WebdavResource resource, boolean bCheckExists) throws Exception
+    private void setDavResource(WebdavResource resource) throws Exception
     {
         redirectionResolved = false;
 
@@ -109,7 +110,7 @@ public class WebdavFileObject
         if (resource == null)
         {
             // HttpURL url = new HttpURL(name.getHostName(), name.getPort(), name.getPath());
-            String pathEncoded = name.getPathQueryEncoded();
+            String pathEncoded = name.getPathQueryEncoded(urlCharset);
             HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort());
             url.setEscapedPath(pathEncoded);
             resource = new WebdavResource(fileSystem.getClient())
@@ -123,7 +124,7 @@ public class WebdavFileObject
         // if (bCheckExists)
         {
             /* now fill the dav properties */
-            String pathEncoded = name.getPathQueryEncoded();
+            String pathEncoded = name.getPathQueryEncoded(urlCharset);
             final OptionsMethod optionsMethod = new OptionsMethod(pathEncoded);
             optionsMethod.setFollowRedirects(true);
             final int status = fileSystem.getClient().executeMethod(optionsMethod);
@@ -313,7 +314,7 @@ public class WebdavFileObject
                     getName(),
                     davName,
                     NameScope.CHILD));
-            fo.setDavResource(dav, false);
+            fo.setDavResource(dav);
 
             // vfs[i] = fo;
             vfs.add(fo);
