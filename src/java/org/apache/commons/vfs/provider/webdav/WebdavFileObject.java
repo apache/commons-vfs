@@ -155,7 +155,9 @@ public class WebdavFileObject
             for (Enumeration enumeration = optionsMethod.getAllowedMethods(); enumeration.hasMoreElements();)
             {
                 final String method = (String) enumeration.nextElement();
-                if (method.equals("GET"))
+                // IIS allows GET even if the file is non existend - so changed to COPY
+                // if (method.equals("GET"))
+                if (method.equals("COPY"))
                 {
                     exists = true;
                     break;
@@ -474,7 +476,9 @@ public class WebdavFileObject
 
     protected boolean doIsWriteable() throws Exception
     {
-        return hasAllowedMethods("POST");
+        // Again to be IIS compatible
+        // return hasAllowedMethods("POST");
+        return hasAllowedMethods("COPY");
     }
 
     private void getAllowedMethods() throws IOException
