@@ -62,8 +62,8 @@ public class GenericFileNameParser
      * here the rootFilename can only be "/" (see above) put this "/" is also in the pathname
      * so its of no value for the LocalFileName instance
      */
-    protected FileName createFileName(String rootURI, String scheme, final String rootFile, final String path)
+    protected FileName createFileName(String scheme, final String rootFile, final String path)
     {
-        return new LocalFileName(rootURI, scheme, "", path);
+        return new LocalFileName(scheme, "", path);
     }
 }

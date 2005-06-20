@@ -52,7 +52,6 @@ public class URLFileNameParser extends HostFileNameParser
         final String path = normalizePath(name);
 
         return new URLFileName(
-            base!=null?base.getRootURI():null,
             auth.scheme,
             auth.hostName,
             auth.port,

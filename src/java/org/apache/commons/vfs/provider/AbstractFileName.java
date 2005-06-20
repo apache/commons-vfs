@@ -34,16 +34,14 @@ public abstract class AbstractFileName
     // Cached stuff
     private String uri;
     private String baseName;
-    // will be set by BasicFileName too
-    protected String rootUri;
+    private String rootUri;
     private String extension;
     private String decodedAbsPath;
 
-    public AbstractFileName(final String rootUri,
-                            final String scheme,
+    public AbstractFileName(final String scheme,
                             final String absPath)
     {
-        this.rootUri = rootUri;
+        this.rootUri = null;
         this.scheme = scheme;
         if (absPath != null && absPath.length() > 0)
         {
@@ -109,7 +107,7 @@ public abstract class AbstractFileName
     /**
      * Factory method for creating name instances.
      */
-    public abstract FileName createName(String rootURI, String absPath);
+    public abstract FileName createName(String absPath);
 
     /**
      * Builds the root URI for this file name.  Note that the root URI must not
@@ -178,7 +176,7 @@ public abstract class AbstractFileName
         {
             parentPath = getPath().substring(0, idx);
         }
-        return createName(getRootURI(), parentPath);
+        return createName(parentPath);
     }
 
     /**

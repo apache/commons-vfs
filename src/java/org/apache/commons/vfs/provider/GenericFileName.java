@@ -35,8 +35,7 @@ public class GenericFileName extends AbstractFileName
     private static final char[] USERNAME_RESERVED = {':', '@'};
     private static final char[] PASSWORD_RESERVED = {'@'};
 
-    protected GenericFileName(final String rootUri,
-                              final String scheme,
+    protected GenericFileName(final String scheme,
                               final String hostName,
                               final int port,
                               final int defaultPort,
@@ -44,7 +43,7 @@ public class GenericFileName extends AbstractFileName
                               final String password,
                               final String path)
     {
-        super(rootUri, scheme, path);
+        super(scheme, path);
         this.hostName = hostName;
         this.defaultPort = defaultPort;
         this.password = password;
@@ -99,9 +98,9 @@ public class GenericFileName extends AbstractFileName
         return defaultPort;
     }
 
-    public FileName createName(String rootURI, String absPath)
+    public FileName createName(String absPath)
     {
-        return new GenericFileName(rootURI,
+        return new GenericFileName(
             getScheme(),
             hostName,
             port,

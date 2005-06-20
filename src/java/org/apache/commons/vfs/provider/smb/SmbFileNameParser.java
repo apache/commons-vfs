@@ -63,7 +63,6 @@ public class SmbFileNameParser extends URLFileNameParser
         final String path = name.toString();
 
         return new SmbFileName(
-            base!=null?base.getRootURI():null,
             auth.scheme,
             auth.hostName,
             auth.port,

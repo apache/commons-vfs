@@ -9,8 +9,7 @@ public class URLFileName extends GenericFileName
 {
     private final String queryString;
 
-    public URLFileName(final String rootUri,
-                       final String scheme,
+    public URLFileName(final String scheme,
                        final String hostName,
                        final int port,
                        final int defaultPort,
@@ -19,7 +18,7 @@ public class URLFileName extends GenericFileName
                        final String path,
                        final String queryString)
     {
-        super(rootUri, scheme, hostName, port, defaultPort, userName, password, path);
+        super(scheme, hostName, port, defaultPort, userName, password, path);
         this.queryString = queryString;
     }
 
@@ -78,10 +77,9 @@ public class URLFileName extends GenericFileName
         return sb.toString();
     }
 
-    public FileName createName(final String rootURI, final String absPath)
+    public FileName createName(final String absPath)
     {
-        return new URLFileName(getRootURI(),
-            getScheme(),
+        return new URLFileName(getScheme(),
             getHostName(),
             getPort(),
             getDefaultPort(),

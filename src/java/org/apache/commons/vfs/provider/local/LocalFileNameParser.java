@@ -79,11 +79,10 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         final String path = name.toString();
 
         return createFileName(
-            base!=null?base.getRootURI():null,
             scheme,
             rootFile,
             path);
     }
 
-    protected abstract FileName createFileName(String rootURI, String scheme, final String rootFile, final String path);
+    protected abstract FileName createFileName(String scheme, final String rootFile, final String path);
 }

@@ -26,14 +26,14 @@ import org.apache.commons.vfs.provider.AbstractFileName;
  */
 public class VirtualFileName extends AbstractFileName
 {
-    public VirtualFileName(final String rootUri, final String scheme, final String absPath)
+    public VirtualFileName(final String scheme, final String absPath)
     {
-        super(rootUri, scheme, absPath);
+        super(scheme, absPath);
     }
 
-    public FileName createName(String rootURI, String absPath)
+    public FileName createName(String absPath)
     {
-        return new VirtualFileName(rootURI, getScheme(), absPath);
+        return new VirtualFileName(getScheme(), absPath);
     }
 
     protected void appendRootUri(StringBuffer buffer)

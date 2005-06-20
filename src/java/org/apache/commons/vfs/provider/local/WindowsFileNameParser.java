@@ -37,9 +37,9 @@ public class WindowsFileNameParser
         return extractWindowsRootPrefix(uri, name);
     }
 
-    protected FileName createFileName(String rootURI, String scheme, final String rootFile, final String path)
+    protected FileName createFileName(String scheme, final String rootFile, final String path)
     {
-        return new LocalFileName(rootURI, scheme, rootFile, path);
+        return new LocalFileName(scheme, rootFile, path);
     }
 
     /**

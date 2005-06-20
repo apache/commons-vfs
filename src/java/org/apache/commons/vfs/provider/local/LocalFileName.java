@@ -28,12 +28,11 @@ public class LocalFileName extends AbstractFileName
 {
     private final String rootFile;
 
-    protected LocalFileName(final String rootUri,
-                            final String scheme,
+    protected LocalFileName(final String scheme,
                             final String rootFile,
                             final String path)
     {
-        super(rootUri, scheme, path);
+        super(scheme, path);
         this.rootFile = rootFile;
     }
 
@@ -48,9 +47,9 @@ public class LocalFileName extends AbstractFileName
     /**
      * Factory method for creating name instances.
      */
-    public FileName createName(final String rootURI, final String path)
+    public FileName createName(final String path)
     {
-        return new LocalFileName(rootURI, getScheme(), rootFile, path);
+        return new LocalFileName(getScheme(), rootFile, path);
     }
 
     /**

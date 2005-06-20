@@ -58,7 +58,6 @@ public class HostFileNameParser extends AbstractFileNameParser
         final String path = normalizePath(name);
 
         return new GenericFileName(
-            base!=null?base.getRootURI():null,
             auth.scheme,
             auth.hostName,
             auth.port,

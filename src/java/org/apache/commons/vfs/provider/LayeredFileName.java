@@ -31,7 +31,7 @@ public class LayeredFileName extends AbstractFileName
                            final FileName outerUri,
                            final String path)
     {
-        super(null, scheme, path);
+        super(scheme, path);
         this.outerUri = outerUri;
     }
 
@@ -43,7 +43,7 @@ public class LayeredFileName extends AbstractFileName
         return outerUri;
     }
 
-    public FileName createName(String rootURI, String path)
+    public FileName createName(String path)
     {
         return new LayeredFileName(getScheme(), getOuterName(), path);
     }

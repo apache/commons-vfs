@@ -606,7 +606,7 @@ public class DefaultFileSystemManager
 
         // todo: avoid fallback to this point
         // this happens if we have a virtual filesystem (no provider for scheme)
-        return ((AbstractFileName) base).createName(null, resolvedPath);
+        return ((AbstractFileName) base).createName(resolvedPath);
     }
 
     public FileName resolveURI(String uri) throws FileSystemException

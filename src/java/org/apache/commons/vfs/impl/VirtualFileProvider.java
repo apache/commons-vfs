@@ -52,7 +52,7 @@ public class VirtualFileProvider
     public FileObject createFileSystem(final String rootUri) throws FileSystemException
     {
         final FileName rootName =
-            new VirtualFileName(null, rootUri, FileName.ROOT_PATH);
+            new VirtualFileName(rootUri, FileName.ROOT_PATH);
         // final FileName rootName =
         //    new BasicFileName(rootUri, FileName.ROOT_PATH);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);

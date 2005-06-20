@@ -32,7 +32,6 @@ public class SmbFileName
     private final String share;
 
     protected SmbFileName(
-        final String rootUri,
         final String scheme,
         final String hostName,
         final int port,
@@ -41,7 +40,7 @@ public class SmbFileName
         final String share,
         final String path)
     {
-        super(rootUri, scheme, hostName, port, DEFAULT_PORT, userName, password, path);
+        super(scheme, hostName, port, DEFAULT_PORT, userName, password, path);
         this.share = share;
     }
 
@@ -66,9 +65,9 @@ public class SmbFileName
     /**
      * Factory method for creating name instances.
      */
-    public FileName createName(final String rootURI, final String path)
+    public FileName createName(final String path)
     {
-        return new SmbFileName(getRootURI(),
+        return new SmbFileName(
             getScheme(),
             getHostName(),
             getPort(),
