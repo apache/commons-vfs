@@ -19,6 +19,7 @@
                 <ul>
                     <li>Remove internal caching of states from fileObject and allow it to be decorated with a caching instance</li>
                     <li>Provide a hook for authentication.</li>
+                    <li>moveTo should handle a directory move if it moves from a different filesystem.</li>
                 </ul>
             </subsection>
 

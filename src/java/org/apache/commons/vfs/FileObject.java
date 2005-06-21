@@ -267,6 +267,7 @@ public interface FileObject
 
     /**
      * Move this file.
+     * <p>If the destFile exists, it is deleted first</b> 
      *
      * @param destFile the New filename.
      * @throws FileSystemException If this file is read-only, or if the source file does not exist,

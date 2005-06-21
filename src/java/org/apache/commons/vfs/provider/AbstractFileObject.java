@@ -881,15 +881,19 @@ public abstract class AbstractFileObject implements FileObject
         }
     }
 
+    /**
+     * Moves (rename) the file to another one
+     */
     public void moveTo(FileObject destFile) throws FileSystemException
     {
         if (!isWriteable())
         {
             throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
         }
-        if (destFile.getType() != FileType.IMAGINARY)
+        if (destFile.exists())
         {
-            throw new FileSystemException("vfs.provider/rename-dest-exists.error", destFile.getName());
+            destFile.delete(Selectors.SELECT_ALL);
+            // throw new FileSystemException("vfs.provider/rename-dest-exists.error", destFile.getName());
         }
 
         if (canRenameTo(destFile))
