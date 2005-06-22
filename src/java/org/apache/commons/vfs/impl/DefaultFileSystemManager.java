@@ -609,6 +609,11 @@ public class DefaultFileSystemManager
         return ((AbstractFileName) base).createName(resolvedPath);
     }
 
+    /**
+     * resolve the uri to a filename
+     * 
+     * @throws FileSystemException
+     */
     public FileName resolveURI(String uri) throws FileSystemException
     {
         UriParser.checkUriEncoding(uri);

@@ -33,7 +33,6 @@ import org.apache.webdav.lib.methods.OptionsMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
 import org.apache.webdav.lib.properties.ResourceTypeProperty;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -61,6 +60,9 @@ public class WebdavFileObject
     private boolean redirectionResolved = false;
     private Set allowedMethods = null;
     // private HttpURL url;
+
+    private static volatile int tmpFileCount = 0;
+    private static final Object tmpFileCountSync = new Object();
 
     protected WebdavFileObject(final GenericFileName name,
                                final WebDavFileSystem fileSystem)
@@ -106,7 +108,6 @@ public class WebdavFileObject
 
         final URLFileName name = (URLFileName) getName();
 
-        // System.err.println("set on " + System.identityHashCode(this) + " " + getName() + ":" + bCheckExists);
         if (resource == null)
         {
             // HttpURL url = new HttpURL(name.getHostName(), name.getPort(), name.getPath());
@@ -134,10 +135,8 @@ public class WebdavFileObject
                 {
                     setAllowedMethods(null);
 
-                    // System.err.println("process on " + System.identityHashCode(this));
                     // permission denied on this object, but we might get some informations from the parent
                     processParentDavResource();
-                    // System.err.println("leave on " + System.identityHashCode(this));
                     return;
                 }
                 else
@@ -190,7 +189,6 @@ public class WebdavFileObject
         }
     }
 
-
     private void setAllowedMethods(Enumeration allowedMethods)
     {
         this.allowedMethods = new TreeSet();
@@ -239,7 +237,6 @@ public class WebdavFileObject
         WebdavFileObject parent = (WebdavFileObject) getParent();
         try
         {
-            // System.err.println("tell him:" + parent.toString());
             // after this our resource should be reset
             parent.doListChildrenResolved();
         }
@@ -341,7 +338,7 @@ public class WebdavFileObject
         }
 
         // reread allowed methods
-        allowedMethods = null;
+        reattach();
     }
 
     /**
@@ -358,7 +355,7 @@ public class WebdavFileObject
         }
 
         // reread allowed methods
-        allowedMethods = null;
+        reattach();
     }
 
     /**
@@ -369,7 +366,6 @@ public class WebdavFileObject
         // final GenericFileName name = (GenericFileName) newfile.getName();
         // HttpURL url = new HttpURL(name.getUserName(), name.getPassword(), name.getHostName(), name.getPort(), newfile.getName().getPath());
         // String uri = url.getURI();
-        // System.err.println(resource.getHttpURL().getPath());
 
         final boolean ok = resource.moveMethod(newfile.getName().getPath());
         if (!ok)
@@ -378,7 +374,7 @@ public class WebdavFileObject
         }
 
         // reread allowed methods
-        allowedMethods = null;
+        reattach();
     }
 
     /**
@@ -394,7 +390,15 @@ public class WebdavFileObject
      */
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
-        return new WebdavOutputStream();
+        int fileCount;
+        FileObject webdavTmp;
+        synchronized(tmpFileCountSync)
+        {
+            tmpFileCount++;
+            fileCount = tmpFileCount;
+        }
+        webdavTmp = getFileSystem().getFileSystemManager().resolveFile("tmp://webdav_tmp.c" + fileCount);
+        return new WebdavOutputStream(webdavTmp);
     }
 
     /**
@@ -408,14 +412,17 @@ public class WebdavFileObject
     /**
      * An OutputStream that writes to a Webdav resource.
      *
-     * @todo Don't gather up the body in a ByteArrayOutputStream; need to write directly to connection
+     * @todo Use piped stream to avoid temporary file
      */
     private class WebdavOutputStream
         extends MonitorOutputStream
     {
-        public WebdavOutputStream()
+        private final FileObject webdavTmp;
+
+        public WebdavOutputStream(FileObject webdavTmp) throws FileSystemException
         {
-            super(new ByteArrayOutputStream());
+            super(webdavTmp.getContent().getOutputStream());
+            this.webdavTmp = webdavTmp;
         }
 
         /**
@@ -423,19 +430,50 @@ public class WebdavFileObject
          */
         protected void onClose() throws IOException
         {
-            final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
+            // final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
 
             // Adjust the resource path (this file object may have been a folder)
-            //// resource.getHttpURL().setEscapedPath(getName().getPath());
             resource.getHttpURL().setPath(getName().getPathDecoded());
-            final boolean ok = resource.putMethod(outstr.toByteArray());
-            if (!ok)
+            // final boolean ok = resource.putMethod(outstr.toByteArray());
+            try
             {
-                throw new FileSystemException("vfs.provider.webdav/write-file.error", resource.getStatusMessage());
+                final boolean ok = resource.putMethod(webdavTmp.getContent().getInputStream());
+                if (!ok)
+                {
+                    throw new FileSystemException("vfs.provider.webdav/write-file.error", resource.getStatusMessage());
+                }
             }
+            finally
+            {
+                // close and delete the temporary file
+                webdavTmp.close();
+                webdavTmp.delete();
+            }
+        }
+    }
 
-            // reread allowed methods
-            allowedMethods = null;
+    protected void handleCreate(final FileType newType) throws Exception
+    {
+        // imario@apache.org: this is to reread the webdav internal state
+        // Ill treat this as workaround
+        reattach();
+        super.handleCreate(newType);
+    }
+
+    /**
+     * refresh the webdav internals
+     * @throws FileSystemException
+     */
+    private void reattach() throws FileSystemException
+    {
+        try
+        {
+            doDetach();
+            doAttach();
+        }
+        catch (Exception e)
+        {
+            throw new FileSystemException(e);
         }
     }
 
@@ -478,7 +516,7 @@ public class WebdavFileObject
     {
         // Again to be IIS compatible
         // return hasAllowedMethods("POST");
-        return hasAllowedMethods("COPY");
+        return hasAllowedMethods("DELETE");
     }
 
     private void getAllowedMethods() throws IOException

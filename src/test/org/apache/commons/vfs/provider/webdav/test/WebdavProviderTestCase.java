@@ -20,6 +20,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.webdav.WebdavFileProvider;
+import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 
@@ -44,6 +45,7 @@ public class WebdavProviderTestCase
         throws Exception
     {
         manager.addProvider("webdav", new WebdavFileProvider());
+        manager.addProvider("tmp", new TemporaryFileProvider());
     }
 
     /**

@@ -404,6 +404,7 @@ public final class DefaultFileContent implements FileContent
     {
         this.getThreadData().setOutstr(null);
         // setState(STATE_CLOSED);
+
         file.endOutput();
     }
 
@@ -457,7 +458,14 @@ public final class DefaultFileContent implements FileContent
          */
         protected void onClose() throws IOException
         {
-            endInput(this);
+            try
+            {
+                super.onClose();
+            }
+            finally
+            {
+                endInput(this);
+            }
         }
     }
 
@@ -476,7 +484,14 @@ public final class DefaultFileContent implements FileContent
          */
         protected void onClose() throws IOException
         {
-            endRandomAccess();
+            try
+            {
+                super.onClose();
+            }
+            finally
+            {
+                endRandomAccess();
+            }
         }
     }
 
@@ -512,11 +527,18 @@ public final class DefaultFileContent implements FileContent
         {
             try
             {
-                endOutput();
+                super.onClose();
             }
-            catch (final Exception e)
+            finally
             {
-                throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
+                try
+                {
+                    endOutput();
+                }
+                catch (Exception e)
+                {
+                    throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
+                }
             }
         }
     }

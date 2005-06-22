@@ -117,7 +117,10 @@ public final class DefaultFileReplicator
     {
         // Create a unique-ish file name
         final String basename = createFilename(baseName);
-        filecount++;
+        synchronized(this)
+        {
+            filecount++;
+        }
         final File file = createFile(tempDir, basename);
 
         // Keep track to delete later

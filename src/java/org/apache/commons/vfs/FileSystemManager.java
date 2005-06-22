@@ -251,5 +251,10 @@ public interface FileSystemManager
      */
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException;
 
+    /**
+     * Resolve the uri to a filename
+     *
+     * @throws FileSystemException if this is not possible
+     */
     public FileName resolveURI(String uri) throws FileSystemException;
 }
