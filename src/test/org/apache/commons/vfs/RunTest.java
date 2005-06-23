@@ -43,14 +43,14 @@ public class RunTest
 
         Test tests[] = new Test[]
         {
-            LocalProviderTestCase.suite(),
-            VirtualProviderTestCase.suite(),
-            TemporaryProviderTestCase.suite(),
-            UrlProviderTestCase.suite(),
-            ResourceProviderTestCase.suite(),
+            // LocalProviderTestCase.suite(),
+            // VirtualProviderTestCase.suite(),
+            // TemporaryProviderTestCase.suite(),
+            // UrlProviderTestCase.suite(),
+            // ResourceProviderTestCase.suite(),
 
-            FtpProviderTestCase.suite(),
-            HttpProviderTestCase.suite(),
+            // FtpProviderTestCase.suite(),
+            // HttpProviderTestCase.suite(),
             WebdavProviderTestCase.suite(),
             SmbProviderTestCase.suite(),
             SftpProviderTestCase.suite(),
