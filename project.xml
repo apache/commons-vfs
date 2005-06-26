@@ -126,8 +126,8 @@
 
         <dependency>
             <groupId>slide</groupId>
-            <artifactId>webdavlib</artifactId>
-            <version>2.0</version>
+            <artifactId>jakarta-slide-webdavlib</artifactId>
+            <version>2.2pre1</version>
         </dependency>
 
         <dependency>

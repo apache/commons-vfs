@@ -22,20 +22,27 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.util.MonitorOutputStream;
+import org.apache.commons.vfs.util.RandomAccessMode;
 import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.WebdavResource;
+import org.apache.webdav.lib.WebdavResources;
 import org.apache.webdav.lib.methods.DepthSupport;
 import org.apache.webdav.lib.methods.OptionsMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
 import org.apache.webdav.lib.properties.ResourceTypeProperty;
 
+import java.io.DataInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -392,11 +399,11 @@ public class WebdavFileObject
     {
         int fileCount;
         FileObject webdavTmp;
-        synchronized(tmpFileCountSync)
-        {
-            tmpFileCount++;
-            fileCount = tmpFileCount;
-        }
+        synchronized (tmpFileCountSync)
+            {
+                tmpFileCount++;
+                fileCount = tmpFileCount;
+            }
         webdavTmp = getFileSystem().getFileSystemManager().resolveFile("tmp://webdav_tmp.c" + fileCount);
         return new WebdavOutputStream(webdavTmp);
     }
@@ -462,6 +469,7 @@ public class WebdavFileObject
 
     /**
      * refresh the webdav internals
+     *
      * @throws FileSystemException
      */
     private void reattach() throws FileSystemException
@@ -542,4 +550,227 @@ public class WebdavFileObject
 
         return;
     }
+
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        return new WebdavRandomAccesContent(this, mode);
+    }
+
+    public static class WebdavRandomAccesContent extends AbstractRandomAccessContent
+    {
+        private final WebdavFileObject fileObject;
+
+        protected long filePointer = 0;
+
+        private DataInputStream dis = null;
+
+        private InputStream mis = null;
+
+        protected WebdavRandomAccesContent(final WebdavFileObject fileObject, final RandomAccessMode mode)
+        {
+            super(mode);
+
+            this.fileObject = fileObject;
+        }
+
+        public long getFilePointer() throws IOException
+        {
+            return filePointer;
+        }
+
+        public void seek(long pos) throws IOException
+        {
+            if (pos == filePointer)
+            {
+                // no change
+                return;
+            }
+
+            if (pos < 0)
+            {
+                throw new FileSystemException(
+                    "vfs.provider/random-access-invalid-position.error",
+                    new Object[]{new Long(pos)});
+            }
+            if (dis != null)
+            {
+                close();
+            }
+
+            filePointer = pos;
+        }
+
+        private void createStream() throws IOException
+        {
+            if (dis != null)
+            {
+                return;
+            }
+
+            fileObject.resource.addRequestHeader("Range", "bytes="
+                + filePointer + "-");
+            final InputStream data = fileObject.resource.getMethodData();
+            final int status = fileObject.resource.getStatusCode();
+
+            if (status != HttpURLConnection.HTTP_PARTIAL)
+            {
+                data.close();
+                throw new FileSystemException(
+                    "vfs.provider.http/get-range.error", new Object[]{
+                    fileObject.getName(), new Long(filePointer)});
+            }
+
+            mis = data;
+            dis = new DataInputStream(new FilterInputStream(mis)
+            {
+                public int read() throws IOException
+                {
+                    int ret = super.read();
+                    if (ret > -1)
+                    {
+                        filePointer++;
+                    }
+                    return ret;
+                }
+
+                public int read(byte b[]) throws IOException
+                {
+                    int ret = super.read(b);
+                    if (ret > -1)
+                    {
+                        filePointer += ret;
+                    }
+                    return ret;
+                }
+
+                public int read(byte b[], int off, int len) throws IOException
+                {
+                    int ret = super.read(b, off, len);
+                    if (ret > -1)
+                    {
+                        filePointer += ret;
+                    }
+                    return ret;
+                }
+            });
+        }
+
+        public void close() throws IOException
+        {
+            if (dis != null)
+            {
+                dis.close();
+                dis = null;
+                mis = null;
+            }
+        }
+
+        public long length() throws IOException
+        {
+            return fileObject.getContent().getSize();
+        }
+
+        public byte readByte() throws IOException
+        {
+            createStream();
+            byte data = dis.readByte();
+            return data;
+        }
+
+        public char readChar() throws IOException
+        {
+            createStream();
+            char data = dis.readChar();
+            return data;
+        }
+
+        public double readDouble() throws IOException
+        {
+            createStream();
+            double data = dis.readDouble();
+            return data;
+        }
+
+        public float readFloat() throws IOException
+        {
+            createStream();
+            float data = dis.readFloat();
+            return data;
+        }
+
+        public int readInt() throws IOException
+        {
+            createStream();
+            int data = dis.readInt();
+            return data;
+        }
+
+        public int readUnsignedByte() throws IOException
+        {
+            createStream();
+            int data = dis.readUnsignedByte();
+            return data;
+        }
+
+        public int readUnsignedShort() throws IOException
+        {
+            createStream();
+            int data = dis.readUnsignedShort();
+            return data;
+        }
+
+        public long readLong() throws IOException
+        {
+            createStream();
+            long data = dis.readLong();
+            return data;
+        }
+
+        public short readShort() throws IOException
+        {
+            createStream();
+            short data = dis.readShort();
+            return data;
+        }
+
+        public boolean readBoolean() throws IOException
+        {
+            createStream();
+            boolean data = dis.readBoolean();
+            return data;
+        }
+
+        public int skipBytes(int n) throws IOException
+        {
+            createStream();
+            int data = dis.skipBytes(n);
+            return data;
+        }
+
+        public void readFully(byte b[]) throws IOException
+        {
+            createStream();
+            dis.readFully(b);
+        }
+
+        public void readFully(byte b[], int off, int len) throws IOException
+        {
+            createStream();
+            dis.readFully(b, off, len);
+        }
+
+        public String readUTF() throws IOException
+        {
+            createStream();
+            String data = dis.readUTF();
+            return data;
+        }
+
+        public InputStream getInputStream() throws IOException
+        {
+            createStream();
+            return dis;
+        }
+    }
+
 }
