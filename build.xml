@@ -195,7 +195,7 @@
         </get>
         <get dest="${libdir}/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.8.3.jar">
         </get>
-        <get dest="${libdir}/jakarta-slide-webdavlib-20050629.002841.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/slide/jars/jakarta-slide-webdavlib-20050629.002841.jar">
+        <get dest="${libdir}/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar">
         </get>
         <get dest="${libdir}/jdom-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jdom/jars/jdom-1.0.jar">
         </get>

@@ -127,13 +127,13 @@
         <dependency>
             <groupId>slide</groupId>
             <artifactId>jakarta-slide-webdavlib</artifactId>
-            <version>20050629.002841</version>
+            <version>20050629.161100</version>
         </dependency>
 
         <dependency>
             <groupId>jdom</groupId>
             <artifactId>jdom</artifactId>
-            <version>1.0</version>            
+            <version>1.0</version>
         </dependency>
 
         <dependency>
