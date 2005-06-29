@@ -127,7 +127,13 @@
         <dependency>
             <groupId>slide</groupId>
             <artifactId>jakarta-slide-webdavlib</artifactId>
-            <version>2.2pre1</version>
+            <version>20050629.002841</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.0</version>            
         </dependency>
 
         <dependency>

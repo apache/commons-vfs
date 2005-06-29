@@ -63,8 +63,20 @@
                 </tr>
                 <tr>
                     <td>
+                        jdom.org
+                        <a href="http://www.jdom.org">JDom</a>.
+                        Version 1.0.<br />
+                        Only needet if you use webdav 2.2+
+                    </td>
+                    <td>
+                        WebDAV
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/slide/">Slide</a> Version 2.0.
+                        <a href="http://jakarta.apache.org/slide/">Slide</a> Version 2.2pre1 (20050629.002841)<br />
+                        You only need this bleeding edge version if you would like to use the RandomAccessContent with webdav
                     </td>
                     <td>WebDAV</td>
                 </tr>
