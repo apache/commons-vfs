@@ -23,6 +23,7 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
+import org.apache.commons.vfs.provider.URLFileNameParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -49,6 +50,7 @@ public class UrlFileProvider
     public UrlFileProvider()
     {
         super();
+        setFileNameParser(new UrlFileNameParser());
     }
 
     /**
@@ -68,8 +70,9 @@ public class UrlFileProvider
             FileSystem fs = findFileSystem(key, fileSystemOptions);
             if (fs == null)
             {
+                String extForm = rootUrl.toExternalForm();
                 final FileName rootName =
-                    getContext().parseURI(rootUrl.getProtocol() + ":" + FileName.ROOT_PATH);
+                    getContext().parseURI(extForm);
                 // final FileName rootName =
                 //    new BasicFileName(rootUrl, FileName.ROOT_PATH);
                 fs = new UrlFileSystem(rootName, fileSystemOptions);

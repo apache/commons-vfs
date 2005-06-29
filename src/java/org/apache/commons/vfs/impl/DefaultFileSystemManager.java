@@ -592,6 +592,7 @@ public class DefaultFileSystemManager
         }
 
         String scheme = base.getScheme();
+        String fullPath = base.getRootURI() + resolvedPath;
         final FileProvider provider = (FileProvider) providers.get(scheme);
         if (provider != null)
         {
@@ -599,9 +600,17 @@ public class DefaultFileSystemManager
             // only a pathname and take the missing informations from
             // the base. Then we can get rid of the string operation.
             //// String fullPath = base.getRootURI() + resolvedPath.substring(1);
-            String fullPath = base.getRootURI() + resolvedPath;
 
             return provider.parseUri(base, fullPath);
+        }
+
+        if (scheme != null)
+        {
+// An unknown scheme - hand it to the default provider - if possible
+            if (defaultProvider != null)
+            {
+                return defaultProvider.parseUri(base, fullPath);
+            }
         }
 
         // todo: avoid fallback to this point
@@ -611,7 +620,7 @@ public class DefaultFileSystemManager
 
     /**
      * resolve the uri to a filename
-     * 
+     *
      * @throws FileSystemException
      */
     public FileName resolveURI(String uri) throws FileSystemException
