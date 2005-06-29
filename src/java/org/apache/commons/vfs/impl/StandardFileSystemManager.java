@@ -176,7 +176,7 @@ public class StandardFileSystemManager
                 catch (IOException e)
                 {
                     // Maybe a damaged jar? Complain about but continue ...
-                    log.warn(e.getLocalizedMessage(), e);
+                    log.warn(e.getLocalizedMessage() + " " + path, e);
                 }
             }
             else
