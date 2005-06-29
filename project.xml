@@ -6,7 +6,7 @@
     <id>commons-vfs</id>
     <logo>/images/vfs-logo-white.png</logo>
     <url>http://jakarta.apache.org/commons/vfs/</url>
-    <currentVersion>1.0-dev</currentVersion>
+    <currentVersion>1.0-RC1</currentVersion>
     <inceptionYear>2002</inceptionYear>
     <package>org.apache.commons.vfs</package>
     <shortDescription>Commons VFS</shortDescription>
