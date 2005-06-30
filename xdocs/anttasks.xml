@@ -56,7 +56,7 @@
 
             <subsection name="Using the Tasks">
                 <p>
-                    To use the Ant tasks, copy commons-jar.jar and its
+                    To use the Ant tasks, copy commons-vfs.jar and its
                     dependencies into the
                     <code>$ANT_HOME/lib</code> directory,
                     and use the following in your Ant scipt to define the tasks:

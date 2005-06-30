@@ -7,15 +7,15 @@
     <body>
         <section name="Testserver">
             <p>
-                This documentation describes how to setup a VFS testserver needet during development for the junit
+                This documentation describes how to setup a VFS testserver needed during development for the junit
                 tests.
             </p>
             <p>
                 I tried to simplify things as good as I can, e.g. this setup uses for all server the same vfs work
                 directory.
-                Thus it is needet to setup apache to use user 'vfsusr' instead of 'wwwrun'.
+                Thus it is needed to setup apache to use user 'vfsusr' instead of 'wwwrun'.
                 <br/>
-                Based on this description it should be possible for you to avoid this "insecurity" if needet.
+                Based on this description it should be possible for you to avoid this "insecurity" if needed.
             </p>
             <p>
                 I created it during setup a fresh server based on the following components:
@@ -90,7 +90,7 @@ find /vfstest -print0 | xargs -0 chown vfsusr.users
                     </li>
                     <li>After you followed the steps below and setup the server ensure they
                         are activated and running.<br />
-                        This is only needet if you installed a fresh system. Otherwise simply restart them.
+                        This is only needed if you installed a fresh system. Otherwise simply restart them.
                         <br/>
                         <source><![CDATA[
 insserv xinetd

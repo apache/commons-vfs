@@ -72,12 +72,12 @@ public interface FileObject
     /**
      * Returns the name of this file.
      */
-    FileName getName();
+    public FileName getName();
 
     /**
      * Returns a URL representing this file.
      */
-    URL getURL() throws FileSystemException;
+    public URL getURL() throws FileSystemException;
 
     /**
      * Determines if this file exists.
@@ -85,7 +85,7 @@ public interface FileObject
      * @return <code>true</code> if this file exists, <code>false</code> if not.
      * @throws FileSystemException On error determining if this file exists.
      */
-    boolean exists() throws FileSystemException;
+    public boolean exists() throws FileSystemException;
 
     /**
      * Determines if this file is hidden.
@@ -93,7 +93,7 @@ public interface FileObject
      * @return <code>true</code> if this file is hidden, <code>false</code> if not.
      * @throws FileSystemException On error determining if this file exists.
      */
-    boolean isHidden() throws FileSystemException;
+    public boolean isHidden() throws FileSystemException;
 
     /**
      * Determines if this file can be read.
@@ -101,7 +101,7 @@ public interface FileObject
      * @return <code>true</code> if this file is readable, <code>false</code> if not.
      * @throws FileSystemException On error determining if this file exists.
      */
-    boolean isReadable() throws FileSystemException;
+    public boolean isReadable() throws FileSystemException;
 
     /**
      * Determines if this file can be written to.
@@ -109,7 +109,7 @@ public interface FileObject
      * @return <code>true</code> if this file is writeable, <code>false</code> if not.
      * @throws FileSystemException On error determining if this file exists.
      */
-    boolean isWriteable() throws FileSystemException;
+    public boolean isWriteable() throws FileSystemException;
 
     /**
      * Returns this file's type.
@@ -117,7 +117,7 @@ public interface FileObject
      * @return One of the {@link FileType} constants.  Never returns null.
      * @throws FileSystemException On error determining the file's type.
      */
-    FileType getType() throws FileSystemException;
+    public FileType getType() throws FileSystemException;
 
     /**
      * Returns the folder that contains this file.
@@ -126,14 +126,14 @@ public interface FileObject
      *         the root of a file system.
      * @throws FileSystemException On error finding the file's parent.
      */
-    FileObject getParent() throws FileSystemException;
+    public FileObject getParent() throws FileSystemException;
 
     /**
      * Returns the file system that contains this file.
      *
      * @return The file system.
      */
-    FileSystem getFileSystem();
+    public FileSystem getFileSystem();
 
     /**
      * Lists the children of this file.
@@ -144,7 +144,7 @@ public interface FileObject
      * @throws FileSystemException If this file does not exist, or is not a folder, or on error
      *                             listing this file's children.
      */
-    FileObject[] getChildren() throws FileSystemException;
+    public FileObject[] getChildren() throws FileSystemException;
 
     /**
      * Returns a child of this file.  Note that this method returns <code>null</code>
@@ -156,7 +156,7 @@ public interface FileObject
      * @throws FileSystemException If this file does not exist, or is not a folder, or on error
      *                             determining this file's children.
      */
-    FileObject getChild(String name) throws FileSystemException;
+    public FileObject getChild(String name) throws FileSystemException;
 
     /**
      * Finds a file, relative to this file.  Refer to {@link NameScope}
@@ -166,7 +166,7 @@ public interface FileObject
      * @return The file.
      * @throws FileSystemException On error parsing the path, or on error finding the file.
      */
-    FileObject resolveFile(String name, NameScope scope)
+    public FileObject resolveFile(String name, NameScope scope)
         throws FileSystemException;
 
     /**
@@ -178,7 +178,7 @@ public interface FileObject
      * @return The file.
      * @throws FileSystemException On error parsing the path, or on error finding the file.
      */
-    FileObject resolveFile(String path) throws FileSystemException;
+    public FileObject resolveFile(String path) throws FileSystemException;
 
     /**
      * Finds the set of matching descendents of this file, in depthwise order.
@@ -187,7 +187,7 @@ public interface FileObject
      * @return The matching files.  The files are returned in depthwise order
      *         (that is, a child appears in the list before its parent).
      */
-    FileObject[] findFiles(FileSelector selector) throws FileSystemException;
+    public FileObject[] findFiles(FileSelector selector) throws FileSystemException;
 
     /**
          * Finds the set of matching descendents of this file.
@@ -197,7 +197,7 @@ public interface FileObject
          * @param selected  container for selected files. list needs not to be empty.
          * @throws FileSystemException
          */
-    void findFiles(FileSelector selector,
+    public void findFiles(FileSelector selector,
                    boolean depthwise,
                    List selected) throws FileSystemException;
 
@@ -210,7 +210,7 @@ public interface FileObject
      * @throws FileSystemException If this file is a non-empty folder, or if this file is read-only,
      *                             or on error deleteing this file.
      */
-    boolean delete() throws FileSystemException;
+    public boolean delete() throws FileSystemException;
 
     /**
      * Deletes all descendents of this file that match a selector.  Does
@@ -224,7 +224,7 @@ public interface FileObject
      * @throws FileSystemException If this file or one of its descendents is read-only, or on error
      *                             deleting this file or one of its descendents.
      */
-    int delete(FileSelector selector) throws FileSystemException;
+    public int delete(FileSelector selector) throws FileSystemException;
 
     /**
      * Creates this folder, if it does not exist.  Also creates any ancestor
@@ -235,7 +235,7 @@ public interface FileObject
      *                             folder is read-only, or on error creating this folder or one of
      *                             its ancestors.
      */
-    void createFolder() throws FileSystemException;
+    public void createFolder() throws FileSystemException;
 
     /**
      * Creates this file, if it does not exist.  Also creates any ancestor
@@ -246,7 +246,7 @@ public interface FileObject
      *                             folder is read-only, or on error creating this file or one of
      *                             its ancestors.
      */
-    void createFile() throws FileSystemException;
+    public void createFile() throws FileSystemException;
 
     /**
      * Copies another file, and all its descendents, to this file.
@@ -262,7 +262,7 @@ public interface FileObject
      * @throws FileSystemException If this file is read-only, or if the source file does not exist,
      *                             or on error copying the file.
      */
-    void copyFrom(FileObject srcFile, FileSelector selector)
+    public void copyFrom(FileObject srcFile, FileSelector selector)
         throws FileSystemException;
 
     /**
@@ -273,7 +273,7 @@ public interface FileObject
      * @throws FileSystemException If this file is read-only, or if the source file does not exist,
      *                             or on error copying the file.
      */
-    void moveTo(FileObject destFile)
+    public void moveTo(FileObject destFile)
         throws FileSystemException;
 
     /**
@@ -295,7 +295,7 @@ public interface FileObject
      * @return This file's content.
      * @throws FileSystemException On error getting this file's content.
      */
-    FileContent getContent() throws FileSystemException;
+    public FileContent getContent() throws FileSystemException;
 
     /**
      * Closes this file, and its content.  This method is a hint to the
@@ -307,5 +307,5 @@ public interface FileObject
      * @throws FileSystemException On error closing the file.
      * @see FileContent#close
      */
-    void close() throws FileSystemException;
+    public void close() throws FileSystemException;
 }

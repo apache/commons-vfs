@@ -30,7 +30,10 @@
     </licenses>
     <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>
     <siteAddress>cvs.apache.org</siteAddress>
+<!--
     <siteDirectory>/www/jakarta.apache.org/commons/vfs/</siteDirectory>
+-->
+    <siteDirectory>public_html/vfs-1.0-RC1/site</siteDirectory>
     <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/vfs/</distributionDirectory>
     <repository>
         <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</connection>
@@ -187,14 +190,16 @@
     </build>
 
     <reports>
-        <report>maven-changelog-plugin</report>
+        <!--<report>maven-changelog-plugin</report>-->
         <report>maven-changes-plugin</report>
         <!-- <report>maven-checkstyle-plugin</report> -->
         <report>maven-clover-plugin</report>
+        <!--
         <report>maven-developer-activity-plugin</report>
         <report>maven-file-activity-plugin</report>
+        -->
         <report>maven-javadoc-plugin</report>
-        <report>maven-jellydoc-plugin</report>
+        <!--<report>maven-jellydoc-plugin</report>-->
         <report>maven-junit-report-plugin</report>
         <report>maven-jxr-plugin</report>
         <report>maven-license-plugin</report>

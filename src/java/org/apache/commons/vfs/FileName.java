@@ -28,17 +28,17 @@ public interface FileName extends Comparable
     /**
      * The separator character used in file paths.
      */
-    char SEPARATOR_CHAR = '/';
+    public final char SEPARATOR_CHAR = '/';
 
     /**
      * The separator used in file paths.
      */
-    String SEPARATOR = "/";
+    public final String SEPARATOR = "/";
 
     /**
      * The absolute path of the root of a file system.
      */
-    String ROOT_PATH = "/";
+    public final String ROOT_PATH = "/";
 
     /**
      * Returns the base name of this file.  The base name is the last element
@@ -49,7 +49,7 @@ public interface FileName extends Comparable
      *
      * @return The base name.  Never returns null.
      */
-    String getBaseName();
+    public String getBaseName();
 
     /**
      * Returns the absolute path of this file, within its file system.  This
@@ -61,7 +61,7 @@ public interface FileName extends Comparable
      *
      * @return The path.  Never returns null.
      */
-    String getPath();
+    public String getPath();
 
     /**
      * Returns the absolute path of this file, within its file system.  This
@@ -77,7 +77,7 @@ public interface FileName extends Comparable
      * @return The path.  Never returns null.
      * @throws FileSystemException if the path is not correctly encoded 
      */
-    String getPathDecoded() throws FileSystemException;
+    public String getPathDecoded() throws FileSystemException;
 
     /**
      * Returns the extension of this file name.
@@ -85,29 +85,29 @@ public interface FileName extends Comparable
      * @return The extension.  Returns an empty string if the name has no
      *         extension.
      */
-    String getExtension();
+    public String getExtension();
 
     /**
      * Returns the depth of this file name, within its file system.  The depth
      * of the root of a file system is 0.  The depth of any other file is
      * 1 + the depth of its parent.
      */
-    int getDepth();
+    public int getDepth();
 
     /**
      * Returns the URI scheme of this file.
      */
-    String getScheme();
+    public String getScheme();
 
     /**
      * Returns the absolute URI of this file.
      */
-    String getURI();
+    public String getURI();
 
     /**
      * Returns the root URI of the file system this file belongs to.
      */
-    String getRootURI();
+    public String getRootURI();
 
     /**
      * find the root of the filesystem
@@ -121,7 +121,7 @@ public interface FileName extends Comparable
      * @return A {@link FileName} object representing the parent name.  Returns
      *         null for the root of a file system.
      */
-    FileName getParent();
+    public FileName getParent();
 
     /**
      * Resolves a name, relative to this file name.  Equivalent to calling
@@ -152,7 +152,7 @@ public interface FileName extends Comparable
      * @return The relative name.
      * @throws FileSystemException On error.
      */
-    String getRelativeName(FileName name) throws FileSystemException;
+    public String getRelativeName(FileName name) throws FileSystemException;
 
     /**
      * Determines if another file name is an ancestor of this file name.

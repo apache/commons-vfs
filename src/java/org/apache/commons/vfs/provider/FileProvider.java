@@ -57,7 +57,7 @@ public interface FileProvider
         throws FileSystemException;
 
     /**
-     * Gets the configbuilder useable to collect the needet fileSystemOptions.
+     * Gets the configbuilder useable to collect the needed fileSystemOptions.
      */
     public FileSystemConfigBuilder getConfigBuilder();
 

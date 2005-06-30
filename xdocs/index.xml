@@ -59,10 +59,10 @@
 
             <p>2005-03 - imario@apache.org: The filename parsing and api has changed.
             <ul>
-                <li>Now it is needet to encode the '%' sign using '%25'</li>
-                <li>It is no longer needet to encode the '!' sign when using nested archives (tar, jar, ...).<br />
+                <li>Now it is needed to encode the '%' sign using '%25'</li>
+                <li>It is no longer needed to encode the '!' sign when using nested archives (tar, jar, ...).<br />
                 Now you <u>can</u> encode it if you would like to use it in your filename</li>
-                <li>It is no longer needet to double-encode the filename when using layered names. <code>tar:tar:file:///</code></li>
+                <li>It is no longer needed to double-encode the filename when using layered names. <code>tar:tar:file:///</code></li>
                 <li>Depending on the filesystem special characters in your filename could automatically be encoded</li>
                 <li><code>FileName.resolveName(...)</code> has been moved to <code>FileSystemManager.resolveName(...)</code></li>
             </ul>
