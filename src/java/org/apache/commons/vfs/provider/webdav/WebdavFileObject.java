@@ -31,7 +31,6 @@ import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
 import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.WebdavResource;
-import org.apache.webdav.lib.WebdavResources;
 import org.apache.webdav.lib.methods.DepthSupport;
 import org.apache.webdav.lib.methods.OptionsMethod;
 import org.apache.webdav.lib.methods.XMLResponseMethodBase;
@@ -134,54 +133,61 @@ public class WebdavFileObject
             /* now fill the dav properties */
             String pathEncoded = name.getPathQueryEncoded(urlCharset);
             final OptionsMethod optionsMethod = new OptionsMethod(pathEncoded);
-            optionsMethod.setFollowRedirects(true);
-            final int status = fileSystem.getClient().executeMethod(optionsMethod);
-            if (status < 200 || status > 299)
-            {
-                if (status == 401 || status == 403)
-                {
-                    setAllowedMethods(null);
-
-                    // permission denied on this object, but we might get some informations from the parent
-                    processParentDavResource();
-                    return;
-                }
-                else
-                {
-                    injectType(FileType.IMAGINARY);
-                }
-                return;
-            }
-            // handle the (maybe) redirected url
-            redirectionResolved = true;
-            resource.getHttpURL().setEscapedPath(optionsMethod.getURI().getPath());
-
-            setAllowedMethods(optionsMethod.getAllowedMethods());
-            boolean exists = false;
-            for (Enumeration enumeration = optionsMethod.getAllowedMethods(); enumeration.hasMoreElements();)
-            {
-                final String method = (String) enumeration.nextElement();
-                // IIS allows GET even if the file is non existend - so changed to COPY
-                // if (method.equals("GET"))
-                if (method.equals("COPY"))
-                {
-                    exists = true;
-                    break;
-                }
-            }
-            if (!exists)
-            {
-                injectType(FileType.IMAGINARY);
-                return;
-            }
-
             try
             {
-                resource.setProperties(WebdavResource.DEFAULT, 1);
+                optionsMethod.setFollowRedirects(true);
+                final int status = fileSystem.getClient().executeMethod(optionsMethod);
+                if (status < 200 || status > 299)
+                {
+                    if (status == 401 || status == 403)
+                    {
+                        setAllowedMethods(null);
+
+                        // permission denied on this object, but we might get some informations from the parent
+                        processParentDavResource();
+                        return;
+                    }
+                    else
+                    {
+                        injectType(FileType.IMAGINARY);
+                    }
+                    return;
+                }
+                // handle the (maybe) redirected url
+                redirectionResolved = true;
+                resource.getHttpURL().setEscapedPath(optionsMethod.getURI().getPath());
+
+                setAllowedMethods(optionsMethod.getAllowedMethods());
+                boolean exists = false;
+                for (Enumeration enumeration = optionsMethod.getAllowedMethods(); enumeration.hasMoreElements();)
+                {
+                    final String method = (String) enumeration.nextElement();
+                    // IIS allows GET even if the file is non existend - so changed to COPY
+                    // if (method.equals("GET"))
+                    if (method.equals("COPY"))
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists)
+                {
+                    injectType(FileType.IMAGINARY);
+                    return;
+                }
+
+                try
+                {
+                    resource.setProperties(WebdavResource.DEFAULT, 1);
+                }
+                catch (IOException e)
+                {
+                    throw new FileSystemException(e);
+                }
             }
-            catch (IOException e)
+            finally
             {
-                throw new FileSystemException(e);
+                optionsMethod.releaseConnection();
             }
         }
 
@@ -229,13 +235,20 @@ public class WebdavFileObject
         }
 
         final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
-        optionsMethod.setFollowRedirects(true);
-        final int status = fileSystem.getClient().executeMethod(optionsMethod);
-        if (status >= 200 && status <= 299)
+        try
         {
-            setAllowedMethods(optionsMethod.getAllowedMethods());
-            resource.getHttpURL().setEscapedPath(optionsMethod.getPath());
-            redirectionResolved = true;
+            optionsMethod.setFollowRedirects(true);
+            final int status = fileSystem.getClient().executeMethod(optionsMethod);
+            if (status >= 200 && status <= 299)
+            {
+                setAllowedMethods(optionsMethod.getAllowedMethods());
+                resource.getHttpURL().setEscapedPath(optionsMethod.getPath());
+                redirectionResolved = true;
+            }
+        }
+        finally
+        {
+            optionsMethod.releaseConnection();
         }
     }
 
@@ -535,18 +548,25 @@ public class WebdavFileObject
         }
 
         final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
-        optionsMethod.setFollowRedirects(true);
-        final int status = fileSystem.getClient().executeMethod(optionsMethod);
-        if (status < 200 || status > 299)
+        try
         {
-            if (status == 401 || status == 403)
+            optionsMethod.setFollowRedirects(true);
+            final int status = fileSystem.getClient().executeMethod(optionsMethod);
+            if (status < 200 || status > 299)
             {
-                setAllowedMethods(null);
-                return;
+                if (status == 401 || status == 403)
+                {
+                    setAllowedMethods(null);
+                    return;
+                }
             }
-        }
 
-        setAllowedMethods(optionsMethod.getAllowedMethods());
+            setAllowedMethods(optionsMethod.getAllowedMethods());
+        }
+        finally
+        {
+            optionsMethod.releaseConnection();
+        }
 
         return;
     }

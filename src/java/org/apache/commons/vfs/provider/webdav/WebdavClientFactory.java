@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpURL;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.webdav.lib.WebdavResource;
@@ -77,6 +78,7 @@ public class WebdavClientFactory
             resource.setHttpURL(url, WebdavResource.NOACTION, 1);
 
             client = resource.retrieveSessionInstance();
+            client.setHttpConnectionManager(new MultiThreadedHttpConnectionManager());
         }
         catch (final IOException e)
         {
