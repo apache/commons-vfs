@@ -46,6 +46,7 @@ public class FtpFileSystem
 
     // An idle client
     private FtpClient idleClient;
+    private Object idleClientSync = new Object();
 
     protected FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient, final FileSystemOptions fileSystemOptions)
     {
@@ -99,26 +100,29 @@ public class FtpFileSystem
      */
     public FtpClient getClient() throws FileSystemException
     {
-        if (idleClient == null || !idleClient.isConnected())
+        synchronized(idleClientSync)
         {
-            idleClient = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
-            return idleClient;
-            /*
-            final GenericFileName rootName = (GenericFileName) getRoot().getName();
+            if (idleClient == null || !idleClient.isConnected())
+            {
+                FtpClient ftpClient = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
+                return ftpClient;
+                /*
+                final GenericFileName rootName = (GenericFileName) getRoot().getName();
 
-            return FtpClientFactory.createConnection(rootName.getHostName(),
-                rootName.getPort(),
-                rootName.getUserName(),
-                rootName.getPassword(),
-                rootName.getPath(),
-                getFileSystemOptions());
-            */
-        }
-        else
-        {
-            final FtpClient client = idleClient;
-            idleClient = null;
-            return client;
+                return FtpClientFactory.createConnection(rootName.getHostName(),
+                    rootName.getPort(),
+                    rootName.getUserName(),
+                    rootName.getPassword(),
+                    rootName.getPath(),
+                    getFileSystemOptions());
+                */
+            }
+            else
+            {
+                final FtpClient client = idleClient;
+                idleClient = null;
+                return client;
+            }
         }
     }
 
@@ -127,15 +131,18 @@ public class FtpFileSystem
      */
     public void putClient(final FtpClient client)
     {
-        if (idleClient == null)
+        synchronized(idleClientSync)
         {
-            // Hang on to client for later
-            idleClient = client;
-        }
-        else
-        {
-            // Close the client
-            closeConnection(client);
+            if (idleClient == null)
+            {
+                // Hang on to client for later
+                idleClient = client;
+            }
+            else
+            {
+                // Close the client
+                closeConnection(client);
+            }
         }
     }
 
