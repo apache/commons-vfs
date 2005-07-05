@@ -78,7 +78,7 @@ public class WebdavClientFactory
             resource.setHttpURL(url, WebdavResource.NOACTION, 1);
 
             client = resource.retrieveSessionInstance();
-            client.setHttpConnectionManager(new MultiThreadedHttpConnectionManager());
+            client.setHttpConnectionManager(new WebdavConnectionManager());
         }
         catch (final IOException e)
         {
