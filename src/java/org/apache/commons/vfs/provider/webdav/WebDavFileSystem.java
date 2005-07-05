@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -59,6 +60,15 @@ public class WebDavFileSystem
     protected HttpClient getClient() throws FileSystemException
     {
         return client;
+    }
+
+    protected void closeHttpClientConnection() throws FileSystemException
+    {
+        HttpConnectionManager mgr = getClient().getHttpConnectionManager();
+        if (mgr instanceof WebdavConnectionManager)
+        {
+            ((WebdavConnectionManager) mgr).releaseLocalConnection();
+        }
     }
 
     /**

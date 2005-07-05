@@ -66,6 +66,17 @@ public class WebdavConnectionManager implements HttpConnectionManager
      */
     private HttpConnectionManagerParams params = new HttpConnectionManagerParams();
 
+    /**
+     * release the connection of the current thread
+     */
+    public void releaseLocalConnection()
+    {
+        if (getLocalHttpConnection() != null)
+        {
+            releaseConnection(getLocalHttpConnection());
+        }
+    }
+
     private static class Entry
     {
         /**
