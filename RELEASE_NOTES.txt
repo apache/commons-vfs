@@ -1,2 +1,14 @@
+2005-Jul-5  commons-vfs 1.0 RC2
+
+Notice: All test are excluded as they need a complicated server setup to work.
+Please refer to the VFS homepage (http://jakarta.apache.org/commons/vfs/testserver.html) for details how to do it.
+
+Fixed multi-threading problems with ftp and webdav scheme
+
+Some documentation issues
+
+other minor fixes
+
+
 2005-Jun-29 commons-vfs 1.0 RC1
 Started the release cylce

@@ -47,6 +47,8 @@
         </section>
 
         <section name="News">
+            <p>2005-07-05 - imario@apache.org: RC2 - includes multi-threading fixes for ftp and webdav</p>
+
             <p>2005-06-29 - imario@apache.org: RC1</p>
             
             <p>2005-06-19 - imario@apache.org: Again refactored filename parsing. sftp now accepts files with space in their filename</p>
