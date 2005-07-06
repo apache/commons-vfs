@@ -58,34 +58,17 @@
         -->
     </postGoal>
 
-    <postGoal
-      name="dist:prepare-bin-filesystem">
-      <j:set
-        var="maven.dist.bin.assembly.dir"
-        value="${pom.getPluginContext('maven-dist-plugin').getVariable('maven.dist.bin.assembly.dir')}" />
-
-      <copy file="${basedir}/NOTICE.txt"
-            tofile="${maven.dist.bin.assembly.dir}/NOTICE.txt"
-            overwrite="yes"/>
-        <copy file="${basedir}/RELEASE_NOTES.txt"
-              tofile="${maven.dist.bin.assembly.dir}/RELEASE_NOTES.txt"
-              overwrite="yes"/>
-
-    </postGoal>
-
-    <postGoal
-      name="dist:prepare-src-filesystem">
-      <j:set
-        var="maven.dist.src.assembly.dir"
-        value="${pom.getPluginContext('maven-dist-plugin').getVariable('maven.dist.src.assembly.dir')}" />
-
-      <copy file="${basedir}/NOTICE.txt"
-            tofile="${maven.dist.src.assembly.dir}/NOTICE.txt"
-            overwrite="yes"/>
-        <copy file="${basedir}/RELEASE_NOTES.txt"
-              tofile="${maven.dist.src.assembly.dir}/RELEASE_NOTES.txt"
-              overwrite="yes"/>
-
-    </postGoal>
+    <preGoal name="dist:build-bin">
+        <copy todir="${maven.dist.bin.assembly.dir}">
+            <fileset file='${basedir}/RELEASE_NOTES.txt'/>
+            <fileset file='${basedir}/NOTICE.txt'/>
+        </copy>
+    </preGoal>
+    <preGoal name="dist:build-src">
+        <copy todir="${maven.dist.src.assembly.dir}">
+            <fileset file='${basedir}/RELEASE_NOTES.txt'/>
+            <fileset file='${basedir}/NOTICE.txt'/>
+        </copy>
+    </preGoal>
 
 </project>

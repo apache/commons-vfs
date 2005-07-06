@@ -12,7 +12,7 @@
     <shortDescription>Commons VFS</shortDescription>
 
     <description>
-  	VFS is a Virtual File System library.
+        VFS is a Virtual File System library.
     </description>
 
     <organization>
@@ -30,9 +30,9 @@
     </licenses>
     <issueTrackingUrl>http://issues.apache.org/bugzilla/</issueTrackingUrl>
     <siteAddress>cvs.apache.org</siteAddress>
-<!--
-    <siteDirectory>/www/jakarta.apache.org/commons/vfs/</siteDirectory>
--->
+    <!--
+        <siteDirectory>/www/jakarta.apache.org/commons/vfs/</siteDirectory>
+    -->
     <siteDirectory>public_html/vfs-1.0-RC2/site</siteDirectory>
     <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/vfs/</distributionDirectory>
     <repository>
@@ -184,6 +184,13 @@
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}</directory>
+                <targetPath>META-INF</targetPath>
+                <includes>
+                    <include>NOTICE.txt</include>
                 </includes>
             </resource>
         </resources>
