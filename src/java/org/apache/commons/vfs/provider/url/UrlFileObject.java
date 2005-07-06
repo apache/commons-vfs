@@ -15,11 +15,13 @@
  */
 package org.apache.commons.vfs.provider.url;
 
+import org.apache.commons.httpclient.URIException;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.URLFileName;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -62,8 +64,15 @@ public class UrlFileObject
         }
     }
 
-    protected URL createURL(final FileName name) throws MalformedURLException
+    protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException
     {
+        if (name instanceof URLFileName)
+        {
+            URLFileName urlName = (URLFileName) getName();
+
+            // TODO: charset
+            return new URL(urlName.getURIEncoded(null));
+        }
         return new URL(getName().getURI());
     }
 

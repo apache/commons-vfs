@@ -24,6 +24,7 @@ public class URLFileName extends GenericFileName
 
     /**
      * get the query string
+     *
      * @return the query string part of the filename
      */
     public String getQueryString()
@@ -33,6 +34,7 @@ public class URLFileName extends GenericFileName
 
     /**
      * get the path and query string e.g. /path/servlet?param1=true
+     *
      * @return the path and its query string
      */
     public String getPathQuery()
@@ -47,6 +49,7 @@ public class URLFileName extends GenericFileName
 
     /**
      * get the path encoded suitable for url like filesystem e.g. (http, webdav)
+     *
      * @param charset the charset used for the path encoding
      */
     public String getPathQueryEncoded(String charset) throws URIException, FileSystemException
@@ -91,6 +94,7 @@ public class URLFileName extends GenericFileName
 
     /**
      * append query string to the uri
+     *
      * @return the uri
      */
     protected String createURI()
@@ -106,5 +110,13 @@ public class URLFileName extends GenericFileName
         }
 
         return super.createURI();
+    }
+
+    public String getURIEncoded(String charset) throws FileSystemException, URIException
+    {
+        StringBuffer sb = new StringBuffer(80);
+        appendRootUri(sb);
+        sb.append(getPathQueryEncoded(charset));
+        return sb.toString();
     }
 }

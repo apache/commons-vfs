@@ -19,7 +19,6 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.URLFileNameParser;
-import org.apache.commons.vfs.provider.local.GenericFileNameParser;
 
 /**
  * Some GenericFileName test cases.
@@ -136,7 +135,7 @@ public class GenericFileNameTestCase
     {
         try
         {
-            GenericFileNameParser.getInstance().parseUri(null, null, uri);
+            new URLFileNameParser(80).parseUri(null, null, uri);
             fail();
         }
         catch (final FileSystemException e)

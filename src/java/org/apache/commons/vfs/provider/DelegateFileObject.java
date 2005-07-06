@@ -329,6 +329,8 @@ public class DelegateFileObject
      */
     public void close() throws FileSystemException
     {
+        super.close();
+
         if (file != null)
         {
             file.close();
