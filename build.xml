@@ -199,7 +199,7 @@
         </get>
         <get dest="${libdir}/jdom-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jdom/jars/jdom-1.0.jar">
         </get>
-        <get dest="${libdir}/commons-httpclient-3.0-rc3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-3.0-rc3.jar">
+        <get dest="${libdir}/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0.2.jar">
         </get>
         <get dest="${libdir}/jsch-0.1.17.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jsch/jars/jsch-0.1.17.jar">
         </get>

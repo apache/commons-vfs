@@ -3,7 +3,6 @@ package org.apache.commons.vfs.provider.webdav;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpConnection;
 import org.apache.commons.httpclient.HttpConnectionManager;
-import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,8 +11,8 @@ import java.io.InputStream;
  * A connection manager that provides access to a single HttpConnection.  This
  * manager makes no attempt to provide exclusive access to the contained
  * HttpConnection.
- *
- * ThreadLocal connection.
+ * <p/>
+ * imario@apache.org: Keep connection in ThreadLocal.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @author <a href="mailto:becke@u.washington.edu">Michael Becke</a>
@@ -25,6 +24,26 @@ import java.io.InputStream;
  */
 public class WebdavConnectionManager implements HttpConnectionManager
 {
+    private static class ConnectionParameters
+    {
+        private boolean staleCheck;
+
+        public boolean isStaleCheckingEnabled()
+        {
+            return staleCheck;
+        }
+
+        public void setStaleCheckingEnabled(boolean b)
+        {
+            staleCheck = b;
+        }
+
+        public void populateParameters(HttpConnection connection)
+        {
+            connection.setStaleCheckingEnabled(staleCheck);
+        }
+    }
+
     /**
      * Since the same connection is about to be reused, make sure the
      * previous request was completely processed, and if not
@@ -64,7 +83,7 @@ public class WebdavConnectionManager implements HttpConnectionManager
     /**
      * Collection of parameters associated with this connection manager.
      */
-    private HttpConnectionManagerParams params = new HttpConnectionManagerParams();
+    private ConnectionParameters params = new ConnectionParameters();
 
     /**
      * release the connection of the current thread
@@ -150,7 +169,7 @@ public class WebdavConnectionManager implements HttpConnectionManager
     }
 
     /**
-     * @see HttpConnectionManager#getConnectionWithTimeout(HostConfiguration, long)
+     * @see HttpConnectionManager#getConnection(HostConfiguration, long)
      * @since 3.0
      */
     public HttpConnection getConnectionWithTimeout(
@@ -163,7 +182,7 @@ public class WebdavConnectionManager implements HttpConnectionManager
             httpConnection = new HttpConnection(hostConfiguration);
             setLocalHttpConnection(httpConnection);
             httpConnection.setHttpConnectionManager(this);
-            httpConnection.getParams().setDefaults(this.params);
+            this.params.populateParameters(httpConnection);
         }
         else
         {
@@ -223,34 +242,6 @@ public class WebdavConnectionManager implements HttpConnectionManager
 
         // track the time the connection was made idle
         setIdleStartTime(System.currentTimeMillis());
-    }
-
-    /**
-     * Returns {@link HttpConnectionManagerParams parameters} associated
-     * with this connection manager.
-     *
-     * @see HttpConnectionManagerParams
-     * @since 2.1
-     */
-    public HttpConnectionManagerParams getParams()
-    {
-        return this.params;
-    }
-
-    /**
-     * Assigns {@link HttpConnectionManagerParams parameters} for this
-     * connection manager.
-     *
-     * @see HttpConnectionManagerParams
-     * @since 2.1
-     */
-    public void setParams(final HttpConnectionManagerParams params)
-    {
-        if (params == null)
-        {
-            throw new IllegalArgumentException("Parameters may not be null");
-        }
-        this.params = params;
     }
 
     /**
