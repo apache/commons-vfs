@@ -177,7 +177,7 @@
                 <exclude>**/test/Abstract*TestCase.java</exclude>
             </excludes>
         </unitTest>
-
+        
         <!-- J A R  R E S O U R C E S -->
         <!-- Resources that are packaged up inside the JAR file -->
         <resources>
@@ -202,7 +202,9 @@
         <!--<report>maven-changelog-plugin</report>-->
         <report>maven-changes-plugin</report>
         <!-- <report>maven-checkstyle-plugin</report> -->
+<!--
         <report>maven-clover-plugin</report>
+-->
         <!--
         <report>maven-developer-activity-plugin</report>
         <report>maven-file-activity-plugin</report>

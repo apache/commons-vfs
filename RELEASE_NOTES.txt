@@ -1,7 +1,8 @@
 2005-Jul-5  commons-vfs 1.0 RC2
 
-Notice: All test are excluded as they need a complicated server setup to work.
-Please refer to the VFS homepage (http://jakarta.apache.org/commons/vfs/testserver.html) for details how to do it.
+Notice: Some tests may fail unless you've followed the necessary setup
+  as described here: http://jakarta.apache.org/commons/vfs/testserver.html
+  This is ok; the jar will still be fine.
 
 Fixed multi-threading problems with ftp and webdav scheme
 
