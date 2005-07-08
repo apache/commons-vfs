@@ -37,13 +37,13 @@ import java.util.TreeMap;
  * This class use reflection to set a configuration value using the fileSystemConfigBuilder
  * associated the a scheme.<br><br>
  * Example:<br>
- * <code>
+ * <pre>
  * FileSystemOptions fso = new FileSystemOptions();
  * DelegatingFileSystemOptionsBuilder delegate = new DelegatingFileSystemOptionsBuilder(VFS.getManager());
  * delegate.setConfigString(fso, "sftp", "identities", "c:/tmp/test.ident");
  * delegate.setConfigString(fso, "http", "proxyPort", "8080");
  * delegate.setConfigClass(fso, "sftp", "userinfo", TrustEveryoneUserInfo.class);
- * </code>
+ * </pre>
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
