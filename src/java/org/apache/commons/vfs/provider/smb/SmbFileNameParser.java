@@ -46,6 +46,14 @@ public class SmbFileNameParser extends URLFileNameParser
         // Extract the scheme and authority parts
         final Authority auth = extractToPath(filename, name);
 
+        // extract domain
+        String username = auth.userName;
+        String domain = extractDomain(username);
+        if (domain != null)
+        {
+            username = username.substring(domain.length()+1);
+        }
+
         // Decode and adjust separators
         UriParser.canonicalizePath(name, 0, name.length(), this);
         UriParser.fixSeparators(name);
@@ -66,9 +74,23 @@ public class SmbFileNameParser extends URLFileNameParser
             auth.scheme,
             auth.hostName,
             auth.port,
-            auth.userName,
+            username,
             auth.password,
+            domain,
             share,
             path);
+    }
+
+    private String extractDomain(String username)
+    {
+        for (int i = 0; i < username.length(); i++)
+        {
+            if (username.charAt(i) == '\\')
+            {
+                return username.substring(0, i);
+            }
+        }
+
+        return null;
     }
 }

@@ -32,8 +32,8 @@ public class GenericFileName extends AbstractFileName
     private final int defaultPort;
     private final String password;
     private final int port;
-    private static final char[] USERNAME_RESERVED = {':', '@'};
-    private static final char[] PASSWORD_RESERVED = {'@'};
+    private static final char[] USERNAME_RESERVED = {':', '@', '/'};
+    private static final char[] PASSWORD_RESERVED = {'@', '/'};
 
     protected GenericFileName(final String scheme,
                               final String hostName,
@@ -117,6 +117,20 @@ public class GenericFileName extends AbstractFileName
     {
         buffer.append(getScheme());
         buffer.append("://");
+        appendCredentials(buffer);
+        buffer.append(hostName);
+        if (port != getDefaultPort())
+        {
+            buffer.append(':');
+            buffer.append(port);
+        }
+    }
+
+    /**
+     * append the user credentials
+     */
+    protected void appendCredentials(StringBuffer buffer)
+    {
         if (userName != null && userName.length() != 0)
         {
             UriParser.appendEncoded(buffer, userName, USERNAME_RESERVED);
@@ -126,12 +140,6 @@ public class GenericFileName extends AbstractFileName
                 UriParser.appendEncoded(buffer, password, PASSWORD_RESERVED);
             }
             buffer.append('@');
-        }
-        buffer.append(hostName);
-        if (port != getDefaultPort())
-        {
-            buffer.append(':');
-            buffer.append(port);
         }
     }
 }

@@ -19,6 +19,7 @@ import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
+import jcifs.smb.NtlmPasswordAuthentication;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -42,14 +43,14 @@ public class SmbFileObject
     extends AbstractFileObject
     implements FileObject
 {
-    private final String fileName;
+    // private final String fileName;
     private SmbFile file;
 
     protected SmbFileObject(final FileName name,
                             final SmbFileSystem fileSystem) throws FileSystemException
     {
         super(name, fileSystem);
-        this.fileName = UriParser.decode(name.getURI());
+        // this.fileName = UriParser.decode(name.getURI());
     }
 
     /**
@@ -60,7 +61,7 @@ public class SmbFileObject
         // Defer creation of the SmbFile to here
         if (file == null)
         {
-            file = createSmbFile(fileName);
+            file = createSmbFile(getName());
         }
     }
 
@@ -70,19 +71,21 @@ public class SmbFileObject
         file = null;
     }
 
-    private SmbFile createSmbFile(String path) throws MalformedURLException, SmbException
+    private SmbFile createSmbFile(FileName fileName) throws MalformedURLException, SmbException, FileSystemException
     {
-        SmbFile f = new SmbFile(path);
-        return createSmbFile(f);
-    }
+        SmbFileName smbFileName = (SmbFileName) fileName;
 
-    private SmbFile createSmbFile(SmbFile file) throws MalformedURLException, SmbException
-    {
+        String path = smbFileName.getUriWithoutAuth();
+
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
+            smbFileName.getDomain(), smbFileName.getUserName(), smbFileName.getPassword());
+        SmbFile file = new SmbFile(path, auth);
+
         if (file.isDirectory() && !file.toString().endsWith("/"))
         {
-            String listDirPath = file.toString() + "/";
-            file = new SmbFile(listDirPath);
+            file = new SmbFile(path + "/", auth);
         }
+
         return file;
     }
 
@@ -135,7 +138,7 @@ public class SmbFileObject
 
     protected void doRename(FileObject newfile) throws Exception
     {
-        file.renameTo(createSmbFile(newfile.getName().getURI()));
+        file.renameTo(createSmbFile(newfile.getName()));
     }
 
     /**
@@ -144,7 +147,7 @@ public class SmbFileObject
     protected void doCreateFolder() throws Exception
     {
         file.mkdir();
-        file = createSmbFile(file);
+        file = createSmbFile(getName());
     }
 
     /**

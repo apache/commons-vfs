@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.GenericFileName;
 
 /**
@@ -30,6 +31,8 @@ public class SmbFileName
     private static final int DEFAULT_PORT = 139;
 
     private final String share;
+    private final String domain;
+    private String uriWithoutAuth;
 
     protected SmbFileName(
         final String scheme,
@@ -37,11 +40,13 @@ public class SmbFileName
         final int port,
         final String userName,
         final String password,
+        final String domain,
         final String share,
         final String path)
     {
         super(scheme, hostName, port, DEFAULT_PORT, userName, password, path);
         this.share = share;
+        this.domain = domain;
     }
 
     /**
@@ -62,6 +67,16 @@ public class SmbFileName
         buffer.append(share);
     }
 
+    protected void appendCredentials(StringBuffer buffer)
+    {
+        if (getUserName() != null && getUserName().length() != 0)
+        {
+            buffer.append(getDomain());
+            buffer.append("\\");
+        }
+        super.appendCredentials(buffer);
+    }
+
     /**
      * Factory method for creating name instances.
      */
@@ -73,7 +88,37 @@ public class SmbFileName
             getPort(),
             getUserName(),
             getPassword(),
+            domain,
             share,
             path);
+    }
+
+    /**
+     * Construct the path suitable for SmbFile when used with NtlmPasswordAuthentication
+     */
+    public String getUriWithoutAuth() throws FileSystemException
+    {
+        if (uriWithoutAuth != null)
+        {
+            return uriWithoutAuth;
+        }
+
+        StringBuffer sb = new StringBuffer(120);
+        sb.append(getScheme());
+        sb.append("://");
+        sb.append(getHostName());
+        sb.append("/");
+        sb.append(getShare());
+        sb.append(getPathDecoded());
+        uriWithoutAuth = sb.toString();
+        return uriWithoutAuth;
+    }
+
+    /**
+     * returns the domain name
+     */
+    public String getDomain()
+    {
+        return domain;
     }
 }
