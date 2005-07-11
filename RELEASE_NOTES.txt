@@ -1,3 +1,11 @@
+2005-Jul-11
+
+smb:
+now uses NtlmPasswordAuthentication for credentials passing
+fix for special characters in username/password
+allow domains with DOMAIN\USERNAME syntax
+
+
 2005-Jul-5  commons-vfs 1.0 RC2
 
 Notice: Some tests may fail unless you've followed the necessary setup
