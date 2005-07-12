@@ -33,7 +33,7 @@
             <subsection name="System setup">
                 <ol>
                     <li>You need maven to build the local test-data structure. This is done automatically during build of VFS.</li>
-                    <li>Create a user 'vfsusr' with password 'vfsusr' and home directory '/home/vfsusr'
+                    <li>Create a user 'vfsusr' with password 'vfs/%\te:st' and home directory '/home/vfsusr'
                         <br/>
                         <source><![CDATA[
 useradd -p vfsusr -m vfsusr
@@ -158,7 +158,7 @@ Group users
                     </li>
                     <li>Create the VFS user to access the Webdav resource<br />
                         <source><![CDATA[
-htpasswd2 -cmb /etc/apache2/passwd  vfsusr vfsusr
+htpasswd2 -cmb /etc/apache2/passwd  vfsusr 'vfs/%\te:st'
                         ]]></source>
                     </li>
                 </ol>
@@ -175,7 +175,7 @@ htpasswd2 -cmb /etc/apache2/passwd  vfsusr vfsusr
    writable = yes
                         ]]></source>
                     </li>
-                    <li>Setup a 'vfsusr' with password 'vfsusr'<br />
+                    <li>Setup a 'vfsusr' with password 'vfs/%\te:st'<br />
                         <source><![CDATA[
 smbpasswd -a vfsusr
                         ]]></source>

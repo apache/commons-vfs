@@ -22,7 +22,9 @@ import org.apache.commons.vfs.provider.local.test.LocalProviderTestCase;
 import org.apache.commons.vfs.provider.res.test.ResourceProviderTestCase;
 import org.apache.commons.vfs.provider.temp.test.TemporaryProviderTestCase;
 import org.apache.commons.vfs.provider.url.test.UrlProviderTestCase;
+import org.apache.commons.vfs.provider.url.test.UrlProviderHttpTestCase;
 import org.apache.commons.vfs.provider.test.VirtualProviderTestCase;
+import org.apache.commons.vfs.provider.test.GenericFileNameTestCase;
 
 import java.util.Properties;
 
@@ -35,14 +37,18 @@ public class RunTest
         props.setProperty("test.basedir", "target/test-data");
         props.setProperty("test.policy", "src/test-data/test.policy");
         props.setProperty("test.secure", "false");
-        props.setProperty("test.smb.uri", "smb://vfsusr:vfsusr@10.0.1.54/vfsusr/vfstest");
-        props.setProperty("test.ftp.uri", "ftp://vfsusr:vfsusr@10.0.1.54/vfstest");
+        props.setProperty("test.smb.uri", "smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/vfstest");
+        props.setProperty("test.ftp.uri", "ftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
         props.setProperty("test.http.uri", "http://10.0.1.54/vfstest");
-        props.setProperty("test.webdav.uri", "webdav://vfsusr:vfsusr@10.0.1.54/vfstest");
-        props.setProperty("test.sftp.uri", "sftp://vfsusr:vfsusr@10.0.1.54/vfstest");
+        props.setProperty("test.webdav.uri", "webdav://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
+        props.setProperty("test.sftp.uri", "sftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
 
         Test tests[] = new Test[]
         {
+            new GenericFileNameTestCase(),
+
+            UrlProviderHttpTestCase.suite(),
+
             LocalProviderTestCase.suite(),
             VirtualProviderTestCase.suite(),
             TemporaryProviderTestCase.suite(),
@@ -51,6 +57,7 @@ public class RunTest
 
             FtpProviderTestCase.suite(),
             HttpProviderTestCase.suite(),
+
             WebdavProviderTestCase.suite(),
             SmbProviderTestCase.suite(),
             SftpProviderTestCase.suite(),
