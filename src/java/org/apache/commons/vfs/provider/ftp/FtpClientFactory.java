@@ -87,7 +87,9 @@ public class FtpClientFactory
                 // Change to root by default
                 // All file operations a relative to the filesystem-root
                 // String root = getRoot().getName().getPath();
-                if (workingDirectory != null)
+
+                Boolean userDirIsRoot = FtpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(fileSystemOptions);
+                if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
                 {
                     if (!client.changeWorkingDirectory(workingDirectory))
                     {

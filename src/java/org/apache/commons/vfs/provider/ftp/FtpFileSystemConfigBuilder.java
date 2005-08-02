@@ -31,6 +31,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private final static String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
     private final static String PASSIVE_MODE = FTPFileEntryParserFactory.class.getName() + ".PASSIVE";
+    private final static String USER_DIR_IS_ROOT = FTPFileEntryParserFactory.class.getName() + ".USER_DIR_IS_ROOT";
 
     public static FtpFileSystemConfigBuilder getInstance()
     {
@@ -99,7 +100,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setPassiveMode(FileSystemOptions opts, boolean passiveMode)
     {
-        setParam(opts, PASSIVE_MODE, passiveMode?Boolean.TRUE:Boolean.FALSE);
+        setParam(opts, PASSIVE_MODE, passiveMode ? Boolean.TRUE : Boolean.FALSE);
     }
 
     /**
@@ -110,5 +111,26 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public Boolean getPassiveMode(FileSystemOptions opts)
     {
         return (Boolean) getParam(opts, PASSIVE_MODE);
+    }
+
+    /**
+     * use user directory as root (do not change to fs root)
+     *
+     * @param opts
+     * @param userDirIsRoot
+     */
+    public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
+    {
+        setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setUserDirIsRoot
+     */
+    public Boolean getUserDirIsRoot(FileSystemOptions opts)
+    {
+        return (Boolean) getParam(opts, USER_DIR_IS_ROOT);
     }
 }

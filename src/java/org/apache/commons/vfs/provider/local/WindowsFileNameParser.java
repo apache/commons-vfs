@@ -39,7 +39,7 @@ public class WindowsFileNameParser
 
     protected FileName createFileName(String scheme, final String rootFile, final String path)
     {
-        return new LocalFileName(scheme, rootFile, path);
+        return new WindowsFileName(scheme, rootFile, path);
     }
 
     /**
@@ -53,13 +53,13 @@ public class WindowsFileNameParser
         // ('/'){0, 3} <letter> ':' '/'
         // ['/'] '//' <name> '/' <name> ( '/' | <end> )
 
-        // Skip over first 3 leading '/' chars
+        // Skip over first 4 (unc) leading '/' chars
         int startPos = 0;
-        int maxlen = Math.min(3, name.length());
+        int maxlen = Math.min(4, name.length());
         for (; startPos < maxlen && name.charAt(startPos) == '/'; startPos++)
         {
         }
-        if (startPos == maxlen)
+        if (startPos == maxlen && name.length() > startPos && name.charAt(startPos + 1) == '/')
         {
             // Too many '/'
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);

@@ -66,7 +66,8 @@ public class FtpFileObject
         {
             // do not use the "." as path against the ftp-server
             // e.g. the uu.net ftp-server do a recursive listing then
-            this.relPath = UriParser.decode(rootName.getPath());
+            // this.relPath = UriParser.decode(rootName.getPath());
+            this.relPath = "";
         }
         else
         {
@@ -77,7 +78,7 @@ public class FtpFileObject
     /**
      * Called by child file objects, to locate their ftp file info.
      *
-     * @param name the filename in its native form ie. without uri stuff (%nn)
+     * @param name  the filename in its native form ie. without uri stuff (%nn)
      * @param flush recreate children cache
      */
     private FTPFile getChildFile(final String name, final boolean flush) throws IOException
@@ -477,6 +478,7 @@ public class FtpFileObject
             client.abort();
             close();
         }
+
         /**
          * Called after the stream has been closed.
          */

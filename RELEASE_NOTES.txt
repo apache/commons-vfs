@@ -1,4 +1,10 @@
-2005-Jul-11
+2005-
+
+ftp:
+configuration to use user-home as root
+
+file:
+build windows filename according to the documentation. e.g. file:///c:/dir, file:////unchost/uncshare
 
 smb:
 now uses NtlmPasswordAuthentication for credentials passing
