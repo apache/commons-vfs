@@ -67,7 +67,8 @@ public class FtpFileObject
             // do not use the "." as path against the ftp-server
             // e.g. the uu.net ftp-server do a recursive listing then
             // this.relPath = UriParser.decode(rootName.getPath());
-            this.relPath = "";
+            // this.relPath = ".";
+            this.relPath = null;
         }
         else
         {
