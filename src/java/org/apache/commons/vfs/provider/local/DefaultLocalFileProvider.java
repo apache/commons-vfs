@@ -112,7 +112,7 @@ public class DefaultLocalFileProvider
     {
         // Create the file system
         final LocalFileName rootName = (LocalFileName) name;
-        return new LocalFileSystem(rootName, rootName.getRootFile());
+        return new LocalFileSystem(rootName, rootName.getRootFile(), fileSystemOptions);
     }
 
     public Collection getCapabilities()
