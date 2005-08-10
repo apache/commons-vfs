@@ -1,5 +1,11 @@
 2005-
 
+ant tasks:
+upgrade to ant 1.6.2 to support nested tasks
+
+documentation:
+made httpclient non-optional to be able to access its URIUtils class
+
 ftp:
 configuration to use user-home as root
 

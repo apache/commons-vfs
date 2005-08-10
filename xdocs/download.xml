@@ -62,7 +62,7 @@
                     <td>
                         WebDAV
                         <br/>
-                        HTTP (optional).
+                        HTTP, URI Utils
                     </td>
                 </tr>
                 <tr>
