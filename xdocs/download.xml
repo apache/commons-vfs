@@ -9,7 +9,8 @@
         <section name="Download">
             <p>
                 Nightly builds of Commons VFS can be found
-                <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>.
+                <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
+                .
             </p>
             <p>
                 You will also need to download the jars used by Commons VFS.
@@ -39,20 +40,23 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a> Version 1.2.1 or later.
+                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a>
+                        Version 1.2.1 or later.
                     </td>
                     <td rowspan="2">FTP</td>
                 </tr>
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/oro/">ORO</a> Version 2.0.8
+                        <a href="http://jakarta.apache.org/oro/">ORO</a>
+                        Version 2.0.8
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>.
+                        <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>
+                        .
                         Version 2.0 or later.
                     </td>
                     <td>
@@ -64,8 +68,10 @@
                 <tr>
                     <td>
                         jdom.org
-                        <a href="http://www.jdom.org">JDom</a>.
-                        Version 1.0.<br />
+                        <a href="http://www.jdom.org">JDom</a>
+                        .
+                        Version 1.0.
+                        <br/>
                         Only needed if you use webdav 2.2+
                     </td>
                     <td>
@@ -75,28 +81,38 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/slide/">Slide</a> Version 2.2pre1 (20050629.002841)<br />
-                        You only need this bleeding edge version if you would like to use the RandomAccessContent with webdav
+                        <a href="http://jakarta.apache.org/slide/">Slide</a>
+                        Version 2.2pre1 (20050629.002841)
+                        <br/>
+                        You only need this bleeding edge version if you would like to use the RandomAccessContent with
+                        webdav
                     </td>
                     <td>WebDAV</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jcifs.samba.org/">jCIFS</a> Version 0.8.3 or later.
+                        <a href="http://jcifs.samba.org/">jCIFS</a>
+                        Version 0.8.3 or later.
                     </td>
                     <td>CIFS</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://www.jcraft.com/jsch/">JSch</a> Version 0.1.14 or later.
+                        <a href="http://www.jcraft.com/jsch/">JSch</a>
+                        Version 0.1.14 or later.
                     </td>
                     <td>SFTP</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jakarta.apache.org/commons/sandbox/compress/">Commons Compress</a> Nightly build 20040530<br />
-                        There are no other nightlies than the one I created for maven, so please download it from the link below until this changes:<br/>
-                        <a href="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar">http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar</a>
+                        <a href="http://jakarta.apache.org/commons/sandbox/compress/">Commons Compress</a>
+                        Nightly build 20040530
+                        <br/>
+                        There are no other nightlies than the one I created for maven, so please download it from the
+                        link below until this changes:
+                        <br/>
+                        <a href="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar">
+                            http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar</a>
                     </td>
                     <td>tar, bz2</td>
                 </tr>
@@ -108,13 +124,19 @@
             </p>
             <ul>
                 <li>
-                    Check the source out of SVN using:<br/>
-                    HEAD: <code>svn co http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk vfs</code><br/>
-                    For a certain version please look at <a href="http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/tags">http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/tags</a>
+                    Check the source out of SVN using:
+                    <br/>
+                    HEAD:
+                    <code>svn co http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk vfs</code>
+                    <br/>
+                    For a certain version please look at
+                    <a href="http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/tags">
+                        http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/tags</a>
                 </li>
                 <li>
                     Download a nightly source snapshot from
-                    <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>.
+                    <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
+                    .
                 </li>
             </ul>
             <p>
@@ -123,22 +145,27 @@
             <ul>
                 <li>
                     Use
-                    <a href="http://ant.apache.org">Ant</a> 1.5 or later.
+                    <a href="http://ant.apache.org">Ant</a>
+                    1.6.2 or later.
                     Use the
-                    <code>build.xml</code> file in the root source
-                    directory.  The default target downloads the dependencies
+                    <code>build.xml</code>
+                    file in the root source
+                    directory. The default target downloads the dependencies
                     used to build Commons VFS, and then builds the jar file
                     into the
-                    <code>target</code> directory.
+                    <code>target</code>
+                    directory.
                 </li>
                 <li>
                     Use
                     <a href="http://maven.apache.org">Maven</a>
                     beta 9 or later. Use the
-                    <code>jar</code> goal to download
-                    the dependencies, and build the VFS jar.  Maven builds the
+                    <code>jar</code>
+                    goal to download
+                    the dependencies, and build the VFS jar. Maven builds the
                     jar file into the
-                    <code>target</code> directory.
+                    <code>target</code>
+                    directory.
                 </li>
             </ul>
         </section>

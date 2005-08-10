@@ -18,11 +18,10 @@ package org.apache.commons.vfs.tasks;
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.impl.StandardFileSystemManager;
 import org.apache.tools.ant.BuildEvent;
-import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.SubBuildListener;
 import org.apache.tools.ant.Task;
 
 /**
@@ -36,22 +35,7 @@ import org.apache.tools.ant.Task;
 public class VfsTask
     extends Task
 {
-    // private static StandardFileSystemManager manager;
-
-    /**
-     * Hold the reference to VFS and a refcounter.
-     *
-     * For every "target" which is called within the current target the refcount is incremented.
-     * When the target ends this refcount is decremented.
-     * If 0 is reached VFS will shutdown.
-     */
-    private static class VfsRef
-    {
-        StandardFileSystemManager manager;
-
-        // start with refcount 1 as we are in an ant "target"
-        volatile int refcount = 1;
-    }
+    private static StandardFileSystemManager manager;
 
     /**
      * Resolves a URI to a file, relative to the project's base directory.
@@ -61,61 +45,50 @@ public class VfsTask
     protected FileObject resolveFile(final String uri)
         throws FileSystemException
     {
-        VfsRef vfsRef = (VfsRef) getProject().getReference(VFS.class.getName());
-        if (vfsRef == null)
+        if (manager == null)
         {
-            vfsRef = new VfsRef();
+            manager = new StandardFileSystemManager();
+            manager.setLogger(new AntLogger());
+            manager.init();
+            getProject().addBuildListener(new CloseListener());
         }
+        return manager.resolveFile(getProject().getBaseDir(), uri);
+    }
 
-        synchronized(vfsRef)
+    /**
+     * Close the manager
+     */
+    protected void closeManager()
+    {
+        if (manager != null)
         {
-            if (vfsRef.manager == null)
-            {
-                vfsRef.manager = new StandardFileSystemManager();
-                vfsRef.manager.setLogger(new AntLogger());
-                vfsRef.manager.init();
-                getProject().addBuildListener(new CloseListener());
-
-                getProject().addReference(VFS.class.getName(), vfsRef);
-            }
+            manager.close();
+            manager = null;
         }
-
-        return vfsRef.manager.resolveFile(getProject().getBaseDir(), uri);
     }
 
     /**
      * Closes the VFS manager when the project finishes.
      */
     private class CloseListener
-        implements BuildListener
+        implements SubBuildListener
     {
-        public void subBuildStarted(BuildEvent event)
+        public void subBuildStarted(BuildEvent buildEvent)
         {
-            // event.getProject().log("subbuild started", Project.MSG_ERR);
         }
 
-        public void subBuildFinished(BuildEvent event)
+        public void subBuildFinished(BuildEvent buildEvent)
         {
-            // event.getProject().log("subbuild finished", Project.MSG_ERR);
+            closeManager();
         }
 
         public void buildFinished(BuildEvent event)
         {
-            // event.getProject().log("build finished", Project.MSG_ERR);
-
-            /*
-            VfsRef vfsRef = (VfsRef) getProject().getReference(VFS.class.getName());
-            if (vfsRef != null)
-            {
-                vfsRef.manager.close();
-                vfsRef = null;
-            }
-            */
+            closeManager();
         }
 
         public void buildStarted(BuildEvent event)
         {
-            // event.getProject().log("build started", Project.MSG_ERR);
         }
 
         public void messageLogged(BuildEvent event)
@@ -124,53 +97,18 @@ public class VfsTask
 
         public void targetFinished(BuildEvent event)
         {
-            // event.getProject().log("target finished", Project.MSG_ERR);
-
-            VfsRef vfsRef = (VfsRef) getProject().getReference(VFS.class.getName());
-            if (vfsRef != null)
-            {
-                synchronized(vfsRef)
-                {
-                    if (vfsRef.manager != null)
-                    {
-                        vfsRef.refcount--;
-                        if (vfsRef.refcount < 1)
-                        {
-                            vfsRef.manager.close();
-                            vfsRef.manager = null;
-                        }
-                    }
-
-                    getProject().removeBuildListener(CloseListener.this);
-                }
-            }
         }
 
         public void targetStarted(BuildEvent event)
         {
-            // event.getProject().log("target started", Project.MSG_ERR);
-
-            VfsRef vfsRef = (VfsRef) getProject().getReference(VFS.class.getName());
-            if (vfsRef != null)
-            {
-                synchronized(vfsRef)
-                {
-                    if (vfsRef.manager != null)
-                    {
-                        vfsRef.refcount++;
-                    }
-                }
-            }
         }
 
         public void taskFinished(BuildEvent event)
         {
-            // event.getProject().log("task finished", Project.MSG_ERR);
         }
 
         public void taskStarted(BuildEvent event)
         {
-            // event.getProject().log("task started", Project.MSG_ERR);
         }
     }
 
