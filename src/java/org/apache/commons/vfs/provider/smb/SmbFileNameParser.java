@@ -51,7 +51,7 @@ public class SmbFileNameParser extends URLFileNameParser
         String domain = extractDomain(username);
         if (domain != null)
         {
-            username = username.substring(domain.length()+1);
+            username = username.substring(domain.length() + 1);
         }
 
         // Decode and adjust separators
@@ -83,6 +83,11 @@ public class SmbFileNameParser extends URLFileNameParser
 
     private String extractDomain(String username)
     {
+        if (username == null)
+        {
+            return null;
+        }
+
         for (int i = 0; i < username.length(); i++)
         {
             if (username.charAt(i) == '\\')
