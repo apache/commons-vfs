@@ -25,7 +25,7 @@
                     <td>
                         Jakarta
                         <a href="http://jakarta.apache.org/commons/logging/">Commons Logging</a>
-                        Version 1.0.3 or later.
+                        Version 1.0.4 or later.
                     </td>
                     <td>All</td>
                 </tr>
@@ -41,7 +41,7 @@
                     <td>
                         Jakarta
                         <a href="http://jakarta.apache.org/commons/net/">Commons Net</a>
-                        Version 1.2.1 or later.
+                        Version 1.4.0 or later.
                     </td>
                     <td rowspan="2">FTP</td>
                 </tr>
@@ -57,7 +57,7 @@
                         Jakarta
                         <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>
                         .
-                        Version 2.0 or later.
+                        Version 2.0.
                     </td>
                     <td>
                         WebDAV
@@ -99,7 +99,7 @@
                 <tr>
                     <td>
                         <a href="http://www.jcraft.com/jsch/">JSch</a>
-                        Version 0.1.14 or later.
+                        Version 0.1.17 or later.
                     </td>
                     <td>SFTP</td>
                 </tr>
@@ -159,7 +159,7 @@
                 <li>
                     Use
                     <a href="http://maven.apache.org">Maven</a>
-                    beta 9 or later. Use the
+                    1.0.2 or later. Use the
                     <code>jar</code>
                     goal to download
                     the dependencies, and build the VFS jar. Maven builds the
