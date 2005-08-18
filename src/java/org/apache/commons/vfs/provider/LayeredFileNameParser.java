@@ -73,6 +73,13 @@ public class LayeredFileNameParser extends AbstractFileNameParser
         {
         }
 
+        if (pos == 0 && uri.charAt(pos) != '!')
+        {
+            // not ! found, so take the whole path a root
+            // e.g. zip:/my/zip/file.zip
+            pos = maxlen;
+        }
+
         // Extract the name
         String prefix = uri.substring(0, pos);
         if (pos < maxlen)
