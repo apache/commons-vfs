@@ -1,0 +1,8 @@
+<antlib>
+    <taskdef name="copy" classname="org.apache.commons.vfs.tasks.CopyTask" onerror="report"/>
+    <taskdef name="delete" classname="org.apache.commons.vfs.tasks.DeleteTask" onerror="report"/>
+    <taskdef name="mkdir" classname="org.apache.commons.vfs.tasks.MkdirTask" onerror="report"/>
+    <taskdef name="move" classname="org.apache.commons.vfs.tasks.MoveTask" onerror="report"/>
+    <taskdef name="show-file" classname="org.apache.commons.vfs.tasks.ShowFileTask" onerror="report"/>
+    <taskdef name="sync" classname="org.apache.commons.vfs.tasks.SyncTask" onerror="report"/>
+</antlib>

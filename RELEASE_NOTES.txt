@@ -1,4 +1,13 @@
-2005-08-13
+2005-
+
+ant tasks:
+added antlib.xml - (Jacob Kjome)
+
+zip, jar, ....:
+allow filenames without trailing "!"
+
+
+2005-08-13  commons-vfs 1.0 RC3
 
 ant tasks:
 upgrade to ant 1.6.2 to support nested tasks
