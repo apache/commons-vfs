@@ -78,6 +78,7 @@
     <extension-map extension="tar" scheme="tar"/>
     <mime-type-map mime-type="application/zip" scheme="zip"/>
     <mime-type-map mime-type="application/x-tar" scheme="tar"/>
+    <mime-type-map mime-type="application/x-gzip" scheme="gz"/>
     <!--
     <mime-type-map mime-type="application/x-tgz" scheme="tgz"/>
     -->

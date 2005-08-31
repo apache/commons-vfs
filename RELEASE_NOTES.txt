@@ -5,6 +5,8 @@ added antlib.xml - (Jacob Kjome)
 
 zip, jar, ....:
 allow filenames without trailing "!"
+allow createFilesystem with .gz files
+better handling of file/folder flag with compressed files 
 
 
 2005-08-13  commons-vfs 1.0 RC3

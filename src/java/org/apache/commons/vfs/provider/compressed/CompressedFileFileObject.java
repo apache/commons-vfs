@@ -65,7 +65,14 @@ public abstract class CompressedFileFileObject
      */
     protected FileType doGetType() throws FileSystemException
     {
-        return this.container.getType();
+        if (getName().getPath().endsWith("/"))
+        {
+            return FileType.FOLDER;
+        }
+        else
+        {
+            return FileType.FILE;
+        }
     }
 
     /**
