@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileNameParser;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponentContext;
@@ -75,14 +76,15 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         final String rootFile = extractRootPrefix(filename, name);
 
         // Normalise the path
-        UriParser.normalisePath(name);
+        FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
         return createFileName(
             scheme,
             rootFile,
-            path);
+            path,
+            fileType);
     }
 
-    protected abstract FileName createFileName(String scheme, final String rootFile, final String path);
+    protected abstract FileName createFileName(String scheme, final String rootFile, final String path, final FileType type);
 }

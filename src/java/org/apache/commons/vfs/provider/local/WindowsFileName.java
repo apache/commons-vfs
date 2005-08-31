@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileType;
 
 /**
  * A local file URI.
@@ -27,17 +28,18 @@ public class WindowsFileName extends LocalFileName
 {
     protected WindowsFileName(final String scheme,
                               final String rootFile,
-                              final String path)
+                              final String path,
+                              final FileType type)
     {
-        super(scheme, rootFile, path);
+        super(scheme, rootFile, path, type);
     }
 
     /**
      * Factory method for creating name instances.
      */
-    public FileName createName(final String path)
+    public FileName createName(final String path, FileType type)
     {
-        return new WindowsFileName(getScheme(), getRootFile(), path);
+        return new WindowsFileName(getScheme(), getRootFile(), path, type);
     }
 
     /**

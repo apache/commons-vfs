@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 
 /**
  * Implementation for layered filesystems.
@@ -54,10 +55,10 @@ public class LayeredFileNameParser extends AbstractFileNameParser
 
         // Decode and normalise the path
         UriParser.canonicalizePath(name, 0, name.length(), this);
-        UriParser.normalisePath(name);
+        FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return new LayeredFileName(scheme, rootUri, path);
+        return new LayeredFileName(scheme, rootUri, path, fileType);
     }
 
     /**
@@ -68,7 +69,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
     {
         // Looking for <name>!<abspath> (staring at the end)
         int maxlen = uri.length();
-        int pos = maxlen-1;
+        int pos = maxlen - 1;
         for (; pos > 0 && uri.charAt(pos) != '!'; pos--)
         {
         }

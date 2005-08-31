@@ -24,8 +24,10 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.cache.SoftRefFilesCache;
 import org.apache.commons.vfs.provider.AbstractFileName;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
@@ -492,6 +494,15 @@ public class DefaultFileSystemManager
     public FileObject resolveFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
+        final FileObject realBaseFile;
+        if (baseFile != null && VFS.isUriStyle() && baseFile.getName().getType() == FileType.FILE)
+        {
+            realBaseFile = baseFile.getParent();
+        }
+        else
+        {
+            realBaseFile = baseFile;
+        }
         // TODO: use resolveName and use this name to resolve the fileObject
 
 
@@ -510,7 +521,7 @@ public class DefaultFileSystemManager
             final FileProvider provider = (FileProvider) providers.get(scheme);
             if (provider != null)
             {
-                return provider.findFile(baseFile, uri, fileSystemOptions);
+                return provider.findFile(realBaseFile, uri, fileSystemOptions);
             }
 // Otherwise, assume a local file
         }
@@ -529,16 +540,16 @@ public class DefaultFileSystemManager
             {
                 throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[]{scheme, uri});
             }
-            return defaultProvider.findFile(baseFile, uri, fileSystemOptions);
+            return defaultProvider.findFile(realBaseFile, uri, fileSystemOptions);
         }
 
 // Assume a relative name - use the supplied base file
-        if (baseFile == null)
+        if (realBaseFile == null)
         {
             throw new FileSystemException("vfs.impl/find-rel-file.error", uri);
         }
 
-        return baseFile.resolveFile(uri);
+        return realBaseFile.resolveFile(uri);
     }
 
     /**
@@ -555,8 +566,8 @@ public class DefaultFileSystemManager
     /**
      * Resolves a name, relative to the root.
      *
-     * @param base the base filename
-     * @param name the name
+     * @param base  the base filename
+     * @param name  the name
      * @param scope the {@link NameScope}
      * @return
      * @throws FileSystemException
@@ -566,6 +577,16 @@ public class DefaultFileSystemManager
                                 final NameScope scope)
         throws FileSystemException
     {
+        final FileName realBase;
+        if (base != null && VFS.isUriStyle() && base.getType() == FileType.FILE)
+        {
+            realBase = base.getParent();
+        }
+        else
+        {
+            realBase = base;
+        }
+
         final StringBuffer buffer = new StringBuffer(name);
 
         // Adjust separators
@@ -575,24 +596,28 @@ public class DefaultFileSystemManager
         if (name.length() == 0 || name.charAt(0) != FileName.SEPARATOR_CHAR)
         {
             // Supplied path is not absolute
-            buffer.insert(0, FileName.SEPARATOR_CHAR);
-            buffer.insert(0, base.getPath());
+            if (!VFS.isUriStyle())
+            {
+                // when using uris the parent already do have the trailing "/"
+                buffer.insert(0, FileName.SEPARATOR_CHAR);
+            }
+            buffer.insert(0, realBase.getPath());
         }
 
         //// UriParser.canonicalizePath(buffer, 0, name.length());
 
         // Normalise the path
-        UriParser.normalisePath(buffer);
+        FileType fileType = UriParser.normalisePath(buffer);
 
         // Check the name is ok
         final String resolvedPath = buffer.toString();
-        if (!AbstractFileName.checkName(base.getPath(), resolvedPath, scope))
+        if (!AbstractFileName.checkName(realBase.getPath(), resolvedPath, scope))
         {
             throw new FileSystemException("vfs.provider/invalid-descendent-name.error", name);
         }
 
-        String scheme = base.getScheme();
-        String fullPath = base.getRootURI() + resolvedPath;
+        String scheme = realBase.getScheme();
+        String fullPath = realBase.getRootURI() + resolvedPath;
         final FileProvider provider = (FileProvider) providers.get(scheme);
         if (provider != null)
         {
@@ -601,7 +626,7 @@ public class DefaultFileSystemManager
             // the base. Then we can get rid of the string operation.
             //// String fullPath = base.getRootURI() + resolvedPath.substring(1);
 
-            return provider.parseUri(base, fullPath);
+            return provider.parseUri(realBase, fullPath);
         }
 
         if (scheme != null)
@@ -609,13 +634,13 @@ public class DefaultFileSystemManager
 // An unknown scheme - hand it to the default provider - if possible
             if (defaultProvider != null)
             {
-                return defaultProvider.parseUri(base, fullPath);
+                return defaultProvider.parseUri(realBase, fullPath);
             }
         }
 
         // todo: avoid fallback to this point
         // this happens if we have a virtual filesystem (no provider for scheme)
-        return ((AbstractFileName) base).createName(resolvedPath);
+        return ((AbstractFileName) realBase).createName(resolvedPath, fileType);
     }
 
     /**

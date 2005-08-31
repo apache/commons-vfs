@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileType;
 
 /**
  * A file name for layered files.
@@ -29,9 +30,10 @@ public class LayeredFileName extends AbstractFileName
 
     public LayeredFileName(final String scheme,
                            final FileName outerUri,
-                           final String path)
+                           final String path,
+                           final FileType type)
     {
-        super(scheme, path);
+        super(scheme, path, type);
         this.outerUri = outerUri;
     }
 
@@ -43,9 +45,9 @@ public class LayeredFileName extends AbstractFileName
         return outerUri;
     }
 
-    public FileName createName(String path)
+    public FileName createName(String path, FileType type)
     {
-        return new LayeredFileName(getScheme(), getOuterName(), path);
+        return new LayeredFileName(getScheme(), getOuterName(), path, type);
     }
 
     protected void appendRootUri(StringBuffer buffer)

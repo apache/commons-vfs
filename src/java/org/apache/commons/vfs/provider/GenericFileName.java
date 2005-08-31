@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileType;
 
 /**
  * A file name that represents a 'generic' URI, as per RFC 2396.  Consists of
@@ -41,9 +42,11 @@ public class GenericFileName extends AbstractFileName
                               final int defaultPort,
                               final String userName,
                               final String password,
-                              final String path)
+                              final String path,
+                              final FileType type
+    )
     {
-        super(scheme, path);
+        super(scheme, path, type);
         this.hostName = hostName;
         this.defaultPort = defaultPort;
         this.password = password;
@@ -98,7 +101,7 @@ public class GenericFileName extends AbstractFileName
         return defaultPort;
     }
 
-    public FileName createName(String absPath)
+    public FileName createName(String absPath, FileType type)
     {
         return new GenericFileName(
             getScheme(),
@@ -107,7 +110,8 @@ public class GenericFileName extends AbstractFileName
             defaultPort,
             userName,
             password,
-            absPath);
+            absPath,
+            type);
     }
 
     /**

@@ -27,6 +27,8 @@ import java.lang.reflect.Method;
  */
 public class VFS
 {
+    private static Boolean URI_STYLE = null;
+
     private static FileSystemManager instance;
 
     private VFS()
@@ -97,5 +99,23 @@ public class VFS
                 managerClassName,
                 e);
         }
+    }
+
+    public static boolean isUriStyle()
+    {
+        if (URI_STYLE == null)
+        {
+            URI_STYLE = Boolean.FALSE;
+        }
+        return URI_STYLE.booleanValue();
+    }
+
+    public static void setUriStyle(boolean uriStyle)
+    {
+        if (URI_STYLE != null && URI_STYLE.booleanValue() != uriStyle)
+        {
+            throw new IllegalStateException("URI STYLE ALREADY SET TO");
+        }
+        URI_STYLE = uriStyle ? Boolean.TRUE : Boolean.FALSE;
     }
 }

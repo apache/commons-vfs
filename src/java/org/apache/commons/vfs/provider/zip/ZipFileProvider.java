@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.LayeredFileName;
@@ -40,15 +41,15 @@ public class ZipFileProvider
     implements FileProvider
 {
     protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.GET_LAST_MODIFIED,
-        Capability.GET_TYPE,
-        Capability.LIST_CHILDREN,
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.COMPRESS,
-        Capability.VIRTUAL
-    }));
+        {
+            Capability.GET_LAST_MODIFIED,
+            Capability.GET_TYPE,
+            Capability.LIST_CHILDREN,
+            Capability.READ_CONTENT,
+            Capability.URI,
+            Capability.COMPRESS,
+            Capability.VIRTUAL
+        }));
 
     public ZipFileProvider()
     {
@@ -69,7 +70,7 @@ public class ZipFileProvider
         throws FileSystemException
     {
         final FileName rootName =
-            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH);
+            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return new ZipFileSystem(rootName, file, fileSystemOptions);
     }
 

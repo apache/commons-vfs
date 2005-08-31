@@ -17,15 +17,16 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 
 /**
  * Implementation for any url based filesystem.<br />
  * Parses the url into user/password/host/port/path<br />
  * Does not handle a query string (after ?)
  *
- * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
  * @author imario@apache.org
  * @version $Revision$ $Date$
+ * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
  */
 public class HostFileNameParser extends AbstractFileNameParser
 {
@@ -55,7 +56,9 @@ public class HostFileNameParser extends AbstractFileNameParser
         final Authority auth = extractToPath(filename, name);
 
         // Decode and normalise the file name
-        final String path = normalizePath(name);
+        UriParser.canonicalizePath(name, 0, name.length(), this);
+        FileType fileType = UriParser.normalisePath(name);
+        final String path = name.toString();
 
         return new GenericFileName(
             auth.scheme,
@@ -64,16 +67,8 @@ public class HostFileNameParser extends AbstractFileNameParser
             defaultPort,
             auth.userName,
             auth.password,
-            path);
-    }
-
-    protected String normalizePath(final StringBuffer name)
-        throws FileSystemException
-    {
-        UriParser.canonicalizePath(name, 0, name.length(), this);
-        UriParser.normalisePath(name);
-        final String path = name.toString();
-        return path;
+            path,
+            fileType);
     }
 
     /**

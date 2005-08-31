@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.LayeredFileName;
 import org.apache.commons.vfs.provider.zip.ZipFileProvider;
 
@@ -47,13 +48,13 @@ public class JarFileProvider
         Collection combined = new ArrayList();
         combined.addAll(ZipFileProvider.capabilities);
         combined.addAll(Arrays.asList(new Capability[]
-        {
-            Capability.ATTRIBUTES,
-            Capability.FS_ATTRIBUTES,
-            Capability.SIGNING,
-            Capability.MANIFEST_ATTRIBUTES,
-            Capability.VIRTUAL
-        }));
+            {
+                Capability.ATTRIBUTES,
+                Capability.FS_ATTRIBUTES,
+                Capability.SIGNING,
+                Capability.MANIFEST_ATTRIBUTES,
+                Capability.VIRTUAL
+            }));
         capabilities = Collections.unmodifiableCollection(combined);
     }
 
@@ -76,7 +77,7 @@ public class JarFileProvider
         throws FileSystemException
     {
         final FileName name =
-            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH);
+            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return new JarFileSystem(name, file, fileSystemOptions);
     }
 

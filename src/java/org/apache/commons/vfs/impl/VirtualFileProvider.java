@@ -18,6 +18,7 @@ package org.apache.commons.vfs.impl;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractVfsContainer;
 
 
@@ -52,7 +53,7 @@ public class VirtualFileProvider
     public FileObject createFileSystem(final String rootUri) throws FileSystemException
     {
         final FileName rootName =
-            new VirtualFileName(rootUri, FileName.ROOT_PATH);
+            new VirtualFileName(rootUri, FileName.ROOT_PATH, FileType.FOLDER);
         // final FileName rootName =
         //    new BasicFileName(rootUri, FileName.ROOT_PATH);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);

@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.FileNameParser;
 import org.apache.commons.vfs.provider.URLFileNameParser;
 import org.apache.commons.vfs.provider.UriParser;
@@ -67,7 +68,7 @@ public class SmbFileNameParser extends URLFileNameParser
 
         // Normalise the path.  Do this after extracting the share name,
         // to deal with things like smb://hostname/share/..
-        UriParser.normalisePath(name);
+        FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
         return new SmbFileName(
@@ -78,7 +79,8 @@ public class SmbFileNameParser extends URLFileNameParser
             auth.password,
             domain,
             share,
-            path);
+            path,
+            fileType);
     }
 
     private String extractDomain(String username)

@@ -20,6 +20,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.LayeredFileName;
@@ -69,7 +70,7 @@ public abstract class CompressedFileFileProvider
         throws FileSystemException
     {
         final FileName name =
-            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH);
+            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return createFileSystem(name, file, fileSystemOptions);
     }
 

@@ -20,6 +20,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.provider.UriParser;
@@ -92,7 +93,7 @@ public class TemporaryFileProvider
         // Parse the name
         final StringBuffer buffer = new StringBuffer(uri);
         final String scheme = UriParser.extractScheme(uri, buffer);
-        UriParser.normalisePath(buffer);
+        FileType fileType = UriParser.normalisePath(buffer);
         final String path = buffer.toString();
 
         // Create the temp file system if it does not exist

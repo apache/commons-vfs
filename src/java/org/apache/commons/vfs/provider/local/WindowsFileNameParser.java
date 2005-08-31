@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 
 /**
  * A parser for Windows file names.
@@ -37,9 +38,9 @@ public class WindowsFileNameParser
         return extractWindowsRootPrefix(uri, name);
     }
 
-    protected FileName createFileName(String scheme, final String rootFile, final String path)
+    protected FileName createFileName(String scheme, final String rootFile, final String path, final FileType type)
     {
-        return new WindowsFileName(scheme, rootFile, path);
+        return new WindowsFileName(scheme, rootFile, path, type);
     }
 
     /**

@@ -17,7 +17,9 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.VFS;
 
 /**
  * A default file name implementation.
@@ -30,6 +32,7 @@ public abstract class AbstractFileName
 {
     private final String scheme;
     private final String absPath;
+    private FileType type;
 
     // Cached stuff
     private String uri;
@@ -39,13 +42,21 @@ public abstract class AbstractFileName
     private String decodedAbsPath;
 
     public AbstractFileName(final String scheme,
-                            final String absPath)
+                            final String absPath, FileType type)
     {
         this.rootUri = null;
         this.scheme = scheme;
+        this.type = type;
         if (absPath != null && absPath.length() > 0)
         {
-            this.absPath = absPath;
+            if (absPath.endsWith("/"))
+            {
+                this.absPath = absPath.substring(0, absPath.length() - 1);
+            }
+            else
+            {
+                this.absPath = absPath;
+            }
         }
         else
         {
@@ -74,7 +85,6 @@ public abstract class AbstractFileName
      * Implement Comparable
      *
      * @param obj another abstractfilename
-     * @return
      */
     public int compareTo(Object obj)
     {
@@ -107,7 +117,7 @@ public abstract class AbstractFileName
     /**
      * Factory method for creating name instances.
      */
-    public abstract FileName createName(String absPath);
+    public abstract FileName createName(String absPath, FileType type);
 
     /**
      * Builds the root URI for this file name.  Note that the root URI must not
@@ -142,14 +152,23 @@ public abstract class AbstractFileName
      */
     public String getPath()
     {
+        if (VFS.isUriStyle())
+        {
+            return absPath + getUriTrailer();
+        }
         return absPath;
+    }
+
+    protected String getUriTrailer()
+    {
+        return getType() == FileType.FOLDER ? "/" : "";
     }
 
     public String getPathDecoded() throws FileSystemException
     {
         if (decodedAbsPath == null)
         {
-            decodedAbsPath = UriParser.decode(absPath);
+            decodedAbsPath = UriParser.decode(getPath());
         }
 
         return decodedAbsPath;
@@ -176,7 +195,7 @@ public abstract class AbstractFileName
         {
             parentPath = getPath().substring(0, idx);
         }
-        return createName(parentPath);
+        return createName(parentPath, FileType.FOLDER);
     }
 
     /**
@@ -375,14 +394,47 @@ public abstract class AbstractFileName
     }
 
     /**
+     * Returns the requested or current type of this name. <br />
+     * <p/>
+     * The "requested" type is the one determined during resolving the name. <br/>
+     * In this case the name is a {@link FileType#FOLDER} if it ends with an "/" else
+     * it will be a {@link FileType#FILE}<br/>
+     * </p>
+     * <p/>
+     * Once attached it will be changed to reflect the real type of this resource.
+     * </p>
+     *
+     * @return {@link FileType#FOLDER} or {@link FileType#FILE}
+     */
+    public FileType getType()
+    {
+        return type;
+    }
+
+    /**
+     * sets the type of this file e.g. when it will be attached.
+     *
+     * @param type {@link FileType#FOLDER} or {@link FileType#FILE}
+     */
+    void setType(FileType type) throws FileSystemException
+    {
+        if (type != FileType.FOLDER && type != FileType.FILE)
+        {
+            throw new FileSystemException("vfs.provider/filename-type.error");
+        }
+
+        this.type = type;
+    }
+
+    /**
      * Checks whether a path fits in a particular scope of another path.
      *
      * @param basePath An absolute, normalised path.
      * @param path     An absolute, normalised path.
      */
     public static boolean checkName(final String basePath,
-                              final String path,
-                              final NameScope scope)
+                                    final String path,
+                                    final NameScope scope)
     {
         if (scope == NameScope.FILE_SYSTEM)
         {
@@ -394,7 +446,13 @@ public abstract class AbstractFileName
         {
             return false;
         }
-        final int baseLen = basePath.length();
+
+        int baseLen = basePath.length();
+        if (VFS.isUriStyle())
+        {
+            // strip the trailing "/"
+            baseLen--;
+        }
 
         if (scope == NameScope.CHILD)
         {

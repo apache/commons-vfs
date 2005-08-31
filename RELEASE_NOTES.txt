@@ -1,5 +1,12 @@
 2005-
 
+filenames:
+add a type (file/folder) to filename.
+This is needed to allow URI style filename resolving
+e.g. base "file:///path/to/file" with relative name "any/file" results in "file:///path/to/any/file" instead
+of "file:///path/to/file/any/file"
+This is experimental code. Switch on with "VFS.setUriStyle(true);" before ANY other VFS operation.
+
 ant tasks:
 added antlib.xml - (Jacob Kjome)
 

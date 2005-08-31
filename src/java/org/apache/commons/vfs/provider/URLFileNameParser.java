@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 
 /**
  * Implementation for any url based filesystem.<br />
@@ -49,7 +50,9 @@ public class URLFileNameParser extends HostFileNameParser
         String queryString = UriParser.extractQueryString(name);
 
         // Decode and normalise the file name
-        final String path = normalizePath(name);
+        UriParser.canonicalizePath(name, 0, name.length(), this);
+        FileType fileType = UriParser.normalisePath(name);
+        final String path = name.toString();
 
         return new URLFileName(
             auth.scheme,
@@ -59,6 +62,7 @@ public class URLFileNameParser extends HostFileNameParser
             auth.userName,
             auth.password,
             path,
+            fileType,
             queryString);
     }
 }

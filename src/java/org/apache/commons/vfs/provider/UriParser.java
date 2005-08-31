@@ -17,6 +17,8 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.VFS;
 
 /**
  * Utilities for dealing with URIs.  See RFC 2396 for details.
@@ -82,12 +84,18 @@ public final class UriParser
      * <li>Removes trailing separator.
      * </ul>
      */
-    public static void normalisePath(final StringBuffer path)
+    public static FileType normalisePath(final StringBuffer path)
         throws FileSystemException
     {
+        FileType fileType = FileType.FOLDER;
         if (path.length() == 0)
         {
-            return;
+            return fileType;
+        }
+
+        if (path.charAt(path.length() - 1) != '/')
+        {
+            fileType = FileType.FILE;
         }
 
         // Adjust separators
@@ -99,7 +107,7 @@ public final class UriParser
         {
             if (path.length() == 1)
             {
-                return;
+                return fileType;
             }
             startFirstElem = 1;
         }
@@ -158,10 +166,15 @@ public final class UriParser
         }
 
         // Remove trailing separator
-        if (maxlen > 0 && path.charAt(maxlen - 1) == SEPARATOR_CHAR && maxlen > 1)
+        if (!VFS.isUriStyle())
         {
-            path.delete(maxlen - 1, maxlen);
+            if (maxlen > 0 && path.charAt(maxlen - 1) == SEPARATOR_CHAR && maxlen > 1)
+            {
+                path.delete(maxlen - 1, maxlen);
+            }
         }
+
+        return fileType;
     }
 
     /**
@@ -371,7 +384,7 @@ public final class UriParser
      */
     public static String encode(final String decodedStr)
     {
-        return encode(decodedStr,  null);
+        return encode(decodedStr, null);
     }
 
     public static String encode(final String decodedStr, final char[] reserved)
@@ -387,7 +400,7 @@ public final class UriParser
 
     public static String[] encode(String[] strings)
     {
-        for (int i = 0; i<strings.length; i++)
+        for (int i = 0; i < strings.length; i++)
         {
             strings[i] = encode(strings[i]);
         }
@@ -427,8 +440,8 @@ public final class UriParser
                 if (match)
                 {
                     // this is a reserved character, not allowed to decode
-                    index+=2;
-                    count-=2;
+                    index += 2;
+                    count -= 2;
                     continue;
                 }
 
@@ -457,7 +470,7 @@ public final class UriParser
         {
             if (name.charAt(pos) == '?')
             {
-                String queryString = name.substring(pos+1);
+                String queryString = name.substring(pos + 1);
                 name.delete(pos, name.length());
                 return queryString;
             }

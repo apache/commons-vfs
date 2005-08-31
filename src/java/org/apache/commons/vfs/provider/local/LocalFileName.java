@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileName;
 
 /**
@@ -30,9 +31,10 @@ public class LocalFileName extends AbstractFileName
 
     protected LocalFileName(final String scheme,
                             final String rootFile,
-                            final String path)
+                            final String path,
+                            final FileType type)
     {
-        super(scheme, path);
+        super(scheme, path, type);
         this.rootFile = rootFile;
     }
 
@@ -47,9 +49,9 @@ public class LocalFileName extends AbstractFileName
     /**
      * Factory method for creating name instances.
      */
-    public FileName createName(final String path)
+    public FileName createName(final String path, FileType type)
     {
-        return new LocalFileName(getScheme(), rootFile, path);
+        return new LocalFileName(getScheme(), rootFile, path, type);
     }
 
     /**

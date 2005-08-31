@@ -60,7 +60,7 @@ public abstract class AbstractFileObject implements FileObject
     // private static final FileObject[] EMPTY_FILE_ARRAY = {};
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 
-    private final FileName name;
+    private final AbstractFileName name;
     private final AbstractFileSystem fs;
 
     private DefaultFileContent content;
@@ -79,7 +79,7 @@ public abstract class AbstractFileObject implements FileObject
     protected AbstractFileObject(final FileName name,
                                  final AbstractFileSystem fs)
     {
-        this.name = name;
+        this.name = (AbstractFileName) name;
         this.fs = fs;
     }
 
@@ -913,10 +913,10 @@ public abstract class AbstractFileObject implements FileObject
             catch (final Exception exc)
             {
                 throw new FileSystemException("vfs.provider/rename.error", new Object[]
-                {
-                    getName(),
-                    destFile.getName()
-                }, exc);
+                    {
+                        getName(),
+                        destFile.getName()
+                    }, exc);
             }
         }
         else
@@ -1169,7 +1169,7 @@ public abstract class AbstractFileObject implements FileObject
                 finally
                 {
                     attached = false;
-                    type = null;
+                    setFileType(null);
                     parent = null;
 
                     fs.fileDetached(this);
@@ -1217,11 +1217,11 @@ public abstract class AbstractFileObject implements FileObject
                 // now the type could already be injected by doAttach (e.g from parent to child)
                 if (type == null)
                 {
-                    type = doGetType();
+                    setFileType(doGetType());
                 }
                 if (type == null)
                 {
-                    type = FileType.IMAGINARY;
+                    setFileType(FileType.IMAGINARY);
                 }
             }
             catch (Exception exc)
@@ -1356,8 +1356,8 @@ public abstract class AbstractFileObject implements FileObject
      * files.
      */
     public void findFiles(final FileSelector selector,
-                           final boolean depthwise,
-                           final List selected) throws FileSystemException
+                          final boolean depthwise,
+                          final List selected) throws FileSystemException
     {
         try
         {
@@ -1460,7 +1460,23 @@ public abstract class AbstractFileObject implements FileObject
 
     protected void injectType(FileType fileType)
     {
-        type = fileType;
+        setFileType(fileType);
+    }
+
+    private void setFileType(FileType type)
+    {
+        if (type != FileType.IMAGINARY)
+        {
+            try
+            {
+                name.setType(type);
+            }
+            catch (FileSystemException e)
+            {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+        this.type = type;
     }
 
     /**

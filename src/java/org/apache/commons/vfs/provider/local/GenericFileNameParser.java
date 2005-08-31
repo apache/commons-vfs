@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.local;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 
 /**
  * A general-purpose file name parser.
@@ -31,6 +32,7 @@ public class GenericFileNameParser
 
     /**
      * retrieve a instance to this parser
+     *
      * @return the parser
      */
     public static GenericFileNameParser getInstance()
@@ -62,8 +64,8 @@ public class GenericFileNameParser
      * here the rootFilename can only be "/" (see above) put this "/" is also in the pathname
      * so its of no value for the LocalFileName instance
      */
-    protected FileName createFileName(String scheme, final String rootFile, final String path)
+    protected FileName createFileName(String scheme, final String rootFile, final String path, final FileType type)
     {
-        return new LocalFileName(scheme, "", path);
+        return new LocalFileName(scheme, "", path, type);
     }
 }

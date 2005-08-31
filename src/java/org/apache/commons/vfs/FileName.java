@@ -75,7 +75,7 @@ public interface FileName extends Comparable
      * replaced by its character.
      *
      * @return The path.  Never returns null.
-     * @throws FileSystemException if the path is not correctly encoded 
+     * @throws FileSystemException if the path is not correctly encoded
      */
     public String getPathDecoded() throws FileSystemException;
 
@@ -157,15 +157,30 @@ public interface FileName extends Comparable
     /**
      * Determines if another file name is an ancestor of this file name.
      */
-    boolean isAncestor(FileName ancestor);
+    public boolean isAncestor(FileName ancestor);
 
     /**
      * Determines if another file name is a descendent of this file name.
      */
-    boolean isDescendent(FileName descendent);
+    public boolean isDescendent(FileName descendent);
 
     /**
      * Determines if another file name is a descendent of this file name.
      */
-    boolean isDescendent(FileName descendent, NameScope nameScope);
+    public boolean isDescendent(FileName descendent, NameScope nameScope);
+
+    /**
+     * Returns the requested or current type of this name. <br />
+     * <p/>
+     * The "requested" type is the one determined during resolving the name. <br/>
+     * In this case the name is a {@link FileType#FOLDER} if it ends with an "/" else
+     * it will be a {@link FileType#FILE}<br/>
+     * </p>
+     * <p/>
+     * Once attached it will be changed to reflect the real type of this resource.
+     * </p>
+     *
+     * @return {@link FileType#FOLDER} or {@link FileType#FILE}
+     */
+    public FileType getType();
 }

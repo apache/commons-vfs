@@ -1,7 +1,7 @@
 package org.apache.commons.vfs.provider.url;
 
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.URLFileName;
-import org.apache.commons.vfs.provider.UriParser;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,9 +12,9 @@ import org.apache.commons.vfs.provider.UriParser;
  */
 public class UrlFileName extends URLFileName
 {
-    public UrlFileName(final String scheme, final String hostName, final int port, final int defaultPort, final String userName, final String password, final String path, final String queryString)
+    public UrlFileName(final String scheme, final String hostName, final int port, final int defaultPort, final String userName, final String password, final String path, final FileType type, final String queryString)
     {
-        super(scheme, hostName, port, defaultPort, userName, password, path, queryString);
+        super(scheme, hostName, port, defaultPort, userName, password, path, type, queryString);
     }
 
     protected void appendRootUri(final StringBuffer buffer)

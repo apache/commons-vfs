@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.smb;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.GenericFileName;
 
 /**
@@ -42,9 +43,10 @@ public class SmbFileName
         final String password,
         final String domain,
         final String share,
-        final String path)
+        final String path,
+        final FileType type)
     {
-        super(scheme, hostName, port, DEFAULT_PORT, userName, password, path);
+        super(scheme, hostName, port, DEFAULT_PORT, userName, password, path, type);
         this.share = share;
         this.domain = domain;
     }
@@ -84,7 +86,7 @@ public class SmbFileName
     /**
      * Factory method for creating name instances.
      */
-    public FileName createName(final String path)
+    public FileName createName(final String path, FileType type)
     {
         return new SmbFileName(
             getScheme(),
@@ -94,7 +96,8 @@ public class SmbFileName
             getPassword(),
             domain,
             share,
-            path);
+            path,
+            type);
     }
 
     /**

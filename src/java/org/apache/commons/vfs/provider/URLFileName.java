@@ -4,6 +4,7 @@ import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 
 public class URLFileName extends GenericFileName
 {
@@ -16,9 +17,10 @@ public class URLFileName extends GenericFileName
                        final String userName,
                        final String password,
                        final String path,
+                       final FileType type,
                        final String queryString)
     {
-        super(scheme, hostName, port, defaultPort, userName, password, path);
+        super(scheme, hostName, port, defaultPort, userName, password, path, type);
         this.queryString = queryString;
     }
 
@@ -80,7 +82,7 @@ public class URLFileName extends GenericFileName
         return sb.toString();
     }
 
-    public FileName createName(final String absPath)
+    public FileName createName(final String absPath, FileType type)
     {
         return new URLFileName(getScheme(),
             getHostName(),
@@ -89,6 +91,7 @@ public class URLFileName extends GenericFileName
             getUserName(),
             getPassword(),
             absPath,
+            type,
             getQueryString());
     }
 
