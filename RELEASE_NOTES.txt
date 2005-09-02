@@ -13,7 +13,12 @@ added antlib.xml - (Jacob Kjome)
 zip, jar, ....:
 allow filenames without trailing "!"
 allow createFilesystem with .gz files
-better handling of file/folder flag with compressed files 
+better handling of file/folder flag with compressed files
+
+ftp:
+check IOException instead of FTPConnectionClosedException.
+This should make ftp retry more robust even if for some case the state of the
+socket isnt correctly reported as closed.
 
 
 2005-08-13  commons-vfs 1.0 RC3

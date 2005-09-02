@@ -16,7 +16,6 @@
 package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
@@ -99,7 +98,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().listFiles(key, relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().listFiles(key, relPath);
@@ -112,7 +111,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().removeDirectory(relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().removeDirectory(relPath);
@@ -125,7 +124,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().deleteFile(relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().deleteFile(relPath);
@@ -138,7 +137,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().rename(oldName, newName);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().rename(oldName, newName);
@@ -151,7 +150,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().makeDirectory(relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().makeDirectory(relPath);
@@ -174,7 +173,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().retrieveFileStream(relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().retrieveFileStream(relPath);
@@ -189,7 +188,7 @@ class FTPClientWrapper implements FtpClient
             client.setRestartOffset(restartOffset);
             return client.retrieveFileStream(relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
 
@@ -205,7 +204,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().appendFileStream(relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().appendFileStream(relPath);
@@ -218,7 +217,7 @@ class FTPClientWrapper implements FtpClient
         {
             return getFtpClient().storeFileStream(relPath);
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
             return getFtpClient().storeFileStream(relPath);
@@ -233,11 +232,11 @@ class FTPClientWrapper implements FtpClient
             // it should be better to really "abort" the transfer, but
             // currently I didnt manage to make it work - so lets "abort" the hard way.
             // return getFtpClient().abort();
-            
+
             disconnect();
             return true;
         }
-        catch (FTPConnectionClosedException e)
+        catch (IOException e)
         {
             disconnect();
         }
