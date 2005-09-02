@@ -49,7 +49,7 @@ public abstract class AbstractFileName
         this.type = type;
         if (absPath != null && absPath.length() > 0)
         {
-            if (absPath.endsWith("/"))
+            if (absPath.length() > 1 && absPath.endsWith("/"))
             {
                 this.absPath = absPath.substring(0, absPath.length() - 1);
             }
