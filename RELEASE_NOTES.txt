@@ -1,5 +1,8 @@
 2005-
 
+threading:
+avoid gc when referencing only inputStream/outputStream of a fileObject
+
 filenames:
 add a type (file/folder) to filename.
 This is needed to allow URI style filename resolving

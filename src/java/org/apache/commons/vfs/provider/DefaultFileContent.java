@@ -279,7 +279,7 @@ public final class DefaultFileContent implements FileContent
 
         // Get the raw input stream
         final InputStream instr = file.getInputStream();
-        final InputStream wrappedInstr = new FileContentInputStream(instr);
+        final InputStream wrappedInstr = new FileContentInputStream(file, instr);
         this.getThreadData().addInstr(wrappedInstr);
         // setState(STATE_OPENED);
         return wrappedInstr;
@@ -300,7 +300,7 @@ public final class DefaultFileContent implements FileContent
 
         // Get the content
         final RandomAccessContent rastr = file.getRandomAccessContent(mode);
-        this.getThreadData().setRastr(new FileRandomAccessContent(rastr));
+        this.getThreadData().setRastr(new FileRandomAccessContent(file, rastr));
         // setState(STATE_OPENED);
         return this.getThreadData().getRastr();
     }
@@ -330,7 +330,7 @@ public final class DefaultFileContent implements FileContent
         final OutputStream outstr = file.getOutputStream(bAppend);
 
         // Create wrapper
-        this.getThreadData().setOutstr(new FileContentOutputStream(outstr));
+        this.getThreadData().setOutstr(new FileContentOutputStream(file, outstr));
         // setState(STATE_OPENED);
         return this.getThreadData().getOutstr();
     }
@@ -433,9 +433,13 @@ public final class DefaultFileContent implements FileContent
     private final class FileContentInputStream
         extends MonitorInputStream
     {
-        FileContentInputStream(final InputStream instr)
+        // avoid gc
+        private final FileObject file;
+
+        FileContentInputStream(final FileObject file, final InputStream instr)
         {
             super(instr);
+            this.file = file;
         }
 
         /**
@@ -474,9 +478,13 @@ public final class DefaultFileContent implements FileContent
      */
     private final class FileRandomAccessContent extends MonitorRandomAccessContent
     {
-        FileRandomAccessContent(final RandomAccessContent content)
+        // avoid gc
+        private final FileObject file;
+
+        FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
         {
             super(content);
+            this.file = file;
         }
 
         /**
@@ -500,9 +508,13 @@ public final class DefaultFileContent implements FileContent
      */
     final class FileContentOutputStream extends MonitorOutputStream
     {
-        FileContentOutputStream(final OutputStream outstr)
+        // avoid gc
+        private final FileObject file;
+
+        FileContentOutputStream(final FileObject file, final OutputStream outstr)
         {
             super(outstr);
+            this.file = file;
         }
 
         /**
