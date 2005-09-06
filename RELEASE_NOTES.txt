@@ -3,6 +3,7 @@
 threading:
 avoid gc when referencing only inputStream/outputStream of a fileObject
 
+
 filenames:
 add a type (file/folder) to filename.
 This is needed to allow URI style filename resolving
@@ -10,18 +11,25 @@ e.g. base "file:///path/to/file" with relative name "any/file" results in "file:
 of "file:///path/to/file/any/file"
 This is experimental code. Switch on with "VFS.setUriStyle(true);" before ANY other VFS operation.
 
+
 ant tasks:
 added antlib.xml - (Jacob Kjome)
+
 
 zip, jar, ....:
 allow filenames without trailing "!"
 allow createFilesystem with .gz files
 better handling of file/folder flag with compressed files
 
+
 ftp:
 check IOException instead of FTPConnectionClosedException.
 This should make ftp retry more robust even if for some case the state of the
 socket isnt correctly reported as closed.
+
+ignore nonparseable ftp directory entries. It will be logged using the debug log-level
+with class org.apache.commons.vfs.provider.ftp.FtpFileObject.
+(e.g. empty lines in ftp directory listing)
 
 
 2005-08-13  commons-vfs 1.0 RC3

@@ -15,6 +15,8 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -23,6 +25,7 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
@@ -44,6 +47,8 @@ import java.util.GregorianCalendar;
 public class FtpFileObject
     extends AbstractFileObject
 {
+    private Log log = LogFactory.getLog(FtpFileObject.class);
+
     private static final FTPFile[] EMPTY_FTP_FILE_ARRAY = {};
 
     private final FtpFileSystem ftpFs;
@@ -133,6 +138,18 @@ public class FtpFileObject
                 for (int i = 0; i < tmpChildren.length; i++)
                 {
                     final FTPFile child = tmpChildren[i];
+                    if (child == null)
+                    {
+                        if (log.isDebugEnabled())
+                        {
+                            log.debug(Messages.getString("vfs.provider.ftp/invalid-directory-entry.debug",
+                                new Object[]
+                                    {
+                                        new Integer(i), relPath
+                                    }));
+                        }
+                        continue;
+                    }
                     if (!".".equals(child.getName())
                         && !"..".equals(child.getName()))
                     {
