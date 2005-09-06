@@ -506,7 +506,7 @@ public final class DefaultFileContent implements FileContent
     /**
      * An output stream for writing content.
      */
-    private final class FileContentOutputStream extends MonitorOutputStream
+    final class FileContentOutputStream extends MonitorOutputStream
     {
         // avoid gc
         private final FileObject file;
