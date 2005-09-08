@@ -33,10 +33,13 @@ import org.apache.commons.vfs.util.RandomAccessMode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Collections;
 
 /**
  * An FTP file.
@@ -49,14 +52,14 @@ public class FtpFileObject
 {
     private Log log = LogFactory.getLog(FtpFileObject.class);
 
-    private static final FTPFile[] EMPTY_FTP_FILE_ARRAY = {};
+    private static final Map EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap());
 
     private final FtpFileSystem ftpFs;
     private final String relPath;
 
     // Cached info
     private FTPFile fileInfo;
-    private FTPFile[] children;
+    private Map children;
     private FileObject linkDestination;
 
     protected FtpFileObject(final FileName name,
@@ -98,18 +101,8 @@ public class FtpFileObject
         doGetChildren();
 
         // Look for the requested child
-        // TODO - use hash table
-        for (int i = 0; i < children.length; i++)
-        {
-            final FTPFile child = children[i];
-            if (child.getName().equals(name))
-            {
-                // TODO - should be using something else to compare names
-                return child;
-            }
-        }
-
-        return null;
+        FTPFile ftpFile = (FTPFile) children.get(name);
+        return ftpFile;
     }
 
     /**
@@ -129,12 +122,13 @@ public class FtpFileObject
             final FTPFile[] tmpChildren = client.listFiles(key, relPath);
             if (tmpChildren == null || tmpChildren.length == 0)
             {
-                children = EMPTY_FTP_FILE_ARRAY;
+                children = EMPTY_FTP_FILE_MAP;
             }
             else
             {
+                children = new TreeMap();
+
                 // Remove '.' and '..' elements
-                final ArrayList childList = new ArrayList();
                 for (int i = 0; i < tmpChildren.length; i++)
                 {
                     final FTPFile child = tmpChildren[i];
@@ -153,10 +147,9 @@ public class FtpFileObject
                     if (!".".equals(child.getName())
                         && !"..".equals(child.getName()))
                     {
-                        childList.add(child);
+                        children.put(child.getName(), child);
                     }
                 }
-                children = (FTPFile[]) childList.toArray(new FTPFile[childList.size()]);
             }
         }
         finally
@@ -181,16 +174,19 @@ public class FtpFileObject
     private void getInfo(boolean flush) throws IOException
     {
         final FtpFileObject parent = (FtpFileObject) getParent();
+        FTPFile newFileInfo;
         if (parent != null)
         {
-            fileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
+            newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
         }
         else
         {
             // Assume the root is a directory and exists
-            fileInfo = new FTPFile();
-            fileInfo.setType(FTPFile.DIRECTORY_TYPE);
+            newFileInfo = new FTPFile();
+            newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
         }
+
+        this.fileInfo = newFileInfo;
     }
 
     /**
@@ -198,16 +194,32 @@ public class FtpFileObject
      */
     protected void doDetach()
     {
-        fileInfo = null;
+        this.fileInfo = null;
         children = null;
     }
 
     /**
      * Called when the children of this file change.
      */
-    protected void onChildrenChanged()
+    protected void onChildrenChanged(FileName child, FileType newType)
     {
-        children = null;
+        if (children != null && newType.equals(FileType.IMAGINARY))
+        {
+            try
+            {
+                children.remove(UriParser.decode(child.getBaseName()));
+            }
+            catch (FileSystemException e)
+            {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+        else
+        {
+            // if child was added we have to rescan the children
+            // TODO - get rid of this
+            children = null;
+        }
     }
 
     /**
@@ -216,6 +228,14 @@ public class FtpFileObject
     protected void onChange() throws IOException
     {
         children = null;
+
+        if (getType().equals(FileType.IMAGINARY))
+        {
+            // file is deleted, avoid server lookup
+            this.fileInfo = null;
+            return;
+        }
+
         getInfo(true);
     }
 
@@ -226,19 +246,19 @@ public class FtpFileObject
     protected FileType doGetType()
         throws Exception
     {
-        if (fileInfo == null)
+        if (this.fileInfo == null)
         {
             return FileType.IMAGINARY;
         }
-        else if (fileInfo.isDirectory())
+        else if (this.fileInfo.isDirectory())
         {
             return FileType.FOLDER;
         }
-        else if (fileInfo.isFile())
+        else if (this.fileInfo.isFile())
         {
             return FileType.FILE;
         }
-        else if (fileInfo.isSymbolicLink())
+        else if (this.fileInfo.isSymbolicLink())
         {
             return getLinkDestination().getType();
         }
@@ -250,7 +270,7 @@ public class FtpFileObject
     {
         if (linkDestination == null)
         {
-            final String path = fileInfo.getLink();
+            final String path = this.fileInfo.getLink();
             FileName relativeTo = getName().getParent();
             if (relativeTo == null)
             {
@@ -265,7 +285,7 @@ public class FtpFileObject
 
     protected FileObject[] doListChildrenResolved() throws Exception
     {
-        if (fileInfo.isSymbolicLink())
+        if (this.fileInfo.isSymbolicLink())
         {
             return getLinkDestination().getChildren();
         }
@@ -282,11 +302,15 @@ public class FtpFileObject
         // List the children of this file
         doGetChildren();
 
-        final String[] childNames = new String[children.length];
-        for (int i = 0; i < children.length; i++)
+        // TODO - get rid of this children stuff
+        final String[] childNames = new String[children.size()];
+        int childNum = -1;
+        Iterator iterChildren = children.values().iterator();
+        while (iterChildren.hasNext())
         {
-            final FTPFile child = children[i];
-            childNames[i] = child.getName();
+            childNum++;
+            final FTPFile child = (FTPFile) iterChildren.next();
+            childNames[childNum] = child.getName();
         }
 
         return UriParser.encode(childNames);
@@ -301,7 +325,7 @@ public class FtpFileObject
         final FtpClient ftpClient = ftpFs.getClient();
         try
         {
-            if (fileInfo.isDirectory())
+            if (this.fileInfo.isDirectory())
             {
                 ok = ftpClient.removeDirectory(relPath);
             }
@@ -319,8 +343,8 @@ public class FtpFileObject
         {
             throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
         }
-        fileInfo = null;
-        children = EMPTY_FTP_FILE_ARRAY;
+        this.fileInfo = null;
+        children = EMPTY_FTP_FILE_MAP;
     }
 
     /**
@@ -345,8 +369,8 @@ public class FtpFileObject
         {
             throw new FileSystemException("vfs.provider.ftp/rename-file.error", new Object[]{getName().toString(), newfile});
         }
-        fileInfo = null;
-        children = EMPTY_FTP_FILE_ARRAY;
+        this.fileInfo = null;
+        children = EMPTY_FTP_FILE_MAP;
     }
 
     /**
@@ -377,13 +401,13 @@ public class FtpFileObject
      */
     protected long doGetContentSize() throws Exception
     {
-        if (fileInfo.isSymbolicLink())
+        if (this.fileInfo.isSymbolicLink())
         {
             return getLinkDestination().getContent().getSize();
         }
         else
         {
-            return fileInfo.getSize();
+            return this.fileInfo.getSize();
         }
     }
 
@@ -394,13 +418,13 @@ public class FtpFileObject
      */
     protected long doGetLastModifiedTime() throws Exception
     {
-        if (fileInfo.isSymbolicLink())
+        if (this.fileInfo.isSymbolicLink())
         {
             return getLinkDestination().getContent().getLastModifiedTime();
         }
         else
         {
-            Calendar timestamp = fileInfo.getTimestamp();
+            Calendar timestamp = this.fileInfo.getTimestamp();
             if (timestamp == null)
             {
                 return 0L;
@@ -420,7 +444,7 @@ public class FtpFileObject
      */
     protected void doSetLastModifiedTime(final long modtime) throws Exception
     {
-        if (fileInfo.isSymbolicLink())
+        if (this.fileInfo.isSymbolicLink())
         {
             getLinkDestination().getContent().setLastModifiedTime(modtime);
         }
@@ -429,7 +453,7 @@ public class FtpFileObject
             final Date d = new Date(modtime);
             final Calendar c = new GregorianCalendar();
             c.setTime(d);
-            fileInfo.setTimestamp(c);
+            this.fileInfo.setTimestamp(c);
         }
     }
 

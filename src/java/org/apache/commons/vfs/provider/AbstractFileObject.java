@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 
 /**
  * A partial file object implementation.
@@ -213,7 +214,7 @@ public abstract class AbstractFileObject implements FileObject
      * <p/>
      * This implementation does nothing.
      */
-    protected void onChildrenChanged() throws Exception
+    protected void onChildrenChanged(FileName child, FileType newType) throws Exception
     {
     }
 
@@ -903,7 +904,10 @@ public abstract class AbstractFileObject implements FileObject
             {
                 doRename(destFile);
 
+                ((AbstractFileObject) destFile).handleCreate(getType());
+                
                 destFile.close(); // now the destFile is no longer imaginary. force reattach.
+
                 handleDelete(); // fire delete-events. This file-object (src) is like deleted.
             }
             catch (final RuntimeException re)
@@ -1271,7 +1275,7 @@ public abstract class AbstractFileObject implements FileObject
             }
 
             // Notify parent that its child list may no longer be valid
-            notifyParent();
+            notifyParent(this.getName(), newType);
 
             // Notify the file system
             fs.fireFileCreated(this);
@@ -1298,7 +1302,7 @@ public abstract class AbstractFileObject implements FileObject
             }
 
             // Notify parent that its child list may no longer be valid
-            notifyParent();
+            notifyParent(this.getName(), FileType.IMAGINARY);
 
             // Notify the file system
             fs.fireFileDeleted(this);
@@ -1318,22 +1322,48 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Notifies the file that its children have changed.
      *
-     * @todo Indicate whether the child was added or removed, and which child.
+     * @deprecated use {@link #childrenChanged(FileName, FileType)}
      */
     protected void childrenChanged() throws Exception
     {
+        childrenChanged(null, null);
+    }
+
+    /**
+     * Notifies the file that its children have changed.
+     */
+    protected void childrenChanged(FileName childName, FileType newType) throws Exception
+    {
         // TODO - this may be called when not attached
 
-        removeChildrenCache();
-        // children = null;
-        onChildrenChanged();
+        if (children != null)
+        {
+            if (childName != null && newType != null)
+            {
+                // TODO - figure out if children[] can be replaced by list
+                ArrayList list = new ArrayList(Arrays.asList(children));
+                if (newType.equals(FileType.IMAGINARY))
+                {
+                    list.remove(childName);
+                }
+                else
+                {
+                    list.add(childName);
+                }
+                children = new FileName[list.size()];
+                list.toArray(children);
+            }
+        }
+
+        // removeChildrenCache();
+        onChildrenChanged(childName, newType);
     }
 
     /**
      * Notify the parent of a change to its children, when a child is created
      * or deleted.
      */
-    private void notifyParent() throws Exception
+    private void notifyParent(FileName childName, FileType newType) throws Exception
     {
         if (parent == null)
         {
@@ -1347,7 +1377,7 @@ public abstract class AbstractFileObject implements FileObject
 
         if (parent != null)
         {
-            parent.childrenChanged();
+            parent.childrenChanged(childName, newType);
         }
     }
 
@@ -1465,7 +1495,7 @@ public abstract class AbstractFileObject implements FileObject
 
     private void setFileType(FileType type)
     {
-        if (type != FileType.IMAGINARY)
+        if (type != null && type != FileType.IMAGINARY)
         {
             try
             {

@@ -1,5 +1,9 @@
 2005-
 
+internals:
+notify which child was added or deleted
+
+
 threading:
 avoid gc when referencing only inputStream/outputStream of a fileObject
 
@@ -30,6 +34,8 @@ socket isnt correctly reported as closed.
 ignore nonparseable ftp directory entries. It will be logged using the debug log-level
 with class org.apache.commons.vfs.provider.ftp.FtpFileObject.
 (e.g. empty lines in ftp directory listing)
+
+avoid server-roundtrip ("LIST") if file was deleted. if you add a child this is still needed.
 
 
 2005-08-13  commons-vfs 1.0 RC3
