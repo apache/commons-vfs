@@ -1,7 +1,7 @@
 2005-
 
-internals:
-notify which child was added or deleted
+filesystems:
+fix: avoid creation of filesystem if they use the same options
 
 
 threading:

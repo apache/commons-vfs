@@ -55,6 +55,39 @@ public class FileSystemOptions
 
             return name.compareTo(k.name);
         }
+
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
+
+            final FileSystemOptionKey that = (FileSystemOptionKey) o;
+
+            if (!fileSystemClass.equals(that.fileSystemClass))
+            {
+                return false;
+            }
+            if (!name.equals(that.name))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public int hashCode()
+        {
+            int result;
+            result = fileSystemClass.hashCode();
+            result = 29 * result + name.hashCode();
+            return result;
+        }
     }
 
     public FileSystemOptions()
