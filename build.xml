@@ -176,8 +176,8 @@
         <get dest="${libdir}/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.4.jar">
         </get>
-        <get dest="${libdir}/commons-compress-20040530.jar" usetimestamp="true" ignoreerrors="true"
-             src="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20040530.jar">
+        <get dest="${libdir}/commons-compress-20050911.jar" usetimestamp="true" ignoreerrors="true"
+             src="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20050911.jar">
         </get>
         <get dest="${libdir}/commons-collections-3.1.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-3.1.jar">

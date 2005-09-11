@@ -1,5 +1,9 @@
 2005-
 
+bzip:
+changed documentation to use latest commons-compress.
+
+
 filesystems:
 fix: avoid creation of filesystem if they use the same options
 
