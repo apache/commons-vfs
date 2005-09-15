@@ -84,6 +84,13 @@ public class FtpClientFactory
                     throw new FileSystemException("vfs.provider.ftp/set-binary.error", hostname);
                 }
 
+                // Set dataTimeout value
+                Integer dataTimeout = FtpFileSystemConfigBuilder.getInstance().getDataTimeout(fileSystemOptions);
+                if (dataTimeout != null)
+                {
+                    client.setDataTimeout(dataTimeout.intValue());
+                }
+
                 // Change to root by default
                 // All file operations a relative to the filesystem-root
                 // String root = getRoot().getName().getPath();

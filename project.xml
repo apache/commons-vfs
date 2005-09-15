@@ -112,7 +112,7 @@
         <dependency>
             <groupId>commons-compress</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>20050911</version>
+            <version>SNAPSHOT</version>
         </dependency>
 
         <dependency>

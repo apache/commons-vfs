@@ -32,6 +32,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private final static String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
     private final static String PASSIVE_MODE = FTPFileEntryParserFactory.class.getName() + ".PASSIVE";
     private final static String USER_DIR_IS_ROOT = FTPFileEntryParserFactory.class.getName() + ".USER_DIR_IS_ROOT";
+    private final static String DATA_TIMEOUT = FTPFileEntryParserFactory.class.getName() + ".DATA_TIMEOUT";
 
     public static FtpFileSystemConfigBuilder getInstance()
     {
@@ -132,5 +133,28 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
     {
         return (Boolean) getParam(opts, USER_DIR_IS_ROOT);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setDataTimeout
+     */
+    public Integer getDataTimeout(FileSystemOptions opts)
+    {
+        return (Integer) getParam(opts, DATA_TIMEOUT);
+    }
+
+    /**
+     * set the data timeout for the ftp client.<br />
+     * If you set the dataTimeout to <code>null</code> no dataTimeout will be set on the
+     * ftp client.
+     *
+     * @param opts
+     * @param dataTimeout
+     */
+    public void setDataTimeout(FileSystemOptions opts, Integer dataTimeout)
+    {
+        setParam(opts, DATA_TIMEOUT, dataTimeout);
     }
 }
