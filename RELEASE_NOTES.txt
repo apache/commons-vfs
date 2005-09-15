@@ -41,6 +41,8 @@ with class org.apache.commons.vfs.provider.ftp.FtpFileObject.
 
 avoid server-roundtrip ("LIST") if file was deleted. if you add a child this is still needed.
 
+allow configuration of dataTimeout 
+
 
 2005-08-13  commons-vfs 1.0 RC3
 
