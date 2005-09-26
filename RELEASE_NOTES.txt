@@ -1,4 +1,4 @@
-2005-
+2005-09-26  commons-vfs 1.0 RC4
 
 bzip:
 changed documentation to use latest commons-compress.
@@ -41,7 +41,7 @@ with class org.apache.commons.vfs.provider.ftp.FtpFileObject.
 
 avoid server-roundtrip ("LIST") if file was deleted. if you add a child this is still needed.
 
-allow configuration of dataTimeout 
+allow configuration of dataTimeout
 
 
 2005-08-13  commons-vfs 1.0 RC3
