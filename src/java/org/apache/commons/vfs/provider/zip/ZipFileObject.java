@@ -142,12 +142,18 @@ public class ZipFileObject
             protected void onClose() throws IOException
             {
                 ZipFileObject.this.close();
-                AbstractFileSystem fs = (AbstractFileSystem) getFileSystem();
-                if (fs.isReleaseable())
-                {
-                    fs.closeCommunicationLink();
-                }
             }
         };
+    }
+
+    public void close() throws FileSystemException
+    {
+        super.close();
+
+        AbstractFileSystem fs = (AbstractFileSystem) getFileSystem();
+        if (fs.isReleaseable())
+        {
+            fs.closeCommunicationLink();
+        }
     }
 }
