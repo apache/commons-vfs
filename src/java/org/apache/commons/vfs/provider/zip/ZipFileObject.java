@@ -19,9 +19,12 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.zip.ZipEntry;
 
@@ -134,6 +137,17 @@ public class ZipFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return fs.getZipFile().getInputStream(entry);
+        return new MonitorInputStream(fs.getZipFile().getInputStream(entry))
+        {
+            protected void onClose() throws IOException
+            {
+                ZipFileObject.this.close();
+                AbstractFileSystem fs = (AbstractFileSystem) getFileSystem();
+                if (fs.isReleaseable())
+                {
+                    fs.closeCommunicationLink();
+                }
+            }
+        };
     }
 }

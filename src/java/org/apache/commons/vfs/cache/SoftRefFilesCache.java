@@ -79,16 +79,13 @@ public class SoftRefFilesCache extends AbstractFilesCache
                         continue;
                     }
 
-                    if (ref != null)
+                    synchronized (SoftRefFilesCache.this)
                     {
-                        synchronized (SoftRefFilesCache.this)
-                        {
-                            FileSystemAndNameKey key = (FileSystemAndNameKey) refReverseMap.get(ref);
+                        FileSystemAndNameKey key = (FileSystemAndNameKey) refReverseMap.get(ref);
 
-                            if (key != null)
-                            {
-                                removeFile(key);
-                            }
+                        if (key != null)
+                        {
+                            removeFile(key);
                         }
                     }
                 }
@@ -131,11 +128,15 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
     public void putFile(final FileObject file)
     {
+        if (log.isDebugEnabled())
+        {
+            log.debug("putFile: " + file.getName());
+        }
         synchronized (this)
         {
             Map files = getOrCreateFilesystemCache(file.getFileSystem());
 
-            SoftReference ref = new SoftReference(file, refqueue);
+            Reference ref = new SoftReference(file, refqueue);
             FileSystemAndNameKey key = new FileSystemAndNameKey(file.getFileSystem(), file.getName());
             files.put(file.getName(), ref);
             refReverseMap.put(ref, key);
@@ -189,6 +190,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
     private void filesystemClose(FileSystem filesystem)
     {
+        if (log.isDebugEnabled())
+        {
+            log.debug("close fs: " + filesystem.getRootName());
+        }
         filesystemCache.remove(filesystem);
         if (filesystemCache.size() < 1)
         {
@@ -222,6 +227,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
     private void removeFile(final FileSystemAndNameKey key)
     {
+        if (log.isDebugEnabled())
+        {
+            log.debug("removeFile: " + key.getFileName());
+        }
         synchronized (this)
         {
             Map files = getOrCreateFilesystemCache(key.getFileSystem());

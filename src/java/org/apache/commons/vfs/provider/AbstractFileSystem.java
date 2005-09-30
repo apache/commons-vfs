@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2005 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,7 +61,7 @@ public abstract class AbstractFileSystem
     /**
      * Map from FileName to FileObject.
      */
-    private FilesCache files;
+    // private FilesCache files;
 
     /**
      * Map from FileName to an ArrayList of listeners for that file.
@@ -89,7 +89,7 @@ public abstract class AbstractFileSystem
         this.rootName = rootName;
         this.fileSystemOptions = fileSystemOptions;
 
-        this.files = null;
+        // this.files = null;
     }
 
     /**
@@ -113,7 +113,7 @@ public abstract class AbstractFileSystem
     /**
      * Close the underlaying link used to access the files
      */
-    protected void closeCommunicationLink()
+    public void closeCommunicationLink()
     {
         synchronized (this)
         {
@@ -159,16 +159,17 @@ public abstract class AbstractFileSystem
 
     private FilesCache getCache()
     {
-        if (this.files == null)
+        FilesCache files;
+        //if (this.files == null)
         {
-            this.files = getContext().getFileSystemManager().getFilesCache();
-            if (this.files == null)
+            files = getContext().getFileSystemManager().getFilesCache();
+            if (files == null)
             {
                 throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
             }
         }
 
-        return this.files;
+        return files;
     }
 
     /**
