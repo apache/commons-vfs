@@ -23,6 +23,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.MonitorOutputStream;
@@ -263,10 +264,17 @@ public class SftpFileObject
                     trigger=!trigger;
                 }
             }
+            if (VFS.isUriStyle())
+            {
+                if (stat.charAt(0) == 'd' && nameBuf.charAt(nameBuf.length()-1) != '/')
+                {
+                    nameBuf.append("/");
+                }
+            }
             // <==
 
             final String name = nameBuf.toString();
-            if (name.equals(".") || name.equals(".."))
+            if (name.equals(".") || name.equals("..") || name.equals("./") || name.equals("../"))
             {
                 continue;
             }
@@ -292,7 +300,7 @@ public class SftpFileObject
     {
         return new SftpRandomAccessContent(this, mode);
     }
-    
+
     /**
      * Creates an input stream to read the file content from.
      */
