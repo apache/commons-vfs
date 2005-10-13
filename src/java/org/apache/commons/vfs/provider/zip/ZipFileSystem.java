@@ -76,50 +76,56 @@ public class ZipFileSystem
     {
         super.init();
 
-        // Build the index
-        List strongRef = new ArrayList(100);
-        Enumeration entries = getZipFile().entries();
-        while (entries.hasMoreElements())
+        try
         {
-            ZipEntry entry = (ZipEntry) entries.nextElement();
-            FileName name = getFileSystemManager().resolveName(getRootName(), UriParser.encode(entry.getName()));
-
-            // Create the file
-            ZipFileObject fileObj;
-            if (entry.isDirectory() && getFileFromCache(name) != null)
+            // Build the index
+            List strongRef = new ArrayList(100);
+            Enumeration entries = getZipFile().entries();
+            while (entries.hasMoreElements())
             {
-                fileObj = (ZipFileObject) getFileFromCache(name);
-                fileObj.setZipEntry(entry);
-                continue;
-            }
+                ZipEntry entry = (ZipEntry) entries.nextElement();
+                FileName name = getFileSystemManager().resolveName(getRootName(), UriParser.encode(entry.getName()));
 
-            fileObj = createZipFileObject(name, entry);
-            putFileToCache(fileObj);
-            strongRef.add(fileObj);
-            fileObj.holdObject(strongRef);
-
-            // Make sure all ancestors exist
-            // TODO - create these on demand
-            ZipFileObject parent = null;
-            for (FileName parentName = name.getParent();
-                 parentName != null;
-                 fileObj = parent, parentName = parentName.getParent())
-            {
-                // Locate the parent
-                parent = (ZipFileObject) getFileFromCache(parentName);
-                if (parent == null)
+                // Create the file
+                ZipFileObject fileObj;
+                if (entry.isDirectory() && getFileFromCache(name) != null)
                 {
-                    parent = createZipFileObject(parentName, null);
-                    putFileToCache(parent);
-                    strongRef.add(parent);
-                    parent.holdObject(strongRef);
+                    fileObj = (ZipFileObject) getFileFromCache(name);
+                    fileObj.setZipEntry(entry);
+                    continue;
                 }
 
-                // Attach child to parent
-                parent.attachChild(fileObj.getName());
+                fileObj = createZipFileObject(name, entry);
+                putFileToCache(fileObj);
+                strongRef.add(fileObj);
+                fileObj.holdObject(strongRef);
+
+                // Make sure all ancestors exist
+                // TODO - create these on demand
+                ZipFileObject parent = null;
+                for (FileName parentName = name.getParent();
+                     parentName != null;
+                     fileObj = parent, parentName = parentName.getParent())
+                {
+                    // Locate the parent
+                    parent = (ZipFileObject) getFileFromCache(parentName);
+                    if (parent == null)
+                    {
+                        parent = createZipFileObject(parentName, null);
+                        putFileToCache(parent);
+                        strongRef.add(parent);
+                        parent.holdObject(strongRef);
+                    }
+
+                    // Attach child to parent
+                    parent.attachChild(fileObj.getName());
+                }
             }
         }
-        closeCommunicationLink();
+        finally
+        {
+            closeCommunicationLink();
+        }
     }
 
     protected ZipFile getZipFile() throws FileSystemException
@@ -185,5 +191,13 @@ public class ZipFileSystem
     {
         // This is only called for files which do not exist in the Zip file
         return new ZipFileObject(name, null, this, false);
+    }
+
+    /**
+     * will be called after all file-objects closed their streams.
+     */
+    protected void notifyAllStreamsClosed()
+    {
+        closeCommunicationLink();
     }
 }

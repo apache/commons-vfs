@@ -49,6 +49,15 @@ public class JarFileObject extends ZipFileObject
     {
         super(name, entry, fs, zipExists);
         this.fs = fs;
+
+        try
+        {
+            getAttributes(); // early get the attributes as the zip file might be closed
+        }
+        catch (IOException e)
+        {
+            throw new FileSystemException(e);
+        }
     }
 
     /**

@@ -40,10 +40,10 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.security.cert.Certificate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Arrays;
 
 /**
  * A partial file object implementation.
@@ -905,7 +905,7 @@ public abstract class AbstractFileObject implements FileObject
                 doRename(destFile);
 
                 ((AbstractFileObject) destFile).handleCreate(getType());
-                
+
                 destFile.close(); // now the destFile is no longer imaginary. force reattach.
 
                 handleDelete(); // fire delete-events. This file-object (src) is like deleted.
@@ -1523,5 +1523,12 @@ public abstract class AbstractFileObject implements FileObject
             objects = new ArrayList(5);
         }
         objects.add(strongRef);
+    }
+
+    /**
+     * will be called after this file-object closed all its streams.
+     */
+    protected void notifyAllStreamsClosed()
+    {
     }
 }

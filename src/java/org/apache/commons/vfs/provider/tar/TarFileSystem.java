@@ -72,7 +72,7 @@ public class TarFileSystem
             return;
         }
 
-        tarFile = createTarFile(this.file);
+        // tarFile = createTarFile(this.file);
     }
 
     public void init() throws FileSystemException
@@ -127,6 +127,10 @@ public class TarFileSystem
         catch (IOException e)
         {
             throw new FileSystemException(e);
+        }
+        finally
+        {
+            closeCommunicationLink();
         }
     }
 
@@ -244,5 +248,13 @@ public class TarFileSystem
     {
         // This is only called for files which do not exist in the Tar file
         return new TarFileObject(name, null, this, false);
+    }
+
+    /**
+     * will be called after all file-objects closed their streams.
+     */
+    protected void notifyAllStreamsClosed()
+    {
+        closeCommunicationLink();
     }
 }

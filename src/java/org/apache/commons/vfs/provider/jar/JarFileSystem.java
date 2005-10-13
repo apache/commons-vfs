@@ -215,6 +215,7 @@ public class JarFileSystem
         return getAttribute(name);
     }
 
+
     protected ZipFile getZipFile() throws FileSystemException
     {
         return super.getZipFile();

@@ -19,11 +19,10 @@ import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -165,6 +164,17 @@ public abstract class AbstractProviderTestCase
         else
         {
             super.runTest();
+        }
+
+        if (((AbstractFileSystem) readFolder.getFileSystem()).isOpen())
+        {
+            String name = "unknown";
+            if (method != null)
+            {
+                name = method.getName();
+            }
+
+            throw new IllegalStateException(getClass().getName() + ": filesystem has open streams after: " + name);
         }
     }
 

@@ -80,6 +80,11 @@ public abstract class AbstractFileSystem
 
     private FileSystemKey cacheKey;
 
+    /**
+     * open streams counter for this filesystem
+     */
+    private int openStreams;
+
     protected AbstractFileSystem(final FileName rootName,
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
@@ -447,7 +452,6 @@ public abstract class AbstractFileSystem
 
     void freeResources()
     {
-
     }
 
     /**
@@ -499,5 +503,46 @@ public abstract class AbstractFileSystem
     FileSystemKey getCacheKey()
     {
         return this.cacheKey;
+    }
+
+    void streamOpened()
+    {
+        synchronized (this)
+        {
+            openStreams++;
+        }
+    }
+
+    void streamClosed()
+    {
+        synchronized (this)
+        {
+            if (openStreams > 0)
+            {
+                openStreams--;
+                if (openStreams < 1)
+                {
+                    notifyAllStreamsClosed();
+                }
+            }
+        }
+    }
+
+    /**
+     * will be called after all file-objects closed their streams.
+     */
+    protected void notifyAllStreamsClosed()
+    {
+    }
+
+    /**
+     * check if this filesystem has open streams
+     */
+    public boolean isOpen()
+    {
+        synchronized (this)
+        {
+            return openStreams > 0;
+        }
     }
 }

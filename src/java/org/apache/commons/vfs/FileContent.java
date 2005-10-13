@@ -197,9 +197,13 @@ public interface FileContent
      */
     void close() throws FileSystemException;
 
-
     /**
      * get the content info. e.g. type, encoding, ...
      */
     public FileContentInfo getContentInfo() throws FileSystemException;
+
+    /**
+     * check if this file has open streams
+     */
+    public boolean isOpen();
 }

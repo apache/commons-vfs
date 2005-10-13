@@ -48,6 +48,7 @@ public final class DefaultFileContent implements FileContent
     static final int STATE_WRITING = 2;
     static final int STATE_RANDOM_ACCESS = 3;
     */
+
     static final int STATE_CLOSED = 0;
     static final int STATE_OPENED = 1;
 
@@ -58,6 +59,11 @@ public final class DefaultFileContent implements FileContent
     private final FileContentInfoFactory fileContentInfoFactory;
 
     private final ThreadLocal threadData = new ThreadLocal();
+
+    /**
+     * open streams counter for this file
+     */
+    private int openStreams = 0;
 
     public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory)
     {
@@ -74,6 +80,31 @@ public final class DefaultFileContent implements FileContent
             this.threadData.set(data);
         }
         return data;
+    }
+
+    void streamOpened()
+    {
+        synchronized (this)
+        {
+            openStreams++;
+        }
+        ((AbstractFileSystem) file.getFileSystem()).streamOpened();
+    }
+
+    void streamClosed()
+    {
+        synchronized (this)
+        {
+            if (openStreams > 0)
+            {
+                openStreams--;
+                if (openStreams < 1)
+                {
+                    file.notifyAllStreamsClosed();
+                }
+            }
+        }
+        ((AbstractFileSystem) file.getFileSystem()).streamClosed();
     }
 
     /**
@@ -280,7 +311,10 @@ public final class DefaultFileContent implements FileContent
         // Get the raw input stream
         final InputStream instr = file.getInputStream();
         final InputStream wrappedInstr = new FileContentInputStream(file, instr);
+
         this.getThreadData().addInstr(wrappedInstr);
+        streamOpened();
+
         // setState(STATE_OPENED);
         return wrappedInstr;
     }
@@ -300,7 +334,10 @@ public final class DefaultFileContent implements FileContent
 
         // Get the content
         final RandomAccessContent rastr = file.getRandomAccessContent(mode);
+
         this.getThreadData().setRastr(new FileRandomAccessContent(file, rastr));
+        streamOpened();
+
         // setState(STATE_OPENED);
         return this.getThreadData().getRastr();
     }
@@ -331,6 +368,8 @@ public final class DefaultFileContent implements FileContent
 
         // Create wrapper
         this.getThreadData().setOutstr(new FileContentOutputStream(file, outstr));
+        streamOpened();
+
         // setState(STATE_OPENED);
         return this.getThreadData().getOutstr();
     }
@@ -381,6 +420,7 @@ public final class DefaultFileContent implements FileContent
     private void endInput(final FileContentInputStream instr)
     {
         getThreadData().removeInstr(instr);
+        streamClosed();
         /*
         if (!getThreadData().hasStreams())
         {
@@ -394,6 +434,7 @@ public final class DefaultFileContent implements FileContent
      */
     private void endRandomAccess()
     {
+        streamClosed();
         // setState(STATE_CLOSED);
     }
 
@@ -402,6 +443,8 @@ public final class DefaultFileContent implements FileContent
      */
     private void endOutput() throws Exception
     {
+        streamClosed();
+
         this.getThreadData().setOutstr(null);
         // setState(STATE_CLOSED);
 
@@ -416,7 +459,8 @@ public final class DefaultFileContent implements FileContent
     */
 
     /**
-     * check if a input and/or output stream is open.
+     * check if a input and/or output stream is open.<br />
+     * This checks only the scope of the current thread.
      *
      * @return true if this is the case
      */
@@ -424,6 +468,20 @@ public final class DefaultFileContent implements FileContent
     {
         // return getThreadData().getState() == STATE_OPENED;
         return getThreadData().hasStreams();
+    }
+
+    /**
+     * check if a input and/or output stream is open.<br />
+     * This checks all threads.
+     *
+     * @return true if this is the case
+     */
+    public boolean isOpenGlobal()
+    {
+        synchronized (this)
+        {
+            return openStreams > 0;
+        }
     }
 
     /**
