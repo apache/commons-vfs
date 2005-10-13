@@ -400,6 +400,10 @@ public final class UriParser
 
     public static String[] encode(String[] strings)
     {
+        if (strings == null)
+        {
+            return null;
+        }
         for (int i = 0; i < strings.length; i++)
         {
             strings[i] = encode(strings[i]);

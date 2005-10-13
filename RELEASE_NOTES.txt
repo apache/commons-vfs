@@ -3,6 +3,9 @@
 zip, jar, tar:
 close archive if there is no open stream. This avoids locking on the archive.
 
+sftp:
+stip off link file names, though still no link-support for sftp.
+
 
 2005-09-26  commons-vfs 1.0 RC4
 

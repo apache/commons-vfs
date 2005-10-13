@@ -250,7 +250,7 @@ public class SftpFileObject
             boolean trigger = true;
             int state = 0;
             StringBuffer nameBuf = new StringBuffer(stat.length());
-            for (int i = 0; i<stat.length(); i++)
+            for (int i = 0; i < stat.length(); i++)
             {
                 char c = stat.charAt(i);
                 if (state == 16)
@@ -261,19 +261,26 @@ public class SftpFileObject
                 if ((c != ' ' && trigger) || (c == ' ' && !trigger))
                 {
                     state++;
-                    trigger=!trigger;
+                    trigger = !trigger;
                 }
             }
             if (VFS.isUriStyle())
             {
-                if (stat.charAt(0) == 'd' && nameBuf.charAt(nameBuf.length()-1) != '/')
+                if (stat.charAt(0) == 'd' && nameBuf.charAt(nameBuf.length() - 1) != '/')
                 {
                     nameBuf.append("/");
                 }
             }
             // <==
 
-            final String name = nameBuf.toString();
+            String name = nameBuf.toString();
+            int linkPos = name.indexOf(" -> ");
+            if (linkPos > -1)
+            {
+                // link = name.substring(linkPos + 4);
+                name = name.substring(0, linkPos);
+            }
+
             if (name.equals(".") || name.equals("..") || name.equals("./") || name.equals("../"))
             {
                 continue;
