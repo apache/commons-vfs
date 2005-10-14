@@ -18,6 +18,7 @@ package org.apache.commons.vfs.provider.sftp;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -108,6 +109,20 @@ public class SftpFileSystem
             {
                 channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect();
+
+                Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
+                String workingDirectory = getRootName().getPath();
+                if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
+                {
+                    try
+                    {
+                        channel.cd(workingDirectory);
+                    }
+                    catch (SftpException e)
+                    {
+                        throw new FileSystemException("vfs.provider.sftp/change-work-directory.error", workingDirectory);
+                    }
+                }
             }
 
             return channel;

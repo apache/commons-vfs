@@ -100,7 +100,7 @@ public class FtpClientFactory
                 {
                     if (!client.changeWorkingDirectory(workingDirectory))
                     {
-                        throw new FileSystemException("vfs.provider.ftp/change-work-directory.error", "/");
+                        throw new FileSystemException("vfs.provider.ftp/change-work-directory.error", workingDirectory);
                     }
                 }
 

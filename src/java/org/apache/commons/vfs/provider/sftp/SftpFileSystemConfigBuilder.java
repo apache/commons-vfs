@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.sftp;
 
 import com.jcraft.jsch.UserInfo;
+import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
@@ -31,6 +32,8 @@ import java.io.File;
 public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private final static SftpFileSystemConfigBuilder builder = new SftpFileSystemConfigBuilder();
+
+    private final static String USER_DIR_IS_ROOT = FTPFileEntryParserFactory.class.getName() + ".USER_DIR_IS_ROOT";
 
     public static SftpFileSystemConfigBuilder getInstance()
     {
@@ -158,6 +161,27 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public String getStrictHostKeyChecking(FileSystemOptions opts)
     {
         return (String) getParam(opts, "StrictHostKeyChecking");
+    }
+
+    /**
+     * use user directory as root (do not change to fs root)
+     *
+     * @param opts
+     * @param userDirIsRoot
+     */
+    public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
+    {
+        setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setUserDirIsRoot
+     */
+    public Boolean getUserDirIsRoot(FileSystemOptions opts)
+    {
+        return (Boolean) getParam(opts, USER_DIR_IS_ROOT);
     }
 
     protected Class getConfigClass()

@@ -50,12 +50,14 @@ public class SftpFileObject
 {
     private final SftpFileSystem fileSystem;
     private SftpATTRS attrs;
+    private final String relPath;
 
     protected SftpFileObject(final FileName name,
-                             final SftpFileSystem fileSystem)
+                             final SftpFileSystem fileSystem) throws FileSystemException
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;
+        relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(name));
     }
 
     /**
@@ -104,7 +106,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            attrs = channel.stat(getName().getPathDecoded());
+            attrs = channel.stat(relPath);
         }
         catch (final SftpException e)
         {
@@ -132,7 +134,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            channel.mkdir(getName().getPathDecoded());
+            channel.mkdir(relPath);
         }
         finally
         {
@@ -167,7 +169,7 @@ public class SftpFileObject
             int newMTime = (int) (modtime / 1000L);
 
             attrs.setACMODTIME(attrs.getATime(), newMTime);
-            channel.setStat(getName().getPathDecoded(), attrs);
+            channel.setStat(relPath, attrs);
         }
         finally
         {
@@ -186,11 +188,11 @@ public class SftpFileObject
         {
             if (getType() == FileType.FILE)
             {
-                channel.rm(getName().getPathDecoded());
+                channel.rm(relPath);
             }
             else
             {
-                channel.rmdir(getName().getPathDecoded());
+                channel.rmdir(relPath);
             }
         }
         finally
@@ -207,7 +209,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            channel.rename(getName().getPathDecoded(), newfile.getName().getPathDecoded());
+            channel.rename(relPath, ((SftpFileObject) newfile).relPath);
         }
         finally
         {
@@ -226,7 +228,7 @@ public class SftpFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            vector = channel.ls(getName().getPathDecoded());
+            vector = channel.ls(relPath);
         }
         finally
         {
@@ -358,7 +360,7 @@ public class SftpFileObject
             // TODO - Don't read the entire file into memory.  Use the
             // stream-based methods on ChannelSftp once they work properly
             final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
-            channel.get(getName().getPathDecoded(), outstr);
+            channel.get(relPath, outstr);
             outstr.close();
             return new ByteArrayInputStream(outstr.toByteArray());
 
@@ -406,7 +408,7 @@ public class SftpFileObject
             {
                 final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
                 channel.put(new ByteArrayInputStream(outstr.toByteArray()),
-                    getName().getPathDecoded());
+                    relPath);
             }
             catch (final SftpException e)
             {
