@@ -1,4 +1,4 @@
-2005-10 commons-vfs 1.0 RC5
+2005-10-14 commons-vfs 1.0 RC5
 
 zip, jar, tar:
 close archive if there is no open stream. This avoids locking on the archive.
