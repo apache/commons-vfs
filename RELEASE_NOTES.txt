@@ -1,3 +1,10 @@
+2005-11 comons-vfs 1.0 RC6
+
+core:
+removed check for isWriteable in deleteSelf as its possible to delete a read-only file
+if you have write-execute access to the directory
+
+
 2005-10-14 commons-vfs 1.0 RC5
 
 zip, jar, tar:

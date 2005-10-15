@@ -18,8 +18,10 @@ package org.apache.commons.vfs.provider.ftp.test;
 import junit.framework.Test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.ftp.FtpFileProvider;
+import org.apache.commons.vfs.provider.ftp.FtpFileSystemConfigBuilder;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
@@ -55,6 +57,8 @@ public class FtpProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final String uri = System.getProperty("test.ftp.uri");
-        return manager.resolveFile(uri);
+        FileSystemOptions opts = new FileSystemOptions();
+        FtpFileSystemConfigBuilder.getInstance().setPassiveMode(opts, true);
+        return manager.resolveFile(uri, opts);
     }
 }

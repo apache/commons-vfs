@@ -667,10 +667,12 @@ public abstract class AbstractFileObject implements FileObject
     {
         synchronized (this)
         {
+            /* Its possible to delete a read-only file if you have write-execute access to the directory
             if (!isWriteable())
             {
                 throw new FileSystemException("vfs.provider/delete-read-only.error", name);
             }
+            */
 
             if (getType() == FileType.IMAGINARY)
             {
