@@ -58,6 +58,9 @@ public class FtpCheck
                 throw new IllegalArgumentException("change dir to '" + dir + "' failed");
             }
         }
+
+        System.err.println("System: " + client.getSystemName());
+
         FTPFile[] files = client.listFiles();
         for (int i = 0; i < files.length; i++)
         {
