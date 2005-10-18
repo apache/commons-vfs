@@ -19,6 +19,8 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
+import java.io.OutputStream;
+
 /**
  * Basic check for sftp
  */
@@ -51,6 +53,16 @@ public class FtpCheck
             throw new IllegalArgumentException("login failed");
         }
         client.enterLocalPassiveMode();
+
+        OutputStream os = client.storeFileStream(dir + "/test.txt");
+        if (os == null)
+        {
+            throw new IllegalStateException(client.getReplyString());
+        }
+        os.write("test".getBytes());
+        os.close();
+        client.completePendingCommand();
+
         if (dir != null)
         {
             if (!client.changeWorkingDirectory(dir))
