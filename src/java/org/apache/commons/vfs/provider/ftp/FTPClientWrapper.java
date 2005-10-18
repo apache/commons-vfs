@@ -242,4 +242,9 @@ class FTPClientWrapper implements FtpClient
         }
         return true;
     }
+
+    public String getReplyString() throws IOException
+    {
+        return getFtpClient().getReplyString();
+    }
 }

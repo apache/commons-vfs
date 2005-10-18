@@ -34,12 +34,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Collections;
 
 /**
  * An FTP file.
@@ -479,14 +479,26 @@ public class FtpFileObject
         throws Exception
     {
         final FtpClient client = ftpFs.getClient();
+        OutputStream out = null;
         if (bAppend)
         {
-            return new FtpOutputStream(client, client.appendFileStream(relPath));
+            out = client.appendFileStream(relPath);
         }
         else
         {
-            return new FtpOutputStream(client, client.storeFileStream(relPath));
+            out = client.storeFileStream(relPath);
         }
+
+        if (out == null)
+        {
+            throw new FileSystemException("vfs.provider.ftp/output-error.debug", new Object[]
+                {
+                    this.getName(),
+                    client.getReplyString()
+                });
+        }
+
+        return new FtpOutputStream(client, out);
     }
 
     String getRelPath()
@@ -498,6 +510,14 @@ public class FtpFileObject
     {
         final FtpClient client = ftpFs.getClient();
         final InputStream instr = client.retrieveFileStream(relPath, filePointer);
+        if (instr == null)
+        {
+            throw new FileSystemException("vfs.provider.ftp/input-error.debug", new Object[]
+                {
+                    this.getName(),
+                    client.getReplyString()
+                });
+        }
         return new FtpInputStream(client, instr);
     }
 

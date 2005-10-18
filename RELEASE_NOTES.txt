@@ -1,5 +1,8 @@
 2005-11 comons-vfs 1.0 RC6
 
+ftp:
+better error message if it isnt possible to aquire a input or output stream
+
 core:
 removed check for isWriteable in deleteSelf as its possible to delete a read-only file
 if you have write-execute access to the directory
