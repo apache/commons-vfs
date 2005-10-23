@@ -30,9 +30,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private final static FtpFileSystemConfigBuilder builder = new FtpFileSystemConfigBuilder();
 
     private final static String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
-    private final static String PASSIVE_MODE = FTPFileEntryParserFactory.class.getName() + ".PASSIVE";
-    private final static String USER_DIR_IS_ROOT = FTPFileEntryParserFactory.class.getName() + ".USER_DIR_IS_ROOT";
-    private final static String DATA_TIMEOUT = FTPFileEntryParserFactory.class.getName() + ".DATA_TIMEOUT";
+    private final static String PASSIVE_MODE = FtpFileSystemConfigBuilder.class.getName() + ".PASSIVE";
+    private final static String USER_DIR_IS_ROOT = FtpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
+    private final static String DATA_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
 
     public static FtpFileSystemConfigBuilder getInstance()
     {
