@@ -130,6 +130,12 @@ public class SftpClientFactory
                     port);
             session.setPassword(password);
 
+            Integer timeout = SftpFileSystemConfigBuilder.getInstance().getTimeout(fileSystemOptions);
+            if (timeout != null)
+            {
+            	session.setTimeout(timeout.intValue());
+            }
+            
             UserInfo userInfo = SftpFileSystemConfigBuilder.getInstance().getUserInfo(fileSystemOptions);
             if (userInfo != null)
             {

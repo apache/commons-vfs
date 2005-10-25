@@ -1,5 +1,8 @@
 2005-11 comons-vfs 1.0 RC6
 
+sftp:
+new configuration parameter SftpFileSystemConfigBuilder.timeout
+
 ftp:
 better error message if it isnt possible to aquire a input or output stream
 

@@ -33,6 +33,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private final static SftpFileSystemConfigBuilder builder = new SftpFileSystemConfigBuilder();
 
     private final static String USER_DIR_IS_ROOT = SftpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
+    private final static String TIMEOUT = SftpFileSystemConfigBuilder.class.getName() + ".TIMEOUT";
 
     public static SftpFileSystemConfigBuilder getInstance()
     {
@@ -183,6 +184,27 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return (Boolean) getParam(opts, USER_DIR_IS_ROOT);
     }
 
+    /**
+     * set the timeout value on jsch session
+     *
+     * @param opts
+     * @param userDirIsRoot
+     */
+    public void setTimeout(FileSystemOptions opts, Integer timeout)
+    {
+        setParam(opts, TIMEOUT, timeout);
+    }
+
+    /**
+     * @param opts
+     * @return
+     * @see #setTimeout
+     */
+    public Integer getTimeout(FileSystemOptions opts)
+    {
+        return (Integer) getParam(opts, TIMEOUT);
+    }
+    
     protected Class getConfigClass()
     {
         return SftpFileSystem.class;
