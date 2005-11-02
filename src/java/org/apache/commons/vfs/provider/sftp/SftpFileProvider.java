@@ -49,8 +49,8 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         Capability.URI,
         Capability.WRITE_CONTENT,
         Capability.GET_LAST_MODIFIED,
-        Capability.SET_LAST_MODIFIED_FILE
-//        Capability.RANDOM_ACCESS_READ
+        Capability.SET_LAST_MODIFIED_FILE,
+        Capability.RANDOM_ACCESS_READ
     }));
 
     public final static String ATTR_USER_INFO = "UI";

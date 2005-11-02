@@ -275,11 +275,11 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 				continue;
 			}
 
-			SftpFileObject fo = (SftpFileObject) getFileSystem().resolveFile(
-					getFileSystem().getFileSystemManager().resolveName(
-							getName(),
-							UriParser.encode(name),
-							NameScope.CHILD));
+			SftpFileObject fo = (SftpFileObject) getFileSystem()
+					.resolveFile(
+							getFileSystem().getFileSystemManager().resolveName(
+									getName(), UriParser.encode(name),
+									NameScope.CHILD));
 			fo.setStat(stat.getAttrs());
 
 			children.add(fo);
@@ -323,21 +323,29 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 	 */
 	InputStream getInputStream(long filePointer) throws IOException
 	{
-		throw new UnsupportedOperationException(
-				"Implemented. Yes. But have to wait for jsch release :-)");
-		/*
-		 * final ChannelSftp channel = fileSystem.getChannel(); try { // return
-		 * channel.get(getName().getPath()); // hmmm - using the in memory
-		 * method is soooo much faster ...
-		 *  // TODO - Don't read the entire file into memory. Use the //
-		 * stream-based methods on ChannelSftp once they work properly final
-		 * ByteArrayOutputStream outstr = new ByteArrayOutputStream(); try {
-		 * channel.get(getName().getPathDecoded(), outstr, null,
-		 * ChannelSftp.RESUME, filePointer); } catch (SftpException e) { throw
-		 * new FileSystemException(e); } outstr.close(); return new
-		 * ByteArrayInputStream(outstr.toByteArray());
-		 *  } finally { fileSystem.putChannel(channel); }
-		 */
+		final ChannelSftp channel = fileSystem.getChannel();
+		try
+		{
+			// hmmm - using the in memory method is soooo much faster ...
+			// TODO - Don't read the entire file into memory. Use the
+			// stream-based methods on ChannelSftp once they work properly final
+			ByteArrayOutputStream outstr = new ByteArrayOutputStream();
+			try
+			{
+				channel.get(getName().getPathDecoded(), outstr, null,
+						ChannelSftp.RESUME, filePointer);
+			}
+			catch (SftpException e)
+			{
+				throw new FileSystemException(e);
+			}
+			outstr.close();
+			return new ByteArrayInputStream(outstr.toByteArray());
+		}
+		finally
+		{
+			fileSystem.putChannel(channel);
+		}
 	}
 
 	/**

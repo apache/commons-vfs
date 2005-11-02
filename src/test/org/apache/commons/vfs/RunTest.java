@@ -8,6 +8,7 @@ import org.apache.commons.vfs.provider.jar.test.JarProviderTestCase;
 import org.apache.commons.vfs.provider.jar.test.NestedJarTestCase;
 import org.apache.commons.vfs.provider.sftp.test.SftpProviderTestCase;
 import org.apache.commons.vfs.provider.smb.test.SmbProviderTestCase;
+import org.apache.commons.vfs.provider.smb.test.FileNameTestCase;
 import org.apache.commons.vfs.provider.tar.test.NestedTarTestCase;
 import org.apache.commons.vfs.provider.tar.test.NestedTbz2TestCase;
 import org.apache.commons.vfs.provider.tar.test.NestedTgzTestCase;
@@ -30,83 +31,91 @@ import java.util.Properties;
 
 public class RunTest
 {
-    public static void main(String[] args) throws Exception
-    {
-        Properties props = System.getProperties();
-        props.setProperty("test.data.src", "src/test-data");
-        props.setProperty("test.basedir", "target/test-data");
-        props.setProperty("test.policy", "src/test-data/test.policy");
-        props.setProperty("test.secure", "false");
-        props.setProperty("test.smb.uri", "smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/vfstest");
-        props.setProperty("test.ftp.uri", "ftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
-        props.setProperty("test.http.uri", "http://10.0.1.54/vfstest");
-        props.setProperty("test.webdav.uri", "webdav://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
-        props.setProperty("test.sftp.uri", "sftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
+	public static void main(String[] args) throws Exception
+	{
+		Properties props = System.getProperties();
+		props.setProperty("test.data.src", "src/test-data");
+		props.setProperty("test.basedir", "target/test-data");
+		props.setProperty("test.policy", "src/test-data/test.policy");
+		props.setProperty("test.secure", "false");
+		props.setProperty("test.smb.uri",
+				"smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/vfstest");
+		props.setProperty("test.ftp.uri",
+				"ftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
+		props.setProperty("test.http.uri", "http://10.0.1.54/vfstest");
+		props.setProperty("test.webdav.uri",
+				"webdav://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
+		props.setProperty("test.sftp.uri",
+				"sftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
 
-        Test tests[] = new Test[]
-        {
-            new GenericFileNameTestCase(),
+		Test tests[] = new Test[]
+		{
+		// SmbProviderTestCase.suite(),
 
-            UrlProviderHttpTestCase.suite(),
+		// LocalProviderTestCase.suite(),
+		// FtpProviderTestCase.suite(),
 
-            LocalProviderTestCase.suite(),
-            VirtualProviderTestCase.suite(),
-            TemporaryProviderTestCase.suite(),
-            UrlProviderTestCase.suite(),
-            ResourceProviderTestCase.suite(),
+		// UrlProviderHttpTestCase.suite(),
 
-            FtpProviderTestCase.suite(),
-            HttpProviderTestCase.suite(),
+		// VirtualProviderTestCase.suite(),
+		// TemporaryProviderTestCase.suite(),
+		// UrlProviderTestCase.suite(),
+		// ResourceProviderTestCase.suite(),
 
-            WebdavProviderTestCase.suite(),
-            SmbProviderTestCase.suite(),
-            SftpProviderTestCase.suite(),
+		// HttpProviderTestCase.suite(),
 
-            JarProviderTestCase.suite(),
-            NestedJarTestCase.suite(),
-            ZipProviderTestCase.suite(),
-            NestedZipTestCase.suite(),
-            TarProviderTestCase.suite(),
-            TgzProviderTestCase.suite(),
-            Tbz2ProviderTestCase.suite(),
-            NestedTarTestCase.suite(),
-            NestedTgzTestCase.suite(),
-            NestedTbz2TestCase.suite(),
-        };
+		// WebdavProviderTestCase.suite(),
 
-        TestResult result = new TestResult()
-        {
-            public void startTest(Test test)
-            {
-                System.out.println("start " + test);
-                System.out.flush();
-            }
+		SftpProviderTestCase.suite(),
 
-            public void endTest(Test test)
-            {
-                // System.err.println("end " + test);
-            }
+		// JarProviderTestCase.suite(),
+		// NestedJarTestCase.suite(),
+		// ZipProviderTestCase.suite(),
+		// NestedZipTestCase.suite(),
+		// TarProviderTestCase.suite(),
+		// TgzProviderTestCase.suite(),
+		// Tbz2ProviderTestCase.suite(),
+		// NestedTarTestCase.suite(),
+		// NestedTgzTestCase.suite(),
+		// NestedTbz2TestCase.suite(),
+		};
 
-            public synchronized void addError(Test test, Throwable throwable)
-            {
-                throwable.printStackTrace();
-            }
+		TestResult result = new TestResult()
+		{
+			public void startTest(Test test)
+			{
+				System.out.println("start " + test);
+				System.out.flush();
+			}
 
-            public synchronized void addFailure(Test test, AssertionFailedError assertionFailedError)
-            {
-                assertionFailedError.printStackTrace();
-            }
-        };
+			public void endTest(Test test)
+			{
+				// System.err.println("end " + test);
+			}
 
-        for (int i = 0; i < tests.length; i++)
-        {
-            System.out.println("start test#" + i);
-            System.out.flush();
+			public synchronized void addError(Test test, Throwable throwable)
+			{
+				// throw new RuntimeException(throwable.getMessage());
+				throwable.printStackTrace();
+			}
 
-            Test test = tests[i];
-            test.run(result);
+			public synchronized void addFailure(Test test,
+					AssertionFailedError assertionFailedError)
+			{
+				// throw new RuntimeException(assertionFailedError.getMessage());
+				assertionFailedError.printStackTrace();
+			}
+		};
 
-//            break;
-        }
-    }
+		for (int i = 0; i < tests.length; i++)
+		{
+			System.out.println("start test#" + i);
+			System.out.flush();
+
+			Test test = tests[i];
+			test.run(result);
+
+			// break;
+		}
+	}
 }
