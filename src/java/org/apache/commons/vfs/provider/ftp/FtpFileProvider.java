@@ -47,8 +47,6 @@ public class FtpFileProvider
         Capability.GET_TYPE,
         Capability.LIST_CHILDREN,
         Capability.READ_CONTENT,
-        Capability.SET_LAST_MODIFIED_FILE,
-        Capability.SET_LAST_MODIFIED_FOLDER,
         Capability.GET_LAST_MODIFIED,
         Capability.URI,
         Capability.WRITE_CONTENT,

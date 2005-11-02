@@ -437,27 +437,6 @@ public class FtpFileObject
     }
 
     /**
-     * get the last modified time on an ftp file
-     *
-     * @param modtime the time to set on the ftp file
-     * @see org.apache.commons.vfs.provider.AbstractFileObject#doSetLastModifiedTime(long)
-     */
-    protected void doSetLastModifiedTime(final long modtime) throws Exception
-    {
-        if (this.fileInfo.isSymbolicLink())
-        {
-            getLinkDestination().getContent().setLastModifiedTime(modtime);
-        }
-        else
-        {
-            final Date d = new Date(modtime);
-            final Calendar c = new GregorianCalendar();
-            c.setTime(d);
-            this.fileInfo.setTimestamp(c);
-        }
-    }
-
-    /**
      * Creates an input stream to read the file content from.
      */
     protected InputStream doGetInputStream() throws Exception

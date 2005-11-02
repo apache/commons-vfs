@@ -5,6 +5,7 @@ new configuration parameter SftpFileSystemConfigBuilder.timeout
 
 ftp:
 better error message if it isnt possible to aquire a input or output stream
+removed setLastModifiedTime, its not supported by FTP
 
 core:
 removed check for isWriteable in deleteSelf as its possible to delete a read-only file
