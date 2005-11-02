@@ -2,6 +2,7 @@
 
 sftp:
 new configuration parameter SftpFileSystemConfigBuilder.timeout
+upgrade to jsch-0.1.23
 
 ftp:
 better error message if it isnt possible to aquire a input or output stream

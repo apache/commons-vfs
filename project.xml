@@ -148,7 +148,7 @@
         <dependency>
             <groupId>jsch</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.17</version>
+            <version>0.1.23</version>
         </dependency>
 
         <dependency>

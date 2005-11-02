@@ -194,8 +194,8 @@
         <get dest="${libdir}/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0.2.jar">
         </get>
-        <get dest="${libdir}/jsch-0.1.17.jar" usetimestamp="true" ignoreerrors="true"
-             src="http://www.ibiblio.org/maven/jsch/jars/jsch-0.1.17.jar">
+        <get dest="${libdir}/jsch-0.1.23.jar" usetimestamp="true" ignoreerrors="true"
+             src="http://www.ibiblio.org/maven/jsch/jars/jsch-0.1.23.jar">
         </get>
         <get dest="${libdir}/xml-apis-1.0.b2.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-1.0.b2.jar">
