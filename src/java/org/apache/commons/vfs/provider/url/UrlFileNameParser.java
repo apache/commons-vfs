@@ -19,14 +19,9 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.provider.AbstractFileNameParser;
 import org.apache.commons.vfs.provider.URLFileName;
-import org.apache.commons.vfs.provider.UriParser;
-import org.apache.commons.vfs.provider.VfsComponentContext;
 import org.apache.commons.vfs.provider.URLFileNameParser;
-import org.apache.commons.vfs.provider.local.LocalFileNameParser;
+import org.apache.commons.vfs.provider.VfsComponentContext;
 import org.apache.commons.vfs.provider.local.GenericFileNameParser;
-
-import java.net.URL;
-import java.net.MalformedURLException;
 
 /**
  * Implementation for any java.net.url based filesystem.<br />

@@ -23,7 +23,6 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileProvider;
-import org.apache.commons.vfs.provider.URLFileNameParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -16,10 +16,9 @@
 package org.apache.commons.vfs.provider.sftp;
 
 import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import com.jcraft.jsch.ChannelSftp.LsEntry;
-
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -29,7 +28,6 @@ import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
-import org.apache.commons.vfs.provider.webdav.WebdavFileObject;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
@@ -40,12 +38,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
 /**
  * An SFTP file.
- * 
+ *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date: 2005-10-14 19:59:47 +0200 (Fr, 14 Okt
  *          2005) $
@@ -170,7 +167,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 	/**
 	 * Sets the last modified time of this file. Is only called if
 	 * {@link #doGetType} does not return {@link FileType#IMAGINARY}. <p/>
-	 * 
+	 *
 	 * @param modtime
 	 *            is modification time in milliseconds. SFTP protocol can send
 	 *            times with nanosecond precision but at the moment jsch send
