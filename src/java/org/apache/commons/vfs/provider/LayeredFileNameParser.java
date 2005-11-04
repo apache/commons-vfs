@@ -55,6 +55,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
 
         // Decode and normalise the path
         UriParser.canonicalizePath(name, 0, name.length(), this);
+        UriParser.fixSeparators(name);
         FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 

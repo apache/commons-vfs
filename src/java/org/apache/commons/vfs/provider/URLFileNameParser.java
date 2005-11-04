@@ -51,6 +51,7 @@ public class URLFileNameParser extends HostFileNameParser
 
         // Decode and normalise the file name
         UriParser.canonicalizePath(name, 0, name.length(), this);
+        UriParser.fixSeparators(name);
         FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 

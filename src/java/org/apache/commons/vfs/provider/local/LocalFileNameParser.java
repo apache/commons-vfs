@@ -70,13 +70,15 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
 
         // Remove encoding, and adjust the separators
         UriParser.canonicalizePath(name, 0, name.length(), this);
-        UriParser.fixSeparators(name);
 
+        UriParser.fixSeparators(name);
+        
         // Extract the root prefix
         final String rootFile = extractRootPrefix(filename, name);
 
         // Normalise the path
         FileType fileType = UriParser.normalisePath(name);
+
         final String path = name.toString();
 
         return createFileName(

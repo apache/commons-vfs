@@ -93,6 +93,9 @@ public class TemporaryFileProvider
         // Parse the name
         final StringBuffer buffer = new StringBuffer(uri);
         final String scheme = UriParser.extractScheme(uri, buffer);
+
+        UriParser.fixSeparators(buffer);
+        
         FileType fileType = UriParser.normalisePath(buffer);
         final String path = buffer.toString();
 

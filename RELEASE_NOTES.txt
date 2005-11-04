@@ -1,5 +1,12 @@
 2005-11 comons-vfs 1.0 RC6
 
+uri praser:
+We have had lots of duplicate calls to fixSeparator, so normalizePath now no longer calls it.
+Now normalizePath assumes this has been called.
+This only bothers you if you use normalizePath which should never be the case and is not
+needed to work with VFS.
+(Thanks to Filip - filipdef -at - cirquedigital.com)
+
 sftp:
 new configuration parameter SftpFileSystemConfigBuilder.timeout
 upgrade to jsch-0.1.23
