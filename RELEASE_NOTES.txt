@@ -20,6 +20,7 @@ removed setLastModifiedTime, its not supported by FTP
 core:
 removed check for isWriteable in deleteSelf as its possible to delete a read-only file
 if you have write-execute access to the directory
+fixed a dead-lock problem in multithreaded environments. (Thanks to Faron Dutton PR: 37374)
 
 
 2005-10-14 commons-vfs 1.0 RC5
