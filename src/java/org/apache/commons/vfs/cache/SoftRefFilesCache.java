@@ -81,8 +81,6 @@ public class SoftRefFilesCache extends AbstractFilesCache
 						continue;
 					}
 
-					FileSystem fsToRemove = null;
-
 					FileSystemAndNameKey key = (FileSystemAndNameKey) refReverseMap
 							.get(ref);
 
@@ -90,13 +88,8 @@ public class SoftRefFilesCache extends AbstractFilesCache
 					{
 						if (removeFile(key))
 						{
-							fsToRemove = key.getFileSystem();
+							filesystemClose(key.getFileSystem());
 						}
-					}
-
-					if (fsToRemove != null)
-					{
-						filesystemClose(fsToRemove);
 					}
 				}
 				catch (InterruptedException e)
