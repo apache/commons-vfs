@@ -188,6 +188,8 @@ public class SoftRefFilesCache extends AbstractFilesCache
 	{
 		Map files = getOrCreateFilesystemCache(filesystem);
 
+		boolean closeFilesystem;
+
 		synchronized (files)
 		{
 			Iterator iterKeys = refReverseMap.values().iterator();
@@ -201,9 +203,11 @@ public class SoftRefFilesCache extends AbstractFilesCache
 					files.remove(key.getFileName());
 				}
 			}
+
+			closeFilesystem = files.size() < 1;
 		}
 
-		if (files.size() < 1)
+		if (closeFilesystem)
 		{
 			filesystemClose(filesystem);
 		}
@@ -231,17 +235,14 @@ public class SoftRefFilesCache extends AbstractFilesCache
 	{
 		super.close();
 
-		synchronized (this)
-		{
-			endThread();
+		endThread();
 
-			// files.clear();
-			synchronized (filesystemCache)
-			{
-				filesystemCache.clear();
-			}
-			refReverseMap.clear();
+		// files.clear();
+		synchronized (filesystemCache)
+		{
+			filesystemCache.clear();
 		}
+		refReverseMap.clear();
 	}
 
 	public void removeFile(FileSystem filesystem, FileName name)
