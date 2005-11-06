@@ -70,8 +70,9 @@ public abstract class AbstractFileProvider
         synchronized (fileSystems)
         {
             fileSystems.clear();
-            super.close();
         }
+        
+        super.close();
     }
 
     /**
@@ -140,14 +141,15 @@ public abstract class AbstractFileProvider
 
     public void closeFileSystem(final FileSystem filesystem)
     {
+        AbstractFileSystem fs = (AbstractFileSystem) filesystem;
+        
         synchronized (fileSystems)
         {
-            AbstractFileSystem fs = (AbstractFileSystem) filesystem;
-
             fileSystems.remove(fs.getCacheKey());
-            removeComponent(fileSystems);
-            fs.close();
         }
+        
+        removeComponent(fileSystems);
+        fs.close();
     }
 
     /**
