@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2005 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -71,7 +71,7 @@ public abstract class AbstractFileProvider
         {
             fileSystems.clear();
         }
-        
+
         super.close();
     }
 
@@ -92,13 +92,14 @@ public abstract class AbstractFileProvider
     protected void addFileSystem(final Comparable key, final FileSystem fs)
         throws FileSystemException
     {
+        // Add to the cache
+        addComponent(fs);
+
+        FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
+        ((AbstractFileSystem) fs).setCacheKey(treeKey);
+
         synchronized (fileSystems)
         {
-            // Add to the cache
-            addComponent(fs);
-
-            FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
-            ((AbstractFileSystem) fs).setCacheKey(treeKey);
             fileSystems.put(treeKey, fs);
         }
     }
@@ -110,10 +111,10 @@ public abstract class AbstractFileProvider
      */
     protected FileSystem findFileSystem(final Comparable key, final FileSystemOptions fileSystemProps)
     {
+        FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
+
         synchronized (fileSystems)
         {
-            FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
-
             return (FileSystem) fileSystems.get(treeKey);
         }
     }
@@ -125,16 +126,17 @@ public abstract class AbstractFileProvider
 
     public void freeUnusedResources()
     {
+        Object[] item;
         synchronized (fileSystems)
         {
-            Iterator iterFileSystems = fileSystems.values().iterator();
-            while (iterFileSystems.hasNext())
+            item = fileSystems.values().toArray();
+        }
+        for (int i = 0; i < item.length; ++i)
+        {
+            AbstractFileSystem fs = (AbstractFileSystem) item[i];
+            if (fs.isReleaseable())
             {
-                AbstractFileSystem fs = (AbstractFileSystem) iterFileSystems.next();
-                if (fs.isReleaseable())
-                {
-                    fs.closeCommunicationLink();
-                }
+                fs.closeCommunicationLink();
             }
         }
     }
@@ -142,13 +144,13 @@ public abstract class AbstractFileProvider
     public void closeFileSystem(final FileSystem filesystem)
     {
         AbstractFileSystem fs = (AbstractFileSystem) filesystem;
-        
+
         synchronized (fileSystems)
         {
             fileSystems.remove(fs.getCacheKey());
         }
-        
-        removeComponent(fileSystems);
+
+        removeComponent(fs);
         fs.close();
     }
 
