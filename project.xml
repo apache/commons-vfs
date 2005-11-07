@@ -146,7 +146,7 @@
         </dependency>
 
         <dependency>
-            <groupId>jsch</groupId>
+            <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
             <version>0.1.23</version>
         </dependency>
