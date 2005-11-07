@@ -20,6 +20,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.DelegateFileObject;
@@ -138,7 +139,9 @@ public class VirtualFileSystem
                 {
                     done = file.exists();
                 }
-                file.attachChild(childName.getBaseName());
+                
+                // As this is the parent of our junction it has to be a folder 
+                file.attachChild(childName, FileType.FOLDER);
             }
 
             // TODO - attach all cached children of the junction point to their real file

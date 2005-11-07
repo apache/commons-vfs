@@ -60,12 +60,12 @@ public class DelegateFileObject
     /**
      * Adds a child to this file.
      */
-    public void attachChild(final String baseName) throws Exception
+    public void attachChild(final FileName baseName, final FileType type) throws Exception
     {
         final FileType oldType = doGetType();
         if (children.add(baseName))
         {
-            childrenChanged();
+            childrenChanged(baseName, type);
         }
         maybeTypeChanged(oldType);
     }
