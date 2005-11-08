@@ -1,4 +1,4 @@
-2005-11 comons-vfs 1.0 RC6
+2005-11-08 comons-vfs 1.0 RC6
 
 uri praser:
 We have had lots of duplicate calls to fixSeparator, so normalizePath now no longer calls it.
