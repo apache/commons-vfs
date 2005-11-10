@@ -177,7 +177,7 @@
              src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.4.jar">
         </get>
         <get dest="${libdir}/commons-compress-20050911.jar" usetimestamp="true" ignoreerrors="true"
-             src="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-20050911.jar">
+             src="http://cvs.apache.org/repository/commons-compress/jars/commons-compress-SNAPSHOT.jar">
         </get>
         <get dest="${libdir}/commons-collections-3.1.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-3.1.jar">
@@ -186,7 +186,7 @@
              src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.8.3.jar">
         </get>
         <get dest="${libdir}/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true"
-             src="http://www.ibiblio.org/maven/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar">
+             src="http://cvs.apache.org/repository/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar">
         </get>
         <get dest="${libdir}/jdom-1.0.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/jdom/jars/jdom-1.0.jar">
