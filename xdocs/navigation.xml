@@ -22,7 +22,7 @@
       <item name="Overview"                href="/index.html"/>
       <item name="Download and Build"      href="/download.html"/>
       <item name="Using the API"           href="/api.html"/>
-      <item name="API JavaDocs"            href="/apidocs/org/apache/commons/vfs/package-summary.html"/>
+      <item name="API JavaDocs"            href="/apidocs/index.html"/>
       <item name="File Systems"            href="/filesystems.html"/>
       <item name="Ant Tasks"               href="/anttasks.html"/>
       <item name="To Do List"              href="/todo.html"/>
