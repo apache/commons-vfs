@@ -373,7 +373,7 @@ public abstract class AbstractFileObject implements FileObject
             {
                 public Object run() throws MalformedURLException
                 {
-                    return new URL(UriParser.extractScheme(name.getURI(), buf), null, -1,
+                    return new URL(UriParser.extractScheme(name.getURI(), buf), "", -1,
                         buf.toString(), new DefaultURLStreamHandler(fs.getContext(), fs.getFileSystemOptions()));
                 }
             });

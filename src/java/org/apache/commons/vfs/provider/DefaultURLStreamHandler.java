@@ -86,7 +86,7 @@ public class DefaultURLStreamHandler
             final StringBuffer filePart = new StringBuffer();
             final String protocolPart = UriParser.extractScheme(url, filePart);
 
-            setURL(u, protocolPart, null, -1, null, null, filePart.toString(), null, null);
+            setURL(u, protocolPart, "", -1, null, null, filePart.toString(), null, null);
         }
         catch (FileSystemException fse)
         {
