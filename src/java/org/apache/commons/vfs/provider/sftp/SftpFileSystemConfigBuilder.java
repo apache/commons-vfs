@@ -58,7 +58,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setUserInfo
      */
     public UserInfo getUserInfo(FileSystemOptions opts)
@@ -80,7 +79,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setKnownHosts
      */
     public File getKnownHosts(FileSystemOptions opts)
@@ -116,7 +114,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setCompression
      */
     public String getCompression(FileSystemOptions opts)
@@ -126,7 +123,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setIdentities
      */
     public File[] getIdentities(FileSystemOptions opts)
@@ -176,7 +172,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setUserDirIsRoot
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
@@ -197,7 +192,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setTimeout
      */
     public Integer getTimeout(FileSystemOptions opts)

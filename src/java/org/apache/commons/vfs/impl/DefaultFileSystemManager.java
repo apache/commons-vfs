@@ -569,7 +569,6 @@ public class DefaultFileSystemManager
      * @param base  the base filename
      * @param name  the name
      * @param scope the {@link NameScope}
-     * @return
      * @throws FileSystemException
      */
     public FileName resolveName(final FileName base,

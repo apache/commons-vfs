@@ -56,7 +56,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setEntryParserFactory
      */
     public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
@@ -80,7 +79,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setEntryParser
      */
     public String getEntryParser(FileSystemOptions opts)
@@ -106,7 +104,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setPassiveMode
      */
     public Boolean getPassiveMode(FileSystemOptions opts)
@@ -127,7 +124,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setUserDirIsRoot
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
@@ -137,7 +133,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts
-     * @return
      * @see #setDataTimeout
      */
     public Integer getDataTimeout(FileSystemOptions opts)

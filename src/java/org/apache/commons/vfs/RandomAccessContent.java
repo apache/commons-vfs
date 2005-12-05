@@ -80,7 +80,6 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * get the inputstream interface
      * <br/>
      * <b>Notice: If you use {@link #seek(long)} you have to reget the InputStream</b>
-     * @return
      */
     public InputStream getInputStream() throws IOException;
 }

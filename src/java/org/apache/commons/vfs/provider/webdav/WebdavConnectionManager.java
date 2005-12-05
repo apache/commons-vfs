@@ -146,8 +146,6 @@ public class WebdavConnectionManager implements HttpConnectionManager
      *
      * @return <code>true</code> if stale checking will be enabled on HttpConections
      * @see HttpConnection#isStaleCheckingEnabled()
-     * @deprecated Use {@link HttpConnectionManagerParams#isStaleCheckingEnabled()},
-     *             {@link HttpConnectionManager#getParams()}.
      */
     public boolean isConnectionStaleCheckingEnabled()
     {
@@ -160,8 +158,6 @@ public class WebdavConnectionManager implements HttpConnectionManager
      * @param connectionStaleCheckingEnabled <code>true</code> if stale checking will be enabled
      *                                       on HttpConections
      * @see HttpConnection#setStaleCheckingEnabled(boolean)
-     * @deprecated Use {@link HttpConnectionManagerParams#setStaleCheckingEnabled(boolean)},
-     *             {@link HttpConnectionManager#getParams()}.
      */
     public void setConnectionStaleCheckingEnabled(boolean connectionStaleCheckingEnabled)
     {
