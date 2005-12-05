@@ -163,8 +163,6 @@
     <target name="get-deps" unless="noget" depends="init">
         <!--Proxy settings works only with a JDK 1.2 and higher.-->
 
-        <setproxy>
-        </setproxy>
         <get dest="${libdir}/ant-1.6.2.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.2.jar">
         </get>

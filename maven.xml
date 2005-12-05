@@ -69,6 +69,12 @@
             <fileset file='${basedir}/RELEASE_NOTES.txt'/>
             <fileset file='${basedir}/NOTICE.txt'/>
         </copy>
+
+        <!-- Copy XDocs -->
+        <copy todir="${maven.dist.src.assembly.dir}/xdocs">
+          <fileset dir='${basedir}/xdocs' />
+        </copy>
+
     </preGoal>
 
 </project>
