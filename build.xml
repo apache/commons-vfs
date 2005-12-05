@@ -116,8 +116,6 @@
                     </include>
                     <exclude name="**/test/Abstract*TestCase.java">
                     </exclude>
-                    <exclude name="**/*.java">
-                    </exclude>
                 </fileset>
             </batchtest>
         </junit>
@@ -170,8 +168,8 @@
         <get dest="${libdir}/ant-1.6.2.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.2.jar">
         </get>
-        <get dest="${libdir}/commons-net-1.4.0.jar" usetimestamp="true" ignoreerrors="true"
-             src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-1.4.0.jar">
+        <get dest="${libdir}/commons-net-1.4.1.jar" usetimestamp="true" ignoreerrors="true"
+             src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-1.4.1.jar">
         </get>
         <get dest="${libdir}/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true"
              src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.4.jar">
