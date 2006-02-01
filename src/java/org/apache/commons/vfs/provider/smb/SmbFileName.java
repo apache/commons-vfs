@@ -114,6 +114,11 @@ public class SmbFileName
         sb.append(getScheme());
         sb.append("://");
         sb.append(getHostName());
+        if (getPort() != DEFAULT_PORT)
+        {
+            sb.append(":");
+            sb.append(getPort());
+        }
         sb.append("/");
         sb.append(getShare());
         sb.append(getPathDecoded());
