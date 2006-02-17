@@ -83,7 +83,7 @@ public class LocalFile
     {
     	// JDK BUG: 6192331
         // if (!file.exists())
-        if (!file.exists() && file.length() == 0)
+        if (!file.exists() && file.length() < 1)
         {
             return FileType.IMAGINARY;
         }
