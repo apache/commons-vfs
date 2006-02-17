@@ -81,20 +81,25 @@ public class LocalFile
     protected FileType doGetType()
         throws Exception
     {
-        if (!file.exists())
+    	// JDK BUG: 6192331
+        // if (!file.exists())
+        if (!file.exists() && file.length() == 0)
         {
             return FileType.IMAGINARY;
         }
-        else if (file.isDirectory())
+        
+        if (file.isDirectory())
         {
             return FileType.FOLDER;
         }
-        else if (file.isFile())
-        {
-            return FileType.FILE;
-        }
 
-        throw new FileSystemException("vfs.provider.local/get-type.error", file);
+        // In doubt, treat an existing file as file
+        // if (file.isFile())
+        // {
+            return FileType.FILE;
+        // }
+
+        // throw new FileSystemException("vfs.provider.local/get-type.error", file);
     }
 
     /**
