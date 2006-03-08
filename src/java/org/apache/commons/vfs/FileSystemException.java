@@ -25,7 +25,7 @@ import java.io.IOException;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public final class FileSystemException
+public class FileSystemException
     extends IOException
 {
     /**
@@ -92,6 +92,17 @@ public final class FileSystemException
     /**
      * Constructs exception with the specified detail message.
      *
+     * @param code the error code of the message.
+     * @param info array of complementary info (context).
+     */
+    public FileSystemException(final String code, final Throwable throwable)
+    {
+        this(code, null, throwable);
+    }
+    
+    /**
+     * Constructs exception with the specified detail message.
+     *
      * @param code      the error code of the message.
      * @param info      array of complementary info (context).
      * @param throwable the cause.
@@ -100,7 +111,7 @@ public final class FileSystemException
                                final Object[] info,
                                final Throwable throwable)
     {
-        super(Messages.getString(code, info));
+        super(code);
 
         if (info == null)
         {
@@ -119,6 +130,14 @@ public final class FileSystemException
     }
 
     /**
+     * retrieve message from bundle
+     */
+    public String getMessage()
+	{
+    	return Messages.getString(super.getMessage(), getInfo());
+	}
+
+	/**
      * Constructs wrapper exception.
      *
      * @param throwable the root cause to wrap.
