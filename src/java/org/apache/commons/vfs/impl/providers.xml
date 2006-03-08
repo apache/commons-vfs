@@ -74,6 +74,10 @@
         <if-available scheme="tar"/>
     </provider>
 
+    <provider class-name="org.apache.commons.vfs.provider.ram.RamFileProvider">
+        <scheme name="ram"/>
+    </provider>
+    
     <extension-map extension="zip" scheme="zip"/>
     <extension-map extension="tar" scheme="tar"/>
     <mime-type-map mime-type="application/zip" scheme="zip"/>
