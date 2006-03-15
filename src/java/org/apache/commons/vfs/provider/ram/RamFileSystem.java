@@ -210,6 +210,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 		}
 		// Store in cache
 		cache.put(file.getName(), file.getData());
+		file.getData().updateLastModified();
 		file.close();
 	}
 
@@ -295,16 +296,30 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 			try
 			{
 				InputStream is = fo.getContent().getInputStream();
-				OutputStream os = new BufferedOutputStream(memFo
-						.getOutputStream(), 512);
-				int i;
-				while ((i = is.read()) != -1)
+				try
 				{
-					os.write(i);
+					OutputStream os = new BufferedOutputStream(memFo
+							.getOutputStream(), 512);
+					int i;
+					while ((i = is.read()) != -1)
+					{
+						os.write(i);
+					}
+					os.flush();
+					os.close();
 				}
-				os.flush();
-				os.close();
-				is.close();
+				finally
+				{
+					try
+					{
+						is.close();
+					}
+					catch (IOException e)
+					{
+						// ignore on close exception
+						;
+					}
+				}
 			}
 			catch (IOException e)
 			{

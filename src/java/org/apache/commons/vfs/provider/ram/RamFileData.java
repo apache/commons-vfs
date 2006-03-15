@@ -81,6 +81,7 @@ class RamFileData implements Serializable
 	 */
 	public void setBuffer(byte[] buffer)
 	{
+		updateLastModified();
 		this.buffer = buffer;
 	}
 
@@ -124,10 +125,15 @@ class RamFileData implements Serializable
 	public void clear()
 	{
 		this.buffer = new byte[0];
-		this.lastModified = System.currentTimeMillis();
+		updateLastModified();
 		this.type = FileType.IMAGINARY;
 		this.children = Collections.synchronizedCollection(new ArrayList());
 		this.name = null;
+	}
+
+	void updateLastModified()
+	{
+		this.lastModified = System.currentTimeMillis();
 	}
 
 	/**
@@ -172,6 +178,7 @@ class RamFileData implements Serializable
 		}
 
 		this.children.add(data);
+		updateLastModified();
 	}
 
 	/**
@@ -192,6 +199,7 @@ class RamFileData implements Serializable
 			throw new FileSystemException("Child not found. " + data);
 		}
 		this.children.remove(data);
+		updateLastModified();
 	}
 
 	/**
@@ -251,6 +259,7 @@ class RamFileData implements Serializable
 		byte[] newBuf = new byte[newSize];
 		System.arraycopy(this.buffer, 0, newBuf, 0, size);
 		this.buffer = newBuf;
+		updateLastModified();
 	}
 
 }
