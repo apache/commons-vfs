@@ -553,7 +553,11 @@ public abstract class AbstractFileObject implements FileObject
                 throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
             }
 
-            if (files == null || files.length == 0)
+            if (files == null)
+            {
+            	return null;
+            }
+            else if (files.length == 0)
             {
                 // No children
                 children = EMPTY_FILE_ARRAY;
