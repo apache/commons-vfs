@@ -26,10 +26,7 @@ import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 /**
- * 
  * RAM File Random Access Content
- * 
- * @author <a href="mailto:edgarpoce@gmail.com">Edgar Poce </a>
  */
 public class RamFileRandomAccessContent implements RandomAccessContent
 {

@@ -22,8 +22,6 @@ import org.apache.commons.vfs.FileSystemException;
 
 /**
  * OutputStream to a RamFile
- * 
- * @author edgar poce
  */
 public class RamFileOutputStream extends OutputStream
 {

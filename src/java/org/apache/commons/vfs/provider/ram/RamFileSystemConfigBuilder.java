@@ -21,9 +21,6 @@ import org.apache.commons.vfs.FileSystemOptions;
 
 /**
  * Config Builder for the RAM filesystem.
- * 
- * @author edgar poce
- * 
  */
 public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

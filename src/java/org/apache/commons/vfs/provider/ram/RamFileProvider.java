@@ -29,8 +29,6 @@ import org.apache.commons.vfs.provider.FileProvider;
 
 /**
  * RAM File Provider
- * 
- * @author Edgar Poce
  */
 public class RamFileProvider extends AbstractOriginatingFileProvider implements
 		FileProvider

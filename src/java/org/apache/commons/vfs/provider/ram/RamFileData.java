@@ -26,8 +26,6 @@ import org.apache.commons.vfs.FileType;
 
 /**
  * RAM File Object Data
- * 
- * @author <a href="mailto:edgarpoce@gmail.com">Edgar Poce </a>
  */
 class RamFileData implements Serializable
 {

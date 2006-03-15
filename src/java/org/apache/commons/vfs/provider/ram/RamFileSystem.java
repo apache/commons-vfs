@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelectInfo;
@@ -40,8 +38,6 @@ import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 /**
  * A RAM File System
- * 
- * @author Edgar Poce
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable
 {
@@ -53,23 +49,6 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	 * Cache of RAM File Data
 	 */
 	private Map cache;
-
-	/**
-	 * Tranformer from RAM file data to File Base Name
-	 */
-	private static Transformer dataToBaseName;
-
-	static
-	{
-		dataToBaseName = new Transformer()
-		{
-			public Object transform(Object o)
-			{
-				RamFileData data = (RamFileData) o;
-				return data.getName().getBaseName();
-			}
-		};
-	}
 
 	/**
 	 * @param rootName
@@ -110,11 +89,21 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	 */
 	public String[] listChildren(FileName name)
 	{
-		RamFileData data = (RamFileData) this.cache.get(name);
+        RamFileData data = (RamFileData) this.cache.get(name);
 		Collection children = data.getChildren();
-		Collection names = CollectionUtils.collect(children, dataToBaseName);
-		String[] retu = (String[]) names.toArray(new String[names.size()]);
-		return retu;
+        
+        String[] names = new String[children.size()];
+        
+        int pos = 0 ;
+        Iterator iter = children.iterator() ;
+        while (iter.hasNext()) 
+        {
+            RamFileData childData = (RamFileData) iter.next();
+            names[pos] = childData.getName().getBaseName();
+            pos++;
+        }
+        
+		return names;
 	}
 
 	/**
