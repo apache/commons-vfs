@@ -31,7 +31,7 @@ public interface FtpClient
 
     void disconnect() throws IOException;
 
-    FTPFile[] listFiles(String key, String relPath) throws IOException;
+    FTPFile[] listFiles(String relPath) throws IOException;
 
     boolean removeDirectory(String relPath) throws IOException;
 

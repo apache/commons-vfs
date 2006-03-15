@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider.ftp;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs.FileSystemException;
@@ -56,6 +57,12 @@ public class FtpClientFactory
         {
             final FTPClient client = new FTPClient();
 
+            String key = FtpFileSystemConfigBuilder.getInstance().getEntryParser(fileSystemOptions);
+            if (key != null)
+            {
+            	client.configure(new FTPClientConfig(key));
+            }
+            
             FTPFileEntryParserFactory myFactory = FtpFileSystemConfigBuilder.getInstance().getEntryParserFactory(fileSystemOptions);
             if (myFactory != null)
             {

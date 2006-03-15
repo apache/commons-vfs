@@ -92,16 +92,16 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
-    public FTPFile[] listFiles(String key, String relPath) throws IOException
+    public FTPFile[] listFiles(String relPath) throws IOException
     {
         try
         {
-            return getFtpClient().listFiles(key, relPath);
+            return getFtpClient().listFiles(relPath);
         }
         catch (IOException e)
         {
             disconnect();
-            return getFtpClient().listFiles(key, relPath);
+            return getFtpClient().listFiles(relPath);
         }
     }
 
