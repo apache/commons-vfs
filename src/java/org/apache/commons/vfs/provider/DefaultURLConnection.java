@@ -59,7 +59,21 @@ public final class DefaultURLConnection
         return content.getOutputStream();
     }
 
-    public int getContentLength()
+    
+    public long getLastModified()
+	{
+        try
+        {
+            return content.getLastModifiedTime();
+        }
+        catch (FileSystemException fse)
+        {
+        }
+
+        return -1;
+	}
+
+	public int getContentLength()
     {
         try
         {
