@@ -58,6 +58,7 @@ public abstract class AbstractSyncTask
     private String destDirUrl;
     private String srcDirUrl;
     private boolean srcDirIsBase;
+    private boolean failonerror = true;
     private String filesList;
 
     /**
@@ -103,6 +104,22 @@ public abstract class AbstractSyncTask
     }
 
     /**
+     * Sets whether we should fail if there was an error or not
+     */
+    public void setFailonerror(final boolean failonerror)
+    {
+        this.failonerror = failonerror;
+    }
+    
+    /**
+     * Sets whether we should fail if there was an error or not
+     */
+    public boolean isFailonerror()
+    {
+        return failonerror;
+    }
+    
+    /**
      * Sets the files to includes
      */
     public void setIncludes(final String filesList)
@@ -134,14 +151,16 @@ public abstract class AbstractSyncTask
         {
             final String message =
                 Messages.getString("vfs.tasks/sync.no-destination.error");
-            throw new BuildException(message);
+            logOrDie(message, Project.MSG_WARN);
+            return;
         }
 
         if (destFileUrl != null && destDirUrl != null)
         {
             final String message =
                 Messages.getString("vfs.tasks/sync.too-many-destinations.error");
-            throw new BuildException(message);
+            logOrDie(message, Project.MSG_WARN);
+            return;
         }
 
         // Add the files of the includes attribute to the list
@@ -171,7 +190,7 @@ public abstract class AbstractSyncTask
         if (srcFiles.size() == 0)
         {
             final String message = Messages.getString("vfs.tasks/sync.no-source-files.warn");
-            log(message, Project.MSG_WARN);
+            logOrDie(message, Project.MSG_WARN);
             return;
         }
 
@@ -196,6 +215,16 @@ public abstract class AbstractSyncTask
             throw new BuildException(e.getMessage(), e);
         }
     }
+
+	protected void logOrDie(final String message, int level)
+	{
+		if (!isFailonerror())
+		{
+			log(message, level);
+			return;
+		}
+		throw new BuildException(message);
+	}
 
     /**
      * Copies the source files to the destination.
@@ -222,7 +251,8 @@ public abstract class AbstractSyncTask
             {
                 final String message =
                     Messages.getString("vfs.tasks/sync.src-file-no-exist.warn", srcFile);
-                log(message, Project.MSG_WARN);
+                
+                logOrDie(message, Project.MSG_WARN);
             }
             else
             {
@@ -312,7 +342,7 @@ public abstract class AbstractSyncTask
         if (destFiles.contains(destFile))
         {
             final String message = Messages.getString("vfs.tasks/sync.duplicate-source-files.warn", destFile);
-            log(message, Project.MSG_WARN);
+            logOrDie(message, Project.MSG_WARN);
         }
         else
         {
@@ -334,7 +364,8 @@ public abstract class AbstractSyncTask
         {
             final String message =
                 Messages.getString("vfs.tasks/sync.too-many-source-files.error");
-            throw new BuildException(message);
+            logOrDie(message, Project.MSG_WARN);
+            return;
         }
         final SourceInfo src = (SourceInfo) srcFiles.get(0);
         final FileObject srcFile = resolveFile(src.file);
@@ -342,7 +373,8 @@ public abstract class AbstractSyncTask
         {
             final String message =
                 Messages.getString("vfs.tasks/sync.source-not-file.error", srcFile);
-            throw new BuildException(message);
+            logOrDie(message, Project.MSG_WARN);
+            return;
         }
 
         // Locate the destination file
