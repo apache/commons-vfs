@@ -106,22 +106,40 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 	 */
 	private void statSelf() throws Exception
 	{
-		final ChannelSftp channel = fileSystem.getChannel();
+		ChannelSftp channel = fileSystem.getChannel();
 		try
 		{
 			setStat(channel.stat(relPath));
 		}
 		catch (final SftpException e)
 		{
-			// TODO - not strictly true, but jsch 0.1.2 does not give us
-			// enough info in the exception. Should be using:
-			// if ( e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE )
-			// However, sometimes the exception has the correct id, and
-			// sometimes
-			// it does not. Need to look into why.
-
-			// Does not exist
-			attrs = null;
+			try
+			{
+				// maybe the channel has some problems, so recreate the channel and retry
+				if (e.id != ChannelSftp.SSH_FX_NO_SUCH_FILE)
+				{
+					channel.disconnect();
+					channel = fileSystem.getChannel();
+					setStat(channel.stat(relPath));
+				}
+				else
+				{
+					// Really does not exist
+					attrs = null;
+				}
+			}
+			catch (final SftpException e2)
+			{
+				// TODO - not strictly true, but jsch 0.1.2 does not give us
+				// enough info in the exception. Should be using:
+				// if ( e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE )
+				// However, sometimes the exception has the correct id, and
+				// sometimes
+				// it does not. Need to look into why.
+	
+				// Does not exist
+				attrs = null;
+			}
 		}
 		finally
 		{
