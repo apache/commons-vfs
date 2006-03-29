@@ -142,7 +142,11 @@ public class SftpFileSystem
     {
         if (idleChannel == null)
         {
-            idleChannel = channel;
+        	// put back the channel only if it is still connected
+        	if (channel.isConnected() && !channel.isClosed())
+        	{
+        		idleChannel = channel;
+        	}
         }
         else
         {
