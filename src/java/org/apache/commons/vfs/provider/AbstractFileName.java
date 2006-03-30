@@ -30,6 +30,7 @@ import org.apache.commons.vfs.VFS;
 public abstract class AbstractFileName
     implements FileName
 {
+    
     private final String scheme;
     private final String absPath;
     private FileType type;
@@ -310,7 +311,7 @@ public abstract class AbstractFileName
             final StringBuffer buffer = new StringBuffer();
             appendRootUri(buffer);
             buffer.append(SEPARATOR_CHAR);
-            rootUri = buffer.toString();
+            rootUri = buffer.toString().intern();
         }
         return rootUri;
     }
@@ -354,7 +355,7 @@ public abstract class AbstractFileName
             }
             else
             {
-                extension = baseName.substring(pos + 1);
+                extension = baseName.substring(pos + 1).intern();
             }
         }
         return extension;

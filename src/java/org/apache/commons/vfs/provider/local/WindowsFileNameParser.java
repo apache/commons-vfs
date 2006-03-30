@@ -113,7 +113,8 @@ public class WindowsFileNameParser
 
         String prefix = name.substring(0, 2);
         name.delete(0, 2);
-        return prefix;
+        
+        return prefix.intern();
     }
 
     /**

@@ -42,17 +42,14 @@ public class LocalFile
     implements FileObject
 {
     private File file;
-    private final String fileName;
 
     /**
      * Creates a non-root file.
      */
     protected LocalFile(final LocalFileSystem fileSystem,
-                        final String fileName,
                         final FileName name) throws FileSystemException
     {
         super(name, fileSystem);
-        this.fileName = UriParser.decode(fileName);
     }
 
     /**
@@ -71,6 +68,9 @@ public class LocalFile
     {
         if (file == null)
         {
+            // Remove the "file:///"
+            String fileName = getName().getPathDecoded();
+            // fileName = UriParser.decode(fileName);
             file = new File(fileName);
         }
     }

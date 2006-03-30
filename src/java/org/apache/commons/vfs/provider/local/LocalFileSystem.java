@@ -53,8 +53,7 @@ public class LocalFileSystem
     protected FileObject createFile(final FileName name) throws FileSystemException
     {
         // Create the file
-        String fileName = rootFile + name.getPath();
-        return new LocalFile(this, fileName, name);
+        return new LocalFile(this, name);
     }
 
     /**

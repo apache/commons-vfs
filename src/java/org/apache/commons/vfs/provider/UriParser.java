@@ -246,7 +246,7 @@ public final class UriParser
 				{
 					buffer.delete(0, pos + 1);
 				}
-				return scheme;
+				return scheme.intern();
 			}
 
 			if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
@@ -280,6 +280,10 @@ public final class UriParser
 		if (encodedStr == null)
 		{
 			return null;
+		}
+		if (encodedStr.indexOf('%') < 0)
+		{
+			return encodedStr;
 		}
 		final StringBuffer buffer = new StringBuffer(encodedStr);
 		decode(buffer, 0, buffer.length());
