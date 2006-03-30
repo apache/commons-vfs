@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.tasks;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.Selectors;
@@ -73,7 +74,9 @@ public class CopyTask
     {
         log("Copying " + srcFile + " to " + destFile);
         destFile.copyFrom(srcFile, Selectors.SELECT_SELF);
-        if (preserveLastModified)
+        if (preserveLastModified  && 
+                srcFile.getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED) &&
+                destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
         {
             final long lastModTime = srcFile.getContent().getLastModifiedTime();
             destFile.getContent().setLastModifiedTime(lastModTime);
