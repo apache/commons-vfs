@@ -15,6 +15,9 @@
  */
 package org.apache.commons.vfs.cache;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.collections.map.AbstractLinkedMap;
 import org.apache.commons.collections.map.LRUMap;
 import org.apache.commons.logging.Log;
@@ -24,11 +27,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.VfsLog;
-import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.util.Messages;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This implementation caches every file using {@link LRUMap}.<br>
@@ -61,7 +60,8 @@ public class LRUFilesCache extends AbstractFilesCache
         {
             synchronized (LRUFilesCache.this)
             {
-                AbstractFileObject file = (AbstractFileObject) linkEntry.getValue();
+            	FileObject file = (FileObject) linkEntry.getValue();
+            	
                 // System.err.println(">>> " + size() + " check removeLRU:" + linkEntry.getKey().toString());
 
                 if (file.isAttached() || file.isContentOpen())

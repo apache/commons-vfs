@@ -70,7 +70,7 @@ public interface FileSystemManager
     /**
      * Returns the base file used to resolve relative paths.
      */
-    FileObject getBaseFile() throws FileSystemException;
+	public FileObject getBaseFile() throws FileSystemException;
 
     /**
      * Locates a file by name.  Equivalent to calling
@@ -80,7 +80,7 @@ public interface FileSystemManager
      * @return The file.  Never returns null.
      * @throws FileSystemException On error parsing the file name.
      */
-    FileObject resolveFile(String name)
+	public FileObject resolveFile(String name)
         throws FileSystemException;
 
     /**
@@ -92,7 +92,7 @@ public interface FileSystemManager
      * @return The file.  Never returns null.
      * @throws FileSystemException On error parsing the file name.
      */
-    FileObject resolveFile(String name, FileSystemOptions fileSystemOptions)
+	public FileObject resolveFile(String name, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
     /**
@@ -109,7 +109,7 @@ public interface FileSystemManager
      * @return The file.  Never returns null.
      * @throws FileSystemException On error parsing the file name.
      */
-    FileObject resolveFile(FileObject baseFile, String name)
+	public FileObject resolveFile(FileObject baseFile, String name)
         throws FileSystemException;
 
     /**
@@ -122,7 +122,7 @@ public interface FileSystemManager
      * @return The file.  Never returns null.
      * @throws FileSystemException On error parsing the file name.
      */
-    FileObject resolveFile(File baseFile, String name)
+	public FileObject resolveFile(File baseFile, String name)
         throws FileSystemException;
 
     /**
@@ -134,7 +134,7 @@ public interface FileSystemManager
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
      */
-    FileName resolveName(final FileName root, final String name) throws FileSystemException;
+	public FileName resolveName(final FileName root, final String name) throws FileSystemException;
 
     /**
      * Resolves a name, relative to the "root" file name.  Refer to {@link NameScope}
@@ -146,7 +146,7 @@ public interface FileSystemManager
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
      */
-    FileName resolveName(final FileName root, String name, NameScope scope)
+	public FileName resolveName(final FileName root, String name, NameScope scope)
         throws FileSystemException;
 
     /**
@@ -157,7 +157,7 @@ public interface FileSystemManager
      *         returns null.
      * @throws FileSystemException On error converting the file.
      */
-    FileObject toFileObject(File file)
+	public FileObject toFileObject(File file)
         throws FileSystemException;
 
     /**
@@ -170,7 +170,7 @@ public interface FileSystemManager
      * @return The root file of the new file system.
      * @throws FileSystemException On error creating the file system.
      */
-    FileObject createFileSystem(String provider, FileObject file)
+	public FileObject createFileSystem(String provider, FileObject file)
         throws FileSystemException;
 
     /**
@@ -181,7 +181,7 @@ public interface FileSystemManager
      * @return The root file of the new file system.
      * @throws FileSystemException On error creating the file system.
      */
-    FileObject createFileSystem(FileObject file)
+	public FileObject createFileSystem(FileObject file)
         throws FileSystemException;
 
     /**
@@ -191,7 +191,7 @@ public interface FileSystemManager
      * @param rootUri The root URI to use for the new file system.  Can be null.
      * @return The root file of the new file system.
      */
-    FileObject createVirtualFileSystem(String rootUri)
+	public FileObject createVirtualFileSystem(String rootUri)
         throws FileSystemException;
 
     /**
@@ -201,31 +201,36 @@ public interface FileSystemManager
      * @param rootFile The root file to backs the file system.
      * @return The root of the new file system.
      */
-    FileObject createVirtualFileSystem(FileObject rootFile)
+	public FileObject createVirtualFileSystem(FileObject rootFile)
         throws FileSystemException;
 
     /**
      * Returns a streamhandler factory to enable URL lookup using this
      * FileSystemManager.
      */
-    URLStreamHandlerFactory getURLStreamHandlerFactory();
+	public URLStreamHandlerFactory getURLStreamHandlerFactory();
 
     /**
      * Determines if a layered file system can be created for a given file.
      *
      * @param file The file to check for.
      */
-    boolean canCreateFileSystem(FileObject file) throws FileSystemException;
+	public boolean canCreateFileSystem(FileObject file) throws FileSystemException;
 
     /**
      * Get the cache used to cache fileobjects.
      */
-    FilesCache getFilesCache();
+	public FilesCache getFilesCache();
+    
+    /**
+     * Get the cache strategy used
+     */
+    public CacheStrategy getCacheStrategy();
 
     /**
      * The class to use to determine the content-type (mime-type)
      */
-    FileContentInfoFactory getFileContentInfoFactory();
+    public FileContentInfoFactory getFileContentInfoFactory();
 
     /**
      * Get the schemes currently available.

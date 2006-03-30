@@ -17,6 +17,7 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs.CacheStrategy;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileListener;
 import org.apache.commons.vfs.FileName;
@@ -28,6 +29,7 @@ import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.VfsLog;
+import org.apache.commons.vfs.cache.OnCallRefreshFileObject;
 import org.apache.commons.vfs.events.AbstractFileChangeEvent;
 import org.apache.commons.vfs.events.ChangedEvent;
 import org.apache.commons.vfs.events.CreateEvent;
@@ -295,6 +297,8 @@ public abstract class AbstractFileSystem
             {
                 throw new FileSystemException("vfs.provider/resolve-file.error", name, e);
             }
+            
+            file = decorateFileObject(file);
 
             // imario@apache.org ==> use putFileToCache
             if (useCache)
@@ -303,10 +307,28 @@ public abstract class AbstractFileSystem
             }
             // files.put(name, file);
         }
+
+        /**
+         * resync the file information if requested
+         */
+        if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE))
+        {
+        	file.refresh();
+        }
         return file;
     }
 
-    /**
+    protected FileObject decorateFileObject(FileObject file)
+	{
+        if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_CALL))
+        {
+        	return new OnCallRefreshFileObject(file);
+        }
+        
+        return file;
+	}
+
+	/**
      * Creates a temporary local copy of a file and its descendents.
      */
     public File replicateFile(final FileObject file,

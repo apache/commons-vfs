@@ -48,6 +48,7 @@ public class ProviderTestSuite
      */
     protected void addBaseTests() throws Exception
     {
+        addTests(ProviderCacheStrategyTests.class);
         addTests(UriTests.class);
         addTests(NamingTests.class);
         addTests(ContentTests.class);

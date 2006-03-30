@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.impl;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.vfs.CacheStrategy;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -91,6 +92,11 @@ public class DefaultFileSystemManager
      * The files cache
      */
     private FilesCache filesCache;
+
+    /**
+     * The cache strategy
+     */
+    private CacheStrategy fileCacheStrategy;    
 
     /**
      * The class to use to determine the content-type (mime-type)
@@ -225,7 +231,7 @@ public class DefaultFileSystemManager
     /**
      * Sets the filesCache implementation used to cache files
      */
-    public void setFilesCache(FilesCache filesCache) throws FileSystemException
+    public void setFilesCache(final FilesCache filesCache) throws FileSystemException
     {
         if (init)
         {
@@ -236,6 +242,35 @@ public class DefaultFileSystemManager
     }
 
     /**
+     * <p>
+     * Set the cache strategy to use when dealing with file object data.
+     * You can set it only once before the FileSystemManager is initialized.
+     * <p />
+     * <p>
+     * The default is {@link CacheStrategy#ON_RESOLVE}
+     * </p>
+     *   
+     * @throws FileSystemException if this is not possible. e.g. it is already set.
+     */
+    public void setCacheStrategy(final CacheStrategy fileCacheStrategy) throws FileSystemException
+    {
+        if (init)
+        {
+            throw new FileSystemException("vfs.impl/already-inited.error");
+        }
+        
+    	this.fileCacheStrategy = fileCacheStrategy;
+    }
+    
+    /**
+     * Get the cache strategy used
+     */
+    public CacheStrategy getCacheStrategy()
+	{
+		return fileCacheStrategy;
+	}
+
+	/**
      * get the fileContentInfoFactory used to determine the infos of a file content.
      */
     public FileContentInfoFactory getFileContentInfoFactory()
@@ -364,6 +399,11 @@ public class DefaultFileSystemManager
         if (fileContentInfoFactory == null)
         {
             fileContentInfoFactory = new FileContentInfoFilenameFactory();
+        }
+        
+        if (fileCacheStrategy == null)
+        {
+        	fileCacheStrategy = CacheStrategy.ON_RESOLVE;
         }
 
         setupComponent(filesCache);

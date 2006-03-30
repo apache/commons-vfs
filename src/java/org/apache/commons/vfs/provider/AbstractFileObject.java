@@ -28,6 +28,7 @@ import org.apache.commons.vfs.FileUtil;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.IOException;
@@ -69,7 +70,7 @@ public abstract class AbstractFileObject implements FileObject
     // Cached info
     private boolean attached;
     private FileType type;
-    private AbstractFileObject parent;
+    private FileObject parent;
 
     // Changed to hold only the name of the children and let the object
     // go into the global files cache
@@ -500,7 +501,7 @@ public abstract class AbstractFileObject implements FileObject
             // Locate the parent of this file
             if (parent == null)
             {
-                parent = (AbstractFileObject) fs.resolveFile(name.getParent());
+                parent = (FileObject) fs.resolveFile(name.getParent());
             }
         }
         return parent;
@@ -996,6 +997,22 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
+     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required 
+     */
+    public void refresh() throws FileSystemException
+    {
+        // Detach from the file
+        try
+        {
+            detach();
+        }
+        catch (final Exception e)
+        {
+            throw new FileSystemException("vfs.provider/resync.error", name, e);
+        }
+    }
+    
+    /**
      * Closes this file, and its content.
      */
     public void close() throws FileSystemException
@@ -1383,7 +1400,7 @@ public abstract class AbstractFileObject implements FileObject
 
         if (parent != null)
         {
-            parent.childrenChanged(childName, newType);
+            FileObjectUtils.getAbstractFileObject(parent).childrenChanged(childName, newType);
         }
     }
 

@@ -308,4 +308,19 @@ public interface FileObject
      * @see FileContent#close
      */
     public void close() throws FileSystemException;
+
+    /**
+     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required 
+     */
+    public void refresh() throws FileSystemException;
+
+    /**
+     * check if the fileObject is attaced
+     */
+	public boolean isAttached();
+
+	/**
+	 * check if someone reads/write to this file
+	 */
+	public boolean isContentOpen();
 }

@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.test;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.CacheStrategy;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
@@ -23,6 +24,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -48,6 +50,7 @@ public abstract class AbstractProviderTestCase
     private FileObject readFolder;
     private FileObject writeFolder;
     private DefaultFileSystemManager manager;
+    private ProviderTestConfig providerConfig;
     private Method method;
 
     // Expected contents of "file1.txt"
@@ -68,11 +71,13 @@ public abstract class AbstractProviderTestCase
      * Configures this test.
      */
     public void setConfig(final DefaultFileSystemManager manager,
+    					  final ProviderTestConfig providerConfig,
                           final FileObject baseFolder,
                           final FileObject readFolder,
                           final FileObject writeFolder)
     {
         this.manager = manager;
+        this.providerConfig = providerConfig;
         this.baseFolder = baseFolder;
         this.readFolder = readFolder;
         this.writeFolder = writeFolder;
@@ -87,6 +92,22 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
+     * creates a new uninitialized file system manager
+     * @throws Exception 
+     */
+    protected DefaultFileSystemManager createManager() throws Exception
+    {
+	    DefaultFileSystemManager fs = new DefaultFileSystemManager();
+	    fs.setFilesCache(getProviderConfig().getFilesCache());
+	    getProviderConfig().prepare(fs);
+	    if (!fs.hasProvider("file"))
+	    {
+	        fs.addProvider("file", new DefaultLocalFileProvider());
+	    }
+	    return fs;
+    }
+    
+    /**
      * Returns the base test folder.  This is the parent of both the read
      * test and write test folders.
      */
@@ -94,8 +115,16 @@ public abstract class AbstractProviderTestCase
     {
         return baseFolder;
     }
-
+    
     /**
+     * get the provider configuration 
+     */
+    public ProviderTestConfig getProviderConfig()
+	{
+		return providerConfig;
+	}
+
+	/**
      * Returns the read test folder.
      */
     protected FileObject getReadFolder()

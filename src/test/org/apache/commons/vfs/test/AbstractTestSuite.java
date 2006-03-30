@@ -168,7 +168,7 @@ public class AbstractTestSuite
             if (test instanceof AbstractProviderTestCase)
             {
                 final AbstractProviderTestCase providerTestCase = (AbstractProviderTestCase) test;
-                providerTestCase.setConfig(manager, baseFolder, readFolder, writeFolder);
+                providerTestCase.setConfig(manager, providerConfig, baseFolder, readFolder, writeFolder);
             }
         }
     }
