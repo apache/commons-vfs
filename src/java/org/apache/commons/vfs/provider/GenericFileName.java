@@ -34,7 +34,7 @@ public class GenericFileName extends AbstractFileName
     private final String password;
     private final int port;
     private static final char[] USERNAME_RESERVED = {':', '@', '/'};
-    private static final char[] PASSWORD_RESERVED = {'@', '/'};
+    private static final char[] PASSWORD_RESERVED = {'@', '/', '?'};
 
     protected GenericFileName(final String scheme,
                               final String hostName,
