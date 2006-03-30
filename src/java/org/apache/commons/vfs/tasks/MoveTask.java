@@ -15,6 +15,7 @@
  */
 package org.apache.commons.vfs.tasks;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.Selectors;
@@ -57,7 +58,8 @@ public class MoveTask
         {
             log("Rename " + srcFile + " to " + destFile);
             srcFile.moveTo(destFile);
-            if (!isPreserveLastModified())
+            if (!isPreserveLastModified() &&
+                destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
             {
                 destFile.getContent().setLastModifiedTime(System.currentTimeMillis());
             }
