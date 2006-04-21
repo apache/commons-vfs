@@ -894,9 +894,19 @@ public abstract class AbstractFileObject implements FileObject
      */
     public void moveTo(FileObject destFile) throws FileSystemException
     {
-        if (!isWriteable())
+        if (canRenameTo(destFile))
         {
-            throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
+	        if (!getParent().isWriteable())
+	        {
+	            throw new FileSystemException("vfs.provider/rename-parent-read-only.error", new FileName[] {getName(), getParent().getName()});
+	        }
+        }
+        else
+        {
+	        if (!isWriteable())
+	        {
+	            throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
+	        }
         }
         if (destFile.exists())
         {
