@@ -69,7 +69,8 @@ public class LocalFile
         if (file == null)
         {
             // Remove the "file:///"
-            String fileName = getName().getPathDecoded();
+            LocalFileName localFileName = (LocalFileName) getName();
+            String fileName = localFileName.getRootFile() + getName().getPathDecoded();
             // fileName = UriParser.decode(fileName);
             file = new File(fileName);
         }
