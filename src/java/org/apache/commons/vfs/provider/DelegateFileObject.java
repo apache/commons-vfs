@@ -63,7 +63,7 @@ public class DelegateFileObject
     public void attachChild(final FileName baseName, final FileType type) throws Exception
     {
         final FileType oldType = doGetType();
-        if (children.add(baseName))
+        if (children.add(baseName.getBaseName()))
         {
             childrenChanged(baseName, type);
         }

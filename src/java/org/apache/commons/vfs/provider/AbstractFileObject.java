@@ -1301,7 +1301,7 @@ public abstract class AbstractFileObject implements FileObject
                 injectType(newType);
 
                 removeChildrenCache();
-                children = EMPTY_FILE_ARRAY;
+                // children = EMPTY_FILE_ARRAY;
 
                 // Notify subclass
                 onChange();
