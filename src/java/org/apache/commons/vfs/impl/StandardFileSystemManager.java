@@ -19,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.VfsLog;
+import org.apache.commons.vfs.operations.FileOperationProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 import org.apache.commons.vfs.util.Messages;
 import org.w3c.dom.Element;
@@ -286,6 +287,14 @@ public class StandardFileSystemManager
             addProvider(provider, false);
         }
 
+        // Add the operation providers
+        final NodeList operationProviders = config.getElementsByTagName("operationProvider");
+        for (int i = 0; i < operationProviders.getLength(); i++)
+        {
+            final Element operationProvider = (Element) operationProviders.item(i);
+            addOperationProvider(operationProvider);
+        }
+        
         // Add the default provider
         final NodeList defProviders = config.getElementsByTagName("default-provider");
         if (defProviders.getLength() > 0)
@@ -371,7 +380,7 @@ public class StandardFileSystemManager
         }
 
         // Create and register the provider
-        final FileProvider provider = createProvider(classname);
+        final FileProvider provider = (FileProvider) createInstance(classname);
         final String[] schemas = getSchemas(providerDef);
         if (schemas.length > 0)
         {
@@ -385,6 +394,26 @@ public class StandardFileSystemManager
         }
     }
 
+    /**
+     * Adds a operationProvider from a operationProvider definition.
+     */
+    private void addOperationProvider(final Element providerDef) throws FileSystemException
+    {
+        final String classname = providerDef.getAttribute("class-name");
+
+        // Attach only to available schemas
+        final String[] schemas = getSchemas(providerDef);
+        for (int i = 0; i < schemas.length; i++)
+        {
+            final String schema = schemas[i];
+            if (hasProvider(schema))
+            {
+                final FileOperationProvider operationProvider = (FileOperationProvider) createInstance(classname);
+            	addOperationProvider(schema, operationProvider);
+            }
+        }
+    }
+    
     /**
      * Tests if a class is available.
      */
@@ -460,17 +489,17 @@ public class StandardFileSystemManager
     /**
      * Creates a provider.
      */
-    private FileProvider createProvider(final String providerClassName)
+    private Object createInstance(final String className)
         throws FileSystemException
     {
         try
         {
-            final Class providerClass = classLoader.loadClass(providerClassName);
-            return (FileProvider) providerClass.newInstance();
+            final Class clazz = classLoader.loadClass(className);
+            return clazz.newInstance();
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.impl/create-provider.error", providerClassName, e);
+            throw new FileSystemException("vfs.impl/create-provider.error", className, e);
         }
     }
 }

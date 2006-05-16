@@ -52,6 +52,11 @@
         <scheme name="res"/>
     </provider>
     <!--
+    <provider class-name="org.apache.commons.vfs.provider.svn.SvnFileProvider">
+        <scheme name="svnhttps"/>
+    </provider>
+    -->
+    <!--
         <provider class-name="org.apache.commons.vfs.provider.tar.TgzFileProvider">
             <scheme name="tgz"/>
             <if-available scheme="gz"/>

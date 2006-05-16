@@ -1,0 +1,40 @@
+package org.apache.commons.vfs.operations;
+
+import org.apache.commons.vfs.FileSystemException;
+
+/**
+ * <p>
+ * A FileOperation is an object that brings an extra functions to a FileObject.
+ * The VFS provides the basic functionality to deal with FileObject's. Tha is
+ * create, delete, rename, copy, etc functions. However, if you are working with
+ * FileSystem and its files are, for example, under Version Control System (VCS)
+ * you might want to get an access to the versioning framework and to be able to
+ * manage your files regarding VCS (e.g. commit them, undate, get logs, etc.).
+ * Such type of extended functionality is provided by FileOperation.
+ * </p>
+ * <p>
+ * The FileOperation interface is a genetic interface that should not be
+ * implemented directly. It rather should be extended by other interfaces that
+ * provide some concrete functions.
+ * </p>
+ * <p>
+ * FileOperation is provided by
+ * 
+ * @see FileOperationProvider Especially the FileOperationProvider is responsible
+ *      for looking up and instantiating any concrete FileOperation.
+ *      </p>
+ * 
+ * @author Siarhei Baidun
+ * @since 0.1
+ */
+public interface FileOperation
+{
+
+	/**
+	 * Performs necessary actions that are related to the concrete
+	 * implementation of a FileOperation.
+	 * 
+	 * @throws FileSystemException
+	 */
+	void process() throws FileSystemException;
+}

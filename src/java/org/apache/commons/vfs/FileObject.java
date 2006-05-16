@@ -18,6 +18,8 @@ package org.apache.commons.vfs;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.commons.vfs.operations.FileOperations;
+
 /**
  * Represents a file, and is used to access the content and
  * structure of the file.
@@ -323,4 +325,12 @@ public interface FileObject
 	 * check if someone reads/write to this file
 	 */
 	public boolean isContentOpen();
+
+	
+	// --- OPERATIONS --
+	/**
+	 * @return FileOperations interface that provides access to the operations API.
+	 * @throws FileSystemException
+	 */
+	FileOperations getFileOperations() throws FileSystemException;
 }

@@ -36,7 +36,7 @@ public class VFS
     }
 
     /**
-     * Returns the default {@link FileSystemManager} instance.
+     * Returns the default {@link FileSystemManager} instance
      */
     public static synchronized FileSystemManager getManager()
         throws FileSystemException

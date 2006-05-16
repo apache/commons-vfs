@@ -26,6 +26,7 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.operations.FileOperations;
 
 /**
  * Base class to build a fileObject decoration
@@ -186,5 +187,10 @@ public class DecoratedFileObject implements FileObject
 	public String toString()
 	{
 		return decoratedFileObject.toString();
+	}
+
+	public FileOperations getFileOperations() throws FileSystemException
+	{
+		return decoratedFileObject.getFileOperations();
 	}
 }

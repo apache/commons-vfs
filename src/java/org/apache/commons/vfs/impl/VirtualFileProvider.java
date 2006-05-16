@@ -41,7 +41,7 @@ public class VirtualFileProvider
             getContext().getFileSystemManager().resolveName(rootFile.getName(), FileName.ROOT_PATH);
         // final FileName rootName =
         //    new BasicFileName(rootFile.getName(), FileName.ROOT_PATH);
-        final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
+        final VirtualFileSystem fs = new VirtualFileSystem(rootName, rootFile.getFileSystem().getFileSystemOptions());
         addComponent(fs);
         fs.addJunction(FileName.ROOT_PATH, rootFile);
         return fs.getRoot();

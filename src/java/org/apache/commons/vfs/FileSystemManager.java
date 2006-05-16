@@ -21,6 +21,8 @@ import java.io.File;
 import java.net.URLStreamHandlerFactory;
 import java.util.Collection;
 
+import org.apache.commons.vfs.operations.FileOperationProvider;
+
 /**
  * A FileSystemManager manages a set of file systems.  This interface is
  * used to locate a {@link FileObject} by name from one of those file systems.
@@ -262,4 +264,37 @@ public interface FileSystemManager
      * @throws FileSystemException if this is not possible
      */
     public FileName resolveURI(String uri) throws FileSystemException;
+
+    // -- OPERATIONS --
+    /**
+     * Adds the specified FileOperationProvider for the specified scheme.
+     * Several FileOperationProvider's might be registered for the same scheme.
+     * For example, for "file" scheme we can register SvnWsOperationProvider and
+     * CvsOperationProvider.
+     *
+     * @param scheme
+     * @param operationProvider
+     * @throws FileSystemException
+     */
+    public void addOperationProvider(final String scheme, final FileOperationProvider operationProvider) throws FileSystemException;
+
+    /**
+     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs.operations.FileOperationProvider)
+     *
+     * @param schemes
+     * @param operationProvider
+     * @throws FileSystemException
+     */
+    public void addOperationProvider(final String[] schemes, final FileOperationProvider operationProvider) throws FileSystemException;
+
+
+    /**
+     * @param scheme the scheme for wich we want to get the list af registered providers.
+     *
+     * @return the registered FileOperationProviders for the specified scheme.
+     * If there were no providers registered for the scheme, it returns null.
+     *
+     * @throws FileSystemException
+     */
+    public FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException; 
 }

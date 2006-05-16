@@ -28,6 +28,8 @@ import org.apache.commons.vfs.FileUtil;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.operations.DefaultFileOperations;
+import org.apache.commons.vfs.operations.FileOperations;
 import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
@@ -77,6 +79,11 @@ public abstract class AbstractFileObject implements FileObject
     // private FileObject[] children;
     private FileName[] children;
     private List objects;
+    
+	/**
+	 * FileServices instance.
+	 */
+	private FileOperations operations;
 
     protected AbstractFileObject(final FileName name,
                                  final AbstractFileSystem fs)
@@ -1564,4 +1571,21 @@ public abstract class AbstractFileObject implements FileObject
     protected void notifyAllStreamsClosed()
     {
     }
+
+	// --- OPERATIONS ---
+
+	/**
+	 * @return FileOperations interface that provides access to the operations
+	 *         API.
+	 * @throws FileSystemException
+	 */
+	public FileOperations getFileOperations() throws FileSystemException
+	{
+		if (operations == null)
+		{
+			operations = new DefaultFileOperations(this);
+		}
+
+		return operations;
+	}
 }
