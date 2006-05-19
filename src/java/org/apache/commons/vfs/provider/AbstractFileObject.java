@@ -845,6 +845,8 @@ public abstract class AbstractFileObject implements FileObject
     public void copyFrom(final FileObject file, final FileSelector selector)
         throws FileSystemException
     {
+    	attach();
+    	
         if (!file.exists())
         {
             throw new FileSystemException("vfs.provider/copy-missing-file.error", file);
@@ -901,6 +903,8 @@ public abstract class AbstractFileObject implements FileObject
      */
     public void moveTo(FileObject destFile) throws FileSystemException
     {
+    	attach();
+    	
         if (canRenameTo(destFile))
         {
 	        if (!getParent().isWriteable())
