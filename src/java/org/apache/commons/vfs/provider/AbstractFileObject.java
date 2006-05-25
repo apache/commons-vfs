@@ -1415,7 +1415,7 @@ public abstract class AbstractFileObject implements FileObject
             if (parentName != null)
             {
                 // Locate the parent, if it is cached
-                parent = (AbstractFileObject) fs.getFileFromCache(parentName);
+                parent = fs.getFileFromCache(parentName);
             }
         }
 

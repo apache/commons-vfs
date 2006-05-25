@@ -487,13 +487,13 @@ public abstract class AbstractFileSystem
             final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
             if (listeners != null)
             {
-                final int count = listeners.size();
-                for (int i = 0; i < count; i++)
+            	FileListener[] fileListeners = (FileListener[]) listeners.toArray(new FileListener[listeners.size()]);
+                for (int i = 0; i < fileListeners.length; i++)
                 {
-                    final FileListener listener = (FileListener) listeners.get(i);
+                    final FileListener fileListener = fileListeners[i];
                     try
                     {
-                        event.notify(listener);
+                        event.notify(fileListener);
                     }
                     catch (final Exception e)
                     {
