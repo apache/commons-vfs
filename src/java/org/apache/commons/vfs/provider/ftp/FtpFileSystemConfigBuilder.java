@@ -34,6 +34,12 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private final static String USER_DIR_IS_ROOT = FtpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
     private final static String DATA_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
 
+    private final static String SERVER_LANGUAGE_CODE = FtpFileSystemConfigBuilder.class.getName() + ".SERVER_LANGUAGE_CODE";
+    private final static String DEFAULT_DATE_FORMAT = FtpFileSystemConfigBuilder.class.getName() + ".DEFAULT_DATE_FORMAT";
+    private final static String RECENT_DATE_FORMAT = FtpFileSystemConfigBuilder.class.getName() + ".RECENT_DATE_FORMAT";
+    private final static String SERVER_TIME_ZONE_ID = FtpFileSystemConfigBuilder.class.getName() + ".SERVER_TIME_ZONE_ID";
+    private final static String SHORT_MONTH_NAMES = FtpFileSystemConfigBuilder.class.getName() + ".SHORT_MONTH_NAMES";
+
     public static FtpFileSystemConfigBuilder getInstance()
     {
         return builder;
@@ -151,5 +157,96 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setDataTimeout(FileSystemOptions opts, Integer dataTimeout)
     {
         setParam(opts, DATA_TIMEOUT, dataTimeout);
+    }
+
+    /**
+     * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * for details and examples.
+     */
+    public String getServerLanguageCode(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, SERVER_LANGUAGE_CODE);
+    }
+
+    /**
+     * set the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * for details and examples.
+     */
+    public void setServerLanguageCode(FileSystemOptions opts, String serverLanguageCode)
+    {
+        setParam(opts, SERVER_LANGUAGE_CODE, serverLanguageCode);
+    }
+
+    /**
+     * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * for details and examples.
+     */
+    public String getDefaultDateFormat(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, DEFAULT_DATE_FORMAT);
+    }
+
+    /**
+     * set the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * for details and examples.
+     */
+    public void setDefaultDateFormat(FileSystemOptions opts, String defaultDateFormat)
+    {
+        setParam(opts, DEFAULT_DATE_FORMAT, defaultDateFormat);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     */
+    public String getRecentDateFormat(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, RECENT_DATE_FORMAT);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     */
+    public void setRecentDateFormat(FileSystemOptions opts, String recentDateFormat)
+    {
+        setParam(opts, RECENT_DATE_FORMAT, recentDateFormat);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     */
+    public String getServerTimeZoneId(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, SERVER_TIME_ZONE_ID);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     */
+    public void setServerTimeZoneId(FileSystemOptions opts, String serverTimeZoneId)
+    {
+        setParam(opts, SERVER_TIME_ZONE_ID, serverTimeZoneId);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     */
+    public String[] getShortMonthNames(FileSystemOptions opts)
+    {
+        return (String[]) getParam(opts, SHORT_MONTH_NAMES);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     */
+    public void setShortMonthNames(FileSystemOptions opts, String[] shortMonthNames)
+    {
+    	String[] clone = null;
+    	if (shortMonthNames != null)
+    	{
+    		clone = new String[shortMonthNames.length];
+    		System.arraycopy(shortMonthNames, 0, clone, 0, shortMonthNames.length);
+    	}
+    	
+        setParam(opts, SHORT_MONTH_NAMES, clone);
     }
 }
