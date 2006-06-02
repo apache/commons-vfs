@@ -503,7 +503,7 @@ public abstract class AbstractFileObject implements FileObject
             }
         }
 
-        synchronized (this)
+        synchronized (fs)
         {
             // Locate the parent of this file
             if (parent == null)
@@ -519,7 +519,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public FileObject[] getChildren() throws FileSystemException
     {
-        synchronized (this)
+        synchronized (fs)
         {
             attach();
             if (!type.hasChildren())
@@ -677,7 +677,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     private boolean deleteSelf() throws FileSystemException
     {
-        synchronized (this)
+        synchronized (fs)
         {
             /* Its possible to delete a read-only file if you have write-execute access to the directory
             if (!isWriteable())
@@ -773,7 +773,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public void createFile() throws FileSystemException
     {
-        synchronized (this)
+        synchronized (fs)
         {
             try
             {
@@ -797,7 +797,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public void createFolder() throws FileSystemException
     {
-        synchronized (this)
+        synchronized (fs)
         {
             if (getType() == FileType.FOLDER)
             {
@@ -1206,7 +1206,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     private void detach() throws Exception
     {
-        synchronized (this)
+        synchronized (fs)
         {
             if (attached)
             {
@@ -1250,7 +1250,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     private void attach() throws FileSystemException
     {
-        synchronized (this)
+        synchronized (fs)
         {
             if (attached)
             {
@@ -1304,7 +1304,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     protected void handleCreate(final FileType newType) throws Exception
     {
-        synchronized (this)
+        synchronized (fs)
         {
             if (attached)
             {
@@ -1332,7 +1332,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     protected void handleDelete() throws Exception
     {
-        synchronized (this)
+        synchronized (fs)
         {
             if (attached)
             {
