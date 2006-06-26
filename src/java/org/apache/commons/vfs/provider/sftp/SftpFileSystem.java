@@ -24,6 +24,8 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
 
@@ -40,7 +42,8 @@ public class SftpFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private Session session;
+
+	private Session session;
     // private final JSch jSch;
     private ChannelSftp idleChannel;
 
@@ -76,15 +79,19 @@ public class SftpFileSystem
         {
             // channel closed. e.g. by freeUnusedResources, but now we need it again
             Session session;
-            try
+			UserAuthenticationData authData = null;
+			try
             {
                 final GenericFileName rootName = (GenericFileName) getRootName();
 
-                session = SftpClientFactory.createConnection(rootName.getHostName(),
-                    rootName.getPort(),
-                    rootName.getUserName(),
-                    rootName.getPassword(),
-                    getFileSystemOptions());
+				authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(), SftpFileProvider.AUTHENTICATOR_TYPES);
+
+				session = SftpClientFactory.createConnection(
+					rootName.getHostName(),
+					rootName.getPort(),
+					UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+					UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+					getFileSystemOptions());
             }
             catch (final Exception e)
             {
@@ -92,8 +99,12 @@ public class SftpFileSystem
                     getRootName(),
                     e);
             }
+			finally
+			{
+				UserAuthenticatorUtils.cleanup(authData);
+			}
 
-            this.session = session;
+			this.session = session;
         }
 
         try

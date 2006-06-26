@@ -25,9 +25,11 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -77,16 +79,43 @@ public class SmbFileObject
 
         String path = smbFileName.getUriWithoutAuth();
 
-        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(
-            smbFileName.getDomain(), smbFileName.getUserName(), smbFileName.getPassword());
-        SmbFile file = new SmbFile(path, auth);
+		UserAuthenticationData authData = null;
+		SmbFile file;
+		NtlmPasswordAuthentication auth;
+		try
+		{
+			authData = UserAuthenticatorUtils.authenticate(getFileSystem().getFileSystemOptions(), SmbFileProvider.AUTHENTICATOR_TYPES);
 
-        if (file.isDirectory() && !file.toString().endsWith("/"))
-        {
-            file = new SmbFile(path + "/", auth);
-        }
+			auth = new NtlmPasswordAuthentication(
+				UserAuthenticatorUtils.toString(
+					UserAuthenticatorUtils.getData(
+						authData,
+						UserAuthenticationData.DOMAIN,
+						UserAuthenticatorUtils.toChar(smbFileName.getDomain()))),
+				UserAuthenticatorUtils.toString(
+					UserAuthenticatorUtils.getData(
+						authData,
+						UserAuthenticationData.USERNAME,
+						UserAuthenticatorUtils.toChar(smbFileName.getUserName()))),
+				UserAuthenticatorUtils.toString(
+					UserAuthenticatorUtils.getData(
+						authData,
+						UserAuthenticationData.USERNAME,
+						UserAuthenticatorUtils.toChar(smbFileName.getPassword()))));
 
-        return file;
+			file = new SmbFile(path, auth);
+		}
+		finally
+		{
+			UserAuthenticatorUtils.cleanup(authData);
+		}
+
+		if (file.isDirectory() && !file.toString().endsWith("/"))
+		{
+			file = new SmbFile(path + "/", auth);
+		}
+
+		return file;
     }
 
     /**

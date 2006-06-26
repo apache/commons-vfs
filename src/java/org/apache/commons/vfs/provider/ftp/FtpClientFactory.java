@@ -22,6 +22,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 import java.io.IOException;
 
@@ -40,17 +41,17 @@ public class FtpClientFactory
     /**
      * Creates a new connection to the server.
      */
-    public static FTPClient createConnection(String hostname, int port, String username, String password, String workingDirectory, FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static FTPClient createConnection(String hostname, int port, char[] username, char[] password, String workingDirectory, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         // Determine the username and password to use
         if (username == null)
         {
-            username = "anonymous";
+            username = "anonymous".toCharArray();
         }
 
         if (password == null)
         {
-            password = "anonymous";
+            password = "anonymous".toCharArray();
         }
 
         try
@@ -117,7 +118,9 @@ public class FtpClientFactory
                 }
 
                 // Login
-                if (!client.login(username, password))
+                if (!client.login(
+					UserAuthenticatorUtils.toString(username),
+					UserAuthenticatorUtils.toString(password)))
                 {
                     throw new FileSystemException("vfs.provider.ftp/login.error", new Object[]{hostname, username}, null);
                 }

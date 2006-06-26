@@ -183,7 +183,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * set the timeout value on jsch session
      *
      * @param opts
-     * @param userDirIsRoot
+     * @param timeout
      */
     public void setTimeout(FileSystemOptions opts, Integer timeout)
     {

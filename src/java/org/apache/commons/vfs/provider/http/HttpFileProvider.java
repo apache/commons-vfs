@@ -22,8 +22,10 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,7 +51,12 @@ public class HttpFileProvider
         Capability.RANDOM_ACCESS_READ
     }));
 
-    public HttpFileProvider()
+	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+		{
+			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+		};
+
+	public HttpFileProvider()
     {
         super();
         setFileNameParser(HttpFileNameParser.getInstance());
@@ -64,13 +71,24 @@ public class HttpFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
-        HttpClient httpClient = HttpClientFactory.createConnection(rootName.getHostName(),
-            rootName.getPort(),
-            rootName.getUserName(),
-            rootName.getPassword(),
-            fileSystemOptions);
+		UserAuthenticationData authData = null;
+		HttpClient httpClient;
+		try
+		{
+			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
-        return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
+			httpClient = HttpClientFactory.createConnection(rootName.getHostName(),
+				rootName.getPort(),
+				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
+				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
+				fileSystemOptions);
+		}
+		finally
+		{
+			UserAuthenticatorUtils.cleanup(authData);
+		}
+
+		return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

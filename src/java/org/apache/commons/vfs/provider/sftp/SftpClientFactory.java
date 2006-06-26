@@ -43,7 +43,7 @@ public class SftpClientFactory
     /**
      * Creates a new connection to the server.
      */
-    public static Session createConnection(String hostname, int port, String username, String password, FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static Session createConnection(String hostname, int port, char[] username, char[] password, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         JSch jsch = new JSch();
 
@@ -125,10 +125,10 @@ public class SftpClientFactory
         Session session;
         try
         {
-            session = jsch.getSession(username,
+            session = jsch.getSession(new String(username),
                     hostname,
                     port);
-            session.setPassword(password);
+            session.setPassword(new String(password));
 
             Integer timeout = SftpFileSystemConfigBuilder.getInstance().getTimeout(fileSystemOptions);
             if (timeout != null)

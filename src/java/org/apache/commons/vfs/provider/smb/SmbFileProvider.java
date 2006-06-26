@@ -20,6 +20,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 
@@ -53,7 +54,12 @@ public class SmbFileProvider
         Capability.RANDOM_ACCESS_WRITE
     }));
 
-    public SmbFileProvider()
+	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+		{
+			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD, UserAuthenticationData.DOMAIN
+		};
+
+	public SmbFileProvider()
     {
         super();
         setFileNameParser(SmbFileNameParser.getInstance());

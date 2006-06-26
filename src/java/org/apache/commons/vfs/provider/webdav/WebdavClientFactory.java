@@ -19,6 +19,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.webdav.lib.WebdavResource;
 
 import java.io.IOException;
@@ -38,14 +39,15 @@ public class WebdavClientFactory
     /**
      * Creates a new connection to the server.
      */
-    public static HttpClient createConnection(String hostname, int port, String username, String password, FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static HttpClient createConnection(String hostname, int port, char[] username, char[] password, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         // Create an Http client
         HttpClient client;
         try
         {
-            final HttpURL url = new HttpURL(username,
-                password,
+            final HttpURL url = new HttpURL(
+				UserAuthenticatorUtils.toString(username),
+                UserAuthenticatorUtils.toString(password),
                 hostname,
                 port,
                 "/");

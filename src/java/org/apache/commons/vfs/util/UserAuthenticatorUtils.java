@@ -1,0 +1,99 @@
+/*
+ * Copyright 2002-2006 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.commons.vfs.util;
+
+import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
+
+/**
+ * some helper
+ */
+public class UserAuthenticatorUtils
+{
+	/**
+	 * gets data of given type from the UserAuthenticationData or null if there is no data or data of this type available
+	 */
+	public static char[] getData(UserAuthenticationData data, UserAuthenticationData.Type type, char[] defaultValue)
+	{
+		if (data == null)
+		{
+			return defaultValue;
+		}
+
+		char[] ret = data.getData(type);
+		if (ret == null)
+		{
+			return defaultValue;
+		}
+
+		return ret;
+	}
+
+	/**
+	 * if there is a authenticator the authentication will take place, else null will be reutrned
+	 */
+	public static UserAuthenticationData authenticate(FileSystemOptions opts, UserAuthenticationData.Type[] authenticatorTypes)
+	{
+		UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
+		if (auth == null)
+		{
+			return null;
+		}
+
+		return auth.requestAuthentication(authenticatorTypes);
+	}
+
+	/**
+	 * converts a string to a char array (null safe)
+	 */
+	public static char[] toChar(String string)
+	{
+		if (string == null)
+		{
+			return null;
+		}
+
+		return string.toCharArray();
+	}
+
+	/**
+	 * cleanup the data in the UerAuthenticationData (null safe)
+	 */
+	public static void cleanup(UserAuthenticationData authData)
+	{
+		if (authData == null)
+		{
+			return;
+		}
+
+		authData.cleanup();
+	}
+
+	/**
+	 * converts the given data to a string (null safe)
+	 */
+	public static String toString(char[] data)
+	{
+		if (data == null)
+		{
+			return null;
+		}
+
+		return new String(data);
+	}
+}

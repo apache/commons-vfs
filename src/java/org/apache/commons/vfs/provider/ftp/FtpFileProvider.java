@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
 
@@ -54,7 +55,12 @@ public class FtpFileProvider
         Capability.RANDOM_ACCESS_READ,
     }));
 
-    public FtpFileProvider()
+	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+		{
+			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+		};
+
+	public FtpFileProvider()
     {
         super();
         setFileNameParser(FtpFileNameParser.getInstance());

@@ -21,6 +21,8 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.http.HttpFileNameParser;
@@ -53,7 +55,12 @@ public class WebdavFileProvider
         Capability.RANDOM_ACCESS_READ
     }));
 
-    public WebdavFileProvider()
+	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+		{
+			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+		};
+
+	public WebdavFileProvider()
     {
         super();
 
@@ -69,13 +76,25 @@ public class WebdavFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
-        HttpClient httpClient = WebdavClientFactory.createConnection(rootName.getHostName(),
-            rootName.getPort(),
-            rootName.getUserName(),
-            rootName.getPassword(),
-            fileSystemOptions);
+		UserAuthenticationData authData = null;
+		HttpClient httpClient;
+		try
+		{
+			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
-        return new WebDavFileSystem(rootName, httpClient, fileSystemOptions);
+			httpClient = WebdavClientFactory.createConnection(
+				rootName.getHostName(),
+				rootName.getPort(),
+				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+				fileSystemOptions);
+		}
+		finally
+		{
+			UserAuthenticatorUtils.cleanup(authData);
+		}
+
+		return new WebDavFileSystem(rootName, httpClient, fileSystemOptions);
     }
 
     public Collection getCapabilities()

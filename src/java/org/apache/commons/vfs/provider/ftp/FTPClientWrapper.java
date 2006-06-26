@@ -19,7 +19,10 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,15 +60,25 @@ class FTPClientWrapper implements FtpClient
     {
         final GenericFileName rootName = getRoot();
 
-        return FtpClientFactory.createConnection(rootName.getHostName(),
-            rootName.getPort(),
-            rootName.getUserName(),
-            rootName.getPassword(),
-            rootName.getPath(),
-            getFileSystemOptions());
-    }
+		UserAuthenticationData authData = null;
+		try
+		{
+			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, FtpFileProvider.AUTHENTICATOR_TYPES);
 
-    private FTPClient getFtpClient() throws FileSystemException
+			return FtpClientFactory.createConnection(rootName.getHostName(),
+				rootName.getPort(),
+				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+				rootName.getPath(),
+				getFileSystemOptions());
+		}
+		finally
+		{
+			UserAuthenticatorUtils.cleanup(authData);
+		}
+	}
+
+	private FTPClient getFtpClient() throws FileSystemException
     {
         if (ftpClient == null)
         {

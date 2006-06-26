@@ -22,6 +22,8 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
 
@@ -54,8 +56,13 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     }));
 
     public final static String ATTR_USER_INFO = "UI";
+	
+	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+		{
+			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+		};
 
-    // private JSch jSch = new JSch();
+	// private JSch jSch = new JSch();
 
     public SftpFileProvider()
     {
@@ -74,13 +81,17 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         final GenericFileName rootName = (GenericFileName) name;
 
         Session session;
+		UserAuthenticationData authData = null;
         try
         {
-            session = SftpClientFactory.createConnection(rootName.getHostName(),
-                rootName.getPort(),
-                rootName.getUserName(),
-                rootName.getPassword(),
-                fileSystemOptions);
+			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
+
+			session = SftpClientFactory.createConnection(
+				rootName.getHostName(),
+				rootName.getPort(),
+				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+				fileSystemOptions);
         }
         catch (final Exception e)
         {
@@ -88,8 +99,12 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
                 name,
                 e);
         }
+		finally
+		{
+			UserAuthenticatorUtils.cleanup(authData);
+		}
 
-        return new SftpFileSystem(rootName, session, fileSystemOptions);
+		return new SftpFileSystem(rootName, session, fileSystemOptions);
     }
 
 
