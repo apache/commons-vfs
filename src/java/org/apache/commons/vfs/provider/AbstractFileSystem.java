@@ -33,7 +33,7 @@ import org.apache.commons.vfs.cache.OnCallRefreshFileObject;
 import org.apache.commons.vfs.events.AbstractFileChangeEvent;
 import org.apache.commons.vfs.events.ChangedEvent;
 import org.apache.commons.vfs.events.CreateEvent;
-import org.apache.commons.vfs.events.DeleteEventAbstractFile;
+import org.apache.commons.vfs.events.DeleteEvent;
 import org.apache.commons.vfs.util.Messages;
 
 import java.io.File;
@@ -452,7 +452,7 @@ public abstract class AbstractFileSystem
      */
     public void fireFileDeleted(final FileObject file)
     {
-        fireEvent(new DeleteEventAbstractFile(file));
+        fireEvent(new DeleteEvent(file));
     }
 
     /**
