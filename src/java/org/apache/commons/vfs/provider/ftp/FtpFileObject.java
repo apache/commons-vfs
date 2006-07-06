@@ -29,6 +29,7 @@ import org.apache.commons.vfs.util.Messages;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.util.FileObjectUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -170,7 +171,7 @@ public class FtpFileObject
      */
     private void getInfo(boolean flush) throws IOException
     {
-        final FtpFileObject parent = (FtpFileObject) getParent();
+        final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
         FTPFile newFileInfo;
         if (parent != null)
         {
