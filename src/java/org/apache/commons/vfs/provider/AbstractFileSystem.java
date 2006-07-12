@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * A partial {@link org.apache.commons.vfs.FileSystem} implementation.
@@ -297,7 +298,7 @@ public abstract class AbstractFileSystem
             {
                 throw new FileSystemException("vfs.provider/resolve-file.error", name, e);
             }
-            
+
             file = decorateFileObject(file);
 
             // imario@apache.org ==> use putFileToCache
@@ -318,13 +319,33 @@ public abstract class AbstractFileSystem
         return file;
     }
 
-    protected FileObject decorateFileObject(FileObject file)
+    protected FileObject decorateFileObject(FileObject file)  throws FileSystemException
 	{
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_CALL))
         {
-        	return new OnCallRefreshFileObject(file);
+        	file = new OnCallRefreshFileObject(file);
         }
-        
+
+        if (getFileSystemManager().getFileObjectDecoratorConst() != null)
+        {
+            try
+            {
+                file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst().newInstance(new Object[]{file});
+            }
+            catch (InstantiationException e)
+            {
+                throw new FileSystemException("vfs.impl/invalid-decorator.error", getFileSystemManager().getFileObjectDecorator().getName(), e);
+            }
+            catch (IllegalAccessException e)
+            {
+                throw new FileSystemException("vfs.impl/invalid-decorator.error", getFileSystemManager().getFileObjectDecorator().getName(), e);
+            }
+            catch (InvocationTargetException e)
+            {
+                throw new FileSystemException("vfs.impl/invalid-decorator.error", getFileSystemManager().getFileObjectDecorator().getName(), e);
+            }
+        }
+
         return file;
 	}
 

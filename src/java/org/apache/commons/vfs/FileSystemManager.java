@@ -1,12 +1,12 @@
 /*
  * Copyright 2002-2005 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import java.io.File;
 import java.net.URLStreamHandlerFactory;
 import java.util.Collection;
+import java.lang.reflect.Constructor;
 
 import org.apache.commons.vfs.operations.FileOperationProvider;
 
@@ -223,12 +224,23 @@ public interface FileSystemManager
      * Get the cache used to cache fileobjects.
      */
 	public FilesCache getFilesCache();
-    
+
     /**
      * Get the cache strategy used
      */
     public CacheStrategy getCacheStrategy();
 
+    /**
+     * Get the file object decorator used
+     */
+    public Class getFileObjectDecorator();
+
+    /**
+     * The constructor associated to the fileObjectDecorator.
+     * We cache it here for performance reasons.
+     */
+    public Constructor getFileObjectDecoratorConst();
+    
     /**
      * The class to use to determine the content-type (mime-type)
      */
@@ -296,5 +308,5 @@ public interface FileSystemManager
      *
      * @throws FileSystemException
      */
-    public FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException; 
+    public FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException;
 }

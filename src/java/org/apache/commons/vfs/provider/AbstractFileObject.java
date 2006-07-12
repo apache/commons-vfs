@@ -79,7 +79,7 @@ public abstract class AbstractFileObject implements FileObject
     // private FileObject[] children;
     private FileName[] children;
     private List objects;
-    
+
 	/**
 	 * FileServices instance.
 	 */
@@ -397,8 +397,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public boolean exists() throws FileSystemException
     {
-        attach();
-        return (type != FileType.IMAGINARY);
+        return (getType() != FileType.IMAGINARY);
     }
 
     /**
@@ -406,8 +405,11 @@ public abstract class AbstractFileObject implements FileObject
      */
     public FileType getType() throws FileSystemException
     {
-        attach();
-        return type;
+        synchronized (fs)
+        {
+            attach();
+            return type;
+        }
     }
 
     /**
@@ -417,7 +419,6 @@ public abstract class AbstractFileObject implements FileObject
     {
         try
         {
-            attach();
             if (exists())
             {
                 return doIsHidden();
@@ -440,7 +441,6 @@ public abstract class AbstractFileObject implements FileObject
     {
         try
         {
-            attach();
             if (exists())
             {
                 return doIsReadable();
@@ -463,7 +463,6 @@ public abstract class AbstractFileObject implements FileObject
     {
         try
         {
-            attach();
             if (exists())
             {
                 return doIsWriteable();
@@ -521,8 +520,7 @@ public abstract class AbstractFileObject implements FileObject
     {
         synchronized (fs)
         {
-            attach();
-            if (!type.hasChildren())
+            if (!getType().hasChildren())
             {
                 throw new FileSystemException("vfs.provider/list-children-not-folder.error", name);
             }
@@ -845,8 +843,6 @@ public abstract class AbstractFileObject implements FileObject
     public void copyFrom(final FileObject file, final FileSelector selector)
         throws FileSystemException
     {
-    	attach();
-    	
         if (!file.exists())
         {
             throw new FileSystemException("vfs.provider/copy-missing-file.error", file);
@@ -903,8 +899,6 @@ public abstract class AbstractFileObject implements FileObject
      */
     public void moveTo(FileObject destFile) throws FileSystemException
     {
-    	attach();
-    	
         if (canRenameTo(destFile))
         {
 	        if (!getParent().isWriteable())
@@ -1009,16 +1003,19 @@ public abstract class AbstractFileObject implements FileObject
      */
     public FileContent getContent() throws FileSystemException
     {
-        attach();
-        if (content == null)
+        synchronized(fs)
         {
-            content = new DefaultFileContent(this, getFileContentInfoFactory());
+            attach();
+            if (content == null)
+            {
+                content = new DefaultFileContent(this, getFileContentInfoFactory());
+            }
+            return content;
         }
-        return content;
     }
 
     /**
-     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required 
+     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required
      */
     public void refresh() throws FileSystemException
     {
@@ -1032,7 +1029,7 @@ public abstract class AbstractFileObject implements FileObject
             throw new FileSystemException("vfs.provider/resync.error", name, e);
         }
     }
-    
+
     /**
      * Closes this file, and its content.
      */
@@ -1074,8 +1071,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public InputStream getInputStream() throws FileSystemException
     {
-        attach();
-        if (!type.hasContent())
+        if (!getType().hasContent())
         {
             throw new FileSystemException("vfs.provider/read-not-file.error", name);
         }
@@ -1101,8 +1097,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
     {
-        attach();
-        if (!type.hasContent())
+        if (!getType().hasContent())
         {
             throw new FileSystemException("vfs.provider/read-not-file.error", name);
         }

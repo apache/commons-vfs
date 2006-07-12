@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.lang.reflect.Constructor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs.CacheStrategy;
@@ -53,7 +54,7 @@ import org.apache.commons.vfs.provider.VfsComponent;
 
 /**
  * A default file system manager implementation.
- * 
+ *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date: 2006-03-30 21:16:24 +0200 (Do, 30 Mrz
  *          2006) $
@@ -90,7 +91,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 	 */
 	private FileObject baseFile;
 
-	/**
+    /**
 	 * The files cache
 	 */
 	private FilesCache filesCache;
@@ -100,7 +101,13 @@ public class DefaultFileSystemManager implements FileSystemManager
 	 */
 	private CacheStrategy fileCacheStrategy;
 
-	/**
+    /**
+     * Class which decorates all returned fileObjects
+     */
+    private Class fileObjectDecorator;
+    private Constructor fileObjectDecoratorConst;
+
+    /**
 	 * The class to use to determine the content-type (mime-type)
 	 */
 	private FileContentInfoFactory fileContentInfoFactory;
@@ -132,7 +139,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 	/**
 	 * Registers a file system provider. The manager takes care of all lifecycle
 	 * management. A provider may be registered multiple times.
-	 * 
+	 *
 	 * @param urlScheme
 	 *            The scheme the provider will handle.
 	 * @param provider
@@ -148,7 +155,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 	/**
 	 * Registers a file system provider. The manager takes care of all lifecycle
 	 * management. A provider may be registered multiple times.
-	 * 
+	 *
 	 * @param urlSchemes
 	 *            The schemes the provider will handle.
 	 * @param provider
@@ -194,7 +201,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * Adds an filename extension mapping.
-	 * 
+	 *
 	 * @param extension
 	 *            The file name extension.
 	 * @param scheme
@@ -207,7 +214,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * Adds a mime type mapping.
-	 * 
+	 *
 	 * @param mimeType
 	 *            The mime type.
 	 * @param scheme
@@ -259,7 +266,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 	 * <p>
 	 * The default is {@link CacheStrategy#ON_RESOLVE}
 	 * </p>
-	 * 
+	 *
 	 * @throws FileSystemException
 	 *             if this is not possible. e.g. it is already set.
 	 */
@@ -282,7 +289,53 @@ public class DefaultFileSystemManager implements FileSystemManager
 		return fileCacheStrategy;
 	}
 
-	/**
+    /**
+     * Get the file object decorator used
+     */
+    public Class getFileObjectDecorator()
+    {
+        return fileObjectDecorator;
+    }
+
+    /**
+     * The constructor associated to the fileObjectDecorator.
+     * We cache it here for performance reasons.
+     */
+    public Constructor getFileObjectDecoratorConst()
+    {
+        return fileObjectDecoratorConst;
+    }
+
+    /**
+     * set a fileObject decorator to be used for ALL returned file objects
+     *
+     * @param fileObjectDecorator must be inherted from {@link DecoratedFileObject} a has to provide a
+     * constructor with a single {@link FileObject} as argument
+     */
+    public void setFileObjectDecorator(Class fileObjectDecorator) throws FileSystemException
+    {
+        if (init)
+        {
+            throw new FileSystemException("vfs.impl/already-inited.error");
+        }
+        if (!DecoratedFileObject.class.isAssignableFrom(fileObjectDecorator))
+        {
+            throw new FileSystemException("vfs.impl/invalid-decorator.error", fileObjectDecorator.getName());
+        }
+
+        try
+        {
+            fileObjectDecoratorConst = fileObjectDecorator.getConstructor(new Class[]{FileObject.class});
+        }
+        catch (NoSuchMethodException e)
+        {
+            throw new FileSystemException("vfs.impl/invalid-decorator.error", fileObjectDecorator.getName(), e);
+        }
+
+        this.fileObjectDecorator = fileObjectDecorator;
+    }
+
+    /**
 	 * get the fileContentInfoFactory used to determine the infos of a file
 	 * content.
 	 */
@@ -374,7 +427,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * Returns the file replicator.
-	 * 
+	 *
 	 * @return The file replicator. Never returns null.
 	 */
 	public FileReplicator getReplicator() throws FileSystemException
@@ -388,7 +441,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * Returns the temporary file store.
-	 * 
+	 *
 	 * @return The file store. Never returns null.
 	 */
 	public TemporaryFileStore getTemporaryFileStore()
@@ -632,7 +685,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * Resolves a name, relative to the root.
-	 * 
+	 *
 	 * @param base
 	 *            the base filename
 	 * @param name
@@ -715,7 +768,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * resolve the uri to a filename
-	 * 
+	 *
 	 * @throws FileSystemException
 	 */
 	public FileName resolveURI(String uri) throws FileSystemException
@@ -812,7 +865,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * Determines if a layered file system can be created for a given file.
-	 * 
+	 *
 	 * @param file
 	 *            The file to check for.
 	 */
@@ -895,14 +948,14 @@ public class DefaultFileSystemManager implements FileSystemManager
 	 */
 	public String[] getSchemes()
 	{
-		String schemes[] = new String[providers.size()];
+		String[] schemes = new String[providers.size()];
 		providers.keySet().toArray(schemes);
 		return schemes;
 	}
 
 	/**
 	 * Get the capabilities for a given scheme.
-	 * 
+	 *
 	 * @throws FileSystemException
 	 *             if the given scheme is not konwn
 	 */
@@ -922,7 +975,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
 	/**
 	 * Get the configuration builder for the given scheme
-	 * 
+	 *
 	 * @throws FileSystemException
 	 *             if the given scheme is not konwn
 	 */
@@ -949,7 +1002,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 	 * Several FileOperationProvider's might be registered for the same scheme.
 	 * For example, for "file" scheme we can register SvnWsOperationProvider and
 	 * CvsOperationProvider.
-	 * 
+	 *
 	 * @param scheme
 	 * @param operationProvider
 	 * @throws FileSystemException
@@ -965,7 +1018,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 	/**
 	 * @see FileSystemManager#addOperationProvider(String,
 	 *      org.apache.commons.vfs.operations.FileOperationProvider)
-	 * 
+	 *
 	 * @param schemes
 	 * @param operationProvider
 	 * @throws FileSystemException
@@ -1003,11 +1056,11 @@ public class DefaultFileSystemManager implements FileSystemManager
 	 * @param scheme
 	 *            the scheme for wich we want to get the list af registered
 	 *            providers.
-	 * 
+	 *
 	 * @return the registered FileOperationProviders for the specified scheme.
 	 *         If there were no providers registered for the scheme, it returns
 	 *         null.
-	 * 
+	 *
 	 * @throws FileSystemException
 	 */
 	public FileOperationProvider[] getOperationProviders(final String scheme)
