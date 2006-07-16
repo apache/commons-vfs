@@ -212,7 +212,7 @@
     </mkdir>
     <get dest="${libdir}/ant/jars/ant-1.6.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/ant/jars/ant-1.6.2.jar">
     </get>
-    <get dest="${libdir}/ant/jars/ant-1.6.2.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/ant/jars/ant-1.6.2.jar">
+    <get dest="${libdir}/ant/jars/ant-1.6.2.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/ant/jars/ant-1.6.2.jar">
     </get>
   </target>
   <target name="get-custom-dep-ant.jar" if="ant.jar" depends="init,setProxy,noProxy">
@@ -226,7 +226,7 @@
     </mkdir>
     <get dest="${libdir}/commons-net/jars/commons-net-1.4.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-net/jars/commons-net-1.4.1.jar">
     </get>
-    <get dest="${libdir}/commons-net/jars/commons-net-1.4.1.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/commons-net/jars/commons-net-1.4.1.jar">
+    <get dest="${libdir}/commons-net/jars/commons-net-1.4.1.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/commons-net/jars/commons-net-1.4.1.jar">
     </get>
   </target>
   <target name="get-custom-dep-commons-net.jar" if="commons-net.jar" depends="init,setProxy,noProxy">
@@ -240,7 +240,7 @@
     </mkdir>
     <get dest="${libdir}/commons-logging/jars/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-logging/jars/commons-logging-1.0.4.jar">
     </get>
-    <get dest="${libdir}/commons-logging/jars/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/commons-logging/jars/commons-logging-1.0.4.jar">
+    <get dest="${libdir}/commons-logging/jars/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/commons-logging/jars/commons-logging-1.0.4.jar">
     </get>
   </target>
   <target name="get-custom-dep-commons-logging.jar" if="commons-logging.jar" depends="init,setProxy,noProxy">
@@ -254,7 +254,7 @@
     </mkdir>
     <get dest="${libdir}/commons-compress/jars/commons-compress-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-compress/jars/commons-compress-SNAPSHOT.jar">
     </get>
-    <get dest="${libdir}/commons-compress/jars/commons-compress-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/commons-compress/jars/commons-compress-SNAPSHOT.jar">
+    <get dest="${libdir}/commons-compress/jars/commons-compress-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/commons-compress/jars/commons-compress-SNAPSHOT.jar">
     </get>
   </target>
   <target name="get-custom-dep-commons-compress.jar" if="commons-compress.jar" depends="init,setProxy,noProxy">
@@ -268,7 +268,7 @@
     </mkdir>
     <get dest="${libdir}/commons-collections/jars/commons-collections-3.1.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-collections/jars/commons-collections-3.1.jar">
     </get>
-    <get dest="${libdir}/commons-collections/jars/commons-collections-3.1.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/commons-collections/jars/commons-collections-3.1.jar">
+    <get dest="${libdir}/commons-collections/jars/commons-collections-3.1.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/commons-collections/jars/commons-collections-3.1.jar">
     </get>
   </target>
   <target name="get-custom-dep-commons-collections.jar" if="commons-collections.jar" depends="init,setProxy,noProxy">
@@ -282,7 +282,7 @@
     </mkdir>
     <get dest="${libdir}/jcifs/jars/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jcifs/jars/jcifs-0.8.3.jar">
     </get>
-    <get dest="${libdir}/jcifs/jars/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/jcifs/jars/jcifs-0.8.3.jar">
+    <get dest="${libdir}/jcifs/jars/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/jcifs/jars/jcifs-0.8.3.jar">
     </get>
   </target>
   <target name="get-custom-dep-jcifs.jar" if="jcifs.jar" depends="init,setProxy,noProxy">
@@ -296,7 +296,7 @@
     </mkdir>
     <get dest="${libdir}/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar">
     </get>
-    <get dest="${libdir}/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar">
+    <get dest="${libdir}/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/slide/jars/jakarta-slide-webdavlib-20050629.161100.jar">
     </get>
   </target>
   <target name="get-custom-dep-jakarta-slide-webdavlib.jar" if="jakarta-slide-webdavlib.jar" depends="init,setProxy,noProxy">
@@ -310,7 +310,7 @@
     </mkdir>
     <get dest="${libdir}/jdom/jars/jdom-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/jdom/jars/jdom-1.0.jar">
     </get>
-    <get dest="${libdir}/jdom/jars/jdom-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/jdom/jars/jdom-1.0.jar">
+    <get dest="${libdir}/jdom/jars/jdom-1.0.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/jdom/jars/jdom-1.0.jar">
     </get>
   </target>
   <target name="get-custom-dep-jdom.jar" if="jdom.jar" depends="init,setProxy,noProxy">
@@ -324,7 +324,7 @@
     </mkdir>
     <get dest="${libdir}/commons-httpclient/jars/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/commons-httpclient/jars/commons-httpclient-2.0.2.jar">
     </get>
-    <get dest="${libdir}/commons-httpclient/jars/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/commons-httpclient/jars/commons-httpclient-2.0.2.jar">
+    <get dest="${libdir}/commons-httpclient/jars/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/commons-httpclient/jars/commons-httpclient-2.0.2.jar">
     </get>
   </target>
   <target name="get-custom-dep-commons-httpclient.jar" if="commons-httpclient.jar" depends="init,setProxy,noProxy">
@@ -338,7 +338,7 @@
     </mkdir>
     <get dest="${libdir}/com.jcraft/jars/jsch-0.1.23.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/com.jcraft/jars/jsch-0.1.23.jar">
     </get>
-    <get dest="${libdir}/com.jcraft/jars/jsch-0.1.23.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/com.jcraft/jars/jsch-0.1.23.jar">
+    <get dest="${libdir}/com.jcraft/jars/jsch-0.1.23.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/com.jcraft/jars/jsch-0.1.23.jar">
     </get>
   </target>
   <target name="get-custom-dep-jsch.jar" if="jsch.jar" depends="init,setProxy,noProxy">
@@ -352,7 +352,7 @@
     </mkdir>
     <get dest="${libdir}/xml-apis/jars/xml-apis-1.0.b2.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/xml-apis/jars/xml-apis-1.0.b2.jar">
     </get>
-    <get dest="${libdir}/xml-apis/jars/xml-apis-1.0.b2.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/xml-apis/jars/xml-apis-1.0.b2.jar">
+    <get dest="${libdir}/xml-apis/jars/xml-apis-1.0.b2.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/xml-apis/jars/xml-apis-1.0.b2.jar">
     </get>
   </target>
   <target name="get-custom-dep-xml-apis.jar" if="xml-apis.jar" depends="init,setProxy,noProxy">
@@ -366,7 +366,7 @@
     </mkdir>
     <get dest="${libdir}/oro/jars/oro-2.0.8.jar" usetimestamp="true" ignoreerrors="true" src="http://www.ibiblio.org/maven/oro/jars/oro-2.0.8.jar">
     </get>
-    <get dest="${libdir}/oro/jars/oro-2.0.8.jar" usetimestamp="true" ignoreerrors="true" src="http://cvs.apache.org/repository/oro/jars/oro-2.0.8.jar">
+    <get dest="${libdir}/oro/jars/oro-2.0.8.jar" usetimestamp="true" ignoreerrors="true" src="http://people.apache.org/repository/oro/jars/oro-2.0.8.jar">
     </get>
   </target>
   <target name="get-custom-dep-oro.jar" if="oro.jar" depends="init,setProxy,noProxy">
