@@ -9,7 +9,7 @@
         <section name="Download">
             <p>
                 Nightly builds of Commons VFS can be found
-                <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
+                <a href="http://people.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
                 .
             </p>
             <p>
@@ -135,7 +135,7 @@
                 </li>
                 <li>
                     Download a nightly source snapshot from
-                    <a href="http://cvs.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
+                    <a href="http://people.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
                     .
                 </li>
             </ul>
