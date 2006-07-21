@@ -80,10 +80,10 @@ public abstract class AbstractFileObject implements FileObject
     private FileName[] children;
     private List objects;
 
-	/**
-	 * FileServices instance.
-	 */
-	private FileOperations operations;
+    /**
+     * FileServices instance.
+     */
+    private FileOperations operations;
 
     protected AbstractFileObject(final FileName name,
                                  final AbstractFileSystem fs)
@@ -561,7 +561,7 @@ public abstract class AbstractFileObject implements FileObject
 
             if (files == null)
             {
-            	return null;
+                return null;
             }
             else if (files.length == 0)
             {
@@ -775,6 +775,11 @@ public abstract class AbstractFileObject implements FileObject
         {
             try
             {
+                if (exists() && !FileType.FILE.equals(getType()))
+                {
+                    throw new FileSystemException("vfs.provider/create-file.error", name);
+                }
+
                 if (!exists())
                 {
                     getOutputStream().close();
@@ -904,17 +909,17 @@ public abstract class AbstractFileObject implements FileObject
     {
         if (canRenameTo(destFile))
         {
-	        if (!getParent().isWriteable())
-	        {
-	            throw new FileSystemException("vfs.provider/rename-parent-read-only.error", new FileName[] {getName(), getParent().getName()});
-	        }
+            if (!getParent().isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/rename-parent-read-only.error", new FileName[]{getName(), getParent().getName()});
+            }
         }
         else
         {
-	        if (!isWriteable())
-	        {
-	            throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
-	        }
+            if (!isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
+            }
         }
         if (destFile.exists())
         {
@@ -927,6 +932,7 @@ public abstract class AbstractFileObject implements FileObject
             // issue rename on same filesystem
             try
             {
+                attach();
                 doRename(destFile);
 
                 ((AbstractFileObject) destFile).handleCreate(getType());
@@ -1006,7 +1012,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public FileContent getContent() throws FileSystemException
     {
-        synchronized(fs)
+        synchronized (fs)
         {
             attach();
             if (content == null)
@@ -1364,7 +1370,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Notifies the file that its children have changed.
      *
-     * @deprecated use {@link #childrenChanged(FileName, FileType)}
+     * @deprecated use {@link #childrenChanged(FileName,FileType)}
      */
     protected void childrenChanged() throws Exception
     {
@@ -1574,20 +1580,20 @@ public abstract class AbstractFileObject implements FileObject
     {
     }
 
-	// --- OPERATIONS ---
+    // --- OPERATIONS ---
 
-	/**
-	 * @return FileOperations interface that provides access to the operations
-	 *         API.
-	 * @throws FileSystemException
-	 */
-	public FileOperations getFileOperations() throws FileSystemException
-	{
-		if (operations == null)
-		{
-			operations = new DefaultFileOperations(this);
-		}
+    /**
+     * @return FileOperations interface that provides access to the operations
+     *         API.
+     * @throws FileSystemException
+     */
+    public FileOperations getFileOperations() throws FileSystemException
+    {
+        if (operations == null)
+        {
+            operations = new DefaultFileOperations(this);
+        }
 
-		return operations;
-	}
+        return operations;
+    }
 }
