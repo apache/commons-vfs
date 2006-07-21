@@ -775,8 +775,11 @@ public abstract class AbstractFileObject implements FileObject
         {
             try
             {
-                getOutputStream().close();
-                endOutput();
+                if (!exists())
+                {
+                    getOutputStream().close();
+                    endOutput();
+                }
             }
             catch (final RuntimeException re)
             {
