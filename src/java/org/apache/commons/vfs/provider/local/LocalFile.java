@@ -41,15 +41,19 @@ public class LocalFile
     extends AbstractFileObject
     implements FileObject
 {
+    private final String rootFile;
+
     private File file;
 
     /**
      * Creates a non-root file.
      */
     protected LocalFile(final LocalFileSystem fileSystem,
+                        final String rootFile,
                         final FileName name) throws FileSystemException
     {
         super(name, fileSystem);
+        this.rootFile = rootFile;
     }
 
     /**
@@ -69,8 +73,8 @@ public class LocalFile
         if (file == null)
         {
             // Remove the "file:///"
-            LocalFileName localFileName = (LocalFileName) getName();
-            String fileName = localFileName.getRootFile() + getName().getPathDecoded();
+            // LocalFileName localFileName = (LocalFileName) getName();
+            String fileName = rootFile + getName().getPathDecoded();
             // fileName = UriParser.decode(fileName);
             file = new File(fileName);
         }
@@ -88,7 +92,7 @@ public class LocalFile
         {
             return FileType.IMAGINARY;
         }
-        
+
         if (file.isDirectory())
         {
             return FileType.FOLDER;

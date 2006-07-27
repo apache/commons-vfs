@@ -53,7 +53,7 @@ public class LocalFileSystem
     protected FileObject createFile(final FileName name) throws FileSystemException
     {
         // Create the file
-        return new LocalFile(this, name);
+        return new LocalFile(this, rootFile, name);
     }
 
     /**
