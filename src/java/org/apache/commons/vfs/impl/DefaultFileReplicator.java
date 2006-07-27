@@ -74,7 +74,9 @@ public final class DefaultFileReplicator
     {
         if (tempDir == null)
         {
-            tempDir = new File("vfs_cache").getAbsoluteFile();
+            String baseTmpDir = System.getProperty("java.io.tmpdir");
+
+            tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
         }
 
         filecount = new Random().nextInt() & 0xffff;
