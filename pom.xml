@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006 The Apache Software Foundation.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-vfs</artifactId>
+  <name>Commons VFS</name>
+  <packaging>jar</packaging>
+  <version>1.0-RC8-SNAPSHOT</version>
+  <url>http://jakarta.apache.org/commons/vfs/</url>
+  <inceptionYear>2002</inceptionYear>
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <description>VFS is a Virtual File System library.</description>
+  <issueManagement>
+    <system>jira</system>
+    <url>https://issues.apache.org/jira/browse/VFS</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</developerConnection>
+    <url>http://svn.apache.org/viewcvs.cgi</url> 
+  </scm>
+  <developers>
+    <developer>
+      <name>Adam Murdoch</name>
+      <id>adammurdoch</id>
+      <email>adammurdoch -at- apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <name>James Strachan</name>
+      <id>jstrachan</id>
+      <email>jstrachan -at- apache.org</email>
+      <organization>SpiritSoft, Inc.</organization>
+    </developer>
+    <developer>
+      <name>Mario Ivankovits</name>
+      <id>imario</id>
+      <email>imario -at- apache.org</email>
+      <organization>OPS EDV Gmbh</organization>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Rami Ojares</name>
+      <email>rami.ojares -at- elisa.fi</email>
+    </contributor>
+    <contributor>
+      <name>Anthony Goubard</name>
+      <email>adagoubard -at- chello.nl</email>
+    </contributor>
+    <contributor>
+      <name>Christopher Ottley</name>
+      <email>xknight -at- users.sourceforge.net</email>
+    </contributor>
+  </contributors>
+  <dependencies>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.6.2</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>1.4.1</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-compress</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>SNAPSHOT</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.1</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>jcifs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>0.8.3</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>slide</groupId>
+      <artifactId>jakarta-slide-webdavlib</artifactId>
+      <version>20050629.161100</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>2.0.2</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.23</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
+      <version>1.0.b2</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>oro</groupId>
+      <artifactId>oro</artifactId>
+      <version>2.0.8</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>apache.snapshots</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://people.apache.org/maven-snapshot-repository</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>apache.m1</id>
+      <name>Apache Maven 1 Repository</name>
+      <url>http://people.apache.org/repository</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
+  <distributionManagement>
+    <repository>
+      <id>apache.releases</id>
+      <name>Apache Release Distribution Repository</name>
+      <url>scp://people.apache.org/www/www.apache.org/dist/maven-repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>apache.snapshots</id>
+      <name>Apache Development Snapshot Repository</name>
+      <url>scp://people.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
+    </snapshotRepository>
+    <site>
+      <id>apache.website</id>
+      <url>scp://people.apache.org/www/jakarta.apache.org/commons/vfs/</url>
+    </site>
+  </distributionManagement>
+  <mailingLists>
+    <mailingList>
+      <name>Commons Dev List</name>
+      <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-dev/</archive>
+    </mailingList>
+    <mailingList>
+      <name>Commons User List</name>
+      <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
+      <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-user/</archive>
+    </mailingList>
+  </mailingLists>
+
+  <!-- Note: It would be better to fix the directory structure to comply with the Maven
+       recommended directory structure:
+       
+       src/main/java (instead of src/java)
+       src/main/resources (instead of putting them in src/java)
+       src/test/java (instead of src/test)
+       src/test/resources (intead of src/test-data)
+  -->
+
+  <build>
+    <sourceDirectory>src/java</sourceDirectory>
+    <testSourceDirectory>src/test</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>src/java</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>    
+    <testResources>
+      <testResource>
+        <directory>src/test-data</directory>
+      </testResource>
+    </testResources>    
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <target>1.3</target>
+          <source>1.3</source>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!-- Tests shouldn't be skipped but we haven't converted that part to m2 yet
+               and in addition some tests are failing even with the m1 build. -->
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
+</project>
