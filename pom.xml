@@ -66,6 +66,12 @@
       <email>imario -at- apache.org</email>
       <organization>OPS EDV Gmbh</organization>
     </developer>
+    <developer>
+      <name>Rahul Akolkar</name>
+      <id>rahul</id>
+      <email>rahul -at- apache.org</email>
+      <organization>Apache Software Foundation</organization>
+    </developer>
   </developers>
   <contributors>
     <contributor>
