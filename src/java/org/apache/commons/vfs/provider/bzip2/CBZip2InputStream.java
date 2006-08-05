@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.compress.bzip2;
+package org.apache.commons.vfs.provider.bzip2;
 
 import java.io.IOException;
 import java.io.InputStream;

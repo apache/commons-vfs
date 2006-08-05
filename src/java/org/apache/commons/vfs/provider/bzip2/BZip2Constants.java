@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.apache.commons.compress.bzip2;
+package org.apache.commons.vfs.provider.bzip2;
 
 /*
  * This package is based on the work done by Keiron Liddle, Aftex Software
