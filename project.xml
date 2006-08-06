@@ -132,11 +132,12 @@
             <version>1.0.4</version>
         </dependency>
 
+        <!--TODO:Revert to [compress] if/when released
         <dependency>
             <groupId>commons-compress</groupId>
             <artifactId>commons-compress</artifactId>
             <version>SNAPSHOT</version>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>commons-collections</groupId>

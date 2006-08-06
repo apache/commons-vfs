@@ -105,12 +105,13 @@
       <version>1.4.1</version>
       <optional>true</optional>
     </dependency>
+    <!--TODO:Revert to [compress] if/when released
     <dependency>
       <groupId>commons-compress</groupId>
       <artifactId>commons-compress</artifactId>
       <version>SNAPSHOT</version>
       <optional>true</optional>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
