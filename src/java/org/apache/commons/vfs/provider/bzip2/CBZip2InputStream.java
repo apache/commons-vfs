@@ -30,7 +30,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
  */
-public class CBZip2InputStream
+class CBZip2InputStream
     extends InputStream
     implements BZip2Constants
 {
@@ -107,7 +107,7 @@ public class CBZip2InputStream
     private int m_storedCombinedCRC;
     private int[] m_tt;
 
-    public CBZip2InputStream( final InputStream input )
+    CBZip2InputStream( final InputStream input )
     {
         bsSetStream( input );
         initialize();

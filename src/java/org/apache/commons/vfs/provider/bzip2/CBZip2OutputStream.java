@@ -30,7 +30,7 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
  */
-public class CBZip2OutputStream
+class CBZip2OutputStream
     extends OutputStream
     implements BZip2Constants
 {
@@ -130,13 +130,13 @@ public class CBZip2OutputStream
     private int m_workLimit;
     private int[] m_zptr;
 
-    public CBZip2OutputStream( final OutputStream output )
+    CBZip2OutputStream( final OutputStream output )
         throws IOException
     {
         this( output, 9 );
     }
 
-    public CBZip2OutputStream( final OutputStream output, final int blockSize )
+    CBZip2OutputStream( final OutputStream output, final int blockSize )
         throws IOException
     {
         bsSetStream( output );
