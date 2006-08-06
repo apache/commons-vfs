@@ -15,7 +15,8 @@
  */
 package org.apache.commons.vfs.provider.tar;
 
-import org.apache.commons.compress.tar.TarEntry;
+//TODO: Revert to [compress]
+//import org.apache.commons.compress.tar.TarEntry;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;

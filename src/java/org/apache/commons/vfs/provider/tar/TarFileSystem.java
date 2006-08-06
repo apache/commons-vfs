@@ -15,8 +15,9 @@
  */
 package org.apache.commons.vfs.provider.tar;
 
-import org.apache.commons.compress.tar.TarEntry;
-import org.apache.commons.compress.tar.TarInputStream;
+//TODO: Revert to [compress]
+//import org.apache.commons.compress.tar.TarEntry;
+//import org.apache.commons.compress.tar.TarInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileName;
