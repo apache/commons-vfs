@@ -15,8 +15,9 @@
  */
 package org.apache.commons.vfs.provider.bzip2;
 
-import org.apache.commons.compress.bzip2.CBZip2InputStream;
-import org.apache.commons.compress.bzip2.CBZip2OutputStream;
+//TODO: Revert to [compress]
+//import org.apache.commons.compress.bzip2.CBZip2InputStream;
+//import org.apache.commons.compress.bzip2.CBZip2OutputStream;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
