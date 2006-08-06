@@ -67,7 +67,7 @@ import java.util.Locale;
  * @see TarInputStream
  * @see TarOutputStream
  */
-public class TarEntry
+class TarEntry
 {
     /**
      * The length of the name field in a header buffer.
@@ -152,7 +152,7 @@ public class TarEntry
      *
      * @param name the name of the entry
      */
-    public TarEntry( final String name )
+    TarEntry( final String name )
     {
         this();
 
@@ -173,7 +173,7 @@ public class TarEntry
      * @param name Description of Parameter
      * @param linkFlag Description of Parameter
      */
-    public TarEntry( final String name, final byte linkFlag )
+    TarEntry( final String name, final byte linkFlag )
     {
         this( name );
         m_linkFlag = linkFlag;
@@ -185,7 +185,7 @@ public class TarEntry
      *
      * @param file The file that the entry represents.
      */
-    public TarEntry( final File file )
+    TarEntry( final File file )
     {
         this();
 

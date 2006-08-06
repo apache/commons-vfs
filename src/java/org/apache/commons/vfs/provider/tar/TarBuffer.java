@@ -50,17 +50,17 @@ class TarBuffer
     private int m_recordSize;
     private int m_recsPerBlock;
 
-    public TarBuffer( final InputStream input )
+    TarBuffer( final InputStream input )
     {
         this( input, TarBuffer.DEFAULT_BLOCKSIZE );
     }
 
-    public TarBuffer( final InputStream input, final int blockSize )
+    TarBuffer( final InputStream input, final int blockSize )
     {
         this( input, blockSize, TarBuffer.DEFAULT_RECORDSIZE );
     }
 
-    public TarBuffer( final InputStream input,
+    TarBuffer( final InputStream input,
                       final int blockSize,
                       final int recordSize )
     {
@@ -68,17 +68,17 @@ class TarBuffer
         initialize( blockSize, recordSize );
     }
 
-    public TarBuffer( final OutputStream output )
+    TarBuffer( final OutputStream output )
     {
         this( output, TarBuffer.DEFAULT_BLOCKSIZE );
     }
 
-    public TarBuffer( final OutputStream output, final int blockSize )
+    TarBuffer( final OutputStream output, final int blockSize )
     {
         this( output, blockSize, TarBuffer.DEFAULT_RECORDSIZE );
     }
 
-    public TarBuffer( final OutputStream output,
+    TarBuffer( final OutputStream output,
                       final int blockSize,
                       final int recordSize )
     {

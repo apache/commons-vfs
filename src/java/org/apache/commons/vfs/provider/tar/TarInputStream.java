@@ -32,7 +32,7 @@ import java.io.OutputStream;
  * @see TarInputStream
  * @see TarEntry
  */
-public class TarInputStream
+class TarInputStream
     extends FilterInputStream
 {
     private TarBuffer m_buffer;
@@ -52,7 +52,7 @@ public class TarInputStream
      * @see TarBuffer#DEFAULT_BLOCKSIZE
      * @see TarBuffer#DEFAULT_RECORDSIZE
      */
-    public TarInputStream( final InputStream input )
+    TarInputStream( final InputStream input )
     {
         this( input, TarBuffer.DEFAULT_BLOCKSIZE, TarBuffer.DEFAULT_RECORDSIZE );
     }
@@ -65,7 +65,7 @@ public class TarInputStream
      * @param blockSize the block size to use
      * @see TarBuffer#DEFAULT_RECORDSIZE
      */
-    public TarInputStream( final InputStream input,
+    TarInputStream( final InputStream input,
                            final int blockSize )
     {
         this( input, blockSize, TarBuffer.DEFAULT_RECORDSIZE );
@@ -79,7 +79,7 @@ public class TarInputStream
      * @param blockSize the block size to use
      * @param recordSize the record size to use
      */
-    public TarInputStream( final InputStream input,
+    TarInputStream( final InputStream input,
                            final int blockSize,
                            final int recordSize )
     {
