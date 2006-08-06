@@ -23,7 +23,6 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.local.GenericFileNameParser;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 

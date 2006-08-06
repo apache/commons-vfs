@@ -22,7 +22,6 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.commons.vfs.provider.sftp.SftpFileProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
