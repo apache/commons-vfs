@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.compress.tar;
+package org.apache.commons.vfs.provider.tar;
 
 import java.io.FilterInputStream;
 import java.io.IOException;

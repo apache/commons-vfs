@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.compress.tar;
+package org.apache.commons.vfs.provider.tar;
 
 import java.io.File;
 import java.util.Date;
@@ -261,7 +261,7 @@ public class TarEntry
      *
      * @param header The header bytes from a tar archive entry.
      */
-    public TarEntry( final byte[] header )
+    TarEntry( final byte[] header )
     {
         this();
         parseTarHeader( header );
