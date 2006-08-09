@@ -47,7 +47,7 @@ public class FileObjectUtils
 			return (AbstractFileObject) searchObject;
 		}
 		
-        throw new FileSystemException("vfs.util/find-abstract-file-object.error");
+        throw new FileSystemException("vfs.util/find-abstract-file-object.error", fileObject==null?"null":fileObject.getClass().getName());
 	}
 
 	/**
