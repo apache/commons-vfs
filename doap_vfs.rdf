@@ -15,7 +15,7 @@
     </description>
     <repository>
       <SVNRepository>
-        <browse rdf:resource="http://svn.apache.org/viewcvs.cgi"/>
+        <browse rdf:resource="http://svn.apache.org/viewvc"/>
         <location rdf:resource="http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs"/>
       </SVNRepository>
     </repository>
