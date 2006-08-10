@@ -45,7 +45,7 @@
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</developerConnection>
-    <url>http://svn.apache.org/viewcvs.cgi</url> 
+    <url>http://svn.apache.org/viewvc</url> 
   </scm>
   <developers>
     <developer>
