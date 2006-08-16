@@ -46,12 +46,16 @@ public class FileObjectUtils
 		{
 			return (AbstractFileObject) searchObject;
 		}
-		
+        if (searchObject == null)
+        {
+            return null;
+        }
+
         throw new FileSystemException("vfs.util/find-abstract-file-object.error", fileObject==null?"null":fileObject.getClass().getName());
 	}
 
 	/**
-	 * check if the given FileObject is instance of given class argument 
+	 * check if the given FileObject is instance of given class argument
 	 */
 	public static boolean isInstanceOf(final FileObject fileObject, final Class wantedClass) throws FileSystemException
 	{
@@ -62,15 +66,15 @@ public class FileObjectUtils
 			{
 				return true;
 			}
-			
+
 			searchObject = ((DecoratedFileObject) searchObject).getDecoratedFileObject();
 		}
-		
+
 		if (wantedClass.isInstance(searchObject))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 }
