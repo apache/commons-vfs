@@ -100,7 +100,7 @@ public class SmbFileObject
 				UserAuthenticatorUtils.toString(
 					UserAuthenticatorUtils.getData(
 						authData,
-						UserAuthenticationData.USERNAME,
+						UserAuthenticationData.PASSWORD,
 						UserAuthenticatorUtils.toChar(smbFileName.getPassword()))));
 
 			file = new SmbFile(path, auth);

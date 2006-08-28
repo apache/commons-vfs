@@ -28,20 +28,19 @@ public class UserAuthenticatorUtils
 	/**
 	 * gets data of given type from the UserAuthenticationData or null if there is no data or data of this type available
 	 */
-	public static char[] getData(UserAuthenticationData data, UserAuthenticationData.Type type, char[] defaultValue)
+	public static char[] getData(UserAuthenticationData data, UserAuthenticationData.Type type, char[] overwriddenValue)
 	{
-		if (data == null)
+        if (overwriddenValue != null)
+        {
+            return overwriddenValue;
+        }
+
+        if (data == null)
 		{
-			return defaultValue;
+			return null;
 		}
 
-		char[] ret = data.getData(type);
-		if (ret == null)
-		{
-			return defaultValue;
-		}
-
-		return ret;
+		return data.getData(type);
 	}
 
 	/**
