@@ -155,8 +155,8 @@ public class SftpClientFactory
             String compression = SftpFileSystemConfigBuilder.getInstance().getCompression(fileSystemOptions);
             if (compression != null)
             {
-                config.setProperty("compression.s2c", strictHostKeyChecking);
-                config.setProperty("compression.c2s", strictHostKeyChecking);
+                config.setProperty("compression.s2c", compression);
+                config.setProperty("compression.c2s", compression);
             }
 
             //set properties for the session
