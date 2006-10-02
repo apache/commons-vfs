@@ -78,7 +78,8 @@ public abstract class AbstractOriginatingFileProvider
         }
 
         // Locate the file
-        return fs.resolveFile(name.getPath());
+        // return fs.resolveFile(name.getPath());
+        return fs.resolveFile(name);
     }
 
     /**

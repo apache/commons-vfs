@@ -22,6 +22,7 @@ import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
@@ -105,6 +106,15 @@ public abstract class AbstractProviderTestCase
 	        fs.addProvider("file", new DefaultLocalFileProvider());
 	    }
 	    return fs;
+    }
+
+    /**
+     * some provider config do some post-initialization in getBaseTestFolder.
+     * This is a hack to allow access to this code for <code>createManager</code>
+     */
+    protected FileObject getBaseTestFolder(FileSystemManager fs) throws Exception
+    {
+        return providerConfig.getBaseTestFolder(fs);
     }
     
     /**

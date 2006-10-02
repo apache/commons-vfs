@@ -22,6 +22,7 @@ import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.ram.RamFileObject;
 import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.impl.VirtualFileSystem;
 
 /**
  * Test the cache stragey
@@ -49,20 +50,22 @@ public class ProviderCacheStrategyTests
      */
     public void testManualCache() throws Exception
     {
-        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class))
+        FileObject scratchFolder = getWriteFolder();
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
+            scratchFolder.getFileSystem() instanceof VirtualFileSystem)
         {
             // cant check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
 
-        FileObject scratchFolder = getWriteFolder();
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
         DefaultFileSystemManager fs = createManager();
 	    fs.setCacheStrategy(CacheStrategy.MANUAL);
         fs.init();
-        
-        FileObject cachedFolder = fs.resolveFile(scratchFolder.getName().getURI());
+        FileObject foBase2 = getBaseTestFolder(fs);
+
+        FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
         
         FileObject[] fos = cachedFolder.getChildren();
         assertContainsNot(fos, "file1.txt");
@@ -82,20 +85,22 @@ public class ProviderCacheStrategyTests
      */
     public void testOnResolveCache() throws Exception
     {
-        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class))
+        FileObject scratchFolder = getWriteFolder();
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
+            scratchFolder.getFileSystem() instanceof VirtualFileSystem)
         {
             // cant check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
 
-        FileObject scratchFolder = getWriteFolder();
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
         DefaultFileSystemManager fs = createManager();
 	    fs.setCacheStrategy(CacheStrategy.ON_RESOLVE);
         fs.init();
-        
-        FileObject cachedFolder = fs.resolveFile(scratchFolder.getName().getURI());
+        FileObject foBase2 = getBaseTestFolder(fs);
+
+        FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
         
         FileObject[] fos = cachedFolder.getChildren();
         assertContainsNot(fos, "file1.txt");
@@ -105,7 +110,7 @@ public class ProviderCacheStrategyTests
         fos = cachedFolder.getChildren();
         assertContainsNot(fos, "file1.txt");
         
-        cachedFolder = fs.resolveFile(scratchFolder.getName().getURI());
+        cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
         fos = cachedFolder.getChildren();
         assertContains(fos, "file1.txt");
     }
@@ -115,20 +120,22 @@ public class ProviderCacheStrategyTests
      */
     public void testOnCallCache() throws Exception
     {
-        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class))
+        FileObject scratchFolder = getWriteFolder();
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
+            scratchFolder.getFileSystem() instanceof VirtualFileSystem)
         {
             // cant check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
 
-        FileObject scratchFolder = getWriteFolder();
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
         DefaultFileSystemManager fs = createManager();
 	    fs.setCacheStrategy(CacheStrategy.ON_CALL);
         fs.init();
-        
-        FileObject cachedFolder = fs.resolveFile(scratchFolder.getName().getURI());
+        FileObject foBase2 = getBaseTestFolder(fs);
+
+        FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
         
         FileObject[] fos = cachedFolder.getChildren();
         assertContainsNot(fos, "file1.txt");

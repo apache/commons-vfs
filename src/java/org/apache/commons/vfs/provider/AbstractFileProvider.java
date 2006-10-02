@@ -146,7 +146,10 @@ public abstract class AbstractFileProvider
 
         synchronized (fileSystems)
         {
-            fileSystems.remove(fs.getCacheKey());
+            if (fs.getCacheKey() != null)
+            {
+                fileSystems.remove(fs.getCacheKey());
+            }
         }
 
         removeComponent(fs);
