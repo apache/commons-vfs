@@ -22,6 +22,11 @@
 
     <provider class-name="org.apache.commons.vfs.provider.jar.JarFileProvider">
         <scheme name="jar"/>
+        <scheme name="sar"/>
+        <scheme name="ear"/>
+        <scheme name="par"/>
+        <scheme name="ejb3"/>
+        <scheme name="war"/>
     </provider>
     <provider class-name="org.apache.commons.vfs.provider.temp.TemporaryFileProvider">
         <scheme name="tmp"/>
