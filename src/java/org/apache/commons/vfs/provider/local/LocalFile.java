@@ -133,9 +133,11 @@ public class LocalFile
     /**
      * rename this file
      */
-    protected void doRename(FileObject newfile) throws Exception
+    protected void doRename(final FileObject newfile) throws Exception
     {
-        if (!file.renameTo(((LocalFile) newfile).getLocalFile()))
+        LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newfile);
+
+        if (!file.renameTo(newLocalFile.getLocalFile()))
         {
             throw new FileSystemException("vfs.provider.local/rename-file.error",
                 new String[]{file.toString(), newfile.toString()});

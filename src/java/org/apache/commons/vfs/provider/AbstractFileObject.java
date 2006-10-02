@@ -745,7 +745,7 @@ public abstract class AbstractFileObject implements FileObject
         final int count = files.size();
         for (int i = 0; i < count; i++)
         {
-            final AbstractFileObject file = (AbstractFileObject) files.get(i);
+            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject((FileObject) files.get(i));
             // file.attach();
 
             // If the file is a folder, make sure all its children have been deleted
@@ -936,7 +936,7 @@ public abstract class AbstractFileObject implements FileObject
                 attach();
                 doRename(destFile);
 
-                ((AbstractFileObject) destFile).handleCreate(getType());
+                (FileObjectUtils.getAbstractFileObject(destFile)).handleCreate(getType());
 
                 destFile.close(); // now the destFile is no longer imaginary. force reattach.
 
