@@ -921,7 +921,8 @@ public abstract class AbstractFileObject implements FileObject
                 throw new FileSystemException("vfs.provider/rename-read-only.error", getName());
             }
         }
-        if (destFile.exists())
+
+        if (destFile.exists() && !isSameFile(destFile))
         {
             destFile.delete(Selectors.SELECT_ALL);
             // throw new FileSystemException("vfs.provider/rename-dest-exists.error", destFile.getName());
@@ -970,6 +971,27 @@ public abstract class AbstractFileObject implements FileObject
             deleteSelf();
         }
 
+    }
+
+    /**
+     * Checks if this fileObject is the same file as <code>destFile</code> just with a different
+     * name.<br />
+     * E.g. for case insensitive filesystems like windows. 
+     */
+    protected boolean isSameFile(FileObject destFile) throws FileSystemException
+    {
+        attach();
+        return doIsSameFile(destFile);
+    }
+
+    /**
+     * Checks if this fileObject is the same file as <code>destFile</code> just with a different
+     * name.<br />
+     * E.g. for case insensitive filesystems like windows.
+     */
+    protected boolean doIsSameFile(FileObject destFile) throws FileSystemException
+    {
+        return false;
     }
 
     /**

@@ -23,12 +23,14 @@ import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.util.FileObjectUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.IOException;
 
 /**
  * A file object implementation which uses direct file access.
@@ -223,5 +225,29 @@ public class LocalFile
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
         return new LocalFileRandomAccessContent(file, mode);
+    }
+
+    protected boolean doIsSameFile(FileObject destFile) throws FileSystemException
+    {
+        if (!FileObjectUtils.isInstanceOf(destFile, LocalFile.class))
+        {
+            return false;
+        }
+
+        LocalFile destLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(destFile);
+        if (!exists() || !destLocalFile.exists())
+        {
+            return false;
+        }
+
+        try
+        {
+            return file.getCanonicalPath().equals(destLocalFile.file.getCanonicalPath());
+        }
+        catch (IOException e)
+        {
+            throw new FileSystemException(e);
+        }
+
     }
 }
