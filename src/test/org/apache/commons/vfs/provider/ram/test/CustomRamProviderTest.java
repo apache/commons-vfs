@@ -20,10 +20,9 @@ import java.io.OutputStream;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSelectInfo;
-import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.ram.RamFileProvider;
 import org.apache.commons.vfs.provider.ram.RamFileSystemConfigBuilder;
@@ -43,9 +42,9 @@ public class CustomRamProviderTest extends TestCase
 
 	FileSystemOptions smallSized = new FileSystemOptions();
 
-	FileSystemOptions predicated = new FileSystemOptions();
+    FileSystemOptions defaultRamFs = new FileSystemOptions();
 
-	protected void setUp() throws Exception
+    protected void setUp() throws Exception
 	{
 		super.setUp();
 
@@ -56,31 +55,6 @@ public class CustomRamProviderTest extends TestCase
 		// File Systems Options
 		RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSized, 0);
 		RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10);
-		FileSelector predicate = new FileSelector()
-		{
-			public boolean includeFile(FileSelectInfo fileInfo) throws Exception
-			{
-				return "txt".equals(fileInfo.getFile().getName().getExtension());
-			}
-
-			public boolean traverseDescendents(FileSelectInfo fileInfo) throws Exception
-			{
-				// not required
-				return true;
-			}
-			
-		};
-		/*
-		Predicate predicate = new Predicate()
-		{
-			public boolean evaluate(Object o)
-			{
-				RamFileObject file = (RamFileObject) o;
-				return file.getName().getBaseName().endsWith("txt");
-			}
-		};
-		*/
-		RamFileSystemConfigBuilder.getInstance().setPredicate(predicated, predicate);
 	}
 
 	protected void tearDown() throws Exception
@@ -99,7 +73,7 @@ public class CustomRamProviderTest extends TestCase
 				.getFileSystem() == fo2.getFileSystem());
 
 		// Small FS
-		FileObject fo3 = manager.resolveFile("ram:/", smallSized);
+		FileObject fo3 = manager.resolveFile("ram:/fo3", smallSized);
 		FileObject fo4 = manager.resolveFile("ram:/", smallSized);
 		assertTrue("Both files should exist in different fs instances.", fo3
 				.getFileSystem() == fo4.getFileSystem());
@@ -133,23 +107,24 @@ public class CustomRamProviderTest extends TestCase
 
 	}
 
-	public void testPredicatedFS() throws FileSystemException
-	{
-		FileObject predFo = null;
-		try
-		{
-			predFo = manager.resolveFile("ram:/myfile.anotherExtension",
-					predicated);
-			predFo.createFile();
-			fail("It should only accept files with .txt extensions");
-		}
-		catch (FileSystemException e)
-		{
-			// Do nothing
-		}
-		predFo = manager
-				.resolveFile("ram:/myfile.anotherExtension", predicated);
-		assertTrue(!predFo.exists());
-	}
+    /**
+     * 
+     * Checks root folder exists
+     * 
+     * @throws FileSystemException
+     */
+    public void testRootFolderExists() throws FileSystemException {
+        FileObject root = manager.resolveFile("ram:///", defaultRamFs);
+        assertTrue(root.getType().equals(FileType.FOLDER));
 
+        try {
+            root.delete();
+            fail();
+        } catch (FileSystemException e) {
+            
+        }
+
+    }
+
+    
 }

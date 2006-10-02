@@ -19,6 +19,8 @@ import org.apache.commons.vfs.CacheStrategy;
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.provider.ram.RamFileObject;
+import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 
 /**
@@ -47,6 +49,12 @@ public class ProviderCacheStrategyTests
      */
     public void testManualCache() throws Exception
     {
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class))
+        {
+            // cant check ram filesystem as every manager holds its own ram filesystem data
+            return;
+        }
+
         FileObject scratchFolder = getWriteFolder();
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
@@ -74,6 +82,12 @@ public class ProviderCacheStrategyTests
      */
     public void testOnResolveCache() throws Exception
     {
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class))
+        {
+            // cant check ram filesystem as every manager holds its own ram filesystem data
+            return;
+        }
+
         FileObject scratchFolder = getWriteFolder();
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
@@ -101,6 +115,12 @@ public class ProviderCacheStrategyTests
      */
     public void testOnCallCache() throws Exception
     {
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class))
+        {
+            // cant check ram filesystem as every manager holds its own ram filesystem data
+            return;
+        }
+
         FileObject scratchFolder = getWriteFolder();
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         

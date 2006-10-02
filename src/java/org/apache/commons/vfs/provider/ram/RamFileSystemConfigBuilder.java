@@ -15,7 +15,6 @@
  */
 package org.apache.commons.vfs.provider.ram;
 
-import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 
@@ -27,9 +26,6 @@ public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 
 	/** max size key */
 	private static final String MAX_SIZE_KEY = "maxsize";
-
-	/** predicate key */
-	private static final String PREDICATE_KEY = "predicate";
 
 	/** config builder singleton */
 	private static RamFileSystemConfigBuilder singleton = new RamFileSystemConfigBuilder();
@@ -85,25 +81,6 @@ public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 	public void setMaxSize(FileSystemOptions opts, int sizeInBytes)
 	{
 		setParam(opts, MAX_SIZE_KEY, new Integer(sizeInBytes));
-	}
-
-	/**
-	 * @param opts
-	 * @return
-	 * @see #setPredicate
-	 */
-	public FileSelector getPredicate(FileSystemOptions opts)
-	{
-		return (FileSelector) getParam(opts, PREDICATE_KEY);
-	}
-
-	/**
-	 * sets a predicate that performs a validation test before adding it to the
-	 * file system
-	 */
-	public void setPredicate(FileSystemOptions opts, FileSelector predicate)
-	{
-		setParam(opts, PREDICATE_KEY, predicate);
 	}
 
 }

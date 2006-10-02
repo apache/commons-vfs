@@ -29,8 +29,6 @@ import java.util.Map;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSelectInfo;
-import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FileType;
@@ -41,10 +39,6 @@ import org.apache.commons.vfs.provider.AbstractFileSystem;
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable
 {
-	/** config builder */
-	private static RamFileSystemConfigBuilder confBuilder = RamFileSystemConfigBuilder
-			.getInstance();
-
 	/**
 	 * Cache of RAM File Data
 	 */
@@ -52,7 +46,6 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 
 	/**
 	 * @param rootName
-	 * @param parentLayer
 	 * @param fileSystemOptions
 	 */
 	protected RamFileSystem(FileName rootName,
@@ -60,6 +53,11 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	{
 		super(rootName, null, fileSystemOptions);
 		this.cache = Collections.synchronizedMap(new HashMap());
+        // create root
+        RamFileData rootData = new RamFileData(rootName) ;
+        rootData.setType(FileType.FOLDER);
+        rootData.setLastModified(System.currentTimeMillis());
+        this.cache.put(rootName, rootData);
 	}
 
 	/*
@@ -87,7 +85,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	 * @param name
 	 * @return children
 	 */
-	public String[] listChildren(FileName name)
+	String[] listChildren(FileName name)
 	{
         RamFileData data = (RamFileData) this.cache.get(name);
 		Collection children = data.getChildren();
@@ -112,14 +110,19 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	 * @param file
 	 * @throws FileSystemException
 	 */
-	public void delete(RamFileObject file) throws FileSystemException
+	void delete(RamFileObject file) throws FileSystemException
 	{
+	    // root is read only check
+        if (file.getParent()==null) {
+            throw new FileSystemException("unable to delete root");
+        }
+        
 		// Remove reference from cache
 		this.cache.remove(file.getName());
 		// Notify the parent
-		RamFileObject parent = (RamFileObject) this.resolveFile(file
-				.getParent().getName());
-		parent.getData().removeChild(file.getData());
+        RamFileObject parent = (RamFileObject) this.resolveFile(file
+                .getParent().getName());
+        parent.getData().removeChild(file.getData());
 		parent.close();
 		// Close the file
 		file.getData().clear();
@@ -132,7 +135,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	 * @param file
 	 * @throws FileSystemException
 	 */
-	public void save(final RamFileObject file) throws FileSystemException
+	void save(final RamFileObject file) throws FileSystemException
 	{
 
 		// Validate name
@@ -140,59 +143,6 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 		{
 			throw new FileSystemException(new IllegalStateException(
 					"The data has no name. " + file));
-		}
-
-		// Validate file system size
-		// if (size() > confBuilder.getMaxSize(this
-		// .getFileSystemOptions())) {
-		// throw new FileSystemException(
-		// "The maximum size ("
-		// + confBuilder.getMaxSize(this
-		// .getFileSystemOptions())
-		// + ") was exceeded.");
-		// }
-
-		// Validate against the predicate
-		FileSelector predicate = confBuilder.getPredicate(this
-				.getFileSystemOptions());
-		
-		FileSelectInfo info = new FileSelectInfo()
-		{
-			public FileObject getBaseFolder()
-			{
-				try
-				{
-					return getRoot();
-				}
-				catch (FileSystemException e)
-				{
-					throw new RuntimeException(e.getLocalizedMessage());
-				}
-			}
-
-			public FileObject getFile()
-			{
-				return file;
-			}
-
-			public int getDepth()
-			{
-				return -1;
-			}
-		};
-		
-		try
-		{
-			if (predicate != null && !predicate.includeFile(info))
-			{
-				throw new FileSystemException(
-						"Unable to save file, it was rejected by the predicate "
-								+ predicate.getClass().getName() + ".");
-			}
-		}
-		catch (Exception e)
-		{
-			throw new FileSystemException(e);
 		}
 
 		// Add to the parent
@@ -215,11 +165,11 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	}
 
 	/**
-	 * @param object
-	 * @param newfile
+	 * @param from
+	 * @param to
 	 * @throws FileSystemException
 	 */
-	public void rename(RamFileObject from, RamFileObject to)
+	void rename(RamFileObject from, RamFileObject to)
 			throws FileSystemException
 	{
 		if (!this.cache.containsKey(from.getName()))
@@ -254,10 +204,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	/**
 	 * Import a Tree
 	 * 
-	 * @param fs
-	 *            RAM FileSyste
 	 * @param file
-	 * @param root
 	 * @throws FileSystemException
 	 */
 	public void importTree(File file) throws FileSystemException
@@ -273,7 +220,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	 * @param root
 	 * @throws FileSystemException
 	 */
-	public void toRamFileObject(FileObject fo, FileObject root)
+	void toRamFileObject(FileObject fo, FileObject root)
 			throws FileSystemException
 	{
 		RamFileObject memFo = (RamFileObject) this.resolveFile(fo.getName()
@@ -337,7 +284,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	/**
 	 * @return Returns the size of the FileSystem
 	 */
-	public int size()
+	int size()
 	{
 		int size = 0;
 		Iterator iter = cache.values().iterator();

@@ -37,8 +37,9 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
 public class RamProviderTestCase extends AbstractProviderTestConfig implements
 		ProviderTestConfig
 {
+    private boolean inited = false;
 
-	/** logger */
+    /** logger */
 	private static Log log = LogFactory.getLog(RamProviderTestCase.class);
 
 	/**
@@ -49,7 +50,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
 		return new ProviderTestSuite(new RamProviderTestCase());
 	}
 
-	/**
+    /**
 	 * Prepares the file system manager.
 	 * 
 	 * Imports test data from the disk.
@@ -64,11 +65,6 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
 		{
 			manager.addProvider("ram", new RamFileProvider());
 			manager.addProvider("file", new DefaultLocalFileProvider());
-			FileObject fo = manager.resolveFile("ram:/");
-			// Import the test tree
-			RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
-			fs.importTree(new File("target/test-data"));
-			fo.close();
 		}
 		catch (Exception e)
 		{
@@ -83,7 +79,18 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
 	public FileObject getBaseTestFolder(final FileSystemManager manager)
 			throws Exception
 	{
-		final String uri = "ram:/";
+        if (!inited)
+        {
+            // Import the test tree
+            FileObject fo = manager.resolveFile("ram:/");
+			RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
+			fs.importTree(new File("target/test-data"));
+			fo.close();
+            
+            inited=true;
+        }
+
+        final String uri = "ram:/";
 		return manager.resolveFile(uri);
 	}
 }

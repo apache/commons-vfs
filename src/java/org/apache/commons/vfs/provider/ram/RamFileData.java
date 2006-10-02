@@ -71,7 +71,7 @@ class RamFileData implements Serializable
 	/**
 	 * @return Returns the buffer.
 	 */
-	public byte[] getBuffer()
+	byte[] getBuffer()
 	{
 		return buffer;
 	}
@@ -79,7 +79,7 @@ class RamFileData implements Serializable
 	/**
 	 * @param buffer
 	 */
-	public void setBuffer(byte[] buffer)
+	void setBuffer(byte[] buffer)
 	{
 		updateLastModified();
 		this.buffer = buffer;
@@ -88,7 +88,7 @@ class RamFileData implements Serializable
 	/**
 	 * @return Returns the lastModified.
 	 */
-	public long getLastModified()
+	long getLastModified()
 	{
 		return lastModified;
 	}
@@ -97,7 +97,7 @@ class RamFileData implements Serializable
 	 * @param lastModified
 	 *            The lastModified to set.
 	 */
-	public void setLastModified(long lastModified)
+	void setLastModified(long lastModified)
 	{
 		this.lastModified = lastModified;
 	}
@@ -105,7 +105,7 @@ class RamFileData implements Serializable
 	/**
 	 * @return Returns the type.
 	 */
-	public FileType getType()
+	FileType getType()
 	{
 		return type;
 	}
@@ -114,7 +114,7 @@ class RamFileData implements Serializable
 	 * @param type
 	 *            The type to set.
 	 */
-	public void setType(FileType type)
+	void setType(FileType type)
 	{
 		this.type = type;
 	}
@@ -122,7 +122,7 @@ class RamFileData implements Serializable
 	/**
 	 * 
 	 */
-	public void clear()
+	void clear()
 	{
 		this.buffer = new byte[0];
 		updateLastModified();
@@ -139,7 +139,7 @@ class RamFileData implements Serializable
 	/**
 	 * @return Returns the name.
 	 */
-	public FileName getName()
+	FileName getName()
 	{
 		return name;
 	}
@@ -159,7 +159,7 @@ class RamFileData implements Serializable
 	 * 
 	 * @param data
 	 */
-	public void addChild(RamFileData data) throws FileSystemException
+	void addChild(RamFileData data) throws FileSystemException
 	{
 		if (!this.getType().equals(FileType.FOLDER))
 		{
@@ -187,7 +187,7 @@ class RamFileData implements Serializable
 	 * @param data
 	 * @throws FileSystemException
 	 */
-	public void removeChild(RamFileData data) throws FileSystemException
+	void removeChild(RamFileData data) throws FileSystemException
 	{
 		if (!this.getType().equals(FileType.FOLDER))
 		{
@@ -205,7 +205,7 @@ class RamFileData implements Serializable
 	/**
 	 * @return Returns the children.
 	 */
-	public Collection getChildren()
+	Collection getChildren()
 	{
 		if (name == null)
 		{
@@ -235,7 +235,7 @@ class RamFileData implements Serializable
 		return this.getName().hashCode();
 	}
 
-	public boolean hasChildren(RamFileData data)
+	boolean hasChildren(RamFileData data)
 	{
 		return this.children.contains(data);
 	}
@@ -243,7 +243,7 @@ class RamFileData implements Serializable
 	/**
 	 * @return Returns the size of the buffer
 	 */
-	public int size()
+	int size()
 	{
 		return buffer.length;
 	}
@@ -253,7 +253,7 @@ class RamFileData implements Serializable
 	 * 
 	 * @param newSize
 	 */
-	public void resize(int newSize)
+	void resize(int newSize)
 	{
 		int size = this.size();
 		byte[] newBuf = new byte[newSize];

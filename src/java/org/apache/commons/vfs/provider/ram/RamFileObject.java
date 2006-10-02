@@ -189,7 +189,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 	/**
 	 * @return Returns the data.
 	 */
-	public RamFileData getData()
+	RamFileData getData()
 	{
 		return data;
 	}
@@ -198,7 +198,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 	 * @param data
 	 *            The data to set.
 	 */
-	public void setData(RamFileData data)
+	void setData(RamFileData data)
 	{
 		this.data = data;
 	}
@@ -228,7 +228,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 	/**
 	 * @return Returns the size of the RAMFileData
 	 */
-	public int size()
+	int size()
 	{
 		if (data == null)
 		{
@@ -242,7 +242,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 	 * @throws IOException
 	 *             if the new size exceeds the limit
 	 */
-	public synchronized void resize(int newSize) throws IOException
+	synchronized void resize(int newSize) throws IOException
 	{
 		if (fs.getFileSystemOptions() != null)
 		{
