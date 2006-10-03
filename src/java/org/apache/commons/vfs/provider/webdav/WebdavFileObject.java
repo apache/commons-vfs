@@ -16,6 +16,7 @@
 package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.vfs.FileObject;
@@ -27,9 +28,9 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.URLFileName;
+import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
-import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.WebdavResource;
 import org.apache.webdav.lib.methods.DepthSupport;
@@ -134,6 +135,7 @@ public class WebdavFileObject
             /* now fill the dav properties */
             String pathEncoded = name.getPathQueryEncoded(urlCharset);
             final OptionsMethod optionsMethod = new OptionsMethod(pathEncoded);
+            configureMethod(optionsMethod);
             try
             {
                 optionsMethod.setFollowRedirects(true);
@@ -203,6 +205,11 @@ public class WebdavFileObject
         }
     }
 
+    protected void configureMethod(HttpMethodBase httpMethod)
+    {
+        httpMethod.setMethodRetryHandler(WebdavMethodRetryHandler.getInstance());
+    }
+
     private void setAllowedMethods(Enumeration allowedMethods)
     {
         this.allowedMethods = new TreeSet();
@@ -236,6 +243,7 @@ public class WebdavFileObject
         }
 
         final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
+        configureMethod(optionsMethod);
         try
         {
             optionsMethod.setFollowRedirects(true);
@@ -549,6 +557,7 @@ public class WebdavFileObject
         }
 
         final OptionsMethod optionsMethod = new OptionsMethod(getName().getPath());
+        configureMethod(optionsMethod);
         try
         {
             optionsMethod.setFollowRedirects(true);
