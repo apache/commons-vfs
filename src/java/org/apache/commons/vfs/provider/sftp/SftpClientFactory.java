@@ -19,6 +19,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
+import com.jcraft.jsch.Proxy;
+import com.jcraft.jsch.ProxyHTTP;
+import com.jcraft.jsch.ProxySOCKS5;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.util.Os;
@@ -157,6 +160,41 @@ public class SftpClientFactory
             {
                 config.setProperty("compression.s2c", compression);
                 config.setProperty("compression.c2s", compression);
+            }
+
+            String proxyHost = SftpFileSystemConfigBuilder.getInstance().getProxyHost(fileSystemOptions);
+            if (proxyHost != null)
+            {
+                int proxyPort = SftpFileSystemConfigBuilder.getInstance().getProxyPort(fileSystemOptions);
+                SftpFileSystemConfigBuilder.ProxyType proxyType = SftpFileSystemConfigBuilder.getInstance().getProxyType(fileSystemOptions);
+                Proxy proxy = null;
+                if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType))
+                {
+                    if (proxyPort != 0)
+                    {
+                        proxy = new ProxyHTTP(proxyHost, proxyPort);
+                    }
+                    else
+                    {
+                        proxy = new ProxyHTTP(proxyHost);
+                    }
+                }
+                else if (SftpFileSystemConfigBuilder.PROXY_SOCKS5.equals(proxyType))
+                {
+                    if (proxyPort != 0)
+                    {
+                        proxy = new ProxySOCKS5(proxyHost, proxyPort);
+                    }
+                    else
+                    {
+                        proxy = new ProxySOCKS5(proxyHost);
+                    }
+                }
+
+                if (proxy != null)
+                {
+                    session.setProxy(proxy);
+                }
             }
 
             //set properties for the session
