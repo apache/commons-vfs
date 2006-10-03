@@ -165,12 +165,37 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      */
     public void addFile(final FileObject file)
     {
+        _addFile(file);
+        try
+        {
+            // add all direct children too
+            if (file.getType().hasChildren())
+            {
+                // Traverse the children
+                final FileObject[] children = file.getChildren();
+                for (int i = 0; i < children.length; i++)
+                {
+                    _addFile(children[i]);
+                }
+            }
+        }
+        catch (FileSystemException fse)
+        {
+            log.error(fse.getLocalizedMessage(), fse);
+        }
+    }
+
+    /**
+     * Adds a file to be monitored.
+     */
+    private void _addFile(final FileObject file)
+    {
         synchronized (this.monitorMap)
         {
             if (this.monitorMap.get(file.getName()) == null)
             {
                 this.monitorMap.put(file.getName(), new FileMonitorAgent(this,
-                        file));
+                    file));
 
                 try
                 {
@@ -276,7 +301,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * set the number of files to check per run.
      * a additional delay will be added if there are more files to check
-     *  
+     *
      * @param checksPerRun a value less than 1 will disable this feature
      */
     public void setChecksPerRun(int checksPerRun)
@@ -537,7 +562,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                                 Object()); // null ?
                             // If the child's not there
                             if
-                            (!this.children.containsKey(newChildren[i].getName()))
+                                (!this.children.containsKey(newChildren[i].getName()))
                             {
                                 missingChildren.push(newChildren[i]);
                             }
@@ -612,7 +637,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                     // Check the timestamp to see if it has been modified
                     if (this.timestamp !=
-                            this.file.getContent().getLastModifiedTime())
+                        this.file.getContent().getLastModifiedTime())
                     {
                         this.timestamp =
                             this.file.getContent().getLastModifiedTime();
