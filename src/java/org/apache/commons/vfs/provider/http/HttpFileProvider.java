@@ -77,7 +77,9 @@ public class HttpFileProvider
 		{
 			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
-			httpClient = HttpClientFactory.createConnection(rootName.getHostName(),
+			httpClient = HttpClientFactory.createConnection(
+                rootName.getScheme(),
+                rootName.getHostName(),
 				rootName.getPort(),
 				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
 				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),

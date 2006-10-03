@@ -42,14 +42,14 @@ public class HttpClientFactory
     /**
      * Creates a new connection to the server.
      */
-    public static HttpClient createConnection(String hostname, int port, String username, String password, FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static HttpClient createConnection(String scheme, String hostname, int port, String username, String password, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         HttpClient client;
         try
         {
             client = new HttpClient(new MultiThreadedHttpConnectionManager());
             final HostConfiguration config = new HostConfiguration();
-            config.setHost(hostname, port);
+            config.setHost(hostname, port, scheme);
 
             if (fileSystemOptions != null)
             {
