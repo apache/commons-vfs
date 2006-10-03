@@ -122,7 +122,7 @@ public class FtpClientFactory
 					UserAuthenticatorUtils.toString(username),
 					UserAuthenticatorUtils.toString(password)))
                 {
-                    throw new FileSystemException("vfs.provider.ftp/login.error", new Object[]{hostname, username}, null);
+                    throw new FileSystemException("vfs.provider.ftp/login.error", new Object[]{hostname, UserAuthenticatorUtils.toString(username)}, null);
                 }
 
                 // Set binary mode
