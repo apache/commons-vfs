@@ -49,15 +49,23 @@ public class UserAuthenticatorUtils
 	public static UserAuthenticationData authenticate(FileSystemOptions opts, UserAuthenticationData.Type[] authenticatorTypes)
 	{
 		UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
-		if (auth == null)
-		{
-			return null;
-		}
-
-		return auth.requestAuthentication(authenticatorTypes);
+        return authenticate(auth, authenticatorTypes);
 	}
 
-	/**
+    /**
+     * if there is a authenticator the authentication will take place, else null will be reutrned
+     */
+    public static UserAuthenticationData authenticate(UserAuthenticator auth, UserAuthenticationData.Type[] authenticatorTypes)
+    {
+        if (auth == null)
+        {
+            return null;
+        }
+
+        return auth.requestAuthentication(authenticatorTypes);
+    }
+
+    /**
 	 * converts a string to a char array (null safe)
 	 */
 	public static char[] toChar(String string)

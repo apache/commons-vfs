@@ -17,8 +17,12 @@ package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpURL;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.webdav.lib.WebdavResource;
 
@@ -66,6 +70,26 @@ public class WebdavClientFactory
                 {
                     // resource = new WebdavResource(url, proxyHost, proxyPort);
                     resource.setProxy(proxyHost, proxyPort);
+                }
+
+                UserAuthenticator proxyAuth = WebdavFileSystemConfigBuilder.getInstance().getProxyAuthenticator(fileSystemOptions);
+                if (proxyAuth != null)
+                {
+                    UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth, new UserAuthenticationData.Type[]
+                        {
+                            UserAuthenticationData.USERNAME,
+                            UserAuthenticationData.PASSWORD
+                        });
+
+                    if (authData != null)
+                    {
+                        final UsernamePasswordCredentials proxyCreds =
+                            new UsernamePasswordCredentials(
+                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
+                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
+
+                        resource.setProxyCredentials(proxyCreds);
+                    }
                 }
             }
 

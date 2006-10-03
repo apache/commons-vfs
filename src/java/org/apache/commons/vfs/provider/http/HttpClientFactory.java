@@ -19,9 +19,13 @@ import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 /**
  * Create a HttpClient instance
@@ -55,6 +59,32 @@ public class HttpClientFactory
                 if (proxyHost != null && proxyPort > 0)
                 {
                     config.setProxy(proxyHost, proxyPort);
+                }
+
+                UserAuthenticator proxyAuth = HttpFileSystemConfigBuilder.getInstance().getProxyAuthenticator(fileSystemOptions);
+                if (proxyAuth != null)
+                {
+                    UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth, new UserAuthenticationData.Type[]
+                        {
+                            UserAuthenticationData.USERNAME,
+                            UserAuthenticationData.PASSWORD
+                        });
+
+                    if (authData != null)
+                    {
+                        final UsernamePasswordCredentials proxyCreds =
+                            new UsernamePasswordCredentials(
+                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
+                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
+
+                        client.getState().setProxyCredentials(null, proxyHost, proxyCreds);
+                    }
+                }
+
+                Cookie[] cookies = HttpFileSystemConfigBuilder.getInstance().getCookies(fileSystemOptions);
+                if (cookies != null)
+                {
+                    client.getState().addCookies(cookies);
                 }
             }
 

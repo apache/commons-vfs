@@ -29,6 +29,7 @@ import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.webdav.lib.BaseProperty;
 import org.apache.webdav.lib.WebdavResource;
 import org.apache.webdav.lib.methods.DepthSupport;
@@ -254,7 +255,7 @@ public class WebdavFileObject
 
     private void processParentDavResource() throws FileSystemException
     {
-        WebdavFileObject parent = (WebdavFileObject) getParent();
+        WebdavFileObject parent = (WebdavFileObject) FileObjectUtils.getAbstractFileObject(getParent());
         try
         {
             // after this our resource should be reset
@@ -328,11 +329,11 @@ public class WebdavFileObject
                 continue;
             }
 
-            WebdavFileObject fo = (WebdavFileObject) getFileSystem().resolveFile(
+            WebdavFileObject fo = (WebdavFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
                 getFileSystem().getFileSystemManager().resolveName(
                     getName(),
                     davName,
-                    NameScope.CHILD));
+                    NameScope.CHILD)));
             fo.setDavResource(dav);
 
             // vfs[i] = fo;

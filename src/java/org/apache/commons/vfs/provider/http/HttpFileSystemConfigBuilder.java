@@ -17,6 +17,8 @@ package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.httpclient.Cookie;
 
 /**
  * Configuration options for HTTP
@@ -110,6 +112,38 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return ((Number) getParam(opts, "proxyPort")).intValue();
     }
 
+    /**
+     * Set the proxy authenticator where the system should get the credentials from
+     */
+    public void setProxyAuthenticator(FileSystemOptions opts, UserAuthenticator authenticator)
+    {
+        setParam(opts, "proxyAuthenticator", authenticator);
+    }
+
+    /**
+     * Get the proxy authenticator where the system should get the credentials from
+     */
+    public UserAuthenticator getProxyAuthenticator(FileSystemOptions opts)
+    {
+        return (UserAuthenticator) getParam(opts, "proxyAuthenticator");
+    }
+
+    /**
+     * The cookies to add to the reqest
+     */
+    public void setCookies(FileSystemOptions opts, Cookie[] cookies)
+    {
+        setParam(opts, "cookies", cookies);
+    }
+
+    /**
+     * The cookies to add to the reqest
+     */
+    public Cookie[] getCookies(FileSystemOptions opts)
+    {
+        return (Cookie[]) getParam(opts, "cookies");
+    }
+    
     protected Class getConfigClass()
     {
         return HttpFileSystem.class;

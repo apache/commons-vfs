@@ -17,6 +17,8 @@ package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.httpclient.Cookie;
 
 /**
  * Configuration options for WebDav
@@ -110,6 +112,22 @@ public class WebdavFileSystemConfigBuilder extends FileSystemConfigBuilder
         return ((Number) getParam(opts, "proxyPort")).intValue();
     }
 
+    /**
+     * Set the proxy authenticator where the system should get the credentials from
+     */
+    public void setProxyAuthenticator(FileSystemOptions opts, UserAuthenticator authenticator)
+    {
+        setParam(opts, "proxyAuthenticator", authenticator);
+    }
+
+    /**
+     * Get the proxy authenticator where the system should get the credentials from
+     */
+    public UserAuthenticator getProxyAuthenticator(FileSystemOptions opts)
+    {
+        return (UserAuthenticator) getParam(opts, "proxyAuthenticator");
+    }
+    
     protected Class getConfigClass()
     {
         return WebDavFileSystem.class;
