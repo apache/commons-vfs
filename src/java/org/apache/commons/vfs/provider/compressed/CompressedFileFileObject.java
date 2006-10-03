@@ -53,9 +53,11 @@ public abstract class CompressedFileFileObject
     }
 
     /**
-     * Returns true if this file is read-only.
+     * Determines if this file can be written to.
+     *
+     * @return <code>true</code> if this file is writeable, <code>false</code> if not.
      */
-    public boolean isWriteable()
+    public boolean isWriteable() throws FileSystemException
     {
         return getFileSystem().hasCapability(Capability.WRITE_CONTENT);
     }
