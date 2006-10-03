@@ -45,7 +45,7 @@ public class WindowsFileName extends LocalFileName
     /**
      * Builds the root URI for this file name.
      */
-    protected void appendRootUri(final StringBuffer buffer)
+    protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());
         buffer.append("://");

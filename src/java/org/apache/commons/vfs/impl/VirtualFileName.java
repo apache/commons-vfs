@@ -37,7 +37,7 @@ public class VirtualFileName extends AbstractFileName
         return new VirtualFileName(getScheme(), absPath, type);
     }
 
-    protected void appendRootUri(StringBuffer buffer)
+    protected void appendRootUri(StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());
     }

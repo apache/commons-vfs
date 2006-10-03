@@ -17,11 +17,11 @@ public class UrlFileName extends URLFileName
         super(scheme, hostName, port, defaultPort, userName, password, path, type, queryString);
     }
 
-    protected void appendRootUri(final StringBuffer buffer)
+    protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         if (getHostName() != null && !"".equals(getHostName()))
         {
-            super.appendRootUri(buffer);
+            super.appendRootUri(buffer, addPassword);
             return;
         }
 

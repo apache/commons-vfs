@@ -118,7 +118,7 @@ public class URLFileName extends GenericFileName
     public String getURIEncoded(String charset) throws FileSystemException, URIException
     {
         StringBuffer sb = new StringBuffer(80);
-        appendRootUri(sb);
+        appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));
         return sb.toString();
     }

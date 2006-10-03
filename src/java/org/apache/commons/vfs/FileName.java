@@ -183,4 +183,10 @@ public interface FileName extends Comparable
      * @return {@link FileType#FOLDER} or {@link FileType#FILE}
      */
     public FileType getType();
+
+    /**
+     * returns a "friendly path", this is a path without a password.<br />
+     * This path can not be used to resolve the path again
+     */
+    public String getFriendlyURI();
 }

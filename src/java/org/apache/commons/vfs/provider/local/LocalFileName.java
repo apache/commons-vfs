@@ -57,7 +57,7 @@ public class LocalFileName extends AbstractFileName
     /**
      * Builds the root URI for this file name.
      */
-    protected void appendRootUri(final StringBuffer buffer)
+    protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());
         buffer.append("://");

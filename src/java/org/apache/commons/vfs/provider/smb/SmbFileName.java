@@ -62,9 +62,9 @@ public class SmbFileName
     /**
      * Builds the root URI for this file name.
      */
-    protected void appendRootUri(final StringBuffer buffer)
+    protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
-        super.appendRootUri(buffer);
+        super.appendRootUri(buffer, addPassword);
         buffer.append('/');
         buffer.append(share);
     }
@@ -72,7 +72,7 @@ public class SmbFileName
     /**
      * put domain before username if both are set
      */
-    protected void appendCredentials(StringBuffer buffer)
+    protected void appendCredentials(StringBuffer buffer, boolean addPassword)
     {
         if (getDomain() != null && getDomain().length() != 0 &&
             getUserName() != null && getUserName().length() != 0)
@@ -80,7 +80,7 @@ public class SmbFileName
             buffer.append(getDomain());
             buffer.append("\\");
         }
-        super.appendCredentials(buffer);
+        super.appendCredentials(buffer, addPassword);
     }
 
     /**

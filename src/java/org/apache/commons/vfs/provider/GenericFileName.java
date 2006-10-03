@@ -117,11 +117,11 @@ public class GenericFileName extends AbstractFileName
     /**
      * Builds the root URI for this file name.
      */
-    protected void appendRootUri(final StringBuffer buffer)
+    protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());
         buffer.append("://");
-        appendCredentials(buffer);
+        appendCredentials(buffer, addPassword);
         buffer.append(hostName);
         if (port != getDefaultPort())
         {
@@ -133,7 +133,7 @@ public class GenericFileName extends AbstractFileName
     /**
      * append the user credentials
      */
-    protected void appendCredentials(StringBuffer buffer)
+    protected void appendCredentials(StringBuffer buffer, boolean addPassword)
     {
         if (userName != null && userName.length() != 0)
         {
@@ -141,7 +141,14 @@ public class GenericFileName extends AbstractFileName
             if (password != null && password.length() != 0)
             {
                 buffer.append(':');
-                UriParser.appendEncoded(buffer, password, PASSWORD_RESERVED);
+                if (addPassword)
+                {
+                    UriParser.appendEncoded(buffer, password, PASSWORD_RESERVED);
+                }
+                else
+                {
+                    buffer.append("*****");
+                }
             }
             buffer.append('@');
         }

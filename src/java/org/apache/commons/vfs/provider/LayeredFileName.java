@@ -50,7 +50,7 @@ public class LayeredFileName extends AbstractFileName
         return new LayeredFileName(getScheme(), getOuterName(), path, type);
     }
 
-    protected void appendRootUri(StringBuffer buffer)
+    protected void appendRootUri(StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());
         buffer.append(":");

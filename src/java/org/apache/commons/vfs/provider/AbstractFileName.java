@@ -124,7 +124,7 @@ public abstract class AbstractFileName
      * Builds the root URI for this file name.  Note that the root URI must not
      * end with a separator character.
      */
-    protected abstract void appendRootUri(StringBuffer buffer);
+    protected abstract void appendRootUri(StringBuffer buffer, boolean addPassword);
 
     /**
      * Returns the base name of the file.
@@ -236,7 +236,7 @@ public abstract class AbstractFileName
     protected String createURI()
     {
         final StringBuffer buffer = new StringBuffer();
-        appendRootUri(buffer);
+        appendRootUri(buffer, true);
         buffer.append(getPath());
         return buffer.toString();
     }
@@ -309,7 +309,7 @@ public abstract class AbstractFileName
         if (rootUri == null)
         {
             final StringBuffer buffer = new StringBuffer();
-            appendRootUri(buffer);
+            appendRootUri(buffer, true);
             buffer.append(SEPARATOR_CHAR);
             rootUri = buffer.toString().intern();
         }
@@ -487,5 +487,16 @@ public abstract class AbstractFileName
         }
 
         return true;
+    }
+
+    /**
+     * returns a "friendly path", this is a path without a password.
+     */
+    public String getFriendlyURI()
+    {
+        final StringBuffer buffer = new StringBuffer();
+        appendRootUri(buffer, false);
+        buffer.append(getPath());
+        return buffer.toString();
     }
 }
