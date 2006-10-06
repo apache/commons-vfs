@@ -131,14 +131,17 @@ public class SftpClientFactory
             session = jsch.getSession(new String(username),
                     hostname,
                     port);
-            session.setPassword(new String(password));
+            if (password != null)
+            {
+                session.setPassword(new String(password));
+            }
 
             Integer timeout = SftpFileSystemConfigBuilder.getInstance().getTimeout(fileSystemOptions);
             if (timeout != null)
             {
             	session.setTimeout(timeout.intValue());
             }
-            
+
             UserInfo userInfo = SftpFileSystemConfigBuilder.getInstance().getUserInfo(fileSystemOptions);
             if (userInfo != null)
             {
