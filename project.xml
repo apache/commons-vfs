@@ -204,10 +204,10 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/java</sourceDirectory>
+        <sourceDirectory>core/src/main/java</sourceDirectory>
 
         <!-- Unit test classes -->
-        <unitTestSourceDirectory>src/test</unitTestSourceDirectory>
+        <unitTestSourceDirectory>core/src/main/test</unitTestSourceDirectory>
         <unitTest>
             <includes>
                 <include>**/test/*TestCase.java</include>
@@ -221,7 +221,7 @@
         <!-- Resources that are packaged up inside the JAR file -->
         <resources>
             <resource>
-                <directory>src/java</directory>
+                <directory>core/src/main/java</directory>
                 <includes>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>

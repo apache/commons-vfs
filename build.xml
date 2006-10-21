@@ -14,7 +14,11 @@
 
   <property name="defaulttargetdir" value="${basedir}/target">
   </property>
+<!--
   <property name="libdir" value="${user.home}/.maven/repository">
+  </property>
+-->
+  <property name="libdir" value="${basedir}/target/lib">
   </property>
   <property name="classesdir" value="${basedir}/target/classes">
   </property>
