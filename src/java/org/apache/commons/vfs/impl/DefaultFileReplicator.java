@@ -38,7 +38,7 @@ import java.util.Random;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public final class DefaultFileReplicator
+public class DefaultFileReplicator
     extends AbstractVfsComponent
     implements FileReplicator, TemporaryFileStore
 {
@@ -47,11 +47,12 @@ public final class DefaultFileReplicator
     private final ArrayList copies = new ArrayList();
     private File tempDir;
     private long filecount;
+    private boolean tempDirMessageLogged;
 
     private char[] TMP_RESERVED_CHARS = new char[]
-    {
-        '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
-    };
+        {
+            '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
+        };
 
     /**
      * constructor to set the location of the temporary directory
@@ -77,12 +78,17 @@ public final class DefaultFileReplicator
             String baseTmpDir = System.getProperty("java.io.tmpdir");
 
             tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
-
-            final String message = Messages.getString("vfs.impl/temp-dir.info", tempDir);
-            VfsLog.info(getLogger(), log, message);
         }
 
         filecount = new Random().nextInt() & 0xffff;
+
+        if (!tempDirMessageLogged)
+        {
+            final String message = Messages.getString("vfs.impl/temp-dir.info", tempDir);
+            VfsLog.info(getLogger(), log, message);
+
+            tempDirMessageLogged = true;
+        }
     }
 
     /**
@@ -91,19 +97,12 @@ public final class DefaultFileReplicator
     public void close()
     {
         // Delete the temporary files
-        while (copies.size() > 0)
+        synchronized (copies)
         {
-            final File file = (File) copies.remove(0);
-            try
+            while (copies.size() > 0)
             {
-                final FileObject fileObject = getContext().toFileObject(file);
-                fileObject.delete(Selectors.SELECT_ALL);
-            }
-            catch (final FileSystemException e)
-            {
-                final String message = Messages.getString("vfs.impl/delete-temp.warn", file.getName());
-                // getLogger().warn(message, e);
-                VfsLog.warn(getLogger(), log, message, e);
+                final File file = (File) removeFile();
+                deleteFile(file);
             }
         }
 
@@ -116,22 +115,78 @@ public final class DefaultFileReplicator
     }
 
     /**
+     * physically deletes the file from the filesystem
+     */
+    protected void deleteFile(File file)
+    {
+        try
+        {
+            final FileObject fileObject = getContext().toFileObject(file);
+            fileObject.delete(Selectors.SELECT_ALL);
+        }
+        catch (final FileSystemException e)
+        {
+            final String message = Messages.getString("vfs.impl/delete-temp.warn", file.getName());
+            VfsLog.warn(getLogger(), log, message, e);
+        }
+    }
+
+    /**
+     * removes a file from the copies list. Will be used for cleanup. <br/>
+     * Notice: The system awaits that the returning object can be cast to a java.io.File
+     */
+    protected Object removeFile()
+    {
+        synchronized (copies)
+        {
+            return copies.remove(0);
+        }
+    }
+
+    /**
+     * removes a instance from the list of copies
+     */
+    protected void removeFile(Object file)
+    {
+        synchronized (copies)
+        {
+            copies.remove(file);
+        }
+    }
+
+    /**
      * Allocates a new temporary file.
      */
     public File allocateFile(final String baseName) throws FileSystemException
     {
         // Create a unique-ish file name
         final String basename = createFilename(baseName);
-        synchronized(this)
+        synchronized (this)
         {
             filecount++;
         }
+
+        final File file = createAndAddFile(tempDir, basename);
+
+        return file;
+    }
+
+    protected File createAndAddFile(final File parent, final String basename) throws FileSystemException
+    {
         final File file = createFile(tempDir, basename);
 
         // Keep track to delete later
-        copies.add(file);
+        addFile(file);
 
         return file;
+    }
+
+    protected void addFile(Object file)
+    {
+        synchronized (copies)
+        {
+            copies.add(file);
+        }
     }
 
     protected long getFilecount()
