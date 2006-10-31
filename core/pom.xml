@@ -79,18 +79,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>jcifs</groupId>
-      <artifactId>jcifs</artifactId>
-      <version>0.8.3</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>slide</groupId>
-      <artifactId>jakarta-slide-webdavlib</artifactId>
-      <version>20050629.161100</version>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>
       <version>1.0</version>
