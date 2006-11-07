@@ -64,20 +64,24 @@ public abstract class AbstractOriginatingFileProvider
     /**
      * Locates a file from its parsed URI.
      */
-    protected synchronized FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
+    protected FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        // Check in the cache for the file system
-        final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
-        FileSystem fs = findFileSystem(rootName, fileSystemOptions);
-        if (fs == null)
-        {
-            // Need to create the file system, and cache it
-            fs = doCreateFileSystem(rootName, fileSystemOptions);
-            addFileSystem(rootName, fs);
-        }
+		FileSystem fs;
+		synchronized (this)
+		{
+			// Check in the cache for the file system
+			final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
+			fs = findFileSystem(rootName, fileSystemOptions);
+			if (fs == null)
+			{
+				// Need to create the file system, and cache it
+				fs = doCreateFileSystem(rootName, fileSystemOptions);
+				addFileSystem(rootName, fs);
+			}
+		}
 
-        // Locate the file
+		// Locate the file
         // return fs.resolveFile(name.getPath());
         return fs.resolveFile(name);
     }
