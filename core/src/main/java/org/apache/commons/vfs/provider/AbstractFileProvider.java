@@ -66,7 +66,7 @@ public abstract class AbstractFileProvider
      */
     public void close()
     {
-        synchronized (fileSystems)
+        synchronized (this)
         {
             fileSystems.clear();
         }
@@ -97,7 +97,7 @@ public abstract class AbstractFileProvider
         FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
         ((AbstractFileSystem) fs).setCacheKey(treeKey);
 
-        synchronized (fileSystems)
+        synchronized (this)
         {
             fileSystems.put(treeKey, fs);
         }
@@ -112,7 +112,7 @@ public abstract class AbstractFileProvider
     {
         FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
 
-        synchronized (fileSystems)
+        synchronized (this)
         {
             return (FileSystem) fileSystems.get(treeKey);
         }
@@ -126,7 +126,7 @@ public abstract class AbstractFileProvider
     public void freeUnusedResources()
     {
         Object[] item;
-        synchronized (fileSystems)
+        synchronized (this)
         {
             item = fileSystems.values().toArray();
         }
@@ -144,7 +144,7 @@ public abstract class AbstractFileProvider
     {
         AbstractFileSystem fs = (AbstractFileSystem) filesystem;
 
-        synchronized (fileSystems)
+        synchronized (this)
         {
             if (fs.getCacheKey() != null)
             {
