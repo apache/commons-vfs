@@ -28,6 +28,7 @@
     <menu name="Commons&#xA0;VFS">
       <item name="Overview"                href="/index.html"/>
       <item name="Download and Build"      href="/download.html"/>
+      <item name="3rd party plugins"       href="/3rdparty.html"/>
       <item name="Using the API"           href="/api.html"/>
       <item name="API JavaDocs"            href="/apidocs/index.html"/>
       <item name="File Systems"            href="/filesystems.html"/>

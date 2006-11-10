@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<document>
+    <properties>
+        <title>3rd party plugins</title>
+        <author email="imario@apache.org">Mario Ivankovits</author>
+    </properties>
+
+    <body>
+        <section name="External plugins">
+
+            <p>
+                Commons VFS provides a way to extend it by simply placing plugin-jars
+				into the classpath.
+            </p>
+
+            <p>Some external plugins:</p>
+            <ul>
+                <li>ISO 9660 - <a href="http://loopy.sourceforge.net">http://loopy.sourceforge.net</a><br/>
+					Reads .iso files
+                </li>
+            </ul>
+
+        </section>
+
+	</body>
+</document>
+
