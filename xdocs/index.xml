@@ -61,14 +61,15 @@
 				build all at once - Notice: the ant and maven 1 build will just build the core.
 			</p>
 			<p>
-				The newest filesystem is: mime<br/>
+				And - we have a new filesystem: mime (read only for sure)<br/>
 				This filesystem allows you to read e-mails like archives, e.g. the attachments are the
-				children of the mail itself.
+				children of the mail itself.<br />
+				You'll find it in our sandbox.
 			</p>
 			<p>
 				Also notice that we now have a "3rd party plugins" page. It will list all external
 				plugins available for VFS.<br />
-				You have such a beast - and will get listed - just drop me a mail: imario -at- apache.org
+				You have such a beast - and will get listed? Just drop me a mail: imario -at- apache.org
 			</p>
 		</section>
 
