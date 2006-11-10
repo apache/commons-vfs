@@ -35,6 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -133,72 +134,37 @@ public class StandardFileSystemManager
      */
     protected void configurePlugins() throws FileSystemException
     {
-        String classpath = System.getProperty("java.class.path");
-        if (classpath == null)
-        {
-            // huh? why should that be?
-            return;
-        }
+		ClassLoader cl = findClassLoader();
 
-        StringTokenizer st = new StringTokenizer(classpath, File.pathSeparator, false);
-        while (st.hasMoreTokens())
-        {
-            String path = st.nextToken();
+		Enumeration enumResources = null;
+		try
+		{
+			enumResources = cl.getResources(PLUGIN_CONFIG_RESOURCE);
+		}
+		catch (IOException e)
+		{
+			throw new FileSystemException(e);
+		}
+		
+		while (enumResources.hasMoreElements())
+		{
+			URL url = (URL) enumResources.nextElement();
+			configure(url);
+		}
+	}
 
-            if (path.length() > 4 && path.substring(path.length()-4).toLowerCase().equals(".jar"))
-            {
-                try
-                {
-                    JarFile jarFile = new JarFile(path);
-                    JarEntry jarEntry = jarFile.getJarEntry(PLUGIN_CONFIG_RESOURCE);
-                    if (jarEntry != null)
-                    {
-                        InputStream configStream = null;
-                        try
-                        {
-                            configStream = jarFile.getInputStream(jarEntry);
-                            configure(jarEntry.getName(), configStream);
-                        }
-                        finally
-                        {
-                            if (configStream != null)
-                            {
-                                configStream.close();
-                            }
-                        }
-                    }
-                }
-                catch (FileSystemException e)
-                {
-                    // VFS exception - rethrow
-                    // Need to do this as FileSystemException extends IOException
-                    throw e;
-                }
-                catch (IOException e)
-                {
-                    // Maybe a damaged jar? Complain about but continue ...
-                    log.warn(e.getLocalizedMessage() + " " + path, e);
-                }
-            }
-            else
-            {
-                File config = new File(path, PLUGIN_CONFIG_RESOURCE);
-                if (config.exists() && config.canRead())
-                {
-                    try
-                    {
-                      configure(config.toURL());
-                    }
-                    catch (MalformedURLException e)
-                    {
-                      log.warn(e.getLocalizedMessage(), e);
-                    }
-                }
-            }
-        }
-    }
+	private ClassLoader findClassLoader()
+	{
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		if (cl == null)
+		{
+			cl = getClass().getClassLoader();
+		}
 
-    protected DefaultFileReplicator createDefaultFileReplicator()
+		return cl;
+	}
+
+	protected DefaultFileReplicator createDefaultFileReplicator()
     {
         return new DefaultFileReplicator();
     }
