@@ -11,4 +11,12 @@
 		<if-available class-name="org.apache.commons.httpclient.HttpClient"/>
 	</provider>
 	
+	<provider class-name="org.apache.commons.vfs.provider.mime.MimeFileProvider">
+		<scheme name="mime"/>
+		<if-available class-name="javax.mail.internet.MimeMultipart"/>
+	</provider>
+
+	<extension-map extension="mime" scheme="mime"/>
+	<mime-type-map mime-type="message/rfc822" scheme="mime"/>
+
 </providers>
