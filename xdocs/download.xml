@@ -87,14 +87,14 @@
                         You only need this bleeding edge version if you would like to use the RandomAccessContent with
                         webdav
                     </td>
-                    <td>WebDAV</td>
+                    <td>WebDAV (VFS sandbox)</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://jcifs.samba.org/">jCIFS</a>
                         Version 0.8.3 or later.
                     </td>
-                    <td>CIFS</td>
+                    <td>CIFS (VFS sandbox)</td>
                 </tr>
                 <tr>
                     <td>
@@ -103,7 +103,15 @@
                     </td>
                     <td>SFTP</td>
                 </tr>
-                <tr>
+				<tr>
+					<td>
+						<a href="http://java.sun.com/products/javamail/">javamail</a>
+						Version 1.4
+					</td>
+					<td>mime (VFS sandbox)</td>
+				</tr>
+<!--
+				<tr>
                     <td>
                         <a href="http://jakarta.apache.org/commons/sandbox/compress/">Commons Compress</a>
                         Nightly build 20050911
@@ -116,6 +124,7 @@
                     </td>
                     <td>tar, bz2</td>
                 </tr>
+-->                
             </table>
         </section>
         <section name="Building Commons VFS">

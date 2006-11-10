@@ -48,48 +48,6 @@
 
         </section>
 
-        <section name="News">
-            <p>2005-09-26 - imario@apache.org: RC4 some enhancements - see RELEASE_NOTES.txt</p>
-            <!--
-                        <p>2005-08-13 - imario@apache.org: RC3</p>
-
-                        <p>2005-07-05 - imario@apache.org: RC2 - includes multi-threading fixes for ftp and webdav</p>
-
-                        <p>2005-06-29 - imario@apache.org: RC1</p>
-
-                        <p>2005-06-19 - imario@apache.org: Again refactored filename parsing. sftp now accepts files with space in
-                            their filename</p>
-
-                        <p>2005-05-24 - imario@apache.org: Moved VFS out of sandbox into proper. What a great day!</p>
-
-                        <p>2005-05 - imario@apache.org: Find the "How to setup a VFS Testserver" documentation in the developer
-                            area.</p>
-
-                        <p>2005-03 - imario@apache.org: easier configuration for plugins - see api section for details</p>
-
-                        <p>2005-03 - imario@apache.org: The filename parsing and api has changed.
-                            <ul>
-                                <li>Now it is needed to encode the '%' sign using '%25'</li>
-                                <li>It is no longer needed to encode the '!' sign when using nested archives (tar, jar, ...).
-                                    <br/>
-                                    Now you
-                                    <u>can</u>
-                                    encode it if you would like to use it in your filename
-                                </li>
-                                <li>It is no longer needed to double-encode the filename when using layered names.
-                                    <code>tar:tar:file:///</code>
-                                </li>
-                                <li>Depending on the filesystem special characters in your filename could automatically be
-                                    encoded</li>
-                                <li>
-                                    <code>FileName.resolveName(...)</code>
-                                    has been moved to
-                                    <code>FileSystemManager.resolveName(...)</code>
-                                </li>
-                            </ul>
-                        </p>
-            -->
-        </section>
     </body>
 </document>
 

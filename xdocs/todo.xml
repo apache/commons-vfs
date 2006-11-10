@@ -82,7 +82,6 @@
                         configurable.
                     </li>
                     <li>Add persistent replicator.</li>
-                    <li>Change the model so that folders may have content.</li>
                     <li>
                         Finish support for junctions:  Make ancestors of a junction
                         point visible, fire events when junction is added or removed,
@@ -116,9 +115,7 @@
                         listeners.
                     </li>
                     <li>Get/set the file permissions.</li>
-                    <li>Sort out threading model.</li>
                     <li>Automatically checksum and/or verify remote files.</li>
-                    <li>Add a DefaultFileSystemManager subclass that is an Avalon component.</li>
                     <li>
                         Look at adding native code for fine-grained control over
                         permissions, file monitoring, faster moves, etc.  Must be

@@ -11,7 +11,7 @@
             <p>Commons VFS currently supports the following file systems:</p>
             <ul>
                 <li>
-                    <a href="#CIFS">CIFS</a>
+                    <a href="#CIFS">CIFS (VFS sandbox)</a>
                 </li>
                 <li>
                     <a href="#FTP">FTP</a>
@@ -29,7 +29,7 @@
                     <a href="#Temporary Files">Temporary Files</a>
                 </li>
                 <li>
-                    <a href="#WebDAV">WebDAV</a>
+                    <a href="#WebDAV">WebDAV (VFS sandbox)</a>
                 </li>
                 <li>
                     <a href="#Zip, Jar and Tar">Zip, Jar and Tar (uncompressed, tgz or tbz2)</a>
@@ -43,6 +43,9 @@
                 <li>
                     <a href="#ram">ram</a>
                 </li>
+				<li>
+					<a href="#mime">mime</a>
+				</li>
             </ul>
         </section>
 
@@ -474,5 +477,41 @@
             </ul>
         </section>
         
-    </body>
+		<section name="mime">
+
+			<p>
+				This filesystem can read mails and its attachements like archives.<br />
+				If a part in the parsed mail has no name, a dummy name will be generated.
+				The dummy name is: _body_part_X where X will be replaced by the part number. 
+			</p>
+
+			<p>
+				<b>URI Format</b>
+			</p>
+
+			<p>
+				<code>mime://
+					<i>mime-file-uri</i>[!
+					<i>absolute-path</i>]
+				</code>
+			</p>
+
+			<p>
+				<b>Examples</b>
+			</p>
+
+			<ul>
+				<li>
+					<code>mime:file:///your/path/mail/anymail.mime!/</code>
+				</li>
+				<li>
+					<code>mime:file:///your/path/mail/anymail.mime!/filename.pdf</code>
+				</li>
+				<li>
+					<code>mime:file:///your/path/mail/anymail.mime!/_body_part_0</code>
+				</li>
+			</ul>
+		</section>
+
+	</body>
 </document>
