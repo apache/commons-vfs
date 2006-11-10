@@ -46,7 +46,7 @@
         </license>
     </licenses>
     <issueTrackingUrl>http://issues.apache.org/jira/</issueTrackingUrl>
-    <siteAddress>cvs.apache.org</siteAddress>
+    <siteAddress>people.apache.org</siteAddress>
         <siteDirectory>/www/jakarta.apache.org/commons/vfs/</siteDirectory>
     <!--
     <siteDirectory>public_html/vfs-1.0-RC7/site</siteDirectory>
