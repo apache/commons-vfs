@@ -11,9 +11,6 @@
             <p>Commons VFS currently supports the following file systems:</p>
             <ul>
                 <li>
-                    <a href="#CIFS">CIFS (VFS sandbox)</a>
-                </li>
-                <li>
                     <a href="#FTP">FTP</a>
                 </li>
                 <li>
@@ -29,9 +26,6 @@
                     <a href="#Temporary Files">Temporary Files</a>
                 </li>
                 <li>
-                    <a href="#WebDAV">WebDAV (VFS sandbox)</a>
-                </li>
-                <li>
                     <a href="#Zip, Jar and Tar">Zip, Jar and Tar (uncompressed, tgz or tbz2)</a>
                 </li>
                 <li>
@@ -43,13 +37,26 @@
                 <li>
                     <a href="#ram">ram</a>
                 </li>
+			</ul>
+        </section>
+
+		<section name="Things from the sandbox">
+			<p>The following file systems are in development:</p>
+			<ul>
+				<li>
+					<a href="#WebDAV">WebDAV</a><br />
+					We can't release WebDAV as we depend on an snapshot, thus it is in our sandbox.
+				</li>
+				<li>
+					<a href="#CIFS">CIFS</a>
+				</li>
 				<li>
 					<a href="#mime">mime</a>
 				</li>
-            </ul>
-        </section>
+			</ul>
+		</section>
 
-        <section name="Naming">
+		<section name="Naming">
 
             <p>All filenames are treated as URIs. One of the consequences of this is you have to encode the '%'
                 character using <code>%25</code>. <br />
