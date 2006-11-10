@@ -157,7 +157,7 @@
         </pathelement>
       </classpath>
       <batchtest todir="${testreportdir}">
-        <fileset dir="${basedir}/core/src/main/test">
+        <fileset dir="${basedir}/core/src/test/java">
           <include name="**/test/*TestCase.java">
           </include>
           <exclude name="**/test/Abstract*TestCase.java">
@@ -178,7 +178,7 @@
     </mkdir>
     <javac destdir="${testclassesdir}" deprecation="true" debug="true" optimize="false" excludes="**/package.html">
       <src>
-        <pathelement location="${basedir}/core/src/main/test">
+        <pathelement location="${basedir}/core/src/test/java">
         </pathelement>
       </src>
       <classpath>
