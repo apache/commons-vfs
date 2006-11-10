@@ -234,7 +234,11 @@ public final class DefaultFileContent implements FileContent
         throws FileSystemException
     {
         getAttributes();
-        return attrs.get(attrName.toLowerCase());
+		if (attrs.containsKey(attrName))
+		{
+			return attrs.get(attrName);
+		}
+		return attrs.get(attrName.toLowerCase());
     }
 
     /**

@@ -749,7 +749,7 @@ public abstract class AbstractFileObject implements FileObject
             // file.attach();
 
             // If the file is a folder, make sure all its children have been deleted
-            if (file.getType() == FileType.FOLDER && file.getChildren().length != 0)
+            if (file.getType().hasChildren() && file.getChildren().length != 0)
             {
                 // Skip - as the selector forced us not to delete all files
                 continue;
@@ -805,7 +805,7 @@ public abstract class AbstractFileObject implements FileObject
     {
         synchronized (fs)
         {
-            if (getType() == FileType.FOLDER)
+            if (getType().hasChildren())
             {
                 // Already exists as correct type
                 return;
@@ -961,8 +961,8 @@ public abstract class AbstractFileObject implements FileObject
 
             destFile.copyFrom(this, Selectors.SELECT_SELF);
 
-            if (((destFile.getType() == FileType.FILE && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) ||
-                (destFile.getType() == FileType.FOLDER && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))) &&
+            if (((destFile.getType().hasContent() && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) ||
+                (destFile.getType().hasChildren() && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))) &&
                 getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED))
             {
                 destFile.getContent().setLastModifiedTime(this.getContent().getLastModifiedTime());

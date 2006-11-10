@@ -115,7 +115,7 @@ public class CustomRamProviderTest extends TestCase
      */
     public void testRootFolderExists() throws FileSystemException {
         FileObject root = manager.resolveFile("ram:///", defaultRamFs);
-        assertTrue(root.getType().equals(FileType.FOLDER));
+        assertTrue(root.getType().hasChildren());
 
         try {
             root.delete();

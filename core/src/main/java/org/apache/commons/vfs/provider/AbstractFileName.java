@@ -162,7 +162,7 @@ public abstract class AbstractFileName
 
     protected String getUriTrailer()
     {
-        return getType() == FileType.FOLDER ? "/" : "";
+        return getType().hasChildren() ? "/" : "";
     }
 
     public String getPathDecoded() throws FileSystemException
@@ -419,7 +419,7 @@ public abstract class AbstractFileName
      */
     void setType(FileType type) throws FileSystemException
     {
-        if (type != FileType.FOLDER && type != FileType.FILE)
+        if (type != FileType.FOLDER && type != FileType.FILE && type != FileType.FILE_OR_FOLDER)
         {
             throw new FileSystemException("vfs.provider/filename-type.error");
         }

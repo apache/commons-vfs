@@ -35,7 +35,13 @@ public final class FileType
      */
     public static final FileType FILE = new FileType("file", false, true, true);
 
-    /**
+	/**
+	 * A file or folder.  May have data content and attributes, and can
+	 * contain other files.
+	 */
+	public static final FileType FILE_OR_FOLDER = new FileType("fileOrFolder", true, true, true);
+
+	/**
      * A file that does not exist.  May not have data content, attributes,
      * or contain other files.
      */

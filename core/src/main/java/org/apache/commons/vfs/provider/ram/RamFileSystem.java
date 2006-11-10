@@ -225,7 +225,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	{
 		RamFileObject memFo = (RamFileObject) this.resolveFile(fo.getName()
 				.getPath().substring(root.getName().getPath().length()));
-		if (fo.getType().equals(FileType.FOLDER))
+		if (fo.getType().hasChildren())
 		{
 			// Create Folder
 			memFo.createFolder();

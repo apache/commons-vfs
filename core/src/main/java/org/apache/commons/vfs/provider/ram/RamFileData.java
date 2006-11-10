@@ -161,7 +161,7 @@ class RamFileData implements Serializable
 	 */
 	void addChild(RamFileData data) throws FileSystemException
 	{
-		if (!this.getType().equals(FileType.FOLDER))
+		if (!this.getType().hasChildren())
 		{
 			throw new FileSystemException(
 					"A child can only be added in a folder");
@@ -189,7 +189,7 @@ class RamFileData implements Serializable
 	 */
 	void removeChild(RamFileData data) throws FileSystemException
 	{
-		if (!this.getType().equals(FileType.FOLDER))
+		if (!this.getType().hasChildren())
 		{
 			throw new FileSystemException(
 					"A child can only be removed from a folder");

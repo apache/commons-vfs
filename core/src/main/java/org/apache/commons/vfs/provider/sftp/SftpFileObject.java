@@ -30,6 +30,7 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.util.FileObjectUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -290,17 +291,19 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 				continue;
 			}
 
-			SftpFileObject fo = (SftpFileObject) getFileSystem()
+			FileObject fo =
+				getFileSystem()
 					.resolveFile(
 							getFileSystem().getFileSystemManager().resolveName(
 									getName(), UriParser.encode(name),
 									NameScope.CHILD));
-			fo.setStat(stat.getAttrs());
+
+			((SftpFileObject) FileObjectUtils.getAbstractFileObject(fo)).setStat(stat.getAttrs());
 
 			children.add(fo);
 		}
 
-		return (SftpFileObject[]) children.toArray(new SftpFileObject[children
+		return (FileObject[]) children.toArray(new FileObject[children
 				.size()]);
 	}
 

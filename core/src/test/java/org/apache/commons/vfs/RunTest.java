@@ -7,15 +7,12 @@ import org.apache.commons.vfs.provider.http.test.HttpProviderTestCase;
 import org.apache.commons.vfs.provider.jar.test.JarProviderTestCase;
 import org.apache.commons.vfs.provider.jar.test.NestedJarTestCase;
 import org.apache.commons.vfs.provider.sftp.test.SftpProviderTestCase;
-import org.apache.commons.vfs.provider.smb.test.SmbProviderTestCase;
-import org.apache.commons.vfs.provider.smb.test.FileNameTestCase;
 import org.apache.commons.vfs.provider.tar.test.NestedTarTestCase;
 import org.apache.commons.vfs.provider.tar.test.NestedTbz2TestCase;
 import org.apache.commons.vfs.provider.tar.test.NestedTgzTestCase;
 import org.apache.commons.vfs.provider.tar.test.TarProviderTestCase;
 import org.apache.commons.vfs.provider.tar.test.Tbz2ProviderTestCase;
 import org.apache.commons.vfs.provider.tar.test.TgzProviderTestCase;
-import org.apache.commons.vfs.provider.webdav.test.WebdavProviderTestCase;
 import org.apache.commons.vfs.provider.zip.test.NestedZipTestCase;
 import org.apache.commons.vfs.provider.zip.test.ZipProviderTestCase;
 import org.apache.commons.vfs.provider.ftp.test.FtpProviderTestCase;
@@ -39,14 +36,14 @@ public class RunTest
 		props.setProperty("test.policy", "src/test-data/test.policy");
 		props.setProperty("test.secure", "false");
 		props.setProperty("test.smb.uri",
-				"smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/vfstest");
+				"smb://HOME\\vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfsusr/vfstest");
 		props.setProperty("test.ftp.uri",
-				"ftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
-		props.setProperty("test.http.uri", "http://10.0.1.54/vfstest");
+				"ftp://vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfstest");
+		props.setProperty("test.http.uri", "http://172.26.2.126/vfstest");
 		props.setProperty("test.webdav.uri",
-				"webdav://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
+				"webdav://vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfstest");
 		props.setProperty("test.sftp.uri",
-				"sftp://vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfstest");
+				"sftp://vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfstest");
 
 		Test tests[] = new Test[]
 		{

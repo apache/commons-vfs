@@ -455,7 +455,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         {
             try
             {
-                if (this.file.getType() == FileType.FOLDER)
+                if (this.file.getType().hasChildren())
                 {
                     this.children = new HashMap();
                     FileObject[] childrenList = this.file.getChildren();
@@ -522,7 +522,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                 if (this.fm.isRecursive())
                 {
-                    if (child.getType() == FileType.FOLDER)
+                    if (child.getType().hasChildren())
                     {
                         FileObject[] newChildren = child.getChildren();
                         for (int i = 0; i < newChildren.length; i++)
@@ -547,7 +547,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         {
             try
             {
-                if (this.file.getType() == FileType.FOLDER)
+                if (this.file.getType().hasChildren())
                 {
                     FileObject[] newChildren = this.file.getChildren();
                     if (this.children != null)
@@ -645,7 +645,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                         // Don't fire if it's a folder because new file children
                         // and deleted files in a folder have their own event triggered.
-                        if (this.file.getType() != FileType.FOLDER)
+                        if (!this.file.getType().hasChildren())
                         {
                             ((AbstractFileSystem)
                                 this.file.getFileSystem()).fireFileChanged(this.file);
