@@ -20,17 +20,25 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.util.FileObjectUtils;
+import org.apache.commons.vfs.util.SharedRandomContentInputStream;
 
 import javax.mail.Header;
+import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Part;
 import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -45,25 +53,14 @@ public class MimeFileObject
 	extends AbstractFileObject
 	implements FileObject
 {
-	private final HashSet children = new HashSet();
-	private final Part part;
-	private final MimeFileSystem fileSystem;
+	private Part part;
 
 	protected MimeFileObject(final FileName name,
-							final Part bodyPart,
-							final MimeFileSystem fileSystem) throws FileSystemException
+							final Part part,
+							final AbstractFileSystem fileSystem) throws FileSystemException
 	{
 		super(name, fileSystem);
-		this.part = bodyPart;
-		this.fileSystem = fileSystem;
-	}
-
-	/**
-	 * Attaches a child
-	 */
-	protected void attachChild(FileName childName)
-	{
-		children.add(childName.getBaseName());
+		this.part = part;
 	}
 
 	/**
@@ -71,7 +68,49 @@ public class MimeFileObject
      */
     protected void doAttach() throws Exception
     {
-    }
+		if (part == null)
+		{
+			if (!getName().equals(getFileSystem().getRootName()))
+			{
+				throw new IllegalStateException();
+			}
+
+			FileObject parentLayer = getFileSystem().getParentLayer();
+			if (!parentLayer.exists())
+			{
+				return;
+			}
+
+			InputStream is = null;
+			try
+			{
+				if (parentLayer.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
+				{
+					is = new SharedRandomContentInputStream(parentLayer);
+				}
+				else
+				{
+					is = getFileSystem().getParentLayer().getContent().getInputStream();
+				}
+				part = new MimeMessage(null, is);
+			}
+			finally
+			{
+				if (is != null)
+				{
+					try
+					{
+						is.close();
+					}
+					catch (IOException e)
+					{
+						// ignore close errors
+					}
+				}
+			}
+
+		}
+	}
 
     protected void doDetach() throws Exception
     {
@@ -91,16 +130,66 @@ public class MimeFileObject
 		return FileType.FILE_OR_FOLDER;
     }
 
-    /**
-     * Lists the children of the file.  Is only called if {@link #doGetType}
-     * returns {@link org.apache.commons.vfs.FileType#FOLDER}.
-     */
-    protected String[] doListChildren() throws Exception
-    {
-		return (String[]) children.toArray(new String[children.size()]);
+	protected String[] doListChildren() throws Exception
+	{
+		return null;
 	}
 
-    /**
+	/**
+	 * Lists the children of the file.  Is only called if {@link #doGetType}
+	 * returns {@link org.apache.commons.vfs.FileType#FOLDER}.
+	 */
+	protected FileObject[] doListChildrenResolved() throws Exception
+	{
+		if (part == null)
+		{
+			return null;
+		}
+
+		List vfs;
+		Object container = part;
+		if (container instanceof Message)
+		{
+			container = ((Message) container).getContent();
+		}
+		if (container instanceof Multipart)
+		{
+			Multipart multipart = (Multipart) container;
+			vfs = new ArrayList(multipart.getCount());
+
+			for (int i = 0; i<multipart.getCount(); i++)
+			{
+				Part part = multipart.getBodyPart(i);
+
+				String filename = UriParser.encode(part.getFileName());
+				if (filename == null)
+				{
+					filename = MimeFileSystem.NULL_BP_NAME + i;
+				}
+
+				MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
+					getFileSystem().getFileSystemManager().resolveName(
+						getName(),
+						filename,
+						NameScope.CHILD)));
+				fo.setPart(part);
+				vfs.add(fo);
+			}
+		}
+		else
+		{
+			vfs = Collections.EMPTY_LIST;
+		}
+
+		return (MimeFileObject[]) vfs.toArray(new MimeFileObject[vfs.size()]);
+	}
+
+	private void setPart(Part part)
+	{
+		this.part = part;
+	}
+
+	/**
      * Returns the size of the file content (in bytes).
      */
     protected long doGetContentSize() throws Exception
@@ -114,7 +203,11 @@ public class MimeFileObject
     protected long doGetLastModifiedTime()
         throws Exception
     {
-		MimeMessage mm = fileSystem.getMimeMessage();
+		Message mm = getMessage();
+		if (mm == null)
+		{
+			return -1;
+		}
 		if (mm.getSentDate() != null)
 		{
 			return mm.getSentDate().getTime();
@@ -126,7 +219,17 @@ public class MimeFileObject
 		return 0;
 	}
 
-    /**
+	private Message getMessage() throws FileSystemException
+	{
+		if (part instanceof Message)
+		{
+			return (Message) part;
+		}
+
+		return ((MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent())).getMessage();
+	}
+
+	/**
      * Creates an input stream to read the file content from.
      */
     protected InputStream doGetInputStream() throws Exception

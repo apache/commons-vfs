@@ -20,20 +20,9 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.util.FileObjectDataSource;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.UriParser;
 
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.MessagingException;
-import javax.mail.BodyPart;
-import javax.mail.Multipart;
 import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.InputStream;
-import java.io.IOException;
 
 /**
  * An MIME file system.
@@ -45,116 +34,11 @@ public class MimeFileSystem
 	extends AbstractFileSystem
 	implements FileSystem
 {
-	private final static String NULL_BP_NAME = "_body_part_";
-
-	private MimeMultipart mimeMultipart;
-	private MimeMessage mimeMessage;
+	public final static String NULL_BP_NAME = "_body_part_";
 
 	protected MimeFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, parentLayer, fileSystemOptions);
-	}
-
-	public void init() throws FileSystemException
-	{
-		super.init();
-
-		List strongRef = new ArrayList(100);
-
-		// check if parent exists
-		if (!getParentLayer().exists())
-		{
-			return;
-		}
-		
-		try
-		{
-			InputStream is = null;
-			try
-			{
-				is = getParentLayer().getContent().getInputStream();
-				mimeMessage = new MimeMessage(null, is);
-			}
-			finally
-			{
-				if (is != null)
-				{
-					try
-					{
-						is.close();
-					}
-					catch (IOException e)
-					{
-						// ignore close errors
-					}
-				}
-			}
-
-			// create root
-			FileName name = getFileSystemManager().resolveName(getRootName(), "/");
-			MimeFileObject foRoot = new MimeFileObject(name, mimeMessage, this);
-			putFileToCache(foRoot);
-			strongRef.add(foRoot);
-			foRoot.holdObject(strongRef);
-
-			Object content;
-			try
-			{
-				content = mimeMessage.getContent();
-			}
-			catch (IOException e)
-			{
-				throw new FileSystemException(e);
-			}
-
-			if (content instanceof Multipart)
-			{
-				// yes ... get all children
-				mimeMultipart = new MimeMultipart(new FileObjectDataSource(getParentLayer()));
-
-				for (int i = 0; i< mimeMultipart.getCount(); i++)
-				{
-					BodyPart bp = mimeMultipart.getBodyPart(i);
-
-					String filename = UriParser.encode(bp.getFileName());
-					if (filename == null)
-					{
-						filename = NULL_BP_NAME + i;
-					}
-
-					name = getFileSystemManager().resolveName(getRootName(), filename);
-					MimeFileObject fo = new MimeFileObject(name, bp, this);
-
-					putFileToCache(fo);
-					strongRef.add(fo);
-					fo.holdObject(strongRef);
-
-					MimeFileObject parent;
-					for (FileName parentName = name.getParent();
-						 parentName != null;
-						 fo = parent, parentName = parentName.getParent())
-					{
-						// Locate the parent
-						parent = (MimeFileObject) getFileFromCache(parentName);
-						if (parent == null)
-						{
-							parent = new MimeFileObject(name, null, this);
-							putFileToCache(parent);
-							strongRef.add(parent);
-							parent.holdObject(strongRef);
-						}
-
-						// Attach child to parent
-						parent.attachChild(fo.getName());
-					}
-				}
-			}
-		}
-		catch (MessagingException e)
-		{
-			throw new FileSystemException(e);
-		}
-
 	}
 
 	/**
@@ -162,7 +46,7 @@ public class MimeFileSystem
      */
     protected FileObject createFile(final FileName name) throws FileSystemException
 	{
-        return new MimeFileObject(name, null, this);
+		return new MimeFileObject(name, null, this);
     }
 
     /**
@@ -172,14 +56,4 @@ public class MimeFileSystem
     {
         caps.addAll(MimeFileProvider.capabilities);
     }
-
-	protected MimeMultipart getMimeMultipart()
-	{
-		return mimeMultipart;
-	}
-
-	protected MimeMessage getMimeMessage()
-	{
-		return mimeMessage;
-	}
 }

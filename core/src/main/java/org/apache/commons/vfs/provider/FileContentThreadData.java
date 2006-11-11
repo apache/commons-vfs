@@ -30,8 +30,8 @@ class FileContentThreadData
     // private int state = DefaultFileContent.STATE_CLOSED;
 
     private final ArrayList instrs = new ArrayList();
+	private final ArrayList rastrs = new ArrayList();
     private DefaultFileContent.FileContentOutputStream outstr;
-    private RandomAccessContent rastr;
 
     FileContentThreadData()
     {
@@ -64,9 +64,9 @@ class FileContentThreadData
         return this.outstr;
     }
 
-    void setRastr(RandomAccessContent ras)
+    void addRastr(RandomAccessContent ras)
     {
-        this.rastr = ras;
+        this.rastrs.add(ras);
     }
 
     int getInstrsSize()
@@ -84,14 +84,19 @@ class FileContentThreadData
         this.instrs.remove(instr);
     }
 
-    public RandomAccessContent getRastr()
-    {
-        return this.rastr;
-    }
+	public Object removeRastr(int pos)
+	{
+		return this.rastrs.remove(pos);
+	}
 
-    public boolean hasStreams()
+	public void removeRastr(RandomAccessContent ras)
+	{
+		this.instrs.remove(ras);
+	}
+
+	public boolean hasStreams()
     {
-        return instrs.size() > 0 || outstr != null || rastr != null;
+        return instrs.size() > 0 || outstr != null || rastrs.size() > 0;
     }
 
     public void closeOutstr() throws FileSystemException
@@ -100,9 +105,8 @@ class FileContentThreadData
         outstr = null;
     }
 
-    public void closeRastr() throws IOException
-    {
-        rastr.close();
-        rastr = null;
-    }
+	int getRastrsSize()
+	{
+		return rastrs.size();
+	}
 }

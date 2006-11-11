@@ -339,11 +339,12 @@ public final class DefaultFileContent implements FileContent
         // Get the content
         final RandomAccessContent rastr = file.getRandomAccessContent(mode);
 
-        this.getThreadData().setRastr(new FileRandomAccessContent(file, rastr));
+		FileRandomAccessContent rac = new FileRandomAccessContent(file, rastr);
+		this.getThreadData().addRastr(rac);
         streamOpened();
 
         // setState(STATE_OPENED);
-        return this.getThreadData().getRastr();
+        return rac;
     }
 
     /**
@@ -393,23 +394,17 @@ public final class DefaultFileContent implements FileContent
                 instr.close();
             }
 
-            // Close the output stream
+			// Close the randomAccess stream
+			while (getThreadData().getRastrsSize() > 0)
+			{
+				final FileContentInputStream instr = (FileContentInputStream) getThreadData().removeRastr(0);
+				instr.close();
+			}
+
+			// Close the output stream
             if (this.getThreadData().getOutstr() != null)
             {
                 this.getThreadData().closeOutstr();
-            }
-
-            // Close the random access stream
-            if (this.getThreadData().getRastr() != null)
-            {
-                try
-                {
-                    this.getThreadData().closeRastr();
-                }
-                catch (IOException e)
-                {
-                    throw new FileSystemException(e);
-                }
             }
         }
         finally
@@ -436,8 +431,9 @@ public final class DefaultFileContent implements FileContent
     /**
      * Handles the end of random access.
      */
-    private void endRandomAccess()
+    private void endRandomAccess(RandomAccessContent rac)
     {
+		getThreadData().removeRastr(rac);
         streamClosed();
         // setState(STATE_CLOSED);
     }
@@ -542,12 +538,14 @@ public final class DefaultFileContent implements FileContent
     {
         // avoid gc
         private final FileObject file;
+		private final RandomAccessContent content;
 
-        FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
+		FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
         {
             super(content);
             this.file = file;
-        }
+			this.content = content;
+		}
 
         /**
          * Called after the stream has been closed.
@@ -560,7 +558,7 @@ public final class DefaultFileContent implements FileContent
             }
             finally
             {
-                endRandomAccess();
+                endRandomAccess(content);
             }
         }
     }
