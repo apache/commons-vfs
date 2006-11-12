@@ -35,13 +35,12 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 {
 	private final FileObject fo;
 	private final long fileStart;
-	private final long start;
-	private final long end;
-	
+	private final long fileEnd;
+
 	private long pos;
 	private long resetCount;
 
-	private SharedRandomContentInputStream(final FileObject fo, final long fileStart, final long start, final long end, final InputStream is) throws FileSystemException
+	private SharedRandomContentInputStream(final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
 	{
 		super(is);
 
@@ -52,13 +51,12 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 		
 		this.fo = fo;
 		this.fileStart = fileStart;
-		this.start = start;
-		this.end = end;
+		this.fileEnd = fileEnd;
 	}
 
 	public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException
 	{
-		this(fo, 0, 0, -1, fo.getContent().getInputStream());
+		this(fo, 0, -1, fo.getContent().getInputStream());
 	}
 
 
@@ -81,6 +79,12 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 			return -1;
 		}
 
+		if (fileEnd > -1 && calcFilePosition(len) > fileEnd)
+		{
+			// we can not read past our end
+			len = (int) (fileEnd - getFilePosition());
+		}
+
 		int nread = super.read(b, off, len);
 		pos+=nread;
 		resetCount+=nread;
@@ -94,15 +98,55 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 			return -1;
 		}
 
+		if (fileEnd > -1 && calcFilePosition(n) > fileEnd)
+		{
+			// we can not skip past our end
+			n = fileEnd - getFilePosition();
+		}
+
 		long nskip = super.skip(n);
 		pos+=nskip;
 		resetCount+=nskip;
 		return nskip;
 	}
 
+	/*
+	public synchronized int available() throws IOException
+	{
+		long realFileEnd = fileEnd;
+		if (realFileEnd < 0)
+		{
+			realFileEnd = fo.getContent().getSize();
+		}
+		if (realFileEnd < 0)
+		{
+			// we cant determine if there is really something available
+			return 8192;
+		}
+
+		long available = realFileEnd - (fileStart + pos);
+		if (available > Integer.MAX_VALUE)
+		{
+			return Integer.MAX_VALUE;
+		}
+
+		return (int) available;
+	}
+	*/
+
 	private boolean checkEnd()
 	{
-		return end > -1 && (start + pos) >= end;
+		return fileEnd > -1 && (getFilePosition() >= fileEnd);
+	}
+
+	protected long getFilePosition()
+	{
+		return fileStart + pos;
+	}
+
+	protected long calcFilePosition(long nadd)
+	{
+		return getFilePosition()+nadd;
 	}
 
 	public synchronized void mark(int readlimit)
@@ -127,9 +171,16 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 	{
 		try
 		{
+			long newFileStart = this.fileStart+start;
+			long newFileEnd = end<0?this.fileEnd:this.fileStart+end;
+
 			RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
-			rac.seek(this.fileStart+start);
-			return new SharedRandomContentInputStream(fo, this.fileStart+start, start, end, rac.getInputStream());
+			rac.seek(newFileStart);
+			return new SharedRandomContentInputStream(
+				fo,
+				newFileStart,
+				newFileEnd,
+				rac.getInputStream());
 		}
 		catch (IOException e)
 		{

@@ -114,7 +114,14 @@ public class RamFileRandomAccessContent implements RandomAccessContent
 
 			public int read(byte b[], int off, int len) throws IOException
 			{
-				return read(b, off, len);
+				int retLen = Math.min(len, getLeftBytes());
+				RamFileRandomAccessContent.this.readFully(b, off, retLen);
+				return retLen;
+			}
+
+			public int available() throws IOException
+			{
+				return getLeftBytes();
 			}
 		};
 	}

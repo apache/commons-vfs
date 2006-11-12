@@ -141,7 +141,22 @@ class CBZip2InputStream
         cadvise();
     }
 
-    public int read()
+	/**
+	 * a fake <code>available</code> which always returns 1 as long as the stream is not at end.
+	 * This is required to make this stream work if wrapped in an BufferedInputStream.
+	 *
+	 * @author imario@apache.org
+	 */
+	public int available() throws IOException
+	{
+		if (!m_streamEnd)
+		{
+			return 1;
+		}
+		return 0;
+	}
+
+	public int read()
     {
         if( m_streamEnd )
         {

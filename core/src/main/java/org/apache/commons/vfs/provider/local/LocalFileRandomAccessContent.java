@@ -89,7 +89,18 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                 {
                     return raf.read(b, off, len);
                 }
-            };
+
+				public int available() throws IOException
+				{
+					long available = raf.length() - raf.getFilePointer();
+					if (available > Integer.MAX_VALUE)
+					{
+						return Integer.MAX_VALUE;
+					}
+
+					return (int) available;
+				}
+			};
         }
         catch (FileNotFoundException e)
         {
