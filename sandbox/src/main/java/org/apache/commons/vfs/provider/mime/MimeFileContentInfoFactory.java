@@ -47,6 +47,21 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
 			throw new FileSystemException(e);
 		}
 
-		return new DefaultFileContentInfo(contentType.getBaseType(), contentType.getParameter("charset"));
+		String charset = contentType.getParameter("charset");
+		try
+		{
+			if (mimeFile.isMultipart())
+			{
+				// if this is a multipart message we deliver the preamble instead of an inupt string
+				// the preamble will be delivered in UTF-8 - fixed
+				charset = MimeFileSystem.PREAMBLE_CHARSET;
+			}
+		}
+		catch (MessagingException e)
+		{
+			throw  new FileSystemException(e);
+		}
+
+		return new DefaultFileContentInfo(contentType.getBaseType(), charset);
 	}
 }

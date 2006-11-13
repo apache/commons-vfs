@@ -34,8 +34,11 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -122,7 +125,7 @@ public class MimeFileObject
 			return null;
 		}
 
-		if (part.getContentType() == null || !part.getContentType().startsWith("multipart/"))
+		if (!isMultipart())
 		{
 			// not a multipart
 			return null;
@@ -168,6 +171,13 @@ public class MimeFileObject
 			return FileType.IMAGINARY;
 		}
 
+		if (!isMultipart())
+		{
+			// we cant have children ...
+			return FileType.FILE;
+		}
+
+		// we have both
 		return FileType.FILE_OR_FOLDER;
     }
 
@@ -188,7 +198,7 @@ public class MimeFileObject
 		}
 
 		List vfs = Collections.EMPTY_LIST;
-		if (part.getContentType() != null && part.getContentType().startsWith("multipart/"))
+		if (isMultipart())
 		{
 			Object container = part.getContent();
 			if (container instanceof Multipart)
@@ -270,7 +280,18 @@ public class MimeFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
+		if (isMultipart())
+		{
+			String preamble = ((MimeMultipart) part.getContent()).getPreamble();
+			return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
+		}
+		
 		return part.getInputStream();
+	}
+
+	boolean isMultipart() throws MessagingException
+	{
+		return part.getContentType() != null && part.getContentType().startsWith("multipart/");
 	}
 
 	protected FileContentInfoFactory getFileContentInfoFactory()

@@ -35,6 +35,7 @@ public class MimeFileSystem
 	implements FileSystem
 {
 	public final static String NULL_BP_NAME = "_body_part_";
+	public final static String PREAMBLE_CHARSET = "UTF-8";
 
 	protected MimeFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
     {
