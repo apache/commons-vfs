@@ -72,7 +72,9 @@ public class MimeFileObject
 		{
 			if (!getName().equals(getFileSystem().getRootName()))
 			{
-				throw new IllegalStateException();
+				MimeFileObject foParent = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+				part = foParent.findPart(getName().getBaseName());
+				return;
 			}
 
 			FileObject parentLayer = getFileSystem().getParentLayer();
@@ -112,7 +114,46 @@ public class MimeFileObject
 		}
 	}
 
-    protected void doDetach() throws Exception
+	private Part findPart(String partName) throws Exception
+	{
+		if (getType() == FileType.IMAGINARY)
+		{
+			// not existent
+			return null;
+		}
+
+		if (part.getContentType() == null || !part.getContentType().startsWith("multipart/"))
+		{
+			// not a multipart
+			return null;
+		}
+
+		Multipart multipart = (Multipart)  part.getContent();
+		if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
+		{
+			int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
+			if (partNumber < 0 || partNumber+1 > multipart.getCount())
+			{
+				// non existent
+				return null;
+			}
+
+			return multipart.getBodyPart(partNumber);
+		}
+
+		for (int i = 0; i<multipart.getCount(); i++)
+		{
+			Part childPart = multipart.getBodyPart(i);
+			if (partName.equals(childPart.getFileName()))
+			{
+				return childPart;
+			}
+		}
+
+		return null;
+	}
+
+	protected void doDetach() throws Exception
     {
     }
 
@@ -146,39 +187,34 @@ public class MimeFileObject
 			return null;
 		}
 
-		List vfs;
-		Object container = part;
-		if (container instanceof Message)
+		List vfs = Collections.EMPTY_LIST;
+		if (part.getContentType() != null && part.getContentType().startsWith("multipart/"))
 		{
-			container = ((Message) container).getContent();
-		}
-		if (container instanceof Multipart)
-		{
-			Multipart multipart = (Multipart) container;
-			vfs = new ArrayList(multipart.getCount());
-
-			for (int i = 0; i<multipart.getCount(); i++)
+			Object container = part.getContent();
+			if (container instanceof Multipart)
 			{
-				Part part = multipart.getBodyPart(i);
+				Multipart multipart = (Multipart) container;
+				vfs = new ArrayList(multipart.getCount());
 
-				String filename = UriParser.encode(part.getFileName());
-				if (filename == null)
+				for (int i = 0; i<multipart.getCount(); i++)
 				{
-					filename = MimeFileSystem.NULL_BP_NAME + i;
-				}
+					Part part = multipart.getBodyPart(i);
 
-				MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
-					getFileSystem().getFileSystemManager().resolveName(
-						getName(),
-						filename,
-						NameScope.CHILD)));
-				fo.setPart(part);
-				vfs.add(fo);
+					String filename = UriParser.encode(part.getFileName());
+					if (filename == null)
+					{
+						filename = MimeFileSystem.NULL_BP_NAME + i;
+					}
+
+					MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
+						getFileSystem().getFileSystemManager().resolveName(
+							getName(),
+							filename,
+							NameScope.CHILD)));
+					fo.setPart(part);
+					vfs.add(fo);
+				}
 			}
-		}
-		else
-		{
-			vfs = Collections.EMPTY_LIST;
 		}
 
 		return (MimeFileObject[]) vfs.toArray(new MimeFileObject[vfs.size()]);
