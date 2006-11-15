@@ -28,7 +28,6 @@ import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.util.SharedRandomContentInputStream;
 
-import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -37,14 +36,12 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.InputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * A part of a MIME message.
@@ -57,15 +54,15 @@ public class MimeFileObject
 	implements FileObject
 {
 	private Part part;
+	private Map attributeMap = Collections.EMPTY_MAP;
 
 	protected MimeFileObject(final FileName name,
 							final Part part,
 							final AbstractFileSystem fileSystem) throws FileSystemException
 	{
 		super(name, fileSystem);
-		this.part = part;
+		setPart(part);
 	}
-
 	/**
      * Attaches this file object to its file resource.
      */
@@ -76,7 +73,7 @@ public class MimeFileObject
 			if (!getName().equals(getFileSystem().getRootName()))
 			{
 				MimeFileObject foParent = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent());
-				part = foParent.findPart(getName().getBaseName());
+				setPart(foParent.findPart(getName().getBaseName()));
 				return;
 			}
 
@@ -97,7 +94,7 @@ public class MimeFileObject
 				{
 					is = getFileSystem().getParentLayer().getContent().getInputStream();
 				}
-				part = new MimeMessage(null, is);
+				setPart(new MimeMessage(null, is));
 			}
 			finally
 			{
@@ -233,6 +230,14 @@ public class MimeFileObject
 	private void setPart(Part part)
 	{
 		this.part = part;
+		if (part != null)
+		{
+			attributeMap = new MimeLazyMap(part);
+		}
+		else
+		{
+			attributeMap = Collections.EMPTY_MAP;
+		}
 	}
 
 	/**
@@ -285,7 +290,7 @@ public class MimeFileObject
 			String preamble = ((MimeMultipart) part.getContent()).getPreamble();
 			return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
 		}
-		
+
 		return part.getInputStream();
 	}
 
@@ -315,24 +320,28 @@ public class MimeFileObject
 	 */
 	protected Map doGetAttributes() throws Exception
 	{
+		return attributeMap;
+		/*
 		Map ret = new TreeMap();
 
-		Enumeration headers = getAllHeaders();
+		Enumeration headers = part.getAllHeaders();
 		while (headers.hasMoreElements())
 		{
 			Header header = (Header) headers.nextElement();
-			Object values = ret.get(header.getName());
+			String headerName = header.getName();
+
+			Object values = ret.get(headerName);
 
 			if (values == null)
 			{
-				ret.put(header.getName(), header.getValue());
+				ret.put(headerName, header.getValue());
 			}
 			else if (values instanceof String)
 			{
 				List newValues = new ArrayList();
 				newValues.add(values);
 				newValues.add(header.getValue());
-				ret.put(header.getName(), newValues);
+				ret.put(headerName, newValues);
 			}
 			else if (values instanceof List)
 			{
@@ -341,6 +350,7 @@ public class MimeFileObject
 		}
 
 		return ret;
+		*/
 	}
 
 	protected Enumeration getAllHeaders() throws MessagingException

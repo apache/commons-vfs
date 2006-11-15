@@ -22,7 +22,11 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
+import javax.mail.internet.MimeMessage;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
+import java.lang.reflect.Method;
 
 /**
  * An MIME file system.
