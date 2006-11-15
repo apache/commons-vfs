@@ -54,7 +54,7 @@ public class MimeFileObject
 	implements FileObject
 {
 	private Part part;
-	private Map attributeMap = Collections.EMPTY_MAP;
+	private Map attributeMap;
 
 	protected MimeFileObject(final FileName name,
 							final Part part,
@@ -230,14 +230,7 @@ public class MimeFileObject
 	private void setPart(Part part)
 	{
 		this.part = part;
-		if (part != null)
-		{
-			attributeMap = new MimeLazyMap(part);
-		}
-		else
-		{
-			attributeMap = Collections.EMPTY_MAP;
-		}
+		this.attributeMap = null;
 	}
 
 	/**
@@ -320,37 +313,19 @@ public class MimeFileObject
 	 */
 	protected Map doGetAttributes() throws Exception
 	{
-		return attributeMap;
-		/*
-		Map ret = new TreeMap();
-
-		Enumeration headers = part.getAllHeaders();
-		while (headers.hasMoreElements())
+		if (attributeMap == null)
 		{
-			Header header = (Header) headers.nextElement();
-			String headerName = header.getName();
-
-			Object values = ret.get(headerName);
-
-			if (values == null)
+			if (part != null)
 			{
-				ret.put(headerName, header.getValue());
+				attributeMap = new MimeAttributesMap(part);
 			}
-			else if (values instanceof String)
+			else
 			{
-				List newValues = new ArrayList();
-				newValues.add(values);
-				newValues.add(header.getValue());
-				ret.put(headerName, newValues);
-			}
-			else if (values instanceof List)
-			{
-				((List) values).add(header.getValue());
+				attributeMap = Collections.EMPTY_MAP;
 			}
 		}
 
-		return ret;
-		*/
+		return attributeMap;
 	}
 
 	protected Enumeration getAllHeaders() throws MessagingException

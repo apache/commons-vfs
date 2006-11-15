@@ -21,65 +21,65 @@ import org.apache.commons.logging.LogFactory;
 import javax.mail.Header;
 import javax.mail.MessagingException;
 import javax.mail.Part;
+import javax.mail.Address;
 import javax.mail.internet.MimeMessage;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Iterator;
-import java.util.Collections;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
 
 /**
- * A map which tries to avoid building the real content as long as possible.
- * This makes quick lookups with known keys faster
+ * A map which tries to allow access to the various aspects of the mail
  */
-public class MimeLazyMap implements Map
+public class MimeAttributesMap implements Map
 {
-	private Log log = LogFactory.getLog(MimeLazyMap.class);
+	private Log log = LogFactory.getLog(MimeAttributesMap.class);
 
 	private final static String OBJECT_PREFIX = "obj.";
 
 	private final Part part;
 	private Map backingMap;
 
-	private final static Map mimeMessageGetters = new TreeMap();
+	private final Map mimeMessageGetters = new TreeMap();
 
-	static
-	{
-		Method[] methods = MimeMessage.class.getMethods();
-		for (int i = 0; i<methods.length; i++)
-		{
-			Method method = methods[i];
-			addMimeMessageMethod(method);
-		}
-		methods = MimeMessage.class.getDeclaredMethods();
-		for (int i = 0; i<methods.length; i++)
-		{
-			Method method = methods[i];
-			addMimeMessageMethod(method);
-		}
-	}
-
-	private static void addMimeMessageMethod(Method method)
-	{
-		if (method.getName().startsWith("get"))
-		{
-			mimeMessageGetters.put(method.getName().substring(3), method);
-		}
-		else if (method.getName().startsWith("is"))
-		{
-			mimeMessageGetters.put(method.getName().substring(2), method);
-		}
-	}
-
-	public MimeLazyMap(Part part)
+	public MimeAttributesMap(Part part)
 	{
 		this.part = part;
+		addMimeMessageMethod(part.getClass().getMethods());
+		addMimeMessageMethod(part.getClass().getDeclaredMethods());
+	}
+
+	private void addMimeMessageMethod(Method[] methods)
+	{
+		for (int i = 0; i < methods.length; i++)
+		{
+			Method method = methods[i];
+			if (!Modifier.isPublic(method.getModifiers()))
+			{
+				continue;
+			}
+			if (method.getParameterTypes().length > 0)
+			{
+				continue;
+			}
+
+			if (method.getName().startsWith("get"))
+			{
+				mimeMessageGetters.put(method.getName().substring(3), method);
+			}
+			else if (method.getName().startsWith("is"))
+			{
+				mimeMessageGetters.put(method.getName().substring(2), method);
+			}
+		}
 	}
 
 	private Map getMap()
@@ -96,15 +96,17 @@ public class MimeLazyMap implements Map
 	{
 		Map ret = new TreeMap();
 
-		Enumeration headers = null;
+		Enumeration headers;
 		try
 		{
 			headers = part.getAllHeaders();
 		}
 		catch (MessagingException e)
 		{
-			throw (RuntimeException) new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
+
+		// add all headers
 		while (headers.hasMoreElements())
 		{
 			Header header = (Header) headers.nextElement();
@@ -129,6 +131,7 @@ public class MimeLazyMap implements Map
 			}
 		}
 
+		// add all simple get/is results (with obj. prefix)
 		Iterator iterEntries = mimeMessageGetters.entrySet().iterator();
 		while (iterEntries.hasNext())
 		{
@@ -136,23 +139,61 @@ public class MimeLazyMap implements Map
 			String name = (String) entry.getKey();
 			Method method = (Method) entry.getValue();
 
-			Object value;
 			try
 			{
-				value = method.invoke(part, null);
+				Object value = method.invoke(part, null);
+				ret.put(OBJECT_PREFIX + name, value);
 			}
 			catch (IllegalAccessException e)
 			{
-				log.warn(e.getLocalizedMessage(), e);
-				continue;
+				log.debug(e.getLocalizedMessage(), e);
 			}
 			catch (InvocationTargetException e)
 			{
-				log.warn(e.getLocalizedMessage(), e);
-				continue;
+				log.debug(e.getLocalizedMessage(), e);
 			}
+		}
 
-			ret.put(OBJECT_PREFIX+name, value);
+		// add extended fields (with obj. prefix too)
+		if (part instanceof MimeMessage)
+		{
+			MimeMessage message = (MimeMessage) part;
+			try
+			{
+				Address[] address = message.getRecipients(MimeMessage.RecipientType.BCC);
+				ret.put(OBJECT_PREFIX + "Recipients.BCC", address);
+			}
+			catch (MessagingException e)
+			{
+				log.debug(e.getLocalizedMessage(), e);
+			}
+			try
+			{
+				Address[] address = message.getRecipients(MimeMessage.RecipientType.CC);
+				ret.put(OBJECT_PREFIX + "Recipients.CC", address);
+			}
+			catch (MessagingException e)
+			{
+				log.debug(e.getLocalizedMessage(), e);
+			}
+			try
+			{
+				Address[] address = message.getRecipients(MimeMessage.RecipientType.TO);
+				ret.put(OBJECT_PREFIX + "Recipients.TO", address);
+			}
+			catch (MessagingException e)
+			{
+				log.debug(e.getLocalizedMessage(), e);
+			}
+			try
+			{
+				Address[] address = message.getRecipients(MimeMessage.RecipientType.NEWSGROUPS);
+				ret.put(OBJECT_PREFIX + "Recipients.NEWSGROUPS", address);
+			}
+			catch (MessagingException e)
+			{
+				log.debug(e.getLocalizedMessage(), e);
+			}
 		}
 
 		return ret;
@@ -180,12 +221,7 @@ public class MimeLazyMap implements Map
 
 	public Object get(Object key)
 	{
-		if (backingMap != null)
-		{
-			return backingMap.get(key);
-		}
-
-		return null;
+		return getMap().get(key);
 	}
 
 	public Object put(Object key, Object value)
