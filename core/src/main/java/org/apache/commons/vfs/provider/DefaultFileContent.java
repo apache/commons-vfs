@@ -397,8 +397,15 @@ public final class DefaultFileContent implements FileContent
 			// Close the randomAccess stream
 			while (getThreadData().getRastrsSize() > 0)
 			{
-				final FileContentInputStream instr = (FileContentInputStream) getThreadData().removeRastr(0);
-				instr.close();
+				final RandomAccessContent ra = (RandomAccessContent) getThreadData().removeRastr(0);
+				try
+				{
+					ra.close();
+				}
+				catch (IOException e)
+				{
+					throw new FileSystemException(e);
+				}
 			}
 
 			// Close the output stream
