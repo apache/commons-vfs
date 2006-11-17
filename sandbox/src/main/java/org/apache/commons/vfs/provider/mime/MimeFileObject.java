@@ -21,22 +21,18 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.FileObjectUtils;
-import org.apache.commons.vfs.util.SharedRandomContentInputStream;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
-import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.InputStream;
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -77,40 +73,7 @@ public class MimeFileObject
 				return;
 			}
 
-			FileObject parentLayer = getFileSystem().getParentLayer();
-			if (!parentLayer.exists())
-			{
-				return;
-			}
-
-			InputStream is = null;
-			try
-			{
-				if (parentLayer.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
-				{
-					is = new SharedRandomContentInputStream(parentLayer);
-				}
-				else
-				{
-					is = getFileSystem().getParentLayer().getContent().getInputStream();
-				}
-				setPart(new MimeMessage(null, is));
-			}
-			finally
-			{
-				if (is != null)
-				{
-					try
-					{
-						is.close();
-					}
-					catch (IOException e)
-					{
-						// ignore close errors
-					}
-				}
-			}
-
+			setPart(((MimeFileSystem) getFileSystem()).createCommunicationLink());
 		}
 	}
 

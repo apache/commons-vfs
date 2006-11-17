@@ -15,18 +15,23 @@
  */
 package org.apache.commons.vfs.provider.mime;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.util.SharedRandomContentInputStream;
 
+import javax.mail.MessagingException;
+import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
-import java.lang.reflect.Method;
 
 /**
  * An MIME file system.
@@ -38,8 +43,12 @@ public class MimeFileSystem
 	extends AbstractFileSystem
 	implements FileSystem
 {
+	private Log log = LogFactory.getLog(MimeFileSystem.class);
+
 	public final static String NULL_BP_NAME = "_body_part_";
 	public final static String PREAMBLE_CHARSET = "UTF-8";
+
+	private InputStream mimeStream = null;
 
 	protected MimeFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
     {
@@ -61,4 +70,43 @@ public class MimeFileSystem
     {
         caps.addAll(MimeFileProvider.capabilities);
     }
+
+
+	protected void doCloseCommunicationLink()
+	{
+		try
+		{
+			if (mimeStream instanceof SharedRandomContentInputStream)
+			{
+				((SharedRandomContentInputStream) mimeStream).closeAll();
+			}
+			else
+			{
+				mimeStream.close();
+			}
+		}
+		catch (IOException e)
+		{
+			log.warn(e.getLocalizedMessage(), e);
+		}
+	}
+
+	public Part createCommunicationLink() throws FileSystemException, MessagingException
+	{
+		FileObject parentLayer = getParentLayer();
+		if (!parentLayer.exists())
+		{
+			return null;
+		}
+
+		if (parentLayer.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
+		{
+			mimeStream = new SharedRandomContentInputStream(parentLayer);
+		}
+		else
+		{
+			mimeStream = getParentLayer().getContent().getInputStream();
+		}
+		return new MimeMessage(null, mimeStream);
+	}
 }

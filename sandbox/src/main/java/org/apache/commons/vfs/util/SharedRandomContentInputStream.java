@@ -24,6 +24,9 @@ import javax.mail.internet.SharedInputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * A wrapper to an FileObject to get a {@link javax.mail.internet.SharedInputStream} 
@@ -33,6 +36,7 @@ import java.io.InputStream;
  */
 public class SharedRandomContentInputStream extends BufferedInputStream implements SharedInputStream
 {
+	private final Set createdStreams;
 	private final FileObject fo;
 	private final long fileStart;
 	private final long fileEnd;
@@ -40,7 +44,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 	private long pos;
 	private long resetCount;
 
-	private SharedRandomContentInputStream(final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
+	private SharedRandomContentInputStream(final Set createdStreams, final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
 	{
 		super(is);
 
@@ -52,11 +56,17 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 		this.fo = fo;
 		this.fileStart = fileStart;
 		this.fileEnd = fileEnd;
+		this.createdStreams = createdStreams;
+
+		synchronized(createdStreams)
+		{
+			createdStreams.add(is);
+		}
 	}
 
 	public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException
 	{
-		this(fo, 0, -1, fo.getContent().getInputStream());
+		this(new HashSet(), fo, 0, -1, fo.getContent().getInputStream());
 	}
 
 
@@ -167,6 +177,17 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 		return pos;
 	}
 
+
+	public void close() throws IOException
+	{
+		super.close();
+
+		synchronized(createdStreams)
+		{
+			createdStreams.remove(this);
+		}
+	}
+
 	public InputStream newStream(long start, long end)
 	{
 		try
@@ -177,6 +198,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 			RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
 			rac.seek(newFileStart);
 			return new SharedRandomContentInputStream(
+				createdStreams,
 				fo,
 				newFileStart,
 				newFileEnd,
@@ -185,6 +207,28 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 		catch (IOException e)
 		{
 			throw new RuntimeException(e);
+		}
+	}
+
+	public void closeAll() throws IOException
+	{
+		synchronized(createdStreams)
+		{
+			Iterator iterCreatedStreams = createdStreams.iterator();
+			while (iterCreatedStreams.hasNext())
+			{
+				Object stream = iterCreatedStreams.next();
+				iterCreatedStreams.remove();
+
+				if (stream instanceof InputStream)
+				{
+					((InputStream) stream).close();
+				}
+				else if (stream instanceof RandomAccessContent)
+				{
+					((RandomAccessContent) stream).close();
+				}
+			}
 		}
 	}
 }
