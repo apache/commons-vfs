@@ -76,14 +76,13 @@ public class MimeFileSystem
 	{
 		try
 		{
-			if (mimeStream instanceof SharedRandomContentInputStream)
+			if (mimeStream == null)
 			{
-				((SharedRandomContentInputStream) mimeStream).closeAll();
+				return;
 			}
-			else
-			{
-				mimeStream.close();
-			}
+
+			closeMimeStream();
+			mimeStream = null;
 		}
 		catch (IOException e)
 		{
@@ -91,8 +90,25 @@ public class MimeFileSystem
 		}
 	}
 
-	public Part createCommunicationLink() throws FileSystemException, MessagingException
+	private void closeMimeStream() throws IOException
 	{
+		if (mimeStream instanceof SharedRandomContentInputStream)
+		{
+			((SharedRandomContentInputStream) mimeStream).closeAll();
+		}
+		else
+		{
+			mimeStream.close();
+		}
+	}
+
+	public Part createCommunicationLink() throws IOException, MessagingException
+	{
+		if (mimeStream != null)
+		{
+			closeMimeStream();
+		}
+
 		FileObject parentLayer = getParentLayer();
 		if (!parentLayer.exists())
 		{

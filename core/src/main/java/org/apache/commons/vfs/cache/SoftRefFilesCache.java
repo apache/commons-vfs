@@ -145,7 +145,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
 		Map files = getOrCreateFilesystemCache(file.getFileSystem());
 
-		Reference ref = new SoftReference(file, refqueue);
+		Reference ref = createReference(file, refqueue);
 		FileSystemAndNameKey key = new FileSystemAndNameKey(file
 				.getFileSystem(), file.getName());
 
@@ -156,13 +156,18 @@ public class SoftRefFilesCache extends AbstractFilesCache
 		}
 	}
 
+	protected Reference createReference(FileObject file, ReferenceQueue refqueue)
+	{
+		return new SoftReference(file, refqueue);
+	}
+
 	public FileObject getFile(final FileSystem filesystem, final FileName name)
 	{
 		Map files = getOrCreateFilesystemCache(filesystem);
 
 		synchronized (files)
 		{
-			SoftReference ref = (SoftReference) files.get(name);
+			Reference ref = (Reference) files.get(name);
 			if (ref == null)
 			{
 				return null;

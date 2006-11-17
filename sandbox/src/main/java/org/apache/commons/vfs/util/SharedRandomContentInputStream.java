@@ -25,7 +25,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -60,7 +59,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 
 		synchronized(createdStreams)
 		{
-			createdStreams.add(is);
+			createdStreams.add(this);
 		}
 	}
 
@@ -214,20 +213,11 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 	{
 		synchronized(createdStreams)
 		{
-			Iterator iterCreatedStreams = createdStreams.iterator();
-			while (iterCreatedStreams.hasNext())
+			SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
+			createdStreams.toArray(streams);
+			for (int i = 0; i<streams.length; i++)
 			{
-				Object stream = iterCreatedStreams.next();
-				iterCreatedStreams.remove();
-
-				if (stream instanceof InputStream)
-				{
-					((InputStream) stream).close();
-				}
-				else if (stream instanceof RandomAccessContent)
-				{
-					((RandomAccessContent) stream).close();
-				}
+				streams[i].close();
 			}
 		}
 	}
