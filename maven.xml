@@ -70,6 +70,14 @@
             <fileset file='${basedir}/NOTICE.txt'/>
         </copy>
 
+        <!-- Copy Source -->
+        <copy todir="${maven.dist.src.assembly.dir}/core">
+          <fileset dir='${basedir}/core' />
+        </copy>
+        <copy todir="${maven.dist.src.assembly.dir}/examples">
+          <fileset dir='${basedir}/examples' />
+        </copy>
+
         <!-- Copy XDocs -->
         <copy todir="${maven.dist.src.assembly.dir}/xdocs">
           <fileset dir='${basedir}/xdocs' />
