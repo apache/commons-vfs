@@ -302,7 +302,7 @@ public interface FileObject
 
     /**
      * Closes this file, and its content.  This method is a hint to the
-     * implementation that it can release any resources asociated with
+     * implementation that it can release any resources associated with
      * the file.
      * <p/>
      * <p>The file object can continue to be used after this method is called.
