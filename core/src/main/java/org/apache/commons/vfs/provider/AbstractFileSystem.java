@@ -77,12 +77,13 @@ public abstract class AbstractFileSystem
      */
     private final FileSystemOptions fileSystemOptions;
 
-    /**
-     * How many files are activley using the filesystem
-     */
-    private long useCount;
+	/**
+	 * How many fileObjects are handed out
+	 */
+	private long useCount;
 
-    private FileSystemKey cacheKey;
+
+	private FileSystemKey cacheKey;
 
     /**
      * open streams counter for this filesystem
@@ -528,7 +529,8 @@ public abstract class AbstractFileSystem
         }
     }
 
-    void fileDetached(FileObject fileObject)
+	/*
+	void fileDetached(FileObject fileObject)
     {
         useCount--;
     }
@@ -538,8 +540,19 @@ public abstract class AbstractFileSystem
         useCount++;
 
     }
+	*/
 
-    void setCacheKey(FileSystemKey cacheKey)
+	void fileObjectHanded(FileObject fileObject)
+	{
+		useCount++;
+	}
+
+	void fileObjectDestroyed(FileObject fileObject)
+	{
+		useCount--;
+	}
+
+	void setCacheKey(FileSystemKey cacheKey)
     {
         this.cacheKey = cacheKey;
     }

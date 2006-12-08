@@ -196,9 +196,9 @@ public class ZipFileSystem
 
     /**
      * will be called after all file-objects closed their streams.
-     */
     protected void notifyAllStreamsClosed()
     {
         closeCommunicationLink();
     }
+	 */
 }

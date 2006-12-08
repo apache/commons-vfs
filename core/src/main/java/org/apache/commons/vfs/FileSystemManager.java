@@ -177,7 +177,13 @@ public interface FileSystemManager
 	public FileObject createFileSystem(String provider, FileObject file)
         throws FileSystemException;
 
-    /**
+	/**
+	 * Closes the given filesystem.<br />
+	 * If you use VFS as singleton it is VERY dangerous to call this method.
+	 */
+	public void closeFileSystem(FileSystem filesystem);
+
+	/**
      * Creates a layered file system.  A layered file system is a file system
      * that is created from the contents of a file, such as a zip or tar file.
      *

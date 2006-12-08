@@ -915,7 +915,24 @@ public class DefaultFileSystemManager implements FileSystemManager
 		return new VfsStreamHandlerFactory();
 	}
 
+	/**
+	 * Closes the given filesystem.<br />
+	 * If you use VFS as singleton it is VERY dangerous to call this method
+	 */
 	public void closeFileSystem(FileSystem filesystem)
+	{
+		// inform the cache ...
+		getFilesCache().clear(filesystem);
+
+		// just in case the cache didnt call _closeFileSystem
+		_closeFileSystem(filesystem);
+	}
+
+	/**
+	 * Closes the given filesystem.<br />
+	 * If you use VFS as singleton it is VERY dangerous to call this method
+	 */
+	public void _closeFileSystem(FileSystem filesystem)
 	{
 		FileProvider provider = (FileProvider) providers.get(filesystem
 				.getRootName().getScheme());

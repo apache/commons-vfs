@@ -254,9 +254,9 @@ public class TarFileSystem
 
     /**
      * will be called after all file-objects closed their streams.
-     */
     protected void notifyAllStreamsClosed()
     {
         closeCommunicationLink();
     }
+	 */
 }

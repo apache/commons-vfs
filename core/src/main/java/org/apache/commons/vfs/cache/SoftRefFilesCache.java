@@ -227,7 +227,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 			}
 		}
 		((DefaultFileSystemManager) getContext().getFileSystemManager())
-				.closeFileSystem(filesystem);
+				._closeFileSystem(filesystem);
 	}
 
 	public void close()

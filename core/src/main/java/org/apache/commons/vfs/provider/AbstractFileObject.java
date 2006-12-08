@@ -91,6 +91,7 @@ public abstract class AbstractFileObject implements FileObject
     {
         this.name = (AbstractFileName) name;
         this.fs = fs;
+		fs.fileObjectHanded(this);
     }
 
     /**
@@ -1247,7 +1248,7 @@ public abstract class AbstractFileObject implements FileObject
                     setFileType(null);
                     parent = null;
 
-                    fs.fileDetached(this);
+                    // fs.fileDetached(this);
 
                     removeChildrenCache();
                     // children = null;
@@ -1304,7 +1305,7 @@ public abstract class AbstractFileObject implements FileObject
                 throw new FileSystemException("vfs.provider/get-type.error", new Object[]{name}, exc);
             }
 
-            fs.fileAttached(this);
+            // fs.fileAttached(this);
         }
     }
 
@@ -1619,4 +1620,11 @@ public abstract class AbstractFileObject implements FileObject
 
         return operations;
     }
+
+	protected void finalize() throws Throwable
+	{
+		fs.fileObjectDestroyed(this);
+
+		super.finalize();
+	}
 }
