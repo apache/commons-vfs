@@ -78,7 +78,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
     public void close() throws IOException;
 
     /**
-     * get the inputstream interface
+     * get the input stream
      * <br/>
      * <b>Notice: If you use {@link #seek(long)} you have to reget the InputStream</b>
      */

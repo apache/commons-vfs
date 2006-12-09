@@ -18,17 +18,16 @@ package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
+import org.apache.commons.vfs.provider.AbstractRandomAccessStreamContent;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.DataInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 
-class HttpRandomAccesContent extends AbstractRandomAccessContent
+class HttpRandomAccesContent extends AbstractRandomAccessStreamContent
 {
     private final HttpFileObject fileObject;
     private final HttpFileSystem fileSystem;
@@ -74,11 +73,11 @@ class HttpRandomAccesContent extends AbstractRandomAccessContent
         filePointer = pos;
     }
 
-    private void createStream() throws IOException
-    {
+	protected DataInputStream getDataInputStream() throws IOException
+	{
         if (dis != null)
         {
-            return;
+            return dis;
         }
 
         final GetMethod getMethod = new GetMethod();
@@ -127,7 +126,9 @@ class HttpRandomAccesContent extends AbstractRandomAccessContent
                 return ret;
             }
         });
-    }
+
+		return dis;
+	}
 
 
     public void close() throws IOException
@@ -143,107 +144,5 @@ class HttpRandomAccesContent extends AbstractRandomAccessContent
     public long length() throws IOException
     {
         return fileObject.getContent().getSize();
-    }
-
-    public byte readByte() throws IOException
-    {
-        createStream();
-        byte data = dis.readByte();
-        return data;
-    }
-
-    public char readChar() throws IOException
-    {
-        createStream();
-        char data = dis.readChar();
-        return data;
-    }
-
-    public double readDouble() throws IOException
-    {
-        createStream();
-        double data = dis.readDouble();
-        return data;
-    }
-
-    public float readFloat() throws IOException
-    {
-        createStream();
-        float data = dis.readFloat();
-        return data;
-    }
-
-    public int readInt() throws IOException
-    {
-        createStream();
-        int data = dis.readInt();
-        return data;
-    }
-
-    public int readUnsignedByte() throws IOException
-    {
-        createStream();
-        int data = dis.readUnsignedByte();
-        return data;
-    }
-
-    public int readUnsignedShort() throws IOException
-    {
-        createStream();
-        int data = dis.readUnsignedShort();
-        return data;
-    }
-
-    public long readLong() throws IOException
-    {
-        createStream();
-        long data = dis.readLong();
-        return data;
-    }
-
-    public short readShort() throws IOException
-    {
-        createStream();
-        short data = dis.readShort();
-        return data;
-    }
-
-    public boolean readBoolean() throws IOException
-    {
-        createStream();
-        boolean data = dis.readBoolean();
-        return data;
-    }
-
-    public int skipBytes(int n) throws IOException
-    {
-        createStream();
-        int data = dis.skipBytes(n);
-        return data;
-    }
-
-    public void readFully(byte b[]) throws IOException
-    {
-        createStream();
-        dis.readFully(b);
-    }
-
-    public void readFully(byte b[], int off, int len) throws IOException
-    {
-        createStream();
-        dis.readFully(b, off, len);
-    }
-
-    public String readUTF() throws IOException
-    {
-        createStream();
-        String data = dis.readUTF();
-        return data;
-    }
-
-    public InputStream getInputStream() throws IOException
-    {
-        createStream();
-        return dis;
     }
 }
