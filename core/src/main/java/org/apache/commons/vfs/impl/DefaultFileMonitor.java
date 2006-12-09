@@ -481,12 +481,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         {
             try
             {
-                // this.file = ((AbstractFileSystem) this.file.getFileSystem()).resolveFile(this.file.getName(), false);
-
-                // close the file - this will detach and reattach its resources (for this thread) on the
-                // next access
-                this.file.close();
-            }
+				this.file.refresh();
+			}
             catch (FileSystemException fse)
             {
                 log.error(fse.getLocalizedMessage(), fse);

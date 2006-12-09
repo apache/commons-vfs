@@ -62,7 +62,9 @@ public class FtpFileObject
     private Map children;
     private FileObject linkDestination;
 
-    protected FtpFileObject(final FileName name,
+	private boolean inRefresh=false;
+
+	protected FtpFileObject(final FileName name,
                             final FtpFileSystem fileSystem,
                             final FileName rootName)
         throws FileSystemException
@@ -94,7 +96,7 @@ public class FtpFileObject
     {
         if (flush)
         {
-            children = null;
+ 			children = null;
         }
 
         // List the children of this file
@@ -188,7 +190,36 @@ public class FtpFileObject
         this.fileInfo = newFileInfo;
     }
 
-    /**
+	/**
+	 *
+	 * @throws FileSystemException
+	 */
+	public void refresh() throws FileSystemException
+	{
+		if (!inRefresh)
+		{
+			try
+			{
+				inRefresh = true;
+				super.refresh();
+				try
+				{
+					// this will tell the parent to recreate its children collection
+					getInfo(true);
+				}
+				catch (IOException e)
+				{
+					throw new FileSystemException(e);
+				}
+			}
+			finally
+			{
+				inRefresh = false;
+			}
+		}
+	}
+
+	/**
      * Detaches this file object from its file resource.
      */
     protected void doDetach()
