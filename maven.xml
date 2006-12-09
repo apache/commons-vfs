@@ -72,10 +72,23 @@
 
 		<!-- Copy Source -->
 		<copy todir="${maven.dist.src.assembly.dir}/core">
-			<fileset dir='${basedir}/core'/>
+			<fileset dir='${basedir}/core'>
+				<include name="**/*.java" />
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.html" />
+				<include name="src/test/test-data/**" />
+				<exclude name="target/**" />
+			</fileset>
 		</copy>
 		<copy todir="${maven.dist.src.assembly.dir}/examples">
-			<fileset dir='${basedir}/examples'/>
+			<fileset dir='${basedir}/examples'>
+				<include name="**/*.java" />
+				<include name="**/*.xml" />
+				<include name="**/*.properties" />
+				<include name="**/*.html" />
+				<exclude name="target/**" />
+			</fileset>
 		</copy>
 
 		<!-- Copy XDocs -->
