@@ -54,7 +54,16 @@ for ( int i = 0; i < children.length; i++ )
 }
                 ]]></source>
 
-            <p>
+			<p>
+				In some cases you might want to explicitely free resources allocated by the filesystem.
+				You can do this by calling
+				<a href="apidocs/org/apache/commons/vfs/FileSystemManager.html#closeFileSystem">VFS.getManager().closeFileSystem(fs)</a>.
+				If you use VFS as singleton (as described above) you should take care that this will close the filesystem for
+				all threads.<br />
+				In other words, do not close any globally used filesystem like the one for local files.  
+			</p>
+
+			<p>
                 See the
                 <a href="apidocs/org/apache/commons/vfs/FileObject.html">FileObject</a>
                 Javadocs for more detail.
