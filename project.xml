@@ -119,18 +119,33 @@
             <groupId>ant</groupId>
             <artifactId>ant</artifactId>
             <version>1.6.2</version>
+            <url>http://ant.apache.org/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>1.4.1</version>
+            <url>http://jakarta.apache.org/commons/net/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.0.4</version>
+            <url>http://jakarta.apache.org/commons/logging/</url>
         </dependency>
 
         <!--TODO:Revert to [compress] if/when released
@@ -144,48 +159,108 @@
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.1</version>
+            <url>http://jakarta.apache.org/commons/collections/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
+<!-- TODO:Revert if/when jcifs dependant code is moved out of the vfs sandbox
         <dependency>
             <groupId>jcifs</groupId>
             <artifactId>jcifs</artifactId>
             <version>0.8.3</version>
+            <url>http://jcifs.samba.org/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
+-->
 
+<!-- TODO:Revert if/when slide dependant code is moved out of the vfs sandbox
         <dependency>
             <groupId>slide</groupId>
             <artifactId>jakarta-slide-webdavlib</artifactId>
             <version>20050629.161100</version>
+            <url>http://jakarta.apache.org/slide/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
+-->
 
         <dependency>
             <groupId>jdom</groupId>
             <artifactId>jdom</artifactId>
             <version>1.0</version>
+            <url>http://www.jdom.org/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>2.0.2</version>
+            <url>http://jakarta.apache.org/commons/httpclient/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
             <version>0.1.23</version>
+            <url>http://www.jcraft.com/jsch/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
         <dependency>
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
             <version>1.0.b2</version>
+            <url>http://xml.apache.org/commons/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
         <dependency>
             <groupId>oro</groupId>
             <artifactId>oro</artifactId>
             <version>2.0.8</version>
+            <url>http://jakarta.apache.org/oro/</url>
+            <properties>
+                <optional>true</optional>
+                <comment>
+                    &lt;strong&gt;Optional&lt;/strong&gt;
+                </comment>
+            </properties>
         </dependency>
 
         <dependency>
