@@ -192,7 +192,11 @@
 					<systemProperties>
 						<property>
 							<name>test.basedir</name>
-							<value>target/test-data</value>
+							<value>target/test-classes/test-data</value>
+						</property>
+						<property>
+							<name>test.basedir.res</name>
+							<value>test-data</value>
 						</property>
 					</systemProperties>
 				</configuration>

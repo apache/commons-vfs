@@ -39,6 +39,7 @@ import org.apache.commons.vfs.provider.url.test.UrlProviderTestCase;
 import org.apache.commons.vfs.provider.url.test.UrlProviderHttpTestCase;
 import org.apache.commons.vfs.provider.test.VirtualProviderTestCase;
 import org.apache.commons.vfs.provider.test.GenericFileNameTestCase;
+import org.apache.commons.vfs.provider.ram.test.RamProviderTestCase;
 
 import java.util.Properties;
 
@@ -48,7 +49,7 @@ public class RunTest
 	{
 		Properties props = System.getProperties();
 		props.setProperty("test.data.src", "src/test-data");
-		props.setProperty("test.basedir", "core/target/test-data");
+		props.setProperty("test.basedir", "core/target/test-classes/test-data");
 		props.setProperty("test.basedir.res", "test-data");
 		props.setProperty("test.policy", "src/test-data/test.policy");
 		props.setProperty("test.secure", "false");
@@ -64,7 +65,9 @@ public class RunTest
 
 		Test tests[] = new Test[]
 		{
-		// SmbProviderTestCase.suite(),
+			RamProviderTestCase.suite(),
+
+			// SmbProviderTestCase.suite(),
 
 		// LocalProviderTestCase.suite(),
 			
@@ -75,7 +78,7 @@ public class RunTest
 		// VirtualProviderTestCase.suite(),
 		// TemporaryProviderTestCase.suite(),
 		// UrlProviderTestCase.suite(),
-		ResourceProviderTestCase.suite(),
+		// ResourceProviderTestCase.suite(),
 
 		// HttpProviderTestCase.suite(),
 
