@@ -277,7 +277,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 		}
 		else
 		{
-			throw new FileSystemException("File is not a folder nor a file"
+			throw new FileSystemException("File is not a folder nor a file "
 					+ memFo);
 		}
 	}
