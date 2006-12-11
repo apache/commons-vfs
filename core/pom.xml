@@ -172,8 +172,8 @@
 						<configuration>
 							<tasks>
 								<echo message="Setup test-data environment" />
-								<delete dir="${project.build.outputDirectory}/../test-data"/>
-								<copy todir="${project.build.outputDirectory}/../test-data">
+								<delete dir="${project.build.outputDirectory}/test-data"/>
+								<copy todir="${project.build.outputDirectory}/test-data">
 									<fileset dir="src/test/test-data">
 										<include name="**/*" />
 									</fileset>
