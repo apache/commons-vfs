@@ -49,6 +49,7 @@ public class RunTest
 		Properties props = System.getProperties();
 		props.setProperty("test.data.src", "src/test-data");
 		props.setProperty("test.basedir", "core/target/test-data");
+		props.setProperty("test.basedir.res", "test-data");
 		props.setProperty("test.policy", "src/test-data/test.policy");
 		props.setProperty("test.secure", "false");
 		props.setProperty("test.smb.uri",
@@ -67,31 +68,31 @@ public class RunTest
 
 		// LocalProviderTestCase.suite(),
 			
-		FtpProviderTestCase.suite(),
+		// FtpProviderTestCase.suite(),
 
-		UrlProviderHttpTestCase.suite(),
+		// UrlProviderHttpTestCase.suite(),
 
-		VirtualProviderTestCase.suite(),
-		TemporaryProviderTestCase.suite(),
-		UrlProviderTestCase.suite(),
-		// ResourceProviderTestCase.suite(),
+		// VirtualProviderTestCase.suite(),
+		// TemporaryProviderTestCase.suite(),
+		// UrlProviderTestCase.suite(),
+		ResourceProviderTestCase.suite(),
 
-		HttpProviderTestCase.suite(),
+		// HttpProviderTestCase.suite(),
 
 		// WebdavProviderTestCase.suite(),
 
-		SftpProviderTestCase.suite(),
+		// SftpProviderTestCase.suite(),
 
-		JarProviderTestCase.suite(),
-		NestedJarTestCase.suite(),
-		ZipProviderTestCase.suite(),
-		NestedZipTestCase.suite(),
-		TarProviderTestCase.suite(),
-		TgzProviderTestCase.suite(),
-		Tbz2ProviderTestCase.suite(),
-		NestedTarTestCase.suite(),
-		NestedTgzTestCase.suite(),
-		NestedTbz2TestCase.suite(),
+		// JarProviderTestCase.suite(),
+//		NestedJarTestCase.suite(),
+//		ZipProviderTestCase.suite(),
+//		NestedZipTestCase.suite(),
+//		TarProviderTestCase.suite(),
+//		TgzProviderTestCase.suite(),
+//		Tbz2ProviderTestCase.suite(),
+//		NestedTarTestCase.suite(),
+//		NestedTgzTestCase.suite(),
+//		NestedTbz2TestCase.suite(),
 		};
 
 		TestResult result = new TestResult()

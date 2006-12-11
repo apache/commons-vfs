@@ -109,17 +109,14 @@ public abstract class AbstractVfsTestCase
     public static String getTestDirectory()
     {
         return System.getProperty("test.basedir");
-        /*
-        if (baseDir == null)
-        {
-            final String baseDirProp = System.getProperty("test.basedir");
-            baseDir = getCanonicalFile(new File(baseDirProp));
-        }
-        return baseDir;
-        */
     }
 
-    /**
+	public static String getResourceTestDirectory()
+	{
+		return System.getProperty("test.basedir.res");
+	}
+
+	/**
      * Locates a test directory, creating it if it does not exist.
      *
      * @param name path of the directory, relative to this test's base directory.
