@@ -26,13 +26,13 @@
 	<name>sandbox</name>
 	<groupId>org.apache.commons</groupId>
 	<artifactId>commons-vfs-sandbox</artifactId>
-	<version>1.0-RC8-SNAPSHOT</version>
+	<version>1.0-RC9-SNAPSHOT</version>
 	<description>VFS is a Virtual File System library - Sandbox.</description>
 
 	<parent>
 		<groupId>org.apache.commons</groupId>
 		<artifactId>commons-vfs-project</artifactId>
-		<version>1.0-RC8-SNAPSHOT</version>
+		<version>1.0-RC9-SNAPSHOT</version>
 	</parent>
 
 	<organization>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-vfs</artifactId>
-			<version>1.0-RC8-SNAPSHOT</version>
+			<version>1.0-RC9-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -87,7 +87,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-vfs</artifactId>
-			<version>1.0-RC8-SNAPSHOT</version>
+			<version>1.0-RC9-SNAPSHOT</version>
 			<scope>test</scope>
 			<type>test-jar</type>
 		</dependency>

@@ -48,49 +48,50 @@ public class RunTest
 	{
 		Properties props = System.getProperties();
 		props.setProperty("test.data.src", "src/test-data");
-		props.setProperty("test.basedir", "target/test-data");
+		props.setProperty("test.basedir", "core/target/test-data");
 		props.setProperty("test.policy", "src/test-data/test.policy");
 		props.setProperty("test.secure", "false");
 		props.setProperty("test.smb.uri",
-				"smb://HOME\\vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfsusr/vfstest");
+				"smb://HOME\\vfsusr:vfs%2f%25\\te:st@172.16.110.129/vfsusr/vfstest");
 		props.setProperty("test.ftp.uri",
-				"ftp://vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfstest");
-		props.setProperty("test.http.uri", "http://172.26.2.126/vfstest");
+				"ftp://vfsusr:vfs%2f%25\\te:st@172.16.110.129/vfstest");
+		props.setProperty("test.http.uri", "http://172.16.110.129/vfstest");
 		props.setProperty("test.webdav.uri",
-				"webdav://vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfstest");
+				"webdav://vfsusr:vfs%2f%25\\te:st@172.16.110.129/vfstest");
 		props.setProperty("test.sftp.uri",
-				"sftp://vfsusr:vfs%2f%25\\te:st@172.26.2.126/vfstest");
+				"sftp://vfsusr:vfs%2f%25\\te:st@172.16.110.129/vfstest");
 
 		Test tests[] = new Test[]
 		{
 		// SmbProviderTestCase.suite(),
 
 		// LocalProviderTestCase.suite(),
-		// FtpProviderTestCase.suite(),
+			
+		FtpProviderTestCase.suite(),
 
-		// UrlProviderHttpTestCase.suite(),
+		UrlProviderHttpTestCase.suite(),
 
-		// VirtualProviderTestCase.suite(),
-		// TemporaryProviderTestCase.suite(),
-		// UrlProviderTestCase.suite(),
+		VirtualProviderTestCase.suite(),
+		TemporaryProviderTestCase.suite(),
+		UrlProviderTestCase.suite(),
 		// ResourceProviderTestCase.suite(),
 
-		// HttpProviderTestCase.suite(),
+		HttpProviderTestCase.suite(),
 
 		// WebdavProviderTestCase.suite(),
 
 		SftpProviderTestCase.suite(),
 
-		// JarProviderTestCase.suite(),
-		// NestedJarTestCase.suite(),
-		// ZipProviderTestCase.suite(),
-		// NestedZipTestCase.suite(),
-		// TarProviderTestCase.suite(),
-		// TgzProviderTestCase.suite(),
-		// Tbz2ProviderTestCase.suite(),
-		// NestedTarTestCase.suite(),
-		// NestedTgzTestCase.suite(),
-		// NestedTbz2TestCase.suite(),
+		JarProviderTestCase.suite(),
+		NestedJarTestCase.suite(),
+		ZipProviderTestCase.suite(),
+		NestedZipTestCase.suite(),
+		TarProviderTestCase.suite(),
+		TgzProviderTestCase.suite(),
+		Tbz2ProviderTestCase.suite(),
+		NestedTarTestCase.suite(),
+		NestedTgzTestCase.suite(),
+		NestedTbz2TestCase.suite(),
 		};
 
 		TestResult result = new TestResult()
