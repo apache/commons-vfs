@@ -26,13 +26,13 @@
 	<name>core</name>
 	<groupId>org.apache.commons</groupId>
 	<artifactId>commons-vfs</artifactId>
-	<version>1.0-RC9-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<description>VFS is a Virtual File System library.</description>
 
 	<parent>
 		<groupId>org.apache.commons</groupId>
 		<artifactId>commons-vfs-project</artifactId>
-		<version>1.0-RC9-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 
 
