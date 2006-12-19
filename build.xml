@@ -111,6 +111,8 @@
       <fileset dir="${basedir}/.">
         <include name="NOTICE.txt">
         </include>
+        <include name="LICENSE.txt">
+        </include>
       </fileset>
     </copy>
   </target>
