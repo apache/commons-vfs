@@ -186,8 +186,11 @@ public final class DefaultFileContent implements FileContent
         }
         try
         {
-            file.doSetLastModifiedTime(modTime);
-        }
+            if (!file.doSetLastModTime(modTime))
+			{
+				throw new FileSystemException("vfs.provider/set-last-modified.error", file);
+			}
+		}
         catch (final Exception e)
         {
             throw new FileSystemException("vfs.provider/set-last-modified.error", file, e);

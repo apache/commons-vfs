@@ -63,7 +63,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetType()
 	 */
 	protected FileType doGetType() throws Exception
@@ -73,7 +73,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doListChildren()
 	 */
 	protected String[] doListChildren() throws Exception
@@ -83,7 +83,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetContentSize()
 	 */
 	protected long doGetContentSize() throws Exception
@@ -93,7 +93,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetInputStream()
 	 */
 	protected InputStream doGetInputStream() throws Exception
@@ -103,7 +103,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetOutputStream(boolean)
 	 */
 	protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
@@ -117,7 +117,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doDelete()
 	 */
 	protected void doDelete() throws Exception
@@ -127,7 +127,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetLastModifiedTime()
 	 */
 	protected long doGetLastModifiedTime() throws Exception
@@ -137,17 +137,18 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doSetLastModifiedTime(long)
 	 */
-	protected void doSetLastModifiedTime(long modtime) throws Exception
+	protected boolean doSetLastModTime(long modtime) throws Exception
 	{
 		data.setLastModified(modtime);
+		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doCreateFolder()
 	 */
 	protected void doCreateFolder() throws Exception
@@ -158,7 +159,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doRename(org.apache.commons.vfs.FileObject)
 	 */
 	protected void doRename(FileObject newfile) throws Exception
@@ -168,7 +169,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetRandomAccessContent(org.apache.commons.vfs.util.RandomAccessMode)
 	 */
 	protected RandomAccessContent doGetRandomAccessContent(RandomAccessMode mode)
@@ -179,7 +180,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doAttach()
 	 */
 	protected void doAttach() throws Exception
@@ -206,7 +207,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#injectType(org.apache.commons.vfs.FileType)
 	 */
 	protected void injectType(FileType fileType)
@@ -217,7 +218,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.apache.commons.vfs.provider.AbstractFileObject#endOutput()
 	 */
 	protected void endOutput() throws Exception

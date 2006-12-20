@@ -248,11 +248,28 @@ public abstract class AbstractFileObject implements FileObject
         throw new FileSystemException("vfs.provider/get-last-modified-not-supported.error");
     }
 
+	/**
+	 * Sets the last modified time of this file.  Is only called if
+	 * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+	 * <p/>
+	 * This implementation throws an exception.
+	 *
+	 * @return false if it was not possible to change the time
+	 */
+	protected boolean doSetLastModTime(final long modtime)
+		throws Exception
+	{
+		doSetLastModifiedTime(modtime);
+		return true;
+	}
+
     /**
      * Sets the last modified time of this file.  Is only called if
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation throws an exception.
+	 *
+	 * @deprecated use {@link #doSetLastModTime}
      */
     protected void doSetLastModifiedTime(final long modtime)
         throws Exception
@@ -978,7 +995,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Checks if this fileObject is the same file as <code>destFile</code> just with a different
      * name.<br />
-     * E.g. for case insensitive filesystems like windows. 
+     * E.g. for case insensitive filesystems like windows.
      */
     protected boolean isSameFile(FileObject destFile) throws FileSystemException
     {

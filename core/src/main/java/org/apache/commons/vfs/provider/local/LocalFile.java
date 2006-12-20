@@ -192,10 +192,10 @@ public class LocalFile
     /**
      * Sets the last modified time of this file.
      */
-    protected void doSetLastModifiedTime(final long modtime)
+    protected boolean doSetLastModTime(final long modtime)
         throws FileSystemException
     {
-        file.setLastModified(modtime);
+        return file.setLastModified(modtime);
     }
 
     /**

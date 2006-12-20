@@ -268,11 +268,12 @@ public class DelegateFileObject
     /**
      * Sets the last-modified time of this file.
      */
-    protected void doSetLastModifiedTime(final long modtime)
+    protected boolean doSetLastModTime(final long modtime)
         throws Exception
     {
         file.getContent().setLastModifiedTime(modtime);
-    }
+		return true;
+	}
 
     /**
      * Creates an input stream to read the file content from.
