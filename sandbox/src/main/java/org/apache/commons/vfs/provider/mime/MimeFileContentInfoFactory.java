@@ -23,7 +23,10 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.DefaultFileContentInfo;
 
 import javax.mail.MessagingException;
+import javax.mail.Part;
+import javax.mail.Message;
 import javax.mail.internet.ContentType;
+import java.io.IOException;
 
 /**
  * get access to the content info stuff for mime objects
@@ -36,11 +39,47 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
 	public FileContentInfo create(FileContent fileContent) throws FileSystemException
 	{
 		MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
+		try
+		{
+			if (mimeFile.isMultipart())
+			{
+				// if this is a multipart message we deliver the preamble instead of an inupt string
+				// the preamble will be delivered in UTF-8 - fixed
+				return new DefaultFileContentInfo("text/plain", MimeFileSystem.PREAMBLE_CHARSET); // NON-NLS
+			}
+		}
+		catch (MessagingException e)
+		{
+			throw new FileSystemException(e);
+		}
+
+		String contentTypeString = null;
+
+		Part part = mimeFile.getPart();
+		try
+		{
+			Object content = part.getContent();
+			if (content instanceof Message)
+			{
+				contentTypeString = ((Message) content).getContentType();
+			}
+			else
+			{
+				contentTypeString = part.getContentType();
+			}
+		}
+		catch (IOException e)
+		{
+			throw new FileSystemException(e);
+		}
+		catch (MessagingException e)
+		{
+			throw new FileSystemException(e);
+		}
 
 		ContentType contentType;
 		try
 		{
-			String contentTypeString = mimeFile.getPart().getContentType();
 			contentType = new ContentType(contentTypeString);
 		}
 		catch (MessagingException e)
@@ -48,21 +87,8 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
 			throw new FileSystemException(e);
 		}
 
-		String charset = contentType.getParameter("charset");
-		try
-		{
-			if (mimeFile.isMultipart())
-			{
-				// if this is a multipart message we deliver the preamble instead of an inupt string
-				// the preamble will be delivered in UTF-8 - fixed
-				charset = MimeFileSystem.PREAMBLE_CHARSET;
-			}
-		}
-		catch (MessagingException e)
-		{
-			throw  new FileSystemException(e);
-		}
-
-		return new DefaultFileContentInfo(contentType.getBaseType(), charset);
+		return new DefaultFileContentInfo(
+			contentType.getBaseType(),
+			contentType.getParameter("charset")); // NON-NLS
 	}
 }

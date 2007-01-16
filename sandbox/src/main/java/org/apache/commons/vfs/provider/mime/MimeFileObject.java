@@ -244,10 +244,20 @@ public class MimeFileObject
     {
 		if (isMultipart())
 		{
+			// deliver the preamble as the only content
+
 			String preamble = ((MimeMultipart) part.getContent()).getPreamble();
 			return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
 		}
 
+		// try to deliver the content only
+		Object content = part.getContent();
+		if (content instanceof Message)
+		{
+			return ((Message) content).getInputStream();
+		}
+
+		// hmmm ... dont know, deliver the plain stream
 		return part.getInputStream();
 	}
 
