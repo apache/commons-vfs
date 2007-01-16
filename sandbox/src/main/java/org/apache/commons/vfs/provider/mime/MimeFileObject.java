@@ -22,6 +22,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.UriParser;
@@ -86,32 +87,34 @@ public class MimeFileObject
 			return null;
 		}
 
-		if (!isMultipart())
+		if (isMultipart())
 		{
-			// not a multipart
-			return null;
-		}
-
-		Multipart multipart = (Multipart)  part.getContent();
-		if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
-		{
-			int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
-			if (partNumber < 0 || partNumber+1 > multipart.getCount())
+			Multipart multipart = (Multipart)  part.getContent();
+			if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
 			{
-				// non existent
-				return null;
+				int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
+				if (partNumber < 0 || partNumber+1 > multipart.getCount())
+				{
+					// non existent
+					return null;
+				}
+
+				return multipart.getBodyPart(partNumber);
 			}
 
-			return multipart.getBodyPart(partNumber);
+			for (int i = 0; i<multipart.getCount(); i++)
+			{
+				Part childPart = multipart.getBodyPart(i);
+				if (partName.equals(childPart.getFileName()))
+				{
+					return childPart;
+				}
+			}
 		}
 
-		for (int i = 0; i<multipart.getCount(); i++)
+		if (partName.equals(MimeFileSystem.CONTENT_NAME))
 		{
-			Part childPart = multipart.getBodyPart(i);
-			if (partName.equals(childPart.getFileName()))
-			{
-				return childPart;
-			}
+			return (Part) part.getContent();
 		}
 
 		return null;
@@ -132,11 +135,13 @@ public class MimeFileObject
 			return FileType.IMAGINARY;
 		}
 
+		/*
 		if (!isMultipart())
 		{
 			// we cant have children ...
 			return FileType.FILE;
 		}
+		*/
 
 		// we have both
 		return FileType.FILE_OR_FOLDER;
@@ -158,7 +163,7 @@ public class MimeFileObject
 			return null;
 		}
 
-		List vfs = Collections.EMPTY_LIST;
+		List vfs = new ArrayList();
 		if (isMultipart())
 		{
 			Object container = part.getContent();
@@ -185,6 +190,20 @@ public class MimeFileObject
 					fo.setPart(part);
 					vfs.add(fo);
 				}
+			}
+		}
+		else
+		{
+			Object content = part.getContent();
+			if (content instanceof Part)
+			{
+				MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
+					getFileSystem().getFileSystemManager().resolveName(
+						getName(),
+						MimeFileSystem.CONTENT_NAME,
+						NameScope.CHILD)));
+				fo.setPart((Part) content);
+				vfs.add(fo);
 			}
 		}
 
@@ -250,14 +269,6 @@ public class MimeFileObject
 			return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
 		}
 
-		// try to deliver the content only
-		Object content = part.getContent();
-		if (content instanceof Message)
-		{
-			return ((Message) content).getInputStream();
-		}
-
-		// hmmm ... dont know, deliver the plain stream
 		return part.getInputStream();
 	}
 

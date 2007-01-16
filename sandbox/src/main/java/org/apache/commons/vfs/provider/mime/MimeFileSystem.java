@@ -47,6 +47,7 @@ public class MimeFileSystem
 	private Log log = LogFactory.getLog(MimeFileSystem.class);
 
 	public final static String NULL_BP_NAME = "_body_part_";
+	public final static String CONTENT_NAME = "_content";
 	public final static String PREAMBLE_CHARSET = "UTF-8";
 
 	private InputStream mimeStream = null;

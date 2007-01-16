@@ -16,17 +16,15 @@
  */
 package org.apache.commons.vfs.provider.mime;
 
-import org.apache.commons.vfs.FileContentInfoFactory;
-import org.apache.commons.vfs.FileContentInfo;
 import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileContentInfo;
+import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.DefaultFileContentInfo;
 
 import javax.mail.MessagingException;
 import javax.mail.Part;
-import javax.mail.Message;
 import javax.mail.internet.ContentType;
-import java.io.IOException;
 
 /**
  * get access to the content info stuff for mime objects
@@ -39,13 +37,22 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
 	public FileContentInfo create(FileContent fileContent) throws FileSystemException
 	{
 		MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
+		Part part = mimeFile.getPart();
+
+		String contentTypeString = null;
+		String charset = null;
+
 		try
 		{
+			// special handling for multipart
 			if (mimeFile.isMultipart())
 			{
-				// if this is a multipart message we deliver the preamble instead of an inupt string
+				// get the original content type, but ...
+				contentTypeString = part.getContentType();
+
+				// .... we deliver the preamble instead of an inupt string
 				// the preamble will be delivered in UTF-8 - fixed
-				return new DefaultFileContentInfo("text/plain", MimeFileSystem.PREAMBLE_CHARSET); // NON-NLS
+				charset = MimeFileSystem.PREAMBLE_CHARSET;
 			}
 		}
 		catch (MessagingException e)
@@ -53,28 +60,17 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
 			throw new FileSystemException(e);
 		}
 
-		String contentTypeString = null;
-
-		Part part = mimeFile.getPart();
-		try
+		if (contentTypeString == null)
 		{
-			Object content = part.getContent();
-			if (content instanceof Message)
-			{
-				contentTypeString = ((Message) content).getContentType();
-			}
-			else
+			// normal message ... get the content type
+			try
 			{
 				contentTypeString = part.getContentType();
 			}
-		}
-		catch (IOException e)
-		{
-			throw new FileSystemException(e);
-		}
-		catch (MessagingException e)
-		{
-			throw new FileSystemException(e);
+			catch (MessagingException e)
+			{
+				throw new FileSystemException(e);
+			}
 		}
 
 		ContentType contentType;
@@ -87,8 +83,15 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
 			throw new FileSystemException(e);
 		}
 
+		if (charset == null)
+		{
+			// charset might already be set by the multipart message stuff, else
+			// extract it from the contentType now
+			charset = contentType.getParameter("charset"); // NON-NLS
+		}
+
 		return new DefaultFileContentInfo(
 			contentType.getBaseType(),
-			contentType.getParameter("charset")); // NON-NLS
+			charset);
 	}
 }
