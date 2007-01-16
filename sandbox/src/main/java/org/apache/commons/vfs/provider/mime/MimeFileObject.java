@@ -142,10 +142,14 @@ public class MimeFileObject
 			return FileType.FILE;
 		}
 		*/
+		if (part.getContent() != null && part.getContent() instanceof Part)
+		{
+			// we have both
+			return FileType.FILE_OR_FOLDER;
+		}
 
-		// we have both
-		return FileType.FILE_OR_FOLDER;
-    }
+		return FileType.FILE;
+	}
 
 	protected String[] doListChildren() throws Exception
 	{
