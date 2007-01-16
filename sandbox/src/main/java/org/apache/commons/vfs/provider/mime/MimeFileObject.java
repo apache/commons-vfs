@@ -142,7 +142,7 @@ public class MimeFileObject
 			return FileType.FILE;
 		}
 		*/
-		if (part.getContent() != null && part.getContent() instanceof Part)
+		if (isMultipart() || (part.getContent() != null && part.getContent() instanceof Part))
 		{
 			// we have both
 			return FileType.FILE_OR_FOLDER;
