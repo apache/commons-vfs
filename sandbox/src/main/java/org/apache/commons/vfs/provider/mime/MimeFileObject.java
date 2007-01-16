@@ -112,11 +112,6 @@ public class MimeFileObject
 			}
 		}
 
-		if (partName.equals(MimeFileSystem.CONTENT_NAME))
-		{
-			return (Part) part.getContent();
-		}
-
 		return null;
 	}
 
@@ -135,16 +130,9 @@ public class MimeFileObject
 			return FileType.IMAGINARY;
 		}
 
-		/*
-		if (!isMultipart())
+		if (isMultipart())
 		{
 			// we cant have children ...
-			return FileType.FILE;
-		}
-		*/
-		if (isMultipart() || (part.getContent() != null && part.getContent() instanceof Part))
-		{
-			// we have both
 			return FileType.FILE_OR_FOLDER;
 		}
 
@@ -194,20 +182,6 @@ public class MimeFileObject
 					fo.setPart(part);
 					vfs.add(fo);
 				}
-			}
-		}
-		else
-		{
-			Object content = part.getContent();
-			if (content instanceof Part)
-			{
-				MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
-					getFileSystem().getFileSystemManager().resolveName(
-						getName(),
-						MimeFileSystem.CONTENT_NAME,
-						NameScope.CHILD)));
-				fo.setPart((Part) content);
-				vfs.add(fo);
 			}
 		}
 
