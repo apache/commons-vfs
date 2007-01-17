@@ -22,6 +22,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.UriParser;
@@ -34,6 +35,7 @@ import javax.mail.Part;
 import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -161,7 +163,6 @@ public class MimeFileObject
 			if (container instanceof Multipart)
 			{
 				Multipart multipart = (Multipart) container;
-				vfs = new ArrayList(multipart.getCount());
 
 				for (int i = 0; i<multipart.getCount(); i++)
 				{
@@ -243,6 +244,10 @@ public class MimeFileObject
 			// deliver the preamble as the only content
 
 			String preamble = ((MimeMultipart) part.getContent()).getPreamble();
+			if (preamble == null)
+			{
+				return new ByteArrayInputStream(new byte[]{});
+			}
 			return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
 		}
 
