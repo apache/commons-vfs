@@ -38,7 +38,21 @@ public class MonitorInputStream
         count = 0;
     }
 
-    /**
+
+	/**
+	 * Returns 0 if the stream is at eof, else the underlaying inputStream will be queried
+	 */
+	public synchronized int available() throws IOException
+	{
+		if (finished)
+		{
+			return 0;
+		}
+
+		return super.available();
+	}
+
+	/**
      * Reads a character.
      */
     public int read() throws IOException
