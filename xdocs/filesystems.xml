@@ -53,6 +53,9 @@
                 <li>
                     <a href="#ram">ram</a>
                 </li>
+                <li>
+                    <a href="#mime">mime</a>
+                </li>
 			</ul>
         </section>
 
@@ -122,10 +125,10 @@
                     <code>file:///home/someuser/somedir</code>
                 </li>
                 <li>
-                    <code>file://C:/Documents and Settings</code>
+                    <code>file:///C:/Documents and Settings</code>
                 </li>
                 <li>
-                    <code>file:////somehost/someshare/afile.txt</code>
+                    <code>file://///somehost/someshare/afile.txt</code>
                 </li>
                 <li>
                     <code>/home/someuser/somedir</code>
