@@ -116,7 +116,15 @@ public class VFSClassLoader
         addFileObjects(manager, files);
     }
 
-    /**
+	/**
+	 * provide access to the file objects this class loader represents 
+	 */
+	public FileObject[] getFileObjects()
+	{
+		return (FileObject[]) resources.toArray(new FileObject[resources.size()]);
+	}
+
+	/**
      * Appends the specified FileObjects to the list of FileObjects to search
      * for classes and resources.
      *
