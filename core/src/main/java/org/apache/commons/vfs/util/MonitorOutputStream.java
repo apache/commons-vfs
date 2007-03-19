@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs.util;
 
+import org.apache.commons.vfs.FileSystemException;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -75,7 +77,45 @@ public class MonitorOutputStream
         }
     }
 
-    /**
+
+	public synchronized void write(int b) throws IOException
+	{
+		assertOpen();
+		super.write(b);
+	}
+
+	public synchronized void write(byte b[], int off, int len) throws IOException
+	{
+		assertOpen();
+		super.write(b, off, len);
+	}
+
+	public synchronized void flush() throws IOException
+	{
+		assertOpen();
+		super.flush();
+	}
+
+	public void write(byte b[]) throws IOException
+	{
+		assertOpen();
+		super.write(b);
+	}
+
+	/**
+	 * check if file is still open. <br />
+	 * This is a workaround for an oddidy with javas BufferedOutputStream where you can write to
+	 * even if the stream has been closed
+	 */
+	protected void assertOpen() throws FileSystemException
+	{
+		if (finished)
+		{
+			throw new FileSystemException("vfs.provider/closed.error");
+		}
+	}
+
+	/**
      * Called after this stream is closed.  This implementation does nothing.
      */
     protected void onClose() throws IOException
