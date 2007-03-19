@@ -90,7 +90,7 @@ class FTPClientWrapper implements FtpClient
 
     public boolean isConnected() throws FileSystemException
     {
-        return getFtpClient().isConnected();
+        return ftpClient != null && ftpClient.isConnected();
     }
 
     public void disconnect() throws IOException
