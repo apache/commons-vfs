@@ -19,27 +19,7 @@ package org.apache.commons.vfs;
 import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestResult;
-import org.apache.commons.vfs.provider.http.test.HttpProviderTestCase;
-import org.apache.commons.vfs.provider.jar.test.JarProviderTestCase;
-import org.apache.commons.vfs.provider.jar.test.NestedJarTestCase;
 import org.apache.commons.vfs.provider.sftp.test.SftpProviderTestCase;
-import org.apache.commons.vfs.provider.tar.test.NestedTarTestCase;
-import org.apache.commons.vfs.provider.tar.test.NestedTbz2TestCase;
-import org.apache.commons.vfs.provider.tar.test.NestedTgzTestCase;
-import org.apache.commons.vfs.provider.tar.test.TarProviderTestCase;
-import org.apache.commons.vfs.provider.tar.test.Tbz2ProviderTestCase;
-import org.apache.commons.vfs.provider.tar.test.TgzProviderTestCase;
-import org.apache.commons.vfs.provider.zip.test.NestedZipTestCase;
-import org.apache.commons.vfs.provider.zip.test.ZipProviderTestCase;
-import org.apache.commons.vfs.provider.ftp.test.FtpProviderTestCase;
-import org.apache.commons.vfs.provider.local.test.LocalProviderTestCase;
-import org.apache.commons.vfs.provider.res.test.ResourceProviderTestCase;
-import org.apache.commons.vfs.provider.temp.test.TemporaryProviderTestCase;
-import org.apache.commons.vfs.provider.url.test.UrlProviderTestCase;
-import org.apache.commons.vfs.provider.url.test.UrlProviderHttpTestCase;
-import org.apache.commons.vfs.provider.test.VirtualProviderTestCase;
-import org.apache.commons.vfs.provider.test.GenericFileNameTestCase;
-import org.apache.commons.vfs.provider.ram.test.RamProviderTestCase;
 
 import java.util.Properties;
 
@@ -61,11 +41,11 @@ public class RunTest
 		props.setProperty("test.webdav.uri",
 				"webdav://vfsusr:vfs%2f%25\\te:st@172.16.110.129/vfstest");
 		props.setProperty("test.sftp.uri",
-				"sftp://vfsusr:vfs%2f%25\\te:st@172.16.110.129/vfstest");
+				"sftp://vfsusr:vfs%2f%25\\te:st@192.168.72.128/vfstest");
 
 		Test tests[] = new Test[]
 		{
-			RamProviderTestCase.suite(),
+			// RamProviderTestCase.suite(),
 
 			// SmbProviderTestCase.suite(),
 
@@ -84,7 +64,7 @@ public class RunTest
 
 		// WebdavProviderTestCase.suite(),
 
-		// SftpProviderTestCase.suite(),
+		SftpProviderTestCase.suite(),
 
 		// JarProviderTestCase.suite(),
 //		NestedJarTestCase.suite(),

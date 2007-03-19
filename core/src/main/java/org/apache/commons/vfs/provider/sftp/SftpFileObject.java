@@ -29,9 +29,10 @@ import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.util.FileObjectUtils;
+import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.MonitorOutputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
-import org.apache.commons.vfs.util.FileObjectUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -348,6 +349,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 			// hmmm - using the in memory method is soooo much faster ...
 			// TODO - Don't read the entire file into memory. Use the
 			// stream-based methods on ChannelSftp once they work properly final
+			// .... no stream based method with resume???
 			ByteArrayOutputStream outstr = new ByteArrayOutputStream();
 			try
 			{
@@ -383,15 +385,19 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 
 				// TODO - Don't read the entire file into memory. Use the
 				// stream-based methods on ChannelSftp once they work properly
+
+				/*
 				final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
 				channel.get(relPath, outstr);
 				outstr.close();
 				return new ByteArrayInputStream(outstr.toByteArray());
+				*/
+				return new SftpInputStream(channel, channel.get(relPath));
 
 			}
 			finally
 			{
-				fileSystem.putChannel(channel);
+//				fileSystem.putChannel(channel);
 			}
 		}
 	}
@@ -403,8 +409,35 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 	{
 		// TODO - Don't write the entire file into memory. Use the stream-based
 		// methods on ChannelSftp once the work properly
+		/*
 		final ChannelSftp channel = fileSystem.getChannel();
 		return new SftpOutputStream(channel);
+		*/
+
+		final ChannelSftp channel = fileSystem.getChannel();
+		return new SftpOutputStream(channel, channel.put(relPath));
+	}
+
+	/**
+	 * An InputStream that monitors for end-of-file.
+	 */
+	private class SftpInputStream extends MonitorInputStream
+	{
+		private final ChannelSftp channel;
+
+		public SftpInputStream(final ChannelSftp channel, final InputStream in)
+		{
+			super(in);
+			this.channel = channel;
+		}
+
+		/**
+		 * Called after the stream has been closed.
+		 */
+		protected void onClose() throws IOException
+		{
+			fileSystem.putChannel(channel);
+		}
 	}
 
 	/**
@@ -415,9 +448,9 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 	{
 		private final ChannelSftp channel;
 
-		public SftpOutputStream(final ChannelSftp channel)
+		public SftpOutputStream(final ChannelSftp channel, OutputStream out)
 		{
-			super(new ByteArrayOutputStream());
+			super(out);
 			this.channel = channel;
 		}
 
@@ -426,6 +459,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 		 */
 		protected void onClose() throws IOException
 		{
+			/*
 			try
 			{
 				final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
@@ -437,9 +471,11 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 				throw new FileSystemException(e);
 			}
 			finally
+			*/
 			{
 				fileSystem.putChannel(channel);
 			}
 		}
 	}
+
 }
