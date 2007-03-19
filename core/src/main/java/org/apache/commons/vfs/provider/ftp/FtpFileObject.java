@@ -48,150 +48,154 @@ import java.util.TreeMap;
  * @version $Revision$ $Date$
  */
 public class FtpFileObject
-    extends AbstractFileObject
+	extends AbstractFileObject
 {
-    private Log log = LogFactory.getLog(FtpFileObject.class);
+	private Log log = LogFactory.getLog(FtpFileObject.class);
 
-    private static final Map EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap());
+	private static final Map EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap());
 
-    private final FtpFileSystem ftpFs;
-    private final String relPath;
+	private final FtpFileSystem ftpFs;
+	private final String relPath;
 
-    // Cached info
-    private FTPFile fileInfo;
-    private Map children;
-    private FileObject linkDestination;
+	// Cached info
+	private FTPFile fileInfo;
+	private Map children;
+	private FileObject linkDestination;
 
-	private boolean inRefresh=false;
+	private boolean inRefresh = false;
 
 	protected FtpFileObject(final FileName name,
-                            final FtpFileSystem fileSystem,
-                            final FileName rootName)
-        throws FileSystemException
-    {
-        super(name, fileSystem);
-        ftpFs = fileSystem;
-        String relPath = UriParser.decode(rootName.getRelativeName(name));
-        if (".".equals(relPath))
-        {
-            // do not use the "." as path against the ftp-server
-            // e.g. the uu.net ftp-server do a recursive listing then
-            // this.relPath = UriParser.decode(rootName.getPath());
-            // this.relPath = ".";
-            this.relPath = null;
-        }
-        else
-        {
-            this.relPath = relPath;
-        }
-    }
-
-    /**
-     * Called by child file objects, to locate their ftp file info.
-     *
-     * @param name  the filename in its native form ie. without uri stuff (%nn)
-     * @param flush recreate children cache
-     */
-    private FTPFile getChildFile(final String name, final boolean flush) throws IOException
-    {
-        if (flush)
-        {
- 			children = null;
-        }
-
-        // List the children of this file
-        doGetChildren();
-
-        // Look for the requested child
-        FTPFile ftpFile = (FTPFile) children.get(name);
-        return ftpFile;
-    }
-
-    /**
-     * Fetches the children of this file, if not already cached.
-     */
-    private void doGetChildren() throws IOException
-    {
-        if (children != null)
-        {
-            return;
-        }
-
-        final FtpClient client = ftpFs.getClient();
-        try
-        {
-            final FTPFile[] tmpChildren = client.listFiles(relPath);
-            if (tmpChildren == null || tmpChildren.length == 0)
-            {
-                children = EMPTY_FTP_FILE_MAP;
-            }
-            else
-            {
-                children = new TreeMap();
-
-                // Remove '.' and '..' elements
-                for (int i = 0; i < tmpChildren.length; i++)
-                {
-                    final FTPFile child = tmpChildren[i];
-                    if (child == null)
-                    {
-                        if (log.isDebugEnabled())
-                        {
-                            log.debug(Messages.getString("vfs.provider.ftp/invalid-directory-entry.debug",
-                                new Object[]
-                                    {
-                                        new Integer(i), relPath
-                                    }));
-                        }
-                        continue;
-                    }
-                    if (!".".equals(child.getName())
-                        && !"..".equals(child.getName()))
-                    {
-                        children.put(child.getName(), child);
-                    }
-                }
-            }
-        }
-        finally
-        {
-            ftpFs.putClient(client);
-        }
-    }
-
-    /**
-     * Attaches this file object to its file resource.
-     */
-    protected void doAttach()
-        throws IOException
-    {
-        // Get the parent folder to find the info for this file
-        getInfo(false);
-    }
-
-    /**
-     * Fetches the info for this file.
-     */
-    private void getInfo(boolean flush) throws IOException
-    {
-        final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
-        FTPFile newFileInfo;
-        if (parent != null)
-        {
-            newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
-        }
-        else
-        {
-            // Assume the root is a directory and exists
-            newFileInfo = new FTPFile();
-            newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
-        }
-
-        this.fileInfo = newFileInfo;
-    }
+							final FtpFileSystem fileSystem,
+							final FileName rootName)
+		throws FileSystemException
+	{
+		super(name, fileSystem);
+		ftpFs = fileSystem;
+		String relPath = UriParser.decode(rootName.getRelativeName(name));
+		if (".".equals(relPath))
+		{
+			// do not use the "." as path against the ftp-server
+			// e.g. the uu.net ftp-server do a recursive listing then
+			// this.relPath = UriParser.decode(rootName.getPath());
+			// this.relPath = ".";
+			this.relPath = null;
+		}
+		else
+		{
+			this.relPath = relPath;
+		}
+	}
 
 	/**
+	 * Called by child file objects, to locate their ftp file info.
 	 *
+	 * @param name  the filename in its native form ie. without uri stuff (%nn)
+	 * @param flush recreate children cache
+	 */
+	private FTPFile getChildFile(final String name, final boolean flush) throws IOException
+	{
+		/* If we should flush cached children, clear our children map unless
+				 * we're in the middle of a refresh in which case we've just recently
+				 * refreshed our children. No need to do it again when our children are
+				 * refresh()ed, calling getChildFile() for themselves from within
+				 * getInfo(). See getChildren(). */
+		if (flush && !inRefresh)
+		{
+			children = null;
+		}
+
+		// List the children of this file
+		doGetChildren();
+
+		// Look for the requested child
+		FTPFile ftpFile = (FTPFile) children.get(name);
+		return ftpFile;
+	}
+
+	/**
+	 * Fetches the children of this file, if not already cached.
+	 */
+	private void doGetChildren() throws IOException
+	{
+		if (children != null)
+		{
+			return;
+		}
+
+		final FtpClient client = ftpFs.getClient();
+		try
+		{
+			final FTPFile[] tmpChildren = client.listFiles(relPath);
+			if (tmpChildren == null || tmpChildren.length == 0)
+			{
+				children = EMPTY_FTP_FILE_MAP;
+			}
+			else
+			{
+				children = new TreeMap();
+
+				// Remove '.' and '..' elements
+				for (int i = 0; i < tmpChildren.length; i++)
+				{
+					final FTPFile child = tmpChildren[i];
+					if (child == null)
+					{
+						if (log.isDebugEnabled())
+						{
+							log.debug(Messages.getString("vfs.provider.ftp/invalid-directory-entry.debug",
+								new Object[]
+									{
+										new Integer(i), relPath
+									}));
+						}
+						continue;
+					}
+					if (!".".equals(child.getName())
+						&& !"..".equals(child.getName()))
+					{
+						children.put(child.getName(), child);
+					}
+				}
+			}
+		}
+		finally
+		{
+			ftpFs.putClient(client);
+		}
+	}
+
+	/**
+	 * Attaches this file object to its file resource.
+	 */
+	protected void doAttach()
+		throws IOException
+	{
+		// Get the parent folder to find the info for this file
+		getInfo(false);
+	}
+
+	/**
+	 * Fetches the info for this file.
+	 */
+	private void getInfo(boolean flush) throws IOException
+	{
+		final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+		FTPFile newFileInfo;
+		if (parent != null)
+		{
+			newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
+		}
+		else
+		{
+			// Assume the root is a directory and exists
+			newFileInfo = new FTPFile();
+			newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
+		}
+
+		this.fileInfo = newFileInfo;
+	}
+
+	/**
 	 * @throws FileSystemException
 	 */
 	public void refresh() throws FileSystemException
@@ -220,391 +224,419 @@ public class FtpFileObject
 	}
 
 	/**
-     * Detaches this file object from its file resource.
-     */
-    protected void doDetach()
-    {
-        this.fileInfo = null;
-        children = null;
-    }
+	 * Detaches this file object from its file resource.
+	 */
+	protected void doDetach()
+	{
+		this.fileInfo = null;
+		children = null;
+	}
 
-    /**
-     * Called when the children of this file change.
-     */
-    protected void onChildrenChanged(FileName child, FileType newType)
-    {
-        if (children != null && newType.equals(FileType.IMAGINARY))
-        {
-            try
-            {
-                children.remove(UriParser.decode(child.getBaseName()));
-            }
-            catch (FileSystemException e)
-            {
-                throw new RuntimeException(e.getMessage());
-            }
-        }
-        else
-        {
-            // if child was added we have to rescan the children
-            // TODO - get rid of this
-            children = null;
-        }
-    }
+	/**
+	 * Called when the children of this file change.
+	 */
+	protected void onChildrenChanged(FileName child, FileType newType)
+	{
+		if (children != null && newType.equals(FileType.IMAGINARY))
+		{
+			try
+			{
+				children.remove(UriParser.decode(child.getBaseName()));
+			}
+			catch (FileSystemException e)
+			{
+				throw new RuntimeException(e.getMessage());
+			}
+		}
+		else
+		{
+			// if child was added we have to rescan the children
+			// TODO - get rid of this
+			children = null;
+		}
+	}
 
-    /**
-     * Called when the type or content of this file changes.
-     */
-    protected void onChange() throws IOException
-    {
-        children = null;
+	/**
+	 * Called when the type or content of this file changes.
+	 */
+	protected void onChange() throws IOException
+	{
+		children = null;
 
-        if (getType().equals(FileType.IMAGINARY))
-        {
-            // file is deleted, avoid server lookup
-            this.fileInfo = null;
-            return;
-        }
+		if (getType().equals(FileType.IMAGINARY))
+		{
+			// file is deleted, avoid server lookup
+			this.fileInfo = null;
+			return;
+		}
 
-        getInfo(true);
-    }
+		getInfo(true);
+	}
 
-    /**
-     * Determines the type of the file, returns null if the file does not
-     * exist.
-     */
-    protected FileType doGetType()
-        throws Exception
-    {
-        if (this.fileInfo == null)
-        {
-            return FileType.IMAGINARY;
-        }
-        else if (this.fileInfo.isDirectory())
-        {
-            return FileType.FOLDER;
-        }
-        else if (this.fileInfo.isFile())
-        {
-            return FileType.FILE;
-        }
-        else if (this.fileInfo.isSymbolicLink())
-        {
-            return getLinkDestination().getType();
-        }
+	/**
+	 * Determines the type of the file, returns null if the file does not
+	 * exist.
+	 */
+	protected FileType doGetType()
+		throws Exception
+	{
+		if (this.fileInfo == null)
+		{
+			return FileType.IMAGINARY;
+		}
+		else if (this.fileInfo.isDirectory())
+		{
+			return FileType.FOLDER;
+		}
+		else if (this.fileInfo.isFile())
+		{
+			return FileType.FILE;
+		}
+		else if (this.fileInfo.isSymbolicLink())
+		{
+			return getLinkDestination().getType();
+		}
 
-        throw new FileSystemException("vfs.provider.ftp/get-type.error", getName());
-    }
+		throw new FileSystemException("vfs.provider.ftp/get-type.error", getName());
+	}
 
-    private FileObject getLinkDestination() throws FileSystemException
-    {
-        if (linkDestination == null)
-        {
-            final String path = this.fileInfo.getLink();
-            FileName relativeTo = getName().getParent();
-            if (relativeTo == null)
-            {
-                relativeTo = getName();
-            }
-            FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
-            linkDestination = getFileSystem().resolveFile(linkDestinationName);
-        }
+	private FileObject getLinkDestination() throws FileSystemException
+	{
+		if (linkDestination == null)
+		{
+			final String path = this.fileInfo.getLink();
+			FileName relativeTo = getName().getParent();
+			if (relativeTo == null)
+			{
+				relativeTo = getName();
+			}
+			FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
+			linkDestination = getFileSystem().resolveFile(linkDestinationName);
+		}
 
-        return linkDestination;
-    }
+		return linkDestination;
+	}
 
-    protected FileObject[] doListChildrenResolved() throws Exception
-    {
-        if (this.fileInfo.isSymbolicLink())
-        {
-            return getLinkDestination().getChildren();
-        }
+	protected FileObject[] doListChildrenResolved() throws Exception
+	{
+		if (this.fileInfo.isSymbolicLink())
+		{
+			return getLinkDestination().getChildren();
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Lists the children of the file.
-     */
-    protected String[] doListChildren()
-        throws Exception
-    {
-        // List the children of this file
-        doGetChildren();
+	/**
+	 * Returns the file's list of children.
+	 *
+	 * @return The list of children
+	 * @throws FileSystemException If there was a problem listing children
+	 * @see AbstractFileObject#getChildren()
+	 * @since 1.0
+	 */
+	public FileObject[] getChildren() throws FileSystemException
+	{
+		try
+		{
+			/* Wrap our parent implementation, noting that we're refreshing so
+			 * that we don't refresh() ourselves and each of our parents for
+			 * each children. Note that refresh() will list children. Meaning,
+			 * if if this file has C children, P parents, there will be (C * P)
+			 * listings made with (C * (P + 1)) refreshes, when there should
+			 * really only be 1 listing and C refreshes. */
+			
+			this.inRefresh = true;
+			return super.getChildren();
+		}
+		finally
+		{
+			this.inRefresh = false;
+		}
+	}
 
-        // TODO - get rid of this children stuff
-        final String[] childNames = new String[children.size()];
-        int childNum = -1;
-        Iterator iterChildren = children.values().iterator();
-        while (iterChildren.hasNext())
-        {
-            childNum++;
-            final FTPFile child = (FTPFile) iterChildren.next();
-            childNames[childNum] = child.getName();
-        }
+	/**
+	 * Lists the children of the file.
+	 */
+	protected String[] doListChildren()
+		throws Exception
+	{
+		// List the children of this file
+		doGetChildren();
 
-        return UriParser.encode(childNames);
-    }
+		// TODO - get rid of this children stuff
+		final String[] childNames = new String[children.size()];
+		int childNum = -1;
+		Iterator iterChildren = children.values().iterator();
+		while (iterChildren.hasNext())
+		{
+			childNum++;
+			final FTPFile child = (FTPFile) iterChildren.next();
+			childNames[childNum] = child.getName();
+		}
 
-    /**
-     * Deletes the file.
-     */
-    protected void doDelete() throws Exception
-    {
-        final boolean ok;
-        final FtpClient ftpClient = ftpFs.getClient();
-        try
-        {
-            if (this.fileInfo.isDirectory())
-            {
-                ok = ftpClient.removeDirectory(relPath);
-            }
-            else
-            {
-                ok = ftpClient.deleteFile(relPath);
-            }
-        }
-        finally
-        {
-            ftpFs.putClient(ftpClient);
-        }
+		return UriParser.encode(childNames);
+	}
 
-        if (!ok)
-        {
-            throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
-        }
-        this.fileInfo = null;
-        children = EMPTY_FTP_FILE_MAP;
-    }
+	/**
+	 * Deletes the file.
+	 */
+	protected void doDelete() throws Exception
+	{
+		final boolean ok;
+		final FtpClient ftpClient = ftpFs.getClient();
+		try
+		{
+			if (this.fileInfo.isDirectory())
+			{
+				ok = ftpClient.removeDirectory(relPath);
+			}
+			else
+			{
+				ok = ftpClient.deleteFile(relPath);
+			}
+		}
+		finally
+		{
+			ftpFs.putClient(ftpClient);
+		}
 
-    /**
-     * Renames the file
-     */
-    protected void doRename(FileObject newfile) throws Exception
-    {
-        final boolean ok;
-        final FtpClient ftpClient = ftpFs.getClient();
-        try
-        {
-            String oldName = getName().getPath();
-            String newName = newfile.getName().getPath();
-            ok = ftpClient.rename(oldName, newName);
-        }
-        finally
-        {
-            ftpFs.putClient(ftpClient);
-        }
+		if (!ok)
+		{
+			throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
+		}
+		this.fileInfo = null;
+		children = EMPTY_FTP_FILE_MAP;
+	}
 
-        if (!ok)
-        {
-            throw new FileSystemException("vfs.provider.ftp/rename-file.error", new Object[]{getName().toString(), newfile});
-        }
-        this.fileInfo = null;
-        children = EMPTY_FTP_FILE_MAP;
-    }
+	/**
+	 * Renames the file
+	 */
+	protected void doRename(FileObject newfile) throws Exception
+	{
+		final boolean ok;
+		final FtpClient ftpClient = ftpFs.getClient();
+		try
+		{
+			String oldName = getName().getPath();
+			String newName = newfile.getName().getPath();
+			ok = ftpClient.rename(oldName, newName);
+		}
+		finally
+		{
+			ftpFs.putClient(ftpClient);
+		}
 
-    /**
-     * Creates this file as a folder.
-     */
-    protected void doCreateFolder()
-        throws Exception
-    {
-        final boolean ok;
-        final FtpClient client = ftpFs.getClient();
-        try
-        {
-            ok = client.makeDirectory(relPath);
-        }
-        finally
-        {
-            ftpFs.putClient(client);
-        }
+		if (!ok)
+		{
+			throw new FileSystemException("vfs.provider.ftp/rename-file.error", new Object[]{getName().toString(), newfile});
+		}
+		this.fileInfo = null;
+		children = EMPTY_FTP_FILE_MAP;
+	}
 
-        if (!ok)
-        {
-            throw new FileSystemException("vfs.provider.ftp/create-folder.error", getName());
-        }
-    }
+	/**
+	 * Creates this file as a folder.
+	 */
+	protected void doCreateFolder()
+		throws Exception
+	{
+		final boolean ok;
+		final FtpClient client = ftpFs.getClient();
+		try
+		{
+			ok = client.makeDirectory(relPath);
+		}
+		finally
+		{
+			ftpFs.putClient(client);
+		}
 
-    /**
-     * Returns the size of the file content (in bytes).
-     */
-    protected long doGetContentSize() throws Exception
-    {
-        if (this.fileInfo.isSymbolicLink())
-        {
-            return getLinkDestination().getContent().getSize();
-        }
-        else
-        {
-            return this.fileInfo.getSize();
-        }
-    }
+		if (!ok)
+		{
+			throw new FileSystemException("vfs.provider.ftp/create-folder.error", getName());
+		}
+	}
 
-    /**
-     * get the last modified time on an ftp file
-     *
-     * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetLastModifiedTime()
-     */
-    protected long doGetLastModifiedTime() throws Exception
-    {
-        if (this.fileInfo.isSymbolicLink())
-        {
-            return getLinkDestination().getContent().getLastModifiedTime();
-        }
-        else
-        {
-            Calendar timestamp = this.fileInfo.getTimestamp();
-            if (timestamp == null)
-            {
-                return 0L;
-            }
-            else
-            {
-                return (timestamp.getTime().getTime());
-            }
-        }
-    }
+	/**
+	 * Returns the size of the file content (in bytes).
+	 */
+	protected long doGetContentSize() throws Exception
+	{
+		if (this.fileInfo.isSymbolicLink())
+		{
+			return getLinkDestination().getContent().getSize();
+		}
+		else
+		{
+			return this.fileInfo.getSize();
+		}
+	}
 
-    /**
-     * Creates an input stream to read the file content from.
-     */
-    protected InputStream doGetInputStream() throws Exception
-    {
-        final FtpClient client = ftpFs.getClient();
-        final InputStream instr = client.retrieveFileStream(relPath);
-        return new FtpInputStream(client, instr);
-    }
+	/**
+	 * get the last modified time on an ftp file
+	 *
+	 * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetLastModifiedTime()
+	 */
+	protected long doGetLastModifiedTime() throws Exception
+	{
+		if (this.fileInfo.isSymbolicLink())
+		{
+			return getLinkDestination().getContent().getLastModifiedTime();
+		}
+		else
+		{
+			Calendar timestamp = this.fileInfo.getTimestamp();
+			if (timestamp == null)
+			{
+				return 0L;
+			}
+			else
+			{
+				return (timestamp.getTime().getTime());
+			}
+		}
+	}
 
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
-    {
-        return new FtpRandomAccessContent(this, mode);
-    }
+	/**
+	 * Creates an input stream to read the file content from.
+	 */
+	protected InputStream doGetInputStream() throws Exception
+	{
+		final FtpClient client = ftpFs.getClient();
+		final InputStream instr = client.retrieveFileStream(relPath);
+		return new FtpInputStream(client, instr);
+	}
 
-    /**
-     * Creates an output stream to write the file content to.
-     */
-    protected OutputStream doGetOutputStream(boolean bAppend)
-        throws Exception
-    {
-        final FtpClient client = ftpFs.getClient();
-        OutputStream out = null;
-        if (bAppend)
-        {
-            out = client.appendFileStream(relPath);
-        }
-        else
-        {
-            out = client.storeFileStream(relPath);
-        }
+	protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+	{
+		return new FtpRandomAccessContent(this, mode);
+	}
 
-        if (out == null)
-        {
-            throw new FileSystemException("vfs.provider.ftp/output-error.debug", new Object[]
-                {
-                    this.getName(),
-                    client.getReplyString()
-                });
-        }
+	/**
+	 * Creates an output stream to write the file content to.
+	 */
+	protected OutputStream doGetOutputStream(boolean bAppend)
+		throws Exception
+	{
+		final FtpClient client = ftpFs.getClient();
+		OutputStream out = null;
+		if (bAppend)
+		{
+			out = client.appendFileStream(relPath);
+		}
+		else
+		{
+			out = client.storeFileStream(relPath);
+		}
 
-        return new FtpOutputStream(client, out);
-    }
+		if (out == null)
+		{
+			throw new FileSystemException("vfs.provider.ftp/output-error.debug", new Object[]
+				{
+					this.getName(),
+					client.getReplyString()
+				});
+		}
 
-    String getRelPath()
-    {
-        return relPath;
-    }
+		return new FtpOutputStream(client, out);
+	}
 
-    FtpInputStream getInputStream(long filePointer) throws IOException
-    {
-        final FtpClient client = ftpFs.getClient();
-        final InputStream instr = client.retrieveFileStream(relPath, filePointer);
-        if (instr == null)
-        {
-            throw new FileSystemException("vfs.provider.ftp/input-error.debug", new Object[]
-                {
-                    this.getName(),
-                    client.getReplyString()
-                });
-        }
-        return new FtpInputStream(client, instr);
-    }
+	String getRelPath()
+	{
+		return relPath;
+	}
 
-    /**
-     * An InputStream that monitors for end-of-file.
-     */
-    class FtpInputStream
-        extends MonitorInputStream
-    {
-        private final FtpClient client;
+	FtpInputStream getInputStream(long filePointer) throws IOException
+	{
+		final FtpClient client = ftpFs.getClient();
+		final InputStream instr = client.retrieveFileStream(relPath, filePointer);
+		if (instr == null)
+		{
+			throw new FileSystemException("vfs.provider.ftp/input-error.debug", new Object[]
+				{
+					this.getName(),
+					client.getReplyString()
+				});
+		}
+		return new FtpInputStream(client, instr);
+	}
 
-        public FtpInputStream(final FtpClient client, final InputStream in)
-        {
-            super(in);
-            this.client = client;
-        }
+	/**
+	 * An InputStream that monitors for end-of-file.
+	 */
+	class FtpInputStream
+		extends MonitorInputStream
+	{
+		private final FtpClient client;
 
-        void abort() throws IOException
-        {
-            client.abort();
-            close();
-        }
+		public FtpInputStream(final FtpClient client, final InputStream in)
+		{
+			super(in);
+			this.client = client;
+		}
 
-        /**
-         * Called after the stream has been closed.
-         */
-        protected void onClose() throws IOException
-        {
-            final boolean ok;
-            try
-            {
-                ok = client.completePendingCommand();
-            }
-            finally
-            {
-                ftpFs.putClient(client);
-            }
+		void abort() throws IOException
+		{
+			client.abort();
+			close();
+		}
 
-            if (!ok)
-            {
-                throw new FileSystemException("vfs.provider.ftp/finish-get.error", getName());
-            }
-        }
-    }
+		/**
+		 * Called after the stream has been closed.
+		 */
+		protected void onClose() throws IOException
+		{
+			final boolean ok;
+			try
+			{
+				ok = client.completePendingCommand();
+			}
+			finally
+			{
+				ftpFs.putClient(client);
+			}
 
-    /**
-     * An OutputStream that monitors for end-of-file.
-     */
-    private class FtpOutputStream
-        extends MonitorOutputStream
-    {
-        private final FtpClient client;
+			if (!ok)
+			{
+				throw new FileSystemException("vfs.provider.ftp/finish-get.error", getName());
+			}
+		}
+	}
 
-        public FtpOutputStream(final FtpClient client, final OutputStream outstr)
-        {
-            super(outstr);
-            this.client = client;
-        }
+	/**
+	 * An OutputStream that monitors for end-of-file.
+	 */
+	private class FtpOutputStream
+		extends MonitorOutputStream
+	{
+		private final FtpClient client;
 
-        /**
-         * Called after this stream is closed.
-         */
-        protected void onClose() throws IOException
-        {
-            final boolean ok;
-            try
-            {
-                ok = client.completePendingCommand();
-            }
-            finally
-            {
-                ftpFs.putClient(client);
-            }
+		public FtpOutputStream(final FtpClient client, final OutputStream outstr)
+		{
+			super(outstr);
+			this.client = client;
+		}
 
-            if (!ok)
-            {
-                throw new FileSystemException("vfs.provider.ftp/finish-put.error", getName());
-            }
-        }
-    }
+		/**
+		 * Called after this stream is closed.
+		 */
+		protected void onClose() throws IOException
+		{
+			final boolean ok;
+			try
+			{
+				ok = client.completePendingCommand();
+			}
+			finally
+			{
+				ftpFs.putClient(client);
+			}
+
+			if (!ok)
+			{
+				throw new FileSystemException("vfs.provider.ftp/finish-put.error", getName());
+			}
+		}
+	}
 }
