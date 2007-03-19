@@ -372,23 +372,27 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 	 */
 	protected InputStream doGetInputStream() throws Exception
 	{
-		final ChannelSftp channel = fileSystem.getChannel();
-		try
+		// VFS-113: avoid npe
+		synchronized(fileSystem)
 		{
-			// return channel.get(getName().getPath());
-			// hmmm - using the in memory method is soooo much faster ...
+			final ChannelSftp channel = fileSystem.getChannel();
+			try
+			{
+				// return channel.get(getName().getPath());
+				// hmmm - using the in memory method is soooo much faster ...
 
-			// TODO - Don't read the entire file into memory. Use the
-			// stream-based methods on ChannelSftp once they work properly
-			final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
-			channel.get(relPath, outstr);
-			outstr.close();
-			return new ByteArrayInputStream(outstr.toByteArray());
+				// TODO - Don't read the entire file into memory. Use the
+				// stream-based methods on ChannelSftp once they work properly
+				final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
+				channel.get(relPath, outstr);
+				outstr.close();
+				return new ByteArrayInputStream(outstr.toByteArray());
 
-		}
-		finally
-		{
-			fileSystem.putChannel(channel);
+			}
+			finally
+			{
+				fileSystem.putChannel(channel);
+			}
 		}
 	}
 
