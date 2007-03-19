@@ -504,30 +504,36 @@ public abstract class AbstractFileSystem
      */
     private void fireEvent(final AbstractFileChangeEvent event)
     {
-        synchronized (listenerMap)
+		FileListener[] fileListeners = null;
+		final FileObject file = event.getFile();
+
+		synchronized (listenerMap)
         {
-            final FileObject file = event.getFile();
             final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
             if (listeners != null)
             {
-            	FileListener[] fileListeners = (FileListener[]) listeners.toArray(new FileListener[listeners.size()]);
-                for (int i = 0; i < fileListeners.length; i++)
-                {
-                    final FileListener fileListener = fileListeners[i];
-                    try
-                    {
-                        event.notify(fileListener);
-                    }
-                    catch (final Exception e)
-                    {
-                        final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
-                        // getLogger().warn(message, e);
-                        VfsLog.warn(getLogger(), log, message, e);
-                    }
-                }
-            }
-        }
-    }
+            	fileListeners = (FileListener[]) listeners.toArray(new FileListener[listeners.size()]);
+			}
+		}
+
+		if (fileListeners != null)
+		{
+			for (int i = 0; i < fileListeners.length; i++)
+			{
+				final FileListener fileListener = fileListeners[i];
+				try
+				{
+					event.notify(fileListener);
+				}
+				catch (final Exception e)
+				{
+					final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
+					// getLogger().warn(message, e);
+					VfsLog.warn(getLogger(), log, message, e);
+				}
+			}
+		}
+	}
 
 	/*
 	void fileDetached(FileObject fileObject)
