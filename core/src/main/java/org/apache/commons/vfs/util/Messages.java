@@ -104,7 +104,7 @@ public class Messages
         // Locate the message
         if (resources == null)
         {
-            resources = ResourceBundle.getBundle("org.apache.commons.vfs.Resources");
+            resources = new CombinedResources("org.apache.commons.vfs.Resources");
         }
         final String msgText = resources.getString(code);
         msg = new MessageFormat(msgText);
