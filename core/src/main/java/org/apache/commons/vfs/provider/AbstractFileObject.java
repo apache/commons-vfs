@@ -1093,7 +1093,8 @@ public abstract class AbstractFileObject implements FileObject
             try
             {
                 content.close();
-            }
+				content = null;
+			}
             catch (FileSystemException e)
             {
                 exc = e;
