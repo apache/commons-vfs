@@ -22,6 +22,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.util.WeakRefFileListener;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -54,7 +55,7 @@ public class DelegateFileObject
         this.file = file;
         if (file != null)
         {
-            file.getFileSystem().addListener(file, this);
+			WeakRefFileListener.installListener(file, this);
         }
     }
 
@@ -80,7 +81,7 @@ public class DelegateFileObject
 
         if (file != null)
         {
-            file.getFileSystem().addListener(file, this);
+			WeakRefFileListener.installListener(file, this);
         }
         this.file = file;
         maybeTypeChanged(oldType);
@@ -296,6 +297,7 @@ public class DelegateFileObject
      */
     public void fileCreated(final FileChangeEvent event) throws Exception
     {
+        if (event.getFile() != file) return;
         if (!ignoreEvent)
         {
             handleCreate(file.getType());
@@ -307,6 +309,7 @@ public class DelegateFileObject
      */
     public void fileDeleted(final FileChangeEvent event) throws Exception
     {
+        if (event.getFile() != file) return;
         if (!ignoreEvent)
         {
             handleDelete();
@@ -320,6 +323,7 @@ public class DelegateFileObject
      */
     public void fileChanged(FileChangeEvent event) throws Exception
     {
+        if (event.getFile() != file) return;
         if (!ignoreEvent)
         {
             handleChanged();
