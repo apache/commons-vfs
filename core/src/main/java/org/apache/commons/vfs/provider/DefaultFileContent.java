@@ -238,10 +238,12 @@ public final class DefaultFileContent implements FileContent
         throws FileSystemException
     {
         getAttributes();
+		/* imario@apache.org: VFS-132 since I do not know why I've done this, I'll disable it again
 		if (attrs.containsKey(attrName))
 		{
 			return attrs.get(attrName);
 		}
+		*/
 		return attrs.get(attrName.toLowerCase());
     }
 
