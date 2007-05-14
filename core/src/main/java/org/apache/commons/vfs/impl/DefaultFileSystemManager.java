@@ -16,17 +16,6 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.io.File;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.lang.reflect.Constructor;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs.CacheStrategy;
 import org.apache.commons.vfs.FileContentInfoFactory;
@@ -52,6 +41,17 @@ import org.apache.commons.vfs.provider.LocalFileProvider;
 import org.apache.commons.vfs.provider.TemporaryFileStore;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.provider.VfsComponent;
+
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A default file system manager implementation.
@@ -186,7 +186,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 			providers.put(scheme, provider);
 		}
 
-		if (provider instanceof LocalFileProvider)
+		if (provider instanceof LocalFileProvider && localFileProvider == null)
 		{
 			localFileProvider = (LocalFileProvider) provider;
 		}
