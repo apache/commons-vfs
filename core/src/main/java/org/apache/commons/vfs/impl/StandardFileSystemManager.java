@@ -103,12 +103,15 @@ public class StandardFileSystemManager
         setReplicator(new PrivilegedFileReplicator(replicator));
         setTemporaryFileStore(replicator);
 
-        if (classLoader == null)
+		/* replaced by findClassLoader
+		if (classLoader == null)
         {
             // Use default classloader
             classLoader = getClass().getClassLoader();
         }
-        if (configUri == null)
+        */
+
+		if (configUri == null)
         {
             // Use default config
             final URL url = getClass().getResource(CONFIG_RESOURCE);
@@ -146,7 +149,7 @@ public class StandardFileSystemManager
 		{
 			throw new FileSystemException(e);
 		}
-		
+
 		while (enumResources.hasMoreElements())
 		{
 			URL url = (URL) enumResources.nextElement();
@@ -156,6 +159,11 @@ public class StandardFileSystemManager
 
 	private ClassLoader findClassLoader()
 	{
+		if (classLoader != null)
+		{
+			return classLoader;
+		}
+
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		if (cl == null)
 		{
@@ -261,7 +269,7 @@ public class StandardFileSystemManager
             final Element operationProvider = (Element) operationProviders.item(i);
             addOperationProvider(operationProvider);
         }
-        
+
         // Add the default provider
         final NodeList defProviders = config.getElementsByTagName("default-provider");
         if (defProviders.getLength() > 0)
@@ -380,7 +388,7 @@ public class StandardFileSystemManager
             }
         }
     }
-    
+
     /**
      * Tests if a class is available.
      */
@@ -388,7 +396,7 @@ public class StandardFileSystemManager
     {
         try
         {
-            classLoader.loadClass(className);
+            findClassLoader().loadClass(className);
             return true;
         }
         catch (final ClassNotFoundException e)
@@ -461,7 +469,7 @@ public class StandardFileSystemManager
     {
         try
         {
-            final Class clazz = classLoader.loadClass(className);
+            final Class clazz = findClassLoader().loadClass(className);
             return clazz.newInstance();
         }
         catch (final Exception e)
