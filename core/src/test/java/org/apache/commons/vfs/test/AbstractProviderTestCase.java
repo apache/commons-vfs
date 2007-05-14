@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -95,7 +95,7 @@ public abstract class AbstractProviderTestCase
 
     /**
      * creates a new uninitialized file system manager
-     * @throws Exception 
+     * @throws Exception
      */
     protected DefaultFileSystemManager createManager() throws Exception
     {
@@ -117,7 +117,7 @@ public abstract class AbstractProviderTestCase
     {
         return providerConfig.getBaseTestFolder(fs);
     }
-    
+
     /**
      * Returns the base test folder.  This is the parent of both the read
      * test and write test folders.
@@ -126,9 +126,9 @@ public abstract class AbstractProviderTestCase
     {
         return baseFolder;
     }
-    
+
     /**
-     * get the provider configuration 
+     * get the provider configuration
      */
     public ProviderTestConfig getProviderConfig()
 	{
@@ -194,7 +194,7 @@ public abstract class AbstractProviderTestCase
         {
             try
             {
-                method.invoke(this, null);
+                method.invoke(this, (Object[]) null);
             }
             catch (final InvocationTargetException e)
             {
