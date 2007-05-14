@@ -46,7 +46,7 @@ public class DelegateFileObject
     private final Set children = new HashSet();
     private boolean ignoreEvent;
 
-    public DelegateFileObject(final FileName name,
+	public DelegateFileObject(final FileName name,
                               final AbstractFileSystem fileSystem,
                               final FileObject file) throws FileSystemException
     {
@@ -338,4 +338,16 @@ public class DelegateFileObject
             file.close();
         }
     }
+
+	/**
+	 * refresh file informations
+	 */
+	public void refresh() throws FileSystemException
+	{
+		super.refresh();
+		if (file != null)
+		{
+			file.refresh();
+		}
+	}
 }
