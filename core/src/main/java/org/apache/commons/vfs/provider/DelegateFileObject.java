@@ -63,6 +63,14 @@ public class DelegateFileObject
 	}
 
 	/**
+	 * get access to the delegated file
+	 */
+	public FileObject getDelegateFile()
+	{
+		return file;
+	}
+
+	/**
 	 * Adds a child to this file.
 	 */
 	public void attachChild(final FileName baseName, final FileType type) throws Exception
