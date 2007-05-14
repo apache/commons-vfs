@@ -68,7 +68,7 @@ public abstract class AbstractFileObject implements FileObject
     private final AbstractFileName name;
     private final AbstractFileSystem fs;
 
-    private DefaultFileContent content;
+    private FileContent content;
 
     // Cached info
     private boolean attached;
@@ -1072,13 +1072,21 @@ public abstract class AbstractFileObject implements FileObject
             attach();
             if (content == null)
             {
-                content = new DefaultFileContent(this, getFileContentInfoFactory());
+                content = doCreateFileContent();
             }
             return content;
         }
     }
 
-    /**
+	/**
+	 * Create a FileContent implementation
+	 */
+	protected FileContent doCreateFileContent() throws FileSystemException
+	{
+		return new DefaultFileContent(this, getFileContentInfoFactory());
+	}
+
+	/**
      * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required
      */
     public void refresh() throws FileSystemException
