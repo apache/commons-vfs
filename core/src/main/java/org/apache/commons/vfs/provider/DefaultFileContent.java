@@ -571,7 +571,7 @@ public final class DefaultFileContent implements FileContent
             }
             finally
             {
-                endRandomAccess(content);
+                endRandomAccess(this);
             }
         }
     }

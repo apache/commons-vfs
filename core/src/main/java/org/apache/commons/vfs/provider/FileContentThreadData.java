@@ -19,7 +19,6 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.RandomAccessContent;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -82,7 +81,7 @@ class FileContentThreadData
 
     public void removeInstr(InputStream instr)
     {
-        this.instrs.remove(instr);
+        this.rastrs.remove(instr);
     }
 
 	public Object removeRastr(int pos)
