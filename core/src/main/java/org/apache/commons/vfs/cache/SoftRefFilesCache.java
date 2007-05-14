@@ -16,14 +16,6 @@
  */
 package org.apache.commons.vfs.cache;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.SoftReference;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileName;
@@ -32,6 +24,13 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.VfsLog;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.util.Messages;
+
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * This implementation caches every file as long as it is strongly reachable by
@@ -289,7 +288,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 			Map files = (Map) filesystemCache.get(filesystem);
 			if (files == null)
 			{
-				files = new TreeMap();
+				files = new HashMap();
 				filesystemCache.put(filesystem, files);
 			}
 

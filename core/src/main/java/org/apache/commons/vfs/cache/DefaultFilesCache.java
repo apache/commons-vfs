@@ -22,7 +22,6 @@ import org.apache.commons.vfs.FileSystem;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * A {@link org.apache.commons.vfs.FilesCache} implementation.<br>
@@ -58,7 +57,7 @@ public class DefaultFilesCache extends AbstractFilesCache
         Map files = (Map) filesystemCache.get(filesystem);
         if (files == null)
         {
-            files = new TreeMap();
+            files = new HashMap();
             filesystemCache.put(filesystem, files);
         }
 
