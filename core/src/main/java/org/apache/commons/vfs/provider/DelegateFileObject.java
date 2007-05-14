@@ -23,7 +23,9 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileContentInfo;
+import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.util.WeakRefFileListener;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -368,5 +370,31 @@ public class DelegateFileObject
 	protected FileContentInfo doGetContentInfo() throws Exception
 	{
 		return file.getContent().getContentInfo();
+	}
+
+	/**
+	 * Renames the file.
+	 */
+	protected void doRename(FileObject newFile)
+		throws Exception
+	{
+		file.moveTo(((DelegateFileObject) newFile).file);
+	}
+
+	/**
+	 * Removes an attribute of this file.
+	 */
+	protected void doRemoveAttribute(final String atttrName)
+		throws Exception
+	{
+		file.getContent().removeAttribute(atttrName);
+	}
+
+	/**
+	 * Creates access to the file for random i/o.
+	 */
+	protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+	{
+		return file.getContent().getRandomAccessContent(mode);
 	}
 }
