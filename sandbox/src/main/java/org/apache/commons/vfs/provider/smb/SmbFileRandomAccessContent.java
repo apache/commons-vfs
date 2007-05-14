@@ -43,19 +43,9 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
     {
         super(mode);
 
-        StringBuffer modes = new StringBuffer(2);
-        if (mode.requestRead())
-        {
-            modes.append('r');
-        }
-        if (mode.requestWrite())
-        {
-            modes.append('w');
-        }
-
         try
         {
-            raf = new SmbRandomAccessFile(smbFile, modes.toString());
+            raf = new SmbRandomAccessFile(smbFile, mode.getModeString());
             rafis = new InputStream()
             {
                 public int read() throws IOException
