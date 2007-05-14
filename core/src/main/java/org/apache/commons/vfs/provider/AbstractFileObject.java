@@ -302,6 +302,20 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
+     * Removes an attribute of this file.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation throws an exception.
+	 * @returns true if removing the attribute succeed. In this case we remove the attribute from
+	 * our cache
+     */
+    protected void doRemoveAttribute(final String atttrName)
+        throws Exception
+    {
+        throw new FileSystemException("vfs.provider/remove-attribute-not-supported.error");
+    }
+
+    /**
      * Returns the certificates used to sign this file.  Is only called if
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>

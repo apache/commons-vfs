@@ -76,6 +76,16 @@ public interface FileContent
     void setLastModifiedTime(long modTime) throws FileSystemException;
 
     /**
+     * Checks if an attribute of the file's content exists.
+     *
+     * @param attrName The name of the attribute.
+     * @throws FileSystemException If the file does not exist, or does not support
+     *                             attributes.
+     */
+    boolean hasAttribute(String attrName)
+        throws FileSystemException;
+
+    /**
      * Returns a read-only map of this file's attributes.
      *
      * @throws FileSystemException If the file does not exist, or does not support attributes.
@@ -110,6 +120,16 @@ public interface FileContent
      *                             attributes, or on error setting the attribute.
      */
     void setAttribute(String attrName, Object value)
+        throws FileSystemException;
+
+    /**
+     * Removes the value of an attribute of the file's content.
+     *
+     * @param attrName The name of the attribute.
+     * @throws FileSystemException If the file does not exist, or is read-only, or does not support
+     *                             attributes, or on error removing the attribute.
+     */
+    void removeAttribute(String attrName)
         throws FileSystemException;
 
     /**

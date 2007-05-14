@@ -197,6 +197,19 @@ public final class DefaultFileContent implements FileContent
         }
     }
 
+   /**
+     * Checks if an attribute exists.
+     */
+    public boolean hasAttribute(final String attrName) throws FileSystemException
+    {
+        if (!file.getType().hasAttributes())
+        {
+            throw new FileSystemException("vfs.provider/exists-attributes-no-exist.error", file);
+        }
+        getAttributes();
+        return attrs.containsKey(attrName);
+    }
+
     /**
      * Returns a read-only map of this file's attributes.
      */
@@ -269,6 +282,31 @@ public final class DefaultFileContent implements FileContent
         if (attrs != null)
         {
             attrs.put(attrName, value);
+        }
+    }
+
+    /**
+     * Removes an attribute.
+     */
+    public void removeAttribute(final String attrName) throws FileSystemException
+    {
+        if (!file.getType().hasAttributes())
+        {
+            throw new FileSystemException("vfs.provider/remove-attribute-no-exist.error", file);
+        }
+
+		try
+        {
+            file.doRemoveAttribute(attrName);
+        }
+        catch (final Exception e)
+        {
+            throw new FileSystemException("vfs.provider/remove-attribute.error", new Object[]{attrName, file}, e);
+        }
+
+        if (attrs != null)
+        {
+            attrs.remove(attrName);
         }
     }
 
