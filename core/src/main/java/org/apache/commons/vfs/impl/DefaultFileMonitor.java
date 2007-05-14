@@ -23,7 +23,6 @@ import org.apache.commons.vfs.FileMonitor;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 import java.util.HashMap;
@@ -346,7 +345,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     public void run()
     {
         mainloop:
-        while (!Thread.currentThread().isInterrupted() && this.shouldRun)
+        while (!monitorThread.isInterrupted() && this.shouldRun)
         {
             while (!this.deleteStack.empty())
             {
@@ -388,7 +387,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     }
                 }
 
-                if (Thread.currentThread().isInterrupted() || !this.shouldRun)
+                if (monitorThread.isInterrupted() || !this.shouldRun)
                 {
                     continue mainloop;
                 }
