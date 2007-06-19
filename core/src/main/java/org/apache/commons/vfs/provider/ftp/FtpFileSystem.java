@@ -47,7 +47,6 @@ public class FtpFileSystem
 
     // An idle client
     private FtpClient idleClient;
-    private final Object idleClientSync = new Object();
 
     protected FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient, final FileSystemOptions fileSystemOptions)
     {
@@ -101,12 +100,12 @@ public class FtpFileSystem
      */
     public FtpClient getClient() throws FileSystemException
     {
-        synchronized (idleClientSync)
+        synchronized (this)
             {
                 if (idleClient == null || !idleClient.isConnected())
                 {
 					idleClient = null;
-					
+
 					FtpClient ftpClient = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
                     return ftpClient;
                     /*
@@ -134,7 +133,7 @@ public class FtpFileSystem
      */
     public void putClient(final FtpClient client)
     {
-        synchronized (idleClientSync)
+        synchronized (this)
             {
                 if (idleClient == null)
                 {
