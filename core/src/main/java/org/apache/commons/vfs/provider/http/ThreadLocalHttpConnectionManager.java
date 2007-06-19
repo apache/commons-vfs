@@ -1,4 +1,4 @@
-package org.apache.commons.vfs.provider.webdav;
+package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpConnection;
@@ -22,7 +22,7 @@ import java.io.InputStream;
  * @author Laura Werner
  * @since 2.0
  */
-public class WebdavConnectionManager implements HttpConnectionManager
+public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
 {
     private static class ConnectionParameters
     {
@@ -109,7 +109,7 @@ public class WebdavConnectionManager implements HttpConnectionManager
         private long idleStartTime = Long.MAX_VALUE;
     }
 
-    public WebdavConnectionManager()
+    public ThreadLocalHttpConnectionManager()
     {
     }
 

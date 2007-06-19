@@ -16,16 +16,15 @@
  */
 package org.apache.commons.vfs.provider.http;
 
+import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 /**
@@ -48,8 +47,10 @@ public class HttpClientFactory
         HttpClient client;
         try
         {
-            client = new HttpClient(new MultiThreadedHttpConnectionManager());
-            final HostConfiguration config = new HostConfiguration();
+            // client = new HttpClient(new MultiThreadedHttpConnectionManager());
+			client = new HttpClient(new ThreadLocalHttpConnectionManager());
+
+			final HostConfiguration config = new HostConfiguration();
             config.setHost(hostname, port, scheme);
 
             if (fileSystemOptions != null)

@@ -19,11 +19,11 @@ package org.apache.commons.vfs.provider.webdav;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.provider.http.ThreadLocalHttpConnectionManager;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.webdav.lib.WebdavResource;
 
@@ -104,7 +104,7 @@ public class WebdavClientFactory
             resource.setHttpURL(url, WebdavResource.NOACTION, 1);
 
             client = resource.retrieveSessionInstance();
-            client.setHttpConnectionManager(new WebdavConnectionManager());
+            client.setHttpConnectionManager(new ThreadLocalHttpConnectionManager());
         }
         catch (final IOException e)
         {

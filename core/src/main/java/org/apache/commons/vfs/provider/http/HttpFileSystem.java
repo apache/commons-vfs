@@ -17,6 +17,7 @@
 package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -57,7 +58,19 @@ public class HttpFileSystem
         return client;
     }
 
-    /**
+	public void closeCommunicationLink()
+	{
+		if (getClient() != null)
+		{
+			HttpConnectionManager mgr = getClient().getHttpConnectionManager();
+			if (mgr instanceof ThreadLocalHttpConnectionManager)
+			{
+				((ThreadLocalHttpConnectionManager) mgr).releaseLocalConnection();
+			}
+		}
+	}
+
+	/**
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */

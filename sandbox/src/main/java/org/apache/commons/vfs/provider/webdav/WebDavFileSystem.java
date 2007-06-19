@@ -21,10 +21,10 @@ import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.http.ThreadLocalHttpConnectionManager;
 
 import java.util.Collection;
 
@@ -58,19 +58,22 @@ public class WebDavFileSystem
     /**
      * Returns the client for this file system.
      */
-    protected HttpClient getClient() throws FileSystemException
+    protected HttpClient getClient()
     {
         return client;
     }
 
-    protected void closeHttpClientConnection() throws FileSystemException
-    {
-        HttpConnectionManager mgr = getClient().getHttpConnectionManager();
-        if (mgr instanceof WebdavConnectionManager)
-        {
-            ((WebdavConnectionManager) mgr).releaseLocalConnection();
-        }
-    }
+	public void closeCommunicationLink()
+	{
+		if (getClient() != null)
+		{
+			HttpConnectionManager mgr = getClient().getHttpConnectionManager();
+			if (mgr instanceof ThreadLocalHttpConnectionManager)
+			{
+				((ThreadLocalHttpConnectionManager) mgr).releaseLocalConnection();
+			}
+		}
+	}
 
     /**
      * Creates a file object.  This method is called only if the requested
