@@ -36,7 +36,7 @@ import java.util.Map;
  * This implementation caches every file as long as it is strongly reachable by
  * the java vm. As soon as the vm needs memory - every softly reachable file
  * will be discarded.
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date: 2005-09-30 09:02:41 +0200 (Fr, 30 Sep
  *          2005) $
@@ -81,8 +81,12 @@ public class SoftRefFilesCache extends AbstractFilesCache
 						continue;
 					}
 
-					FileSystemAndNameKey key = (FileSystemAndNameKey) refReverseMap
-							.get(ref);
+					FileSystemAndNameKey key;
+					synchronized(refReverseMap)
+					{
+						key = (FileSystemAndNameKey) refReverseMap
+								.get(ref);
+					}
 
 					if (key != null)
 					{
@@ -152,7 +156,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
 		synchronized (files)
 		{
 			files.put(file.getName(), ref);
-			refReverseMap.put(ref, key);
+			synchronized(refReverseMap)
+			{
+				refReverseMap.put(ref, key);
+			}
 		}
 	}
 
@@ -190,19 +197,21 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
 		synchronized (files)
 		{
-			Iterator iterKeys = refReverseMap.values().iterator();
-			while (iterKeys.hasNext())
+			synchronized(refReverseMap)
 			{
-				FileSystemAndNameKey key = (FileSystemAndNameKey) iterKeys
-						.next();
-				if (key.getFileSystem() == filesystem)
+				Iterator iterKeys = refReverseMap.values().iterator();
+				while (iterKeys.hasNext())
 				{
-					iterKeys.remove();
-					files.remove(key.getFileName());
+					FileSystemAndNameKey key = (FileSystemAndNameKey) iterKeys.next();
+					if (key.getFileSystem() == filesystem)
+					{
+						iterKeys.remove();
+						files.remove(key.getFileName());
+					}
 				}
-			}
 
-			closeFilesystem = files.size() < 1;
+				closeFilesystem = files.size() < 1;
+			}
 		}
 
 		if (closeFilesystem)
@@ -240,7 +249,11 @@ public class SoftRefFilesCache extends AbstractFilesCache
 		{
 			filesystemCache.clear();
 		}
-		refReverseMap.clear();
+
+		synchronized(refReverseMap)
+		{
+			refReverseMap.clear();
+		}
 	}
 
 	public void removeFile(FileSystem filesystem, FileName name)
@@ -269,7 +282,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
 			Object ref = files.remove(key.getFileName());
 			if (ref != null)
 			{
-				refReverseMap.remove(ref);
+				synchronized(refReverseMap)
+				{
+					refReverseMap.remove(ref);
+				}
 			}
 
 			return files.size() < 1;
