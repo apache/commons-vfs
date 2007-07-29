@@ -25,6 +25,6 @@
         <home nested="target"/>
         <jar name="commons-vfs-@@DATE@@.jar"/>
         <javadoc module="jakarta-commons" nested="target/docs/apidocs"/>
-        <nag to="commons-dev@jakarta.apache.org" from="commons-vfs development &lt;commons-dev@jakarta.apache.org&gt;"/>
+        <nag to="dev@commons.apache.org" from="commons-vfs development &lt;dev@commons.apache.org&gt;"/>
     </project>
 </module>
