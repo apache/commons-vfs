@@ -33,7 +33,7 @@
   <packaging>pom</packaging>
   <version>1.1-SNAPSHOT</version>
 
-  <url>http://jakarta.apache.org/commons/vfs/</url>
+  <url>http://commons.apache.org/vfs/</url>
   <inceptionYear>2002</inceptionYear>
 
   <modules>
@@ -48,8 +48,8 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</developerConnection>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/trunk</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/trunk</developerConnection>
     <url>http://svn.apache.org/viewvc</url> 
   </scm>
 
@@ -125,7 +125,7 @@
     </snapshotRepository>
     <site>
       <id>apache.website</id>
-      <url>scp://people.apache.org/www/jakarta.apache.org/commons/vfs/</url>
+      <url>scp://people.apache.org/www/commons.apache.org/vfs/</url>
     </site>
   </distributionManagement>
 

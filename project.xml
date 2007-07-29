@@ -23,7 +23,7 @@
     <groupId>commons-vfs</groupId>
     <artifactId>commons-vfs</artifactId>
     <logo>/images/vfs-logo-white.png</logo>
-    <url>http://jakarta.apache.org/commons/vfs/</url>
+    <url>http://commons.apache.org/vfs/</url>
     <currentVersion>1.1-SNAPSHOT</currentVersion>
     <inceptionYear>2002</inceptionYear>
     <package>org.apache.commons.vfs</package>
@@ -35,8 +35,8 @@
 
     <organization>
         <name>The Apache Software Foundation</name>
-        <url>http://jakarta.apache.org</url>
-        <logo>http://jakarta.apache.org/images/original-jakarta-logo.gif</logo>
+        <url>http://commons.apache.org/</url>
+        <logo>http://commons.apache.org/images/logo.png</logo>
     </organization>
 
     <licenses>
@@ -49,26 +49,26 @@
     <issueTrackingUrl>http://issues.apache.org/jira/</issueTrackingUrl>
     <siteAddress>people.apache.org</siteAddress>
     <!--
-        <siteDirectory>/www/jakarta.apache.org/commons/vfs/</siteDirectory>
+        <siteDirectory>/www/commons.apache.org/vfs/</siteDirectory>
     -->
     <siteDirectory>public_html/vfs-1.1/site</siteDirectory>
-    <distributionDirectory>/www/jakarta.apache.org/builds/jakarta-commons/vfs/</distributionDirectory>
+    <distributionDirectory>/www/people.apache.org/builds/commons/vfs/</distributionDirectory>
     <repository>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk</connection>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/trunk</connection>
         <url>http://svn.apache.org/viewvc</url>
     </repository>
     <mailingLists>
         <mailingList>
             <name>Commons Dev List</name>
-            <subscribe>commons-dev-subscribe@jakarta.apache.org</subscribe>
-            <unsubscribe>commons-dev-unsubscribe@jakarta.apache.org</unsubscribe>
-            <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-dev/</archive>
+            <subscribe>dev-subscribe@commons.apache.org</subscribe>
+            <unsubscribe>dev-unsubscribe@commons.apache.org</unsubscribe>
+            <archive>http://mail-archives.apache.org/mod_mbox/commons-dev/</archive>
         </mailingList>
         <mailingList>
             <name>Commons User List</name>
-            <subscribe>commons-user-subscribe@jakarta.apache.org</subscribe>
-            <unsubscribe>commons-user-unsubscribe@jakarta.apache.org</unsubscribe>
-            <archive>http://mail-archives.apache.org/mod_mbox/jakarta-commons-user/</archive>
+            <subscribe>user-subscribe@commons.apache.org</subscribe>
+            <unsubscribe>user-unsubscribe@commons.apache.org</unsubscribe>
+            <archive>http://mail-archives.apache.org/mod_mbox/commons-user/</archive>
         </mailingList>
     </mailingLists>
 
@@ -132,7 +132,7 @@
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>1.4.1</version>
-            <url>http://jakarta.apache.org/commons/net/</url>
+            <url>http://commons.apache.org/net/</url>
             <properties>
                 <optional>true</optional>
                 <comment>
@@ -145,7 +145,7 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.0.4</version>
-            <url>http://jakarta.apache.org/commons/logging/</url>
+            <url>http://commons.apache.org/logging/</url>
         </dependency>
 
         <!--TODO:Revert to [compress] if/when released
@@ -159,7 +159,7 @@
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.1</version>
-            <url>http://jakarta.apache.org/commons/collections/</url>
+            <url>http://commons.apache.org/collections/</url>
             <properties>
                 <optional>true</optional>
                 <comment>
@@ -215,7 +215,7 @@
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>2.0.2</version>
-            <url>http://jakarta.apache.org/commons/httpclient/</url>
+            <url>http://commons.apache.org/httpclient/</url>
             <properties>
                 <optional>true</optional>
                 <comment>
