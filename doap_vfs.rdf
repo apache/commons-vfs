@@ -16,7 +16,7 @@
     <repository>
       <SVNRepository>
         <browse rdf:resource="http://svn.apache.org/viewvc"/>
-        <location rdf:resource="http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs"/>
+        <location rdf:resource="http://svn.apache.org/repos/asf/commons/proper/vfs"/>
       </SVNRepository>
     </repository>
     <!--
