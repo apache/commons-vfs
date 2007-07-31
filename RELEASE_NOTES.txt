@@ -2,5 +2,5 @@
 this is the first release
 
 Notice: Some tests may fail unless you've followed the necessary setup
-  as described here: http://jakarta.apache.org/commons/vfs/testserver.html
+  as described here: http://commons.apache.org/vfs/testserver.html
   This is ok; the jar will still be fine.

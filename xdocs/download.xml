@@ -40,7 +40,7 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/logging/">Commons Logging</a>
+                        <a href="http://commons.apache.org/logging/">Commons Logging</a>
                         Version 1.0.4 or later.
                     </td>
                     <td>All</td>
@@ -48,7 +48,7 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/collections/">Commons Collections</a>
+                        <a href="http://commons.apache.org/collections/">Commons Collections</a>
                         Version 3.1
                     </td>
                     <td>LRU Cache (optional)</td>
@@ -56,7 +56,7 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/net/">Commons Net</a>
+                        <a href="http://commons.apache.org/net/">Commons Net</a>
                         Version 1.4.1 or later.
                     </td>
                     <td rowspan="2">FTP</td>
@@ -71,7 +71,7 @@
                 <tr>
                     <td>
                         Jakarta
-                        <a href="http://jakarta.apache.org/commons/httpclient/">Commons Httpclient</a>
+                        <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a>
                         .
                         Version 2.0.
                     </td>
@@ -129,7 +129,7 @@
 <!--
 				<tr>
                     <td>
-                        <a href="http://jakarta.apache.org/commons/sandbox/compress/">Commons Compress</a>
+                        <a href="http://commons.apache.org/sandbox/compress/">Commons Compress</a>
                         Nightly build 20050911
                         <br/>
                         There are no other nightlies than the one I created for maven, so please download it from the
@@ -152,11 +152,11 @@
                     Check the source out of SVN using:
                     <br/>
                     HEAD:
-                    <code>svn co http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/trunk vfs</code>
+                    <code>svn co http://svn.apache.org/repos/asf/commons/proper/vfs/trunk vfs</code>
                     <br/>
                     For a certain version please look at
-                    <a href="http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/tags">
-                        http://svn.apache.org/repos/asf/jakarta/commons/proper/vfs/tags</a>
+                    <a href="http://svn.apache.org/repos/asf/commons/proper/vfs/tags">
+                        http://svn.apache.org/repos/asf/commons/proper/vfs/tags</a>
                 </li>
                 <li>
                     Download a nightly source snapshot from

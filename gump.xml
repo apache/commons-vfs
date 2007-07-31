@@ -2,7 +2,7 @@
 
 <module name="commons-vfs">
     <description>Commons VFS</description>
-    <url href="http://jakarta.apache.org/commons/vfs/"/>
+    <url href="http://commons.apache.org/vfs/"/>
     <cvs module="jakarta-commons/vfs" repository="jakarta"/>
     <project name="commons-vfs">
         <ant buildfile="build.xml" target="dist">
