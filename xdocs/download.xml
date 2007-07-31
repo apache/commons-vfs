@@ -25,7 +25,7 @@
         <section name="Download">
             <p>
                 Nightly builds of Commons VFS can be found
-                <a href="http://people.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
+                <a href="http://people.apache.org/builds/commons/nightly/commons-vfs/">here</a>
                 .
             </p>
             <p>
@@ -39,7 +39,6 @@
                 </tr>
                 <tr>
                     <td>
-                        Jakarta
                         <a href="http://commons.apache.org/logging/">Commons Logging</a>
                         Version 1.0.4 or later.
                     </td>
@@ -47,7 +46,6 @@
                 </tr>
                 <tr>
                     <td>
-                        Jakarta
                         <a href="http://commons.apache.org/collections/">Commons Collections</a>
                         Version 3.1
                     </td>
@@ -55,7 +53,6 @@
                 </tr>
                 <tr>
                     <td>
-                        Jakarta
                         <a href="http://commons.apache.org/net/">Commons Net</a>
                         Version 1.4.1 or later.
                     </td>
@@ -70,7 +67,6 @@
                 </tr>
                 <tr>
                     <td>
-                        Jakarta
                         <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a>
                         .
                         Version 2.0.
@@ -160,7 +156,7 @@
                 </li>
                 <li>
                     Download a nightly source snapshot from
-                    <a href="http://people.apache.org/builds/jakarta-commons/nightly/commons-vfs/">here</a>
+                    <a href="http://people.apache.org/builds/commons/nightly/commons-vfs/">here</a>
                     .
                 </li>
             </ul>
