@@ -33,7 +33,7 @@
       <item name="API JavaDocs"            href="/apidocs/index.html"/>
       <item name="File Systems"            href="/filesystems.html"/>
       <item name="Ant Tasks"               href="/anttasks.html"/>
-      <item name="Wiki"                    href="http://wiki.apache.org/jakarta-commons/VFS"/>
+      <item name="Wiki"                    href="http://wiki.apache.org/commons/VFS"/>
     </menu>
 
     <menu name="Development">
