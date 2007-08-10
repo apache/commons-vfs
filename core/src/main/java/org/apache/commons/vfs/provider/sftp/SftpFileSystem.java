@@ -76,9 +76,11 @@ public class SftpFileSystem
      */
     protected ChannelSftp getChannel() throws IOException
     {
-        if (this.session == null)
+        if (this.session == null || !this.session.isConnected())
         {
-            // channel closed. e.g. by freeUnusedResources, but now we need it again
+			doCloseCommunicationLink();
+			
+			// channel closed. e.g. by freeUnusedResources, but now we need it again
             Session session;
 			UserAuthenticationData authData = null;
 			try
@@ -119,7 +121,7 @@ public class SftpFileSystem
             }
             else
             {
-                channel = (ChannelSftp) session.openChannel("sftp");
+				channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect();
 
                 Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
