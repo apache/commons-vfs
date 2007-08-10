@@ -56,6 +56,8 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 	private SftpATTRS attrs;
 	private final String relPath;
 
+	private boolean inRefresh;
+
 	protected SftpFileObject(final FileName name,
 			final SftpFileSystem fileSystem) throws FileSystemException
 	{
@@ -63,6 +65,36 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 		this.fileSystem = fileSystem;
 		relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(
 				name));
+	}
+
+	protected void doDetach() throws Exception
+	{
+		attrs = null;
+	}
+
+	public void refresh() throws FileSystemException
+	{
+		if (!inRefresh)
+		{
+			try
+			{
+				inRefresh = true;
+				super.refresh();
+				try
+				{
+					attrs = null;
+					getType();
+				}
+				catch (IOException e)
+				{
+					throw new FileSystemException(e);
+				}
+			}
+			finally
+			{
+				inRefresh = false;
+			}
+		}
 	}
 
 	/**
