@@ -24,8 +24,8 @@
     <body>
         <section name="Download">
             <p>
-                Nightly builds of Commons VFS can be found
-                <a href="http://people.apache.org/builds/commons/nightly/commons-vfs/">here</a>
+                The latest release of Commons VFS can be found
+                <a href="http://commons.apache.org/downloads/download_vfs.cgi">here</a>
                 .
             </p>
             <p>
