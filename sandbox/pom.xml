@@ -21,7 +21,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<packaging>jar</packaging>
+	<packaging>bundle</packaging>
 
 	<name>sandbox</name>
 	<groupId>org.apache.commons</groupId>
@@ -98,6 +98,10 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<properties>
+		<commons.componentid>vfs-sandbox</commons.componentid>
+	</properties> 
 
 	<build>
 		<resources>

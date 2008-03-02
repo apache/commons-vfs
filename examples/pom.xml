@@ -21,7 +21,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <packaging>jar</packaging>
+  <packaging>bundle</packaging>
 
   <name>examples</name>
   <groupId>org.apache.commons</groupId>
@@ -98,6 +98,10 @@
     </dependency>
 
   </dependencies>
+
+  <properties>
+    <commons.componentid>vfs-examples</commons.componentid>
+  </properties> 
 
   <build>
     <plugins>

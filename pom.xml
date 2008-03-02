@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>7</version>
+    <version>8</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -94,6 +94,26 @@
       <email>xknight -at- users.sourceforge.net</email>
     </contributor>
   </contributors>
+
+  <properties>
+    <commons.componentid>vfs</commons.componentid>
+    <commons.release.version>1.0</commons.release.version>
+    <commons.binary.suffix></commons.binary.suffix>
+    <commons.jira.id>VFS</commons.jira.id>
+    <commons.jira.pid>12310495</commons.jira.pid>
+  </properties> 
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-build-plugin</artifactId>
+        <configuration>
+            <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
   <repositories>
     <repository>
