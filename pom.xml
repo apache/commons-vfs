@@ -50,7 +50,7 @@
   <scm>
     <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/trunk</connection>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc</url> 
+    <url>http://svn.apache.org/viewvc/commons/proper/vfs/trunk/</url> 
   </scm>
 
   <developers>
@@ -110,6 +110,16 @@
         <artifactId>commons-build-plugin</artifactId>
         <configuration>
             <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/bin.xml</descriptor>
+            <descriptor>src/assembly/src.xml</descriptor>
+          </descriptors>
+          <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
     </plugins>
