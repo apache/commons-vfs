@@ -105,12 +105,11 @@ public class RamFileRandomAccessContent implements RandomAccessContent
 
 			public void close() throws IOException
 			{
-				close();
 			}
 
 			public int read(byte b[]) throws IOException
 			{
-				return read(b);
+				return read(b, 0, b.length);
 			}
 
 			public int read(byte b[], int off, int len) throws IOException
