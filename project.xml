@@ -24,7 +24,7 @@
     <artifactId>commons-vfs</artifactId>
     <logo>/images/vfs-logo-white.png</logo>
     <url>http://commons.apache.org/vfs/</url>
-    <currentVersion>1.1-SNAPSHOT</currentVersion>
+    <currentVersion>2.0-SNAPSHOT</currentVersion>
     <inceptionYear>2002</inceptionYear>
     <package>org.apache.commons.vfs</package>
     <shortDescription>Commons VFS</shortDescription>
