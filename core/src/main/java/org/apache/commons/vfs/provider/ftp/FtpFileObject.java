@@ -191,7 +191,7 @@ public class FtpFileObject
 	 */
 	private void getInfo(boolean flush) throws IOException
 	{
-		final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+        final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
 		FTPFile newFileInfo;
 		if (parent != null)
 		{
@@ -225,7 +225,14 @@ public class FtpFileObject
 			{
 				inRefresh = true;
 				super.refresh();
-				try
+
+                synchronized (getFileSystem())
+                {
+                    this.fileInfo = null;
+                }
+                
+                /* VFS-210
+                try
 				{
 					// this will tell the parent to recreate its children collection
 					getInfo(true);
@@ -234,6 +241,7 @@ public class FtpFileObject
 				{
 					throw new FileSystemException(e);
 				}
+				*/
 			}
 			finally
 			{
@@ -247,8 +255,11 @@ public class FtpFileObject
 	 */
 	protected void doDetach()
 	{
-		this.fileInfo = null;
-		children = null;
+        synchronized (getFileSystem())
+        {
+    		this.fileInfo = null;
+            children = null;
+        }
 	}
 
 	/**
@@ -285,8 +296,11 @@ public class FtpFileObject
 		if (getType().equals(FileType.IMAGINARY))
 		{
 			// file is deleted, avoid server lookup
-			this.fileInfo = null;
-			return;
+            synchronized (getFileSystem())
+            {
+    			this.fileInfo = UNKNOWN;
+            }
+            return;
 		}
 
 		getInfo(true);
@@ -300,37 +314,44 @@ public class FtpFileObject
 		throws Exception
 	{
         // VFS-210
-        if (this.fileInfo == null)
+        synchronized (getFileSystem())
         {
-            getInfo(false);
+            if (this.fileInfo == null)
+            {
+                getInfo(false);
+            }
+
+            if (this.fileInfo == UNKNOWN)
+            {
+                return FileType.IMAGINARY;
+            }
+            else if (this.fileInfo.isDirectory())
+            {
+                return FileType.FOLDER;
+            }
+            else if (this.fileInfo.isFile())
+            {
+                return FileType.FILE;
+            }
+            else if (this.fileInfo.isSymbolicLink())
+            {
+                return getLinkDestination().getType();
+            }
         }
 
-        if (this.fileInfo == UNKNOWN)
-		{
-			return FileType.IMAGINARY;
-		}
-		else if (this.fileInfo.isDirectory())
-		{
-			return FileType.FOLDER;
-		}
-		else if (this.fileInfo.isFile())
-		{
-			return FileType.FILE;
-		}
-		else if (this.fileInfo.isSymbolicLink())
-		{
-			return getLinkDestination().getType();
-		}
-
-		throw new FileSystemException("vfs.provider.ftp/get-type.error", getName());
+        throw new FileSystemException("vfs.provider.ftp/get-type.error", getName());
 	}
 
 	private FileObject getLinkDestination() throws FileSystemException
 	{
 		if (linkDestination == null)
 		{
-			final String path = this.fileInfo.getLink();
-			FileName relativeTo = getName().getParent();
+            final String path;
+            synchronized (getFileSystem())
+            {
+    			path = this.fileInfo.getLink();
+            }
+            FileName relativeTo = getName().getParent();
 			if (relativeTo == null)
 			{
 				relativeTo = getName();
@@ -344,12 +365,15 @@ public class FtpFileObject
 
 	protected FileObject[] doListChildrenResolved() throws Exception
 	{
-		if (this.fileInfo != null && this.fileInfo.isSymbolicLink())
-		{
-			return getLinkDestination().getChildren();
-		}
+        synchronized (getFileSystem())
+        {
+            if (this.fileInfo != null && this.fileInfo.isSymbolicLink())
+            {
+                return getLinkDestination().getChildren();
+            }
+        }
 
-		return null;
+        return null;
 	}
 
 	/**
@@ -414,57 +438,63 @@ public class FtpFileObject
 	 */
 	protected void doDelete() throws Exception
 	{
-		final boolean ok;
-		final FtpClient ftpClient = ftpFs.getClient();
-		try
-		{
-			if (this.fileInfo.isDirectory())
-			{
-				ok = ftpClient.removeDirectory(relPath);
-			}
-			else
-			{
-				ok = ftpClient.deleteFile(relPath);
-			}
-		}
-		finally
-		{
-			ftpFs.putClient(ftpClient);
-		}
+        synchronized (getFileSystem())
+        {
+            final boolean ok;
+            final FtpClient ftpClient = ftpFs.getClient();
+            try
+            {
+                if (this.fileInfo.isDirectory())
+                {
+                    ok = ftpClient.removeDirectory(relPath);
+                }
+                else
+                {
+                    ok = ftpClient.deleteFile(relPath);
+                }
+            }
+            finally
+            {
+                ftpFs.putClient(ftpClient);
+            }
 
-		if (!ok)
-		{
-			throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
-		}
-		this.fileInfo = null;
-		children = EMPTY_FTP_FILE_MAP;
-	}
+            if (!ok)
+            {
+                throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
+            }
+            this.fileInfo = null;
+            children = EMPTY_FTP_FILE_MAP;
+        }
+    }
 
 	/**
 	 * Renames the file
 	 */
 	protected void doRename(FileObject newfile) throws Exception
 	{
-		final boolean ok;
-		final FtpClient ftpClient = ftpFs.getClient();
-		try
-		{
-			String oldName = getName().getPath();
-			String newName = newfile.getName().getPath();
-			ok = ftpClient.rename(oldName, newName);
-		}
-		finally
-		{
-			ftpFs.putClient(ftpClient);
-		}
+        synchronized (getFileSystem())
+        {
+            final boolean ok;
+            final FtpClient ftpClient = ftpFs.getClient();
+            try
+            {
+                String oldName = getName().getPath();
+                String newName = newfile.getName().getPath();
+                ok = ftpClient.rename(oldName, newName);
+            }
+            finally
+            {
+                ftpFs.putClient(ftpClient);
+            }
 
-		if (!ok)
-		{
-			throw new FileSystemException("vfs.provider.ftp/rename-file.error", new Object[]{getName().toString(), newfile});
-		}
-		this.fileInfo = null;
-		children = EMPTY_FTP_FILE_MAP;
-	}
+            if (!ok)
+            {
+                throw new FileSystemException("vfs.provider.ftp/rename-file.error", new Object[]{getName().toString(), newfile});
+            }
+            this.fileInfo = null;
+            children = EMPTY_FTP_FILE_MAP;
+        }
+    }
 
 	/**
 	 * Creates this file as a folder.
@@ -494,15 +524,18 @@ public class FtpFileObject
 	 */
 	protected long doGetContentSize() throws Exception
 	{
-		if (this.fileInfo.isSymbolicLink())
-		{
-			return getLinkDestination().getContent().getSize();
-		}
-		else
-		{
-			return this.fileInfo.getSize();
-		}
-	}
+        synchronized (getFileSystem())
+        {
+            if (this.fileInfo.isSymbolicLink())
+            {
+                return getLinkDestination().getContent().getSize();
+            }
+            else
+            {
+                return this.fileInfo.getSize();
+            }
+        }
+    }
 
 	/**
 	 * get the last modified time on an ftp file
@@ -511,23 +544,26 @@ public class FtpFileObject
 	 */
 	protected long doGetLastModifiedTime() throws Exception
 	{
-		if (this.fileInfo.isSymbolicLink())
-		{
-			return getLinkDestination().getContent().getLastModifiedTime();
-		}
-		else
-		{
-			Calendar timestamp = this.fileInfo.getTimestamp();
-			if (timestamp == null)
-			{
-				return 0L;
-			}
-			else
-			{
-				return (timestamp.getTime().getTime());
-			}
-		}
-	}
+        synchronized (getFileSystem())
+        {
+            if (this.fileInfo.isSymbolicLink())
+            {
+                return getLinkDestination().getContent().getLastModifiedTime();
+            }
+            else
+            {
+                Calendar timestamp = this.fileInfo.getTimestamp();
+                if (timestamp == null)
+                {
+                    return 0L;
+                }
+                else
+                {
+                    return (timestamp.getTime().getTime());
+                }
+            }
+        }
+    }
 
 	/**
 	 * Creates an input stream to read the file content from.
