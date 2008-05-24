@@ -24,6 +24,9 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.FileUtil;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.Messages;
@@ -35,6 +38,7 @@ import org.apache.commons.vfs.util.FileObjectUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.File;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
@@ -125,7 +129,8 @@ public class FtpFileObject
 		final FtpClient client = ftpFs.getClient();
 		try
 		{
-			final FTPFile[] tmpChildren = client.listFiles(relPath);
+            final String path = fileInfo != null && fileInfo.isSymbolicLink() ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), fileInfo.getLink() ).getPath() : relPath;
+            final FTPFile[] tmpChildren = client.listFiles(path);
 			if (tmpChildren == null || tmpChildren.length == 0)
 			{
 				children = EMPTY_FTP_FILE_MAP;
