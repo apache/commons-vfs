@@ -142,6 +142,10 @@
 					<include>LICENSE.txt</include>
 				</includes>
 			</testResource>
+            <testResource>
+                <directory>src/test/test-data</directory>
+                <targetPath>test-data</targetPath>
+            </testResource>
 		</testResources>
 
 		<plugins>
