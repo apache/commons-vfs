@@ -58,7 +58,7 @@ public class TarProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tar");
-        final String uri = "tar:" + tarFile.getAbsolutePath() + "!/";
+        final String uri = "tar:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }
 }

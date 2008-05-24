@@ -16,14 +16,7 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.FileChangeEvent;
-import org.apache.commons.vfs.FileListener;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileContentInfo;
-import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.util.WeakRefFileListener;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
@@ -187,8 +180,19 @@ public class DelegateFileObject
 	{
 		if (file != null)
 		{
-			final FileObject[] children = file.getChildren();
-			final String[] childNames = new String[children.length];
+            final FileObject[] children;
+
+            try
+            {
+                children = file.getChildren();
+            }
+            // VFS-210
+            catch (FileNotFolderException e)
+            {
+                throw new FileNotFolderException(getName(), e);
+            }
+            
+            final String[] childNames = new String[children.length];
 			for (int i = 0; i < children.length; i++)
 			{
 				childNames[i] = children[i].getName().getBaseName();

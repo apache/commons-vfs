@@ -59,7 +59,7 @@ public class NestedTbz2TestCase
     {
         // Locate the base Tar file
         final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tbz2").getAbsolutePath();
-        String uri = "tbz2:" + tarFilePath + "!/test.tbz2";
+        String uri = "tbz2:file:" + tarFilePath + "!/test.tbz2";
         final FileObject tarFile = manager.resolveFile(uri);
 
         // Now build the nested file system

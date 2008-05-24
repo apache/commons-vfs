@@ -60,7 +60,7 @@ public class JarProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File jarFile = AbstractVfsTestCase.getTestResource("test.jar");
-        final String uri = "jar:" + jarFile.getAbsolutePath() + "!/";
+        final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }
 }

@@ -352,6 +352,7 @@ public final class DefaultFileContent implements FileContent
 
         // Get the raw input stream
         final InputStream instr = file.getInputStream();
+
         final InputStream wrappedInstr = new FileContentInputStream(file, instr);
 
         this.getThreadData().addInstr(wrappedInstr);

@@ -16,19 +16,7 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.FileContentInfoFactory;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSelector;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileUtil;
-import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.RandomAccessContent;
-import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.operations.DefaultFileOperations;
 import org.apache.commons.vfs.operations.FileOperations;
 import org.apache.commons.vfs.util.FileObjectUtils;
@@ -37,6 +25,7 @@ import org.apache.commons.vfs.util.RandomAccessMode;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
@@ -159,7 +148,9 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Lists the children of this file.  Is only called if {@link #doGetType}
      * returns {@link FileType#FOLDER}.  The return value of this method
-     * is cached, so the implementation can be expensive.
+     * is cached, so the implementation can be expensive.<br />
+     * @return a possible empty String array if the file is a directory or null or an exception if the
+     * file is not a directory or can't be read
      */
     protected abstract String[] doListChildren() throws Exception;
 
@@ -441,6 +432,24 @@ public abstract class AbstractFileObject implements FileObject
         synchronized (fs)
         {
             attach();
+
+            // VFS-210: get the type only if requested for
+            try
+            {
+                if (type == null)
+                {
+                    setFileType(doGetType());
+                }
+                if (type == null)
+                {
+                    setFileType(FileType.IMAGINARY);
+                }
+            }
+            catch (Exception e)
+            {
+                throw new FileSystemException("vfs.provider/get-type.error", new Object[]{name}, e);
+            }
+
             return type;
         }
     }
@@ -553,10 +562,19 @@ public abstract class AbstractFileObject implements FileObject
     {
         synchronized (fs)
         {
+            // VFS-210
+            if (!getFileSystem().hasCapability(Capability.LIST_CHILDREN))
+            {
+                throw new FileNotFolderException(name);
+            }
+            
+            /* VFS-210
             if (!getType().hasChildren())
             {
                 throw new FileSystemException("vfs.provider/list-children-not-folder.error", name);
             }
+            */
+            attach();
 
             // Use cached info, if present
             if (children != null)
@@ -570,6 +588,11 @@ public abstract class AbstractFileObject implements FileObject
             {
                 childrenObjects = doListChildrenResolved();
                 children = extractNames(childrenObjects);
+            }
+            catch (FileSystemException exc)
+            {
+                // VFS-210
+                throw exc;
             }
             catch (Exception exc)
             {
@@ -587,6 +610,11 @@ public abstract class AbstractFileObject implements FileObject
             {
                 files = doListChildren();
             }
+            catch (FileSystemException exc)
+            {
+                // VFS-210
+                throw exc;
+            }
             catch (Exception exc)
             {
                 throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
@@ -594,7 +622,10 @@ public abstract class AbstractFileObject implements FileObject
 
             if (files == null)
             {
-                return null;
+                // VFS-210
+                // honor the new doListChildren contract
+                // return null;
+                throw new FileNotFolderException(name);
             }
             else if (files.length == 0)
             {
@@ -717,11 +748,13 @@ public abstract class AbstractFileObject implements FileObject
             }
             */
 
+            /* VFS-210
             if (getType() == FileType.IMAGINARY)
             {
                 // File does not exist
                 return false;
             }
+            */
 
             try
             {
@@ -764,11 +797,13 @@ public abstract class AbstractFileObject implements FileObject
     {
         int nuofDeleted = 0;
 
+        /* VFS-210
         if (getType() == FileType.IMAGINARY)
         {
             // File does not exist
             return nuofDeleted;
         }
+        */
 
         // Locate all the files to delete
         ArrayList files = new ArrayList();
@@ -781,6 +816,8 @@ public abstract class AbstractFileObject implements FileObject
             final AbstractFileObject file = FileObjectUtils.getAbstractFileObject((FileObject) files.get(i));
             // file.attach();
 
+            // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
+            // in it, else it would not be hidden. Checking for the file-type seems ok in this case
             // If the file is a folder, make sure all its children have been deleted
             if (file.getType().hasChildren() && file.getChildren().length != 0)
             {
@@ -808,6 +845,7 @@ public abstract class AbstractFileObject implements FileObject
         {
             try
             {
+                // VFS-210: We do not want to trunc any existing file, checking for its existence is still required
                 if (exists() && !FileType.FILE.equals(getType()))
                 {
                     throw new FileSystemException("vfs.provider/create-file.error", name);
@@ -838,6 +876,7 @@ public abstract class AbstractFileObject implements FileObject
     {
         synchronized (fs)
         {
+            // VFS-210: we create a folder only if it does not already exist. So this check should be safe.
             if (getType().hasChildren())
             {
                 // Already exists as correct type
@@ -847,10 +886,12 @@ public abstract class AbstractFileObject implements FileObject
             {
                 throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", name);
             }
+            /* VFS-210: checking for writeable is not always possible as the security constraint might be more complex
             if (!isWriteable())
             {
                 throw new FileSystemException("vfs.provider/create-folder-read-only.error", name);
             }
+            */
 
             // Traverse up the heirarchy and make sure everything is a folder
             final FileObject parent = getParent();
@@ -888,10 +929,12 @@ public abstract class AbstractFileObject implements FileObject
         {
             throw new FileSystemException("vfs.provider/copy-missing-file.error", file);
         }
+        /* we do not alway know if a file is writeable
         if (!isWriteable())
         {
             throw new FileSystemException("vfs.provider/copy-read-only.error", new Object[]{file.getType(), file.getName(), this}, null);
         }
+        */
 
         // Locate the files to copy across
         final ArrayList files = new ArrayList();
@@ -1144,6 +1187,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public InputStream getInputStream() throws FileSystemException
     {
+        /* VFS-210
         if (!getType().hasContent())
         {
             throw new FileSystemException("vfs.provider/read-not-file.error", name);
@@ -1152,11 +1196,24 @@ public abstract class AbstractFileObject implements FileObject
         {
             throw new FileSystemException("vfs.provider/read-not-readable.error", name);
         }
+        */
 
         // Get the raw input stream
         try
         {
             return doGetInputStream();
+        }
+        catch (final org.apache.commons.vfs.FileNotFoundException exc)
+        {
+            throw new org.apache.commons.vfs.FileNotFoundException(name, exc);
+        }
+        catch (final FileNotFoundException exc)
+        {
+            throw new org.apache.commons.vfs.FileNotFoundException(name, exc);
+        }
+        catch (final FileSystemException exc)
+        {
+            throw exc;
         }
         catch (final Exception exc)
         {
@@ -1170,10 +1227,12 @@ public abstract class AbstractFileObject implements FileObject
      */
     public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
     {
+        /* VFS-210
         if (!getType().hasContent())
         {
             throw new FileSystemException("vfs.provider/read-not-file.error", name);
         }
+        */
 
         if (mode.requestRead())
         {
@@ -1230,6 +1289,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
     {
+        /* VFS-210
         if (getType() != FileType.IMAGINARY && !getType().hasContent())
         {
             throw new FileSystemException("vfs.provider/write-not-file.error", name);
@@ -1238,6 +1298,8 @@ public abstract class AbstractFileObject implements FileObject
         {
             throw new FileSystemException("vfs.provider/write-read-only.error", name);
         }
+        */
+        
         if (bAppend && !getFileSystem().hasCapability(Capability.APPEND_CONTENT))
         {
             throw new FileSystemException("vfs.provider/write-append-not-supported.error", name);
@@ -1331,6 +1393,8 @@ public abstract class AbstractFileObject implements FileObject
                 doAttach();
                 attached = true;
                 // now the type could already be injected by doAttach (e.g from parent to child)
+
+                /* VFS-210: determine the type when really asked fore
                 if (type == null)
                 {
                     setFileType(doGetType());
@@ -1339,6 +1403,7 @@ public abstract class AbstractFileObject implements FileObject
                 {
                     setFileType(FileType.IMAGINARY);
                 }
+                */
             }
             catch (Exception exc)
             {

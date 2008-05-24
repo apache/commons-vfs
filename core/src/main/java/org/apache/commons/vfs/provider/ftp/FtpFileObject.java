@@ -35,6 +35,7 @@ import org.apache.commons.vfs.util.FileObjectUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
@@ -58,7 +59,8 @@ public class FtpFileObject
 	private final String relPath;
 
 	// Cached info
-	private FTPFile fileInfo;
+    private final static FTPFile UNKNOWN = new FTPFile();
+    private FTPFile fileInfo;
 	private Map children;
 	private FileObject linkDestination;
 
@@ -107,7 +109,13 @@ public class FtpFileObject
 		// List the children of this file
 		doGetChildren();
 
-		// Look for the requested child
+        // VFS-210
+        if (children == null)
+        {
+            return null;
+        }
+
+        // Look for the requested child
 		FTPFile ftpFile = (FTPFile) children.get(name);
 		return ftpFile;
 	}
@@ -125,8 +133,12 @@ public class FtpFileObject
 		final FtpClient client = ftpFs.getClient();
 		try
 		{
-			final FTPFile[] tmpChildren = client.listFiles(relPath);
-			if (tmpChildren == null || tmpChildren.length == 0)
+            final FTPFile[] tmpChildren = client.listFiles(relPath);
+            if (tmpChildren == null)
+            {
+                children = null;
+            }
+            else if (tmpChildren.length == 0)
 			{
 				children = EMPTY_FTP_FILE_MAP;
 			}
@@ -171,7 +183,7 @@ public class FtpFileObject
 		throws IOException
 	{
 		// Get the parent folder to find the info for this file
-		getInfo(false);
+		// VFS-210 getInfo(false);
 	}
 
 	/**
@@ -192,8 +204,15 @@ public class FtpFileObject
 			newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
 		}
 
-		this.fileInfo = newFileInfo;
-	}
+        if (newFileInfo == null)
+        {
+            this.fileInfo = UNKNOWN;
+        }
+        else
+        {
+            this.fileInfo = newFileInfo;
+        }
+    }
 
 	/**
 	 * @throws FileSystemException
@@ -280,7 +299,13 @@ public class FtpFileObject
 	protected FileType doGetType()
 		throws Exception
 	{
-		if (this.fileInfo == null)
+        // VFS-210
+        if (this.fileInfo == null)
+        {
+            getInfo(false);
+        }
+
+        if (this.fileInfo == UNKNOWN)
 		{
 			return FileType.IMAGINARY;
 		}
@@ -319,7 +344,7 @@ public class FtpFileObject
 
 	protected FileObject[] doListChildrenResolved() throws Exception
 	{
-		if (this.fileInfo.isSymbolicLink())
+		if (this.fileInfo != null && this.fileInfo.isSymbolicLink())
 		{
 			return getLinkDestination().getChildren();
 		}
@@ -364,7 +389,13 @@ public class FtpFileObject
 		// List the children of this file
 		doGetChildren();
 
-		// TODO - get rid of this children stuff
+        // VFS-210
+        if (children == null)
+        {
+            return null;
+        }
+
+        // TODO - get rid of this children stuff
 		final String[] childNames = new String[children.size()];
 		int childNum = -1;
 		Iterator iterChildren = children.values().iterator();
@@ -505,7 +536,12 @@ public class FtpFileObject
 	{
 		final FtpClient client = ftpFs.getClient();
 		final InputStream instr = client.retrieveFileStream(relPath);
-		return new FtpInputStream(client, instr);
+        // VFS-210
+        if (instr == null)
+        {
+            throw new FileNotFoundException(getName().toString());
+        }
+        return new FtpInputStream(client, instr);
 	}
 
 	protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception

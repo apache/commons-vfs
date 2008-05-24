@@ -98,7 +98,13 @@ public class RamFileObject extends AbstractFileObject implements FileObject
 	 */
 	protected InputStream doGetInputStream() throws Exception
 	{
-		return new ByteArrayInputStream(this.data.getBuffer());
+        // VFS-210: ram allows to gather an input stream even from a directory. So we need to check the type anyway.
+        if (!getType().hasContent())
+        {
+            throw new FileSystemException("vfs.provider/read-not-file.error", getName());
+        }
+
+        return new ByteArrayInputStream(this.data.getBuffer());
 	}
 
 	/*

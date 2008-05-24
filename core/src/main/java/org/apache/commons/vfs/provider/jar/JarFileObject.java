@@ -124,7 +124,8 @@ public class JarFileObject extends ZipFileObject
         for (Iterator iterator = src.entrySet().iterator(); iterator.hasNext();)
         {
             final Map.Entry entry = (Map.Entry) iterator.next();
-            final String name = entry.getKey().toString().toLowerCase();
+            // final String name = entry.getKey().toString().toLowerCase();
+            final String name = entry.getKey().toString();
             dest.put(name, entry.getValue());
         }
     }

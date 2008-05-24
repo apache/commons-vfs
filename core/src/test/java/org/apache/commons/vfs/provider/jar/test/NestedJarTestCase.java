@@ -62,7 +62,7 @@ public class NestedJarTestCase
     {
         // Locate the Jar file
         final File outerFile = AbstractVfsTestCase.getTestResource("nested.jar");
-        final String uri = "jar:" + outerFile.getAbsolutePath() + "!/test.jar";
+        final String uri = "jar:file:" + outerFile.getAbsolutePath() + "!/test.jar";
         final FileObject jarFile = manager.resolveFile(uri);
 
         // Now build the nested file system

@@ -49,9 +49,9 @@ public class UrlStructureTests
     public void testFolderURL() throws Exception
     {
         final FileObject folder = getReadFolder().resolveFile("dir1");
-        if (folder.getFileSystem() instanceof HttpFileSystem)
+        if (folder.getFileSystem().hasCapability(Capability.DIRECTORY_READ_CONTENT))
         {
-            // bad hack, but this test might not fail on HttpFileSystem as there are no direcotries.
+            // test might not fail on e.g. HttpFileSystem as there are no direcotries.
             // A Directory do have a content on http. e.g a generated directory listing or the index.html page.
             return;
         }

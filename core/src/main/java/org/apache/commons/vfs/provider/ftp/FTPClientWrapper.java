@@ -23,10 +23,13 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.FileNotFoundException;
 
 /**
  * A wrapper to the FTPClient to allow automatic reconnect on connection loss.<br />
@@ -109,13 +112,38 @@ class FTPClientWrapper implements FtpClient
     {
         try
         {
-            return getFtpClient().listFiles(relPath);
+            // VFS-210: return getFtpClient().listFiles(relPath);
+            FTPFile[] files = listFilesInDirectory(relPath);
+            return files;
         }
         catch (IOException e)
         {
             disconnect();
-            return getFtpClient().listFiles(relPath);
+
+            FTPFile[] files = listFilesInDirectory(relPath);
+            return files;
         }
+    }
+
+    private FTPFile[] listFilesInDirectory(String relPath) throws IOException
+    {
+        String workingDirectory = null;
+        if (relPath != null)
+        {
+            workingDirectory = getFtpClient().printWorkingDirectory();
+            if (!getFtpClient().changeWorkingDirectory(relPath))
+            {
+                return null;
+            }
+        }
+
+        FTPFile[] files = getFtpClient().listFiles();
+
+        if (relPath != null && !getFtpClient().changeWorkingDirectory(workingDirectory))
+        {
+            throw new FileSystemException("vfs.provider.ftp.wrapper/change-work-directory-back.error", workingDirectory);
+        }
+        return files;
     }
 
     public boolean removeDirectory(String relPath) throws IOException

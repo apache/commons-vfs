@@ -61,7 +61,7 @@ public class NestedZipTestCase
     {
         // Locate the base Zip file
         final String zipFilePath = AbstractVfsTestCase.getTestResource("nested.zip").getAbsolutePath();
-        String uri = "zip:" + zipFilePath + "!/test.zip";
+        String uri = "zip:file:" + zipFilePath + "!/test.zip";
         final FileObject zipFile = manager.resolveFile(uri);
 
         // Now build the nested file system

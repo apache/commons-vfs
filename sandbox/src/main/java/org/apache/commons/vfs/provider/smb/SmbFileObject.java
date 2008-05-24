@@ -21,12 +21,7 @@ import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.RandomAccessContent;
-import org.apache.commons.vfs.UserAuthenticationData;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.RandomAccessMode;
@@ -147,6 +142,12 @@ public class SmbFileObject
      */
     protected String[] doListChildren() throws Exception
     {
+        // VFS-210: do not try to get listing for anything else than directories
+        if (!file.isDirectory())
+        {
+            return null;
+        }
+
         return UriParser.encode(file.list());
     }
 
@@ -202,7 +203,23 @@ public class SmbFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return new SmbFileInputStream(file);
+        try
+        {
+            return new SmbFileInputStream(file);
+        }
+        catch (SmbException e)
+        {
+            if (e.getErrorCode() == SmbException.ERRbadfile)
+            {
+                throw new FileNotFoundException(getName());
+            }
+            else if (file.isDirectory())
+            {
+                throw new FileTypeHasNoContentException(getName());
+            }
+
+            throw e;
+        }
     }
 
     /**

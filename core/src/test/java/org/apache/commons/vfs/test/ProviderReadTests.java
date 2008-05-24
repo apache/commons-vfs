@@ -141,6 +141,12 @@ public class ProviderReadTests
      */
     public void testFolderContent() throws Exception
     {
+        if (getReadFolder().getFileSystem().hasCapability(Capability.DIRECTORY_READ_CONTENT))
+        {
+            // test wont fail
+            return;
+        }
+
         // Try getting the content of a folder
         FileObject folder = getReadFolder().resolveFile("dir1");
         try

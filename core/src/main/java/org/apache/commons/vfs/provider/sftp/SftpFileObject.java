@@ -20,13 +20,7 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.RandomAccessContent;
-import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.FileObjectUtils;
@@ -289,10 +283,38 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 		// List the contents of the folder
 		final Vector vector;
 		final ChannelSftp channel = fileSystem.getChannel();
+
+        String workingDirectory = null;
 		try
 		{
-			vector = channel.ls(relPath);
-		}
+            try
+            {
+                if (relPath != null)
+                {
+                    workingDirectory = channel.pwd();
+                    channel.cd(relPath);
+                }
+            }
+            catch (SftpException e)
+            {
+                // VFS-210: seems not to be a directory
+                return null;
+            }
+
+            vector = channel.ls(".");
+
+            try
+            {
+                if (relPath != null)
+                {
+                    channel.cd(workingDirectory);
+                }
+            }
+            catch (SftpException e)
+            {
+                throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error", workingDirectory);
+            }
+        }
 		finally
 		{
 			fileSystem.putChannel(channel);
@@ -424,7 +446,30 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 				outstr.close();
 				return new ByteArrayInputStream(outstr.toByteArray());
 				*/
-				return new SftpInputStream(channel, channel.get(relPath));
+
+                InputStream is;
+                try
+                {
+                    // VFS-210: sftp allows to gather an input stream even from a directory and will
+                    // fail on first read. So we need to check the type anyway
+                    if (!getType().hasContent())
+                    {
+                        throw new FileSystemException("vfs.provider/read-not-file.error", getName());
+                    }
+
+                    is = channel.get(relPath);
+                }
+                catch (SftpException e)
+                {
+                    if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE)
+                    {
+                        throw new FileNotFoundException(getName());
+                    }
+
+                    throw new FileSystemException(e);
+                }
+
+                return new SftpInputStream(channel, is);
 
 			}
 			finally

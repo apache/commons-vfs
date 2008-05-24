@@ -144,6 +144,11 @@ public final class Capability
      */
     public static final Capability VIRTUAL = new Capability("VIRTUAL");
 
+    /**
+     * Provides directories which allows you to read its content through {@link org.apache.commons.vfs.FileContent#getInputStream()} 
+     */
+    public static final Capability DIRECTORY_READ_CONTENT = new Capability("DIRECTORY_READ_CONTENT");
+
     private final String name;
 
     private Capability(final String name)

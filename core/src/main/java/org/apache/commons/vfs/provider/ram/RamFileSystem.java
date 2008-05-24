@@ -89,7 +89,11 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 	String[] listChildren(FileName name)
 	{
         RamFileData data = (RamFileData) this.cache.get(name);
-		Collection children = data.getChildren();
+        if (data == null || !data.getType().hasChildren())
+        {
+            return null;
+        }
+        Collection children = data.getChildren();
         
         String[] names = new String[children.size()];
         

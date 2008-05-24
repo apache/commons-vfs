@@ -106,6 +106,19 @@ public class TarFileObject
      */
     protected String[] doListChildren()
     {
+        try
+        {
+            if (!getType().hasChildren())
+            {
+                return null;
+            }
+        }
+        catch (FileSystemException e)
+        {
+            // should not happen as the type has already been cached.
+            throw new RuntimeException(e);
+        }
+
         return (String[]) children.toArray(new String[children.size()]);
     }
 
@@ -144,6 +157,14 @@ public class TarFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
+        // VFS-210: zip allows to gather an input stream even from a directory and will
+        // return -1 on the first read. getType should not be expensive and keeps the tests
+        // running
+        if (!getType().hasContent())
+        {
+            throw new FileSystemException("vfs.provider/read-not-file.error", getName());
+        }
+
         return fs.getInputStream(entry);
     }
 }

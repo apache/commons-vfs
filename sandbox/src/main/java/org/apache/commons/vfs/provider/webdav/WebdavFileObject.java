@@ -20,11 +20,7 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.HttpURL;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.NameScope;
-import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.AbstractRandomAccessContent;
 import org.apache.commons.vfs.provider.GenericFileName;
@@ -303,7 +299,7 @@ public class WebdavFileObject
     {
         doAttach();
 
-        WebdavResource[] children = new org.apache.webdav.lib.WebdavResource[0];
+        WebdavResource[] children;
         try
         {
             children = resource.listWebdavResources();
@@ -315,11 +311,22 @@ public class WebdavFileObject
                 resolveRedirection();
                 children = resource.listWebdavResources();
             }
+            else if (e.getReasonCode() == HttpStatus.SC_NOT_FOUND)
+            {
+                // throw new FileNotFoundException(getName());
+                throw new FileNotFolderException(getName());
+            }
             else
             {
                 throw e;
             }
         }
+
+        if (children != null && children.length < 1 && !getType().hasChildren())
+        {
+            throw new FileNotFolderException(getName());
+        }
+
 
         if (children == null)
         {
@@ -413,7 +420,19 @@ public class WebdavFileObject
      */
     protected InputStream doGetInputStream() throws Exception
     {
-        return resource.getMethodData();
+        try
+        {
+            return resource.getMethodData();
+        }
+        catch (IOException e)
+        {
+            if (!resource.exists())
+            {
+                throw new FileNotFoundException(getName());
+            }
+
+            throw e;
+        }
     }
 
     /**

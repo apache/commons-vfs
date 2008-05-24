@@ -103,7 +103,7 @@ public class ZipFileSystem
 
                 // Make sure all ancestors exist
                 // TODO - create these on demand
-                ZipFileObject parent = null;
+                ZipFileObject parent;
                 for (FileName parentName = name.getParent();
                      parentName != null;
                      fileObj = parent, parentName = parentName.getParent())

@@ -59,7 +59,7 @@ public class TgzProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tgz");
-        final String uri = "tgz:" + tarFile.getAbsolutePath() + "!/";
+        final String uri = "tgz:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }
 }

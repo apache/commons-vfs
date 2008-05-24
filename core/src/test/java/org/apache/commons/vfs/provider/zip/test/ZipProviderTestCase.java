@@ -61,7 +61,7 @@ public class ZipProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
-        final String uri = "zip:" + zipFile.getAbsolutePath() + "!/";
+        final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }
 }

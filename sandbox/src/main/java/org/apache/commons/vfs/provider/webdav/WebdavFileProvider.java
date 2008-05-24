@@ -53,7 +53,8 @@ public class WebdavFileProvider
         Capability.WRITE_CONTENT,
         Capability.GET_LAST_MODIFIED,
         Capability.ATTRIBUTES,
-        Capability.RANDOM_ACCESS_READ
+        Capability.RANDOM_ACCESS_READ,
+        Capability.DIRECTORY_READ_CONTENT,
     }));
 
 	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]

@@ -24,11 +24,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.DateParser;
 import org.apache.commons.httpclient.util.URIUtil;
-import org.apache.commons.vfs.FileContentInfoFactory;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.util.MonitorInputStream;
@@ -152,6 +148,10 @@ public class HttpFileObject
         final GetMethod getMethod = new GetMethod();
         setupMethod(getMethod);
         final int status = fileSystem.getClient().executeMethod(getMethod);
+        if (status == HttpURLConnection.HTTP_NOT_FOUND)
+        {
+            throw new FileNotFoundException(getName());
+        }
         if (status != HttpURLConnection.HTTP_OK)
         {
             throw new FileSystemException("vfs.provider.http/get.error", getName());
