@@ -142,7 +142,11 @@
 					<include>LICENSE.txt</include>
 				</includes>
 			</testResource>
-		</testResources>
+            <testResource>
+                <directory>src/test/test-data</directory>
+                <targetPath>test-data</targetPath>
+            </testResource>
+        </testResources>
 
 		<plugins>
 
@@ -198,6 +202,5 @@
 			</plugin>
 
 		</plugins>
-
 	</build>
 </project>
