@@ -24,6 +24,9 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.FileUtil;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.Messages;
@@ -133,12 +136,9 @@ public class FtpFileObject
 		final FtpClient client = ftpFs.getClient();
 		try
 		{
-            final FTPFile[] tmpChildren = client.listFiles(relPath);
-            if (tmpChildren == null)
-            {
-                children = null;
-            }
-            else if (tmpChildren.length == 0)
+            final String path = fileInfo != null && fileInfo.isSymbolicLink() ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), fileInfo.getLink() ).getPath() : relPath;
+            final FTPFile[] tmpChildren = client.listFiles(path);
+			if (tmpChildren == null || tmpChildren.length == 0)
 			{
 				children = EMPTY_FTP_FILE_MAP;
 			}
@@ -230,7 +230,7 @@ public class FtpFileObject
                 {
                     this.fileInfo = null;
                 }
-                
+
                 /* VFS-210
                 try
 				{
@@ -394,7 +394,7 @@ public class FtpFileObject
 			 * if if this file has C children, P parents, there will be (C * P)
 			 * listings made with (C * (P + 1)) refreshes, when there should
 			 * really only be 1 listing and C refreshes. */
-			
+
 			this.inRefresh = true;
 			return super.getChildren();
 		}
