@@ -31,7 +31,7 @@ import java.io.File;
 import java.util.Properties;
 
 /**
- * Create a HttpClient instance
+ * Create a JSch Session instance
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
@@ -206,7 +206,7 @@ public class SftpClientFactory
             {
                 session.setConfig(config);
             }
-
+            session.setDaemonThread(true);
             session.connect();
         }
         catch (final Exception exc)
