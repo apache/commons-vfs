@@ -79,6 +79,12 @@
       <email>rahul -at- apache.org</email>
       <organization>Apache Software Foundation</organization>
     </developer>
+    <developer>
+      <name>James Carman</name>
+      <id>jcarman</id>
+      <email>jcarman -at- apache.org</email>
+      <organization>Apache Software Foundation</organization>
+    </developer>
   </developers>
 
   <contributors>
