@@ -84,7 +84,7 @@ class HttpRandomAccesContent extends AbstractRandomAccessStreamContent
         fileObject.setupMethod(getMethod);
         getMethod.setRequestHeader("Range", "bytes=" + filePointer + "-");
         final int status = fileSystem.getClient().executeMethod(getMethod);
-        if (status != HttpURLConnection.HTTP_PARTIAL)
+        if (status != HttpURLConnection.HTTP_PARTIAL && status != HttpURLConnection.HTTP_OK)
         {
             throw new FileSystemException("vfs.provider.http/get-range.error", new Object[]
             {
@@ -94,6 +94,11 @@ class HttpRandomAccesContent extends AbstractRandomAccessStreamContent
         }
 
         mis = new HttpFileObject.HttpInputStream(getMethod);
+        // If the range request was ignored
+        if (status == HttpURLConnection.HTTP_OK)
+        {
+            mis.skip(filePointer);
+        }
         dis = new DataInputStream(new FilterInputStream(mis)
         {
             public int read() throws IOException

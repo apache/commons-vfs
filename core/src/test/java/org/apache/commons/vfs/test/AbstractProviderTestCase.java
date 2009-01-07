@@ -24,6 +24,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
@@ -34,6 +35,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.util.Arrays;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+import junit.framework.TestCase;
 
 /**
  * File system test cases, which verifies the structure and naming
@@ -54,6 +59,7 @@ public abstract class AbstractProviderTestCase
     private DefaultFileSystemManager manager;
     private ProviderTestConfig providerConfig;
     private Method method;
+    private boolean addEmptyDir;
 
     // Expected contents of "file1.txt"
     public static final String FILE1_CONTENT = "This is a test file.";
@@ -113,7 +119,7 @@ public abstract class AbstractProviderTestCase
      * some provider config do some post-initialization in getBaseTestFolder.
      * This is a hack to allow access to this code for <code>createManager</code>
      */
-    protected FileObject getBaseTestFolder(FileSystemManager fs) throws Exception
+    public FileObject getBaseTestFolder(FileSystemManager fs) throws Exception
     {
         return providerConfig.getBaseTestFolder(fs);
     }
@@ -181,9 +187,14 @@ public abstract class AbstractProviderTestCase
             for (int i = 0; i < caps.length; i++)
             {
                 final Capability cap = caps[i];
-                if (!readFolder.getFileSystem().hasCapability(cap))
+                FileSystem fs = readFolder.getFileSystem();
+                String name = fs.getClass().getName();
+                int index = name.lastIndexOf('.');
+                String fsName = (index > 0) ? name.substring(index + 1) : name;
+                if (!fs.hasCapability(cap))
                 {
-                    System.out.println("skipping " + getName() + " because fs does not have cap " + cap);
+                    System.out.println("skipping " + getName() + " because " +
+                        fsName + " does not have capability " + cap);
                     return;
                 }
             }
@@ -325,7 +336,10 @@ public abstract class AbstractProviderTestCase
         base.addFile("file space.txt", FILE1_CONTENT);
 
         base.addFile("empty.txt", "");
-        base.addFolder("emptydir");
+        if (addEmptyDir)
+        {
+            base.addFolder("emptydir");
+        }
 
         final FileInfo dir = base.addFolder("dir1");
         dir.addFile("file1.txt", TEST_FILE_CONTENT);
@@ -349,4 +363,25 @@ public abstract class AbstractProviderTestCase
 
         return base;
     }
+
+    protected void addEmptyDir(boolean addEmptyDir)
+    {
+        this.addEmptyDir = addEmptyDir;
+    }
+
+    protected static Test notConfigured(Class testClass)
+    {
+        return warning(testClass + " is not configured for tests, skipping");
+    }
+
+    private static Test warning(final String message)
+    {
+        return new TestCase("warning")
+        {
+            protected void runTest()
+            {
+  		        System.out.println(message);
+   			}
+   		};
+   	}
 }

@@ -38,7 +38,7 @@ public class NestedTarTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new NestedTarTestCase());
+        return new ProviderTestSuite(new NestedTarTestCase(), true);
     }
 
     /**

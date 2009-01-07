@@ -33,9 +33,18 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
 public class UrlProviderHttpTestCase
     extends AbstractProviderTestConfig
 {
+    private static final String TEST_URI = "test.http.uri";
+
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new UrlProviderHttpTestCase());
+        if (System.getProperty(TEST_URI) != null)
+        {
+            return new ProviderTestSuite(new UrlProviderTestCase());
+        }
+        else
+        {
+            return notConfigured(UrlProviderTestCase.class);
+        }
     }
 
     /**
@@ -53,7 +62,7 @@ public class UrlProviderHttpTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
-        final String uri = System.getProperty("test.http.uri");
+        final String uri = System.getProperty(TEST_URI);
         return manager.resolveFile(uri);
     }
 }

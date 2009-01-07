@@ -18,6 +18,7 @@ package org.apache.commons.vfs.impl.test;
 
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.impl.VFSClassLoader;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
 
@@ -50,8 +51,9 @@ public class VfsClassLoaderTests
      */
     private VFSClassLoader createClassLoader() throws FileSystemException
     {
+        FileObject file = getBaseFolder();
         final VFSClassLoader loader =
-            new VFSClassLoader(getBaseFolder(), getManager());
+            new VFSClassLoader(file , getManager());
         return loader;
     }
 

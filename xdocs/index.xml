@@ -69,7 +69,7 @@
 				VFS is splitted into core, examples and sandbox now.
 			</p>
 			<p>
-				Due to some technical reasons we had to move the webdav and jcifs (smb) filesystem to
+				Due to some technical reasons we had to move the jcifs (smb) filesystem to
 				the sandbox. So if you need one of these filesystems you have to build VFS manually.
 			</p>
 			<p>

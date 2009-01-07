@@ -56,16 +56,15 @@
                 <li>
                     <a href="#mime">mime</a>
                 </li>
-			</ul>
+                <li>
+					<a href="#WebDAV">WebDAV</a><br />
+				</li>
+            </ul>
         </section>
 
 		<section name="Things from the sandbox">
 			<p>The following file systems are in development:</p>
 			<ul>
-				<li>
-					<a href="#WebDAV">WebDAV</a><br />
-					We can't release WebDAV as we depend on an snapshot, thus it is in our sandbox.
-				</li>
 				<li>
 					<a href="#CIFS">CIFS</a>
 				</li>

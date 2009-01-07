@@ -14,20 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package code;
+package org.apache.commons.vfs.provider.webdav;
+
+import org.apache.commons.vfs.provider.FileNameParser;
+import org.apache.commons.vfs.provider.URLFileNameParser;
+import org.apache.commons.vfs.provider.http.HttpFileNameParser;
+import org.apache.commons.vfs.FileSystemException;
 
 /**
- * The test class for the VFS classloader.
- *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
- * @version $Revision$ $Date$
+ * Implementation for http. set default port to 80
  */
-public class ClassToLoad
+public class WebdavFileNameParser extends HttpFileNameParser
 {
-    private String m_message = "**PRIVATE**";
+    private final static WebdavFileNameParser INSTANCE = new WebdavFileNameParser();
 
-    public String toString()
+    public WebdavFileNameParser()
     {
-        return m_message;
+        super();
+    }
+
+    public static FileNameParser getInstance()
+    {
+        return INSTANCE;
     }
 }

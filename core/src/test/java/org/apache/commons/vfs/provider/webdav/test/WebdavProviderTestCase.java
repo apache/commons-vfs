@@ -29,14 +29,22 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the WebDAV provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 480428 $ $Date: 2006-11-28 22:15:24 -0800 (Tue, 28 Nov 2006) $
  */
 public class WebdavProviderTestCase
     extends AbstractProviderTestConfig
 {
+    private static final String TEST_URI = "test.webdav.uri";
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new WebdavProviderTestCase());
+        if (System.getProperty(TEST_URI) != null)
+        {
+            return new ProviderTestSuite(new WebdavProviderTestCase());
+        }
+        else
+        {
+            return notConfigured(WebdavProviderTestCase.class);
+        }
     }
 
     /**
@@ -55,7 +63,7 @@ public class WebdavProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
-        final String uri = System.getProperty("test.webdav.uri");
+        final String uri = System.getProperty(TEST_URI);
         return manager.resolveFile(uri);
     }
 }

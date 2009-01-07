@@ -1,0 +1,289 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+    <properties>
+        <title>Running the Tests</title>
+        <author email="rgoers@apache.org">Ralph Goers</author>
+    </properties>
+
+    <body>
+        <section name="Running the tests">
+            <p>
+                This page details how to setup the tests for the various providers and then
+                run them with Maven 2.
+            </p>
+            <p>
+                The tests were run on Mac OS/X 10.5. The tests requiring a remote repository
+                were pointed to a second machine running Kubuntu 7.10 and the various servers
+                that can be installed from the system administration tool. The only exception
+                to this is that the WebDAV and Http support was testing using Day CRX 1.4 as
+                the server.
+            </p>
+
+            <subsection name="Getting Started">
+                <p>
+                    First, from the root directory of the project, run <code>mvn install</code>.
+                    This will compile all the source and test source and then run all the tests
+                    for providers that use the local file system.
+                </p>
+            </subsection>
+
+            <subsection name="Setting up the remote server">
+                <p>
+                    Each remote service needs to have the test data placed within it's "repository".
+                    After running the maven build, the test data can be found in
+                    core/target/test-data. Each service may require a userid and password to be
+                    created. For example, to run the ftp test on a Linux system a user should be
+                    created and the test data placed within that user's home directory. See the
+                    following sections for details on each service.
+                </p>
+                <p>
+                    Each repository should contain the following list of files for the tests to
+                    complete successfully.
+                </p>
+                <source><![CDATA[
+write-tests
+read-tests
+read-tests/file1.txt
+read-tests/dir1
+read-tests/dir1/file1.txt
+read-tests/dir1/file2.txt
+read-tests/dir1/file3.txt
+read-tests/dir1/subdir1
+read-tests/dir1/subdir1/file1.txt
+read-tests/dir1/subdir1/file2.txt
+read-tests/dir1/subdir1/file3.txt
+read-tests/dir1/subdir2
+read-tests/dir1/subdir2/file1.txt
+read-tests/dir1/subdir2/file2.txt
+read-tests/dir1/subdir2/file3.txt
+read-tests/dir1/subdir3
+read-tests/dir1/subdir3/file1.txt
+read-tests/dir1/subdir3/file2.txt
+read-tests/dir1/subdir3/file3.txt
+read-tests/empty.txt
+read-tests/file%.txt
+code
+code/sealed
+code/sealed/AnotherClass.class
+code/ClassToLoad.class]]></source>
+            </subsection>
+
+            <subsection name="Apache 2 Webserver">
+                <p>
+                    Create a user on the system
+                </p>
+                <ol>
+                    <li>Create a user 'vfsusr' with password 'vfs/%\te:st' and home directory '/home/vfsusr'
+                        <br/>
+                        <source><![CDATA[
+useradd -p vfsusr -m vfsusr]]></source>
+                    </li>
+                    <li>In vfsuser's home directory create the directories
+                        <ol>
+                            <li>vfstest</li>
+                            <li>vfstest/write-tests</li>
+                        </ol>
+                    </li>
+                    <li>Copy the test data into the vfstest directory</li>
+                    <li>Create a symbolic link at '/vfstest' to /home/vfsuser/vfstest<br />
+                        <source><![CDATA[
+ln -s /vfstest /home/vfsusr/vfstest]]></source>
+                    </li>
+                    <li>Create a file named '/etc/apache2/conf.d/vfstest.conf' with this content<br />
+                        <source><![CDATA[
+#
+# VFSTEST
+#
+Alias /vfstest /vfstest/
+
+DAVLockDB /var/lib/apache2/dav.lockDB
+DAVMinTimeout 600
+
+<Directory /vfstest>
+    Options None
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<Location />
+        DAV On
+        Options Indexes MultiViews
+        AllowOverride None
+
+        AuthType Basic
+        AuthName vfstest_zone
+        AuthUserFile /etc/apache2/passwd
+        <Limit PUT POST DELETE PROPFIND PROPPATCH MKCOL COPY MOVE LOCK UNLOCK>
+                Require user vfsusr
+        </Limit>
+</Location>]]></source>
+                    </li>
+                    <li>change the permission on
+                        <source><![CDATA[
+chown vfsusr.users /var/lib/apache2
+                        ]]></source>
+                    </li>
+                    <li>Activate the WebDAV module by adding 'dav' and 'dav_fs' to the list of modules in '/etc/sysconfig/apache2'. e.g <br/>
+                        <source><![CDATA[
+APACHE_MODULES="access actions alias auth auth_dbm autoindex cgi dir env expires include log_config
+mime negotiation setenvif ssl suexec userdir php4 php5 dav dav_fs"]]></source>
+                    </li>
+                    <li>Setup the webserver to use user-id 'vfsusr' and group 'users'. This can be done by changing the file '/etc/apache2/uid.conf'<br />
+                        <source><![CDATA[
+User vfsusr
+Group users]]></source>
+                    </li>
+                    <li>Create the VFS user to access the Webdav resource<br />
+                        <source><![CDATA[
+htpasswd2 -cmb /etc/apache2/passwd  vfsusr 'vfstest']]></source>
+                    </li>
+                    <li>Add the following to profiles section of settings.xml in the Maven home
+                        directory. Modify the urls to match your setup.
+                        <source><![CDATA[
+   <profile>
+      <id>http</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <test.http.uri>http://vfsusr:vfstest@192.168.10.133:80/vfstest/test-data</test.http.uri>
+      </properties>
+    </profile>
+    <profile>
+      <id>webdav</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <test.webdav.uri>webdav://vfsusr:vfstest@192.168.10.133:80/vfstest/test-data</test.webdav.uri>
+      </properties>
+    </profile>]]></source>
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="Day CRX or Apache Jackrabbit">
+                <ol>
+                    <li>Use Windows Explorer, Mac Finder or a similar tool to connect to the
+                        repository.</li>
+                    <li>Create a vfstest directory</li>
+                    <li>Drag the test-data from Explorer/Finder window to the repository window to
+                        copy the files to the vfstest directory in the repository</li>
+                    <li>Add the following to profiles section of settings.xml in the Maven home
+                        directory. Modify the urls to match your setup.
+                        <source><![CDATA[
+   <profile>
+      <id>http</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <test.http.uri>http://admin:admin@192.168.10.133:7402/vfstest/test-data</test.http.uri>
+      </properties>
+    </profile>
+    <profile>
+      <id>webdav</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <test.webdav.uri>webdav://admin:admin@192.168.10.133:7402/vfstest/test-data</test.webdav.uri>
+      </properties>
+    </profile>]]></source>
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="Samba 3">
+                <ol>
+                    <li>Create a share 'vfsusr'<br />
+                        <source><![CDATA[
+[vfsusr]
+   comment = VFS Test Directory
+   path = /home/vfsusr
+   guest ok = yes
+   writable = yes]]></source>
+                    </li>
+                    <li>Setup a 'vfsusr' with password 'vfstest'<br />
+                        <source><![CDATA[
+smbpasswd -a vfsusr]]></source>
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="ssh">
+                <ol>
+                    <li>In '/etc/ssh/sshd_config' ensure<br />
+                        <source><![CDATA[
+PasswordAuthentication yes]]></source>
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="vsftp">
+                <ol>
+                    <li>Create a user 'vfsusr' with password 'vfstest' and home directory '/home/vfsusr'
+                        <br/>
+                        <source><![CDATA[
+useradd -p vfsusr -m vfsusr]]></source>
+                    </li>
+                    <li>In vfsuser's home directory create the directories
+                        <ol>
+                            <li>vfstest</li>
+                            <li>vfstest/write-tests</li>
+                        </ol>
+                    </li>
+                    <li>Copy the test data into the vfstest directory</li>
+                    <li>Ensure the server is not disabled in the xinetd configuration<br />
+                        Set <source>disable=no</source> in '/etc/xinetd.d/vsftpd'
+                    </li>
+
+                    <li>Setup the server config: '/etc/vsftpd.conf'<br/>
+                        <source><![CDATA[
+write_enable=YES
+local_enable=YES]]></source>
+
+                    <li>Add the following to profiles section of settings.xml in the Maven home
+                        directory. Modify the urls to match your setup.
+                        <source><![CDATA[
+    <profile>
+      <id>ftp</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <test.ftp.uri>ftp://admin:admin@192.168.10.133/vfstest/test-data</test.ftp.uri>
+      </properties>
+    </profile>]]></source>
+                    </li>        </li>
+
+                </ol>
+            </subsection>
+
+            <subsection name="Running tests">
+                <p>
+                    Running tests simply requires that the appropriate profile be activated. For
+                    example, to run just the webdav test do
+                    <code>mvn -P webdav test -Dtest=WebdavProviderTestCase</code>. Multipe tests
+                    can be run by doing <code>mvn -P webdav -P http test</code>.
+                </p>
+            </subsection>
+        </section>
+    </body>
+</document>

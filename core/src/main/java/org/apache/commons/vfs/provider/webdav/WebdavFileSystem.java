@@ -24,31 +24,35 @@ import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs.provider.http.ThreadLocalHttpConnectionManager;
+import org.apache.commons.vfs.provider.http.HttpFileSystem;
 
 import java.util.Collection;
+import java.net.URLStreamHandler;
 
 /**
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 548717 $ $Date: 2007-06-19 06:07:40 -0700 (Tue, 19 Jun 2007) $
  */
-public class WebDavFileSystem
-    extends AbstractFileSystem
+public class WebdavFileSystem
+    extends HttpFileSystem
     implements FileSystem
 {
-    private final HttpClient client;
-
-    protected WebDavFileSystem(final GenericFileName rootName, final HttpClient client, final FileSystemOptions fileSystemOptions)
+    protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client, final FileSystemOptions fileSystemOptions)
     {
-        super(rootName, null, fileSystemOptions);
+        super(rootName, client, fileSystemOptions);
+    }
 
-        this.client = client;
+    protected HttpClient getClient()
+    {
+        return super.getClient();
     }
 
     /**
-     * Adds the capabilities of this file system.
+     * Returns the capabilities of this file system.
      */
     protected void addCapabilities(final Collection caps)
     {
@@ -56,32 +60,21 @@ public class WebDavFileSystem
     }
 
     /**
-     * Returns the client for this file system.
-     */
-    protected HttpClient getClient()
-    {
-        return client;
-    }
-
-	public void closeCommunicationLink()
-	{
-		if (getClient() != null)
-		{
-			HttpConnectionManager mgr = getClient().getHttpConnectionManager();
-			if (mgr instanceof ThreadLocalHttpConnectionManager)
-			{
-				((ThreadLocalHttpConnectionManager) mgr).releaseLocalConnection();
-			}
-		}
-	}
-
-    /**
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
     protected FileObject createFile(final FileName name)
     {
-        final GenericFileName fileName = (GenericFileName) name;
-        return new WebdavFileObject(fileName, this);
+
+        return new WebdavFileObject(name, this);
+    }
+
+    /**
+     * Return a URLStreamHandler
+     * @return
+     */
+    public URLStreamHandler getURLStreamHandler()
+    {
+        return new DefaultURLStreamHandler(getContext(), getFileSystemOptions());
     }
 }

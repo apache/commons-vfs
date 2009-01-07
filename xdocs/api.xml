@@ -107,10 +107,12 @@ for ( int i = 0; i < children.length; i++ )
 
 			<subsection name="User Authentication">
 				<p>
-					You cann put the credentials into th url, but the drawback here is, that it is easily possible to get access to the password.
+					You can put the credentials into the url, but the drawback here is, that it is
+                    easily possible to get access to the password.
 				</p>
 				<p>
-					To solve you can use the <a href="apidocs/org/apache/commons/vfs/UserAuthenticator.html">UserAuthenticator</a>
+					To solve you can use the
+                    <a href="apidocs/org/apache/commons/vfs/UserAuthenticator.html">UserAuthenticator</a>
 				</p>
 				<p>
 					For example:
@@ -123,15 +125,17 @@ for ( int i = 0; i < children.length; i++ )
 					</code>
 				</p>
 				<p>
-					Internally the UserAuthenticator uses char arrays which will be zeroed before its freed for garbage collection.
-					Unhappily none of the current libraries use char arrays and so VFS has to create a string. Thus, the main advantage
+					Internally the UserAuthenticator uses char arrays which will be zeroed before it is
+                    freed for garbage collection.Unhappily none of the current libraries use char
+                    arrays and so VFS has to create a string. Thus, the main advantage
 					of this solution - security - is lost, but hey, thats not VFS fault ;-)
 				</p>
 				<p>
-					VFS calls <code>UserAuthenticator.requestAuthentication</code> each time it requires credentials, it depends on the
-					filesystem implementation how often this might be. For example, with FTP this is on every connection, in SMB/JCIFS
-					this is for EVERY OBJECT. It is up to you how long you will cache credentials of if you would like to provide a
-					"save credentials" checkbox.
+					VFS calls <code>UserAuthenticator.requestAuthentication</code> each time it
+                    requires credentials, it depends on the filesystem implementation how often
+                    this might be. For example, with FTP this is on every connection, in SMB/JCIFS
+					this is for EVERY OBJECT. It is up to you how long you will cache credentials
+                    of if you would like to provide a "save credentials" checkbox.
 				</p>
 			</subsection>
 

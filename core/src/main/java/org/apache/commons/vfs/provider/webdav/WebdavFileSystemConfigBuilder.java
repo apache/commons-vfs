@@ -19,13 +19,12 @@ package org.apache.commons.vfs.provider.webdav;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
-import org.apache.commons.httpclient.Cookie;
 
 /**
  * Configuration options for WebDav
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 480428 $ $Date: 2006-11-28 22:15:24 -0800 (Tue, 28 Nov 2006) $
  */
 public class WebdavFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -131,6 +130,6 @@ public class WebdavFileSystemConfigBuilder extends FileSystemConfigBuilder
     
     protected Class getConfigClass()
     {
-        return WebDavFileSystem.class;
+        return WebdavFileSystem.class;
     }
 }

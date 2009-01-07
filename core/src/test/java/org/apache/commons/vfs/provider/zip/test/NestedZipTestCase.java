@@ -40,7 +40,7 @@ public class NestedZipTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new NestedZipTestCase());
+        return new ProviderTestSuite(new NestedZipTestCase(), true);
     }
 
     /**

@@ -37,13 +37,18 @@
     </menu>
 
     <menu name="Development">
-      <item name="Test Server"             href="/testserver.html"/>
+      <item name="Testing"                 href="/testing.html"/>
       <item name="Mailing Lists"           href="/mail-lists.html"/>
       <item name="Issue Tracking"          href="/issue-tracking.html"/>
       <item name="Source Repository"       href="/source-repository.html"/>
       <item name="To Do List"              href="/todo.html"/>
     </menu>
-
+      
+    <menu name="Components">
+      <item name="Core" href="commons-vfs/index.html"/>
+      <item name="Examples" href="commons-vfs-examples/index.html"/>
+      <item name="Sandbox" href="commons-vfs-sandbox/index.html"/>
+    </menu>
   </body>
 
 </project>

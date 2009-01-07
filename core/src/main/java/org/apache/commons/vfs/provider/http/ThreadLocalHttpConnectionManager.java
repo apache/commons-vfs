@@ -19,6 +19,7 @@ package org.apache.commons.vfs.provider.http;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpConnection;
 import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,25 +41,10 @@ import java.io.InputStream;
  */
 public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
 {
-    private static class ConnectionParameters
-    {
-        private boolean staleCheck;
-
-        public boolean isStaleCheckingEnabled()
-        {
-            return staleCheck;
-        }
-
-        public void setStaleCheckingEnabled(boolean b)
-        {
-            staleCheck = b;
-        }
-
-        public void populateParameters(HttpConnection connection)
-        {
-            connection.setStaleCheckingEnabled(staleCheck);
-        }
-    }
+    /**
+     * Collection of parameters associated with this connection manager.
+     */
+    private HttpConnectionManagerParams params = new HttpConnectionManagerParams();
 
     /**
      * Since the same connection is about to be reused, make sure the
@@ -95,11 +81,6 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
             return new Entry();
         }
     };
-
-    /**
-     * Collection of parameters associated with this connection manager.
-     */
-    private ConnectionParameters params = new ConnectionParameters();
 
     /**
      * release the connection of the current thread
@@ -194,7 +175,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
             httpConnection = new HttpConnection(hostConfiguration);
             setLocalHttpConnection(httpConnection);
             httpConnection.setHttpConnectionManager(this);
-            this.params.populateParameters(httpConnection);
+            httpConnection.getParams().setStaleCheckingEnabled(params.isStaleCheckingEnabled());
         }
         else
         {
@@ -266,5 +247,19 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
         {
             getLocalHttpConnection().close();
         }
+    }
+
+    public HttpConnectionManagerParams getParams()
+    {
+        return this.params;
+    }
+
+    public void setParams(HttpConnectionManagerParams params)
+    {
+        if (params == null)
+        {
+            throw new IllegalArgumentException("Parameters may not be null");
+        }
+        this.params = params;
     }
 }

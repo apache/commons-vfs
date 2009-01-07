@@ -42,7 +42,7 @@ public class ZipProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new ZipProviderTestCase());
+        return new ProviderTestSuite(new ZipProviderTestCase(), true);
     }
 
     /**

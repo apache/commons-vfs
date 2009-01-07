@@ -20,7 +20,7 @@ package code.sealed;
  * A test class for the ClassLoader tests.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
+ * @version $Revision: 480428 $ $Date: 2006-11-28 22:15:24 -0800 (Tue, 28 Nov 2006) $
  */
 public class AnotherClass
 {

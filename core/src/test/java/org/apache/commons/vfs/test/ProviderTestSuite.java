@@ -33,15 +33,27 @@ public class ProviderTestSuite
      */
     public ProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception
     {
-        this(providerConfig, "", false);
+        this(providerConfig, "", false, false);
     }
+
+    /**
+     * Adds the tests for a file system to this suite. Provider has an empty directory.
+     */
+    public ProviderTestSuite(final ProviderTestConfig providerConfig,
+                             final boolean addEmptyDir) throws Exception
+    {
+        this(providerConfig, "", false, addEmptyDir);
+    }
+
+
 
     protected ProviderTestSuite(final ProviderTestConfig providerConfig,
                                 final String prefix,
-                                final boolean nested)
+                                final boolean nested,
+                                final boolean addEmptyDir)
         throws Exception
     {
-        super(providerConfig, prefix, nested);
+        super(providerConfig, prefix, nested, addEmptyDir);
     }
 
     /**

@@ -57,24 +57,35 @@ public class AbstractTestSuite
 
     private Thread[] startThreadSnapshot;
     private Thread[] endThreadSnapshot;
+    private boolean addEmptyDir;
 
     /**
      * Adds the tests for a file system to this suite.
      */
     public AbstractTestSuite(final ProviderTestConfig providerConfig) throws Exception
     {
-        this(providerConfig, "", false);
+        this(providerConfig, "", false, false);
     }
 
     protected AbstractTestSuite(final ProviderTestConfig providerConfig,
                                 final String prefix,
-                                final boolean nested)
+                                final boolean nested) throws Exception
+    {
+        this(providerConfig, prefix, nested, false);
+    }
+
+
+    protected AbstractTestSuite(final ProviderTestConfig providerConfig,
+                                final String prefix,
+                                final boolean nested,
+                                final boolean addEmptyDir)
         throws Exception
     {
         super(new TestSuite());
         testSuite = (TestSuite) fTest;
         this.providerConfig = providerConfig;
         this.prefix = prefix;
+        this.addEmptyDir = addEmptyDir;
         addBaseTests();
         if (!nested)
         {
@@ -123,6 +134,7 @@ public class AbstractTestSuite
             final AbstractProviderTestCase testCase = (AbstractProviderTestCase) testClass.newInstance();
             testCase.setMethod(method);
             testCase.setName(prefix + method.getName());
+            testCase.addEmptyDir(this.addEmptyDir);
             testSuite.addTest(testCase);
         }
     }

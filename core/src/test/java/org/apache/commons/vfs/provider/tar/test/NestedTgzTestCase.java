@@ -38,7 +38,7 @@ public class NestedTgzTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new NestedTgzTestCase());
+        return new ProviderTestSuite(new NestedTgzTestCase(), true);
     }
 
     /**

@@ -36,9 +36,17 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
 public class SftpProviderTestCase
     extends AbstractProviderTestConfig
 {
+    private static final String TEST_URI = "test.sftp.uri";
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new SftpProviderTestCase());
+        if (System.getProperty(TEST_URI) != null)
+        {
+            return new ProviderTestSuite(new SftpProviderTestCase());
+        }
+        else
+        {
+            return notConfigured(SftpProviderTestCase.class);
+        }
     }
 
     /**
@@ -55,7 +63,7 @@ public class SftpProviderTestCase
      */
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final String uri = System.getProperty("test.sftp.uri");
+        final String uri = System.getProperty(TEST_URI);
 
         FileSystemOptions fileSystemOptions = new FileSystemOptions();
         SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(fileSystemOptions, "no");

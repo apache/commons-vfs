@@ -844,8 +844,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 					new Object[]
 					{ scheme, file });
 		}
-		return provider.createFileSystem(scheme, file, file.getFileSystem()
-				.getFileSystemOptions());
+		return provider.createFileSystem(scheme, file, file.getFileSystem().getFileSystemOptions());
 	}
 
 	/**

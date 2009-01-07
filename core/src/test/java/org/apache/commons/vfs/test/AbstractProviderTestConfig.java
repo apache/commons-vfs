@@ -26,7 +26,7 @@ import org.apache.commons.vfs.impl.DefaultFileSystemManager;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public abstract class AbstractProviderTestConfig
+public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase
     implements ProviderTestConfig
 {
     private FilesCache cache = null;

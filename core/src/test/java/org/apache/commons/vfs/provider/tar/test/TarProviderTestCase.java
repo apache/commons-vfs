@@ -40,7 +40,7 @@ public class TarProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new TarProviderTestCase());
+        return new ProviderTestSuite(new TarProviderTestCase(), true);
     }
 
     /**

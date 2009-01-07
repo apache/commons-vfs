@@ -42,7 +42,7 @@ public class JarProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new JarProviderTestCase());
+        return new ProviderTestSuite(new JarProviderTestCase(), true);
     }
 
     /**

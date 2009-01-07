@@ -38,7 +38,7 @@ public class NestedTbz2TestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new NestedTbz2TestCase());
+        return new ProviderTestSuite(new NestedTbz2TestCase(), true);
     }
 
     /**

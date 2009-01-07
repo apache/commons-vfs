@@ -37,7 +37,7 @@
     </menu>
 
     <menu name="Development">
-      <item name="Test Server"             href="/testserver.html"/>
+      <item name="Testing"                 href="/testing.html"/>
       <item name="Mailing Lists"           href="/mail-lists.html"/>
       <item name="Issue Tracking"          href="/issue-tracking.html"/>
       <item name="Source Repository"       href="/cvs-usage.html"/>

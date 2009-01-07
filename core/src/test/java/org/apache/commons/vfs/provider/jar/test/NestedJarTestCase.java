@@ -42,7 +42,7 @@ public class NestedJarTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new NestedJarTestCase());
+        return new ProviderTestSuite(new NestedJarTestCase(), true);
     }
 
     /**

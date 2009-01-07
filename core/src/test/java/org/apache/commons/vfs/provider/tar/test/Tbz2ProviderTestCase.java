@@ -40,7 +40,7 @@ public class Tbz2ProviderTestCase
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new Tbz2ProviderTestCase());
+        return new ProviderTestSuite(new Tbz2ProviderTestCase(), true);
     }
 
     /**

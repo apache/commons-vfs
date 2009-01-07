@@ -91,6 +91,13 @@ public class ProviderReadTests
 
             // Make sure all children were found
             assertNotNull(children);
+            if (info.children.size() != children.length)
+            {
+                for (int i=0; i < children.length; ++i)
+                {
+                    System.out.println(children[i].getName());
+                }
+            }
             assertEquals("count children of \"" + file.getName() + "\"", info.children.size(), children.length);
 
             // Recursively check each child
