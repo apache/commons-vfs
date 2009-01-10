@@ -184,7 +184,8 @@
                         <phase>process-test-classes</phase>
                         <configuration>
                             <tasks>
-                                <move todir="${project.build.testOutputDirectory}/test-data/code">
+                                <move todir="${project.build.testOutputDirectory}/test-data/code"
+                                      failonerror="false">
                                     <fileset dir="${project.build.testOutputDirectory}/code"/>
                                 </move>
 
