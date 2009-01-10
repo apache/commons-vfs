@@ -199,11 +199,12 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-          <propertiesLocation>${project.parent.relativePath}/checkstyle.properties</propertiesLocation>
-          <!-- <configLocation>${basedir}/conf/checkstyle.xml</configLocation> -->
-          <!-- <suppressionsLocation>${basedir}/conf/checkstyle-suppressions.xml</suppressionsLocation> -->
+          <!--<propertiesLocation>${project.parent.relativePath}/checkstyle.properties</propertiesLocation> -->
+          <configLocation>${project.parent.relativePath}/checkstyle.xml</configLocation>
+          <suppressionsLocation>${project.parent.relativePath}/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <propertyExpansion>basedir=${basedir}</propertyExpansion>
+          <propertyExpansion>licensedir=${basedir}/${project.parent.relativePath}</propertyExpansion>
         </configuration>
       </plugin>
       <plugin>

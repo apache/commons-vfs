@@ -34,9 +34,17 @@ public class SmbProviderTestCase
     extends AbstractProviderTestConfig
     implements ProviderTestConfig
 {
+    private static final String TEST_URI = "test.smb.uri";
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new SmbProviderTestCase());
+        if (System.getProperty(TEST_URI) != null)
+        {
+            return new ProviderTestSuite(new SmbProviderTestCase());
+        }
+        else
+        {
+            return notConfigured(SmbProviderTestCase.class);
+        }
     }
 
     /**
@@ -53,7 +61,7 @@ public class SmbProviderTestCase
      */
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final String uri = System.getProperty("test.smb.uri");
+        final String uri = System.getProperty(TEST_URI);
         return manager.resolveFile(uri);
     }
 }

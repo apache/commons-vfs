@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.0//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_0.dtd">
+
+<!-- Exceptions for Checkstyle -->
+
+<suppressions>
+
+    <!-- Disable the warnings for the generated classes -->
+    <suppress checks=".*" files="ParseException.java"/>
+    <suppress checks=".*" files="PropertyListParser.java"/>
+    <suppress checks=".*" files="PropertyListParserConstants.java"/>
+    <suppress checks=".*" files="PropertyListParserTokenManager.java"/>
+    <suppress checks=".*" files="SimpleCharStream.java"/>
+    <suppress checks=".*" files="Token.java"/>
+    <suppress checks=".*" files="TokenMgrError.java"/>
+    
+    <suppress checks="MissingSwitchDefault" files="PropertiesConfiguration.java"/>
+
+</suppressions>

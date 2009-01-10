@@ -40,7 +40,7 @@ import java.util.Collections;
  * A provider for WebDAV.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 659785 $ $Date: 2008-05-24 03:32:41 -0700 (Sat, 24 May 2008) $
+ * @version $Revision$ $Date$
  */
 public class WebdavFileProvider
     extends HttpFileProvider

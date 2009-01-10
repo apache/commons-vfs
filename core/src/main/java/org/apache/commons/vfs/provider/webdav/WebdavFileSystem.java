@@ -35,7 +35,7 @@ import java.net.URLStreamHandler;
  * A WebDAV file system.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 548717 $ $Date: 2007-06-19 06:07:40 -0700 (Tue, 19 Jun 2007) $
+ * @version $Revision$ $Date$
  */
 public class WebdavFileSystem
     extends HttpFileSystem

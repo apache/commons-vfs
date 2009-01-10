@@ -37,7 +37,7 @@ import org.apache.jackrabbit.webdav.DavConstants;
  * Description
  *
  * @author
- * @version $Revision:  $
+ * @version $Revision$
  */
 public class WebdavFileContentInfoFactory implements FileContentInfoFactory
 {

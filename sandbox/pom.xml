@@ -114,6 +114,25 @@
 				</includes>
 			</resource>
 		</resources>
-	</build>
+        <plugins>
+            <plugin>
+				<!-- surfire do not honor suite(), see MSUREFIRE-131 why our tests wont work with maven 2 -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<systemProperties>
+						<property>
+							<name>test.basedir</name>
+							<value>../core/target/test-classes/test-data</value>
+						</property>
+						<property>
+							<name>test.basedir.res</name>
+							<value>test-data</value>
+						</property>
+                    </systemProperties>
+				</configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

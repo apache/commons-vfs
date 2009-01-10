@@ -66,7 +66,7 @@ import java.util.Iterator;
  * A WebDAV file.
  *
  * @author
- * @version $Revision:  $
+ * @version $Revision$
  */
 public class WebdavFileObject
     extends HttpFileObject

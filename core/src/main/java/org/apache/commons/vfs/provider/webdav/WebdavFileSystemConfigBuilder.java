@@ -24,7 +24,7 @@ import org.apache.commons.vfs.UserAuthenticator;
  * Configuration options for WebDav
  * 
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision: 480428 $ $Date: 2006-11-28 22:15:24 -0800 (Tue, 28 Nov 2006) $
+ * @version $Revision$ $Date$
  */
 public class WebdavFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

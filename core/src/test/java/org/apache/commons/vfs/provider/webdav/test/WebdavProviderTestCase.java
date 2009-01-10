@@ -29,7 +29,7 @@ import org.apache.commons.vfs.test.ProviderTestSuite;
  * Test cases for the WebDAV provider.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision: 480428 $ $Date: 2006-11-28 22:15:24 -0800 (Tue, 28 Nov 2006) $
+ * @version $Revision$ $Date$
  */
 public class WebdavProviderTestCase
     extends AbstractProviderTestConfig
