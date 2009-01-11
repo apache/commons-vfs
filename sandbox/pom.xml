@@ -17,122 +17,154 @@
    limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<name>Commons VFS Sandbox</name>
-	<groupId>org.apache.commons</groupId>
-	<artifactId>commons-vfs-sandbox</artifactId>
-	<version>2.0-SNAPSHOT</version>
-	<description>VFS is a Virtual File System library - Sandbox.</description>
+  <name>Commons VFS Sandbox</name>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-vfs-sandbox</artifactId>
+  <version>2.0-SNAPSHOT</version>
+  <description>VFS is a Virtual File System library - Sandbox.</description>
 
-	<parent>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-vfs-project</artifactId>
-		<version>2.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
-    </parent>
+  <parent>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-vfs-project</artifactId>
+    <version>2.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
 
-	<dependencies>
-                <dependency>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                        <version>1.0.4</version>
-                </dependency>
+  <dependencies>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+    </dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-vfs</artifactId>
-			<version>2.0-SNAPSHOT</version>
-		</dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-vfs</artifactId>
+      <version>2.0-SNAPSHOT</version>
+    </dependency>
 
-		<dependency>
-			<groupId>slide</groupId>
-			<artifactId>jakarta-slide-webdavlib</artifactId>
-			<version>20050629.161100</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>jcifs</groupId>
-			<artifactId>jcifs</artifactId>
-			<version>0.8.3</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>2.0.2</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4</version>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-vfs</artifactId>
-			<version>2.0-SNAPSHOT</version>
-			<scope>test</scope>
-			<type>test-jar</type>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <!--<dependency>
+       <groupId>slide</groupId>
+       <artifactId>jakarta-slide-webdavlib</artifactId>
+       <version>20050629.161100</version>
+       <optional>true</optional>
+     </dependency> -->
+    <dependency>
+      <groupId>jcifs</groupId>
+      <artifactId>jcifs</artifactId>
+      <version>0.8.3</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>2.0.2</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+      <optional>true</optional>
+    </dependency>
+    <!--<dependency>
+       <groupId>org.apache.commons</groupId>
+       <artifactId>commons-vfs</artifactId>
+       <version>2.0-SNAPSHOT</version>
+       <scope>test</scope>
+       <type>test-jar</type>
+     </dependency> -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-	<properties>
-		<commons.componentid>vfs-sandbox</commons.componentid>
-	</properties> 
+  <properties>
+    <commons.componentid>vfs-sandbox</commons.componentid>
+  </properties>
 
-	<build>
-		<resources>
-			<resource>
-				<directory>..</directory>
-				<targetPath>META-INF</targetPath>
-				<includes>
-					<include>NOTICE.txt</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>..</directory>
-				<targetPath>META-INF</targetPath>
-				<includes>
-					<include>LICENSE.txt</include>
-				</includes>
-			</resource>
-		</resources>
+  <build>
+    <resources>
+      <resource>
+        <directory>..</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>NOTICE.txt</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>..</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE.txt</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <!-- surfire do not honor suite(), see MSUREFIRE-131 why our tests wont work with maven 2 -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>test.basedir</name>
+              <value>../core/target/test-classes/test-data</value>
+            </property>
+            <property>
+              <name>test.basedir.res</name>
+              <value>test-data</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>smb</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
         <plugins>
-            <plugin>
-				<!-- surfire do not honor suite(), see MSUREFIRE-131 why our tests wont work with maven 2 -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<systemProperties>
-						<property>
-							<name>test.basedir</name>
-							<value>../core/target/test-classes/test-data</value>
-						</property>
-						<property>
-							<name>test.basedir.res</name>
-							<value>test-data</value>
-						</property>
-                    </systemProperties>
-				</configuration>
-            </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <systemProperties>
+                <property>
+                  <name>test.basedir</name>
+                  <value>../core/target/test-classes/test-data</value>
+                </property>
+                <property>
+                  <name>test.basedir.res</name>
+                  <value>test-data</value>
+                </property>
+                <property>
+                  <name>test.http.uri</name>
+                  <value>${test.smb.uri}</value>
+                </property>
+              </systemProperties>
+            </configuration>
+          </plugin>
         </plugins>
-    </build>
-
+      </build>
+    </profile>
+  </profiles>
 </project>
