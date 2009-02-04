@@ -4,12 +4,6 @@
 		<scheme name="smb"/>
 		<if-available class-name="jcifs.smb.SmbFile"/>
 	</provider>
-
-	<provider class-name="org.apache.commons.vfs.provider.webdav.WebdavFileProvider">
-		<scheme name="webdav"/>
-		<if-available class-name="org.apache.webdav.lib.WebdavResource"/>
-		<if-available class-name="org.apache.commons.httpclient.HttpClient"/>
-	</provider>
 	
 	<provider class-name="org.apache.commons.vfs.provider.mime.MimeFileProvider">
 		<scheme name="mime"/>

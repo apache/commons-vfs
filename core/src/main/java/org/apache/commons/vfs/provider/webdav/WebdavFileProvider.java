@@ -25,12 +25,9 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
-import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.commons.vfs.provider.http.HttpFileNameParser;
 import org.apache.commons.vfs.provider.http.HttpFileProvider;
 import org.apache.commons.vfs.provider.http.HttpClientFactory;
-import org.apache.commons.vfs.provider.http.HttpFileSystemConfigBuilder;
 
 import java.util.Arrays;
 import java.util.Collection;

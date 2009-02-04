@@ -39,7 +39,7 @@ public class DelegatingFileSystemOptionsBuilderTest extends TestCase
 
     protected void setUp() throws Exception
     {
-        super.tearDown();
+        super.setUp();
 
         // get a full blown, fully functional manager
         fsm = new StandardFileSystemManager();
@@ -112,6 +112,19 @@ public class DelegatingFileSystemOptionsBuilderTest extends TestCase
         catch (FileSystemException e)
         {
             assertEquals(e.getCode(), "vfs.provider/config-value-invalid.error");
+        }
+    }
+
+    private static String[] schemes = new String[]
+    {
+        "webdav", "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz", "jar", "tmp", "ram"
+    };
+
+    public void testConfiguration() throws Exception
+    {
+        for (int i=0; i < schemes.length; ++i)
+        {
+            assertTrue("Missing" + schemes[i] + " provider", fsm.hasProvider(schemes[i]));
         }
     }
 }

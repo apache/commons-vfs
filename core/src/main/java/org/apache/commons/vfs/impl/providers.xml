@@ -67,6 +67,11 @@
     <provider class-name="org.apache.commons.vfs.provider.res.ResourceFileProvider">
         <scheme name="res"/>
     </provider>
+        <provider class-name="org.apache.commons.vfs.provider.webdav.WebdavFileProvider">
+        <scheme name="webdav"/>
+        <if-available class-name="org.apache.commons.httpclient.HttpClient"/>
+        <if-available class-name="org.apache.jackrabbit.webdav.client.methods.DavMethod"/>
+    </provider>
     <!--
     <provider class-name="org.apache.commons.vfs.provider.svn.SvnFileProvider">
         <scheme name="svnhttps"/>
