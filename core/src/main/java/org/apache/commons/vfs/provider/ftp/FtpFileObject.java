@@ -27,6 +27,7 @@ import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.FileUtil;
+import org.apache.commons.vfs.FileNotFolderException;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.Messages;
@@ -386,7 +387,20 @@ public class FtpFileObject
 	 */
 	public FileObject[] getChildren() throws FileSystemException
 	{
-		try
+        try
+        {
+            if (doGetType() != FileType.FOLDER)
+            {
+                throw new FileNotFolderException(getName());
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new FileNotFolderException(getName(), ex);
+        }
+
+
+        try
 		{
 			/* Wrap our parent implementation, noting that we're refreshing so
 			 * that we don't refresh() ourselves and each of our parents for
