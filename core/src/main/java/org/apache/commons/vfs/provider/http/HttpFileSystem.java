@@ -18,6 +18,7 @@ package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -67,7 +68,11 @@ public class HttpFileSystem
 			{
 				((ThreadLocalHttpConnectionManager) mgr).releaseLocalConnection();
 			}
-		}
+            if (mgr instanceof MultiThreadedHttpConnectionManager)
+            {
+                ((MultiThreadedHttpConnectionManager) mgr).shutdown();
+            }
+        }
 	}
 
 	/**

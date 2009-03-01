@@ -48,6 +48,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private FtpFileSystemConfigBuilder()
     {
+        super("ftp.");
     }
 
     /**
@@ -90,7 +91,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getEntryParser(FileSystemOptions opts)
     {
-        return (String) getParam(opts, FACTORY_KEY);
+        return getString(opts, FACTORY_KEY);
     }
 
     protected Class getConfigClass()
@@ -115,7 +116,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Boolean getPassiveMode(FileSystemOptions opts)
     {
-        return (Boolean) getParam(opts, PASSIVE_MODE);
+        return getBoolean(opts, PASSIVE_MODE);
     }
 
     /**
@@ -135,7 +136,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
     {
-        return (Boolean) getParam(opts, USER_DIR_IS_ROOT);
+        return getBoolean(opts, USER_DIR_IS_ROOT);
     }
 
     /**
@@ -144,7 +145,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Integer getDataTimeout(FileSystemOptions opts)
     {
-        return (Integer) getParam(opts, DATA_TIMEOUT);
+        return getInteger(opts, DATA_TIMEOUT);
     }
 
     /**
@@ -166,7 +167,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getServerLanguageCode(FileSystemOptions opts)
     {
-        return (String) getParam(opts, SERVER_LANGUAGE_CODE);
+        return getString(opts, SERVER_LANGUAGE_CODE);
     }
 
     /**
@@ -184,7 +185,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getDefaultDateFormat(FileSystemOptions opts)
     {
-        return (String) getParam(opts, DEFAULT_DATE_FORMAT);
+        return getString(opts, DEFAULT_DATE_FORMAT);
     }
 
     /**
@@ -201,7 +202,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getRecentDateFormat(FileSystemOptions opts)
     {
-        return (String) getParam(opts, RECENT_DATE_FORMAT);
+        return getString(opts, RECENT_DATE_FORMAT);
     }
 
     /**
@@ -217,7 +218,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getServerTimeZoneId(FileSystemOptions opts)
     {
-        return (String) getParam(opts, SERVER_TIME_ZONE_ID);
+        return getString(opts, SERVER_TIME_ZONE_ID);
     }
 
     /**

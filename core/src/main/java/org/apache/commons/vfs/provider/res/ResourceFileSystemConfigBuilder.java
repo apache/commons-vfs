@@ -37,6 +37,7 @@ public class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private ResourceFileSystemConfigBuilder()
     {
+        super("resource.");
     }
 
     public void setClassLoader(FileSystemOptions opts, ClassLoader classLoader)

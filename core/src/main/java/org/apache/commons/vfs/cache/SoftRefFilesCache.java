@@ -92,7 +92,9 @@ public class SoftRefFilesCache extends AbstractFilesCache
 					{
 						if (removeFile(key))
 						{
-							filesystemClose(key.getFileSystem());
+                            /* This is not thread safe
+                            filesystemClose(key.getFileSystem());
+                            */
 						}
 					}
 				}
@@ -155,10 +157,14 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
 		synchronized (files)
 		{
-			files.put(file.getName(), ref);
+			Reference old = (Reference)files.put(file.getName(), ref);
 			synchronized(refReverseMap)
 			{
-				refReverseMap.put(ref, key);
+                if (old != null)
+                {
+                    refReverseMap.remove(old);
+                }
+                refReverseMap.put(ref, key);
 			}
 		}
 	}

@@ -85,6 +85,7 @@ public class WebdavFileProvider
 			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
 			httpClient = HttpClientFactory.createConnection(
+                WebdavFileSystemConfigBuilder.getInstance(),
                 "http",
                 rootName.getHostName(),
 				rootName.getPort(),

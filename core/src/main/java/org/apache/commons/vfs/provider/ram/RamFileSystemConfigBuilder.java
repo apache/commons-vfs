@@ -36,7 +36,7 @@ public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 	 */
 	private RamFileSystemConfigBuilder()
 	{
-		super();
+		super("ram.");
 	}
 
 	/**
@@ -62,15 +62,7 @@ public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 	 */
 	public int getMaxSize(FileSystemOptions opts)
 	{
-		Integer size = (Integer) getParam(opts, MAX_SIZE_KEY);
-		if (size != null)
-		{
-			return size.intValue();
-		}
-		else
-		{
-			return Integer.MAX_VALUE;
-		}
+		return getInteger(opts, MAX_SIZE_KEY, Integer.MAX_VALUE);
 	}
 
 	/**

@@ -84,6 +84,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private SftpFileSystemConfigBuilder()
     {
+        super("sftp.");
     }
 
     /**
@@ -160,7 +161,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getCompression(FileSystemOptions opts)
     {
-        return (String) getParam(opts, "compression");
+        return getString(opts, "compression");
     }
 
     /**
@@ -198,7 +199,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getStrictHostKeyChecking(FileSystemOptions opts)
     {
-        return (String) getParam(opts, "StrictHostKeyChecking");
+        return getString(opts, "StrictHostKeyChecking");
     }
 
     /**
@@ -218,7 +219,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
     {
-        return (Boolean) getParam(opts, USER_DIR_IS_ROOT);
+        return getBoolean(opts, USER_DIR_IS_ROOT);
     }
 
     /**
@@ -238,7 +239,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Integer getTimeout(FileSystemOptions opts)
     {
-        return (Integer) getParam(opts, TIMEOUT);
+        return getInteger(opts, TIMEOUT);
     }
     
     protected Class getConfigClass()
@@ -279,7 +280,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getProxyHost(FileSystemOptions opts)
     {
-        return (String) getParam(opts, "proxyHost");
+        return getString(opts, "proxyHost");
     }
 
     /**
@@ -291,12 +292,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public int getProxyPort(FileSystemOptions opts)
     {
-        if (!hasParam(opts, "proxyPort"))
-        {
-            return 0;
-        }
-
-        return ((Number) getParam(opts, "proxyPort")).intValue();
+        return getInteger(opts, "proxyPort", 0);
     }
 
     /**

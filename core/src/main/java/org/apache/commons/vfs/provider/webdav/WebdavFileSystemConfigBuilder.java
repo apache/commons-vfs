@@ -19,6 +19,9 @@ package org.apache.commons.vfs.provider.webdav;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.vfs.provider.http.HttpFileSystemConfigBuilder;
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 /**
  * Configuration options for WebDav
@@ -26,106 +29,18 @@ import org.apache.commons.vfs.UserAuthenticator;
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class WebdavFileSystemConfigBuilder extends FileSystemConfigBuilder
+public class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
 {
     private final static WebdavFileSystemConfigBuilder builder = new WebdavFileSystemConfigBuilder();
 
-    public static WebdavFileSystemConfigBuilder getInstance()
+    public static HttpFileSystemConfigBuilder getInstance()
     {
         return builder;
     }
 
     private WebdavFileSystemConfigBuilder()
     {
-    }
-
-    /**
-     * Set the charset used for url encoding<br>
-     *
-     * @param chaset the chaset
-     */
-    public void setUrlCharset(FileSystemOptions opts, String chaset)
-    {
-        setParam(opts, "urlCharset", chaset);
-    }
-
-    /**
-     * Set the charset used for url encoding<br>
-     *
-     * @return the chaset
-     */
-    public String getUrlCharset(FileSystemOptions opts)
-    {
-        return (String) getParam(opts, "urlCharset");
-    }
-
-    /**
-     * Set the proxy to use for webdav connection.<br>
-     * You have to set the ProxyPort too if you would like to have the proxy relly used.
-     *
-     * @param proxyHost the host
-     * @see #setProxyPort
-     */
-    public void setProxyHost(FileSystemOptions opts, String proxyHost)
-    {
-        setParam(opts, "proxyHost", proxyHost);
-    }
-
-    /**
-     * Set the proxy-port to use for webdav connection
-     * You have to set the ProxyHost too if you would like to have the proxy relly used.
-     *
-     * @param proxyPort the port
-     * @see #setProxyHost
-     */
-    public void setProxyPort(FileSystemOptions opts, int proxyPort)
-    {
-        setParam(opts, "proxyPort", new Integer(proxyPort));
-    }
-
-    /**
-     * Get the proxy to use for webdav connection
-     * You have to set the ProxyPort too if you would like to have the proxy relly used.
-     *
-     * @return proxyHost
-     * @see #setProxyPort
-     */
-    public String getProxyHost(FileSystemOptions opts)
-    {
-        return (String) getParam(opts, "proxyHost");
-    }
-
-    /**
-     * Get the proxy-port to use for webdav the connection
-     * You have to set the ProxyHost too if you would like to have the proxy relly used.
-     *
-     * @return proxyPort: the port number or 0 if it is not set
-     * @see #setProxyHost
-     */
-    public int getProxyPort(FileSystemOptions opts)
-    {
-        if (!hasParam(opts, "proxyPort"))
-        {
-            return 0;
-        }
-
-        return ((Number) getParam(opts, "proxyPort")).intValue();
-    }
-
-    /**
-     * Set the proxy authenticator where the system should get the credentials from
-     */
-    public void setProxyAuthenticator(FileSystemOptions opts, UserAuthenticator authenticator)
-    {
-        setParam(opts, "proxyAuthenticator", authenticator);
-    }
-
-    /**
-     * Get the proxy authenticator where the system should get the credentials from
-     */
-    public UserAuthenticator getProxyAuthenticator(FileSystemOptions opts)
-    {
-        return (UserAuthenticator) getParam(opts, "proxyAuthenticator");
+        super("webdav.");
     }
     
     protected Class getConfigClass()

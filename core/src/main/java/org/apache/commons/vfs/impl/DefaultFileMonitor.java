@@ -649,6 +649,18 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     }
 
                 }
+                else if (!this.exists && this.file.exists())
+                {
+                    this.exists = this.file.exists();
+                    this.timestamp = this.file.getContent().getLastModifiedTime();
+                    // Don't fire if it's a folder because new file children
+                    // and deleted files in a folder have their own event triggered.
+                    if (!this.file.getType().hasChildren())
+                    {
+                        ((AbstractFileSystem)
+                                this.file.getFileSystem()).fireFileCreated(this.file);
+                    }
+                }
 
                 this.checkForNewChildren();
 

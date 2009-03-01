@@ -20,6 +20,9 @@ import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
@@ -39,19 +42,36 @@ public class HttpClientFactory
     {
     }
 
+    public static HttpClient createConnection(String scheme, String hostname, int port, String username,
+                                              String password, FileSystemOptions fileSystemOptions)
+            throws FileSystemException
+    {
+        return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port,
+            username, password, fileSystemOptions);
+    }
+
     /**
      * Creates a new connection to the server.
      */
-    public static HttpClient createConnection(String scheme, String hostname, int port, String username, String password, FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static HttpClient createConnection(HttpFileSystemConfigBuilder builder, String scheme,
+                                              String hostname, int port, String username,
+                                              String password, FileSystemOptions fileSystemOptions)
+            throws FileSystemException
     {
         HttpClient client;
         try
         {
-            // client = new HttpClient(new MultiThreadedHttpConnectionManager());
-			client = new HttpClient(new ThreadLocalHttpConnectionManager());
+            HttpConnectionManager mgr = new MultiThreadedHttpConnectionManager();
+            HttpConnectionManagerParams connectionMgrParams = mgr.getParams();
+
+            client = new HttpClient(mgr);
+			//client = new HttpClient(new ThreadLocalHttpConnectionManager());
 
 			final HostConfiguration config = new HostConfiguration();
             config.setHost(hostname, port, scheme);
+
+            connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
+            connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));
 
             if (fileSystemOptions != null)
             {

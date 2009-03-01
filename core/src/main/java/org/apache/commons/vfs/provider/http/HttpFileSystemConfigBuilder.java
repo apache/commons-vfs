@@ -20,6 +20,7 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 /**
  * Configuration options for HTTP
@@ -36,8 +37,18 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return builder;
     }
 
+    private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
+
+    private static final int DEFAULT_MAX_CONNECTIONS = 50;
+
+    protected HttpFileSystemConfigBuilder(String prefix)
+    {
+        super(prefix);
+    }
+
     private HttpFileSystemConfigBuilder()
     {
+        super("http.");
     }
 
     /**
@@ -57,7 +68,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getUrlCharset(FileSystemOptions opts)
     {
-        return (String) getParam(opts, "urlCharset");
+        return getString(opts, "urlCharset");
     }
 
     /**
@@ -93,7 +104,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getProxyHost(FileSystemOptions opts)
     {
-        return (String) getParam(opts, "proxyHost");
+        return getString(opts, "proxyHost");
     }
 
     /**
@@ -105,12 +116,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public int getProxyPort(FileSystemOptions opts)
     {
-        if (!hasParam(opts, "proxyPort"))
-        {
-            return 0;
-        }
-
-        return ((Number) getParam(opts, "proxyPort")).intValue();
+        return getInteger(opts, "proxyPort", 0);
     }
 
     /**
@@ -143,6 +149,42 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public Cookie[] getCookies(FileSystemOptions opts)
     {
         return (Cookie[]) getParam(opts, "cookies");
+    }
+
+    /**
+     * The maximum number of connections allowed
+     */
+    public void setMaxTotalConnections(FileSystemOptions opts, int maxTotalConnections)
+    {
+        setParam(opts, HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, new Integer(maxTotalConnections));
+    }
+
+    /**
+     * Retrieve the maximum number of connections allowed.
+     * @param opts The FileSystemOptions.
+     * @return The maximum number of connections allowed.
+     */
+    public int getMaxTotalConnections(FileSystemOptions opts)
+    {
+        return getInteger(opts, HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, DEFAULT_MAX_CONNECTIONS);
+    }
+
+    /**
+     * The maximum number of connections allowed to any host
+     */
+    public void setMaxConnectionsPerHost(FileSystemOptions opts, int maxHostConnections)
+    {
+        setParam(opts, HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, new Integer(maxHostConnections));
+    }
+
+    /**
+     * Retrieve the maximum number of connections allowed per host.
+     * @param opts The FileSystemOptions.
+     * @return The maximum number of connections allowed per host.
+     */
+    public int getMaxConnectionsPerHost(FileSystemOptions opts)
+    {
+        return getInteger(opts, HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
     }
     
     protected Class getConfigClass()
