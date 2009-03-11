@@ -52,7 +52,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         monitor.addFile(fileObj);
         monitor.start();
         writeToFile(testFile);
-        Thread.sleep(500);
+        Thread.sleep(300);
         assertTrue("No event occurred", changeStatus != 0);
         assertTrue("Incorrect event", changeStatus == 3);
         monitor.stop();
@@ -67,7 +67,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         monitor.addFile(fileObj);
         monitor.start();
         testFile.delete();
-        Thread.sleep(500);
+        Thread.sleep(300);
         assertTrue("No event occurred", changeStatus != 0);
         assertTrue("Incorrect event", changeStatus == 2);
         monitor.stop();
@@ -89,6 +89,33 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         Thread.sleep(300);
         assertTrue("No event occurred", changeStatus != 0);
         assertTrue("Incorrect event", changeStatus == 1);
+        monitor.stop();
+    }
+
+
+    public void testFileRecreated() throws Exception
+    {
+        FileObject fileObj = fsManager.resolveFile(testFile.toURL().toString());
+        DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        monitor.setDelay(100);
+        monitor.addFile(fileObj);
+        monitor.start();
+        writeToFile(testFile);
+        Thread.sleep(300);
+        assertTrue("No event occurred", changeStatus != 0);
+        assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+        changeStatus = 0;
+        testFile.delete();
+        Thread.sleep(300);
+        assertTrue("No event occurred", changeStatus != 0);
+        assertTrue("Incorrect event " + changeStatus, changeStatus == 2);
+        changeStatus = 0;
+        Thread.sleep(500);
+        monitor.addFile(fileObj);
+        writeToFile(testFile);
+        Thread.sleep(300);
+        assertTrue("No event occurred", changeStatus != 0);
+        assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
         monitor.stop();
     }
 
