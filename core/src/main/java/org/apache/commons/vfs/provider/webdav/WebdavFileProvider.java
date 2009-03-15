@@ -36,7 +36,7 @@ import java.util.Collections;
 /**
  * A provider for WebDAV.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class WebdavFileProvider
@@ -77,12 +77,13 @@ public class WebdavFileProvider
     {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
+        FileSystemOptions fsOpts = (fileSystemOptions == null) ? new FileSystemOptions() : fileSystemOptions;
 
 		UserAuthenticationData authData = null;
 		HttpClient httpClient;
 		try
 		{
-			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
+			authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
 
 			httpClient = HttpClientFactory.createConnection(
                 WebdavFileSystemConfigBuilder.getInstance(),
@@ -91,14 +92,14 @@ public class WebdavFileProvider
 				rootName.getPort(),
 				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
 				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
-				fileSystemOptions);
+				fsOpts);
 		}
 		finally
 		{
 			UserAuthenticatorUtils.cleanup(authData);
 		}
 
-		return new WebdavFileSystem(rootName, httpClient, fileSystemOptions);
+		return new WebdavFileSystem(rootName, httpClient, fsOpts);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

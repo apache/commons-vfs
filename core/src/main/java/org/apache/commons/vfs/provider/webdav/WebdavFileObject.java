@@ -24,6 +24,7 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.vfs.provider.URLFileName;
+import org.apache.commons.vfs.provider.DefaultFileContent;
 import org.apache.commons.vfs.provider.http.HttpFileObject;
 import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.util.MonitorOutputStream;
@@ -41,10 +42,17 @@ import org.apache.jackrabbit.webdav.client.methods.PropFindMethod;
 import org.apache.jackrabbit.webdav.client.methods.DeleteMethod;
 import org.apache.jackrabbit.webdav.client.methods.MoveMethod;
 import org.apache.jackrabbit.webdav.client.methods.PutMethod;
+import org.apache.jackrabbit.webdav.client.methods.CheckoutMethod;
+import org.apache.jackrabbit.webdav.client.methods.CheckinMethod;
+import org.apache.jackrabbit.webdav.client.methods.UncheckoutMethod;
+import org.apache.jackrabbit.webdav.client.methods.VersionControlMethod;
+import org.apache.jackrabbit.webdav.client.methods.PropPatchMethod;
 import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.DavConstants;
 import org.apache.jackrabbit.webdav.MultiStatus;
 import org.apache.jackrabbit.webdav.MultiStatusResponse;
+import org.apache.jackrabbit.webdav.version.DeltaVConstants;
+import org.apache.jackrabbit.webdav.version.VersionControlledResource;
 import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
 import org.apache.jackrabbit.webdav.property.DavPropertyName;
 import org.apache.jackrabbit.webdav.property.DavPropertySet;
@@ -65,7 +73,7 @@ import java.util.Iterator;
 /**
  * A WebDAV file.
  *
- * @author
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$
  */
 public class WebdavFileObject
@@ -75,13 +83,16 @@ public class WebdavFileObject
     private final WebdavFileSystem fileSystem;
     private final String urlCharset;
     public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create("response-charset");
+    public final WebdavFileSystemConfigBuilder builder;
 
     protected WebdavFileObject(final FileName name,
                                final WebdavFileSystem fileSystem)
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;
-        this.urlCharset = WebdavFileSystemConfigBuilder.getInstance().getUrlCharset(getFileSystem().getFileSystemOptions());
+        builder =
+            (WebdavFileSystemConfigBuilder)WebdavFileSystemConfigBuilder.getInstance();
+        this.urlCharset = builder.getUrlCharset(getFileSystem().getFileSystemOptions());
     }
 
     protected void configureMethod(HttpMethodBase httpMethod)
@@ -264,21 +275,25 @@ public class WebdavFileObject
         final Map attributes = new HashMap();
         try
         {
-            String url = urlString((URLFileName)getName());
-            PropFindMethod method = new PropFindMethod(url, DavConstants.PROPFIND_ALL_PROP,
-                    DavConstants.DEPTH_0);
-            execute( method );
-            if ( method.succeeded() )
+            URLFileName fileName = (URLFileName)getName();
+            DavPropertySet properties = getProperties(fileName, PropFindMethod.PROPFIND_ALL_PROP,
+                    new DavPropertyNameSet(), false);
+            Iterator iter = properties.iterator();
+            while (iter.hasNext())
             {
-                MultiStatus multiStatus = method.getResponseBodyAsMultiStatus();
-                MultiStatusResponse response = multiStatus.getResponses()[0];
-                DavPropertySet properties = response.getProperties( HttpStatus.SC_OK );
-                Iterator iter = properties.iterator();
-                while (iter.hasNext())
+                DavProperty property = (DavProperty)iter.next();
+                attributes.put(property.getName().toString(), property.getValue());
+            }
+            properties = getPropertyNames(fileName);
+            iter = properties.iterator();
+            while (iter.hasNext())
+            {
+                DavProperty property = (DavProperty)iter.next();
+                if (!attributes.containsKey(property.getName()))
                 {
-                    DavProperty property = (DavProperty)iter.next();
-                    attributes.put(property.getName(), property.getValue());
-                }
+                    property = getProperty(fileName, property.getName());
+                    attributes.put(property.getName().toString(), property.getValue());
+                }               
             }
             return attributes;
         }
@@ -290,7 +305,7 @@ public class WebdavFileObject
 
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
-        return new WebdavOutputStream();
+        return new WebdavOutputStream(this);
     }
 
     protected FileContentInfoFactory getFileContentInfoFactory()
@@ -380,21 +395,44 @@ public class WebdavFileObject
     DavProperty getProperty(URLFileName fileName, String property)
             throws FileSystemException
     {
+        return getProperty(fileName, DavPropertyName.create(property));
+    }
+
+    DavProperty getProperty(URLFileName fileName, DavPropertyName name)
+            throws FileSystemException
+    {
         DavPropertyNameSet nameSet = new DavPropertyNameSet();
-        DavPropertyName name = DavPropertyName.create(property);
         nameSet.add(name);
         DavPropertySet propertySet = getProperties(fileName, nameSet, false);
         return propertySet.get(name);
     }
 
-
     DavPropertySet getProperties(URLFileName name, DavPropertyNameSet nameSet, boolean addEncoding)
+            throws FileSystemException
+    {
+        return getProperties(name, PropFindMethod.PROPFIND_BY_PROPERTY, nameSet, addEncoding);
+    }
+
+    DavPropertySet getProperties(URLFileName name) throws FileSystemException
+    {
+        return getProperties(name, PropFindMethod.PROPFIND_ALL_PROP, new DavPropertyNameSet(), false);
+    }
+
+
+    DavPropertySet getPropertyNames(URLFileName name) throws FileSystemException
+    {
+        return getProperties(name, PropFindMethod.PROPFIND_PROPERTY_NAMES,
+                new DavPropertyNameSet(), false);
+    }
+
+    DavPropertySet getProperties(URLFileName name, int type, DavPropertyNameSet nameSet,
+                                 boolean addEncoding)
             throws FileSystemException
     {
         try
         {
             String urlStr = urlString(name);
-            PropFindMethod method = new PropFindMethod(urlStr, nameSet, DavConstants.DEPTH_0);
+            PropFindMethod method = new PropFindMethod(urlStr, type, nameSet, DavConstants.DEPTH_0);
             setupMethod(method);
             execute( method );
             if ( method.succeeded() )
@@ -507,10 +545,12 @@ public class WebdavFileObject
     private class WebdavOutputStream extends MonitorOutputStream
     {
         private ByteArrayOutputStream stream;
+        private WebdavFileObject file;
 
-        public WebdavOutputStream() throws FileSystemException
+        public WebdavOutputStream(WebdavFileObject file) throws FileSystemException
         {
             super(new ByteArrayOutputStream());
+            this.file = file;
         }
 
         /**
@@ -519,12 +559,150 @@ public class WebdavFileObject
         protected void onClose() throws IOException
         {
             RequestEntity entity = new StringRequestEntity(out.toString());
-            String urlStr = urlString((URLFileName)getName());
-            PutMethod method = new PutMethod(urlStr);
-            method.setRequestEntity(entity);
+            URLFileName fileName = (URLFileName)getName();
+            String urlStr = urlString(fileName);
+            if (builder.isVersioning(getFileSystem().getFileSystemOptions()))
+            {
+                DavPropertySet set = null;
+                boolean fileExists = true;
+                boolean isCheckedIn = true;
+                try
+                {
+                    set = getPropertyNames(fileName);
+                }
+                catch (FileNotFoundException fnfe)
+                {
+                    fileExists = false;
+                }
+                if (fileExists && set != null)
+                {
+                    if (set.contains(VersionControlledResource.CHECKED_OUT))
+                    {
+                        isCheckedIn = false;
+                    }
+                    else if (!set.contains(VersionControlledResource.CHECKED_IN))
+                    {
+                        DavProperty prop = set.get(VersionControlledResource.AUTO_VERSION);
+                        if (prop != null)
+                        {
+                            prop = getProperty(fileName, VersionControlledResource.AUTO_VERSION);
+                            if (DeltaVConstants.XML_CHECKOUT_CHECKIN.equals(prop.getValue()))
+                            {
+                                createVersion(urlStr);
+                            }
+                        }
+                    }
+                }
+                if (fileExists && isCheckedIn)
+                {
+                    try
+                    {
+                        CheckoutMethod checkout = new CheckoutMethod(urlStr);
+                        setupMethod(checkout);
+                        execute(checkout);
+                        isCheckedIn = false;
+                    }
+                    catch (FileSystemException ex)
+                    {
+                        //
+                    }
+                }
+
+                try
+                {
+                    PutMethod method = new PutMethod(urlStr);
+                    method.setRequestEntity(entity);
+                    setupMethod(method);
+                    execute(method);
+                    setUserName(fileName, urlStr);
+                }
+                catch (FileSystemException ex)
+                {
+                    if (!isCheckedIn)
+                    {
+                        try
+                        {
+                            UncheckoutMethod method = new UncheckoutMethod(urlStr);
+                            setupMethod(method);
+                            execute(method);
+                            isCheckedIn = true;
+                        }
+                        catch (Exception e)
+                        {
+                            // Ignore the exception. Going to throw original.
+                        }
+                        throw ex;
+                    }
+                }
+                if (fileExists)
+                {
+                    if (!isCheckedIn)
+                    {
+                        CheckinMethod checkin = new CheckinMethod(urlStr);
+                        setupMethod(checkin);
+                        execute(checkin);
+                    }
+                }
+                else
+                {
+                    createVersion(urlStr);       
+                }
+            }
+            else
+            {
+                PutMethod method = new PutMethod(urlStr);
+                method.setRequestEntity(entity);
+                setupMethod(method);
+                execute(method);
+                try
+                {
+                    setUserName(fileName, urlStr);
+                }
+                catch (IOException e)
+                {
+
+                }
+            }
+            ((DefaultFileContent)this.file.getContent()).resetAttributes();
+        }
+
+        private void setUserName(URLFileName fileName, String urlStr)
+            throws IOException
+        {
+            List list = new ArrayList();
+            String name = builder.getCreatorName(getFileSystem().getFileSystemOptions());
+            String userName = fileName.getUserName();
+            if (name == null)
+            {
+                name = userName;
+            }
+            else
+            {
+                if (userName != null)
+                {
+                    String comment = "Modified by user " + userName;
+                    list.add(new DefaultDavProperty(DeltaVConstants.COMMENT, comment));
+                }
+            }
+            list.add(new DefaultDavProperty(DeltaVConstants.CREATOR_DISPLAYNAME, name));
+            PropPatchMethod method = new PropPatchMethod(urlStr, list);
             setupMethod(method);
             execute(method);
         }
-    }
 
+        private boolean createVersion(String urlStr)
+        {
+            try
+            {
+                VersionControlMethod method = new VersionControlMethod(urlStr);
+                setupMethod(method);
+                execute(method);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+    }
 }

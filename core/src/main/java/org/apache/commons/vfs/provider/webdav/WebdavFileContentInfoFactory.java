@@ -36,7 +36,7 @@ import org.apache.jackrabbit.webdav.DavConstants;
 /**
  * Description
  *
- * @author
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$
  */
 public class WebdavFileContentInfoFactory implements FileContentInfoFactory

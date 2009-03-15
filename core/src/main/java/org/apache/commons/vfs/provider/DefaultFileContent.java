@@ -60,6 +60,7 @@ public final class DefaultFileContent implements FileContent
     private final FileContentInfoFactory fileContentInfoFactory;
 
     private final ThreadLocal threadData = new ThreadLocal();
+    private boolean resetAttributes;
 
     /**
      * open streams counter for this file
@@ -219,12 +220,16 @@ public final class DefaultFileContent implements FileContent
         {
             throw new FileSystemException("vfs.provider/get-attributes-no-exist.error", file);
         }
-        if (roAttrs == null)
+        if (resetAttributes || roAttrs == null)
         {
             try
             {
-                attrs = file.doGetAttributes();
-                roAttrs = Collections.unmodifiableMap(attrs);
+                synchronized(this)
+                {
+                    attrs = file.doGetAttributes();
+                    roAttrs = Collections.unmodifiableMap(attrs);
+                    resetAttributes = false;
+                }
             }
             catch (final Exception e)
             {
@@ -232,6 +237,15 @@ public final class DefaultFileContent implements FileContent
             }
         }
         return roAttrs;
+    }
+
+    /**
+     * Used internally to flag situations where the file attributes should be
+     * reretrieved.
+     */
+    public void resetAttributes()
+    {
+        resetAttributes = true;
     }
 
     /**

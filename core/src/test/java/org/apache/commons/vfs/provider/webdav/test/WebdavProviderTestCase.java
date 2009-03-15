@@ -39,7 +39,9 @@ public class WebdavProviderTestCase
     {
         if (System.getProperty(TEST_URI) != null)
         {
-            return new ProviderTestSuite(new WebdavProviderTestCase());
+            ProviderTestSuite suite = new ProviderTestSuite(new WebdavProviderTestCase());
+            suite.addTests(WebdavVersioningTests.class);
+            return suite;
         }
         else
         {

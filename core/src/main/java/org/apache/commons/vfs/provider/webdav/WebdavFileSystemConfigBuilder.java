@@ -26,7 +26,7 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 /**
  * Configuration options for WebDav
  * 
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
@@ -41,6 +41,42 @@ public class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
     private WebdavFileSystemConfigBuilder()
     {
         super("webdav.");
+    }
+
+    /**
+     * The user name to be associated with changes to the file.
+     * @param opts
+     * @param creatorName
+     */
+    public void setCreatorName(FileSystemOptions opts, String creatorName)
+    {
+        setParam(opts, "creatorName", creatorName);
+    }
+
+    /**
+     * Return the user name to be associated with changes to the file.
+     * @param opts
+     * @return
+     */
+    public String getCreatorName(FileSystemOptions opts)
+    {
+        return getString(opts, "creatorName");
+    }
+
+    /**
+     * Whether to use versioning
+     */
+    public void setVersioning(FileSystemOptions opts, boolean versioning)
+    {
+        setParam(opts, "versioning", new Boolean(versioning));
+    }
+
+    /**
+     * The cookies to add to the reqest
+     */
+    public boolean isVersioning(FileSystemOptions opts)
+    {
+        return getBoolean(opts, "versioning", false);
     }
     
     protected Class getConfigClass()

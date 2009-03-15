@@ -66,7 +66,7 @@
 
 		<section name="News">
 			<p>
-				VFS is splitted into core, examples and sandbox now.
+				VFS is split into core, examples and sandbox now.
 			</p>
 			<p>
 				Due to some technical reasons we had to move the jcifs (smb) filesystem to
@@ -74,7 +74,7 @@
 			</p>
 			<p>
 				To build VFS, it will be best to check-it-out from svn and use maven 2 to
-				build all at once - Notice: the ant and maven 1 build will just build the core.
+				build.
 			</p>
 			<p>
 				And - we have a new filesystem: mime (read only for sure)<br/>

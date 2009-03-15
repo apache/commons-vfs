@@ -158,6 +158,15 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
+     * Sets the write test folder.
+     * @param folder
+     */
+    protected void setWriteFolder(FileObject folder)
+    {
+        writeFolder = folder;
+    }
+
+    /**
      * Returns the capabilities required by the tests of this test case.  The
      * tests are not run if the provider being tested does not support all
      * the required capabilities.  Return null or an empty array to always

@@ -57,8 +57,8 @@
                     <a href="#mime">mime</a>
                 </li>
                 <li>
-					<a href="#WebDAV">WebDAV</a><br />
-				</li>
+					          <a href="#WebDAV">WebDAV</a><br />
+			        	</li>
             </ul>
         </section>
 
@@ -309,6 +309,15 @@
                     <i>port</i>][
                     <i>absolute-path</i>]
                 </code>
+            </p>
+
+            <p>
+                <b>File System Options</b>
+                <ul>
+                  <li><b>versioning</b> true if versioning should be enabled</li>
+                  <li><b>creatorName</b> the user name to be identified with changes to a file. If
+                      not set the user name used to authenticate will be used.</li>
+                </ul>
             </p>
 
             <p>
