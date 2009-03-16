@@ -279,6 +279,18 @@
                     <i>absolute-path</i>]
                 </code>
             </p>
+            <p>
+                 <b>File System Options</b>
+                 <ul>
+                   <li><b>proxyHost</b> The proxy host to connect through.</li>
+                   <li><b>proxyPort</b> The proxy port to use.</li>
+                   <li><b>cookies</b> An array of Cookies to add to the request.</li>
+                   <li><b>maxConnectionsPerHost</b> The maximum number of connections allowed to
+                   a specific host and port. The default is 5.</li>
+                   <li><b>maxTotalConnections</b> The maximum number of connections allowed to
+                   all hosts. The default is 50.</li>
+                 </ul>
+            </p>
 
             <p>
                 <b>Examples</b>

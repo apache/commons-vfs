@@ -254,6 +254,11 @@ public interface FileSystemManager
     public FileContentInfoFactory getFileContentInfoFactory();
 
     /**
+	 * Returns true if this manager has a provider for a particular scheme.
+	 */
+	public boolean hasProvider(final String scheme);
+
+    /**
      * Get the schemes currently available.
      */
     public String[] getSchemes();
