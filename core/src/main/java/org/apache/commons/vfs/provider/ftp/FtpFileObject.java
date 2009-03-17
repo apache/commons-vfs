@@ -16,35 +16,32 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.RandomAccessContent;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.VFS;
-import org.apache.commons.vfs.FileUtil;
-import org.apache.commons.vfs.FileNotFolderException;
-import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.commons.vfs.provider.UriParser;
-import org.apache.commons.vfs.util.Messages;
-import org.apache.commons.vfs.util.MonitorInputStream;
-import org.apache.commons.vfs.util.MonitorOutputStream;
-import org.apache.commons.vfs.util.RandomAccessMode;
-import org.apache.commons.vfs.util.FileObjectUtils;
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileNotFolderException;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.provider.AbstractFileObject;
+import org.apache.commons.vfs.provider.UriParser;
+import org.apache.commons.vfs.util.FileObjectUtils;
+import org.apache.commons.vfs.util.Messages;
+import org.apache.commons.vfs.util.MonitorInputStream;
+import org.apache.commons.vfs.util.MonitorOutputStream;
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 /**
  * An FTP file.

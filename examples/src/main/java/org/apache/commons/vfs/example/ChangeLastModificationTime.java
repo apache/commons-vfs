@@ -16,14 +16,8 @@
  */
 package org.apache.commons.vfs.example;
 
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystemException;
-
-import java.text.DateFormat;
-import java.util.Date;
+import org.apache.commons.vfs.VFS;
 
 /**
  * Simply changed the last modification time of the given file

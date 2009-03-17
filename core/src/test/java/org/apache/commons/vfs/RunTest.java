@@ -16,26 +16,11 @@
  */
 package org.apache.commons.vfs;
 
+import java.util.Properties;
+
 import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 import junit.framework.TestResult;
-import org.apache.commons.vfs.provider.sftp.test.SftpProviderTestCase;
-import org.apache.commons.vfs.provider.local.test.LocalProviderTestCase;
-import org.apache.commons.vfs.provider.ftp.test.FtpProviderTestCase;
-import org.apache.commons.vfs.provider.url.test.UrlProviderHttpTestCase;
-import org.apache.commons.vfs.provider.url.test.UrlProviderTestCase;
-import org.apache.commons.vfs.provider.test.VirtualProviderTestCase;
-import org.apache.commons.vfs.provider.temp.test.TemporaryProviderTestCase;
-import org.apache.commons.vfs.provider.res.test.ResourceProviderTestCase;
-import org.apache.commons.vfs.provider.http.test.HttpProviderTestCase;
-import org.apache.commons.vfs.provider.jar.test.JarProviderTestCase;
-import org.apache.commons.vfs.provider.jar.test.NestedJarTestCase;
-import org.apache.commons.vfs.provider.ram.test.RamProviderTestCase;
-import org.apache.commons.vfs.provider.zip.test.ZipProviderTestCase;
-import org.apache.commons.vfs.provider.zip.test.NestedZipTestCase;
-import org.apache.commons.vfs.provider.tar.test.*;
-
-import java.util.Properties;
 
 public class RunTest
 {

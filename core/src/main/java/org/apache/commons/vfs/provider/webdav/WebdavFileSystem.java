@@ -16,20 +16,17 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
+import java.net.URLStreamHandler;
+import java.util.Collection;
+
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.DefaultURLStreamHandler;
-import org.apache.commons.vfs.provider.http.ThreadLocalHttpConnectionManager;
+import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.http.HttpFileSystem;
-
-import java.util.Collection;
-import java.net.URLStreamHandler;
 
 /**
  * A WebDAV file system.

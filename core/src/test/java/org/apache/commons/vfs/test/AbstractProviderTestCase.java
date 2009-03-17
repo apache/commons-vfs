@@ -16,19 +16,6 @@
  */
 package org.apache.commons.vfs.test;
 
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs.CacheStrategy;
-import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs.provider.AbstractFileSystem;
-import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -37,8 +24,19 @@ import java.net.URLConnection;
 import java.util.Arrays;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 import junit.framework.TestCase;
+
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs.provider.AbstractFileSystem;
+import org.apache.commons.vfs.provider.local.DefaultLocalFileProvider;
 
 /**
  * File system test cases, which verifies the structure and naming

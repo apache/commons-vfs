@@ -17,7 +17,7 @@
 package org.apache.commons.vfs.provider.ftp.test;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
+
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;

@@ -16,12 +16,11 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.RandomAccessContent;
-import org.apache.commons.vfs.util.RandomAccessMode;
-
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.DataInputStream;
+
+import org.apache.commons.vfs.util.RandomAccessMode;
 
 /**
  * Implements the part usable for all stream base random access implementations

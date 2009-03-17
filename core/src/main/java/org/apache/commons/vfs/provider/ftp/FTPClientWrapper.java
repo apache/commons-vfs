@@ -16,20 +16,17 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticationData;
-import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.GenericFileName;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileNotFoundException;
+import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 /**
  * A wrapper to the FTPClient to allow automatic reconnect on connection loss.<br />

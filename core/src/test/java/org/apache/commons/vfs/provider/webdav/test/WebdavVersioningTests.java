@@ -1,18 +1,16 @@
 package org.apache.commons.vfs.provider.webdav.test;
 
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileSystemOptions;
+import java.io.OutputStream;
+import java.util.Map;
+
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FilesCache;
-import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.webdav.WebdavFileSystemConfigBuilder;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
 import org.apache.jackrabbit.webdav.version.VersionControlledResource;
-
-import java.util.Map;
-import java.io.OutputStream;
 
 /**
  * Test to verify Webdav Versioning support

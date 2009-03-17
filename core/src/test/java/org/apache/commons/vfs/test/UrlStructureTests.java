@@ -16,11 +16,10 @@
  */
 package org.apache.commons.vfs.test;
 
+import java.io.IOException;
+
 import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.provider.http.HttpFileSystem;
-
-import java.io.IOException;
 
 /**
  * URL Test cases for providers that supply structural info.

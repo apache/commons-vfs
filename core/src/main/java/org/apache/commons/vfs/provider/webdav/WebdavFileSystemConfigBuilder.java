@@ -16,12 +16,8 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
-import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.vfs.provider.http.HttpFileSystemConfigBuilder;
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 /**
  * Configuration options for WebDav

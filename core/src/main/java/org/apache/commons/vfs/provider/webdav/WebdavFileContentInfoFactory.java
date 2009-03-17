@@ -16,22 +16,16 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HeaderElement;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileContentInfo;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.provider.http.HttpFileObject;
-import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.impl.DefaultFileContentInfo;
+import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.jackrabbit.webdav.property.DavProperty;
-import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
 import org.apache.jackrabbit.webdav.property.DavPropertyName;
+import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
 import org.apache.jackrabbit.webdav.property.DavPropertySet;
-import org.apache.jackrabbit.webdav.DavConstants;
 
 /**
  * Description

@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.ram.RamFileProvider;
 import org.apache.commons.vfs.provider.ram.RamFileSystemConfigBuilder;

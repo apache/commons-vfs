@@ -16,9 +16,8 @@
  */
 package org.apache.commons.vfs.provider.https;
 
-import org.apache.commons.vfs.provider.URLFileNameParser;
 import org.apache.commons.vfs.provider.FileNameParser;
-import org.apache.commons.vfs.provider.http.HttpFileNameParser;
+import org.apache.commons.vfs.provider.URLFileNameParser;
 
 /**
  * Implementation for http. set default port to 80
