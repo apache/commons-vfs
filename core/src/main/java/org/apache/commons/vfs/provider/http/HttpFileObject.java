@@ -168,7 +168,7 @@ public class HttpFileObject
     /**
      * Prepares a Method object.
      */
-    void setupMethod(final HttpMethod method) throws FileSystemException, URIException
+    protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
         String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
         method.setPath(pathEncoded);

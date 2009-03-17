@@ -319,7 +319,7 @@ public class WebdavFileObject
      * @throws FileSystemException if an error occurs encoding the uri.
      * @throws URIException if the URI is in error.
      */
-    void setupMethod(final HttpMethod method) throws FileSystemException, URIException
+    protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
         String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
         method.setPath(pathEncoded);
