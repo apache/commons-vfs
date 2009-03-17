@@ -42,7 +42,7 @@ import java.util.List;
  * @author Gary D. Gregory
  * @version $Id$
  */
-public class AbstractTestSuite
+public abstract class AbstractTestSuite
     extends TestSetup
 {
     private final ProviderTestConfig providerConfig;
