@@ -117,71 +117,71 @@ public class JarFileSystem
 
     Name lookupName(String attrName)
     {
-        if (Name.CLASS_PATH.equals(attrName))
+        if (Name.CLASS_PATH.toString().equals(attrName))
         {
             return Name.CLASS_PATH;
         }
-        else if (Name.CONTENT_TYPE.equals(attrName))
+        else if (Name.CONTENT_TYPE.toString().equals(attrName))
         {
             return Name.CONTENT_TYPE;
         }
-        else if (Name.EXTENSION_INSTALLATION.equals(attrName))
+        else if (Name.EXTENSION_INSTALLATION.toString().equals(attrName))
         {
             return Name.EXTENSION_INSTALLATION;
         }
-        else if (Name.EXTENSION_LIST.equals(attrName))
+        else if (Name.EXTENSION_LIST.toString().equals(attrName))
         {
             return Name.EXTENSION_LIST;
         }
-        else if (Name.EXTENSION_NAME.equals(attrName))
+        else if (Name.EXTENSION_NAME.toString().equals(attrName))
         {
             return Name.EXTENSION_NAME;
         }
-        else if (Name.IMPLEMENTATION_TITLE.equals(attrName))
+        else if (Name.IMPLEMENTATION_TITLE.toString().equals(attrName))
         {
             return Name.IMPLEMENTATION_TITLE;
         }
-        else if (Name.IMPLEMENTATION_URL.equals(attrName))
+        else if (Name.IMPLEMENTATION_URL.toString().equals(attrName))
         {
             return Name.IMPLEMENTATION_URL;
         }
-        else if (Name.IMPLEMENTATION_VENDOR.equals(attrName))
+        else if (Name.IMPLEMENTATION_VENDOR.toString().equals(attrName))
         {
             return Name.IMPLEMENTATION_VENDOR;
         }
-        else if (Name.IMPLEMENTATION_VENDOR_ID.equals(attrName))
+        else if (Name.IMPLEMENTATION_VENDOR_ID.toString().equals(attrName))
         {
             return Name.IMPLEMENTATION_VENDOR_ID;
         }
-        else if (Name.IMPLEMENTATION_VERSION.equals(attrName))
+        else if (Name.IMPLEMENTATION_VERSION.toString().equals(attrName))
         {
             return Name.IMPLEMENTATION_VENDOR;
         }
-        else if (Name.MAIN_CLASS.equals(attrName))
+        else if (Name.MAIN_CLASS.toString().equals(attrName))
         {
             return Name.MAIN_CLASS;
         }
-        else if (Name.MANIFEST_VERSION.equals(attrName))
+        else if (Name.MANIFEST_VERSION.toString().equals(attrName))
         {
             return Name.MANIFEST_VERSION;
         }
-        else if (Name.SEALED.equals(attrName))
+        else if (Name.SEALED.toString().equals(attrName))
         {
             return Name.SEALED;
         }
-        else if (Name.SIGNATURE_VERSION.equals(attrName))
+        else if (Name.SIGNATURE_VERSION.toString().equals(attrName))
         {
             return Name.SIGNATURE_VERSION;
         }
-        else if (Name.SPECIFICATION_TITLE.equals(attrName))
+        else if (Name.SPECIFICATION_TITLE.toString().equals(attrName))
         {
             return Name.SPECIFICATION_TITLE;
         }
-        else if (Name.SPECIFICATION_VENDOR.equals(attrName))
+        else if (Name.SPECIFICATION_VENDOR.toString().equals(attrName))
         {
             return Name.SPECIFICATION_VENDOR;
         }
-        else if (Name.SPECIFICATION_VERSION.equals(attrName))
+        else if (Name.SPECIFICATION_VERSION.toString().equals(attrName))
         {
             return Name.SPECIFICATION_VERSION;
         }
