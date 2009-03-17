@@ -226,14 +226,16 @@ public class NamingTests
         FileName name = getManager().resolveName(baseName, relName, scope);
         assertEquals(expectedPath, name.getPath());
 
+        String temp;
+        
         // Replace the separators
-        relName.replace('\\', '/');
-        name = getManager().resolveName(baseName, relName, scope);
+        temp = relName.replace('\\', '/');
+        name = getManager().resolveName(baseName, temp, scope);
         assertEquals(expectedPath, name.getPath());
 
         // And again
-        relName.replace('/', '\\');
-        name = getManager().resolveName(baseName, relName, scope);
+        temp = relName.replace('/', '\\');
+        name = getManager().resolveName(baseName, temp, scope);
         assertEquals(expectedPath, name.getPath());
     }
 
