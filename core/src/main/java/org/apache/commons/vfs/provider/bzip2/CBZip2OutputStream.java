@@ -574,7 +574,6 @@ class CBZip2OutputStream
                 break;
             }
         }
-        ;
 
         if( m_origPtr == -1 )
         {
@@ -790,13 +789,12 @@ class CBZip2OutputStream
                 i1 -= m_last;
                 i1--;
             }
-            ;
+
             if( i2 > m_last )
             {
                 i2 -= m_last;
                 i2--;
             }
-            ;
 
             k -= 4;
             m_workDone++;
@@ -846,7 +844,7 @@ class CBZip2OutputStream
                 tmp = yy[ j ];
                 yy[ j ] = tmp2;
             }
-            ;
+
             yy[ 0 ] = tmp;
 
             if( j == 0 )
@@ -873,14 +871,14 @@ class CBZip2OutputStream
                                 m_mtfFreq[ RUNB ]++;
                                 break;
                         }
-                        ;
+
                         if( zPend < 2 )
                         {
                             break;
                         }
                         zPend = ( zPend - 2 ) / 2;
                     }
-                    ;
+
                     zPend = 0;
                 }
                 m_szptr[ wr ] = (short)( j + 1 );
@@ -940,7 +938,7 @@ class CBZip2OutputStream
                     vec++;
                 }
             }
-            ;
+
             vec <<= 1;
         }
     }
@@ -1322,7 +1320,7 @@ class CBZip2OutputStream
                         unLo++;
                         continue;
                     }
-                    ;
+
                     if( n > 0 )
                     {
                         break;
@@ -1346,7 +1344,7 @@ class CBZip2OutputStream
                         unHi--;
                         continue;
                     }
-                    ;
+
                     if( n < 0 )
                     {
                         break;
@@ -1643,7 +1641,7 @@ class CBZip2OutputStream
                         bt = t;
                     }
                 }
-                ;
+
                 fave[ bt ]++;
                 m_selector[ nSelectors ] = (char)bt;
                 nSelectors++;

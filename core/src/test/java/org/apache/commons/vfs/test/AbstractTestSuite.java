@@ -265,7 +265,7 @@ public class AbstractTestSuite
         }
         catch (NoSuchFieldException e)
         {
-            ;
+            // ignored
         }
 
         for (int iter = 0; iter < threadSnapshot.length; iter++)

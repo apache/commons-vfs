@@ -549,7 +549,7 @@ public abstract class AbstractFileObject implements FileObject
             // Locate the parent of this file
             if (parent == null)
             {
-                parent = (FileObject) fs.resolveFile(name.getParent());
+                parent = fs.resolveFile(name.getParent());
             }
         }
         return parent;

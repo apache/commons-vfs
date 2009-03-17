@@ -269,7 +269,6 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 					catch (IOException e)
 					{
 						// ignore on close exception
-						;
 					}
 				}
 			}

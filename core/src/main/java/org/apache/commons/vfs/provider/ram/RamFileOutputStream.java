@@ -42,7 +42,7 @@ public class RamFileOutputStream extends OutputStream
 	private IOException exc;
 
 	/**
-	 * @param mode
+	 * @param file
 	 */
 	public RamFileOutputStream(RamFileObject file)
 	{

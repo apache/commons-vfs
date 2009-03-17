@@ -102,7 +102,6 @@ public class CustomRamProviderTest extends TestCase
 		catch (FileSystemException e)
 		{
 			// exception awaited
-			;
 		}
 
 	}

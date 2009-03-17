@@ -94,7 +94,7 @@ public class FileSystemException
      * Constructs exception with the specified detail message.
      *
      * @param code the error code of the message.
-     * @param info array of complementary info (context).
+     * @param throwable the original cause
      */
     public FileSystemException(final String code, final Throwable throwable)
     {
