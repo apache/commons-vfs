@@ -110,6 +110,8 @@
   </contributors>
 
   <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <commons.componentid>vfs</commons.componentid>
     <commons.release.version>1.0</commons.release.version>
     <commons.binary.suffix></commons.binary.suffix>
