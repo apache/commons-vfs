@@ -222,6 +222,12 @@ class RamFileData implements Serializable
 	 */
 	public boolean equals(Object o)
 	{
+	    if (this == o) {
+	        return true;
+	    }
+	    if (!(o instanceof RamFileData)){
+	        return false;
+	    }
 		RamFileData data = (RamFileData) o;
 		return this.getName().equals(data.getName());
 	}
