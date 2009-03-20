@@ -714,7 +714,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 		UriParser.fixSeparators(buffer);
 
 		// Determine whether to prepend the base path
-		if (name.length() == 0 || name.charAt(0) != FileName.SEPARATOR_CHAR)
+		if (name.length() == 0 || buffer.charAt(0) != FileName.SEPARATOR_CHAR)
 		{
 			// Supplied path is not absolute
 			if (!VFS.isUriStyle())
