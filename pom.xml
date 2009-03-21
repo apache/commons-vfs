@@ -117,6 +117,8 @@
     <commons.binary.suffix></commons.binary.suffix>
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
+    <maven.compile.source>1.4</maven.compile.source>
+    <maven.compile.target>1.4</maven.compile.target>
   </properties>
 
   <build>

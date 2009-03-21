@@ -1,6 +1,0 @@
-2006-12-09 commons-vfs 1.0
-this is the first release
-
-Notice: Some tests may fail unless you've followed the necessary setup
-  as described here: http://commons.apache.org/vfs/testserver.html
-  This is ok; the jar will still be fine.
