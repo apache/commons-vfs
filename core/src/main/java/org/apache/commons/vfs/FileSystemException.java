@@ -19,6 +19,8 @@ package org.apache.commons.vfs;
 import org.apache.commons.vfs.util.Messages;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Thrown for file system errors.
@@ -29,6 +31,9 @@ import java.io.IOException;
 public class FileSystemException
     extends IOException
 {
+    private static final Pattern URL_PATTERN = Pattern.compile("[a-z]+://.*");
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
+
     /**
      * The Throwable that caused this exception to be thrown.
      */
@@ -123,7 +128,14 @@ public class FileSystemException
             this.info = new String[info.length];
             for (int i = 0; i < info.length; i++)
             {
-                this.info[i] = String.valueOf(info[i]);
+                String value = String.valueOf(info[i]);
+                // mask passwords (VFS-169)
+                final Matcher urlMatcher = URL_PATTERN.matcher(value);
+                if (urlMatcher.find()) {
+                    final Matcher pwdMatcher = PASSWORD_PATTERN.matcher(value);
+                    value = pwdMatcher.replaceFirst(":***@");
+                }
+                this.info[i] = value;
             }
         }
         this.code = code;
