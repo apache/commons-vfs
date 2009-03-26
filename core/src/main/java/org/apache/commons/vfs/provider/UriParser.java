@@ -20,6 +20,7 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.util.Os;
 
 /**
  * Utilities for dealing with URIs. See RFC 2396 for details.
@@ -243,6 +244,11 @@ public final class UriParser
 			{
 				// Found the end of the scheme
 				final String scheme = uri.substring(0, pos);
+                if (scheme.length() <= 1 && Os.isFamily(Os.OS_FAMILY_WINDOWS))
+                {
+                    // This is not a scheme, but a Windows drive letter
+                    return null;
+                }
 				if (buffer != null)
 				{
 					buffer.delete(0, pos + 1);
