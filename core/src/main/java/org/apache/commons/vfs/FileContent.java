@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,6 +44,7 @@ public interface FileContent
 {
     /**
      * Returns the file which this is the content of.
+     * @return The FileObject this is the content of.
      */
     FileObject getFile();
 
@@ -79,6 +80,7 @@ public interface FileContent
      * Checks if an attribute of the file's content exists.
      *
      * @param attrName The name of the attribute.
+     * @return true if the attribute exists, false otherwise.
      * @throws FileSystemException If the file does not exist, or does not support
      *                             attributes.
      */
@@ -87,7 +89,7 @@ public interface FileContent
 
     /**
      * Returns a read-only map of this file's attributes.
-     *
+     * @return The attribute Map.
      * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
     Map getAttributes() throws FileSystemException;
@@ -184,6 +186,8 @@ public interface FileContent
      * <p>There may only be a single input or output stream open for the
      * file at any time.
      *
+     * @param mode The mode to use to access the file.
+     * @return the stream for reading and writing the file's content.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written,
      *                             or on error opening the stream.
      */
@@ -215,16 +219,20 @@ public interface FileContent
      * <p>This method is a hint to the implementation that it can release
      * resources.  This object can continue to be used after calling this
      * method.
+     * @throws FileSystemException if an error occurs closing the file.
      */
     void close() throws FileSystemException;
 
     /**
      * get the content info. e.g. type, encoding, ...
+     * @return the FileContentInfo
+     * @throws FileSystemException if an error occurs.
      */
     public FileContentInfo getContentInfo() throws FileSystemException;
 
     /**
      * check if this file has open streams
+     * @return true if the file is open, false otherwise.
      */
     public boolean isOpen();
 }

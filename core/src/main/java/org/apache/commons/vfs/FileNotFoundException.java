@@ -18,6 +18,7 @@ package org.apache.commons.vfs;
 
 /**
  * delivers a file-not-found exception
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileNotFoundException extends FileSystemException
 {

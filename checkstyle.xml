@@ -58,8 +58,8 @@
         <!-- Checks for Headers                              -->
         <!-- See http://checkstyle.sf.net/config_header.html -->
         <module name="Header">
-            <property name="headerFile" value="${licensedir}/LICENSE.txt"/>
-            <property name="ignoreLines" value="2"/>
+            <property name="headerFile" value="${licensedir}"/>
+            <!--<property name="ignoreLines" value="2"/> -->
         </module>
 
         <!-- Following interprets the header file as regular expressions. -->

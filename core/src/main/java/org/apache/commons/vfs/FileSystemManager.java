@@ -247,7 +247,7 @@ public interface FileSystemManager
      * We cache it here for performance reasons.
      */
     public Constructor getFileObjectDecoratorConst();
-    
+
     /**
      * The class to use to determine the content-type (mime-type)
      */

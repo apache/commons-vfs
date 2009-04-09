@@ -14,15 +14,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs;
-
-/**
- * Create a class which is able to determine the content-info for the given content
- *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision$ $Date$
- */
-public interface FileContentInfoFactory
-{
-    FileContentInfo create(FileContent fileContent) throws FileSystemException;
-}

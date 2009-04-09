@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,17 +29,17 @@ public interface FileName extends Comparable
     /**
      * The separator character used in file paths.
      */
-    public final char SEPARATOR_CHAR = '/';
+    char SEPARATOR_CHAR = '/';
 
     /**
      * The separator used in file paths.
      */
-    public final String SEPARATOR = "/";
+    String SEPARATOR = "/";
 
     /**
      * The absolute path of the root of a file system.
      */
-    public final String ROOT_PATH = "/";
+    String ROOT_PATH = "/";
 
     /**
      * Returns the base name of this file.  The base name is the last element
@@ -50,7 +50,7 @@ public interface FileName extends Comparable
      *
      * @return The base name.  Never returns null.
      */
-    public String getBaseName();
+    String getBaseName();
 
     /**
      * Returns the absolute path of this file, within its file system.  This
@@ -62,7 +62,7 @@ public interface FileName extends Comparable
      *
      * @return The path.  Never returns null.
      */
-    public String getPath();
+    String getPath();
 
     /**
      * Returns the absolute path of this file, within its file system.  This
@@ -78,7 +78,7 @@ public interface FileName extends Comparable
      * @return The path.  Never returns null.
      * @throws FileSystemException if the path is not correctly encoded
      */
-    public String getPathDecoded() throws FileSystemException;
+    String getPathDecoded() throws FileSystemException;
 
     /**
      * Returns the extension of this file name.
@@ -92,28 +92,33 @@ public interface FileName extends Comparable
      * Returns the depth of this file name, within its file system.  The depth
      * of the root of a file system is 0.  The depth of any other file is
      * 1 + the depth of its parent.
+     * @return The depth of this file name.
      */
-    public int getDepth();
+    int getDepth();
 
     /**
      * Returns the URI scheme of this file.
+     * @return The URI scheme of this file.
      */
-    public String getScheme();
+    String getScheme();
 
     /**
      * Returns the absolute URI of this file.
+     * @return the absolute URI of this file.
      */
-    public String getURI();
+    String getURI();
 
     /**
      * Returns the root URI of the file system this file belongs to.
+     * @return the root URI.
      */
-    public String getRootURI();
+    String getRootURI();
 
     /**
      * find the root of the filesystem
+     * @return the file system root.
      */
-    public FileName getRoot();
+    FileName getRoot();
 
     /**
      * Returns the file name of the parent of this file.  The root of a
@@ -122,7 +127,7 @@ public interface FileName extends Comparable
      * @return A {@link FileName} object representing the parent name.  Returns
      *         null for the root of a file system.
      */
-    public FileName getParent();
+    FileName getParent();
 
     /**
      * Resolves a name, relative to this file name.  Equivalent to calling
@@ -153,22 +158,29 @@ public interface FileName extends Comparable
      * @return The relative name.
      * @throws FileSystemException On error.
      */
-    public String getRelativeName(FileName name) throws FileSystemException;
+    String getRelativeName(FileName name) throws FileSystemException;
 
     /**
      * Determines if another file name is an ancestor of this file name.
+     * @param ancestor The FileName to check.
+     * @return true if another file name is an ancestor of this file name.
      */
-    public boolean isAncestor(FileName ancestor);
+    boolean isAncestor(FileName ancestor);
 
     /**
      * Determines if another file name is a descendent of this file name.
+     * @param descendent the FileName to check.
+     * @return true if the other FileName is a descendent of this file name.
      */
-    public boolean isDescendent(FileName descendent);
+    boolean isDescendent(FileName descendent);
 
     /**
      * Determines if another file name is a descendent of this file name.
+     * @param descendent the FileName to check.
+     * @param nameScope the NameScope of the FileName.
+     * @return true if the other FileName is a descendent of this file name.
      */
-    public boolean isDescendent(FileName descendent, NameScope nameScope);
+    boolean isDescendent(FileName descendent, NameScope nameScope);
 
     /**
      * Returns the requested or current type of this name. <br />
@@ -183,11 +195,12 @@ public interface FileName extends Comparable
      *
      * @return {@link FileType#FOLDER} or {@link FileType#FILE}
      */
-    public FileType getType();
+    FileType getType();
 
     /**
      * returns a "friendly path", this is a path without a password.<br />
      * This path can not be used to resolve the path again
+     * @return the friendly URI as a String.
      */
-    public String getFriendlyURI();
+    String getFriendlyURI();
 }

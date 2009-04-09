@@ -30,25 +30,27 @@ public interface FilesCache
      *
      * @param file the file
      */
-    public void putFile(final FileObject file);
+    void putFile(final FileObject file);
 
     /**
      * retrieve a file from the cache by its name
      *
+     * @param filesystem The FileSystem.
      * @param name the name
      * @return the fileobject or null if file is not cached
      */
-    public FileObject getFile(final FileSystem filesystem, final FileName name);
+    FileObject getFile(final FileSystem filesystem, final FileName name);
 
     /**
      * purge the entries corresponding to the filesystem
+     * @param filesystem The FileSystem.
      */
-    public void clear(final FileSystem filesystem);
+    void clear(final FileSystem filesystem);
 
     /**
      * purge the whole cache
      */
-    public void close();
+    void close();
 
     /**
      * removes a file from cache
@@ -56,7 +58,7 @@ public interface FilesCache
      * @param filesystem filesystem
      * @param name       filename
      */
-    public void removeFile(final FileSystem filesystem, final FileName name);
+    void removeFile(final FileSystem filesystem, final FileName name);
 
     /**
      * if the cache uses timestamps it could use this method to handle

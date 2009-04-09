@@ -24,6 +24,7 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>11</version>
+    <!-- The relative path is set to the current directory so the checkstyle plugin will work -->
     <relativePath>.</relativePath>
   </parent>
 
@@ -158,6 +159,19 @@
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>install</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>     
     </plugins>
   </build>
 
@@ -208,7 +222,7 @@
           <suppressionsLocation>${project.parent.relativePath}/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <propertyExpansion>basedir=${basedir}</propertyExpansion>
-          <propertyExpansion>licensedir=${basedir}/${project.parent.relativePath}</propertyExpansion>
+          <propertyExpansion>licensedir=${basedir}/${project.parent.relativePath}/checkstyle-header.txt</propertyExpansion>
         </configuration>
       </plugin>
       <plugin>
@@ -232,6 +246,14 @@
 
   <repositories>
     <repository>
+      <id>apache.snapshots.https</id>
+      <name>Apache Snapshot Repository</name>
+      <url>https://repository.apache.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+    <repository>
       <id>apache.snapshots</id>
       <name>Apache Snapshot Repository</name>
       <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
@@ -249,14 +271,14 @@
 
   <distributionManagement>
     <repository>
-      <id>apache.releases</id>
+      <id>apache.releases.https</id>
       <name>Apache Release Distribution Repository</name>
-      <url>scp://people.apache.org/www/www.apache.org/dist/maven-repository</url>
+      <url>https://repository.apache.org/service/local/staging/deploy/maven2</url>
     </repository>
     <snapshotRepository>
-      <id>apache.snapshots</id>
+      <id>apache.snapshots.https</id>
       <name>Apache Development Snapshot Repository</name>
-      <url>scp://people.apache.org/www/cvs.apache.org/maven-snapshot-repository</url>
+      <url>https://repository.apache.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <site>
       <id>apache.website</id>

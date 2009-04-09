@@ -26,6 +26,9 @@ import org.apache.commons.vfs.util.Messages;
  */
 public class FileFilterSelector extends FileDepthSelector
 {
+    /**
+     * The FileFilter.
+     */
     private FileFilter fileFilter;
 
     public FileFilterSelector()
@@ -41,6 +44,8 @@ public class FileFilterSelector extends FileDepthSelector
 
     /**
      * Determines if a file or folder should be selected.
+     * @param fileInfo The file selection information.
+     * @return true if the file or folder should be included, false otherwise.
      */
     public boolean includeFile(final FileSelectInfo fileInfo)
     {
@@ -52,6 +57,11 @@ public class FileFilterSelector extends FileDepthSelector
         return accept(fileInfo);
     }
 
+    /**
+     * Determines whether the file should be selected.
+     * @param fileInfo The file selection information.
+     * @return true if the file should be selected, false otherwise.
+     */
     public boolean accept(final FileSelectInfo fileInfo)
     {
         if (fileFilter != null)

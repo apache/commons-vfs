@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -105,7 +105,7 @@ public class FileSystemException
     {
         this(code, null, throwable);
     }
-    
+
     /**
      * Constructs exception with the specified detail message.
      *
@@ -143,14 +143,6 @@ public class FileSystemException
     }
 
     /**
-     * retrieve message from bundle
-     */
-    public String getMessage()
-	{
-    	return Messages.getString(super.getMessage(), getInfo());
-	}
-
-	/**
      * Constructs wrapper exception.
      *
      * @param throwable the root cause to wrap.
@@ -158,6 +150,15 @@ public class FileSystemException
     public FileSystemException(final Throwable throwable)
     {
         this(throwable.getMessage(), null, throwable);
+    }
+
+    /**
+     * retrieve message from bundle
+     * @return The exception message.
+     */
+    public String getMessage()
+    {
+        return Messages.getString(super.getMessage(), getInfo());
     }
 
     /**

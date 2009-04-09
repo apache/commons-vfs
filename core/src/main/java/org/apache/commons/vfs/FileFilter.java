@@ -29,5 +29,5 @@ public interface FileFilter
      * @param fileInfo the file or folder to select.
      * @return true if the file should be selected.
      */
-    public abstract boolean accept(final FileSelectInfo fileInfo);
+    boolean accept(final FileSelectInfo fileInfo);
 }

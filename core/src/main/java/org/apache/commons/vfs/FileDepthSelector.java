@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,14 @@ package org.apache.commons.vfs;
 public class FileDepthSelector
     implements FileSelector
 {
+    /**
+     * The minimum depth
+     */
     private final int minDepth;
+
+    /**
+     * The maximum depth
+     */
     private final int maxDepth;
 
     public FileDepthSelector(int minDepth, int maxDepth)
@@ -36,18 +43,22 @@ public class FileDepthSelector
 
     /**
      * Determines if a file or folder should be selected.
+     * @param fileInfo The file selection information
+     * @return true if the file or folder should be included, false otherwise.
      */
     public boolean includeFile(final FileSelectInfo fileInfo)
     {
         final int depth = fileInfo.getDepth();
-        return (minDepth <= depth && depth <= maxDepth);
+        return minDepth <= depth && depth <= maxDepth;
     }
 
     /**
      * Determines whether a folder should be traversed.
+     * @param fileInfo The file selection information
+     * @return true if the file or folder should be traversed, false otherwise.
      */
     public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
-        return (fileInfo.getDepth() < maxDepth);
+        return fileInfo.getDepth() < maxDepth;
     }
 }
