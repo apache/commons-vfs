@@ -83,7 +83,11 @@ import java.util.Stack;
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor
 {
-    private final static Log log = LogFactory.getLog(DefaultFileMonitor.class);
+    private static final Log LOG = LogFactory.getLog(DefaultFileMonitor.class);
+
+    private static final long DEFAULT_DELAY = 1000;
+
+    private static final int DEFAULT_MAX_FILES = 1000;
 
     /**
      * Map from FileName to FileObject being monitored.
@@ -113,17 +117,17 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * A flag used to determine if adding files to be monitored should be recursive.
      */
-    private boolean recursive = false;
+    private boolean recursive;
 
     /**
      * Set the delay between checks
      */
-    private long delay = 1000;
+    private long delay = DEFAULT_DELAY;
 
     /**
      * Set the number of files to check until a delay will be inserted
      */
-    private int checksPerRun = 1000;
+    private int checksPerRun = DEFAULT_MAX_FILES;
 
     /**
      * A listener object that if set, is notified on file creation and deletion.
@@ -137,6 +141,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Access method to get the recursive setting when adding files for monitoring.
+     * @return true if monitoring is enabled for children.
      */
     public boolean isRecursive()
     {
@@ -145,6 +150,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Access method to set the recursive setting when adding files for monitoring.
+     * @param newRecursive true if monitoring should be enabled for children.
      */
     public void setRecursive(final boolean newRecursive)
     {
@@ -154,6 +160,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * Access method to get the current FileListener object notified when there
      * are changes with the files added.
+     * @return The FileListener.
      */
     FileListener getFileListener()
     {
@@ -162,10 +169,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Adds a file to be monitored.
+     * @param file The FileObject to monitor.
      */
     public void addFile(final FileObject file)
     {
-        _addFile(file);
+        doAddFile(file);
         try
         {
             // add all direct children too
@@ -175,20 +183,21 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 final FileObject[] children = file.getChildren();
                 for (int i = 0; i < children.length; i++)
                 {
-                    _addFile(children[i]);
+                    doAddFile(children[i]);
                 }
             }
         }
         catch (FileSystemException fse)
         {
-            log.error(fse.getLocalizedMessage(), fse);
+            LOG.error(fse.getLocalizedMessage(), fse);
         }
     }
 
     /**
      * Adds a file to be monitored.
+     * @param file The FileObject to add.
      */
-    private void _addFile(final FileObject file)
+    private void doAddFile(final FileObject file)
     {
         synchronized (this.monitorMap)
         {
@@ -217,7 +226,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 }
                 catch (FileSystemException fse)
                 {
-                    log.error(fse.getLocalizedMessage(), fse);
+                    LOG.error(fse.getLocalizedMessage(), fse);
                 }
 
             }
@@ -226,6 +235,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Removes a file from being monitored.
+     * @param file The FileObject to remove from monitoring.
      */
     public void removeFile(final FileObject file)
     {
@@ -261,6 +271,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Queues a file for removal from being monitored.
+     * @param file The FileObject to be removed from being monitored.
      */
     protected void queueRemoveFile(final FileObject file)
     {
@@ -269,6 +280,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Get the delay between runs
+     * @return The delay period.
      */
     public long getDelay()
     {
@@ -277,6 +289,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Set the delay between runs
+     * @param delay The delay period.
      */
     public void setDelay(long delay)
     {
@@ -286,12 +299,13 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         }
         else
         {
-            this.delay = 1000;
+            this.delay = DEFAULT_DELAY;
         }
     }
 
     /**
      * get the number of files to check per run
+     * @return The number of files to check per iteration.
      */
     public int getChecksPerRun()
     {
@@ -311,6 +325,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Queues a file for addition to be monitored.
+     * @param file The FileObject to add.
      */
     protected void queueAddFile(final FileObject file)
     {
@@ -353,7 +368,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             }
 
             // For each entry in the map
-            Object fileNames[];
+            Object[] fileNames;
             synchronized (this.monitorMap)
             {
                 fileNames = this.monitorMap.keySet().toArray();
@@ -382,7 +397,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         }
                         catch (InterruptedException e)
                         {
-
+                            // Woke up.
                         }
                     }
                 }
@@ -414,14 +429,14 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * File monitor agent.
      */
-    private static class FileMonitorAgent
+    private static final class FileMonitorAgent
     {
         private final FileObject file;
         private final DefaultFileMonitor fm;
 
         private boolean exists;
         private long timestamp;
-        private Map children = null;
+        private Map children;
 
         private FileMonitorAgent(DefaultFileMonitor fm, FileObject file)
         {
@@ -480,11 +495,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         {
             try
             {
-				this.file.refresh();
-			}
+                this.file.refresh();
+            }
             catch (FileSystemException fse)
             {
-                log.error(fse.getLocalizedMessage(), fse);
+                LOG.error(fse.getLocalizedMessage(), fse);
             }
         }
 
@@ -493,6 +508,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
          * Recursively fires create events for all children if recursive descent is
          * enabled. Otherwise the create event is only fired for the initial
          * FileObject.
+         * @param child The child to add.
          */
         private void fireAllCreate(FileObject child)
         {
@@ -531,7 +547,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             }
             catch (FileSystemException fse)
             {
-                log.error(fse.getLocalizedMessage(), fse);
+                LOG.error(fse.getLocalizedMessage(), fse);
             }
         }
 
@@ -597,7 +613,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             }
             catch (FileSystemException fse)
             {
-                log.error(fse.getLocalizedMessage(), fse);
+                LOG.error(fse.getLocalizedMessage(), fse);
             }
         }
 
@@ -632,11 +648,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 {
 
                     // Check the timestamp to see if it has been modified
-                    if (this.timestamp !=
-                        this.file.getContent().getLastModifiedTime())
+                    if (this.timestamp != this.file.getContent().getLastModifiedTime())
                     {
-                        this.timestamp =
-                            this.file.getContent().getLastModifiedTime();
+                        this.timestamp = this.file.getContent().getLastModifiedTime();
                         // Fire change event
 
                         // Don't fire if it's a folder because new file children
@@ -667,10 +681,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             }
             catch (FileSystemException fse)
             {
-                log.error(fse.getLocalizedMessage(), fse);
+                LOG.error(fse.getLocalizedMessage(), fse);
             }
         }
 
     }
-
 }

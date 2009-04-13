@@ -31,11 +31,21 @@ import java.util.TreeMap;
  */
 public class FileSystemOptions
 {
+    /** The options */
     private Map options = new TreeMap();
 
-    private class FileSystemOptionKey implements Comparable
+    /**
+     * Keys in the options Map.
+     */
+    private final class FileSystemOptionKey implements Comparable
     {
+        /** Constant used to create hashcode */
+        private static final int HASH = 29;
+
+        /** The FileSystem class */
         private final Class fileSystemClass;
+
+        /** The option name */
         private final String name;
 
         private FileSystemOptionKey(Class fileSystemClass, String name)
@@ -86,7 +96,7 @@ public class FileSystemOptions
         {
             int result;
             result = fileSystemClass.hashCode();
-            result = 29 * result + name.hashCode();
+            result = HASH * result + name.hashCode();
             return result;
         }
     }

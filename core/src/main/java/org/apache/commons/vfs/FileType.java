@@ -36,21 +36,28 @@ public final class FileType
      */
     public static final FileType FILE = new FileType("file", false, true, true);
 
-	/**
-	 * A file or folder.  May have data content and attributes, and can
-	 * contain other files.
-	 */
-	public static final FileType FILE_OR_FOLDER = new FileType("fileOrFolder", true, true, true);
+    /**
+     * A file or folder.  May have data content and attributes, and can
+     * contain other files.
+     */
+    public static final FileType FILE_OR_FOLDER = new FileType("fileOrFolder", true, true, true);
 
-	/**
+    /**
      * A file that does not exist.  May not have data content, attributes,
      * or contain other files.
      */
     public static final FileType IMAGINARY = new FileType("imaginary", false, false, false);
 
+    /** The name of the FileType */
     private final String name;
+
+    /** true if the FileType can have children */
     private final boolean hasChildren;
+
+    /** true if the FileType can have content */
     private final boolean hasContent;
+
+    /** true if the FileType has attributes */
     private final boolean hasAttrs;
 
     private FileType(final String name,
@@ -66,6 +73,7 @@ public final class FileType
 
     /**
      * Returns the name of this type.
+     * @return The name of this type.
      */
     public String toString()
     {
@@ -74,6 +82,7 @@ public final class FileType
 
     /**
      * Returns the name of this type.
+     * @return The name of the type.
      */
     public String getName()
     {
@@ -82,6 +91,7 @@ public final class FileType
 
     /**
      * Returns true if files of this type may contain other files.
+     * @return tru if files can contain other files.
      */
     public boolean hasChildren()
     {
@@ -90,6 +100,7 @@ public final class FileType
 
     /**
      * Returns true if files of this type may have data content.
+     * @return true if files can have content.
      */
     public boolean hasContent()
     {
@@ -98,6 +109,7 @@ public final class FileType
 
     /**
      * Returns true if files of this type may have attributes.
+     * @return true if files can have attributes
      */
     public boolean hasAttributes()
     {

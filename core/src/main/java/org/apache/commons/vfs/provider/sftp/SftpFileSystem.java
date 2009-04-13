@@ -44,7 +44,7 @@ public class SftpFileSystem
     implements FileSystem
 {
 
-	private Session session;
+    private Session session;
     // private final JSch jSch;
     private ChannelSftp idleChannel;
 
@@ -78,23 +78,23 @@ public class SftpFileSystem
     {
         if (this.session == null || !this.session.isConnected())
         {
-			doCloseCommunicationLink();
-			
-			// channel closed. e.g. by freeUnusedResources, but now we need it again
+            doCloseCommunicationLink();
+
+            // channel closed. e.g. by freeUnusedResources, but now we need it again
             Session session;
-			UserAuthenticationData authData = null;
-			try
+            UserAuthenticationData authData = null;
+            try
             {
                 final GenericFileName rootName = (GenericFileName) getRootName();
 
-				authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(), SftpFileProvider.AUTHENTICATOR_TYPES);
+                authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(), SftpFileProvider.AUTHENTICATOR_TYPES);
 
-				session = SftpClientFactory.createConnection(
-					rootName.getHostName(),
-					rootName.getPort(),
-					UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
-					UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
-					getFileSystemOptions());
+                session = SftpClientFactory.createConnection(
+                    rootName.getHostName(),
+                    rootName.getPort(),
+                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                    getFileSystemOptions());
             }
             catch (final Exception e)
             {
@@ -102,12 +102,12 @@ public class SftpFileSystem
                     getRootName(),
                     e);
             }
-			finally
-			{
-				UserAuthenticatorUtils.cleanup(authData);
-			}
+            finally
+            {
+                UserAuthenticatorUtils.cleanup(authData);
+            }
 
-			this.session = session;
+            this.session = session;
         }
 
         try
@@ -121,7 +121,7 @@ public class SftpFileSystem
             }
             else
             {
-				channel = (ChannelSftp) session.openChannel("sftp");
+                channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect();
 
                 Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
@@ -156,11 +156,11 @@ public class SftpFileSystem
     {
         if (idleChannel == null)
         {
-        	// put back the channel only if it is still connected
-        	if (channel.isConnected() && !channel.isClosed())
-        	{
-        		idleChannel = channel;
-        	}
+            // put back the channel only if it is still connected
+            if (channel.isConnected() && !channel.isClosed())
+            {
+                idleChannel = channel;
+            }
         }
         else
         {

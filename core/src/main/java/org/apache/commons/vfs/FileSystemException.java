@@ -31,7 +31,10 @@ import java.util.regex.Pattern;
 public class FileSystemException
     extends IOException
 {
+    /** URL pattern */
     private static final Pattern URL_PATTERN = Pattern.compile("[a-z]+://.*");
+
+    /** Password pattern */
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
 
     /**
@@ -131,7 +134,8 @@ public class FileSystemException
                 String value = String.valueOf(info[i]);
                 // mask passwords (VFS-169)
                 final Matcher urlMatcher = URL_PATTERN.matcher(value);
-                if (urlMatcher.find()) {
+                if (urlMatcher.find())
+                {
                     final Matcher pwdMatcher = PASSWORD_PATTERN.matcher(value);
                     value = pwdMatcher.replaceFirst(":***@");
                 }

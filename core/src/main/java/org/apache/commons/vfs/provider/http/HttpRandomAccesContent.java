@@ -73,8 +73,8 @@ class HttpRandomAccesContent extends AbstractRandomAccessStreamContent
         filePointer = pos;
     }
 
-	protected DataInputStream getDataInputStream() throws IOException
-	{
+    protected DataInputStream getDataInputStream() throws IOException
+    {
         if (dis != null)
         {
             return dis;
@@ -132,8 +132,8 @@ class HttpRandomAccesContent extends AbstractRandomAccessStreamContent
             }
         });
 
-		return dis;
-	}
+        return dis;
+    }
 
 
     public void close() throws IOException

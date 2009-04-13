@@ -89,7 +89,7 @@ public class LocalFile
     protected FileType doGetType()
         throws Exception
     {
-    	// JDK BUG: 6192331
+        // JDK BUG: 6192331
         // if (!file.exists())
         if (!file.exists() && file.length() < 1)
         {

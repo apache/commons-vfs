@@ -32,80 +32,80 @@ import java.lang.ref.WeakReference;
  */
 public class WeakRefFileListener implements FileListener
 {
-	private final FileSystem fs;
-	private final FileName name;
-	private final WeakReference listener;
+    private final FileSystem fs;
+    private final FileName name;
+    private final WeakReference listener;
 
-	protected WeakRefFileListener(final FileObject file, final FileListener listener)
-	{
-		this.fs = file.getFileSystem();
-		this.name = file.getName();
-		this.listener = new WeakReference(listener);
-	}
+    protected WeakRefFileListener(final FileObject file, final FileListener listener)
+    {
+        this.fs = file.getFileSystem();
+        this.name = file.getName();
+        this.listener = new WeakReference(listener);
+    }
 
-	/**
-	 * This will install the <code>listener<code> at the given <code>file</code>
-	 */
-	public static void installListener(final FileObject file, final FileListener listener)
-	{
-		WeakRefFileListener weakListener = new WeakRefFileListener(file, listener);
-		
-		file.getFileSystem().addListener(file, new WeakRefFileListener(file, weakListener));
-	}
+    /**
+     * This will install the <code>listener<code> at the given <code>file</code>
+     */
+    public static void installListener(final FileObject file, final FileListener listener)
+    {
+        WeakRefFileListener weakListener = new WeakRefFileListener(file, listener);
 
-	/**
-	 * returns the wrapped listener. If it is gone, the WeakRefFileListener wrapper will
-	 * remove itself from the list of listeners.
-	 */
-	protected FileListener getListener() throws Exception
-	{
-		FileListener listener = (FileListener) this.listener.get();
-		if (listener == null)
-		{
-			FileObject file = fs.resolveFile(name);
-			file.getFileSystem().removeListener(file, this);
-		}
-		return listener;
-	}
+        file.getFileSystem().addListener(file, new WeakRefFileListener(file, weakListener));
+    }
 
-	/**
-	 * Called when a file is created.
-	 */
-	public void fileCreated(final FileChangeEvent event) throws Exception
-	{
-		FileListener listener = getListener();
-		if (listener == null)
-		{
-			return;
-		}
-		listener.fileCreated(event);
-	}
+    /**
+     * returns the wrapped listener. If it is gone, the WeakRefFileListener wrapper will
+     * remove itself from the list of listeners.
+     */
+    protected FileListener getListener() throws Exception
+    {
+        FileListener listener = (FileListener) this.listener.get();
+        if (listener == null)
+        {
+            FileObject file = fs.resolveFile(name);
+            file.getFileSystem().removeListener(file, this);
+        }
+        return listener;
+    }
 
-	/**
-	 * Called when a file is deleted.
-	 */
-	public void fileDeleted(final FileChangeEvent event) throws Exception
-	{
-		FileListener listener = getListener();
-		if (listener == null)
-		{
-			return;
-		}
-		listener.fileDeleted(event);
-	}
+    /**
+     * Called when a file is created.
+     */
+    public void fileCreated(final FileChangeEvent event) throws Exception
+    {
+        FileListener listener = getListener();
+        if (listener == null)
+        {
+            return;
+        }
+        listener.fileCreated(event);
+    }
 
-	/**
-	 * Called when a file is changed.
-	 * <p/>
-	 * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
-	 */
-	public void fileChanged(FileChangeEvent event) throws Exception
-	{
-		FileListener listener = getListener();
-		if (listener == null)
-		{
-			return;
-		}
-		listener.fileChanged(event);
-	}
+    /**
+     * Called when a file is deleted.
+     */
+    public void fileDeleted(final FileChangeEvent event) throws Exception
+    {
+        FileListener listener = getListener();
+        if (listener == null)
+        {
+            return;
+        }
+        listener.fileDeleted(event);
+    }
+
+    /**
+     * Called when a file is changed.
+     * <p/>
+     * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
+     */
+    public void fileChanged(FileChangeEvent event) throws Exception
+    {
+        FileListener listener = getListener();
+        if (listener == null)
+        {
+            return;
+        }
+        listener.fileChanged(event);
+    }
 }

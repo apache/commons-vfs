@@ -37,161 +37,161 @@ import org.apache.commons.vfs.operations.FileOperations;
  */
 public class DecoratedFileObject implements FileObject
 {
-	final FileObject decoratedFileObject;
+    private final FileObject decoratedFileObject;
 
-	public DecoratedFileObject(FileObject decoratedFileObject)
-	{
-		super();
-		this.decoratedFileObject = decoratedFileObject;
-	}
+    public DecoratedFileObject(FileObject decoratedFileObject)
+    {
+        super();
+        this.decoratedFileObject = decoratedFileObject;
+    }
 
-	public boolean canRenameTo(FileObject newfile)
-	{
-		return decoratedFileObject.canRenameTo(newfile);
-	}
+    public boolean canRenameTo(FileObject newfile)
+    {
+        return decoratedFileObject.canRenameTo(newfile);
+    }
 
-	public void close() throws FileSystemException
-	{
-		decoratedFileObject.close();
-	}
+    public void close() throws FileSystemException
+    {
+        decoratedFileObject.close();
+    }
 
-	public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
-	{
-		decoratedFileObject.copyFrom(srcFile, selector);
-	}
+    public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
+    {
+        decoratedFileObject.copyFrom(srcFile, selector);
+    }
 
-	public void createFile() throws FileSystemException
-	{
-		decoratedFileObject.createFile();
-	}
+    public void createFile() throws FileSystemException
+    {
+        decoratedFileObject.createFile();
+    }
 
-	public void createFolder() throws FileSystemException
-	{
-		decoratedFileObject.createFolder();
-	}
+    public void createFolder() throws FileSystemException
+    {
+        decoratedFileObject.createFolder();
+    }
 
-	public boolean delete() throws FileSystemException
-	{
-		return decoratedFileObject.delete();
-	}
+    public boolean delete() throws FileSystemException
+    {
+        return decoratedFileObject.delete();
+    }
 
-	public int delete(FileSelector selector) throws FileSystemException
-	{
-		return decoratedFileObject.delete(selector);
-	}
+    public int delete(FileSelector selector) throws FileSystemException
+    {
+        return decoratedFileObject.delete(selector);
+    }
 
-	public boolean exists() throws FileSystemException
-	{
-		return decoratedFileObject.exists();
-	}
+    public boolean exists() throws FileSystemException
+    {
+        return decoratedFileObject.exists();
+    }
 
-	public void findFiles(FileSelector selector, boolean depthwise, List selected) throws FileSystemException
-	{
-		decoratedFileObject.findFiles(selector, depthwise, selected);
-	}
+    public void findFiles(FileSelector selector, boolean depthwise, List selected) throws FileSystemException
+    {
+        decoratedFileObject.findFiles(selector, depthwise, selected);
+    }
 
-	public FileObject[] findFiles(FileSelector selector) throws FileSystemException
-	{
-		return decoratedFileObject.findFiles(selector);
-	}
+    public FileObject[] findFiles(FileSelector selector) throws FileSystemException
+    {
+        return decoratedFileObject.findFiles(selector);
+    }
 
-	public FileObject getChild(String name) throws FileSystemException
-	{
-		return decoratedFileObject.getChild(name);
-	}
+    public FileObject getChild(String name) throws FileSystemException
+    {
+        return decoratedFileObject.getChild(name);
+    }
 
-	public FileObject[] getChildren() throws FileSystemException
-	{
-		return decoratedFileObject.getChildren();
-	}
+    public FileObject[] getChildren() throws FileSystemException
+    {
+        return decoratedFileObject.getChildren();
+    }
 
-	public FileContent getContent() throws FileSystemException
-	{
-		return decoratedFileObject.getContent();
-	}
+    public FileContent getContent() throws FileSystemException
+    {
+        return decoratedFileObject.getContent();
+    }
 
-	public FileSystem getFileSystem()
-	{
-		return decoratedFileObject.getFileSystem();
-	}
+    public FileSystem getFileSystem()
+    {
+        return decoratedFileObject.getFileSystem();
+    }
 
-	public FileName getName()
-	{
-		return decoratedFileObject.getName();
-	}
+    public FileName getName()
+    {
+        return decoratedFileObject.getName();
+    }
 
-	public FileObject getParent() throws FileSystemException
-	{
-		return decoratedFileObject.getParent();
-	}
+    public FileObject getParent() throws FileSystemException
+    {
+        return decoratedFileObject.getParent();
+    }
 
-	public FileType getType() throws FileSystemException
-	{
-		return decoratedFileObject.getType();
-	}
+    public FileType getType() throws FileSystemException
+    {
+        return decoratedFileObject.getType();
+    }
 
-	public URL getURL() throws FileSystemException
-	{
-		return decoratedFileObject.getURL();
-	}
+    public URL getURL() throws FileSystemException
+    {
+        return decoratedFileObject.getURL();
+    }
 
-	public boolean isHidden() throws FileSystemException
-	{
-		return decoratedFileObject.isHidden();
-	}
+    public boolean isHidden() throws FileSystemException
+    {
+        return decoratedFileObject.isHidden();
+    }
 
-	public boolean isReadable() throws FileSystemException
-	{
-		return decoratedFileObject.isReadable();
-	}
+    public boolean isReadable() throws FileSystemException
+    {
+        return decoratedFileObject.isReadable();
+    }
 
-	public boolean isWriteable() throws FileSystemException
-	{
-		return decoratedFileObject.isWriteable();
-	}
+    public boolean isWriteable() throws FileSystemException
+    {
+        return decoratedFileObject.isWriteable();
+    }
 
-	public void moveTo(FileObject destFile) throws FileSystemException
-	{
-		decoratedFileObject.moveTo(destFile);
-	}
+    public void moveTo(FileObject destFile) throws FileSystemException
+    {
+        decoratedFileObject.moveTo(destFile);
+    }
 
-	public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
-	{
-		return decoratedFileObject.resolveFile(name, scope);
-	}
+    public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
+    {
+        return decoratedFileObject.resolveFile(name, scope);
+    }
 
-	public FileObject resolveFile(String path) throws FileSystemException
-	{
-		return decoratedFileObject.resolveFile(path);
-	}
+    public FileObject resolveFile(String path) throws FileSystemException
+    {
+        return decoratedFileObject.resolveFile(path);
+    }
 
-	public void refresh() throws FileSystemException
-	{
-		decoratedFileObject.refresh();
-	}
+    public void refresh() throws FileSystemException
+    {
+        decoratedFileObject.refresh();
+    }
 
-	public FileObject getDecoratedFileObject()
-	{
-		return decoratedFileObject;
-	}
+    public FileObject getDecoratedFileObject()
+    {
+        return decoratedFileObject;
+    }
 
-	public boolean isAttached()
-	{
-		return decoratedFileObject.isAttached();
-	}
+    public boolean isAttached()
+    {
+        return decoratedFileObject.isAttached();
+    }
 
-	public boolean isContentOpen()
-	{
-		return decoratedFileObject.isContentOpen();
-	}
+    public boolean isContentOpen()
+    {
+        return decoratedFileObject.isContentOpen();
+    }
 
-	public String toString()
-	{
-		return decoratedFileObject.toString();
-	}
+    public String toString()
+    {
+        return decoratedFileObject.toString();
+    }
 
-	public FileOperations getFileOperations() throws FileSystemException
-	{
-		return decoratedFileObject.getFileOperations();
-	}
+    public FileOperations getFileOperations() throws FileSystemException
+    {
+        return decoratedFileObject.getFileOperations();
+    }
 }

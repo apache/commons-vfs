@@ -132,7 +132,7 @@ public interface FileObject
      *         the root of a file system.
      * @throws FileSystemException On error finding the file's parent.
      */
-    public FileObject getParent() throws FileSystemException;
+    FileObject getParent() throws FileSystemException;
 
     /**
      * Returns the file system that contains this file.

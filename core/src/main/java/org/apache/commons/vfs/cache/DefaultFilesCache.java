@@ -25,13 +25,16 @@ import java.util.Map;
 
 /**
  * A {@link org.apache.commons.vfs.FilesCache} implementation.<br>
- * This implementation caches every file for the complete lifetime of the used {@link org.apache.commons.vfs.FileSystemManager}.
+ * This implementation caches every file for the complete lifetime of the used
+ * {@link org.apache.commons.vfs.FileSystemManager}.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public class DefaultFilesCache extends AbstractFilesCache
 {
+
+    /** The FileSystem cache */
     private final Map filesystemCache = new HashMap(10);
 
     public void putFile(final FileObject file)

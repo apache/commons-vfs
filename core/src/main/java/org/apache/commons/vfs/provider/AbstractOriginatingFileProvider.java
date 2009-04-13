@@ -68,22 +68,22 @@ public abstract class AbstractOriginatingFileProvider
     protected FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-		// Check in the cache for the file system
-		final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
-		
-		FileSystem fs;
-		synchronized (this)
-		{
-			fs = findFileSystem(rootName, fileSystemOptions);
-			if (fs == null)
-			{
-				// Need to create the file system, and cache it
-				fs = doCreateFileSystem(rootName, fileSystemOptions);
-				addFileSystem(rootName, fs);
-			}
-		}
+        // Check in the cache for the file system
+        final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
 
-		// Locate the file
+        FileSystem fs;
+        synchronized (this)
+        {
+            fs = findFileSystem(rootName, fileSystemOptions);
+            if (fs == null)
+            {
+                // Need to create the file system, and cache it
+                fs = doCreateFileSystem(rootName, fileSystemOptions);
+                addFileSystem(rootName, fs);
+            }
+        }
+
+        // Locate the file
         // return fs.resolveFile(name.getPath());
         return fs.resolveFile(name);
     }

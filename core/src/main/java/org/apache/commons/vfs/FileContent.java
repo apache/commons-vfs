@@ -191,7 +191,7 @@ public interface FileContent
      * @throws FileSystemException If the file is read-only, or is being read, or is being written,
      *                             or on error opening the stream.
      */
-    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
+    RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
 
     /**
      * Returns an output stream for writing the file's content.
@@ -228,11 +228,11 @@ public interface FileContent
      * @return the FileContentInfo
      * @throws FileSystemException if an error occurs.
      */
-    public FileContentInfo getContentInfo() throws FileSystemException;
+    FileContentInfo getContentInfo() throws FileSystemException;
 
     /**
      * check if this file has open streams
      * @return true if the file is open, false otherwise.
      */
-    public boolean isOpen();
+    boolean isOpen();
 }

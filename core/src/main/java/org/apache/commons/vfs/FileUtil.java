@@ -26,8 +26,12 @@ import java.io.OutputStream;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public class FileUtil
+public final class FileUtil
 {
+
+    /** The buffer size */
+    private static final int BUFFER_SIZE = 1024;
+
     private FileUtil()
     {
     }
@@ -36,6 +40,8 @@ public class FileUtil
      * Returns the content of a file, as a byte array.
      *
      * @param file The file to get the content of.
+     * @return The content as a byte array.
+     * @throws IOException if the file content cannot be accessed.
      */
     public static byte[] getContent(final FileObject file)
         throws IOException
@@ -63,6 +69,9 @@ public class FileUtil
 
     /**
      * Writes the content of a file to an OutputStream.
+     * @param file The FileObject to write.
+     * @param outstr The OutputStream to write to.
+     * @throws IOException if an error occurs writing the file.
      */
     public static void writeContent(final FileObject file,
                                     final OutputStream outstr)
@@ -71,7 +80,7 @@ public class FileUtil
         final InputStream instr = file.getContent().getInputStream();
         try
         {
-            final byte[] buffer = new byte[1024];
+            final byte[] buffer = new byte[BUFFER_SIZE];
             while (true)
             {
                 final int nread = instr.read(buffer);
@@ -90,6 +99,9 @@ public class FileUtil
 
     /**
      * Copies the content from a source file to a destination file.
+     * @param srcFile The source FileObject.
+     * @param destFile The target FileObject
+     * @throws IOException If an error occurs copying the file.
      */
     public static void copyContent(final FileObject srcFile,
                                    final FileObject destFile)

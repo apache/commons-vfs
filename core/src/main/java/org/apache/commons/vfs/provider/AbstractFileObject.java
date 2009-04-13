@@ -80,7 +80,7 @@ public abstract class AbstractFileObject implements FileObject
     {
         this.name = (AbstractFileName) name;
         this.fs = fs;
-		fs.fileObjectHanded(this);
+        fs.fileObjectHanded(this);
     }
 
     /**
@@ -239,28 +239,28 @@ public abstract class AbstractFileObject implements FileObject
         throw new FileSystemException("vfs.provider/get-last-modified-not-supported.error");
     }
 
-	/**
-	 * Sets the last modified time of this file.  Is only called if
-	 * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-	 * <p/>
-	 * This implementation throws an exception.
-	 *
-	 * @return false if it was not possible to change the time
-	 */
-	protected boolean doSetLastModTime(final long modtime)
-		throws Exception
-	{
-		doSetLastModifiedTime(modtime);
-		return true;
-	}
+    /**
+     * Sets the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation throws an exception.
+     *
+     * @return false if it was not possible to change the time
+     */
+    protected boolean doSetLastModTime(final long modtime)
+        throws Exception
+    {
+        doSetLastModifiedTime(modtime);
+        return true;
+    }
 
     /**
      * Sets the last modified time of this file.  Is only called if
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation throws an exception.
-	 *
-	 * @deprecated use {@link #doSetLastModTime}
+     *
+     * @deprecated use {@link #doSetLastModTime}
      */
     protected void doSetLastModifiedTime(final long modtime)
         throws Exception
@@ -297,8 +297,8 @@ public abstract class AbstractFileObject implements FileObject
      * does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation throws an exception.
-	 * @returns true if removing the attribute succeed. In this case we remove the attribute from
-	 * our cache
+     * @returns true if removing the attribute succeed. In this case we remove the attribute from
+     * our cache
      */
     protected void doRemoveAttribute(final String atttrName)
         throws Exception
@@ -567,7 +567,7 @@ public abstract class AbstractFileObject implements FileObject
             {
                 throw new FileNotFolderException(name);
             }
-            
+
             /* VFS-210
             if (!getType().hasChildren())
             {
@@ -1121,15 +1121,15 @@ public abstract class AbstractFileObject implements FileObject
         }
     }
 
-	/**
-	 * Create a FileContent implementation
-	 */
-	protected FileContent doCreateFileContent() throws FileSystemException
-	{
-		return new DefaultFileContent(this, getFileContentInfoFactory());
-	}
+    /**
+     * Create a FileContent implementation
+     */
+    protected FileContent doCreateFileContent() throws FileSystemException
+    {
+        return new DefaultFileContent(this, getFileContentInfoFactory());
+    }
 
-	/**
+    /**
      * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required
      */
     public void refresh() throws FileSystemException
@@ -1158,8 +1158,8 @@ public abstract class AbstractFileObject implements FileObject
             try
             {
                 content.close();
-				content = null;
-			}
+                content = null;
+            }
             catch (FileSystemException e)
             {
                 exc = e;
@@ -1299,7 +1299,7 @@ public abstract class AbstractFileObject implements FileObject
             throw new FileSystemException("vfs.provider/write-read-only.error", name);
         }
         */
-        
+
         if (bAppend && !getFileSystem().hasCapability(Capability.APPEND_CONTENT))
         {
             throw new FileSystemException("vfs.provider/write-append-not-supported.error", name);
@@ -1726,10 +1726,10 @@ public abstract class AbstractFileObject implements FileObject
         return operations;
     }
 
-	protected void finalize() throws Throwable
-	{
-		fs.fileObjectDestroyed(this);
+    protected void finalize() throws Throwable
+    {
+        fs.fileObjectDestroyed(this);
 
-		super.finalize();
-	}
+        super.finalize();
+    }
 }

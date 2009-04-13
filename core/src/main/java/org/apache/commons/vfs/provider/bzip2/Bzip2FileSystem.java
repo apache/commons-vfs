@@ -32,7 +32,8 @@ import java.util.Collection;
  */
 public class Bzip2FileSystem extends CompressedFileFileSystem
 {
-    protected Bzip2FileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected Bzip2FileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions)
+            throws FileSystemException
     {
         super(rootName, parentLayer, fileSystemOptions);
     }

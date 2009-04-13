@@ -65,6 +65,7 @@ public final class NameScope
      */
     public static final NameScope FILE_SYSTEM = new NameScope("filesystem");
 
+    /** The name */
     private final String name;
 
     private NameScope(final String name)
@@ -74,6 +75,7 @@ public final class NameScope
 
     /**
      * Returns the name of the scope.
+     * @return The name of the scope.
      */
     public String toString()
     {
@@ -82,6 +84,7 @@ public final class NameScope
 
     /**
      * Returns the name of the scope.
+     * @return The name of the scope.
      */
     public String getName()
     {

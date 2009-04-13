@@ -27,7 +27,7 @@ import org.apache.commons.vfs.provider.http.HttpFileProvider;
 public class HttpsFileProvider
     extends HttpFileProvider
 {
-	public HttpsFileProvider()
+    public HttpsFileProvider()
     {
         super();
         setFileNameParser(HttpsFileNameParser.getInstance());

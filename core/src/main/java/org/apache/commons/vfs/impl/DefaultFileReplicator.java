@@ -43,22 +43,23 @@ public class DefaultFileReplicator
     extends AbstractVfsComponent
     implements FileReplicator, TemporaryFileStore
 {
-    private final static Log log = LogFactory.getLog(DefaultFileReplicator.class);
+    private static final char[] TMP_RESERVED_CHARS = new char[]
+        {
+            '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
+        };
+    private static Log log = LogFactory.getLog(DefaultFileReplicator.class);
+
+    private static final int MASK = 0xffff;
 
     private final ArrayList copies = new ArrayList();
     private File tempDir;
     private long filecount;
     private boolean tempDirMessageLogged;
 
-    private char[] TMP_RESERVED_CHARS = new char[]
-        {
-            '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
-        };
-
     /**
      * constructor to set the location of the temporary directory
      *
-     * @param tempDir
+     * @param tempDir The temporary directory.
      */
     public DefaultFileReplicator(final File tempDir)
     {
@@ -71,6 +72,7 @@ public class DefaultFileReplicator
 
     /**
      * Initialises this component.
+     * @throws FileSystemException if an error occurs.
      */
     public void init() throws FileSystemException
     {
@@ -81,7 +83,7 @@ public class DefaultFileReplicator
             tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
         }
 
-        filecount = new Random().nextInt() & 0xffff;
+        filecount = new Random().nextInt() & MASK;
 
         if (!tempDirMessageLogged)
         {
@@ -117,6 +119,7 @@ public class DefaultFileReplicator
 
     /**
      * physically deletes the file from the filesystem
+     * @param file The File to delete.
      */
     protected void deleteFile(File file)
     {
@@ -135,6 +138,7 @@ public class DefaultFileReplicator
     /**
      * removes a file from the copies list. Will be used for cleanup. <br/>
      * Notice: The system awaits that the returning object can be cast to a java.io.File
+     * @return the File that was removed.
      */
     protected Object removeFile()
     {
@@ -146,6 +150,7 @@ public class DefaultFileReplicator
 
     /**
      * removes a instance from the list of copies
+     * @param file The File to remove.
      */
     protected void removeFile(Object file)
     {
@@ -157,6 +162,9 @@ public class DefaultFileReplicator
 
     /**
      * Allocates a new temporary file.
+     * @param baseName the base file name.
+     * @return The created File.
+     * @throws FileSystemException if an error occurs.
      */
     public File allocateFile(final String baseName) throws FileSystemException
     {
@@ -167,9 +175,7 @@ public class DefaultFileReplicator
             filecount++;
         }
 
-        final File file = createAndAddFile(tempDir, basename);
-
-        return file;
+        return createAndAddFile(tempDir, basename);
     }
 
     protected File createAndAddFile(final File parent, final String basename) throws FileSystemException
@@ -197,6 +203,8 @@ public class DefaultFileReplicator
 
     /**
      * create the temporary file name
+     * @param baseName The base to prepend to the file name being created.
+     * @return the name of the File.
      */
     protected String createFilename(final String baseName)
     {
@@ -211,6 +219,10 @@ public class DefaultFileReplicator
 
     /**
      * create the temporary file
+     * @param parent The file to use as the parent of the file being created.
+     * @param name The name of the file to create.
+     * @return The File that was created.
+     * @throws FileSystemException if an error occurs creating the file.
      */
     protected File createFile(final File parent, final String name) throws FileSystemException
     {
@@ -219,6 +231,10 @@ public class DefaultFileReplicator
 
     /**
      * Creates a local copy of the file, and all its descendents.
+     * @param srcFile The file to copy.
+     * @param selector The FileSelector.
+     * @return the created File.
+     * @throws FileSystemException if an error occurs copying the file.
      */
     public File replicateFile(final FileObject srcFile,
                               final FileSelector selector)

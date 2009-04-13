@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,11 +28,14 @@ public interface FileSystem
 {
     /**
      * Returns the root file of this file system.
+     * @return The root FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject getRoot() throws FileSystemException;
 
     /**
      * Returns the name of the root file of this file system.
+     * @return the root FileName.
      */
     FileName getRootName();
 
@@ -51,6 +54,7 @@ public interface FileSystem
      * Returns the parent layer if this is a layered file system.
      *
      * @return The parent layer, or null if this is not a layered file system.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject getParentLayer() throws FileSystemException;
 
@@ -89,6 +93,7 @@ public interface FileSystem
      *
      * @param name The name of the file.
      * @return The file.  Never returns null.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject resolveFile(FileName name) throws FileSystemException;
 
@@ -97,6 +102,7 @@ public interface FileSystem
      *
      * @param name The name of the file.  This must be an absolute path.
      * @return The file.  Never returns null.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject resolveFile(String name) throws FileSystemException;
 
@@ -159,11 +165,13 @@ public interface FileSystem
 
     /**
      * Returns the FileSystemOptions used to instantiate this filesystem
+     * @return The FileSystemOptions.
      */
     FileSystemOptions getFileSystemOptions();
 
     /**
      * Returns a reference to the FileSytemManager
+     * @return The FileSystemManager.
      */
     FileSystemManager getFileSystemManager();
 

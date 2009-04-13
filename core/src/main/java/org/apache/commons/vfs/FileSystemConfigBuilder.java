@@ -24,8 +24,10 @@ package org.apache.commons.vfs;
  */
 public abstract class FileSystemConfigBuilder
 {
+    /** Default prefix to use when resolving system properties */
     private static final String PREFIX = "vfs.";
 
+    /** The prefix to use when resolving system properties */
     private final String prefix;
 
     protected FileSystemConfigBuilder()
@@ -74,7 +76,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Boolean getBoolean(FileSystemOptions opts, String name, Boolean defaultValue)
     {
-        Boolean value = (Boolean)getParam(opts, name);
+        Boolean value = (Boolean) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(PREFIX + name);
@@ -99,7 +101,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Byte getByte(FileSystemOptions opts, String name, Byte defaultValue)
     {
-        Byte value = (Byte)getParam(opts, name);
+        Byte value = (Byte) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(this.prefix + name);
@@ -124,7 +126,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Character getCharacter(FileSystemOptions opts, String name, Character defaultValue)
     {
-        Character value = (Character)getParam(opts, name);
+        Character value = (Character) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(this.prefix + name);
@@ -149,7 +151,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Double getDouble(FileSystemOptions opts, String name, Double defaultValue)
     {
-        Double value = (Double)getParam(opts, name);
+        Double value = (Double) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(this.prefix + name);
@@ -174,7 +176,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Float getFloat(FileSystemOptions opts, String name, Float defaultValue)
     {
-        Float value = (Float)getParam(opts, name);
+        Float value = (Float) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(this.prefix + name);
@@ -199,7 +201,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Integer getInteger(FileSystemOptions opts, String name, Integer defaultValue)
     {
-        Integer value = (Integer)getParam(opts, name);
+        Integer value = (Integer) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(this.prefix + name);
@@ -224,7 +226,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Long getLong(FileSystemOptions opts, String name, Long defaultValue)
     {
-        Long value = (Long)getParam(opts, name);
+        Long value = (Long) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(this.prefix + name);
@@ -249,7 +251,7 @@ public abstract class FileSystemConfigBuilder
 
     protected Short getShort(FileSystemOptions opts, String name, Short defaultValue)
     {
-        Short value = (Short)getParam(opts, name);
+        Short value = (Short) getParam(opts, name);
         if (value == null)
         {
             String str = System.getProperty(this.prefix + name);
@@ -269,7 +271,7 @@ public abstract class FileSystemConfigBuilder
 
     protected String getString(FileSystemOptions opts, String name, String defaultValue)
     {
-        String value = (String)getParam(opts, name);
+        String value = (String) getParam(opts, name);
         if (value == null)
         {
             value = System.getProperty(this.prefix + name);

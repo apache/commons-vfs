@@ -26,10 +26,12 @@ import java.lang.reflect.Method;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public class VFS
+public final class VFS
 {
-    private static Boolean URI_STYLE = null;
+    /** The URI style */
+    private static Boolean uriStyle;
 
+    /** The FileSystemManager */
     private static FileSystemManager instance;
 
     private VFS()
@@ -38,6 +40,8 @@ public class VFS
 
     /**
      * Returns the default {@link FileSystemManager} instance
+     * @return The FileSystemManager.
+     * @throws FileSystemException if an error occurs creating the manager.
      */
     public static synchronized FileSystemManager getManager()
         throws FileSystemException
@@ -51,6 +55,9 @@ public class VFS
 
     /**
      * Creates a file system manager instance.
+     * @param managerClassName The specific manager impelmentation class name.
+     * @return The FileSystemManager.
+     * @throws FileSystemException if an error occurs creating the manager.
      */
     private static FileSystemManager createManager(final String managerClassName)
         throws FileSystemException
@@ -104,19 +111,19 @@ public class VFS
 
     public static boolean isUriStyle()
     {
-        if (URI_STYLE == null)
+        if (uriStyle == null)
         {
-            URI_STYLE = Boolean.FALSE;
+            uriStyle = Boolean.FALSE;
         }
-        return URI_STYLE.booleanValue();
+        return uriStyle.booleanValue();
     }
 
     public static void setUriStyle(boolean uriStyle)
     {
-        if (URI_STYLE != null && URI_STYLE.booleanValue() != uriStyle)
+        if (VFS.uriStyle != null && VFS.uriStyle.booleanValue() != uriStyle)
         {
             throw new IllegalStateException("URI STYLE ALREADY SET TO");
         }
-        URI_STYLE = uriStyle ? Boolean.TRUE : Boolean.FALSE;
+        VFS.uriStyle = uriStyle ? Boolean.TRUE : Boolean.FALSE;
     }
 }

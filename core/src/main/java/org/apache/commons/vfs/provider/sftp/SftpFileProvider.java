@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,13 +57,13 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     }));
 
     public final static String ATTR_USER_INFO = "UI";
-	
-	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-		{
-			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-		};
 
-	// private JSch jSch = new JSch();
+    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+        {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+        };
+
+    // private JSch jSch = new JSch();
 
     public SftpFileProvider()
     {
@@ -82,17 +82,17 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         final GenericFileName rootName = (GenericFileName) name;
 
         Session session;
-		UserAuthenticationData authData = null;
+        UserAuthenticationData authData = null;
         try
         {
-			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
+            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
-			session = SftpClientFactory.createConnection(
-				rootName.getHostName(),
-				rootName.getPort(),
-				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
-				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
-				fileSystemOptions);
+            session = SftpClientFactory.createConnection(
+                rootName.getHostName(),
+                rootName.getPort(),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                fileSystemOptions);
         }
         catch (final Exception e)
         {
@@ -100,12 +100,12 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
                 name,
                 e);
         }
-		finally
-		{
-			UserAuthenticatorUtils.cleanup(authData);
-		}
+        finally
+        {
+            UserAuthenticatorUtils.cleanup(authData);
+        }
 
-		return new SftpFileSystem(rootName, session, fileSystemOptions);
+        return new SftpFileSystem(rootName, session, fileSystemOptions);
     }
 
 

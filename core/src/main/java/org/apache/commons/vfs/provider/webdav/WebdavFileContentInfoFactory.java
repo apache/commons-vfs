@@ -28,7 +28,7 @@ import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
 import org.apache.jackrabbit.webdav.property.DavPropertySet;
 
 /**
- * Description
+ * Determines the content information for files accessed via WebDAV.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$
@@ -44,15 +44,15 @@ public class WebdavFileContentInfoFactory implements FileContentInfoFactory
 
         DavPropertyNameSet nameSet = new DavPropertyNameSet();
         nameSet.add(DavPropertyName.GETCONTENTTYPE);
-        DavPropertySet propertySet = file.getProperties((URLFileName)file.getName(), nameSet, true);
+        DavPropertySet propertySet = file.getProperties((URLFileName) file.getName(), nameSet, true);
 
         DavProperty property = propertySet.get(DavPropertyName.GETCONTENTTYPE);
-        if ( property != null )
+        if (property != null)
         {
             contentType = (String) property.getValue();
         }
         property = propertySet.get(WebdavFileObject.RESPONSE_CHARSET);
-        if ( property != null )
+        if (property != null)
         {
             contentEncoding = (String) property.getValue();
         }

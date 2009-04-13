@@ -21,28 +21,28 @@ import org.apache.commons.vfs.provider.http.HttpFileSystemConfigBuilder;
 
 /**
  * Configuration options for WebDav
- * 
+ *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
+public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
 {
-    private final static WebdavFileSystemConfigBuilder builder = new WebdavFileSystemConfigBuilder();
-
-    public static HttpFileSystemConfigBuilder getInstance()
-    {
-        return builder;
-    }
+    private static final WebdavFileSystemConfigBuilder BUILDER = new WebdavFileSystemConfigBuilder();
 
     private WebdavFileSystemConfigBuilder()
     {
         super("webdav.");
     }
 
+    public static HttpFileSystemConfigBuilder getInstance()
+    {
+        return BUILDER;
+    }
+
     /**
      * The user name to be associated with changes to the file.
-     * @param opts
-     * @param creatorName
+     * @param opts The FileSystem options
+     * @param creatorName The creator name to be associated with the file.
      */
     public void setCreatorName(FileSystemOptions opts, String creatorName)
     {
@@ -51,8 +51,8 @@ public class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
 
     /**
      * Return the user name to be associated with changes to the file.
-     * @param opts
-     * @return
+     * @param opts The FileSystem options
+     * @return The creatorName.
      */
     public String getCreatorName(FileSystemOptions opts)
     {
@@ -61,20 +61,27 @@ public class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
 
     /**
      * Whether to use versioning
+     * @param opts The FileSystem options.
+     * @param versioning true if versioning should be enabled.
      */
     public void setVersioning(FileSystemOptions opts, boolean versioning)
     {
-        setParam(opts, "versioning", new Boolean(versioning));
+        setParam(opts, "versioning", Boolean.valueOf(versioning));
     }
 
     /**
      * The cookies to add to the reqest
+     * @param opts The FileSystem options.
+     * @return true if versioning is enabled.
      */
     public boolean isVersioning(FileSystemOptions opts)
     {
         return getBoolean(opts, "versioning", false);
     }
-    
+
+    /**
+     * @return The Webdav FileSystem Class object.
+     */
     protected Class getConfigClass()
     {
         return WebdavFileSystem.class;

@@ -22,94 +22,114 @@ import java.util.Iterator;
 
 /**
  * Container for various authentication data
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class UserAuthenticationData
 {
-	public static class Type implements Comparable
-	{
-		private final String type;
+    /**
+     * Inner class to represent portions of the user authentication data.
+     */
+    public static class Type implements Comparable
+    {
+        /** The type name */
+        private final String type;
 
-		public Type(String type)
-		{
-			this.type = type;
-		}
+        public Type(String type)
+        {
+            this.type = type;
+        }
 
-		public boolean equals(Object o)
-		{
-			if (this == o)
-			{
-				return true;
-			}
-			if (o == null || getClass() != o.getClass())
-			{
-				return false;
-			}
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
 
-			Type type1 = (Type) o;
+            Type type1 = (Type) o;
 
-			if (type != null ? !type.equals(type1.type) : type1.type != null)
-			{
-				return false;
-			}
+            if (type != null ? !type.equals(type1.type) : type1.type != null)
+            {
+                return false;
+            }
 
-			return true;
-		}
+            return true;
+        }
 
-		public int compareTo(Object o)
-		{
-			Type t = (Type) o;
+        public int compareTo(Object o)
+        {
+            Type t = (Type) o;
 
-			return type.compareTo(t.type);
-		}
-	}
+            return type.compareTo(t.type);
+        }
 
-	public static final Type USERNAME = new Type("username");
-	public static final Type PASSWORD = new Type("password");
-	public static final Type DOMAIN = new Type("domain");
+        public int hashCode()
+        {
+            return type != null ? type.hashCode() : 0;
+        }
+    }
 
-	private Map authenticationData = new TreeMap();
+    /** The user name */
+    public static final Type USERNAME = new Type("username");
 
-	public UserAuthenticationData()
-	{
-	}
+    /** The password */
+    public static final Type PASSWORD = new Type("password");
 
-	/**
-	 * set a data to this collection
-	 */
-	public void setData(Type type, char[] data)
-	{
-		authenticationData.put(type, data);
-	}
+    /** The user's domain */
+    public static final Type DOMAIN = new Type("domain");
 
-	/**
-	 * get a data from the collection
-	 */
-	public char[] getData(Type type)
-	{
-		return (char[]) authenticationData.get(type);
-	}
+    /** The authentication data */
+    private Map authenticationData = new TreeMap();
 
-	/**
-	 * deleted all data stored within this authenticator
-	 */
-	public void cleanup()
-	{
-		// step 1: nullify character buffers
-		Iterator iterAuthenticationData = authenticationData.values().iterator();
-		while (iterAuthenticationData.hasNext())
-		{
-			char[] data = (char[]) iterAuthenticationData.next();
-			if (data == null || data.length < 0)
-			{
-				continue;
-			}
+    public UserAuthenticationData()
+    {
+    }
 
-			for (int i = 0; i<data.length; i++)
-			{
-				data[i]=0;
-			}
-		}
-		// step 2: allow data itself to gc
-		authenticationData.clear();
-	}
+    /**
+     * set a data to this collection
+     * @param type The Type to add
+     * @param data The data assoicated with the Type
+     */
+    public void setData(Type type, char[] data)
+    {
+        authenticationData.put(type, data);
+    }
+
+    /**
+     * get a data from the collection
+     * @param type The Type to retrieve.
+     * @return a character array containing the data assoicated with the type.
+     */
+    public char[] getData(Type type)
+    {
+        return (char[]) authenticationData.get(type);
+    }
+
+    /**
+     * deleted all data stored within this authenticator
+     */
+    public void cleanup()
+    {
+        // step 1: nullify character buffers
+        Iterator iterAuthenticationData = authenticationData.values().iterator();
+        while (iterAuthenticationData.hasNext())
+        {
+            char[] data = (char[]) iterAuthenticationData.next();
+            if (data == null || data.length < 0)
+            {
+                continue;
+            }
+
+            for (int i = 0; i < data.length; i++)
+            {
+                data[i] = 0;
+            }
+        }
+        // step 2: allow data itself to gc
+        authenticationData.clear();
+    }
 }

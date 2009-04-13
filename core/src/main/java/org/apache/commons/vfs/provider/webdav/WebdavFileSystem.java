@@ -38,7 +38,8 @@ public class WebdavFileSystem
     extends HttpFileSystem
     implements FileSystem
 {
-    protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client, final FileSystemOptions fileSystemOptions)
+    protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client,
+                               final FileSystemOptions fileSystemOptions)
     {
         super(rootName, client, fileSystemOptions);
     }
@@ -50,6 +51,7 @@ public class WebdavFileSystem
 
     /**
      * Returns the capabilities of this file system.
+     * @caps The Capabilities to add.
      */
     protected void addCapabilities(final Collection caps)
     {
@@ -59,6 +61,8 @@ public class WebdavFileSystem
     /**
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
+     * @param name the FileName.
+     * @return The created FileObject.
      */
     protected FileObject createFile(final FileName name)
     {
@@ -67,8 +71,8 @@ public class WebdavFileSystem
     }
 
     /**
-     * Return a URLStreamHandler
-     * @return
+     * Return a URLStreamHandler.
+     * @return The URLStreamHandler.
      */
     public URLStreamHandler getURLStreamHandler()
     {

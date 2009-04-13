@@ -188,10 +188,10 @@ public final class DefaultFileContent implements FileContent
         try
         {
             if (!file.doSetLastModTime(modTime))
-			{
-				throw new FileSystemException("vfs.provider/set-last-modified.error", file);
-			}
-		}
+            {
+                throw new FileSystemException("vfs.provider/set-last-modified.error", file);
+            }
+        }
         catch (final Exception e)
         {
             throw new FileSystemException("vfs.provider/set-last-modified.error", file, e);
@@ -265,7 +265,7 @@ public final class DefaultFileContent implements FileContent
         throws FileSystemException
     {
         getAttributes();
-		return attrs.get(attrName);
+        return attrs.get(attrName);
     }
 
     /**
@@ -303,7 +303,7 @@ public final class DefaultFileContent implements FileContent
             throw new FileSystemException("vfs.provider/remove-attribute-no-exist.error", file);
         }
 
-		try
+        try
         {
             file.doRemoveAttribute(attrName);
         }
@@ -392,8 +392,8 @@ public final class DefaultFileContent implements FileContent
         // Get the content
         final RandomAccessContent rastr = file.getRandomAccessContent(mode);
 
-		FileRandomAccessContent rac = new FileRandomAccessContent(file, rastr);
-		this.getThreadData().addRastr(rac);
+        FileRandomAccessContent rac = new FileRandomAccessContent(file, rastr);
+        this.getThreadData().addRastr(rac);
         streamOpened();
 
         // setState(STATE_OPENED);
@@ -447,21 +447,21 @@ public final class DefaultFileContent implements FileContent
                 instr.close();
             }
 
-			// Close the randomAccess stream
-			while (getThreadData().getRastrsSize() > 0)
-			{
-				final RandomAccessContent ra = (RandomAccessContent) getThreadData().removeRastr(0);
-				try
-				{
-					ra.close();
-				}
-				catch (IOException e)
-				{
-					throw new FileSystemException(e);
-				}
-			}
+            // Close the randomAccess stream
+            while (getThreadData().getRastrsSize() > 0)
+            {
+                final RandomAccessContent ra = (RandomAccessContent) getThreadData().removeRastr(0);
+                try
+                {
+                    ra.close();
+                }
+                catch (IOException e)
+                {
+                    throw new FileSystemException(e);
+                }
+            }
 
-			// Close the output stream
+            // Close the output stream
             if (this.getThreadData().getOutstr() != null)
             {
                 this.getThreadData().closeOutstr();
@@ -493,7 +493,7 @@ public final class DefaultFileContent implements FileContent
      */
     private void endRandomAccess(RandomAccessContent rac)
     {
-		getThreadData().removeRastr(rac);
+        getThreadData().removeRastr(rac);
         streamClosed();
         // setState(STATE_CLOSED);
     }
@@ -598,14 +598,14 @@ public final class DefaultFileContent implements FileContent
     {
         // avoid gc
         private final FileObject file;
-		private final RandomAccessContent content;
+        private final RandomAccessContent content;
 
-		FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
+        FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
         {
             super(content);
             this.file = file;
-			this.content = content;
-		}
+            this.content = content;
+        }
 
         /**
          * Called after the stream has been closed.

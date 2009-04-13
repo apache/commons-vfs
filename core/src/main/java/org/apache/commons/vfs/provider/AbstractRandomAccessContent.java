@@ -25,7 +25,7 @@ import java.io.IOException;
  * Implements the DataOutput part of the RandomAccessContent interface and throws
  * UnsupportedOperationException if one of those methods are called.
  * (for read-only random access implementations)
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */

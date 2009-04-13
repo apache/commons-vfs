@@ -26,32 +26,32 @@ import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
  */
 public class UserAuthenticatorUtils
 {
-	/**
-	 * gets data of given type from the UserAuthenticationData or null if there is no data or data of this type available
-	 */
-	public static char[] getData(UserAuthenticationData data, UserAuthenticationData.Type type, char[] overwriddenValue)
-	{
+    /**
+     * gets data of given type from the UserAuthenticationData or null if there is no data or data of this type available
+     */
+    public static char[] getData(UserAuthenticationData data, UserAuthenticationData.Type type, char[] overwriddenValue)
+    {
         if (overwriddenValue != null)
         {
             return overwriddenValue;
         }
 
         if (data == null)
-		{
-			return null;
-		}
+        {
+            return null;
+        }
 
-		return data.getData(type);
-	}
+        return data.getData(type);
+    }
 
-	/**
-	 * if there is a authenticator the authentication will take place, else null will be reutrned
-	 */
-	public static UserAuthenticationData authenticate(FileSystemOptions opts, UserAuthenticationData.Type[] authenticatorTypes)
-	{
-		UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
+    /**
+     * if there is a authenticator the authentication will take place, else null will be reutrned
+     */
+    public static UserAuthenticationData authenticate(FileSystemOptions opts, UserAuthenticationData.Type[] authenticatorTypes)
+    {
+        UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
         return authenticate(auth, authenticatorTypes);
-	}
+    }
 
     /**
      * if there is a authenticator the authentication will take place, else null will be reutrned
@@ -67,41 +67,41 @@ public class UserAuthenticatorUtils
     }
 
     /**
-	 * converts a string to a char array (null safe)
-	 */
-	public static char[] toChar(String string)
-	{
-		if (string == null)
-		{
-			return null;
-		}
+     * converts a string to a char array (null safe)
+     */
+    public static char[] toChar(String string)
+    {
+        if (string == null)
+        {
+            return null;
+        }
 
-		return string.toCharArray();
-	}
+        return string.toCharArray();
+    }
 
-	/**
-	 * cleanup the data in the UerAuthenticationData (null safe)
-	 */
-	public static void cleanup(UserAuthenticationData authData)
-	{
-		if (authData == null)
-		{
-			return;
-		}
+    /**
+     * cleanup the data in the UerAuthenticationData (null safe)
+     */
+    public static void cleanup(UserAuthenticationData authData)
+    {
+        if (authData == null)
+        {
+            return;
+        }
 
-		authData.cleanup();
-	}
+        authData.cleanup();
+    }
 
-	/**
-	 * converts the given data to a string (null safe)
-	 */
-	public static String toString(char[] data)
-	{
-		if (data == null)
-		{
-			return null;
-		}
+    /**
+     * converts the given data to a string (null safe)
+     */
+    public static String toString(char[] data)
+    {
+        if (data == null)
+        {
+            return null;
+        }
 
-		return new String(data);
-	}
+        return new String(data);
+    }
 }

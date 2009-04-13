@@ -56,12 +56,12 @@ public class FtpFileProvider
         Capability.RANDOM_ACCESS_READ,
     }));
 
-	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-		{
-			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-		};
+    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+        {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+        };
 
-	public FtpFileProvider()
+    public FtpFileProvider()
     {
         super();
         setFileNameParser(FtpFileNameParser.getInstance());

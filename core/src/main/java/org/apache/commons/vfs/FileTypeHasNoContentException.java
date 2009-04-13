@@ -17,7 +17,9 @@
 package org.apache.commons.vfs;
 
 /**
- * delivers a file-not-folder exception which happens when trying to issue {@link org.apache.commons.vfs.FileObject#getChildren()} on a file.
+ * delivers a file-not-folder exception which happens when trying to issue
+ * {@link org.apache.commons.vfs.FileObject#getChildren()} on a file.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileTypeHasNoContentException extends FileSystemException
 {

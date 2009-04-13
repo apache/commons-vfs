@@ -36,23 +36,26 @@ import java.util.Collections;
  */
 public class Bzip2FileProvider extends CompressedFileFileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.GET_LAST_MODIFIED,
-        Capability.GET_TYPE,
-        Capability.LIST_CHILDREN,
-        Capability.READ_CONTENT,
-        Capability.WRITE_CONTENT,
-        Capability.URI,
-        Capability.COMPRESS
-    }));
+    protected final static Collection capabilities =
+            Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+                    {
+                            Capability.GET_LAST_MODIFIED,
+                            Capability.GET_TYPE,
+                            Capability.LIST_CHILDREN,
+                            Capability.READ_CONTENT,
+                            Capability.WRITE_CONTENT,
+                            Capability.URI,
+                            Capability.COMPRESS
+                    }));
 
     public Bzip2FileProvider()
     {
         super();
     }
 
-    protected FileSystem createFileSystem(FileName name, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected FileSystem createFileSystem(FileName name, FileObject file,
+                                          FileSystemOptions fileSystemOptions)
+            throws FileSystemException
     {
         return new Bzip2FileSystem(name, file, fileSystemOptions);
     }

@@ -36,7 +36,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      *         at which the next read or write occurs.
      * @throws IOException if an I/O error occurs.
      */
-    public long getFilePointer() throws IOException;
+    long getFilePointer() throws IOException;
 
     /**
      * Sets the file-pointer offset, measured from the beginning of this
@@ -46,7 +46,8 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * change only by writing after the offset has been set beyond the end
      * of the file.
      * <br/>
-     * <b>Notice: If you use {@link #getInputStream()} you have to reget the InputStream after calling {@link #seek(long)}</b>
+     * <b>Notice: If you use {@link #getInputStream()} you have to reget the InputStream after
+     * calling {@link #seek(long)}</b>
      *
      * @param pos the offset position, measured in bytes from the
      *            beginning of the file, at which to set the file
@@ -54,7 +55,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * @throws IOException if <code>pos</code> is less than
      *                     <code>0</code> or if an I/O error occurs.
      */
-    public void seek(long pos) throws IOException;
+    void seek(long pos) throws IOException;
 
     /**
      * Returns the length of this file.
@@ -62,7 +63,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * @return the length of this file, measured in bytes.
      * @throws IOException if an I/O error occurs.
      */
-    public long length() throws IOException;
+    long length() throws IOException;
 
     /**
      * Closes this random access file stream and releases any system
@@ -75,12 +76,14 @@ public interface RandomAccessContent extends DataOutput, DataInput
      *
      * @throws IOException if an I/O error occurs.
      */
-    public void close() throws IOException;
+    void close() throws IOException;
 
     /**
      * get the input stream
      * <br/>
      * <b>Notice: If you use {@link #seek(long)} you have to reget the InputStream</b>
+     * @return the InputStream.
+     * @throws IOException if an I/O error occurs.
      */
-    public InputStream getInputStream() throws IOException;
+    InputStream getInputStream() throws IOException;
 }

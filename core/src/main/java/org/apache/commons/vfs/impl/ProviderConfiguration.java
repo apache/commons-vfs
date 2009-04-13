@@ -22,15 +22,15 @@ import java.util.List;
 /**
  * This class describes the configuration for a provider.<br>
  * Used by digester in StandardFileSystemManager
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public class ProviderConfiguration
 {
     private String className;
-    private List schemes = new ArrayList(10);
-    private List dependenies = new ArrayList(10);
+    private final List schemes = new ArrayList(10);
+    private final List dependenies = new ArrayList(10);
 
     public ProviderConfiguration()
     {

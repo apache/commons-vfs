@@ -24,54 +24,54 @@ package org.apache.commons.vfs.util;
  */
 public class RandomAccessMode
 {
-	/**
-	 * read
-	 */
-	public static final RandomAccessMode READ = new RandomAccessMode(true, false);
+    /**
+     * read
+     */
+    public static final RandomAccessMode READ = new RandomAccessMode(true, false);
 
-	/**
-	 * read/write
-	 */
-	public static final RandomAccessMode READWRITE = new RandomAccessMode(true, true);
+    /**
+     * read/write
+     */
+    public static final RandomAccessMode READWRITE = new RandomAccessMode(true, true);
 
 
-	private final boolean read;
-	private final boolean write;
+    private final boolean read;
+    private final boolean write;
 
-	private RandomAccessMode(final boolean read, final boolean write)
-	{
-		this.read = read;
-		this.write = write;
-	}
+    private RandomAccessMode(final boolean read, final boolean write)
+    {
+        this.read = read;
+        this.write = write;
+    }
 
-	public boolean requestRead()
-	{
-		return read;
-	}
+    public boolean requestRead()
+    {
+        return read;
+    }
 
-	public boolean requestWrite()
-	{
-		return write;
-	}
+    public boolean requestWrite()
+    {
+        return write;
+    }
 
-	public String getModeString()
-	{
-		if (requestRead())
-		{
-			if (requestWrite())
-			{
-				return "rw"; // NON-NLS
-			}
-			else
-			{
-				return "r"; // NON-NLS
-			}
-		}
-		else if (requestWrite())
-		{
-			return "w"; // NON-NLS
-		}
+    public String getModeString()
+    {
+        if (requestRead())
+        {
+            if (requestWrite())
+            {
+                return "rw"; // NON-NLS
+            }
+            else
+            {
+                return "r"; // NON-NLS
+            }
+        }
+        else if (requestWrite())
+        {
+            return "w"; // NON-NLS
+        }
 
-		return "";
-	}
+        return "";
+    }
 }

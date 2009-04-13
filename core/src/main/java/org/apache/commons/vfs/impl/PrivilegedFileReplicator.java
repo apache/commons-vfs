@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,6 +58,7 @@ public class PrivilegedFileReplicator
 
     /**
      * Sets the Logger to use for the component.
+     * @param logger The logger.
      */
     public void setLogger(final Log logger)
     {
@@ -69,6 +70,7 @@ public class PrivilegedFileReplicator
 
     /**
      * Sets the context for the replicator.
+     * @param context The component context.
      */
     public void setContext(final VfsComponentContext context)
     {
@@ -80,6 +82,7 @@ public class PrivilegedFileReplicator
 
     /**
      * Initialises the component.
+     * @throws FileSystemException if an error occurs.
      */
     public void init() throws FileSystemException
     {
@@ -109,6 +112,10 @@ public class PrivilegedFileReplicator
 
     /**
      * Creates a local copy of the file, and all its descendents.
+     * @param srcFile The source FileObject.
+     * @param selector The file selector.
+     * @return The replicated file.
+     * @throws FileSystemException if an error occurs.
      */
     public File replicateFile(FileObject srcFile, FileSelector selector)
         throws FileSystemException
@@ -156,6 +163,7 @@ public class PrivilegedFileReplicator
 
         /**
          * Performs the action.
+         * @throws Exception if an error occurs.
          */
         public Object run() throws Exception
         {

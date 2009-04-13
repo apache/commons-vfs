@@ -96,7 +96,7 @@ public class TemporaryFileProvider
         final String scheme = UriParser.extractScheme(uri, buffer);
 
         UriParser.fixSeparators(buffer);
-        
+
         FileType fileType = UriParser.normalisePath(buffer);
         final String path = buffer.toString();
 

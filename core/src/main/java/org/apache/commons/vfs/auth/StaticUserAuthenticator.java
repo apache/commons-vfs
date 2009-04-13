@@ -22,26 +22,32 @@ import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 /**
  * provides always the same credential data passed in with the constructor.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class StaticUserAuthenticator implements UserAuthenticator
 {
-	private final String username;
-	private final String password;
-	private final String domain;
+    /** The user name */
+    private final String username;
 
-	public StaticUserAuthenticator(String domain, String username, String password)
-	{
-		this.username = username;
-		this.password = password;
-		this.domain = domain;
-	}
+    /** The password */
+    private final String password;
 
-	public UserAuthenticationData requestAuthentication(UserAuthenticationData.Type[] types)
-	{
-		UserAuthenticationData data = new UserAuthenticationData();
-		data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
-		data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
-		data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
-		return data;
-	}
+    /** The user's domain */
+    private final String domain;
+
+    public StaticUserAuthenticator(String domain, String username, String password)
+    {
+        this.username = username;
+        this.password = password;
+        this.domain = domain;
+    }
+
+    public UserAuthenticationData requestAuthentication(UserAuthenticationData.Type[] types)
+    {
+        UserAuthenticationData data = new UserAuthenticationData();
+        data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
+        data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
+        data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
+        return data;
+    }
 }

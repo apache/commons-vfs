@@ -26,9 +26,10 @@ import org.w3c.dom.Element;
 import java.lang.reflect.Constructor;
 
 /**
- * <code>ExceptionConverter</code>...
+ * <code>ExceptionConverter</code> converts WebDAV exceptions into FileSystemExceptions.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class ExceptionConverter
+public final class ExceptionConverter
 {
     // avoid instanciation
     private ExceptionConverter()

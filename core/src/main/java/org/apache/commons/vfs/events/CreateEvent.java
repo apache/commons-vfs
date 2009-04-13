@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileObject;
 
 /**
  * File creation event.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class CreateEvent extends AbstractFileChangeEvent
 {

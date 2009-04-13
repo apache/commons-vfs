@@ -50,16 +50,17 @@ import org.w3c.dom.NodeList;
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
 {
-    private Log log = LogFactory.getLog(StandardFileSystemManager.class);
-
     private static final String CONFIG_RESOURCE = "providers.xml";
     private static final String PLUGIN_CONFIG_RESOURCE = "META-INF/vfs-providers.xml";
+
+    private Log log = LogFactory.getLog(StandardFileSystemManager.class);
 
     private URL configUri;
     private ClassLoader classLoader;
 
     /**
      * Sets the configuration file for this manager.
+     * @param configUri The URI forthis manager.
      */
     public void setConfiguration(final String configUri)
     {
@@ -75,6 +76,7 @@ public class StandardFileSystemManager
 
     /**
      * Sets the configuration file for this manager.
+     * @param configUri The URI forthis manager.
      */
     public void setConfiguration(final URL configUri)
     {
@@ -84,6 +86,7 @@ public class StandardFileSystemManager
     /**
      * Sets the ClassLoader to use to load the providers.  Default is to
      * use the ClassLoader that loaded this class.
+     * @param classLoader The ClassLoader.
      */
     public void setClassLoader(final ClassLoader classLoader)
     {
@@ -92,6 +95,7 @@ public class StandardFileSystemManager
 
     /**
      * Initializes this manager.  Adds the providers and replicator.
+     * @throws FileSystemException if an error occurs.
      */
     public void init() throws FileSystemException
     {
@@ -100,15 +104,15 @@ public class StandardFileSystemManager
         setReplicator(new PrivilegedFileReplicator(replicator));
         setTemporaryFileStore(replicator);
 
-		/* replaced by findClassLoader
-		if (classLoader == null)
+        /* replaced by findClassLoader
+        if (classLoader == null)
         {
             // Use default classloader
             classLoader = getClass().getClassLoader();
         }
         */
 
-		if (configUri == null)
+        if (configUri == null)
         {
             // Use default config
             final URL url = getClass().getResource(CONFIG_RESOURCE);
@@ -132,51 +136,54 @@ public class StandardFileSystemManager
     /**
      * Scans the classpath to find any droped plugin.<br />
      * The plugin-description has to be in /META-INF/vfs-providers.xml
+     * @throws FileSystemException if an error occurs.
      */
     protected void configurePlugins() throws FileSystemException
     {
-		ClassLoader cl = findClassLoader();
+        ClassLoader cl = findClassLoader();
 
-		Enumeration enumResources = null;
-		try
-		{
-			enumResources = cl.getResources(PLUGIN_CONFIG_RESOURCE);
-		}
-		catch (IOException e)
-		{
-			throw new FileSystemException(e);
-		}
+        Enumeration enumResources;
+        try
+        {
+            enumResources = cl.getResources(PLUGIN_CONFIG_RESOURCE);
+        }
+        catch (IOException e)
+        {
+            throw new FileSystemException(e);
+        }
 
-		while (enumResources.hasMoreElements())
-		{
-			URL url = (URL) enumResources.nextElement();
-			configure(url);
-		}
-	}
+        while (enumResources.hasMoreElements())
+        {
+            URL url = (URL) enumResources.nextElement();
+            configure(url);
+        }
+    }
 
-	private ClassLoader findClassLoader()
-	{
-		if (classLoader != null)
-		{
-			return classLoader;
-		}
+    private ClassLoader findClassLoader()
+    {
+        if (classLoader != null)
+        {
+            return classLoader;
+        }
 
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-		if (cl == null)
-		{
-			cl = getClass().getClassLoader();
-		}
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        if (cl == null)
+        {
+            cl = getClass().getClassLoader();
+        }
 
-		return cl;
-	}
+        return cl;
+    }
 
-	protected DefaultFileReplicator createDefaultFileReplicator()
+    protected DefaultFileReplicator createDefaultFileReplicator()
     {
         return new DefaultFileReplicator();
     }
 
     /**
      * Configures this manager from an XML configuration file.
+     * @param configUri The URI of the configuration.
+     * @throws FileSystemException if an error occus.
      */
     private void configure(final URL configUri) throws FileSystemException
     {
@@ -213,8 +220,12 @@ public class StandardFileSystemManager
 
     /**
      * Configures this manager from an XML configuration file.
+     * @param configUri The URI of the configuration.
+     * @param configStream An InputStream containing the configuration.
+     * @throws FileSystemException if an error occurs.
      */
-    private void configure(final String configUri, final InputStream configStream) throws FileSystemException
+    private void configure(final String configUri, final InputStream configStream)
+            throws FileSystemException
     {
         try
         {
@@ -234,6 +245,8 @@ public class StandardFileSystemManager
 
     /**
      * Configure and create a DocumentBuilder
+     * @return A DocumentBuilder for the configuration.
+     * @throws ParserConfigurationException if an error occurs.
      */
     private DocumentBuilder createDocumentBuilder() throws ParserConfigurationException
     {
@@ -241,12 +254,13 @@ public class StandardFileSystemManager
         factory.setIgnoringElementContentWhitespace(true);
         factory.setIgnoringComments(true);
         factory.setExpandEntityReferences(true);
-        final DocumentBuilder builder = factory.newDocumentBuilder();
-        return builder;
+        return  factory.newDocumentBuilder();
     }
 
     /**
      * Configures this manager from an parsed XML configuration file
+     * @param config The configuration Element.
+     * @throws FileSystemException if an error occurs.
      */
     private void configure(final Element config) throws FileSystemException
     {
@@ -294,6 +308,7 @@ public class StandardFileSystemManager
 
     /**
      * Adds an extension map.
+     * @param map containing the Elements.
      */
     private void addExtensionMap(final Element map)
     {
@@ -307,6 +322,7 @@ public class StandardFileSystemManager
 
     /**
      * Adds a mime-type map.
+     * @param map containing the Elements.
      */
     private void addMimeTypeMap(final Element map)
     {
@@ -317,6 +333,9 @@ public class StandardFileSystemManager
 
     /**
      * Adds a provider from a provider definition.
+     * @param providerDef the provider definition
+     * @param isDefault true if the default should be used.
+     * @throws FileSystemException if an error occurs.
      */
     private void addProvider(final Element providerDef, final boolean isDefault)
         throws FileSystemException
@@ -381,7 +400,7 @@ public class StandardFileSystemManager
             if (hasProvider(schema))
             {
                 final FileOperationProvider operationProvider = (FileOperationProvider) createInstance(classname);
-            	addOperationProvider(schema, operationProvider);
+                addOperationProvider(schema, operationProvider);
             }
         }
     }

@@ -18,11 +18,14 @@ package org.apache.commons.vfs;
 
 /**
  * The user authenticator is used to query credentials from the user
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface UserAuthenticator
 {
-	/**
-	 * queries the given type from the user
-	 */
-	public UserAuthenticationData requestAuthentication(UserAuthenticationData.Type[] types);
+    /**
+     * queries the given type from the user
+     * @param types An array containing the user's credentials
+     * @return The UserAuthenticationData.
+     */
+    UserAuthenticationData requestAuthentication(UserAuthenticationData.Type[] types);
 }

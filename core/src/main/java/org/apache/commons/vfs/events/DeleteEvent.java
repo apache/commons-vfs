@@ -21,6 +21,7 @@ import org.apache.commons.vfs.FileObject;
 
 /**
  * File deletion event.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DeleteEvent extends AbstractFileChangeEvent
 {

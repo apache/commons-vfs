@@ -18,6 +18,10 @@ package org.apache.commons.vfs.impl;
 
 import org.apache.commons.vfs.FileContentInfo;
 
+/**
+ * The default file content information.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ */
 public class DefaultFileContentInfo implements FileContentInfo
 {
     private final String contentType;

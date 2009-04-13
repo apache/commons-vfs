@@ -27,7 +27,7 @@ import java.net.URLConnection;
  * The FileContentInfoFilenameFactory.<br>
  * Uses the filename extension to determine the content-type.<br>
  * The content-encoding is not resolved.
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */

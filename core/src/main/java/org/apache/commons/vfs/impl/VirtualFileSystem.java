@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -98,6 +98,9 @@ public class VirtualFileSystem
 
     /**
      * Adds a junction to this file system.
+     * @param junctionPoint The location of the junction.
+     * @param targetFile The target file to base the junction on.
+     * @throws FileSystemException if an error occurs.
      */
     public void addJunction(final String junctionPoint,
                             final FileObject targetFile)
@@ -140,8 +143,8 @@ public class VirtualFileSystem
                 {
                     done = file.exists();
                 }
-                
-                // As this is the parent of our junction it has to be a folder 
+
+                // As this is the parent of our junction it has to be a folder
                 file.attachChild(childName, FileType.FOLDER);
             }
 
@@ -155,6 +158,8 @@ public class VirtualFileSystem
 
     /**
      * Removes a junction from this file system.
+     * @param junctionPoint The junction to remove.
+     * @throws FileSystemException if an error occurs.
      */
     public void removeJunction(final String junctionPoint)
         throws FileSystemException
@@ -168,6 +173,8 @@ public class VirtualFileSystem
 
     /**
      * Locates the junction point for the junction containing the given file.
+     * @param name The FileName.
+     * @return the FileName where the junction occurs.
      */
     private FileName getJunctionForFile(final FileName name)
     {

@@ -23,34 +23,42 @@ import org.apache.commons.vfs.UserAuthenticator;
 
 /**
  * Default options usable for all filesystems
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-	private final static DefaultFileSystemConfigBuilder builder = new DefaultFileSystemConfigBuilder();
+    /** The default FileSystemConfigBuilder */
+    private static final DefaultFileSystemConfigBuilder BUILDER = new DefaultFileSystemConfigBuilder();
 
-	public static DefaultFileSystemConfigBuilder getInstance()
-	{
-		return builder;
-	}
+    public static DefaultFileSystemConfigBuilder getInstance()
+    {
+        return BUILDER;
+    }
 
-	/**
-	 * Sets the user authenticator to get authentication informations
-	 */
-	public void setUserAuthenticator(FileSystemOptions opts, UserAuthenticator userAuthenticator) throws FileSystemException
-	{
-		setParam(opts, "userAuthenticator", userAuthenticator);
-	}
+    /**
+     * Sets the user authenticator to get authentication informations
+     * @param opts The FileSystemOptions.
+     * @param userAuthenticator The UserAuthenticator.
+     * @throws FileSystemException if an error occurs setting the UserAuthenticator.
+     */
+    public void setUserAuthenticator(FileSystemOptions opts, UserAuthenticator userAuthenticator)
+            throws FileSystemException
+    {
+        setParam(opts, "userAuthenticator", userAuthenticator);
+    }
 
-	/**
-	 * @see #setUserAuthenticator
-	 */
-	public UserAuthenticator getUserAuthenticator(FileSystemOptions opts)
-	{
-		return (UserAuthenticator) getParam(opts, "userAuthenticator");
-	}
+    /**
+     * @see #setUserAuthenticator
+     * @param opts The FileSystemOptions.
+     * @return The UserAuthenticator.
+     */
+    public UserAuthenticator getUserAuthenticator(FileSystemOptions opts)
+    {
+        return (UserAuthenticator) getParam(opts, "userAuthenticator");
+    }
 
-	protected Class getConfigClass()
-	{
-		return DefaultFileSystemConfigBuilder.class;
-	}
+    protected Class getConfigClass()
+    {
+        return DefaultFileSystemConfigBuilder.class;
+    }
 }

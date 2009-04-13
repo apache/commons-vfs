@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,6 @@ package org.apache.commons.vfs.impl;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.NameScope;
 
 import java.io.IOException;
@@ -40,7 +39,7 @@ import java.util.jar.Attributes.Name;
 /**
  * A class loader that can load classes and resources from a search path
  * VFS FileObjects refering both to folders and JAR files. Any FileObject
- * of type {@link FileType#FILE} is asumed to be a JAR and is opened
+ * of type FileType.FILE is asumed to be a JAR and is opened
  * by creating a layered file system with the "jar" scheme.
  * </p><p>
  * TODO - Test this with signed Jars and a SecurityManager.
@@ -49,8 +48,7 @@ import java.util.jar.Attributes.Name;
  * @version $Revision$ $Date$
  * @see FileSystemManager#createFileSystem
  */
-public class VFSClassLoader
-    extends SecureClassLoader
+public class VFSClassLoader extends SecureClassLoader
 {
     private final ArrayList resources = new ArrayList();
 
@@ -60,6 +58,7 @@ public class VFSClassLoader
      * @param file    the file to load the classes and resources from.
      * @param manager the FileManager to use when trying create a layered Jar file
      *                system.
+     * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject file,
                           final FileSystemManager manager)
@@ -75,6 +74,7 @@ public class VFSClassLoader
      * @param manager the FileManager to use when trying create a layered Jar file
      *                system.
      * @param parent  the parent class loader for delegation.
+     * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject file,
                           final FileSystemManager manager,
@@ -91,6 +91,7 @@ public class VFSClassLoader
      * @param files   the files to load the classes and resources from.
      * @param manager the FileManager to use when trying create a layered Jar file
      *                system.
+     * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject[] files,
                           final FileSystemManager manager)
@@ -107,6 +108,7 @@ public class VFSClassLoader
      * @param manager the FileManager to use when trying create a layered Jar file
      *                system.
      * @param parent  the parent class loader for delegation.
+     * @throws FileSystemException if an error occurs.
      */
     public VFSClassLoader(final FileObject[] files,
                           final FileSystemManager manager,
@@ -116,19 +118,22 @@ public class VFSClassLoader
         addFileObjects(manager, files);
     }
 
-	/**
-	 * provide access to the file objects this class loader represents 
-	 */
-	public FileObject[] getFileObjects()
-	{
-		return (FileObject[]) resources.toArray(new FileObject[resources.size()]);
-	}
+    /**
+     * provide access to the file objects this class loader represents
+     * @return An array of FileObjects.
+     */
+    public FileObject[] getFileObjects()
+    {
+        return (FileObject[]) resources.toArray(new FileObject[resources.size()]);
+    }
 
-	/**
+    /**
      * Appends the specified FileObjects to the list of FileObjects to search
      * for classes and resources.
      *
+     * @param manager The FileSystemManager.
      * @param files the FileObjects to append to the search path.
+     * @throws FileSystemException if an error occurs.
      */
     private void addFileObjects(final FileSystemManager manager,
                                 final FileObject[] files) throws FileSystemException
@@ -260,6 +265,8 @@ public class VFSClassLoader
     /**
      * Calls super.getPermissions both for the code source and also
      * adds the permissions granted to the parent layers.
+     * @param cs the CodeSource.
+     * @return The PermissionCollections.
      */
     protected PermissionCollection getPermissions(final CodeSource cs)
     {
@@ -303,6 +310,8 @@ public class VFSClassLoader
 
     /**
      * Copies the permissions from src to dest.
+     * @param src The source PermissionCollection.
+     * @param dest The destination PermissionCollection.
      */
     protected void copyPermissions(final PermissionCollection src,
                                    final PermissionCollection dest)
@@ -335,6 +344,8 @@ public class VFSClassLoader
     /**
      * Finds the resource with the specified name from the search path.
      * This returns null if the resource is not found.
+     * @param name The resource name.
+     * @return The URL that matches the resource.
      */
     protected URL findResource(final String name)
     {
@@ -359,6 +370,8 @@ public class VFSClassLoader
      * Returns an Enumeration of all the resources in the search path
      * with the specified name.
      * TODO - Implement this.
+     * @param name The resources to find.
+     * @return An Enumeration of the resources associated with the name.
      */
     protected Enumeration findResources(final String name)
     {
@@ -379,6 +392,9 @@ public class VFSClassLoader
     /**
      * Searches through the search path of for the first class or resource
      * with specified name.
+     * @param name The resource to load.
+     * @return The Resource.
+     * @throws FileSystemException if an error occurs.
      */
     private Resource loadResource(final String name) throws FileSystemException
     {

@@ -25,6 +25,7 @@ package org.apache.commons.vfs;
 public class FileTypeSelector
     implements FileSelector
 {
+    /** The FileType */
     private final FileType type;
 
     public FileTypeSelector(final FileType type)
@@ -34,15 +35,20 @@ public class FileTypeSelector
 
     /**
      * Determines if a file or folder should be selected.
+     * @param fileInfo The file selection information.
+     * @return true if the file or folder should be selected.
+     * @throws FileSystemException if an error occurs
      */
     public boolean includeFile(final FileSelectInfo fileInfo)
         throws FileSystemException
     {
-        return (fileInfo.getFile().getType() == type);
+        return fileInfo.getFile().getType() == type;
     }
 
     /**
      * Determines whether a folder should be traversed.
+     * @param fileInfo The file selection information.
+     * @return true if the file or folder should be traversed.
      */
     public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {

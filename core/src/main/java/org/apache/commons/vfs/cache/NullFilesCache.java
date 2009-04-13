@@ -26,7 +26,8 @@ import org.apache.commons.vfs.FileSystem;
  * This implementation never ever caches a single file.
  * </p>
  * <p/>
- * <b>Notice: if you use resolveFile(uri) multiple times with the same path, the system will always create a new instance.
+ * <b>Notice: if you use resolveFile(uri) multiple times with the same path, the system will always
+ * create a new instance.
  * Changes on one instance of this file are not seen by the others.</b>
  * </p>
  *

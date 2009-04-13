@@ -140,7 +140,7 @@ public class SftpClientFactory
             Integer timeout = SftpFileSystemConfigBuilder.getInstance().getTimeout(fileSystemOptions);
             if (timeout != null)
             {
-            	session.setTimeout(timeout.intValue());
+                session.setTimeout(timeout.intValue());
             }
 
             UserInfo userInfo = SftpFileSystemConfigBuilder.getInstance().getUserInfo(fileSystemOptions);

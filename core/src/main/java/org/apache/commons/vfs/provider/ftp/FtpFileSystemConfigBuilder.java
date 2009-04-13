@@ -242,13 +242,13 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setShortMonthNames(FileSystemOptions opts, String[] shortMonthNames)
     {
-    	String[] clone = null;
-    	if (shortMonthNames != null)
-    	{
-    		clone = new String[shortMonthNames.length];
-    		System.arraycopy(shortMonthNames, 0, clone, 0, shortMonthNames.length);
-    	}
-    	
+        String[] clone = null;
+        if (shortMonthNames != null)
+        {
+            clone = new String[shortMonthNames.length];
+            System.arraycopy(shortMonthNames, 0, clone, 0, shortMonthNames.length);
+        }
+
         setParam(opts, SHORT_MONTH_NAMES, clone);
     }
 }

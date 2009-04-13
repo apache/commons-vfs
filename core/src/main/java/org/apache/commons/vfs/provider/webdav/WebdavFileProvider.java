@@ -42,7 +42,15 @@ import java.util.Collections;
 public class WebdavFileProvider
     extends HttpFileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** The authenticator types used by the WebDAV provider */
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+        {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+        };
+
+    /** The capabilities of the WebDAV provider */
+    protected static final Collection capabilities =
+            Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -58,12 +66,7 @@ public class WebdavFileProvider
         Capability.DIRECTORY_READ_CONTENT,
     }));
 
-	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-		{
-			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-		};
-
-	public WebdavFileProvider()
+    public WebdavFileProvider()
     {
         super();
 
@@ -79,27 +82,29 @@ public class WebdavFileProvider
         final GenericFileName rootName = (GenericFileName) name;
         FileSystemOptions fsOpts = (fileSystemOptions == null) ? new FileSystemOptions() : fileSystemOptions;
 
-		UserAuthenticationData authData = null;
-		HttpClient httpClient;
-		try
-		{
-			authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
+        UserAuthenticationData authData = null;
+        HttpClient httpClient;
+        try
+        {
+            authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
 
-			httpClient = HttpClientFactory.createConnection(
+            httpClient = HttpClientFactory.createConnection(
                 WebdavFileSystemConfigBuilder.getInstance(),
                 "http",
                 rootName.getHostName(),
-				rootName.getPort(),
-				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
-				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
-				fsOpts);
-		}
-		finally
-		{
-			UserAuthenticatorUtils.cleanup(authData);
-		}
+                rootName.getPort(),
+                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                        UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
+                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                        UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
+                fsOpts);
+        }
+        finally
+        {
+            UserAuthenticatorUtils.cleanup(authData);
+        }
 
-		return new WebdavFileSystem(rootName, httpClient, fsOpts);
+        return new WebdavFileSystem(rootName, httpClient, fsOpts);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

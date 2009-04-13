@@ -44,277 +44,272 @@ import java.util.Map;
  */
 public class SoftRefFilesCache extends AbstractFilesCache
 {
-	/**
-	 * The logger to use.
-	 */
-	private Log log = LogFactory.getLog(SoftRefFilesCache.class);
+    private static final int TIMEOUT = 1000;
+    /**
+     * The logger to use.
+     */
+    private Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
-	private final Map filesystemCache = new HashMap();
-	private final Map refReverseMap = new HashMap(100);
-	private final ReferenceQueue refqueue = new ReferenceQueue();
+    private final Map filesystemCache = new HashMap();
+    private final Map refReverseMap = new HashMap(100);
+    private final ReferenceQueue refqueue = new ReferenceQueue();
 
-	private SoftRefReleaseThread softRefReleaseThread = null;
+    private SoftRefReleaseThread softRefReleaseThread;
 
-	/**
-	 * This thread will listen on the ReferenceQueue and remove the entry in the
-	 * filescache as soon as the vm removes the reference
-	 */
-	private class SoftRefReleaseThread extends Thread
-	{
-		private boolean requestEnd = false;
+    /**
+     * This thread will listen on the ReferenceQueue and remove the entry in the
+     * filescache as soon as the vm removes the reference
+     */
+    private final class SoftRefReleaseThread extends Thread
+    {
+        private boolean requestEnd;
 
-		private SoftRefReleaseThread()
-		{
-			setName(SoftRefReleaseThread.class.getName());
-			setDaemon(true);
-		}
+        private SoftRefReleaseThread()
+        {
+            setName(SoftRefReleaseThread.class.getName());
+            setDaemon(true);
+        }
 
-		public void run()
-		{
-			loop: while (!requestEnd && !Thread.currentThread().isInterrupted())
-			{
-				try
-				{
-					Reference ref = refqueue.remove(1000);
-					if (ref == null)
-					{
-						continue;
-					}
+        public void run()
+        {
+            loop: while (!requestEnd && !Thread.currentThread().isInterrupted())
+            {
+                try
+                {
+                    Reference ref = refqueue.remove(TIMEOUT);
+                    if (ref == null)
+                    {
+                        continue;
+                    }
 
-					FileSystemAndNameKey key;
-					synchronized(refReverseMap)
-					{
-						key = (FileSystemAndNameKey) refReverseMap
-								.get(ref);
-					}
+                    FileSystemAndNameKey key;
+                    synchronized (refReverseMap)
+                    {
+                        key = (FileSystemAndNameKey) refReverseMap.get(ref);
+                    }
 
-					if (key != null)
-					{
-						if (removeFile(key))
-						{
+                    if (key != null)
+                    {
+                        if (removeFile(key))
+                        {
                             /* This is not thread safe
                             filesystemClose(key.getFileSystem());
                             */
-						}
-					}
-				}
-				catch (InterruptedException e)
-				{
-					if (!requestEnd)
-					{
-						VfsLog
-								.warn(
-										getLogger(),
-										log,
-										Messages
-												.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
-					}
-					break loop;
-				}
-			}
-		}
-	}
+                        }
+                    }
+                }
+                catch (InterruptedException e)
+                {
+                    if (!requestEnd)
+                    {
+                        VfsLog.warn(getLogger(), log,
+                                    Messages.getString("vfs.impl/SoftRefReleaseThread-interrupt.info"));
+                    }
+                    break loop;
+                }
+            }
+        }
+    }
 
-	public SoftRefFilesCache()
-	{
-	}
+    public SoftRefFilesCache()
+    {
+    }
 
-	private void startThread()
-	{
-		if (softRefReleaseThread != null)
-		{
-			throw new IllegalStateException(
-					Messages
-							.getString("vfs.impl/SoftRefReleaseThread-already-running.warn"));
-		}
+    private void startThread()
+    {
+        if (softRefReleaseThread != null)
+        {
+            throw new IllegalStateException(
+                    Messages.getString("vfs.impl/SoftRefReleaseThread-already-running.warn"));
+        }
 
-		softRefReleaseThread = new SoftRefReleaseThread();
-		softRefReleaseThread.start();
-	}
+        softRefReleaseThread = new SoftRefReleaseThread();
+        softRefReleaseThread.start();
+    }
 
-	private void endThread()
-	{
-		if (softRefReleaseThread != null)
-		{
-			softRefReleaseThread.requestEnd = true;
-			softRefReleaseThread.interrupt();
-			softRefReleaseThread = null;
-		}
-	}
+    private void endThread()
+    {
+        if (softRefReleaseThread != null)
+        {
+            softRefReleaseThread.requestEnd = true;
+            softRefReleaseThread.interrupt();
+            softRefReleaseThread = null;
+        }
+    }
 
-	public void putFile(final FileObject file)
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("putFile: " + file.getName());
-		}
+    public void putFile(final FileObject file)
+    {
+        if (log.isDebugEnabled())
+        {
+            log.debug("putFile: " + file.getName());
+        }
 
-		Map files = getOrCreateFilesystemCache(file.getFileSystem());
+        Map files = getOrCreateFilesystemCache(file.getFileSystem());
 
-		Reference ref = createReference(file, refqueue);
-		FileSystemAndNameKey key = new FileSystemAndNameKey(file
-				.getFileSystem(), file.getName());
+        Reference ref = createReference(file, refqueue);
+        FileSystemAndNameKey key = new FileSystemAndNameKey(file
+                .getFileSystem(), file.getName());
 
-		synchronized (files)
-		{
-			Reference old = (Reference)files.put(file.getName(), ref);
-			synchronized(refReverseMap)
-			{
+        synchronized (files)
+        {
+            Reference old = (Reference) files.put(file.getName(), ref);
+            synchronized (refReverseMap)
+            {
                 if (old != null)
                 {
                     refReverseMap.remove(old);
                 }
                 refReverseMap.put(ref, key);
-			}
-		}
-	}
+            }
+        }
+    }
 
-	protected Reference createReference(FileObject file, ReferenceQueue refqueue)
-	{
-		return new SoftReference(file, refqueue);
-	}
+    protected Reference createReference(FileObject file, ReferenceQueue refqueue)
+    {
+        return new SoftReference(file, refqueue);
+    }
 
-	public FileObject getFile(final FileSystem filesystem, final FileName name)
-	{
-		Map files = getOrCreateFilesystemCache(filesystem);
+    public FileObject getFile(final FileSystem filesystem, final FileName name)
+    {
+        Map files = getOrCreateFilesystemCache(filesystem);
 
-		synchronized (files)
-		{
-			Reference ref = (Reference) files.get(name);
-			if (ref == null)
-			{
-				return null;
-			}
+        synchronized (files)
+        {
+            Reference ref = (Reference) files.get(name);
+            if (ref == null)
+            {
+                return null;
+            }
 
-			FileObject fo = (FileObject) ref.get();
-			if (fo == null)
-			{
-				removeFile(filesystem, name);
-			}
-			return fo;
-		}
-	}
+            FileObject fo = (FileObject) ref.get();
+            if (fo == null)
+            {
+                removeFile(filesystem, name);
+            }
+            return fo;
+        }
+    }
 
-	public void clear(FileSystem filesystem)
-	{
-		Map files = getOrCreateFilesystemCache(filesystem);
+    public void clear(FileSystem filesystem)
+    {
+        Map files = getOrCreateFilesystemCache(filesystem);
 
-		boolean closeFilesystem;
+        boolean closeFilesystem;
 
-		synchronized (files)
-		{
-			synchronized(refReverseMap)
-			{
-				Iterator iterKeys = refReverseMap.values().iterator();
-				while (iterKeys.hasNext())
-				{
-					FileSystemAndNameKey key = (FileSystemAndNameKey) iterKeys.next();
-					if (key.getFileSystem() == filesystem)
-					{
-						iterKeys.remove();
-						files.remove(key.getFileName());
-					}
-				}
+        synchronized (files)
+        {
+            synchronized (refReverseMap)
+            {
+                Iterator iterKeys = refReverseMap.values().iterator();
+                while (iterKeys.hasNext())
+                {
+                    FileSystemAndNameKey key = (FileSystemAndNameKey) iterKeys.next();
+                    if (key.getFileSystem() == filesystem)
+                    {
+                        iterKeys.remove();
+                        files.remove(key.getFileName());
+                    }
+                }
 
-				closeFilesystem = files.size() < 1;
-			}
-		}
+                closeFilesystem = files.size() < 1;
+            }
+        }
 
-		if (closeFilesystem)
-		{
-			filesystemClose(filesystem);
-		}
-	}
+        if (closeFilesystem)
+        {
+            filesystemClose(filesystem);
+        }
+    }
 
-	private void filesystemClose(FileSystem filesystem)
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("close fs: " + filesystem.getRootName());
-		}
-		synchronized (filesystemCache)
-		{
-			filesystemCache.remove(filesystem);
-			if (filesystemCache.size() < 1)
-			{
-				endThread();
-			}
-		}
-		((DefaultFileSystemManager) getContext().getFileSystemManager())
-				._closeFileSystem(filesystem);
-	}
+    private void filesystemClose(FileSystem filesystem)
+    {
+        if (log.isDebugEnabled())
+        {
+            log.debug("close fs: " + filesystem.getRootName());
+        }
+        synchronized (filesystemCache)
+        {
+            filesystemCache.remove(filesystem);
+            if (filesystemCache.size() < 1)
+            {
+                endThread();
+            }
+        }
+        ((DefaultFileSystemManager) getContext().getFileSystemManager())
+                ._closeFileSystem(filesystem);
+    }
 
-	public void close()
-	{
-		super.close();
+    public void close()
+    {
+        super.close();
 
-		endThread();
+        endThread();
 
-		// files.clear();
-		synchronized (filesystemCache)
-		{
-			filesystemCache.clear();
-		}
+        // files.clear();
+        synchronized (filesystemCache)
+        {
+            filesystemCache.clear();
+        }
 
-		synchronized(refReverseMap)
-		{
-			refReverseMap.clear();
-		}
-	}
+        synchronized (refReverseMap)
+        {
+            refReverseMap.clear();
+        }
+    }
 
-	public void removeFile(FileSystem filesystem, FileName name)
-	{
-		if (removeFile(new FileSystemAndNameKey(filesystem, name)))
-		{
-			filesystemClose(filesystem);
-		}
-	}
+    public void removeFile(FileSystem filesystem, FileName name)
+    {
+        if (removeFile(new FileSystemAndNameKey(filesystem, name)))
+        {
+            filesystemClose(filesystem);
+        }
+    }
 
-	public void touchFile(FileObject file)
-	{
-	}
+    public void touchFile(FileObject file)
+    {
+    }
 
-	private boolean removeFile(final FileSystemAndNameKey key)
-	{
-		if (log.isDebugEnabled())
-		{
-			log.debug("removeFile: " + key.getFileName());
-		}
+    private boolean removeFile(final FileSystemAndNameKey key)
+    {
+        if (log.isDebugEnabled())
+        {
+            log.debug("removeFile: " + key.getFileName());
+        }
 
-		Map files = getOrCreateFilesystemCache(key.getFileSystem());
+        Map files = getOrCreateFilesystemCache(key.getFileSystem());
 
-		synchronized (files)
-		{
-			Object ref = files.remove(key.getFileName());
-			if (ref != null)
-			{
-				synchronized(refReverseMap)
-				{
-					refReverseMap.remove(ref);
-				}
-			}
+        synchronized (files)
+        {
+            Object ref = files.remove(key.getFileName());
+            if (ref != null)
+            {
+                synchronized (refReverseMap)
+                {
+                    refReverseMap.remove(ref);
+                }
+            }
 
-			return files.size() < 1;
-		}
-	}
+            return files.size() < 1;
+        }
+    }
 
-	protected Map getOrCreateFilesystemCache(final FileSystem filesystem)
-	{
-		synchronized (filesystemCache)
-		{
-			if (filesystemCache.size() < 1)
-			{
-				startThread();
-			}
+    protected Map getOrCreateFilesystemCache(final FileSystem filesystem)
+    {
+        synchronized (filesystemCache)
+        {
+            if (filesystemCache.size() < 1)
+            {
+                startThread();
+            }
 
-			Map files = (Map) filesystemCache.get(filesystem);
-			if (files == null)
-			{
-				files = new HashMap();
-				filesystemCache.put(filesystem, files);
-			}
+            Map files = (Map) filesystemCache.get(filesystem);
+            if (files == null)
+            {
+                files = new HashMap();
+                filesystemCache.put(filesystem, files);
+            }
 
-			return files;
-		}
-	}
+            return files;
+        }
+    }
 }

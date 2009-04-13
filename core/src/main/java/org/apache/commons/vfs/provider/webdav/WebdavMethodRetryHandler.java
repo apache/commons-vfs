@@ -29,9 +29,9 @@ import org.apache.commons.httpclient.HttpRecoverableException;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class WebdavMethodRetryHandler implements MethodRetryHandler
+public final class WebdavMethodRetryHandler implements MethodRetryHandler
 {
-    private final static WebdavMethodRetryHandler INSTANCE = new WebdavMethodRetryHandler();
+    private static final WebdavMethodRetryHandler INSTANCE = new WebdavMethodRetryHandler();
 
     private WebdavMethodRetryHandler()
     {
@@ -42,7 +42,9 @@ public class WebdavMethodRetryHandler implements MethodRetryHandler
         return INSTANCE;
     }
 
-    public boolean retryMethod(HttpMethod method, HttpConnection connection, HttpRecoverableException recoverableException, int executionCount, boolean requestSent)
+    public boolean retryMethod(HttpMethod method, HttpConnection connection,
+                               HttpRecoverableException recoverableException, int executionCount,
+                               boolean requestSent)
     {
         return executionCount < 2;
     }

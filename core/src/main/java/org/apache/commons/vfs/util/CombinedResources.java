@@ -25,106 +25,106 @@ import java.util.ResourceBundle;
 
 public class CombinedResources extends ResourceBundle
 {
-	// locale.getLanguage()
-	// locale.getCountry()
-	// locale.getVariant()
+    // locale.getLanguage()
+    // locale.getCountry()
+    // locale.getVariant()
 
-	private final String resourceName;
-	private boolean inited;
-	private final Properties properties = new Properties();
+    private final String resourceName;
+    private boolean inited;
+    private final Properties properties = new Properties();
 
-	public CombinedResources(String resourceName)
-	{
-		this.resourceName = resourceName;
-	}
+    public CombinedResources(String resourceName)
+    {
+        this.resourceName = resourceName;
+    }
 
-	protected void init()
-	{
-		if (inited)
-		{                 	
-			return;
-		}
+    protected void init()
+    {
+        if (inited)
+        {
+            return;
+        }
 
-		loadResources(getResourceName());
-		loadResources(Locale.getDefault());
-		loadResources(getLocale());
-		inited = true;
-	}
+        loadResources(getResourceName());
+        loadResources(Locale.getDefault());
+        loadResources(getLocale());
+        inited = true;
+    }
 
-	protected void loadResources(Locale locale)
-	{
-		if (locale == null)
-		{
-			return;
-		}
-		String[] parts = new String[]{locale.getLanguage(), locale.getCountry(), locale.getVariant()};
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < 3; i++)
-		{
-			sb.append(getResourceName());
-			for (int j = 0; j < i; j++)
-			{
-				sb.append('_').append(parts[j]);
-			}
-			if (parts[i].length() != 0)
-			{
-				sb.append('_').append(parts[i]);
-				loadResources(sb.toString());
-			}
-			sb.setLength(0);
-		}
-	}
+    protected void loadResources(Locale locale)
+    {
+        if (locale == null)
+        {
+            return;
+        }
+        String[] parts = new String[]{locale.getLanguage(), locale.getCountry(), locale.getVariant()};
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < 3; i++)
+        {
+            sb.append(getResourceName());
+            for (int j = 0; j < i; j++)
+            {
+                sb.append('_').append(parts[j]);
+            }
+            if (parts[i].length() != 0)
+            {
+                sb.append('_').append(parts[i]);
+                loadResources(sb.toString());
+            }
+            sb.setLength(0);
+        }
+    }
 
-	protected void loadResources(String resourceName)
-	{
-		ClassLoader loader = getClass().getClassLoader();
-		if (loader == null)
-		{
-			loader = ClassLoader.getSystemClassLoader();
-		}
-		resourceName = resourceName.replace('.', '/') + ".properties";
-		try
-		{
-			Enumeration resources = loader.getResources(resourceName);
-			while (resources.hasMoreElements())
-			{
-				URL resource = (URL) resources.nextElement();
-				try
-				{
-					properties.load(resource.openConnection().getInputStream());
-				}
-				catch (IOException e)
-				{
-					// ignore
-				}
-			}
-		}
-		catch (IOException e)
-		{
-			// ignore
-		}
-	}
+    protected void loadResources(String resourceName)
+    {
+        ClassLoader loader = getClass().getClassLoader();
+        if (loader == null)
+        {
+            loader = ClassLoader.getSystemClassLoader();
+        }
+        resourceName = resourceName.replace('.', '/') + ".properties";
+        try
+        {
+            Enumeration resources = loader.getResources(resourceName);
+            while (resources.hasMoreElements())
+            {
+                URL resource = (URL) resources.nextElement();
+                try
+                {
+                    properties.load(resource.openConnection().getInputStream());
+                }
+                catch (IOException e)
+                {
+                    // ignore
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            // ignore
+        }
+    }
 
-	public String getResourceName()
-	{
-		return resourceName;
-	}
+    public String getResourceName()
+    {
+        return resourceName;
+    }
 
-	public Enumeration getKeys()
-	{
-		if (!inited)
-		{
-			init();
-		}
-		return properties.keys();
-	}
+    public Enumeration getKeys()
+    {
+        if (!inited)
+        {
+            init();
+        }
+        return properties.keys();
+    }
 
-	protected Object handleGetObject(String key)
-	{
-		if (!inited)
-		{
-			init();
-		}
-		return properties.get(key);
-	}
+    protected Object handleGetObject(String key)
+    {
+        if (!inited)
+        {
+            init();
+        }
+        return properties.get(key);
+    }
 }

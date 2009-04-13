@@ -35,22 +35,22 @@ import org.apache.commons.vfs.FileSystemException;
  * </p>
  * <p>
  * FileOperation is provided by
- * 
+ *
  * @see FileOperationProvider Especially the FileOperationProvider is responsible
  *      for looking up and instantiating any concrete FileOperation.
  *      </p>
- * 
+ *
  * @author Siarhei Baidun
  * @since 0.1
  */
 public interface FileOperation
 {
 
-	/**
-	 * Performs necessary actions that are related to the concrete
-	 * implementation of a FileOperation.
-	 * 
-	 * @throws FileSystemException
-	 */
-	void process() throws FileSystemException;
+    /**
+     * Performs necessary actions that are related to the concrete
+     * implementation of a FileOperation.
+     *
+     * @throws FileSystemException if an error occurs
+     */
+    void process() throws FileSystemException;
 }

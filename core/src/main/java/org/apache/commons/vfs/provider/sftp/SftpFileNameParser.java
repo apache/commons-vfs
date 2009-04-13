@@ -31,7 +31,7 @@ public class SftpFileNameParser extends URLFileNameParser
     {
         super(22);
     }
-    
+
     public static FileNameParser getInstance()
     {
         return INSTANCE;

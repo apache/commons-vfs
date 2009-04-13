@@ -25,55 +25,55 @@ import org.apache.commons.vfs.FileSystemOptions;
 public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
 
-	/** max size key */
-	private static final String MAX_SIZE_KEY = "maxsize";
+    /** max size key */
+    private static final String MAX_SIZE_KEY = "maxsize";
 
-	/** config builder singleton */
-	private static RamFileSystemConfigBuilder singleton = new RamFileSystemConfigBuilder();
+    /** config builder singleton */
+    private static RamFileSystemConfigBuilder singleton = new RamFileSystemConfigBuilder();
 
-	/**
-	 * Constructor
-	 */
-	private RamFileSystemConfigBuilder()
-	{
-		super("ram.");
-	}
+    /**
+     * Constructor
+     */
+    private RamFileSystemConfigBuilder()
+    {
+        super("ram.");
+    }
 
-	/**
-	 * @return the config builder singleton
-	 */
-	public static RamFileSystemConfigBuilder getInstance()
-	{
-		return singleton;
-	}
+    /**
+     * @return the config builder singleton
+     */
+    public static RamFileSystemConfigBuilder getInstance()
+    {
+        return singleton;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected Class getConfigClass()
-	{
-		return RamFileSystem.class;
-	}
+    /**
+     * @inheritDoc
+     */
+    protected Class getConfigClass()
+    {
+        return RamFileSystem.class;
+    }
 
-	/**
-	 * @param opts
-	 * @return
-	 * @see #setMaxSize
-	 */
-	public int getMaxSize(FileSystemOptions opts)
-	{
-		return getInteger(opts, MAX_SIZE_KEY, Integer.MAX_VALUE);
-	}
+    /**
+     * @param opts
+     * @return
+     * @see #setMaxSize
+     */
+    public int getMaxSize(FileSystemOptions opts)
+    {
+        return getInteger(opts, MAX_SIZE_KEY, Integer.MAX_VALUE);
+    }
 
-	/**
-	 * sets the maximum size of the file system
-	 * 
-	 * @param opts
-	 * @param sizeInBytes
-	 */
-	public void setMaxSize(FileSystemOptions opts, int sizeInBytes)
-	{
-		setParam(opts, MAX_SIZE_KEY, new Integer(sizeInBytes));
-	}
+    /**
+     * sets the maximum size of the file system
+     *
+     * @param opts
+     * @param sizeInBytes
+     */
+    public void setMaxSize(FileSystemOptions opts, int sizeInBytes)
+    {
+        setParam(opts, MAX_SIZE_KEY, new Integer(sizeInBytes));
+    }
 
 }

@@ -22,44 +22,51 @@ package org.apache.commons.vfs;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public interface Selectors
+public final class Selectors
 {
     /**
      * A {@link FileSelector} that selects only the base file/folder.
      */
-    FileSelector SELECT_SELF = new FileDepthSelector(0, 0);
+    public static final FileSelector SELECT_SELF = new FileDepthSelector(0, 0);
 
     /**
      * A {@link FileSelector} that selects the base file/folder and its
      * direct children.
      */
-    FileSelector SELECT_SELF_AND_CHILDREN = new FileDepthSelector(0, 1);
+    public static final FileSelector SELECT_SELF_AND_CHILDREN = new FileDepthSelector(0, 1);
 
     /**
      * A {@link FileSelector} that selects only the direct children
      * of the base folder.
      */
-    FileSelector SELECT_CHILDREN = new FileDepthSelector(1, 1);
+    public static final FileSelector SELECT_CHILDREN = new FileDepthSelector(1, 1);
 
     /**
      * A {@link FileSelector} that selects all the descendents of the
      * base folder, but does not select the base folder itself.
      */
-    FileSelector EXCLUDE_SELF = new FileDepthSelector(1, Integer.MAX_VALUE);
+    public static final FileSelector EXCLUDE_SELF = new FileDepthSelector(1, Integer.MAX_VALUE);
 
     /**
      * A {@link FileSelector} that only files (not folders).
      */
-    FileSelector SELECT_FILES = new FileTypeSelector(FileType.FILE);
+    public static final FileSelector SELECT_FILES = new FileTypeSelector(FileType.FILE);
 
     /**
      * A {@link FileSelector} that only folders (not files).
      */
-    FileSelector SELECT_FOLDERS = new FileTypeSelector(FileType.FOLDER);
+    public static final FileSelector SELECT_FOLDERS = new FileTypeSelector(FileType.FOLDER);
 
     /**
      * A {@link FileSelector} that selects the base file/folder, plus all
      * its descendents.
      */
-    FileSelector SELECT_ALL = new AllFileSelector();
+    public static final FileSelector SELECT_ALL = new AllFileSelector();
+
+    /**
+     * Prevent the class from being instantiated.
+     */
+    private Selectors()
+    {
+    }
 }

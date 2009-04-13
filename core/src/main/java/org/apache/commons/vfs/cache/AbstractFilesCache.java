@@ -21,7 +21,7 @@ import org.apache.commons.vfs.provider.AbstractVfsComponent;
 
 /**
  * Description
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */

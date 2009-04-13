@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -78,44 +78,44 @@ public class MonitorOutputStream
     }
 
 
-	public synchronized void write(int b) throws IOException
-	{
-		assertOpen();
-		super.write(b);
-	}
+    public synchronized void write(int b) throws IOException
+    {
+        assertOpen();
+        super.write(b);
+    }
 
-	public synchronized void write(byte b[], int off, int len) throws IOException
-	{
-		assertOpen();
-		super.write(b, off, len);
-	}
+    public synchronized void write(byte b[], int off, int len) throws IOException
+    {
+        assertOpen();
+        super.write(b, off, len);
+    }
 
-	public synchronized void flush() throws IOException
-	{
-		assertOpen();
-		super.flush();
-	}
+    public synchronized void flush() throws IOException
+    {
+        assertOpen();
+        super.flush();
+    }
 
-	public void write(byte b[]) throws IOException
-	{
-		assertOpen();
-		super.write(b);
-	}
+    public void write(byte b[]) throws IOException
+    {
+        assertOpen();
+        super.write(b);
+    }
 
-	/**
-	 * check if file is still open. <br />
-	 * This is a workaround for an oddidy with javas BufferedOutputStream where you can write to
-	 * even if the stream has been closed
-	 */
-	protected void assertOpen() throws FileSystemException
-	{
-		if (finished)
-		{
-			throw new FileSystemException("vfs.provider/closed.error");
-		}
-	}
+    /**
+     * check if file is still open. <br />
+     * This is a workaround for an oddidy with javas BufferedOutputStream where you can write to
+     * even if the stream has been closed
+     */
+    protected void assertOpen() throws FileSystemException
+    {
+        if (finished)
+        {
+            throw new FileSystemException("vfs.provider/closed.error");
+        }
+    }
 
-	/**
+    /**
      * Called after this stream is closed.  This implementation does nothing.
      */
     protected void onClose() throws IOException

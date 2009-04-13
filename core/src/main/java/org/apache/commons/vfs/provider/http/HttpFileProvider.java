@@ -53,12 +53,12 @@ public class HttpFileProvider
         Capability.DIRECTORY_READ_CONTENT,
     }));
 
-	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-		{
-			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-		};
+    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+        {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+        };
 
-	public HttpFileProvider()
+    public HttpFileProvider()
     {
         super();
         setFileNameParser(HttpFileNameParser.getInstance());
@@ -73,26 +73,26 @@ public class HttpFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
-		UserAuthenticationData authData = null;
-		HttpClient httpClient;
-		try
-		{
-			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
+        UserAuthenticationData authData = null;
+        HttpClient httpClient;
+        try
+        {
+            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
-			httpClient = HttpClientFactory.createConnection(
+            httpClient = HttpClientFactory.createConnection(
                 rootName.getScheme(),
                 rootName.getHostName(),
-				rootName.getPort(),
-				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
-				UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
-				fileSystemOptions);
-		}
-		finally
-		{
-			UserAuthenticatorUtils.cleanup(authData);
-		}
+                rootName.getPort(),
+                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
+                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
+                fileSystemOptions);
+        }
+        finally
+        {
+            UserAuthenticatorUtils.cleanup(authData);
+        }
 
-		return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
+        return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

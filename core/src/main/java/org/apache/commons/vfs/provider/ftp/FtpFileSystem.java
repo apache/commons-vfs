@@ -104,9 +104,9 @@ public class FtpFileSystem
             {
                 if (idleClient == null || !idleClient.isConnected())
                 {
-					idleClient = null;
+                    idleClient = null;
 
-					FtpClient ftpClient = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
+                    FtpClient ftpClient = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
                     return ftpClient;
                     /*
                     final GenericFileName rootName = (GenericFileName) getRoot().getName();

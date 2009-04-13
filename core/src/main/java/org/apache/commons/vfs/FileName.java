@@ -86,7 +86,7 @@ public interface FileName extends Comparable
      * @return The extension.  Returns an empty string if the name has no
      *         extension.
      */
-    public String getExtension();
+    String getExtension();
 
     /**
      * Returns the depth of this file name, within its file system.  The depth

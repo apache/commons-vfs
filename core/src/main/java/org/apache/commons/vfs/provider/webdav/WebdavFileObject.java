@@ -76,22 +76,23 @@ import java.util.Iterator;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$
  */
-public class WebdavFileObject
-    extends HttpFileObject
-    implements FileObject
+public class WebdavFileObject extends HttpFileObject implements FileObject
 {
+    /** The character set property name */
+    public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create(
+            "response-charset");
+
     private final WebdavFileSystem fileSystem;
     private final String urlCharset;
-    public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create("response-charset");
-    public final WebdavFileSystemConfigBuilder builder;
 
-    protected WebdavFileObject(final FileName name,
-                               final WebdavFileSystem fileSystem)
+    /** The FileSystemConfigBuilder */
+    private final WebdavFileSystemConfigBuilder builder;
+
+    protected WebdavFileObject(final FileName name, final WebdavFileSystem fileSystem)
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;
-        builder =
-            (WebdavFileSystemConfigBuilder)WebdavFileSystemConfigBuilder.getInstance();
+        builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
         this.urlCharset = builder.getUrlCharset(getFileSystem().getFileSystemOptions());
     }
 
@@ -104,12 +105,11 @@ public class WebdavFileObject
      * Determines the type of this file.  Must not return null.  The return
      * value of this method is cached, so the implementation can be expensive.
      */
-    protected FileType doGetType()
-        throws Exception
+    protected FileType doGetType() throws Exception
     {
         try
         {
-            return isDirectory((URLFileName)getName()) ? FileType.FOLDER : FileType.FILE;
+            return isDirectory((URLFileName) getName()) ? FileType.FOLDER : FileType.FILE;
         }
         catch (FileNotFolderException fnfe)
         {
@@ -139,23 +139,23 @@ public class WebdavFileObject
         PropFindMethod method = null;
         try
         {
-            URLFileName name = (URLFileName)getName();
-            if ( isDirectory( name ) )
+            URLFileName name = (URLFileName) getName();
+            if (isDirectory(name))
             {
                 DavPropertyNameSet nameSet = new DavPropertyNameSet();
-                nameSet.add( DavPropertyName.create( DavConstants.PROPERTY_DISPLAYNAME ) );
+                nameSet.add(DavPropertyName.create(DavConstants.PROPERTY_DISPLAYNAME));
 
-                method = new PropFindMethod( urlString(name), nameSet,
-                        DavConstants.DEPTH_1 );
+                method = new PropFindMethod(urlString(name), nameSet,
+                        DavConstants.DEPTH_1);
 
-                execute( method );
+                execute(method);
                 List vfs = new ArrayList();
-                if ( method.succeeded() )
+                if (method.succeeded())
                 {
                     MultiStatusResponse[] responses =
                             method.getResponseBodyAsMultiStatus().getResponses();
 
-                    for (int i=0; i < responses.length; ++i)
+                    for (int i = 0; i < responses.length; ++i)
                     {
                         MultiStatusResponse response = responses[i];
                         if (isCurrentFile(response.getHref(), name))
@@ -165,10 +165,11 @@ public class WebdavFileObject
                         String resourceName = resourceName(response.getHref());
                         if (resourceName != null && resourceName.length() > 0)
                         {
-                            WebdavFileObject fo = (WebdavFileObject)FileObjectUtils.
-                                getAbstractFileObject(getFileSystem().resolveFile(
-                                    getFileSystem().getFileSystemManager().
-                                        resolveName(getName(), resourceName, NameScope.CHILD)));
+                            WebdavFileObject fo = (WebdavFileObject) FileObjectUtils.
+                                    getAbstractFileObject(getFileSystem().resolveFile(
+                                            getFileSystem().getFileSystemManager().
+                                                    resolveName(getName(), resourceName,
+                                                    NameScope.CHILD)));
                             vfs.add(fo);
                         }
                     }
@@ -177,22 +178,24 @@ public class WebdavFileObject
             }
             throw new FileNotFolderException(getName());
         }
-        catch ( FileNotFolderException fnfe)
+        catch (FileNotFolderException fnfe)
         {
             throw fnfe;
         }
-        catch ( DavException e )
+        catch (DavException e)
         {
-            throw new FileSystemException( e.getMessage(), e );
+            throw new FileSystemException(e.getMessage(), e);
         }
-        catch ( IOException e )
+        catch (IOException e)
         {
-            throw new FileSystemException( e.getMessage(), e );
+            throw new FileSystemException(e.getMessage(), e);
         }
         finally
         {
-            if ( method != null )
+            if (method != null)
+            {
                 method.releaseConnection();
+            }
         }
     }
 
@@ -201,7 +204,7 @@ public class WebdavFileObject
      */
     protected void doCreateFolder() throws Exception
     {
-        DavMethod method = new MkColMethod(urlString((URLFileName)getName()));
+        DavMethod method = new MkColMethod(urlString((URLFileName) getName()));
         setupMethod(method);
         try
         {
@@ -210,7 +213,7 @@ public class WebdavFileObject
         catch (FileSystemException fse)
         {
             throw new FileSystemException("vfs.provider.webdav/create-collection.error", getName(),
-                                          fse);
+                    fse);
         }
     }
 
@@ -219,7 +222,7 @@ public class WebdavFileObject
      */
     protected void doDelete() throws Exception
     {
-        DavMethod method = new DeleteMethod(urlString((URLFileName)getName()));
+        DavMethod method = new DeleteMethod(urlString((URLFileName) getName()));
         setupMethod(method);
         execute(method);
     }
@@ -229,8 +232,8 @@ public class WebdavFileObject
      */
     protected void doRename(FileObject newfile) throws Exception
     {
-        String url = encodePath(urlString((URLFileName)getName()));
-        String dest = urlString((URLFileName)newfile.getName(), false);
+        String url = encodePath(urlString((URLFileName) getName()));
+        String dest = urlString((URLFileName) newfile.getName(), false);
         DavMethod method = new MoveMethod(url, dest, false);
         setupMethod(method);
         execute(method);
@@ -241,9 +244,9 @@ public class WebdavFileObject
      */
     protected long doGetContentSize() throws Exception
     {
-        DavProperty property = getProperty((URLFileName)getName(),
+        DavProperty property = getProperty((URLFileName) getName(),
                 DavConstants.PROPERTY_GETCONTENTLENGTH);
-        if ( property != null )
+        if (property != null)
         {
             String value = (String) property.getValue();
             return Long.parseLong(value);
@@ -257,9 +260,9 @@ public class WebdavFileObject
      */
     protected long doGetLastModifiedTime() throws Exception
     {
-        DavProperty property = getProperty((URLFileName)getName(),
+        DavProperty property = getProperty((URLFileName) getName(),
                 DavConstants.PROPERTY_GETLASTMODIFIED);
-        if ( property != null )
+        if (property != null)
         {
             String value = (String) property.getValue();
             return DateUtil.parseDate(value).getTime();
@@ -275,25 +278,25 @@ public class WebdavFileObject
         final Map attributes = new HashMap();
         try
         {
-            URLFileName fileName = (URLFileName)getName();
+            URLFileName fileName = (URLFileName) getName();
             DavPropertySet properties = getProperties(fileName, PropFindMethod.PROPFIND_ALL_PROP,
                     new DavPropertyNameSet(), false);
             Iterator iter = properties.iterator();
             while (iter.hasNext())
             {
-                DavProperty property = (DavProperty)iter.next();
+                DavProperty property = (DavProperty) iter.next();
                 attributes.put(property.getName().toString(), property.getValue());
             }
             properties = getPropertyNames(fileName);
             iter = properties.iterator();
             while (iter.hasNext())
             {
-                DavProperty property = (DavProperty)iter.next();
+                DavProperty property = (DavProperty) iter.next();
                 if (!attributes.containsKey(property.getName()))
                 {
                     property = getProperty(fileName, property.getName());
                     attributes.put(property.getName().toString(), property.getValue());
-                }               
+                }
             }
             return attributes;
         }
@@ -315,9 +318,10 @@ public class WebdavFileObject
 
     /**
      * Prepares a Method object.
+     *
      * @param method the HttpMethod.
      * @throws FileSystemException if an error occurs encoding the uri.
-     * @throws URIException if the URI is in error.
+     * @throws URIException        if the URI is in error.
      */
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
@@ -326,10 +330,10 @@ public class WebdavFileObject
         // All the WebDav methods are EntityEnclosingMethods and are not allowed to redirect.
         method.setFollowRedirects(false);
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
-        method.addRequestHeader( "Cache-control", "no-cache" );
-        method.addRequestHeader( "Cache-store", "no-store" );
-        method.addRequestHeader( "Pragma", "no-cache" );
-        method.addRequestHeader( "Expires", "0" );
+        method.addRequestHeader("Cache-control", "no-cache");
+        method.addRequestHeader("Cache-store", "no-store");
+        method.addRequestHeader("Pragma", "no-cache");
+        method.addRequestHeader("Expires", "0");
     }
 
     /**
@@ -344,7 +348,7 @@ public class WebdavFileObject
         {
             int status = fileSystem.getClient().executeMethod(method);
             if (status == HttpURLConnection.HTTP_NOT_FOUND
-                 || status == HttpURLConnection.HTTP_GONE)
+                    || status == HttpURLConnection.HTTP_GONE)
             {
                 throw new FileNotFoundException(method.getURI());
             }
@@ -377,9 +381,9 @@ public class WebdavFileObject
         {
             DavProperty property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
             Node node;
-            if ( property != null && (node = (Node)property.getValue()) != null)
+            if (property != null && (node = (Node) property.getValue()) != null)
             {
-                return node.getLocalName().equals( DavConstants.XML_COLLECTION );
+                return node.getLocalName().equals(DavConstants.XML_COLLECTION);
             }
             else
             {
@@ -415,7 +419,8 @@ public class WebdavFileObject
 
     DavPropertySet getProperties(URLFileName name) throws FileSystemException
     {
-        return getProperties(name, PropFindMethod.PROPFIND_ALL_PROP, new DavPropertyNameSet(), false);
+        return getProperties(name, PropFindMethod.PROPFIND_ALL_PROP, new DavPropertyNameSet(),
+                false);
     }
 
 
@@ -434,12 +439,12 @@ public class WebdavFileObject
             String urlStr = urlString(name);
             PropFindMethod method = new PropFindMethod(urlStr, type, nameSet, DavConstants.DEPTH_0);
             setupMethod(method);
-            execute( method );
-            if ( method.succeeded() )
+            execute(method);
+            if (method.succeeded())
             {
                 MultiStatus multiStatus = method.getResponseBodyAsMultiStatus();
                 MultiStatusResponse response = multiStatus.getResponses()[0];
-                DavPropertySet props = response.getProperties( HttpStatus.SC_OK );
+                DavPropertySet props = response.getProperties(HttpStatus.SC_OK);
                 if (addEncoding)
                 {
                     DavProperty prop = new DefaultDavProperty(RESPONSE_CHARSET,
@@ -462,17 +467,18 @@ public class WebdavFileObject
 
     /**
      * Returns the resource name from the path.
+     *
      * @param path the path to the file.
      * @return The resource name
      */
-    private String resourceName( String path )
+    private String resourceName(String path)
     {
         if (path.endsWith("/"))
         {
-            path = path.substring(0, path.length()-1);
+            path = path.substring(0, path.length() - 1);
         }
-        final int i = path.lastIndexOf( "/" );
-        return ( ( i >= 0 ) ? path.substring( i + 1 ) : path );
+        final int i = path.lastIndexOf("/");
+        return (i >= 0) ? path.substring(i + 1) : path;
     }
 
     private String urlString(URLFileName name)
@@ -482,7 +488,9 @@ public class WebdavFileObject
 
     /**
      * Convert the FileName to an encoded url String.
+     *
      * @param name The FileName.
+     * @param includeUserInfo true if user information should be included.
      * @return The encoded URL String.
      */
     private String urlString(URLFileName name, boolean includeUserInfo)
@@ -519,6 +527,7 @@ public class WebdavFileObject
 
     /**
      * Convert the FileName to an encoded url String.
+     *
      * @param name The FileName.
      * @return The encoded URL String.
      */
@@ -559,7 +568,7 @@ public class WebdavFileObject
         protected void onClose() throws IOException
         {
             RequestEntity entity = new StringRequestEntity(out.toString());
-            URLFileName fileName = (URLFileName)getName();
+            URLFileName fileName = (URLFileName) getName();
             String urlStr = urlString(fileName);
             if (builder.isVersioning(getFileSystem().getFileSystemOptions()))
             {
@@ -604,7 +613,7 @@ public class WebdavFileObject
                     }
                     catch (FileSystemException ex)
                     {
-                        //
+                        // Ignore the exception checking out.
                     }
                 }
 
@@ -645,7 +654,7 @@ public class WebdavFileObject
                 }
                 else
                 {
-                    createVersion(urlStr);       
+                    createVersion(urlStr);
                 }
             }
             else
@@ -660,14 +669,14 @@ public class WebdavFileObject
                 }
                 catch (IOException e)
                 {
-
+                    // Ignore the exception if unable to set the user name.
                 }
             }
-            ((DefaultFileContent)this.file.getContent()).resetAttributes();
+            ((DefaultFileContent) this.file.getContent()).resetAttributes();
         }
 
         private void setUserName(URLFileName fileName, String urlStr)
-            throws IOException
+                throws IOException
         {
             List list = new ArrayList();
             String name = builder.getCreatorName(getFileSystem().getFileSystemOptions());

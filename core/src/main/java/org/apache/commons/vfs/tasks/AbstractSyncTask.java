@@ -111,7 +111,7 @@ public abstract class AbstractSyncTask
     {
         this.failonerror = failonerror;
     }
-    
+
     /**
      * Sets whether we should fail if there was an error or not
      */
@@ -119,7 +119,7 @@ public abstract class AbstractSyncTask
     {
         return failonerror;
     }
-    
+
     /**
      * Sets the files to includes
      */
@@ -217,15 +217,15 @@ public abstract class AbstractSyncTask
         }
     }
 
-	protected void logOrDie(final String message, int level)
-	{
-		if (!isFailonerror())
-		{
-			log(message, level);
-			return;
-		}
-		throw new BuildException(message);
-	}
+    protected void logOrDie(final String message, int level)
+    {
+        if (!isFailonerror())
+        {
+            log(message, level);
+            return;
+        }
+        throw new BuildException(message);
+    }
 
     /**
      * Copies the source files to the destination.
@@ -252,7 +252,7 @@ public abstract class AbstractSyncTask
             {
                 final String message =
                     Messages.getString("vfs.tasks/sync.src-file-no-exist.warn", srcFile);
-                
+
                 logOrDie(message, Project.MSG_WARN);
             }
             else

@@ -69,8 +69,8 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
         filePointer = pos;
     }
 
-	protected DataInputStream getDataInputStream() throws IOException
-	{
+    protected DataInputStream getDataInputStream() throws IOException
+    {
         if (dis != null)
         {
             return dis;
@@ -116,8 +116,8 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
             }
         });
 
-		return dis;
-	}
+        return dis;
+    }
 
 
     public void close() throws IOException

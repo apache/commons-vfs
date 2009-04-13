@@ -24,7 +24,7 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 /**
  * Configuration options for HTTP
- * 
+ *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
@@ -186,7 +186,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return getInteger(opts, HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
     }
-    
+
     protected Class getConfigClass()
     {
         return HttpFileSystem.class;

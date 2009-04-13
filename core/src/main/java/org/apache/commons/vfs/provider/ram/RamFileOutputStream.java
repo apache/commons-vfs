@@ -27,87 +27,87 @@ import org.apache.commons.vfs.FileSystemException;
 public class RamFileOutputStream extends OutputStream
 {
 
-	/**
-	 * File
-	 */
-	protected RamFileObject file;
+    /**
+     * File
+     */
+    protected RamFileObject file;
 
-	/**
-	 * buffer
-	 */
-	protected byte buffer1[] = new byte[1];
+    /**
+     * buffer
+     */
+    protected byte buffer1[] = new byte[1];
 
-	protected boolean closed = false;
+    protected boolean closed = false;
 
-	private IOException exc;
+    private IOException exc;
 
-	/**
-	 * @param file
-	 */
-	public RamFileOutputStream(RamFileObject file)
-	{
-		super();
-		this.file = file;
-	}
+    /**
+     * @param file
+     */
+    public RamFileOutputStream(RamFileObject file)
+    {
+        super();
+        this.file = file;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.io.DataOutput#write(byte[], int, int)
-	 */
-	public void write(byte[] b, int off, int len) throws IOException
-	{
-		int size = this.file.getData().size();
-		int newSize = this.file.getData().size() + len;
-		// Store the Exception in order to notify the client again on close()
-		try
-		{
-			this.file.resize(newSize);
-		}
-		catch (IOException e)
-		{
-			this.exc = e;
-			throw e;
-		}
-		System.arraycopy(b, off, this.file.getData().getBuffer(), size, len);
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.io.DataOutput#write(byte[], int, int)
+     */
+    public void write(byte[] b, int off, int len) throws IOException
+    {
+        int size = this.file.getData().size();
+        int newSize = this.file.getData().size() + len;
+        // Store the Exception in order to notify the client again on close()
+        try
+        {
+            this.file.resize(newSize);
+        }
+        catch (IOException e)
+        {
+            this.exc = e;
+            throw e;
+        }
+        System.arraycopy(b, off, this.file.getData().getBuffer(), size, len);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.io.DataOutput#write(int)
-	 */
-	public void write(int b) throws IOException
-	{
-		buffer1[0] = (byte) b;
-		this.write(buffer1);
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.io.DataOutput#write(int)
+     */
+    public void write(int b) throws IOException
+    {
+        buffer1[0] = (byte) b;
+        this.write(buffer1);
+    }
 
-	public void flush() throws IOException
-	{
-	}
+    public void flush() throws IOException
+    {
+    }
 
-	public void close() throws IOException
-	{
-		if (closed)
-		{
-			return;
-		}
-		// Notify on close that there was an IOException while writing
-		if (exc != null)
-		{
-			throw exc;
-		}
-		try
-		{
-			this.closed = true;
-			// Close the
-			this.file.endOutput();
-		}
-		catch (Exception e)
-		{
-			throw new FileSystemException(e);
-		}
-	}
+    public void close() throws IOException
+    {
+        if (closed)
+        {
+            return;
+        }
+        // Notify on close that there was an IOException while writing
+        if (exc != null)
+        {
+            throw exc;
+        }
+        try
+        {
+            this.closed = true;
+            // Close the
+            this.file.endOutput();
+        }
+        catch (Exception e)
+        {
+            throw new FileSystemException(e);
+        }
+    }
 
 }

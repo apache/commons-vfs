@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,16 +34,16 @@ import java.io.OutputStream;
  * @see TarEntry
  */
 class TarInputStream
-    extends FilterInputStream
+        extends FilterInputStream
 {
-    private TarBuffer m_buffer;
-    private TarEntry m_currEntry;
-    private boolean m_debug;
-    private int m_entryOffset;
-    private int m_entrySize;
-    private boolean m_hasHitEOF;
-    private byte[] m_oneBuf;
-    private byte[] m_readBuf;
+    private TarBuffer buffer;
+    private TarEntry currEntry;
+    private boolean debug;
+    private int entryOffset;
+    private int entrySize;
+    private boolean hasHitEOF;
+    private byte[] oneBuf;
+    private byte[] readBuf;
 
     /**
      * Construct a TarInputStream using specified input
@@ -53,41 +53,41 @@ class TarInputStream
      * @see TarBuffer#DEFAULT_BLOCKSIZE
      * @see TarBuffer#DEFAULT_RECORDSIZE
      */
-    TarInputStream( final InputStream input )
+    TarInputStream(final InputStream input)
     {
-        this( input, TarBuffer.DEFAULT_BLOCKSIZE, TarBuffer.DEFAULT_RECORDSIZE );
+        this(input, TarBuffer.DEFAULT_BLOCKSIZE, TarBuffer.DEFAULT_RECORDSIZE);
     }
 
     /**
      * Construct a TarInputStream using specified input
      * stream, block size and default record sizes.
      *
-     * @param input stream to create TarInputStream from
+     * @param input     stream to create TarInputStream from
      * @param blockSize the block size to use
      * @see TarBuffer#DEFAULT_RECORDSIZE
      */
-    TarInputStream( final InputStream input,
-                           final int blockSize )
+    TarInputStream(final InputStream input,
+                   final int blockSize)
     {
-        this( input, blockSize, TarBuffer.DEFAULT_RECORDSIZE );
+        this(input, blockSize, TarBuffer.DEFAULT_RECORDSIZE);
     }
 
     /**
      * Construct a TarInputStream using specified input
      * stream, block size and record sizes.
      *
-     * @param input stream to create TarInputStream from
-     * @param blockSize the block size to use
+     * @param input      stream to create TarInputStream from
+     * @param blockSize  the block size to use
      * @param recordSize the record size to use
      */
-    TarInputStream( final InputStream input,
-                           final int blockSize,
-                           final int recordSize )
+    TarInputStream(final InputStream input,
+                   final int blockSize,
+                   final int recordSize)
     {
-        super( input );
+        super(input);
 
-        m_buffer = new TarBuffer( input, blockSize, recordSize );
-        m_oneBuf = new byte[ 1 ];
+        buffer = new TarBuffer(input, blockSize, recordSize);
+        oneBuf = new byte[1];
     }
 
     /**
@@ -95,10 +95,10 @@ class TarInputStream
      *
      * @param debug The new Debug value
      */
-    public void setDebug( final boolean debug )
+    public void setDebug(final boolean debug)
     {
-        m_debug = debug;
-        m_buffer.setDebug( debug );
+        this.debug = debug;
+        buffer.setDebug(debug);
     }
 
     /**
@@ -110,105 +110,106 @@ class TarInputStream
      * end of the archive has been reached.
      *
      * @return The next TarEntry in the archive, or null.
-     * @exception IOException Description of Exception
+     * @throws IOException Description of Exception
      */
     public TarEntry getNextEntry()
-        throws IOException
+            throws IOException
     {
-        if( m_hasHitEOF )
+        if (hasHitEOF)
         {
             return null;
         }
 
-        if( m_currEntry != null )
+        if (currEntry != null)
         {
-            final int numToSkip = m_entrySize - m_entryOffset;
+            final int numToSkip = entrySize - entryOffset;
 
-            if( m_debug )
+            if (debug)
             {
                 final String message = "TarInputStream: SKIP currENTRY '" +
-                    m_currEntry.getName() + "' SZ " + m_entrySize +
-                    " OFF " + m_entryOffset + "  skipping " + numToSkip + " bytes";
-                debug( message );
+                        currEntry.getName() + "' SZ " + entrySize +
+                        " OFF " + entryOffset + "  skipping " + numToSkip + " bytes";
+                debug(message);
             }
 
-            if( numToSkip > 0 )
+            if (numToSkip > 0)
             {
-                skip( numToSkip );
+                skip(numToSkip);
             }
 
-            m_readBuf = null;
+            readBuf = null;
         }
 
-        final byte[] headerBuf = m_buffer.readRecord();
-        if( headerBuf == null )
+        final byte[] headerBuf = buffer.readRecord();
+        if (headerBuf == null)
         {
-            if( m_debug )
+            if (debug)
             {
-                debug( "READ NULL RECORD" );
+                debug("READ NULL RECORD");
             }
-            m_hasHitEOF = true;
+            hasHitEOF = true;
         }
-        else if( m_buffer.isEOFRecord( headerBuf ) )
+        else if (buffer.isEOFRecord(headerBuf))
         {
-            if( m_debug )
+            if (debug)
             {
-                debug( "READ EOF RECORD" );
+                debug("READ EOF RECORD");
             }
-            m_hasHitEOF = true;
+            hasHitEOF = true;
         }
 
-        if( m_hasHitEOF )
+        if (hasHitEOF)
         {
-            m_currEntry = null;
+            currEntry = null;
         }
         else
         {
-            m_currEntry = new TarEntry( headerBuf );
+            currEntry = new TarEntry(headerBuf);
 
-            if( !( headerBuf[ 257 ] == 'u' && headerBuf[ 258 ] == 's' &&
-                headerBuf[ 259 ] == 't' && headerBuf[ 260 ] == 'a' &&
-                headerBuf[ 261 ] == 'r' ) )
+            if (!(headerBuf[257] == 'u' && headerBuf[258] == 's' &&
+                    headerBuf[259] == 't' && headerBuf[260] == 'a' &&
+                    headerBuf[261] == 'r'))
             {
                 //Must be v7Format
             }
 
-            if( m_debug )
+            if (debug)
             {
                 final String message = "TarInputStream: SET CURRENTRY '" +
-                    m_currEntry.getName() + "' size = " + m_currEntry.getSize();
-                debug( message );
+                        currEntry.getName() + "' size = " + currEntry.getSize();
+                debug(message);
             }
 
-            m_entryOffset = 0;
+            entryOffset = 0;
 
             // REVIEW How do we resolve this discrepancy?!
-            m_entrySize = (int)m_currEntry.getSize();
+            entrySize = (int) currEntry.getSize();
         }
 
-        if( null != m_currEntry && m_currEntry.isGNULongNameEntry() )
+        if (null != currEntry && currEntry.isGNULongNameEntry())
         {
             // read in the name
             final StringBuffer longName = new StringBuffer();
-            final byte[] buffer = new byte[ 256 ];
+            final byte[] buffer = new byte[256];
             int length = 0;
-            while( ( length = read( buffer ) ) >= 0 )
+            while ((length = read(buffer)) >= 0)
             {
-                final String str = new String( buffer, 0, length );
-                longName.append( str );
+                final String str = new String(buffer, 0, length);
+                longName.append(str);
             }
             getNextEntry();
 
             // remove trailing null terminator
             if (longName.length() > 0
-                && longName.charAt(longName.length() - 1) == 0) {
+                    && longName.charAt(longName.length() - 1) == 0)
+            {
                 longName.deleteCharAt(longName.length() - 1);
             }
-            
-            m_currEntry.setName( longName.toString() );
+
+            currEntry.setName(longName.toString());
         }
 
-        return m_currEntry;
+        return currEntry;
     }
 
     /**
@@ -218,7 +219,7 @@ class TarInputStream
      */
     public int getRecordSize()
     {
-        return m_buffer.getRecordSize();
+        return buffer.getRecordSize();
     }
 
     /**
@@ -229,23 +230,23 @@ class TarInputStream
      * current entry.
      *
      * @return The number of available bytes for the current entry.
-     * @exception IOException when an IO error causes operation to fail
+     * @throws IOException when an IO error causes operation to fail
      */
     public int available()
-        throws IOException
+            throws IOException
     {
-        return m_entrySize - m_entryOffset;
+        return entrySize - entryOffset;
     }
 
     /**
      * Closes this stream. Calls the TarBuffer's close() method.
      *
-     * @exception IOException when an IO error causes operation to fail
+     * @throws IOException when an IO error causes operation to fail
      */
     public void close()
-        throws IOException
+            throws IOException
     {
-        m_buffer.close();
+        buffer.close();
     }
 
     /**
@@ -253,21 +254,21 @@ class TarInputStream
      * output stream.
      *
      * @param output The OutputStream into which to write the entry's data.
-     * @exception IOException when an IO error causes operation to fail
+     * @throws IOException when an IO error causes operation to fail
      */
-    public void copyEntryContents( final OutputStream output )
-        throws IOException
+    public void copyEntryContents(final OutputStream output)
+            throws IOException
     {
-        final byte[] buffer = new byte[ 32 * 1024 ];
-        while( true )
+        final byte[] buffer = new byte[32 * 1024];
+        while (true)
         {
-            final int numRead = read( buffer, 0, buffer.length );
-            if( numRead == -1 )
+            final int numRead = read(buffer, 0, buffer.length);
+            if (numRead == -1)
             {
                 break;
             }
 
-            output.write( buffer, 0, numRead );
+            output.write(buffer, 0, numRead);
         }
     }
 
@@ -276,7 +277,7 @@ class TarInputStream
      *
      * @param markLimit The limit to mark.
      */
-    public void mark( int markLimit )
+    public void mark(int markLimit)
     {
     }
 
@@ -295,19 +296,19 @@ class TarInputStream
      * read( byte[], int, int ).
      *
      * @return The byte read, or -1 at EOF.
-     * @exception IOException when an IO error causes operation to fail
+     * @throws IOException when an IO error causes operation to fail
      */
     public int read()
-        throws IOException
+            throws IOException
     {
-        final int num = read( m_oneBuf, 0, 1 );
-        if( num == -1 )
+        final int num = read(oneBuf, 0, 1);
+        if (num == -1)
         {
             return num;
         }
         else
         {
-            return m_oneBuf[ 0 ];
+            return oneBuf[0];
         }
     }
 
@@ -317,12 +318,12 @@ class TarInputStream
      *
      * @param buffer The buffer into which to place bytes read.
      * @return The number of bytes read, or -1 at EOF.
-     * @exception IOException when an IO error causes operation to fail
+     * @throws IOException when an IO error causes operation to fail
      */
-    public int read( final byte[] buffer )
-        throws IOException
+    public int read(final byte[] buffer)
+            throws IOException
     {
-        return read( buffer, 0, buffer.length );
+        return read(buffer, 0, buffer.length);
     }
 
     /**
@@ -332,48 +333,48 @@ class TarInputStream
      *
      * @param buffer The buffer into which to place bytes read.
      * @param offset The offset at which to place bytes read.
-     * @param count The number of bytes to read.
+     * @param count  The number of bytes to read.
      * @return The number of bytes read, or -1 at EOF.
-     * @exception IOException when an IO error causes operation to fail
+     * @throws IOException when an IO error causes operation to fail
      */
-    public int read( final byte[] buffer,
-                     final int offset,
-                     final int count )
-        throws IOException
+    public int read(final byte[] buffer,
+                    final int offset,
+                    final int count)
+            throws IOException
     {
         int position = offset;
         int numToRead = count;
         int totalRead = 0;
 
-        if( m_entryOffset >= m_entrySize )
+        if (entryOffset >= entrySize)
         {
             return -1;
         }
 
-        if( ( numToRead + m_entryOffset ) > m_entrySize )
+        if ((numToRead + entryOffset) > entrySize)
         {
-            numToRead = ( m_entrySize - m_entryOffset );
+            numToRead = (entrySize - entryOffset);
         }
 
-        if( null != m_readBuf )
+        if (null != readBuf)
         {
             final int size =
-                ( numToRead > m_readBuf.length ) ? m_readBuf.length : numToRead;
+                    (numToRead > readBuf.length) ? readBuf.length : numToRead;
 
-            System.arraycopy( m_readBuf, 0, buffer, position, size );
+            System.arraycopy(readBuf, 0, buffer, position, size);
 
-            if( size >= m_readBuf.length )
+            if (size >= readBuf.length)
             {
-                m_readBuf = null;
+                readBuf = null;
             }
             else
             {
-                final int newLength = m_readBuf.length - size;
-                final byte[] newBuffer = new byte[ newLength ];
+                final int newLength = readBuf.length - size;
+                final byte[] newBuffer = new byte[newLength];
 
-                System.arraycopy( m_readBuf, size, newBuffer, 0, newLength );
+                System.arraycopy(readBuf, size, newBuffer, 0, newLength);
 
-                m_readBuf = newBuffer;
+                readBuf = newBuffer;
             }
 
             totalRead += size;
@@ -381,33 +382,33 @@ class TarInputStream
             position += size;
         }
 
-        while( numToRead > 0 )
+        while (numToRead > 0)
         {
-            final byte[] rec = m_buffer.readRecord();
-            if( null == rec )
+            final byte[] rec = this.buffer.readRecord();
+            if (null == rec)
             {
                 // Unexpected EOF!
                 final String message =
-                    "unexpected EOF with " + numToRead + " bytes unread";
-                throw new IOException( message );
+                        "unexpected EOF with " + numToRead + " bytes unread";
+                throw new IOException(message);
             }
 
             int size = numToRead;
             final int recordLength = rec.length;
 
-            if( recordLength > size )
+            if (recordLength > size)
             {
-                System.arraycopy( rec, 0, buffer, position, size );
+                System.arraycopy(rec, 0, buffer, position, size);
 
-                m_readBuf = new byte[ recordLength - size ];
+                readBuf = new byte[recordLength - size];
 
-                System.arraycopy( rec, size, m_readBuf, 0, recordLength - size );
+                System.arraycopy(rec, size, readBuf, 0, recordLength - size);
             }
             else
             {
                 size = recordLength;
 
-                System.arraycopy( rec, 0, buffer, position, recordLength );
+                System.arraycopy(rec, 0, buffer, position, recordLength);
             }
 
             totalRead += size;
@@ -415,7 +416,7 @@ class TarInputStream
             position += size;
         }
 
-        m_entryOffset += totalRead;
+        entryOffset += totalRead;
 
         return totalRead;
     }
@@ -433,22 +434,22 @@ class TarInputStream
      * entry's data if the number to skip extends beyond that point.
      *
      * @param numToSkip The number of bytes to skip.
-     * @exception IOException when an IO error causes operation to fail
+     * @throws IOException when an IO error causes operation to fail
      */
-    public void skip( final int numToSkip )
-        throws IOException
+    public void skip(final int numToSkip)
+            throws IOException
     {
         // REVIEW
         // This is horribly inefficient, but it ensures that we
         // properly skip over bytes via the TarBuffer...
         //
-        final byte[] skipBuf = new byte[ 8 * 1024 ];
+        final byte[] skipBuf = new byte[8 * 1024];
         int num = numToSkip;
-        while( num > 0 )
+        while (num > 0)
         {
-            final int count = ( num > skipBuf.length ) ? skipBuf.length : num;
-            final int numRead = read( skipBuf, 0, count );
-            if( numRead == -1 )
+            final int count = (num > skipBuf.length) ? skipBuf.length : num;
+            final int numRead = read(skipBuf, 0, count);
+            if (numRead == -1)
             {
                 break;
             }
@@ -463,11 +464,11 @@ class TarInputStream
      *
      * @param message the message to use in debugging
      */
-    protected void debug( final String message )
+    protected void debug(final String message)
     {
-        if( m_debug )
+        if (debug)
         {
-            System.err.println( message );
+            System.err.println(message);
         }
     }
 }

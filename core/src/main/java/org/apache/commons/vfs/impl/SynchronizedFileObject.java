@@ -33,160 +33,160 @@ import java.util.List;
  */
 public class SynchronizedFileObject extends DecoratedFileObject
 {
-	public SynchronizedFileObject(FileObject fileObject)
-	{
-		super(fileObject);
-	}
+        public SynchronizedFileObject(FileObject fileObject)
+        {
+                super(fileObject);
+        }
 
-	public void close() throws FileSystemException
+        public void close() throws FileSystemException
     {
-        synchronized(this)
+        synchronized (this)
         {
-		    super.close();
+                    super.close();
         }
     }
 
-	public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
-	{
-        synchronized(this)
+        public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
         {
-    		super.copyFrom(srcFile, selector);
+        synchronized (this)
+        {
+                super.copyFrom(srcFile, selector);
         }
     }
 
-	public void createFile() throws FileSystemException
-	{
-        synchronized(this)
+        public void createFile() throws FileSystemException
         {
-    		super.createFile();
+        synchronized (this)
+        {
+                super.createFile();
         }
     }
 
-	public void createFolder() throws FileSystemException
-	{
-        synchronized(this)
+        public void createFolder() throws FileSystemException
         {
-    		super.createFolder();
+        synchronized (this)
+        {
+                super.createFolder();
         }
     }
 
-	public boolean delete() throws FileSystemException
-	{
-        synchronized(this)
+        public boolean delete() throws FileSystemException
         {
-    		return super.delete();
+        synchronized (this)
+        {
+                return super.delete();
         }
     }
 
-	public int delete(FileSelector selector) throws FileSystemException
-	{
-        synchronized(this)
+        public int delete(FileSelector selector) throws FileSystemException
         {
-    		return super.delete(selector);
+        synchronized (this)
+        {
+                return super.delete(selector);
         }
     }
 
-	public boolean exists() throws FileSystemException
-	{
-        synchronized(this)
+        public boolean exists() throws FileSystemException
         {
-    		return super.exists();
+        synchronized (this)
+        {
+                return super.exists();
         }
     }
 
-	public void findFiles(FileSelector selector, boolean depthwise, List selected) throws FileSystemException
-	{
-        synchronized(this)
+        public void findFiles(FileSelector selector, boolean depthwise, List selected) throws FileSystemException
         {
-    		super.findFiles(selector, depthwise, selected);
+        synchronized (this)
+        {
+                super.findFiles(selector, depthwise, selected);
         }
     }
 
-	public FileObject[] findFiles(FileSelector selector) throws FileSystemException
-	{
-        synchronized(this)
+        public FileObject[] findFiles(FileSelector selector) throws FileSystemException
         {
-    		return super.findFiles(selector);
+        synchronized (this)
+        {
+                return super.findFiles(selector);
         }
     }
 
-	public FileObject getChild(String name) throws FileSystemException
-	{
-        synchronized(this)
+        public FileObject getChild(String name) throws FileSystemException
         {
-    		return super.getChild(name);
+        synchronized (this)
+        {
+                return super.getChild(name);
         }
     }
 
-	public FileObject[] getChildren() throws FileSystemException
-	{
-        synchronized(this)
+        public FileObject[] getChildren() throws FileSystemException
         {
-    		return super.getChildren();
+        synchronized (this)
+        {
+                return super.getChildren();
         }
     }
 
-	public FileContent getContent() throws FileSystemException
-	{
-        synchronized(this)
+        public FileContent getContent() throws FileSystemException
         {
-    		return super.getContent();
+        synchronized (this)
+        {
+                return super.getContent();
         }
     }
 
-	public FileType getType() throws FileSystemException
-	{
-        synchronized(this)
+        public FileType getType() throws FileSystemException
         {
-    		return super.getType();
+        synchronized (this)
+        {
+                return super.getType();
         }
     }
 
-	public boolean isHidden() throws FileSystemException
-	{
-        synchronized(this)
+        public boolean isHidden() throws FileSystemException
         {
-    		return super.isHidden();
+        synchronized (this)
+        {
+                return super.isHidden();
         }
     }
 
-	public boolean isReadable() throws FileSystemException
-	{
-        synchronized(this)
+        public boolean isReadable() throws FileSystemException
         {
-    		return super.isReadable();
+        synchronized (this)
+        {
+                return super.isReadable();
         }
     }
 
-	public boolean isWriteable() throws FileSystemException
-	{
-        synchronized(this)
+        public boolean isWriteable() throws FileSystemException
         {
-    		return super.isWriteable();
+        synchronized (this)
+        {
+                return super.isWriteable();
         }
     }
 
-	public void moveTo(FileObject destFile) throws FileSystemException
-	{
-        synchronized(this)
+        public void moveTo(FileObject destFile) throws FileSystemException
         {
-    		super.moveTo(destFile);
+        synchronized (this)
+        {
+                super.moveTo(destFile);
         }
     }
 
-	public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
-	{
-        synchronized(this)
+        public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
         {
-    		return super.resolveFile(name, scope);
+        synchronized (this)
+        {
+                return super.resolveFile(name, scope);
         }
     }
 
-	public FileObject resolveFile(String path) throws FileSystemException
-	{
-        synchronized(this)
+        public FileObject resolveFile(String path) throws FileSystemException
         {
-    		return super.resolveFile(path);
+        synchronized (this)
+        {
+                return super.resolveFile(path);
         }
     }
 }

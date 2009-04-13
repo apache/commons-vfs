@@ -65,9 +65,9 @@ public class HttpClientFactory
             HttpConnectionManagerParams connectionMgrParams = mgr.getParams();
 
             client = new HttpClient(mgr);
-			//client = new HttpClient(new ThreadLocalHttpConnectionManager());
+            //client = new HttpClient(new ThreadLocalHttpConnectionManager());
 
-			final HostConfiguration config = new HostConfiguration();
+            final HostConfiguration config = new HostConfiguration();
             config.setHost(hostname, port, scheme);
 
             connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));

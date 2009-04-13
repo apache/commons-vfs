@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class VfsLog
+public final class VfsLog
 {
     // static utility class
     private VfsLog()
@@ -35,6 +35,10 @@ public class VfsLog
 
     /**
      * warning
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
+     * @param t The exception, if any.
      */
     public static void warn(Log vfslog, Log commonslog, String message, Throwable t)
     {
@@ -50,6 +54,9 @@ public class VfsLog
 
     /**
      * warning
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
      */
     public static void warn(Log vfslog, Log commonslog, String message)
     {
@@ -65,6 +72,9 @@ public class VfsLog
 
     /**
      * debug
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
      */
     public static void debug(Log vfslog, Log commonslog, String message)
     {
@@ -80,6 +90,10 @@ public class VfsLog
 
     /**
      * debug
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
+     * @param t The exception, if any.
      */
     public static void debug(Log vfslog, Log commonslog, String message, Throwable t)
     {
@@ -95,6 +109,10 @@ public class VfsLog
 
     /**
      * info
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
+     * @param t The exception, if any.
      */
     public static void info(Log vfslog, Log commonslog, String message, Throwable t)
     {
@@ -110,6 +128,9 @@ public class VfsLog
 
     /**
      * info
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
      */
     public static void info(Log vfslog, Log commonslog, String message)
     {
@@ -125,6 +146,10 @@ public class VfsLog
 
     /**
      * error
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
+     * @param t The exception, if any.
      */
     public static void error(Log vfslog, Log commonslog, String message, Throwable t)
     {
@@ -140,6 +165,9 @@ public class VfsLog
 
     /**
      * error
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
      */
     public static void error(Log vfslog, Log commonslog, String message)
     {
@@ -155,6 +183,10 @@ public class VfsLog
 
     /**
      * fatal
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
+     * @param t The exception, if any.
      */
     public static void fatal(Log vfslog, Log commonslog, String message, Throwable t)
     {
@@ -170,6 +202,9 @@ public class VfsLog
 
     /**
      * fatal
+     * @param vfslog The base component Logger to use.
+     * @param commonslog The class specific Logger
+     * @param message The message to log.
      */
     public static void fatal(Log vfslog, Log commonslog, String message)
     {

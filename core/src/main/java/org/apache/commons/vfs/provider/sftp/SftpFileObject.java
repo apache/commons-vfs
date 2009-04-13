@@ -46,247 +46,247 @@ import java.util.Vector;
  */
 public class SftpFileObject extends AbstractFileObject implements FileObject
 {
-	private final SftpFileSystem fileSystem;
-	private SftpATTRS attrs;
-	private final String relPath;
+    private final SftpFileSystem fileSystem;
+    private SftpATTRS attrs;
+    private final String relPath;
 
-	private boolean inRefresh;
+    private boolean inRefresh;
 
-	protected SftpFileObject(final FileName name,
-			final SftpFileSystem fileSystem) throws FileSystemException
-	{
-		super(name, fileSystem);
-		this.fileSystem = fileSystem;
-		relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(
-				name));
-	}
+    protected SftpFileObject(final FileName name,
+            final SftpFileSystem fileSystem) throws FileSystemException
+    {
+        super(name, fileSystem);
+        this.fileSystem = fileSystem;
+        relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(
+                name));
+    }
 
-	protected void doDetach() throws Exception
-	{
-		attrs = null;
-	}
+    protected void doDetach() throws Exception
+    {
+        attrs = null;
+    }
 
-	public void refresh() throws FileSystemException
-	{
-		if (!inRefresh)
-		{
-			try
-			{
-				inRefresh = true;
-				super.refresh();
-				try
-				{
-					attrs = null;
-					getType();
-				}
-				catch (IOException e)
-				{
-					throw new FileSystemException(e);
-				}
-			}
-			finally
-			{
-				inRefresh = false;
-			}
-		}
-	}
+    public void refresh() throws FileSystemException
+    {
+        if (!inRefresh)
+        {
+            try
+            {
+                inRefresh = true;
+                super.refresh();
+                try
+                {
+                    attrs = null;
+                    getType();
+                }
+                catch (IOException e)
+                {
+                    throw new FileSystemException(e);
+                }
+            }
+            finally
+            {
+                inRefresh = false;
+            }
+        }
+    }
 
-	/**
-	 * Determines the type of this file, returns null if the file does not
-	 * exist.
-	 */
-	protected FileType doGetType() throws Exception
-	{
-		if (attrs == null)
-		{
-			statSelf();
-		}
+    /**
+     * Determines the type of this file, returns null if the file does not
+     * exist.
+     */
+    protected FileType doGetType() throws Exception
+    {
+        if (attrs == null)
+        {
+            statSelf();
+        }
 
-		if (attrs == null)
-		{
-			return FileType.IMAGINARY;
-		}
+        if (attrs == null)
+        {
+            return FileType.IMAGINARY;
+        }
 
-		if ((attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_PERMISSIONS) == 0)
-		{
-			throw new FileSystemException(
-					"vfs.provider.sftp/unknown-permissions.error");
-		}
-		if (attrs.isDir())
-		{
-			return FileType.FOLDER;
-		}
-		else
-		{
-			return FileType.FILE;
-		}
-	}
+        if ((attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_PERMISSIONS) == 0)
+        {
+            throw new FileSystemException(
+                    "vfs.provider.sftp/unknown-permissions.error");
+        }
+        if (attrs.isDir())
+        {
+            return FileType.FOLDER;
+        }
+        else
+        {
+            return FileType.FILE;
+        }
+    }
 
-	/**
-	 * Called when the type or content of this file changes.
-	 */
-	protected void onChange() throws Exception
-	{
-		statSelf();
-	}
+    /**
+     * Called when the type or content of this file changes.
+     */
+    protected void onChange() throws Exception
+    {
+        statSelf();
+    }
 
-	/**
-	 * Fetches file attrs from server.
-	 */
-	private void statSelf() throws Exception
-	{
-		ChannelSftp channel = fileSystem.getChannel();
-		try
-		{
-			setStat(channel.stat(relPath));
-		}
-		catch (final SftpException e)
-		{
-			try
-			{
-				// maybe the channel has some problems, so recreate the channel and retry
-				if (e.id != ChannelSftp.SSH_FX_NO_SUCH_FILE)
-				{
-					channel.disconnect();
-					channel = fileSystem.getChannel();
-					setStat(channel.stat(relPath));
-				}
-				else
-				{
-					// Really does not exist
-					attrs = null;
-				}
-			}
-			catch (final SftpException e2)
-			{
-				// TODO - not strictly true, but jsch 0.1.2 does not give us
-				// enough info in the exception. Should be using:
-				// if ( e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE )
-				// However, sometimes the exception has the correct id, and
-				// sometimes
-				// it does not. Need to look into why.
-	
-				// Does not exist
-				attrs = null;
-			}
-		}
-		finally
-		{
-			fileSystem.putChannel(channel);
-		}
-	}
+    /**
+     * Fetches file attrs from server.
+     */
+    private void statSelf() throws Exception
+    {
+        ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            setStat(channel.stat(relPath));
+        }
+        catch (final SftpException e)
+        {
+            try
+            {
+                // maybe the channel has some problems, so recreate the channel and retry
+                if (e.id != ChannelSftp.SSH_FX_NO_SUCH_FILE)
+                {
+                    channel.disconnect();
+                    channel = fileSystem.getChannel();
+                    setStat(channel.stat(relPath));
+                }
+                else
+                {
+                    // Really does not exist
+                    attrs = null;
+                }
+            }
+            catch (final SftpException e2)
+            {
+                // TODO - not strictly true, but jsch 0.1.2 does not give us
+                // enough info in the exception. Should be using:
+                // if ( e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE )
+                // However, sometimes the exception has the correct id, and
+                // sometimes
+                // it does not. Need to look into why.
 
-	/**
-	 * Set attrs from listChildrenResolved
-	 */
-	private void setStat(SftpATTRS attrs)
-	{
-		this.attrs = attrs;
-	}
+                // Does not exist
+                attrs = null;
+            }
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+    }
 
-	/**
-	 * Creates this file as a folder.
-	 */
-	protected void doCreateFolder() throws Exception
-	{
-		final ChannelSftp channel = fileSystem.getChannel();
-		try
-		{
-			channel.mkdir(relPath);
-		}
-		finally
-		{
-			fileSystem.putChannel(channel);
-		}
-	}
+    /**
+     * Set attrs from listChildrenResolved
+     */
+    private void setStat(SftpATTRS attrs)
+    {
+        this.attrs = attrs;
+    }
 
-	protected long doGetLastModifiedTime() throws Exception
-	{
-		if (attrs == null
-				|| (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_ACMODTIME) == 0)
-		{
-			throw new FileSystemException(
-					"vfs.provider.sftp/unknown-modtime.error");
-		}
-		return attrs.getMTime() * 1000L;
-	}
+    /**
+     * Creates this file as a folder.
+     */
+    protected void doCreateFolder() throws Exception
+    {
+        final ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            channel.mkdir(relPath);
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+    }
 
-	/**
-	 * Sets the last modified time of this file. Is only called if
-	 * {@link #doGetType} does not return {@link FileType#IMAGINARY}. <p/>
-	 *
-	 * @param modtime
-	 *            is modification time in milliseconds. SFTP protocol can send
-	 *            times with nanosecond precision but at the moment jsch send
-	 *            them with second precision.
-	 */
-	protected void doSetLastModifiedTime(final long modtime) throws Exception
-	{
-		final ChannelSftp channel = fileSystem.getChannel();
-		try
-		{
-			int newMTime = (int) (modtime / 1000L);
+    protected long doGetLastModifiedTime() throws Exception
+    {
+        if (attrs == null
+                || (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_ACMODTIME) == 0)
+        {
+            throw new FileSystemException(
+                    "vfs.provider.sftp/unknown-modtime.error");
+        }
+        return attrs.getMTime() * 1000L;
+    }
 
-			attrs.setACMODTIME(attrs.getATime(), newMTime);
-			channel.setStat(relPath, attrs);
-		}
-		finally
-		{
-			fileSystem.putChannel(channel);
-		}
-	}
+    /**
+     * Sets the last modified time of this file. Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}. <p/>
+     *
+     * @param modtime
+     *            is modification time in milliseconds. SFTP protocol can send
+     *            times with nanosecond precision but at the moment jsch send
+     *            them with second precision.
+     */
+    protected void doSetLastModifiedTime(final long modtime) throws Exception
+    {
+        final ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            int newMTime = (int) (modtime / 1000L);
 
-	/**
-	 * Deletes the file.
-	 */
-	protected void doDelete() throws Exception
-	{
-		final ChannelSftp channel = fileSystem.getChannel();
-		try
-		{
-			if (getType() == FileType.FILE)
-			{
-				channel.rm(relPath);
-			}
-			else
-			{
-				channel.rmdir(relPath);
-			}
-		}
-		finally
-		{
-			fileSystem.putChannel(channel);
-		}
-	}
+            attrs.setACMODTIME(attrs.getATime(), newMTime);
+            channel.setStat(relPath, attrs);
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+    }
 
-	/**
-	 * Rename the file.
-	 */
-	protected void doRename(FileObject newfile) throws Exception
-	{
-		final ChannelSftp channel = fileSystem.getChannel();
-		try
-		{
-			channel.rename(relPath, ((SftpFileObject) newfile).relPath);
-		}
-		finally
-		{
-			fileSystem.putChannel(channel);
-		}
-	}
+    /**
+     * Deletes the file.
+     */
+    protected void doDelete() throws Exception
+    {
+        final ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            if (getType() == FileType.FILE)
+            {
+                channel.rm(relPath);
+            }
+            else
+            {
+                channel.rmdir(relPath);
+            }
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+    }
 
-	/**
-	 * Lists the children of this file.
-	 */
-	protected FileObject[] doListChildrenResolved() throws Exception
-	{
-		// List the contents of the folder
-		final Vector vector;
-		final ChannelSftp channel = fileSystem.getChannel();
+    /**
+     * Rename the file.
+     */
+    protected void doRename(FileObject newfile) throws Exception
+    {
+        final ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            channel.rename(relPath, ((SftpFileObject) newfile).relPath);
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+    }
+
+    /**
+     * Lists the children of this file.
+     */
+    protected FileObject[] doListChildrenResolved() throws Exception
+    {
+        // List the contents of the folder
+        final Vector vector;
+        final ChannelSftp channel = fileSystem.getChannel();
 
         String workingDirectory = null;
-		try
-		{
+        try
+        {
             try
             {
                 if (relPath != null)
@@ -315,137 +315,137 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
                 throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error", workingDirectory);
             }
         }
-		finally
-		{
-			fileSystem.putChannel(channel);
-		}
-		if (vector == null)
-		{
-			throw new FileSystemException(
-					"vfs.provider.sftp/list-children.error");
-		}
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+        if (vector == null)
+        {
+            throw new FileSystemException(
+                    "vfs.provider.sftp/list-children.error");
+        }
 
-		// Extract the child names
-		final ArrayList children = new ArrayList();
-		for (Iterator iterator = vector.iterator(); iterator.hasNext();)
-		{
-			final LsEntry stat = (LsEntry) iterator.next();
+        // Extract the child names
+        final ArrayList children = new ArrayList();
+        for (Iterator iterator = vector.iterator(); iterator.hasNext();)
+        {
+            final LsEntry stat = (LsEntry) iterator.next();
 
-			String name = stat.getFilename();
-			if (VFS.isUriStyle())
-			{
-				if (stat.getAttrs().isDir()
-						&& name.charAt(name.length() - 1) != '/')
-				{
-					name = name + "/";
-				}
-			}
+            String name = stat.getFilename();
+            if (VFS.isUriStyle())
+            {
+                if (stat.getAttrs().isDir()
+                        && name.charAt(name.length() - 1) != '/')
+                {
+                    name = name + "/";
+                }
+            }
 
-			if (name.equals(".") || name.equals("..") || name.equals("./")
-					|| name.equals("../"))
-			{
-				continue;
-			}
+            if (name.equals(".") || name.equals("..") || name.equals("./")
+                    || name.equals("../"))
+            {
+                continue;
+            }
 
-			FileObject fo =
-				getFileSystem()
-					.resolveFile(
-							getFileSystem().getFileSystemManager().resolveName(
-									getName(), UriParser.encode(name),
-									NameScope.CHILD));
+            FileObject fo =
+                getFileSystem()
+                    .resolveFile(
+                            getFileSystem().getFileSystemManager().resolveName(
+                                    getName(), UriParser.encode(name),
+                                    NameScope.CHILD));
 
-			((SftpFileObject) FileObjectUtils.getAbstractFileObject(fo)).setStat(stat.getAttrs());
+            ((SftpFileObject) FileObjectUtils.getAbstractFileObject(fo)).setStat(stat.getAttrs());
 
-			children.add(fo);
-		}
+            children.add(fo);
+        }
 
-		return (FileObject[]) children.toArray(new FileObject[children
-				.size()]);
-	}
+        return (FileObject[]) children.toArray(new FileObject[children
+                .size()]);
+    }
 
-	/**
-	 * Lists the children of this file.
-	 */
-	protected String[] doListChildren() throws Exception
-	{
-		// use doListChildrenResolved for performance
-		return null;
-	}
+    /**
+     * Lists the children of this file.
+     */
+    protected String[] doListChildren() throws Exception
+    {
+        // use doListChildrenResolved for performance
+        return null;
+    }
 
-	/**
-	 * Returns the size of the file content (in bytes).
-	 */
-	protected long doGetContentSize() throws Exception
-	{
-		if (attrs == null
-				|| (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0)
-		{
-			throw new FileSystemException(
-					"vfs.provider.sftp/unknown-size.error");
-		}
-		return attrs.getSize();
-	}
+    /**
+     * Returns the size of the file content (in bytes).
+     */
+    protected long doGetContentSize() throws Exception
+    {
+        if (attrs == null
+                || (attrs.getFlags() & SftpATTRS.SSH_FILEXFER_ATTR_SIZE) == 0)
+        {
+            throw new FileSystemException(
+                    "vfs.provider.sftp/unknown-size.error");
+        }
+        return attrs.getSize();
+    }
 
-	protected RandomAccessContent doGetRandomAccessContent(
-			final RandomAccessMode mode) throws Exception
-	{
-		return new SftpRandomAccessContent(this, mode);
-	}
+    protected RandomAccessContent doGetRandomAccessContent(
+            final RandomAccessMode mode) throws Exception
+    {
+        return new SftpRandomAccessContent(this, mode);
+    }
 
-	/**
-	 * Creates an input stream to read the file content from.
-	 */
-	InputStream getInputStream(long filePointer) throws IOException
-	{
-		final ChannelSftp channel = fileSystem.getChannel();
-		try
-		{
-			// hmmm - using the in memory method is soooo much faster ...
-			// TODO - Don't read the entire file into memory. Use the
-			// stream-based methods on ChannelSftp once they work properly final
-			// .... no stream based method with resume???
-			ByteArrayOutputStream outstr = new ByteArrayOutputStream();
-			try
-			{
-				channel.get(getName().getPathDecoded(), outstr, null,
-						ChannelSftp.RESUME, filePointer);
-			}
-			catch (SftpException e)
-			{
-				throw new FileSystemException(e);
-			}
-			outstr.close();
-			return new ByteArrayInputStream(outstr.toByteArray());
-		}
-		finally
-		{
-			fileSystem.putChannel(channel);
-		}
-	}
+    /**
+     * Creates an input stream to read the file content from.
+     */
+    InputStream getInputStream(long filePointer) throws IOException
+    {
+        final ChannelSftp channel = fileSystem.getChannel();
+        try
+        {
+            // hmmm - using the in memory method is soooo much faster ...
+            // TODO - Don't read the entire file into memory. Use the
+            // stream-based methods on ChannelSftp once they work properly final
+            // .... no stream based method with resume???
+            ByteArrayOutputStream outstr = new ByteArrayOutputStream();
+            try
+            {
+                channel.get(getName().getPathDecoded(), outstr, null,
+                        ChannelSftp.RESUME, filePointer);
+            }
+            catch (SftpException e)
+            {
+                throw new FileSystemException(e);
+            }
+            outstr.close();
+            return new ByteArrayInputStream(outstr.toByteArray());
+        }
+        finally
+        {
+            fileSystem.putChannel(channel);
+        }
+    }
 
-	/**
-	 * Creates an input stream to read the file content from.
-	 */
-	protected InputStream doGetInputStream() throws Exception
-	{
-		// VFS-113: avoid npe
-		synchronized(fileSystem)
-		{
-			final ChannelSftp channel = fileSystem.getChannel();
-			try
-			{
-				// return channel.get(getName().getPath());
-				// hmmm - using the in memory method is soooo much faster ...
+    /**
+     * Creates an input stream to read the file content from.
+     */
+    protected InputStream doGetInputStream() throws Exception
+    {
+        // VFS-113: avoid npe
+        synchronized(fileSystem)
+        {
+            final ChannelSftp channel = fileSystem.getChannel();
+            try
+            {
+                // return channel.get(getName().getPath());
+                // hmmm - using the in memory method is soooo much faster ...
 
-				// TODO - Don't read the entire file into memory. Use the
-				// stream-based methods on ChannelSftp once they work properly
+                // TODO - Don't read the entire file into memory. Use the
+                // stream-based methods on ChannelSftp once they work properly
 
-				/*
-				final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
-				channel.get(relPath, outstr);
-				outstr.close();
-				return new ByteArrayInputStream(outstr.toByteArray());
-				*/
+                /*
+                final ByteArrayOutputStream outstr = new ByteArrayOutputStream();
+                channel.get(relPath, outstr);
+                outstr.close();
+                return new ByteArrayInputStream(outstr.toByteArray());
+                */
 
                 InputStream is;
                 try
@@ -471,88 +471,88 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 
                 return new SftpInputStream(channel, is);
 
-			}
-			finally
-			{
-//				fileSystem.putChannel(channel);
-			}
-		}
-	}
+            }
+            finally
+            {
+//              fileSystem.putChannel(channel);
+            }
+        }
+    }
 
-	/**
-	 * Creates an output stream to write the file content to.
-	 */
-	protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
-	{
-		// TODO - Don't write the entire file into memory. Use the stream-based
-		// methods on ChannelSftp once the work properly
-		/*
-		final ChannelSftp channel = fileSystem.getChannel();
-		return new SftpOutputStream(channel);
-		*/
+    /**
+     * Creates an output stream to write the file content to.
+     */
+    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    {
+        // TODO - Don't write the entire file into memory. Use the stream-based
+        // methods on ChannelSftp once the work properly
+        /*
+        final ChannelSftp channel = fileSystem.getChannel();
+        return new SftpOutputStream(channel);
+        */
 
-		final ChannelSftp channel = fileSystem.getChannel();
-		return new SftpOutputStream(channel, channel.put(relPath));
-	}
+        final ChannelSftp channel = fileSystem.getChannel();
+        return new SftpOutputStream(channel, channel.put(relPath));
+    }
 
-	/**
-	 * An InputStream that monitors for end-of-file.
-	 */
-	private class SftpInputStream extends MonitorInputStream
-	{
-		private final ChannelSftp channel;
+    /**
+     * An InputStream that monitors for end-of-file.
+     */
+    private class SftpInputStream extends MonitorInputStream
+    {
+        private final ChannelSftp channel;
 
-		public SftpInputStream(final ChannelSftp channel, final InputStream in)
-		{
-			super(in);
-			this.channel = channel;
-		}
+        public SftpInputStream(final ChannelSftp channel, final InputStream in)
+        {
+            super(in);
+            this.channel = channel;
+        }
 
-		/**
-		 * Called after the stream has been closed.
-		 */
-		protected void onClose() throws IOException
-		{
-			fileSystem.putChannel(channel);
-		}
-	}
+        /**
+         * Called after the stream has been closed.
+         */
+        protected void onClose() throws IOException
+        {
+            fileSystem.putChannel(channel);
+        }
+    }
 
-	/**
-	 * An OutputStream that wraps an sftp OutputStream, and closes the channel
-	 * when the stream is closed.
-	 */
-	private class SftpOutputStream extends MonitorOutputStream
-	{
-		private final ChannelSftp channel;
+    /**
+     * An OutputStream that wraps an sftp OutputStream, and closes the channel
+     * when the stream is closed.
+     */
+    private class SftpOutputStream extends MonitorOutputStream
+    {
+        private final ChannelSftp channel;
 
-		public SftpOutputStream(final ChannelSftp channel, OutputStream out)
-		{
-			super(out);
-			this.channel = channel;
-		}
+        public SftpOutputStream(final ChannelSftp channel, OutputStream out)
+        {
+            super(out);
+            this.channel = channel;
+        }
 
-		/**
-		 * Called after this stream is closed.
-		 */
-		protected void onClose() throws IOException
-		{
-			/*
-			try
-			{
-				final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
-				channel.put(new ByteArrayInputStream(outstr.toByteArray()),
-						relPath);
-			}
-			catch (final SftpException e)
-			{
-				throw new FileSystemException(e);
-			}
-			finally
-			*/
-			{
-				fileSystem.putChannel(channel);
-			}
-		}
-	}
+        /**
+         * Called after this stream is closed.
+         */
+        protected void onClose() throws IOException
+        {
+            /*
+            try
+            {
+                final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
+                channel.put(new ByteArrayInputStream(outstr.toByteArray()),
+                        relPath);
+            }
+            catch (final SftpException e)
+            {
+                throw new FileSystemException(e);
+            }
+            finally
+            */
+            {
+                fileSystem.putChannel(channel);
+            }
+        }
+    }
 
 }

@@ -60,25 +60,25 @@ class FTPClientWrapper implements FtpClient
     {
         final GenericFileName rootName = getRoot();
 
-		UserAuthenticationData authData = null;
-		try
-		{
-			authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, FtpFileProvider.AUTHENTICATOR_TYPES);
+        UserAuthenticationData authData = null;
+        try
+        {
+            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, FtpFileProvider.AUTHENTICATOR_TYPES);
 
-			return FtpClientFactory.createConnection(rootName.getHostName(),
-				rootName.getPort(),
-				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
-				UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
-				rootName.getPath(),
-				getFileSystemOptions());
-		}
-		finally
-		{
-			UserAuthenticatorUtils.cleanup(authData);
-		}
-	}
+            return FtpClientFactory.createConnection(rootName.getHostName(),
+                rootName.getPort(),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                rootName.getPath(),
+                getFileSystemOptions());
+        }
+        finally
+        {
+            UserAuthenticatorUtils.cleanup(authData);
+        }
+    }
 
-	private FTPClient getFtpClient() throws FileSystemException
+    private FTPClient getFtpClient() throws FileSystemException
     {
         if (ftpClient == null)
         {

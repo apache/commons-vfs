@@ -77,13 +77,13 @@ public abstract class AbstractFileSystem
      */
     private final FileSystemOptions fileSystemOptions;
 
-	/**
-	 * How many fileObjects are handed out
-	 */
-	private long useCount;
+    /**
+     * How many fileObjects are handed out
+     */
+    private long useCount;
 
 
-	private FileSystemKey cacheKey;
+    private FileSystemKey cacheKey;
 
     /**
      * open streams counter for this filesystem
@@ -316,16 +316,16 @@ public abstract class AbstractFileSystem
          */
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE))
         {
-        	file.refresh();
+            file.refresh();
         }
         return file;
     }
 
     protected FileObject decorateFileObject(FileObject file)  throws FileSystemException
-	{
+    {
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_CALL))
         {
-        	file = new OnCallRefreshFileObject(file);
+            file = new OnCallRefreshFileObject(file);
         }
 
         if (getFileSystemManager().getFileObjectDecoratorConst() != null)
@@ -349,9 +349,9 @@ public abstract class AbstractFileSystem
         }
 
         return file;
-	}
+    }
 
-	/**
+    /**
      * Creates a temporary local copy of a file and its descendents.
      */
     public File replicateFile(final FileObject file,
@@ -504,39 +504,39 @@ public abstract class AbstractFileSystem
      */
     private void fireEvent(final AbstractFileChangeEvent event)
     {
-		FileListener[] fileListeners = null;
-		final FileObject file = event.getFile();
+        FileListener[] fileListeners = null;
+        final FileObject file = event.getFile();
 
-		synchronized (listenerMap)
+        synchronized (listenerMap)
         {
             final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
             if (listeners != null)
             {
-            	fileListeners = (FileListener[]) listeners.toArray(new FileListener[listeners.size()]);
-			}
-		}
+                fileListeners = (FileListener[]) listeners.toArray(new FileListener[listeners.size()]);
+            }
+        }
 
-		if (fileListeners != null)
-		{
-			for (int i = 0; i < fileListeners.length; i++)
-			{
-				final FileListener fileListener = fileListeners[i];
-				try
-				{
-					event.notify(fileListener);
-				}
-				catch (final Exception e)
-				{
-					final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
-					// getLogger().warn(message, e);
-					VfsLog.warn(getLogger(), log, message, e);
-				}
-			}
-		}
-	}
+        if (fileListeners != null)
+        {
+            for (int i = 0; i < fileListeners.length; i++)
+            {
+                final FileListener fileListener = fileListeners[i];
+                try
+                {
+                    event.notify(fileListener);
+                }
+                catch (final Exception e)
+                {
+                    final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
+                    // getLogger().warn(message, e);
+                    VfsLog.warn(getLogger(), log, message, e);
+                }
+            }
+        }
+    }
 
-	/*
-	void fileDetached(FileObject fileObject)
+    /*
+    void fileDetached(FileObject fileObject)
     {
         useCount--;
     }
@@ -546,19 +546,19 @@ public abstract class AbstractFileSystem
         useCount++;
 
     }
-	*/
+    */
 
-	void fileObjectHanded(FileObject fileObject)
-	{
-		useCount++;
-	}
+    void fileObjectHanded(FileObject fileObject)
+    {
+        useCount++;
+    }
 
-	void fileObjectDestroyed(FileObject fileObject)
-	{
-		useCount--;
-	}
+    void fileObjectDestroyed(FileObject fileObject)
+    {
+        useCount--;
+    }
 
-	void setCacheKey(FileSystemKey cacheKey)
+    void setCacheKey(FileSystemKey cacheKey)
     {
         this.cacheKey = cacheKey;
     }

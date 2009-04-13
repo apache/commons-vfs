@@ -59,23 +59,23 @@ public class HttpFileSystem
         return client;
     }
 
-	public void closeCommunicationLink()
-	{
-		if (getClient() != null)
-		{
-			HttpConnectionManager mgr = getClient().getHttpConnectionManager();
-			if (mgr instanceof ThreadLocalHttpConnectionManager)
-			{
-				((ThreadLocalHttpConnectionManager) mgr).releaseLocalConnection();
-			}
+    public void closeCommunicationLink()
+    {
+        if (getClient() != null)
+        {
+            HttpConnectionManager mgr = getClient().getHttpConnectionManager();
+            if (mgr instanceof ThreadLocalHttpConnectionManager)
+            {
+                ((ThreadLocalHttpConnectionManager) mgr).releaseLocalConnection();
+            }
             if (mgr instanceof MultiThreadedHttpConnectionManager)
             {
                 ((MultiThreadedHttpConnectionManager) mgr).shutdown();
             }
         }
-	}
+    }
 
-	/**
+    /**
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */

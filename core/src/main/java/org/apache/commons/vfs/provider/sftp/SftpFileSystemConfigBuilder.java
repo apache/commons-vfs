@@ -241,7 +241,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return getInteger(opts, TIMEOUT);
     }
-    
+
     protected Class getConfigClass()
     {
         return SftpFileSystem.class;

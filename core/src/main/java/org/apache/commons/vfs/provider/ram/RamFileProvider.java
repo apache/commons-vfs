@@ -32,47 +32,47 @@ import org.apache.commons.vfs.provider.FileProvider;
  * RAM File Provider
  */
 public class RamFileProvider extends AbstractOriginatingFileProvider implements
-		FileProvider
+        FileProvider
 {
 
-	public final static Collection capabilities = Collections
-			.unmodifiableCollection(Arrays.asList(new Capability[]
-			{ Capability.CREATE, Capability.DELETE, Capability.RENAME,
-					Capability.GET_TYPE, Capability.GET_LAST_MODIFIED,
-					Capability.SET_LAST_MODIFIED_FILE,
-					Capability.SET_LAST_MODIFIED_FOLDER,
-					Capability.LIST_CHILDREN, Capability.READ_CONTENT,
-					Capability.URI, Capability.WRITE_CONTENT,
-					Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ,
-					Capability.RANDOM_ACCESS_WRITE }));
+    public final static Collection capabilities = Collections
+            .unmodifiableCollection(Arrays.asList(new Capability[]
+            { Capability.CREATE, Capability.DELETE, Capability.RENAME,
+                    Capability.GET_TYPE, Capability.GET_LAST_MODIFIED,
+                    Capability.SET_LAST_MODIFIED_FILE,
+                    Capability.SET_LAST_MODIFIED_FOLDER,
+                    Capability.LIST_CHILDREN, Capability.READ_CONTENT,
+                    Capability.URI, Capability.WRITE_CONTENT,
+                    Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ,
+                    Capability.RANDOM_ACCESS_WRITE }));
 
-	/**
-	 * Constructor
-	 */
-	public RamFileProvider()
-	{
-		super();
-	}
+    /**
+     * Constructor
+     */
+    public RamFileProvider()
+    {
+        super();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.commons.vfs.provider.AbstractOriginatingFileProvider#doCreateFileSystem(org.apache.commons.vfs.FileName,
-	 *      org.apache.commons.vfs.FileSystemOptions)
-	 */
-	protected FileSystem doCreateFileSystem(FileName name,
-			FileSystemOptions fileSystemOptions) throws FileSystemException
-	{
-		return new RamFileSystem(name, fileSystemOptions);
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.apache.commons.vfs.provider.AbstractOriginatingFileProvider#doCreateFileSystem(org.apache.commons.vfs.FileName,
+     *      org.apache.commons.vfs.FileSystemOptions)
+     */
+    protected FileSystem doCreateFileSystem(FileName name,
+            FileSystemOptions fileSystemOptions) throws FileSystemException
+    {
+        return new RamFileSystem(name, fileSystemOptions);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.commons.vfs.provider.FileProvider#getCapabilities()
-	 */
-	public Collection getCapabilities()
-	{
-		return capabilities;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.apache.commons.vfs.provider.FileProvider#getCapabilities()
+     */
+    public Collection getCapabilities()
+    {
+        return capabilities;
+    }
 }

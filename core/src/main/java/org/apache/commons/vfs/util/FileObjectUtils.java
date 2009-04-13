@@ -29,53 +29,53 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  */
 public class FileObjectUtils
 {
-	private FileObjectUtils()
-	{
-	}
+    private FileObjectUtils()
+    {
+    }
 
-	/**
-	 * get access to the base object even if decorated
-	 */
-	public static AbstractFileObject getAbstractFileObject(final FileObject fileObject) throws FileSystemException
-	{
-		Object searchObject = fileObject;
-		while (searchObject instanceof DecoratedFileObject)
-		{
-			searchObject = ((DecoratedFileObject) searchObject).getDecoratedFileObject();
-		}
-		if (searchObject instanceof AbstractFileObject)
-		{
-			return (AbstractFileObject) searchObject;
-		}
+    /**
+     * get access to the base object even if decorated
+     */
+    public static AbstractFileObject getAbstractFileObject(final FileObject fileObject) throws FileSystemException
+    {
+        Object searchObject = fileObject;
+        while (searchObject instanceof DecoratedFileObject)
+        {
+            searchObject = ((DecoratedFileObject) searchObject).getDecoratedFileObject();
+        }
+        if (searchObject instanceof AbstractFileObject)
+        {
+            return (AbstractFileObject) searchObject;
+        }
         if (searchObject == null)
         {
             return null;
         }
 
         throw new FileSystemException("vfs.util/find-abstract-file-object.error", fileObject==null?"null":fileObject.getClass().getName());
-	}
+    }
 
-	/**
-	 * check if the given FileObject is instance of given class argument
-	 */
-	public static boolean isInstanceOf(final FileObject fileObject, final Class wantedClass) throws FileSystemException
-	{
-		Object searchObject = fileObject;
-		while (searchObject instanceof DecoratedFileObject)
-		{
-			if (wantedClass.isInstance(searchObject))
-			{
-				return true;
-			}
+    /**
+     * check if the given FileObject is instance of given class argument
+     */
+    public static boolean isInstanceOf(final FileObject fileObject, final Class wantedClass) throws FileSystemException
+    {
+        Object searchObject = fileObject;
+        while (searchObject instanceof DecoratedFileObject)
+        {
+            if (wantedClass.isInstance(searchObject))
+            {
+                return true;
+            }
 
-			searchObject = ((DecoratedFileObject) searchObject).getDecoratedFileObject();
-		}
+            searchObject = ((DecoratedFileObject) searchObject).getDecoratedFileObject();
+        }
 
-		if (wantedClass.isInstance(searchObject))
-		{
-			return true;
-		}
+        if (wantedClass.isInstance(searchObject))
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

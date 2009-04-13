@@ -39,17 +39,26 @@ import org.apache.commons.vfs.util.Messages;
  */
 public class LRUFilesCache extends AbstractFilesCache
 {
+    /** The default LRU size */
+    private static final int DEFAULT_LRU_SIZE = 100;
     /**
      * The logger to use.
      */
     private Log log = LogFactory.getLog(LRUFilesCache.class);
 
+    /** The FileSystem cache */
     private final Map filesystemCache = new HashMap(10);
+
+    /** The size of the cache */
     private final int lruSize;
 
+    /**
+     * The file cache
+     */
     private class MyLRUMap extends LRUMap
     {
-        final FileSystem filesystem;
+        /** The FileSystem */
+        private final FileSystem filesystem;
 
         public MyLRUMap(final FileSystem filesystem, int size)
         {
@@ -61,14 +70,16 @@ public class LRUFilesCache extends AbstractFilesCache
         {
             synchronized (LRUFilesCache.this)
             {
-            	FileObject file = (FileObject) linkEntry.getValue();
-            	
+                FileObject file = (FileObject) linkEntry.getValue();
+
                 // System.err.println(">>> " + size() + " check removeLRU:" + linkEntry.getKey().toString());
 
                 if (file.isAttached() || file.isContentOpen())
                 {
                     // do not allow open or attached files to be removed
-                    // System.err.println(">>> " + size() + " VETO removeLRU:" + linkEntry.getKey().toString() + " (" + file.isAttached() + "/" + file.isContentOpen() + ")");
+                    // System.err.println(">>> " + size() + " VETO removeLRU:" +
+                    //    linkEntry.getKey().toString() + " (" + file.isAttached() + "/" +
+                    //    file.isContentOpen() + ")");
                     return false;
                 }
 
@@ -104,7 +115,7 @@ public class LRUFilesCache extends AbstractFilesCache
      */
     public LRUFilesCache()
     {
-        this(100);
+        this(DEFAULT_LRU_SIZE);
     }
 
     /**
