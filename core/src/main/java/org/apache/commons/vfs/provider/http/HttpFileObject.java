@@ -162,7 +162,7 @@ public class HttpFileObject
 
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
-        return new HttpRandomAccesContent(this, mode);
+        return new HttpRandomAccessContent(this, mode);
     }
 
     /**

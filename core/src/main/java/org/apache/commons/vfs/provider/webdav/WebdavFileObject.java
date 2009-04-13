@@ -553,7 +553,6 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
      */
     private class WebdavOutputStream extends MonitorOutputStream
     {
-        private ByteArrayOutputStream stream;
         private WebdavFileObject file;
 
         public WebdavOutputStream(WebdavFileObject file) throws FileSystemException

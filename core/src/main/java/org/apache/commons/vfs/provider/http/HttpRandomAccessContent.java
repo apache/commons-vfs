@@ -27,7 +27,7 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
-class HttpRandomAccesContent extends AbstractRandomAccessStreamContent
+class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
 {
     private final HttpFileObject fileObject;
     private final HttpFileSystem fileSystem;
@@ -36,7 +36,7 @@ class HttpRandomAccesContent extends AbstractRandomAccessStreamContent
     private DataInputStream dis = null;
     private MonitorInputStream mis = null;
 
-    HttpRandomAccesContent(final HttpFileObject fileObject, RandomAccessMode mode)
+    HttpRandomAccessContent(final HttpFileObject fileObject, RandomAccessMode mode)
     {
         super(mode);
 
