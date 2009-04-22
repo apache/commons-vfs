@@ -97,7 +97,15 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         // If the range request was ignored
         if (status == HttpURLConnection.HTTP_OK)
         {
-            mis.skip(filePointer);
+            long skipped = mis.skip(filePointer);
+            if (skipped != filePointer)
+            {
+                throw new FileSystemException("vfs.provider.http/get-range.error", new Object[]
+                {
+                    fileObject.getName(),
+                    new Long(filePointer)
+                });
+            }
         }
         dis = new DataInputStream(new FilterInputStream(mis)
         {
