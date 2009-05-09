@@ -24,6 +24,7 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.Selectors;
 import org.apache.commons.vfs.provider.webdav.WebdavFileSystemConfigBuilder;
+import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
 import org.apache.jackrabbit.webdav.version.VersionControlledResource;
@@ -56,8 +57,12 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
         Map map = file.getContent().getAttributes();
+        String name = ((URLFileName)file.getName()).getUserName();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
-        assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()),"admin");
+        if (name != null)
+        {
+            assertEquals(name, map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
+        }
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_OUT.toString()));
 
         // Create the source file
@@ -76,7 +81,10 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertSameContent(content, file);
         map = file.getContent().getAttributes();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
-        assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()),"admin");
+        if (name != null)
+        {
+            assertEquals(name, map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
+        }
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
         builder.setVersioning(opts, false);
     }
@@ -104,10 +112,14 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
         Map map = file.getContent().getAttributes();
+        String name = ((URLFileName)file.getName()).getUserName();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()),"testUser");
-        assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
-        assertEquals(map.get(DeltaVConstants.COMMENT.toString()),"Modified by user admin");
+        if (name != null)
+        {
+            assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
+            assertEquals("Modified by user " + name, map.get(DeltaVConstants.COMMENT.toString()));
+        }
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_OUT.toString()));
 
         // Create the source file
@@ -127,8 +139,11 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         map = file.getContent().getAttributes();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()),"testUser");
-        assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
-        assertEquals(map.get(DeltaVConstants.COMMENT.toString()),"Modified by user admin");
+        if (name != null)
+        {
+            assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
+            assertEquals("Modified by user " + name, map.get(DeltaVConstants.COMMENT.toString()));
+        }       
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
         builder.setVersioning(opts, false);
         builder.setCreatorName(opts, null);

@@ -23,6 +23,8 @@ import org.apache.commons.vfs.util.Messages;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A base class for VFS tests.  Provides utility methods for locating
@@ -35,6 +37,12 @@ public abstract class AbstractVfsTestCase
     extends TestCase
 {
     private static File baseDir;
+
+    /** URL pattern */
+    private static final Pattern URL_PATTERN = Pattern.compile("[a-z]+://.*");
+
+    /** Password pattern */
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
 
     /**
      * Returns the name of the package containing a class.
@@ -200,6 +208,7 @@ public abstract class AbstractVfsTestCase
                                          final Object[] params,
                                          final Throwable throwable)
     {
+        Object[] parmArray = params;
         if (throwable instanceof FileSystemException)
         {
             final FileSystemException fse = (FileSystemException) throwable;
@@ -207,15 +216,24 @@ public abstract class AbstractVfsTestCase
             // Compare message code and params
             assertEquals(code, fse.getCode());
             assertEquals(params.length, fse.getInfo().length);
+            parmArray = new Object[params.length];
             for (int i = 0; i < params.length; i++)
             {
-                final Object param = params[i];
-                assertEquals(String.valueOf(param), fse.getInfo()[i]);
+                String value = String.valueOf(params[i]);
+                // mask passwords (VFS-169)
+                final Matcher urlMatcher = URL_PATTERN.matcher(value);
+                if (urlMatcher.find())
+                {
+                    final Matcher pwdMatcher = PASSWORD_PATTERN.matcher(value);
+                    value = pwdMatcher.replaceFirst(":***@");
+                }
+                assertEquals(value, fse.getInfo()[i]);
+                parmArray[i] = value;
             }
         }
 
         // Compare formatted message
-        final String message = Messages.getString(code, params);
+        final String message = Messages.getString(code, parmArray);
         assertEquals(message, throwable.getMessage());
     }
 

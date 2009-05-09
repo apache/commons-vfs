@@ -30,6 +30,8 @@ import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.VfsLog;
+import org.apache.commons.vfs.FileSystemConfigBuilder;
+import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
 import org.apache.commons.vfs.cache.OnCallRefreshFileObject;
 import org.apache.commons.vfs.events.AbstractFileChangeEvent;
 import org.apache.commons.vfs.events.ChangedEvent;
@@ -57,7 +59,18 @@ public abstract class AbstractFileSystem
 {
     private final static Log log = LogFactory.getLog(AbstractFileSystem.class);
 
+    /**
+     * The "root" of the file system. This is always "/" so it isn't always the "real"
+     * root.
+     */
     private final FileName rootName;
+
+    /**
+     * The root URI of the file system. The base path specified as a file system option
+     * when the file system was created.
+     */
+    private final String rootURI;
+
     private FileObject parentLayer;
     // private FileObject root;
     private final Collection caps = new HashSet();
@@ -98,8 +111,13 @@ public abstract class AbstractFileSystem
         this.parentLayer = parentLayer;
         this.rootName = rootName;
         this.fileSystemOptions = fileSystemOptions;
-
-        // this.files = null;
+        FileSystemConfigBuilder builder = DefaultFileSystemConfigBuilder.getInstance();
+        String uri = builder.getRootURI(fileSystemOptions);
+        if (uri == null)
+        {
+            uri = rootName.getURI();
+        }
+        this.rootURI = uri;
     }
 
     /**
@@ -156,6 +174,15 @@ public abstract class AbstractFileSystem
     public FileName getRootName()
     {
         return rootName;
+    }
+
+    /**
+     * Returns the root URI specified for this file System.
+     * @return The root URI used in this file system.
+     */
+    public String getRootURI()
+    {
+        return rootURI;
     }
 
     /**

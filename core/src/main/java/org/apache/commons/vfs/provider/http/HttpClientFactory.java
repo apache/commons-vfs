@@ -75,15 +75,15 @@ public class HttpClientFactory
 
             if (fileSystemOptions != null)
             {
-                String proxyHost = HttpFileSystemConfigBuilder.getInstance().getProxyHost(fileSystemOptions);
-                int proxyPort = HttpFileSystemConfigBuilder.getInstance().getProxyPort(fileSystemOptions);
+                String proxyHost = builder.getProxyHost(fileSystemOptions);
+                int proxyPort = builder.getProxyPort(fileSystemOptions);
 
                 if (proxyHost != null && proxyPort > 0)
                 {
                     config.setProxy(proxyHost, proxyPort);
                 }
 
-                UserAuthenticator proxyAuth = HttpFileSystemConfigBuilder.getInstance().getProxyAuthenticator(fileSystemOptions);
+                UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
                 if (proxyAuth != null)
                 {
                     UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth, new UserAuthenticationData.Type[]
@@ -103,7 +103,7 @@ public class HttpClientFactory
                     }
                 }
 
-                Cookie[] cookies = HttpFileSystemConfigBuilder.getInstance().getCookies(fileSystemOptions);
+                Cookie[] cookies = builder.getCookies(fileSystemOptions);
                 if (cookies != null)
                 {
                     client.getState().addCookies(cookies);

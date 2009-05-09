@@ -41,7 +41,11 @@ public abstract class AbstractOriginatingFileProvider
     /**
      * Locates a file object, by absolute URI.
      *
-     * @param uri
+     * @param baseFile The base file object.
+     * @param uri The URI of the file to locate
+     * @param fileSystemOptions The FileSystem options.
+     * @return The located FileObject
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject findFile(final FileObject baseFile,
                                final String uri,
@@ -64,6 +68,10 @@ public abstract class AbstractOriginatingFileProvider
 
     /**
      * Locates a file from its parsed URI.
+     * @param name The file name.
+     * @param fileSystemOptions FileSystem options.
+     * @return A FileObject associated with the file.
+     * @throws FileSystemException if an error occurs.
      */
     protected FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
@@ -71,17 +79,7 @@ public abstract class AbstractOriginatingFileProvider
         // Check in the cache for the file system
         final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
 
-        FileSystem fs;
-        synchronized (this)
-        {
-            fs = findFileSystem(rootName, fileSystemOptions);
-            if (fs == null)
-            {
-                // Need to create the file system, and cache it
-                fs = doCreateFileSystem(rootName, fileSystemOptions);
-                addFileSystem(rootName, fs);
-            }
-        }
+        FileSystem fs = getFileSystem(rootName, fileSystemOptions);
 
         // Locate the file
         // return fs.resolveFile(name.getPath());
@@ -89,10 +87,35 @@ public abstract class AbstractOriginatingFileProvider
     }
 
     /**
+     * Returns the FileSystem associated with the specified root.
+     * @param rootName The root path.
+     * @param fileSystemOptions The FileSystem options.
+     * @return The FileSystem.
+     * @throws FileSystemException if an error occurs.
+     */
+    protected synchronized FileSystem getFileSystem(FileName rootName, final FileSystemOptions fileSystemOptions)
+        throws FileSystemException
+    {
+        FileSystem fs = findFileSystem(rootName, fileSystemOptions);
+        if (fs == null)
+        {
+            // Need to create the file system, and cache it
+            fs = doCreateFileSystem(rootName, fileSystemOptions);
+            addFileSystem(rootName, fs);
+        }
+        return fs;
+    }
+
+
+
+    /**
      * Creates a {@link FileSystem}.  If the returned FileSystem implements
      * {@link VfsComponent}, it will be initialised.
      *
      * @param rootName The name of the root file of the file system to create.
+     * @param fileSystemOptions The FileSystem options.
+     * @return The FileSystem.
+     * @throws FileSystemException if an error occurs.
      */
     protected abstract FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
         throws FileSystemException;

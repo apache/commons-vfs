@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileSystem;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -91,20 +92,32 @@ public class ProviderReadTests
 
             // Make sure all children were found
             assertNotNull(children);
+            int length = children.length;
             if (info.children.size() != children.length)
             {
                 for (int i=0; i < children.length; ++i)
                 {
+                    if (children[i].getName().getBaseName().startsWith("."))
+                    {
+                        --length;
+                        continue;
+                    }
                     System.out.println(children[i].getName());
                 }
             }
-            assertEquals("count children of \"" + file.getName() + "\"", info.children.size(), children.length);
+
+            assertEquals("count children of \"" + file.getName() + "\"", info.children.size(), length);
 
             // Recursively check each child
             for (int i = 0; i < children.length; i++)
             {
                 final FileObject child = children[i];
-                final FileInfo childInfo = (FileInfo) info.children.get(child.getName().getBaseName());
+                String childName = child.getName().getBaseName();
+                if (childName.startsWith("."))
+                {
+                    continue;
+                }
+                final FileInfo childInfo = (FileInfo) info.children.get(childName);
 
                 // Make sure the child is expected
                 assertNotNull(childInfo);
@@ -139,7 +152,9 @@ public class ProviderReadTests
      */
     public void testRoot() throws FileSystemException
     {
-        final FileObject file = getReadFolder().getFileSystem().getRoot();
+        FileSystem fs = getReadFolder().getFileSystem();
+        String uri = fs.getRootURI();
+        final FileObject file = getManager().resolveFile(uri);
         file.getChildren();
     }
 

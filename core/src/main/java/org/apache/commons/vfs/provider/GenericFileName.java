@@ -148,7 +148,7 @@ public class GenericFileName extends AbstractFileName
                 }
                 else
                 {
-                    buffer.append("*****");
+                    buffer.append("***");
                 }
             }
             buffer.append('@');

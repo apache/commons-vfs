@@ -102,7 +102,10 @@ public class ContentTests
      */
     public void testRoot() throws FileSystemException
     {
-        final FileObject file = getReadFolder().getFileSystem().getRoot();
+        FileSystem fs = getReadFolder().getFileSystem();
+        String uri = fs.getRootURI();
+        final FileObject file = getManager().resolveFile(uri);
+        //final FileObject file = getReadFolder().getFileSystem().getRoot();
         assertTrue(file.exists());
         assertTrue(file.getType() != FileType.IMAGINARY);
     }

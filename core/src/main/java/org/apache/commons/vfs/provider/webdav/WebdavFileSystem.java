@@ -34,9 +34,7 @@ import org.apache.commons.vfs.provider.http.HttpFileSystem;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class WebdavFileSystem
-    extends HttpFileSystem
-    implements FileSystem
+public class WebdavFileSystem extends HttpFileSystem implements FileSystem
 {
     protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client,
                                final FileSystemOptions fileSystemOptions)

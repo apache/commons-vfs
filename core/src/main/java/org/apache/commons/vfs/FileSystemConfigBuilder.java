@@ -27,6 +27,9 @@ public abstract class FileSystemConfigBuilder
     /** Default prefix to use when resolving system properties */
     private static final String PREFIX = "vfs.";
 
+    /** The root uri of the file system */
+    private static final String ROOTURI = "rootURI";
+
     /** The prefix to use when resolving system properties */
     private final String prefix;
 
@@ -38,6 +41,27 @@ public abstract class FileSystemConfigBuilder
     {
         this.prefix = PREFIX + component;
     }
+
+    /**
+     * The root URI of the file system.
+     * @param opts The FileSystem options
+     * @param rootURI The creator name to be associated with the file.
+     */
+    public void setRootURI(FileSystemOptions opts, String rootURI)
+    {
+        setParam(opts, ROOTURI, rootURI);
+    }
+
+    /**
+     * Return the root URI of the file system.
+     * @param opts The FileSystem options
+     * @return The root URI.
+     */
+    public String getRootURI(FileSystemOptions opts)
+    {
+        return getString(opts, ROOTURI);
+    }
+
 
     protected void setParam(FileSystemOptions opts, String name, Object value)
     {

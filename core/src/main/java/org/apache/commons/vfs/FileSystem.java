@@ -34,10 +34,17 @@ public interface FileSystem
     FileObject getRoot() throws FileSystemException;
 
     /**
-     * Returns the name of the root file of this file system.
+     * Returns the name of the root file of this file system. The root name always
+     * contains a path String of "/".
      * @return the root FileName.
      */
     FileName getRootName();
+
+    /**
+     * The root URI passed as a file system option or obtained from the rootName.
+     * @return The root URI.
+     */
+    String getRootURI();
 
     /**
      * Determines if this file system has a particular capability.
