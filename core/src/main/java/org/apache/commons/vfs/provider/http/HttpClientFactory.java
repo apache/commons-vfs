@@ -65,13 +65,9 @@ public class HttpClientFactory
             HttpConnectionManagerParams connectionMgrParams = mgr.getParams();
 
             client = new HttpClient(mgr);
-            //client = new HttpClient(new ThreadLocalHttpConnectionManager());
 
             final HostConfiguration config = new HostConfiguration();
             config.setHost(hostname, port, scheme);
-
-            connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
-            connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));
 
             if (fileSystemOptions != null)
             {
@@ -109,6 +105,13 @@ public class HttpClientFactory
                     client.getState().addCookies(cookies);
                 }
             }
+            /**
+             * ConnectionManager set methodsmust be called after the host & port and proxy host & port
+             * are set in the HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams
+             * tries to locate the host configuration.
+             */
+            connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
+            connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));
 
             client.setHostConfiguration(config);
 
