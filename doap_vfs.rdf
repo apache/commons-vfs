@@ -37,11 +37,11 @@
     </repository>
     <!--
     <release>
-      <revision>
+      <Version>
         <name>??</name>
         <created>yyyy-mm-dd</created>
-        <version>??</version>
-      </revision>
+        <revision>??</version>
+      </Version>
     </release>
     -->
     <mailing-list rdf:resource="http://commons.apache.org/mail-lists.html"/>
