@@ -762,9 +762,10 @@ public class DefaultFileSystemManager implements FileSystemManager
 
         // Adjust separators
         UriParser.fixSeparators(buffer);
+        String scheme = UriParser.extractScheme(buffer.toString());
 
         // Determine whether to prepend the base path
-        if (name.length() == 0 || buffer.charAt(0) != FileName.SEPARATOR_CHAR)
+        if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR ))
         {
             // Supplied path is not absolute
             if (!VFS.isUriStyle())
@@ -789,8 +790,16 @@ public class DefaultFileSystemManager implements FileSystemManager
                     "vfs.provider/invalid-descendent-name.error", name);
         }
 
-        String scheme = realBase.getScheme();
-        String fullPath = realBase.getRootURI() + resolvedPath;
+        String fullPath;
+        if (scheme != null)
+        {
+            fullPath = resolvedPath;   
+        }
+        else
+        {
+            scheme = realBase.getScheme();
+            fullPath = realBase.getRootURI() + resolvedPath;
+        }
         final FileProvider provider = (FileProvider) providers.get(scheme);
         if (provider != null)
         {
