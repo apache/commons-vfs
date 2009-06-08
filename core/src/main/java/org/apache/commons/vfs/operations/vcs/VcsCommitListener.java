@@ -26,9 +26,8 @@ public interface VcsCommitListener
 {
     /**
      *
-     * @param path
-     * @param contentStatus
-     *            takes one of the values as defined in the
+     * @param path The path.
+     * @param contentStatus takes one of the values as defined in the
      * @see VcsStatus constants.
      */
     void commited(final String path, final int contentStatus);

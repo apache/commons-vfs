@@ -28,13 +28,13 @@ public interface VcsAdd extends FileOperation
 {
     /**
      *
-     * @param makedir
+     * @param makedir true if directories should be created, false otherwise.
      */
     void setMakedir(final boolean makedir);
 
     /**
      *
-     * @param recirsive
+     * @param recursive true if subdirectories should be processed.
      */
-    void setRecursive(final boolean recirsive);
+    void setRecursive(final boolean recursive);
 }

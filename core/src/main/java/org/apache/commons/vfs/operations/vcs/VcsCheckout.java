@@ -29,20 +29,19 @@ public interface VcsCheckout extends FileOperation
 {
     /**
      *
-     * @param revision
+     * @param revision The revision number.
      */
     void setRevision(final long revision);
 
     /**
      *
-     * @param recursive
+     * @param recursive true if directories should be traversed.
      */
     void setRecursive(final boolean recursive);
 
     /**
      *
-     * @param targetDir
-     *            directory under which retrieved files should be placed.
+     * @param targetDir directory under which retrieved files should be placed.
      */
     void setTargetDirectory(final FileObject targetDir);
 

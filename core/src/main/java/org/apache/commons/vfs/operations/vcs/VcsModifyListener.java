@@ -26,8 +26,8 @@ public interface VcsModifyListener
 {
     /**
      *
-     * @param path
-     * @param contentStatus
+     * @param path The path String.
+     * @param contentStatus The content status.
      */
     void modified(final String path, final int contentStatus);
 }

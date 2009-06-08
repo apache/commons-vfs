@@ -30,19 +30,21 @@ public interface FileOperations
 {
     /**
      * @return all operations associated with the fileObject
-     * @throws FileSystemException
+     * @throws FileSystemException if an error occurs.
      */
     Class[] getOperations() throws FileSystemException;
 
     /**
+     * @param operationClass the operation Class.
      * @return a operation implementing the given <code>operationClass</code>
-     * @throws FileSystemException
+     * @throws FileSystemException if an error occus.
      */
     FileOperation getOperation(Class operationClass) throws FileSystemException;
 
     /**
+     * @param operationClass the operation Class.
      * @return if a operation <code>operationClass</code> is available
-     * @throws FileSystemException
+     * @throws FileSystemException if an error ocurs.
      */
     boolean hasOperation(Class operationClass) throws FileSystemException;
 }

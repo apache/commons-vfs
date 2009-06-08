@@ -53,10 +53,11 @@ public class VcsLogEntry
 
     /**
      *
-     * @param revision
-     * @param message
-     * @param date
-     * @param path
+     * @param author The author.
+     * @param revision The revision.
+     * @param message The message.
+     * @param date The date.
+     * @param path The path.
      */
     public VcsLogEntry(final String author, final long revision,
             final String message, final Calendar date, final String path)
@@ -70,7 +71,7 @@ public class VcsLogEntry
 
     /**
      *
-     * @return
+     * @return The author.
      */
     public String getAuthor()
     {
@@ -79,7 +80,7 @@ public class VcsLogEntry
 
     /**
      *
-     * @return
+     * @return The revision.
      */
     public long getRevision()
     {
@@ -88,7 +89,7 @@ public class VcsLogEntry
 
     /**
      *
-     * @return
+     * @return The message.
      */
     public String getMessage()
     {
@@ -97,7 +98,7 @@ public class VcsLogEntry
 
     /**
      *
-     * @return
+     * @return The date.
      */
     public Calendar getDate()
     {
@@ -106,7 +107,7 @@ public class VcsLogEntry
 
     /**
      *
-     * @return
+     * @return The path.
      */
     public String getPath()
     {

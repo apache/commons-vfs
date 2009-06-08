@@ -28,19 +28,19 @@ public interface VcsLog extends FileOperation
 {
     /**
      *
-     * @param startRev
+     * @param startRev The start revision.
      */
     void setStartRevision(final long startRev);
 
     /**
      *
-     * @param endRev
+     * @param endRev The end revision.
      */
     void setEndRevision(final long endRev);
 
     /**
      *
-     * @param handler
+     * @param handler The LogEntry handler.
      */
     void setLogEntryHandler(final VcsLogEntryHandler handler);
 }

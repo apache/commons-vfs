@@ -43,7 +43,7 @@ public class DefaultFileOperations implements FileOperations
 
     /**
      *
-     * @param file
+     * @param file The file.
      */
     public DefaultFileOperations(final FileObject file)
     {
@@ -53,7 +53,7 @@ public class DefaultFileOperations implements FileOperations
     }
 
     /**
-     * @return
+     * @return The operation classes.
      * @throws org.apache.commons.vfs.FileSystemException
      *
      */
@@ -82,9 +82,9 @@ public class DefaultFileOperations implements FileOperations
     }
 
     /**
-     * @param operationClass
-     * @return
-     * @throws org.apache.commons.vfs.FileSystemException
+     * @param operationClass The Class that performs the operation.
+     * @return The FileOperation.
+     * @throws FileSystemException if an error occurs.
      *
      */
     public FileOperation getOperation(Class operationClass)
@@ -125,13 +125,11 @@ public class DefaultFileOperations implements FileOperations
     }
 
     /**
-     * @param operationClass
-     *            the operation's class.
-     *
+     * @param operationClass the operation's class.
      * @return true if the operation of specified class is supported for current
      *         FileObject and false otherwise.
      *
-     * @throws org.apache.commons.vfs.FileSystemException
+     * @throws FileSystemException if an error occurs.
      *
      */
     public boolean hasOperation(Class operationClass) throws FileSystemException

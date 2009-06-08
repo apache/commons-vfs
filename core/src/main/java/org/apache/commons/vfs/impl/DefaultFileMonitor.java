@@ -453,17 +453,20 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             catch (FileSystemException fse)
             {
                 this.exists = false;
-            }
-
-            try
-            {
-                this.timestamp = this.file.getContent().getLastModifiedTime();
-            }
-            catch (FileSystemException fse)
-            {
                 this.timestamp = -1;
             }
 
+            if (this.exists)
+            {
+                try
+                {
+                    this.timestamp = this.file.getContent().getLastModifiedTime();
+                }
+                catch (FileSystemException fse)
+                {
+                    this.timestamp = -1;
+                }
+            }
         }
 
         private void resetChildrenList()
