@@ -144,6 +144,9 @@
     <!-- include NOTICE/LICENSE in generated test jar -->
     <testResources>
       <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <testResource>
         <directory>..</directory>
         <targetPath>META-INF</targetPath>
         <includes>
@@ -152,16 +155,10 @@
       </testResource>
       <testResource>
         <directory>..</directory>
+        <targetPath>META-INF</targetPath>
         <includes>
           <include>LICENSE.txt</include>
         </includes>
-      </testResource>
-      <testResource>
-        <directory>src/test/test-data</directory>
-        <targetPath>test-data</targetPath>
-        <excludes>
-          <exclude>code/**/*.java</exclude>
-        </excludes>
       </testResource>
     </testResources>
 
