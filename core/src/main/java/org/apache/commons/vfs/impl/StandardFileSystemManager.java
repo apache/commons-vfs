@@ -53,14 +53,12 @@ public class StandardFileSystemManager
     private static final String CONFIG_RESOURCE = "providers.xml";
     private static final String PLUGIN_CONFIG_RESOURCE = "META-INF/vfs-providers.xml";
 
-    private Log log = LogFactory.getLog(StandardFileSystemManager.class);
-
     private URL configUri;
     private ClassLoader classLoader;
 
     /**
      * Sets the configuration file for this manager.
-     * @param configUri The URI forthis manager.
+     * @param configUri The URI for this manager.
      */
     public void setConfiguration(final String configUri)
     {
@@ -70,7 +68,7 @@ public class StandardFileSystemManager
         }
         catch (MalformedURLException e)
         {
-            log.warn(e.getLocalizedMessage(), e);
+            getLogger().warn(e.getLocalizedMessage(), e);
         }
     }
 
@@ -212,7 +210,7 @@ public class StandardFileSystemManager
                 }
                 catch (IOException e)
                 {
-                    log.warn(e.getLocalizedMessage(), e);
+                    getLogger().warn(e.getLocalizedMessage(), e);
                 }
             }
         }
@@ -351,7 +349,7 @@ public class StandardFileSystemManager
             {
                 final String msg = Messages.getString("vfs.impl/skipping-provider-scheme.debug",
                     new String[]{classname, requiredScheme});
-                VfsLog.debug(getLogger(), log, msg);
+                VfsLog.debug(getLogger(), getLogger(), msg);
                 return;
             }
         }
@@ -365,7 +363,7 @@ public class StandardFileSystemManager
             {
                 final String msg = Messages.getString("vfs.impl/skipping-provider.debug",
                     new String[]{classname, requiredClass});
-                VfsLog.debug(getLogger(), log, msg);
+                VfsLog.debug(getLogger(), getLogger(), msg);
                 return;
             }
         }

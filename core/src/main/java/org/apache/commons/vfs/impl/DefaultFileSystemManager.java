@@ -17,6 +17,7 @@
 package org.apache.commons.vfs.impl;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.CacheStrategy;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileName;
@@ -116,7 +117,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     /**
      * The logger to use.
      */
-    private Log log;
+    private Log log = LogFactory.getLog(getClass());
 
     /**
      * The context to pass to providers.
