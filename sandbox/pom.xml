@@ -38,53 +38,37 @@
 
   <dependencies>
     <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging</artifactId>
-      <version>1.0.4</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-vfs</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-vfs</artifactId>
-      <version>2.0-SNAPSHOT</version>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
     </dependency>
-
-    <!--<dependency>
-       <groupId>slide</groupId>
-       <artifactId>jakarta-slide-webdavlib</artifactId>
-       <version>20050629.161100</version>
-       <optional>true</optional>
-     </dependency> -->
     <dependency>
       <groupId>jcifs</groupId>
       <artifactId>jcifs</artifactId>
-      <version>0.8.3</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
-      <version>2.0.2</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
-      <version>1.4</version>
       <optional>true</optional>
     </dependency>
     <dependency>
        <groupId>org.apache.commons</groupId>
        <artifactId>commons-vfs</artifactId>
-       <version>2.0-SNAPSHOT</version>
-       <scope>test</scope>
        <type>test-jar</type>
      </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 

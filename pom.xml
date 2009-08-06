@@ -93,7 +93,12 @@
       <email>rgoers -at- apache.org</email>
       <organization>Intuit</organization>
     </developer>
-  </developers>
+    <developer>
+      <name>Joerg Schaible</name>
+      <id>joehni</id>
+      <email>joehni -at- apache.org</email>
+    </developer>
+   </developers>
 
   <contributors>
     <contributor>
@@ -114,7 +119,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <commons.componentid>vfs</commons.componentid>
-    <commons.release.version>1.0</commons.release.version>
+    <commons.release.version>2.0</commons.release.version>
     <commons.binary.suffix></commons.binary.suffix>
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
@@ -127,30 +132,27 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>2.0-beta-5</version>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>2.2</version>
         </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
-       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.2</version>
       </plugin>
       <plugin>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-build-plugin</artifactId>
+		<!-- version inherited from commons-parent -->
         <configuration>
             <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+		<!-- version inherited from commons-parent -->
         <configuration>
           <descriptors>
             <descriptor>src/assembly/bin.xml</descriptor>
@@ -162,6 +164,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+		<!-- version inherited from commons-parent -->
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -185,6 +188,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
+        <version>2.0-beta-5</version>
         <configuration>
           <stagingDirectory>${user.home}/vfssite/tmp</stagingDirectory>
           <stagingSiteURL>${user.home}/vfssite/staging</stagingSiteURL>
@@ -253,6 +257,109 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <dependencyManagement>
+	<dependencies>
+	  <!-- artifacts of project, versions managed by release-plugin -->
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-vfs</artifactId>
+        <version>2.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-vfs</artifactId>
+        <version>2.0-SNAPSHOT</version>
+		<type>test-jar</type>
+		<scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-vfs-sandbox</artifactId>
+        <version>2.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-vfs-examples</artifactId>
+        <version>2.0-SNAPSHOT</version>
+      </dependency>
+
+	  <!-- 3rd party dependencies -->
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-net</groupId>
+        <artifactId>commons-net</artifactId>
+        <version>1.4.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.1</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-httpclient</groupId>
+        <artifactId>commons-httpclient</artifactId>
+        <version>3.0</version>
+        <!-- JCR-683: Exclude bad transitive dependencies, check again when upgrading version -->
+        <exclusions>
+          <exclusion>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-webdav</artifactId>
+        <version>1.5.2</version>
+      </dependency>
+      <dependency>
+        <groupId>ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.6.2</version>
+      </dependency>
+      <dependency>
+        <groupId>xml-apis</groupId>
+        <artifactId>xml-apis</artifactId>
+        <version>1.0.b2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jdom</groupId>
+        <artifactId>jdom</artifactId>
+        <version>1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jsch</artifactId>
+        <version>0.1.41</version>
+      </dependency>
+      <dependency>
+        <groupId>jcifs</groupId>
+        <artifactId>jcifs</artifactId>
+        <version>0.8.3</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.2</version>
+		<scope>test</scope>
+      </dependency>
+	</dependencies>
+  </dependencyManagement>
 
   <repositories>
     <repository>
