@@ -74,7 +74,7 @@ public class HttpClientFactory
                 String proxyHost = builder.getProxyHost(fileSystemOptions);
                 int proxyPort = builder.getProxyPort(fileSystemOptions);
 
-                if (proxyHost != null && proxyPort > 0)
+                if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0)
                 {
                     config.setProxy(proxyHost, proxyPort);
                 }

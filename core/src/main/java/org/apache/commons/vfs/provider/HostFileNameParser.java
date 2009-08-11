@@ -19,6 +19,7 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.util.EncryptDecrypt;
 
 /**
  * Implementation for any url based filesystem.<br />
@@ -121,6 +122,18 @@ public class HostFileNameParser extends AbstractFileNameParser
         }
         auth.userName = UriParser.decode(userName);
         auth.password = UriParser.decode(password);
+
+        if (auth.password != null && auth.password.startsWith("{") && auth.password.endsWith("}"))
+        {
+            try
+            {
+                auth.password = EncryptDecrypt.decrypt(auth.password.substring(1, auth.password.length()-1));
+            }
+            catch (Exception ex)
+            {
+                throw new FileSystemException("Unable to decrypt password", ex);
+            }
+        }
 
         // Extract hostname, and normalise (lowercase)
         final String hostName = extractHostName(name);
