@@ -17,13 +17,15 @@
 package org.apache.commons.vfs;
 
 /**
- * The user authenticator is used to query credentials from the user
+ * The user authenticator is used to query credentials from the user. Since a UserAuthenticator 
+ * is provided with the {@link FileSystemOptions} to a {@link FileSystem} it should also implement
+ * reasonable equals and hashCode functions if the FileSystem should be shared.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface UserAuthenticator
 {
     /**
-     * queries the given type from the user
+     * Queries the given type from the user
      * @param types An array containing the user's credentials
      * @return The UserAuthenticationData.
      */

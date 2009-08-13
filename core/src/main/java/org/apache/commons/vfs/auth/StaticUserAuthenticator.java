@@ -21,10 +21,10 @@ import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 /**
- * provides always the same credential data passed in with the constructor.
+ * Provides always the same credentials data passed in with the constructor.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class StaticUserAuthenticator implements UserAuthenticator
+public class StaticUserAuthenticator implements UserAuthenticator, Comparable
 {
     /** The user name */
     private final String username;
@@ -49,5 +49,101 @@ public class StaticUserAuthenticator implements UserAuthenticator
         data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
         data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
         return data;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int hashCode() {
+        final int prime = 37;
+        int result = 1;
+        result = prime * result + ((domain == null) ? 0 : domain.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        StaticUserAuthenticator other = (StaticUserAuthenticator)obj;
+        return equalsNullsafe(domain, other.domain)
+                && equalsNullsafe(username, other.username)
+                && equalsNullsafe(password, other.password);
+    }
+
+    private boolean equalsNullsafe(final String thisString, final String otherString) {
+        if (thisString == null) {
+            if (otherString != null) {
+                return false;
+            }
+        } else if (!thisString.equals(otherString)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public int compareTo(final Object o) {
+        StaticUserAuthenticator other = (StaticUserAuthenticator)o;
+        int result = compareStringOrNull(domain, other.domain);
+        result = result == 0 ? compareStringOrNull(username, other.username) : result;
+        result = result == 0 ? compareStringOrNull(password, other.password) : result;
+
+        return result;
+    }
+
+    private int compareStringOrNull(final String thisString, final String otherString) {
+        if (thisString == null) {
+            if (otherString != null) {
+                return -1;
+            }
+        } else {
+            if (otherString == null) {
+                return 1;
+            }
+
+            final int result = thisString.compareTo(otherString);
+            if (result != 0) {
+                return result;
+            }
+        }
+
+        return 0;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        if (domain != null) {
+            buffer.append(domain).append('\\');
+        }
+        if (username != null) {
+            buffer.append(username);
+        } else {
+            buffer.append("(null)");
+        }
+        if (password != null) {
+            buffer.append(":***");
+        }
+        return buffer.toString();
     }
 }
