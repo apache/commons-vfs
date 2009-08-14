@@ -16,25 +16,24 @@
  */
 package org.apache.commons.vfs.util;
 
-import junit.framework.TestCase;
-
 /**
- *
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class EncryptDecryptTest extends TestCase
+public interface Cryptor
 {
+    /**
+     * Encrypt the plain text password.
+     * @param plainKey The password.
+     * @return The encrypted password String.
+     * @throws Exception If an error occurs.
+     */
+    String encrypt(String plainKey) throws Exception;
 
-    public void testEncryptDecrypt() throws Exception
-    {
-        String source = "Qryp2!t&tpR59";
-        String expected = "914589F049CE3E8E3BB1A41BEAE12A9C";
-
-        Cryptor cryptor = CryptorFactory.getCryptor();
-        String encrypted = cryptor.encrypt(source);
-        assertEquals(expected, encrypted);
-
-        String decrypted = cryptor.decrypt(encrypted);
-        assertEquals(source, decrypted);
-
-    }
+    /**
+     * Decrypts the password.
+     * @param encryptedKey the encrypted password.
+     * @return The plain text password.
+     * @throws Exception If an error occurs.
+     */
+    String decrypt(String encryptedKey) throws Exception;
 }

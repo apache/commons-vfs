@@ -21,38 +21,21 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Allows passwords to be encrypted and decrypted.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class EncryptDecrypt
+public class DefaultCryptor implements Cryptor
 {
-    private static char[] hexChars =
+    private static final char[] HEX_CHARS =
             {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-    private static byte[] keyBytes = {0x41, 0x70, 0x61, 0x63, 0x68, 0x65, 0x43, 0x6F, 0x6D, 0x6D,
+    private static final byte[] KEY_BYTES = {0x41, 0x70, 0x61, 0x63, 0x68, 0x65, 0x43, 0x6F, 0x6D, 0x6D,
             0x6F, 0x6E, 0x73, 0x56, 0x46, 0x53};
 
-    private static int INDEX_NOT_FOUND = -1;
+    private static final int INDEX_NOT_FOUND = -1;
 
-    /**
-     * This class can be called with "encrypt" password as the arguments where encrypt is
-     * a literal and password is replaced with the clear text password to be encrypted.
-     *
-     * @param args The arguments in the form "command" parm1, parm2.
-     * @throws Exception If an error occurs.
-     */
-    public static void main(String[] args) throws Exception
-    {
-        if (args.length != 2 || !(args[0].equals("encrypt")))
-        {
-            System.err.println("Usage: \"EncryptDecrypt encrypt\" password");
-            System.err.println("     password : The clear text password to encrypt");
-            System.exit(0);
-        }
+    private static final int BITS_IN_HALF_BYTE = 4;
 
-        if (args[0].equals("encrypt"))
-        {
-            System.out.println(encrypt(args[1]));
-        }
-    }
+    private static final char MASK = 0x0f;
 
     /**
      * Encrypt the plain text password.
@@ -60,10 +43,10 @@ public class EncryptDecrypt
      * @return The encrypted password String.
      * @throws Exception If an error occurs.
      */
-    public static String encrypt(String plainKey) throws Exception
+    public String encrypt(String plainKey) throws Exception
     {
         byte[] input = plainKey.getBytes();
-        SecretKeySpec key = new SecretKeySpec(keyBytes, "AES");
+        SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");
 
         Cipher cipher = Cipher.getInstance("AES");
 
@@ -82,9 +65,9 @@ public class EncryptDecrypt
      * @return The plain text password.
      * @throws Exception If an error occurs.
      */
-    public static String decrypt(String encryptedKey) throws Exception
+    public String decrypt(String encryptedKey) throws Exception
     {
-        SecretKeySpec key = new SecretKeySpec(keyBytes, "AES");
+        SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decoded = decode(encryptedKey);
@@ -94,19 +77,19 @@ public class EncryptDecrypt
         return new String(plainText).substring(0, ptLength);
     }
 
-    private static String encode(byte[] bytes)
+    private String encode(byte[] bytes)
     {
         StringBuffer builder = new StringBuffer();
 
-        for (int i=0; i < bytes.length; ++i)
+        for (int i = 0; i < bytes.length; ++i)
         {
-            builder.append(hexChars[(bytes[i] >> 4) & 0x0f]);
-            builder.append(hexChars[bytes[i] & 0x0f]);
+            builder.append(HEX_CHARS[(bytes[i] >> BITS_IN_HALF_BYTE) & MASK]);
+            builder.append(HEX_CHARS[bytes[i] & MASK]);
         }
         return builder.toString();
     }
 
-    private static byte[] decode(String str)
+    private byte[] decode(String str)
     {
         int length = str.length() / 2;
         byte[] decoded = new byte[length];
@@ -114,24 +97,24 @@ public class EncryptDecrypt
         int index = 0;
         for (int i = 0; i < chars.length; ++i)
         {
-            int id1 = indexOf(hexChars, chars[i]);
+            int id1 = indexOf(HEX_CHARS, chars[i]);
             if (id1 == -1)
             {
-                throw new IllegalArgumentException("Character " + chars[i] + " at position " + i +
-                        " is not a valid hexideciam character");
+                throw new IllegalArgumentException("Character " + chars[i] + " at position " + i
+                        + " is not a valid hexidecimal character");
             }
-            int id2 = indexOf(hexChars, chars[++i]);
+            int id2 = indexOf(HEX_CHARS, chars[++i]);
             if (id2 == -1)
             {
-                throw new IllegalArgumentException("Character " + chars[i] + " at position " + i +
-                        " is not a valid hexideciam character");
+                throw new IllegalArgumentException("Character " + chars[i] + " at position " + i
+                        + " is not a valid hexidecimal character");
             }
-            decoded[index++] = (byte) ((id1 << 4) | id2);
+            decoded[index++] = (byte) ((id1 << BITS_IN_HALF_BYTE) | id2);
         }
         return decoded;
     }
 
-    private static int indexOf(char[] array, char valueToFind)
+    private int indexOf(char[] array, char valueToFind)
     {
         if (array == null)
         {

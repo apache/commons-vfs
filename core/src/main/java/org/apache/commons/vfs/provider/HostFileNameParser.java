@@ -19,7 +19,8 @@ package org.apache.commons.vfs.provider;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
-import org.apache.commons.vfs.util.EncryptDecrypt;
+import org.apache.commons.vfs.util.Cryptor;
+import org.apache.commons.vfs.util.CryptorFactory;
 
 /**
  * Implementation for any url based filesystem.<br />
@@ -127,7 +128,8 @@ public class HostFileNameParser extends AbstractFileNameParser
         {
             try
             {
-                auth.password = EncryptDecrypt.decrypt(auth.password.substring(1, auth.password.length()-1));
+                Cryptor cryptor = CryptorFactory.getCryptor();
+                auth.password = cryptor.decrypt(auth.password.substring(1, auth.password.length()-1));
             }
             catch (Exception ex)
             {
