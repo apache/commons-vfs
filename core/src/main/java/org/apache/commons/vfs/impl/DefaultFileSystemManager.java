@@ -766,7 +766,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         String scheme = UriParser.extractScheme(buffer.toString());
 
         // Determine whether to prepend the base path
-        if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR ))
+        if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR))
         {
             // Supplied path is not absolute
             if (!VFS.isUriStyle())
@@ -794,7 +794,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         String fullPath;
         if (scheme != null)
         {
-            fullPath = resolvedPath;   
+            fullPath = resolvedPath;
         }
         else
         {

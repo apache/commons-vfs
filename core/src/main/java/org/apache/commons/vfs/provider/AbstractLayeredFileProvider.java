@@ -41,13 +41,18 @@ public abstract class AbstractLayeredFileProvider
 
     /**
      * Locates a file object, by absolute URI.
+     * @param baseFile The base FileObject.
+     * @param uri The name of the file to locate.
+     * @param properties The FileSystemOptions.
+     * @return The FileObject if it is located, null otherwise.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject findFile(final FileObject baseFile,
                                final String uri,
                                final FileSystemOptions properties) throws FileSystemException
     {
         // Split the URI up into its parts
-        final LayeredFileName name = (LayeredFileName) parseUri(baseFile!=null?baseFile.getName():null, uri);
+        final LayeredFileName name = (LayeredFileName) parseUri(baseFile != null ? baseFile.getName() : null, uri);
 
         // Make the URI canonical
 
@@ -64,6 +69,11 @@ public abstract class AbstractLayeredFileProvider
 
     /**
      * Creates a layered file system.
+     * @param scheme The protocol to use.
+     * @param file a FileObject.
+     * @param fileSystemOptions Options to access the FileSystem.
+     * @return A FileObject associated with the new FileSystem.
+     * @throws FileSystemException if an error occurs.
      */
     public synchronized FileObject createFileSystem(final String scheme,
                                                     final FileObject file,

@@ -54,7 +54,8 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
     /**
      * {@inheritDoc}
      */
-    public int hashCode() {
+    public int hashCode()
+    {
         final int prime = 37;
         int result = 1;
         result = prime * result + ((domain == null) ? 0 : domain.hashCode());
@@ -67,31 +68,40 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
     /**
      * {@inheritDoc}
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
             return true;
         }
 
-        if (obj == null) {
+        if (obj == null)
+        {
             return false;
         }
 
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
+        {
             return false;
         }
 
-        StaticUserAuthenticator other = (StaticUserAuthenticator)obj;
+        StaticUserAuthenticator other = (StaticUserAuthenticator) obj;
         return equalsNullsafe(domain, other.domain)
                 && equalsNullsafe(username, other.username)
                 && equalsNullsafe(password, other.password);
     }
 
-    private boolean equalsNullsafe(final String thisString, final String otherString) {
-        if (thisString == null) {
-            if (otherString != null) {
+    private boolean equalsNullsafe(final String thisString, final String otherString)
+    {
+        if (thisString == null)
+        {
+            if (otherString != null)
+            {
                 return false;
             }
-        } else if (!thisString.equals(otherString)) {
+        }
+        else if (!thisString.equals(otherString))
+        {
             return false;
         }
         return true;
@@ -100,8 +110,9 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
     /**
      * {@inheritDoc}
      */
-    public int compareTo(final Object o) {
-        StaticUserAuthenticator other = (StaticUserAuthenticator)o;
+    public int compareTo(final Object o)
+    {
+        StaticUserAuthenticator other = (StaticUserAuthenticator) o;
         int result = compareStringOrNull(domain, other.domain);
         result = result == 0 ? compareStringOrNull(username, other.username) : result;
         result = result == 0 ? compareStringOrNull(password, other.password) : result;
@@ -109,39 +120,52 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
         return result;
     }
 
-    private int compareStringOrNull(final String thisString, final String otherString) {
-        if (thisString == null) {
-            if (otherString != null) {
+    private int compareStringOrNull(final String thisString, final String otherString)
+    {
+        if (thisString == null)
+        {
+            if (otherString != null)
+            {
                 return -1;
             }
-        } else {
-            if (otherString == null) {
+        }
+        else
+        {
+            if (otherString == null)
+            {
                 return 1;
             }
 
             final int result = thisString.compareTo(otherString);
-            if (result != 0) {
+            if (result != 0)
+            {
                 return result;
             }
         }
 
         return 0;
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public String toString() {
+    public String toString()
+    {
         StringBuffer buffer = new StringBuffer();
-        if (domain != null) {
+        if (domain != null)
+        {
             buffer.append(domain).append('\\');
         }
-        if (username != null) {
+        if (username != null)
+        {
             buffer.append(username);
-        } else {
+        }
+        else
+        {
             buffer.append("(null)");
         }
-        if (password != null) {
+        if (password != null)
+        {
             buffer.append(":***");
         }
         return buffer.toString();

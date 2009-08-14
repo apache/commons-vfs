@@ -38,6 +38,13 @@ public abstract class AbstractFileProvider
     extends AbstractVfsContainer
     implements FileProvider
 {
+    /**
+     * The cached file systems.  This is a mapping from root URI to
+     * FileSystem object.
+     */
+    // private final Map fileSystems = new HashMap();
+    private final Map fileSystems = new TreeMap();
+
     private FileNameParser parser;
 
     public AbstractFileProvider()
@@ -56,13 +63,6 @@ public abstract class AbstractFileProvider
     }
 
     /**
-     * The cached file systems.  This is a mapping from root URI to
-     * FileSystem object.
-     */
-    // private final Map fileSystems = new HashMap();
-    private final Map fileSystems = new TreeMap();
-
-    /**
      * Closes the file systems created by this provider.
      */
     public void close()
@@ -77,6 +77,11 @@ public abstract class AbstractFileProvider
 
     /**
      * Creates a layered file system.  This method throws a 'not supported' exception.
+     * @param scheme The protocol to use to access the file.
+     * @param file a FileObject.
+     * @param properties Options to the file system.
+     * @return A FileObject associated with the new FileSystem.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject createFileSystem(final String scheme, final FileObject file, final FileSystemOptions properties)
         throws FileSystemException
@@ -119,11 +124,18 @@ public abstract class AbstractFileProvider
         }
     }
 
+    /**
+     * Returns the FileSystemConfigBuidler.
+     * @return the FileSystemConfigBuilder.
+     */
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return null;
     }
 
+    /**
+     * Free unused resources.
+     */
     public void freeUnusedResources()
     {
         Object[] item;
@@ -141,6 +153,10 @@ public abstract class AbstractFileProvider
         }
     }
 
+    /**
+     * Close the FileSystem.
+     * @param filesystem The FileSystem to close.
+     */
     public void closeFileSystem(final FileSystem filesystem)
     {
         AbstractFileSystem fs = (AbstractFileSystem) filesystem;
@@ -162,6 +178,8 @@ public abstract class AbstractFileProvider
      *
      * @param base The base file - if null the <code>uri</code> needs to be absolute
      * @param uri The URI to parse.
+     * @return The FileName.
+     * @throws FileSystemException if an error occurs.
      */
     public FileName parseUri(FileName base, String uri) throws FileSystemException
     {

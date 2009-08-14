@@ -54,7 +54,7 @@ public class DefaultFileOperations implements FileOperations
 
     /**
      * @return The operation classes.
-     * @throws org.apache.commons.vfs.FileSystemException
+     * @throws FileSystemException If an error occurs.
      *
      */
     public Class[] getOperations() throws FileSystemException

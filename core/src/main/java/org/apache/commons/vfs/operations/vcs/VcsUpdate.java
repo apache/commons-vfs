@@ -28,25 +28,25 @@ public interface VcsUpdate extends FileOperation
 {
     /**
      *
-     * @param revision
+     * @param revision The revision number.
      */
     void setRevision(final long revision);
 
     /**
      *
-     * @param isRecursive
+     * @param isRecursive true if recursive.
      */
     void setRecursive(final boolean isRecursive);
 
     /**
      *
-     * @param listener
+     * @param listener The UpdateListener.
      */
     void addUpdateListener(final VcsUpdateListener listener);
 
     /**
      *
-     * @param listener
+     * @param listener The UpdateListener.
      */
     void removeUpdateListener(final VcsUpdateListener listener);
 }

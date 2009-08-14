@@ -83,12 +83,12 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
         throw new UnsupportedOperationException();
     }
 
-    public void write(byte b[]) throws IOException
+    public void write(byte[] b) throws IOException
     {
         throw new UnsupportedOperationException();
     }
 
-    public void write(byte b[], int off, int len) throws IOException
+    public void write(byte[] b, int off, int len) throws IOException
     {
         throw new UnsupportedOperationException();
     }
@@ -110,6 +110,8 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
 
     /**
      * @deprecated see {@link java.io.DataInputStream#readLine()}
+     * @return The line as a String.
+     * @throws IOException if an error occurs.
      */
     public String readLine() throws IOException
     {

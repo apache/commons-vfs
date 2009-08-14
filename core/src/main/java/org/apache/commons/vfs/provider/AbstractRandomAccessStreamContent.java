@@ -103,12 +103,12 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
         return data;
     }
 
-    public void readFully(byte b[]) throws IOException
+    public void readFully(byte[] b) throws IOException
     {
         getDataInputStream().readFully(b);
     }
 
-    public void readFully(byte b[], int off, int len) throws IOException
+    public void readFully(byte[] b, int off, int len) throws IOException
     {
         getDataInputStream().readFully(b, off, len);
     }

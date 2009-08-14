@@ -16,11 +16,25 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.*;
+
 import org.apache.commons.vfs.operations.DefaultFileOperations;
 import org.apache.commons.vfs.operations.FileOperations;
 import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileContent;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.FileSystem;
+import org.apache.commons.vfs.Capability;
+import org.apache.commons.vfs.FileNotFolderException;
+import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.Selectors;
+import org.apache.commons.vfs.FileSelector;
+import org.apache.commons.vfs.FileContentInfoFactory;
+import org.apache.commons.vfs.FileUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,7 +172,8 @@ public abstract class AbstractFileObject implements FileObject
      * Lists the children of this file.  Is only called if {@link #doGetType}
      * returns {@link FileType#FOLDER}.  The return value of this method
      * is cached, so the implementation can be expensive.<br>
-     * Other than <code>doListChildren</code> you could return FileObject's to e.g. reinitialize the type of the file.<br>
+     * Other than <code>doListChildren</code> you could return FileObject's to e.g. reinitialize the
+     * type of the file.<br>
      * (Introduced for Webdav: "permission denied on resource" during getType())
      */
     protected FileObject[] doListChildrenResolved() throws Exception
@@ -371,6 +386,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns the URI of the file.
+     * @return The URI of the file.
      */
     public String toString()
     {
@@ -379,6 +395,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns the name of the file.
+     * @return The FileName.
      */
     public FileName getName()
     {
@@ -387,6 +404,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns the file system this file belongs to.
+     * @return The FileSystem this file is associated with.
      */
     public FileSystem getFileSystem()
     {
@@ -395,6 +413,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns a URL representation of the file.
+     * @return The URL representation of the file.
+     * @throws FileSystemException if an error occurs.
      */
     public URL getURL() throws FileSystemException
     {
@@ -418,14 +438,18 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Determines if the file exists.
+     * @return true if the file exists, false otherwise,
+     * @throws FileSystemException if an error occurs.
      */
     public boolean exists() throws FileSystemException
     {
-        return (getType() != FileType.IMAGINARY);
+        return getType() != FileType.IMAGINARY;
     }
 
     /**
      * Returns the file's type.
+     * @return The FileType.
+     * @throws FileSystemException if an error occurs.
      */
     public FileType getType() throws FileSystemException
     {
@@ -456,6 +480,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Determines if this file can be read.
+     * @return true if the file is a hidden file, false otherwise.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean isHidden() throws FileSystemException
     {
@@ -478,6 +504,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Determines if this file can be read.
+     * @return true if the file can be read, false otherwise.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean isReadable() throws FileSystemException
     {
@@ -500,6 +528,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Determines if this file can be written to.
+     * @return true if the file can be written to, false otherwise.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean isWriteable() throws FileSystemException
     {
@@ -527,6 +557,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns the parent of the file.
+     * @return the parent FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject getParent() throws FileSystemException
     {
@@ -557,6 +589,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns the children of the file.
+     * @return an array of FileObjects, one per child.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject[] getChildren() throws FileSystemException
     {
@@ -689,6 +723,9 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns a child of this file.
+     * @param name The name of the child to locate.
+     * @return The FileObject for the file or null if the child does not exist.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject getChild(final String name) throws FileSystemException
     {
@@ -710,6 +747,10 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns a child by name.
+     * @param name The name of the child to locate.
+     * @param scope the NameScope.
+     * @return The FileObject for the file or null if the child does not exist.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject resolveFile(final String name, final NameScope scope)
         throws FileSystemException
@@ -725,6 +766,8 @@ public abstract class AbstractFileObject implements FileObject
      *             path, which is resolved relative to this file, or an
      *             absolute path, which is resolved relative to the file system
      *             that contains this file.
+     * @return The FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject resolveFile(final String path) throws FileSystemException
     {
@@ -782,6 +825,7 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @return true if this object has been deleted
      * @todo This will not fail if this is a non-empty folder.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean delete() throws FileSystemException
     {
@@ -791,7 +835,9 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Deletes this file, and all children.
      *
-     * @return the number of deleted files
+     * @param selector The FileSelector.
+     * @return the number of deleted files.
+     * @throws FileSystemException if an error occurs.
      */
     public int delete(final FileSelector selector) throws FileSystemException
     {
@@ -838,6 +884,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Creates this file, if it does not exist.
+     * @throws FileSystemException if an error occurs.
      */
     public void createFile() throws FileSystemException
     {
@@ -845,7 +892,8 @@ public abstract class AbstractFileObject implements FileObject
         {
             try
             {
-                // VFS-210: We do not want to trunc any existing file, checking for its existence is still required
+                // VFS-210: We do not want to trunc any existing file, checking for its existence is
+                // still required
                 if (exists() && !FileType.FILE.equals(getType()))
                 {
                     throw new FileSystemException("vfs.provider/create-file.error", name);
@@ -871,6 +919,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Creates this folder, if it does not exist.  Also creates any ancestor
      * files which do not exist.
+     * @throws FileSystemException if an error occurs.
      */
     public void createFolder() throws FileSystemException
     {
@@ -886,7 +935,8 @@ public abstract class AbstractFileObject implements FileObject
             {
                 throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", name);
             }
-            /* VFS-210: checking for writeable is not always possible as the security constraint might be more complex
+            /* VFS-210: checking for writeable is not always possible as the security constraint might
+               be more complex
             if (!isWriteable())
             {
                 throw new FileSystemException("vfs.provider/create-folder-read-only.error", name);
@@ -921,6 +971,9 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Copies another file to this file.
+     * @param file The FileObject to copy.
+     * @param selector The FileSelector.
+     * @throws FileSystemException if an error occurs.
      */
     public void copyFrom(final FileObject file, final FileSelector selector)
         throws FileSystemException
@@ -932,7 +985,8 @@ public abstract class AbstractFileObject implements FileObject
         /* we do not alway know if a file is writeable
         if (!isWriteable())
         {
-            throw new FileSystemException("vfs.provider/copy-read-only.error", new Object[]{file.getType(), file.getName(), this}, null);
+            throw new FileSystemException("vfs.provider/copy-read-only.error", new Object[]{file.getType(),
+            file.getName(), this}, null);
         }
         */
 
@@ -980,6 +1034,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Moves (rename) the file to another one
+     * @param destFile The target FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     public void moveTo(FileObject destFile) throws FileSystemException
     {
@@ -987,7 +1043,8 @@ public abstract class AbstractFileObject implements FileObject
         {
             if (!getParent().isWriteable())
             {
-                throw new FileSystemException("vfs.provider/rename-parent-read-only.error", new FileName[]{getName(), getParent().getName()});
+                throw new FileSystemException("vfs.provider/rename-parent-read-only.error", new FileName[]{getName(),
+                        getParent().getName()});
             }
         }
         else
@@ -1037,9 +1094,11 @@ public abstract class AbstractFileObject implements FileObject
 
             destFile.copyFrom(this, Selectors.SELECT_SELF);
 
-            if (((destFile.getType().hasContent() && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) ||
-                (destFile.getType().hasChildren() && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))) &&
-                getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED))
+            if (((destFile.getType().hasContent()
+                    && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
+                  || (destFile.getType().hasChildren()
+                    && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER)))
+                    && getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED))
             {
                 destFile.getContent().setLastModifiedTime(this.getContent().getLastModifiedTime());
             }
@@ -1091,7 +1150,9 @@ public abstract class AbstractFileObject implements FileObject
      * Finds the set of matching descendents of this file, in depthwise
      * order.
      *
+     * @param selector The FileSelector.
      * @return list of files or null if the base file (this object) do not exist
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
     {
@@ -1107,6 +1168,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns the file's content.
+     * @return the FileContent for this FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     public FileContent getContent() throws FileSystemException
     {
@@ -1131,6 +1194,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required
+     * @throws FileSystemException if an error occurs.
      */
     public void refresh() throws FileSystemException
     {
@@ -1147,6 +1211,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Closes this file, and its content.
+     * @throws FileSystemException if an error occurs.
      */
     public void close() throws FileSystemException
     {
@@ -1184,6 +1249,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns an input stream to use to read the content of the file.
+     * @return The InputStream to access this file's content.
+     * @throws FileSystemException if an error occurs.
      */
     public InputStream getInputStream() throws FileSystemException
     {
@@ -1224,6 +1291,9 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Returns an input/output stream to use to read and write the content of the file in and
      * random manner.
+     * @param mode The RandomAccessMode.
+     * @return The RandomAccessContent.
+     * @throws FileSystemException if an error occurs.
      */
     public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
     {
@@ -1273,6 +1343,8 @@ public abstract class AbstractFileObject implements FileObject
      * Prepares this file for writing.  Makes sure it is either a file,
      * or its parent folder exists.  Returns an output stream to use to
      * write the content of the file to.
+     * @return An OutputStream where the new contents of the file can be written.
+     * @throws FileSystemException if an error occurs.
      */
     public OutputStream getOutputStream() throws FileSystemException
     {
@@ -1286,6 +1358,8 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @param bAppend true when append to the file.<br>
      *                Note: If the underlaying filesystem do not support this, it wont work.
+     * @return An OutputStream where the new contents of the file can be written.
+     * @throws FileSystemException if an error occurs.
      */
     public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
     {
@@ -1561,6 +1635,10 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Traverses the descendents of this file, and builds a list of selected
      * files.
+     * @param selector The FileSelector.
+     * @param depthwise if true files are added after their descendants, before otherwise.
+     * @param selected A List of the located FileObjects.
+     * @throws FileSystemException if an error occurs.
      */
     public void findFiles(final FileSelector selector,
                           final boolean depthwise,
@@ -1687,11 +1765,11 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * This method is meant to add a object where this object holds a strong reference then.
+     * This method is meant to add an object where this object holds a strong reference then.
      * E.g. a archive-filesystem creates a list of all childs and they shouldnt get
      * garbage collected until the container is garbage collected
      *
-     * @param strongRef
+     * @param strongRef The Object to add.
      */
     public void holdObject(Object strongRef)
     {
@@ -1714,7 +1792,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * @return FileOperations interface that provides access to the operations
      *         API.
-     * @throws FileSystemException
+     * @throws FileSystemException if an error occurs.
      */
     public FileOperations getFileOperations() throws FileSystemException
     {

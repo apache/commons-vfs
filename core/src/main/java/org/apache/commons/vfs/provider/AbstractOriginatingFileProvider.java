@@ -55,7 +55,7 @@ public abstract class AbstractOriginatingFileProvider
         final FileName name;
         try
         {
-            name = parseUri(baseFile!=null?baseFile.getName():null, uri);
+            name = parseUri(baseFile != null ? baseFile.getName() : null, uri);
         }
         catch (FileSystemException exc)
         {

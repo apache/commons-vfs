@@ -65,7 +65,7 @@ public final class DefaultFileContent implements FileContent
     /**
      * open streams counter for this file
      */
-    private int openStreams = 0;
+    private int openStreams;
 
     public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory)
     {
@@ -111,6 +111,7 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns the file that this is the content of.
+     * @return the FileObject.
      */
     public FileObject getFile()
     {
@@ -119,6 +120,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns the size of the content (in bytes).
+     * @return The size of the content (in bytes).
+     * @throws FileSystemException if an error occurs.
      */
     public long getSize() throws FileSystemException
     {
@@ -147,6 +150,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns the last-modified timestamp.
+     * @return The last modified timestamp.
+     * @throws FileSystemException if an error occurs.
      */
     public long getLastModifiedTime() throws FileSystemException
     {
@@ -172,6 +177,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Sets the last-modified timestamp.
+     * @param modTime The last modified timestamp.
+     * @throws FileSystemException if an error occurs.
      */
     public void setLastModifiedTime(final long modTime) throws FileSystemException
     {
@@ -198,8 +205,11 @@ public final class DefaultFileContent implements FileContent
         }
     }
 
-   /**
+    /**
      * Checks if an attribute exists.
+     * @param attrName The name of the attribute to check.
+     * @return true if the attribute is associated with the file.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean hasAttribute(final String attrName) throws FileSystemException
     {
@@ -213,6 +223,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns a read-only map of this file's attributes.
+     * @return a Map of the file's attributes.
+     * @throws FileSystemException if an error occurs.
      */
     public Map getAttributes() throws FileSystemException
     {
@@ -224,7 +236,7 @@ public final class DefaultFileContent implements FileContent
         {
             try
             {
-                synchronized(this)
+                synchronized (this)
                 {
                     attrs = file.doGetAttributes();
                     roAttrs = Collections.unmodifiableMap(attrs);
@@ -250,6 +262,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Lists the attributes of this file.
+     * @return An array of attribute names.
+     * @throws FileSystemException if an error occurs.
      */
     public String[] getAttributeNames() throws FileSystemException
     {
@@ -260,6 +274,9 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Gets the value of an attribute.
+     * @param attrName The attribute name.
+     * @return The value of the attribute or null.
+     * @throws FileSystemException if an error occurs.
      */
     public Object getAttribute(final String attrName)
         throws FileSystemException
@@ -270,6 +287,9 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Sets the value of an attribute.
+     * @param attrName The name of the attribute to add.
+     * @param value The value of the attribute.
+     * @throws FileSystemException if an error occurs.
      */
     public void setAttribute(final String attrName, final Object value)
         throws FileSystemException
@@ -295,6 +315,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Removes an attribute.
+     * @param attrName The name of the attribute to remove.
+     * @throws FileSystemException if an error occurs.
      */
     public void removeAttribute(final String attrName) throws FileSystemException
     {
@@ -320,6 +342,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns the certificates used to sign this file.
+     * @return An array of Certificates.
+     * @throws FileSystemException if an error occurs.
      */
     public Certificate[] getCertificates() throws FileSystemException
     {
@@ -354,6 +378,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns an input stream for reading the content.
+     * @return The InputStream
+     * @throws FileSystemException if an error occurs.
      */
     public InputStream getInputStream() throws FileSystemException
     {
@@ -379,6 +405,9 @@ public final class DefaultFileContent implements FileContent
     /**
      * Returns an input/output stream to use to read and write the content of the file in an
      * random manner.
+     * @param mode The RandomAccessMode.
+     * @return A RandomAccessContent object to access the file.
+     * @throws FileSystemException if an error occurs.
      */
     public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
     {
@@ -402,6 +431,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns an output stream for writing the content.
+     * @return The OutputStream for the file.
+     * @throws FileSystemException if an error occurs.
      */
     public OutputStream getOutputStream() throws FileSystemException
     {
@@ -410,6 +441,9 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns an output stream for writing the content in append mode.
+     * @param bAppend true if the data written should be appended.
+     * @return The OutputStream for the file.
+     * @throws FileSystemException if an error occurs.
      */
     public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
     {
@@ -435,6 +469,7 @@ public final class DefaultFileContent implements FileContent
     /**
      * Closes all resources used by the content, including all streams, readers
      * and writers.
+     * @throws FileSystemException if an error occurs.
      */
     public void close() throws FileSystemException
     {
@@ -677,6 +712,8 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * get the content info. e.g. content-type, content-encoding
+     * @return The FileContentInfo.
+     * @throws FileSystemException if an error occurs.
      */
     public FileContentInfo getContentInfo() throws FileSystemException
     {

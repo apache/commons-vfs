@@ -40,6 +40,11 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
 
     /**
      * Locates a file object, by absolute URI.
+     * @param baseFile The base FileObject.
+     * @param uri The file to find.
+     * @param fileSystemOptions The options for the FileSystem.
+     * @return A FileObject for the located file.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject findFile(final FileObject baseFile,
                                final String uri,

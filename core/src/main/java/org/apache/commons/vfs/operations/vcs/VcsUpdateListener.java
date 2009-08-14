@@ -26,8 +26,8 @@ public interface VcsUpdateListener
 {
     /**
      *
-     * @param path
-     * @param revision
+     * @param path The path.
+     * @param revision The revision number.
      * @param contentStatus
      *            takes one of the values as defined in the
      * @see VcsStatus constants.

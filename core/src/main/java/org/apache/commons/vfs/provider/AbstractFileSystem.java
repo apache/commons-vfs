@@ -57,7 +57,7 @@ public abstract class AbstractFileSystem
     extends AbstractVfsComponent
     implements FileSystem
 {
-    private final static Log log = LogFactory.getLog(AbstractFileSystem.class);
+    private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
 
     /**
      * The "root" of the file system. This is always "/" so it isn't always the "real"
@@ -122,6 +122,7 @@ public abstract class AbstractFileSystem
 
     /**
      * Initialises this component.
+     * @throws FileSystemException if an error occurs.
      */
     public void init() throws FileSystemException
     {
@@ -170,6 +171,7 @@ public abstract class AbstractFileSystem
 
     /**
      * Returns the name of the root of this file system.
+     * @return the root FileName.
      */
     public FileName getRootName()
     {
@@ -198,13 +200,13 @@ public abstract class AbstractFileSystem
     {
         FilesCache files;
         //if (this.files == null)
-        {
+        //{
             files = getContext().getFileSystemManager().getFilesCache();
             if (files == null)
             {
                 throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
             }
-        }
+        //}
 
         return files;
     }
@@ -228,6 +230,8 @@ public abstract class AbstractFileSystem
 
     /**
      * Determines if this file system has a particular capability.
+     * @param capability the Capability to check for.
+     * @return true if the FileSystem has the Capability, false otherwise.
      */
     public boolean hasCapability(final Capability capability)
     {
@@ -237,6 +241,9 @@ public abstract class AbstractFileSystem
     /**
      * Retrieves the attribute with the specified name. The default
      * implementation simply throws an exception.
+     * @param attrName The name of the attribute.
+     * @return the Object associated with the attribute or null if no object is.
+     * @throws FileSystemException if an error occurs.
      */
     public Object getAttribute(final String attrName) throws FileSystemException
     {
@@ -246,6 +253,9 @@ public abstract class AbstractFileSystem
     /**
      * Sets the attribute with the specified name. The default
      * implementation simply throws an exception.
+     * @param attrName the attribute name.
+     * @param value The object to associate with the attribute.
+     * @throws FileSystemException if an error occurs.
      */
     public void setAttribute(final String attrName, final Object value)
         throws FileSystemException
@@ -255,6 +265,8 @@ public abstract class AbstractFileSystem
 
     /**
      * Returns the parent layer if this is a layered file system.
+     * @return The FileObject for the parent layer.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject getParentLayer() throws FileSystemException
     {
@@ -263,6 +275,8 @@ public abstract class AbstractFileSystem
 
     /**
      * Returns the root file of this file system.
+     * @return The root FileObject of the FileSystem
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject getRoot() throws FileSystemException
     {
@@ -278,6 +292,9 @@ public abstract class AbstractFileSystem
 
     /**
      * Finds a file in this file system.
+     * @param nameStr The name of the file to resolve.
+     * @return The located FileObject or null if none could be located.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject resolveFile(final String nameStr) throws FileSystemException
     {
@@ -288,6 +305,9 @@ public abstract class AbstractFileSystem
 
     /**
      * Finds a file in this file system.
+     * @param name The name of the file to locate.
+     * @return The located FileObject or null if none could be located.
+     * @throws FileSystemException if an error occurs.
      */
     public synchronized FileObject resolveFile(final FileName name) throws FileSystemException
     {
@@ -359,19 +379,23 @@ public abstract class AbstractFileSystem
         {
             try
             {
-                file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst().newInstance(new Object[]{file});
+                file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst().
+                        newInstance(new Object[]{file});
             }
             catch (InstantiationException e)
             {
-                throw new FileSystemException("vfs.impl/invalid-decorator.error", getFileSystemManager().getFileObjectDecorator().getName(), e);
+                throw new FileSystemException("vfs.impl/invalid-decorator.error",
+                        getFileSystemManager().getFileObjectDecorator().getName(), e);
             }
             catch (IllegalAccessException e)
             {
-                throw new FileSystemException("vfs.impl/invalid-decorator.error", getFileSystemManager().getFileObjectDecorator().getName(), e);
+                throw new FileSystemException("vfs.impl/invalid-decorator.error",
+                        getFileSystemManager().getFileObjectDecorator().getName(), e);
             }
             catch (InvocationTargetException e)
             {
-                throw new FileSystemException("vfs.impl/invalid-decorator.error", getFileSystemManager().getFileObjectDecorator().getName(), e);
+                throw new FileSystemException("vfs.impl/invalid-decorator.error",
+                        getFileSystemManager().getFileObjectDecorator().getName(), e);
             }
         }
 
@@ -380,6 +404,10 @@ public abstract class AbstractFileSystem
 
     /**
      * Creates a temporary local copy of a file and its descendents.
+     * @param file The FileObject to replicate.
+     * @param selector The FileSelector.
+     * @return The replicated File.
+     * @throws FileSystemException if an error occurs.
      */
     public File replicateFile(final FileObject file,
                               final FileSelector selector)
@@ -402,6 +430,7 @@ public abstract class AbstractFileSystem
 
     /**
      * Return the FileSystemOptions used to instantiate this filesystem
+     * @return the FileSystemOptions.
      */
     public FileSystemOptions getFileSystemOptions()
     {
@@ -410,6 +439,7 @@ public abstract class AbstractFileSystem
 
     /**
      * Return the FileSystemManager used to instantiate this filesystem
+     * @return the FileSystemManager.
      */
     public FileSystemManager getFileSystemManager()
     {
@@ -439,6 +469,9 @@ public abstract class AbstractFileSystem
 
     /**
      * Adds a junction to this file system.
+     * @param junctionPoint The junction point.
+     * @param targetFile The target to add.
+     * @throws FileSystemException if an error occurs.
      */
     public void addJunction(final String junctionPoint,
                             final FileObject targetFile)
@@ -449,6 +482,8 @@ public abstract class AbstractFileSystem
 
     /**
      * Removes a junction from this file system.
+     * @param junctionPoint The junction point.
+     * @throws FileSystemException if an error occurs
      */
     public void removeJunction(final String junctionPoint) throws FileSystemException
     {
@@ -457,6 +492,8 @@ public abstract class AbstractFileSystem
 
     /**
      * Adds a listener on a file in this file system.
+     * @param file The FileObject to be monitored.
+     * @param listener The FileListener
      */
     public void addListener(final FileObject file,
                             final FileListener listener)
@@ -475,6 +512,8 @@ public abstract class AbstractFileSystem
 
     /**
      * Removes a listener from a file in this file system.
+     * @param file The FileObject to be monitored.
+     * @param listener The FileListener
      */
     public void removeListener(final FileObject file,
                                final FileListener listener)
@@ -491,6 +530,7 @@ public abstract class AbstractFileSystem
 
     /**
      * Fires a file create event.
+     * @param file The FileObject that was created.
      */
     public void fireFileCreated(final FileObject file)
     {
@@ -499,6 +539,7 @@ public abstract class AbstractFileSystem
 
     /**
      * Fires a file delete event.
+     * @param file The FileObject that was deleted.
      */
     public void fireFileDeleted(final FileObject file)
     {
@@ -508,6 +549,7 @@ public abstract class AbstractFileSystem
     /**
      * Fires a file changed event. <br />
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
+     * @param file The FileObject that changed.
      */
     public void fireFileChanged(final FileObject file)
     {
@@ -516,6 +558,7 @@ public abstract class AbstractFileSystem
 
     /**
      * returns true if no file is using this filesystem
+     * @return true of no file is using this FileSystem,
      */
     public boolean isReleaseable()
     {
@@ -556,7 +599,7 @@ public abstract class AbstractFileSystem
                 {
                     final String message = Messages.getString("vfs.provider/notify-listener.warn", file);
                     // getLogger().warn(message, e);
-                    VfsLog.warn(getLogger(), log, message, e);
+                    VfsLog.warn(getLogger(), LOG, message, e);
                 }
             }
         }
@@ -627,6 +670,7 @@ public abstract class AbstractFileSystem
 
     /**
      * check if this filesystem has open streams
+     * @return true if the FileSystem has open streams.
      */
     public boolean isOpen()
     {

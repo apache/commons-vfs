@@ -71,12 +71,13 @@ public abstract class AbstractFileName
 
     /**
      * Returns the hashcode for this name.
+     * @return The hashCode.
      */
     public int hashCode()
     {
         if (calculateHashCode)
         {
-            calculatedHashCode = (getRootURI().hashCode() ^ getPath().hashCode());
+            calculatedHashCode = getRootURI().hashCode() ^ getPath().hashCode();
             calculateHashCode = false;
         }
         return calculatedHashCode;
@@ -84,6 +85,8 @@ public abstract class AbstractFileName
 
     /**
      * Determines if this object is equal to another.
+     * @param obj The object to compare.
+     * @return true if equal, false if not.
      */
     public boolean equals(final Object obj)
     {
@@ -92,13 +95,14 @@ public abstract class AbstractFileName
             return false;
         }
         final AbstractFileName name = (AbstractFileName) obj;
-        return (getRootURI().equals(name.getRootURI()) && getPath().equals(name.getPath()));
+        return getRootURI().equals(name.getRootURI()) && getPath().equals(name.getPath());
     }
 
     /**
      * Implement Comparable
      *
      * @param obj another abstractfilename
+     * @return negative number if less than, 0 if equal, postive if greater than.
      */
     public int compareTo(Object obj)
     {
@@ -122,6 +126,7 @@ public abstract class AbstractFileName
 
     /**
      * Returns the URI of the file.
+     * @return the FileName as a URI.
      */
     public String toString()
     {
@@ -130,17 +135,23 @@ public abstract class AbstractFileName
 
     /**
      * Factory method for creating name instances.
+     * @param absPath The absolute path.
+     * @param type The FileType.
+     * @return The FileName.
      */
     public abstract FileName createName(String absPath, FileType type);
 
     /**
      * Builds the root URI for this file name.  Note that the root URI must not
      * end with a separator character.
+     * @param buffer A StringBuffer to use to construct the URI.
+     * @param addPassword true if the password should be added, false otherwise.
      */
     protected abstract void appendRootUri(StringBuffer buffer, boolean addPassword);
 
     /**
      * Returns the base name of the file.
+     * @return The base name of the file.
      */
     public String getBaseName()
     {
@@ -163,6 +174,7 @@ public abstract class AbstractFileName
     /**
      * Returns the absolute path of the file, relative to the root of the
      * file system that the file belongs to.
+     * @return The path String.
      */
     public String getPath()
     {
@@ -178,6 +190,11 @@ public abstract class AbstractFileName
         return getType().hasChildren() ? "/" : "";
     }
 
+    /**
+     * Returns the decoded path.
+     * @return The decoded path String.
+     * @throws FileSystemException If an error occurs.
+     */
     public String getPathDecoded() throws FileSystemException
     {
         if (decodedAbsPath == null)
@@ -190,6 +207,7 @@ public abstract class AbstractFileName
 
     /**
      * Returns the name of the parent of the file.
+     * @return the FileName of the parent.
      */
     public FileName getParent()
     {
@@ -214,6 +232,7 @@ public abstract class AbstractFileName
 
     /**
      * find the root of the filesystem
+     * @return The root FileName.
      */
     public FileName getRoot()
     {
@@ -228,6 +247,7 @@ public abstract class AbstractFileName
 
     /**
      * Returns the URI scheme of this file.
+     * @return The protocol used to access the file.
      */
     public String getScheme()
     {
@@ -236,6 +256,7 @@ public abstract class AbstractFileName
 
     /**
      * Returns the absolute URI of the file.
+     * @return The absolute URI of the file.
      */
     public String getURI()
     {
@@ -256,6 +277,9 @@ public abstract class AbstractFileName
 
     /**
      * Converts a file name to a relative name, relative to this file name.
+     * @param name The FileName.
+     * @return The relative path to the file.
+     * @throws FileSystemException if an error occurs.
      */
     public String getRelativeName(final FileName name) throws FileSystemException
     {
@@ -316,6 +340,7 @@ public abstract class AbstractFileName
 
     /**
      * Returns the root URI of the file system this file belongs to.
+     * @return The URI of the root.
      */
     public String getRootURI()
     {
@@ -331,6 +356,7 @@ public abstract class AbstractFileName
 
     /**
      * Returns the depth of this file name, within its file system.
+     * @return The depth of the file name.
      */
     public int getDepth()
     {
@@ -349,6 +375,7 @@ public abstract class AbstractFileName
 
     /**
      * Returns the extension of this file name.
+     * @return The file extension.
      */
     public String getExtension()
     {
@@ -376,6 +403,8 @@ public abstract class AbstractFileName
 
     /**
      * Determines if another file name is an ancestor of this file name.
+     * @param ancestor The FileName to check.
+     * @return true if the FileName is an ancestor, false otherwise.
      */
     public boolean isAncestor(final FileName ancestor)
     {
@@ -388,6 +417,8 @@ public abstract class AbstractFileName
 
     /**
      * Determines if another file name is a descendent of this file name.
+     * @param descendent The FileName to check.
+     * @return true if the FileName is a descendent, false otherwise.
      */
     public boolean isDescendent(final FileName descendent)
     {
@@ -396,6 +427,9 @@ public abstract class AbstractFileName
 
     /**
      * Determines if another file name is a descendent of this file name.
+     * @param descendent The FileName to check.
+     * @param scope The NameScope.
+     * @return true if the FileName is a descendent, false otherwise.
      */
     public boolean isDescendent(final FileName descendent,
                                 final NameScope scope)
@@ -429,6 +463,7 @@ public abstract class AbstractFileName
      * sets the type of this file e.g. when it will be attached.
      *
      * @param type {@link FileType#FOLDER} or {@link FileType#FILE}
+     * @throws FileSystemException if an error occurs.
      */
     void setType(FileType type) throws FileSystemException
     {
@@ -445,6 +480,8 @@ public abstract class AbstractFileName
      *
      * @param basePath An absolute, normalised path.
      * @param path   An absolute, normalised path.
+     * @param scope The NameScope.
+     * @return true if the path fits in the scope, false otherwise.
      */
     public static boolean checkName(final String basePath,
                                     final String path,
@@ -504,6 +541,7 @@ public abstract class AbstractFileName
 
     /**
      * returns a "friendly path", this is a path without a password.
+     * @return The "friendly" URI.
      */
     public String getFriendlyURI()
     {
