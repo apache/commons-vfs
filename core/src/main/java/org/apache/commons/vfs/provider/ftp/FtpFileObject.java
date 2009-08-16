@@ -52,20 +52,19 @@ import org.apache.commons.vfs.util.RandomAccessMode;
 public class FtpFileObject
     extends AbstractFileObject
 {
-    private Log log = LogFactory.getLog(FtpFileObject.class);
-
     private static final Map EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap());
+    private static final FTPFile UNKNOWN = new FTPFile();
 
+    private Log log = LogFactory.getLog(FtpFileObject.class);
     private final FtpFileSystem ftpFs;
     private final String relPath;
 
     // Cached info
-    private final static FTPFile UNKNOWN = new FTPFile();
     private FTPFile fileInfo;
     private Map children;
     private FileObject linkDestination;
 
-    private boolean inRefresh = false;
+    private boolean inRefresh;
 
     protected FtpFileObject(final FileName name,
                             final FtpFileSystem fileSystem,
@@ -134,7 +133,10 @@ public class FtpFileObject
         final FtpClient client = ftpFs.getClient();
         try
         {
-            final String path = fileInfo != null && fileInfo.isSymbolicLink() ? getFileSystem().getFileSystemManager().resolveName(getParent().getName(), fileInfo.getLink() ).getPath() : relPath;
+            final String path = fileInfo != null && fileInfo.isSymbolicLink()
+                ? getFileSystem().getFileSystemManager().
+                    resolveName(getParent().getName(), fileInfo.getLink()).getPath()
+                : relPath;
             final FTPFile[] tmpChildren = client.listFiles(path);
             if (tmpChildren == null || tmpChildren.length == 0)
             {
@@ -213,7 +215,7 @@ public class FtpFileObject
     }
 
     /**
-     * @throws FileSystemException
+     * @throws FileSystemException if an error occurs.
      */
     public void refresh() throws FileSystemException
     {
@@ -500,7 +502,8 @@ public class FtpFileObject
 
             if (!ok)
             {
-                throw new FileSystemException("vfs.provider.ftp/rename-file.error", new Object[]{getName().toString(), newfile});
+                throw new FileSystemException("vfs.provider.ftp/rename-file.error",
+                        new Object[]{getName().toString(), newfile});
             }
             this.fileInfo = null;
             children = EMPTY_FTP_FILE_MAP;

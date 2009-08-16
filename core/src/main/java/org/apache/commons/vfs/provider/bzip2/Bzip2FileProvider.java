@@ -29,14 +29,14 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Provides access to the content of bzip2 compressed files
+ * Provides access to the content of bzip2 compressed files.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public class Bzip2FileProvider extends CompressedFileFileProvider
 {
-    protected final static Collection capabilities =
+    protected static final Collection capabilities =
             Collections.unmodifiableCollection(Arrays.asList(new Capability[]
                     {
                             Capability.GET_LAST_MODIFIED,

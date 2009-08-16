@@ -39,9 +39,20 @@ import java.util.Collections;
 public class FtpFileProvider
     extends AbstractOriginatingFileProvider
 {
-    public final static String ATTR_FILE_ENTRY_PARSER = "FEP";
+    /**
+     * File Entry Parser.
+     */
+    public static final String ATTR_FILE_ENTRY_PARSER = "FEP";
 
-    final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /**
+     * Authenticator types.
+     */
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+        {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+        };
+
+    static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -55,11 +66,6 @@ public class FtpFileProvider
         Capability.APPEND_CONTENT,
         Capability.RANDOM_ACCESS_READ,
     }));
-
-    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-        {
-            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-        };
 
     public FtpFileProvider()
     {

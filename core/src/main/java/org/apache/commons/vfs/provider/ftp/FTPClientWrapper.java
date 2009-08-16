@@ -30,14 +30,16 @@ import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 /**
  * A wrapper to the FTPClient to allow automatic reconnect on connection loss.<br />
- * I decided to not to use eg. noop() to determine the state of the connection to avoid unnecesary server round-trips.
+ * I decided to not to use eg. noop() to determine the state of the connection to avoid
+ * unnecesary server round-trips.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class FTPClientWrapper implements FtpClient
 {
     private final GenericFileName root;
     private final FileSystemOptions fileSystemOptions;
 
-    private FTPClient ftpClient = null;
+    private FTPClient ftpClient;
 
     FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
@@ -67,8 +69,10 @@ class FTPClientWrapper implements FtpClient
 
             return FtpClientFactory.createConnection(rootName.getHostName(),
                 rootName.getPort(),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                        UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                        UserAuthenticatorUtils.toChar(rootName.getPassword())),
                 rootName.getPath(),
                 getFileSystemOptions());
         }
@@ -138,7 +142,8 @@ class FTPClientWrapper implements FtpClient
 
         if (relPath != null && !getFtpClient().changeWorkingDirectory(workingDirectory))
         {
-            throw new FileSystemException("vfs.provider.ftp.wrapper/change-work-directory-back.error", workingDirectory);
+            throw new FileSystemException("vfs.provider.ftp.wrapper/change-work-directory-back.error",
+                    workingDirectory);
         }
         return files;
     }

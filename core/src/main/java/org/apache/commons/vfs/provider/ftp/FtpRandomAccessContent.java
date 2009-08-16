@@ -24,13 +24,16 @@ import java.io.DataInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 
+/**
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ */
 class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
 {
-    private final FtpFileObject fileObject;
+    protected long filePointer;
 
-    protected long filePointer = 0;
-    private DataInputStream dis = null;
-    private FtpFileObject.FtpInputStream mis = null;
+    private final FtpFileObject fileObject;
+    private DataInputStream dis;
+    private FtpFileObject.FtpInputStream mis;
 
     FtpRandomAccessContent(final FtpFileObject fileObject, RandomAccessMode mode)
     {
@@ -90,22 +93,22 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
-            public int read(byte b[]) throws IOException
+            public int read(byte[] b) throws IOException
             {
                 int ret = super.read(b);
                 if (ret > -1)
                 {
-                    filePointer+=ret;
+                    filePointer += ret;
                 }
                 return ret;
             }
 
-            public int read(byte b[], int off, int len) throws IOException
+            public int read(byte[] b, int off, int len) throws IOException
             {
                 int ret = super.read(b, off, len);
                 if (ret > -1)
                 {
-                    filePointer+=ret;
+                    filePointer += ret;
                 }
                 return ret;
             }

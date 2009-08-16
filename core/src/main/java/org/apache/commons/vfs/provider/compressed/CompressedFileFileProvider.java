@@ -75,7 +75,9 @@ public abstract class CompressedFileFileProvider
         return createFileSystem(name, file, fileSystemOptions);
     }
 
-    protected abstract FileSystem createFileSystem(final FileName name, final FileObject file, final FileSystemOptions fileSystemOptions) throws FileSystemException;
+    protected abstract FileSystem createFileSystem(final FileName name, final FileObject file,
+                                                   final FileSystemOptions fileSystemOptions)
+        throws FileSystemException;
 
     public abstract Collection getCapabilities();
 }

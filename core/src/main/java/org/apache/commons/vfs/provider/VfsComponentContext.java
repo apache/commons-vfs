@@ -39,6 +39,11 @@ public interface VfsComponentContext
      * Locate a file by name.  See
      * {@link FileSystemManager#resolveFile(FileObject, String)} for a
      * description of how this works.
+     * @param baseFile The base FileObject.
+     * @param name The name of the file to locate.
+     * @param fileSystemOptions The FileSystemOptions.
+     * @return The FileObject for the located file.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject resolveFile(FileObject baseFile, String name, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
@@ -47,30 +52,46 @@ public interface VfsComponentContext
      * Locate a file by name.  See
      * {@link FileSystemManager#resolveFile( String)} for a
      * description of how this works.
+     * @param name The name of the file to locate.
+     * @param fileSystemOptions The FileSystemOptions.
+     * @return The FileObject for the located file.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject resolveFile(String name, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
+    /**
+     * Parse a URI into a FileName.
+     * @param uri The URI String.
+     * @return The FileName.
+     * @throws FileSystemException if an error occurs.
+     */
     FileName parseURI(String uri) throws FileSystemException;
 
     /**
      * Locates a file replicator for the provider to use.
+     * @return The FileReplicator.
+     * @throws FileSystemException if an error occurs.
      */
     FileReplicator getReplicator() throws FileSystemException;
 
     /**
      * Locates a temporary file store for the provider to use.
+     * @return The TemporaryFileStore.
+     * @throws FileSystemException if an error occurs.
      */
     TemporaryFileStore getTemporaryFileStore() throws FileSystemException;
 
     /**
      * Returns a {@link FileObject} for a local file.
+     * @param file The File to convert to a FileObject.
+     * @return the FileObject.
+     * @throws FileSystemException if an error occurs.
      */
-    FileObject toFileObject(File file)
-        throws FileSystemException;
+    FileObject toFileObject(File file) throws FileSystemException;
 
     /**
-     * Returns the filesystem manager for the current context
+     * Returns the filesystem manager for the current context.
      *
      * @return the filesystem manager
      */

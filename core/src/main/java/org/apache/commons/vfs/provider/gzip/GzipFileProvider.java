@@ -29,14 +29,17 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Provides access to the content of gzip compressed files
+ * Provides access to the content of gzip compressed files.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public class GzipFileProvider extends CompressedFileFileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /**
+     * Capabilities.
+     */
+    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.GET_LAST_MODIFIED,
         Capability.GET_TYPE,
@@ -52,7 +55,8 @@ public class GzipFileProvider extends CompressedFileFileProvider
         super();
     }
 
-    protected FileSystem createFileSystem(FileName name, FileObject file, FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected FileSystem createFileSystem(FileName name, FileObject file, FileSystemOptions fileSystemOptions)
+            throws FileSystemException
     {
         return new GzipFileSystem(name, file, fileSystemOptions);
     }

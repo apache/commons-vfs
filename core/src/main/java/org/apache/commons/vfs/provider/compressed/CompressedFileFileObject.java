@@ -57,6 +57,7 @@ public abstract class CompressedFileFileObject
      * Determines if this file can be written to.
      *
      * @return <code>true</code> if this file is writeable, <code>false</code> if not.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean isWriteable() throws FileSystemException
     {

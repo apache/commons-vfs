@@ -25,6 +25,7 @@ import java.io.OutputStream;
 
 /**
  * What VFS expects from an ftp client to provide.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FtpClient
 {
@@ -52,7 +53,7 @@ public interface FtpClient
 
     OutputStream storeFileStream(String relPath) throws IOException;
 
-    public boolean abort() throws IOException;
+    boolean abort() throws IOException;
 
-    public String getReplyString() throws IOException;
+    String getReplyString() throws IOException;
 }

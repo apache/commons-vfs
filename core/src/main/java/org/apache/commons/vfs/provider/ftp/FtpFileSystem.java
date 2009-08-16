@@ -38,7 +38,7 @@ import java.util.Collection;
 public class FtpFileSystem
     extends AbstractFileSystem
 {
-    private final static Log log = LogFactory.getLog(FtpFileSystem.class);
+    private static final Log LOG = LogFactory.getLog(FtpFileSystem.class);
 
 //    private final String hostname;
 //    private final int port;
@@ -48,7 +48,8 @@ public class FtpFileSystem
     // An idle client
     private FtpClient idleClient;
 
-    protected FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient, final FileSystemOptions fileSystemOptions)
+    protected FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient,
+                            final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
         // hostname = rootName.getHostName();
@@ -91,12 +92,14 @@ public class FtpFileSystem
         catch (final IOException e)
         {
             // getLogger().warn("vfs.provider.ftp/close-connection.error", e);
-            VfsLog.warn(getLogger(), log, "vfs.provider.ftp/close-connection.error", e);
+            VfsLog.warn(getLogger(), LOG, "vfs.provider.ftp/close-connection.error", e);
         }
     }
 
     /**
      * Creates an FTP client to use.
+     * @return An FTPCleint.
+     * @throws FileSystemException if an error occurs.
      */
     public FtpClient getClient() throws FileSystemException
     {
@@ -106,18 +109,7 @@ public class FtpFileSystem
                 {
                     idleClient = null;
 
-                    FtpClient ftpClient = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
-                    return ftpClient;
-                    /*
-                    final GenericFileName rootName = (GenericFileName) getRoot().getName();
-
-                    return FtpClientFactory.createConnection(rootName.getHostName(),
-                        rootName.getPort(),
-                        rootName.getUserName(),
-                        rootName.getPassword(),
-                        rootName.getPath(),
-                        getFileSystemOptions());
-                    */
+                    return new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
                 }
                 else
                 {
@@ -130,6 +122,7 @@ public class FtpFileSystem
 
     /**
      * Returns an FTP client after use.
+     * @param client The FTPClient.
      */
     public void putClient(final FtpClient client)
     {

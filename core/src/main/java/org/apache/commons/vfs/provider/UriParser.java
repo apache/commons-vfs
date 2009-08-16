@@ -32,16 +32,22 @@ import org.apache.commons.vfs.util.Os;
 public final class UriParser
 {
     /**
-     * The normalised separator to use.
-     */
-    private static final char SEPARATOR_CHAR = FileName.SEPARATOR_CHAR;
-
-    /**
      * The set of valid separators. These are all converted to the normalised
      * one. Does <i>not</i> contain the normalised separator
      */
     // public static final char[] separators = {'\\'};
     public static final char TRANS_SEPARATOR = '\\';
+
+    /**
+     * The normalised separator to use.
+     */
+    private static final char SEPARATOR_CHAR = FileName.SEPARATOR_CHAR;
+
+    private static final int HEX_BASE = 16;
+
+    private static final int BITS_IN_HALF_BYTE = 4;
+
+    private static final char LOW_MASK = 0x0F;
 
     private UriParser()
     {
@@ -49,6 +55,8 @@ public final class UriParser
 
     /**
      * Extracts the first element of a path.
+     * @param name StringBuffer containing the path.
+     * @return The first element of the path.
      */
     public static String extractFirstElement(final StringBuffer name)
     {
@@ -88,6 +96,10 @@ public final class UriParser
      * </ul>
      *
      * Its assumed that the separators are already fixed.
+     *
+     * @param path The path to normalize.
+     * @return The FileType.
+     * @throws FileSystemException if an error occurs.
      *
      *  @see #fixSeparators
      */
@@ -187,6 +199,8 @@ public final class UriParser
 
     /**
      * Normalises the separators in a name.
+     * @param name The StringBuffer containing the name
+     * @return true if the StringBuffer was modified.
      */
     public static boolean fixSeparators(final StringBuffer name)
     {
@@ -207,8 +221,7 @@ public final class UriParser
     /**
      * Extracts the scheme from a URI.
      *
-     * @param uri
-     *            The URI.
+     * @param uri The URI.
      * @return The scheme name. Returns null if there is no scheme.
      */
     public static String extractScheme(final String uri)
@@ -220,14 +233,11 @@ public final class UriParser
      * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from
      * the front of the URI.
      *
-     * @param uri
-     *            The URI.
-     * @param buffer
-     *            Returns the remainder of the URI.
+     * @param uri The URI.
+     * @param buffer Returns the remainder of the URI.
      * @return The scheme name. Returns null if there is no scheme.
      */
-    public static String extractScheme(final String uri,
-            final StringBuffer buffer)
+    public static String extractScheme(final String uri, final StringBuffer buffer)
     {
         if (buffer != null)
         {
@@ -280,6 +290,9 @@ public final class UriParser
 
     /**
      * Removes %nn encodings from a string.
+     * @param encodedStr The encoded String.
+     * @return The decoded String.
+     * @throws FileSystemException if an error occurs.
      */
     public static String decode(final String encodedStr)
             throws FileSystemException
@@ -299,9 +312,13 @@ public final class UriParser
 
     /**
      * Removes %nn encodings from a string.
+     * @param buffer StringBuffer containing the string to decode.
+     * @param offset The position in the string to start decoding.
+     * @param length The number of characters to decode.
+     * @throws FileSystemException if an error occurs.
      */
-    public static void decode(final StringBuffer buffer, final int offset,
-            final int length) throws FileSystemException
+    public static void decode(final StringBuffer buffer, final int offset, final int length)
+            throws FileSystemException
     {
         int index = offset;
         int count = length;
@@ -320,15 +337,15 @@ public final class UriParser
             }
 
             // Decode
-            int dig1 = Character.digit(buffer.charAt(index + 1), 16);
-            int dig2 = Character.digit(buffer.charAt(index + 2), 16);
+            int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
+            int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
             if (dig1 == -1 || dig2 == -1)
             {
                 throw new FileSystemException(
                         "vfs.provider/invalid-escape-sequence.error", buffer
                                 .substring(index, index + 3));
             }
-            char value = (char) (dig1 << 4 | dig2);
+            char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
 
             // Replace
             buffer.setCharAt(index, value);
@@ -339,6 +356,9 @@ public final class UriParser
 
     /**
      * Encodes and appends a string to a StringBuffer.
+     * @param buffer The StringBuffer to append to.
+     * @param unencodedValue The String to encode and append.
+     * @param reserved characters to encode.
      */
     public static void appendEncoded(final StringBuffer buffer,
             final String unencodedValue, final char[] reserved)
@@ -351,6 +371,10 @@ public final class UriParser
     /**
      * Encodes a set of reserved characters in a StringBuffer, using the URI %nn
      * encoding. Always encodes % characters.
+     * @param buffer The StringBuffer to append to.
+     * @param offset The position in the buffer to start encoding at.
+     * @param length The number of characters to encode.
+     * @param reserved characters to encode.
      */
     public static void encode(final StringBuffer buffer, final int offset,
             final int length, final char[] reserved)
@@ -360,7 +384,7 @@ public final class UriParser
         for (; count > 0; index++, count--)
         {
             final char ch = buffer.charAt(index);
-            boolean match = (ch == '%');
+            boolean match = ch == '%';
             if (reserved != null)
             {
                 for (int i = 0; !match && i < reserved.length; i++)
@@ -375,8 +399,8 @@ public final class UriParser
             {
                 // Encode
                 char[] digits =
-                { Character.forDigit(((ch >> 4) & 0xF), 16),
-                        Character.forDigit((ch & 0xF), 16) };
+                    {Character.forDigit(((ch >> BITS_IN_HALF_BYTE) & LOW_MASK), HEX_BASE),
+                     Character.forDigit((ch & LOW_MASK), HEX_BASE)};
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;
@@ -386,12 +410,20 @@ public final class UriParser
 
     /**
      * Removes %nn encodings from a string.
+     * @param decodedStr The decoded String.
+     * @return The encoded String.
      */
     public static String encode(final String decodedStr)
     {
         return encode(decodedStr, null);
     }
 
+    /**
+     * Converts "special" characters to their %nn value.
+     * @param decodedStr The decoded String.
+     * @param reserved Characters to encode.
+     * @return The encoded String
+     */
     public static String encode(final String decodedStr, final char[] reserved)
     {
         if (decodedStr == null)
@@ -403,6 +435,11 @@ public final class UriParser
         return buffer.toString();
     }
 
+    /**
+     * Encode an array of Strings.
+     * @param strings The array of Strings to encode.
+     * @return An array of encoded Strings.
+     */
     public static String[] encode(String[] strings)
     {
         if (strings == null)
@@ -416,6 +453,11 @@ public final class UriParser
         return strings;
     }
 
+    /**
+     * Decodes the String.
+     * @param uri The String to decode.
+     * @throws FileSystemException if an error occurs.
+     */
     public static void checkUriEncoding(String uri) throws FileSystemException
     {
         decode(uri);
@@ -440,19 +482,18 @@ public final class UriParser
                 }
 
                 // Decode
-                int dig1 = Character.digit(buffer.charAt(index + 1), 16);
-                int dig2 = Character.digit(buffer.charAt(index + 2), 16);
+                int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
+                int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
                 if (dig1 == -1 || dig2 == -1)
                 {
                     throw new FileSystemException(
                             "vfs.provider/invalid-escape-sequence.error",
                             buffer.substring(index, index + 3));
                 }
-                char value = (char) (dig1 << 4 | dig2);
+                char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
 
-                boolean match = (value == '%')
-                        || (fileNameParser != null && fileNameParser
-                                .encodeCharacter(value));
+                boolean match = value == '%'
+                        || (fileNameParser != null && fileNameParser.encodeCharacter(value));
 
                 if (match)
                 {
@@ -471,8 +512,8 @@ public final class UriParser
             {
                 // Encode
                 char[] digits =
-                { Character.forDigit(((ch >> 4) & 0xF), 16),
-                        Character.forDigit((ch & 0xF), 16) };
+                    {Character.forDigit(((ch >> BITS_IN_HALF_BYTE) & LOW_MASK), HEX_BASE),
+                     Character.forDigit((ch & LOW_MASK), HEX_BASE) };
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;
@@ -480,6 +521,11 @@ public final class UriParser
         }
     }
 
+    /**
+     * Extract the query String from the URI.
+     * @param name StringBuffer containing the URI.
+     * @return The query string, if any. null otherwise.
+     */
     public static String extractQueryString(StringBuffer name)
     {
         for (int pos = 0; pos < name.length(); pos++)

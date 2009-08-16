@@ -25,7 +25,7 @@ import org.apache.commons.vfs.provider.compressed.CompressedFileFileSystem;
 import java.util.Collection;
 
 /**
- * Filesytem to handle compressed files using the bzip2 method
+ * Filesytem to handle compressed files using the bzip2 method.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

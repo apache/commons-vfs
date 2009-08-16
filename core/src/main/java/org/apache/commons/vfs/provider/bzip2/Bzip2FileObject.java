@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * the bzip2 file
+ * the bzip2 file.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

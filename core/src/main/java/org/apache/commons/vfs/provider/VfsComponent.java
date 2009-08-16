@@ -37,7 +37,7 @@ public interface VfsComponent
     /**
      * Sets the Logger to use for the component.
      *
-     * @param logger
+     * @param logger The Log
      */
     void setLogger(Log logger);
 
@@ -50,6 +50,7 @@ public interface VfsComponent
 
     /**
      * Initialises the component.
+     * @throws FileSystemException if an error occurs.
      */
     void init() throws FileSystemException;
 

@@ -44,7 +44,7 @@
         </module>
         <module name="JavadocStyle">
             <property name="scope" value="public"/>
-        </module>     
+        </module>
 
 
         <!-- Checks for Naming Conventions.                  -->
@@ -149,7 +149,7 @@
         <module name="DefaultComesLast"/>
         <module name="FallThrough"/>
         <module name="MultipleVariableDeclarations"/>
-        <module name="UnnecessaryParentheses"/>
+        <!-- <module name="UnnecessaryParentheses"/> -->
 
         <!-- Checks for class design                         -->
         <!-- See http://checkstyle.sf.net/config_design.html -->

@@ -25,14 +25,15 @@ import org.apache.commons.vfs.provider.compressed.CompressedFileFileSystem;
 import java.util.Collection;
 
 /**
- * Filesytem to handle compressed files using the gzip method
+ * Filesytem to handle compressed files using the gzip method.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public class GzipFileSystem extends CompressedFileFileSystem
 {
-    protected GzipFileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected GzipFileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions)
+            throws FileSystemException
     {
         super(rootName, parentLayer, fileSystemOptions);
     }
