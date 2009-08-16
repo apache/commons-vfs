@@ -17,7 +17,7 @@
 package org.apache.commons.vfs;
 
 /**
- * Interface to the content info
+ * Interface to the content info.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
@@ -25,13 +25,13 @@ package org.apache.commons.vfs;
 public interface FileContentInfo
 {
     /**
-     * the content type
+     * the content type.
      * @return The file content type.
      */
     String getContentType();
 
     /**
-     * the content encoding
+     * the content encoding.
      * @return The file content encoding.
      */
     String getContentEncoding();

@@ -18,7 +18,7 @@ package org.apache.commons.vfs;
 
 
 /**
- * The fileCache interface
+ * The fileCache interface.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
@@ -26,14 +26,14 @@ package org.apache.commons.vfs;
 public interface FilesCache
 {
     /**
-     * add a fileobject to the cache
+     * add a fileobject to the cache.
      *
      * @param file the file
      */
     void putFile(final FileObject file);
 
     /**
-     * retrieve a file from the cache by its name
+     * retrieve a file from the cache by its name.
      *
      * @param filesystem The FileSystem.
      * @param name the name
@@ -42,18 +42,18 @@ public interface FilesCache
     FileObject getFile(final FileSystem filesystem, final FileName name);
 
     /**
-     * purge the entries corresponding to the filesystem
+     * purge the entries corresponding to the filesystem.
      * @param filesystem The FileSystem.
      */
     void clear(final FileSystem filesystem);
 
     /**
-     * purge the whole cache
+     * purge the whole cache.
      */
     void close();
 
     /**
-     * removes a file from cache
+     * removes a file from cache.
      *
      * @param filesystem filesystem
      * @param name       filename
@@ -62,7 +62,7 @@ public interface FilesCache
 
     /**
      * if the cache uses timestamps it could use this method to handle
-     * updates of them
+     * updates of them.
      *
      * @param file filename
      */

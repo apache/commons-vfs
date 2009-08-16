@@ -26,10 +26,10 @@ import org.apache.commons.vfs.FileSystemOptions;
  */
 class FileSystemKey implements Comparable
 {
-    private final static FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
+    private static final FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
 
-    final Comparable key;
-    final FileSystemOptions fileSystemOptions;
+    private final Comparable key;
+    private final FileSystemOptions fileSystemOptions;
 
     FileSystemKey(final Comparable key, final FileSystemOptions fileSystemOptions)
     {

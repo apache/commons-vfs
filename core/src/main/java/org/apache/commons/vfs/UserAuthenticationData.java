@@ -21,7 +21,7 @@ import java.util.TreeMap;
 import java.util.Iterator;
 
 /**
- * Container for various authentication data
+ * Container for various authentication data.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class UserAuthenticationData
@@ -73,16 +73,16 @@ public class UserAuthenticationData
         }
     }
 
-    /** The user name */
+    /** The user name. */
     public static final Type USERNAME = new Type("username");
 
-    /** The password */
+    /** The password. */
     public static final Type PASSWORD = new Type("password");
 
-    /** The user's domain */
+    /** The user's domain. */
     public static final Type DOMAIN = new Type("domain");
 
-    /** The authentication data */
+    /** The authentication data. */
     private Map authenticationData = new TreeMap();
 
     public UserAuthenticationData()
@@ -90,7 +90,7 @@ public class UserAuthenticationData
     }
 
     /**
-     * set a data to this collection
+     * set a data to this collection.
      * @param type The Type to add
      * @param data The data assoicated with the Type
      */
@@ -100,7 +100,7 @@ public class UserAuthenticationData
     }
 
     /**
-     * get a data from the collection
+     * get a data from the collection.
      * @param type The Type to retrieve.
      * @return a character array containing the data assoicated with the type.
      */
@@ -110,7 +110,7 @@ public class UserAuthenticationData
     }
 
     /**
-     * deleted all data stored within this authenticator
+     * deleted all data stored within this authenticator.
      */
     public void cleanup()
     {

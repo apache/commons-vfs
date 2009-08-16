@@ -16,9 +16,17 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.util.WeakRefFileListener;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.FileListener;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileNotFolderException;
+import org.apache.commons.vfs.FileChangeEvent;
+import org.apache.commons.vfs.FileContentInfo;
+import org.apache.commons.vfs.RandomAccessContent;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -56,7 +64,8 @@ public class DelegateFileObject
     }
 
     /**
-     * get access to the delegated file
+     * Get access to the delegated file.
+     * @return The FileObject.
      */
     public FileObject getDelegateFile()
     {
@@ -65,6 +74,9 @@ public class DelegateFileObject
 
     /**
      * Adds a child to this file.
+     * @param baseName The base FileName.
+     * @param type The FileType.
+     * @throws Exception if an error occurs.
      */
     public void attachChild(final FileName baseName, final FileType type) throws Exception
     {
@@ -78,6 +90,8 @@ public class DelegateFileObject
 
     /**
      * Attaches or detaches the target file.
+     * @param file The FileObject.
+     * @throws Exception if an error occurs.
      */
     public void setFile(final FileObject file) throws Exception
     {
@@ -94,6 +108,8 @@ public class DelegateFileObject
     /**
      * Checks whether the file's type has changed, and fires the appropriate
      * events.
+     * @param oldType The old FileType.
+     * @throws Exception if an error occurs.
      */
     private void maybeTypeChanged(final FileType oldType) throws Exception
     {
@@ -309,6 +325,8 @@ public class DelegateFileObject
 
     /**
      * Called when a file is created.
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
      */
     public void fileCreated(final FileChangeEvent event) throws Exception
     {
@@ -324,6 +342,8 @@ public class DelegateFileObject
 
     /**
      * Called when a file is deleted.
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
      */
     public void fileDeleted(final FileChangeEvent event) throws Exception
     {
@@ -341,6 +361,8 @@ public class DelegateFileObject
      * Called when a file is changed.
      * <p/>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
      */
     public void fileChanged(FileChangeEvent event) throws Exception
     {
@@ -355,7 +377,8 @@ public class DelegateFileObject
     }
 
     /**
-     * Close the delegated file
+     * Close the delegated file.
+     * @throws FileSystemException if an error occurs.
      */
     public void close() throws FileSystemException
     {
@@ -368,7 +391,8 @@ public class DelegateFileObject
     }
 
     /**
-     * refresh file informations
+     * Refresh file information.
+     * @throws FileSystemException if an error occurs.
      */
     public void refresh() throws FileSystemException
     {

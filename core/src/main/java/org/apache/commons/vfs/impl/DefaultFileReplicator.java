@@ -57,7 +57,7 @@ public class DefaultFileReplicator
     private boolean tempDirMessageLogged;
 
     /**
-     * constructor to set the location of the temporary directory
+     * constructor to set the location of the temporary directory.
      *
      * @param tempDir The temporary directory.
      */

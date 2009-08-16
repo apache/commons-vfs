@@ -17,7 +17,6 @@
 package org.apache.commons.vfs.operations.vcs;
 
 /**
- * todo: add class description here
  *
  * @author Siarhei Baidun
  * @since 0.1

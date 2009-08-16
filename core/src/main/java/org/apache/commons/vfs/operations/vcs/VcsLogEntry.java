@@ -19,7 +19,6 @@ package org.apache.commons.vfs.operations.vcs;
 import java.util.Calendar;
 
 /**
- * todo: add class description here
  *
  * @author Siarhei Baidun
  * @since 0.1

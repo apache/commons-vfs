@@ -273,7 +273,7 @@ public interface FileObject
 
     /**
      * Move this file.
-     * <p>If the destFile exists, it is deleted first</b>
+     * <p>If the destFile exists, it is deleted first</p>
      *
      * @param destFile the New filename.
      * @throws FileSystemException If this file is read-only, or if the source file does not exist,
@@ -316,19 +316,19 @@ public interface FileObject
     void close() throws FileSystemException;
 
     /**
-     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required
+     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required.
      * @throws FileSystemException if an error occurs.
      */
     void refresh() throws FileSystemException;
 
     /**
-     * check if the fileObject is attaced
+     * check if the fileObject is attaced.
      * @return true if the FileObject is attached.
      */
     boolean isAttached();
 
     /**
-     * check if someone reads/write to this file
+     * check if someone reads/write to this file.
      * @return true if the file content is open.
      */
     boolean isContentOpen();

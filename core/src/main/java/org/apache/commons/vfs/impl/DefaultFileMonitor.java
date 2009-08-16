@@ -36,7 +36,7 @@ import java.util.Stack;
  * second delay.<br />
  * <br />
  * <b>Design:</b>
- * <p/>
+ * <p>
  * There is a Map of monitors known as FileMonitorAgents. With the thread running,
  * each FileMonitorAgent object is asked to "check" on the file it is
  * responsible for.
@@ -49,7 +49,7 @@ import java.util.Stack;
  * last modified timestamp to see if that has changed.</li>
  * <li>If it has, fire a change event.</li>
  * </ul>
- * <p/>
+ * <p>
  * With each file delete, the FileMonitorAgent of the parent is asked to
  * re-build its
  * list of children, so that they can be accurately checked when there are new
@@ -60,13 +60,12 @@ import java.util.Stack;
  * descent is
  * enabled.
  * </p>
- * <p/>
+ * <p>
  * For performance reasons, added a delay that increases as the number of files
  * monitored
  * increases. The default is a delay of 1 second for every 1000 files processed.
  * </p>
- * <p/>
- * <br /><b>Example usage:</b><pre>
+ * <br /><b>Example usage:</b><br /><pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject listendir = fsManager.resolveFile("/home/username/monitored/");
  * <p/>
@@ -279,7 +278,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     }
 
     /**
-     * Get the delay between runs
+     * Get the delay between runs.
      * @return The delay period.
      */
     public long getDelay()
@@ -288,7 +287,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     }
 
     /**
-     * Set the delay between runs
+     * Set the delay between runs.
      * @param delay The delay period.
      */
     public void setDelay(long delay)
@@ -304,7 +303,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     }
 
     /**
-     * get the number of files to check per run
+     * get the number of files to check per run.
      * @return The number of files to check per iteration.
      */
     public int getChecksPerRun()

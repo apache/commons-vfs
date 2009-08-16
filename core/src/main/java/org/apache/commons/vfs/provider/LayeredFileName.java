@@ -40,12 +40,19 @@ public class LayeredFileName extends AbstractFileName
 
     /**
      * Returns the URI of the outer file.
+     * @return The FileName.
      */
     public FileName getOuterName()
     {
         return outerUri;
     }
 
+    /**
+     * Create a FileName.
+     * @param path The file URI.
+     * @param type The FileType.
+     * @return The FileName.
+     */
     public FileName createName(String path, FileType type)
     {
         return new LayeredFileName(getScheme(), getOuterName(), path, type);

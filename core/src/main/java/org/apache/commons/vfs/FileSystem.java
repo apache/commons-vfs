@@ -171,21 +171,21 @@ public interface FileSystem
         throws FileSystemException;
 
     /**
-     * Returns the FileSystemOptions used to instantiate this filesystem
+     * Returns the FileSystemOptions used to instantiate this filesystem.
      * @return The FileSystemOptions.
      */
     FileSystemOptions getFileSystemOptions();
 
     /**
-     * Returns a reference to the FileSytemManager
+     * Returns a reference to the FileSytemManager.
      * @return The FileSystemManager.
      */
     FileSystemManager getFileSystemManager();
 
     /**
-     * Returns the accuracy of the last modification time
+     * Returns the accuracy of the last modification time.
      *
-     * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms
+     * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms.
      */
     double getLastModTimeAccuracy();
 }

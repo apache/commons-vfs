@@ -115,7 +115,7 @@ public interface FileName extends Comparable
     String getRootURI();
 
     /**
-     * find the root of the filesystem
+     * find the root of the filesystem.
      * @return the file system root.
      */
     FileName getRoot();
@@ -184,12 +184,12 @@ public interface FileName extends Comparable
 
     /**
      * Returns the requested or current type of this name. <br />
-     * <p/>
+     * <p>
      * The "requested" type is the one determined during resolving the name. <br/>
      * In this case the name is a {@link FileType#FOLDER} if it ends with an "/" else
      * it will be a {@link FileType#FILE}<br/>
      * </p>
-     * <p/>
+     * <p>
      * Once attached it will be changed to reflect the real type of this resource.
      * </p>
      *

@@ -22,7 +22,7 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
 
 /**
- * Default options usable for all filesystems
+ * Default options usable for all filesystems.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
@@ -36,7 +36,7 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Sets the user authenticator to get authentication informations
+     * Sets the user authenticator to get authentication informations.
      * @param opts The FileSystemOptions.
      * @param userAuthenticator The UserAuthenticator.
      * @throws FileSystemException if an error occurs setting the UserAuthenticator.

@@ -17,7 +17,7 @@
 package org.apache.commons.vfs;
 
 /**
- * Create a class which is able to determine the content-info for the given content
+ * Create a class which is able to determine the content-info for the given content.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

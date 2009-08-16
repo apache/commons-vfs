@@ -22,8 +22,13 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 
+/**
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ */
 public class URLFileName extends GenericFileName
 {
+    private static final int BUFFSZ = 250;
+
     private final String queryString;
 
     public URLFileName(final String scheme,
@@ -41,7 +46,7 @@ public class URLFileName extends GenericFileName
     }
 
     /**
-     * get the query string
+     * Get the query string.
      *
      * @return the query string part of the filename
      */
@@ -51,13 +56,13 @@ public class URLFileName extends GenericFileName
     }
 
     /**
-     * get the path and query string e.g. /path/servlet?param1=true
+     * Get the path and query string e.g. /path/servlet?param1=true.
      *
      * @return the path and its query string
      */
     public String getPathQuery()
     {
-        StringBuffer sb = new StringBuffer(250);
+        StringBuffer sb = new StringBuffer(BUFFSZ);
         sb.append(getPath());
         sb.append("?");
         sb.append(getQueryString());
@@ -66,9 +71,12 @@ public class URLFileName extends GenericFileName
     }
 
     /**
-     * get the path encoded suitable for url like filesystem e.g. (http, webdav)
+     * Get the path encoded suitable for url like filesystem e.g. (http, webdav).
      *
      * @param charset the charset used for the path encoding
+     * @return The encoded path.
+     * @throws URIException If an error occurs encoding the URI.
+     * @throws FileSystemException If some other error occurs.
      */
     public String getPathQueryEncoded(String charset) throws URIException, FileSystemException
     {
@@ -84,7 +92,7 @@ public class URLFileName extends GenericFileName
             }
         }
 
-        StringBuffer sb = new StringBuffer(250);
+        StringBuffer sb = new StringBuffer(BUFFSZ);
         if (charset != null)
         {
             sb.append(URIUtil.encodePath(getPathDecoded(), charset));
@@ -98,6 +106,12 @@ public class URLFileName extends GenericFileName
         return sb.toString();
     }
 
+    /**
+     * Create a FileName.
+     * @param absPath The absolute path.
+     * @param type The FileType.
+     * @return The FileName
+     */
     public FileName createName(final String absPath, FileType type)
     {
         return new URLFileName(getScheme(),
@@ -112,7 +126,7 @@ public class URLFileName extends GenericFileName
     }
 
     /**
-     * append query string to the uri
+     * Append query string to the uri.
      *
      * @return the uri
      */
@@ -120,7 +134,7 @@ public class URLFileName extends GenericFileName
     {
         if (getQueryString() != null)
         {
-            StringBuffer sb = new StringBuffer(250);
+            StringBuffer sb = new StringBuffer(BUFFSZ);
             sb.append(super.createURI());
             sb.append("?");
             sb.append(getQueryString());
@@ -131,9 +145,16 @@ public class URLFileName extends GenericFileName
         return super.createURI();
     }
 
+    /**
+     * Encode a URI.
+     * @param charset The character set.
+     * @return The encoded URI
+     * @throws FileSystemException if some other exception occurs.
+     * @throws URIException if an exception occurs encoding the URI.
+     */
     public String getURIEncoded(String charset) throws FileSystemException, URIException
     {
-        StringBuffer sb = new StringBuffer(80);
+        StringBuffer sb = new StringBuffer(BUFFSZ);
         appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));
         return sb.toString();

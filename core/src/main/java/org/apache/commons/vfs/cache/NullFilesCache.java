@@ -21,11 +21,11 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
 
 /**
- * <p/>
+ * <p>
  * A {@link org.apache.commons.vfs.FilesCache} implementation.<br>
  * This implementation never ever caches a single file.
  * </p>
- * <p/>
+ * <p>
  * <b>Notice: if you use resolveFile(uri) multiple times with the same path, the system will always
  * create a new instance.
  * Changes on one instance of this file are not seen by the others.</b>

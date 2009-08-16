@@ -41,7 +41,6 @@ import java.util.jar.Attributes.Name;
  * VFS FileObjects refering both to folders and JAR files. Any FileObject
  * of type FileType.FILE is asumed to be a JAR and is opened
  * by creating a layered file system with the "jar" scheme.
- * </p><p>
  * TODO - Test this with signed Jars and a SecurityManager.
  *
  * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
@@ -119,7 +118,7 @@ public class VFSClassLoader extends SecureClassLoader
     }
 
     /**
-     * provide access to the file objects this class loader represents
+     * Provide access to the file objects this class loader represents.
      * @return An array of FileObjects.
      */
     public FileObject[] getFileObjects()

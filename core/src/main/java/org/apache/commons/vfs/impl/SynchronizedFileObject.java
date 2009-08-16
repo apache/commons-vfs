@@ -26,7 +26,7 @@ import org.apache.commons.vfs.NameScope;
 import java.util.List;
 
 /**
- * This decorator synchronize all access to the FileObject
+ * This decorator synchronize all access to the FileObject.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

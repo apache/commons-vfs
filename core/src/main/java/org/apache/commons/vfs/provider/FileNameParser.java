@@ -20,22 +20,26 @@ import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
- * Provides methods to parse a filename into a {@link org.apache.commons.vfs.FileName}
+ * Provides methods to parse a filename into a {@link org.apache.commons.vfs.FileName}.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FileNameParser
 {
     /**
-     * Check if a character needs encoding (%nn)
+     * Check if a character needs encoding (%nn).
      * @param ch the character
      * @return true if character should be encoded
      */
-    public boolean encodeCharacter(char ch);
+    boolean encodeCharacter(char ch);
 
     /**
-     * parses a String into a filename
-     * @param base
-     * @param filename
-     * @throws org.apache.commons.vfs.FileSystemException
+     * parses a String into a filename.
+     * @param context The component context.
+     * @param base The base FileName.
+     * @param filename The target file name.
+     * @return A FileName that represents the taret file.
+     * @throws FileSystemException if an error occurs parsing the URI.
      */
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename) throws FileSystemException;
+    FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+            throws FileSystemException;
 }

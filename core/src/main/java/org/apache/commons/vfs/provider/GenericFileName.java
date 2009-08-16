@@ -29,13 +29,13 @@ import org.apache.commons.vfs.FileType;
  */
 public class GenericFileName extends AbstractFileName
 {
+    private static final char[] USERNAME_RESERVED = {':', '@', '/'};
+    private static final char[] PASSWORD_RESERVED = {'@', '/', '?'};
     private final String userName;
     private final String hostName;
     private final int defaultPort;
     private final String password;
     private final int port;
-    private static final char[] USERNAME_RESERVED = {':', '@', '/'};
-    private static final char[] PASSWORD_RESERVED = {'@', '/', '?'};
 
     protected GenericFileName(final String scheme,
                               final String hostName,
@@ -64,6 +64,7 @@ public class GenericFileName extends AbstractFileName
 
     /**
      * Returns the user name part of this name.
+     * @return The user name.
      */
     public String getUserName()
     {
@@ -72,6 +73,7 @@ public class GenericFileName extends AbstractFileName
 
     /**
      * Returns the password part of this name.
+     * @return The password.
      */
     public String getPassword()
     {
@@ -80,6 +82,7 @@ public class GenericFileName extends AbstractFileName
 
     /**
      * Returns the host name part of this name.
+     * @return The host name.
      */
     public String getHostName()
     {
@@ -88,6 +91,7 @@ public class GenericFileName extends AbstractFileName
 
     /**
      * Returns the port part of this name.
+     * @return The port number.
      */
     public int getPort()
     {
@@ -96,12 +100,19 @@ public class GenericFileName extends AbstractFileName
 
     /**
      * Returns the default port for this file name.
+     * @return The default port number.
      */
     public int getDefaultPort()
     {
         return defaultPort;
     }
 
+    /**
+     * Create a FileName.
+     * @param absPath The absolute path.
+     * @param type The FileType.
+     * @return The created FileName.
+     */
     public FileName createName(String absPath, FileType type)
     {
         return new GenericFileName(

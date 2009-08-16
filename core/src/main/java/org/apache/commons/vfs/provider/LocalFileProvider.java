@@ -35,17 +35,25 @@ public interface LocalFileProvider
      *
      * @param name The name to test.
      * @todo Move this to a general file name parser interface.
+     * @return true if the name is absolute.
      */
     boolean isAbsoluteLocalName(final String name);
 
     /**
      * Finds a local file, from its local name.
+     * @param name The name of the file to locate.
+     * @return The FileObject for the file.
+     * @throws FileSystemException if an error occurs.
+     *
      */
     FileObject findLocalFile(final String name)
         throws FileSystemException;
 
     /**
      * Converts from java.io.File to FileObject.
+     * @param file The File for the file.
+     * @return The FileObject for the file.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject findLocalFile(final File file)
         throws FileSystemException;

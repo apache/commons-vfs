@@ -39,7 +39,8 @@ public class URLFileNameParser extends HostFileNameParser
         return super.encodeCharacter(ch) || ch == '?';
     }
 
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+            throws FileSystemException
     {
         // FTP URI are generic URI (as per RFC 2396)
         final StringBuffer name = new StringBuffer();
@@ -57,12 +58,12 @@ public class URLFileNameParser extends HostFileNameParser
         final String path = name.toString();
 
         return new URLFileName(
-            auth.scheme,
-            auth.hostName,
-            auth.port,
+            auth.getScheme(),
+            auth.getHostName(),
+            auth.getPort(),
             getDefaultPort(),
-            auth.userName,
-            auth.password,
+            auth.getUserName(),
+            auth.getPassword(),
             path,
             fileType,
             queryString);

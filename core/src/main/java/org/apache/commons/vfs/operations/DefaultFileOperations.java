@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * todo: add class description here
  *
  * @author Siarhei Baidun
  * @since 0.1

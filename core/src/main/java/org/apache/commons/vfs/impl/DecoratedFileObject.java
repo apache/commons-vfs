@@ -30,7 +30,7 @@ import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.operations.FileOperations;
 
 /**
- * Base class to build a fileObject decoration
+ * Base class to build a fileObject decoration.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

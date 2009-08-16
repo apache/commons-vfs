@@ -30,7 +30,7 @@ public final class CacheStrategy
     public static final CacheStrategy MANUAL = new CacheStrategy("manual");
 
     /**
-     * Refresh the data every time you request a file from {@link FileSystemManager#resolveFile}
+     * Refresh the data every time you request a file from {@link FileSystemManager#resolveFile}.
      */
     public static final CacheStrategy ON_RESOLVE = new CacheStrategy("onresolve");
 

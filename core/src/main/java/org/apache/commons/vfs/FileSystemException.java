@@ -157,7 +157,7 @@ public class FileSystemException
     }
 
     /**
-     * retrieve message from bundle
+     * retrieve message from bundle.
      * @return The exception message.
      */
     public String getMessage()

@@ -23,7 +23,7 @@ import java.io.InputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 /**
- * Implements the part usable for all stream base random access implementations
+ * Implements the part usable for all stream base random access implementations.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

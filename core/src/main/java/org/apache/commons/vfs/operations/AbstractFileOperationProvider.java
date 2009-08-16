@@ -25,7 +25,6 @@ import java.util.Iterator;
 
 
 /**
- * todo: add class description here
  *
  * @author Siarhei Baidun
  * @since 0.1

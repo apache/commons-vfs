@@ -140,7 +140,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Close the underlaying link used to access the files
+     * Close the underlaying link used to access the files.
      */
     public void closeCommunicationLink()
     {
@@ -429,7 +429,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Return the FileSystemOptions used to instantiate this filesystem
+     * Return the FileSystemOptions used to instantiate this filesystem.
      * @return the FileSystemOptions.
      */
     public FileSystemOptions getFileSystemOptions()
@@ -438,7 +438,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Return the FileSystemManager used to instantiate this filesystem
+     * Return the FileSystemManager used to instantiate this filesystem.
      * @return the FileSystemManager.
      */
     public FileSystemManager getFileSystemManager()
@@ -448,7 +448,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Returns the accuracy of the last modification time
+     * Returns the accuracy of the last modification time.
      *
      * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms
      */
@@ -557,8 +557,8 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * returns true if no file is using this filesystem
-     * @return true of no file is using this FileSystem,
+     * returns true if no file is using this filesystem.
+     * @return true of no file is using this FileSystem.
      */
     public boolean isReleaseable()
     {
@@ -669,7 +669,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * check if this filesystem has open streams
+     * check if this filesystem has open streams.
      * @return true if the FileSystem has open streams.
      */
     public boolean isOpen()

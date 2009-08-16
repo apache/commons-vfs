@@ -68,6 +68,8 @@ public abstract class AbstractFileObject implements FileObject
     // private static final FileObject[] EMPTY_FILE_ARRAY = {};
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 
+    private static final int INITIAL_LISTSZ = 5;
+
     private final AbstractFileName name;
     private final AbstractFileSystem fs;
 
@@ -1033,7 +1035,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Moves (rename) the file to another one
+     * Moves (rename) the file to another one.
      * @param destFile The target FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -1185,7 +1187,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Create a FileContent implementation
+     * Create a FileContent implementation.
      */
     protected FileContent doCreateFileContent() throws FileSystemException
     {
@@ -1193,7 +1195,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required
+     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required.
      * @throws FileSystemException if an error occurs.
      */
     public void refresh() throws FileSystemException
@@ -1711,7 +1713,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Check if the content stream is open
+     * Check if the content stream is open.
      *
      * @return true if this is the case
      */
@@ -1726,7 +1728,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Check if the internal state is "attached"
+     * Check if the internal state is "attached".
      *
      * @return true if this is the case
      */
@@ -1775,7 +1777,7 @@ public abstract class AbstractFileObject implements FileObject
     {
         if (objects == null)
         {
-            objects = new ArrayList(5);
+            objects = new ArrayList(INITIAL_LISTSZ);
         }
         objects.add(strongRef);
     }

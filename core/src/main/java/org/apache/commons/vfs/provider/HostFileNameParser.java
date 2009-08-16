@@ -50,7 +50,8 @@ public class HostFileNameParser extends AbstractFileNameParser
         return super.encodeCharacter(ch);
     }
 
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+            throws FileSystemException
     {
         // FTP URI are generic URI (as per RFC 2396)
         final StringBuffer name = new StringBuffer();
@@ -129,7 +130,7 @@ public class HostFileNameParser extends AbstractFileNameParser
             try
             {
                 Cryptor cryptor = CryptorFactory.getCryptor();
-                auth.password = cryptor.decrypt(auth.password.substring(1, auth.password.length()-1));
+                auth.password = cryptor.decrypt(auth.password.substring(1, auth.password.length() - 1));
             }
             catch (Exception ex)
             {
@@ -252,10 +253,60 @@ public class HostFileNameParser extends AbstractFileNameParser
      */
     protected static class Authority
     {
-        public String scheme;
-        public String hostName;
-        public String userName;
-        public String password;
-        public int port;
+        private String scheme;
+        private String hostName;
+        private String userName;
+        private String password;
+        private int port;
+
+        public String getScheme()
+        {
+            return scheme;
+        }
+
+        public void setScheme(String scheme)
+        {
+            this.scheme = scheme;
+        }
+
+        public String getHostName()
+        {
+            return hostName;
+        }
+
+        public void setHostName(String hostName)
+        {
+            this.hostName = hostName;
+        }
+
+        public String getUserName()
+        {
+            return userName;
+        }
+
+        public void setUserName(String userName)
+        {
+            this.userName = userName;
+        }
+
+        public String getPassword()
+        {
+            return password;
+        }
+
+        public void setPassword(String password)
+        {
+            this.password = password;
+        }
+
+        public int getPort()
+        {
+            return port;
+        }
+
+        public void setPort(int port)
+        {
+            this.port = port;
+        }
     }
 }

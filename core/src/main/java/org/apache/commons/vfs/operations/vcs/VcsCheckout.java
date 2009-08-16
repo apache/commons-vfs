@@ -20,7 +20,6 @@ import org.apache.commons.vfs.operations.FileOperation;
 import org.apache.commons.vfs.FileObject;
 
 /**
- * todo: add class description here
  *
  * @author Siarhei Baidun
  * @since 0.1

@@ -34,7 +34,7 @@ public final class VfsLog
     }
 
     /**
-     * warning
+     * warning.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -53,7 +53,7 @@ public final class VfsLog
     }
 
     /**
-     * warning
+     * warning.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -71,7 +71,7 @@ public final class VfsLog
     }
 
     /**
-     * debug
+     * debug.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -89,7 +89,7 @@ public final class VfsLog
     }
 
     /**
-     * debug
+     * debug.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -108,7 +108,7 @@ public final class VfsLog
     }
 
     /**
-     * info
+     * info.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -127,7 +127,7 @@ public final class VfsLog
     }
 
     /**
-     * info
+     * info.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -145,7 +145,7 @@ public final class VfsLog
     }
 
     /**
-     * error
+     * error.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -164,7 +164,7 @@ public final class VfsLog
     }
 
     /**
-     * error
+     * error.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -182,7 +182,7 @@ public final class VfsLog
     }
 
     /**
-     * fatal
+     * fatal.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
@@ -201,7 +201,7 @@ public final class VfsLog
     }
 
     /**
-     * fatal
+     * fatal.
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.

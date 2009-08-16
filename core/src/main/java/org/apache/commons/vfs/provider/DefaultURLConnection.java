@@ -69,6 +69,7 @@ public final class DefaultURLConnection
         }
         catch (FileSystemException fse)
         {
+            // Ignore the exception
         }
 
         return -1;
@@ -82,6 +83,7 @@ public final class DefaultURLConnection
         }
         catch (FileSystemException fse)
         {
+            // Ignore the exception
         }
 
         return -1;

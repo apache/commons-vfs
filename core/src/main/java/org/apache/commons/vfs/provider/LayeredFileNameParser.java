@@ -24,22 +24,41 @@ import org.apache.commons.vfs.FileType;
  * Implementation for layered filesystems.
  * <p/>
  * Additionally encodes the '!' character.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class LayeredFileNameParser extends AbstractFileNameParser
 {
-    private final static LayeredFileNameParser INSTANCE = new LayeredFileNameParser();
+    private static final LayeredFileNameParser INSTANCE = new LayeredFileNameParser();
 
+    /**
+     * Return the Parser.
+     * @return The Parser.
+     */
     public static LayeredFileNameParser getInstance()
     {
         return INSTANCE;
     }
 
+    /**
+     * Determines if a character should be encoded.
+     * @param ch The character to check.
+     * @return true if the character should be encoded.
+     */
     public boolean encodeCharacter(char ch)
     {
         return super.encodeCharacter(ch) || ch == '!';
     }
 
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
+    /**
+     * Parse the base and name into a FileName.
+     * @param context The component context.
+     * @param base The base FileName.
+     * @param filename The target file name.
+     * @return The constructed FileName.
+     * @throws FileSystemException if an error occurs.
+     */
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+            throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 

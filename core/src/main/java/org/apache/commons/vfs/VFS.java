@@ -39,7 +39,7 @@ public final class VFS
     }
 
     /**
-     * Returns the default {@link FileSystemManager} instance
+     * Returns the default {@link FileSystemManager} instance.
      * @return The FileSystemManager.
      * @throws FileSystemException if an error occurs creating the manager.
      */

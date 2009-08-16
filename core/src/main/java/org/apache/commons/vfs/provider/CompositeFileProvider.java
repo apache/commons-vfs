@@ -21,13 +21,15 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 
 /**
- * Description
+ * Description.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public abstract class CompositeFileProvider extends AbstractFileProvider
 {
+    private static final int INITIAL_BUFSZ = 80;
+
     public CompositeFileProvider()
     {
         super();
@@ -51,7 +53,7 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
                                final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        StringBuffer buf = new StringBuffer(80);
+        StringBuffer buf = new StringBuffer(INITIAL_BUFSZ);
 
         UriParser.extractScheme(uri, buf);
 

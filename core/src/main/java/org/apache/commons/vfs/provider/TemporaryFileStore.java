@@ -33,6 +33,8 @@ public interface TemporaryFileStore
      * will be deleted when this store is closed.
      *
      * @param basename The name of the file.
+     * @return The temporary file.
+     * @throws FileSystemException if an error occurs.
      */
     File allocateFile(String basename) throws FileSystemException;
 }

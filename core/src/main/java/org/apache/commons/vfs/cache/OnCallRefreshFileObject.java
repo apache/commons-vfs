@@ -27,7 +27,7 @@ import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.impl.DecoratedFileObject;
 
 /**
- * This decorator refreshes the fileObject data on every call
+ * This decorator refreshes the fileObject data on every call.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

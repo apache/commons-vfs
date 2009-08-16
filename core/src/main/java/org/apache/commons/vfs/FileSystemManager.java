@@ -235,13 +235,13 @@ public interface FileSystemManager
     FilesCache getFilesCache();
 
     /**
-     * Get the cache strategy used
+     * Get the cache strategy used.
      * @return the CacheStrategy.
      */
     CacheStrategy getCacheStrategy();
 
     /**
-     * Get the file object decorator used
+     * Get the file object decorator used.
      * @return the file object decorator Class.
      */
     Class getFileObjectDecorator();
@@ -254,7 +254,7 @@ public interface FileSystemManager
     Constructor getFileObjectDecoratorConst();
 
     /**
-     * The class to use to determine the content-type (mime-type)
+     * The class to use to determine the content-type (mime-type).
      * @return the FileContentInfoFactory.
      */
     FileContentInfoFactory getFileContentInfoFactory();
@@ -277,7 +277,7 @@ public interface FileSystemManager
      *
      * @param scheme The scheme to use to locate the provider's capabilities.
      * @return A Collection of the various capabilities.
-     * @throws FileSystemException if the given scheme is not konwn
+     * @throws FileSystemException if the given scheme is not konwn.
      */
     Collection getProviderCapabilities(final String scheme) throws FileSystemException;
 
@@ -288,20 +288,20 @@ public interface FileSystemManager
     void setLogger(final Log log);
 
     /**
-     * Get the configuration builder for the given scheme
+     * Get the configuration builder for the given scheme.
      *
      * @param scheme The schem to use to obtain the FileSystemConfigBuidler.
      * @return A FileSystemConfigBuilder appropriate for the given scheme.
-     * @throws FileSystemException if the given scheme is not konwn
+     * @throws FileSystemException if the given scheme is not konwn.
      */
     FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException;
 
     /**
-     * Resolve the uri to a filename
+     * Resolve the uri to a filename.
      *
      * @param uri The uri to resolve.
      * @return A FileName that matches the uri.
-     * @throws FileSystemException if this is not possible
+     * @throws FileSystemException if this is not possible.
      */
     FileName resolveURI(String uri) throws FileSystemException;
 
@@ -320,7 +320,7 @@ public interface FileSystemManager
         throws FileSystemException;
 
     /**
-     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs.operations.FileOperationProvider)
+     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs.operations.FileOperationProvider).
      *
      * @param schemes The schemes that will be associated with the provider.
      * @param operationProvider The FileOperationProvider to add.

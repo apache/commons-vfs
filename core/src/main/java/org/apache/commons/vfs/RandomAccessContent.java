@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Description
+ * Random Access Content.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
@@ -79,7 +79,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
     void close() throws IOException;
 
     /**
-     * get the input stream
+     * Get the input stream.
      * <br/>
      * <b>Notice: If you use {@link #seek(long)} you have to reget the InputStream</b>
      * @return the InputStream.

@@ -42,7 +42,9 @@ public interface FileProvider
      * @param baseFile          The base file to use for resolving the individual parts of
      *                          a compound URI.
      * @param uri               The absolute URI of the file to find.
-     * @param fileSystemOptions
+     * @param fileSystemOptions The FileSystemOptions
+     * @return The FileObject.
+     * @throws FileSystemException if an error occurs locating the file.
      */
     FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
         throws FileSystemException;
@@ -52,22 +54,33 @@ public interface FileProvider
      *
      * @param scheme            The URI scheme for the layered file system.
      * @param file              The file to build the file system on.
-     * @param fileSystemOptions
+     * @param fileSystemOptions The FileSystemOptions.
+     * @return A FileObject in the file system.
+     * @throws FileSystemException if an error occurs.
      */
     FileObject createFileSystem(String scheme, FileObject file, FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
     /**
      * Gets the configbuilder useable to collect the needed fileSystemOptions.
+     * @return a FileSystemConfigBuilder for the particular file system.
      */
-    public FileSystemConfigBuilder getConfigBuilder();
+    FileSystemConfigBuilder getConfigBuilder();
 
     /**
      * Get the filesystem capabilities.<br>
      * These are the same as on the filesystem, but available before the first filesystem was
      * instanciated.
+     * @return a Collection of the file systems Capabilities.
      */
-    public Collection getCapabilities();
+    Collection getCapabilities();
 
-    public FileName parseUri(FileName root, String uri) throws FileSystemException;
+    /**
+     * Parse the URI into a FileName.
+     * @param root The base FileName.
+     * @param uri The file to be accessed.
+     * @return A FileName representing the target file.
+     * @throws FileSystemException if an error occurs.
+     */
+    FileName parseUri(FileName root, String uri) throws FileSystemException;
 }

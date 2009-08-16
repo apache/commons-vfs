@@ -17,7 +17,7 @@
 package org.apache.commons.vfs;
 
 /**
- * Abstract class which has the right to fill FileSystemOptions
+ * Abstract class which has the right to fill FileSystemOptions.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

@@ -252,7 +252,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Sets the filesCache implementation used to cache files
+     * Sets the filesCache implementation used to cache files.
      * @param filesCache The FilesCache.
      * @throws FileSystemException if an error occurs setting the cache..
      */
@@ -292,7 +292,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Get the cache strategy used
+     * Get the cache strategy used.
      * @return The CacheStrategy.
      */
     public CacheStrategy getCacheStrategy()
@@ -301,7 +301,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Get the file object decorator used
+     * Get the file object decorator used.
      * @return The decorator.
      */
     public Class getFileObjectDecorator()
@@ -320,7 +320,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * set a fileObject decorator to be used for ALL returned file objects
+     * Set a fileObject decorator to be used for ALL returned file objects.
      *
      * @param fileObjectDecorator must be inherted from {@link DecoratedFileObject} a has to provide a
      * constructor with a single {@link FileObject} as argument
@@ -651,7 +651,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Resolves a URI, realtive to a base file with specified FileSystem
-     * configuration
+     * configuration.
      * @param baseFile The base file.
      * @param uri The file name. May be a fully qualified or relative path or a url.
      * @param fileSystemOptions Options to pass to the file system.
@@ -828,7 +828,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * resolve the uri to a filename
+     * Resolve the uri to a filename.
      * @param uri The URI to resolve.
      * @return The FileName of the file.
      * @throws FileSystemException if an error occurs.
@@ -1073,7 +1073,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Get the configuration builder for the given scheme
+     * Get the configuration builder for the given scheme.
      * @param scheme The scheme to locate.
      * @return The FileSystemConfigBuilder for the scheme.
      * @throws FileSystemException if the given scheme is not konwn

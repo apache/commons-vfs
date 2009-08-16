@@ -231,7 +231,7 @@ public interface FileContent
     FileContentInfo getContentInfo() throws FileSystemException;
 
     /**
-     * check if this file has open streams
+     * check if this file has open streams.
      * @return true if the file is open, false otherwise.
      */
     boolean isOpen();
