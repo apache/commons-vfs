@@ -22,15 +22,15 @@ package org.apache.commons.vfs.util;
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class RandomAccessMode
+public final class RandomAccessMode
 {
     /**
-     * read
+     * read.
      */
     public static final RandomAccessMode READ = new RandomAccessMode(true, false);
 
     /**
-     * read/write
+     * read/write.
      */
     public static final RandomAccessMode READWRITE = new RandomAccessMode(true, true);
 

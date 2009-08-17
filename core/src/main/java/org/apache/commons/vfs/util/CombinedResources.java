@@ -23,6 +23,9 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+/**
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ */
 public class CombinedResources extends ResourceBundle
 {
     // locale.getLanguage()

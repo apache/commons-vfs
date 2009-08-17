@@ -20,7 +20,7 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.http.HttpFileSystemConfigBuilder;
 
 /**
- * Configuration options for WebDav
+ * Configuration options for WebDav.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
@@ -60,7 +60,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
     }
 
     /**
-     * Whether to use versioning
+     * Whether to use versioning.
      * @param opts The FileSystem options.
      * @param versioning true if versioning should be enabled.
      */
@@ -70,7 +70,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
     }
 
     /**
-     * The cookies to add to the reqest
+     * The cookies to add to the request.
      * @param opts The FileSystem options.
      * @return true if versioning is enabled.
      */

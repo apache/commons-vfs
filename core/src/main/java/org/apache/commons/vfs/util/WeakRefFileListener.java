@@ -44,7 +44,9 @@ public class WeakRefFileListener implements FileListener
     }
 
     /**
-     * This will install the <code>listener<code> at the given <code>file</code>
+     * This will install the <code>listener</code> at the given <code>file</code>.
+     * @param file The FileObject to listen on.
+     * @param listener The FileListener
      */
     public static void installListener(final FileObject file, final FileListener listener)
     {
@@ -56,6 +58,8 @@ public class WeakRefFileListener implements FileListener
     /**
      * returns the wrapped listener. If it is gone, the WeakRefFileListener wrapper will
      * remove itself from the list of listeners.
+     * @return The FileListener.
+     * @throws Exception if an error occurs.
      */
     protected FileListener getListener() throws Exception
     {
@@ -70,6 +74,8 @@ public class WeakRefFileListener implements FileListener
 
     /**
      * Called when a file is created.
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
      */
     public void fileCreated(final FileChangeEvent event) throws Exception
     {
@@ -83,6 +89,8 @@ public class WeakRefFileListener implements FileListener
 
     /**
      * Called when a file is deleted.
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
      */
     public void fileDeleted(final FileChangeEvent event) throws Exception
     {
@@ -98,6 +106,8 @@ public class WeakRefFileListener implements FileListener
      * Called when a file is changed.
      * <p/>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs.FileMonitor}.
+     * @param event The FileChangeEvent.
+     * @throws Exception if an error occurs.
      */
     public void fileChanged(FileChangeEvent event) throws Exception
     {

@@ -22,19 +22,22 @@ import org.apache.commons.vfs.impl.DecoratedFileObject;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 
 /**
- * Stuff to get some strange things from an FileObject
+ * Stuff to get some strange things from an FileObject.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class FileObjectUtils
+public final class FileObjectUtils
 {
     private FileObjectUtils()
     {
     }
 
     /**
-     * get access to the base object even if decorated
+     * Get access to the base object even if decorated.
+     * @param fileObject The FileObject.
+     * @return The decorated FileObject or null.
+     * @throws FileSystemException if an error occurs.
      */
     public static AbstractFileObject getAbstractFileObject(final FileObject fileObject) throws FileSystemException
     {
@@ -52,11 +55,16 @@ public class FileObjectUtils
             return null;
         }
 
-        throw new FileSystemException("vfs.util/find-abstract-file-object.error", fileObject==null?"null":fileObject.getClass().getName());
+        throw new FileSystemException("vfs.util/find-abstract-file-object.error",
+                fileObject == null ? "null" : fileObject.getClass().getName());
     }
 
     /**
-     * check if the given FileObject is instance of given class argument
+     * Check if the given FileObject is instance of given class argument.
+     * @param fileObject The FileObject.
+     * @param wantedClass The Class to check.
+     * @return true if fileObject is an instance of the specified Class.
+     * @throws FileSystemException if an error occurs.
      */
     public static boolean isInstanceOf(final FileObject fileObject, final Class wantedClass) throws FileSystemException
     {

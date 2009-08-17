@@ -31,17 +31,6 @@ import java.util.Set;
  */
 public final class Os
 {
-    private static final String OS_NAME =
-        System.getProperty("os.name").toLowerCase(Locale.US);
-    private static final String OS_ARCH =
-        System.getProperty("os.arch").toLowerCase(Locale.US);
-    private static final String OS_VERSION =
-        System.getProperty("os.version").toLowerCase(Locale.US);
-    private static final String PATH_SEP =
-        System.getProperty("path.separator");
-    private static final OsFamily OS_FAMILY;
-    private static final OsFamily[] OS_ALL_FAMILIES;
-
     /**
      * All Windows based OSes.
      */
@@ -65,13 +54,13 @@ public final class Os
         new OsFamily("win9x", new OsFamily[]{OS_FAMILY_WINDOWS, OS_FAMILY_DOS});
 
     /**
-     * OS/2
+     * OS/2.
      */
     public static final OsFamily OS_FAMILY_OS2 =
         new OsFamily("os/2", new OsFamily[]{OS_FAMILY_DOS});
 
     /**
-     * Netware
+     * Netware.
      */
     public static final OsFamily OS_FAMILY_NETWARE =
         new OsFamily("netware");
@@ -87,10 +76,21 @@ public final class Os
     public static final OsFamily OS_FAMILY_MAC = new OsFamily("mac");
 
     /**
-     * OSX
+     * OSX.
      */
     public static final OsFamily OS_FAMILY_OSX =
         new OsFamily("osx", new OsFamily[]{OS_FAMILY_UNIX, OS_FAMILY_MAC});
+
+    private static final String OS_NAME =
+        System.getProperty("os.name").toLowerCase(Locale.US);
+    private static final String OS_ARCH =
+        System.getProperty("os.arch").toLowerCase(Locale.US);
+    private static final String OS_VERSION =
+        System.getProperty("os.version").toLowerCase(Locale.US);
+    private static final String PATH_SEP =
+        System.getProperty("path.separator");
+    private static final OsFamily OS_FAMILY;
+    private static final OsFamily[] OS_ALL_FAMILIES;
 
     private static final OsFamily[] ALL_FAMILIES = new OsFamily[]
     {
@@ -121,6 +121,8 @@ public final class Os
     /**
      * Determines if the OS on which Ant is executing matches the given OS
      * version.
+     * @param version The version to check.
+     * @return true if the version matches.
      */
     public static boolean isVersion(final String version)
     {
@@ -130,6 +132,8 @@ public final class Os
     /**
      * Determines if the OS on which Ant is executing matches the given OS
      * architecture.
+     * @param arch The architecture to check.
+     * @return true if the architecture mataches.
      */
     public static boolean isArch(final String arch)
     {
@@ -139,6 +143,8 @@ public final class Os
     /**
      * Determines if the OS on which Ant is executing matches the given OS
      * family.
+     * @param family The family to check.
+     * @return true if the family matches.
      */
     public static boolean isFamily(final String family)
     {
@@ -148,6 +154,8 @@ public final class Os
     /**
      * Determines if the OS on which Ant is executing matches the given OS
      * family.
+     * @param family The family to check.
+     * @return true if the family matches.
      */
     public static boolean isFamily(final OsFamily family)
     {
@@ -186,7 +194,7 @@ public final class Os
 
     /**
      * Determines if the OS on which Ant is executing matches the given OS
-     * family, name, architecture and version
+     * family, name, architecture and version.
      *
      * @param family  The OS family
      * @param name    The OS name
@@ -217,6 +225,7 @@ public final class Os
     /**
      * Locates an OsFamily by name (case-insensitive).
      *
+     * @param name The family name to lookup.
      * @return the OS family, or null if not found.
      */
     public static OsFamily getFamily(final String name)

@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public class Messages
+public final class Messages
 {
     /**
      * Map from message code to MessageFormat object for the message.

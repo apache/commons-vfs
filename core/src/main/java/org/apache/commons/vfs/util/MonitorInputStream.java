@@ -40,7 +40,9 @@ public class MonitorInputStream
 
 
     /**
-     * Returns 0 if the stream is at eof, else the underlaying inputStream will be queried
+     * Returns 0 if the stream is at eof, else the underlaying inputStream will be queried.
+     * @return The number of bytes that are available.
+     * @throws IOException if an error occurs.
      */
     public synchronized int available() throws IOException
     {
@@ -54,6 +56,8 @@ public class MonitorInputStream
 
     /**
      * Reads a character.
+     * @return The character that was read as an integer.
+     * @throws IOException if an error occurs.
      */
     public int read() throws IOException
     {
@@ -75,7 +79,12 @@ public class MonitorInputStream
     }
 
     /**
-     * Reads bytes from this input stream.error occurs.
+     * Reads bytes from this input stream.
+     * @param buffer A byte array in which to place the characters read.
+     * @param offset The offset at which to start reading.
+     * @param length The maximum number of bytes to read.
+     * @return The number of bytes read.
+     * @throws IOException if an error occurs.
      */
     public int read(final byte[] buffer, final int offset, final int length)
         throws IOException
@@ -100,6 +109,7 @@ public class MonitorInputStream
     /**
      * Closes this input stream and releases any system resources
      * associated with the stream.
+     * @throws IOException if an error occurs.
      */
     public void close() throws IOException
     {
@@ -139,13 +149,15 @@ public class MonitorInputStream
     /**
      * Called after the stream has been closed.  This implementation does
      * nothing.
+     * @throws IOException if an error occurs.
      */
     protected void onClose() throws IOException
     {
     }
 
     /**
-     * Get the nuber of bytes read by this input stream
+     * Get the nuber of bytes read by this input stream.
+     * @return The number of bytes read by this input stream.
      */
     public long getCount()
     {

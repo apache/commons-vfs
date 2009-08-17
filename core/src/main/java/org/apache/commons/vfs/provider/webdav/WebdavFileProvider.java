@@ -42,7 +42,7 @@ import java.util.Collections;
 public class WebdavFileProvider
     extends HttpFileProvider
 {
-    /** The authenticator types used by the WebDAV provider */
+    /** The authenticator types used by the WebDAV provider. */
     public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
         {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD

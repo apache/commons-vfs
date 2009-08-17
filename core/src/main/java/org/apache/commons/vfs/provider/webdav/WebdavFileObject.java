@@ -78,7 +78,7 @@ import java.util.Iterator;
  */
 public class WebdavFileObject extends HttpFileObject implements FileObject
 {
-    /** The character set property name */
+    /** The character set property name. */
     public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create(
             "response-charset");
 

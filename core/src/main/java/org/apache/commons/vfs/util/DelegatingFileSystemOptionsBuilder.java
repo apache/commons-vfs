@@ -51,30 +51,33 @@ import java.util.TreeMap;
  */
 public class DelegatingFileSystemOptionsBuilder
 {
-    private Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
+    private static final Class[] STRING_PARAM = new Class[]{String.class};
 
-    private final static Class[] STRING_PARAM = new Class[]{String.class};
+    private static final Map PRIMATIVE_TO_OBJECT = new TreeMap();
+
+    private Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
 
     private final FileSystemManager manager;
 
     private final Map beanMethods = new TreeMap();
 
-    private final static Map primitiveToObject = new TreeMap();
-
     static
     {
-        primitiveToObject.put(Void.TYPE.getName(), Void.class);
-        primitiveToObject.put(Boolean.TYPE.getName(), Boolean.class);
-        primitiveToObject.put(Byte.TYPE.getName(), Byte.class);
-        primitiveToObject.put(Character.TYPE.getName(), Character.class);
-        primitiveToObject.put(Short.TYPE.getName(), Short.class);
-        primitiveToObject.put(Integer.TYPE.getName(), Integer.class);
-        primitiveToObject.put(Long.TYPE.getName(), Long.class);
-        primitiveToObject.put(Double.TYPE.getName(), Double.class);
-        primitiveToObject.put(Float.TYPE.getName(), Float.class);
+        PRIMATIVE_TO_OBJECT.put(Void.TYPE.getName(), Void.class);
+        PRIMATIVE_TO_OBJECT.put(Boolean.TYPE.getName(), Boolean.class);
+        PRIMATIVE_TO_OBJECT.put(Byte.TYPE.getName(), Byte.class);
+        PRIMATIVE_TO_OBJECT.put(Character.TYPE.getName(), Character.class);
+        PRIMATIVE_TO_OBJECT.put(Short.TYPE.getName(), Short.class);
+        PRIMATIVE_TO_OBJECT.put(Integer.TYPE.getName(), Integer.class);
+        PRIMATIVE_TO_OBJECT.put(Long.TYPE.getName(), Long.class);
+        PRIMATIVE_TO_OBJECT.put(Double.TYPE.getName(), Double.class);
+        PRIMATIVE_TO_OBJECT.put(Float.TYPE.getName(), Float.class);
     }
 
-    private static class Context
+    /**
+     * Context.
+     */
+    private static final class Context
     {
         private final FileSystemOptions fso;
         private final String scheme;
@@ -116,8 +119,10 @@ public class DelegatingFileSystemOptionsBuilder
      * @param scheme scheme
      * @param name   name
      * @param value  value
+     * @throws FileSystemException if an error occurs.
      */
-    public void setConfigString(final FileSystemOptions fso, final String scheme, final String name, final String value) throws FileSystemException
+    public void setConfigString(final FileSystemOptions fso, final String scheme, final String name,
+                                final String value) throws FileSystemException
     {
         setConfigStrings(fso, scheme, name, new String[]{value});
     }
@@ -129,8 +134,10 @@ public class DelegatingFileSystemOptionsBuilder
      * @param scheme scheme
      * @param name   name
      * @param values values
+     * @throws FileSystemException if an error occurs.
      */
-    public void setConfigStrings(final FileSystemOptions fso, final String scheme, final String name, final String[] values) throws FileSystemException
+    public void setConfigStrings(final FileSystemOptions fso, final String scheme, final String name,
+                                 final String[] values) throws FileSystemException
     {
         Context ctx = new Context(fso, scheme, name, values);
 
@@ -145,8 +152,13 @@ public class DelegatingFileSystemOptionsBuilder
      * @param scheme    scheme
      * @param name      name
      * @param className className
+     * @throws FileSystemException if an error occurs.
+     * @throws IllegalAccessException if a class canoot be accessed.
+     * @throws InstantiationException if a class cannot be instantiated.
      */
-    public void setConfigClass(final FileSystemOptions fso, final String scheme, final String name, final Class className) throws FileSystemException, IllegalAccessException, InstantiationException
+    public void setConfigClass(final FileSystemOptions fso, final String scheme, final String name,
+                               final Class className)
+            throws FileSystemException, IllegalAccessException, InstantiationException
     {
         setConfigClasses(fso, scheme, name, new Class[]{className});
     }
@@ -159,10 +171,15 @@ public class DelegatingFileSystemOptionsBuilder
      * @param scheme     scheme
      * @param name       name
      * @param classNames classNames
+     * @throws FileSystemException if an error occurs.
+     * @throws IllegalAccessException if a class canoot be accessed.
+     * @throws InstantiationException if a class cannot be instantiated.
      */
-    public void setConfigClasses(final FileSystemOptions fso, final String scheme, final String name, final Class[] classNames) throws FileSystemException, IllegalAccessException, InstantiationException
+    public void setConfigClasses(final FileSystemOptions fso, final String scheme, final String name,
+                                 final Class[] classNames)
+            throws FileSystemException, IllegalAccessException, InstantiationException
     {
-        Object values[] = new Object[classNames.length];
+        Object[] values = new Object[classNames.length];
         for (int iterClassNames = 0; iterClassNames < values.length; iterClassNames++)
         {
             values[iterClassNames] = classNames[iterClassNames].newInstance();
@@ -215,7 +232,7 @@ public class DelegatingFileSystemOptionsBuilder
      */
     private boolean convertValuesAndInvoke(final Method configSetter, final Context ctx) throws FileSystemException
     {
-        Class parameters[] = configSetter.getParameterTypes();
+        Class[] parameters = configSetter.getParameterTypes();
         if (parameters.length < 2)
         {
             return false;
@@ -243,7 +260,7 @@ public class DelegatingFileSystemOptionsBuilder
 
         if (type.isPrimitive())
         {
-            Class objectType = (Class) primitiveToObject.get(type.getName());
+            Class objectType = (Class) PRIMATIVE_TO_OBJECT.get(type.getName());
             if (objectType == null)
             {
                 log.warn(Messages.getString("vfs.provider/config-unexpected-primitive.error", type.getName()));
@@ -288,7 +305,8 @@ public class DelegatingFileSystemOptionsBuilder
             {
                 try
                 {
-                    Array.set(convertedValues, iterValues, valueConstructor.newInstance(new Object[]{ctx.values[iterValues]}));
+                    Array.set(convertedValues, iterValues,
+                            valueConstructor.newInstance(new Object[]{ctx.values[iterValues]}));
                 }
                 catch (InstantiationException e)
                 {
@@ -329,7 +347,8 @@ public class DelegatingFileSystemOptionsBuilder
             {
                 try
                 {
-                    Array.set(convertedValues, iterValues, valueFactory.invoke(null, new Object[]{ctx.values[iterValues]}));
+                    Array.set(convertedValues, iterValues,
+                            valueFactory.invoke(null, new Object[]{ctx.values[iterValues]}));
                 }
                 catch (IllegalAccessException e)
                 {
@@ -430,7 +449,7 @@ public class DelegatingFileSystemOptionsBuilder
 
         Map schemeMethods = new TreeMap();
 
-        Method methods[] = fscb.getClass().getMethods();
+        Method[] methods = fscb.getClass().getMethods();
         for (int iterMethods = 0; iterMethods < methods.length; iterMethods++)
         {
             Method method = methods[iterMethods];

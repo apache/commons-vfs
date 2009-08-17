@@ -49,7 +49,7 @@ public class SmbFileNameParser extends URLFileNameParser
         final Authority auth = extractToPath(filename, name);
 
         // extract domain
-        String username = auth.userName;
+        String username = auth.getUserName();
         String domain = extractDomain(username);
         if (domain != null)
         {
@@ -73,11 +73,11 @@ public class SmbFileNameParser extends URLFileNameParser
         final String path = name.toString();
 
         return new SmbFileName(
-            auth.scheme,
-            auth.hostName,
-            auth.port,
+            auth.getScheme(),
+            auth.getHostName(),
+            auth.getPort(),
             username,
-            auth.password,
+            auth.getPassword(),
             domain,
             share,
             path,
