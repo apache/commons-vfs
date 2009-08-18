@@ -29,7 +29,7 @@ import java.util.TreeMap;
  * @see org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs.provider.ftp.FtpFileSystemConfigBuilder
  */
-public class FileSystemOptions
+public class FileSystemOptions implements Cloneable
 {
     /** The options */
     private Map options = new TreeMap();
@@ -160,6 +160,15 @@ public class FileSystemOptions
         // bad props not the same instance, but looks like the same
         // TODO: compare Entry by Entry
         return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Object clone() {
+        FileSystemOptions clone = new FileSystemOptions();
+        clone.options = new TreeMap(options);
+        return clone;
     }
     
 }
