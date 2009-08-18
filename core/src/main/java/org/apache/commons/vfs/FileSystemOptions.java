@@ -37,7 +37,7 @@ public class FileSystemOptions
     /**
      * Keys in the options Map.
      */
-    private final class FileSystemOptionKey implements Comparable
+    private final static class FileSystemOptionKey implements Comparable
     {
         /** Constant used to create hashcode */
         private static final int HASH = 29;
@@ -58,7 +58,7 @@ public class FileSystemOptions
         {
             FileSystemOptionKey k = (FileSystemOptionKey) o;
 
-            int ret = k.fileSystemClass.getName().compareTo(k.fileSystemClass.getName());
+            int ret = fileSystemClass.getName().compareTo(k.fileSystemClass.getName());
             if (ret != 0)
             {
                 return ret;
@@ -161,4 +161,5 @@ public class FileSystemOptions
         // TODO: compare Entry by Entry
         return 0;
     }
+    
 }
