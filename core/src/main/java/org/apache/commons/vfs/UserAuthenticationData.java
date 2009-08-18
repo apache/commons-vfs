@@ -71,6 +71,10 @@ public class UserAuthenticationData
         {
             return type != null ? type.hashCode() : 0;
         }
+
+        public String toString() {
+            return type;
+        }
     }
 
     /** The user name. */
@@ -92,7 +96,7 @@ public class UserAuthenticationData
     /**
      * set a data to this collection.
      * @param type The Type to add
-     * @param data The data assoicated with the Type
+     * @param data The data associated with the Type
      */
     public void setData(Type type, char[] data)
     {
@@ -102,7 +106,7 @@ public class UserAuthenticationData
     /**
      * get a data from the collection.
      * @param type The Type to retrieve.
-     * @return a character array containing the data assoicated with the type.
+     * @return a character array containing the data associated with the type.
      */
     public char[] getData(Type type)
     {
