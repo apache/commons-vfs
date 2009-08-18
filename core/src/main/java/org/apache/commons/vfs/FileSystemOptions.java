@@ -29,7 +29,7 @@ import java.util.TreeMap;
  * @see org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs.provider.ftp.FtpFileSystemConfigBuilder
  */
-public class FileSystemOptions implements Cloneable
+public final class FileSystemOptions implements Cloneable
 {
     /** The options */
     private Map options = new TreeMap();
