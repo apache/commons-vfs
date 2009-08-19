@@ -116,13 +116,13 @@ public abstract class AbstractVfsTestCase
 
     public static String getTestDirectory()
     {
-        return System.getProperty("test.basedir");
+        return System.getProperty("test.basedir", "target/test-classes/test-data");
     }
 
-	public static String getResourceTestDirectory()
-	{
-		return System.getProperty("test.basedir.res");
-	}
+    public static String getResourceTestDirectory()
+    {
+        return System.getProperty("test.basedir.res", "test-data");
+    }
 
 	/**
      * Locates a test directory, creating it if it does not exist.
