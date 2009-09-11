@@ -63,7 +63,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         {
             assertEquals(name, map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         }
-        assertTrue(map.containsKey(VersionControlledResource.CHECKED_OUT.toString()));
+        assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -120,7 +120,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
             assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
             assertEquals("Modified by user " + name, map.get(DeltaVConstants.COMMENT.toString()));
         }
-        assertTrue(map.containsKey(VersionControlledResource.CHECKED_OUT.toString()));
+        assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
@@ -143,11 +143,11 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         {
             assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
             assertEquals("Modified by user " + name, map.get(DeltaVConstants.COMMENT.toString()));
-        }       
+        }
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
         builder.setVersioning(opts, false);
         builder.setCreatorName(opts, null);
-    }  
+    }
         /**
      * Sets up a scratch folder for the test to use.
      */

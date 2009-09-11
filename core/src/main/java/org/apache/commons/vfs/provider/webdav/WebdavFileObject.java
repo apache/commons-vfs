@@ -642,18 +642,24 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
                         throw ex;
                     }
                 }
-                if (fileExists)
-                {
-                    if (!isCheckedIn)
-                    {
-                        CheckinMethod checkin = new CheckinMethod(urlStr);
-                        setupMethod(checkin);
-                        execute(checkin);
-                    }
-                }
-                else
+                if (!fileExists)
                 {
                     createVersion(urlStr);
+                    try
+                    {
+                        DavPropertySet props = getPropertyNames(fileName);
+                        isCheckedIn = !props.contains(VersionControlledResource.CHECKED_OUT);
+                    }
+                    catch (FileNotFoundException fnfe)
+                    {
+                        // Ignore the error
+                    }
+                }
+                if (!isCheckedIn)
+                {
+                  CheckinMethod checkin = new CheckinMethod(urlStr);
+                  setupMethod(checkin);
+                  execute(checkin);
                 }
             }
             else
