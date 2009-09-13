@@ -38,6 +38,16 @@ public abstract class AbstractOriginatingFileProvider
         super();
     }
 
+    protected AbstractOriginatingFileProvider(Class<? extends FileSystemOptions> optionsClass)
+    {
+        super(optionsClass);
+    }
+
+    protected AbstractOriginatingFileProvider(FileNameParser fileNameParser, Class<? extends FileSystemOptions> optionsClass)
+    {
+        super(fileNameParser, optionsClass);
+    }
+
     /**
      * Locates a file object, by absolute URI.
      *

@@ -16,36 +16,35 @@
  */
 package org.apache.commons.vfs.provider.http;
 
-import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
+import org.apache.commons.vfs.DefaultFileSystemOptions;
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 /**
- * Configuration options for HTTP
- *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision$ $Date$
- * @deprecated Use HttpFileSystemOptions instead.
+ * HTTP File System Options
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
+public class HttpFileSystemOptions extends DefaultFileSystemOptions
 {
-    private final static HttpFileSystemConfigBuilder builder = new HttpFileSystemConfigBuilder();
+    private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
 
-    public static HttpFileSystemConfigBuilder getInstance()
+    private static final int DEFAULT_MAX_CONNECTIONS = 50;
+
+    public HttpFileSystemOptions()
     {
-        return builder;
+        this("http.");
     }
 
-    protected HttpFileSystemConfigBuilder(String prefix)
+    protected HttpFileSystemOptions(String scheme)
     {
-        super(prefix);
+        super(scheme);
     }
 
-    private HttpFileSystemConfigBuilder()
+    public static HttpFileSystemOptions getInstance(FileSystemOptions opts)
     {
-        super("http.");
+        return FileSystemOptions.makeSpecific(HttpFileSystemOptions.class, opts);
     }
 
     /**
@@ -53,9 +52,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *
      * @param chaset the chaset
      */
-    public void setUrlCharset(FileSystemOptions opts, String chaset)
+    public void setUrlCharset(String chaset)
     {
-        HttpFileSystemOptions.getInstance(opts).setUrlCharset(chaset);
+        setParam("urlCharset", chaset);
     }
 
     /**
@@ -63,9 +62,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *
      * @return the chaset
      */
-    public String getUrlCharset(FileSystemOptions opts)
+    public String getUrlCharset()
     {
-        return HttpFileSystemOptions.getInstance(opts).getUrlCharset();
+        return getString("urlCharset");
     }
 
     /**
@@ -75,9 +74,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param proxyHost the host
      * @see #setProxyPort
      */
-    public void setProxyHost(FileSystemOptions opts, String proxyHost)
+    public void setProxyHost(String proxyHost)
     {
-        HttpFileSystemOptions.getInstance(opts).setProxyHost(proxyHost);
+        setParam("proxyHost", proxyHost);
     }
 
     /**
@@ -87,9 +86,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param proxyPort the port
      * @see #setProxyHost
      */
-    public void setProxyPort(FileSystemOptions opts, int proxyPort)
+    public void setProxyPort(int proxyPort)
     {
-        HttpFileSystemOptions.getInstance(opts).setProxyPort(proxyPort);
+        setParam("proxyPort", new Integer(proxyPort));
     }
 
     /**
@@ -99,9 +98,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return proxyHost
      * @see #setProxyPort
      */
-    public String getProxyHost(FileSystemOptions opts)
+    public String getProxyHost()
     {
-        return HttpFileSystemOptions.getInstance(opts).getProxyHost();
+        return getString("proxyHost");
     }
 
     /**
@@ -111,81 +110,74 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return proxyPort: the port number or 0 if it is not set
      * @see #setProxyHost
      */
-    public int getProxyPort(FileSystemOptions opts)
+    public int getProxyPort()
     {
-        return HttpFileSystemOptions.getInstance(opts).getProxyPort();
+        return getInteger("proxyPort", 0);
     }
 
     /**
      * Set the proxy authenticator where the system should get the credentials from
      */
-    public void setProxyAuthenticator(FileSystemOptions opts, UserAuthenticator authenticator)
+    public void setProxyAuthenticator(UserAuthenticator authenticator)
     {
-        HttpFileSystemOptions.getInstance(opts).setProxyAuthenticator(authenticator);
+        setParam("proxyAuthenticator", authenticator);
     }
 
     /**
      * Get the proxy authenticator where the system should get the credentials from
      */
-    public UserAuthenticator getProxyAuthenticator(FileSystemOptions opts)
+    public UserAuthenticator getProxyAuthenticator()
     {
-        return HttpFileSystemOptions.getInstance(opts).getProxyAuthenticator();
+        return (UserAuthenticator) getParam("proxyAuthenticator");
     }
 
     /**
      * The cookies to add to the reqest
      */
-    public void setCookies(FileSystemOptions opts, Cookie[] cookies)
+    public void setCookies(Cookie[] cookies)
     {
-        HttpFileSystemOptions.getInstance(opts).setCookies(cookies);
+        setParam("cookies", cookies);
     }
 
     /**
      * The cookies to add to the reqest
      */
-    public Cookie[] getCookies(FileSystemOptions opts)
+    public Cookie[] getCookies()
     {
-        return HttpFileSystemOptions.getInstance(opts).getCookies();
+        return (Cookie[]) getParam("cookies");
     }
 
     /**
      * The maximum number of connections allowed
      */
-    public void setMaxTotalConnections(FileSystemOptions opts, int maxTotalConnections)
+    public void setMaxTotalConnections(int maxTotalConnections)
     {
-        HttpFileSystemOptions.getInstance(opts).setMaxTotalConnections(maxTotalConnections);
+        setParam(HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, new Integer(maxTotalConnections));
     }
 
     /**
      * Retrieve the maximum number of connections allowed.
-     * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed.
      */
-    public int getMaxTotalConnections(FileSystemOptions opts)
+    public int getMaxTotalConnections()
     {
-        return HttpFileSystemOptions.getInstance(opts).getMaxTotalConnections();
+        return getInteger(HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, DEFAULT_MAX_CONNECTIONS);
     }
 
     /**
      * The maximum number of connections allowed to any host
      */
-    public void setMaxConnectionsPerHost(FileSystemOptions opts, int maxHostConnections)
+    public void setMaxConnectionsPerHost(int maxHostConnections)
     {
-        HttpFileSystemOptions.getInstance(opts).setMaxConnectionsPerHost(maxHostConnections);
+        setParam(HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, new Integer(maxHostConnections));
     }
 
     /**
      * Retrieve the maximum number of connections allowed per host.
-     * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed per host.
      */
-    public int getMaxConnectionsPerHost(FileSystemOptions opts)
+    public int getMaxConnectionsPerHost()
     {
-        return HttpFileSystemOptions.getInstance(opts).getMaxConnectionsPerHost();
-    }
-
-    protected Class getConfigClass()
-    {
-        return HttpFileSystem.class;
+        return getInteger(HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
     }
 }

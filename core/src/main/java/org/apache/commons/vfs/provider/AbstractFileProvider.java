@@ -16,12 +16,7 @@
  */
 package org.apache.commons.vfs.provider;
 
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemConfigBuilder;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemOptions;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.provider.local.GenericFileNameParser;
 
 import java.util.Map;
@@ -45,11 +40,26 @@ public abstract class AbstractFileProvider
     // private final Map fileSystems = new HashMap();
     private final Map fileSystems = new TreeMap();
 
+    private final Class<? extends FileSystemOptions> fileSystemOptionsClass;
+
     private FileNameParser parser;
 
     public AbstractFileProvider()
     {
         parser = GenericFileNameParser.getInstance();
+        fileSystemOptionsClass = DefaultFileSystemOptions.class;
+    }
+
+    protected AbstractFileProvider(Class<? extends FileSystemOptions> optionsClass)
+    {
+        parser = GenericFileNameParser.getInstance();
+        fileSystemOptionsClass = optionsClass;
+    }
+
+    protected AbstractFileProvider(FileNameParser fileNameParser, Class<? extends FileSystemOptions> optionsClass)
+    {
+        parser = fileNameParser;
+        fileSystemOptionsClass = optionsClass;
     }
 
     protected FileNameParser getFileNameParser()
@@ -190,5 +200,21 @@ public abstract class AbstractFileProvider
 
         throw new FileSystemException("vfs.provider/filename-parser-missing.error");
         // return GenericFileName.parseUri(getFileNameParser(), uri, 0);
+    }
+
+    /**
+     * Returns a FileSystemOptions instance appropriate for this provider.
+     * @return The FileSystemOptions.
+     */
+    public FileSystemOptions getFileSystemOptions()
+    {
+        try
+        {
+           return fileSystemOptionsClass.newInstance();
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }

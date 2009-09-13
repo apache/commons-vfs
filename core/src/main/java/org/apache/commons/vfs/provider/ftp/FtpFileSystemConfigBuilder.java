@@ -25,26 +25,11 @@ import org.apache.commons.vfs.FileSystemOptions;
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
+ * @deprecated Use FTPFileSystemOptions instead.
  */
 public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private static final FtpFileSystemConfigBuilder builder = new FtpFileSystemConfigBuilder();
-
-    private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
-    private static final String PASSIVE_MODE = FtpFileSystemConfigBuilder.class.getName() + ".PASSIVE";
-    private static final String USER_DIR_IS_ROOT = FtpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
-    private static final String DATA_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
-
-    private static final String SERVER_LANGUAGE_CODE =
-            FtpFileSystemConfigBuilder.class.getName() + ".SERVER_LANGUAGE_CODE";
-    private static final String DEFAULT_DATE_FORMAT =
-            FtpFileSystemConfigBuilder.class.getName() + ".DEFAULT_DATE_FORMAT";
-    private static final String RECENT_DATE_FORMAT =
-            FtpFileSystemConfigBuilder.class.getName() + ".RECENT_DATE_FORMAT";
-    private static final String SERVER_TIME_ZONE_ID =
-            FtpFileSystemConfigBuilder.class.getName() + ".SERVER_TIME_ZONE_ID";
-    private static final String SHORT_MONTH_NAMES =
-            FtpFileSystemConfigBuilder.class.getName() + ".SHORT_MONTH_NAMES";
 
     private FtpFileSystemConfigBuilder()
     {
@@ -64,7 +49,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
     {
-        setParam(opts, FTPFileEntryParserFactory.class.getName(), factory);
+        FtpFileSystemOptions.getInstance(opts).setEntryParserFactory(factory);
     }
 
     /**
@@ -74,7 +59,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
     {
-        return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
+        return FtpFileSystemOptions.getInstance(opts).getEntryParserFactory();
     }
 
     /**
@@ -89,7 +74,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setEntryParser(FileSystemOptions opts, String key)
     {
-        setParam(opts, FACTORY_KEY, key);
+        FtpFileSystemOptions.getInstance(opts).setEntryParser(key);
     }
 
     /**
@@ -99,7 +84,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getEntryParser(FileSystemOptions opts)
     {
-        return getString(opts, FACTORY_KEY);
+        return FtpFileSystemOptions.getInstance(opts).getEntryParser();
     }
 
     protected Class getConfigClass()
@@ -115,7 +100,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setPassiveMode(FileSystemOptions opts, boolean passiveMode)
     {
-        setParam(opts, PASSIVE_MODE, passiveMode ? Boolean.TRUE : Boolean.FALSE);
+        FtpFileSystemOptions.getInstance(opts).setPassiveMode(passiveMode);
     }
 
     /**
@@ -125,7 +110,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Boolean getPassiveMode(FileSystemOptions opts)
     {
-        return getBoolean(opts, PASSIVE_MODE);
+        return FtpFileSystemOptions.getInstance(opts).getPassiveMode();
     }
 
     /**
@@ -136,7 +121,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
     {
-        setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+        FtpFileSystemOptions.getInstance(opts).setUserDirIsRoot(userDirIsRoot);
     }
 
     /**
@@ -146,7 +131,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
     {
-        return getBoolean(opts, USER_DIR_IS_ROOT);
+        return FtpFileSystemOptions.getInstance(opts).getUserDirIsRoot();
     }
 
     /**
@@ -156,7 +141,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Integer getDataTimeout(FileSystemOptions opts)
     {
-        return getInteger(opts, DATA_TIMEOUT);
+        return FtpFileSystemOptions.getInstance(opts).getDataTimeout();
     }
 
     /**
@@ -169,7 +154,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setDataTimeout(FileSystemOptions opts, Integer dataTimeout)
     {
-        setParam(opts, DATA_TIMEOUT, dataTimeout);
+        FtpFileSystemOptions.getInstance(opts).setDataTimeout(dataTimeout);
     }
 
     /**
@@ -180,7 +165,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getServerLanguageCode(FileSystemOptions opts)
     {
-        return getString(opts, SERVER_LANGUAGE_CODE);
+        return FtpFileSystemOptions.getInstance(opts).getServerLanguageCode();
     }
 
     /**
@@ -191,7 +176,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setServerLanguageCode(FileSystemOptions opts, String serverLanguageCode)
     {
-        setParam(opts, SERVER_LANGUAGE_CODE, serverLanguageCode);
+        FtpFileSystemOptions.getInstance(opts).setServerLanguageCode(serverLanguageCode);
     }
 
     /**
@@ -202,7 +187,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getDefaultDateFormat(FileSystemOptions opts)
     {
-        return getString(opts, DEFAULT_DATE_FORMAT);
+        return FtpFileSystemOptions.getInstance(opts).getDefaultDateFormat();
     }
 
     /**
@@ -213,7 +198,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setDefaultDateFormat(FileSystemOptions opts, String defaultDateFormat)
     {
-        setParam(opts, DEFAULT_DATE_FORMAT, defaultDateFormat);
+        FtpFileSystemOptions.getInstance(opts).setDefaultDateFormat(defaultDateFormat);
     }
 
     /**
@@ -223,7 +208,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getRecentDateFormat(FileSystemOptions opts)
     {
-        return getString(opts, RECENT_DATE_FORMAT);
+        return FtpFileSystemOptions.getInstance(opts).getRecentDateFormat();
     }
 
     /**
@@ -233,7 +218,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setRecentDateFormat(FileSystemOptions opts, String recentDateFormat)
     {
-        setParam(opts, RECENT_DATE_FORMAT, recentDateFormat);
+        FtpFileSystemOptions.getInstance(opts).setRecentDateFormat(recentDateFormat);
     }
 
     /**
@@ -243,7 +228,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getServerTimeZoneId(FileSystemOptions opts)
     {
-        return getString(opts, SERVER_TIME_ZONE_ID);
+        return FtpFileSystemOptions.getInstance(opts).getServerTimeZoneId();
     }
 
     /**
@@ -253,7 +238,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setServerTimeZoneId(FileSystemOptions opts, String serverTimeZoneId)
     {
-        setParam(opts, SERVER_TIME_ZONE_ID, serverTimeZoneId);
+        FtpFileSystemOptions.getInstance(opts).setServerTimeZoneId(serverTimeZoneId);
     }
 
     /**
@@ -263,7 +248,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String[] getShortMonthNames(FileSystemOptions opts)
     {
-        return (String[]) getParam(opts, SHORT_MONTH_NAMES);
+        return FtpFileSystemOptions.getInstance(opts).getShortMonthNames();
     }
 
     /**
@@ -273,13 +258,6 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setShortMonthNames(FileSystemOptions opts, String[] shortMonthNames)
     {
-        String[] clone = null;
-        if (shortMonthNames != null)
-        {
-            clone = new String[shortMonthNames.length];
-            System.arraycopy(shortMonthNames, 0, clone, 0, shortMonthNames.length);
-        }
-
-        setParam(opts, SHORT_MONTH_NAMES, clone);
+        FtpFileSystemOptions.getInstance(opts).setShortMonthNames(shortMonthNames);
     }
 }

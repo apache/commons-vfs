@@ -21,6 +21,7 @@ package org.apache.commons.vfs;
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
+ * @deprecated Use FileSystemOptions classes instead.
  */
 public abstract class FileSystemConfigBuilder
 {

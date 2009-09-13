@@ -29,53 +29,14 @@ import java.io.Serializable;
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
+ * @deprecated Use SftpFileSystemOptions.
  */
 public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private final static SftpFileSystemConfigBuilder builder = new SftpFileSystemConfigBuilder();
 
-    private final static String USER_DIR_IS_ROOT = SftpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
-    private final static String TIMEOUT = SftpFileSystemConfigBuilder.class.getName() + ".TIMEOUT";
-
     public final static ProxyType PROXY_HTTP = new ProxyType("http");
     public final static ProxyType PROXY_SOCKS5 = new ProxyType("socks");
-
-    public static class ProxyType implements Serializable, Comparable
-    {
-        private final String proxyType;
-
-        private ProxyType(final String proxyType)
-        {
-            this.proxyType = proxyType;
-        }
-
-        public int compareTo(Object o)
-        {
-            return proxyType.compareTo(((ProxyType) o).proxyType);
-        }
-
-
-        public boolean equals(Object o)
-        {
-            if (this == o)
-            {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass())
-            {
-                return false;
-            }
-
-            ProxyType proxyType1 = (ProxyType) o;
-
-            if (proxyType != null ? !proxyType.equals(proxyType1.proxyType) : proxyType1.proxyType != null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-    }
 
     public static SftpFileSystemConfigBuilder getInstance()
     {
@@ -96,7 +57,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setUserInfo(FileSystemOptions opts, UserInfo info)
     {
-        setParam(opts, UserInfo.class.getName(), info);
+        SftpFileSystemOptions.getInstance(opts).setUserInfo(info);
     }
 
     /**
@@ -105,7 +66,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public UserInfo getUserInfo(FileSystemOptions opts)
     {
-        return (UserInfo) getParam(opts, UserInfo.class.getName());
+        return SftpFileSystemOptions.getInstance(opts).getUserInfo();
     }
 
     /**
@@ -117,7 +78,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setKnownHosts(FileSystemOptions opts, File sshdir) throws FileSystemException
     {
-        setParam(opts, "knownHosts", sshdir);
+        SftpFileSystemOptions.getInstance(opts).setKnownHosts(sshdir);
     }
 
     /**
@@ -126,7 +87,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public File getKnownHosts(FileSystemOptions opts)
     {
-        return (File) getParam(opts, "knownHosts");
+        return SftpFileSystemOptions.getInstance(opts).getKnownHosts();
     }
 
     /**
@@ -138,7 +99,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setIdentities(FileSystemOptions opts, File[] identities) throws FileSystemException
     {
-        setParam(opts, "identities", identities);
+        SftpFileSystemOptions.getInstance(opts).setIdentities(identities);
     }
 
     /**
@@ -152,7 +113,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setCompression(FileSystemOptions opts, String compression) throws FileSystemException
     {
-        setParam(opts, "compression", compression);
+        SftpFileSystemOptions.getInstance(opts).setCompression(compression);
     }
 
     /**
@@ -161,7 +122,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getCompression(FileSystemOptions opts)
     {
-        return getString(opts, "compression");
+        return SftpFileSystemOptions.getInstance(opts).getCompression();
     }
 
     /**
@@ -170,7 +131,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public File[] getIdentities(FileSystemOptions opts)
     {
-        return (File[]) getParam(opts, "identities");
+        return SftpFileSystemOptions.getInstance(opts).getIdentities();
     }
 
     /**
@@ -184,12 +145,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setStrictHostKeyChecking(FileSystemOptions opts, String hostKeyChecking) throws FileSystemException
     {
-        if (hostKeyChecking == null || (!hostKeyChecking.equals("ask") && !hostKeyChecking.equals("no") && !hostKeyChecking.equals("yes")))
-        {
-            throw new FileSystemException("vfs.provider.sftp/StrictHostKeyChecking-arg.error", hostKeyChecking);
-        }
-
-        setParam(opts, "StrictHostKeyChecking", hostKeyChecking);
+        SftpFileSystemOptions.getInstance(opts).setStrictHostKeyChecking(hostKeyChecking);
     }
 
     /**
@@ -199,7 +155,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getStrictHostKeyChecking(FileSystemOptions opts)
     {
-        return getString(opts, "StrictHostKeyChecking");
+        return SftpFileSystemOptions.getInstance(opts).getStrictHostKeyChecking();
     }
 
     /**
@@ -210,7 +166,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
     {
-        setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+        SftpFileSystemOptions.getInstance(opts).setUserDirIsRoot(userDirIsRoot);
     }
 
     /**
@@ -219,7 +175,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
     {
-        return getBoolean(opts, USER_DIR_IS_ROOT);
+        return SftpFileSystemOptions.getInstance(opts).getUserDirIsRoot();
     }
 
     /**
@@ -230,7 +186,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setTimeout(FileSystemOptions opts, Integer timeout)
     {
-        setParam(opts, TIMEOUT, timeout);
+        SftpFileSystemOptions.getInstance(opts).setTimeout(timeout);
     }
 
     /**
@@ -239,7 +195,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Integer getTimeout(FileSystemOptions opts)
     {
-        return getInteger(opts, TIMEOUT);
+        return SftpFileSystemOptions.getInstance(opts).getTimeout();
     }
 
     protected Class getConfigClass()
@@ -256,7 +212,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setProxyHost(FileSystemOptions opts, String proxyHost)
     {
-        setParam(opts, "proxyHost", proxyHost);
+        SftpFileSystemOptions.getInstance(opts).setProxyHost(proxyHost);
     }
 
     /**
@@ -268,7 +224,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setProxyPort(FileSystemOptions opts, int proxyPort)
     {
-        setParam(opts, "proxyPort", new Integer(proxyPort));
+        SftpFileSystemOptions.getInstance(opts).setProxyPort(proxyPort);
     }
 
     /**
@@ -280,7 +236,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getProxyHost(FileSystemOptions opts)
     {
-        return getString(opts, "proxyHost");
+        return SftpFileSystemOptions.getInstance(opts).getProxyHost();
     }
 
     /**
@@ -292,7 +248,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public int getProxyPort(FileSystemOptions opts)
     {
-        return getInteger(opts, "proxyPort", 0);
+        return SftpFileSystemOptions.getInstance(opts).getProxyPort();
     }
 
     /**
@@ -300,7 +256,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setProxyType(FileSystemOptions opts, ProxyType proxyType)
     {
-        setParam(opts, "proxyType", proxyType);
+        SftpFileSystemOptions.getInstance(opts).setProxyType(proxyType);
     }
 
     /**
@@ -308,6 +264,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public ProxyType getProxyType(FileSystemOptions opts)
     {
-        return (ProxyType) getParam(opts, "proxyType");
+        return SftpFileSystemOptions.getInstance(opts).getProxyType();
     }
 }

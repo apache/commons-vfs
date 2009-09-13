@@ -25,22 +25,22 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.ram.RamFileProvider;
-import org.apache.commons.vfs.provider.ram.RamFileSystemConfigBuilder;
+import org.apache.commons.vfs.provider.ram.RamFileSystemOptions;
 
 /**
  * Custom tests
- * 
+ *
  * @author edgar poce
  * @version
- * 
+ *
  */
 public class CustomRamProviderTest extends TestCase
 {
 	DefaultFileSystemManager manager;
 
-	FileSystemOptions zeroSized = new FileSystemOptions();
+	RamFileSystemOptions zeroSized = new RamFileSystemOptions();
 
-	FileSystemOptions smallSized = new FileSystemOptions();
+	RamFileSystemOptions smallSized = new RamFileSystemOptions();
 
     FileSystemOptions defaultRamFs = new FileSystemOptions();
 
@@ -53,8 +53,8 @@ public class CustomRamProviderTest extends TestCase
 		manager.init();
 
 		// File Systems Options
-		RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSized, 0);
-		RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10);
+		zeroSized.setMaxSize(0);
+		smallSized.setMaxSize(10);
 	}
 
 	protected void tearDown() throws Exception
@@ -107,9 +107,9 @@ public class CustomRamProviderTest extends TestCase
 	}
 
     /**
-     * 
+     *
      * Checks root folder exists
-     * 
+     *
      * @throws FileSystemException
      */
     public void testRootFolderExists() throws FileSystemException {
@@ -120,10 +120,10 @@ public class CustomRamProviderTest extends TestCase
             root.delete();
             fail();
         } catch (FileSystemException e) {
-            
+
         }
 
     }
 
-    
+
 }

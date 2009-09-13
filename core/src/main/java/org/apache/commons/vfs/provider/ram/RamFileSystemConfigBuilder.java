@@ -21,12 +21,11 @@ import org.apache.commons.vfs.FileSystemOptions;
 
 /**
  * Config Builder for the RAM filesystem.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ * @deprecated Use RamFileSystemOptions instead.
  */
 public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-
-    /** max size key */
-    private static final String MAX_SIZE_KEY = "maxsize";
 
     /** config builder singleton */
     private static RamFileSystemConfigBuilder singleton = new RamFileSystemConfigBuilder();
@@ -56,24 +55,24 @@ public class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
-     * @return
+     * @param opts The FileSystemOptions.
+     * @return The Maximum size of the filesystem.
      * @see #setMaxSize
      */
     public int getMaxSize(FileSystemOptions opts)
     {
-        return getInteger(opts, MAX_SIZE_KEY, Integer.MAX_VALUE);
+        return RamFileSystemOptions.getInstance(opts).getMaxSize();
     }
 
     /**
      * sets the maximum size of the file system
      *
-     * @param opts
-     * @param sizeInBytes
+     * @param opts The FileSystemOptions.
+     * @param sizeInBytes The maximum size in bytes of the file system.
      */
     public void setMaxSize(FileSystemOptions opts, int sizeInBytes)
     {
-        setParam(opts, MAX_SIZE_KEY, new Integer(sizeInBytes));
+        RamFileSystemOptions.getInstance(opts).setMaxSize(sizeInBytes);
     }
 
 }

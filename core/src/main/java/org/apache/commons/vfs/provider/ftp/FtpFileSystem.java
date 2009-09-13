@@ -35,8 +35,7 @@ import java.util.Collection;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public class FtpFileSystem
-    extends AbstractFileSystem
+public class FtpFileSystem extends AbstractFileSystem
 {
     private static final Log LOG = LogFactory.getLog(FtpFileSystem.class);
 
@@ -49,9 +48,10 @@ public class FtpFileSystem
     private FtpClient idleClient;
 
     protected FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient,
-                            final FileSystemOptions fileSystemOptions)
+                            final FileSystemOptions fileSystemOptions,
+                            final Class<? extends FileSystemOptions> optionsClass)
     {
-        super(rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions, optionsClass);
         // hostname = rootName.getHostName();
         // port = rootName.getPort();
 
@@ -148,5 +148,10 @@ public class FtpFileSystem
         throws FileSystemException
     {
         return new FtpFileObject(name, this, getRootName());
+    }
+
+    public FtpFileSystemOptions getFileSystemOptions()
+    {
+        return super.getOptions();
     }
 }

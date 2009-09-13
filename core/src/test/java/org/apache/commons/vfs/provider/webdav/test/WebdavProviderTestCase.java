@@ -19,11 +19,10 @@ package org.apache.commons.vfs.provider.webdav.test;
 import junit.framework.Test;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs.provider.temp.TemporaryFileProvider;
 import org.apache.commons.vfs.provider.webdav.WebdavFileProvider;
-import org.apache.commons.vfs.provider.webdav.WebdavFileSystemConfigBuilder;
+import org.apache.commons.vfs.provider.webdav.WebdavFileSystemOptions;
 import org.apache.commons.vfs.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderTestSuite;
 
@@ -67,11 +66,9 @@ public class WebdavProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
-        WebdavFileSystemConfigBuilder builder =
-            (WebdavFileSystemConfigBuilder)manager.getFileSystemConfigBuilder("webdav");
         final String uri = System.getProperty(TEST_URI);
-        FileSystemOptions opts = new FileSystemOptions();
-        builder.setRootURI(opts, uri);
+        WebdavFileSystemOptions opts = new WebdavFileSystemOptions();
+        opts.setRootURI(uri);
         return manager.resolveFile(uri, opts);
     }
 }

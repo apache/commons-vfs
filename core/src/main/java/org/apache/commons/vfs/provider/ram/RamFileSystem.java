@@ -49,10 +49,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param rootName
      * @param fileSystemOptions
      */
-    protected RamFileSystem(FileName rootName,
-            FileSystemOptions fileSystemOptions)
+    protected RamFileSystem(FileName rootName, FileSystemOptions fileSystemOptions,
+                            final Class<? extends FileSystemOptions> optionsClass)
     {
-        super(rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions, optionsClass);
         this.cache = Collections.synchronizedMap(new HashMap());
         // create root
         RamFileData rootData = new RamFileData(rootName) ;
@@ -80,6 +80,11 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     protected void addCapabilities(Collection caps)
     {
         caps.addAll(RamFileProvider.capabilities);
+    }
+
+    public RamFileSystemOptions getFileSystemOptions()
+    {
+        return super.getOptions();
     }
 
     /**

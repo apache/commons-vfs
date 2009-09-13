@@ -85,15 +85,11 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     private final WebdavFileSystem fileSystem;
     private final String urlCharset;
 
-    /** The FileSystemConfigBuilder */
-    private final WebdavFileSystemConfigBuilder builder;
-
     protected WebdavFileObject(final FileName name, final WebdavFileSystem fileSystem)
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;
-        builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
-        this.urlCharset = builder.getUrlCharset(getFileSystem().getFileSystemOptions());
+        this.urlCharset = fileSystem.getFileSystemOptions().getUrlCharset();
     }
 
     protected void configureMethod(HttpMethodBase httpMethod)
@@ -569,7 +565,8 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
             RequestEntity entity = new StringRequestEntity(out.toString());
             URLFileName fileName = (URLFileName) getName();
             String urlStr = urlString(fileName);
-            if (builder.isVersioning(getFileSystem().getFileSystemOptions()))
+            WebdavFileSystemOptions opts = fileSystem.getFileSystemOptions();
+            if (opts.isVersioning())
             {
                 DavPropertySet set = null;
                 boolean fileExists = true;
@@ -622,7 +619,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
                     method.setRequestEntity(entity);
                     setupMethod(method);
                     execute(method);
-                    setUserName(fileName, urlStr);
+                    setUserName(fileName, urlStr, opts);
                 }
                 catch (FileSystemException ex)
                 {
@@ -664,7 +661,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
                 execute(method);
                 try
                 {
-                    setUserName(fileName, urlStr);
+                    setUserName(fileName, urlStr, opts);
                 }
                 catch (IOException e)
                 {
@@ -674,11 +671,12 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
             ((DefaultFileContent) this.file.getContent()).resetAttributes();
         }
 
-        private void setUserName(URLFileName fileName, String urlStr)
+        private void setUserName(URLFileName fileName, String urlStr, WebdavFileSystemOptions opts)
                 throws IOException
         {
             List list = new ArrayList();
-            String name = builder.getCreatorName(getFileSystem().getFileSystemOptions());
+
+            String name = opts.getCreatorName();
             String userName = fileName.getUserName();
             if (name == null)
             {

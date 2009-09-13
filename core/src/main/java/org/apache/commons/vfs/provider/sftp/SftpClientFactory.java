@@ -52,10 +52,11 @@ public class SftpClientFactory
         JSch jsch = new JSch();
 
         File sshDir = null;
+        SftpFileSystemOptions options = FileSystemOptions.makeSpecific(SftpFileSystemOptions.class, fileSystemOptions);
 
         // new style - user passed
-        File knownHostsFile = SftpFileSystemConfigBuilder.getInstance().getKnownHosts(fileSystemOptions);
-        File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(fileSystemOptions);
+        File knownHostsFile = options.getKnownHosts();
+        File[] identities = options.getIdentities();
 
         if (knownHostsFile != null)
         {
@@ -137,13 +138,13 @@ public class SftpClientFactory
                 session.setPassword(new String(password));
             }
 
-            Integer timeout = SftpFileSystemConfigBuilder.getInstance().getTimeout(fileSystemOptions);
+            Integer timeout = options.getTimeout();
             if (timeout != null)
             {
                 session.setTimeout(timeout.intValue());
             }
 
-            UserInfo userInfo = SftpFileSystemConfigBuilder.getInstance().getUserInfo(fileSystemOptions);
+            UserInfo userInfo = options.getUserInfo();
             if (userInfo != null)
             {
                 session.setUserInfo(userInfo);
@@ -152,27 +153,27 @@ public class SftpClientFactory
             Properties config = new Properties();
 
             //set StrictHostKeyChecking property
-            String strictHostKeyChecking = SftpFileSystemConfigBuilder.getInstance().getStrictHostKeyChecking(fileSystemOptions);
+            String strictHostKeyChecking = options.getStrictHostKeyChecking();
             if (strictHostKeyChecking != null)
             {
                 config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
             }
 
             //set compression property
-            String compression = SftpFileSystemConfigBuilder.getInstance().getCompression(fileSystemOptions);
+            String compression = options.getCompression();
             if (compression != null)
             {
                 config.setProperty("compression.s2c", compression);
                 config.setProperty("compression.c2s", compression);
             }
 
-            String proxyHost = SftpFileSystemConfigBuilder.getInstance().getProxyHost(fileSystemOptions);
+            String proxyHost = options.getProxyHost();
             if (proxyHost != null)
             {
-                int proxyPort = SftpFileSystemConfigBuilder.getInstance().getProxyPort(fileSystemOptions);
-                SftpFileSystemConfigBuilder.ProxyType proxyType = SftpFileSystemConfigBuilder.getInstance().getProxyType(fileSystemOptions);
+                int proxyPort = options.getProxyPort();
+                ProxyType proxyType = options.getProxyType();
                 Proxy proxy = null;
-                if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType))
+                if (SftpFileSystemOptions.PROXY_HTTP.equals(proxyType))
                 {
                     if (proxyPort != 0)
                     {
@@ -183,7 +184,7 @@ public class SftpClientFactory
                         proxy = new ProxyHTTP(proxyHost);
                     }
                 }
-                else if (SftpFileSystemConfigBuilder.PROXY_SOCKS5.equals(proxyType))
+                else if (SftpFileSystemOptions.PROXY_SOCKS5.equals(proxyType))
                 {
                     if (proxyPort != 0)
                     {

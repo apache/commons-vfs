@@ -27,6 +27,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
+import org.apache.commons.vfs.provider.ftp.FtpFileSystemOptions;
 
 /**
  * RAM File Provider
@@ -46,12 +47,14 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
                     Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ,
                     Capability.RANDOM_ACCESS_WRITE }));
 
+    private static final Class<? extends FileSystemOptions> FSOPTIONS_CLASS = RamFileSystemOptions.class;
+
     /**
      * Constructor
      */
     public RamFileProvider()
     {
-        super();
+        super(FSOPTIONS_CLASS);
     }
 
     /*
@@ -63,7 +66,7 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
     protected FileSystem doCreateFileSystem(FileName name,
             FileSystemOptions fileSystemOptions) throws FileSystemException
     {
-        return new RamFileSystem(name, fileSystemOptions);
+        return new RamFileSystem(name, fileSystemOptions, FSOPTIONS_CLASS);
     }
 
     /*

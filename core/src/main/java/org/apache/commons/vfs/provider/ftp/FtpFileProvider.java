@@ -67,10 +67,11 @@ public class FtpFileProvider
         Capability.RANDOM_ACCESS_READ,
     }));
 
+    private static final Class<? extends FileSystemOptions> FSOPTIONS_CLASS = FtpFileSystemOptions.class;
+
     public FtpFileProvider()
     {
-        super();
-        setFileNameParser(FtpFileNameParser.getInstance());
+        super(FtpFileNameParser.getInstance(), FSOPTIONS_CLASS);
     }
 
     /**
@@ -82,7 +83,9 @@ public class FtpFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
-        FTPClientWrapper ftpClient = new FTPClientWrapper(rootName, fileSystemOptions);
+        FtpFileSystemOptions options = FileSystemOptions.makeSpecific(FtpFileSystemOptions.class, fileSystemOptions);
+
+        FTPClientWrapper ftpClient = new FTPClientWrapper(rootName, options);
         /*
         FTPClient ftpClient = FtpClientFactory.createConnection(rootName.getHostName(),
             rootName.getPort(),
@@ -92,7 +95,7 @@ public class FtpFileProvider
             fileSystemOptions);
         */
 
-        return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
+        return new FtpFileSystem(rootName, ftpClient, options, FSOPTIONS_CLASS);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

@@ -254,8 +254,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
     {
         if (fs.getFileSystemOptions() != null)
         {
-            int maxSize = RamFileSystemConfigBuilder.getInstance().getMaxSize(
-                    fs.getFileSystemOptions());
+            int maxSize = fs.getFileSystemOptions().getMaxSize();
             if (fs.size() + newSize - this.size() > maxSize)
             {
                 throw new IOException("FileSystem capacity (" + maxSize

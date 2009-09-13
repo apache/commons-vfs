@@ -17,74 +17,62 @@
 package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.provider.http.HttpFileSystemConfigBuilder;
+import org.apache.commons.vfs.provider.http.HttpFileSystemOptions;
 
 /**
- * Configuration options for WebDav.
- *
+ * Webdav File System Options
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
- * @deprecated Use WebdavFileSystemOptions instead.
  */
-public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
+public class WebdavFileSystemOptions extends HttpFileSystemOptions
 {
-    private static final WebdavFileSystemConfigBuilder BUILDER = new WebdavFileSystemConfigBuilder();
-
-    private WebdavFileSystemConfigBuilder()
+    public WebdavFileSystemOptions()
     {
-        super("webdav.");
+        this("webdav.");
     }
 
-    public static HttpFileSystemConfigBuilder getInstance()
+    protected WebdavFileSystemOptions(String scheme)
     {
-        return BUILDER;
+        super(scheme);
+    }
+
+    public static WebdavFileSystemOptions getInstance(FileSystemOptions opts)
+    {
+        return FileSystemOptions.makeSpecific(WebdavFileSystemOptions.class, opts);
     }
 
     /**
      * The user name to be associated with changes to the file.
-     * @param opts The FileSystem options
      * @param creatorName The creator name to be associated with the file.
      */
-    public void setCreatorName(FileSystemOptions opts, String creatorName)
+    public void setCreatorName(String creatorName)
     {
-        WebdavFileSystemOptions.getInstance(opts).setCreatorName(creatorName);
+        setParam("creatorName", creatorName);
     }
 
     /**
      * Return the user name to be associated with changes to the file.
-     * @param opts The FileSystem options
      * @return The creatorName.
      */
-    public String getCreatorName(FileSystemOptions opts)
+    public String getCreatorName()
     {
-        return WebdavFileSystemOptions.getInstance(opts).getCreatorName();
+        return getString("creatorName");
     }
 
     /**
      * Whether to use versioning.
-     * @param opts The FileSystem options.
      * @param versioning true if versioning should be enabled.
      */
-    public void setVersioning(FileSystemOptions opts, boolean versioning)
+    public void setVersioning(boolean versioning)
     {
-        WebdavFileSystemOptions.getInstance(opts).setVersioning(versioning);
+        setParam("versioning", Boolean.valueOf(versioning));
     }
 
     /**
      * The cookies to add to the request.
-     * @param opts The FileSystem options.
      * @return true if versioning is enabled.
      */
-    public boolean isVersioning(FileSystemOptions opts)
+    public boolean isVersioning()
     {
-        return WebdavFileSystemOptions.getInstance(opts).isVersioning();
-    }
-
-    /**
-     * @return The Webdav FileSystem Class object.
-     */
-    protected Class getConfigClass()
-    {
-        return WebdavFileSystem.class;
+        return getBoolean("versioning", false);
     }
 }

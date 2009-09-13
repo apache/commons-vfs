@@ -42,22 +42,43 @@ public class HttpClientFactory
     {
     }
 
-    public static HttpClient createConnection(String scheme, String hostname, int port, String username,
+    /**
+     * Creates a new connection to the server.
+     * @param builder The configuration builder.
+     * @param scheme The protocol.
+     * @param hostname The name of the host to connect to.
+     * @param port The port number to connect to.
+     * @param username The user name for authentication.
+     * @param password The password.
+     * @param fileSystemOptions FileSystemOptions.
+     * @return an HttpClient.
+     * @throws FileSystemException if an error occurs.
+     * @deprecated - HttpFileSystemConfigBuilder is not needed.
+     */
+    public static HttpClient createConnection(HttpFileSystemConfigBuilder builder, String scheme, String hostname,
+                                              int port, String username,
                                               String password, FileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
-        return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port,
-            username, password, fileSystemOptions);
+        return createConnection(scheme, hostname, port, username, password, fileSystemOptions);
     }
 
     /**
      * Creates a new connection to the server.
+     * @param scheme The protocol.
+     * @param hostname The name of the host to connect to.
+     * @param port The port number to connect to.
+     * @param username The user name for authentication.
+     * @param password The password.
+     * @param fileSystemOptions FileSystemOptions.
+     * @return an HttpClient.
+     * @throws FileSystemException if an error occurs.
      */
-    public static HttpClient createConnection(HttpFileSystemConfigBuilder builder, String scheme,
-                                              String hostname, int port, String username,
+    public static HttpClient createConnection(String scheme, String hostname, int port, String username,
                                               String password, FileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
+        HttpFileSystemOptions httpOpts = HttpFileSystemOptions.getInstance(fileSystemOptions);
         HttpClient client;
         try
         {
@@ -71,15 +92,15 @@ public class HttpClientFactory
 
             if (fileSystemOptions != null)
             {
-                String proxyHost = builder.getProxyHost(fileSystemOptions);
-                int proxyPort = builder.getProxyPort(fileSystemOptions);
+                String proxyHost = httpOpts.getProxyHost();
+                int proxyPort = httpOpts.getProxyPort();
 
                 if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0)
                 {
                     config.setProxy(proxyHost, proxyPort);
                 }
 
-                UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
+                UserAuthenticator proxyAuth = httpOpts.getProxyAuthenticator();
                 if (proxyAuth != null)
                 {
                     UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth, new UserAuthenticationData.Type[]
@@ -99,7 +120,7 @@ public class HttpClientFactory
                     }
                 }
 
-                Cookie[] cookies = builder.getCookies(fileSystemOptions);
+                Cookie[] cookies = httpOpts.getCookies();
                 if (cookies != null)
                 {
                     client.getState().addCookies(cookies);
@@ -110,8 +131,8 @@ public class HttpClientFactory
              * are set in the HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams
              * tries to locate the host configuration.
              */
-            connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
-            connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));
+            connectionMgrParams.setMaxConnectionsPerHost(config, httpOpts.getMaxConnectionsPerHost());
+            connectionMgrParams.setMaxTotalConnections(httpOpts.getMaxTotalConnections());
 
             client.setHostConfiguration(config);
 

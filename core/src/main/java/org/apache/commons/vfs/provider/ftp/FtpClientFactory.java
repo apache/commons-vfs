@@ -52,7 +52,7 @@ public final class FtpClientFactory
      * @throws FileSystemException if an error occurs while connecting.
      */
     public static FTPClient createConnection(String hostname, int port, char[] username, char[] password,
-                                             String workingDirectory, FileSystemOptions fileSystemOptions)
+                                             String workingDirectory, FtpFileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
         // Determine the username and password to use
@@ -70,37 +70,32 @@ public final class FtpClientFactory
         {
             final FTPClient client = new FTPClient();
 
-            String key = FtpFileSystemConfigBuilder.getInstance().getEntryParser(fileSystemOptions);
+            String key = fileSystemOptions.getEntryParser();
             if (key != null)
             {
                 FTPClientConfig config = new FTPClientConfig(key);
 
-                String serverLanguageCode =
-                        FtpFileSystemConfigBuilder.getInstance().getServerLanguageCode(fileSystemOptions);
+                String serverLanguageCode = fileSystemOptions.getServerLanguageCode();
                 if (serverLanguageCode != null)
                 {
                     config.setServerLanguageCode(serverLanguageCode);
                 }
-                String defaultDateFormat =
-                        FtpFileSystemConfigBuilder.getInstance().getDefaultDateFormat(fileSystemOptions);
+                String defaultDateFormat = fileSystemOptions.getDefaultDateFormat();
                 if (defaultDateFormat != null)
                 {
                     config.setDefaultDateFormatStr(defaultDateFormat);
                 }
-                String recentDateFormat =
-                        FtpFileSystemConfigBuilder.getInstance().getRecentDateFormat(fileSystemOptions);
+                String recentDateFormat = fileSystemOptions.getRecentDateFormat();
                 if (recentDateFormat != null)
                 {
                     config.setRecentDateFormatStr(recentDateFormat);
                 }
-                String serverTimeZoneId =
-                        FtpFileSystemConfigBuilder.getInstance().getServerTimeZoneId(fileSystemOptions);
+                String serverTimeZoneId = fileSystemOptions.getServerTimeZoneId();
                 if (serverTimeZoneId != null)
                 {
                     config.setServerTimeZoneId(serverTimeZoneId);
                 }
-                String[] shortMonthNames =
-                        FtpFileSystemConfigBuilder.getInstance().getShortMonthNames(fileSystemOptions);
+                String[] shortMonthNames = fileSystemOptions.getShortMonthNames();
                 if (shortMonthNames != null)
                 {
                     StringBuffer shortMonthNamesStr = new StringBuffer(BUFSZ);
@@ -118,8 +113,7 @@ public final class FtpClientFactory
                 client.configure(config);
             }
 
-            FTPFileEntryParserFactory myFactory =
-                    FtpFileSystemConfigBuilder.getInstance().getEntryParserFactory(fileSystemOptions);
+            FTPFileEntryParserFactory myFactory = fileSystemOptions.getEntryParserFactory();
             if (myFactory != null)
             {
                 client.setParserFactory(myFactory);
@@ -151,7 +145,7 @@ public final class FtpClientFactory
                 }
 
                 // Set dataTimeout value
-                Integer dataTimeout = FtpFileSystemConfigBuilder.getInstance().getDataTimeout(fileSystemOptions);
+                Integer dataTimeout = fileSystemOptions.getDataTimeout();
                 if (dataTimeout != null)
                 {
                     client.setDataTimeout(dataTimeout.intValue());
@@ -161,7 +155,7 @@ public final class FtpClientFactory
                 // All file operations a relative to the filesystem-root
                 // String root = getRoot().getName().getPath();
 
-                Boolean userDirIsRoot = FtpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(fileSystemOptions);
+                Boolean userDirIsRoot = fileSystemOptions.getUserDirIsRoot();
                 if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
                 {
                     if (!client.changeWorkingDirectory(workingDirectory))
@@ -170,7 +164,7 @@ public final class FtpClientFactory
                     }
                 }
 
-                Boolean passiveMode = FtpFileSystemConfigBuilder.getInstance().getPassiveMode(fileSystemOptions);
+                Boolean passiveMode = fileSystemOptions.getPassiveMode();
                 if (passiveMode != null && passiveMode.booleanValue())
                 {
                     client.enterLocalPassiveMode();

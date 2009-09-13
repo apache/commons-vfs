@@ -37,9 +37,10 @@ import org.apache.commons.vfs.provider.http.HttpFileSystem;
 public class WebdavFileSystem extends HttpFileSystem implements FileSystem
 {
     protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client,
-                               final FileSystemOptions fileSystemOptions)
+                               final FileSystemOptions fileSystemOptions,
+                               final Class<? extends FileSystemOptions> optionsClass)
     {
-        super(rootName, client, fileSystemOptions);
+        super(rootName, client, fileSystemOptions, optionsClass);
     }
 
     protected HttpClient getClient()
@@ -75,5 +76,10 @@ public class WebdavFileSystem extends HttpFileSystem implements FileSystem
     public URLStreamHandler getURLStreamHandler()
     {
         return new DefaultURLStreamHandler(getContext(), getFileSystemOptions());
+    }
+
+    public WebdavFileSystemOptions getFileSystemOptions()
+    {
+        return super.getOptions();
     }
 }

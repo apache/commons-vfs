@@ -17,13 +17,7 @@
 package org.apache.commons.vfs.provider.webdav;
 
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.UserAuthenticationData;
-import org.apache.commons.vfs.FileSystemConfigBuilder;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.provider.http.HttpFileProvider;
@@ -39,8 +33,7 @@ import java.util.Collections;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class WebdavFileProvider
-    extends HttpFileProvider
+public class WebdavFileProvider extends HttpFileProvider
 {
     /** The authenticator types used by the WebDAV provider. */
     public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
@@ -66,11 +59,11 @@ public class WebdavFileProvider
         Capability.DIRECTORY_READ_CONTENT,
     }));
 
+    private static final Class<? extends FileSystemOptions> FSOPTIONS_CLASS = WebdavFileSystemOptions.class;
+
     public WebdavFileProvider()
     {
-        super();
-
-        setFileNameParser(WebdavFileNameParser.getInstance());
+        super(WebdavFileNameParser.getInstance(), FSOPTIONS_CLASS);
     }
         /**
      * Creates a {@link FileSystem}.
@@ -89,7 +82,6 @@ public class WebdavFileProvider
             authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
 
             httpClient = HttpClientFactory.createConnection(
-                WebdavFileSystemConfigBuilder.getInstance(),
                 "http",
                 rootName.getHostName(),
                 rootName.getPort(),
@@ -104,7 +96,7 @@ public class WebdavFileProvider
             UserAuthenticatorUtils.cleanup(authData);
         }
 
-        return new WebdavFileSystem(rootName, httpClient, fsOpts);
+        return new WebdavFileSystem(rootName, httpClient, fsOpts, FSOPTIONS_CLASS);
     }
 
     public FileSystemConfigBuilder getConfigBuilder()

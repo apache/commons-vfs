@@ -26,13 +26,33 @@ import java.util.TreeMap;
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
- * @see org.apache.commons.vfs.provider.sftp.SftpFileSystemConfigBuilder
- * @see org.apache.commons.vfs.provider.ftp.FtpFileSystemConfigBuilder
  */
-public final class FileSystemOptions implements Cloneable
+public class FileSystemOptions implements Cloneable
 {
     /** The options */
     private Map options = new TreeMap();
+
+    public static <T extends FileSystemOptions> T makeSpecific(Class<T> clazz, FileSystemOptions fsOptions)
+    {
+        if (fsOptions == null)
+        {
+            return null;
+        }
+        if (clazz.isAssignableFrom(fsOptions.getClass()))
+        {
+            return (T) fsOptions;
+        }
+        try
+        {
+            T obj = clazz.newInstance();
+            obj.options = fsOptions.options;
+            return obj;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
 
     /**
      * Keys in the options Map.
@@ -165,10 +185,11 @@ public final class FileSystemOptions implements Cloneable
     /**
      * {@inheritDoc}
      */
-    public Object clone() {
-        FileSystemOptions clone = new FileSystemOptions();
+    public Object clone() throws CloneNotSupportedException
+    {
+        FileSystemOptions clone = (FileSystemOptions) super.clone();
         clone.options = new TreeMap(options);
         return clone;
     }
-    
+
 }

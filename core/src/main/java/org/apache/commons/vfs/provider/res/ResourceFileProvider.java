@@ -59,8 +59,14 @@ public class ResourceFileProvider extends AbstractFileProvider
         StringBuffer buf = new StringBuffer(80);
         UriParser.extractScheme(uri, buf);
         String resourceName = buf.toString();
+        ClassLoader cl = null;
+        if (fileSystemOptions != null)
+        {
+            ResourceFileSystemOptions options =
+                ResourceFileSystemOptions.makeSpecific(ResourceFileSystemOptions.class, fileSystemOptions);
 
-        ClassLoader cl = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
+            cl = options.getClassLoader();
+        }
         if (cl == null)
         {
             cl = getClass().getClassLoader();

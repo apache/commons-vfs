@@ -64,6 +64,7 @@ public interface FileProvider
     /**
      * Gets the configbuilder useable to collect the needed fileSystemOptions.
      * @return a FileSystemConfigBuilder for the particular file system.
+     * @deprecated - Use FileSystemOptions specific to the scheme instead.
      */
     FileSystemConfigBuilder getConfigBuilder();
 
@@ -83,4 +84,10 @@ public interface FileProvider
      * @throws FileSystemException if an error occurs.
      */
     FileName parseUri(FileName root, String uri) throws FileSystemException;
+
+    /**
+     * Return FileSystemOptions appropriate for the specific provider.
+     * @return A FileSystemOptions instance.
+     */
+    FileSystemOptions getFileSystemOptions();
 }

@@ -81,7 +81,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     /**
      * Mapping from URI scheme to FileProvider.
      */
-    private final Map providers = new HashMap();
+    private final Map<String, FileProvider> providers = new HashMap<String, FileProvider>();
 
     /**
      * All components used by this manager.
@@ -1077,6 +1077,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @param scheme The scheme to locate.
      * @return The FileSystemConfigBuilder for the scheme.
      * @throws FileSystemException if the given scheme is not konwn
+     * @deprecated - Use the FileSystemOptions for the scheme.
      */
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme)
             throws FileSystemException
@@ -1088,6 +1089,23 @@ public class DefaultFileSystemManager implements FileSystemManager
         }
 
         return provider.getConfigBuilder();
+    }
+
+    /**
+     * Get the FileSystemOptions for the specified scheme.
+     * @param scheme The protocol.
+     * @return The FileSystemOptions for the specified scheme.
+     * @throws FileSystemException if an error occurs.
+     */
+    public FileSystemOptions getFileSystemOptions(final String scheme)
+            throws FileSystemException
+    {
+        FileProvider provider = providers.get(scheme);
+        if (provider == null)
+        {
+            throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[] {scheme});
+        }
+        return provider.getFileSystemOptions();
     }
 
     // -- OPERATIONS --

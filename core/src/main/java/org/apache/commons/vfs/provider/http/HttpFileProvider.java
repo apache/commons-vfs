@@ -26,6 +26,7 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.GenericFileName;
+import org.apache.commons.vfs.provider.FileNameParser;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 import java.util.Arrays;
@@ -58,10 +59,16 @@ public class HttpFileProvider
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
         };
 
+    private static final Class<? extends FileSystemOptions> FSOPTIONS_CLASS = HttpFileSystemOptions.class;
+
     public HttpFileProvider()
     {
-        super();
-        setFileNameParser(HttpFileNameParser.getInstance());
+        super(HttpFileNameParser.getInstance(), FSOPTIONS_CLASS);
+    }
+
+    protected HttpFileProvider(FileNameParser fileNameParser, Class<? extends FileSystemOptions> optionsClass)
+    {
+        super(fileNameParser, optionsClass);
     }
 
     /**
@@ -92,8 +99,14 @@ public class HttpFileProvider
             UserAuthenticatorUtils.cleanup(authData);
         }
 
-        return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
+        return new HttpFileSystem(rootName, httpClient, fileSystemOptions, FSOPTIONS_CLASS);
     }
+
+    /**
+     * Get ConfigurationBuilder
+     * @return The FileSystemConfigBuilder.
+     * @deprecated - Use HttpFileSystemOptions instead.
+     */
 
     public FileSystemConfigBuilder getConfigBuilder()
     {

@@ -25,6 +25,7 @@ import org.apache.commons.vfs.provider.url.UrlFileSystem;
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
+ * @deprecated Use ResourceFileSystemOptions.
  */
 public class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -42,12 +43,12 @@ public class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     public void setClassLoader(FileSystemOptions opts, ClassLoader classLoader)
     {
-        setParam(opts, ClassLoader.class.getName(), classLoader);
+        ResourceFileSystemOptions.getInstance(opts).setClassLoader(classLoader);
     }
 
     public ClassLoader getClassLoader(FileSystemOptions opts)
     {
-        return (ClassLoader) getParam(opts, ClassLoader.class.getName());
+        return ResourceFileSystemOptions.getInstance(opts).getClassLoader();
     }
 
     protected Class getConfigClass()

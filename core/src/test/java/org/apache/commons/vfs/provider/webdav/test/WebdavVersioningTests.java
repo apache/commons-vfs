@@ -23,7 +23,7 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.Selectors;
-import org.apache.commons.vfs.provider.webdav.WebdavFileSystemConfigBuilder;
+import org.apache.commons.vfs.provider.webdav.WebdavFileSystemOptions;
 import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.test.AbstractProviderTestCase;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
@@ -40,14 +40,13 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
     public void testVersioning() throws Exception
     {
         FileObject scratchFolder = createScratchFolder();
-        FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();
-        WebdavFileSystemConfigBuilder builder =
-            (WebdavFileSystemConfigBuilder)getManager().getFileSystemConfigBuilder("webdav");
-        builder.setVersioning(opts, true);
+        WebdavFileSystemOptions opts =
+            WebdavFileSystemOptions.getInstance(scratchFolder.getFileSystem().getFileSystemOptions());
+        opts.setVersioning(true);
         FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
         FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
         assertTrue(opts == newOpts);
-        assertTrue(builder.isVersioning(newOpts));
+        assertTrue(opts.isVersioning());
         assertTrue(!file.exists());
         file.createFile();
         assertTrue(file.exists());
@@ -86,7 +85,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
             assertEquals(name, map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         }
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
-        builder.setVersioning(opts, false);
+        opts.setVersioning(false);
     }
     /**
      *
@@ -94,15 +93,14 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
     public void testVersioningWithCreator() throws Exception
     {
         FileObject scratchFolder = createScratchFolder();
-        FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();
-        WebdavFileSystemConfigBuilder builder =
-            (WebdavFileSystemConfigBuilder)getManager().getFileSystemConfigBuilder("webdav");
-        builder.setVersioning(opts, true);
-        builder.setCreatorName(opts, "testUser");
+        WebdavFileSystemOptions opts =
+            WebdavFileSystemOptions.getInstance(scratchFolder.getFileSystem().getFileSystemOptions());
+        opts.setVersioning(true);
+        opts.setCreatorName("testUser");
         FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
         FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
         assertTrue(opts == newOpts);
-        assertTrue(builder.isVersioning(newOpts));
+        assertTrue(opts.isVersioning());
         assertTrue(!file.exists());
         file.createFile();
         assertTrue(file.exists());
@@ -143,11 +141,11 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         {
             assertTrue(map.containsKey(DeltaVConstants.COMMENT.toString()));
             assertEquals("Modified by user " + name, map.get(DeltaVConstants.COMMENT.toString()));
-        }       
+        }
         assertTrue(map.containsKey(VersionControlledResource.CHECKED_IN.toString()));
-        builder.setVersioning(opts, false);
-        builder.setCreatorName(opts, null);
-    }  
+        opts.setVersioning(false);
+        opts.setCreatorName(null);
+    }
         /**
      * Sets up a scratch folder for the test to use.
      */

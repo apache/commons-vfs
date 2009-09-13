@@ -19,7 +19,7 @@ package org.apache.commons.vfs.util;
 import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
+import org.apache.commons.vfs.DefaultFileSystemOptions;
 
 /**
  * Some helper methods used for authentication.
@@ -64,7 +64,7 @@ public final class UserAuthenticatorUtils
     public static UserAuthenticationData authenticate(FileSystemOptions opts,
                                                       UserAuthenticationData.Type[] authenticatorTypes)
     {
-        UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
+        UserAuthenticator auth = ((DefaultFileSystemOptions) opts).getUserAuthenticator();
         return authenticate(auth, authenticatorTypes);
     }
 

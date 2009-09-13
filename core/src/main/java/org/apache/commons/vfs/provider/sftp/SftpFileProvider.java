@@ -63,12 +63,13 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
         };
 
+    private static final Class<? extends FileSystemOptions> FSOPTIONS_CLASS = SftpFileSystemOptions.class;
+
     // private JSch jSch = new JSch();
 
     public SftpFileProvider()
     {
-        super();
-        setFileNameParser(SftpFileNameParser.getInstance());
+        super(SftpFileNameParser.getInstance(), FSOPTIONS_CLASS);
     }
 
     /**
@@ -105,7 +106,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
             UserAuthenticatorUtils.cleanup(authData);
         }
 
-        return new SftpFileSystem(rootName, session, fileSystemOptions);
+        return new SftpFileSystem(rootName, session, fileSystemOptions, FSOPTIONS_CLASS);
     }
 
 

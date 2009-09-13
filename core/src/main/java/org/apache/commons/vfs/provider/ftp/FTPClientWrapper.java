@@ -37,11 +37,11 @@ import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 class FTPClientWrapper implements FtpClient
 {
     private final GenericFileName root;
-    private final FileSystemOptions fileSystemOptions;
+    private final FtpFileSystemOptions fileSystemOptions;
 
     private FTPClient ftpClient;
 
-    FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions) throws FileSystemException
+    FTPClientWrapper(final GenericFileName root, final FtpFileSystemOptions fileSystemOptions) throws FileSystemException
     {
         this.root = root;
         this.fileSystemOptions = fileSystemOptions;
@@ -53,7 +53,7 @@ class FTPClientWrapper implements FtpClient
         return root;
     }
 
-    public FileSystemOptions getFileSystemOptions()
+    public FtpFileSystemOptions getFileSystemOptions()
     {
         return fileSystemOptions;
     }
@@ -74,7 +74,7 @@ class FTPClientWrapper implements FtpClient
                 UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
                         UserAuthenticatorUtils.toChar(rootName.getPassword())),
                 rootName.getPath(),
-                getFileSystemOptions());
+                fileSystemOptions);
         }
         finally
         {

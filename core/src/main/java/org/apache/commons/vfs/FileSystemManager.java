@@ -297,6 +297,14 @@ public interface FileSystemManager
     FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException;
 
     /**
+     * Get the FileSystemOptions for the specified scheme.
+     * @param scheme The protocol.
+     * @return The FileSystemOptions for the specified scheme.
+     * @throws FileSystemException if an error occurs.
+     */
+    FileSystemOptions getFileSystemOptions(final String scheme) throws FileSystemException;
+
+    /**
      * Resolve the uri to a filename.
      *
      * @param uri The uri to resolve.

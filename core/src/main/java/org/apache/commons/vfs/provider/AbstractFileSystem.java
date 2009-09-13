@@ -18,20 +18,7 @@ package org.apache.commons.vfs.provider;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.vfs.CacheStrategy;
-import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileListener;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSelector;
-import org.apache.commons.vfs.FileSystem;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
-import org.apache.commons.vfs.FileSystemOptions;
-import org.apache.commons.vfs.FilesCache;
-import org.apache.commons.vfs.VfsLog;
-import org.apache.commons.vfs.FileSystemConfigBuilder;
-import org.apache.commons.vfs.impl.DefaultFileSystemConfigBuilder;
+import org.apache.commons.vfs.*;
 import org.apache.commons.vfs.cache.OnCallRefreshFileObject;
 import org.apache.commons.vfs.events.AbstractFileChangeEvent;
 import org.apache.commons.vfs.events.ChangedEvent;
@@ -107,12 +94,40 @@ public abstract class AbstractFileSystem
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
     {
+        this(rootName, parentLayer, fileSystemOptions, null);
+    }
+
+    protected AbstractFileSystem(final FileName rootName,
+                                 final FileObject parentLayer,
+                                 final FileSystemOptions fileSystemOptions,
+                                 final Class<? extends FileSystemOptions> optionsClass)
+    {
         // this.parentLayer = parentLayer;
         this.parentLayer = parentLayer;
         this.rootName = rootName;
-        this.fileSystemOptions = fileSystemOptions;
-        FileSystemConfigBuilder builder = DefaultFileSystemConfigBuilder.getInstance();
-        String uri = builder.getRootURI(fileSystemOptions);
+        if (optionsClass == null)
+        {
+            this.fileSystemOptions = fileSystemOptions == null ? new PrivateFileSystemOptions() : fileSystemOptions;
+        }
+        else
+        {
+            if (fileSystemOptions != null)
+            {
+                this.fileSystemOptions = FileSystemOptions.makeSpecific(optionsClass, fileSystemOptions);
+            }
+            else
+            {
+                try
+                {
+                    this.fileSystemOptions = optionsClass.newInstance();
+                }
+                catch (Exception ex)
+                {
+                    throw new IllegalArgumentException("Invalid optiosn class", ex);
+                }
+            }
+        }
+        String uri = ((DefaultFileSystemOptions)this.fileSystemOptions).getRootURI();
         if (uri == null)
         {
             uri = rootName.getURI();
@@ -437,6 +452,11 @@ public abstract class AbstractFileSystem
         return fileSystemOptions;
     }
 
+    protected <T extends FileSystemOptions> T getOptions()
+    {
+        return (T) fileSystemOptions;
+    }
+
     /**
      * Return the FileSystemManager used to instantiate this filesystem.
      * @return the FileSystemManager.
@@ -678,5 +698,10 @@ public abstract class AbstractFileSystem
         {
             return openStreams > 0;
         }
+    }
+
+    private class PrivateFileSystemOptions extends DefaultFileSystemOptions
+    {
+
     }
 }

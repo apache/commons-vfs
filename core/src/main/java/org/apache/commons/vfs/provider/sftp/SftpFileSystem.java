@@ -50,9 +50,10 @@ public class SftpFileSystem
 
     protected SftpFileSystem(final GenericFileName rootName,
                              final Session session,
-                             final FileSystemOptions fileSystemOptions)
+                             final FileSystemOptions fileSystemOptions,
+                             final Class<? extends FileSystemOptions> optionsClass)
     {
-        super(rootName, null, fileSystemOptions);
+        super(rootName, null, fileSystemOptions, optionsClass);
         this.session = session;
     }
 
@@ -124,7 +125,7 @@ public class SftpFileSystem
                 channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect();
 
-                Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
+                Boolean userDirIsRoot = getFileSystemOptions().getUserDirIsRoot();
                 String workingDirectory = getRootName().getPath();
                 if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
                 {
@@ -194,5 +195,10 @@ public class SftpFileSystem
     public double getLastModTimeAccuracy()
     {
         return 1000L;
+    }
+
+    public SftpFileSystemOptions getFileSystemOptions()
+    {
+        return super.getOptions();
     }
 }
