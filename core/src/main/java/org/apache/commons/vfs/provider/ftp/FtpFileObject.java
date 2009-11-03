@@ -585,13 +585,19 @@ public class FtpFileObject
     protected InputStream doGetInputStream() throws Exception
     {
         final FtpClient client = ftpFs.getClient();
-        final InputStream instr = client.retrieveFileStream(relPath);
-        // VFS-210
-        if (instr == null)
-        {
-            throw new FileNotFoundException(getName().toString());
+        try {
+            final InputStream instr = client.retrieveFileStream(relPath);
+            // VFS-210
+            if (instr == null)
+            {
+                throw new FileNotFoundException(getName().toString());
+            }
+            return new FtpInputStream(client, instr);
         }
-        return new FtpInputStream(client, instr);
+        catch (Exception e) {
+            ftpFs.putClient(client);
+            throw e;
+        }
     }
 
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
@@ -606,26 +612,32 @@ public class FtpFileObject
         throws Exception
     {
         final FtpClient client = ftpFs.getClient();
-        OutputStream out = null;
-        if (bAppend)
-        {
-            out = client.appendFileStream(relPath);
-        }
-        else
-        {
-            out = client.storeFileStream(relPath);
-        }
+        try {
+            OutputStream out = null;
+            if (bAppend)
+            {
+                out = client.appendFileStream(relPath);
+            }
+            else
+            {
+                out = client.storeFileStream(relPath);
+            }
 
-        if (out == null)
-        {
-            throw new FileSystemException("vfs.provider.ftp/output-error.debug", new Object[]
-                {
-                    this.getName(),
-                    client.getReplyString()
-                });
-        }
+            if (out == null)
+            {
+                throw new FileSystemException("vfs.provider.ftp/output-error.debug", new Object[]
+                    {
+                        this.getName(),
+                        client.getReplyString()
+                    });
+            }
 
-        return new FtpOutputStream(client, out);
+            return new FtpOutputStream(client, out);
+        }
+        catch (Exception e) {
+            ftpFs.putClient(client);
+            throw e;
+        }
     }
 
     String getRelPath()
@@ -636,16 +648,22 @@ public class FtpFileObject
     FtpInputStream getInputStream(long filePointer) throws IOException
     {
         final FtpClient client = ftpFs.getClient();
-        final InputStream instr = client.retrieveFileStream(relPath, filePointer);
-        if (instr == null)
-        {
-            throw new FileSystemException("vfs.provider.ftp/input-error.debug", new Object[]
-                {
-                    this.getName(),
-                    client.getReplyString()
-                });
+        try {
+            final InputStream instr = client.retrieveFileStream(relPath, filePointer);
+            if (instr == null)
+            {
+                throw new FileSystemException("vfs.provider.ftp/input-error.debug", new Object[]
+                    {
+                        this.getName(),
+                        client.getReplyString()
+                    });
+            }
+            return new FtpInputStream(client, instr);
         }
-        return new FtpInputStream(client, instr);
+        catch (IOException e) {
+            ftpFs.putClient(client);
+            throw e;
+        }
     }
 
     /**

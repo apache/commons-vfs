@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-289" due-to="Kirill Safonov">
+        FTP connection is not released If exception is thrown out of FtpFileObject.doGetOutputStream().
+      </action>
       <action dev="rgoers" type="fix" issue="VFS-286" due-to="Kirill Safonov">
         SftpFileObject.doListChildrenResolved() changes the working dir before doing ChannelSftp.ls() call.
         If ls() throws an exception, the current directory is not reset. All the subsequent operations that rely on the
