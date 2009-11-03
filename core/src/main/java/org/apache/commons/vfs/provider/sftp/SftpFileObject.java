@@ -301,7 +301,25 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
                 return null;
             }
 
-            vector = channel.ls(".");
+            try
+            {
+                vector = channel.ls(".");
+            }
+            catch (SftpException e)
+            {
+                try
+                {
+                    if (relPath != null)
+                    {
+                        channel.cd(workingDirectory);
+                    }
+                }
+                catch (SftpException e2)
+                {
+                    throw e;
+                }
+                throw e;
+            }
 
             try
             {
