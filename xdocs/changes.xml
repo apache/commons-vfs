@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-287" due-to="Mircea-Eugen Ionica">
+        LocalFileName objects are not released from AbstractFileSystem.listenerMap when all listeners are removed.
+      </action>      
       <action dev="rgoers" type="fix" issue="VFS-216" due-to="Reetu Mutti">
         The FTP Configuration includes an option to set a timeout for the data connection, but not for the socket
         timeout. This is a problem, as idle sockets can cause your download to hang forever and never timeout.

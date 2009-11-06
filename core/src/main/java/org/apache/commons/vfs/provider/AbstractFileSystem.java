@@ -544,6 +544,10 @@ public abstract class AbstractFileSystem
             if (listeners != null)
             {
                 listeners.remove(listener);
+                if (listeners.isEmpty())
+                {
+                    listenerMap.remove(file.getName());
+                }
             }
         }
     }
