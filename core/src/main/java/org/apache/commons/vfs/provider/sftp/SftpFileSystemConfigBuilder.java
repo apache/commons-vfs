@@ -310,4 +310,20 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return (ProxyType) getParam(opts, "proxyType");
     }
+
+    /**
+    * Configure authentication order
+    */
+    public void setPreferredAuthentications(FileSystemOptions opts, String preferredAuthentications)
+    {
+        setParam(opts,"PreferredAuthentications",preferredAuthentications);
+    }
+  
+    /**
+    * Get authentication order
+    */
+    public String getPreferredAuthentications(FileSystemOptions opts)
+    {
+        return (String) getParam(opts,"PreferredAuthentications");
+    }
 }
