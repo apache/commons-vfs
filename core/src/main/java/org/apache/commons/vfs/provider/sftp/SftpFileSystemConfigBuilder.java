@@ -266,4 +266,19 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return SftpFileSystemOptions.getInstance(opts).getProxyType();
     }
+
+   /**
+    * Configure authentication order
+    */
+    public void setPreferredAuthentications(FileSystemOptions opts, String preferredAuthentications)
+    {
+        SftpFileSystemOptions.getInstance(opts).setPreferredAuthentications(preferredAuthentications);
+    }
+    /**
+    * Get authentication order
+    */
+    public String getPreferredAuthentications(FileSystemOptions opts)
+    {
+        return SftpFileSystemOptions.getInstance(opts).getPreferredAuthentications();
+    }
 }

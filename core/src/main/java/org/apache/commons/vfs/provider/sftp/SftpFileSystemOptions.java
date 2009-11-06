@@ -274,4 +274,19 @@ public class SftpFileSystemOptions extends DefaultFileSystemOptions
     {
         return (ProxyType) getParam("proxyType");
     }
+
+    /**
+    * Configure authentication order
+    */
+    public void setPreferredAuthentications(String preferredAuthentications)
+    {
+        setParam("PreferredAuthentications", preferredAuthentications);
+    }
+    /**
+    * Get authentication order
+    */
+    public String getPreferredAuthentications()
+    {
+        return (String) getParam("PreferredAuthentications");
+    }
 }

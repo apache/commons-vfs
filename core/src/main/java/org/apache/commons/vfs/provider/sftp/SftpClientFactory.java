@@ -159,6 +159,13 @@ public class SftpClientFactory
                 config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
             }
 
+            //set PreferredAuthentications property
+            String preferredAuthentications = options.getPreferredAuthentications();
+            if(preferredAuthentications!=null)
+            {
+                config.setProperty("PreferredAuthentications", preferredAuthentications);
+            }
+
             //set compression property
             String compression = options.getCompression();
             if (compression != null)
