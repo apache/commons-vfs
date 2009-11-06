@@ -114,7 +114,7 @@ public class HttpFileObject
             // Assume 0 content-length
             return 0;
         }
-        return Integer.parseInt(header.getValue());
+        return Long.parseLong(header.getValue());
     }
 
     /**
