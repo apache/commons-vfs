@@ -72,7 +72,8 @@ public class UserAuthenticationData
             return type != null ? type.hashCode() : 0;
         }
 
-        public String toString() {
+        public String toString()
+        {
             return type;
         }
     }

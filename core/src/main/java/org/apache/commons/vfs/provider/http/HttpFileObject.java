@@ -24,11 +24,17 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.DateParser;
 import org.apache.commons.httpclient.util.URIUtil;
-import org.apache.commons.vfs.*;
+
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.util.MonitorInputStream;
 import org.apache.commons.vfs.util.RandomAccessMode;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileNotFoundException;
+import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.FileContentInfoFactory;
 
 import java.io.IOException;
 import java.io.InputStream;

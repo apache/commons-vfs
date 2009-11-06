@@ -26,7 +26,7 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.DefaultFileContentInfo;
 
 /**
- * Description
+ * Creates the FileContentInfo.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$

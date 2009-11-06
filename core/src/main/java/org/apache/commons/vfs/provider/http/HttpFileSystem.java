@@ -40,7 +40,8 @@ public class HttpFileSystem
 {
     private final HttpClient client;
 
-    protected HttpFileSystem(final GenericFileName rootName, final HttpClient client, final FileSystemOptions fileSystemOptions)
+    protected HttpFileSystem(final GenericFileName rootName, final HttpClient client,
+                             final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
         this.client = client;

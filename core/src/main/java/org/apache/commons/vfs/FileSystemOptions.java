@@ -37,7 +37,7 @@ public final class FileSystemOptions implements Cloneable
     /**
      * Keys in the options Map.
      */
-    private final static class FileSystemOptionKey implements Comparable
+    private static final class FileSystemOptionKey implements Comparable
     {
         /** Constant used to create hashcode */
         private static final int HASH = 29;
@@ -165,10 +165,10 @@ public final class FileSystemOptions implements Cloneable
     /**
      * {@inheritDoc}
      */
-    public Object clone() {
+    public Object clone()
+    {
         FileSystemOptions clone = new FileSystemOptions();
         clone.options = new TreeMap(options);
         return clone;
     }
-    
 }

@@ -31,7 +31,7 @@ import org.apache.commons.vfs.UserAuthenticator;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
 
 /**
- * Create a HttpClient instance
+ * Create a HttpClient instance.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
@@ -52,6 +52,14 @@ public class HttpClientFactory
 
     /**
      * Creates a new connection to the server.
+     * @param builder The HttpFileSystemConfigBuilder.
+     * @param scheme The protocol.
+     * @param hostname The hostname.
+     * @param username The username.
+     * @param password The password
+     * @param fileSystemOptions The file system options.
+     * @return a new HttpClient connection.
+     * @throws FileSystemException if an error occurs.
      */
     public static HttpClient createConnection(HttpFileSystemConfigBuilder builder, String scheme,
                                               String hostname, int port, String username,
@@ -82,7 +90,8 @@ public class HttpClientFactory
                 UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
                 if (proxyAuth != null)
                 {
-                    UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth, new UserAuthenticationData.Type[]
+                    UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth,
+                        new UserAuthenticationData.Type[]
                         {
                             UserAuthenticationData.USERNAME,
                             UserAuthenticationData.PASSWORD
@@ -92,8 +101,10 @@ public class HttpClientFactory
                     {
                         final UsernamePasswordCredentials proxyCreds =
                             new UsernamePasswordCredentials(
-                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
-                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
+                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                                    UserAuthenticationData.USERNAME, null)),
+                                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                                    UserAuthenticationData.PASSWORD, null)));
 
                         client.getState().setProxyCredentials(null, proxyHost, proxyCreds);
                     }
