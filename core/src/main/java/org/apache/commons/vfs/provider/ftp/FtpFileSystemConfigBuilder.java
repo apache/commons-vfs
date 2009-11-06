@@ -145,6 +145,27 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * set the socket timeout for the ftp client.<br />
+     *
+     * @param opts The FileSystemOptions.
+     * @param soTimeout The timeout value.
+     */
+    public void setSoTimeout(FileSystemOptions opts, Integer soTimeout)
+    {
+        FtpFileSystemOptions.getInstance(opts).setDataTimeout(soTimeout);
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @return The timeout as an Integer.
+     * @see #setDataTimeout
+     */
+    public Integer getSoTimeout(FileSystemOptions opts)
+    {
+        return FtpFileSystemOptions.getInstance(opts).getSoTimeout();
+    }
+
+    /**
      * set the data timeout for the ftp client.<br />
      * If you set the dataTimeout to <code>null</code> no dataTimeout will be set on the
      * ftp client.

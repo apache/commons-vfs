@@ -23,6 +23,18 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-216" due-to="Reetu Mutti">
+        The FTP Configuration includes an option to set a timeout for the data connection, but not for the socket
+        timeout. This is a problem, as idle sockets can cause your download to hang forever and never timeout.
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-289" due-to="Kirill Safonov">
+        FTP connection is not released If exception is thrown out of FtpFileObject.doGetOutputStream().
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-286" due-to="Kirill Safonov">
+        SftpFileObject.doListChildrenResolved() changes the working dir before doing ChannelSftp.ls() call.
+        If ls() throws an exception, the current directory is not reset. All the subsequent operations that rely on the
+        current dir will fail trying to change into nonexistent directory.
+      </action>
       <action dev="rgoers" type="add" issue="VFS-244">
         Rename HttpRandomAccesContent to HttpRandomAccessContent.
       </action>

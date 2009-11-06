@@ -31,6 +31,7 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.FilesCache;
 import org.apache.commons.vfs.NameScope;
 import org.apache.commons.vfs.VFS;
+import org.apache.commons.vfs.DefaultFileSystemOptions;
 import org.apache.commons.vfs.cache.SoftRefFilesCache;
 import org.apache.commons.vfs.operations.FileOperationProvider;
 import org.apache.commons.vfs.provider.AbstractFileName;
@@ -645,8 +646,16 @@ public class DefaultFileSystemManager implements FileSystemManager
     public FileObject resolveFile(final FileObject baseFile, final String uri)
             throws FileSystemException
     {
-        return resolveFile(baseFile, uri, baseFile == null ? null : baseFile
-                .getFileSystem().getFileSystemOptions());
+        FileSystemOptions opts = null;
+        if (baseFile != null)
+        {
+            opts = baseFile.getFileSystem().getFileSystemOptions();
+        }
+        if (opts == null)
+        {
+            opts = new PrivateFileSystemOptions();
+        }
+        return resolveFile(baseFile, uri, opts);
     }
 
     /**
@@ -1184,5 +1193,9 @@ public class DefaultFileSystemManager implements FileSystemManager
             return null;
         }
         return (FileOperationProvider[]) providers.toArray(new FileOperationProvider[] {});
+    }
+
+    private class PrivateFileSystemOptions extends DefaultFileSystemOptions
+    {
     }
 }

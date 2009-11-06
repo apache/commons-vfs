@@ -31,6 +31,7 @@ public class FtpFileSystemOptions extends DefaultFileSystemOptions
     private static final String PASSIVE_MODE = FtpFileSystemConfigBuilder.class.getName() + ".PASSIVE";
     private static final String USER_DIR_IS_ROOT = FtpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
     private static final String DATA_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
+    private final static String SO_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".SO_TIMEOUT";
 
     private static final String SERVER_LANGUAGE_CODE =
             FtpFileSystemConfigBuilder.class.getName() + ".SERVER_LANGUAGE_CODE";
@@ -158,6 +159,25 @@ public class FtpFileSystemOptions extends DefaultFileSystemOptions
         setParam(DATA_TIMEOUT, dataTimeout);
     }
 
+    /**
+     * @see #getDataTimeout
+     */
+    public Integer getSoTimeout()
+    {
+        return (Integer) getParam(SO_TIMEOUT);
+    }
+
+    /**
+     * set the socket timeout for the ftp client.<br />
+     * If you set the socketTimeout to <code>null</code> no socketTimeout will be set on the
+     * ftp client.
+     *
+     * @param soTimeout The timeout value
+     */
+    public void setSoTimeout(Integer soTimeout)
+    {
+        setParam(SO_TIMEOUT, soTimeout);
+    }
     /**
      * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.

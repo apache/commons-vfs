@@ -151,6 +151,12 @@ public final class FtpClientFactory
                     client.setDataTimeout(dataTimeout.intValue());
                 }
 
+                Integer socketTimeout = fileSystemOptions.getSoTimeout();
+                if (socketTimeout != null)
+                {
+                    client.setSoTimeout(socketTimeout.intValue());
+                }
+
                 // Change to root by default
                 // All file operations a relative to the filesystem-root
                 // String root = getRoot().getName().getPath();
