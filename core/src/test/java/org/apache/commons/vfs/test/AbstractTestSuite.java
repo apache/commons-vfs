@@ -148,7 +148,7 @@ public abstract class AbstractTestSuite
         checkTempDir("Temp dir not empty before test");
 
         // Create the file system manager
-        manager = new DefaultFileSystemManager();
+        manager = providerConfig.getDefaultFileSystemManager();
         manager.setFilesCache(providerConfig.getFilesCache());
 
         final DefaultFileReplicator replicator = new DefaultFileReplicator(tempDir);

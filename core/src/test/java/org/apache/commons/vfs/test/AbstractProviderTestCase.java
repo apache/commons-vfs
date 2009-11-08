@@ -103,7 +103,7 @@ public abstract class AbstractProviderTestCase
      */
     protected DefaultFileSystemManager createManager() throws Exception
     {
-	    DefaultFileSystemManager fs = new DefaultFileSystemManager();
+	    DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
 	    fs.setFilesCache(getProviderConfig().getFilesCache());
 	    getProviderConfig().prepare(fs);
 	    if (!fs.hasProvider("file"))
