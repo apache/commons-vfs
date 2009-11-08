@@ -39,6 +39,13 @@ public class JunctionProviderConfig
     {
         this.config = config;
     }
+    
+    /**
+	 * Returns a DefaultFileSystemManager instance (or subclass instance).
+	 */
+	public DefaultFileSystemManager getDefaultFileSystemManager() {
+		return config.getDefaultFileSystemManager();
+	}
 
     public FilesCache getFilesCache()
     {

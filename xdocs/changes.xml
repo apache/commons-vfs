@@ -23,9 +23,12 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-276" due-to="Vince Bonfanti">
+        add ProviderTestConfig.getDefaultFileSystemManager() method
+      </action>
       <action dev="rgoers" type="fix" issue="VFS-282" due-to="Alexey">
         SftpFileProvider and SftpFileSystemConfigBuilder can't change ssh authentication methods
-      </action>      
+      </action>
       <action dev="rgoers" type="fix" issue="VFS-269" due-to="Marek Zawirski">
         HttpFileObject: unsupported content over 2GB length
       </action>
