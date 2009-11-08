@@ -21,7 +21,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.vfs.provider.URLFileName;
 import org.apache.commons.vfs.provider.DefaultFileContent;
@@ -562,7 +562,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
          */
         protected void onClose() throws IOException
         {
-            RequestEntity entity = new StringRequestEntity(out.toString());
+            RequestEntity entity = new ByteArrayRequestEntity(((ByteArrayOutputStream) out).toByteArray());
             URLFileName fileName = (URLFileName) getName();
             String urlStr = urlString(fileName);
             WebdavFileSystemOptions opts = fileSystem.getFileSystemOptions();

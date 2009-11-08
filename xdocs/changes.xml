@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-261" due-to="Simon Olofsson">
+        WebDAV upload corrupts binary files
+      </action>
       <action dev="rgoers" type="fix" issue="VFS-276" due-to="Vince Bonfanti">
         add ProviderTestConfig.getDefaultFileSystemManager() method
       </action>
