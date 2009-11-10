@@ -24,6 +24,7 @@ import org.apache.commons.vfs.FileContentInfo;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.DefaultFileContentInfo;
+import org.apache.commons.vfs.util.FileObjectUtils;
 
 /**
  * Creates the FileContentInfo.
@@ -35,7 +36,8 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
 {
     public FileContentInfo create(FileContent fileContent) throws FileSystemException
     {
-        HttpFileObject httpFile = (HttpFileObject) fileContent.getFile();
+        HttpFileObject httpFile = (HttpFileObject) (FileObjectUtils
+            .getAbstractFileObject(fileContent.getFile()));
 
         String contentType = null;
         String contentEncoding = null;
