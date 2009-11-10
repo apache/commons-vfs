@@ -22,6 +22,7 @@ import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.impl.DefaultFileContentInfo;
 import org.apache.commons.vfs.provider.URLFileName;
+import org.apache.commons.vfs.util.FileObjectUtils;
 import org.apache.jackrabbit.webdav.property.DavProperty;
 import org.apache.jackrabbit.webdav.property.DavPropertyName;
 import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
@@ -37,7 +38,8 @@ public class WebdavFileContentInfoFactory implements FileContentInfoFactory
 {
     public FileContentInfo create(FileContent fileContent) throws FileSystemException
     {
-        WebdavFileObject file = (WebdavFileObject) fileContent.getFile();
+        WebdavFileObject file = (WebdavFileObject) (FileObjectUtils
+            .getAbstractFileObject(fileContent.getFile()));
 
         String contentType = null;
         String contentEncoding = null;
