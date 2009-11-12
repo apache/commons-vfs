@@ -23,9 +23,12 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="update" issue="VFS-263" due-to="Ingo Maas">
+        WebdavFileObject does not implement doSetAttribute()
+      </action>        
       <action dev="rgoers" type="fix" issue="VFS-259" due-to="Marek Zawirski">
         Http and Webdav FIleContentInfoFactory: undress to AbstractFileObject before casting
-      </action>      
+      </action>
       <action dev="rgoers" type="fix" issue="VFS-261" due-to="Simon Olofsson">
         WebDAV upload corrupts binary files
       </action>

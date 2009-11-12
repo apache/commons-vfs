@@ -51,6 +51,7 @@ import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.DavConstants;
 import org.apache.jackrabbit.webdav.MultiStatus;
 import org.apache.jackrabbit.webdav.MultiStatusResponse;
+import org.apache.jackrabbit.webdav.xml.Namespace;
 import org.apache.jackrabbit.webdav.version.DeltaVConstants;
 import org.apache.jackrabbit.webdav.version.VersionControlledResource;
 import org.apache.jackrabbit.webdav.property.DavPropertyNameSet;
@@ -301,6 +302,49 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
             throw new FileSystemException("vfs.provider.webdav/propfind.error", getName(), e);
         }
     }
+
+    /**
+     * Sets an attribute of this file.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation throws an exception.
+     */
+    protected void doSetAttribute(final String attrName, final Object value)
+        throws Exception
+    {
+        try
+        {
+            URLFileName fileName = (URLFileName) getName();
+            String urlStr = urlString(fileName);
+            DavPropertySet properties = new DavPropertySet();
+            DavPropertyNameSet propertyNameSet = new DavPropertyNameSet();
+            DavProperty property = new DefaultDavProperty(attrName, value, Namespace.EMPTY_NAMESPACE);
+            if (value != null)
+            {
+                properties.add(property);
+            }
+            else
+            {
+                propertyNameSet.add(property.getName()); // remove property
+            }
+
+            PropPatchMethod method = new PropPatchMethod(urlStr, properties, propertyNameSet);
+            setupMethod(method);
+            execute(method);
+            if (!method.succeeded())
+            {
+                throw new FileSystemException("Property '" + attrName + "' could not be set.");
+            }
+        }
+        catch (FileSystemException fse)
+        {
+            throw fse;
+        }
+        catch(Exception e)
+        {
+            throw new FileSystemException("vfs.provider.webdav/propfind.error", getName(), e);
+        }
+    }    
 
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
