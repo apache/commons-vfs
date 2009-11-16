@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-227" due-to="Sergey Vladimirov">
+        InputStream and RandomAccessContent memory leak in FileContentThreadData
+      </action>
       <action dev="rgoers" type="update" issue="VFS-263" due-to="Ingo Maas">
         WebdavFileObject does not implement doSetAttribute()
       </action>
