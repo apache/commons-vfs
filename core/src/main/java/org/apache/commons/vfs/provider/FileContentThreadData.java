@@ -82,7 +82,7 @@ class FileContentThreadData
 
     public void removeInstr(InputStream instr)
     {
-        this.rastrs.remove(instr);
+        this.instrs.remove(instr);
     }
 
     public Object removeRastr(int pos)
@@ -92,7 +92,7 @@ class FileContentThreadData
 
     public void removeRastr(RandomAccessContent ras)
     {
-        this.instrs.remove(ras);
+        this.rastrs.remove(ras);
     }
 
     public boolean hasStreams()
