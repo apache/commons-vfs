@@ -25,22 +25,36 @@ import java.io.File;
 import java.io.Serializable;
 
 /**
- * The config builder for various sftp configuration options
+ * The config BUILDER for various sftp configuration options.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
+public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-    private final static SftpFileSystemConfigBuilder builder = new SftpFileSystemConfigBuilder();
+    /** HTTP Proxy. */
+    public static final ProxyType PROXY_HTTP = new ProxyType("http");
+    /** SOCKS Proxy. */
+    public static final ProxyType PROXY_SOCKS5 = new ProxyType("socks");
 
-    private final static String USER_DIR_IS_ROOT = SftpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
-    private final static String TIMEOUT = SftpFileSystemConfigBuilder.class.getName() + ".TIMEOUT";
+    private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
+    private static final String USER_DIR_IS_ROOT = SftpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
+    private static final String TIMEOUT = SftpFileSystemConfigBuilder.class.getName() + ".TIMEOUT";
 
-    public final static ProxyType PROXY_HTTP = new ProxyType("http");
-    public final static ProxyType PROXY_SOCKS5 = new ProxyType("socks");
+    private SftpFileSystemConfigBuilder()
+    {
+        super("sftp.");
+    }
 
-    public static class ProxyType implements Serializable, Comparable
+    public static SftpFileSystemConfigBuilder getInstance()
+    {
+        return BUILDER;
+    }
+
+    /**
+     * Proxy type.
+     */
+    public static final class ProxyType implements Serializable, Comparable
     {
         private final String proxyType;
 
@@ -53,7 +67,6 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         {
             return proxyType.compareTo(((ProxyType) o).proxyType);
         }
-
 
         public boolean equals(Object o)
         {
@@ -75,24 +88,19 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
             return true;
         }
-    }
 
-    public static SftpFileSystemConfigBuilder getInstance()
-    {
-        return builder;
-    }
-
-    private SftpFileSystemConfigBuilder()
-    {
-        super("sftp.");
+        public int hashCode()
+        {
+            return proxyType.hashCode();
+        }
     }
 
     /**
      * Set the userinfo class to use if e.g. a password or a not known host
-     * will be contacted
+     * will be contacted.
      *
-     * @param opts
-     * @param info
+     * @param opts The FileSystem options.
+     * @param info User information.
      */
     public void setUserInfo(FileSystemOptions opts, UserInfo info)
     {
@@ -100,7 +108,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystem options.
+     * @return The UserInfo.
      * @see #setUserInfo
      */
     public UserInfo getUserInfo(FileSystemOptions opts)
@@ -112,8 +121,9 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Set the known_hosts file. e.g. /home/user/.ssh/known_hosts2<br>
      * Need to use a java.io.File as JSch cant deal with vfs FileObjects ;-)
      *
-     * @param opts
-     * @param sshdir
+     * @param opts The FileSystem options.
+     * @param sshdir The known hosts directory.
+     * @throws FileSystemException if an error occurs.
      */
     public void setKnownHosts(FileSystemOptions opts, File sshdir) throws FileSystemException
     {
@@ -121,7 +131,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystem options.
+     * @return the known hosts File.
      * @see #setKnownHosts
      */
     public File getKnownHosts(FileSystemOptions opts)
@@ -133,8 +144,9 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Set the identity files (your private key files).<br>
      * Need to use a java.io.File as JSch cant deal with vfs FileObjects ;-)
      *
-     * @param opts
-     * @param identities
+     * @param opts The FileSystem options.
+     * @param identities An array of identity Files.
+     * @throws FileSystemException if an error occurs.
      */
     public void setIdentities(FileSystemOptions opts, File[] identities) throws FileSystemException
     {
@@ -146,9 +158,9 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * e.g. pass "zlib,none" to enable the compression.<br>
      * See the jsch documentation for details.
      *
-     * @param opts
-     * @param compression
-     * @throws FileSystemException
+     * @param opts The FileSystem options.
+     * @param compression The compression algorithm name.
+     * @throws FileSystemException if an error occurs.
      */
     public void setCompression(FileSystemOptions opts, String compression) throws FileSystemException
     {
@@ -156,7 +168,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystem options.
+     * @return The name of the compression algorithm.
      * @see #setCompression
      */
     public String getCompression(FileSystemOptions opts)
@@ -165,7 +178,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystem options.
+     * @return the array of identity Files.
      * @see #setIdentities
      */
     public File[] getIdentities(FileSystemOptions opts)
@@ -178,13 +192,14 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * valid arguments are only yes, no and ask.<br>
      * See the jsch documentation for details.
      *
-     * @param opts
-     * @param hostKeyChecking
-     * @throws FileSystemException
+     * @param opts The FileSystem options.
+     * @param hostKeyChecking The host key checking to use.
+     * @throws FileSystemException if an error occurs.
      */
     public void setStrictHostKeyChecking(FileSystemOptions opts, String hostKeyChecking) throws FileSystemException
     {
-        if (hostKeyChecking == null || (!hostKeyChecking.equals("ask") && !hostKeyChecking.equals("no") && !hostKeyChecking.equals("yes")))
+        if (hostKeyChecking == null || (!hostKeyChecking.equals("ask") && !hostKeyChecking.equals("no") &&
+            !hostKeyChecking.equals("yes")))
         {
             throw new FileSystemException("vfs.provider.sftp/StrictHostKeyChecking-arg.error", hostKeyChecking);
         }
@@ -193,8 +208,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
-     * @return the option value
+     * @param opts The FileSystem options.
+     * @return the option value The host key checking.
      * @see #setStrictHostKeyChecking(FileSystemOptions, String)
      */
     public String getStrictHostKeyChecking(FileSystemOptions opts)
@@ -203,10 +218,10 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * use user directory as root (do not change to fs root)
+     * use user directory as root (do not change to fs root).
      *
-     * @param opts
-     * @param userDirIsRoot
+     * @param opts The FileSystem options.
+     * @param userDirIsRoot true if the user dir is the root directory.
      */
     public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
     {
@@ -214,7 +229,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystemOptions.
+     * @return true if the user directory is the root.
      * @see #setUserDirIsRoot
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
@@ -223,10 +239,10 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the timeout value on jsch session
+     * set the timeout value on jsch session.
      *
-     * @param opts
-     * @param timeout
+     * @param opts The FileSystem options.
+     * @param timeout The timeout.
      */
     public void setTimeout(FileSystemOptions opts, Integer timeout)
     {
@@ -234,7 +250,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystem options.
+     * @return The timeout value.
      * @see #setTimeout
      */
     public Integer getTimeout(FileSystemOptions opts)
@@ -251,6 +268,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Set the proxy to use for sftp connection.<br>
      * You have to set the ProxyPort too if you would like to have the proxy relly used.
      *
+     * @param opts The FileSystem options.
      * @param proxyHost the host
      * @see #setProxyPort
      */
@@ -260,9 +278,10 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the proxy-port to use for sftp connection
+     * Set the proxy-port to use for sftp connection.
      * You have to set the ProxyHost too if you would like to have the proxy relly used.
      *
+     * @param opts The FileSystem options.
      * @param proxyPort the port
      * @see #setProxyHost
      */
@@ -272,9 +291,10 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get the proxy to use for sftp connection
+     * Get the proxy to use for sftp connection.
      * You have to set the ProxyPort too if you would like to have the proxy relly used.
      *
+     * @param opts The FileSystem options.
      * @return proxyHost
      * @see #setProxyPort
      */
@@ -287,6 +307,7 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Get the proxy-port to use for sftp the connection
      * You have to set the ProxyHost too if you would like to have the proxy relly used.
      *
+     * @param opts The FileSystem options.
      * @return proxyPort: the port number or 0 if it is not set
      * @see #setProxyHost
      */
@@ -297,6 +318,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Set the proxy type to use for sftp connection.
+     * @param opts The FileSystem options.
+     * @param proxyType the type of the proxy to use.
      */
     public void setProxyType(FileSystemOptions opts, ProxyType proxyType)
     {
@@ -305,6 +328,8 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Get the proxy type to use for sftp connection.
+     * @param opts The FileSystem options.
+     * @return The ProxyType.
      */
     public ProxyType getProxyType(FileSystemOptions opts)
     {
@@ -312,18 +337,22 @@ public class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-    * Configure authentication order
-    */
+     * Configure authentication order.
+     * @param opts The FileSystem options.
+     * @param preferredAuthentications The authentication order.
+     */
     public void setPreferredAuthentications(FileSystemOptions opts, String preferredAuthentications)
     {
-        setParam(opts,"PreferredAuthentications",preferredAuthentications);
+        setParam(opts, "PreferredAuthentications", preferredAuthentications);
     }
-  
+
     /**
-    * Get authentication order
-    */
+     * Get authentication order.
+     * @param opts The FileSystem options.
+     * @return The authentication order.
+     */
     public String getPreferredAuthentications(FileSystemOptions opts)
     {
-        return (String) getParam(opts,"PreferredAuthentications");
+        return (String) getParam(opts, "PreferredAuthentications");
     }
 }

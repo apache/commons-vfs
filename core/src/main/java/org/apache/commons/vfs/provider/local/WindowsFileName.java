@@ -37,6 +37,9 @@ public class WindowsFileName extends LocalFileName
 
     /**
      * Factory method for creating name instances.
+     * @param path The file path.
+     * @param type The file type.
+     * @return The FileName.
      */
     public FileName createName(final String path, FileType type)
     {

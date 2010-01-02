@@ -29,25 +29,28 @@ import org.apache.commons.vfs.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs.provider.FileProvider;
 
 /**
- * RAM File Provider
+ * RAM File Provider.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ *
  */
 public class RamFileProvider extends AbstractOriginatingFileProvider implements
         FileProvider
 {
-
-    public final static Collection capabilities = Collections
+    /** The provider's capabilities. */
+    public static final Collection capabilities = Collections
             .unmodifiableCollection(Arrays.asList(new Capability[]
-            { Capability.CREATE, Capability.DELETE, Capability.RENAME,
+            {Capability.CREATE, Capability.DELETE, Capability.RENAME,
                     Capability.GET_TYPE, Capability.GET_LAST_MODIFIED,
                     Capability.SET_LAST_MODIFIED_FILE,
                     Capability.SET_LAST_MODIFIED_FOLDER,
                     Capability.LIST_CHILDREN, Capability.READ_CONTENT,
                     Capability.URI, Capability.WRITE_CONTENT,
                     Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ,
-                    Capability.RANDOM_ACCESS_WRITE }));
+                    Capability.RANDOM_ACCESS_WRITE
+            }));
 
     /**
-     * Constructor
+     * Constructor.
      */
     public RamFileProvider()
     {
@@ -57,8 +60,8 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.commons.vfs.provider.AbstractOriginatingFileProvider#doCreateFileSystem(org.apache.commons.vfs.FileName,
-     *      org.apache.commons.vfs.FileSystemOptions)
+     * @see org.apache.commons.vfs.provider.AbstractOriginatingFileProvider#doCreateFileSystem(
+     *      org.apache.commons.vfs.FileName, org.apache.commons.vfs.FileSystemOptions)
      */
     protected FileSystem doCreateFileSystem(FileName name,
             FileSystemOptions fileSystemOptions) throws FileSystemException

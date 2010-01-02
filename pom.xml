@@ -135,6 +135,11 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>2.2</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>2.2-SNAPSHOT</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -188,10 +193,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>2.0-beta-5</version>
+        <version>2.2-SNAPSHOT</version>
         <configuration>
           <stagingDirectory>${user.home}/vfssite/tmp</stagingDirectory>
-          <stagingSiteURL>${user.home}/vfssite/staging</stagingSiteURL>
+          <stagingSiteURL>file://${user.home}/vfssite/staging</stagingSiteURL>
           <!-- Exclude the navigation file for Maven 1 sites
                and the changes file used by the changes-plugin,
                as they interfere with the site generation. -->

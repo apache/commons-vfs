@@ -129,6 +129,7 @@ public class JarURLConnectionImpl
         }
         catch (FileSystemException fse)
         {
+            // Ignore the error.
         }
 
         return -1;

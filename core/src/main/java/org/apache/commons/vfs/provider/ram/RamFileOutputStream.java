@@ -22,27 +22,29 @@ import java.io.OutputStream;
 import org.apache.commons.vfs.FileSystemException;
 
 /**
- * OutputStream to a RamFile
+ * OutputStream to a RamFile.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class RamFileOutputStream extends OutputStream
 {
 
     /**
-     * File
+     * File.
      */
     protected RamFileObject file;
 
     /**
-     * buffer
+     * buffer.
      */
-    protected byte buffer1[] = new byte[1];
+    protected byte[] buffer1 = new byte[1];
 
+    /** File is open or closed */
     protected boolean closed = false;
 
     private IOException exc;
 
     /**
-     * @param file
+     * @param file The base file.
      */
     public RamFileOutputStream(RamFileObject file)
     {

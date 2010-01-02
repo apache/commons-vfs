@@ -495,7 +495,7 @@ class CBZip2InputStream
                     {
                         s = s + (0 + 1) * N;
                     }
-                    else// if( nextSym == RUNB )
+                    else // if( nextSym == RUNB )
                     {
                         s = s + (1 + 1) * N;
                     }
@@ -644,6 +644,7 @@ class CBZip2InputStream
             }
             catch (IOException e)
             {
+                // Ignore the exception.
             }
         }
         m_input = null;

@@ -344,7 +344,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
         {
             throw fse;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             throw new FileSystemException("vfs.provider.webdav/propfind.error", getName(), e);
         }

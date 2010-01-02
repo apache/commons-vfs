@@ -32,33 +32,34 @@ import org.apache.commons.vfs.util.RandomAccessMode;
 /**
  * A RAM File contains a single RAM FileData instance, it provides methods to
  * access the data by implementing FileObject interface.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class RamFileObject extends AbstractFileObject implements FileObject
 {
     /**
-     * File System
+     * File System.
      */
-    RamFileSystem fs;
+    private RamFileSystem fs;
 
     /**
-     * RAM File Object Data
+     * RAM File Object Data.
      */
     private RamFileData data;
 
-    private void save() throws FileSystemException
-    {
-        this.fs.save(this);
-    }
-
     /**
-     * @param name
-     * @param fs
+     * @param name The name of the file.
+     * @param fs The FileSystem.
      */
     protected RamFileObject(FileName name, RamFileSystem fs)
     {
         super(name, fs);
         this.fs = fs;
         this.fs.attach(this);
+    }
+
+    private void save() throws FileSystemException
+    {
+        this.fs.save(this);
     }
 
     /*
@@ -176,7 +177,8 @@ public class RamFileObject extends AbstractFileObject implements FileObject
     /*
      * (non-Javadoc)
      *
-     * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetRandomAccessContent(org.apache.commons.vfs.util.RandomAccessMode)
+     * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetRandomAccessContent(
+     *      org.apache.commons.vfs.util.RandomAccessMode)
      */
     protected RandomAccessContent doGetRandomAccessContent(RandomAccessMode mode)
             throws Exception

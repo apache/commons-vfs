@@ -47,12 +47,12 @@ public class ZipFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private final static Log log = LogFactory.getLog(ZipFileSystem.class);
+    private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
     private final File file;
     private ZipFile zipFile;
 
-    public ZipFileSystem(final FileName rootName,
+  public ZipFileSystem(final FileName rootName,
                          final FileObject parentLayer,
                          final FileSystemOptions fileSystemOptions)
         throws FileSystemException
@@ -173,7 +173,7 @@ public class ZipFileSystem
         catch (final IOException e)
         {
             // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
-            VfsLog.warn(getLogger(), log, "vfs.provider.zip/close-zip-file.error :" + file, e);
+            VfsLog.warn(getLogger(), LOG, "vfs.provider.zip/close-zip-file.error :" + file, e);
         }
     }
 

@@ -41,7 +41,18 @@ import java.util.Collections;
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** User Information. */
+    public static final String ATTR_USER_INFO = "UI";
+
+    /** Authentication types. */
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES =
+        new UserAuthenticationData.Type[]
+            {
+                UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+            };
+
+    /** The provider's capabilities. */
+    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -56,13 +67,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         Capability.RANDOM_ACCESS_READ
     }));
 
-    public final static String ATTR_USER_INFO = "UI";
-
-    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-        {
-            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-        };
-
     // private JSch jSch = new JSch();
 
     public SftpFileProvider()
@@ -74,7 +78,8 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     /**
      * Creates a {@link FileSystem}.
      */
-    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
+        throws FileSystemException
     {
         // JSch jsch = createJSch(fileSystemOptions);
 
@@ -90,8 +95,10 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
             session = SftpClientFactory.createConnection(
                 rootName.getHostName(),
                 rootName.getPort(),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                    UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                    UserAuthenticatorUtils.toChar(rootName.getPassword())),
                 fileSystemOptions);
         }
         catch (final Exception e)
@@ -123,6 +130,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
 
     /**
      * Initialises the component.
+     * @throws FileSystemException if an error occurs.
      */
     public void init() throws FileSystemException
     {

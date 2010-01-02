@@ -96,7 +96,10 @@
         <module name="EmptyForIteratorPad"/>
         <module name="NoWhitespaceAfter"/>
         <module name="NoWhitespaceBefore"/>
-        <module name="OperatorWrap"/>
+        <module name="OperatorWrap">
+           <property name="tokens" value="ASSIGN"/>
+           <property name="option" value="eol"/>
+        </module>
         <module name="ParenPad"/>
         <module name="TabCharacter"/>
         <module name="WhitespaceAfter"/>
@@ -145,7 +148,7 @@
         <module name="SuperClone"/>
         <module name="SuperFinalize"/>
         <module name="DeclarationOrder"/>
-        <module name="ExplicitInitialization"/>
+        <!-- <module name="ExplicitInitialization"/> -->
         <module name="DefaultComesLast"/>
         <module name="FallThrough"/>
         <module name="MultipleVariableDeclarations"/>

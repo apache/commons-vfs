@@ -39,9 +39,9 @@ import java.util.zip.ZipEntry;
  */
 public class JarFileObject extends ZipFileObject
 {
-    private Attributes attributes;
+    private final JarFileSystem fs;
 
-    final JarFileSystem fs;
+    private Attributes attributes;
 
     protected JarFileObject(final FileName name,
                             final ZipEntry entry,

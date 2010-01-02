@@ -31,11 +31,12 @@ import org.apache.commons.vfs.Selectors;
 public class CopyTask
     extends AbstractSyncTask
 {
-    private boolean overwrite = false;
+    private boolean overwrite;
     private boolean preserveLastModified = true;
 
     /**
      * Enable/disable overwriting of up-to-date files.
+     * @param overwrite true if the file should be overwritten.
      */
     public void setOverwrite(boolean overwrite)
     {
@@ -44,6 +45,7 @@ public class CopyTask
 
     /**
      * Enable/disable preserving last modified time of copied files.
+     * @param preserveLastModified true if the last modified time should be preserved.
      */
     public void setPreserveLastModified(boolean preserveLastModified)
     {
@@ -51,7 +53,7 @@ public class CopyTask
     }
 
     /**
-     * @return the curent value of overwrite
+     * @return the current value of overwrite
      */
     public boolean isOverwrite()
     {
@@ -59,7 +61,7 @@ public class CopyTask
     }
 
     /**
-     * @return the curent value of preserveLastModified
+     * @return the current value of preserveLastModified
      */
     public boolean isPreserveLastModified()
     {
@@ -68,6 +70,8 @@ public class CopyTask
 
     /**
      * Handles an out-of-date file.
+     * @param srcFile The source FileObject.
+     * @param destFile The destination FileObject.
      */
     protected void handleOutOfDateFile(final FileObject srcFile,
                                        final FileObject destFile)
@@ -75,9 +79,9 @@ public class CopyTask
     {
         log("Copying " + srcFile + " to " + destFile);
         destFile.copyFrom(srcFile, Selectors.SELECT_SELF);
-        if (preserveLastModified  &&
-                srcFile.getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED) &&
-                destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
+        if (preserveLastModified
+            && srcFile.getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED)
+            && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
         {
             final long lastModTime = srcFile.getContent().getLastModifiedTime();
             destFile.getContent().setLastModifiedTime(lastModTime);
@@ -86,6 +90,8 @@ public class CopyTask
 
     /**
      * Handles an up-to-date file.
+     * @param srcFile The source FileObject.
+     * @param destFile The destination FileObject.
      */
     protected void handleUpToDateFile(final FileObject srcFile,
                                       final FileObject destFile)

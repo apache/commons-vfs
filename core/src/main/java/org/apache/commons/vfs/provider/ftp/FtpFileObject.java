@@ -585,7 +585,8 @@ public class FtpFileObject
     protected InputStream doGetInputStream() throws Exception
     {
         final FtpClient client = ftpFs.getClient();
-        try {
+        try
+        {
             final InputStream instr = client.retrieveFileStream(relPath);
             // VFS-210
             if (instr == null)
@@ -594,7 +595,8 @@ public class FtpFileObject
             }
             return new FtpInputStream(client, instr);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             ftpFs.putClient(client);
             throw e;
         }
@@ -612,7 +614,8 @@ public class FtpFileObject
         throws Exception
     {
         final FtpClient client = ftpFs.getClient();
-        try {
+        try
+        {
             OutputStream out = null;
             if (bAppend)
             {
@@ -634,7 +637,8 @@ public class FtpFileObject
 
             return new FtpOutputStream(client, out);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             ftpFs.putClient(client);
             throw e;
         }
@@ -648,7 +652,8 @@ public class FtpFileObject
     FtpInputStream getInputStream(long filePointer) throws IOException
     {
         final FtpClient client = ftpFs.getClient();
-        try {
+        try
+        {
             final InputStream instr = client.retrieveFileStream(relPath, filePointer);
             if (instr == null)
             {
@@ -660,7 +665,8 @@ public class FtpFileObject
             }
             return new FtpInputStream(client, instr);
         }
-        catch (IOException e) {
+        catch (IOException e)
+        {
             ftpFs.putClient(client);
             throw e;
         }

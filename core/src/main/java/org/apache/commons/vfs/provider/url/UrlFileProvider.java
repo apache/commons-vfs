@@ -40,7 +40,8 @@ import java.util.Collections;
 public class UrlFileProvider
     extends AbstractFileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** The provider's capabilities */
+    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.READ_CONTENT,
         Capability.URI,
@@ -55,6 +56,11 @@ public class UrlFileProvider
 
     /**
      * Locates a file object, by absolute URI.
+     * @param baseFile The base FileObject.
+     * @param uri The uri of the file to locate.
+     * @param fileSystemOptions The FileSystemOptions
+     * @return The FileObject
+     * @throws FileSystemException if an error occurs.
      */
     public synchronized FileObject findFile(final FileObject baseFile,
                                             final String uri,

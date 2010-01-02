@@ -46,7 +46,16 @@ public class UrlFileNameParser extends AbstractFileNameParser
         return super.encodeCharacter(ch) || ch == '?';
     }
 
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename) throws FileSystemException
+  /**
+   * Parse a URI.
+   * @param context The component context.
+   * @param base The base FileName.
+   * @param filename The target file name.
+   * @return The FileName.
+   * @throws FileSystemException if an error occurs
+   */
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+        throws FileSystemException
     {
         if (isUrlBased(base, filename))
         {
@@ -77,14 +86,14 @@ public class UrlFileNameParser extends AbstractFileNameParser
     /**
      * This method counts the slashes after the scheme.
      *
-     * @param filename
-     * @return nuof slashes
+     * @param filename The file name.
+     * @return number of slashes
      */
     protected int countSlashes(final String filename)
     {
         int state = 0;
         int nuofSlash = 0;
-        for (int pos = 0; pos<filename.length(); pos++)
+        for (int pos = 0; pos < filename.length(); pos++)
         {
             char c = filename.charAt(pos);
             if (state == 0)

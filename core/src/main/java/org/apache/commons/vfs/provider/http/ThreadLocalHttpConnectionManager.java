@@ -42,9 +42,25 @@ import java.io.InputStream;
 public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
 {
     /**
+     * The thread data.
+     */
+    protected ThreadLocal localHttpConnection = new ThreadLocal()
+    {
+        protected Object initialValue()
+        {
+            return new Entry();
+        }
+    };
+
+    /**
      * Collection of parameters associated with this connection manager.
      */
     private HttpConnectionManagerParams params = new HttpConnectionManagerParams();
+
+
+    public ThreadLocalHttpConnectionManager()
+    {
+    }
 
     /**
      * Since the same connection is about to be reused, make sure the
@@ -72,18 +88,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     }
 
     /**
-     * The thread data
-     */
-    protected ThreadLocal localHttpConnection = new ThreadLocal()
-    {
-        protected Object initialValue()
-        {
-            return new Entry();
-        }
-    };
-
-    /**
-     * release the connection of the current thread
+     * release the connection of the current thread.
      */
     public void releaseLocalConnection()
     {
@@ -93,10 +98,13 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
         }
     }
 
+    /**
+     * A connection entry.
+     */
     private static class Entry
     {
         /**
-         * The http connection
+         * The http connection.
          */
         private HttpConnection conn = null;
 
@@ -104,10 +112,10 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
          * The time the connection was made idle.
          */
         private long idleStartTime = Long.MAX_VALUE;
-    }
 
-    public ThreadLocalHttpConnectionManager()
-    {
+        private Entry()
+        {
+        }
     }
 
     protected HttpConnection getLocalHttpConnection()
@@ -131,6 +139,8 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     }
 
     /**
+     * @param hostConfiguration The host configuration.
+     * @return the HttpConnection.
      * @see HttpConnectionManager#getConnection(org.apache.commons.httpclient.HostConfiguration)
      */
     public HttpConnection getConnection(HostConfiguration hostConfiguration)
@@ -162,6 +172,9 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     }
 
     /**
+     * @param hostConfiguration The host configuration.
+     * @param timeout The timeout value.
+     * @return The HttpConnection.
      * @see HttpConnectionManager#getConnection(HostConfiguration, long)
      * @since 3.0
      */
@@ -212,6 +225,9 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     }
 
     /**
+     * @param hostConfiguration The host configuration.
+     * @param timeout The timeout value.
+     * @return The HttpConnection.
      * @see HttpConnectionManager#getConnection(HostConfiguration, long)
      * @deprecated Use #getConnectionWithTimeout(HostConfiguration, long)
      */
@@ -222,6 +238,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     }
 
     /**
+     * @param conn The HttpConnection.
      * @see HttpConnectionManager#releaseConnection(org.apache.commons.httpclient.HttpConnection)
      */
     public void releaseConnection(HttpConnection conn)
@@ -238,6 +255,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     }
 
     /**
+     * @param idleTimeout The timeout value.
      * @since 3.0
      */
     public void closeIdleConnections(long idleTimeout)

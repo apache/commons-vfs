@@ -20,7 +20,14 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import org.apache.commons.vfs.*;
+import org.apache.commons.vfs.FileName;
+import org.apache.commons.vfs.FileNotFoundException;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemException;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.NameScope;
+import org.apache.commons.vfs.RandomAccessContent;
+import org.apache.commons.vfs.VFS;
 import org.apache.commons.vfs.provider.AbstractFileObject;
 import org.apache.commons.vfs.provider.UriParser;
 import org.apache.commons.vfs.util.FileObjectUtils;
@@ -447,7 +454,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     protected InputStream doGetInputStream() throws Exception
     {
         // VFS-113: avoid npe
-        synchronized(fileSystem)
+        synchronized (fileSystem)
         {
             final ChannelSftp channel = fileSystem.getChannel();
             try
@@ -554,22 +561,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
          */
         protected void onClose() throws IOException
         {
-            /*
-            try
-            {
-                final ByteArrayOutputStream outstr = (ByteArrayOutputStream) out;
-                channel.put(new ByteArrayInputStream(outstr.toByteArray()),
-                        relPath);
-            }
-            catch (final SftpException e)
-            {
-                throw new FileSystemException(e);
-            }
-            finally
-            */
-            {
-                fileSystem.putChannel(channel);
-            }
+            fileSystem.putChannel(channel);
         }
     }
 

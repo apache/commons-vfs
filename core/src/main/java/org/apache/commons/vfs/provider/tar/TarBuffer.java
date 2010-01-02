@@ -256,7 +256,7 @@ class TarBuffer
         {
             if (!readBlock())
             {
-                return;// UNDONE
+                return; // UNDONE
             }
         }
 

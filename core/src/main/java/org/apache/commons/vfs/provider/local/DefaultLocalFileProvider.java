@@ -42,7 +42,8 @@ public class DefaultLocalFileProvider
     extends AbstractOriginatingFileProvider
     implements LocalFileProvider
 {
-    public final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** The provider's capabilities. */
+    public static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -76,6 +77,8 @@ public class DefaultLocalFileProvider
 
     /**
      * Determines if a name is an absolute file name.
+     * @param name The file name.
+     * @return true if the name is absolute, false otherwise.
      */
     public boolean isAbsoluteLocalName(final String name)
     {
@@ -84,6 +87,9 @@ public class DefaultLocalFileProvider
 
     /**
      * Finds a local file, from its local name.
+     * @param name The name of the file to locate.
+     * @return the located FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject findLocalFile(final String name)
         throws FileSystemException
@@ -97,6 +103,9 @@ public class DefaultLocalFileProvider
 
     /**
      * Finds a local file.
+     * @param file The File to locate.
+     * @return the located FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject findLocalFile(final File file)
         throws FileSystemException

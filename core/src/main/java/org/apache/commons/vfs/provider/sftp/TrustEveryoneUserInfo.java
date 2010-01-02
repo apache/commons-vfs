@@ -21,7 +21,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Helper class to trust a new host
+ * Helper class to trust a new host.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class TrustEveryoneUserInfo implements UserInfo
 {

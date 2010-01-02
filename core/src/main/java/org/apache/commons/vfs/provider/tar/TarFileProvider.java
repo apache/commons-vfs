@@ -33,12 +33,14 @@ import java.util.Collections;
 
 /**
  * A file system provider for Tar files.  Provides read-only file systems.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class TarFileProvider
     extends AbstractLayeredFileProvider
     implements FileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** The provider's capabilities */
+    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
         {
             Capability.GET_LAST_MODIFIED,
             Capability.GET_TYPE,

@@ -23,19 +23,14 @@ import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 /**
- * Configuration options for HTTP
+ * Configuration options for HTTP.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-    private final static HttpFileSystemConfigBuilder builder = new HttpFileSystemConfigBuilder();
-
-    public static HttpFileSystemConfigBuilder getInstance()
-    {
-        return builder;
-    }
+    private static final HttpFileSystemConfigBuilder BUILDER = new HttpFileSystemConfigBuilder();
 
     private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
 
@@ -51,9 +46,15 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
         super("http.");
     }
 
+    public static HttpFileSystemConfigBuilder getInstance()
+    {
+        return BUILDER;
+    }
+
     /**
-     * Set the charset used for url encoding<br>
+     * Set the charset used for url encoding.<br>
      *
+     * @param opts The FileSystem options.
      * @param chaset the chaset
      */
     public void setUrlCharset(FileSystemOptions opts, String chaset)
@@ -62,8 +63,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the charset used for url encoding<br>
+     * Set the charset used for url encoding.<br>
      *
+     * @param opts The FileSystem options.
      * @return the chaset
      */
     public String getUrlCharset(FileSystemOptions opts)
@@ -73,8 +75,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Set the proxy to use for http connection.<br>
-     * You have to set the ProxyPort too if you would like to have the proxy relly used.
+     * You have to set the ProxyPort too if you would like to have the proxy really used.
      *
+     * @param opts The FileSystem options.
      * @param proxyHost the host
      * @see #setProxyPort
      */
@@ -84,9 +87,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the proxy-port to use for http connection
-     * You have to set the ProxyHost too if you would like to have the proxy relly used.
+     * Set the proxy-port to use for http connection.
+     * You have to set the ProxyHost too if you would like to have the proxy really used.
      *
+     * @param opts The FileSystem options.
      * @param proxyPort the port
      * @see #setProxyHost
      */
@@ -96,9 +100,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get the proxy to use for http connection
-     * You have to set the ProxyPort too if you would like to have the proxy relly used.
+     * Get the proxy to use for http connection.
+     * You have to set the ProxyPort too if you would like to have the proxy really used.
      *
+     * @param opts The FileSystem options.
      * @return proxyHost
      * @see #setProxyPort
      */
@@ -108,9 +113,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get the proxy-port to use for http the connection
-     * You have to set the ProxyHost too if you would like to have the proxy relly used.
+     * Get the proxy-port to use for http the connection.
+     * You have to set the ProxyHost too if you would like to have the proxy really used.
      *
+     * @param opts The FileSystem options.
      * @return proxyPort: the port number or 0 if it is not set
      * @see #setProxyHost
      */
@@ -120,7 +126,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the proxy authenticator where the system should get the credentials from
+     * Set the proxy authenticator where the system should get the credentials from.
+     * @param opts The FileSystem options.
+     * @param authenticator The UserAuthenticator.
      */
     public void setProxyAuthenticator(FileSystemOptions opts, UserAuthenticator authenticator)
     {
@@ -128,7 +136,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get the proxy authenticator where the system should get the credentials from
+     * Get the proxy authenticator where the system should get the credentials from.
+     * @param opts The FileSystem options.
+     * @return The UserAuthenticator.
      */
     public UserAuthenticator getProxyAuthenticator(FileSystemOptions opts)
     {
@@ -136,7 +146,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * The cookies to add to the reqest
+     * The cookies to add to the request.
+     * @param opts The FileSystem options.
+     * @param cookies An array of Cookies.
      */
     public void setCookies(FileSystemOptions opts, Cookie[] cookies)
     {
@@ -144,7 +156,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * The cookies to add to the reqest
+     * The cookies to add to the request.
+     * @param opts The FileSystem options.
+     * @return the Cookie array.
      */
     public Cookie[] getCookies(FileSystemOptions opts)
     {
@@ -152,7 +166,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * The maximum number of connections allowed
+     * The maximum number of connections allowed.
+     * @param opts The FileSystem options.
+     * @param maxTotalConnections The maximum number of connections.
      */
     public void setMaxTotalConnections(FileSystemOptions opts, int maxTotalConnections)
     {
@@ -170,7 +186,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * The maximum number of connections allowed to any host
+     * The maximum number of connections allowed to any host.
+     * @param opts The FileSystem options.
+     * @param maxHostConnections The maximum number of connections to a host.
      */
     public void setMaxConnectionsPerHost(FileSystemOptions opts, int maxHostConnections)
     {

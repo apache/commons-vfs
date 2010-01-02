@@ -605,9 +605,19 @@ class TarEntry
      * @param other Entry to be checked for equality.
      * @return True if the entries are equal.
      */
-    public boolean equals(final TarEntry other)
+    public boolean equals(final Object other)
     {
-        return getName().equals(other.getName());
+        if (!(other instanceof TarEntry))
+        {
+            return false;
+        }
+        TarEntry entry = (TarEntry) other;
+        return getName().equals(entry.getName());
+    }
+
+    public int hashCode()
+    {
+        return getName().hashCode();
     }
 
     /**

@@ -23,8 +23,15 @@ package org.apache.commons.vfs.provider.tar;
  * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
  * @version $Revision$ $Date$
  */
-class TarUtils
+final class TarUtils
 {
+    /**
+     * Private constructor since this is a utility class with only static methods.
+     */
+    private TarUtils()
+    {
+    }
+
     /**
      * Parse the checksum octal integer from a header buffer.
      *

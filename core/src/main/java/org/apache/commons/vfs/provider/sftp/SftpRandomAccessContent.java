@@ -25,11 +25,16 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Random access content.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ */
 class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
 {
-    private final SftpFileObject fileObject;
-
+    /** file pointer */
     protected long filePointer = 0;
+
+    private final SftpFileObject fileObject;
     private DataInputStream dis = null;
     private InputStream mis = null;
 
@@ -91,22 +96,22 @@ class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
-            public int read(byte b[]) throws IOException
+            public int read(byte[] b) throws IOException
             {
                 int ret = super.read(b);
                 if (ret > -1)
                 {
-                    filePointer+=ret;
+                    filePointer += ret;
                 }
                 return ret;
             }
 
-            public int read(byte b[], int off, int len) throws IOException
+            public int read(byte[] b, int off, int len) throws IOException
             {
                 int ret = super.read(b, off, len);
                 if (ret > -1)
                 {
-                    filePointer+=ret;
+                    filePointer += ret;
                 }
                 return ret;
             }

@@ -21,20 +21,20 @@ import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 
 /**
- * The config builder for various ftp configuration options.
+ * The config BUILDER for various ftp configuration options.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-    private static final FtpFileSystemConfigBuilder builder = new FtpFileSystemConfigBuilder();
+    private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();
 
     private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
     private static final String PASSIVE_MODE = FtpFileSystemConfigBuilder.class.getName() + ".PASSIVE";
     private static final String USER_DIR_IS_ROOT = FtpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
     private static final String DATA_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
-    private final static String SO_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".SO_TIMEOUT";
+    private static final String SO_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".SO_TIMEOUT";
 
     private static final String SERVER_LANGUAGE_CODE =
             FtpFileSystemConfigBuilder.class.getName() + ".SERVER_LANGUAGE_CODE";
@@ -54,7 +54,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     public static FtpFileSystemConfigBuilder getInstance()
     {
-        return builder;
+        return BUILDER;
     }
 
     /**
@@ -174,7 +174,8 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystem options.
+     * @return The timeout value.
      * @see #getDataTimeout
      */
     public Integer getSoTimeout(FileSystemOptions opts)
@@ -187,8 +188,8 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * If you set the socketTimeout to <code>null</code> no socketTimeout will be set on the
      * ftp client.
      *
-     * @param opts
-     * @param soTimeout
+     * @param opts The FileSystem options.
+     * @param soTimeout The timeout value.
      */
     public void setSoTimeout(FileSystemOptions opts, Integer soTimeout)
     {

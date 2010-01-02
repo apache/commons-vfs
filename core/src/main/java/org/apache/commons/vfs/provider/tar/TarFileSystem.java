@@ -51,7 +51,7 @@ public class TarFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-    private final static Log log = LogFactory.getLog(TarFileSystem.class);
+    private static final Log LOG = LogFactory.getLog(TarFileSystem.class);
 
     private final File file;
     private TarInputStream tarFile;
@@ -207,7 +207,8 @@ public class TarFileSystem
             }
             else if ("tbz2".equalsIgnoreCase(getRootName().getScheme()))
             {
-                return new TarInputStream(Bzip2FileObject.wrapInputStream(file.getAbsolutePath(), new FileInputStream(file)));
+                return new TarInputStream(Bzip2FileObject.wrapInputStream(file.getAbsolutePath(),
+                    new FileInputStream(file)));
             }
             return new TarInputStream(new FileInputStream(file));
         }
@@ -231,7 +232,7 @@ public class TarFileSystem
         catch (final IOException e)
         {
             // getLogger().warn("vfs.provider.tar/close-tar-file.error :" + file, e);
-            VfsLog.warn(getLogger(), log, "vfs.provider.tar/close-tar-file.error :" + file, e);
+            VfsLog.warn(getLogger(), LOG, "vfs.provider.tar/close-tar-file.error :" + file, e);
         }
     }
 

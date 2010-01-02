@@ -32,7 +32,7 @@ public class GenericFileNameParser
     private static final GenericFileNameParser INSTANCE = new GenericFileNameParser();
 
     /**
-     * retrieve a instance to this parser
+     * retrieve a instance to this parser.
      *
      * @return the parser
      */

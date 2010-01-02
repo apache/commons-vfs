@@ -115,14 +115,14 @@ class CRC
         m_globalCrc = 0xffffffff;
     }
 
-    void updateCRC( final int inCh )
+    void updateCRC(final int inCh)
     {
-        int temp = ( m_globalCrc >> 24 ) ^ inCh;
-        if ( temp < 0 )
+        int temp = (m_globalCrc >> 24) ^ inCh;
+        if (temp < 0)
         {
             temp = 256 + temp;
         }
-        m_globalCrc = ( m_globalCrc << 8 ) ^ CRC32_TABLE[ temp ];
+        m_globalCrc = (m_globalCrc << 8) ^ CRC32_TABLE[temp];
     }
 }
 

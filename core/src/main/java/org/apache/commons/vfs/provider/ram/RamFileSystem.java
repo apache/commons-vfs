@@ -36,7 +36,8 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileSystem;
 
 /**
- * A RAM File System
+ * A RAM File System.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable
 {
@@ -46,8 +47,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     private Map cache;
 
     /**
-     * @param rootName
-     * @param fileSystemOptions
+     * @param rootName The root file name.
+     * @param fileSystemOptions The FileSystem options.
      */
     protected RamFileSystem(FileName rootName,
             FileSystemOptions fileSystemOptions)
@@ -55,7 +56,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         super(rootName, null, fileSystemOptions);
         this.cache = Collections.synchronizedMap(new HashMap());
         // create root
-        RamFileData rootData = new RamFileData(rootName) ;
+        RamFileData rootData = new RamFileData(rootName);
         rootData.setType(FileType.FOLDER);
         rootData.setLastModified(System.currentTimeMillis());
         this.cache.put(rootName, rootData);
@@ -83,8 +84,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     }
 
     /**
-     * @param name
-     * @return children
+     * @param name The name of the file.
+     * @return children The names of the children.
      */
     String[] listChildren(FileName name)
     {
@@ -97,8 +98,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
 
         String[] names = new String[children.size()];
 
-        int pos = 0 ;
-        Iterator iter = children.iterator() ;
+        int pos = 0;
+        Iterator iter = children.iterator();
         while (iter.hasNext())
         {
             RamFileData childData = (RamFileData) iter.next();
@@ -118,7 +119,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     void delete(RamFileObject file) throws FileSystemException
     {
         // root is read only check
-        if (file.getParent()==null) {
+        if (file.getParent() == null)
+        {
             throw new FileSystemException("unable to delete root");
         }
 
@@ -170,9 +172,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     }
 
     /**
-     * @param from
-     * @param to
-     * @throws FileSystemException
+     * @param from The original file.
+     * @param to The new file.
+     * @throws FileSystemException if an error occurs.
      */
     void rename(RamFileObject from, RamFileObject to)
             throws FileSystemException
@@ -207,10 +209,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     }
 
     /**
-     * Import a Tree
+     * Import a Tree.
      *
-     * @param file
-     * @throws FileSystemException
+     * @param file The File
+     * @throws FileSystemException if an error occurs.
      */
     public void importTree(File file) throws FileSystemException
     {
@@ -301,7 +303,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     }
 
     /**
-     * Close the RAMFileSystem
+     * Close the RAMFileSystem.
      */
     public void close()
     {

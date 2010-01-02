@@ -22,12 +22,14 @@ import java.util.Collection;
 
 /**
  * A file system provider for Tar files.  Provides read-only file systems.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class Tbz2FileProvider extends CompositeFileProvider
 {
-    protected final static Collection capabilities = TarFileProvider.capabilities;
+    /** The provider's capabilities */
+    protected static final Collection capabilities = TarFileProvider.capabilities;
 
-    private final static String[] SCHEMES = new String[]
+    private static final String[] SCHEMES = new String[]
     {
         "bz2",
         "tar"

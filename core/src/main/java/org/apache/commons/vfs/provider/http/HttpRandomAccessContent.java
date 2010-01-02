@@ -27,12 +27,17 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
+/**
+ * RandomAccess content using Http.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ */
 class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
 {
+    protected long filePointer = 0;
+
     private final HttpFileObject fileObject;
     private final HttpFileSystem fileSystem;
 
-    protected long filePointer = 0;
     private DataInputStream dis = null;
     private MonitorInputStream mis = null;
 
@@ -119,22 +124,22 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
-            public int read(byte b[]) throws IOException
+            public int read(byte[] b) throws IOException
             {
                 int ret = super.read(b);
                 if (ret > -1)
                 {
-                    filePointer+=ret;
+                    filePointer += ret;
                 }
                 return ret;
             }
 
-            public int read(byte b[], int off, int len) throws IOException
+            public int read(byte[] b, int off, int len) throws IOException
             {
                 int ret = super.read(b, off, len);
                 if (ret > -1)
                 {
-                    filePointer+=ret;
+                    filePointer += ret;
                 }
                 return ret;
             }

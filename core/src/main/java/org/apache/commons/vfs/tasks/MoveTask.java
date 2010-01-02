@@ -31,10 +31,11 @@ import org.apache.commons.vfs.Selectors;
 public class MoveTask
     extends CopyTask
 {
-    private boolean tryRename = false;
+    private boolean tryRename;
 
     /**
-     * Enable/disable move/rename of file (if possible)
+     * Enable/disable move/rename of file (if possible).
+     * @param tryRename true if the file should be renamed.
      */
     public void setTryRename(boolean tryRename)
     {
@@ -59,8 +60,8 @@ public class MoveTask
         {
             log("Rename " + srcFile + " to " + destFile);
             srcFile.moveTo(destFile);
-            if (!isPreserveLastModified() &&
-                destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
+            if (!isPreserveLastModified()
+                && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
             {
                 destFile.getContent().setLastModifiedTime(System.currentTimeMillis());
             }

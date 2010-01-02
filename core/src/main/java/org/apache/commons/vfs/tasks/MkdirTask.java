@@ -35,7 +35,7 @@ public class MkdirTask
     /**
      * Sets the directory to create.
      *
-     * @param dir
+     * @param dir The directory name.
      */
     public void setDir(final String dir)
     {
@@ -44,6 +44,7 @@ public class MkdirTask
 
     /**
      * Executes the task.
+     * @throws BuildException if an exception occurs.
      */
     public void execute() throws BuildException
     {

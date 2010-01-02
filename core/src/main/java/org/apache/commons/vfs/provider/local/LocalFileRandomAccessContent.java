@@ -36,8 +36,8 @@ import java.io.RandomAccessFile;
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent
 {
     // private final LocalFile localFile;
-    final private RandomAccessFile raf;
-    final private InputStream rafis;
+    private final RandomAccessFile raf;
+    private final InputStream rafis;
 
     LocalFileRandomAccessContent(final File localFile, final RandomAccessMode mode) throws FileSystemException
     {
@@ -71,12 +71,12 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                     raf.close();
                 }
 
-                public int read(byte b[]) throws IOException
+                public int read(byte[] b) throws IOException
                 {
                     return raf.read(b);
                 }
 
-                public int read(byte b[], int off, int len) throws IOException
+                public int read(byte[] b, int off, int len) throws IOException
                 {
                     return raf.read(b, off, len);
                 }
@@ -174,12 +174,12 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
         return raf.skipBytes(n);
     }
 
-    public void readFully(byte b[]) throws IOException
+    public void readFully(byte[] b) throws IOException
     {
         raf.readFully(b);
     }
 
-    public void readFully(byte b[], int off, int len) throws IOException
+    public void readFully(byte[] b, int off, int len) throws IOException
     {
         raf.readFully(b, off, len);
     }
@@ -234,12 +234,12 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
         raf.writeBoolean(v);
     }
 
-    public void write(byte b[]) throws IOException
+    public void write(byte[] b) throws IOException
     {
         raf.write(b);
     }
 
-    public void write(byte b[], int off, int len) throws IOException
+    public void write(byte[] b, int off, int len) throws IOException
     {
         raf.write(b, off, len);
     }

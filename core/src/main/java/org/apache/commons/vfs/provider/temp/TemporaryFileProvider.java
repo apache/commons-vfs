@@ -87,8 +87,14 @@ public class TemporaryFileProvider
 
     /**
      * Locates a file object, by absolute URI.
+     * @param baseFile The base FileObject.
+     * @param uri The URI of the file to be located.
+     * @param properties FileSystemOptions to use to locate or create the file.
+     * @return The FileObject.
+     * @throws FileSystemException if an error occurs.
      */
-    public synchronized FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions properties)
+    public synchronized FileObject findFile(final FileObject baseFile, final String uri,
+                                            final FileSystemOptions properties)
         throws FileSystemException
     {
         // Parse the name

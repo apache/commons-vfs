@@ -64,6 +64,7 @@ public abstract class AbstractSyncTask
 
     /**
      * Sets the destination file.
+     * @param destFile The destination file name.
      */
     public void setDestFile(final String destFile)
     {
@@ -72,6 +73,7 @@ public abstract class AbstractSyncTask
 
     /**
      * Sets the destination directory.
+     * @param destDir The destination directory.
      */
     public void setDestDir(final String destDir)
     {
@@ -79,7 +81,8 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Sets the source file
+     * Sets the source file.
+     * @param srcFile The source file name.
      */
     public void setSrc(final String srcFile)
     {
@@ -89,7 +92,8 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Sets the source directory
+     * Sets the source directory.
+     * @param srcDir The source directory.
      */
     public void setSrcDir(final String srcDir)
     {
@@ -98,6 +102,7 @@ public abstract class AbstractSyncTask
 
     /**
      * Sets whether the source directory should be consider as the base directory.
+     * @param srcDirIsBase true if the source directory is the base directory.
      */
     public void setSrcDirIsBase(final boolean srcDirIsBase)
     {
@@ -105,7 +110,8 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Sets whether we should fail if there was an error or not
+     * Sets whether we should fail if there was an error or not.
+     * @param failonerror true if the operation should fail if there is an error.
      */
     public void setFailonerror(final boolean failonerror)
     {
@@ -113,7 +119,8 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Sets whether we should fail if there was an error or not
+     * Sets whether we should fail if there was an error or not.
+     * @return true if the operation should fail if there was an error.
      */
     public boolean isFailonerror()
     {
@@ -121,7 +128,8 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Sets the files to includes
+     * Sets the files to includes.
+     * @param filesList The list of files to include.
      */
     public void setIncludes(final String filesList)
     {
@@ -129,7 +137,9 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Adds a nested <src> element.
+     * Adds a nested &lt;src&gt; element.
+     * @param srcInfo A nested source element.
+     * @throws BuildException if the SourceInfo doesn't reference a file.
      */
     public void addConfiguredSrc(final SourceInfo srcInfo)
         throws BuildException
@@ -144,6 +154,7 @@ public abstract class AbstractSyncTask
 
     /**
      * Executes this task.
+     * @throws BuildException if an error occurs.
      */
     public void execute() throws BuildException
     {
@@ -238,7 +249,7 @@ public abstract class AbstractSyncTask
 
         // Locate the source files, and make sure they exist
         FileName srcDirName = null;
-        if (srcDirUrl !=null )
+        if (srcDirUrl != null)
         {
             srcDirName = resolveFile(srcDirUrl).getName();
         }
@@ -289,7 +300,8 @@ public abstract class AbstractSyncTask
             {
                 // Find matching files
                 // If srcDirIsBase is true, select also the sub-directories
-                final FileObject[] files = rootFile.findFiles(srcDirIsBase ? Selectors.SELECT_ALL : Selectors.SELECT_FILES);
+                final FileObject[] files = rootFile.findFiles(srcDirIsBase
+                    ? Selectors.SELECT_ALL : Selectors.SELECT_FILES);
 
                 for (int j = 0; j < files.length; j++)
                 {

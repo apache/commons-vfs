@@ -42,7 +42,7 @@ import java.util.Collections;
 public class JarFileProvider
     extends ZipFileProvider
 {
-    final static Collection capabilities;
+    static final Collection capabilities;
 
     static
     {

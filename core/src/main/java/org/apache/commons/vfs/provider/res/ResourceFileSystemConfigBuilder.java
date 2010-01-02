@@ -21,24 +21,25 @@ import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.url.UrlFileSystem;
 
 /**
- * The config builder for various ftp configuration options
+ * The config BUILDER for various ftp configuration options.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
+public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-    private final static ResourceFileSystemConfigBuilder builder = new ResourceFileSystemConfigBuilder();
-
-    public static ResourceFileSystemConfigBuilder getInstance()
-    {
-        return builder;
-    }
+    private static final ResourceFileSystemConfigBuilder BUILDER = new ResourceFileSystemConfigBuilder();
 
     private ResourceFileSystemConfigBuilder()
     {
         super("resource.");
     }
+
+    public static ResourceFileSystemConfigBuilder getInstance()
+    {
+        return BUILDER;
+    }
+
 
     public void setClassLoader(FileSystemOptions opts, ClassLoader classLoader)
     {

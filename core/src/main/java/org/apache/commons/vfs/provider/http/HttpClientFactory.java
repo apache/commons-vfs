@@ -36,7 +36,7 @@ import org.apache.commons.vfs.util.UserAuthenticatorUtils;
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class HttpClientFactory
+public final class HttpClientFactory
 {
     private HttpClientFactory()
     {
@@ -55,6 +55,7 @@ public class HttpClientFactory
      * @param builder The HttpFileSystemConfigBuilder.
      * @param scheme The protocol.
      * @param hostname The hostname.
+     * @param port The port number.
      * @param username The username.
      * @param password The password
      * @param fileSystemOptions The file system options.

@@ -36,10 +36,12 @@ public class ZipFileObject
     extends AbstractFileObject
     implements FileObject
 {
+    /** The ZipEntry. */
+    protected ZipEntry entry;
     private final HashSet children = new HashSet();
     private final ZipFileSystem fs;
     // protected final ZipFile file;
-    protected ZipEntry entry;
+
     private FileType type;
 
     protected ZipFileObject(FileName name,
@@ -79,7 +81,8 @@ public class ZipFileObject
     }
 
     /**
-     * Attaches a child
+     * Attaches a child.
+     * @param childName The name of the child.
      */
     public void attachChild(FileName childName)
     {
@@ -90,6 +93,7 @@ public class ZipFileObject
      * Determines if this file can be written to.
      *
      * @return <code>true</code> if this file is writeable, <code>false</code> if not.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean isWriteable() throws FileSystemException
     {

@@ -26,22 +26,23 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 
 /**
- * RAM File Object Data
+ * RAM File Object Data.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class RamFileData implements Serializable
 {
     /**
-     * File Name
+     * File Name.
      */
     private FileName name;
 
     /**
-     * File Type
+     * File Type.
      */
     private FileType type;
 
     /**
-     * Bytes
+     * Bytes.
      */
     private byte[] buffer;
 
@@ -56,7 +57,8 @@ class RamFileData implements Serializable
     private Collection children;
 
     /**
-     * Constructor
+     * Constructor.
+     * @param name The file name.
      */
     public RamFileData(FileName name)
     {
@@ -78,7 +80,7 @@ class RamFileData implements Serializable
     }
 
     /**
-     * @param buffer
+     * @param buffer The buffer.
      */
     void setBuffer(byte[] buffer)
     {
@@ -156,9 +158,10 @@ class RamFileData implements Serializable
     }
 
     /**
-     * Add a child
+     * Add a child.
      *
-     * @param data
+     * @param data The file data.
+     * @throws FileSystemException if an error occurs.
      */
     void addChild(RamFileData data) throws FileSystemException
     {
@@ -183,10 +186,10 @@ class RamFileData implements Serializable
     }
 
     /**
-     * Remove a child
+     * Remove a child.
      *
-     * @param data
-     * @throws FileSystemException
+     * @param data The file data.
+     * @throws FileSystemException if an error occurs.
      */
     void removeChild(RamFileData data) throws FileSystemException
     {
@@ -222,10 +225,12 @@ class RamFileData implements Serializable
      */
     public boolean equals(Object o)
     {
-        if (this == o) {
+        if (this == o)
+        {
             return true;
         }
-        if (!(o instanceof RamFileData)){
+        if (!(o instanceof RamFileData))
+        {
             return false;
         }
         RamFileData data = (RamFileData) o;
@@ -258,7 +263,7 @@ class RamFileData implements Serializable
     /**
      * Resize the buffer
      *
-     * @param newSize
+     * @param newSize The new buffer size.
      */
     void resize(int newSize)
     {

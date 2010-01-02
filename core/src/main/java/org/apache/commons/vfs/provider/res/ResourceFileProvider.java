@@ -31,14 +31,15 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Description
+ * The Resource provider.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
 public class ResourceFileProvider extends AbstractFileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** The provider's capabilities */
+    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.DISPATCHER
     }));
@@ -50,6 +51,11 @@ public class ResourceFileProvider extends AbstractFileProvider
 
     /**
      * Locates a file object, by absolute URI.
+     * @param baseFile The base file.
+     * @param uri The URI of the file to locate.
+     * @param fileSystemOptions The FileSystem options.
+     * @return the FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     public FileObject findFile(final FileObject baseFile,
                                final String uri,

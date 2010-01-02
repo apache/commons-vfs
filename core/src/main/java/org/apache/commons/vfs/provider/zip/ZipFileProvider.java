@@ -41,7 +41,8 @@ public class ZipFileProvider
     extends AbstractLayeredFileProvider
     implements FileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** The list of capabilities this provider supports */
+    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
         {
             Capability.GET_LAST_MODIFIED,
             Capability.GET_TYPE,

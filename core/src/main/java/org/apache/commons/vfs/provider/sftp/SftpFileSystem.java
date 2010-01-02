@@ -87,13 +87,16 @@ public class SftpFileSystem
             {
                 final GenericFileName rootName = (GenericFileName) getRootName();
 
-                authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(), SftpFileProvider.AUTHENTICATOR_TYPES);
+                authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(),
+                    SftpFileProvider.AUTHENTICATOR_TYPES);
 
                 session = SftpClientFactory.createConnection(
                     rootName.getHostName(),
                     rootName.getPort(),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                        UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                        UserAuthenticatorUtils.toChar(rootName.getPassword())),
                     getFileSystemOptions());
             }
             catch (final Exception e)
@@ -124,7 +127,8 @@ public class SftpFileSystem
                 channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect();
 
-                Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
+                Boolean userDirIsRoot =
+                    SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
                 String workingDirectory = getRootName().getPath();
                 if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
                 {
@@ -134,7 +138,8 @@ public class SftpFileSystem
                     }
                     catch (SftpException e)
                     {
-                        throw new FileSystemException("vfs.provider.sftp/change-work-directory.error", workingDirectory);
+                        throw new FileSystemException("vfs.provider.sftp/change-work-directory.error",
+                            workingDirectory);
                     }
                 }
             }
@@ -187,7 +192,7 @@ public class SftpFileSystem
     }
 
     /**
-     * last mod time is only a int and in seconds, thus can be off by 999
+     * last mod time is only a int and in seconds, thus can be off by 999.
      *
      * @return 1000
      */

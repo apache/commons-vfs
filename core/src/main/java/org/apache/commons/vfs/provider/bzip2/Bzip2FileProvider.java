@@ -36,6 +36,7 @@ import java.util.Collections;
  */
 public class Bzip2FileProvider extends CompressedFileFileProvider
 {
+    /** The provider's capabilities */
     protected static final Collection capabilities =
             Collections.unmodifiableCollection(Arrays.asList(new Capability[]
                     {

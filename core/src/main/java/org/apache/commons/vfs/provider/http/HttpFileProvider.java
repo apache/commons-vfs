@@ -42,7 +42,13 @@ import java.util.Collections;
 public class HttpFileProvider
     extends AbstractOriginatingFileProvider
 {
-    final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    /** Authenticator information. */
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+        {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
+        };
+
+    static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.GET_TYPE,
         Capability.READ_CONTENT,
@@ -52,11 +58,6 @@ public class HttpFileProvider
         Capability.RANDOM_ACCESS_READ,
         Capability.DIRECTORY_READ_CONTENT,
     }));
-
-    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-        {
-            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-        };
 
     public HttpFileProvider()
     {
@@ -83,8 +84,10 @@ public class HttpFileProvider
                 rootName.getScheme(),
                 rootName.getHostName(),
                 rootName.getPort(),
-                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
-                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
+                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                    UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
+                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                    UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
                 fileSystemOptions);
         }
         finally

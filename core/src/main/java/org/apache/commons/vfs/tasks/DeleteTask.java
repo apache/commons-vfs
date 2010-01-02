@@ -40,7 +40,7 @@ public class DeleteTask
     /**
      * Sets the file/folder to delete.
      *
-     * @param file
+     * @param file The name of the file.
      */
     public void setFile(final String file)
     {
@@ -48,7 +48,8 @@ public class DeleteTask
     }
 
     /**
-     * Sets the source directory
+     * Sets the source directory.
+     * @param srcDir The source directory.
      */
     public void setSrcDir(final String srcDir)
     {
@@ -56,7 +57,8 @@ public class DeleteTask
     }
 
     /**
-     * Sets the files to includes
+     * Sets the files to include.
+     * @param filesList The list of files.
      */
     public void setIncludes(final String filesList)
     {
@@ -65,6 +67,7 @@ public class DeleteTask
 
     /**
      * Executes this task.
+     * @throws BuildException if an error occurs.
      */
     public void execute() throws BuildException
     {

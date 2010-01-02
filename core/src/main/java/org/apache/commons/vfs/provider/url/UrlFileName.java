@@ -20,15 +20,26 @@ import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.URLFileName;
 
 /**
- * Created by IntelliJ IDEA.
- * User: im
- * Date: 28.06.2005
- * Time: 16:00:19
- * To change this template use File | Settings | File Templates.
+ * A URL FileName.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class UrlFileName extends URLFileName
 {
-    public UrlFileName(final String scheme, final String hostName, final int port, final int defaultPort, final String userName, final String password, final String path, final FileType type, final String queryString)
+    /**
+     * The constructor.
+     * @param scheme The scheme to use.
+     * @param hostName The host name.
+     * @param port The port.
+     * @param defaultPort The default port.
+     * @param userName The user's login id.
+     * @param password The user's credentials.
+     * @param path The file path.
+     * @param type The file type.
+     * @param queryString Parameters to use when locating or creating the file name.
+     */
+    public UrlFileName(final String scheme, final String hostName, final int port, final int defaultPort,
+                       final String userName, final String password, final String path, final FileType type,
+                       final String queryString)
     {
         super(scheme, hostName, port, defaultPort, userName, password, path, type, queryString);
     }

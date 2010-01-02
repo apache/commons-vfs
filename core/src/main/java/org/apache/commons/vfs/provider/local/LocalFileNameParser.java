@@ -33,6 +33,8 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
 {
     /**
      * Determines if a name is an absolute file name.
+     * @param name The file name.
+     * @return true if the name is absolute, false otherwise.
      */
     public boolean isAbsoluteName(final String name)
     {
@@ -58,7 +60,8 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         throws FileSystemException;
 
 
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+        throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();
 
@@ -89,5 +92,6 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
             fileType);
     }
 
-    protected abstract FileName createFileName(String scheme, final String rootFile, final String path, final FileType type);
+    protected abstract FileName createFileName(String scheme, final String rootFile, final String path,
+                                               final FileType type);
 }

@@ -31,12 +31,12 @@ import java.io.File;
 import java.util.Properties;
 
 /**
- * Create a JSch Session instance
+ * Create a JSch Session instance.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-public class SftpClientFactory
+public final class SftpClientFactory
 {
     private static final String SSH_DIR_NAME = ".ssh";
 
@@ -46,8 +46,16 @@ public class SftpClientFactory
 
     /**
      * Creates a new connection to the server.
+     * @param hostname The name of the host to connect to.
+     * @param port The port to use.
+     * @param username The user's id.
+     * @param password The user's password.
+     * @param fileSystemOptions The FileSystem options.
+     * @return A Session.
+     * @throws FileSystemException if an error occurs.
      */
-    public static Session createConnection(String hostname, int port, char[] username, char[] password, FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static Session createConnection(String hostname, int port, char[] username, char[] password,
+                                           FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         JSch jsch = new JSch();
 
@@ -65,7 +73,8 @@ public class SftpClientFactory
             }
             catch (JSchException e)
             {
-                throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
+                throw new FileSystemException("vfs.provider.sftp/known-hosts.error",
+                    knownHostsFile.getAbsolutePath(), e);
             }
         }
         else
@@ -84,7 +93,8 @@ public class SftpClientFactory
                 }
                 catch (JSchException e)
                 {
-                    throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
+                    throw new FileSystemException("vfs.provider.sftp/known-hosts.error",
+                        knownHostsFile.getAbsolutePath(), e);
                 }
             }
         }
@@ -152,7 +162,8 @@ public class SftpClientFactory
             Properties config = new Properties();
 
             //set StrictHostKeyChecking property
-            String strictHostKeyChecking = SftpFileSystemConfigBuilder.getInstance().getStrictHostKeyChecking(fileSystemOptions);
+            String strictHostKeyChecking =
+                SftpFileSystemConfigBuilder.getInstance().getStrictHostKeyChecking(fileSystemOptions);
             if (strictHostKeyChecking != null)
             {
                 config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
@@ -160,9 +171,9 @@ public class SftpClientFactory
             //set PreferredAuthentications property
             String preferredAuthentications = SftpFileSystemConfigBuilder.getInstance().
             getPreferredAuthentications(fileSystemOptions);
-            if(preferredAuthentications!=null)
+            if (preferredAuthentications != null)
             {
-                config.setProperty("PreferredAuthentications",preferredAuthentications);
+                config.setProperty("PreferredAuthentications", preferredAuthentications);
             }
 
             //set compression property
@@ -177,7 +188,8 @@ public class SftpClientFactory
             if (proxyHost != null)
             {
                 int proxyPort = SftpFileSystemConfigBuilder.getInstance().getProxyPort(fileSystemOptions);
-                SftpFileSystemConfigBuilder.ProxyType proxyType = SftpFileSystemConfigBuilder.getInstance().getProxyType(fileSystemOptions);
+                SftpFileSystemConfigBuilder.ProxyType proxyType =
+                    SftpFileSystemConfigBuilder.getInstance().getProxyType(fileSystemOptions);
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType))
                 {

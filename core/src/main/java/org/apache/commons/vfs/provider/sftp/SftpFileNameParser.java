@@ -21,11 +21,12 @@ import org.apache.commons.vfs.provider.URLFileNameParser;
 
 
 /**
- * Implementation for sftp. set default port to 22
+ * Implementation for sftp. set default port to 22.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class SftpFileNameParser extends URLFileNameParser
 {
-    private final static SftpFileNameParser INSTANCE = new SftpFileNameParser();
+    private static final SftpFileNameParser INSTANCE = new SftpFileNameParser();
 
     public SftpFileNameParser()
     {

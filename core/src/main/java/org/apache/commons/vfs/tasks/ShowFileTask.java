@@ -34,13 +34,15 @@ import java.util.Date;
 public class ShowFileTask
     extends VfsTask
 {
+    private static final String INDENT = "  ";
     private String url;
     private boolean showContent;
     private boolean recursive;
-    private static final String INDENT = "  ";
+
 
     /**
      * The URL of the file to display.
+     * @param url The url of the file.
      */
     public void setFile(final String url)
     {
@@ -50,6 +52,7 @@ public class ShowFileTask
     /**
      * Shows the content.  Assumes the content is text, encoded using the
      * platform's default encoding.
+     * @param showContent true if the content should be shown.
      */
     public void setShowContent(final boolean showContent)
     {
@@ -57,7 +60,8 @@ public class ShowFileTask
     }
 
     /**
-     * Recursively shows the decendents of the file.
+     * Recursively shows the descendents of the file.
+     * @param recursive true if descendents should be shown.
      */
     public void setRecursive(final boolean recursive)
     {
@@ -66,6 +70,7 @@ public class ShowFileTask
 
     /**
      * Executes the task.
+     * @throws BuildException if any exception is thrown.
      */
     public void execute() throws BuildException
     {

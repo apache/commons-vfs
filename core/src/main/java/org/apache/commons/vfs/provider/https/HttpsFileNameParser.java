@@ -20,11 +20,12 @@ import org.apache.commons.vfs.provider.FileNameParser;
 import org.apache.commons.vfs.provider.URLFileNameParser;
 
 /**
- * Implementation for http. set default port to 80
+ * Implementation for https. set default port to 443.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class HttpsFileNameParser extends URLFileNameParser
 {
-    private final static HttpsFileNameParser INSTANCE = new HttpsFileNameParser();
+    private static final HttpsFileNameParser INSTANCE = new HttpsFileNameParser();
 
     public HttpsFileNameParser()
     {

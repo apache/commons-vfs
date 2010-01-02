@@ -27,39 +27,40 @@ import org.apache.commons.vfs.RandomAccessContent;
 import org.apache.commons.vfs.util.RandomAccessMode;
 
 /**
- * RAM File Random Access Content
+ * RAM File Random Access Content.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class RamFileRandomAccessContent implements RandomAccessContent
 {
-    /**
-     * Buffer
-     */
-    byte[] buf;
-
     /**
      * File Pointer
      */
     protected int filePointer = 0;
 
     /**
-     * buffer
+     * Buffer
      */
-    private byte buffer8[] = new byte[8];
+    private byte[] buf;
 
     /**
      * buffer
      */
-    private byte buffer4[] = new byte[4];
+    private byte[] buffer8 = new byte[8];
 
     /**
      * buffer
      */
-    private byte buffer2[] = new byte[2];
+    private byte[] buffer4 = new byte[4];
 
     /**
      * buffer
      */
-    private byte buffer1[] = new byte[1];
+    private byte[] buffer2 = new byte[2];
+
+    /**
+     * buffer
+     */
+    private byte[] buffer1 = new byte[1];
 
     /**
      * Mode
@@ -74,7 +75,8 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     private InputStream rafis;
 
     /**
-     * @param mode
+     * @param file The file to access.
+     * @param mode The access mode.
      */
     public RamFileRandomAccessContent(RamFileObject file, RandomAccessMode mode)
     {
@@ -107,12 +109,12 @@ public class RamFileRandomAccessContent implements RandomAccessContent
             {
             }
 
-            public int read(byte b[]) throws IOException
+            public int read(byte[] b) throws IOException
             {
                 return read(b, 0, b.length);
             }
 
-            public int read(byte b[], int off, int len) throws IOException
+            public int read(byte[] b, int off, int len) throws IOException
             {
                 int retLen = Math.min(len, getLeftBytes());
                 RamFileRandomAccessContent.this.readFully(b, off, retLen);

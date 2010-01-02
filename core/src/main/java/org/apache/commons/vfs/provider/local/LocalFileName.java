@@ -41,6 +41,7 @@ public class LocalFileName extends AbstractFileName
 
     /**
      * Returns the root file for this file.
+     * @return The root file name.
      */
     public String getRootFile()
     {
@@ -49,6 +50,9 @@ public class LocalFileName extends AbstractFileName
 
     /**
      * Factory method for creating name instances.
+     * @param path The file path.
+     * @param type The file type.
+     * @return The FileName.
      */
     public FileName createName(final String path, FileType type)
     {

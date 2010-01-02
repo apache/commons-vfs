@@ -29,14 +29,16 @@ import java.util.HashSet;
 
 /**
  * A file in a Tar file system.
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class TarFileObject
     extends AbstractFileObject
     implements FileObject
 {
+    /** The TarEntry */
+    protected TarEntry entry;
     private final HashSet children = new HashSet();
     private final TarFileSystem fs;
-    protected TarEntry entry;
     private FileType type;
 
     protected TarFileObject(FileName name,
@@ -87,6 +89,7 @@ public class TarFileObject
      * Determines if this file can be written to.
      *
      * @return <code>true</code> if this file is writeable, <code>false</code> if not.
+     * @throws FileSystemException if an error occurs.
      */
     public boolean isWriteable() throws FileSystemException
     {
