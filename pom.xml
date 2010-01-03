@@ -135,11 +135,6 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>2.2</version>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>2.2-SNAPSHOT</version>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -190,21 +185,7 @@
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.1</version>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>2.2-SNAPSHOT</version>
-        <configuration>
-          <stagingDirectory>${user.home}/vfssite/tmp</stagingDirectory>
-          <stagingSiteURL>file://${user.home}/vfssite/staging</stagingSiteURL>
-          <!-- Exclude the navigation file for Maven 1 sites
-               and the changes file used by the changes-plugin,
-               as they interfere with the site generation. -->
-          <moduleExcludes>
-            <xdoc>navigation.xml,changes.xml</xdoc>
-          </moduleExcludes>
-        </configuration>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
@@ -365,6 +346,59 @@
       </dependency>
 	</dependencies>
   </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>site</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>1.5.6</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>1.5.6</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>2.2-SNAPSHOT</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>2.2-SNAPSHOT</version>
+            <configuration>
+              <stagingDirectory>${user.home}/vfssite/tmp</stagingDirectory>
+              <stagingSiteURL>file://${user.home}/vfssite/staging</stagingSiteURL>
+              <!-- Exclude the navigation file for Maven 1 sites
+                   and the changes file used by the changes-plugin,
+                   as they interfere with the site generation. -->
+              <moduleExcludes>
+                <xdoc>navigation.xml,changes.xml</xdoc>
+              </moduleExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>
+    </profile>
+  </profiles>
 
   <repositories>
     <repository>
