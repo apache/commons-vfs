@@ -34,7 +34,7 @@
   <name>Commons VFS</name>
   <description>VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
-  <version>2.0-SNAPSHOT</version>
+  <version>2.0-RC1</version>
 
   <url>http://commons.apache.org/vfs/</url>
   <inceptionYear>2002</inceptionYear>
@@ -120,6 +120,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <commons.componentid>vfs</commons.componentid>
     <commons.release.version>2.0</commons.release.version>
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.binary.suffix></commons.binary.suffix>
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
@@ -397,6 +398,64 @@
           </plugin>
         </plugins>
       </reporting>
+    </profile>
+    <profile>
+      <id>rc</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>1.5.6</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>1.5.6</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-site-plugin</artifactId>
+              <version>2.2-SNAPSHOT</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+      <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>2.2-SNAPSHOT</version>
+            <configuration>
+              <stagingDirectory>${user.home}/vfssite/tmp</stagingDirectory>
+              <stagingSiteURL>file://${user.home}/vfssite/staging</stagingSiteURL>
+              <!-- Exclude the navigation file for Maven 1 sites
+                   and the changes file used by the changes-plugin,
+                   as they interfere with the site generation. -->
+              <moduleExcludes>
+                <xdoc>navigation.xml,changes.xml</xdoc>
+              </moduleExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </reporting>        
+      <distributionManagement>
+        <!-- Cannot define in parent ATM, see COMMONSSITE-26 -->
+        <site>
+          <id>apache.website</id>
+          <name>Apache Commons Release Candidate Staging Site</name>
+          <url>${commons.deployment.protocol}://people.apache.org/www/people.apache.org/builds/commons/${commons.componentid}/${commons.release.version}/${commons.rc.version}/site</url>
+        </site>
+      </distributionManagement>
     </profile>
   </profiles>
 
