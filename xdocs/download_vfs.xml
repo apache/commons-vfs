@@ -99,28 +99,28 @@ limitations under the License.
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-project-1.0.tar.gz">commons-vfs-project-1.0.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-project-1.0.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-project-1.0.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-1.0.tar.gz">commons-vfs-1.0.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-1.0.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-1.0.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-project-1.0.zip">commons-vfs-project-1.0.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-project-1.0.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-project-1.0.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-1.0.zip">commons-vfs-1.0.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-1.0.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-1.0.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/vfs/source/commons-vfs-project-1.0-src.tar.gz">commons-vfs-project-1.0-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-project-1.0-src.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-project-1.0-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-1.0-src.tar.gz">commons-vfs-1.0-src.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-1.0-src.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-1.0-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/vfs/source/commons-vfs-project-1.0-src.zip">commons-vfs-project-1.0-src.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-project-1.0-src.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-project-1.0-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-1.0-src.zip">commons-vfs-1.0-src.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-1.0-src.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-1.0-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
