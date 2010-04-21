@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>14</version>
+    <version>15</version>
     <!-- The relative path is set to the current directory so the checkstyle plugin will work -->
     <relativePath>.</relativePath>
   </parent>
@@ -125,6 +125,7 @@
     <commons.jira.pid>12310495</commons.jira.pid>
     <maven.compile.source>1.4</maven.compile.source>
     <maven.compile.target>1.4</maven.compile.target>
+    <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
   </properties>
 
   <build>
