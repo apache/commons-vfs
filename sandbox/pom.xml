@@ -74,6 +74,7 @@
 
   <properties>
     <commons.componentid>vfs-sandbox</commons.componentid>
+    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
   </properties>
 
   <build>

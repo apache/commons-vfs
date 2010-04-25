@@ -88,6 +88,10 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+  </properties>
+
   <build>
     <resources>
       <resource>

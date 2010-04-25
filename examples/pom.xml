@@ -75,6 +75,7 @@
 
   <properties>
     <commons.componentid>vfs-examples</commons.componentid>
+    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
   </properties> 
 
   <build>

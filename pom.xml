@@ -24,8 +24,6 @@
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
     <version>15</version>
-    <!-- The relative path is set to the current directory so the checkstyle plugin will work -->
-    <relativePath>.</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -126,6 +124,7 @@
     <maven.compile.source>1.4</maven.compile.source>
     <maven.compile.target>1.4</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
+    <vfs.parent.dir>${basedir}</vfs.parent.dir>
   </properties>
 
   <build>
@@ -208,12 +207,12 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-          <!--<propertiesLocation>${project.parent.relativePath}/checkstyle.properties</propertiesLocation> -->
-          <configLocation>${project.parent.relativePath}/checkstyle.xml</configLocation>
-          <suppressionsLocation>${project.parent.relativePath}/checkstyle-suppressions.xml</suppressionsLocation>
+          <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
+          <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
+          <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <propertyExpansion>basedir=${basedir}</propertyExpansion>
-          <propertyExpansion>licensedir=${basedir}/${project.parent.relativePath}/checkstyle-header.txt</propertyExpansion>
+          <propertyExpansion>licensedir=${vfs.parent.dir}/checkstyle-header.txt</propertyExpansion>
         </configuration>
       </plugin>
       <plugin>
