@@ -16,17 +16,18 @@
  */
 package org.apache.commons.vfs.provider.ftp;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticationData;
 import org.apache.commons.vfs.provider.GenericFileName;
 import org.apache.commons.vfs.util.UserAuthenticatorUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * A wrapper to the FTPClient to allow automatic reconnect on connection loss.<br />
@@ -128,6 +129,18 @@ class FTPClientWrapper implements FtpClient
 
     private FTPFile[] listFilesInDirectory(String relPath) throws IOException
     {
+		FTPFile[] files;
+
+		// VFS-307: no check if we can simply list the files, this might fail if there are spaces in the path
+		files = getFtpClient().listFiles(relPath);
+		if (FTPReply.isPositiveCompletion(getFtpClient().getReplyCode()))
+		{
+			return files;
+		}
+
+		// VFS-307: now try the hard way by cd'ing into the directory, list and cd back
+		// if VFS is required to fallback here the user might experience a real bad FTP performance
+		// as then every list requires 4 ftp commands.
         String workingDirectory = null;
         if (relPath != null)
         {
@@ -138,7 +151,7 @@ class FTPClientWrapper implements FtpClient
             }
         }
 
-        FTPFile[] files = getFtpClient().listFiles();
+        files = getFtpClient().listFiles();
 
         if (relPath != null && !getFtpClient().changeWorkingDirectory(workingDirectory))
         {
