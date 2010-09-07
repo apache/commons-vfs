@@ -51,6 +51,10 @@
         <scheme name="ftp"/>
         <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>
     </provider>
+    <provider class-name="org.apache.commons.vfs.provider.ftps.FtpsFileProvider">
+        <scheme name="ftps"/>
+        <if-available class-name="org.apache.commons.net.ftp.FTPFile"/>
+    </provider>
     <provider class-name="org.apache.commons.vfs.provider.http.HttpFileProvider">
         <scheme name="http"/>
         <if-available class-name="org.apache.commons.httpclient.HttpClient"/>

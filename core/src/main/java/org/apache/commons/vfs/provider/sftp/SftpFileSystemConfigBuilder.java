@@ -214,7 +214,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getStrictHostKeyChecking(FileSystemOptions opts)
     {
-        return getString(opts, "StrictHostKeyChecking");
+        return getString(opts, "StrictHostKeyChecking", "no");
     }
 
     /**
@@ -235,7 +235,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
     {
-        return getBoolean(opts, USER_DIR_IS_ROOT);
+        return getBoolean(opts, USER_DIR_IS_ROOT, Boolean.TRUE);
     }
 
     /**
