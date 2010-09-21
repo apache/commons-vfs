@@ -49,7 +49,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected Class getConfigClass()
     {

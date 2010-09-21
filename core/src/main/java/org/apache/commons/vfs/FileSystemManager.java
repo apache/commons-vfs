@@ -320,7 +320,7 @@ public interface FileSystemManager
         throws FileSystemException;
 
     /**
-     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs.operations.FileOperationProvider).
+     * @see FileSystemManager#addOperationProvider(String, org.apache.commons.vfs.operations.FileOperationProvider)
      *
      * @param schemes The schemes that will be associated with the provider.
      * @param operationProvider The FileOperationProvider to add.
