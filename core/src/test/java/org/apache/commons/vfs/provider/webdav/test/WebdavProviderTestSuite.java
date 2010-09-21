@@ -16,8 +16,6 @@
  */
 package org.apache.commons.vfs.provider.webdav.test;
 
-import org.apache.commons.vfs.impl.test.VfsClassLoaderTests;
-import org.apache.commons.vfs.test.AbstractTestSuite;
 import org.apache.commons.vfs.test.ProviderTestConfig;
 import org.apache.commons.vfs.test.ProviderCacheStrategyTests;
 import org.apache.commons.vfs.test.UriTests;
