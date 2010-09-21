@@ -143,16 +143,17 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder {
   }
 
   /**
-   * Set FTPS type, either "implicit" or "explicit"
+   * Set FTPS security mode, either "implicit" or "explicit"
    *
    * @param opts
    * @param ftpsType
    */
   public void setFtpsType(FileSystemOptions opts, String ftpsType) {
-    setParam(opts, USER_DIR_IS_ROOT, ftpsType);
+    setParam(opts, FTPS_TYPE, ftpsType);
   }
 
   /**
+   * Return the FTPS security mode. Defaults to "explicit" if not defined.
    * @param opts
    * @see #setFtpsType
    */
