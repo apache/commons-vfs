@@ -44,7 +44,7 @@ public class LRUFilesCache extends AbstractFilesCache
     /**
      * The logger to use.
      */
-    private Log log = LogFactory.getLog(LRUFilesCache.class);
+    private final Log log = LogFactory.getLog(LRUFilesCache.class);
 
     /** The FileSystem cache */
     private final Map filesystemCache = new HashMap(10);

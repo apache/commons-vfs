@@ -48,7 +48,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
     /**
      * The logger to use.
      */
-    private Log log = LogFactory.getLog(SoftRefFilesCache.class);
+    private final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
     private final Map filesystemCache = new HashMap();
     private final Map refReverseMap = new HashMap(100);

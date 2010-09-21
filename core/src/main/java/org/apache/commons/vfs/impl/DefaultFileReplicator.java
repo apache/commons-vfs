@@ -47,7 +47,7 @@ public class DefaultFileReplicator
         {
             '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
         };
-    private static Log log = LogFactory.getLog(DefaultFileReplicator.class);
+    private static final Log log = LogFactory.getLog(DefaultFileReplicator.class);
 
     private static final int MASK = 0xffff;
 

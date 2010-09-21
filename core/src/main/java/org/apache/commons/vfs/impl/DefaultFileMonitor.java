@@ -101,12 +101,12 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * File objects to be removed from the monitor map.
      */
-    private Stack deleteStack = new Stack();
+    private final Stack deleteStack = new Stack();
 
     /**
      * File objects to be added to the monitor map.
      */
-    private Stack addStack = new Stack();
+    private final Stack addStack = new Stack();
 
     /**
      * A flag used to determine if the monitor thread should be running.
