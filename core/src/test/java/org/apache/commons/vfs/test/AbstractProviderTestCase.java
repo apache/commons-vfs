@@ -77,7 +77,7 @@ public abstract class AbstractProviderTestCase
      * Configures this test.
      */
     public void setConfig(final DefaultFileSystemManager manager,
-    					  final ProviderTestConfig providerConfig,
+                          final ProviderTestConfig providerConfig,
                           final FileObject baseFolder,
                           final FileObject readFolder,
                           final FileObject writeFolder)
@@ -103,14 +103,14 @@ public abstract class AbstractProviderTestCase
      */
     protected DefaultFileSystemManager createManager() throws Exception
     {
-	    DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
-	    fs.setFilesCache(getProviderConfig().getFilesCache());
-	    getProviderConfig().prepare(fs);
-	    if (!fs.hasProvider("file"))
-	    {
-	        fs.addProvider("file", new DefaultLocalFileProvider());
-	    }
-	    return fs;
+        DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
+        fs.setFilesCache(getProviderConfig().getFilesCache());
+        getProviderConfig().prepare(fs);
+        if (!fs.hasProvider("file"))
+        {
+            fs.addProvider("file", new DefaultLocalFileProvider());
+        }
+        return fs;
     }
 
     /**
@@ -135,11 +135,11 @@ public abstract class AbstractProviderTestCase
      * get the provider configuration
      */
     public ProviderTestConfig getProviderConfig()
-	{
-		return providerConfig;
-	}
+    {
+        return providerConfig;
+    }
 
-	/**
+    /**
      * Returns the read test folder.
      */
     protected FileObject getReadFolder()
@@ -387,8 +387,8 @@ public abstract class AbstractProviderTestCase
         {
             protected void runTest()
             {
-  		        System.out.println(message);
-   			}
-   		};
-   	}
+                  System.out.println(message);
+               }
+           };
+       }
 }

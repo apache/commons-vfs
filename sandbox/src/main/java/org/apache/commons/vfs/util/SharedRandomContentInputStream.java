@@ -36,190 +36,190 @@ import java.util.Set;
  */
 public class SharedRandomContentInputStream extends BufferedInputStream implements SharedInputStream
 {
-	private final Set createdStreams;
-	private final FileObject fo;
-	private final long fileStart;
-	private final long fileEnd;
+    private final Set createdStreams;
+    private final FileObject fo;
+    private final long fileStart;
+    private final long fileEnd;
 
-	private long pos;
-	private long resetCount;
+    private long pos;
+    private long resetCount;
 
-	private SharedRandomContentInputStream(final Set createdStreams, final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
-	{
-		super(is);
+    private SharedRandomContentInputStream(final Set createdStreams, final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
+    {
+        super(is);
 
-		if (!fo.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
-		{
-			throw new FileSystemException("vfs.util/missing-capability.error", Capability.RANDOM_ACCESS_READ);
-		}
-		
-		this.fo = fo;
-		this.fileStart = fileStart;
-		this.fileEnd = fileEnd;
-		this.createdStreams = createdStreams;
+        if (!fo.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
+        {
+            throw new FileSystemException("vfs.util/missing-capability.error", Capability.RANDOM_ACCESS_READ);
+        }
+        
+        this.fo = fo;
+        this.fileStart = fileStart;
+        this.fileEnd = fileEnd;
+        this.createdStreams = createdStreams;
 
-		synchronized(createdStreams)
-		{
-			createdStreams.add(this);
-		}
-	}
+        synchronized(createdStreams)
+        {
+            createdStreams.add(this);
+        }
+    }
 
-	public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException
-	{
-		this(new HashSet(), fo, 0, -1, fo.getContent().getInputStream());
-	}
-
-
-	public synchronized int read() throws IOException
-	{
-		if (checkEnd())
-		{
-			return -1;
-		}
-		int r = super.read();
-		pos++;
-		resetCount++;
-		return r;
-	}
-
-	public synchronized int read(byte b[], int off, int len) throws IOException
-	{
-		if (checkEnd())
-		{
-			return -1;
-		}
-
-		if (fileEnd > -1 && calcFilePosition(len) > fileEnd)
-		{
-			// we can not read past our end
-			len = (int) (fileEnd - getFilePosition());
-		}
-
-		int nread = super.read(b, off, len);
-		pos+=nread;
-		resetCount+=nread;
-		return nread;
-	}
-
-	public synchronized long skip(long n) throws IOException
-	{
-		if (checkEnd())
-		{
-			return -1;
-		}
-
-		if (fileEnd > -1 && calcFilePosition(n) > fileEnd)
-		{
-			// we can not skip past our end
-			n = fileEnd - getFilePosition();
-		}
-
-		long nskip = super.skip(n);
-		pos+=nskip;
-		resetCount+=nskip;
-		return nskip;
-	}
-
-	/*
-	public synchronized int available() throws IOException
-	{
-		long realFileEnd = fileEnd;
-		if (realFileEnd < 0)
-		{
-			realFileEnd = fo.getContent().getSize();
-		}
-		if (realFileEnd < 0)
-		{
-			// we cant determine if there is really something available
-			return 8192;
-		}
-
-		long available = realFileEnd - (fileStart + pos);
-		if (available > Integer.MAX_VALUE)
-		{
-			return Integer.MAX_VALUE;
-		}
-
-		return (int) available;
-	}
-	*/
-
-	private boolean checkEnd()
-	{
-		return fileEnd > -1 && (getFilePosition() >= fileEnd);
-	}
-
-	protected long getFilePosition()
-	{
-		return fileStart + pos;
-	}
-
-	protected long calcFilePosition(long nadd)
-	{
-		return getFilePosition()+nadd;
-	}
-
-	public synchronized void mark(int readlimit)
-	{
-		super.mark(readlimit);
-		resetCount = 0;
-	}
-
-	public synchronized void reset() throws IOException
-	{
-		super.reset();
-		pos-=resetCount;
-		resetCount=0;
-	}
-
-	public long getPosition()
-	{
-		return pos;
-	}
+    public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException
+    {
+        this(new HashSet(), fo, 0, -1, fo.getContent().getInputStream());
+    }
 
 
-	public void close() throws IOException
-	{
-		super.close();
+    public synchronized int read() throws IOException
+    {
+        if (checkEnd())
+        {
+            return -1;
+        }
+        int r = super.read();
+        pos++;
+        resetCount++;
+        return r;
+    }
 
-		synchronized(createdStreams)
-		{
-			createdStreams.remove(this);
-		}
-	}
+    public synchronized int read(byte b[], int off, int len) throws IOException
+    {
+        if (checkEnd())
+        {
+            return -1;
+        }
 
-	public InputStream newStream(long start, long end)
-	{
-		try
-		{
-			long newFileStart = this.fileStart+start;
-			long newFileEnd = end<0?this.fileEnd:this.fileStart+end;
+        if (fileEnd > -1 && calcFilePosition(len) > fileEnd)
+        {
+            // we can not read past our end
+            len = (int) (fileEnd - getFilePosition());
+        }
 
-			RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
-			rac.seek(newFileStart);
-			return new SharedRandomContentInputStream(
-				createdStreams,
-				fo,
-				newFileStart,
-				newFileEnd,
-				rac.getInputStream());
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+        int nread = super.read(b, off, len);
+        pos+=nread;
+        resetCount+=nread;
+        return nread;
+    }
 
-	public void closeAll() throws IOException
-	{
-		synchronized(createdStreams)
-		{
-			SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
-			createdStreams.toArray(streams);
-			for (int i = 0; i<streams.length; i++)
-			{
-				streams[i].close();
-			}
-		}
-	}
+    public synchronized long skip(long n) throws IOException
+    {
+        if (checkEnd())
+        {
+            return -1;
+        }
+
+        if (fileEnd > -1 && calcFilePosition(n) > fileEnd)
+        {
+            // we can not skip past our end
+            n = fileEnd - getFilePosition();
+        }
+
+        long nskip = super.skip(n);
+        pos+=nskip;
+        resetCount+=nskip;
+        return nskip;
+    }
+
+    /*
+    public synchronized int available() throws IOException
+    {
+        long realFileEnd = fileEnd;
+        if (realFileEnd < 0)
+        {
+            realFileEnd = fo.getContent().getSize();
+        }
+        if (realFileEnd < 0)
+        {
+            // we cant determine if there is really something available
+            return 8192;
+        }
+
+        long available = realFileEnd - (fileStart + pos);
+        if (available > Integer.MAX_VALUE)
+        {
+            return Integer.MAX_VALUE;
+        }
+
+        return (int) available;
+    }
+    */
+
+    private boolean checkEnd()
+    {
+        return fileEnd > -1 && (getFilePosition() >= fileEnd);
+    }
+
+    protected long getFilePosition()
+    {
+        return fileStart + pos;
+    }
+
+    protected long calcFilePosition(long nadd)
+    {
+        return getFilePosition()+nadd;
+    }
+
+    public synchronized void mark(int readlimit)
+    {
+        super.mark(readlimit);
+        resetCount = 0;
+    }
+
+    public synchronized void reset() throws IOException
+    {
+        super.reset();
+        pos-=resetCount;
+        resetCount=0;
+    }
+
+    public long getPosition()
+    {
+        return pos;
+    }
+
+
+    public void close() throws IOException
+    {
+        super.close();
+
+        synchronized(createdStreams)
+        {
+            createdStreams.remove(this);
+        }
+    }
+
+    public InputStream newStream(long start, long end)
+    {
+        try
+        {
+            long newFileStart = this.fileStart+start;
+            long newFileEnd = end<0?this.fileEnd:this.fileStart+end;
+
+            RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
+            rac.seek(newFileStart);
+            return new SharedRandomContentInputStream(
+                createdStreams,
+                fo,
+                newFileStart,
+                newFileEnd,
+                rac.getInputStream());
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void closeAll() throws IOException
+    {
+        synchronized(createdStreams)
+        {
+            SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
+            createdStreams.toArray(streams);
+            for (int i = 0; i<streams.length; i++)
+            {
+                streams[i].close();
+            }
+        }
+    }
 }

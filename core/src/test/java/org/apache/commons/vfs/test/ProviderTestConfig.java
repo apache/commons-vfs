@@ -29,11 +29,11 @@ import org.apache.commons.vfs.impl.DefaultFileSystemManager;
  */
 public interface ProviderTestConfig
 {
-	/**
-	 * Returns a DefaultFileSystemManager instance (or subclass instance).
-	 */
-	public DefaultFileSystemManager getDefaultFileSystemManager();
-	
+    /**
+     * Returns a DefaultFileSystemManager instance (or subclass instance).
+     */
+    public DefaultFileSystemManager getDefaultFileSystemManager();
+
     /**
      * Prepares the file system manager.
      */

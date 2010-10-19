@@ -37,62 +37,62 @@ import org.apache.commons.AbstractVfsTestCase;
  * Tests for the RAM file system.
  */
 public class RamProviderTestCase extends AbstractProviderTestConfig implements
-		ProviderTestConfig
+        ProviderTestConfig
 {
     private boolean inited = false;
 
     /** logger */
-	private static Log log = LogFactory.getLog(RamProviderTestCase.class);
-
-	/**
-	 * Creates the test suite for the ram file system.
-	 */
-	public static Test suite() throws Exception
-	{
-		return new ProviderTestSuite(new RamProviderTestCase());
-	}
+    private static Log log = LogFactory.getLog(RamProviderTestCase.class);
 
     /**
-	 * Prepares the file system manager.
-	 * 
-	 * Imports test data from the disk.
-	 * 
-	 * @throws Exception
-	 * 
-	 */
-	public void prepare(final DefaultFileSystemManager manager)
-			throws Exception
-	{
-		try
-		{
-			manager.addProvider("ram", new RamFileProvider());
-			manager.addProvider("file", new DefaultLocalFileProvider());
-		}
-		catch (Exception e)
-		{
-			log.error(e);
-			throw e;
-		}
-	}
+     * Creates the test suite for the ram file system.
+     */
+    public static Test suite() throws Exception
+    {
+        return new ProviderTestSuite(new RamProviderTestCase());
+    }
 
-	/**
-	 * Returns the base folder for tests.
-	 */
-	public FileObject getBaseTestFolder(final FileSystemManager manager)
-			throws Exception
-	{
+    /**
+     * Prepares the file system manager.
+     * 
+     * Imports test data from the disk.
+     * 
+     * @throws Exception
+     * 
+     */
+    public void prepare(final DefaultFileSystemManager manager)
+            throws Exception
+    {
+        try
+        {
+            manager.addProvider("ram", new RamFileProvider());
+            manager.addProvider("file", new DefaultLocalFileProvider());
+        }
+        catch (Exception e)
+        {
+            log.error(e);
+            throw e;
+        }
+    }
+
+    /**
+     * Returns the base folder for tests.
+     */
+    public FileObject getBaseTestFolder(final FileSystemManager manager)
+            throws Exception
+    {
         if (!inited)
         {
             // Import the test tree
             FileObject fo = manager.resolveFile("ram:/");
-			RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
-			fs.importTree(new File(AbstractVfsTestCase.getTestDirectory()));
-			fo.close();
+            RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
+            fs.importTree(new File(AbstractVfsTestCase.getTestDirectory()));
+            fo.close();
             
             inited=true;
         }
 
         final String uri = "ram:/";
-		return manager.resolveFile(uri);
-	}
+        return manager.resolveFile(uri);
+    }
 }

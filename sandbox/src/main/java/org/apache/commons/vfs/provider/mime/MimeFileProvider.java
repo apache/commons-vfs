@@ -38,8 +38,8 @@ import java.util.Collections;
  * @version $Revision$ $Date$
  */
 public class MimeFileProvider
-	extends AbstractLayeredFileProvider
-	implements FileProvider
+    extends AbstractLayeredFileProvider
+    implements FileProvider
 {
     protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
@@ -48,10 +48,10 @@ public class MimeFileProvider
         Capability.LIST_CHILDREN,
         Capability.READ_CONTENT,
         Capability.URI,
-		Capability.ATTRIBUTES
+        Capability.ATTRIBUTES
     }));
 
-	public MimeFileProvider()
+    public MimeFileProvider()
     {
         super();
     }
@@ -61,9 +61,9 @@ public class MimeFileProvider
      */
     protected FileSystem doCreateFileSystem(String scheme, final FileObject file, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
-	{
-		final FileName name =
-			new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
+    {
+        final FileName name =
+            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return new MimeFileSystem(name, file, fileSystemOptions);
     }
 

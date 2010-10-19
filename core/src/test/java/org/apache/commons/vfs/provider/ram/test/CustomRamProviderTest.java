@@ -36,75 +36,75 @@ import org.apache.commons.vfs.provider.ram.RamFileSystemConfigBuilder;
  */
 public class CustomRamProviderTest extends TestCase
 {
-	DefaultFileSystemManager manager;
+    DefaultFileSystemManager manager;
 
-	FileSystemOptions zeroSized = new FileSystemOptions();
+    FileSystemOptions zeroSized = new FileSystemOptions();
 
-	FileSystemOptions smallSized = new FileSystemOptions();
+    FileSystemOptions smallSized = new FileSystemOptions();
 
     FileSystemOptions defaultRamFs = new FileSystemOptions();
 
     protected void setUp() throws Exception
-	{
-		super.setUp();
+    {
+        super.setUp();
 
-		manager = new DefaultFileSystemManager();
-		manager.addProvider("ram", new RamFileProvider());
-		manager.init();
+        manager = new DefaultFileSystemManager();
+        manager.addProvider("ram", new RamFileProvider());
+        manager.init();
 
-		// File Systems Options
-		RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSized, 0);
-		RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10);
-	}
+        // File Systems Options
+        RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSized, 0);
+        RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10);
+    }
 
-	protected void tearDown() throws Exception
-	{
-		super.tearDown();
-		manager.close();
-	}
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+        manager.close();
+    }
 
-	public void testSmallFS() throws Exception
-	{
+    public void testSmallFS() throws Exception
+    {
 
-		// Default FS
-		FileObject fo1 = manager.resolveFile("ram:/");
-		FileObject fo2 = manager.resolveFile("ram:/");
-		assertTrue("Both files should exist in the same fs instance.", fo1
-				.getFileSystem() == fo2.getFileSystem());
+        // Default FS
+        FileObject fo1 = manager.resolveFile("ram:/");
+        FileObject fo2 = manager.resolveFile("ram:/");
+        assertTrue("Both files should exist in the same fs instance.", fo1
+                .getFileSystem() == fo2.getFileSystem());
 
-		// Small FS
-		FileObject fo3 = manager.resolveFile("ram:/fo3", smallSized);
-		FileObject fo4 = manager.resolveFile("ram:/", smallSized);
-		assertTrue("Both files should exist in different fs instances.", fo3
-				.getFileSystem() == fo4.getFileSystem());
-		assertTrue("These file shouldn't be in the same file system.", fo1
-				.getFileSystem() != fo3.getFileSystem());
+        // Small FS
+        FileObject fo3 = manager.resolveFile("ram:/fo3", smallSized);
+        FileObject fo4 = manager.resolveFile("ram:/", smallSized);
+        assertTrue("Both files should exist in different fs instances.", fo3
+                .getFileSystem() == fo4.getFileSystem());
+        assertTrue("These file shouldn't be in the same file system.", fo1
+                .getFileSystem() != fo3.getFileSystem());
 
-		fo3.createFile();
-		try
-		{
-			OutputStream os = fo3.getContent().getOutputStream();
-			os.write(new byte[10]);
-			os.close();
-		}
-		catch (FileSystemException e)
-		{
-			fail("It shouldn't save such a small file");
-		}
+        fo3.createFile();
+        try
+        {
+            OutputStream os = fo3.getContent().getOutputStream();
+            os.write(new byte[10]);
+            os.close();
+        }
+        catch (FileSystemException e)
+        {
+            fail("It shouldn't save such a small file");
+        }
 
-		try
-		{
-			OutputStream os = fo3.getContent().getOutputStream();
-			os.write(new byte[11]);
-			os.close();
-			fail("It shouldn't save such a big file");
-		}
-		catch (FileSystemException e)
-		{
-			// exception awaited
-		}
+        try
+        {
+            OutputStream os = fo3.getContent().getOutputStream();
+            os.write(new byte[11]);
+            os.close();
+            fail("It shouldn't save such a big file");
+        }
+        catch (FileSystemException e)
+        {
+            // exception awaited
+        }
 
-	}
+    }
 
     /**
      * 

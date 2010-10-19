@@ -32,11 +32,11 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     private FilesCache cache = null;
     
     /**
-	 * Returns a DefaultFileSystemManager instance (or subclass instance).
-	 */
-	public DefaultFileSystemManager getDefaultFileSystemManager() {
-		return new DefaultFileSystemManager();
-	}
+     * Returns a DefaultFileSystemManager instance (or subclass instance).
+     */
+    public DefaultFileSystemManager getDefaultFileSystemManager() {
+        return new DefaultFileSystemManager();
+    }
 
     /**
      * Prepares the file system manager.  This implementation does nothing.

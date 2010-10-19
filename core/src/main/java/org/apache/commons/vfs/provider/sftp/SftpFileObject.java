@@ -291,56 +291,56 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         Vector vector = null;
         final ChannelSftp channel = fileSystem.getChannel();
 
-		try
-		{
-			// try the direct way to list the directory on the server to avoid too many roundtrips
-			vector = channel.ls(relPath);
-		}
-		catch (SftpException e)
-		{
-			String workingDirectory = null;
-			try
-			{
-				if (relPath != null)
-				{
-					workingDirectory = channel.pwd();
-					channel.cd(relPath);
-				}
-			}
-			catch (SftpException ex)
-			{
-				// VFS-210: seems not to be a directory
-				return null;
-			}
+        try
+        {
+            // try the direct way to list the directory on the server to avoid too many roundtrips
+            vector = channel.ls(relPath);
+        }
+        catch (SftpException e)
+        {
+            String workingDirectory = null;
+            try
+            {
+                if (relPath != null)
+                {
+                    workingDirectory = channel.pwd();
+                    channel.cd(relPath);
+                }
+            }
+            catch (SftpException ex)
+            {
+                // VFS-210: seems not to be a directory
+                return null;
+            }
 
-			SftpException lsEx = null;
-			try
-			{
-				vector = channel.ls(".");
-			}
-			catch (SftpException ex)
-			{
-				lsEx = ex;
-			}
-			finally
-			{
-				try
-				{
-					if (relPath != null)
-					{
-						channel.cd(workingDirectory);
-					}
-				}
-				catch (SftpException xe)
-				{
-					throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error", workingDirectory, lsEx);
-				}
-			}
+            SftpException lsEx = null;
+            try
+            {
+                vector = channel.ls(".");
+            }
+            catch (SftpException ex)
+            {
+                lsEx = ex;
+            }
+            finally
+            {
+                try
+                {
+                    if (relPath != null)
+                    {
+                        channel.cd(workingDirectory);
+                    }
+                }
+                catch (SftpException xe)
+                {
+                    throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error", workingDirectory, lsEx);
+                }
+            }
 
-			if (lsEx != null)
-			{
-				throw lsEx;
-			}
+            if (lsEx != null)
+            {
+                throw lsEx;
+            }
         }
         finally
         {

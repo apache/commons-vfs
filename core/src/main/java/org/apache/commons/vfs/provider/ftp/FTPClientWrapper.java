@@ -129,18 +129,18 @@ class FTPClientWrapper implements FtpClient
 
     private FTPFile[] listFilesInDirectory(String relPath) throws IOException
     {
-		FTPFile[] files;
+        FTPFile[] files;
 
-		// VFS-307: no check if we can simply list the files, this might fail if there are spaces in the path
-		files = getFtpClient().listFiles(relPath);
-		if (FTPReply.isPositiveCompletion(getFtpClient().getReplyCode()))
-		{
-			return files;
-		}
+        // VFS-307: no check if we can simply list the files, this might fail if there are spaces in the path
+        files = getFtpClient().listFiles(relPath);
+        if (FTPReply.isPositiveCompletion(getFtpClient().getReplyCode()))
+        {
+            return files;
+        }
 
-		// VFS-307: now try the hard way by cd'ing into the directory, list and cd back
-		// if VFS is required to fallback here the user might experience a real bad FTP performance
-		// as then every list requires 4 ftp commands.
+        // VFS-307: now try the hard way by cd'ing into the directory, list and cd back
+        // if VFS is required to fallback here the user might experience a real bad FTP performance
+        // as then every list requires 4 ftp commands.
         String workingDirectory = null;
         if (relPath != null)
         {

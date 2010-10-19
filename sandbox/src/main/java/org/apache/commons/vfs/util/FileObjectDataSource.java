@@ -29,37 +29,37 @@ import java.io.OutputStream;
  */
 public class FileObjectDataSource implements DataSource
 {
-	private final FileObject fo;
+    private final FileObject fo;
 
-	public FileObjectDataSource(FileObject fo)
-	{
-		this.fo = fo;
-	}
+    public FileObjectDataSource(FileObject fo)
+    {
+        this.fo = fo;
+    }
 
-	public InputStream getInputStream() throws IOException
-	{
-		return fo.getContent().getInputStream();
-	}
+    public InputStream getInputStream() throws IOException
+    {
+        return fo.getContent().getInputStream();
+    }
 
-	public OutputStream getOutputStream() throws IOException
-	{
-		return fo.getContent().getOutputStream();
-	}
+    public OutputStream getOutputStream() throws IOException
+    {
+        return fo.getContent().getOutputStream();
+    }
 
-	public String getContentType()
-	{
-		try
-		{
-			return fo.getContent().getContentInfo().getContentType();
-		}
-		catch (FileSystemException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+    public String getContentType()
+    {
+        try
+        {
+            return fo.getContent().getContentInfo().getContentType();
+        }
+        catch (FileSystemException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
-	public String getName()
-	{
-		return fo.getName().getBaseName();
-	}
+    public String getName()
+    {
+        return fo.getName().getBaseName();
+    }
 }

@@ -70,44 +70,44 @@ public class FtpsClientFactory
             String key = FtpsFileSystemConfigBuilder.getInstance().getEntryParser(fileSystemOptions);
             if (key != null)
             {
-            	FTPClientConfig config = new FTPClientConfig(key);
-            	
-            	String serverLanguageCode = FtpsFileSystemConfigBuilder.getInstance().getServerLanguageCode(fileSystemOptions);
-            	if (serverLanguageCode != null)
-            	{
-            		config.setServerLanguageCode(serverLanguageCode);
-            	}
-            	String defaultDateFormat = FtpsFileSystemConfigBuilder.getInstance().getDefaultDateFormat(fileSystemOptions);
-            	if (defaultDateFormat != null)
-            	{
-            		config.setDefaultDateFormatStr(defaultDateFormat);
-            	}
-            	String recentDateFormat = FtpsFileSystemConfigBuilder.getInstance().getRecentDateFormat(fileSystemOptions);
-            	if (recentDateFormat != null)
-            	{
-            		config.setRecentDateFormatStr(recentDateFormat);
-            	}
-            	String serverTimeZoneId = FtpsFileSystemConfigBuilder.getInstance().getServerTimeZoneId(fileSystemOptions);
-            	if (serverTimeZoneId != null)
-            	{
-            		config.setServerTimeZoneId(serverTimeZoneId);
-            	}
-            	String[] shortMonthNames = FtpsFileSystemConfigBuilder.getInstance().getShortMonthNames(fileSystemOptions);
-            	if (shortMonthNames != null)
-            	{
-            		StringBuffer shortMonthNamesStr = new StringBuffer(40);
-            		for (int i = 0; i<shortMonthNames.length; i++)
-            		{
-            			if (shortMonthNamesStr.length()>0)
-            			{
-            				shortMonthNamesStr.append("|");
-            			}
-            			shortMonthNamesStr.append(shortMonthNames[i]);            			
-            		}
-            		config.setShortMonthNames(shortMonthNamesStr.toString());
-            	}
-            	
-            	client.configure(config);
+                FTPClientConfig config = new FTPClientConfig(key);
+                
+                String serverLanguageCode = FtpsFileSystemConfigBuilder.getInstance().getServerLanguageCode(fileSystemOptions);
+                if (serverLanguageCode != null)
+                {
+                    config.setServerLanguageCode(serverLanguageCode);
+                }
+                String defaultDateFormat = FtpsFileSystemConfigBuilder.getInstance().getDefaultDateFormat(fileSystemOptions);
+                if (defaultDateFormat != null)
+                {
+                    config.setDefaultDateFormatStr(defaultDateFormat);
+                }
+                String recentDateFormat = FtpsFileSystemConfigBuilder.getInstance().getRecentDateFormat(fileSystemOptions);
+                if (recentDateFormat != null)
+                {
+                    config.setRecentDateFormatStr(recentDateFormat);
+                }
+                String serverTimeZoneId = FtpsFileSystemConfigBuilder.getInstance().getServerTimeZoneId(fileSystemOptions);
+                if (serverTimeZoneId != null)
+                {
+                    config.setServerTimeZoneId(serverTimeZoneId);
+                }
+                String[] shortMonthNames = FtpsFileSystemConfigBuilder.getInstance().getShortMonthNames(fileSystemOptions);
+                if (shortMonthNames != null)
+                {
+                    StringBuffer shortMonthNamesStr = new StringBuffer(40);
+                    for (int i = 0; i<shortMonthNames.length; i++)
+                    {
+                        if (shortMonthNamesStr.length()>0)
+                        {
+                            shortMonthNamesStr.append("|");
+                        }
+                        shortMonthNamesStr.append(shortMonthNames[i]);                        
+                    }
+                    config.setShortMonthNames(shortMonthNamesStr.toString());
+                }
+                
+                client.configure(config);
             }
             
             FTPFileEntryParserFactory myFactory = FtpsFileSystemConfigBuilder.getInstance().getEntryParserFactory(fileSystemOptions);
@@ -128,8 +128,8 @@ public class FtpsClientFactory
 
                 // Login
                 if (!client.login(
-					UserAuthenticatorUtils.toString(username),
-					UserAuthenticatorUtils.toString(password)))
+                    UserAuthenticatorUtils.toString(username),
+                    UserAuthenticatorUtils.toString(password)))
                 {
                     throw new FileSystemException("vfs.provider.ftp/login.error", new Object[]{hostname, UserAuthenticatorUtils.toString(username)}, null);
                 }

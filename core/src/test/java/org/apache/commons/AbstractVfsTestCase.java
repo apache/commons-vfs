@@ -124,7 +124,7 @@ public abstract class AbstractVfsTestCase
         return System.getProperty("test.basedir.res", "test-data");
     }
 
-	/**
+    /**
      * Locates a test directory, creating it if it does not exist.
      *
      * @param name path of the directory, relative to this test's base directory.

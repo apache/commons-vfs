@@ -62,7 +62,7 @@ public class ProviderCacheStrategyTests
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
         DefaultFileSystemManager fs = createManager();
-	    fs.setCacheStrategy(CacheStrategy.MANUAL);
+        fs.setCacheStrategy(CacheStrategy.MANUAL);
         fs.init();
         FileObject foBase2 = getBaseTestFolder(fs);
 
@@ -97,7 +97,7 @@ public class ProviderCacheStrategyTests
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
         DefaultFileSystemManager fs = createManager();
-	    fs.setCacheStrategy(CacheStrategy.ON_RESOLVE);
+        fs.setCacheStrategy(CacheStrategy.ON_RESOLVE);
         fs.init();
         FileObject foBase2 = getBaseTestFolder(fs);
 
@@ -132,7 +132,7 @@ public class ProviderCacheStrategyTests
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
         
         DefaultFileSystemManager fs = createManager();
-	    fs.setCacheStrategy(CacheStrategy.ON_CALL);
+        fs.setCacheStrategy(CacheStrategy.ON_CALL);
         fs.init();
         FileObject foBase2 = getBaseTestFolder(fs);
 
@@ -147,27 +147,27 @@ public class ProviderCacheStrategyTests
         assertContains(fos, "file1.txt");
     }
     
-	public void assertContainsNot(FileObject[] fos, String string)
-	{
-		for (int i = 0; i<fos.length; i++)
-		{
-			if (string.equals(fos[i].getName().getBaseName()))
-			{
-				fail(string + " should not be seen");
-			}
-		}
-	}
-	
-	public void assertContains(FileObject[] fos, String string)
-	{
-		for (int i = 0; i<fos.length; i++)
-		{
-			if (string.equals(fos[i].getName().getBaseName()))
-			{
-				return;
-			}
-		}
-		
-		fail(string + " should be seen");
-	}
+    public void assertContainsNot(FileObject[] fos, String string)
+    {
+        for (int i = 0; i<fos.length; i++)
+        {
+            if (string.equals(fos[i].getName().getBaseName()))
+            {
+                fail(string + " should not be seen");
+            }
+        }
+    }
+    
+    public void assertContains(FileObject[] fos, String string)
+    {
+        for (int i = 0; i<fos.length; i++)
+        {
+            if (string.equals(fos[i].getName().getBaseName()))
+            {
+                return;
+            }
+        }
+        
+        fail(string + " should be seen");
+    }
 }

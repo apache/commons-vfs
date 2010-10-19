@@ -24,28 +24,28 @@ import junit.framework.TestResult;
 
 public class RunTest
 {
-	public static void main(String[] args) throws Exception
-	{
+    public static void main(String[] args) throws Exception
+    {
         final String ip = "192.168.0.128";
 
         Properties props = System.getProperties();
-		props.setProperty("test.data.src", "src/test-data");
-		props.setProperty("test.basedir", "core/target/test-classes/test-data");
-		props.setProperty("test.basedir.res", "test-data");
-		props.setProperty("test.policy", "src/test-data/test.policy");
-		props.setProperty("test.secure", "false");
-		props.setProperty("test.smb.uri",
-				"smb://HOME\\vfsusr:vfs%2f%25\\te:st@" + ip  + "/vfsusr/vfstest");
-		props.setProperty("test.ftp.uri",
-				"ftp://vfsusr:vfs%2f%25\\te:st@" + ip + "/vfstest");
-		props.setProperty("test.http.uri", "http://" + ip + "/vfstest");
-		props.setProperty("test.webdav.uri",
-				"webdav://vfsusr:vfs%2f%25\\te:st@" + ip + "/vfstest");
-		props.setProperty("test.sftp.uri",
-				"sftp://vfsusr:vfs%2f%25\\te:st@" + ip + "/vfstest");
+        props.setProperty("test.data.src", "src/test-data");
+        props.setProperty("test.basedir", "core/target/test-classes/test-data");
+        props.setProperty("test.basedir.res", "test-data");
+        props.setProperty("test.policy", "src/test-data/test.policy");
+        props.setProperty("test.secure", "false");
+        props.setProperty("test.smb.uri",
+                "smb://HOME\\vfsusr:vfs%2f%25\\te:st@" + ip  + "/vfsusr/vfstest");
+        props.setProperty("test.ftp.uri",
+                "ftp://vfsusr:vfs%2f%25\\te:st@" + ip + "/vfstest");
+        props.setProperty("test.http.uri", "http://" + ip + "/vfstest");
+        props.setProperty("test.webdav.uri",
+                "webdav://vfsusr:vfs%2f%25\\te:st@" + ip + "/vfstest");
+        props.setProperty("test.sftp.uri",
+                "sftp://vfsusr:vfs%2f%25\\te:st@" + ip + "/vfstest");
 
-		Test tests[] = new Test[]
-		{
+        Test tests[] = new Test[]
+        {
 //          LocalProviderTestCase.suite(),
 //          FtpProviderTestCase.suite(),
 //          UrlProviderHttpTestCase.suite(),
@@ -56,9 +56,9 @@ public class RunTest
 //          HttpProviderTestCase.suite(),
 //          SftpProviderTestCase.suite(),
 //          JarProviderTestCase.suite(),
-//  		NestedJarTestCase.suite(),
-//  		ZipProviderTestCase.suite(),
-//  		NestedZipTestCase.suite(),
+//          NestedJarTestCase.suite(),
+//          ZipProviderTestCase.suite(),
+//          NestedZipTestCase.suite(),
 //          TarProviderTestCase.suite(),
 //          TgzProviderTestCase.suite(),
 //          Tbz2ProviderTestCase.suite(),
@@ -69,44 +69,44 @@ public class RunTest
 
 // SmbProviderTestCase.suite(),
 // WebdavProviderTestCase.suite(),
-		};
+        };
 
-		TestResult result = new TestResult()
-		{
-			public void startTest(Test test)
-			{
-				System.out.println("start " + test);
-				System.out.flush();
-			}
+        TestResult result = new TestResult()
+        {
+            public void startTest(Test test)
+            {
+                System.out.println("start " + test);
+                System.out.flush();
+            }
 
-			public void endTest(Test test)
-			{
-				// System.err.println("end " + test);
-			}
+            public void endTest(Test test)
+            {
+                // System.err.println("end " + test);
+            }
 
-			public synchronized void addError(Test test, Throwable throwable)
-			{
-				// throw new RuntimeException(throwable.getMessage());
-				throwable.printStackTrace();
-			}
+            public synchronized void addError(Test test, Throwable throwable)
+            {
+                // throw new RuntimeException(throwable.getMessage());
+                throwable.printStackTrace();
+            }
 
-			public synchronized void addFailure(Test test,
-					AssertionFailedError assertionFailedError)
-			{
-				// throw new RuntimeException(assertionFailedError.getMessage());
-				assertionFailedError.printStackTrace();
-			}
-		};
+            public synchronized void addFailure(Test test,
+                    AssertionFailedError assertionFailedError)
+            {
+                // throw new RuntimeException(assertionFailedError.getMessage());
+                assertionFailedError.printStackTrace();
+            }
+        };
 
-		for (int i = 0; i < tests.length; i++)
-		{
-			System.out.println("start test#" + i);
-			System.out.flush();
+        for (int i = 0; i < tests.length; i++)
+        {
+            System.out.println("start test#" + i);
+            System.out.flush();
 
-			Test test = tests[i];
-			test.run(result);
+            Test test = tests[i];
+            test.run(result);
 
-			// break;
-		}
-	}
+            // break;
+        }
+    }
 }

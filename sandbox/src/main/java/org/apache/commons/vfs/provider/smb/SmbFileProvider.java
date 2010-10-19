@@ -55,12 +55,12 @@ public class SmbFileProvider
         Capability.RANDOM_ACCESS_WRITE
     }));
 
-	public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-		{
-			UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD, UserAuthenticationData.DOMAIN
-		};
+    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+        {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD, UserAuthenticationData.DOMAIN
+        };
 
-	public SmbFileProvider()
+    public SmbFileProvider()
     {
         super();
         setFileNameParser(SmbFileNameParser.getInstance());

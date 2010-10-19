@@ -34,64 +34,64 @@ import javax.mail.internet.ContentType;
  */
 public class MimeFileContentInfoFactory implements FileContentInfoFactory
 {
-	public FileContentInfo create(FileContent fileContent) throws FileSystemException
-	{
-		MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
-		Part part = mimeFile.getPart();
+    public FileContentInfo create(FileContent fileContent) throws FileSystemException
+    {
+        MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
+        Part part = mimeFile.getPart();
 
-		String contentTypeString = null;
-		String charset = null;
+        String contentTypeString = null;
+        String charset = null;
 
-		try
-		{
-			// special handling for multipart
-			if (mimeFile.isMultipart())
-			{
-				// get the original content type, but ...
-				contentTypeString = part.getContentType();
+        try
+        {
+            // special handling for multipart
+            if (mimeFile.isMultipart())
+            {
+                // get the original content type, but ...
+                contentTypeString = part.getContentType();
 
-				// .... we deliver the preamble instead of an inupt string
-				// the preamble will be delivered in UTF-8 - fixed
-				charset = MimeFileSystem.PREAMBLE_CHARSET;
-			}
-		}
-		catch (MessagingException e)
-		{
-			throw new FileSystemException(e);
-		}
+                // .... we deliver the preamble instead of an inupt string
+                // the preamble will be delivered in UTF-8 - fixed
+                charset = MimeFileSystem.PREAMBLE_CHARSET;
+            }
+        }
+        catch (MessagingException e)
+        {
+            throw new FileSystemException(e);
+        }
 
-		if (contentTypeString == null)
-		{
-			// normal message ... get the content type
-			try
-			{
-				contentTypeString = part.getContentType();
-			}
-			catch (MessagingException e)
-			{
-				throw new FileSystemException(e);
-			}
-		}
+        if (contentTypeString == null)
+        {
+            // normal message ... get the content type
+            try
+            {
+                contentTypeString = part.getContentType();
+            }
+            catch (MessagingException e)
+            {
+                throw new FileSystemException(e);
+            }
+        }
 
-		ContentType contentType;
-		try
-		{
-			contentType = new ContentType(contentTypeString);
-		}
-		catch (MessagingException e)
-		{
-			throw new FileSystemException(e);
-		}
+        ContentType contentType;
+        try
+        {
+            contentType = new ContentType(contentTypeString);
+        }
+        catch (MessagingException e)
+        {
+            throw new FileSystemException(e);
+        }
 
-		if (charset == null)
-		{
-			// charset might already be set by the multipart message stuff, else
-			// extract it from the contentType now
-			charset = contentType.getParameter("charset"); // NON-NLS
-		}
+        if (charset == null)
+        {
+            // charset might already be set by the multipart message stuff, else
+            // extract it from the contentType now
+            charset = contentType.getParameter("charset"); // NON-NLS
+        }
 
-		return new DefaultFileContentInfo(
-			contentType.getBaseType(),
-			charset);
-	}
+        return new DefaultFileContentInfo(
+            contentType.getBaseType(),
+            charset);
+    }
 }

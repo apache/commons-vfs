@@ -42,221 +42,221 @@ import java.util.TreeMap;
  */
 public class MimeAttributesMap implements Map
 {
-	private Log log = LogFactory.getLog(MimeAttributesMap.class);
+    private Log log = LogFactory.getLog(MimeAttributesMap.class);
 
-	private final static String OBJECT_PREFIX = "obj.";
+    private final static String OBJECT_PREFIX = "obj.";
 
-	private final Part part;
-	private Map backingMap;
+    private final Part part;
+    private Map backingMap;
 
-	private final Map mimeMessageGetters = new TreeMap();
+    private final Map mimeMessageGetters = new TreeMap();
 
-	public MimeAttributesMap(Part part)
-	{
-		this.part = part;
-		addMimeMessageMethod(part.getClass().getMethods());
-		addMimeMessageMethod(part.getClass().getDeclaredMethods());
-	}
+    public MimeAttributesMap(Part part)
+    {
+        this.part = part;
+        addMimeMessageMethod(part.getClass().getMethods());
+        addMimeMessageMethod(part.getClass().getDeclaredMethods());
+    }
 
-	private void addMimeMessageMethod(Method[] methods)
-	{
-		for (int i = 0; i < methods.length; i++)
-		{
-			Method method = methods[i];
-			if (!Modifier.isPublic(method.getModifiers()))
-			{
-				continue;
-			}
-			if (method.getParameterTypes().length > 0)
-			{
-				continue;
-			}
+    private void addMimeMessageMethod(Method[] methods)
+    {
+        for (int i = 0; i < methods.length; i++)
+        {
+            Method method = methods[i];
+            if (!Modifier.isPublic(method.getModifiers()))
+            {
+                continue;
+            }
+            if (method.getParameterTypes().length > 0)
+            {
+                continue;
+            }
 
-			if (method.getName().startsWith("get"))
-			{
-				mimeMessageGetters.put(method.getName().substring(3), method);
-			}
-			else if (method.getName().startsWith("is"))
-			{
-				mimeMessageGetters.put(method.getName().substring(2), method);
-			}
-		}
-	}
+            if (method.getName().startsWith("get"))
+            {
+                mimeMessageGetters.put(method.getName().substring(3), method);
+            }
+            else if (method.getName().startsWith("is"))
+            {
+                mimeMessageGetters.put(method.getName().substring(2), method);
+            }
+        }
+    }
 
-	private Map getMap()
-	{
-		if (backingMap == null)
-		{
-			backingMap = createMap();
-		}
+    private Map getMap()
+    {
+        if (backingMap == null)
+        {
+            backingMap = createMap();
+        }
 
-		return backingMap;
-	}
+        return backingMap;
+    }
 
-	private Map createMap()
-	{
-		Map ret = new TreeMap();
+    private Map createMap()
+    {
+        Map ret = new TreeMap();
 
-		Enumeration headers;
-		try
-		{
-			headers = part.getAllHeaders();
-		}
-		catch (MessagingException e)
-		{
-			throw new RuntimeException(e);
-		}
+        Enumeration headers;
+        try
+        {
+            headers = part.getAllHeaders();
+        }
+        catch (MessagingException e)
+        {
+            throw new RuntimeException(e);
+        }
 
-		// add all headers
-		while (headers.hasMoreElements())
-		{
-			Header header = (Header) headers.nextElement();
-			String headerName = header.getName();
+        // add all headers
+        while (headers.hasMoreElements())
+        {
+            Header header = (Header) headers.nextElement();
+            String headerName = header.getName();
 
-			Object values = ret.get(headerName);
+            Object values = ret.get(headerName);
 
-			if (values == null)
-			{
-				ret.put(headerName, header.getValue());
-			}
-			else if (values instanceof String)
-			{
-				List newValues = new ArrayList();
-				newValues.add(values);
-				newValues.add(header.getValue());
-				ret.put(headerName, newValues);
-			}
-			else if (values instanceof List)
-			{
-				((List) values).add(header.getValue());
-			}
-		}
+            if (values == null)
+            {
+                ret.put(headerName, header.getValue());
+            }
+            else if (values instanceof String)
+            {
+                List newValues = new ArrayList();
+                newValues.add(values);
+                newValues.add(header.getValue());
+                ret.put(headerName, newValues);
+            }
+            else if (values instanceof List)
+            {
+                ((List) values).add(header.getValue());
+            }
+        }
 
-		// add all simple get/is results (with obj. prefix)
-		Iterator iterEntries = mimeMessageGetters.entrySet().iterator();
-		while (iterEntries.hasNext())
-		{
-			Map.Entry entry = (Map.Entry) iterEntries.next();
-			String name = (String) entry.getKey();
-			Method method = (Method) entry.getValue();
+        // add all simple get/is results (with obj. prefix)
+        Iterator iterEntries = mimeMessageGetters.entrySet().iterator();
+        while (iterEntries.hasNext())
+        {
+            Map.Entry entry = (Map.Entry) iterEntries.next();
+            String name = (String) entry.getKey();
+            Method method = (Method) entry.getValue();
 
-			try
-			{
-				Object value = method.invoke(part, null);
-				ret.put(OBJECT_PREFIX + name, value);
-			}
-			catch (IllegalAccessException e)
-			{
-				log.debug(e.getLocalizedMessage(), e);
-			}
-			catch (InvocationTargetException e)
-			{
-				log.debug(e.getLocalizedMessage(), e);
-			}
-		}
+            try
+            {
+                Object value = method.invoke(part, null);
+                ret.put(OBJECT_PREFIX + name, value);
+            }
+            catch (IllegalAccessException e)
+            {
+                log.debug(e.getLocalizedMessage(), e);
+            }
+            catch (InvocationTargetException e)
+            {
+                log.debug(e.getLocalizedMessage(), e);
+            }
+        }
 
-		// add extended fields (with obj. prefix too)
-		if (part instanceof MimeMessage)
-		{
-			MimeMessage message = (MimeMessage) part;
-			try
-			{
-				Address[] address = message.getRecipients(MimeMessage.RecipientType.BCC);
-				ret.put(OBJECT_PREFIX + "Recipients.BCC", address);
-			}
-			catch (MessagingException e)
-			{
-				log.debug(e.getLocalizedMessage(), e);
-			}
-			try
-			{
-				Address[] address = message.getRecipients(MimeMessage.RecipientType.CC);
-				ret.put(OBJECT_PREFIX + "Recipients.CC", address);
-			}
-			catch (MessagingException e)
-			{
-				log.debug(e.getLocalizedMessage(), e);
-			}
-			try
-			{
-				Address[] address = message.getRecipients(MimeMessage.RecipientType.TO);
-				ret.put(OBJECT_PREFIX + "Recipients.TO", address);
-			}
-			catch (MessagingException e)
-			{
-				log.debug(e.getLocalizedMessage(), e);
-			}
-			try
-			{
-				Address[] address = message.getRecipients(MimeMessage.RecipientType.NEWSGROUPS);
-				ret.put(OBJECT_PREFIX + "Recipients.NEWSGROUPS", address);
-			}
-			catch (MessagingException e)
-			{
-				log.debug(e.getLocalizedMessage(), e);
-			}
-		}
+        // add extended fields (with obj. prefix too)
+        if (part instanceof MimeMessage)
+        {
+            MimeMessage message = (MimeMessage) part;
+            try
+            {
+                Address[] address = message.getRecipients(MimeMessage.RecipientType.BCC);
+                ret.put(OBJECT_PREFIX + "Recipients.BCC", address);
+            }
+            catch (MessagingException e)
+            {
+                log.debug(e.getLocalizedMessage(), e);
+            }
+            try
+            {
+                Address[] address = message.getRecipients(MimeMessage.RecipientType.CC);
+                ret.put(OBJECT_PREFIX + "Recipients.CC", address);
+            }
+            catch (MessagingException e)
+            {
+                log.debug(e.getLocalizedMessage(), e);
+            }
+            try
+            {
+                Address[] address = message.getRecipients(MimeMessage.RecipientType.TO);
+                ret.put(OBJECT_PREFIX + "Recipients.TO", address);
+            }
+            catch (MessagingException e)
+            {
+                log.debug(e.getLocalizedMessage(), e);
+            }
+            try
+            {
+                Address[] address = message.getRecipients(MimeMessage.RecipientType.NEWSGROUPS);
+                ret.put(OBJECT_PREFIX + "Recipients.NEWSGROUPS", address);
+            }
+            catch (MessagingException e)
+            {
+                log.debug(e.getLocalizedMessage(), e);
+            }
+        }
 
-		return ret;
-	}
+        return ret;
+    }
 
-	public int size()
-	{
-		return getMap().size();
-	}
+    public int size()
+    {
+        return getMap().size();
+    }
 
-	public boolean isEmpty()
-	{
-		return getMap().size() < 1;
-	}
+    public boolean isEmpty()
+    {
+        return getMap().size() < 1;
+    }
 
-	public boolean containsKey(Object key)
-	{
-		return getMap().containsKey(key);
-	}
+    public boolean containsKey(Object key)
+    {
+        return getMap().containsKey(key);
+    }
 
-	public boolean containsValue(Object value)
-	{
-		return getMap().containsValue(value);
-	}
+    public boolean containsValue(Object value)
+    {
+        return getMap().containsValue(value);
+    }
 
-	public Object get(Object key)
-	{
-		return getMap().get(key);
-	}
+    public Object get(Object key)
+    {
+        return getMap().get(key);
+    }
 
-	public Object put(Object key, Object value)
-	{
-		throw new UnsupportedOperationException();
-	}
+    public Object put(Object key, Object value)
+    {
+        throw new UnsupportedOperationException();
+    }
 
-	public Object remove(Object key)
-	{
-		throw new UnsupportedOperationException();
-	}
+    public Object remove(Object key)
+    {
+        throw new UnsupportedOperationException();
+    }
 
-	public void putAll(Map t)
-	{
-		throw new UnsupportedOperationException();
-	}
+    public void putAll(Map t)
+    {
+        throw new UnsupportedOperationException();
+    }
 
-	public void clear()
-	{
-		throw new UnsupportedOperationException();
-	}
+    public void clear()
+    {
+        throw new UnsupportedOperationException();
+    }
 
-	public Set keySet()
-	{
-		return Collections.unmodifiableSet(getMap().keySet());
-	}
+    public Set keySet()
+    {
+        return Collections.unmodifiableSet(getMap().keySet());
+    }
 
-	public Collection values()
-	{
-		return Collections.unmodifiableCollection(getMap().values());
-	}
+    public Collection values()
+    {
+        return Collections.unmodifiableCollection(getMap().values());
+    }
 
-	public Set entrySet()
-	{
-		return Collections.unmodifiableSet(getMap().entrySet());
-	}
+    public Set entrySet()
+    {
+        return Collections.unmodifiableSet(getMap().entrySet());
+    }
 }

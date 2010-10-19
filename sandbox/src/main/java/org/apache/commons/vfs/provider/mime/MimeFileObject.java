@@ -48,74 +48,74 @@ import org.apache.commons.vfs.util.FileObjectUtils;
  * @version $Revision$ $Date$
  */
 public class MimeFileObject
-	extends AbstractFileObject
-	implements FileObject
+    extends AbstractFileObject
+    implements FileObject
 {
-	private Part part;
-	private Map attributeMap;
+    private Part part;
+    private Map attributeMap;
 
-	protected MimeFileObject(final FileName name,
-							final Part part,
-							final AbstractFileSystem fileSystem) throws FileSystemException
-	{
-		super(name, fileSystem);
-		setPart(part);
-	}
-	/**
+    protected MimeFileObject(final FileName name,
+                            final Part part,
+                            final AbstractFileSystem fileSystem) throws FileSystemException
+    {
+        super(name, fileSystem);
+        setPart(part);
+    }
+    /**
      * Attaches this file object to its file resource.
      */
     protected void doAttach() throws Exception
     {
-		if (part == null)
-		{
-			if (!getName().equals(getFileSystem().getRootName()))
-			{
-				MimeFileObject foParent = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent());
-				setPart(foParent.findPart(getName().getBaseName()));
-				return;
-			}
+        if (part == null)
+        {
+            if (!getName().equals(getFileSystem().getRootName()))
+            {
+                MimeFileObject foParent = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+                setPart(foParent.findPart(getName().getBaseName()));
+                return;
+            }
 
-			setPart(((MimeFileSystem) getFileSystem()).createCommunicationLink());
-		}
-	}
+            setPart(((MimeFileSystem) getFileSystem()).createCommunicationLink());
+        }
+    }
 
-	private Part findPart(String partName) throws Exception
-	{
-		if (getType() == FileType.IMAGINARY)
-		{
-			// not existent
-			return null;
-		}
+    private Part findPart(String partName) throws Exception
+    {
+        if (getType() == FileType.IMAGINARY)
+        {
+            // not existent
+            return null;
+        }
 
-		if (isMultipart())
-		{
-			Multipart multipart = (Multipart)  part.getContent();
-			if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
-			{
-				int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
-				if (partNumber < 0 || partNumber+1 > multipart.getCount())
-				{
-					// non existent
-					return null;
-				}
+        if (isMultipart())
+        {
+            Multipart multipart = (Multipart)  part.getContent();
+            if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
+            {
+                int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
+                if (partNumber < 0 || partNumber+1 > multipart.getCount())
+                {
+                    // non existent
+                    return null;
+                }
 
-				return multipart.getBodyPart(partNumber);
-			}
+                return multipart.getBodyPart(partNumber);
+            }
 
-			for (int i = 0; i<multipart.getCount(); i++)
-			{
-				Part childPart = multipart.getBodyPart(i);
-				if (partName.equals(childPart.getFileName()))
-				{
-					return childPart;
-				}
-			}
-		}
+            for (int i = 0; i<multipart.getCount(); i++)
+            {
+                Part childPart = multipart.getBodyPart(i);
+                if (partName.equals(childPart.getFileName()))
+                {
+                    return childPart;
+                }
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	protected void doDetach() throws Exception
+    protected void doDetach() throws Exception
     {
     }
 
@@ -125,81 +125,81 @@ public class MimeFileObject
      */
     protected FileType doGetType() throws Exception
     {
-		if (part == null)
-		{
-			return FileType.IMAGINARY;
-		}
+        if (part == null)
+        {
+            return FileType.IMAGINARY;
+        }
 
-		if (isMultipart())
-		{
-			// we cant have children ...
-			return FileType.FILE_OR_FOLDER;
-		}
+        if (isMultipart())
+        {
+            // we cant have children ...
+            return FileType.FILE_OR_FOLDER;
+        }
 
-		return FileType.FILE;
-	}
+        return FileType.FILE;
+    }
 
-	protected String[] doListChildren() throws Exception
-	{
-		return null;
-	}
+    protected String[] doListChildren() throws Exception
+    {
+        return null;
+    }
 
-	/**
-	 * Lists the children of the file.  Is only called if {@link #doGetType}
-	 * returns {@link org.apache.commons.vfs.FileType#FOLDER}.
-	 */
-	protected FileObject[] doListChildrenResolved() throws Exception
-	{
-		if (part == null)
-		{
-			return null;
-		}
+    /**
+     * Lists the children of the file.  Is only called if {@link #doGetType}
+     * returns {@link org.apache.commons.vfs.FileType#FOLDER}.
+     */
+    protected FileObject[] doListChildrenResolved() throws Exception
+    {
+        if (part == null)
+        {
+            return null;
+        }
 
-		List vfs = new ArrayList();
-		if (isMultipart())
-		{
-			Object container = part.getContent();
-			if (container instanceof Multipart)
-			{
-				Multipart multipart = (Multipart) container;
+        List vfs = new ArrayList();
+        if (isMultipart())
+        {
+            Object container = part.getContent();
+            if (container instanceof Multipart)
+            {
+                Multipart multipart = (Multipart) container;
 
-				for (int i = 0; i<multipart.getCount(); i++)
-				{
-					Part part = multipart.getBodyPart(i);
+                for (int i = 0; i<multipart.getCount(); i++)
+                {
+                    Part part = multipart.getBodyPart(i);
 
-					String filename = UriParser.encode(part.getFileName());
-					if (filename == null)
-					{
-						filename = MimeFileSystem.NULL_BP_NAME + i;
-					}
+                    String filename = UriParser.encode(part.getFileName());
+                    if (filename == null)
+                    {
+                        filename = MimeFileSystem.NULL_BP_NAME + i;
+                    }
 
-					MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
-						getFileSystem().getFileSystemManager().resolveName(
-							getName(),
-							filename,
-							NameScope.CHILD)));
-					fo.setPart(part);
-					vfs.add(fo);
-				}
-			}
-		}
+                    MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
+                        getFileSystem().getFileSystemManager().resolveName(
+                            getName(),
+                            filename,
+                            NameScope.CHILD)));
+                    fo.setPart(part);
+                    vfs.add(fo);
+                }
+            }
+        }
 
-		return (MimeFileObject[]) vfs.toArray(new MimeFileObject[vfs.size()]);
-	}
+        return (MimeFileObject[]) vfs.toArray(new MimeFileObject[vfs.size()]);
+    }
 
-	private void setPart(Part part)
-	{
-		this.part = part;
-		this.attributeMap = null;
-	}
+    private void setPart(Part part)
+    {
+        this.part = part;
+        this.attributeMap = null;
+    }
 
-	/**
+    /**
      * Returns the size of the file content (in bytes).
      */
     protected long doGetContentSize() throws Exception
     {
-		return part.getSize();
-	}
+        return part.getSize();
+    }
 
     /**
      * Returns the last modified time of this file.
@@ -207,95 +207,95 @@ public class MimeFileObject
     protected long doGetLastModifiedTime()
         throws Exception
     {
-		Message mm = getMessage();
-		if (mm == null)
-		{
-			return -1;
-		}
-		if (mm.getSentDate() != null)
-		{
-			return mm.getSentDate().getTime();
-		}
-		if (mm.getReceivedDate() != null)
-		{
-			mm.getReceivedDate();
-		}
-		return 0;
-	}
+        Message mm = getMessage();
+        if (mm == null)
+        {
+            return -1;
+        }
+        if (mm.getSentDate() != null)
+        {
+            return mm.getSentDate().getTime();
+        }
+        if (mm.getReceivedDate() != null)
+        {
+            mm.getReceivedDate();
+        }
+        return 0;
+    }
 
-	private Message getMessage() throws FileSystemException
-	{
-		if (part instanceof Message)
-		{
-			return (Message) part;
-		}
+    private Message getMessage() throws FileSystemException
+    {
+        if (part instanceof Message)
+        {
+            return (Message) part;
+        }
 
-		return ((MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent())).getMessage();
-	}
+        return ((MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent())).getMessage();
+    }
 
-	/**
+    /**
      * Creates an input stream to read the file content from.
      */
     protected InputStream doGetInputStream() throws Exception
     {
-		if (isMultipart())
-		{
-			// deliver the preamble as the only content
+        if (isMultipart())
+        {
+            // deliver the preamble as the only content
 
-			String preamble = ((MimeMultipart) part.getContent()).getPreamble();
-			if (preamble == null)
-			{
-				return new ByteArrayInputStream(new byte[]{});
-			}
-			return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
-		}
+            String preamble = ((MimeMultipart) part.getContent()).getPreamble();
+            if (preamble == null)
+            {
+                return new ByteArrayInputStream(new byte[]{});
+            }
+            return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
+        }
 
-		return part.getInputStream();
-	}
+        return part.getInputStream();
+    }
 
-	boolean isMultipart() throws MessagingException
-	{
-		return part.getContentType() != null && part.getContentType().startsWith("multipart/");
-	}
+    boolean isMultipart() throws MessagingException
+    {
+        return part.getContentType() != null && part.getContentType().startsWith("multipart/");
+    }
 
-	protected FileContentInfoFactory getFileContentInfoFactory()
-	{
-		return new MimeFileContentInfoFactory();
-	}
+    protected FileContentInfoFactory getFileContentInfoFactory()
+    {
+        return new MimeFileContentInfoFactory();
+    }
 
-	protected Part getPart()
-	{
-		return part;
-	}
+    protected Part getPart()
+    {
+        return part;
+    }
 
-	/**
-	 * Returns all headers of this part.<br />
-	 * The map key is a java.lang.String and the value is a:<br />
-	 * <ul>
-	 * <li>java.lang.Strings for single entries</li>
-	 * or a
-	 * <li>java.utils.List of java.lang.Strings for entries with multiple values</li>
-	 * </ul>
-	 */
-	protected Map doGetAttributes() throws Exception
-	{
-		if (attributeMap == null)
-		{
-			if (part != null)
-			{
-				attributeMap = new MimeAttributesMap(part);
-			}
-			else
-			{
-				attributeMap = Collections.EMPTY_MAP;
-			}
-		}
+    /**
+     * Returns all headers of this part.<br />
+     * The map key is a java.lang.String and the value is a:<br />
+     * <ul>
+     * <li>java.lang.Strings for single entries</li>
+     * or a
+     * <li>java.utils.List of java.lang.Strings for entries with multiple values</li>
+     * </ul>
+     */
+    protected Map doGetAttributes() throws Exception
+    {
+        if (attributeMap == null)
+        {
+            if (part != null)
+            {
+                attributeMap = new MimeAttributesMap(part);
+            }
+            else
+            {
+                attributeMap = Collections.EMPTY_MAP;
+            }
+        }
 
-		return attributeMap;
-	}
+        return attributeMap;
+    }
 
-	protected Enumeration getAllHeaders() throws MessagingException
-	{
-		return part.getAllHeaders();
-	}
+    protected Enumeration getAllHeaders() throws MessagingException
+    {
+        return part.getAllHeaders();
+    }
 }

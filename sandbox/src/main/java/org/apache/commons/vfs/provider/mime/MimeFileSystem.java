@@ -41,28 +41,28 @@ import java.util.Collection;
  * @version $Revision$ $Date$
  */
 public class MimeFileSystem
-	extends AbstractFileSystem
-	implements FileSystem
+    extends AbstractFileSystem
+    implements FileSystem
 {
-	private Log log = LogFactory.getLog(MimeFileSystem.class);
+    private Log log = LogFactory.getLog(MimeFileSystem.class);
 
-	public final static String NULL_BP_NAME = "_body_part_";
-	public final static String CONTENT_NAME = "_content";
-	public final static String PREAMBLE_CHARSET = "UTF-8";
+    public final static String NULL_BP_NAME = "_body_part_";
+    public final static String CONTENT_NAME = "_content";
+    public final static String PREAMBLE_CHARSET = "UTF-8";
 
-	private InputStream mimeStream = null;
+    private InputStream mimeStream = null;
 
-	protected MimeFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
+    protected MimeFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, parentLayer, fileSystemOptions);
-	}
+    }
 
-	/**
+    /**
      * Creates a file object.
      */
     protected FileObject createFile(final FileName name) throws FileSystemException
-	{
-		return new MimeFileObject(name, null, this);
+    {
+        return new MimeFileObject(name, null, this);
     }
 
     /**
@@ -74,57 +74,57 @@ public class MimeFileSystem
     }
 
 
-	protected void doCloseCommunicationLink()
-	{
-		try
-		{
-			if (mimeStream == null)
-			{
-				return;
-			}
+    protected void doCloseCommunicationLink()
+    {
+        try
+        {
+            if (mimeStream == null)
+            {
+                return;
+            }
 
-			closeMimeStream();
-			mimeStream = null;
-		}
-		catch (IOException e)
-		{
-			log.warn(e.getLocalizedMessage(), e);
-		}
-	}
+            closeMimeStream();
+            mimeStream = null;
+        }
+        catch (IOException e)
+        {
+            log.warn(e.getLocalizedMessage(), e);
+        }
+    }
 
-	private void closeMimeStream() throws IOException
-	{
-		if (mimeStream instanceof SharedRandomContentInputStream)
-		{
-			((SharedRandomContentInputStream) mimeStream).closeAll();
-		}
-		else
-		{
-			mimeStream.close();
-		}
-	}
+    private void closeMimeStream() throws IOException
+    {
+        if (mimeStream instanceof SharedRandomContentInputStream)
+        {
+            ((SharedRandomContentInputStream) mimeStream).closeAll();
+        }
+        else
+        {
+            mimeStream.close();
+        }
+    }
 
-	public Part createCommunicationLink() throws IOException, MessagingException
-	{
-		if (mimeStream != null)
-		{
-			closeMimeStream();
-		}
+    public Part createCommunicationLink() throws IOException, MessagingException
+    {
+        if (mimeStream != null)
+        {
+            closeMimeStream();
+        }
 
-		FileObject parentLayer = getParentLayer();
-		if (!parentLayer.exists())
-		{
-			return null;
-		}
+        FileObject parentLayer = getParentLayer();
+        if (!parentLayer.exists())
+        {
+            return null;
+        }
 
-		if (parentLayer.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
-		{
-			mimeStream = new SharedRandomContentInputStream(parentLayer);
-		}
-		else
-		{
-			mimeStream = getParentLayer().getContent().getInputStream();
-		}
-		return new MimeMessage(null, mimeStream);
-	}
+        if (parentLayer.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
+        {
+            mimeStream = new SharedRandomContentInputStream(parentLayer);
+        }
+        else
+        {
+            mimeStream = getParentLayer().getContent().getInputStream();
+        }
+        return new MimeMessage(null, mimeStream);
+    }
 }
