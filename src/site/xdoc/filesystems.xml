@@ -57,24 +57,24 @@
                     <a href="#mime">mime</a>
                 </li>
                 <li>
-					          <a href="#WebDAV">WebDAV</a><br />
-			        	</li>
+                              <a href="#WebDAV">WebDAV</a><br />
+                        </li>
             </ul>
         </section>
 
-		<section name="Things from the sandbox">
-			<p>The following file systems are in development:</p>
-			<ul>
-				<li>
-					<a href="#CIFS">CIFS</a>
-				</li>
-				<li>
-					<a href="#mime">mime</a>
-				</li>
-			</ul>
-		</section>
+        <section name="Things from the sandbox">
+            <p>The following file systems are in development:</p>
+            <ul>
+                <li>
+                    <a href="#CIFS">CIFS</a>
+                </li>
+                <li>
+                    <a href="#mime">mime</a>
+                </li>
+            </ul>
+        </section>
 
-		<section name="Naming">
+        <section name="Naming">
 
             <p>All filenames are treated as URIs. One of the consequences of this is you have to encode the '%'
                 character using <code>%25</code>. <br />
@@ -526,9 +526,9 @@
         <section name="ram">
 
             <p>
-            	A filesystem which stores all the data in memory.
-            	You can configure the max size and a predicate (FileSelector). The predicate will be used to check if
-            	it is allowed to add a given file.
+                A filesystem which stores all the data in memory.
+                You can configure the max size and a predicate (FileSelector). The predicate will be used to check if
+                it is allowed to add a given file.
             </p>
 
             <p>
@@ -552,41 +552,41 @@
             </ul>
         </section>
 
-		<section name="mime">
+        <section name="mime">
 
-			<p>
-				This filesystem can read mails and its attachements like archives.<br />
-				If a part in the parsed mail has no name, a dummy name will be generated.
-				The dummy name is: _body_part_X where X will be replaced by the part number.
-			</p>
+            <p>
+                This filesystem can read mails and its attachements like archives.<br />
+                If a part in the parsed mail has no name, a dummy name will be generated.
+                The dummy name is: _body_part_X where X will be replaced by the part number.
+            </p>
 
-			<p>
-				<b>URI Format</b>
-			</p>
+            <p>
+                <b>URI Format</b>
+            </p>
 
-			<p>
-				<code>mime://
-					<i>mime-file-uri</i>[!
-					<i>absolute-path</i>]
-				</code>
-			</p>
+            <p>
+                <code>mime://
+                    <i>mime-file-uri</i>[!
+                    <i>absolute-path</i>]
+                </code>
+            </p>
 
-			<p>
-				<b>Examples</b>
-			</p>
+            <p>
+                <b>Examples</b>
+            </p>
 
-			<ul>
-				<li>
-					<code>mime:file:///your/path/mail/anymail.mime!/</code>
-				</li>
-				<li>
-					<code>mime:file:///your/path/mail/anymail.mime!/filename.pdf</code>
-				</li>
-				<li>
-					<code>mime:file:///your/path/mail/anymail.mime!/_body_part_0</code>
-				</li>
-			</ul>
-		</section>
+            <ul>
+                <li>
+                    <code>mime:file:///your/path/mail/anymail.mime!/</code>
+                </li>
+                <li>
+                    <code>mime:file:///your/path/mail/anymail.mime!/filename.pdf</code>
+                </li>
+                <li>
+                    <code>mime:file:///your/path/mail/anymail.mime!/_body_part_0</code>
+                </li>
+            </ul>
+        </section>
 
-	</body>
+    </body>
 </document>

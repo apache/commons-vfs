@@ -91,13 +91,13 @@
                     </td>
                     <td>SFTP</td>
                 </tr>
-				<tr>
-					<td>
-						<a href="http://java.sun.com/products/javamail/">javamail</a>
-						Version 1.4
-					</td>
-					<td>mime (VFS sandbox)</td>
-				</tr>
+                <tr>
+                    <td>
+                        <a href="http://java.sun.com/products/javamail/">javamail</a>
+                        Version 1.4
+                    </td>
+                    <td>mime (VFS sandbox)</td>
+                </tr>
             </table>
         </section>
         <section name="Building Commons VFS">

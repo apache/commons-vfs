@@ -145,14 +145,14 @@
       <plugin>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-build-plugin</artifactId>
-		<!-- version inherited from commons-parent -->
+        <!-- version inherited from commons-parent -->
         <configuration>
             <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-		<!-- version inherited from commons-parent -->
+        <!-- version inherited from commons-parent -->
         <configuration>
           <descriptors>
             <descriptor>src/assembly/bin.xml</descriptor>
@@ -164,7 +164,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-		<!-- version inherited from commons-parent -->
+        <!-- version inherited from commons-parent -->
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -245,8 +245,8 @@
   </reporting>
 
   <dependencyManagement>
-	<dependencies>
-	  <!-- artifacts of project, versions managed by release-plugin -->
+    <dependencies>
+      <!-- artifacts of project, versions managed by release-plugin -->
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs</artifactId>
@@ -256,8 +256,8 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-vfs</artifactId>
         <version>2.0-SNAPSHOT</version>
-		<type>test-jar</type>
-		<scope>test</scope>
+        <type>test-jar</type>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -270,7 +270,7 @@
         <version>2.0-SNAPSHOT</version>
       </dependency>
 
-	  <!-- 3rd party dependencies -->
+      <!-- 3rd party dependencies -->
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
@@ -342,9 +342,9 @@
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>3.8.2</version>
-		<scope>test</scope>
+        <scope>test</scope>
       </dependency>
-	</dependencies>
+    </dependencies>
   </dependencyManagement>
 
   <profiles>

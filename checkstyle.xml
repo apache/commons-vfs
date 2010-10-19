@@ -51,7 +51,7 @@
         <module name="JavadocMethod">
             <property name="scope" value="public"/>
             <property name="allowUndeclaredRTE" value="true"/>
-	          <property name="allowMissingJavadoc" value="true"/>
+              <property name="allowMissingJavadoc" value="true"/>
         </module>
         <module name="JavadocType">
             <property name="authorFormat" value="\S"/>

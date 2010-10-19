@@ -111,7 +111,7 @@
                 <source><![CDATA[
 <project ... xmlns:vfs="antlib:org.apache.commons.vfs.tasks">
     <target name="dosomething">
-	    <vfs:copy .../>
+        <vfs:copy .../>
     </target>
 </project>
                     ]]></source>

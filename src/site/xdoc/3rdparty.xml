@@ -27,18 +27,18 @@
 
             <p>
                 Commons VFS provides a way to extend it by simply placing plugin-jars
-				into the classpath.
+                into the classpath.
             </p>
 
             <p>Some external plugins:</p>
             <ul>
                 <li>ISO 9660 - <a href="http://loopy.sourceforge.net">http://loopy.sourceforge.net</a><br/>
-					Reads .iso files
+                    Reads .iso files
                 </li>
             </ul>
 
         </section>
 
-	</body>
+    </body>
 </document>
 

@@ -70,16 +70,16 @@ for ( int i = 0; i < children.length; i++ )
 }
                 ]]></source>
 
-			<p>
-				In some cases you might want to explicitely free resources allocated by the filesystem.
-				You can do this by calling
-				<a href="apidocs/org/apache/commons/vfs/FileSystemManager.html#closeFileSystem">VFS.getManager().closeFileSystem(fs)</a>.
-				If you use VFS as singleton (as described above) you should take care that this will close the filesystem for
-				all threads.<br />
-				In other words, do not close any globally used filesystem like the one for local files.  
-			</p>
+            <p>
+                In some cases you might want to explicitely free resources allocated by the filesystem.
+                You can do this by calling
+                <a href="apidocs/org/apache/commons/vfs/FileSystemManager.html#closeFileSystem">VFS.getManager().closeFileSystem(fs)</a>.
+                If you use VFS as singleton (as described above) you should take care that this will close the filesystem for
+                all threads.<br />
+                In other words, do not close any globally used filesystem like the one for local files.  
+            </p>
 
-			<p>
+            <p>
                 See the
                 <a href="apidocs/org/apache/commons/vfs/FileObject.html">FileObject</a>
                 Javadocs for more detail.
@@ -94,52 +94,52 @@ for ( int i = 0; i < children.length; i++ )
                     hold a reference to this object. If the FileObject is no longer reachable, and the jvm needs some memory,
                     it will be released.
                 </p>
-				<p>
-					There is also a internal cache of each file object avoid the need to access the network layer. Now its possible
-					to configure this behviour through the use of <a href="apidocs/org/apache/commons/vfs/CacheStrategy.html">CacheStrategy</a>.
-					<br />
-					Do this on the DefaultFileSystemManager. For example:
-					<code>
-						((DefaultFileSystemManager) VFS.getManager()).setCacheStrategy(CacheStrategy.ON_CALL)
-					</code>
-				</p>
-			</subsection>
+                <p>
+                    There is also a internal cache of each file object avoid the need to access the network layer. Now its possible
+                    to configure this behviour through the use of <a href="apidocs/org/apache/commons/vfs/CacheStrategy.html">CacheStrategy</a>.
+                    <br />
+                    Do this on the DefaultFileSystemManager. For example:
+                    <code>
+                        ((DefaultFileSystemManager) VFS.getManager()).setCacheStrategy(CacheStrategy.ON_CALL)
+                    </code>
+                </p>
+            </subsection>
 
-			<subsection name="User Authentication">
-				<p>
-					You can put the credentials into the url, but the drawback here is, that it is
+            <subsection name="User Authentication">
+                <p>
+                    You can put the credentials into the url, but the drawback here is, that it is
                     easily possible to get access to the password.
-				</p>
-				<p>
-					To solve you can use the
+                </p>
+                <p>
+                    To solve you can use the
                     <a href="apidocs/org/apache/commons/vfs/UserAuthenticator.html">UserAuthenticator</a>
-				</p>
-				<p>
-					For example:
-					<code>
-						StaticUserAuthenticator auth = new StaticUserAuthenticator("username", "password", null);
-						FileSystemOptions opts = new FileSystemOptions();
-						DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
+                </p>
+                <p>
+                    For example:
+                    <code>
+                        StaticUserAuthenticator auth = new StaticUserAuthenticator("username", "password", null);
+                        FileSystemOptions opts = new FileSystemOptions();
+                        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
 
-						FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);
-					</code>
-				</p>
-				<p>
-					Internally the UserAuthenticator uses char arrays which will be zeroed before it is
+                        FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);
+                    </code>
+                </p>
+                <p>
+                    Internally the UserAuthenticator uses char arrays which will be zeroed before it is
                     freed for garbage collection.Unhappily none of the current libraries use char
                     arrays and so VFS has to create a string. Thus, the main advantage
-					of this solution - security - is lost, but hey, thats not VFS fault ;-)
-				</p>
-				<p>
-					VFS calls <code>UserAuthenticator.requestAuthentication</code> each time it
+                    of this solution - security - is lost, but hey, thats not VFS fault ;-)
+                </p>
+                <p>
+                    VFS calls <code>UserAuthenticator.requestAuthentication</code> each time it
                     requires credentials, it depends on the filesystem implementation how often
                     this might be. For example, with FTP this is on every connection, in SMB/JCIFS
-					this is for EVERY OBJECT. It is up to you how long you will cache credentials
+                    this is for EVERY OBJECT. It is up to you how long you will cache credentials
                     of if you would like to provide a "save credentials" checkbox.
-				</p>
-			</subsection>
+                </p>
+            </subsection>
 
-			<subsection name="Examples">
+            <subsection name="Examples">
                 <p>
                     For an example of using the API, take a look at the classes
                     in the
