@@ -63,6 +63,7 @@ class RamFileData implements Serializable
     public RamFileData(FileName name)
     {
         super();
+        this.children = Collections.synchronizedCollection(new ArrayList());
         this.clear();
         if (name == null)
         {
@@ -130,7 +131,7 @@ class RamFileData implements Serializable
         this.buffer = new byte[0];
         updateLastModified();
         this.type = FileType.IMAGINARY;
-        this.children = Collections.synchronizedCollection(new ArrayList());
+        this.children.clear();
         this.name = null;
     }
 

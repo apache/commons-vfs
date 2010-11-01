@@ -44,7 +44,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     /**
      * Cache of RAM File Data
      */
-    private Map cache;
+    private final Map cache;
 
     /**
      * @param rootName The root file name.
@@ -95,16 +95,19 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
             return null;
         }
         Collection children = data.getChildren();
+        String[] names;
 
-        String[] names = new String[children.size()];
+        synchronized(children) {
+            names = new String[children.size()];
 
-        int pos = 0;
-        Iterator iter = children.iterator();
-        while (iter.hasNext())
-        {
-            RamFileData childData = (RamFileData) iter.next();
-            names[pos] = childData.getName().getBaseName();
-            pos++;
+            int pos = 0;
+            Iterator iter = children.iterator();
+            while (iter.hasNext())
+            {
+                RamFileData childData = (RamFileData) iter.next();
+                names[pos] = childData.getName().getBaseName();
+                pos++;
+            }
         }
 
         return names;
@@ -293,11 +296,13 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     int size()
     {
         int size = 0;
-        Iterator iter = cache.values().iterator();
-        while (iter.hasNext())
-        {
-            RamFileData data = (RamFileData) iter.next();
-            size += data.size();
+        synchronized(cache) {
+            Iterator iter = cache.values().iterator();
+            while (iter.hasNext())
+            {
+                RamFileData data = (RamFileData) iter.next();
+                size += data.size();
+            }
         }
         return size;
     }
@@ -307,7 +312,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      */
     public void close()
     {
-        this.cache = null;
+        this.cache.clear();
         super.close();
     }
 }

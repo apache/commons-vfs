@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+       <action dev="rgoers" type="fix" issue="VFS-324" due-to="sebb">
+        Clear the cache in RamFileSystem and the children in RamFileData.
+      </action>
       <action dev="sebb" type="fix" issue="VFS-319" due-to="sebb">
         Typo in FtpsFileSystemConfigBuilder.setFtpsType
       </action>
