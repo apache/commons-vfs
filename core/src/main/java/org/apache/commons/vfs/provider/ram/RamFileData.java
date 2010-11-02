@@ -54,7 +54,7 @@ class RamFileData implements Serializable
     /**
      * Children
      */
-    private Collection children;
+    private final Collection children;
 
     /**
      * Constructor.
