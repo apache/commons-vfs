@@ -72,8 +72,12 @@ public class WebdavFileProvider
 
         setFileNameParser(WebdavFileNameParser.getInstance());
     }
-        /**
-     * Creates a {@link FileSystem}.
+    /**
+     * Creates a {@link FileSystem}.  If you're looking at this method and wondering how to 
+     * get a FileSystemOptions object bearing the proxy host and credentials configuration through 
+     * to this method so it's used for resolving a {@link FileObject} in the FileSystem, then be sure
+     * to use correct signature of the {@link FileSystemManager} resolveFile method.
+     * @see org.apache.commons.vfs.impl.DefaultFileSystemManager.resolveFile(FileObject, String, FileSystemOptions).
      */
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException

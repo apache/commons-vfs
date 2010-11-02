@@ -23,6 +23,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
@@ -108,6 +109,12 @@ public final class HttpClientFactory
                                     UserAuthenticationData.PASSWORD, null)));
 
                         client.getState().setProxyCredentials(null, proxyHost, proxyCreds);
+                    }
+
+                    if (builder.isPreemptiveAuth(fileSystemOptions)) {
+	                    HttpClientParams httpClientParams = new HttpClientParams();
+	                    httpClientParams.setAuthenticationPreemptive(true);
+	                    client.setParams(httpClientParams);
                     }
                 }
 

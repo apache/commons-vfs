@@ -296,7 +296,15 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
                 if (!attributes.containsKey(property.getName()))
                 {
                     property = getProperty(fileName, property.getName());
-                    attributes.put(property.getName().toString(), property.getValue());
+                    if (property != null)
+                    {
+                        Object name = property.getName();
+                        Object value = property.getValue();
+                        if (name != null && value != null)
+                        {
+                            attributes.put(name.toString(), value);
+                        }
+                    }
                 }
             }
             return attributes;

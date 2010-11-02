@@ -23,6 +23,12 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+       <action dev="rgoers" type="fix" issue="VFS-315" due-to="David Hausladen">
+        Fix potential NullPointerException if the DavProperty is null or contains null values.
+      </action>
+       <action dev="rgoers" type="fix" issue="VFS-316" due-to="David Hausladen">
+        Add option for preemptive authentication for HTTP based protocols.
+      </action>
        <action dev="rgoers" type="fix" issue="VFS-322" due-to="Curtis Boyden">
         Allow tar files that contain files over 2GB in size.
       </action>
