@@ -51,12 +51,11 @@
       <artifactId>commons-net</artifactId>
       <optional>true</optional>
     </dependency>
-    <!--TODO:Revert to [compress] if/when released
        <dependency>
          <groupId>org.apache.commons</groupId>
          <artifactId>commons-compress</artifactId>
-         <optional>true</optional>
-       </dependency-->
+         <scope>test</scope>
+       </dependency>
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>

@@ -40,7 +40,7 @@ class TarInputStream
     private TarEntry currEntry;
     private boolean debug;
     private int entryOffset;
-    private int entrySize;
+    private long entrySize;
     private boolean hasHitEOF;
     private byte[] oneBuf;
     private byte[] readBuf;
@@ -122,7 +122,7 @@ class TarInputStream
 
         if (currEntry != null)
         {
-            final int numToSkip = entrySize - entryOffset;
+            final long numToSkip = entrySize - entryOffset;
 
             if (debug)
             {
@@ -134,7 +134,8 @@ class TarInputStream
 
             if (numToSkip > 0)
             {
-                skip(numToSkip);
+                // Use our internal skip to move to the end of the current entry
+                longSkip(numToSkip);
             }
 
             readBuf = null;
@@ -182,8 +183,7 @@ class TarInputStream
 
             entryOffset = 0;
 
-            // REVIEW How do we resolve this discrepancy?!
-            entrySize = (int) currEntry.getSize();
+            entrySize = currEntry.getSize();
         }
 
         if (null != currEntry && currEntry.isGNULongNameEntry())
@@ -235,7 +235,13 @@ class TarInputStream
     public int available()
             throws IOException
     {
-        return entrySize - entryOffset;
+      long remaining = entrySize - entryOffset;
+      
+      if(remaining > Integer.MAX_VALUE) {
+        return Integer.MAX_VALUE;
+      }
+      
+      return (int) remaining;
     }
 
     /**
@@ -353,7 +359,7 @@ class TarInputStream
 
         if ((numToRead + entryOffset) > entrySize)
         {
-            numToRead = (entrySize - entryOffset);
+            numToRead = (int)(entrySize - entryOffset);
         }
 
         if (null != readBuf)
@@ -428,6 +434,18 @@ class TarInputStream
     {
     }
 
+    public void longSkip(final long numToSkip) throws IOException {
+      for(long skipped = 0; skipped < numToSkip;) {
+        if(numToSkip - skipped > Integer.MAX_VALUE) {
+          skip((int)Integer.MAX_VALUE);
+          skipped += Integer.MAX_VALUE;
+        } else {
+          skip((int)(numToSkip - skipped));
+          skipped += numToSkip - skipped;
+        }
+      }
+    }
+    
     /**
      * Skip bytes in the input buffer. This skips bytes in the current entry's
      * data, not the entire archive, and will stop at the end of the current

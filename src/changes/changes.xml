@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+       <action dev="rgoers" type="fix" issue="VFS-322" due-to="Curtis Boyden">
+        Allow tar files that contain files over 2GB in size.
+      </action>
        <action dev="rgoers" type="fix" issue="VFS-324" due-to="sebb">
         Clear the cache in RamFileSystem and the children in RamFileData.
       </action>
