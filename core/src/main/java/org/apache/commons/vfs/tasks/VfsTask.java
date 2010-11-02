@@ -48,9 +48,10 @@ public class VfsTask
     {
         if (manager == null)
         {
-            manager = new StandardFileSystemManager();
-            manager.setLogger(new AntLogger());
-            manager.init();
+            StandardFileSystemManager mngr = new StandardFileSystemManager();
+            mngr.setLogger(new AntLogger());
+            mngr.init();
+            manager = mngr;
             getProject().addBuildListener(new CloseListener());
         }
         return manager.resolveFile(getProject().getBaseDir(), uri);
