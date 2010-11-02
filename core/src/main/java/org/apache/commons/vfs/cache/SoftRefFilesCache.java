@@ -62,7 +62,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
      */
     private final class SoftRefReleaseThread extends Thread
     {
-        private boolean requestEnd;
+        private volatile boolean requestEnd; // used for inter-thread communication
 
         private SoftRefReleaseThread()
         {

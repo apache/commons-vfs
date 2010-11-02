@@ -111,7 +111,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * A flag used to determine if the monitor thread should be running.
      */
-    private boolean shouldRun = true;
+    private volatile boolean shouldRun = true; // used for inter-thread communication
 
     /**
      * A flag used to determine if adding files to be monitored should be recursive.
