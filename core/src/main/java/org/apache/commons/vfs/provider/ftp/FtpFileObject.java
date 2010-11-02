@@ -55,7 +55,7 @@ public class FtpFileObject
     private static final Map EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap());
     private static final FTPFile UNKNOWN = new FTPFile();
 
-    private Log log = LogFactory.getLog(FtpFileObject.class);
+    private final Log log = LogFactory.getLog(FtpFileObject.class);
     private final FtpFileSystem ftpFs;
     private final String relPath;
 

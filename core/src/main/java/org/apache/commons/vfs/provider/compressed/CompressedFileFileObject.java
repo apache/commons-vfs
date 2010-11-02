@@ -35,7 +35,7 @@ public abstract class CompressedFileFileObject
     implements FileObject
 {
     private final FileObject container;
-    private String[] children;
+    private final String[] children;
 
     protected CompressedFileFileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
     {

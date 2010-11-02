@@ -28,27 +28,27 @@ public class VcsLogEntry
     /**
      *
      */
-    private String author;
+    private final String author;
 
     /**
      * Revision.
      */
-    private long revision;
+    private final long revision;
 
     /**
      * Message.
      */
-    private String message;
+    private final String message;
 
     /**
      * Date.
      */
-    private Calendar date;
+    private final Calendar date;
 
     /**
      * Path.
      */
-    private String path;
+    private final String path;
 
     /**
      *

@@ -30,7 +30,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String MAX_SIZE_KEY = "maxsize";
 
     /** config builder singleton. */
-    private static RamFileSystemConfigBuilder singleton = new RamFileSystemConfigBuilder();
+    private static final RamFileSystemConfigBuilder singleton = new RamFileSystemConfigBuilder();
 
     /**
      * Constructor

@@ -39,7 +39,7 @@ public abstract class AbstractFileOperationProvider implements
      * "svn", "svnssh", but not for "file", etc. The Map has scheme as a key and
      * Colleaction of operations that are available for that scheme.
      */
-    private Collection operations = new ArrayList();
+    private final Collection operations = new ArrayList();
 
     /**
      * Gather available operations for the specified FileObject and put them into

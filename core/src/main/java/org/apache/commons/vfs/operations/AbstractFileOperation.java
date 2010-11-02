@@ -28,7 +28,7 @@ public abstract class AbstractFileOperation implements FileOperation
     /**
      * FileObject which the FileOperation is operate on.
      */
-    private FileObject fileObject;
+    private final FileObject fileObject;
 
     /**
      * @param file The FileObject.

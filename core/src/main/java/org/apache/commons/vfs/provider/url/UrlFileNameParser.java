@@ -33,8 +33,8 @@ import org.apache.commons.vfs.provider.local.GenericFileNameParser;
  */
 public class UrlFileNameParser extends AbstractFileNameParser
 {
-    private URLFileNameParser url = new URLFileNameParser(80);
-    private GenericFileNameParser generic = new GenericFileNameParser();
+    private final URLFileNameParser url = new URLFileNameParser(80);
+    private final GenericFileNameParser generic = new GenericFileNameParser();
 
     public UrlFileNameParser()
     {

@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TrustEveryoneUserInfo implements UserInfo
 {
-    private Log log = LogFactory.getLog(TrustEveryoneUserInfo.class);
+    private final Log log = LogFactory.getLog(TrustEveryoneUserInfo.class);
 
     public String getPassphrase()
     {

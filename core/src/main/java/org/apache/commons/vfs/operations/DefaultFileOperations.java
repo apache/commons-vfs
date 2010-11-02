@@ -33,12 +33,12 @@ public class DefaultFileOperations implements FileOperations
     /**
      *
      */
-    private FileSystemManager fsmanager;
+    private final FileSystemManager fsmanager;
 
     /**
      *
      */
-    private FileObject fileObject;
+    private final FileObject fileObject;
 
     /**
      *

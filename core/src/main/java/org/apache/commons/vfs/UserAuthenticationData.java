@@ -88,7 +88,7 @@ public class UserAuthenticationData
     public static final Type DOMAIN = new Type("domain");
 
     /** The authentication data. */
-    private Map authenticationData = new TreeMap();
+    private final Map authenticationData = new TreeMap();
 
     public UserAuthenticationData()
     {

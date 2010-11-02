@@ -29,16 +29,16 @@ public class FileFilterSelector extends FileDepthSelector
     /**
      * The FileFilter.
      */
-    private FileFilter fileFilter;
+    private final FileFilter fileFilter;
 
     public FileFilterSelector()
     {
-        super(1, 1);
+        this(null);
     }
 
     public FileFilterSelector(FileFilter fileFilter)
     {
-        this();
+        super(1, 1);
         this.fileFilter = fileFilter;
     }
 

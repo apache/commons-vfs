@@ -43,10 +43,10 @@ public class JarURLConnectionImpl
     // This is because JarURLConnection SUCKS
     private static final String HACK_URL = "jar:http://somehost/somejar.jar!/";
 
-    private FileContent content;
-    private URL parentURL;
-    private JarFileObject file;
-    private String entryName;
+    private final FileContent content;
+    private final URL parentURL;
+    private final JarFileObject file;
+    private final String entryName;
 
     public JarURLConnectionImpl(JarFileObject file, FileContent content)
         throws MalformedURLException, FileSystemException

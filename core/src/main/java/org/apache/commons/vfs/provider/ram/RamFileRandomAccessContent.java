@@ -45,34 +45,34 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     /**
      * buffer
      */
-    private byte[] buffer8 = new byte[8];
+    private final byte[] buffer8 = new byte[8];
 
     /**
      * buffer
      */
-    private byte[] buffer4 = new byte[4];
+    private final byte[] buffer4 = new byte[4];
 
     /**
      * buffer
      */
-    private byte[] buffer2 = new byte[2];
+    private final byte[] buffer2 = new byte[2];
 
     /**
      * buffer
      */
-    private byte[] buffer1 = new byte[1];
+    private final byte[] buffer1 = new byte[1];
 
     /**
      * Mode
      */
-    private RandomAccessMode mode;
+    private final RandomAccessMode mode;
 
     /**
      * File
      */
-    private RamFileObject file;
+    private final RamFileObject file;
 
-    private InputStream rafis;
+    private final InputStream rafis;
 
     /**
      * @param file The file to access.

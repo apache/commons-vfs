@@ -39,7 +39,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
     /**
      * File System.
      */
-    private RamFileSystem fs;
+    private final RamFileSystem fs;
 
     /**
      * RAM File Object Data.

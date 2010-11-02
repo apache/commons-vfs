@@ -55,7 +55,7 @@ public class DelegatingFileSystemOptionsBuilder
 
     private static final Map PRIMATIVE_TO_OBJECT = new TreeMap();
 
-    private Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
+    private final Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
 
     private final FileSystemManager manager;
 
