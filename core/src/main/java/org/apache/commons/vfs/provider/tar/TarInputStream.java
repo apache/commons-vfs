@@ -437,7 +437,7 @@ class TarInputStream
     public void longSkip(final long numToSkip) throws IOException {
       for(long skipped = 0; skipped < numToSkip;) {
         if(numToSkip - skipped > Integer.MAX_VALUE) {
-          skip((int)Integer.MAX_VALUE);
+          skip(Integer.MAX_VALUE);
           skipped += Integer.MAX_VALUE;
         } else {
           skip((int)(numToSkip - skipped));
