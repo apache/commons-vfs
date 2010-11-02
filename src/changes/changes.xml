@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-305" due-to="Tom">
+        Add encoding option to FTP provider.
+      </action>
        <action dev="rgoers" type="fix" issue="VFS-315" due-to="David Hausladen">
         Fix potential NullPointerException if the DavProperty is null or contains null values.
       </action>

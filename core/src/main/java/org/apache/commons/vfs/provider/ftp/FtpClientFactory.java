@@ -181,6 +181,14 @@ public final class FtpClientFactory
                 {
                     client.enterLocalPassiveMode();
                 }
+                
+                String controlEncoding = FtpFileSystemConfigBuilder.getInstance().getControlEncoding(fileSystemOptions);
+                if (controlEncoding != null)
+                {
+                    client.setControlEncoding(controlEncoding);
+                }
+                
+                
             }
             catch (final IOException e)
             {

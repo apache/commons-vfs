@@ -46,6 +46,8 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
             FtpFileSystemConfigBuilder.class.getName() + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES =
             FtpFileSystemConfigBuilder.class.getName() + ".SHORT_MONTH_NAMES";
+    private static final String ENCODING =
+            FtpFileSystemConfigBuilder.class.getName() + ".ENCODING";
 
     private FtpFileSystemConfigBuilder()
     {
@@ -305,5 +307,18 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
         }
 
         setParam(opts, SHORT_MONTH_NAMES, clone);
+    }
+    
+    /**
+     * see {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @param shortMonthNames an array of short month name Strings.
+     */
+    public void setControlEncoding(FileSystemOptions opts, String encoding){
+        setParam(opts, ENCODING, encoding);
+	}
+    
+    public String getControlEncoding(FileSystemOptions opts) {
+        return  (String) getParam(opts, ENCODING);
     }
 }
