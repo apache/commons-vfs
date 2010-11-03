@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<document>
+  <properties>
+    <title>Changes</title>
+    <author email="rgoers@apache.org">Ralph Goers</author>
+  </properties>
+
+  <body>
+    <release version="2.0" date="in SVN" description="">
+      <action dev="rgoers" type="fix" issue="VFS-305" due-to="Tom">
+        Add encoding option to FTP provider.
+      </action>
+       <action dev="rgoers" type="fix" issue="VFS-315" due-to="David Hausladen">
+        Fix potential NullPointerException if the DavProperty is null or contains null values.
+      </action>
+       <action dev="rgoers" type="fix" issue="VFS-316" due-to="David Hausladen">
+        Add option for preemptive authentication for HTTP based protocols.
+      </action>
+       <action dev="rgoers" type="fix" issue="VFS-322" due-to="Curtis Boyden">
+        Allow tar files that contain files over 2GB in size.
+      </action>
+       <action dev="rgoers" type="fix" issue="VFS-324" due-to="sebb">
+        Clear the cache in RamFileSystem and the children in RamFileData.
+      </action>
+      <action dev="sebb" type="fix" issue="VFS-319" due-to="sebb">
+        Typo in FtpsFileSystemConfigBuilder.setFtpsType
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-227" due-to="Sergey Vladimirov">
+        InputStream and RandomAccessContent memory leak in FileContentThreadData
+      </action>
+      <action dev="rgoers" type="update" issue="VFS-263" due-to="Ingo Maas">
+        WebdavFileObject does not implement doSetAttribute()
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-259" due-to="Marek Zawirski">
+        Http and Webdav FIleContentInfoFactory: undress to AbstractFileObject before casting
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-261" due-to="Simon Olofsson">
+        WebDAV upload corrupts binary files
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-276" due-to="Vince Bonfanti">
+        add ProviderTestConfig.getDefaultFileSystemManager() method
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-282" due-to="Alexey">
+        SftpFileProvider and SftpFileSystemConfigBuilder can't change ssh authentication methods
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-269" due-to="Marek Zawirski">
+        HttpFileObject: unsupported content over 2GB length
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-287" due-to="Mircea-Eugen Ionica">
+        LocalFileName objects are not released from AbstractFileSystem.listenerMap when all listeners are removed.
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-216" due-to="Reetu Mutti">
+        The FTP Configuration includes an option to set a timeout for the data connection, but not for the socket
+        timeout. This is a problem, as idle sockets can cause your download to hang forever and never timeout.
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-289" due-to="Kirill Safonov">
+        FTP connection is not released If exception is thrown out of FtpFileObject.doGetOutputStream().
+      </action>
+      <action dev="rgoers" type="fix" issue="VFS-286" due-to="Kirill Safonov">
+        SftpFileObject.doListChildrenResolved() changes the working dir before doing ChannelSftp.ls() call.
+        If ls() throws an exception, the current directory is not reset. All the subsequent operations that rely on the
+        current dir will fail trying to change into nonexistent directory.
+      </action>
+      <action dev="rgoers" type="add" issue="VFS-244">
+        Rename HttpRandomAccesContent to HttpRandomAccessContent.
+      </action>
+    </release>
+  </body>
+</document>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<document>
+    <properties>
+        <title>Commons Virtual File System</title>
+        <author email="jstrachan@apache.org">James Strachan</author>
+    </properties>
+
+    <body>
+        <section name="Commons Virtual File System">
+
+            <p>
+                Commons VFS provides a single API for accessing
+                various different file systems. It presents a uniform view of
+                the files from various different sources, such as the files on
+                local disk, on an HTTP server, or inside a Zip archive.
+            </p>
+
+            <p>Some of the features of Commons VFS are:</p>
+            <ul>
+                <li>
+                    A single consistent API for accessing files of different
+                    types.
+                </li>
+                <li>Support for numerous
+                    <a href="filesystems.html">file system types</a>
+                    .
+                </li>
+                <li>
+                    Caching of file information. Caches information in-JVM,
+                    and optionally can cache remote file information on the
+                    local file system.
+                </li>
+                <li>Event delivery.</li>
+                <li>
+                    Support for logical file systems made up of files from
+                    various different file systems.
+                </li>
+                <li>
+                    Utilities for integrating Commons VFS into applications,
+                    such as a VFS-aware ClassLoader and URLStreamHandlerFactory.
+                </li>
+                <li>A set of VFS-enabled
+                    <a href="anttasks.html">Ant tasks</a>
+                    .
+                </li>
+            </ul>
+
+        </section>
+
+        <section name="News">
+            <p>
+                VFS is split into core, examples and sandbox now.
+            </p>
+            <p>
+                Due to some technical reasons we had to move the jcifs (smb) filesystem to
+                the sandbox. So if you need one of these filesystems you have to build VFS manually.
+            </p>
+            <p>
+                To build VFS, it will be best to check-it-out from svn and use maven 2 to
+                build.
+            </p>
+            <p>
+                And - we have a new filesystem: mime (read only for sure)<br/>
+                This filesystem allows you to read e-mails like archives, e.g. the attachments are the
+                children of the mail itself.<br />
+                You'll find it in our sandbox.
+            </p>
+            <p>
+                Also notice that we now have a "3rd party plugins" page. It will list all external
+                plugins available for VFS.<br />
+                You have such a beast - and will get listed? Just drop me a mail: imario -at- apache.org
+            </p>
+        </section>
+
+    </body>
+</document>
+

@@ -1,0 +1,248 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+    <properties>
+        <title>Setup a Testserver</title>
+        <author email="imario@apache.org">Mario Ivankovits</author>
+    </properties>
+
+    <body>
+        <section name="Testserver">
+            <p>
+                This documentation describes how to setup a VFS testserver needed during development for the junit
+                tests.
+            </p>
+            <p>
+                I tried to simplify things as good as I can, e.g. this setup uses for all server the same vfs work
+                directory.
+                Thus it is needed to setup apache to use user 'vfsusr' instead of 'wwwrun'.
+                <br/>
+                Based on this description it should be possible for you to avoid this "insecurity" if needed.
+            </p>
+            <p>
+                I created it during setup a fresh server based on the following components:
+
+                <ol>
+                    <li>SuSE Linux 9.3 Minimal Installation</li>
+                    <li>Apache 2 Webserver (apache2-2.0.53)</li>
+                    <li>Samba 3 (samba-3.0.12)</li>
+                    <li>ssh (openssh-3.9p1)</li>
+                    <li>vsftp (vsftpd-2.0.2-3)</li>
+                </ol>
+            </p>
+
+
+            <subsection name="System setup">
+                <ol>
+                    <li>You need maven to build the local test-data structure. This is done automatically during build of VFS.</li>
+                    <li>Create a user 'vfsusr' with password 'vfs/%\te:st' and home directory '/home/vfsusr'
+                        <br/>
+                        <source><![CDATA[
+useradd -p vfsusr -m vfsusr
+                    ]]></source>
+                    </li>
+                    <li>Create the directories
+                        <ol>
+                            <li>/vfstest</li>
+                            <li>/vfstest/write-tests</li>
+                        </ol>
+                        and copy from your local 'target/test-data' the directories
+                        <source>code,read-tests</source> into it.<br />
+                        Now your structure looks like this:<br />
+                        <source><![CDATA[
+/vfstest
+/vfstest/write-tests
+/vfstest/read-tests
+/vfstest/read-tests/emptydir
+/vfstest/read-tests/file1.txt
+/vfstest/read-tests/dir1
+/vfstest/read-tests/dir1/file1.txt
+/vfstest/read-tests/dir1/file2.txt
+/vfstest/read-tests/dir1/file3.txt
+/vfstest/read-tests/dir1/subdir1
+/vfstest/read-tests/dir1/subdir1/file1.txt
+/vfstest/read-tests/dir1/subdir1/file2.txt
+/vfstest/read-tests/dir1/subdir1/file3.txt
+/vfstest/read-tests/dir1/subdir2
+/vfstest/read-tests/dir1/subdir2/file1.txt
+/vfstest/read-tests/dir1/subdir2/file2.txt
+/vfstest/read-tests/dir1/subdir2/file3.txt
+/vfstest/read-tests/dir1/subdir3
+/vfstest/read-tests/dir1/subdir3/file1.txt
+/vfstest/read-tests/dir1/subdir3/file2.txt
+/vfstest/read-tests/dir1/subdir3/file3.txt
+/vfstest/read-tests/empty.txt
+/vfstest/read-tests/file%.txt
+/vfstest/code
+/vfstest/code/sealed
+/vfstest/code/sealed/AnotherClass.class
+/vfstest/code/ClassToLoad.class
+                    ]]></source>
+                    </li>
+                    <li>Setup a symbolic link to '/vfstest'<br />
+                        <source><![CDATA[
+ln -s /vfstest /home/vfsusr/vfstest
+                    ]]></source>
+                    </li>
+                    <li>Set permissions
+                        <br/>
+                        <source><![CDATA[
+find /vfstest -print0 | xargs -0 chown vfsusr.users
+                    ]]></source>
+                    </li>
+                    <li>After you followed the steps below and setup the server ensure they
+                        are activated and running.<br />
+                        This is only needed if you installed a fresh system. Otherwise simply restart them.
+                        <br/>
+                        <source><![CDATA[
+insserv xinetd
+insserv apache2
+insserv smb
+insserv nmb
+/etc/rc.d/xinetd restart
+/etc/rc.d/apache2 restart
+/etc/rc.d/smb restart
+/etc/rc.d/nmb restart
+                        ]]></source>
+                        </li>
+                </ol>
+            </subsection>
+
+            <subsection name="Apache 2 Webserver">
+                <ol>
+                    <li>Create a file named '/etc/apache2/conf.d/vfstest.conf' with this content<br />
+                        <source><![CDATA[
+#
+# VFSTEST
+#
+Alias /vfstest /vfstest/
+
+DAVLockDB /var/lib/apache2/dav.lockDB
+DAVMinTimeout 600
+
+<Directory /vfstest>
+    Options None
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<Location />
+        DAV On
+        Options Indexes MultiViews
+        AllowOverride None
+
+        AuthType Basic
+        AuthName vfstest_zone
+        AuthUserFile /etc/apache2/passwd
+        <Limit PUT POST DELETE PROPFIND PROPPATCH MKCOL COPY MOVE LOCK UNLOCK>
+                Require user vfsusr
+        </Limit>
+</Location>
+                            ]]></source>
+                    </li>
+                    <li>change the permission on
+                        <source><![CDATA[
+chown vfsusr.users /var/lib/apache2
+                        ]]></source>
+                    </li>
+                    <li>Activate the WebDAV module by adding 'dav' and 'dav_fs' to the list of modules in '/etc/sysconfig/apache2'. e.g <br/>
+                        <source><![CDATA[
+APACHE_MODULES="access actions alias auth auth_dbm autoindex cgi dir env expires include log_config
+mime negotiation setenvif ssl suexec userdir php4 php5 dav dav_fs"
+                            ]]></source>
+                    </li>
+                    <li>Setup the webserver to use user-id 'vfsusr' and group 'users'. This can be done by changing the file '/etc/apache2/uid.conf'<br />
+                        <source><![CDATA[
+User vfsusr
+Group users
+                        ]]></source>
+                    </li>
+                    <li>Create the VFS user to access the Webdav resource<br />
+                        <source><![CDATA[
+htpasswd2 -cmb /etc/apache2/passwd  vfsusr 'vfs/%\te:st'
+                        ]]></source>
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="Samba 3">
+                <ol>
+                    <li>Create a share 'vfsusr'<br />
+                        <source><![CDATA[
+[vfsusr]
+   comment = VFS Test Directory
+   path = /home/vfsusr
+   guest ok = yes
+   writable = yes
+                        ]]></source>
+                    </li>
+                    <li>Setup a 'vfsusr' with password 'vfs/%\te:st'<br />
+                        <source><![CDATA[
+smbpasswd -a vfsusr
+                        ]]></source>
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="ssh">
+                <ol>
+                    <li>In '/etc/ssh/sshd_config' ensure<br />
+                        <source><![CDATA[
+PasswordAuthentication yes
+                        ]]></source>
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="vsftp">
+                <ol>
+                    <li>Ensure the server is not disabled in the xinetd configuration<br />
+                        Set <source>disable=no</source> in '/etc/xinetd.d/vsftpd'
+                    </li>
+
+                    <li>Setup the server config: '/etc/vsftpd.conf'<br/>
+                        <source>
+write_enable=YES
+local_enable=YES
+                        </source>
+
+                    </li>
+                </ol>
+            </subsection>
+
+            <subsection name="Tests">
+                Now we are finished and you can try to activate the tests by
+                <ol>
+                    <li>reactivate the tests in 'build.xml'.<br/>
+                    Search for <code><![CDATA[<!-- tests disabled -->]]></code> and comment the exclude.</li>
+                    <source><![CDATA[
+<!-- tests disabled
+<exclude name="**/*.java">
+</exclude>
+ -->
+                    ]]></source>
+                    <li>or use the class org.apache.commons.vfs.RunTest where you have
+                        to adapt some properties at the top of the file and choose which test
+                        you would like to run by comment the others.<br />
+                        This is the way how I debug a failed testcase.
+                    </li>
+                </ol>
+            </subsection>
+        </section>
+    </body>
+</document>

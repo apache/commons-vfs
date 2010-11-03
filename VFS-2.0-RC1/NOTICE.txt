@@ -1,0 +1,10 @@
+Apache Commons VFS
+Copyright 2002-2010 The Apache Software Foundation
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+As an optional dependency it uses javamail developed by
+SUN Microsystems
+You can get the library and its source from http://java.sun.com/products/javamail/
+This library uses the CDDL open source license 

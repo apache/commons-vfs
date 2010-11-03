@@ -1,0 +1,138 @@
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+  
+        http://www.apache.org/licenses/LICENSE-2.0
+  
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  -->
+<project name="commons-vfs-sandbox" default="jar" basedir=".">
+  <property file="${user.home}/.m2/maven.properties"/>
+  <property name="maven.build.output" value="target/classes"/>
+  <property name="maven.build.directory" value="target"/>
+  <property name="maven.build.final.name" value="commons-vfs-sandbox-2.0-SNAPSHOT"/>
+  <property name="maven.test.reports" value="${maven.build.directory}/test-reports"/>
+  <property name="maven.test.output" value="target/test-classes"/>
+  <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
+  <path id="build.classpath">
+    <fileset dir="${maven.repo.local}">
+      <include name="slide/jakarta-slide-webdavlib/20050629.161100/jakarta-slide-webdavlib-20050629.161100.jar"/>
+      <include name="org/apache/commons/commons-vfs/2.0-SNAPSHOT/commons-vfs-2.0-SNAPSHOT.jar"/>
+      <include name="commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar"/>
+      <include name="javax/activation/activation/1.1/activation-1.1.jar"/>
+      <include name="javax/mail/mail/1.4/mail-1.4.jar"/>
+      <include name="commons-httpclient/commons-httpclient/2.0.2/commons-httpclient-2.0.2.jar"/>
+      <include name="jcifs/jcifs/0.8.3/jcifs-0.8.3.jar"/>
+    </fileset>
+  </path>
+  <target name="clean" description="Clean the output directory">
+    <delete dir="${maven.build.directory}"/>
+  </target>
+  <target name="compile" depends="get-deps" description="Compile the code">
+    <mkdir dir="${maven.build.output}"/>
+    <javac destdir="${maven.build.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false">
+      <src>
+        <pathelement location="src/main/java"/>
+      </src>
+      <classpath refid="build.classpath"/>
+    </javac>
+    <mkdir dir="${maven.build.output}/META-INF"/>
+    <copy todir="${maven.build.output}/META-INF">
+      <fileset dir="..">
+        <include name="NOTICE.txt"/>
+      </fileset>
+    </copy>
+    <copy todir="${maven.build.output}">
+      <fileset dir="src/main/resources">
+        <include name="**"/>
+      </fileset>
+    </copy>
+    <copy todir="${maven.build.output}">
+      <fileset dir="..">
+        <include name="LICENSE.txt"/>
+      </fileset>
+    </copy>
+  </target>
+<!--
+  <target name="jar" depends="compile,test" description="Clean the JAR">
+-->
+  <target name="jar" depends="compile" description="Clean the JAR">
+    <jar jarfile="${maven.build.directory}/${maven.build.final.name}.jar" basedir="${maven.build.output}" excludes="**/package.html"/>
+  </target>
+  <target name="compile-tests" depends="junit-present, compile" description="Compile the test code" if="junit.present">
+    <mkdir dir="${maven.test.output}"/>
+    <javac destdir="${maven.test.output}" excludes="**/package.html" debug="true" deprecation="true" optimize="false">
+      <src>
+        <pathelement location="src/test/java"/>
+      </src>
+      <classpath>
+        <path refid="build.classpath"/>
+        <pathelement location="${maven.build.output}"/>
+      </classpath>
+    </javac>
+  </target>
+  <target name="test" depends="junit-present, compile-tests" if="junit.present" description="Run the test cases">
+    <mkdir dir="${maven.test.reports}"/>
+    <junit printSummary="yes" haltonerror="true" haltonfailure="true" fork="true" dir=".">
+      <sysproperty key="basedir" value="."/>
+      <formatter type="xml"/>
+      <formatter type="plain" usefile="false"/>
+      <classpath>
+        <path refid="build.classpath"/>
+        <pathelement location="${maven.build.output}"/>
+        <pathelement location="${maven.test.output}"/>
+      </classpath>
+      <batchtest todir="${maven.test.reports}">
+        <fileset dir="src/test/java">
+          <include name="**/*Test.java"/>
+          <exclude name="**/*Abstract*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+  <target name="test-junit-present">
+    <available classname="junit.framework.Test" property="junit.present"/>
+  </target>
+  <target name="junit-present" depends="test-junit-present" unless="junit.present">
+    <echo>================================= WARNING ================================</echo>
+    <echo> Junit isn&apos;t present in your $ANT_HOME/lib directory. Tests not executed. </echo>
+    <echo>==========================================================================</echo>
+  </target>
+  <target name="test-offline">
+    <condition property="maven.mode.offline">
+      <equals arg1="${build.sysclasspath}" arg2="only"/>
+    </condition>
+  </target>
+  <target name="get-deps" depends="test-offline" description="Download all dependencies" unless="maven.mode.offline">
+    <mkdir dir="${maven.repo.local}"/>
+    <get src="http://people.apache.org/repo/m2-snapshot-repository//slide/jakarta-slide-webdavlib/20050629.161100/jakarta-slide-webdavlib-20050629.161100.jar" dest="${maven.repo.local}/slide/jakarta-slide-webdavlib/20050629.161100/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m1-snapshot-repository//slide/jakarta-slide-webdavlib/20050629.161100/jakarta-slide-webdavlib-20050629.161100.jar" dest="${maven.repo.local}/slide/jakarta-slide-webdavlib/20050629.161100/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/slide/jakarta-slide-webdavlib/20050629.161100/jakarta-slide-webdavlib-20050629.161100.jar" dest="${maven.repo.local}/slide/jakarta-slide-webdavlib/20050629.161100/jakarta-slide-webdavlib-20050629.161100.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m2-snapshot-repository//org/apache/commons/commons-vfs/2.0-SNAPSHOT/commons-vfs-2.0-SNAPSHOT.jar" dest="${maven.repo.local}/org/apache/commons/commons-vfs/2.0-SNAPSHOT/commons-vfs-2.0-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m1-snapshot-repository//org/apache/commons/commons-vfs/2.0-SNAPSHOT/commons-vfs-2.0-SNAPSHOT.jar" dest="${maven.repo.local}/org/apache/commons/commons-vfs/2.0-SNAPSHOT/commons-vfs-2.0-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/org/apache/commons/commons-vfs/2.0-SNAPSHOT/commons-vfs-2.0-SNAPSHOT.jar" dest="${maven.repo.local}/org/apache/commons/commons-vfs/2.0-SNAPSHOT/commons-vfs-2.0-SNAPSHOT.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m2-snapshot-repository//commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" dest="${maven.repo.local}/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m1-snapshot-repository//commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" dest="${maven.repo.local}/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" dest="${maven.repo.local}/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m2-snapshot-repository//javax/activation/activation/1.1/activation-1.1.jar" dest="${maven.repo.local}/javax/activation/activation/1.1/activation-1.1.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m1-snapshot-repository//javax/activation/activation/1.1/activation-1.1.jar" dest="${maven.repo.local}/javax/activation/activation/1.1/activation-1.1.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/javax/activation/activation/1.1/activation-1.1.jar" dest="${maven.repo.local}/javax/activation/activation/1.1/activation-1.1.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m2-snapshot-repository//javax/mail/mail/1.4/mail-1.4.jar" dest="${maven.repo.local}/javax/mail/mail/1.4/mail-1.4.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m1-snapshot-repository//javax/mail/mail/1.4/mail-1.4.jar" dest="${maven.repo.local}/javax/mail/mail/1.4/mail-1.4.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/javax/mail/mail/1.4/mail-1.4.jar" dest="${maven.repo.local}/javax/mail/mail/1.4/mail-1.4.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m2-snapshot-repository//commons-httpclient/commons-httpclient/2.0.2/commons-httpclient-2.0.2.jar" dest="${maven.repo.local}/commons-httpclient/commons-httpclient/2.0.2/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m1-snapshot-repository//commons-httpclient/commons-httpclient/2.0.2/commons-httpclient-2.0.2.jar" dest="${maven.repo.local}/commons-httpclient/commons-httpclient/2.0.2/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/commons-httpclient/commons-httpclient/2.0.2/commons-httpclient-2.0.2.jar" dest="${maven.repo.local}/commons-httpclient/commons-httpclient/2.0.2/commons-httpclient-2.0.2.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m2-snapshot-repository//jcifs/jcifs/0.8.3/jcifs-0.8.3.jar" dest="${maven.repo.local}/jcifs/jcifs/0.8.3/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://people.apache.org/repo/m1-snapshot-repository//jcifs/jcifs/0.8.3/jcifs-0.8.3.jar" dest="${maven.repo.local}/jcifs/jcifs/0.8.3/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true"/>
+    <get src="http://repo1.maven.org/maven2/jcifs/jcifs/0.8.3/jcifs-0.8.3.jar" dest="${maven.repo.local}/jcifs/jcifs/0.8.3/jcifs-0.8.3.jar" usetimestamp="true" ignoreerrors="true"/>
+  </target>
+</project>

@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<document>
+    <properties>
+        <title>TODO</title>
+        <author email="jstrachan@apache.org">James Strachan</author>
+        <author email="adammurdoch@apache.org">Adam Murdoch</author>
+        <author email="imario@apache.org">Mario Ivankovits</author>
+    </properties>
+
+    <body>
+        <section name="TODO">
+            <p>
+                The following is a list of items that need to be completed.
+                Contributions are welcome!
+            </p>
+
+            <subsection name="Release 1.1">
+                <ul>
+                    <li>moveTo should handle a directory move if it moves from a different filesystem.</li>
+                </ul>
+            </subsection>
+
+            <subsection name="Open">
+                <ul>
+                    <li>More documentation (status, file naming etc).</li>
+                    <li>Fix the
+                        <a href="task-list.html">TODO items</a> in the code.
+                    </li>
+                    <li>Add more providers:
+                        <ul>
+                            <li>rsync</li>
+                            <li>subversion</li>
+
+                            <li>nfs</li>
+                            <li>cvs</li>
+                            <li>jdbc filesystem</li>
+                            <li>xml filesystem</li>
+                            <li>jndi</li>
+                            <li>imap</li>
+                            <li>local mirror</li>
+                            <li>spidering http</li>
+                            <li>...</li>
+                        </ul>
+                    </li>
+                    <li>JNDI integration.</li>
+                    <li>Formalise the provider API.</li>
+                    <li>WebDAV Provider:
+                        <ul>
+                            <li>Add plain http support, and auto-detect dav resources.</li>
+                            <li>Add set last-modified.</li>
+                            <li>HTTPS</li>
+                        </ul>
+                    </li>
+                    <li>Zip/Jar Provider:
+                        <ul>
+                            <li>Extract an AbstractLayerFileSystem out of ZipFileSystem.</li>
+                            <li>
+                                Track changes to the parent layer.  Eg when the
+                                parent layer is deleted, mark all the files in the
+                                fs as 'does-not-exist'.
+                            </li>
+                            <li>Add support for writing to zip/jar files.</li>
+                        </ul>
+                    </li>
+                    <li>URL Provider:
+                        <ul>
+                            <li>Support attributes.</li>
+                        </ul>
+                    </li>
+                    <li>HTTP Provider:
+                        <ul>
+                            <li>Support attributes.</li>
+                            <li>HTTPS support.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        The local disk caching mechanism also needs more work.  Needs
+                        to check last-modified time.  Replicator needs to be more
+                        configurable.
+                    </li>
+                    <li>Add persistent replicator.</li>
+                    <li>
+                        Finish support for junctions:  Make ancestors of a junction
+                        point visible, fire events when junction is added or removed,
+                        tests.
+                    </li>
+                    <li>
+                        Add support for federation (ie transparently crossing file
+                        system boundaries, such as drilling down into the contents
+                        of a Jar file).
+                    </li>
+                    <li>Add an equivalent of the fileScanner Jelly tag.</li>
+                    <li>
+                        Add an equivalent of Ant path, fileset, dirset, filelist, etc.
+                        Ideally, these can be abstracted into a single data type.
+                    </li>
+                    <li>
+                        Allow selectors, name mappers, and filters to be specified
+                        for the Ant tasks.
+                    </li>
+                    <li>Add capabilities to FileObject.</li>
+                    <li>Attributes and attribute schema.</li>
+                    <li>
+                        Handle file canonicalisation better (for cases like
+                        case-insensitive file systems, symbolic links, name mangling, etc).
+                    </li>
+                    <li>Add more selectors: XPath, Ant style, regular expression.</li>
+                    <li>Add adaptor (NodePointerFactory?) for use with JXpath.</li>
+                    <li>
+                        Add content-changed, attribute-changed, and move events to
+                        FileListener.  Maybe split into structure and content
+                        listeners.
+                    </li>
+                    <li>Get/set the file permissions.</li>
+                    <li>Automatically checksum and/or verify remote files.</li>
+                    <li>
+                        Look at adding native code for fine-grained control over
+                        permissions, file monitoring, faster moves, etc.  Must be
+                        optional - the thing should still build and run without the
+                        native code.
+                    </li>
+                </ul>
+            </subsection>
+        </section>
+
+        <section name="Library upgrades">
+            <p>
+                The following describes things I discovered during testing newer dependencies.
+            </p>
+
+            <subsection name="webdavlib 2.1">
+                <ul>
+                    <li>resource.listWebdavResources() do no longer list directories?<br />Figure out what to do</li>
+                </ul>
+            </subsection>
+
+        </section>
+    </body>
+</document>

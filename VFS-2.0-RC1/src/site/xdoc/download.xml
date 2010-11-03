@@ -1,0 +1,139 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+
+    <properties>
+        <title>Download</title>
+        <author email="adammurdoch@apache.org">Adam Murdoch</author>
+    </properties>
+
+    <body>
+        <section name="Download">
+            <p>
+                The latest release of Commons VFS can be found
+                <a href="http://commons.apache.org/downloads/download_vfs.cgi">here</a>
+                .
+            </p>
+            <p>
+                You will also need to download the jars used by Commons VFS.
+                These are listed below:
+            </p>
+            <table>
+                <tr>
+                    <th>Dependency</th>
+                    <th>Required For</th>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/logging/">Commons Logging</a>
+                        Version 1.1.1 or later.
+                    </td>
+                    <td>All</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/collections/">Commons Collections</a>
+                        Version 3.1
+                    </td>
+                    <td>LRU Cache (optional)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/net/">Commons Net</a>
+                        Version 1.4.1 or later.
+                    </td>
+                    <td rowspan="2">FTP</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a>
+                        .
+                        Version 2.0.
+                    </td>
+                    <td>
+                        WebDAV
+                        <br/>
+                        HTTP, URI Utils
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://jackrabbit.apache.org">Apache Jackrabbit</a>
+                        Version 1.5.2 or later
+                    </td>
+                    <td>WebDAV</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://jcifs.samba.org/">jCIFS</a>
+                        Version 0.8.3 or later.
+                    </td>
+                    <td>CIFS (VFS sandbox)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://www.jcraft.com/jsch/">JSch</a>
+                        Version 0.1.42 or later.
+                    </td>
+                    <td>SFTP</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://java.sun.com/products/javamail/">javamail</a>
+                        Version 1.4
+                    </td>
+                    <td>mime (VFS sandbox)</td>
+                </tr>
+            </table>
+        </section>
+        <section name="Building Commons VFS">
+            <p>
+                To obtain the Commons VFS source, you can either:
+            </p>
+            <ul>
+                <li>
+                    Check the source out of SVN using:
+                    <br/>
+                    HEAD:
+                    <code>svn co http://svn.apache.org/repos/asf/commons/proper/vfs/trunk vfs</code>
+                    <br/>
+                    For a certain version please look at
+                    <a href="http://svn.apache.org/repos/asf/commons/proper/vfs/tags">
+                        http://svn.apache.org/repos/asf/commons/proper/vfs/tags</a>
+                </li>
+                <li>
+                    Download a nightly source snapshot from
+                    <a href="http://people.apache.org/builds/commons/nightly/commons-vfs/">here</a>
+                    .
+                </li>
+            </ul>
+            <p>
+                To build Commons VFS, you can either:
+            </p>
+            <ul>
+                <li>
+                    Use
+                    <a href="http://maven.apache.org">Maven</a>
+                    2.1.0 or later. Use mvn install to build all the core, examples and sandbox. The
+                    jars will then be installed for use by other maven-based builds. The jars can either
+                    be copied from the local maven repository or the target sub-directories for non-Maven
+                    builds.
+                </li>
+            </ul>
+        </section>
+    </body>
+</document>
