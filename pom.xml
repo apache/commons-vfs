@@ -167,6 +167,12 @@
         </configuration>
       </plugin>
       <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <arguments>-Papache-release</arguments>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <!-- version inherited from commons-parent -->
