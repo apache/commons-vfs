@@ -24,6 +24,10 @@
   </bannerRight>
 
   <body>
+    <links>
+      <item name="Commons VFS Home" href="../index.html"/>
+    </links>
+
     <menu name="Commons&#xA0;VFS">
       <item name="Overview"                href="../index.html"/>
     </menu>
