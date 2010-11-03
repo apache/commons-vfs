@@ -18,8 +18,7 @@
   -->
 
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
@@ -32,7 +31,7 @@
   <name>Commons VFS</name>
   <description>VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
-  <version>2.0-SNAPSHOT</version>
+  <version>2.0</version>
 
   <url>http://commons.apache.org/vfs/</url>
   <inceptionYear>2002</inceptionYear>
@@ -49,9 +48,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/trunk</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/trunk</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/vfs/trunk/</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs-project-2.0</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs-project-2.0</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/vfs/tags/commons-vfs-project-2.0</url>
   </scm>
 
   <developers>
@@ -59,7 +58,7 @@
       <name>Adam Murdoch</name>
       <id>adammurdoch</id>
       <email>adammurdoch -at- apache.org</email>
-      <organization></organization>
+      <organization />
     </developer>
     <developer>
       <name>James Strachan</name>
@@ -119,7 +118,7 @@
     <commons.componentid>vfs</commons.componentid>
     <commons.release.version>${project.version}</commons.release.version>
     <!--<commons.rc.version>RC1</commons.rc.version> -->
-    <commons.binary.suffix></commons.binary.suffix>
+    <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
     <maven.compile.source>1.4</maven.compile.source>
