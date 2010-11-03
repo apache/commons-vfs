@@ -135,6 +135,11 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>2.2</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>2.1.1</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -241,6 +246,16 @@
           <excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
        </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>2.1.1</version>
+        <configuration>
+          <moduleExcludes>
+            <xdoc>navigation.xml,changes.xml</xdoc>
+          </moduleExcludes>
+        </configuration>
+      </plugin>
     </plugins>
   </reporting>
 
@@ -346,40 +361,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <profiles>
-    <profile>
-      <id>site</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-site-plugin</artifactId>
-              <version>2.1.1</version>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-      <reporting>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-site-plugin</artifactId>
-            <version>2.1.1</version>
-            <configuration>
-              <moduleExcludes>
-                <xdoc>navigation.xml,changes.xml</xdoc>
-              </moduleExcludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </reporting>
-    </profile>
-  </profiles>
 
   <repositories>
     <repository>
