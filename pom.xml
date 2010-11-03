@@ -172,20 +172,6 @@
           <arguments>-Papache-release</arguments>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <!-- version inherited from commons-parent -->
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>install</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
 
