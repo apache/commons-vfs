@@ -17,129 +17,129 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <name>Commons VFS Distribution</name>
+  <name>Commons VFS Distribution</name>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-vfs-distribution</artifactId>
+  <version>2.0-SNAPSHOT</version>
+  <description>VFS is a Virtual File System library - Distribution archives.</description>
+
+  <parent>
     <groupId>org.apache.commons</groupId>
-    <artifactId>commons-vfs-distribution</artifactId>
+    <artifactId>commons-vfs-project</artifactId>
     <version>2.0-SNAPSHOT</version>
-    <description>VFS is a Virtual File System library - Distribution archives.</description>
+    <relativePath>../</relativePath>
+  </parent>
 
-    <parent>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs-project</artifactId>
-        <version>2.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
-    </parent>
-
-    <dependencies>
+  <profiles>
+    <profile>
+      <id>apache-release</id>
+      <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs</artifactId>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs</artifactId>
-            <version>${project.version}</version>
-            <classifier>javadoc</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs</artifactId>
-            <version>${project.version}</version>
-            <classifier>tests</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>tests</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs</artifactId>
-            <version>${project.version}</version>
-            <classifier>test-sources</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs</artifactId>
+          <version>${project.version}</version>
+          <classifier>test-sources</classifier>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-examples</artifactId>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-examples</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-examples</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-examples</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-examples</artifactId>
-            <version>${project.version}</version>
-            <classifier>javadoc</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-examples</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-sandbox</artifactId>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-sandbox</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-sandbox</artifactId>
-            <version>${project.version}</version>
-            <classifier>sources</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-sandbox</artifactId>
+          <version>${project.version}</version>
+          <classifier>sources</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-sandbox</artifactId>
-            <version>${project.version}</version>
-            <classifier>javadoc</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-sandbox</artifactId>
+          <version>${project.version}</version>
+          <classifier>javadoc</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-sandbox</artifactId>
-            <version>${project.version}</version>
-            <classifier>tests</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-sandbox</artifactId>
+          <version>${project.version}</version>
+          <classifier>tests</classifier>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-vfs-sandbox</artifactId>
-            <version>${project.version}</version>
-            <classifier>test-sources</classifier>
+          <groupId>org.apache.commons</groupId>
+          <artifactId>commons-vfs-sandbox</artifactId>
+          <version>${project.version}</version>
+          <classifier>test-sources</classifier>
         </dependency>
-    </dependencies>
-
-    <profiles>
-        <profile>
-            <id>apache-release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>binary</id>
-                                <configuration>
-                                    <finalName>commons-vfs-${project.version}</finalName>
-                                    <descriptors>
-                                        <descriptor>src/assembly/bin.xml</descriptor>
-                                    </descriptors>
-                                    <tarLongFileMode>gnu</tarLongFileMode>
-                                </configuration>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                                <phase>package</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>binary</id>
+                <configuration>
+                  <finalName>commons-vfs-${project.version}</finalName>
+                  <descriptors>
+                    <descriptor>src/assembly/bin.xml</descriptor>
+                  </descriptors>
+                  <tarLongFileMode>gnu</tarLongFileMode>
+                </configuration>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

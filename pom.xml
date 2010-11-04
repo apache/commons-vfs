@@ -40,6 +40,7 @@
     <module>core</module>
     <module>examples</module>
     <module>sandbox</module>
+    <module>dist</module>
   </modules>
 
   <issueManagement>
@@ -391,18 +392,10 @@
   <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat
        painful. This profile hooks into the commons-parent and the apache-pom to
        get the build done and then uses the assembly to package it up.
-  -->  
+  -->
   <profiles>
     <profile>
       <id>apache-release</id>
-      <!-- The binary distribution must be built after all the submodules have been
-           built. So that happens in an additional sub-project which depends on all
-           the submodules to build. So the 'dist' submodule is only activated in the
-           release profile. Otherwise, there is nothing to see here.
-      -->
-      <modules>
-        <module>dist</module>
-      </modules>
       <build>
         <plugins>
           <!-- Activate the right profile for the actual release build. Make sure that
@@ -431,7 +424,7 @@
               </execution>
             </executions>
           </plugin>
-          <!-- Commons turns checksums on for installs in its 
+          <!-- Commons turns checksums on for installs in its
                parent pom. But vfs does not use the commons release
                profile. So we turn it on for the vfs release explicitly.
                remove when commons-parent 18 is released.
