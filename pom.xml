@@ -166,12 +166,6 @@
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <arguments>-Papache-release</arguments>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
