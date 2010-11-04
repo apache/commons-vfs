@@ -134,8 +134,7 @@ limitations under the License.
                   <goal>single</goal>
                 </goals>
                 <configuration>
-                    <finalName>commons-vfs-${project.version}</finalName>
-                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                  <finalName>commons-vfs-${project.version}</finalName>
                   <descriptors>
                       <descriptor>src/assembly/src.xml</descriptor>
                   </descriptors>
