@@ -116,7 +116,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <commons.componentid>vfs</commons.componentid>
-    <commons.release.version>${project.version}</commons.release.version>
+    <commons.release.version>2.0</commons.release.version>
     <!--<commons.rc.version>RC1</commons.rc.version> -->
     <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>

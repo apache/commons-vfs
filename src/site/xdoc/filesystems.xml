@@ -30,6 +30,9 @@
                     <a href="#FTP">FTP</a>
                 </li>
                 <li>
+                    <a href="#FTPS">FTPS</a>
+                </li>
+                <li>
                     <a href="#Local Files">Local Files</a>
                 </li>
                 <li>
@@ -54,11 +57,8 @@
                     <a href="#ram">ram</a>
                 </li>
                 <li>
-                    <a href="#mime">mime</a>
+                    <a href="#WebDAV">WebDAV</a><br />
                 </li>
-                <li>
-                              <a href="#WebDAV">WebDAV</a><br />
-                        </li>
             </ul>
         </section>
 
@@ -395,6 +395,35 @@
             <ul>
                 <li>
                     <code>ftp://myusername:mypassword@somehost/pub/downloads/somefile.tgz</code>
+                </li>
+            </ul>
+
+        </section>
+
+        <section name="FTPS">
+
+            <p>Provides access to the files on an FTP server over SSL.</p>
+
+            <p>
+                <b>URI Format</b>
+            </p>
+
+            <p>
+                <code>ftps://[
+                    <i>username</i>[:
+                    <i>password</i>]@]
+                    <i>hostname</i>[:
+                    <i>port</i>][
+                    <i>absolute-path</i>]
+                </code>
+            </p>
+
+            <p>
+                <b>Examples</b>
+            </p>
+            <ul>
+                <li>
+                    <code>ftps://myusername:mypassword@somehost/pub/downloads/somefile.tgz</code>
                 </li>
             </ul>
 
