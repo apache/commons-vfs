@@ -405,6 +405,16 @@
       </modules>
       <build>
         <plugins>
+          <!-- Activate the right profile for the actual release build. Make sure that
+               the release plugin passes this on to the deploy plugin.
+               remove when commons-parent 18 is released.
+          -->
+          <plugin>
+            <artifactId>maven-release-plugin</artifactId>
+            <configuration>
+                <releaseProfiles>apache-release</releaseProfiles>
+            </configuration>
+          </plugin>
           <!-- Create source for the test jar. This should be in the
                commons or apache parent pom.
                remove when commons-parent 18 is released.
