@@ -378,13 +378,60 @@
       <url>scp://people.apache.org/www/commons.apache.org/vfs/</url>
     </site>
   </distributionManagement>
-  
+
+  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat
+       painful. This profile hooks into the commons-parent and the apache-pom to
+       get the build done and then uses the assembly to package it up.
+  -->  
   <profiles>
     <profile>
       <id>apache-release</id>
+      <!-- The binary distribution must be built after all the submodules have been
+           built. So that happens in an additional sub-project which depends on all
+           the submodules to build. So the 'dist' submodule is only activated in the
+           release profile. Otherwise, there is nothing to see here.
+      -->
       <modules>
         <module>dist</module>
       </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <!-- As the main Apache pom only builds source zip archives but
+                   commons wants both zip and tar.gz and because this is configured
+                   in the assembly, we need to use a specific assembly. That also allows
+                   nameing the final artifact as -src not -source-release.
+              -->
+              <execution>
+                <id>vfs-source-release-assembly</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                    <finalName>commons-vfs-${project.version}</finalName>
+                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                  <descriptors>
+                      <descriptor>dist/src/assembly/src.xml</descriptor>
+                  </descriptors>
+                  <tarLongFileMode>gnu</tarLongFileMode>
+                </configuration>
+              </execution>
+              <!-- But the original source build is still hooked up and would
+                   create a second source archive. Luckily, it can be turned off.
+              -->
+              <execution>
+                <id>source-release-assembly</id>
+                <configuration>
+                  <skipAssembly>true</skipAssembly>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>

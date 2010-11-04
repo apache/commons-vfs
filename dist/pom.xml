@@ -114,11 +114,6 @@ limitations under the License.
         </dependency>
     </dependencies>
 
-    <properties>
-        <commons.componentid>vfs-dist</commons.componentid>
-        <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
-    </properties>
-
     <profiles>
         <profile>
             <id>apache-release</id>
@@ -130,6 +125,7 @@ limitations under the License.
                             <execution>
                                 <id>binary</id>
                                 <configuration>
+                                    <finalName>commons-vfs-${project.version}</finalName>
                                     <descriptors>
                                         <descriptor>src/assembly/bin.xml</descriptor>
                                     </descriptors>
