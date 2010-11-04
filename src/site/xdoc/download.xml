@@ -25,7 +25,7 @@
         <section name="Download">
             <p>
                 The latest release of Commons VFS can be found
-                <a href="download_vfs.html">here</a>
+                <a href="download_vfs.cgi">here</a>
                 .
             </p>
             <p>
@@ -111,7 +111,7 @@
                         http://svn.apache.org/repos/asf/commons/proper/vfs/tags</a>
                 </li>
                    <li>
-                    Obtain the source from the latest release distribution. See the <a href="/download_vfs.html">downloads</a> page.
+                    Obtain the source from the latest release distribution. See the <a href="download_vfs.cgi">downloads</a> page.
                 </li>
             </ul>
             <p>
