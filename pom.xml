@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>17</version>
+    <version>18-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -153,17 +153,6 @@
         <!-- version inherited from commons-parent -->
         <configuration>
             <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <!-- version inherited from commons-parent -->
-        <configuration>
-          <descriptors>
-            <descriptor>src/assembly/bin.xml</descriptor>
-            <descriptor>src/assembly/src.xml</descriptor>
-          </descriptors>
-          <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
       </plugin>
     </plugins>
@@ -389,5 +378,13 @@
       <url>scp://people.apache.org/www/commons.apache.org/vfs/</url>
     </site>
   </distributionManagement>
-
+  
+  <profiles>
+    <profile>
+      <id>apache-release</id>
+      <modules>
+        <module>dist</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
