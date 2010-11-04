@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>18-SNAPSHOT</version>
+    <version>17</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -139,6 +139,15 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>2.1.1</version>
+        </plugin>
+        <!-- Commons parent specifies 2.2-beta-5 which does not work well
+             with multimodule builds. Explicitly update here.
+             Should be removed when commons-parent-18 is released.
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.2</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -396,6 +405,34 @@
       </modules>
       <build>
         <plugins>
+          <!-- Create source for the test jar. This should be in the
+               commons or apache parent pom.
+               remove when commons-parent 18 is released.
+          -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-test-sources</id>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Commons turns checksums on for installs in its 
+               parent pom. But vfs does not use the commons release
+               profile. So we turn it on for the vfs release explicitly.
+               remove when commons-parent 18 is released.
+          -->
+          <plugin>
+            <artifactId>maven-install-plugin</artifactId>
+            <configuration>
+              <createChecksum>true</createChecksum>
+            </configuration>
+          </plugin>
+
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
