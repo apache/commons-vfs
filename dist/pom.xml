@@ -122,6 +122,26 @@ limitations under the License.
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
+              <!-- As the main Apache pom only builds source zip archives but
+                   commons wants both zip and tar.gz and because this is configured
+                   in the assembly, we need to use a specific assembly. That also allows
+                   naming the final artifact as -src not -source-release.
+              -->
+              <execution>
+                <id>vfs-source-release-assembly</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                    <finalName>commons-vfs-${project.version}</finalName>
+                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                  <descriptors>
+                      <descriptor>src/assembly/src.xml</descriptor>
+                  </descriptors>
+                  <tarLongFileMode>gnu</tarLongFileMode>
+                </configuration>
+              </execution>
               <execution>
                 <id>binary</id>
                 <configuration>
