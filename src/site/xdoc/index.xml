@@ -64,6 +64,21 @@
 
         </section>
 
+        <section name="Requirements">
+           <p>
+            Commons VFS 2.0 requires Java 5. Many of the file systems require that optional components be present
+            in order for the protocol to be enabled. See the <a href="download.html">download and build</a> page for
+            information on the optional dependencies.
+          </p>
+        </section>
+
+        <section name="News">
+          <p>
+            Commons VFS 2.0 is now available. Support for FTPS and WebDav have been added in addition to many bugs
+            being fixed.
+          </p>
+        </section>
+
     </body>
 </document>
 

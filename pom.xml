@@ -31,7 +31,7 @@
   <name>Commons VFS</name>
   <description>VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
-  <version>2.1-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
 
   <url>http://commons.apache.org/vfs/</url>
   <inceptionYear>2002</inceptionYear>
@@ -122,8 +122,8 @@
     <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
-    <maven.compile.source>1.4</maven.compile.source>
-    <maven.compile.target>1.4</maven.compile.target>
+    <maven.compile.source>1.5</maven.compile.source>
+    <maven.compile.target>1.5</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
   </properties>
