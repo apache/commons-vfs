@@ -195,13 +195,13 @@ public abstract class AbstractProviderTestCase
             {
                 final Capability cap = caps[i];
                 FileSystem fs = readFolder.getFileSystem();
-                String name = fs.getClass().getName();
-                int index = name.lastIndexOf('.');
-                String fsName = (index > 0) ? name.substring(index + 1) : name;
                 if (!fs.hasCapability(cap))
                 {
-                    System.out.println("skipping " + getName() + " because " +
-                        fsName + " does not have capability " + cap);
+//                    String name = fs.getClass().getName();
+//                    int index = name.lastIndexOf('.');
+//                    String fsName = (index > 0) ? name.substring(index + 1) : name;
+//                    System.out.println("skipping " + getName() + " because " +
+//                        fsName + " does not have capability " + cap);
                     return;
                 }
             }
@@ -321,6 +321,7 @@ public abstract class AbstractProviderTestCase
 
     /**
      * Builds the expected structure of the read tests folder.
+     * @throws FileSystemException (possibly)
      */
     protected FileInfo buildExpectedStructure() throws FileSystemException
     {
