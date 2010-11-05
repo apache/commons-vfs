@@ -17,15 +17,16 @@
 package org.apache.commons.vfs.provider.tar.test;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
+
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -58,6 +59,7 @@ public class LargeTarTestCase extends TestCase {
     manager.addProvider("tgz", new TarFileProvider());
     manager.addProvider("tar", new TarFileProvider());
 
+    new File(baseDir).mkdir(); // if test is run standalone
     createLargeFile(largeFilePath, largeFileName);
   }
 
@@ -140,61 +142,66 @@ public class LargeTarTestCase extends TestCase {
   }
 
   //@SuppressWarnings("unused")
-  protected void createLargeFile(String path, String name) throws Exception {
-    long _1K = 1024;
-    long _1M = 1024 * _1K;
-    long _256M = 256 * _1M;
-    long _512M = 512 * _1M;
-    long _1G = 1024 * _1M;
+  protected void createLargeFile(String path, final String name) throws Exception {
+    final long _1K = 1024;
+    final long _1M = 1024 * _1K;
+//    long _256M = 256 * _1M;
+//    long _512M = 512 * _1M;
+    final long _1G = 1024 * _1M;
 
     // File size of 3 GB
-    long fileSize = 3 * _1G;
+    final long fileSize = 3 * _1G;
 
     File tarGzFile = new File(path + name + ".tar.gz");
 
     if(!tarGzFile.exists()) {
-      System.out.println("This test is a bit slow. It needs to write a 3GB file to your hard drive");
+      System.out.println("This test is a bit slow. It needs to write 3GB of data as a compressed file (approx. 3MB) to your hard drive");
 
-      // Create archive
-      OutputStream outTarFileStream = new FileOutputStream(path + name + ".tar");
+      final PipedOutputStream outTarFileStream = new PipedOutputStream();
+      PipedInputStream inTarFileStream = new PipedInputStream(outTarFileStream);
+      
+      Thread source = new Thread(){
 
-      TarArchiveOutputStream outTarStream = (TarArchiveOutputStream)new ArchiveStreamFactory()
-      .createArchiveOutputStream(ArchiveStreamFactory.TAR, outTarFileStream);
+        public void run() {
+            byte ba_1k[] = new byte[(int) _1K];
+            for(int i=0; i < ba_1k.length; i++){
+                ba_1k[i]='a';
+            }
+            try {
+                TarArchiveOutputStream outTarStream = 
+                    (TarArchiveOutputStream)new ArchiveStreamFactory()
+                    .createArchiveOutputStream(ArchiveStreamFactory.TAR, outTarFileStream);
+                // Create archive contents
+                TarArchiveEntry tarArchiveEntry = new TarArchiveEntry(name + ".txt");
+                tarArchiveEntry.setSize(fileSize);
 
-      // Create archive contents
-      TarArchiveEntry tarArchiveEntry = new TarArchiveEntry(name + ".txt");
-      tarArchiveEntry.setSize(fileSize);
-
-      outTarStream.putArchiveEntry(tarArchiveEntry);
-      for(long i = 0; i < fileSize; i++) {
-        outTarStream.write('a');
-      }
-
-      outTarStream.closeArchiveEntry();
-      outTarStream.close();
-
-      outTarFileStream.close();
-
+                outTarStream.putArchiveEntry(tarArchiveEntry);
+                for(long i = 0; i < fileSize; i+= ba_1k.length) {
+                    outTarStream.write(ba_1k);
+                }
+                outTarStream.closeArchiveEntry();
+                outTarStream.close();
+                outTarFileStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+          
+      };
+      source.start();
+      
       // Create compressed archive
       OutputStream outGzipFileStream = new FileOutputStream(path + name + ".tar.gz");
 
       GzipCompressorOutputStream outGzipStream = (GzipCompressorOutputStream)new CompressorStreamFactory()
       .createCompressorOutputStream(CompressorStreamFactory.GZIP, outGzipFileStream);
 
-      // Compress archive
-      InputStream inTarFileStream = new FileInputStream(path + name + ".tar");
-      // TODO: Change to a Piped Stream to conserve disk space
       IOUtils.copy(inTarFileStream, outGzipStream);
       inTarFileStream.close();
 
       outGzipStream.close();
       outGzipFileStream.close();
 
-      // Cleanup original tar
-      File tarFile = new File(path + name + ".tar");
-      if(tarFile.exists()) {
-        tarFile.delete();
-      }
     }
   }
 }
