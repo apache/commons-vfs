@@ -40,6 +40,7 @@
     <module>core</module>
     <module>examples</module>
     <module>sandbox</module>
+    <module>dist</module>
   </modules>
 
   <issueManagement>
@@ -116,7 +117,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <commons.componentid>vfs</commons.componentid>
-    <commons.release.version>${project.version}</commons.release.version>
+    <commons.release.version>2.0</commons.release.version>
     <!--<commons.rc.version>RC1</commons.rc.version> -->
     <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>
@@ -140,6 +141,15 @@
           <artifactId>maven-site-plugin</artifactId>
           <version>2.1.1</version>
         </plugin>
+        <!-- Commons parent specifies 2.2-beta-5 which does not work well
+             with multimodule builds. Explicitly update here.
+             Should be removed when commons-parent-18 is released.
+        -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.2</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -153,23 +163,6 @@
         <!-- version inherited from commons-parent -->
         <configuration>
             <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <!-- version inherited from commons-parent -->
-        <configuration>
-          <descriptors>
-            <descriptor>src/assembly/bin.xml</descriptor>
-            <descriptor>src/assembly/src.xml</descriptor>
-          </descriptors>
-          <tarLongFileMode>gnu</tarLongFileMode>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <arguments>-Papache-release</arguments>
         </configuration>
       </plugin>
     </plugins>
@@ -396,4 +389,68 @@
     </site>
   </distributionManagement>
 
+  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat
+       painful. This profile hooks into the commons-parent and the apache-pom to
+       get the build done and then uses the assembly to package it up.
+  -->
+  <profiles>
+    <profile>
+      <id>apache-release</id>
+      <build>
+        <plugins>
+          <!-- Activate the right profile for the actual release build. Make sure that
+               the release plugin passes this on to the deploy plugin.
+               remove when commons-parent 18 is released.
+          -->
+          <plugin>
+            <artifactId>maven-release-plugin</artifactId>
+            <configuration>
+                <releaseProfiles>apache-release</releaseProfiles>
+            </configuration>
+          </plugin>
+          <!-- Create source for the test jar. This should be in the
+               commons or apache parent pom.
+               remove when commons-parent 18 is released.
+          -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-test-sources</id>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Commons turns checksums on for installs in its
+               parent pom. But vfs does not use the commons release
+               profile. So we turn it on for the vfs release explicitly.
+               remove when commons-parent 18 is released.
+          -->
+          <plugin>
+            <artifactId>maven-install-plugin</artifactId>
+            <configuration>
+              <createChecksum>true</createChecksum>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <!-- Don't build the source archives here. They are constructed in the dist project
+              -->
+              <execution>
+                <id>source-release-assembly</id>
+                <configuration>
+                  <skipAssembly>true</skipAssembly>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

@@ -95,32 +95,32 @@ limitations under the License.
       </p>
     </subsection>
     </section>
-    <section name="Commons VFS 2.0-SNAPSHOT ">
+    <section name="Commons VFS 2.0 ">
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.0-SNAPSHOT.tar.gz">commons-vfs-2.0-SNAPSHOT.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0-SNAPSHOT.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0-SNAPSHOT.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.0.tar.gz">commons-vfs-2.0.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.0-SNAPSHOT.zip">commons-vfs-2.0-SNAPSHOT.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0-SNAPSHOT.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0-SNAPSHOT.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.0.zip">commons-vfs-2.0.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.0-SNAPSHOT-src.tar.gz">commons-vfs-2.0-SNAPSHOT-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-SNAPSHOT-src.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-SNAPSHOT-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.0-src.tar.gz">commons-vfs-2.0-src.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.tar.gz.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.0-SNAPSHOT-src.zip">commons-vfs-2.0-SNAPSHOT-src.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-SNAPSHOT-src.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-SNAPSHOT-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.0-src.zip">commons-vfs-2.0-src.zip</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.zip.md5">md5</a></td>
+              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>

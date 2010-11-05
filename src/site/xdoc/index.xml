@@ -6,9 +6,9 @@
     The ASF licenses this file to You under the Apache License, Version 2.0
     (the "License"); you may not use this file except in compliance with
     the License.  You may obtain a copy of the License at
-   
+
          http://www.apache.org/licenses/LICENSE-2.0
-   
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -62,31 +62,6 @@
                 </li>
             </ul>
 
-        </section>
-
-        <section name="News">
-            <p>
-                VFS is split into core, examples and sandbox now.
-            </p>
-            <p>
-                Due to some technical reasons we had to move the jcifs (smb) filesystem to
-                the sandbox. So if you need one of these filesystems you have to build VFS manually.
-            </p>
-            <p>
-                To build VFS, it will be best to check-it-out from svn and use maven 2 to
-                build.
-            </p>
-            <p>
-                And - we have a new filesystem: mime (read only for sure)<br/>
-                This filesystem allows you to read e-mails like archives, e.g. the attachments are the
-                children of the mail itself.<br />
-                You'll find it in our sandbox.
-            </p>
-            <p>
-                Also notice that we now have a "3rd party plugins" page. It will list all external
-                plugins available for VFS.<br />
-                You have such a beast - and will get listed? Just drop me a mail: imario -at- apache.org
-            </p>
         </section>
 
     </body>

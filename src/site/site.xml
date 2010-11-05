@@ -28,7 +28,6 @@
     <menu name="Commons&#xA0;VFS">
       <item name="Overview"                href="/index.html"/>
       <item name="Download and Build"      href="/download.html"/>
-      <item name="3rd party plugins"       href="/3rdparty.html"/>
       <item name="Using the API"           href="/api.html"/>
       <item name="API JavaDocs"            href="/apidocs/index.html"/>
       <item name="File Systems"            href="/filesystems.html"/>
@@ -43,7 +42,7 @@
       <item name="Source Repository"       href="/source-repository.html"/>
       <item name="To Do List"              href="/todo.html"/>
     </menu>
-      
+
     <menu name="Components">
       <item name="Core" href="commons-vfs/index.html"/>
       <item name="Examples" href="commons-vfs-examples/index.html"/>
