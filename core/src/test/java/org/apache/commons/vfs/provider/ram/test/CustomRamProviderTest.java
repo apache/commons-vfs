@@ -44,6 +44,7 @@ public class CustomRamProviderTest extends TestCase
 
     FileSystemOptions defaultRamFs = new FileSystemOptions();
 
+    @Override
     protected void setUp() throws Exception
     {
         super.setUp();
@@ -57,6 +58,7 @@ public class CustomRamProviderTest extends TestCase
         RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10);
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         super.tearDown();

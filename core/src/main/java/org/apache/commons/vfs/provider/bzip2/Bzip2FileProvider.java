@@ -54,6 +54,7 @@ public class Bzip2FileProvider extends CompressedFileFileProvider
         super();
     }
 
+    @Override
     protected FileSystem createFileSystem(FileName name, FileObject file,
                                           FileSystemOptions fileSystemOptions)
             throws FileSystemException
@@ -61,6 +62,7 @@ public class Bzip2FileProvider extends CompressedFileFileProvider
         return new Bzip2FileSystem(name, file, fileSystemOptions);
     }
 
+    @Override
     public Collection getCapabilities()
     {
         return capabilities;

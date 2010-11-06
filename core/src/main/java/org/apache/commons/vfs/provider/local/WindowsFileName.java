@@ -41,6 +41,7 @@ public class WindowsFileName extends LocalFileName
      * @param type The file type.
      * @return The FileName.
      */
+    @Override
     public FileName createName(final String path, FileType type)
     {
         return new WindowsFileName(getScheme(), getRootFile(), path, type);
@@ -49,6 +50,7 @@ public class WindowsFileName extends LocalFileName
     /**
      * Builds the root URI for this file name.
      */
+    @Override
     protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());

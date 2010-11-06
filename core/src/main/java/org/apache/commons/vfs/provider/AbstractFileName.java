@@ -73,6 +73,7 @@ public abstract class AbstractFileName
      * Returns the hashcode for this name.
      * @return The hashCode.
      */
+    @Override
     public int hashCode()
     {
         if (calculateHashCode)
@@ -88,6 +89,7 @@ public abstract class AbstractFileName
      * @param obj The object to compare.
      * @return true if equal, false if not.
      */
+    @Override
     public boolean equals(final Object obj)
     {
         if (!(obj instanceof AbstractFileName))
@@ -128,6 +130,7 @@ public abstract class AbstractFileName
      * Returns the URI of the file.
      * @return the FileName as a URI.
      */
+    @Override
     public String toString()
     {
         return getURI();

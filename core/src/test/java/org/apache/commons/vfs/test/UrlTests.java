@@ -41,6 +41,7 @@ public class UrlTests
      * <p/>
      * <p>This implementation returns null.
      */
+    @Override
     protected Capability[] getRequiredCaps()
     {
         return new Capability[]{Capability.URI};

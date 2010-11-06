@@ -70,6 +70,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             setDaemon(true);
         }
 
+        @Override
         public void run()
         {
             loop: while (!requestEnd && !Thread.currentThread().isInterrupted())
@@ -239,6 +240,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
                 ._closeFileSystem(filesystem);
     }
 
+    @Override
     public void close()
     {
         super.close();

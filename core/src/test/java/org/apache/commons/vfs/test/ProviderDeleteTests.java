@@ -55,6 +55,7 @@ public class ProviderDeleteTests
     /**
      * Returns the capabilities required by the tests of this test case.
      */
+    @Override
     protected Capability[] getRequiredCaps()
     {
         return new Capability[]

@@ -82,11 +82,13 @@ public class ResourceFileProvider extends AbstractFileProvider
         return fo;
     }
 
+    @Override
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return org.apache.commons.vfs.provider.res.ResourceFileSystemConfigBuilder.getInstance();
     }
 
+    @Override
     public void closeFileSystem(FileSystem filesystem)
     {
         // no filesystem created here - so nothing to do

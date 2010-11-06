@@ -44,6 +44,7 @@ public class VirtualProviderTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();

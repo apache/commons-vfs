@@ -51,6 +51,7 @@ public class LocalFileSystem
     /**
      * Creates a file object.
      */
+    @Override
     protected FileObject createFile(final FileName name) throws FileSystemException
     {
         // Create the file
@@ -60,6 +61,7 @@ public class LocalFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(DefaultLocalFileProvider.capabilities);
@@ -68,6 +70,7 @@ public class LocalFileSystem
     /**
      * Creates a temporary local copy of a file and its descendents.
      */
+    @Override
     protected File doReplicateFile(final FileObject fileObject,
                                    final FileSelector selector)
         throws Exception

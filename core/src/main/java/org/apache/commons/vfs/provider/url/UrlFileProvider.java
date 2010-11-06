@@ -92,6 +92,7 @@ public class UrlFileProvider
         }
     }
 
+    @Override
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return org.apache.commons.vfs.provider.res.ResourceFileSystemConfigBuilder.getInstance();

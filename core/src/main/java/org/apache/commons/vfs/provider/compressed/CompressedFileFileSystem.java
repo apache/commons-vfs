@@ -43,6 +43,7 @@ public abstract class CompressedFileFileSystem
         super(rootName, parentLayer, fileSystemOptions);
     }
 
+    @Override
     public void init() throws FileSystemException
     {
         super.init();
@@ -52,10 +53,12 @@ public abstract class CompressedFileFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected abstract void addCapabilities(final Collection caps);
 
     /**
      * Creates a file object.
      */
+    @Override
     protected abstract FileObject createFile(final FileName name) throws FileSystemException;
 }

@@ -65,6 +65,7 @@ public abstract class CompressedFileFileProvider
      * @param file   The file to create the file system on top of.
      * @return The file system.
      */
+    @Override
     protected FileSystem doCreateFileSystem(final String scheme,
                                             final FileObject file,
                                             final FileSystemOptions fileSystemOptions)

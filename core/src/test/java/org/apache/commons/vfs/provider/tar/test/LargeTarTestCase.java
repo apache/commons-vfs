@@ -49,7 +49,8 @@ public class LargeTarTestCase extends TestCase {
   private final static String largeFileName = "largefile";
 
 
-  public void setUp() throws Exception {
+  @Override
+public void setUp() throws Exception {
     manager = new DefaultFileSystemManager();
 
     manager.setFilesCache(new SoftRefFilesCache());
@@ -162,6 +163,7 @@ public class LargeTarTestCase extends TestCase {
       
       Thread source = new Thread(){
 
+        @Override
         public void run() {
             byte ba_1k[] = new byte[(int) _1K];
             for(int i=0; i < ba_1k.length; i++){

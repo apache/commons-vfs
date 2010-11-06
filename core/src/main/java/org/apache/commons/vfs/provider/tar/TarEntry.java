@@ -609,6 +609,7 @@ class TarEntry
      * @param other Entry to be checked for equality.
      * @return True if the entries are equal.
      */
+    @Override
     public boolean equals(final Object other)
     {
         if (!(other instanceof TarEntry))
@@ -619,6 +620,7 @@ class TarEntry
         return getName().equals(entry.getName());
     }
 
+    @Override
     public int hashCode()
     {
         return getName().hashCode();

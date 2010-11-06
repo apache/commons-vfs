@@ -26,6 +26,7 @@ public class ClassToLoad
 {
     private String m_message = "**PRIVATE**";
 
+    @Override
     public String toString()
     {
         return m_message;

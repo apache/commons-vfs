@@ -46,6 +46,7 @@ public class TarProviderTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
         manager.addProvider("tar", new TarFileProvider());
@@ -55,6 +56,7 @@ public class TarProviderTestCase
     /**
      * Returns the base folder for read tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tar");

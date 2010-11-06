@@ -65,6 +65,7 @@ public class HttpFileObject
     /**
      * Detaches this file object from its file resource.
      */
+    @Override
     protected void doDetach()
         throws Exception
     {
@@ -75,6 +76,7 @@ public class HttpFileObject
      * Determines the type of this file.  Must not return null.  The return
      * value of this method is cached, so the implementation can be expensive.
      */
+    @Override
     protected FileType doGetType()
         throws Exception
     {
@@ -102,6 +104,7 @@ public class HttpFileObject
     /**
      * Lists the children of this file.
      */
+    @Override
     protected String[] doListChildren()
         throws Exception
     {
@@ -111,6 +114,7 @@ public class HttpFileObject
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize()
         throws Exception
     {
@@ -128,6 +132,7 @@ public class HttpFileObject
      * <p/>
      * This implementation throws an exception.
      */
+    @Override
     protected long doGetLastModifiedTime()
         throws Exception
     {
@@ -148,6 +153,7 @@ public class HttpFileObject
      * <p/>
      * <p>The returned stream does not have to be buffered.
      */
+    @Override
     protected InputStream doGetInputStream()
         throws Exception
     {
@@ -166,6 +172,7 @@ public class HttpFileObject
         return new HttpInputStream(getMethod);
     }
 
+    @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
         return new HttpRandomAccessContent(this, mode);
@@ -206,6 +213,7 @@ public class HttpFileObject
         /**
          * Called after the stream has been closed.
          */
+        @Override
         protected void onClose()
             throws IOException
         {
@@ -214,6 +222,7 @@ public class HttpFileObject
     }
 
 
+    @Override
     protected FileContentInfoFactory getFileContentInfoFactory()
     {
         return new HttpFileContentInfoFactory();

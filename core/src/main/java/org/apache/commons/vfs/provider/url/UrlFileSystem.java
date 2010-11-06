@@ -42,6 +42,7 @@ public class UrlFileSystem
     /**
      * Creates a file object.
      */
+    @Override
     protected FileObject createFile(final FileName name)
     {
         return new UrlFileObject(this, name);
@@ -50,6 +51,7 @@ public class UrlFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(UrlFileProvider.capabilities);

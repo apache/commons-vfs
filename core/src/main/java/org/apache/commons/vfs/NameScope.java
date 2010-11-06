@@ -77,6 +77,7 @@ public final class NameScope
      * Returns the name of the scope.
      * @return The name of the scope.
      */
+    @Override
     public String toString()
     {
         return name;

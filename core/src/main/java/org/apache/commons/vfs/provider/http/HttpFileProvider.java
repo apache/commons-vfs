@@ -68,6 +68,7 @@ public class HttpFileProvider
     /**
      * Creates a {@link FileSystem}.
      */
+    @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
@@ -98,6 +99,7 @@ public class HttpFileProvider
         return new HttpFileSystem(rootName, httpClient, fileSystemOptions);
     }
 
+    @Override
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return HttpFileSystemConfigBuilder.getInstance();

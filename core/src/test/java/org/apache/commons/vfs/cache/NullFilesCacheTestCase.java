@@ -44,11 +44,13 @@ public class NullFilesCacheTestCase
         return suite;
     }
 
+    @Override
     public FilesCache getFilesCache()
     {
         return new NullFilesCache();
     }
 
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File testDir = AbstractVfsTestCase.getTestDirectoryFile();

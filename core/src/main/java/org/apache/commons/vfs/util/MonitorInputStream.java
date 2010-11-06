@@ -44,6 +44,7 @@ public class MonitorInputStream
      * @return The number of bytes that are available.
      * @throws IOException if an error occurs.
      */
+    @Override
     public synchronized int available() throws IOException
     {
         if (finished)
@@ -59,6 +60,7 @@ public class MonitorInputStream
      * @return The character that was read as an integer.
      * @throws IOException if an error occurs.
      */
+    @Override
     public int read() throws IOException
     {
         if (finished)
@@ -86,6 +88,7 @@ public class MonitorInputStream
      * @return The number of bytes read.
      * @throws IOException if an error occurs.
      */
+    @Override
     public int read(final byte[] buffer, final int offset, final int length)
         throws IOException
     {
@@ -111,6 +114,7 @@ public class MonitorInputStream
      * associated with the stream.
      * @throws IOException if an error occurs.
      */
+    @Override
     public void close() throws IOException
     {
         if (finished)

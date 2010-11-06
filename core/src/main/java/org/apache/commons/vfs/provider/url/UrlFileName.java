@@ -44,6 +44,7 @@ public class UrlFileName extends URLFileName
         super(scheme, hostName, port, defaultPort, userName, password, path, type, queryString);
     }
 
+    @Override
     protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         if (getHostName() != null && !"".equals(getHostName()))

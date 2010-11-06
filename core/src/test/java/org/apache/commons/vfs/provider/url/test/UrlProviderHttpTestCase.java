@@ -50,6 +50,7 @@ public class UrlProviderHttpTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
@@ -59,6 +60,7 @@ public class UrlProviderHttpTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {

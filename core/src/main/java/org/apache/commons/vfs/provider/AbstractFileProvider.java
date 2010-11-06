@@ -65,6 +65,7 @@ public abstract class AbstractFileProvider
     /**
      * Closes the file systems created by this provider.
      */
+    @Override
     public void close()
     {
         synchronized (this)

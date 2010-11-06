@@ -56,6 +56,7 @@ public class FtpFileSystem extends AbstractFileSystem
         idleClient = ftpClient;
     }
 
+    @Override
     protected void doCloseCommunicationLink()
     {
         // Clean up the connection
@@ -69,6 +70,7 @@ public class FtpFileSystem extends AbstractFileSystem
     /**
      * Adds the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(FtpFileProvider.capabilities);
@@ -142,6 +144,7 @@ public class FtpFileSystem extends AbstractFileSystem
     /**
      * Creates a file object.
      */
+    @Override
     protected FileObject createFile(final FileName name)
         throws FileSystemException
     {

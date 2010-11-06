@@ -75,6 +75,7 @@ public abstract class AbstractLayeredFileProvider
      * @return A FileObject associated with the new FileSystem.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public synchronized FileObject createFileSystem(final String scheme,
                                                     final FileObject file,
                                                     final FileSystemOptions fileSystemOptions)

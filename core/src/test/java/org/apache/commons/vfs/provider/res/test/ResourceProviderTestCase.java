@@ -44,6 +44,7 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig
     /**
      * Prepares the file system manager.  This implementation does nothing.
      */
+    @Override
     public void prepare(DefaultFileSystemManager manager)
         throws Exception
     {
@@ -55,6 +56,7 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(FileSystemManager manager)
         throws Exception
     {

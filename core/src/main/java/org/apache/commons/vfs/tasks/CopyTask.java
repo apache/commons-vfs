@@ -73,6 +73,7 @@ public class CopyTask
      * @param srcFile The source FileObject.
      * @param destFile The destination FileObject.
      */
+    @Override
     protected void handleOutOfDateFile(final FileObject srcFile,
                                        final FileObject destFile)
         throws FileSystemException
@@ -93,6 +94,7 @@ public class CopyTask
      * @param srcFile The source FileObject.
      * @param destFile The destination FileObject.
      */
+    @Override
     protected void handleUpToDateFile(final FileObject srcFile,
                                       final FileObject destFile)
         throws FileSystemException

@@ -68,6 +68,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
             return proxyType.compareTo(((ProxyType) o).proxyType);
         }
 
+        @Override
         public boolean equals(Object o)
         {
             if (this == o)
@@ -89,6 +90,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
             return true;
         }
 
+        @Override
         public int hashCode()
         {
             return proxyType.hashCode();
@@ -259,6 +261,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return getInteger(opts, TIMEOUT);
     }
 
+    @Override
     protected Class getConfigClass()
     {
         return SftpFileSystem.class;

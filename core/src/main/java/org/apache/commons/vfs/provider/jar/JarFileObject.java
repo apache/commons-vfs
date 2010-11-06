@@ -101,6 +101,7 @@ public class JarFileObject extends ZipFileObject
     /**
      * Returns the value of an attribute.
      */
+    @Override
     protected Map doGetAttributes()
         throws Exception
     {
@@ -133,6 +134,7 @@ public class JarFileObject extends ZipFileObject
     /**
      * Return the certificates of this JarEntry.
      */
+    @Override
     protected Certificate[] doGetCertificates()
     {
         if (entry == null)

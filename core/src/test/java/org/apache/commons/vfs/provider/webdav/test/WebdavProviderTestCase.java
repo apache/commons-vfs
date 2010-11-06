@@ -54,6 +54,7 @@ public class WebdavProviderTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
@@ -64,6 +65,7 @@ public class WebdavProviderTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {

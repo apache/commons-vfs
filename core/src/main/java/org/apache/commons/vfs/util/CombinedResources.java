@@ -113,6 +113,7 @@ public class CombinedResources extends ResourceBundle
         return resourceName;
     }
 
+    @Override
     public Enumeration getKeys()
     {
         if (!inited)
@@ -122,6 +123,7 @@ public class CombinedResources extends ResourceBundle
         return properties.keys();
     }
 
+    @Override
     protected Object handleGetObject(String key)
     {
         if (!inited)

@@ -87,6 +87,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
 
         rafis = new InputStream()
         {
+            @Override
             public int read() throws IOException
             {
                 try
@@ -99,21 +100,25 @@ public class RamFileRandomAccessContent implements RandomAccessContent
                 }
             }
 
+            @Override
             public long skip(long n) throws IOException
             {
                 seek(getFilePointer() + n);
                 return n;
             }
 
+            @Override
             public void close() throws IOException
             {
             }
 
+            @Override
             public int read(byte[] b) throws IOException
             {
                 return read(b, 0, b.length);
             }
 
+            @Override
             public int read(byte[] b, int off, int len) throws IOException
             {
                 int retLen = Math.min(len, getLeftBytes());
@@ -121,6 +126,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
                 return retLen;
             }
 
+            @Override
             public int available() throws IOException
             {
                 return getLeftBytes();

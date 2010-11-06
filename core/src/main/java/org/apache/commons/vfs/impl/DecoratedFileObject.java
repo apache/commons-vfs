@@ -185,6 +185,7 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.isContentOpen();
     }
 
+    @Override
     public String toString()
     {
         return decoratedFileObject.toString();

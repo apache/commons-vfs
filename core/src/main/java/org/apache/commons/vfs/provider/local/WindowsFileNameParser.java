@@ -32,6 +32,7 @@ public class WindowsFileNameParser
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
+    @Override
     protected String extractRootPrefix(final String uri,
                                        final StringBuffer name)
         throws FileSystemException
@@ -39,6 +40,7 @@ public class WindowsFileNameParser
         return extractWindowsRootPrefix(uri, name);
     }
 
+    @Override
     protected FileName createFileName(String scheme, final String rootFile, final String path, final FileType type)
     {
         return new WindowsFileName(scheme, rootFile, path, type);

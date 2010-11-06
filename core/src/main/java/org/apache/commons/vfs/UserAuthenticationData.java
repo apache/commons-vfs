@@ -39,6 +39,7 @@ public class UserAuthenticationData
             this.type = type;
         }
 
+        @Override
         public boolean equals(Object o)
         {
             if (this == o)
@@ -67,11 +68,13 @@ public class UserAuthenticationData
             return type.compareTo(t.type);
         }
 
+        @Override
         public int hashCode()
         {
             return type != null ? type.hashCode() : 0;
         }
 
+        @Override
         public String toString()
         {
             return type;

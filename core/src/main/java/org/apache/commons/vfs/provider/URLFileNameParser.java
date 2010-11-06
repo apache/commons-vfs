@@ -34,11 +34,13 @@ public class URLFileNameParser extends HostFileNameParser
         super(defaultPort);
     }
 
+    @Override
     public boolean encodeCharacter(char ch)
     {
         return super.encodeCharacter(ch) || ch == '?';
     }
 
+    @Override
     public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
             throws FileSystemException
     {

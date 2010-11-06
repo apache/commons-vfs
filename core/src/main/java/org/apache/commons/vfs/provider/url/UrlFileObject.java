@@ -56,6 +56,7 @@ public class UrlFileObject
      * before any of the doBlah() or onBlah() methods.  Sub-classes can use
      * this method to perform lazy initialisation.
      */
+    @Override
     protected void doAttach() throws Exception
     {
         if (url == null)
@@ -80,6 +81,7 @@ public class UrlFileObject
     /**
      * Determines the type of the file.
      */
+    @Override
     protected FileType doGetType() throws Exception
     {
         try
@@ -115,6 +117,7 @@ public class UrlFileObject
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         final URLConnection conn = url.openConnection();
@@ -132,6 +135,7 @@ public class UrlFileObject
     /**
      * Returns the last modified time of this file.
      */
+    @Override
     protected long doGetLastModifiedTime()
         throws Exception
     {
@@ -150,6 +154,7 @@ public class UrlFileObject
     /**
      * Lists the children of the file.
      */
+    @Override
     protected String[] doListChildren() throws Exception
     {
         throw new FileSystemException("Not implemented.");
@@ -158,6 +163,7 @@ public class UrlFileObject
     /**
      * Creates an input stream to read the file content from.
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         return url.openStream();

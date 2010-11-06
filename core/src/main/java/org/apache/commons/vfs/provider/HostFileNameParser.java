@@ -45,6 +45,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         return defaultPort;
     }
 
+    @Override
     public boolean encodeCharacter(char ch)
     {
         return super.encodeCharacter(ch);

@@ -232,6 +232,7 @@ class TarInputStream
      * @return The number of available bytes for the current entry.
      * @throws IOException when an IO error causes operation to fail
      */
+    @Override
     public int available()
             throws IOException
     {
@@ -249,6 +250,7 @@ class TarInputStream
      *
      * @throws IOException when an IO error causes operation to fail
      */
+    @Override
     public void close()
             throws IOException
     {
@@ -283,6 +285,7 @@ class TarInputStream
      *
      * @param markLimit The limit to mark.
      */
+    @Override
     public void mark(int markLimit)
     {
     }
@@ -292,6 +295,7 @@ class TarInputStream
      *
      * @return False.
      */
+    @Override
     public boolean markSupported()
     {
         return false;
@@ -304,6 +308,7 @@ class TarInputStream
      * @return The byte read, or -1 at EOF.
      * @throws IOException when an IO error causes operation to fail
      */
+    @Override
     public int read()
             throws IOException
     {
@@ -326,6 +331,7 @@ class TarInputStream
      * @return The number of bytes read, or -1 at EOF.
      * @throws IOException when an IO error causes operation to fail
      */
+    @Override
     public int read(final byte[] buffer)
             throws IOException
     {
@@ -343,6 +349,7 @@ class TarInputStream
      * @return The number of bytes read, or -1 at EOF.
      * @throws IOException when an IO error causes operation to fail
      */
+    @Override
     public int read(final byte[] buffer,
                     final int offset,
                     final int count)
@@ -430,6 +437,7 @@ class TarInputStream
     /**
      * Since we do not support marking just yet, we do nothing.
      */
+    @Override
     public void reset()
     {
     }

@@ -51,6 +51,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * {@inheritDoc}
      */
+    @Override
     protected Class getConfigClass()
     {
         return RamFileSystem.class;

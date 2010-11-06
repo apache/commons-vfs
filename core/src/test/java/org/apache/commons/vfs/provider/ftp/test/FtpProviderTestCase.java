@@ -56,6 +56,7 @@ public class FtpProviderTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
         manager.addProvider("ftp", new FtpFileProvider());
@@ -64,6 +65,7 @@ public class FtpProviderTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final String uri = System.getProperty(TEST_URI);

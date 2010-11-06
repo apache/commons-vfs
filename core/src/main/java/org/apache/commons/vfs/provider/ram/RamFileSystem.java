@@ -67,6 +67,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      *
      * @see org.apache.commons.vfs.provider.AbstractFileSystem#createFile(org.apache.commons.vfs.FileName)
      */
+    @Override
     protected FileObject createFile(FileName name) throws Exception
     {
         RamFileObject file = new RamFileObject(name, this);
@@ -78,6 +79,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      *
      * @see org.apache.commons.vfs.provider.AbstractFileSystem#addCapabilities(java.util.Collection)
      */
+    @Override
     protected void addCapabilities(Collection caps)
     {
         caps.addAll(RamFileProvider.capabilities);
@@ -310,6 +312,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     /**
      * Close the RAMFileSystem.
      */
+    @Override
     public void close()
     {
         this.cache.clear();

@@ -44,6 +44,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
      * @param ch The character to check.
      * @return true if the character should be encoded.
      */
+    @Override
     public boolean encodeCharacter(char ch)
     {
         return super.encodeCharacter(ch) || ch == '!';

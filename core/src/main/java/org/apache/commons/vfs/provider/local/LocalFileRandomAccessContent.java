@@ -48,6 +48,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
             raf = new RandomAccessFile(localFile, mode.getModeString());
             rafis = new InputStream()
             {
+                @Override
                 public int read() throws IOException
                 {
                     try
@@ -60,27 +61,32 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                     }
                 }
 
+                @Override
                 public long skip(long n) throws IOException
                 {
                     raf.seek(raf.getFilePointer() + n);
                     return n;
                 }
 
+                @Override
                 public void close() throws IOException
                 {
                     raf.close();
                 }
 
+                @Override
                 public int read(byte[] b) throws IOException
                 {
                     return raf.read(b);
                 }
 
+                @Override
                 public int read(byte[] b, int off, int len) throws IOException
                 {
                     return raf.read(b, off, len);
                 }
 
+                @Override
                 public int available() throws IOException
                 {
                     long available = raf.length() - raf.getFilePointer();
@@ -189,71 +195,85 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
         return raf.readUTF();
     }
 
+    @Override
     public void writeDouble(double v) throws IOException
     {
         raf.writeDouble(v);
     }
 
+    @Override
     public void writeFloat(float v) throws IOException
     {
         raf.writeFloat(v);
     }
 
+    @Override
     public void write(int b) throws IOException
     {
         raf.write(b);
     }
 
+    @Override
     public void writeByte(int v) throws IOException
     {
         raf.writeByte(v);
     }
 
+    @Override
     public void writeChar(int v) throws IOException
     {
         raf.writeChar(v);
     }
 
+    @Override
     public void writeInt(int v) throws IOException
     {
         raf.writeInt(v);
     }
 
+    @Override
     public void writeShort(int v) throws IOException
     {
         raf.writeShort(v);
     }
 
+    @Override
     public void writeLong(long v) throws IOException
     {
         raf.writeLong(v);
     }
 
+    @Override
     public void writeBoolean(boolean v) throws IOException
     {
         raf.writeBoolean(v);
     }
 
+    @Override
     public void write(byte[] b) throws IOException
     {
         raf.write(b);
     }
 
+    @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
         raf.write(b, off, len);
     }
 
+    @Override
     public void writeBytes(String s) throws IOException
     {
         raf.writeBytes(s);
     }
 
+    @Override
     public void writeChars(String s) throws IOException
     {
         raf.writeChars(s);
     }
 
+    @Override
     public void writeUTF(String str) throws IOException
     {
         raf.writeUTF(str);

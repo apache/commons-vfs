@@ -43,17 +43,20 @@ public final class DefaultURLConnection
         this.content = content;
     }
 
+    @Override
     public void connect()
     {
         connected = true;
     }
 
+    @Override
     public InputStream getInputStream()
         throws IOException
     {
         return content.getInputStream();
     }
 
+    @Override
     public OutputStream getOutputStream()
         throws IOException
     {
@@ -61,6 +64,7 @@ public final class DefaultURLConnection
     }
 
 
+    @Override
     public long getLastModified()
     {
         try
@@ -75,6 +79,7 @@ public final class DefaultURLConnection
         return -1;
     }
 
+    @Override
     public int getContentLength()
     {
         try
@@ -89,6 +94,7 @@ public final class DefaultURLConnection
         return -1;
     }
 
+    @Override
     public String getContentType()
     {
         try
@@ -101,6 +107,7 @@ public final class DefaultURLConnection
         }
     }
 
+    @Override
     public String getContentEncoding()
     {
         try

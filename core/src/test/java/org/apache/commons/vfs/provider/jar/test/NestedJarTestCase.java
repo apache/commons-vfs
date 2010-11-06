@@ -48,6 +48,7 @@ public class NestedJarTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
@@ -58,6 +59,7 @@ public class NestedJarTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         // Locate the Jar file

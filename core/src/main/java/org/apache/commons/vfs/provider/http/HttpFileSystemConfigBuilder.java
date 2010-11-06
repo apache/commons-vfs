@@ -230,7 +230,8 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 		setParam(opts, OPTION_NAME__PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
 	}
 
-	protected Class getConfigClass()
+	@Override
+    protected Class getConfigClass()
     {
         return HttpFileSystem.class;
     }

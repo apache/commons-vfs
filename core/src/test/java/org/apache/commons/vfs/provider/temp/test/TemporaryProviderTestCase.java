@@ -49,6 +49,7 @@ public class TemporaryProviderTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
@@ -59,6 +60,7 @@ public class TemporaryProviderTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         return manager.resolveFile("tmp:/");

@@ -42,6 +42,7 @@ public class MonitorOutputStream
      * Closes this output stream.
      * @throws IOException if an error occurs.
      */
+    @Override
     public void close() throws IOException
     {
         if (finished)
@@ -79,24 +80,28 @@ public class MonitorOutputStream
     }
 
 
+    @Override
     public synchronized void write(int b) throws IOException
     {
         assertOpen();
         super.write(b);
     }
 
+    @Override
     public synchronized void write(byte[] b, int off, int len) throws IOException
     {
         assertOpen();
         super.write(b, off, len);
     }
 
+    @Override
     public synchronized void flush() throws IOException
     {
         assertOpen();
         super.flush();
     }
 
+    @Override
     public void write(byte[] b) throws IOException
     {
         assertOpen();

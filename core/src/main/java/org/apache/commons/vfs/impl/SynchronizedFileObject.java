@@ -38,6 +38,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
                 super(fileObject);
         }
 
+        @Override
         public void close() throws FileSystemException
     {
         synchronized (this)
@@ -46,6 +47,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
         {
         synchronized (this)
@@ -54,6 +56,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public void createFile() throws FileSystemException
         {
         synchronized (this)
@@ -62,6 +65,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public void createFolder() throws FileSystemException
         {
         synchronized (this)
@@ -70,6 +74,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public boolean delete() throws FileSystemException
         {
         synchronized (this)
@@ -78,6 +83,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public int delete(FileSelector selector) throws FileSystemException
         {
         synchronized (this)
@@ -86,6 +92,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public boolean exists() throws FileSystemException
         {
         synchronized (this)
@@ -94,6 +101,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public void findFiles(FileSelector selector, boolean depthwise, List selected) throws FileSystemException
         {
         synchronized (this)
@@ -102,6 +110,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public FileObject[] findFiles(FileSelector selector) throws FileSystemException
         {
         synchronized (this)
@@ -110,6 +119,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public FileObject getChild(String name) throws FileSystemException
         {
         synchronized (this)
@@ -118,6 +128,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public FileObject[] getChildren() throws FileSystemException
         {
         synchronized (this)
@@ -126,6 +137,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public FileContent getContent() throws FileSystemException
         {
         synchronized (this)
@@ -134,6 +146,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public FileType getType() throws FileSystemException
         {
         synchronized (this)
@@ -142,6 +155,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public boolean isHidden() throws FileSystemException
         {
         synchronized (this)
@@ -150,6 +164,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public boolean isReadable() throws FileSystemException
         {
         synchronized (this)
@@ -158,6 +173,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public boolean isWriteable() throws FileSystemException
         {
         synchronized (this)
@@ -166,6 +182,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public void moveTo(FileObject destFile) throws FileSystemException
         {
         synchronized (this)
@@ -174,6 +191,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
         {
         synchronized (this)
@@ -182,6 +200,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
         }
     }
 
+        @Override
         public FileObject resolveFile(String path) throws FileSystemException
         {
         synchronized (this)

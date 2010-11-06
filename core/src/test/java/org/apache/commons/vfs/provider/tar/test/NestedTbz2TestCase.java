@@ -44,6 +44,7 @@ public class NestedTbz2TestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
@@ -55,6 +56,7 @@ public class NestedTbz2TestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         // Locate the base Tar file

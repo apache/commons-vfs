@@ -41,6 +41,7 @@ public class UrlFileNameParser extends AbstractFileNameParser
         super();
     }
 
+    @Override
     public boolean encodeCharacter(char ch)
     {
         return super.encodeCharacter(ch) || ch == '?';

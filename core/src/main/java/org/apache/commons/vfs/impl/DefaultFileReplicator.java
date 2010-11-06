@@ -74,6 +74,7 @@ public class DefaultFileReplicator
      * Initialises this component.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void init() throws FileSystemException
     {
         if (tempDir == null)
@@ -97,6 +98,7 @@ public class DefaultFileReplicator
     /**
      * Closes the replicator, deleting all temporary files.
      */
+    @Override
     public void close()
     {
         // Delete the temporary files

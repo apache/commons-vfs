@@ -49,6 +49,7 @@ public class NullFilesCache extends AbstractFilesCache
     {
     }
 
+    @Override
     public void close()
     {
         super.close();

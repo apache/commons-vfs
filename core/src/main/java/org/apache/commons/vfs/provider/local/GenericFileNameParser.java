@@ -44,6 +44,7 @@ public class GenericFileNameParser
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
+    @Override
     protected String extractRootPrefix(final String uri,
                                        final StringBuffer name)
         throws FileSystemException
@@ -65,6 +66,7 @@ public class GenericFileNameParser
      * here the rootFilename can only be "/" (see above) put this "/" is also in the pathname
      * so its of no value for the LocalFileName instance
      */
+    @Override
     protected FileName createFileName(String scheme, final String rootFile, final String path, final FileType type)
     {
         return new LocalFileName(scheme, "", path, type);

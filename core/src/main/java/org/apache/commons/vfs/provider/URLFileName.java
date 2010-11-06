@@ -112,6 +112,7 @@ public class URLFileName extends GenericFileName
      * @param type The FileType.
      * @return The FileName
      */
+    @Override
     public FileName createName(final String absPath, FileType type)
     {
         return new URLFileName(getScheme(),
@@ -130,6 +131,7 @@ public class URLFileName extends GenericFileName
      *
      * @return the uri
      */
+    @Override
     protected String createURI()
     {
         if (getQueryString() != null)

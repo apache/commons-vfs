@@ -70,6 +70,7 @@ public class LocalFile
     /**
      * Attaches this file object to its file resource.
      */
+    @Override
     protected void doAttach()
         throws Exception
     {
@@ -86,6 +87,7 @@ public class LocalFile
     /**
      * Returns the file's type.
      */
+    @Override
     protected FileType doGetType()
         throws Exception
     {
@@ -113,6 +115,7 @@ public class LocalFile
     /**
      * Returns the children of the file.
      */
+    @Override
     protected String[] doListChildren()
         throws Exception
     {
@@ -122,6 +125,7 @@ public class LocalFile
     /**
      * Deletes this file, and all children.
      */
+    @Override
     protected void doDelete()
         throws Exception
     {
@@ -134,6 +138,7 @@ public class LocalFile
     /**
      * rename this file
      */
+    @Override
     protected void doRename(final FileObject newfile) throws Exception
     {
         LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newfile);
@@ -148,6 +153,7 @@ public class LocalFile
     /**
      * Creates this folder.
      */
+    @Override
     protected void doCreateFolder()
         throws Exception
     {
@@ -160,6 +166,7 @@ public class LocalFile
     /**
      * Determines if this file can be written to.
      */
+    @Override
     protected boolean doIsWriteable() throws FileSystemException
     {
         return file.canWrite();
@@ -168,6 +175,7 @@ public class LocalFile
     /**
      * Determines if this file is hidden.
      */
+    @Override
     protected boolean doIsHidden()
     {
         return file.isHidden();
@@ -176,6 +184,7 @@ public class LocalFile
     /**
      * Determines if this file can be read.
      */
+    @Override
     protected boolean doIsReadable() throws FileSystemException
     {
         return file.canRead();
@@ -184,6 +193,7 @@ public class LocalFile
     /**
      * Gets the last modified time of this file.
      */
+    @Override
     protected long doGetLastModifiedTime() throws FileSystemException
     {
         return file.lastModified();
@@ -192,6 +202,7 @@ public class LocalFile
     /**
      * Sets the last modified time of this file.
      */
+    @Override
     protected boolean doSetLastModTime(final long modtime)
         throws FileSystemException
     {
@@ -201,6 +212,7 @@ public class LocalFile
     /**
      * Creates an input stream to read the content from.
      */
+    @Override
     protected InputStream doGetInputStream()
         throws Exception
     {
@@ -210,6 +222,7 @@ public class LocalFile
     /**
      * Creates an output stream to write the file content to.
      */
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend)
         throws Exception
     {
@@ -219,17 +232,20 @@ public class LocalFile
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize()
         throws Exception
     {
         return file.length();
     }
 
+    @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
         return new LocalFileRandomAccessContent(file, mode);
     }
 
+    @Override
     protected boolean doIsSameFile(FileObject destFile) throws FileSystemException
     {
         if (!FileObjectUtils.isInstanceOf(destFile, LocalFile.class))

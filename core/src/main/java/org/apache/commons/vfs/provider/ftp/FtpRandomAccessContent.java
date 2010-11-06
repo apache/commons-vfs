@@ -72,6 +72,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
         filePointer = pos;
     }
 
+    @Override
     protected DataInputStream getDataInputStream() throws IOException
     {
         if (dis != null)
@@ -83,6 +84,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
         mis = fileObject.getInputStream(filePointer);
         dis = new DataInputStream(new FilterInputStream(mis)
         {
+            @Override
             public int read() throws IOException
             {
                 int ret = super.read();
@@ -93,6 +95,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public int read(byte[] b) throws IOException
             {
                 int ret = super.read(b);
@@ -103,6 +106,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public int read(byte[] b, int off, int len) throws IOException
             {
                 int ret = super.read(b, off, len);
@@ -113,6 +117,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public void close() throws IOException
             {
                 FtpRandomAccessContent.this.close();

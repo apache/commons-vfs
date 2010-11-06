@@ -38,11 +38,13 @@ public class Bzip2FileSystem extends CompressedFileFileSystem
         super(rootName, parentLayer, fileSystemOptions);
     }
 
+    @Override
     protected FileObject createFile(FileName name) throws FileSystemException
     {
         return new Bzip2FileObject(name, getParentLayer(), this);
     }
 
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(Bzip2FileProvider.capabilities);

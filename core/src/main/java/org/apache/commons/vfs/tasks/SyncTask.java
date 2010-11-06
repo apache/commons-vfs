@@ -31,6 +31,7 @@ public class SyncTask
     /**
      * Handles a destination for which there is no corresponding source file.
      */
+    @Override
     protected void handleMissingSourceFile(final FileObject destFile)
         throws Exception
     {
@@ -42,6 +43,7 @@ public class SyncTask
      * Check if this task cares about destination files with a missing source
      * file.
      */
+    @Override
     protected boolean detectMissingSourceFiles()
     {
         return true;

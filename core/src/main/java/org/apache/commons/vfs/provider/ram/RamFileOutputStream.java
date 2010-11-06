@@ -57,6 +57,7 @@ public class RamFileOutputStream extends OutputStream
      *
      * @see java.io.DataOutput#write(byte[], int, int)
      */
+    @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
         int size = this.file.getData().size();
@@ -79,16 +80,19 @@ public class RamFileOutputStream extends OutputStream
      *
      * @see java.io.DataOutput#write(int)
      */
+    @Override
     public void write(int b) throws IOException
     {
         buffer1[0] = (byte) b;
         this.write(buffer1);
     }
 
+    @Override
     public void flush() throws IOException
     {
     }
 
+    @Override
     public void close() throws IOException
     {
         if (closed)

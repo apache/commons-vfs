@@ -51,6 +51,7 @@ public class JarFileSystem
         super(rootName, file, fileSystemOptions);
     }
 
+    @Override
     protected ZipFile createZipFile(File file) throws FileSystemException
     {
         try
@@ -63,6 +64,7 @@ public class JarFileSystem
         }
     }
 
+    @Override
     protected ZipFileObject createZipFileObject(FileName name,
                                                 ZipEntry entry) throws FileSystemException
     {
@@ -72,6 +74,7 @@ public class JarFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         // super.addCapabilities(caps);
@@ -198,6 +201,7 @@ public class JarFileSystem
      * @return The value of the attribute.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public Object getAttribute(String attrName) throws FileSystemException
     {
         final Name name = lookupName(attrName);
@@ -205,6 +209,7 @@ public class JarFileSystem
     }
 
 
+    @Override
     protected ZipFile getZipFile() throws FileSystemException
     {
         return super.getZipFile();

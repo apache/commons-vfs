@@ -60,6 +60,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
      * @throws Exception
      * 
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
             throws Exception
     {
@@ -78,6 +79,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager)
             throws Exception
     {

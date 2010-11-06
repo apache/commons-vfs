@@ -67,6 +67,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetType()
      */
+    @Override
     protected FileType doGetType() throws Exception
     {
         return data.getType();
@@ -77,6 +78,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doListChildren()
      */
+    @Override
     protected String[] doListChildren() throws Exception
     {
         return this.fs.listChildren(this.getName());
@@ -87,6 +89,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetContentSize()
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         return this.data.getBuffer().length;
@@ -97,6 +100,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetInputStream()
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         // VFS-210: ram allows to gather an input stream even from a directory. So we need to check the type anyway.
@@ -113,6 +117,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetOutputStream(boolean)
      */
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         if (!bAppend)
@@ -127,6 +132,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doDelete()
      */
+    @Override
     protected void doDelete() throws Exception
     {
         fs.delete(this);
@@ -137,6 +143,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetLastModifiedTime()
      */
+    @Override
     protected long doGetLastModifiedTime() throws Exception
     {
         return data.getLastModified();
@@ -147,6 +154,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doSetLastModifiedTime(long)
      */
+    @Override
     protected boolean doSetLastModTime(long modtime) throws Exception
     {
         data.setLastModified(modtime);
@@ -158,6 +166,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doCreateFolder()
      */
+    @Override
     protected void doCreateFolder() throws Exception
     {
         this.injectType(FileType.FOLDER);
@@ -169,6 +178,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doRename(org.apache.commons.vfs.FileObject)
      */
+    @Override
     protected void doRename(FileObject newfile) throws Exception
     {
         fs.rename(this, (RamFileObject) newfile);
@@ -180,6 +190,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetRandomAccessContent(
      *      org.apache.commons.vfs.util.RandomAccessMode)
      */
+    @Override
     protected RandomAccessContent doGetRandomAccessContent(RandomAccessMode mode)
             throws Exception
     {
@@ -191,6 +202,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doAttach()
      */
+    @Override
     protected void doAttach() throws Exception
     {
         this.fs.attach(this);
@@ -218,6 +230,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#injectType(org.apache.commons.vfs.FileType)
      */
+    @Override
     protected void injectType(FileType fileType)
     {
         this.data.setType(fileType);
@@ -229,6 +242,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#endOutput()
      */
+    @Override
     protected void endOutput() throws Exception
     {
         super.endOutput();

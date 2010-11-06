@@ -25,6 +25,7 @@ package org.apache.commons.vfs.impl;
  */
 public class DefaultProviderConfiguration extends ProviderConfiguration
 {
+    @Override
     public boolean isDefault()
     {
         return true;

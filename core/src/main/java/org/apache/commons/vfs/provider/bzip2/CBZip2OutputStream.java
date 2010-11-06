@@ -377,6 +377,7 @@ class CBZip2OutputStream
         //throw new CError();
     }
 
+    @Override
     public void close()
             throws IOException
     {
@@ -397,12 +398,14 @@ class CBZip2OutputStream
         bsStream.close();
     }
 
+    @Override
     public void finalize()
             throws Throwable
     {
         close();
     }
 
+    @Override
     public void flush()
             throws IOException
     {
@@ -416,6 +419,7 @@ class CBZip2OutputStream
      * @param bv Description of Parameter
      * @throws java.io.IOException Description of Exception
      */
+    @Override
     public void write(int bv)
             throws IOException
     {

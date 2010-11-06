@@ -72,6 +72,7 @@ public class JarFileProvider
      * @param file   The file to create the file system on top of.
      * @return The file system.
      */
+    @Override
     protected FileSystem doCreateFileSystem(final String scheme,
                                             final FileObject file,
                                             final FileSystemOptions fileSystemOptions)
@@ -82,6 +83,7 @@ public class JarFileProvider
         return new JarFileSystem(name, file, fileSystemOptions);
     }
 
+    @Override
     public Collection getCapabilities()
     {
         return capabilities;

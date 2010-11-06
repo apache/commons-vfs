@@ -55,6 +55,7 @@ public final class CacheStrategy
      * Returns the name of the scope.
      * @return the name of the scope.
      */
+    @Override
     public String toString()
     {
         return name;

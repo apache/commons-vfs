@@ -59,6 +59,7 @@ public abstract class CompressedFileFileObject
      * @return <code>true</code> if this file is writeable, <code>false</code> if not.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean isWriteable() throws FileSystemException
     {
         return getFileSystem().hasCapability(Capability.WRITE_CONTENT);
@@ -67,6 +68,7 @@ public abstract class CompressedFileFileObject
     /**
      * Returns the file's type.
      */
+    @Override
     protected FileType doGetType() throws FileSystemException
     {
         if (getName().getPath().endsWith("/"))
@@ -82,6 +84,7 @@ public abstract class CompressedFileFileObject
     /**
      * Lists the children of the file.
      */
+    @Override
     protected String[] doListChildren()
     {
         return children;
@@ -91,6 +94,7 @@ public abstract class CompressedFileFileObject
      * Returns the size of the file content (in bytes).  Is only called if
      * {@link #doGetType} returns {@link FileType#FILE}.
      */
+    @Override
     protected long doGetContentSize()
     {
         return -1;
@@ -99,6 +103,7 @@ public abstract class CompressedFileFileObject
     /**
      * Returns the last modified time of this file.
      */
+    @Override
     protected long doGetLastModifiedTime() throws Exception
     {
         return container.getContent().getLastModifiedTime();
@@ -109,6 +114,7 @@ public abstract class CompressedFileFileObject
         return container;
     }
 
+    @Override
     public void createFile() throws FileSystemException
     {
         container.createFile();

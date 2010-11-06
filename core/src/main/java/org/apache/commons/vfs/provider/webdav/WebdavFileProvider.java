@@ -79,6 +79,7 @@ public class WebdavFileProvider
      * to use correct signature of the {@link FileSystemManager} resolveFile method.
      * @see org.apache.commons.vfs.impl.DefaultFileSystemManager#resolveFile(FileObject, String, FileSystemOptions)
      */
+    @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
@@ -111,12 +112,14 @@ public class WebdavFileProvider
         return new WebdavFileSystem(rootName, httpClient, fsOpts);
     }
 
+    @Override
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return WebdavFileSystemConfigBuilder.getInstance();
     }
 
 
+    @Override
     public Collection getCapabilities()
     {
         return capabilities;

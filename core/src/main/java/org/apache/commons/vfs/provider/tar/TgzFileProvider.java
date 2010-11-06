@@ -40,6 +40,7 @@ public class TgzFileProvider extends CompositeFileProvider
         super();
     }
 
+    @Override
     protected String[] getSchemes()
     {
         return SCHEMES;

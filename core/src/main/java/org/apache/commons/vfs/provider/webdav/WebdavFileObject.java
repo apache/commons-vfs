@@ -106,6 +106,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
      * Determines the type of this file.  Must not return null.  The return
      * value of this method is cached, so the implementation can be expensive.
      */
+    @Override
     protected FileType doGetType() throws Exception
     {
         try
@@ -126,6 +127,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /**
      * Lists the children of the file.
      */
+    @Override
     protected String[] doListChildren() throws Exception
     {
         // use doListChildrenResolved for performance
@@ -135,6 +137,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /**
      * Lists the children of the file.
      */
+    @Override
     protected FileObject[] doListChildrenResolved() throws Exception
     {
         PropFindMethod method = null;
@@ -203,6 +206,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /**
      * Creates this file as a folder.
      */
+    @Override
     protected void doCreateFolder() throws Exception
     {
         DavMethod method = new MkColMethod(urlString((URLFileName) getName()));
@@ -221,6 +225,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /**
      * Deletes the file.
      */
+    @Override
     protected void doDelete() throws Exception
     {
         DavMethod method = new DeleteMethod(urlString((URLFileName) getName()));
@@ -231,6 +236,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /**
      * Rename the file.
      */
+    @Override
     protected void doRename(FileObject newfile) throws Exception
     {
         String url = encodePath(urlString((URLFileName) getName()));
@@ -243,6 +249,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         DavProperty property = getProperty((URLFileName) getName(),
@@ -259,6 +266,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
      * Returns the last modified time of this file.  Is only called if
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      */
+    @Override
     protected long doGetLastModifiedTime() throws Exception
     {
         DavProperty property = getProperty((URLFileName) getName(),
@@ -274,6 +282,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /**
      * Returns the properties of the Webdav resource.
      */
+    @Override
     protected Map doGetAttributes() throws Exception
     {
         final Map attributes = new HashMap();
@@ -321,6 +330,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
      * <p/>
      * This implementation throws an exception.
      */
+    @Override
     protected void doSetAttribute(final String attrName, final Object value)
         throws Exception
     {
@@ -358,11 +368,13 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
         }
     }
 
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         return new WebdavOutputStream(this);
     }
 
+    @Override
     protected FileContentInfoFactory getFileContentInfoFactory()
     {
         return new WebdavFileContentInfoFactory();
@@ -375,6 +387,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
      * @throws FileSystemException if an error occurs encoding the uri.
      * @throws URIException        if the URI is in error.
      */
+    @Override
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
         String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
@@ -616,6 +629,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
         /**
          * Called after this stream is closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             RequestEntity entity = new ByteArrayRequestEntity(((ByteArrayOutputStream) out).toByteArray());

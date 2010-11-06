@@ -391,6 +391,7 @@ public abstract class AbstractFileObject implements FileObject
      * Returns the URI of the file.
      * @return The URI of the file.
      */
+    @Override
     public String toString()
     {
         return name.getURI();
@@ -1808,6 +1809,7 @@ public abstract class AbstractFileObject implements FileObject
         return operations;
     }
 
+    @Override
     protected void finalize() throws Throwable
     {
         fs.fileObjectDestroyed(this);

@@ -179,6 +179,7 @@ public class FtpFileObject
     /**
      * Attaches this file object to its file resource.
      */
+    @Override
     protected void doAttach()
         throws IOException
     {
@@ -217,6 +218,7 @@ public class FtpFileObject
     /**
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void refresh() throws FileSystemException
     {
         if (!inRefresh)
@@ -253,6 +255,7 @@ public class FtpFileObject
     /**
      * Detaches this file object from its file resource.
      */
+    @Override
     protected void doDetach()
     {
         synchronized (getFileSystem())
@@ -265,6 +268,7 @@ public class FtpFileObject
     /**
      * Called when the children of this file change.
      */
+    @Override
     protected void onChildrenChanged(FileName child, FileType newType)
     {
         if (children != null && newType.equals(FileType.IMAGINARY))
@@ -289,6 +293,7 @@ public class FtpFileObject
     /**
      * Called when the type or content of this file changes.
      */
+    @Override
     protected void onChange() throws IOException
     {
         children = null;
@@ -310,6 +315,7 @@ public class FtpFileObject
      * Determines the type of the file, returns null if the file does not
      * exist.
      */
+    @Override
     protected FileType doGetType()
         throws Exception
     {
@@ -363,6 +369,7 @@ public class FtpFileObject
         return linkDestination;
     }
 
+    @Override
     protected FileObject[] doListChildrenResolved() throws Exception
     {
         synchronized (getFileSystem())
@@ -384,6 +391,7 @@ public class FtpFileObject
      * @see AbstractFileObject#getChildren()
      * @since 1.0
      */
+    @Override
     public FileObject[] getChildren() throws FileSystemException
     {
         try
@@ -420,6 +428,7 @@ public class FtpFileObject
     /**
      * Lists the children of the file.
      */
+    @Override
     protected String[] doListChildren()
         throws Exception
     {
@@ -449,6 +458,7 @@ public class FtpFileObject
     /**
      * Deletes the file.
      */
+    @Override
     protected void doDelete() throws Exception
     {
         synchronized (getFileSystem())
@@ -483,6 +493,7 @@ public class FtpFileObject
     /**
      * Renames the file
      */
+    @Override
     protected void doRename(FileObject newfile) throws Exception
     {
         synchronized (getFileSystem())
@@ -513,6 +524,7 @@ public class FtpFileObject
     /**
      * Creates this file as a folder.
      */
+    @Override
     protected void doCreateFolder()
         throws Exception
     {
@@ -536,6 +548,7 @@ public class FtpFileObject
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         synchronized (getFileSystem())
@@ -556,6 +569,7 @@ public class FtpFileObject
      *
      * @see org.apache.commons.vfs.provider.AbstractFileObject#doGetLastModifiedTime()
      */
+    @Override
     protected long doGetLastModifiedTime() throws Exception
     {
         synchronized (getFileSystem())
@@ -582,6 +596,7 @@ public class FtpFileObject
     /**
      * Creates an input stream to read the file content from.
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         final FtpClient client = ftpFs.getClient();
@@ -602,6 +617,7 @@ public class FtpFileObject
         }
     }
 
+    @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
         return new FtpRandomAccessContent(this, mode);
@@ -610,6 +626,7 @@ public class FtpFileObject
     /**
      * Creates an output stream to write the file content to.
      */
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend)
         throws Exception
     {
@@ -695,6 +712,7 @@ public class FtpFileObject
         /**
          * Called after the stream has been closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             final boolean ok;
@@ -731,6 +749,7 @@ public class FtpFileObject
         /**
          * Called after this stream is closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             final boolean ok;

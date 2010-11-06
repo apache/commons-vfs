@@ -128,6 +128,7 @@ public class DelegateFileObject
      * Determines the type of the file, returns null if the file does not
      * exist.
      */
+    @Override
     protected FileType doGetType() throws FileSystemException
     {
         if (file != null)
@@ -147,6 +148,7 @@ public class DelegateFileObject
     /**
      * Determines if this file can be read.
      */
+    @Override
     protected boolean doIsReadable() throws FileSystemException
     {
         if (file != null)
@@ -162,6 +164,7 @@ public class DelegateFileObject
     /**
      * Determines if this file can be written to.
      */
+    @Override
     protected boolean doIsWriteable() throws FileSystemException
     {
         if (file != null)
@@ -177,6 +180,7 @@ public class DelegateFileObject
     /**
      * Determines if this file is hidden.
      */
+    @Override
     protected boolean doIsHidden() throws FileSystemException
     {
         if (file != null)
@@ -192,6 +196,7 @@ public class DelegateFileObject
     /**
      * Lists the children of the file.
      */
+    @Override
     protected String[] doListChildren() throws Exception
     {
         if (file != null)
@@ -224,6 +229,7 @@ public class DelegateFileObject
     /**
      * Creates this file as a folder.
      */
+    @Override
     protected void doCreateFolder() throws Exception
     {
         ignoreEvent = true;
@@ -240,6 +246,7 @@ public class DelegateFileObject
     /**
      * Deletes the file.
      */
+    @Override
     protected void doDelete() throws Exception
     {
         ignoreEvent = true;
@@ -257,6 +264,7 @@ public class DelegateFileObject
      * Returns the size of the file content (in bytes).  Is only called if
      * {@link #doGetType} returns {@link FileType#FILE}.
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         return file.getContent().getSize();
@@ -265,6 +273,7 @@ public class DelegateFileObject
     /**
      * Returns the attributes of this file.
      */
+    @Override
     protected Map doGetAttributes()
         throws Exception
     {
@@ -274,6 +283,7 @@ public class DelegateFileObject
     /**
      * Sets an attribute of this file.
      */
+    @Override
     protected void doSetAttribute(final String atttrName,
                                   final Object value)
         throws Exception
@@ -284,6 +294,7 @@ public class DelegateFileObject
     /**
      * Returns the certificates of this file.
      */
+    @Override
     protected Certificate[] doGetCertificates() throws Exception
     {
         return file.getContent().getCertificates();
@@ -292,6 +303,7 @@ public class DelegateFileObject
     /**
      * Returns the last-modified time of this file.
      */
+    @Override
     protected long doGetLastModifiedTime() throws Exception
     {
         return file.getContent().getLastModifiedTime();
@@ -300,6 +312,7 @@ public class DelegateFileObject
     /**
      * Sets the last-modified time of this file.
      */
+    @Override
     protected boolean doSetLastModTime(final long modtime)
         throws Exception
     {
@@ -310,6 +323,7 @@ public class DelegateFileObject
     /**
      * Creates an input stream to read the file content from.
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         return file.getContent().getInputStream();
@@ -318,6 +332,7 @@ public class DelegateFileObject
     /**
      * Creates an output stream to write the file content to.
      */
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         return file.getContent().getOutputStream(bAppend);
@@ -380,6 +395,7 @@ public class DelegateFileObject
      * Close the delegated file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void close() throws FileSystemException
     {
         super.close();
@@ -394,6 +410,7 @@ public class DelegateFileObject
      * Refresh file information.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void refresh() throws FileSystemException
     {
         super.refresh();
@@ -411,6 +428,7 @@ public class DelegateFileObject
     /**
      * Renames the file.
      */
+    @Override
     protected void doRename(FileObject newFile)
         throws Exception
     {
@@ -420,6 +438,7 @@ public class DelegateFileObject
     /**
      * Removes an attribute of this file.
      */
+    @Override
     protected void doRemoveAttribute(final String atttrName)
         throws Exception
     {
@@ -429,6 +448,7 @@ public class DelegateFileObject
     /**
      * Creates access to the file for random i/o.
      */
+    @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
         return file.getContent().getRandomAccessContent(mode);

@@ -59,6 +59,7 @@ public class ProviderTestSuite
     /**
      * Adds base tests - excludes the nested test cases.
      */
+    @Override
     protected void addBaseTests() throws Exception
     {
         addTests(ProviderCacheStrategyTests.class);

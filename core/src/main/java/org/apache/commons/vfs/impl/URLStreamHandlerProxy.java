@@ -31,6 +31,7 @@ import java.net.URLStreamHandler;
 class URLStreamHandlerProxy
     extends URLStreamHandler
 {
+    @Override
     protected URLConnection openConnection(final URL url)
         throws IOException
     {
@@ -38,6 +39,7 @@ class URLStreamHandlerProxy
         return proxyURL.openConnection();
     }
 
+    @Override
     protected void parseURL(final URL u,
                             final String spec,
                             final int start,

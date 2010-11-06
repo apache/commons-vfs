@@ -33,11 +33,13 @@ public class VirtualFileName extends AbstractFileName
         super(scheme, absPath, type);
     }
 
+    @Override
     public FileName createName(String absPath, FileType type)
     {
         return new VirtualFileName(getScheme(), absPath, type);
     }
 
+    @Override
     protected void appendRootUri(StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());

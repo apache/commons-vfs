@@ -48,6 +48,7 @@ public class ZipProviderTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
         manager.addProvider("zip", new ZipFileProvider());
@@ -58,6 +59,7 @@ public class ZipProviderTestCase
     /**
      * Returns the base folder for read tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");

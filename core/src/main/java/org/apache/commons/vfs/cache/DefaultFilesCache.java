@@ -67,6 +67,7 @@ public class DefaultFilesCache extends AbstractFilesCache
         return files;
     }
 
+    @Override
     public void close()
     {
         super.close();

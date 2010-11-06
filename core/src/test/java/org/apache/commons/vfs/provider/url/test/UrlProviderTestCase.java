@@ -45,6 +45,7 @@ public class UrlProviderTestCase
     /**
      * Prepares the file system manager.  This implementation does nothing.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
@@ -54,6 +55,7 @@ public class UrlProviderTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {

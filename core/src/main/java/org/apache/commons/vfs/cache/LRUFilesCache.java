@@ -66,6 +66,7 @@ public class LRUFilesCache extends AbstractFilesCache
             this.filesystem = filesystem;
         }
 
+        @Override
         protected boolean removeLRU(final AbstractLinkedMap.LinkEntry linkEntry)
         {
             synchronized (LRUFilesCache.this)
@@ -180,6 +181,7 @@ public class LRUFilesCache extends AbstractFilesCache
         return files;
     }
 
+    @Override
     public void close()
     {
         super.close();

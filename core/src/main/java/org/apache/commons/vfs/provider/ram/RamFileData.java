@@ -153,6 +153,7 @@ class RamFileData implements Serializable
      *
      * @see java.lang.Object#toString()
      */
+    @Override
     public String toString()
     {
         return this.name.toString();
@@ -224,6 +225,7 @@ class RamFileData implements Serializable
      *
      * @see java.lang.Object#equals(java.lang.Object)
      */
+    @Override
     public boolean equals(Object o)
     {
         if (this == o)
@@ -243,6 +245,7 @@ class RamFileData implements Serializable
      *
      * @see java.lang.Object#hashCode()
      */
+    @Override
     public int hashCode()
     {
         return this.getName().hashCode();

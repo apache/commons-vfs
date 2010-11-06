@@ -37,6 +37,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     private int changeStatus = 0;
     private File testFile;
 
+    @Override
     public void setUp() throws Exception
     {
         super.setUp();
@@ -51,6 +52,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         }
     }
 
+    @Override
     public void tearDown() throws Exception
     {
         if (testFile != null && testFile.exists())

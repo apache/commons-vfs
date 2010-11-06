@@ -124,6 +124,7 @@ public abstract class AbstractFileSystem
      * Initialises this component.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void init() throws FileSystemException
     {
         addCapabilities(caps);
@@ -132,6 +133,7 @@ public abstract class AbstractFileSystem
     /**
      * Closes this component.
      */
+    @Override
     public void close()
     {
         closeCommunicationLink();

@@ -101,6 +101,7 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     return (String)getParam(opts, FACTORY_KEY);
   }
 
+  @Override
   protected Class getConfigClass() {
     return FtpFileSystem.class;
   }

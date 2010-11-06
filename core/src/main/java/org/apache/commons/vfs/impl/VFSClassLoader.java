@@ -163,6 +163,7 @@ public class VFSClassLoader extends SecureClassLoader
      *
      * @throws ClassNotFoundException if the class is not found.
      */
+    @Override
     protected Class findClass(final String name) throws ClassNotFoundException
     {
         try
@@ -267,6 +268,7 @@ public class VFSClassLoader extends SecureClassLoader
      * @param cs the CodeSource.
      * @return The PermissionCollections.
      */
+    @Override
     protected PermissionCollection getPermissions(final CodeSource cs)
     {
         try
@@ -346,6 +348,7 @@ public class VFSClassLoader extends SecureClassLoader
      * @param name The resource name.
      * @return The URL that matches the resource.
      */
+    @Override
     protected URL findResource(final String name)
     {
         try
@@ -372,6 +375,7 @@ public class VFSClassLoader extends SecureClassLoader
      * @param name The resources to find.
      * @return An Enumeration of the resources associated with the name.
      */
+    @Override
     protected Enumeration findResources(final String name)
     {
         return new Enumeration()

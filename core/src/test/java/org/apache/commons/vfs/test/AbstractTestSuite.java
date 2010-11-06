@@ -139,6 +139,7 @@ public abstract class AbstractTestSuite
         }
     }
 
+    @Override
     protected void setUp() throws Exception
     {
         startThreadSnapshot = createThreadSnapshot();
@@ -186,6 +187,7 @@ public abstract class AbstractTestSuite
         }
     }
 
+    @Override
     protected void tearDown() throws Exception
     {
         readFolder.close();

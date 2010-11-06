@@ -75,6 +75,7 @@ class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
         filePointer = pos;
     }
 
+    @Override
     protected DataInputStream getDataInputStream() throws IOException
     {
         if (dis != null)
@@ -86,6 +87,7 @@ class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
         mis = fileObject.getInputStream(filePointer);
         dis = new DataInputStream(new FilterInputStream(mis)
         {
+            @Override
             public int read() throws IOException
             {
                 int ret = super.read();
@@ -96,6 +98,7 @@ class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public int read(byte[] b) throws IOException
             {
                 int ret = super.read(b);
@@ -106,6 +109,7 @@ class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public int read(byte[] b, int off, int len) throws IOException
             {
                 int ret = super.read(b, off, len);
@@ -116,6 +120,7 @@ class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public void close() throws IOException
             {
                 SftpRandomAccessContent.this.close();

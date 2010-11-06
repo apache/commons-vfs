@@ -91,6 +91,7 @@ public class TarFileObject
      * @return <code>true</code> if this file is writeable, <code>false</code> if not.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean isWriteable() throws FileSystemException
     {
         return false;
@@ -99,6 +100,7 @@ public class TarFileObject
     /**
      * Returns the file's type.
      */
+    @Override
     protected FileType doGetType()
     {
         return type;
@@ -107,6 +109,7 @@ public class TarFileObject
     /**
      * Lists the children of the file.
      */
+    @Override
     protected String[] doListChildren()
     {
         try
@@ -129,6 +132,7 @@ public class TarFileObject
      * Returns the size of the file content (in bytes).  Is only called if
      * {@link #doGetType} returns {@link FileType#FILE}.
      */
+    @Override
     protected long doGetContentSize()
     {
         if (entry == null)
@@ -142,6 +146,7 @@ public class TarFileObject
     /**
      * Returns the last modified time of this file.
      */
+    @Override
     protected long doGetLastModifiedTime() throws Exception
     {
         if (entry == null)
@@ -158,6 +163,7 @@ public class TarFileObject
      * returned by this method is guaranteed to be closed before this
      * method is called again.
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         // VFS-210: zip allows to gather an input stream even from a directory and will

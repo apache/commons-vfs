@@ -147,6 +147,7 @@ class CBZip2InputStream
      * This is required to make this stream work if wrapped in an BufferedInputStream.
      *
      */
+    @Override
     public int available() throws IOException
     {
         if (!streamEnd)
@@ -156,6 +157,7 @@ class CBZip2InputStream
         return 0;
     }
 
+    @Override
     public int read()
     {
         if (streamEnd)
@@ -988,6 +990,7 @@ class CBZip2InputStream
         }
     }
 
+    @Override
     public void close() throws IOException
     {
         bsFinishedWithStream();

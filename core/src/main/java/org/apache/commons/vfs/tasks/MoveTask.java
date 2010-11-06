@@ -45,6 +45,7 @@ public class MoveTask
     /**
      * Handles a single source file.
      */
+    @Override
     protected void handleOutOfDateFile(final FileObject srcFile,
                                        final FileObject destFile)
         throws FileSystemException

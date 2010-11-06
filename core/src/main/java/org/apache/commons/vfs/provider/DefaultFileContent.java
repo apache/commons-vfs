@@ -598,6 +598,7 @@ public final class DefaultFileContent implements FileContent
         /**
          * Closes this input stream.
          */
+        @Override
         public void close() throws FileSystemException
         {
             try
@@ -613,6 +614,7 @@ public final class DefaultFileContent implements FileContent
         /**
          * Called after the stream has been closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             try
@@ -645,6 +647,7 @@ public final class DefaultFileContent implements FileContent
         /**
          * Called after the stream has been closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             try
@@ -675,6 +678,7 @@ public final class DefaultFileContent implements FileContent
         /**
          * Closes this output stream.
          */
+        @Override
         public void close() throws FileSystemException
         {
             try
@@ -690,6 +694,7 @@ public final class DefaultFileContent implements FileContent
         /**
          * Called after this stream is closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             try

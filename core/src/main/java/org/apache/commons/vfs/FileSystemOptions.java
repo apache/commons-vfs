@@ -67,6 +67,7 @@ public final class FileSystemOptions implements Cloneable
             return name.compareTo(k.name);
         }
 
+        @Override
         public boolean equals(Object o)
         {
             if (this == o)
@@ -92,6 +93,7 @@ public final class FileSystemOptions implements Cloneable
             return true;
         }
 
+        @Override
         public int hashCode()
         {
             int result;
@@ -165,6 +167,7 @@ public final class FileSystemOptions implements Cloneable
     /**
      * {@inheritDoc}
      */
+    @Override
     public Object clone()
     {
         FileSystemOptions clone = new FileSystemOptions();

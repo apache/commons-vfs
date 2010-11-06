@@ -73,23 +73,27 @@ public class RunTest
 
         TestResult result = new TestResult()
         {
+            @Override
             public void startTest(Test test)
             {
                 System.out.println("start " + test);
                 System.out.flush();
             }
 
+            @Override
             public void endTest(Test test)
             {
                 // System.err.println("end " + test);
             }
 
+            @Override
             public synchronized void addError(Test test, Throwable throwable)
             {
                 // throw new RuntimeException(throwable.getMessage());
                 throwable.printStackTrace();
             }
 
+            @Override
             public synchronized void addFailure(Test test,
                     AssertionFailedError assertionFailedError)
             {

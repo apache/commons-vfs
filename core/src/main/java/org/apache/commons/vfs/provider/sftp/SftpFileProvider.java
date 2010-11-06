@@ -78,6 +78,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
     /**
      * Creates a {@link FileSystem}.
      */
+    @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
@@ -132,10 +133,12 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
      * Initialises the component.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void init() throws FileSystemException
     {
     }
 
+    @Override
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return SftpFileSystemConfigBuilder.getInstance();

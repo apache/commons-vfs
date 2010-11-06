@@ -160,6 +160,7 @@ public class FileSystemException
      * retrieve message from bundle.
      * @return The exception message.
      */
+    @Override
     public String getMessage()
     {
         return Messages.getString(super.getMessage(), getInfo());
@@ -170,6 +171,7 @@ public class FileSystemException
      *
      * @return the root cause
      */
+    @Override
     public final Throwable getCause()
     {
         return throwable;

@@ -113,6 +113,7 @@ public class GenericFileName extends AbstractFileName
      * @param type The FileType.
      * @return The created FileName.
      */
+    @Override
     public FileName createName(String absPath, FileType type)
     {
         return new GenericFileName(
@@ -129,6 +130,7 @@ public class GenericFileName extends AbstractFileName
     /**
      * Builds the root URI for this file name.
      */
+    @Override
     protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());

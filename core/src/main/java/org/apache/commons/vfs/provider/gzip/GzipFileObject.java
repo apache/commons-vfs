@@ -39,12 +39,14 @@ public class GzipFileObject extends CompressedFileFileObject
         super(name, container, fs);
     }
 
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         InputStream is = getContainer().getContent().getInputStream();
         return new GZIPInputStream(is);
     }
 
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         OutputStream os = getContainer().getContent().getOutputStream(false);

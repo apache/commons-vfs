@@ -51,6 +51,7 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
         return (ClassLoader) getParam(opts, ClassLoader.class.getName());
     }
 
+    @Override
     protected Class getConfigClass()
     {
         return UrlFileSystem.class;

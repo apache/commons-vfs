@@ -78,6 +78,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         filePointer = pos;
     }
 
+    @Override
     protected DataInputStream getDataInputStream() throws IOException
     {
         if (dis != null)
@@ -114,6 +115,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         }
         dis = new DataInputStream(new FilterInputStream(mis)
         {
+            @Override
             public int read() throws IOException
             {
                 int ret = super.read();
@@ -124,6 +126,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public int read(byte[] b) throws IOException
             {
                 int ret = super.read(b);
@@ -134,6 +137,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
                 return ret;
             }
 
+            @Override
             public int read(byte[] b, int off, int len) throws IOException
             {
                 int ret = super.read(b, off, len);

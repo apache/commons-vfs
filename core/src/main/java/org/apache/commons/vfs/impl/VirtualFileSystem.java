@@ -52,6 +52,7 @@ public class VirtualFileSystem
     /**
      * Adds the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         // TODO - this isn't really true
@@ -74,6 +75,7 @@ public class VirtualFileSystem
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
+    @Override
     protected FileObject createFile(final FileName name)
         throws Exception
     {
@@ -102,6 +104,7 @@ public class VirtualFileSystem
      * @param targetFile The target file to base the junction on.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void addJunction(final String junctionPoint,
                             final FileObject targetFile)
         throws FileSystemException
@@ -161,6 +164,7 @@ public class VirtualFileSystem
      * @param junctionPoint The junction to remove.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void removeJunction(final String junctionPoint)
         throws FileSystemException
     {

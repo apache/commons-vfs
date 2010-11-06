@@ -54,6 +54,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
     /**
      * {@inheritDoc}
      */
+    @Override
     public int hashCode()
     {
         final int prime = 37;
@@ -68,6 +69,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean equals(Object obj)
     {
         if (this == obj)
@@ -149,6 +151,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
     /**
      * {@inheritDoc}
      */
+    @Override
     public String toString()
     {
         StringBuffer buffer = new StringBuffer();

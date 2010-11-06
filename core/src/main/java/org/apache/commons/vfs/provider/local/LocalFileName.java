@@ -54,6 +54,7 @@ public class LocalFileName extends AbstractFileName
      * @param type The file type.
      * @return The FileName.
      */
+    @Override
     public FileName createName(final String path, FileType type)
     {
         return new LocalFileName(getScheme(), rootFile, path, type);
@@ -62,6 +63,7 @@ public class LocalFileName extends AbstractFileName
     /**
      * Builds the root URI for this file name.
      */
+    @Override
     protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         buffer.append(getScheme());

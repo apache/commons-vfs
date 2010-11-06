@@ -38,11 +38,13 @@ public class GzipFileSystem extends CompressedFileFileSystem
         super(rootName, parentLayer, fileSystemOptions);
     }
 
+    @Override
     protected FileObject createFile(FileName name) throws FileSystemException
     {
         return new GzipFileObject(name, getParentLayer(), this);
     }
 
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(GzipFileProvider.capabilities);

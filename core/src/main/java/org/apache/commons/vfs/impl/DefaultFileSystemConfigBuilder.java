@@ -57,6 +57,7 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
         return (UserAuthenticator) getParam(opts, "userAuthenticator");
     }
 
+    @Override
     protected Class getConfigClass()
     {
         return DefaultFileSystemConfigBuilder.class;

@@ -42,6 +42,7 @@ public class Bzip2FileObject extends CompressedFileFileObject
         super(name, container, fs);
     }
 
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         // check file
@@ -60,6 +61,7 @@ public class Bzip2FileObject extends CompressedFileFileObject
         return new CBZip2InputStream(is);
     }
 
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         OutputStream os = getContainer().getContent().getOutputStream(false);

@@ -46,6 +46,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
      */
     protected ThreadLocal localHttpConnection = new ThreadLocal()
     {
+        @Override
         protected Object initialValue()
         {
             return new Entry();

@@ -49,6 +49,7 @@ public class DefaultURLStreamHandler
         this.fileSystemOptions = fileSystemOptions;
     }
 
+    @Override
     protected URLConnection openConnection(final URL url)
         throws IOException
     {
@@ -56,6 +57,7 @@ public class DefaultURLStreamHandler
         return new DefaultURLConnection(url, entry.getContent());
     }
 
+    @Override
     protected void parseURL(final URL u,
                             final String spec,
                             final int start,
@@ -96,6 +98,7 @@ public class DefaultURLStreamHandler
         }
     }
 
+    @Override
     protected String toExternalForm(final URL u)
     {
         return u.getProtocol() + ":" + u.getFile();

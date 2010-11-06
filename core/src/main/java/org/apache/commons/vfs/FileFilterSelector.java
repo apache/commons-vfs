@@ -47,6 +47,7 @@ public class FileFilterSelector extends FileDepthSelector
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be included, false otherwise.
      */
+    @Override
     public boolean includeFile(final FileSelectInfo fileInfo)
     {
         if (!super.includeFile(fileInfo))

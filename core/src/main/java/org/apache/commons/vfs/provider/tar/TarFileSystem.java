@@ -77,6 +77,7 @@ public class TarFileSystem
         // tarFile = createTarFile(this.file);
     }
 
+    @Override
     public void init() throws FileSystemException
     {
         super.init();
@@ -218,6 +219,7 @@ public class TarFileSystem
         }
     }
 
+    @Override
     protected void doCloseCommunicationLink()
     {
         // Release the tar file
@@ -239,6 +241,7 @@ public class TarFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(TarFileProvider.capabilities);
@@ -247,6 +250,7 @@ public class TarFileSystem
     /**
      * Creates a file object.
      */
+    @Override
     protected FileObject createFile(final FileName name) throws FileSystemException
     {
         // This is only called for files which do not exist in the Tar file

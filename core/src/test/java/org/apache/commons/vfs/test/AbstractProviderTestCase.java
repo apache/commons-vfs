@@ -185,6 +185,7 @@ public abstract class AbstractProviderTestCase
      * @todo Handle negative caps as well - ie, only run a test if the provider does not have certain caps.
      * @todo Figure out how to remove the test from the TestResult if the test is skipped.
      */
+    @Override
     protected void runTest() throws Throwable
     {
         // Check the capabilities
@@ -386,6 +387,7 @@ public abstract class AbstractProviderTestCase
     {
         return new TestCase("warning")
         {
+            @Override
             protected void runTest()
             {
                   System.out.println(message);

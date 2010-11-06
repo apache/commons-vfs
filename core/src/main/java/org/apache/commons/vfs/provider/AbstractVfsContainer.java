@@ -69,6 +69,7 @@ public abstract class AbstractVfsContainer
     /**
      * Closes the sub-components of this component.
      */
+    @Override
     public void close()
     {
         // Close all components

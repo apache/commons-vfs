@@ -50,6 +50,7 @@ public class HttpFileSystem
     /**
      * Adds the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(HttpFileProvider.capabilities);
@@ -60,6 +61,7 @@ public class HttpFileSystem
         return client;
     }
 
+    @Override
     public void closeCommunicationLink()
     {
         if (getClient() != null)
@@ -80,6 +82,7 @@ public class HttpFileSystem
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
+    @Override
     protected FileObject createFile(final FileName name)
         throws Exception
     {

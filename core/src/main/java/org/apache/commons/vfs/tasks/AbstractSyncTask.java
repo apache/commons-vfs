@@ -156,6 +156,7 @@ public abstract class AbstractSyncTask
      * Executes this task.
      * @throws BuildException if an error occurs.
      */
+    @Override
     public void execute() throws BuildException
     {
         // Validate

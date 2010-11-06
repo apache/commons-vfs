@@ -73,6 +73,7 @@ public class ZipFileSystem
         // zipFile = createZipFile(this.file);
     }
 
+    @Override
     public void init() throws FileSystemException
     {
         super.init();
@@ -159,6 +160,7 @@ public class ZipFileSystem
         }
     }
 
+    @Override
     protected void doCloseCommunicationLink()
     {
         // Release the zip file
@@ -180,6 +182,7 @@ public class ZipFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(ZipFileProvider.capabilities);
@@ -188,6 +191,7 @@ public class ZipFileSystem
     /**
      * Creates a file object.
      */
+    @Override
     protected FileObject createFile(final FileName name) throws FileSystemException
     {
         // This is only called for files which do not exist in the Zip file

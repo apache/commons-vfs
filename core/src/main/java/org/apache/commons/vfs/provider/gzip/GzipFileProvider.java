@@ -55,12 +55,14 @@ public class GzipFileProvider extends CompressedFileFileProvider
         super();
     }
 
+    @Override
     protected FileSystem createFileSystem(FileName name, FileObject file, FileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
         return new GzipFileSystem(name, file, fileSystemOptions);
     }
 
+    @Override
     public Collection getCapabilities()
     {
         return capabilities;

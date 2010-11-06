@@ -75,6 +75,7 @@ public final class FileType
      * Returns the name of this type.
      * @return The name of this type.
      */
+    @Override
     public String toString()
     {
         return name;

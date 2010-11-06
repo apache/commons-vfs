@@ -46,6 +46,7 @@ public class Tbz2ProviderTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
         manager.addProvider("tbz2", new TarFileProvider());
@@ -55,6 +56,7 @@ public class Tbz2ProviderTestCase
     /**
      * Returns the base folder for read tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tbz2");

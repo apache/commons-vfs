@@ -56,6 +56,7 @@ public class SftpFileSystem
         this.session = session;
     }
 
+    @Override
     protected void doCloseCommunicationLink()
     {
         if (idleChannel != null)
@@ -176,6 +177,7 @@ public class SftpFileSystem
     /**
      * Adds the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(SftpFileProvider.capabilities);
@@ -185,6 +187,7 @@ public class SftpFileSystem
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
+    @Override
     protected FileObject createFile(final FileName name)
         throws FileSystemException
     {
@@ -196,6 +199,7 @@ public class SftpFileSystem
      *
      * @return 1000
      */
+    @Override
     public double getLastModTimeAccuracy()
     {
         return 1000L;

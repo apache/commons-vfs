@@ -68,11 +68,13 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
                 name));
     }
 
+    @Override
     protected void doDetach() throws Exception
     {
         attrs = null;
     }
 
+    @Override
     public void refresh() throws FileSystemException
     {
         if (!inRefresh)
@@ -102,6 +104,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
      * Determines the type of this file, returns null if the file does not
      * exist.
      */
+    @Override
     protected FileType doGetType() throws Exception
     {
         if (attrs == null)
@@ -132,6 +135,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Called when the type or content of this file changes.
      */
+    @Override
     protected void onChange() throws Exception
     {
         statSelf();
@@ -194,6 +198,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Creates this file as a folder.
      */
+    @Override
     protected void doCreateFolder() throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
@@ -207,6 +212,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         }
     }
 
+    @Override
     protected long doGetLastModifiedTime() throws Exception
     {
         if (attrs == null
@@ -227,6 +233,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
      *            times with nanosecond precision but at the moment jsch send
      *            them with second precision.
      */
+    @Override
     protected void doSetLastModifiedTime(final long modtime) throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
@@ -246,6 +253,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Deletes the file.
      */
+    @Override
     protected void doDelete() throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
@@ -269,6 +277,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Rename the file.
      */
+    @Override
     protected void doRename(FileObject newfile) throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
@@ -285,6 +294,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Lists the children of this file.
      */
+    @Override
     protected FileObject[] doListChildrenResolved() throws Exception
     {
         // List the contents of the folder
@@ -393,6 +403,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Lists the children of this file.
      */
+    @Override
     protected String[] doListChildren() throws Exception
     {
         // use doListChildrenResolved for performance
@@ -402,6 +413,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         if (attrs == null
@@ -413,6 +425,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         return attrs.getSize();
     }
 
+    @Override
     protected RandomAccessContent doGetRandomAccessContent(
             final RandomAccessMode mode) throws Exception
     {
@@ -453,6 +466,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Creates an input stream to read the file content from.
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         // VFS-113: avoid npe
@@ -509,6 +523,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     /**
      * Creates an output stream to write the file content to.
      */
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         // TODO - Don't write the entire file into memory. Use the stream-based
@@ -538,6 +553,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         /**
          * Called after the stream has been closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             fileSystem.putChannel(channel);
@@ -561,6 +577,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         /**
          * Called after this stream is closed.
          */
+        @Override
         protected void onClose() throws IOException
         {
             fileSystem.putChannel(channel);

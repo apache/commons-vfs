@@ -42,6 +42,7 @@ public class WebdavFileSystem extends HttpFileSystem implements FileSystem
         super(rootName, client, fileSystemOptions);
     }
 
+    @Override
     protected HttpClient getClient()
     {
         return super.getClient();
@@ -51,6 +52,7 @@ public class WebdavFileSystem extends HttpFileSystem implements FileSystem
      * Returns the capabilities of this file system.
      * @caps The Capabilities to add.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(WebdavFileProvider.capabilities);
@@ -62,6 +64,7 @@ public class WebdavFileSystem extends HttpFileSystem implements FileSystem
      * @param name the FileName.
      * @return The created FileObject.
      */
+    @Override
     protected FileObject createFile(final FileName name)
     {
 

@@ -40,6 +40,7 @@ public class Tbz2FileProvider extends CompositeFileProvider
         super();
     }
 
+    @Override
     protected String[] getSchemes()
     {
         return SCHEMES;

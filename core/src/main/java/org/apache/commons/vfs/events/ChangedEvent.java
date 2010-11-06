@@ -30,6 +30,7 @@ public class ChangedEvent extends AbstractFileChangeEvent
         super(file);
     }
 
+    @Override
     public void notify(final FileListener listener) throws Exception
     {
         listener.fileChanged(this);
