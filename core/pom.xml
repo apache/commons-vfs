@@ -182,6 +182,12 @@
               <value>test-data</value>
             </property>
           </systemProperties>
+          <excludes>
+            <!-- Main class -->
+            <exclude>**/RunTest.java</exclude>
+            <!-- inner classes -->
+            <exclude>**/*$*</exclude>
+          </excludes>
         </configuration>
       </plugin>
 
