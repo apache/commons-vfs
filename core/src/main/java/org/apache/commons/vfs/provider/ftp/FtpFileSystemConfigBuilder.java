@@ -312,7 +312,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * see {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
      * @param opts The FileSystemOptions.
-     * @param shortMonthNames an array of short month name Strings.
+     * @param encoding the encoding to use
      */
     public void setControlEncoding(FileSystemOptions opts, String encoding){
         setParam(opts, ENCODING, encoding);
