@@ -113,6 +113,7 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
      * @return The line as a String.
      * @throws IOException if an error occurs.
      */
+    @Deprecated
     public String readLine() throws IOException
     {
         throw new UnsupportedOperationException("deprecated");

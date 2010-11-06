@@ -303,6 +303,7 @@ class TarEntry
      * @see #setGroupID(int)
      * @deprecated Use setGroupID() instead
      */
+    @Deprecated
     public void setGroupId(final int groupId)
     {
         groupID = groupId;
@@ -386,6 +387,7 @@ class TarEntry
      * @see #setUserID(int)
      * @deprecated Use setUserID() instead
      */
+    @Deprecated
     public void setUserId(final int userId)
     {
         userID = userId;
@@ -442,6 +444,7 @@ class TarEntry
      * @see #getGroupID()
      * @deprecated Use getGroupID() instead
      */
+    @Deprecated
     public int getGroupId()
     {
         return groupID;
@@ -524,6 +527,7 @@ class TarEntry
      * @see #getUserID()
      * @deprecated Use getUserID() instead
      */
+    @Deprecated
     public int getUserId()
     {
         return userID;

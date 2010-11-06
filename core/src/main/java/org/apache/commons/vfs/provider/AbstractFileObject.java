@@ -279,6 +279,7 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @deprecated use {@link #doSetLastModTime}
      */
+    @Deprecated
     protected void doSetLastModifiedTime(final long modtime)
         throws Exception
     {
@@ -1577,6 +1578,7 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @deprecated use {@link #childrenChanged(FileName,FileType)}
      */
+    @Deprecated
     protected void childrenChanged() throws Exception
     {
         childrenChanged(null, null);

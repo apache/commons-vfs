@@ -231,6 +231,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
      * @see HttpConnectionManager#getConnection(HostConfiguration, long)
      * @deprecated Use #getConnectionWithTimeout(HostConfiguration, long)
      */
+    @Deprecated
     public HttpConnection getConnection(
         HostConfiguration hostConfiguration, long timeout)
     {
