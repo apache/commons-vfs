@@ -29,7 +29,7 @@ public class UserAuthenticationData
     /**
      * Inner class to represent portions of the user authentication data.
      */
-    public static class Type implements Comparable
+    public static class Type implements Comparable<Type>
     {
         /** The type name */
         private final String type;
@@ -61,11 +61,9 @@ public class UserAuthenticationData
             return true;
         }
 
-        public int compareTo(Object o)
+        public int compareTo(Type o)
         {
-            Type t = (Type) o;
-
-            return type.compareTo(t.type);
+            return type.compareTo(o.type);
         }
 
         @Override
@@ -91,7 +89,7 @@ public class UserAuthenticationData
     public static final Type DOMAIN = new Type("domain");
 
     /** The authentication data. */
-    private final Map authenticationData = new TreeMap();
+    private final Map<Type, char[]> authenticationData = new TreeMap<Type, char[]>();
 
     public UserAuthenticationData()
     {
@@ -114,7 +112,7 @@ public class UserAuthenticationData
      */
     public char[] getData(Type type)
     {
-        return (char[]) authenticationData.get(type);
+        return authenticationData.get(type);
     }
 
     /**
@@ -123,10 +121,10 @@ public class UserAuthenticationData
     public void cleanup()
     {
         // step 1: nullify character buffers
-        Iterator iterAuthenticationData = authenticationData.values().iterator();
+        Iterator<char[]> iterAuthenticationData = authenticationData.values().iterator();
         while (iterAuthenticationData.hasNext())
         {
-            char[] data = (char[]) iterAuthenticationData.next();
+            char[] data = iterAuthenticationData.next();
             if (data == null || data.length < 0)
             {
                 continue;

@@ -65,7 +65,7 @@ public final class VFS
         try
         {
             // Create instance
-            final Class mgrClass = Class.forName(managerClassName);
+            final Class<?> mgrClass = Class.forName(managerClassName);
             final FileSystemManager mgr = (FileSystemManager) mgrClass.newInstance();
 
             /*

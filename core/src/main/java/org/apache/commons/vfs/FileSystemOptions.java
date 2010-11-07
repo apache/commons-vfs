@@ -32,39 +32,36 @@ import java.util.TreeMap;
 public final class FileSystemOptions implements Cloneable
 {
     /** The options */
-    private Map options = new TreeMap();
+    private Map<FileSystemOptionKey, Object> options = new TreeMap<FileSystemOptionKey, Object>();
 
     /**
      * Keys in the options Map.
      */
-    private static final class FileSystemOptionKey implements Comparable
+    private static final class FileSystemOptionKey implements Comparable<FileSystemOptionKey>
     {
         /** Constant used to create hashcode */
         private static final int HASH = 29;
 
         /** The FileSystem class */
-        private final Class fileSystemClass;
+        private final Class<FileSystem> fileSystemClass;
 
         /** The option name */
         private final String name;
 
-        private FileSystemOptionKey(Class fileSystemClass, String name)
+        private FileSystemOptionKey(Class<FileSystem> fileSystemClass, String name)
         {
             this.fileSystemClass = fileSystemClass;
             this.name = name;
         }
 
-        public int compareTo(Object o)
+        public int compareTo(FileSystemOptionKey o)
         {
-            FileSystemOptionKey k = (FileSystemOptionKey) o;
-
-            int ret = fileSystemClass.getName().compareTo(k.fileSystemClass.getName());
+            int ret = fileSystemClass.getName().compareTo(o.fileSystemClass.getName());
             if (ret != 0)
             {
                 return ret;
             }
-
-            return name.compareTo(k.name);
+            return name.compareTo(o.name);
         }
 
         @Override
@@ -107,18 +104,18 @@ public final class FileSystemOptions implements Cloneable
     {
     }
 
-    void setOption(Class fileSystemClass, String name, Object value)
+    void setOption(Class<FileSystem> fileSystemClass, String name, Object value)
     {
         options.put(new FileSystemOptionKey(fileSystemClass, name), value);
     }
 
-    Object getOption(Class fileSystemClass, String name)
+    Object getOption(Class<FileSystem> fileSystemClass, String name)
     {
         FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
         return options.get(key);
     }
 
-    boolean hasOption(Class fileSystemClass, String name)
+    boolean hasOption(Class<FileSystem> fileSystemClass, String name)
     {
         FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
         return options.containsKey(key);
@@ -171,7 +168,7 @@ public final class FileSystemOptions implements Cloneable
     public Object clone()
     {
         FileSystemOptions clone = new FileSystemOptions();
-        clone.options = new TreeMap(options);
+        clone.options = new TreeMap<FileSystemOptionKey, Object>(options);
         return clone;
     }
 }

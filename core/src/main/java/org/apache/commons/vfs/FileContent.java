@@ -92,7 +92,7 @@ public interface FileContent
      * @return The attribute Map.
      * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
-    Map getAttributes() throws FileSystemException;
+    Map<String, Object> getAttributes() throws FileSystemException;
 
     /**
      * Lists the attributes of the file's content.

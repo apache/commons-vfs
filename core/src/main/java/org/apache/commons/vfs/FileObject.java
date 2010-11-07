@@ -205,7 +205,7 @@ public interface FileObject
          * @param selected  container for selected files. list needs not to be empty.
          * @throws FileSystemException if an error occurs.
          */
-    void findFiles(FileSelector selector, boolean depthwise, List selected) throws FileSystemException;
+    void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected) throws FileSystemException;
 
     /**
      * Deletes this file.  Does nothing if this file does not exist of if it is a
