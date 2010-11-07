@@ -70,11 +70,11 @@ public void setUp() throws Exception {
     FileObject file = manager.resolveFile("tgz:file://" + realFile.getCanonicalPath() + "!/");
 
     assertNotNull(file);
-    List files = Arrays.asList(file.getChildren());
+    List<FileObject> files = Arrays.asList(file.getChildren());
 
     assertNotNull(files);
     assertEquals(1, files.size());
-    FileObject f = (FileObject) files.get(0);
+    FileObject f = files.get(0);
 
     assertTrue("Expected file not found: " + largeFileName + ".txt",
         f.getName().getBaseName().equals(largeFileName + ".txt"));
@@ -105,7 +105,7 @@ public void setUp() throws Exception {
     FileObject file = manager.resolveFile(tarFile);
 
     assertNotNull(file);
-    List files = Arrays.asList(file.getChildren());
+    List<FileObject> files = Arrays.asList(file.getChildren());
 
     assertNotNull(files);
     for(int i=0; i < expectedFiles.length; ++i) {
@@ -120,10 +120,10 @@ public void setUp() throws Exception {
    * @param files
    * @return
    */
-  protected boolean fileExists(String expectedFile, List files) {
-    Iterator iter = files.iterator();
+  protected boolean fileExists(String expectedFile, List<FileObject> files) {
+    Iterator<FileObject> iter = files.iterator();
     while (iter.hasNext()) {
-      FileObject file = (FileObject) iter.next();
+      FileObject file = iter.next();
       if(file.getName().getBaseName().equals(expectedFile)) {
         return true;
       }

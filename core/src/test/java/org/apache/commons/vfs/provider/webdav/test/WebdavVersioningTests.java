@@ -56,7 +56,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
-        Map map = file.getContent().getAttributes();
+        Map<?, ?> map = file.getContent().getAttributes();
         String name = ((URLFileName)file.getName()).getUserName();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         if (name != null)
@@ -111,7 +111,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
-        Map map = file.getContent().getAttributes();
+        Map<?, ?> map = file.getContent().getAttributes();
         String name = ((URLFileName)file.getName()).getUserName();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()),"testUser");

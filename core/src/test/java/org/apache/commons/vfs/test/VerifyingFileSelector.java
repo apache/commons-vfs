@@ -40,17 +40,17 @@ public class VerifyingFileSelector
     implements FileSelector
 {
     private final FileInfo rootFile;
-    private final List files = new ArrayList();
+    private final List<FileObject> files = new ArrayList<FileObject>();
 
     private FileInfo currentFolderInfo;
     private FileObject currentFolder;
-    private Set children;
-    private List stack = new ArrayList();
+    private Set<String> children;
+    private List<Set<String>> stack = new ArrayList<Set<String>>();
 
     public VerifyingFileSelector(final FileInfo fileInfo)
     {
         this.rootFile = fileInfo;
-        children = new HashSet();
+        children = new HashSet<String>();
         children.add(rootFile.baseName);
     }
 
@@ -67,7 +67,7 @@ public class VerifyingFileSelector
             assertEquals(0, children.size());
             currentFolder = currentFolder.getParent();
             currentFolderInfo = currentFolderInfo.getParent();
-            children = (Set) stack.remove(0);
+            children = stack.remove(0);
         }
 
         final String baseName = file.getName().getBaseName();
@@ -110,7 +110,7 @@ public class VerifyingFileSelector
 
         // Push the folder
         stack.add(0, children);
-        children = new HashSet(currentFolderInfo.children.keySet());
+        children = new HashSet<String>(currentFolderInfo.children.keySet());
         currentFolder = folder;
 
         return true;
@@ -128,7 +128,7 @@ public class VerifyingFileSelector
         }
         else
         {
-            final FileInfo child = (FileInfo) currentFolderInfo.children.get(baseName);
+            final FileInfo child = currentFolderInfo.children.get(baseName);
             assertNotNull("Could not locate child " + baseName, child);
             return child;
         }
@@ -139,7 +139,7 @@ public class VerifyingFileSelector
      *
      * @return The files in the order they where visited.
      */
-    public List finish()
+    public List<FileObject> finish()
     {
         assertEquals(0, children.size());
         return files;

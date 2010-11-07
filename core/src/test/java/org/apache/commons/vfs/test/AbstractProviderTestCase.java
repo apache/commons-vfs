@@ -378,7 +378,7 @@ public abstract class AbstractProviderTestCase
         this.addEmptyDir = addEmptyDir;
     }
 
-    protected static Test notConfigured(Class testClass)
+    protected static Test notConfigured(Class<?> testClass)
     {
         return warning(testClass + " is not configured for tests, skipping");
     }

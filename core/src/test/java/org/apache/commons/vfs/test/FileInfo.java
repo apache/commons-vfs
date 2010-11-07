@@ -29,7 +29,7 @@ class FileInfo
     String baseName;
     FileType type;
     String content;
-    Map children = new HashMap();
+    Map<String, FileInfo> children = new HashMap<String, FileInfo>();
     FileInfo parent;
 
     public FileInfo(final String name, final FileType type)

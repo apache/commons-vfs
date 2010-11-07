@@ -50,7 +50,7 @@ public abstract class AbstractVfsTestCase
      * @return The . delimited package name, or an empty string if the class
      *         is in the default package.
      */
-    public static String getPackageName(final Class clazz)
+    public static String getPackageName(final Class<?> clazz)
     {
         final Package pkg = clazz.getPackage();
         if (null != pkg)

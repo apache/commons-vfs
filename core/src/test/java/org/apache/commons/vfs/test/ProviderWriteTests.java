@@ -439,7 +439,7 @@ public class ProviderWriteTests
     public void testListChildren() throws Exception
     {
         FileObject folder = createScratchFolder();
-        HashSet names = new HashSet();
+        HashSet<String> names = new HashSet<String>();
 
         // Make sure the folder is empty
         assertEquals(0, folder.getChildren().length);
@@ -544,7 +544,7 @@ public class ProviderWriteTests
     /**
      * Ensures the names of a set of files match an expected set.
      */
-    private void assertSameFileSet(Set names, FileObject[] files)
+    private void assertSameFileSet(Set<String> names, FileObject[] files)
     {
         // Make sure the sets are the same length
         assertEquals(names.size(), files.length);
@@ -563,7 +563,7 @@ public class ProviderWriteTests
     private static class TestListener implements FileListener
     {
         private final FileObject file;
-        private final ArrayList events = new ArrayList();
+        private final ArrayList<Object> events = new ArrayList<Object>();
         private static final Object CREATE = "create";
         private static final Object DELETE = "delete";
         private static final Object CHANGED = "changed";

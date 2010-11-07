@@ -52,9 +52,9 @@ public class ContentTests
     private void assertSameContent(final FileInfo expected,
                                    final FileObject folder) throws Exception
     {
-        for (Iterator iterator = expected.children.values().iterator(); iterator.hasNext();)
+        for (Iterator<FileInfo> iterator = expected.children.values().iterator(); iterator.hasNext();)
         {
-            final FileInfo fileInfo = (FileInfo) iterator.next();
+            final FileInfo fileInfo = iterator.next();
             final FileObject child = folder.resolveFile(fileInfo.baseName, NameScope.CHILD);
 
             assertTrue(child.getName().toString(), child.exists());

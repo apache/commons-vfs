@@ -69,16 +69,16 @@ public class ProviderReadTests
         throws Exception
     {
         // Setup the structure
-        final List queueExpected = new ArrayList();
+        final List<FileInfo> queueExpected = new ArrayList<FileInfo>();
         queueExpected.add(expected);
 
-        final List queueActual = new ArrayList();
+        final List<FileObject> queueActual = new ArrayList<FileObject>();
         queueActual.add(folder);
 
         while (queueActual.size() > 0)
         {
-            final FileObject file = (FileObject) queueActual.remove(0);
-            final FileInfo info = (FileInfo) queueExpected.remove(0);
+            final FileObject file = queueActual.remove(0);
+            final FileInfo info = queueExpected.remove(0);
 
             // Check the type is correct
             assertSame(info.type, file.getType());
@@ -118,7 +118,7 @@ public class ProviderReadTests
                 {
                     continue;
                 }
-                final FileInfo childInfo = (FileInfo) info.children.get(childName);
+                final FileInfo childInfo = info.children.get(childName);
 
                 // Make sure the child is expected
                 assertNotNull(childInfo);
@@ -220,12 +220,12 @@ public class ProviderReadTests
         final FileObject[] actualFiles = getReadFolder().findFiles(selector);
 
         // Compare actual and expected list of files
-        final List expectedFiles = selector.finish();
+        final List<FileObject> expectedFiles = selector.finish();
         assertEquals(expectedFiles.size(), actualFiles.length);
         final int count = expectedFiles.size();
         for (int i = 0; i < count; i++)
         {
-            final FileObject expected = (FileObject) expectedFiles.get(i);
+            final FileObject expected = expectedFiles.get(i);
             final FileObject actual = actualFiles[i];
             assertEquals(expected, actual);
         }

@@ -109,7 +109,7 @@ public abstract class AbstractTestSuite
      * no-args constructor.  This method creates an instance of the supplied
      * class for each public 'testNnnn' method provided by the class.
      */
-    public void addTests(final Class testClass) throws Exception
+    public void addTests(final Class<?> testClass) throws Exception
     {
         // Verify the class
         if (!AbstractProviderTestCase.class.isAssignableFrom(testClass))
@@ -175,10 +175,11 @@ public abstract class AbstractTestSuite
         assertFalse(readFolder.getName().getPath().equals(FileName.ROOT_PATH));
 
         // Configure the tests
-        final Enumeration tests = testSuite.tests();
+        @SuppressWarnings("unchecked")
+        final Enumeration<Test> tests = testSuite.tests();
         while (tests.hasMoreElements())
         {
-            final Test test = (Test) tests.nextElement();
+            final Test test = tests.nextElement();
             if (test instanceof AbstractProviderTestCase)
             {
                 final AbstractProviderTestCase providerTestCase = (AbstractProviderTestCase) test;
@@ -323,11 +324,11 @@ public abstract class AbstractTestSuite
 
     private Thread[] diffThreadSnapshot(Thread[] startThreadSnapshot, Thread[] endThreadSnapshot)
     {
-        List diff = new ArrayList(10);
+        List<Thread> diff = new ArrayList<Thread>(10);
 
         nextEnd: for (int iterEnd = 0; iterEnd < endThreadSnapshot.length; iterEnd++)
         {
-            nextStart: for (int iterStart = 0; iterStart < startThreadSnapshot.length; iterStart++)
+            for (int iterStart = 0; iterStart < startThreadSnapshot.length; iterStart++)
             {
                 if (startThreadSnapshot[iterStart] == endThreadSnapshot[iterEnd])
                 {

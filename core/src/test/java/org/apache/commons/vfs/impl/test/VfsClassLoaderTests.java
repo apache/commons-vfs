@@ -65,7 +65,7 @@ public class VfsClassLoaderTests
     {
         final VFSClassLoader loader = createClassLoader();
 
-        final Class testClass = loader.loadClass("code.ClassToLoad");
+        final Class<?> testClass = loader.loadClass("code.ClassToLoad");
         final Package pack = testClass.getPackage();
         assertEquals("code", pack.getName());
         verifyPackage(pack, false);
@@ -94,7 +94,7 @@ public class VfsClassLoaderTests
     public void testSealing() throws Exception
     {
         final VFSClassLoader loader = createClassLoader();
-        final Class testClass = loader.loadClass("code.sealed.AnotherClass");
+        final Class<?> testClass = loader.loadClass("code.sealed.AnotherClass");
         final Package pack = testClass.getPackage();
         assertEquals("code.sealed", pack.getName());
         verifyPackage(pack, true);
