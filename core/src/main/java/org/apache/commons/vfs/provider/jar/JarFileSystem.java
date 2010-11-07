@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.jar;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -75,7 +76,7 @@ public class JarFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         // super.addCapabilities(caps);
         caps.addAll(JarFileProvider.capabilities);

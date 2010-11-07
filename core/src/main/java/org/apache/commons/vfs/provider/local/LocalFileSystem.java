@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.local;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSelector;
@@ -62,7 +63,7 @@ public class LocalFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         caps.addAll(DefaultLocalFileProvider.capabilities);
     }

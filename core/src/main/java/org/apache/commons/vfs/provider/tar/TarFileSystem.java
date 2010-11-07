@@ -21,6 +21,7 @@ package org.apache.commons.vfs.provider.tar;
 //import org.apache.commons.compress.tar.TarInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -242,7 +243,7 @@ public class TarFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         caps.addAll(TarFileProvider.capabilities);
     }

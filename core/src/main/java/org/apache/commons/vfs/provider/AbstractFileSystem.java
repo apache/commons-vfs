@@ -73,7 +73,7 @@ public abstract class AbstractFileSystem
 
     private FileObject parentLayer;
     // private FileObject root;
-    private final Collection caps = new HashSet();
+    private final Collection<Capability> caps = new HashSet<Capability>();
 
     /**
      * Map from FileName to FileObject.

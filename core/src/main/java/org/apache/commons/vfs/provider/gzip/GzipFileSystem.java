@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.gzip;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -45,7 +46,7 @@ public class GzipFileSystem extends CompressedFileFileSystem
     }
 
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         caps.addAll(GzipFileProvider.capabilities);
     }

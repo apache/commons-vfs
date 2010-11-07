@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -80,7 +81,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @see org.apache.commons.vfs.provider.AbstractFileSystem#addCapabilities(java.util.Collection)
      */
     @Override
-    protected void addCapabilities(Collection caps)
+    protected void addCapabilities(Collection<Capability> caps)
     {
         caps.addAll(RamFileProvider.capabilities);
     }

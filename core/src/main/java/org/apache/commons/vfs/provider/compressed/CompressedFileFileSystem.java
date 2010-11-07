@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.compressed;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -54,7 +55,7 @@ public abstract class CompressedFileFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected abstract void addCapabilities(final Collection caps);
+    protected abstract void addCapabilities(final Collection<Capability> caps);
 
     /**
      * Creates a file object.

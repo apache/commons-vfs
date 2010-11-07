@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.bzip2;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
@@ -45,7 +46,7 @@ public class Bzip2FileSystem extends CompressedFileFileSystem
     }
 
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         caps.addAll(Bzip2FileProvider.capabilities);
     }

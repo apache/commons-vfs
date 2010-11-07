@@ -20,6 +20,7 @@ import java.net.URLStreamHandler;
 import java.util.Collection;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -53,7 +54,7 @@ public class WebdavFileSystem extends HttpFileSystem implements FileSystem
      * @caps The Capabilities to add.
      */
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         caps.addAll(WebdavFileProvider.capabilities);
     }
