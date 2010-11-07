@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
-import org.apache.commons.httpclient.MethodRetryHandler;
+import java.io.IOException;
+
+import org.apache.commons.httpclient.HttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpConnection;
-import org.apache.commons.httpclient.HttpRecoverableException;
 
 
 /**
@@ -29,7 +29,7 @@ import org.apache.commons.httpclient.HttpRecoverableException;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public final class WebdavMethodRetryHandler implements MethodRetryHandler
+public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler
 {
     private static final WebdavMethodRetryHandler INSTANCE = new WebdavMethodRetryHandler();
 
@@ -42,10 +42,8 @@ public final class WebdavMethodRetryHandler implements MethodRetryHandler
         return INSTANCE;
     }
 
-    public boolean retryMethod(HttpMethod method, HttpConnection connection,
-                               HttpRecoverableException recoverableException, int executionCount,
-                               boolean requestSent)
-    {
+    public boolean retryMethod(HttpMethod method, IOException exception,
+            int executionCount) {
         return executionCount < 2;
     }
 }
