@@ -48,7 +48,7 @@ public class HttpFileProvider
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
         };
 
-    static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.GET_TYPE,
         Capability.READ_CONTENT,
@@ -105,7 +105,7 @@ public class HttpFileProvider
         return HttpFileSystemConfigBuilder.getInstance();
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

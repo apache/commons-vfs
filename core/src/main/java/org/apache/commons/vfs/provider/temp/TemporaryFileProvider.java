@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.temp;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -127,7 +128,7 @@ public class TemporaryFileProvider
         return filesystem.resolveFile(path);
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return DefaultLocalFileProvider.capabilities;
     }

@@ -42,7 +42,7 @@ public class ZipFileProvider
     implements FileProvider
 {
     /** The list of capabilities this provider supports */
-    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
         {
             Capability.GET_LAST_MODIFIED,
             Capability.GET_TYPE,
@@ -77,7 +77,7 @@ public class ZipFileProvider
         return new ZipFileSystem(rootName, file, fileSystemOptions);
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

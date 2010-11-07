@@ -39,7 +39,7 @@ import java.util.Collections;
 public class ResourceFileProvider extends AbstractFileProvider
 {
     /** The provider's capabilities */
-    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.DISPATCHER
     }));
@@ -94,7 +94,7 @@ public class ResourceFileProvider extends AbstractFileProvider
         // no filesystem created here - so nothing to do
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

@@ -40,7 +40,7 @@ public class TarFileProvider
     implements FileProvider
 {
     /** The provider's capabilities */
-    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
         {
             Capability.GET_LAST_MODIFIED,
             Capability.GET_TYPE,
@@ -74,7 +74,7 @@ public class TarFileProvider
         return new TarFileSystem(rootName, file, fileSystemOptions);
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

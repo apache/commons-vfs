@@ -42,11 +42,11 @@ import java.util.Collections;
 public class JarFileProvider
     extends ZipFileProvider
 {
-    static final Collection capabilities;
+    static final Collection<Capability> capabilities;
 
     static
     {
-        Collection combined = new ArrayList();
+        Collection<Capability> combined = new ArrayList<Capability>();
         combined.addAll(ZipFileProvider.capabilities);
         combined.addAll(Arrays.asList(new Capability[]
             {
@@ -84,7 +84,7 @@ public class JarFileProvider
     }
 
     @Override
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

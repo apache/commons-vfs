@@ -39,7 +39,7 @@ public class GzipFileProvider extends CompressedFileFileProvider
     /**
      * Capabilities.
      */
-    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.GET_LAST_MODIFIED,
         Capability.GET_TYPE,
@@ -63,7 +63,7 @@ public class GzipFileProvider extends CompressedFileFileProvider
     }
 
     @Override
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

@@ -37,7 +37,7 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
         FileProvider
 {
     /** The provider's capabilities. */
-    public static final Collection capabilities = Collections
+    public static final Collection<Capability> capabilities = Collections
             .unmodifiableCollection(Arrays.asList(new Capability[]
             {Capability.CREATE, Capability.DELETE, Capability.RENAME,
                     Capability.GET_TYPE, Capability.GET_LAST_MODIFIED,
@@ -75,7 +75,7 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
      *
      * @see org.apache.commons.vfs.provider.FileProvider#getCapabilities()
      */
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

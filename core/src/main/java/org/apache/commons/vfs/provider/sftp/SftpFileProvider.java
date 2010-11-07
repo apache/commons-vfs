@@ -52,7 +52,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
             };
 
     /** The provider's capabilities. */
-    protected static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -144,7 +144,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         return SftpFileSystemConfigBuilder.getInstance();
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

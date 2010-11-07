@@ -49,7 +49,7 @@ public class WebdavFileProvider
         };
 
     /** The capabilities of the WebDAV provider */
-    protected static final Collection capabilities =
+    protected static final Collection<Capability> capabilities =
             Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
@@ -120,7 +120,7 @@ public class WebdavFileProvider
 
 
     @Override
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

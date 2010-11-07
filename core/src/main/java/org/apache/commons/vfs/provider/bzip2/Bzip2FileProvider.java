@@ -37,7 +37,7 @@ import java.util.Collections;
 public class Bzip2FileProvider extends CompressedFileFileProvider
 {
     /** The provider's capabilities */
-    protected static final Collection capabilities =
+    protected static final Collection<Capability> capabilities =
             Collections.unmodifiableCollection(Arrays.asList(new Capability[]
                     {
                             Capability.GET_LAST_MODIFIED,
@@ -63,7 +63,7 @@ public class Bzip2FileProvider extends CompressedFileFileProvider
     }
 
     @Override
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

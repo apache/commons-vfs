@@ -43,7 +43,7 @@ public class DefaultLocalFileProvider
     implements LocalFileProvider
 {
     /** The provider's capabilities. */
-    public static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    public static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -126,7 +126,7 @@ public class DefaultLocalFileProvider
         return new LocalFileSystem(rootName, rootName.getRootFile(), fileSystemOptions);
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

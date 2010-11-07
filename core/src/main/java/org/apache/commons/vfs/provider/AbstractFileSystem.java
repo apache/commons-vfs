@@ -169,7 +169,7 @@ public abstract class AbstractFileSystem
     /**
      * Adds the capabilities of this file system.
      */
-    protected abstract void addCapabilities(Collection caps);
+    protected abstract void addCapabilities(Collection<Capability> caps);
 
     /**
      * Returns the name of the root of this file system.

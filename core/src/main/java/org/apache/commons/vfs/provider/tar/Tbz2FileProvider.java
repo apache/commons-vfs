@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.tar;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.provider.CompositeFileProvider;
 
 import java.util.Collection;
@@ -27,7 +28,7 @@ import java.util.Collection;
 public class Tbz2FileProvider extends CompositeFileProvider
 {
     /** The provider's capabilities */
-    protected static final Collection capabilities = TarFileProvider.capabilities;
+    protected static final Collection<Capability> capabilities = TarFileProvider.capabilities;
 
     private static final String[] SCHEMES = new String[]
     {
@@ -46,7 +47,7 @@ public class Tbz2FileProvider extends CompositeFileProvider
         return SCHEMES;
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

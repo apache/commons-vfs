@@ -52,7 +52,7 @@ public class FtpFileProvider
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
         };
 
-    static final Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -102,7 +102,7 @@ public class FtpFileProvider
         return FtpFileSystemConfigBuilder.getInstance();
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

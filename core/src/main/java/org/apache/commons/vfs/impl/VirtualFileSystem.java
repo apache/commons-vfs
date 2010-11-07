@@ -53,7 +53,7 @@ public class VirtualFileSystem
      * Adds the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         // TODO - this isn't really true
         caps.add(Capability.ATTRIBUTES);

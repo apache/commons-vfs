@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
@@ -73,7 +74,7 @@ public interface FileProvider
      * instanciated.
      * @return a Collection of the file systems Capabilities.
      */
-    Collection getCapabilities();
+    Collection<Capability> getCapabilities();
 
     /**
      * Parse the URI into a FileName.

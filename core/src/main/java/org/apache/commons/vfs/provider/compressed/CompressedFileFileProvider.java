@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.compressed;
 
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystem;
@@ -80,5 +81,5 @@ public abstract class CompressedFileFileProvider
                                                    final FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
-    public abstract Collection getCapabilities();
+    public abstract Collection<Capability> getCapabilities();
 }
