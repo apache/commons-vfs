@@ -36,8 +36,8 @@ import java.lang.ref.WeakReference;
 public class WeakRefFilesCache extends SoftRefFilesCache
 {
     @Override
-    protected Reference createReference(FileObject file, ReferenceQueue refqueue)
+    protected Reference<FileObject> createReference(FileObject file, ReferenceQueue<FileObject> refqueue)
     {
-        return new WeakReference(file, refqueue);
+        return new WeakReference<FileObject>(file, refqueue);
     }
 }

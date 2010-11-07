@@ -50,9 +50,11 @@ public class SoftRefFilesCache extends AbstractFilesCache
      */
     private final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
-    private final Map filesystemCache = new HashMap();
-    private final Map refReverseMap = new HashMap(100);
-    private final ReferenceQueue refqueue = new ReferenceQueue();
+    private final Map<FileSystem, Map<FileName, Reference<FileObject>>> filesystemCache = 
+          new HashMap<FileSystem, Map<FileName, Reference<FileObject>>>();
+    private final Map<Reference<FileObject>, FileSystemAndNameKey> refReverseMap = 
+          new HashMap<Reference<FileObject>, FileSystemAndNameKey>(100);
+    private final ReferenceQueue<FileObject> refqueue = new ReferenceQueue<FileObject>();
 
     private SoftRefReleaseThread softRefReleaseThread;
 
@@ -77,7 +79,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             {
                 try
                 {
-                    Reference ref = refqueue.remove(TIMEOUT);
+                    Reference<?> ref = refqueue.remove(TIMEOUT);
                     if (ref == null)
                     {
                         continue;
@@ -86,7 +88,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
                     FileSystemAndNameKey key;
                     synchronized (refReverseMap)
                     {
-                        key = (FileSystemAndNameKey) refReverseMap.get(ref);
+                        key = refReverseMap.get(ref);
                     }
 
                     if (key != null)
@@ -145,15 +147,15 @@ public class SoftRefFilesCache extends AbstractFilesCache
             log.debug("putFile: " + file.getName());
         }
 
-        Map files = getOrCreateFilesystemCache(file.getFileSystem());
+        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(file.getFileSystem());
 
-        Reference ref = createReference(file, refqueue);
+        Reference<FileObject> ref = createReference(file, refqueue);
         FileSystemAndNameKey key = new FileSystemAndNameKey(file
                 .getFileSystem(), file.getName());
 
         synchronized (files)
         {
-            Reference old = (Reference) files.put(file.getName(), ref);
+            Reference<FileObject> old = files.put(file.getName(), ref);
             synchronized (refReverseMap)
             {
                 if (old != null)
@@ -165,24 +167,24 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
-    protected Reference createReference(FileObject file, ReferenceQueue refqueue)
+    protected Reference<FileObject> createReference(FileObject file, ReferenceQueue<FileObject> refqueue)
     {
-        return new SoftReference(file, refqueue);
+        return new SoftReference<FileObject>(file, refqueue);
     }
 
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
-        Map files = getOrCreateFilesystemCache(filesystem);
+        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(filesystem);
 
         synchronized (files)
         {
-            Reference ref = (Reference) files.get(name);
+            Reference<FileObject> ref = files.get(name);
             if (ref == null)
             {
                 return null;
             }
 
-            FileObject fo = (FileObject) ref.get();
+            FileObject fo = ref.get();
             if (fo == null)
             {
                 removeFile(filesystem, name);
@@ -193,7 +195,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
     public void clear(FileSystem filesystem)
     {
-        Map files = getOrCreateFilesystemCache(filesystem);
+        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(filesystem);
 
         boolean closeFilesystem;
 
@@ -201,10 +203,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
         {
             synchronized (refReverseMap)
             {
-                Iterator iterKeys = refReverseMap.values().iterator();
+                Iterator<FileSystemAndNameKey> iterKeys = refReverseMap.values().iterator();
                 while (iterKeys.hasNext())
                 {
-                    FileSystemAndNameKey key = (FileSystemAndNameKey) iterKeys.next();
+                    FileSystemAndNameKey key = iterKeys.next();
                     if (key.getFileSystem() == filesystem)
                     {
                         iterKeys.remove();
@@ -278,7 +280,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             log.debug("removeFile: " + key.getFileName());
         }
 
-        Map files = getOrCreateFilesystemCache(key.getFileSystem());
+        Map<?, ?> files = getOrCreateFilesystemCache(key.getFileSystem());
 
         synchronized (files)
         {
@@ -295,7 +297,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
-    protected Map getOrCreateFilesystemCache(final FileSystem filesystem)
+    protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem filesystem)
     {
         synchronized (filesystemCache)
         {
@@ -304,10 +306,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
                 startThread();
             }
 
-            Map files = (Map) filesystemCache.get(filesystem);
+            Map<FileName, Reference<FileObject>> files = filesystemCache.get(filesystem);
             if (files == null)
             {
-                files = new HashMap();
+                files = new HashMap<FileName, Reference<FileObject>>();
                 filesystemCache.put(filesystem, files);
             }
 
