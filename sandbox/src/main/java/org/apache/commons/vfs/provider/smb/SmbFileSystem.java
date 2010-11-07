@@ -43,6 +43,7 @@ public class SmbFileSystem
     /**
      * Creates a file object.
      */
+    @Override
     protected FileObject createFile(final FileName name) throws FileSystemException
     {
         return new SmbFileObject(name, this);
@@ -51,6 +52,7 @@ public class SmbFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(SmbFileProvider.capabilities);

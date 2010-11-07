@@ -70,6 +70,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
 
+    @Override
     public synchronized int read() throws IOException
     {
         if (checkEnd())
@@ -82,6 +83,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         return r;
     }
 
+    @Override
     public synchronized int read(byte b[], int off, int len) throws IOException
     {
         if (checkEnd())
@@ -101,6 +103,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         return nread;
     }
 
+    @Override
     public synchronized long skip(long n) throws IOException
     {
         if (checkEnd())
@@ -159,12 +162,14 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         return getFilePosition()+nadd;
     }
 
+    @Override
     public synchronized void mark(int readlimit)
     {
         super.mark(readlimit);
         resetCount = 0;
     }
 
+    @Override
     public synchronized void reset() throws IOException
     {
         super.reset();
@@ -178,6 +183,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
 
+    @Override
     public void close() throws IOException
     {
         super.close();

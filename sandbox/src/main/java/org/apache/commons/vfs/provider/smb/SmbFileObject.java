@@ -54,6 +54,7 @@ public class SmbFileObject
     /**
      * Attaches this file object to its file resource.
      */
+    @Override
     protected void doAttach() throws Exception
     {
         // Defer creation of the SmbFile to here
@@ -63,6 +64,7 @@ public class SmbFileObject
         }
     }
 
+    @Override
     protected void doDetach() throws Exception
     {
         // file closed through content-streams
@@ -118,6 +120,7 @@ public class SmbFileObject
      * Determines the type of the file, returns null if the file does not
      * exist.
      */
+    @Override
     protected FileType doGetType() throws Exception
     {
         if (!file.exists())
@@ -140,6 +143,7 @@ public class SmbFileObject
      * Lists the children of the file.  Is only called if {@link #doGetType}
      * returns {@link FileType#FOLDER}.
      */
+    @Override
     protected String[] doListChildren() throws Exception
     {
         // VFS-210: do not try to get listing for anything else than directories
@@ -154,6 +158,7 @@ public class SmbFileObject
     /**
      * Determines if this file is hidden.
      */
+    @Override
     protected boolean doIsHidden() throws Exception
     {
         return file.isHidden();
@@ -162,11 +167,13 @@ public class SmbFileObject
     /**
      * Deletes the file.
      */
+    @Override
     protected void doDelete() throws Exception
     {
         file.delete();
     }
 
+    @Override
     protected void doRename(FileObject newfile) throws Exception
     {
         file.renameTo(createSmbFile(newfile.getName()));
@@ -175,6 +182,7 @@ public class SmbFileObject
     /**
      * Creates this file as a folder.
      */
+    @Override
     protected void doCreateFolder() throws Exception
     {
         file.mkdir();
@@ -184,6 +192,7 @@ public class SmbFileObject
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         return file.length();
@@ -192,6 +201,7 @@ public class SmbFileObject
     /**
      * Returns the last modified time of this file.
      */
+    @Override
     protected long doGetLastModifiedTime()
         throws Exception
     {
@@ -201,6 +211,7 @@ public class SmbFileObject
     /**
      * Creates an input stream to read the file content from.
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         try
@@ -225,6 +236,7 @@ public class SmbFileObject
     /**
      * Creates an output stream to write the file content to.
      */
+    @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         return new SmbFileOutputStream(file, bAppend);
@@ -233,6 +245,7 @@ public class SmbFileObject
     /**
      * random access
      */
+    @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
         return new SmbFileRandomAccessContent(file, mode);

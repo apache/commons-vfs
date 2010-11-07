@@ -63,6 +63,7 @@ public class SmbFileName
     /**
      * Builds the root URI for this file name.
      */
+    @Override
     protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
     {
         super.appendRootUri(buffer, addPassword);
@@ -73,6 +74,7 @@ public class SmbFileName
     /**
      * put domain before username if both are set
      */
+    @Override
     protected void appendCredentials(StringBuffer buffer, boolean addPassword)
     {
         if (getDomain() != null && getDomain().length() != 0 &&
@@ -87,6 +89,7 @@ public class SmbFileName
     /**
      * Factory method for creating name instances.
      */
+    @Override
     public FileName createName(final String path, FileType type)
     {
         return new SmbFileName(

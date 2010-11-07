@@ -64,6 +64,7 @@ public class MimeFileObject
     /**
      * Attaches this file object to its file resource.
      */
+    @Override
     protected void doAttach() throws Exception
     {
         if (part == null)
@@ -115,6 +116,7 @@ public class MimeFileObject
         return null;
     }
 
+    @Override
     protected void doDetach() throws Exception
     {
     }
@@ -123,6 +125,7 @@ public class MimeFileObject
      * Determines the type of the file, returns null if the file does not
      * exist.
      */
+    @Override
     protected FileType doGetType() throws Exception
     {
         if (part == null)
@@ -139,6 +142,7 @@ public class MimeFileObject
         return FileType.FILE;
     }
 
+    @Override
     protected String[] doListChildren() throws Exception
     {
         return null;
@@ -148,6 +152,7 @@ public class MimeFileObject
      * Lists the children of the file.  Is only called if {@link #doGetType}
      * returns {@link org.apache.commons.vfs.FileType#FOLDER}.
      */
+    @Override
     protected FileObject[] doListChildrenResolved() throws Exception
     {
         if (part == null)
@@ -196,6 +201,7 @@ public class MimeFileObject
     /**
      * Returns the size of the file content (in bytes).
      */
+    @Override
     protected long doGetContentSize() throws Exception
     {
         return part.getSize();
@@ -204,6 +210,7 @@ public class MimeFileObject
     /**
      * Returns the last modified time of this file.
      */
+    @Override
     protected long doGetLastModifiedTime()
         throws Exception
     {
@@ -236,6 +243,7 @@ public class MimeFileObject
     /**
      * Creates an input stream to read the file content from.
      */
+    @Override
     protected InputStream doGetInputStream() throws Exception
     {
         if (isMultipart())
@@ -258,6 +266,7 @@ public class MimeFileObject
         return part.getContentType() != null && part.getContentType().startsWith("multipart/");
     }
 
+    @Override
     protected FileContentInfoFactory getFileContentInfoFactory()
     {
         return new MimeFileContentInfoFactory();
@@ -277,6 +286,7 @@ public class MimeFileObject
      * <li>java.utils.List of java.lang.Strings for entries with multiple values</li>
      * </ul>
      */
+    @Override
     protected Map doGetAttributes() throws Exception
     {
         if (attributeMap == null)

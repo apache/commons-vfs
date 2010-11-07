@@ -41,6 +41,7 @@ public class SmbFileNameParser extends URLFileNameParser
         return INSTANCE;
     }
 
+    @Override
     public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
     {
         final StringBuffer name = new StringBuffer();

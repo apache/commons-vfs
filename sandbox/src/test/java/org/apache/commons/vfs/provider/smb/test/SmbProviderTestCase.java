@@ -50,6 +50,7 @@ public class SmbProviderTestCase
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
@@ -59,6 +60,7 @@ public class SmbProviderTestCase
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final String uri = System.getProperty(TEST_URI);

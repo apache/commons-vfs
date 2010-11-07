@@ -60,6 +60,7 @@ public class MimeFileSystem
     /**
      * Creates a file object.
      */
+    @Override
     protected FileObject createFile(final FileName name) throws FileSystemException
     {
         return new MimeFileObject(name, null, this);
@@ -68,12 +69,14 @@ public class MimeFileSystem
     /**
      * Returns the capabilities of this file system.
      */
+    @Override
     protected void addCapabilities(final Collection caps)
     {
         caps.addAll(MimeFileProvider.capabilities);
     }
 
 
+    @Override
     protected void doCloseCommunicationLink()
     {
         try
