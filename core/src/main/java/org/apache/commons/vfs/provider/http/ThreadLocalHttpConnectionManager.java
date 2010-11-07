@@ -44,10 +44,10 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     /**
      * The thread data.
      */
-    protected ThreadLocal localHttpConnection = new ThreadLocal()
+    protected ThreadLocal<Entry> localHttpConnection = new ThreadLocal<Entry>()
     {
         @Override
-        protected Object initialValue()
+        protected Entry initialValue()
         {
             return new Entry();
         }
@@ -121,22 +121,22 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
 
     protected HttpConnection getLocalHttpConnection()
     {
-        return ((Entry) localHttpConnection.get()).conn;
+        return localHttpConnection.get().conn;
     }
 
     protected void setLocalHttpConnection(HttpConnection conn)
     {
-        ((Entry) localHttpConnection.get()).conn = conn;
+        localHttpConnection.get().conn = conn;
     }
 
     protected long getIdleStartTime()
     {
-        return ((Entry) localHttpConnection.get()).idleStartTime;
+        return localHttpConnection.get().idleStartTime;
     }
 
     protected void setIdleStartTime(long idleStartTime)
     {
-        ((Entry) localHttpConnection.get()).idleStartTime = idleStartTime;
+        localHttpConnection.get().idleStartTime = idleStartTime;
     }
 
     /**
@@ -153,7 +153,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
      * Gets the staleCheckingEnabled value to be set on HttpConnections that are created.
      *
      * @return <code>true</code> if stale checking will be enabled on HttpConections
-     * @see HttpConnection#isStaleCheckingEnabled()
+     * @see HttpConnectionManagerParams #isStaleCheckingEnabled()
      */
     public boolean isConnectionStaleCheckingEnabled()
     {
@@ -165,7 +165,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
      *
      * @param connectionStaleCheckingEnabled <code>true</code> if stale checking will be enabled
      *                                       on HttpConections
-     * @see HttpConnection#setStaleCheckingEnabled(boolean)
+     * @see HttpConnectionManagerParams#setStaleCheckingEnabled(boolean)
      */
     public void setConnectionStaleCheckingEnabled(boolean connectionStaleCheckingEnabled)
     {
