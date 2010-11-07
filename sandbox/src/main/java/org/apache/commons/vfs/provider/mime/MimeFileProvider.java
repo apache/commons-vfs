@@ -41,7 +41,7 @@ public class MimeFileProvider
     extends AbstractLayeredFileProvider
     implements FileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    protected final static Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.GET_TYPE,
         Capability.GET_LAST_MODIFIED,
@@ -68,7 +68,7 @@ public class MimeFileProvider
         return new MimeFileSystem(name, file, fileSystemOptions);
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }

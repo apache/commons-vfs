@@ -39,7 +39,7 @@ public class SmbFileProvider
     extends AbstractOriginatingFileProvider
     implements FileProvider
 {
-    protected final static Collection capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+    protected final static Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
     {
         Capability.CREATE,
         Capability.DELETE,
@@ -76,7 +76,7 @@ public class SmbFileProvider
         return new SmbFileSystem(name, fileSystemOptions);
     }
 
-    public Collection getCapabilities()
+    public Collection<Capability> getCapabilities()
     {
         return capabilities;
     }
