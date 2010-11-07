@@ -45,7 +45,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     /**
      * Cache of RAM File Data
      */
-    private final Map cache;
+    private final Map<FileName, RamFileData> cache;
 
     /**
      * @param rootName The root file name.
@@ -55,7 +55,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
             FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
-        this.cache = Collections.synchronizedMap(new HashMap());
+        this.cache = Collections.synchronizedMap(new HashMap<FileName, RamFileData>());
         // create root
         RamFileData rootData = new RamFileData(rootName);
         rootData.setType(FileType.FOLDER);
@@ -92,22 +92,22 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      */
     String[] listChildren(FileName name)
     {
-        RamFileData data = (RamFileData) this.cache.get(name);
+        RamFileData data = this.cache.get(name);
         if (data == null || !data.getType().hasChildren())
         {
             return null;
         }
-        Collection children = data.getChildren();
+        Collection<RamFileData> children = data.getChildren();
         String[] names;
 
         synchronized(children) {
             names = new String[children.size()];
 
             int pos = 0;
-            Iterator iter = children.iterator();
+            Iterator<RamFileData> iter = children.iterator();
             while (iter.hasNext())
             {
-                RamFileData childData = (RamFileData) iter.next();
+                RamFileData childData = iter.next();
                 names[pos] = childData.getName().getBaseName();
                 pos++;
             }
@@ -161,8 +161,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         // Add to the parent
         if (file.getName().getDepth() > 0)
         {
-            RamFileData parentData = (RamFileData) this.cache.get(file
-                    .getParent().getName());
+            RamFileData parentData = this.cache.get(file.getParent().getName());
             // Only if not already added
             if (!parentData.hasChildren(file.getData()))
             {
@@ -206,7 +205,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         {
             throw new IllegalArgumentException("Null argument");
         }
-        RamFileData data = (RamFileData) this.cache.get(fo.getName());
+        RamFileData data = this.cache.get(fo.getName());
         if (data == null)
         {
             data = new RamFileData(fo.getName());
@@ -300,10 +299,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     {
         int size = 0;
         synchronized(cache) {
-            Iterator iter = cache.values().iterator();
+            Iterator<RamFileData> iter = cache.values().iterator();
             while (iter.hasNext())
             {
-                RamFileData data = (RamFileData) iter.next();
+                RamFileData data = iter.next();
                 size += data.size();
             }
         }

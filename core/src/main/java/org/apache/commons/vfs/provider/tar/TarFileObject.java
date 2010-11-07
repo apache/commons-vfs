@@ -37,7 +37,7 @@ public class TarFileObject
 {
     /** The TarEntry */
     protected TarEntry entry;
-    private final HashSet children = new HashSet();
+    private final HashSet<String> children = new HashSet<String>();
     private final TarFileSystem fs;
     private FileType type;
 
@@ -125,7 +125,7 @@ public class TarFileObject
             throw new RuntimeException(e);
         }
 
-        return (String[]) children.toArray(new String[children.size()]);
+        return children.toArray(new String[children.size()]);
     }
 
     /**

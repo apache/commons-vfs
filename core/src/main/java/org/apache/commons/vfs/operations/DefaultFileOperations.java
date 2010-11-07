@@ -68,7 +68,7 @@ public class DefaultFileOperations implements FileOperations
             return null;
         }
 
-        final List operations = new ArrayList();
+        final List<Class<?>> operations = new ArrayList<Class<?>>();
 
         for (int i = 0; i < providers.length; i++)
         {
@@ -77,7 +77,7 @@ public class DefaultFileOperations implements FileOperations
             provider.collectOperations(operations, fileObject);
         }
 
-        return (Class[]) operations.toArray(new Class[] {});
+        return operations.toArray(new Class[] {});
     }
 
     /**

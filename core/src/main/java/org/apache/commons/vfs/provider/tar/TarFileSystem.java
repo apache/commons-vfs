@@ -86,7 +86,7 @@ public class TarFileSystem
         // Build the index
         try
         {
-            List strongRef = new ArrayList(100);
+            List<TarFileObject> strongRef = new ArrayList<TarFileObject>(100);
             TarEntry entry;
             while ((entry = getTarFile().getNextEntry()) != null)
             {

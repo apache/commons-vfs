@@ -54,7 +54,7 @@ import java.util.StringTokenizer;
 public abstract class AbstractSyncTask
     extends VfsTask
 {
-    private final ArrayList srcFiles = new ArrayList();
+    private final ArrayList<SourceInfo> srcFiles = new ArrayList<SourceInfo>();
     private String destFileUrl;
     private String destDirUrl;
     private String srcDirUrl;
@@ -254,11 +254,11 @@ public abstract class AbstractSyncTask
         {
             srcDirName = resolveFile(srcDirUrl).getName();
         }
-        final ArrayList srcs = new ArrayList();
+        final ArrayList<FileObject> srcs = new ArrayList<FileObject>();
         for (int i = 0; i < srcFiles.size(); i++)
         {
             // Locate the source file, and make sure it exists
-            final SourceInfo src = (SourceInfo) srcFiles.get(i);
+            final SourceInfo src = srcFiles.get(i);
             final FileObject srcFile = resolveFile(src.file);
             if (!srcFile.exists())
             {
@@ -274,10 +274,10 @@ public abstract class AbstractSyncTask
         }
 
         // Scan the source files
-        final Set destFiles = new HashSet();
+        final Set<FileObject> destFiles = new HashSet<FileObject>();
         for (int i = 0; i < srcs.size(); i++)
         {
-            final FileObject rootFile = (FileObject) srcs.get(i);
+            final FileObject rootFile = srcs.get(i);
             final FileName rootName = rootFile.getName();
 
             if (rootFile.getType() == FileType.FILE)
@@ -347,7 +347,7 @@ public abstract class AbstractSyncTask
      * Handles a single file, checking for collisions where more than one
      * source file maps to the same destination file.
      */
-    private void handleFile(final Set destFiles,
+    private void handleFile(final Set<FileObject> destFiles,
                             final FileObject srcFile,
                             final FileObject destFile) throws Exception
 
@@ -381,7 +381,7 @@ public abstract class AbstractSyncTask
             logOrDie(message, Project.MSG_WARN);
             return;
         }
-        final SourceInfo src = (SourceInfo) srcFiles.get(0);
+        final SourceInfo src = srcFiles.get(0);
         final FileObject srcFile = resolveFile(src.file);
         if (srcFile.getType() != FileType.FILE)
         {

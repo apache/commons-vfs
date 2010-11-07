@@ -42,7 +42,7 @@ import java.util.Map;
 public class VirtualFileSystem
     extends AbstractFileSystem
 {
-    private final Map junctions = new HashMap();
+    private final Map<FileName, FileObject> junctions = new HashMap<FileName, FileObject>();
 
     public VirtualFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
@@ -85,7 +85,7 @@ public class VirtualFileSystem
         if (junctionPoint != null)
         {
             // Resolve the real file
-            final FileObject junctionFile = (FileObject) junctions.get(junctionPoint);
+            final FileObject junctionFile = junctions.get(junctionPoint);
             final String relName = junctionPoint.getRelativeName(name);
             file = junctionFile.resolveFile(relName, NameScope.DESCENDENT_OR_SELF);
         }
@@ -189,9 +189,9 @@ public class VirtualFileSystem
         }
 
         // Find matching junction
-        for (Iterator iterator = junctions.keySet().iterator(); iterator.hasNext();)
+        for (Iterator<FileName> iterator = junctions.keySet().iterator(); iterator.hasNext();)
         {
-            final FileName junctionPoint = (FileName) iterator.next();
+            final FileName junctionPoint = iterator.next();
             if (junctionPoint.isDescendent(name))
             {
                 return junctionPoint;

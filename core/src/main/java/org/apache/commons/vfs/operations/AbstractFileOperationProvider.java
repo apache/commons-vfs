@@ -39,7 +39,7 @@ public abstract class AbstractFileOperationProvider implements
      * "svn", "svnssh", but not for "file", etc. The Map has scheme as a key and
      * Colleaction of operations that are available for that scheme.
      */
-    private final Collection operations = new ArrayList();
+    private final Collection<Class<?>> operations = new ArrayList<Class<?>>();
 
     /**
      * Gather available operations for the specified FileObject and put them into
@@ -82,7 +82,7 @@ public abstract class AbstractFileOperationProvider implements
     public final FileOperation getOperation(FileObject file, Class operationClass)
             throws FileSystemException
     {
-        Class implementation = lookupOperation(operationClass);
+        Class<?> implementation = lookupOperation(operationClass);
 
         FileOperation operationInstance = instantiateOperation(file, implementation);
 
@@ -103,7 +103,7 @@ public abstract class AbstractFileOperationProvider implements
      * @param operationClass
      * @return never returns null
      */
-    protected final Class lookupOperation(final Class operationClass)
+    protected final Class lookupOperation(final Class<?> operationClass)
             throws FileSystemException
     {
         // check validity of passed class
@@ -113,11 +113,11 @@ public abstract class AbstractFileOperationProvider implements
         }
 
         // find appropriate class
-        Class foundClass = null;
-        Iterator iterator = operations.iterator();
+        Class<?> foundClass = null;
+        Iterator<Class<?>> iterator = operations.iterator();
         while (iterator.hasNext())
         {
-            Class operation = (Class) iterator.next();
+            Class<?> operation = iterator.next();
             if (operationClass.isAssignableFrom(operation))
             {
                 foundClass = operation;

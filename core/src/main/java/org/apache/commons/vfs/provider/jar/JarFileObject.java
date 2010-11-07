@@ -25,6 +25,7 @@ import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -102,10 +103,10 @@ public class JarFileObject extends ZipFileObject
      * Returns the value of an attribute.
      */
     @Override
-    protected Map doGetAttributes()
+    protected Map<String, Object> doGetAttributes()
         throws Exception
     {
-        final Map attrs = new HashMap();
+        final Map<String, Object> attrs = new HashMap<String, Object>();
 
         // Add the file system's attributes first
         final JarFileSystem fs = (JarFileSystem) getFileSystem();
@@ -120,11 +121,11 @@ public class JarFileObject extends ZipFileObject
     /**
      * Adds the source attributes to the destination map.
      */
-    private void addAll(final Attributes src, final Map dest)
+    private void addAll(final Attributes src, final Map<String, Object> dest)
     {
-        for (Iterator iterator = src.entrySet().iterator(); iterator.hasNext();)
+        for (Iterator<Entry<Object, Object>> iterator = src.entrySet().iterator(); iterator.hasNext();)
         {
-            final Map.Entry entry = (Map.Entry) iterator.next();
+            final Map.Entry<Object, Object> entry = iterator.next();
             // final String name = entry.getKey().toString().toLowerCase();
             final String name = entry.getKey().toString();
             dest.put(name, entry.getValue());

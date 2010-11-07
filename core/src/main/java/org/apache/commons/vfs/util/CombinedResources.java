@@ -88,10 +88,10 @@ public class CombinedResources extends ResourceBundle
         resourceName = resourceName.replace('.', '/') + ".properties";
         try
         {
-            Enumeration resources = loader.getResources(resourceName);
+            Enumeration<URL> resources = loader.getResources(resourceName);
             while (resources.hasMoreElements())
             {
-                URL resource = (URL) resources.nextElement();
+                URL resource = resources.nextElement();
                 try
                 {
                     properties.load(resource.openConnection().getInputStream());

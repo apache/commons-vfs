@@ -49,7 +49,7 @@ import java.util.jar.Attributes.Name;
  */
 public class VFSClassLoader extends SecureClassLoader
 {
-    private final ArrayList resources = new ArrayList();
+    private final ArrayList<FileObject> resources = new ArrayList<FileObject>();
 
     /**
      * Constructors a new VFSClassLoader for the given file.
@@ -123,7 +123,7 @@ public class VFSClassLoader extends SecureClassLoader
      */
     public FileObject[] getFileObjects()
     {
-        return (FileObject[]) resources.toArray(new FileObject[resources.size()]);
+        return resources.toArray(new FileObject[resources.size()]);
     }
 
     /**
@@ -317,9 +317,9 @@ public class VFSClassLoader extends SecureClassLoader
     protected void copyPermissions(final PermissionCollection src,
                                    final PermissionCollection dest)
     {
-        for (Enumeration elem = src.elements(); elem.hasMoreElements();)
+        for (Enumeration<Permission> elem = src.elements(); elem.hasMoreElements();)
         {
-            final Permission permission = (Permission) elem.nextElement();
+            final Permission permission = elem.nextElement();
             dest.add(permission);
         }
     }
@@ -330,10 +330,10 @@ public class VFSClassLoader extends SecureClassLoader
      */
     private FileObject lookupFileObject(final String name)
     {
-        final Iterator it = resources.iterator();
+        final Iterator<FileObject> it = resources.iterator();
         while (it.hasNext())
         {
-            final FileObject object = (FileObject) it.next();
+            final FileObject object = it.next();
             if (name.equals(object.getName().getURI()))
             {
                 return object;
@@ -401,10 +401,10 @@ public class VFSClassLoader extends SecureClassLoader
      */
     private Resource loadResource(final String name) throws FileSystemException
     {
-        final Iterator it = resources.iterator();
+        final Iterator<FileObject> it = resources.iterator();
         while (it.hasNext())
         {
-            final FileObject baseFile = (FileObject) it.next();
+            final FileObject baseFile = it.next();
             final FileObject file =
                 baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
             if (file.exists())

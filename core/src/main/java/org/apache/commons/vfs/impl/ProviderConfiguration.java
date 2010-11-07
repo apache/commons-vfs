@@ -29,8 +29,8 @@ import java.util.List;
 public class ProviderConfiguration
 {
     private String className;
-    private final List schemes = new ArrayList(10);
-    private final List dependenies = new ArrayList(10);
+    private final List<String> schemes = new ArrayList<String>(10);
+    private final List<String> dependenies = new ArrayList<String>(10);
 
     public ProviderConfiguration()
     {
@@ -51,7 +51,7 @@ public class ProviderConfiguration
         schemes.add(scheme);
     }
 
-    public List getSchemes()
+    public List<String> getSchemes()
     {
         return schemes;
     }
@@ -61,7 +61,7 @@ public class ProviderConfiguration
         dependenies.add(dependency);
     }
 
-    public List getDependencies()
+    public List<String> getDependencies()
     {
         return dependenies;
     }

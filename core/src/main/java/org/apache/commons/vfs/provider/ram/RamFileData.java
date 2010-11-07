@@ -54,7 +54,7 @@ class RamFileData implements Serializable
     /**
      * Children
      */
-    private final Collection children;
+    private final Collection<RamFileData> children;
 
     /**
      * Constructor.
@@ -63,7 +63,7 @@ class RamFileData implements Serializable
     public RamFileData(FileName name)
     {
         super();
-        this.children = Collections.synchronizedCollection(new ArrayList());
+        this.children = Collections.synchronizedCollection(new ArrayList<RamFileData>());
         this.clear();
         if (name == null)
         {
@@ -211,7 +211,7 @@ class RamFileData implements Serializable
     /**
      * @return Returns the children.
      */
-    Collection getChildren()
+    Collection<RamFileData> getChildren()
     {
         if (name == null)
         {

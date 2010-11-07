@@ -34,13 +34,13 @@ public class WeakRefFileListener implements FileListener
 {
     private final FileSystem fs;
     private final FileName name;
-    private final WeakReference listener;
+    private final WeakReference<FileListener> listener;
 
     protected WeakRefFileListener(final FileObject file, final FileListener listener)
     {
         this.fs = file.getFileSystem();
         this.name = file.getName();
-        this.listener = new WeakReference(listener);
+        this.listener = new WeakReference<FileListener>(listener);
     }
 
     /**
@@ -63,7 +63,7 @@ public class WeakRefFileListener implements FileListener
      */
     protected FileListener getListener() throws Exception
     {
-        FileListener listener = (FileListener) this.listener.get();
+        FileListener listener = this.listener.get();
         if (listener == null)
         {
             FileObject file = fs.resolveFile(name);

@@ -31,8 +31,8 @@ import java.util.Map;
  */
 class FileTypeMap
 {
-    private final Map mimeTypeMap = new HashMap();
-    private final Map extensionMap = new HashMap();
+    private final Map<String, String> mimeTypeMap = new HashMap<String, String>();
+    private final Map<String, String> extensionMap = new HashMap<String, String>();
 
     /**
      * Adds a MIME type mapping.
@@ -61,11 +61,11 @@ class FileTypeMap
         final String mimeType = content.getContentInfo().getContentType();
         if (mimeType != null)
         {
-            return (String) mimeTypeMap.get(mimeType);
+            return mimeTypeMap.get(mimeType);
         }
 
         // Check the file's extension for a match
         final String extension = file.getName().getExtension();
-        return (String) extensionMap.get(extension);
+        return extensionMap.get(extension);
     }
 }

@@ -61,8 +61,8 @@ public final class ExceptionConverter
                         }
                         if (DomUtil.hasChildElement(exc, "class", null))
                         {
-                            Class cl = Class.forName(DomUtil.getChildText(exc, "class", null));
-                            Constructor excConstr = cl.getConstructor(new Class[]{String.class});
+                            Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null));
+                            Constructor<?> excConstr = cl.getConstructor(new Class[]{String.class});
                             if (excConstr != null)
                             {
                                 Object o = excConstr.newInstance(new String[]{msg});

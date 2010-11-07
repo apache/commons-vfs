@@ -53,13 +53,13 @@ public class DelegatingFileSystemOptionsBuilder
 {
     private static final Class[] STRING_PARAM = new Class[]{String.class};
 
-    private static final Map PRIMATIVE_TO_OBJECT = new TreeMap();
+    private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<String, Class<?>>();
 
     private final Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
 
     private final FileSystemManager manager;
 
-    private final Map beanMethods = new TreeMap();
+    private final Map<String, Map<String, List<Method>>> beanMethods = new TreeMap<String, Map<String, List<Method>>>();
 
     static
     {
@@ -84,7 +84,7 @@ public class DelegatingFileSystemOptionsBuilder
         private final String name;
         private final Object[] values;
 
-        private List configSetters;
+        private List<Method> configSetters;
         private FileSystemConfigBuilder fileSystemConfigBuilder;
 
         private Context(final FileSystemOptions fso, final String scheme, final String name, final Object[] values)
@@ -209,10 +209,10 @@ public class DelegatingFileSystemOptionsBuilder
         ctx.fileSystemConfigBuilder = getManager().getFileSystemConfigBuilder(ctx.scheme);
 
         // try to find a setter which could accept the value
-        Iterator iterConfigSetters = ctx.configSetters.iterator();
+        Iterator<Method> iterConfigSetters = ctx.configSetters.iterator();
         while (iterConfigSetters.hasNext())
         {
-            Method configSetter = (Method) iterConfigSetters.next();
+            Method configSetter = iterConfigSetters.next();
             if (convertValuesAndInvoke(configSetter, ctx))
             {
                 return;
@@ -260,7 +260,7 @@ public class DelegatingFileSystemOptionsBuilder
 
         if (type.isPrimitive())
         {
-            Class objectType = (Class) PRIMATIVE_TO_OBJECT.get(type.getName());
+            Class objectType = PRIMATIVE_TO_OBJECT.get(type.getName());
             if (objectType == null)
             {
                 log.warn(Messages.getString("vfs.provider/config-unexpected-primitive.error", type.getName()));
@@ -289,7 +289,7 @@ public class DelegatingFileSystemOptionsBuilder
 
         Object convertedValues = java.lang.reflect.Array.newInstance(type, ctx.values.length);
 
-        Constructor valueConstructor;
+        Constructor<?> valueConstructor;
         try
         {
             valueConstructor = type.getConstructor(STRING_PARAM);
@@ -410,8 +410,8 @@ public class DelegatingFileSystemOptionsBuilder
     private boolean fillConfigSetters(final Context ctx)
         throws FileSystemException
     {
-        Map schemeMethods = getSchemeMethods(ctx.scheme);
-        List configSetters = (List) schemeMethods.get(ctx.name.toLowerCase());
+        Map<String, List<Method>> schemeMethods = getSchemeMethods(ctx.scheme);
+        List<Method> configSetters = schemeMethods.get(ctx.name.toLowerCase());
         if (configSetters == null)
         {
             return false;
@@ -424,9 +424,9 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * get (cached) list of set*() methods for the given scheme
      */
-    private Map getSchemeMethods(final String scheme) throws FileSystemException
+    private Map<String, List<Method>> getSchemeMethods(final String scheme) throws FileSystemException
     {
-        Map schemeMethods = (Map) beanMethods.get(scheme);
+        Map<String, List<Method>> schemeMethods = beanMethods.get(scheme);
         if (schemeMethods == null)
         {
             schemeMethods = createSchemeMethods(scheme);
@@ -439,7 +439,7 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * create the list of all set*() methods for the given scheme
      */
-    private Map createSchemeMethods(String scheme) throws FileSystemException
+    private Map<String, List<Method>> createSchemeMethods(String scheme) throws FileSystemException
     {
         final FileSystemConfigBuilder fscb = getManager().getFileSystemConfigBuilder(scheme);
         if (fscb == null)
@@ -447,7 +447,7 @@ public class DelegatingFileSystemOptionsBuilder
             throw new FileSystemException("vfs.provider/no-config-builder.error", scheme);
         }
 
-        Map schemeMethods = new TreeMap();
+        Map<String, List<Method>> schemeMethods = new TreeMap<String, List<Method>>();
 
         Method[] methods = fscb.getClass().getMethods();
         for (int iterMethods = 0; iterMethods < methods.length; iterMethods++)
@@ -467,10 +467,10 @@ public class DelegatingFileSystemOptionsBuilder
 
             String key = methodName.substring(3).toLowerCase();
 
-            List configSetter = (List) schemeMethods.get(key);
+            List<Method> configSetter = schemeMethods.get(key);
             if (configSetter == null)
             {
-                configSetter = new ArrayList(2);
+                configSetter = new ArrayList<Method>(2);
                 schemeMethods.put(key, configSetter);
             }
             configSetter.add(method);

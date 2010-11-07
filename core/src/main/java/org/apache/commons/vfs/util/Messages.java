@@ -33,7 +33,7 @@ public final class Messages
     /**
      * Map from message code to MessageFormat object for the message.
      */
-    private static Map messages = new HashMap();
+    private static Map<String, MessageFormat> messages = new HashMap<String, MessageFormat>();
     private static ResourceBundle resources;
 
     private Messages()
@@ -95,7 +95,7 @@ public final class Messages
         throws MissingResourceException
     {
         // Check if the message is cached
-        MessageFormat msg = (MessageFormat) messages.get(code);
+        MessageFormat msg = messages.get(code);
         if (msg != null)
         {
             return msg;

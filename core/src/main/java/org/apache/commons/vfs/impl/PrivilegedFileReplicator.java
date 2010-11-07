@@ -123,7 +123,7 @@ public class PrivilegedFileReplicator
         try
         {
             final ReplicateAction action = new ReplicateAction(srcFile, selector);
-            return (File) AccessController.doPrivileged(action);
+            return AccessController.doPrivileged(action);
         }
         catch (final PrivilegedActionException e)
         {
@@ -134,7 +134,7 @@ public class PrivilegedFileReplicator
     /**
      * An action that initialises the wrapped replicator.
      */
-    private class InitAction implements PrivilegedExceptionAction
+    private class InitAction implements PrivilegedExceptionAction<Object>
     {
         /**
          * Performs the action.
@@ -149,7 +149,7 @@ public class PrivilegedFileReplicator
     /**
      * An action that replicates a file using the wrapped replicator.
      */
-    private class ReplicateAction implements PrivilegedExceptionAction
+    private class ReplicateAction implements PrivilegedExceptionAction<File>
     {
         private final FileObject srcFile;
         private final FileSelector selector;
@@ -165,7 +165,7 @@ public class PrivilegedFileReplicator
          * Performs the action.
          * @throws Exception if an error occurs.
          */
-        public Object run() throws Exception
+        public File run() throws Exception
         {
             // TODO - Do not pass the selector through.  It is untrusted
             // TODO - Need to determine which files can be read
@@ -176,7 +176,7 @@ public class PrivilegedFileReplicator
     /**
      * An action that closes the wrapped replicator.
      */
-    private class CloseAction implements PrivilegedAction
+    private class CloseAction implements PrivilegedAction<Object>
     {
         /**
          * Performs the action.

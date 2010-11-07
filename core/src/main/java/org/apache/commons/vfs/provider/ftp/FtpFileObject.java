@@ -52,7 +52,7 @@ import org.apache.commons.vfs.util.RandomAccessMode;
 public class FtpFileObject
     extends AbstractFileObject
 {
-    private static final Map EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap());
+    private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap<String, FTPFile>());
     private static final FTPFile UNKNOWN = new FTPFile();
 
     private final Log log = LogFactory.getLog(FtpFileObject.class);
@@ -61,7 +61,7 @@ public class FtpFileObject
 
     // Cached info
     private FTPFile fileInfo;
-    private Map children;
+    private Map<String, FTPFile> children;
     private FileObject linkDestination;
 
     private boolean inRefresh;
@@ -116,7 +116,7 @@ public class FtpFileObject
         }
 
         // Look for the requested child
-        FTPFile ftpFile = (FTPFile) children.get(name);
+        FTPFile ftpFile = children.get(name);
         return ftpFile;
     }
 
@@ -144,7 +144,7 @@ public class FtpFileObject
             }
             else
             {
-                children = new TreeMap();
+                children = new TreeMap<String, FTPFile>();
 
                 // Remove '.' and '..' elements
                 for (int i = 0; i < tmpChildren.length; i++)
@@ -444,11 +444,11 @@ public class FtpFileObject
         // TODO - get rid of this children stuff
         final String[] childNames = new String[children.size()];
         int childNum = -1;
-        Iterator iterChildren = children.values().iterator();
+        Iterator<FTPFile> iterChildren = children.values().iterator();
         while (iterChildren.hasNext())
         {
             childNum++;
-            final FTPFile child = (FTPFile) iterChildren.next();
+            final FTPFile child = iterChildren.next();
             childNames[childNum] = child.getName();
         }
 

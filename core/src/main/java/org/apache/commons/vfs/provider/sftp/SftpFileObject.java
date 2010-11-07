@@ -298,7 +298,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     protected FileObject[] doListChildrenResolved() throws Exception
     {
         // List the contents of the folder
-        Vector vector = null;
+        Vector<LsEntry> vector = null;
         final ChannelSftp channel = fileSystem.getChannel();
 
         try
@@ -363,10 +363,10 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         }
 
         // Extract the child names
-        final ArrayList children = new ArrayList();
-        for (Iterator iterator = vector.iterator(); iterator.hasNext();)
+        final ArrayList<FileObject> children = new ArrayList<FileObject>();
+        for (Iterator<LsEntry> iterator = vector.iterator(); iterator.hasNext();)
         {
-            final LsEntry stat = (LsEntry) iterator.next();
+            final LsEntry stat = iterator.next();
 
             String name = stat.getFilename();
             if (VFS.isUriStyle())
@@ -396,8 +396,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
             children.add(fo);
         }
 
-        return (FileObject[]) children.toArray(new FileObject[children
-                .size()]);
+        return children.toArray(new FileObject[children.size()]);
     }
 
     /**

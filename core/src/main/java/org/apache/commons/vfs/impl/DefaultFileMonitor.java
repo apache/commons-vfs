@@ -91,7 +91,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * Map from FileName to FileObject being monitored.
      */
-    private final Map monitorMap = new HashMap();
+    private final Map<FileName, FileMonitorAgent> monitorMap = new HashMap<FileName, FileMonitorAgent>();
 
     /**
      * The low priority thread used for checking the files being monitored.
@@ -101,12 +101,12 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * File objects to be removed from the monitor map.
      */
-    private final Stack deleteStack = new Stack();
+    private final Stack<FileObject> deleteStack = new Stack<FileObject>();
 
     /**
      * File objects to be added to the monitor map.
      */
-    private final Stack addStack = new Stack();
+    private final Stack<FileObject> addStack = new Stack<FileObject>();
 
     /**
      * A flag used to determine if the monitor thread should be running.
@@ -258,7 +258,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 if (parent != null)
                 { // Not the root
                     FileMonitorAgent parentAgent =
-                        (FileMonitorAgent) this.monitorMap.get(parent.getName());
+                        this.monitorMap.get(parent.getName());
                     if (parentAgent != null)
                     {
                         parentAgent.resetChildrenList();
@@ -363,7 +363,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         {
             while (!this.deleteStack.empty())
             {
-                this.removeFile((FileObject) this.deleteStack.pop());
+                this.removeFile(this.deleteStack.pop());
             }
 
             // For each entry in the map
@@ -379,7 +379,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 FileMonitorAgent agent;
                 synchronized (this.monitorMap)
                 {
-                    agent = (FileMonitorAgent) this.monitorMap.get(fileName);
+                    agent = this.monitorMap.get(fileName);
                 }
                 if (agent != null)
                 {
@@ -409,7 +409,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
             while (!this.addStack.empty())
             {
-                this.addFile((FileObject) this.addStack.pop());
+                this.addFile(this.addStack.pop());
             }
 
             try
@@ -435,7 +435,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
         private boolean exists;
         private long timestamp;
-        private Map children;
+        private Map<FileName, Object> children;
 
         private FileMonitorAgent(DefaultFileMonitor fm, FileObject file)
         {
@@ -474,7 +474,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 if (this.file.getType().hasChildren())
                 {
-                    this.children = new HashMap();
+                    this.children = new HashMap<FileName, Object>();
                     FileObject[] childrenList = this.file.getChildren();
                     for (int i = 0; i < childrenList.length; i++)
                     {
@@ -567,8 +567,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     if (this.children != null)
                     {
                         // See which new children are not listed in the current children map.
-                        Map newChildrenMap = new HashMap();
-                        Stack missingChildren = new Stack();
+                        Map<FileName, Object> newChildrenMap = new HashMap<FileName, Object>();
+                        Stack<FileObject> missingChildren = new Stack<FileObject>();
 
                         for (int i = 0; i < newChildren.length; i++)
                         {
@@ -590,8 +590,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                             while (!missingChildren.empty())
                             {
-                                FileObject child = (FileObject)
-                                    missingChildren.pop();
+                                FileObject child = missingChildren.pop();
                                 this.fireAllCreate(child);
                             }
                         }
@@ -602,7 +601,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         // First set of children - Break out the cigars
                         if (newChildren.length > 0)
                         {
-                            this.children = new HashMap();
+                            this.children = new HashMap<FileName, Object>();
                         }
                         for (int i = 0; i < newChildren.length; i++)
                         {

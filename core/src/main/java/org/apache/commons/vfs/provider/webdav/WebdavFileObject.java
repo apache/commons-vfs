@@ -153,7 +153,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
                         DavConstants.DEPTH_1);
 
                 execute(method);
-                List vfs = new ArrayList();
+                List<WebdavFileObject> vfs = new ArrayList<WebdavFileObject>();
                 if (method.succeeded())
                 {
                     MultiStatusResponse[] responses =
@@ -178,7 +178,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
                         }
                     }
                 }
-                return (WebdavFileObject[]) vfs.toArray(new WebdavFileObject[vfs.size()]);
+                return vfs.toArray(new WebdavFileObject[vfs.size()]);
             }
             throw new FileNotFolderException(getName());
         }
@@ -283,25 +283,25 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
      * Returns the properties of the Webdav resource.
      */
     @Override
-    protected Map doGetAttributes() throws Exception
+    protected Map<String, Object> doGetAttributes() throws Exception
     {
-        final Map attributes = new HashMap();
+        final Map<String, Object> attributes = new HashMap<String, Object>();
         try
         {
             URLFileName fileName = (URLFileName) getName();
             DavPropertySet properties = getProperties(fileName, PropFindMethod.PROPFIND_ALL_PROP,
                     new DavPropertyNameSet(), false);
-            Iterator iter = properties.iterator();
+            Iterator<DavProperty> iter = properties.iterator();
             while (iter.hasNext())
             {
-                DavProperty property = (DavProperty) iter.next();
+                DavProperty property = iter.next();
                 attributes.put(property.getName().toString(), property.getValue());
             }
             properties = getPropertyNames(fileName);
             iter = properties.iterator();
             while (iter.hasNext())
             {
-                DavProperty property = (DavProperty) iter.next();
+                DavProperty property = iter.next();
                 if (!attributes.containsKey(property.getName()))
                 {
                     property = getProperty(fileName, property.getName());
@@ -749,7 +749,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
         private void setUserName(URLFileName fileName, String urlStr)
                 throws IOException
         {
-            List list = new ArrayList();
+            List<DefaultDavProperty> list = new ArrayList<DefaultDavProperty>();
             String name = builder.getCreatorName(getFileSystem().getFileSystemOptions());
             String userName = fileName.getUserName();
             if (name == null)
