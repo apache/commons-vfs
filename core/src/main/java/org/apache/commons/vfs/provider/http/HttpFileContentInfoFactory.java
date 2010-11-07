@@ -18,7 +18,6 @@ package org.apache.commons.vfs.provider.http;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HeaderElement;
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileContentInfo;
 import org.apache.commons.vfs.FileContentInfoFactory;
@@ -45,15 +44,7 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
         Header header = httpFile.getHeadMethod().getResponseHeader("content-type");
         if (header != null)
         {
-            HeaderElement[] element;
-            try
-            {
-                element = header.getValues();
-            }
-            catch (HttpException e)
-            {
-                throw new FileSystemException(e);
-            }
+            HeaderElement[] element = header.getElements();
             if (element != null && element.length > 0)
             {
                 contentType = element[0].getName();

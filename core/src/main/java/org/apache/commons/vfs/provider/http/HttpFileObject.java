@@ -22,7 +22,7 @@ import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
-import org.apache.commons.httpclient.util.DateParser;
+import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.httpclient.util.URIUtil;
 
 import org.apache.commons.vfs.provider.AbstractFileObject;
@@ -141,7 +141,7 @@ public class HttpFileObject
         {
             throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
         }
-        return DateParser.parseDate(header.getValue()).getTime();
+        return DateUtil.parseDate(header.getValue()).getTime();
     }
 
     /**

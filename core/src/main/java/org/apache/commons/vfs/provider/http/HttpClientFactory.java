@@ -24,6 +24,7 @@ import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.httpclient.params.HttpClientParams;
+import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
@@ -108,7 +109,8 @@ public final class HttpClientFactory
                                 UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
                                     UserAuthenticationData.PASSWORD, null)));
 
-                        client.getState().setProxyCredentials(null, proxyHost, proxyCreds);
+                        AuthScope scope = new AuthScope(proxyHost, AuthScope.ANY_PORT);
+                        client.getState().setProxyCredentials(scope, proxyCreds);
                     }
 
                     if (builder.isPreemptiveAuth(fileSystemOptions)) {
@@ -138,7 +140,8 @@ public final class HttpClientFactory
             {
                 final UsernamePasswordCredentials creds =
                     new UsernamePasswordCredentials(username, password);
-                client.getState().setCredentials(null, hostname, creds);
+                AuthScope scope = new AuthScope(hostname, AuthScope.ANY_PORT);
+                client.getState().setCredentials(scope, creds);
             }
 
             client.executeMethod(new HeadMethod());
