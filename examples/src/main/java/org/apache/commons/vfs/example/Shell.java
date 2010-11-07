@@ -352,12 +352,12 @@ public class Shell
         {
             return null;
         }
-        final ArrayList cmd = new ArrayList();
+        final ArrayList<String> cmd = new ArrayList<String>();
         final StringTokenizer tokens = new StringTokenizer(line);
         while (tokens.hasMoreTokens())
         {
             cmd.add(tokens.nextToken());
         }
-        return (String[]) cmd.toArray(new String[cmd.size()]);
+        return cmd.toArray(new String[cmd.size()]);
     }
 }

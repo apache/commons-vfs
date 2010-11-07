@@ -38,7 +38,7 @@ public class ZipFileObject
 {
     /** The ZipEntry. */
     protected ZipEntry entry;
-    private final HashSet children = new HashSet();
+    private final HashSet<String> children = new HashSet<String>();
     private final ZipFileSystem fs;
     // protected final ZipFile file;
 
@@ -129,7 +129,7 @@ public class ZipFileObject
             throw new RuntimeException(e);
         }
 
-        return (String[]) children.toArray(new String[children.size()]);
+        return children.toArray(new String[children.size()]);
     }
 
     /**

@@ -80,8 +80,8 @@ public class SftpCheck
         session.connect();
         ChannelSftp chan = (ChannelSftp) session.openChannel("sftp");
         chan.connect();
-        Vector list = chan.ls(dir);
-        Iterator iterList = list.iterator();
+        Vector<?> list = chan.ls(dir);
+        Iterator<?> iterList = list.iterator();
         while (iterList.hasNext())
         {
             System.err.println(iterList.next());

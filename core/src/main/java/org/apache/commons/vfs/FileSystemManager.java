@@ -244,14 +244,14 @@ public interface FileSystemManager
      * Get the file object decorator used.
      * @return the file object decorator Class.
      */
-    Class getFileObjectDecorator();
+    Class<?> getFileObjectDecorator();
 
     /**
      * The constructor associated to the fileObjectDecorator.
      * We cache it here for performance reasons.
      * @return the Constructor associated with the FileObjectDecorator.
      */
-    Constructor getFileObjectDecoratorConst();
+    Constructor<?> getFileObjectDecoratorConst();
 
     /**
      * The class to use to determine the content-type (mime-type).
@@ -279,7 +279,7 @@ public interface FileSystemManager
      * @return A Collection of the various capabilities.
      * @throws FileSystemException if the given scheme is not konwn.
      */
-    Collection getProviderCapabilities(final String scheme) throws FileSystemException;
+    Collection<Capability> getProviderCapabilities(final String scheme) throws FileSystemException;
 
     /**
      * Sets the logger to use.

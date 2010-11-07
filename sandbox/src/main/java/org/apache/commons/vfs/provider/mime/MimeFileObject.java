@@ -24,6 +24,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Header;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -52,7 +53,7 @@ public class MimeFileObject
     implements FileObject
 {
     private Part part;
-    private Map attributeMap;
+    private Map<String, Object> attributeMap;
 
     protected MimeFileObject(final FileName name,
                             final Part part,
@@ -160,7 +161,7 @@ public class MimeFileObject
             return null;
         }
 
-        List vfs = new ArrayList();
+        List<MimeFileObject> vfs = new ArrayList<MimeFileObject>();
         if (isMultipart())
         {
             Object container = part.getContent();
@@ -189,7 +190,7 @@ public class MimeFileObject
             }
         }
 
-        return (MimeFileObject[]) vfs.toArray(new MimeFileObject[vfs.size()]);
+        return vfs.toArray(new MimeFileObject[vfs.size()]);
     }
 
     private void setPart(Part part)
@@ -287,7 +288,7 @@ public class MimeFileObject
      * </ul>
      */
     @Override
-    protected Map doGetAttributes() throws Exception
+    protected Map<String, Object> doGetAttributes() throws Exception
     {
         if (attributeMap == null)
         {
@@ -297,14 +298,15 @@ public class MimeFileObject
             }
             else
             {
-                attributeMap = Collections.EMPTY_MAP;
+                attributeMap = Collections.emptyMap();
             }
         }
 
         return attributeMap;
     }
 
-    protected Enumeration getAllHeaders() throws MessagingException
+    @SuppressWarnings("unchecked") // Javadoc says Part returns Header
+    protected Enumeration<Header> getAllHeaders() throws MessagingException
     {
         return part.getAllHeaders();
     }

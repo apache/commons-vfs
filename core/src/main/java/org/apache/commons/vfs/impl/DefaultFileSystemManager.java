@@ -19,6 +19,7 @@ package org.apache.commons.vfs.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.CacheStrategy;
+import org.apache.commons.vfs.Capability;
 import org.apache.commons.vfs.FileContentInfoFactory;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
@@ -81,12 +82,12 @@ public class DefaultFileSystemManager implements FileSystemManager
     /**
      * Mapping from URI scheme to FileProvider.
      */
-    private final Map providers = new HashMap();
+    private final Map<String, FileProvider> providers = new HashMap<String, FileProvider>();
 
     /**
      * All components used by this manager.
      */
-    private final ArrayList components = new ArrayList();
+    private final ArrayList<Object> components = new ArrayList<Object>();
 
     /**
      * The base file to use for relative URI.
@@ -106,8 +107,8 @@ public class DefaultFileSystemManager implements FileSystemManager
     /**
      * Class which decorates all returned fileObjects
      */
-    private Class fileObjectDecorator;
-    private Constructor fileObjectDecoratorConst;
+    private Class<?> fileObjectDecorator;
+    private Constructor<?> fileObjectDecoratorConst;
 
     /**
      * The class to use to determine the content-type (mime-type)
@@ -130,7 +131,8 @@ public class DefaultFileSystemManager implements FileSystemManager
     private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
     private boolean init;
 
-    private final Map operationProviders = new HashMap();
+    private final Map<String, List<FileOperationProvider>> operationProviders = 
+          new HashMap<String, List<FileOperationProvider>>();
 
     /**
      * Returns the logger used by this manager.
@@ -304,7 +306,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Get the file object decorator used.
      * @return The decorator.
      */
-    public Class getFileObjectDecorator()
+    public Class<?> getFileObjectDecorator()
     {
         return fileObjectDecorator;
     }
@@ -314,7 +316,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * We cache it here for performance reasons.
      * @return The decorator's Constructor.
      */
-    public Constructor getFileObjectDecoratorConst()
+    public Constructor<?> getFileObjectDecoratorConst()
     {
         return fileObjectDecoratorConst;
     }
@@ -326,7 +328,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * constructor with a single {@link FileObject} as argument
      * @throws FileSystemException if an error occurs setting the decorator.
      */
-    public void setFileObjectDecorator(Class fileObjectDecorator) throws FileSystemException
+    public void setFileObjectDecorator(Class<?> fileObjectDecorator) throws FileSystemException
     {
         if (init)
         {
@@ -519,7 +521,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         }
 
         // Close the providers.
-        for (Iterator iterator = providers.values().iterator(); iterator
+        for (Iterator<?> iterator = providers.values().iterator(); iterator
                 .hasNext();)
         {
             final Object provider = iterator.next();
@@ -552,7 +554,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         }
 
         // Close the providers.
-        for (Iterator iterator = providers.values().iterator(); iterator
+        for (Iterator<FileProvider> iterator = providers.values().iterator(); iterator
                 .hasNext();)
         {
             final AbstractFileProvider provider = (AbstractFileProvider) iterator
@@ -686,7 +688,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         if (scheme != null)
         {
             // An absolute URI - locate the provider
-            final FileProvider provider = (FileProvider) providers.get(scheme);
+            final FileProvider provider = providers.get(scheme);
             if (provider != null)
             {
                 return provider.findFile(realBaseFile, uri, fileSystemOptions);
@@ -801,7 +803,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             scheme = realBase.getScheme();
             fullPath = realBase.getRootURI() + resolvedPath;
         }
-        final FileProvider provider = (FileProvider) providers.get(scheme);
+        final FileProvider provider = providers.get(scheme);
         if (provider != null)
         {
             // todo: extend the filename parser to be able to parse
@@ -847,7 +849,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         if (scheme != null)
         {
             // An absolute URI - locate the provider
-            final FileProvider provider = (FileProvider) providers.get(scheme);
+            final FileProvider provider = providers.get(scheme);
             if (provider != null)
             {
                 return provider.parseUri(null, uri);
@@ -904,7 +906,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     public FileObject createFileSystem(final String scheme,
             final FileObject file) throws FileSystemException
     {
-        final FileProvider provider = (FileProvider) providers.get(scheme);
+        final FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
             throw new FileSystemException("vfs.impl/unknown-provider.error",
@@ -1014,8 +1016,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      */
     public void _closeFileSystem(FileSystem filesystem)
     {
-        FileProvider provider = (FileProvider) providers.get(filesystem
-                .getRootName().getScheme());
+        FileProvider provider = providers.get(filesystem.getRootName().getScheme());
         if (provider != null)
         {
             ((AbstractFileProvider) provider).closeFileSystem(filesystem);
@@ -1030,7 +1031,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     {
         public URLStreamHandler createURLStreamHandler(final String protocol)
         {
-            FileProvider provider = (FileProvider) providers.get(protocol);
+            FileProvider provider = providers.get(protocol);
             if (provider != null)
             {
                 return new DefaultURLStreamHandler(context);
@@ -1059,10 +1060,10 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return A Collection of capabilities.
      * @throws FileSystemException if the given scheme is not konwn
      */
-    public Collection getProviderCapabilities(final String scheme)
+    public Collection<Capability> getProviderCapabilities(final String scheme)
             throws FileSystemException
     {
-        FileProvider provider = (FileProvider) providers.get(scheme);
+        FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
             throw new FileSystemException("vfs.impl/unknown-scheme.error",
@@ -1081,7 +1082,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme)
             throws FileSystemException
     {
-        FileProvider provider = (FileProvider) providers.get(scheme);
+        FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
             throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[] {scheme});
@@ -1127,11 +1128,11 @@ public class DefaultFileSystemManager implements FileSystemManager
 
             if (!operationProviders.containsKey(scheme))
             {
-                final List providers = new ArrayList();
+                final List<FileOperationProvider> providers = new ArrayList<FileOperationProvider>();
                 operationProviders.put(scheme, providers);
             }
 
-            final List providers = (List) operationProviders.get(scheme);
+            final List<FileOperationProvider> providers = operationProviders.get(scheme);
 
             if (providers.contains(operationProvider))
             {
@@ -1160,11 +1161,11 @@ public class DefaultFileSystemManager implements FileSystemManager
             throws FileSystemException
     {
 
-        List providers = (List) operationProviders.get(scheme);
+        List<?> providers = operationProviders.get(scheme);
         if (providers == null || providers.size() == 0)
         {
             return null;
         }
-        return (FileOperationProvider[]) providers.toArray(new FileOperationProvider[] {});
+        return providers.toArray(new FileOperationProvider[] {});
     }
 }

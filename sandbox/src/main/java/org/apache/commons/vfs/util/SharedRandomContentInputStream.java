@@ -36,7 +36,7 @@ import java.util.Set;
  */
 public class SharedRandomContentInputStream extends BufferedInputStream implements SharedInputStream
 {
-    private final Set createdStreams;
+    private final Set<SharedRandomContentInputStream> createdStreams;
     private final FileObject fo;
     private final long fileStart;
     private final long fileEnd;
@@ -44,7 +44,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     private long pos;
     private long resetCount;
 
-    private SharedRandomContentInputStream(final Set createdStreams, final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
+    private SharedRandomContentInputStream(final Set<SharedRandomContentInputStream> createdStreams, final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
     {
         super(is);
 
@@ -66,7 +66,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 
     public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException
     {
-        this(new HashSet(), fo, 0, -1, fo.getContent().getInputStream());
+        this(new HashSet<SharedRandomContentInputStream>(), fo, 0, -1, fo.getContent().getInputStream());
     }
 
 

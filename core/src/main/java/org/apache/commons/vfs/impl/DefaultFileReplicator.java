@@ -51,7 +51,7 @@ public class DefaultFileReplicator
 
     private static final int MASK = 0xffff;
 
-    private final ArrayList copies = new ArrayList();
+    private final ArrayList<Object> copies = new ArrayList<Object>();
     private File tempDir;
     private long filecount;
     private boolean tempDirMessageLogged;

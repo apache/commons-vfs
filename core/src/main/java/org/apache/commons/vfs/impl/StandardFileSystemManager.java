@@ -139,7 +139,7 @@ public class StandardFileSystemManager
     {
         ClassLoader cl = findClassLoader();
 
-        Enumeration enumResources;
+        Enumeration<URL> enumResources;
         try
         {
             enumResources = cl.getResources(PLUGIN_CONFIG_RESOURCE);
@@ -151,7 +151,7 @@ public class StandardFileSystemManager
 
         while (enumResources.hasMoreElements())
         {
-            URL url = (URL) enumResources.nextElement();
+            URL url = enumResources.nextElement();
             configure(url);
         }
     }
@@ -221,6 +221,7 @@ public class StandardFileSystemManager
      * @param configStream An InputStream containing the configuration.
      * @throws FileSystemException if an error occurs.
      */
+    @SuppressWarnings("unused")
     private void configure(final String configUri, final InputStream configStream)
             throws FileSystemException
     {
@@ -423,7 +424,7 @@ public class StandardFileSystemManager
      */
     private String[] getRequiredClasses(final Element providerDef)
     {
-        final ArrayList classes = new ArrayList();
+        final ArrayList<String> classes = new ArrayList<String>();
         final NodeList deps = providerDef.getElementsByTagName("if-available");
         final int count = deps.getLength();
         for (int i = 0; i < count; i++)
@@ -435,7 +436,7 @@ public class StandardFileSystemManager
                 classes.add(className);
             }
         }
-        return (String[]) classes.toArray(new String[classes.size()]);
+        return classes.toArray(new String[classes.size()]);
     }
 
     /**
@@ -443,7 +444,7 @@ public class StandardFileSystemManager
      */
     private String[] getRequiredSchemes(final Element providerDef)
     {
-        final ArrayList schemes = new ArrayList();
+        final ArrayList<String> schemes = new ArrayList<String>();
         final NodeList deps = providerDef.getElementsByTagName("if-available");
         final int count = deps.getLength();
         for (int i = 0; i < count; i++)
@@ -455,7 +456,7 @@ public class StandardFileSystemManager
                 schemes.add(scheme);
             }
         }
-        return (String[]) schemes.toArray(new String[schemes.size()]);
+        return schemes.toArray(new String[schemes.size()]);
     }
 
     /**
@@ -463,7 +464,7 @@ public class StandardFileSystemManager
      */
     private String[] getSchemas(final Element provider)
     {
-        final ArrayList schemas = new ArrayList();
+        final ArrayList<String> schemas = new ArrayList<String>();
         final NodeList schemaElements = provider.getElementsByTagName("scheme");
         final int count = schemaElements.getLength();
         for (int i = 0; i < count; i++)
@@ -471,7 +472,7 @@ public class StandardFileSystemManager
             final Element scheme = (Element) schemaElements.item(i);
             schemas.add(scheme.getAttribute("name"));
         }
-        return (String[]) schemas.toArray(new String[schemas.size()]);
+        return schemas.toArray(new String[schemas.size()]);
     }
 
     /**
@@ -482,7 +483,7 @@ public class StandardFileSystemManager
     {
         try
         {
-            final Class clazz = findClassLoader().loadClass(className);
+            final Class<?> clazz = findClassLoader().loadClass(className);
             return clazz.newInstance();
         }
         catch (final Exception e)

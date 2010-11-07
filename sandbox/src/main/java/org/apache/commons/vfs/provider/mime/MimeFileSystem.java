@@ -70,7 +70,7 @@ public class MimeFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         caps.addAll(MimeFileProvider.capabilities);
     }

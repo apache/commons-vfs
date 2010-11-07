@@ -40,16 +40,16 @@ import java.util.TreeMap;
 /**
  * A map which tries to allow access to the various aspects of the mail
  */
-public class MimeAttributesMap implements Map
+public class MimeAttributesMap implements Map<String, Object>
 {
     private Log log = LogFactory.getLog(MimeAttributesMap.class);
 
     private final static String OBJECT_PREFIX = "obj.";
 
     private final Part part;
-    private Map backingMap;
+    private Map<String, Object> backingMap;
 
-    private final Map mimeMessageGetters = new TreeMap();
+    private final Map<String, Method> mimeMessageGetters = new TreeMap<String, Method>();
 
     public MimeAttributesMap(Part part)
     {
@@ -83,7 +83,7 @@ public class MimeAttributesMap implements Map
         }
     }
 
-    private Map getMap()
+    private Map<String, Object> getMap()
     {
         if (backingMap == null)
         {
@@ -93,14 +93,17 @@ public class MimeAttributesMap implements Map
         return backingMap;
     }
 
-    private Map createMap()
+    private Map<String, Object> createMap()
     {
-        Map ret = new TreeMap();
+        // Object is either a String, or a List of Strings
+        Map<String, Object> ret = new TreeMap<String, Object>();
 
-        Enumeration headers;
+        Enumeration<Header> headers;
         try
         {
-            headers = part.getAllHeaders();
+            @SuppressWarnings("unchecked") // Javadoc say Part returns Header
+            Enumeration<Header> allHeaders = part.getAllHeaders();
+            headers = allHeaders;
         }
         catch (MessagingException e)
         {
@@ -110,7 +113,7 @@ public class MimeAttributesMap implements Map
         // add all headers
         while (headers.hasMoreElements())
         {
-            Header header = (Header) headers.nextElement();
+            Header header = headers.nextElement();
             String headerName = header.getName();
 
             Object values = ret.get(headerName);
@@ -121,24 +124,26 @@ public class MimeAttributesMap implements Map
             }
             else if (values instanceof String)
             {
-                List newValues = new ArrayList();
-                newValues.add(values);
+                ArrayList<String> newValues = new ArrayList<String>();
+                newValues.add((String) values);
                 newValues.add(header.getValue());
                 ret.put(headerName, newValues);
             }
             else if (values instanceof List)
             {
-                ((List) values).add(header.getValue());
+                @SuppressWarnings("unchecked") // we only add Strings to the Lists
+                List<String> list = (List<String>) values;
+                list.add(header.getValue());
             }
         }
 
         // add all simple get/is results (with obj. prefix)
-        Iterator iterEntries = mimeMessageGetters.entrySet().iterator();
+        Iterator<Entry<String, Method>> iterEntries = mimeMessageGetters.entrySet().iterator();
         while (iterEntries.hasNext())
         {
-            Map.Entry entry = (Map.Entry) iterEntries.next();
-            String name = (String) entry.getKey();
-            Method method = (Method) entry.getValue();
+            Map.Entry<String, Method> entry = iterEntries.next();
+            String name = entry.getKey();
+            Method method = entry.getValue();
 
             try
             {
@@ -225,7 +230,7 @@ public class MimeAttributesMap implements Map
         return getMap().get(key);
     }
 
-    public Object put(Object key, Object value)
+    public Object put(String key, Object value)
     {
         throw new UnsupportedOperationException();
     }
@@ -235,7 +240,7 @@ public class MimeAttributesMap implements Map
         throw new UnsupportedOperationException();
     }
 
-    public void putAll(Map t)
+    public void putAll(Map<? extends String, ? extends Object> t)
     {
         throw new UnsupportedOperationException();
     }
@@ -245,17 +250,17 @@ public class MimeAttributesMap implements Map
         throw new UnsupportedOperationException();
     }
 
-    public Set keySet()
+    public Set<String> keySet()
     {
         return Collections.unmodifiableSet(getMap().keySet());
     }
 
-    public Collection values()
+    public Collection<Object> values()
     {
         return Collections.unmodifiableCollection(getMap().values());
     }
 
-    public Set entrySet()
+    public Set<Entry<String, Object>> entrySet()
     {
         return Collections.unmodifiableSet(getMap().entrySet());
     }

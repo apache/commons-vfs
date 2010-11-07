@@ -82,11 +82,11 @@ public class ZipFileSystem
         try
         {
             // Build the index
-            List strongRef = new ArrayList(100);
-            Enumeration entries = getZipFile().entries();
+            List<ZipFileObject> strongRef = new ArrayList<ZipFileObject>(100);
+            Enumeration<? extends ZipEntry> entries = getZipFile().entries();
             while (entries.hasMoreElements())
             {
-                ZipEntry entry = (ZipEntry) entries.nextElement();
+                ZipEntry entry = entries.nextElement();
                 FileName name = getFileSystemManager().resolveName(getRootName(), UriParser.encode(entry.getName()));
 
                 // Create the file
