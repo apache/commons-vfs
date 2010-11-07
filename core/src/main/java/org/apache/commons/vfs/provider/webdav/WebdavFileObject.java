@@ -441,7 +441,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
         }
     }
 
-    private boolean isDirectory(URLFileName name) throws IOException, DavException
+    private boolean isDirectory(URLFileName name) throws IOException
     {
         try
         {
@@ -621,7 +621,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     {
         private WebdavFileObject file;
 
-        public WebdavOutputStream(WebdavFileObject file) throws FileSystemException
+        public WebdavOutputStream(WebdavFileObject file)
         {
             super(new ByteArrayOutputStream());
             this.file = file;
