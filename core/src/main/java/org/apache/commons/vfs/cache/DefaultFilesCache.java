@@ -35,32 +35,33 @@ public class DefaultFilesCache extends AbstractFilesCache
 {
 
     /** The FileSystem cache */
-    private final Map filesystemCache = new HashMap(10);
+    private final Map<FileSystem, Map<FileName, FileObject>> filesystemCache =
+          new HashMap<FileSystem, Map<FileName, FileObject>>(10);
 
     public void putFile(final FileObject file)
     {
-        Map files = getOrCreateFilesystemCache(file.getFileSystem());
+        Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
         files.put(file.getName(), file);
     }
 
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
-        Map files = getOrCreateFilesystemCache(filesystem);
-        return (FileObject) files.get(name);
+        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
+        return files.get(name);
     }
 
     public void clear(FileSystem filesystem)
     {
-        Map files = getOrCreateFilesystemCache(filesystem);
+        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
         files.clear();
     }
 
-    protected Map getOrCreateFilesystemCache(FileSystem filesystem)
+    protected Map<FileName, FileObject> getOrCreateFilesystemCache(FileSystem filesystem)
     {
-        Map files = (Map) filesystemCache.get(filesystem);
+        Map<FileName, FileObject> files = filesystemCache.get(filesystem);
         if (files == null)
         {
-            files = new HashMap();
+            files = new HashMap<FileName, FileObject>();
             filesystemCache.put(filesystem, files);
         }
 
@@ -77,7 +78,7 @@ public class DefaultFilesCache extends AbstractFilesCache
 
     public void removeFile(FileSystem filesystem, FileName name)
     {
-        Map files = getOrCreateFilesystemCache(filesystem);
+        Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
         files.remove(name);
     }
 

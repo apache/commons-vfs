@@ -26,7 +26,7 @@ import org.apache.commons.vfs.FileSystem;
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-class FileSystemAndNameKey implements Comparable
+class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey>
 {
     /** The FileSystem */
     private final FileSystem fileSystem;
@@ -45,10 +45,8 @@ class FileSystemAndNameKey implements Comparable
         this.fileName = fileName;
     }
 
-    public int compareTo(Object o)
+    public int compareTo(FileSystemAndNameKey other)
     {
-        FileSystemAndNameKey other = (FileSystemAndNameKey) o;
-
         if (fileSystemId < other.fileSystemId)
         {
             return -1;

@@ -24,7 +24,7 @@ package org.apache.commons.vfs;
  * @version $Revision$ $Date$
  * @see FileObject
  */
-public interface FileName extends Comparable
+public interface FileName extends Comparable<FileName>
 {
     /**
      * The separator character used in file paths.

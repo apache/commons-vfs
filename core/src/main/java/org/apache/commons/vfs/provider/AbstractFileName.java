@@ -106,7 +106,7 @@ public abstract class AbstractFileName
      * @param obj another abstractfilename
      * @return negative number if less than, 0 if equal, postive if greater than.
      */
-    public int compareTo(Object obj)
+    public int compareTo(FileName obj)
     {
         final AbstractFileName name = (AbstractFileName) obj;
         int ret = getRootURI().compareTo(name.getRootURI());

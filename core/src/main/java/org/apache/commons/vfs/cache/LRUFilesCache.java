@@ -47,7 +47,8 @@ public class LRUFilesCache extends AbstractFilesCache
     private final Log log = LogFactory.getLog(LRUFilesCache.class);
 
     /** The FileSystem cache */
-    private final Map filesystemCache = new HashMap(10);
+    private final Map<FileSystem, Map<FileName, FileObject>> filesystemCache = 
+          new HashMap<FileSystem, Map<FileName, FileObject>>(10);
 
     /** The size of the cache */
     private final int lruSize;
@@ -97,7 +98,7 @@ public class LRUFilesCache extends AbstractFilesCache
                         VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/LRUFilesCache-remove-ex.warn"), e);
                     }
 
-                    Map files = (Map) filesystemCache.get(filesystem);
+                    Map<?, ?> files = filesystemCache.get(filesystem);
                     if (files.size() < 1)
                     {
                         filesystemCache.remove(filesystem);
@@ -133,7 +134,7 @@ public class LRUFilesCache extends AbstractFilesCache
     {
         synchronized (this)
         {
-            Map files = getOrCreateFilesystemCache(file.getFileSystem());
+            Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
 
             // System.err.println(">>> " + files.size() + " put:" + file.toString());
 
@@ -145,12 +146,12 @@ public class LRUFilesCache extends AbstractFilesCache
     {
         synchronized (this)
         {
-            Map files = getOrCreateFilesystemCache(filesystem);
+            Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
 
             // FileObject fo = (FileObject) files.get(name);
             // System.err.println(">>> " + files.size() + " get:" + name.toString() + " " + fo);
 
-            return (FileObject) files.get(name);
+            return files.get(name);
         }
     }
 
@@ -160,16 +161,16 @@ public class LRUFilesCache extends AbstractFilesCache
         {
             // System.err.println(">>> clear fs " + filesystem);
 
-            Map files = getOrCreateFilesystemCache(filesystem);
+            Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
             files.clear();
 
             filesystemCache.remove(filesystem);
         }
     }
 
-    protected Map getOrCreateFilesystemCache(final FileSystem filesystem)
+    protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem)
     {
-        Map files = (Map) filesystemCache.get(filesystem);
+        Map<FileName, FileObject> files = filesystemCache.get(filesystem);
         if (files == null)
         {
             // System.err.println(">>> create fs " + filesystem);
@@ -198,7 +199,7 @@ public class LRUFilesCache extends AbstractFilesCache
     {
         synchronized (this)
         {
-            Map files = getOrCreateFilesystemCache(filesystem);
+            Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
 
             // System.err.println(">>> " + files.size() + " remove:" + name.toString());
 
