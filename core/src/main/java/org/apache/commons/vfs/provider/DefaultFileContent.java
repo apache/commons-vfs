@@ -54,12 +54,12 @@ public final class DefaultFileContent implements FileContent
     static final int STATE_OPENED = 1;
 
     private final AbstractFileObject file;
-    private Map attrs;
-    private Map roAttrs;
+    private Map<String, Object> attrs;
+    private Map<String, Object> roAttrs;
     private FileContentInfo fileContentInfo;
     private final FileContentInfoFactory fileContentInfoFactory;
 
-    private final ThreadLocal threadData = new ThreadLocal();
+    private final ThreadLocal<FileContentThreadData> threadData = new ThreadLocal<FileContentThreadData>();
     private boolean resetAttributes;
 
     /**
@@ -75,7 +75,7 @@ public final class DefaultFileContent implements FileContent
 
     private FileContentThreadData getThreadData()
     {
-        FileContentThreadData data = (FileContentThreadData) this.threadData.get();
+        FileContentThreadData data = this.threadData.get();
         if (data == null)
         {
             data = new FileContentThreadData();
@@ -226,7 +226,7 @@ public final class DefaultFileContent implements FileContent
      * @return a Map of the file's attributes.
      * @throws FileSystemException if an error occurs.
      */
-    public Map getAttributes() throws FileSystemException
+    public Map<String, Object> getAttributes() throws FileSystemException
     {
         if (!file.getType().hasAttributes())
         {
@@ -268,8 +268,8 @@ public final class DefaultFileContent implements FileContent
     public String[] getAttributeNames() throws FileSystemException
     {
         getAttributes();
-        final Set names = attrs.keySet();
-        return (String[]) names.toArray(new String[names.size()]);
+        final Set<String> names = attrs.keySet();
+        return names.toArray(new String[names.size()]);
     }
 
     /**
@@ -587,12 +587,12 @@ public final class DefaultFileContent implements FileContent
         extends MonitorInputStream
     {
         // avoid gc
-        private final FileObject file;
+        private final FileObject _file;
 
         FileContentInputStream(final FileObject file, final InputStream instr)
         {
             super(instr);
-            this.file = file;
+            this._file = file;
         }
 
         /**
@@ -607,7 +607,7 @@ public final class DefaultFileContent implements FileContent
             }
             catch (final IOException e)
             {
-                throw new FileSystemException("vfs.provider/close-instr.error", file, e);
+                throw new FileSystemException("vfs.provider/close-instr.error", _file, e);
             }
         }
 
@@ -634,13 +634,15 @@ public final class DefaultFileContent implements FileContent
     private final class FileRandomAccessContent extends MonitorRandomAccessContent
     {
         // avoid gc
-        private final FileObject file;
+        @SuppressWarnings("unused")
+        private final FileObject _file;
+        @SuppressWarnings("unused")
         private final RandomAccessContent content;
 
         FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
         {
             super(content);
-            this.file = file;
+            this._file = file;
             this.content = content;
         }
 
@@ -667,12 +669,12 @@ public final class DefaultFileContent implements FileContent
     final class FileContentOutputStream extends MonitorOutputStream
     {
         // avoid gc
-        private final FileObject file;
+        private final FileObject _file;
 
         FileContentOutputStream(final FileObject file, final OutputStream outstr)
         {
             super(outstr);
-            this.file = file;
+            this._file = file;
         }
 
         /**
@@ -687,7 +689,7 @@ public final class DefaultFileContent implements FileContent
             }
             catch (final IOException e)
             {
-                throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
+                throw new FileSystemException("vfs.provider/close-outstr.error", _file, e);
             }
         }
 
@@ -709,7 +711,7 @@ public final class DefaultFileContent implements FileContent
                 }
                 catch (Exception e)
                 {
-                    throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
+                    throw new FileSystemException("vfs.provider/close-outstr.error", _file, e);
                 }
             }
         }

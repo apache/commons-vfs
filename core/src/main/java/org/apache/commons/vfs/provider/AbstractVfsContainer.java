@@ -32,7 +32,7 @@ public abstract class AbstractVfsContainer
     /**
      * The components contained by this component.
      */
-    private final ArrayList components = new ArrayList();
+    private final ArrayList<Object> components = new ArrayList<Object>();
 
     /**
      * Adds a sub-component to this component.  If the sub-component implements

@@ -48,7 +48,7 @@ public class DelegateFileObject
     implements FileListener
 {
     private FileObject file;
-    private final Set children = new HashSet();
+    private final Set<String> children = new HashSet<String>();
     private boolean ignoreEvent;
 
     public DelegateFileObject(final FileName name,
@@ -222,7 +222,7 @@ public class DelegateFileObject
         }
         else
         {
-            return (String[]) children.toArray(new String[children.size()]);
+            return children.toArray(new String[children.size()]);
         }
     }
 
@@ -274,7 +274,7 @@ public class DelegateFileObject
      * Returns the attributes of this file.
      */
     @Override
-    protected Map doGetAttributes()
+    protected Map<String, Object> doGetAttributes()
         throws Exception
     {
         return file.getContent().getAttributes();

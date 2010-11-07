@@ -43,7 +43,7 @@ public abstract class AbstractFileProvider
      * FileSystem object.
      */
     // private final Map fileSystems = new HashMap();
-    private final Map fileSystems = new TreeMap();
+    private final Map<FileSystemKey, FileSystem> fileSystems = new TreeMap<FileSystemKey, FileSystem>();
 
     private FileNameParser parser;
 
@@ -121,7 +121,7 @@ public abstract class AbstractFileProvider
 
         synchronized (this)
         {
-            return (FileSystem) fileSystems.get(treeKey);
+            return fileSystems.get(treeKey);
         }
     }
 

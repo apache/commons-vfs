@@ -83,7 +83,7 @@ public abstract class AbstractFileSystem
     /**
      * Map from FileName to an ArrayList of listeners for that file.
      */
-    private final Map listenerMap = new HashMap();
+    private final Map<FileName, ArrayList<FileListener>> listenerMap = new HashMap<FileName, ArrayList<FileListener>>();
 
     /**
      * FileSystemOptions used for configuration
@@ -502,10 +502,10 @@ public abstract class AbstractFileSystem
     {
         synchronized (listenerMap)
         {
-            ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
+            ArrayList<FileListener> listeners = listenerMap.get(file.getName());
             if (listeners == null)
             {
-                listeners = new ArrayList();
+                listeners = new ArrayList<FileListener>();
                 listenerMap.put(file.getName(), listeners);
             }
             listeners.add(listener);
@@ -522,7 +522,7 @@ public abstract class AbstractFileSystem
     {
         synchronized (listenerMap)
         {
-            final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
+            final ArrayList<?> listeners = listenerMap.get(file.getName());
             if (listeners != null)
             {
                 listeners.remove(listener);
@@ -585,10 +585,10 @@ public abstract class AbstractFileSystem
 
         synchronized (listenerMap)
         {
-            final ArrayList listeners = (ArrayList) listenerMap.get(file.getName());
+            final ArrayList<?> listeners = listenerMap.get(file.getName());
             if (listeners != null)
             {
-                fileListeners = (FileListener[]) listeners.toArray(new FileListener[listeners.size()]);
+                fileListeners = listeners.toArray(new FileListener[listeners.size()]);
             }
         }
 

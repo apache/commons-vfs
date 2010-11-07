@@ -30,8 +30,8 @@ class FileContentThreadData
 {
     // private int state = DefaultFileContent.STATE_CLOSED;
 
-    private final ArrayList instrs = new ArrayList();
-    private final ArrayList rastrs = new ArrayList();
+    private final ArrayList<InputStream> instrs = new ArrayList<InputStream>();
+    private final ArrayList<RandomAccessContent> rastrs = new ArrayList<RandomAccessContent>();
     private DefaultFileContent.FileContentOutputStream outstr;
 
     FileContentThreadData()

@@ -84,7 +84,7 @@ public abstract class AbstractFileObject implements FileObject
     // go into the global files cache
     // private FileObject[] children;
     private FileName[] children;
-    private List objects;
+    private List<Object> objects;
 
     /**
      * FileServices instance.
@@ -292,10 +292,10 @@ public abstract class AbstractFileObject implements FileObject
      * <p/>
      * This implementation always returns an empty map.
      */
-    protected Map doGetAttributes()
+    protected Map<String, Object> doGetAttributes()
         throws Exception
     {
-        return Collections.EMPTY_MAP;
+        return Collections.emptyMap();
     }
 
     /**
@@ -425,9 +425,9 @@ public abstract class AbstractFileObject implements FileObject
         final StringBuffer buf = new StringBuffer();
         try
         {
-            return (URL) AccessController.doPrivileged(new PrivilegedExceptionAction()
+            return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>()
             {
-                public Object run() throws MalformedURLException
+                public URL run() throws MalformedURLException
                 {
                     return new URL(UriParser.extractScheme(name.getURI(), buf), "", -1,
                         buf.toString(), new DefaultURLStreamHandler(fs.getContext(), fs.getFileSystemOptions()));
@@ -856,14 +856,14 @@ public abstract class AbstractFileObject implements FileObject
         */
 
         // Locate all the files to delete
-        ArrayList files = new ArrayList();
+        ArrayList<FileObject> files = new ArrayList<FileObject>();
         findFiles(selector, true, files);
 
         // Delete 'em
         final int count = files.size();
         for (int i = 0; i < count; i++)
         {
-            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject((FileObject) files.get(i));
+            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(files.get(i));
             // file.attach();
 
             // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
@@ -995,14 +995,14 @@ public abstract class AbstractFileObject implements FileObject
         */
 
         // Locate the files to copy across
-        final ArrayList files = new ArrayList();
+        final ArrayList<FileObject> files = new ArrayList<FileObject>();
         file.findFiles(selector, false, files);
 
         // Copy everything across
         final int count = files.size();
         for (int i = 0; i < count; i++)
         {
-            final FileObject srcFile = (FileObject) files.get(i);
+            final FileObject srcFile = files.get(i);
 
             // Determine the destination file
             final String relPath = file.getName().getRelativeName(srcFile.getName());
@@ -1165,9 +1165,9 @@ public abstract class AbstractFileObject implements FileObject
             return null;
         }
 
-        final ArrayList list = new ArrayList();
+        final ArrayList<FileObject> list = new ArrayList<FileObject>();
         findFiles(selector, true, list);
-        return (FileObject[]) list.toArray(new FileObject[list.size()]);
+        return list.toArray(new FileObject[list.size()]);
     }
 
     /**
@@ -1597,7 +1597,7 @@ public abstract class AbstractFileObject implements FileObject
             if (childName != null && newType != null)
             {
                 // TODO - figure out if children[] can be replaced by list
-                ArrayList list = new ArrayList(Arrays.asList(children));
+                ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
                 if (newType.equals(FileType.IMAGINARY))
                 {
                     list.remove(childName);
@@ -1647,7 +1647,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public void findFiles(final FileSelector selector,
                           final boolean depthwise,
-                          final List selected) throws FileSystemException
+                          final List<FileObject> selected) throws FileSystemException
     {
         try
         {
@@ -1673,7 +1673,7 @@ public abstract class AbstractFileObject implements FileObject
     private static void traverse(final DefaultFileSelectorInfo fileInfo,
                                  final FileSelector selector,
                                  final boolean depthwise,
-                                 final List selected)
+                                 final List<FileObject> selected)
         throws Exception
     {
         // Check the file itself
@@ -1776,11 +1776,12 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @param strongRef The Object to add.
      */
+    // TODO should this be a FileObject?
     public void holdObject(Object strongRef)
     {
         if (objects == null)
         {
-            objects = new ArrayList(INITIAL_LISTSZ);
+            objects = new ArrayList<Object>(INITIAL_LISTSZ);
         }
         objects.add(strongRef);
     }
