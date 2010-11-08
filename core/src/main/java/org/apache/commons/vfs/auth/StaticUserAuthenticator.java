@@ -24,7 +24,7 @@ import org.apache.commons.vfs.util.UserAuthenticatorUtils;
  * Provides always the same credentials data passed in with the constructor.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class StaticUserAuthenticator implements UserAuthenticator, Comparable
+public class StaticUserAuthenticator implements UserAuthenticator, Comparable<StaticUserAuthenticator>
 {
     /** The user name */
     private final String username;
@@ -112,9 +112,8 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable
     /**
      * {@inheritDoc}
      */
-    public int compareTo(final Object o)
+    public int compareTo(final StaticUserAuthenticator other)
     {
-        StaticUserAuthenticator other = (StaticUserAuthenticator) o;
         int result = compareStringOrNull(domain, other.domain);
         result = result == 0 ? compareStringOrNull(username, other.username) : result;
         result = result == 0 ? compareStringOrNull(password, other.password) : result;
