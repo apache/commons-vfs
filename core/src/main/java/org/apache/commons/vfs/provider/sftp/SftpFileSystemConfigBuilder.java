@@ -54,7 +54,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Proxy type.
      */
-    public static final class ProxyType implements Serializable, Comparable
+    public static final class ProxyType implements Serializable, Comparable<ProxyType>
     {
         private final String proxyType;
 
@@ -63,9 +63,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
             this.proxyType = proxyType;
         }
 
-        public int compareTo(Object o)
+        public int compareTo(ProxyType o)
         {
-            return proxyType.compareTo(((ProxyType) o).proxyType);
+            return proxyType.compareTo(o.proxyType);
         }
 
         @Override
