@@ -105,7 +105,6 @@ public class VfsClassLoaderTests
      */
     private void verifyPackage(final Package pack,
                                final boolean sealed)
-        throws FileSystemException
     {
         if (getBaseFolder().getFileSystem().hasCapability(Capability.MANIFEST_ATTRIBUTES))
         {
