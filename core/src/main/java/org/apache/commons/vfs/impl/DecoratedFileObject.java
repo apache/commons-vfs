@@ -85,7 +85,7 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.exists();
     }
 
-    public void findFiles(FileSelector selector, boolean depthwise, List selected) throws FileSystemException
+    public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected) throws FileSystemException
     {
         decoratedFileObject.findFiles(selector, depthwise, selected);
     }
