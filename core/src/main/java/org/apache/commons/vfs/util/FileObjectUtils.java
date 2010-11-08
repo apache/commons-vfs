@@ -66,7 +66,7 @@ public final class FileObjectUtils
      * @return true if fileObject is an instance of the specified Class.
      * @throws FileSystemException if an error occurs.
      */
-    public static boolean isInstanceOf(final FileObject fileObject, final Class wantedClass) throws FileSystemException
+    public static boolean isInstanceOf(final FileObject fileObject, final Class<?> wantedClass) throws FileSystemException
     {
         Object searchObject = fileObject;
         while (searchObject instanceof DecoratedFileObject)

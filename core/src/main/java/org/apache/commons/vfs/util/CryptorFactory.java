@@ -64,7 +64,7 @@ public final class CryptorFactory
         {
             try
             {
-                Class clazz = Class.forName(cryptorClass);
+                Class<?> clazz = Class.forName(cryptorClass);
                 instance = (Cryptor) clazz.newInstance();
                 return instance;
             }

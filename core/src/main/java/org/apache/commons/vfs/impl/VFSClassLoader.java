@@ -376,16 +376,16 @@ public class VFSClassLoader extends SecureClassLoader
      * @return An Enumeration of the resources associated with the name.
      */
     @Override
-    protected Enumeration findResources(final String name)
+    protected Enumeration<URL> findResources(final String name)
     {
-        return new Enumeration()
+        return new Enumeration<URL>()
         {
             public boolean hasMoreElements()
             {
                 return false;
             }
 
-            public Object nextElement()
+            public URL nextElement()
             {
                 return null;
             }
