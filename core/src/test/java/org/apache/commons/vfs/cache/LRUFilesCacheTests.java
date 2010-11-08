@@ -39,21 +39,27 @@ public class LRUFilesCacheTests extends AbstractProviderTestCase
         dir2.getContent();
 
         // releaseable
+        @SuppressWarnings("unused")
         FileObject dir3 = scratchFolder.resolveFile("dir3");
 
         // releaseable
+        @SuppressWarnings("unused")
         FileObject dir4 = scratchFolder.resolveFile("dir4");
 
         // releaseable
+        @SuppressWarnings("unused")
         FileObject dir5 = scratchFolder.resolveFile("dir5");
 
         // releaseable
+        @SuppressWarnings("unused")
         FileObject dir6 = scratchFolder.resolveFile("dir6");
 
         // releaseable
+        @SuppressWarnings("unused")
         FileObject dir7 = scratchFolder.resolveFile("dir7");
 
         // releaseable
+        @SuppressWarnings("unused")
         FileObject dir8 = scratchFolder.resolveFile("dir8");
 
         // check if the cache still holds the right instance
