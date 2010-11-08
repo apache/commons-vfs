@@ -164,7 +164,7 @@ public class VFSClassLoader extends SecureClassLoader
      * @throws ClassNotFoundException if the class is not found.
      */
     @Override
-    protected Class findClass(final String name) throws ClassNotFoundException
+    protected Class<?> findClass(final String name) throws ClassNotFoundException
     {
         try
         {
@@ -185,7 +185,7 @@ public class VFSClassLoader extends SecureClassLoader
     /**
      * Loads and verifies the class with name and located with res.
      */
-    private Class defineClass(final String name, final Resource res)
+    private Class<?> defineClass(final String name, final Resource res)
         throws IOException
     {
         final URL url = res.getCodeSourceURL();
