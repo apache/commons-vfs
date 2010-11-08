@@ -104,6 +104,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         Thread.sleep(1000);
         long value = System.currentTimeMillis();
         boolean rc = testFile.setLastModified(value);
+        assertTrue("setLastModified succeeded",rc);
         Thread.sleep(300);
         assertTrue("No event occurred", changeStatus != 0);
         assertTrue("Incorrect event", changeStatus == 1);
