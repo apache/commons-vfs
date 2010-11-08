@@ -40,6 +40,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent
     /**
      * Called after this stream is closed.  This implementation does nothing.
      */
+    @SuppressWarnings("unused") // IOException is needed because subclasses may need to throw it
     protected void onClose() throws IOException
     {
     }
