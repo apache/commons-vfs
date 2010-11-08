@@ -114,13 +114,22 @@ public class CombinedResources extends ResourceBundle
     }
 
     @Override
-    public Enumeration getKeys()
+    public Enumeration<String> getKeys()
     {
         if (!inited)
         {
             init();
         }
-        return properties.keys();
+        return new Enumeration<String>(){
+            public boolean hasMoreElements() {
+                return properties.keys().hasMoreElements();
+            }
+            public String nextElement() {
+                // We know that our properties will only ever contain Strings
+                return (String) properties.keys().nextElement();
+            }
+            
+        };
     }
 
     @Override
