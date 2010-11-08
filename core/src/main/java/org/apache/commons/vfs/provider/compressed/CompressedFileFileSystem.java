@@ -39,7 +39,6 @@ public abstract class CompressedFileFileSystem
     protected CompressedFileFileSystem(final FileName rootName,
                                        final FileObject parentLayer,
                                        final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
     {
         super(rootName, parentLayer, fileSystemOptions);
     }

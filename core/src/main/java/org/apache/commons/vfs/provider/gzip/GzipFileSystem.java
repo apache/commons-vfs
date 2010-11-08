@@ -34,7 +34,6 @@ import java.util.Collection;
 public class GzipFileSystem extends CompressedFileFileSystem
 {
     protected GzipFileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions)
-            throws FileSystemException
     {
         super(rootName, parentLayer, fileSystemOptions);
     }
