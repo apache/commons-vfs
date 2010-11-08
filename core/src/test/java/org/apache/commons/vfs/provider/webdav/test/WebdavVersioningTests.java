@@ -67,7 +67,6 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-        final String contentAppend = content + content;
 
         final OutputStream os = file.getContent().getOutputStream();
         try
@@ -124,7 +123,6 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
 
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-        final String contentAppend = content + content;
 
         final OutputStream os = file.getContent().getOutputStream();
         try
