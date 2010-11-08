@@ -51,7 +51,8 @@ import java.util.TreeMap;
  */
 public class DelegatingFileSystemOptionsBuilder
 {
-    private static final Class[] STRING_PARAM = new Class[]{String.class};
+    @SuppressWarnings("unchecked") //  OK, it is a String
+    private static final Class<String>[] STRING_PARAM = new Class[]{String.class};
 
     private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<String, Class<?>>();
 
@@ -232,7 +233,7 @@ public class DelegatingFileSystemOptionsBuilder
      */
     private boolean convertValuesAndInvoke(final Method configSetter, final Context ctx) throws FileSystemException
     {
-        Class[] parameters = configSetter.getParameterTypes();
+        Class<?>[] parameters = configSetter.getParameterTypes();
         if (parameters.length < 2)
         {
             return false;
@@ -242,8 +243,8 @@ public class DelegatingFileSystemOptionsBuilder
             return false;
         }
 
-        Class valueParameter = parameters[1];
-        Class type;
+        Class<?> valueParameter = parameters[1];
+        Class<?> type;
         if (valueParameter.isArray())
         {
             type = valueParameter.getComponentType();
@@ -260,7 +261,7 @@ public class DelegatingFileSystemOptionsBuilder
 
         if (type.isPrimitive())
         {
-            Class objectType = PRIMATIVE_TO_OBJECT.get(type.getName());
+            Class<?> objectType = PRIMATIVE_TO_OBJECT.get(type.getName());
             if (objectType == null)
             {
                 log.warn(Messages.getString("vfs.provider/config-unexpected-primitive.error", type.getName()));
@@ -269,7 +270,7 @@ public class DelegatingFileSystemOptionsBuilder
             type = objectType;
         }
 
-        Class valueClass = ctx.values[0].getClass();
+        Class<? extends Object> valueClass = ctx.values[0].getClass();
         if (type.isAssignableFrom(valueClass))
         {
             // can set value directly
@@ -370,7 +371,7 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * invokes the method with the converted values
      */
-    private void invokeSetter(Class valueParameter, final Context ctx, final Method configSetter, final Object values)
+    private void invokeSetter(Class<?> valueParameter, final Context ctx, final Method configSetter, final Object values)
         throws FileSystemException
     {
         Object[] args;
