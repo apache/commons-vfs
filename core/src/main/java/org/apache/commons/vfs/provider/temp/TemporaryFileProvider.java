@@ -40,7 +40,7 @@ import java.util.Collection;
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider
-    implements FileProvider, Comparable
+    implements FileProvider, Comparable<Object>
 {
     private File rootFile;
 
