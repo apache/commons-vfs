@@ -43,12 +43,14 @@ public final class FileSystemOptions implements Cloneable
         private static final int HASH = 29;
 
         /** The FileSystem class */
-        private final Class<FileSystem> fileSystemClass;
+        private final Class fileSystemClass;
 
         /** The option name */
         private final String name;
 
-        private FileSystemOptionKey(Class<FileSystem> fileSystemClass, String name)
+        // TODO the parameter name suggests that the class should only be a 
+        // a FileSystem, however some of the tests pass in DefaultFileSystemConfigBuilder
+        private FileSystemOptionKey(Class fileSystemClass, String name)
         {
             this.fileSystemClass = fileSystemClass;
             this.name = name;
@@ -104,18 +106,18 @@ public final class FileSystemOptions implements Cloneable
     {
     }
 
-    void setOption(Class<FileSystem> fileSystemClass, String name, Object value)
+    void setOption(Class<?> fileSystemClass, String name, Object value)
     {
         options.put(new FileSystemOptionKey(fileSystemClass, name), value);
     }
 
-    Object getOption(Class<FileSystem> fileSystemClass, String name)
+    Object getOption(Class<?> fileSystemClass, String name)
     {
         FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
         return options.get(key);
     }
 
-    boolean hasOption(Class<FileSystem> fileSystemClass, String name)
+    boolean hasOption(Class<?> fileSystemClass, String name)
     {
         FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
         return options.containsKey(key);
