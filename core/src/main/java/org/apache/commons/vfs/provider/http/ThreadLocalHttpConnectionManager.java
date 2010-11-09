@@ -146,7 +146,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
      */
     public HttpConnection getConnection(HostConfiguration hostConfiguration)
     {
-        return getConnection(hostConfiguration, 0);
+        return getConnectionWithTimeout(hostConfiguration, 0);
     }
 
     /**
@@ -176,7 +176,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
      * @param hostConfiguration The host configuration.
      * @param timeout The timeout value.
      * @return The HttpConnection.
-     * @see HttpConnectionManager#getConnection(HostConfiguration, long)
+     * @see HttpConnectionManager#getConnectionWithTimeout(HostConfiguration, long)
      * @since 3.0
      */
     public HttpConnection getConnectionWithTimeout(
