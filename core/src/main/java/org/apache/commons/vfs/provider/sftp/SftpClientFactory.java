@@ -79,10 +79,7 @@ public final class SftpClientFactory
         }
         else
         {
-            if (sshDir == null)
-            {
-                sshDir = findSshDir();
-            }
+            sshDir = findSshDir();
             // Load the known hosts file
             knownHostsFile = new File(sshDir, "known_hosts");
             if (knownHostsFile.isFile() && knownHostsFile.canRead())
