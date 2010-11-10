@@ -16,17 +16,9 @@
  */
 package org.apache.commons.vfs.impl;
 
-import java.io.File;
-
-import org.apache.commons.vfs.Capability;
-import org.apache.commons.vfs.FileListener;
-import org.apache.commons.vfs.FileName;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSelector;
 import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
 
