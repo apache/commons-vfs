@@ -292,6 +292,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
             URLFileName fileName = (URLFileName) getName();
             DavPropertySet properties = getProperties(fileName, PropFindMethod.PROPFIND_ALL_PROP,
                     new DavPropertyNameSet(), false);
+            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
             Iterator<DavProperty> iter = properties.iterator();
             while (iter.hasNext())
             {
@@ -299,10 +300,11 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
                 attributes.put(property.getName().toString(), property.getValue());
             }
             properties = getPropertyNames(fileName);
-            iter = properties.iterator();
-            while (iter.hasNext())
+            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
+            Iterator<DavProperty> iter2 = properties.iterator();
+            while (iter2.hasNext())
             {
-                DavProperty property = iter.next();
+                DavProperty property = iter2.next();
                 if (!attributes.containsKey(property.getName()))
                 {
                     property = getProperty(fileName, property.getName());
