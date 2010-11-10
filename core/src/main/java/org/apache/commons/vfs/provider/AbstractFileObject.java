@@ -91,6 +91,12 @@ public abstract class AbstractFileObject implements FileObject
      */
     private FileOperations operations;
 
+    /**
+     * 
+     * @param name the file name - muse be an instance of {@link AbstractFileName}
+     * @param fs the file system
+     * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
+     */
     protected AbstractFileObject(final FileName name,
                                  final AbstractFileSystem fs)
     {
