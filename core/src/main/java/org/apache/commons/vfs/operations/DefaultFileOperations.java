@@ -56,7 +56,7 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException If an error occurs.
      *
      */
-    public Class[] getOperations() throws FileSystemException
+    public Class<?>[] getOperations() throws FileSystemException
     {
 
         final String scheme = fileObject.getURL().getProtocol();
@@ -86,7 +86,7 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException if an error occurs.
      *
      */
-    public FileOperation getOperation(Class operationClass)
+    public FileOperation getOperation(Class<?> operationClass)
             throws FileSystemException
     {
 
@@ -131,9 +131,9 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException if an error occurs.
      *
      */
-    public boolean hasOperation(Class operationClass) throws FileSystemException
+    public boolean hasOperation(Class<?> operationClass) throws FileSystemException
     {
-        Class[] operations = getOperations();
+        Class<?>[] operations = getOperations();
         if (operations == null)
         {
             return false;
@@ -141,7 +141,7 @@ public class DefaultFileOperations implements FileOperations
 
         for (int i = 0; i < operations.length; i++)
         {
-            Class operation = operations[i];
+            Class<?> operation = operations[i];
             if (operationClass.isAssignableFrom(operation))
             {
                 return true;

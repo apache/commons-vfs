@@ -158,7 +158,7 @@ public class DelegatingFileSystemOptionsBuilder
      * @throws InstantiationException if a class cannot be instantiated.
      */
     public void setConfigClass(final FileSystemOptions fso, final String scheme, final String name,
-                               final Class className)
+                               final Class<?> className)
             throws FileSystemException, IllegalAccessException, InstantiationException
     {
         setConfigClasses(fso, scheme, name, new Class[]{className});
@@ -177,7 +177,7 @@ public class DelegatingFileSystemOptionsBuilder
      * @throws InstantiationException if a class cannot be instantiated.
      */
     public void setConfigClasses(final FileSystemOptions fso, final String scheme, final String name,
-                                 final Class[] classNames)
+                                 final Class<?>[] classNames)
             throws FileSystemException, IllegalAccessException, InstantiationException
     {
         Object[] values = new Object[classNames.length];

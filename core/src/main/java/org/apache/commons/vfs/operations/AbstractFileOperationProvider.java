@@ -55,7 +55,7 @@ public abstract class AbstractFileOperationProvider implements
      * @throws org.apache.commons.vfs.FileSystemException
      *             if list of operations cannto be retrieved.
      */
-    public final void collectOperations(final Collection operationsList,
+    public final void collectOperations(final Collection<?> operationsList,
             final FileObject file) throws FileSystemException
     {
 
@@ -67,7 +67,7 @@ public abstract class AbstractFileOperationProvider implements
      * @throws FileSystemException
      */
     protected abstract void doCollectOperations(
-            final Collection availableOperations, final Collection resultList,
+            final Collection<?> availableOperations, final Collection<?> resultList,
             final FileObject file) throws FileSystemException;
 
     /**
@@ -79,7 +79,7 @@ public abstract class AbstractFileOperationProvider implements
      * @throws org.apache.commons.vfs.FileSystemException
      *             if operation cannot be retrieved.
      */
-    public final FileOperation getOperation(FileObject file, Class operationClass)
+    public final FileOperation getOperation(FileObject file, Class<?> operationClass)
             throws FileSystemException
     {
         Class<?> implementation = lookupOperation(operationClass);
@@ -96,14 +96,14 @@ public abstract class AbstractFileOperationProvider implements
      * @throws FileSystemException
      */
     protected abstract FileOperation instantiateOperation(final FileObject file,
-            final Class operationClass) throws FileSystemException;
+            final Class<?> operationClass) throws FileSystemException;
 
     /**
      *
      * @param operationClass
      * @return never returns null
      */
-    protected final Class lookupOperation(final Class<?> operationClass)
+    protected final Class<?> lookupOperation(final Class<?> operationClass)
             throws FileSystemException
     {
         // check validity of passed class
@@ -138,7 +138,7 @@ public abstract class AbstractFileOperationProvider implements
      * @param operationClass
      * @throws FileSystemException
      */
-    protected final void addOperation(final Class operationClass)
+    protected final void addOperation(final Class<?> operationClass)
             throws FileSystemException
     {
         // check validity of passed class
