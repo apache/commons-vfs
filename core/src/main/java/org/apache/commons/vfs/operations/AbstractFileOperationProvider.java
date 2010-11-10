@@ -39,7 +39,7 @@ public abstract class AbstractFileOperationProvider implements
      * "svn", "svnssh", but not for "file", etc. The Map has scheme as a key and
      * Colleaction of operations that are available for that scheme.
      */
-    private final Collection<Class<?>> operations = new ArrayList<Class<?>>();
+    private final Collection<Class<? extends FileOperation>> operations = new ArrayList<Class<? extends FileOperation>>();
 
     /**
      * Gather available operations for the specified FileObject and put them into
@@ -55,7 +55,7 @@ public abstract class AbstractFileOperationProvider implements
      * @throws org.apache.commons.vfs.FileSystemException
      *             if list of operations cannto be retrieved.
      */
-    public final void collectOperations(final Collection<?> operationsList,
+    public final void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
             final FileObject file) throws FileSystemException
     {
 
@@ -67,7 +67,7 @@ public abstract class AbstractFileOperationProvider implements
      * @throws FileSystemException
      */
     protected abstract void doCollectOperations(
-            final Collection<?> availableOperations, final Collection<?> resultList,
+            final Collection<Class<? extends FileOperation>> availableOperations, final Collection<Class<? extends FileOperation>> resultList,
             final FileObject file) throws FileSystemException;
 
     /**
@@ -79,10 +79,10 @@ public abstract class AbstractFileOperationProvider implements
      * @throws org.apache.commons.vfs.FileSystemException
      *             if operation cannot be retrieved.
      */
-    public final FileOperation getOperation(FileObject file, Class<?> operationClass)
+    public final FileOperation getOperation(FileObject file, Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {
-        Class<?> implementation = lookupOperation(operationClass);
+        Class<? extends FileOperation> implementation = lookupOperation(operationClass);
 
         FileOperation operationInstance = instantiateOperation(file, implementation);
 
@@ -96,14 +96,14 @@ public abstract class AbstractFileOperationProvider implements
      * @throws FileSystemException
      */
     protected abstract FileOperation instantiateOperation(final FileObject file,
-            final Class<?> operationClass) throws FileSystemException;
+            final Class<? extends FileOperation> operationClass) throws FileSystemException;
 
     /**
      *
      * @param operationClass
      * @return never returns null
      */
-    protected final Class<?> lookupOperation(final Class<?> operationClass)
+    protected final Class<? extends FileOperation> lookupOperation(final Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {
         // check validity of passed class
@@ -113,11 +113,11 @@ public abstract class AbstractFileOperationProvider implements
         }
 
         // find appropriate class
-        Class<?> foundClass = null;
-        Iterator<Class<?>> iterator = operations.iterator();
+        Class<? extends FileOperation> foundClass = null;
+        Iterator<Class<? extends FileOperation>> iterator = operations.iterator();
         while (iterator.hasNext())
         {
-            Class<?> operation = iterator.next();
+            Class<? extends FileOperation> operation = iterator.next();
             if (operationClass.isAssignableFrom(operation))
             {
                 foundClass = operation;
@@ -138,7 +138,7 @@ public abstract class AbstractFileOperationProvider implements
      * @param operationClass
      * @throws FileSystemException
      */
-    protected final void addOperation(final Class<?> operationClass)
+    protected final void addOperation(final Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {
         // check validity of passed class

@@ -56,7 +56,7 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException If an error occurs.
      *
      */
-    public Class<?>[] getOperations() throws FileSystemException
+    public Class<? extends FileOperation>[] getOperations() throws FileSystemException
     {
 
         final String scheme = fileObject.getURL().getProtocol();
@@ -68,7 +68,7 @@ public class DefaultFileOperations implements FileOperations
             return null;
         }
 
-        final List<Class<?>> operations = new ArrayList<Class<?>>();
+        final List<Class<? extends FileOperation>> operations = new ArrayList<Class<? extends FileOperation>>();
 
         for (int i = 0; i < providers.length; i++)
         {
@@ -77,7 +77,9 @@ public class DefaultFileOperations implements FileOperations
             provider.collectOperations(operations, fileObject);
         }
 
-        return operations.toArray(new Class[] {});
+        @SuppressWarnings("unchecked") 
+        Class<? extends FileOperation>[] array = (Class<? extends FileOperation>[]) operations.toArray(new Class<?>[] {});
+        return array;
     }
 
     /**
@@ -86,7 +88,7 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException if an error occurs.
      *
      */
-    public FileOperation getOperation(Class<?> operationClass)
+    public FileOperation getOperation(Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {
 
@@ -131,9 +133,9 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException if an error occurs.
      *
      */
-    public boolean hasOperation(Class<?> operationClass) throws FileSystemException
+    public boolean hasOperation(Class<? extends FileOperation> operationClass) throws FileSystemException
     {
-        Class<?>[] operations = getOperations();
+        Class<? extends FileOperation>[] operations = getOperations();
         if (operations == null)
         {
             return false;
@@ -141,7 +143,7 @@ public class DefaultFileOperations implements FileOperations
 
         for (int i = 0; i < operations.length; i++)
         {
-            Class<?> operation = operations[i];
+            Class<? extends FileOperation> operation = operations[i];
             if (operationClass.isAssignableFrom(operation))
             {
                 return true;
