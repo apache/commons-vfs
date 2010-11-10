@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.res;
 
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.url.UrlFileSystem;
@@ -52,7 +53,7 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
     }
 
     @Override
-    protected Class getConfigClass()
+    protected Class<? extends FileSystem> getConfigClass()
     {
         return UrlFileSystem.class;
     }

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.webdav;
 
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.http.HttpFileSystemConfigBuilder;
 
@@ -83,7 +84,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      * @return The Webdav FileSystem Class object.
      */
     @Override
-    protected Class getConfigClass()
+    protected Class<? extends FileSystem> getConfigClass()
     {
         return WebdavFileSystem.class;
     }

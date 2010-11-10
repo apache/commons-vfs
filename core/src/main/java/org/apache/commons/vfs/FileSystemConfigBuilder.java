@@ -307,5 +307,5 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
-    protected abstract Class getConfigClass();
+    protected abstract Class<? extends FileSystem> getConfigClass();
 }

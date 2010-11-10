@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.ram;
 
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 
@@ -52,7 +53,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * {@inheritDoc}
      */
     @Override
-    protected Class getConfigClass()
+    protected Class<? extends FileSystem> getConfigClass()
     {
         return RamFileSystem.class;
     }

@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs.provider.http;
 
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.UserAuthenticator;
@@ -231,7 +232,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 	}
 
 	@Override
-    protected Class getConfigClass()
+    protected Class<? extends FileSystem> getConfigClass()
     {
         return HttpFileSystem.class;
     }

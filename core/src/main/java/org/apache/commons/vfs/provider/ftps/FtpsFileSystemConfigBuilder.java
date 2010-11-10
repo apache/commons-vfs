@@ -17,6 +17,7 @@
 package org.apache.commons.vfs.provider.ftps;
 
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemOptions;
 import org.apache.commons.vfs.provider.ftp.FtpFileSystem;
@@ -102,7 +103,7 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder {
   }
 
   @Override
-  protected Class getConfigClass() {
+  protected Class<? extends FileSystem> getConfigClass() {
     return FtpFileSystem.class;
   }
 

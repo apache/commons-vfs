@@ -17,6 +17,8 @@
 package org.apache.commons.vfs.provider.sftp;
 
 import com.jcraft.jsch.UserInfo;
+
+import org.apache.commons.vfs.FileSystem;
 import org.apache.commons.vfs.FileSystemConfigBuilder;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemOptions;
@@ -262,7 +264,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     @Override
-    protected Class getConfigClass()
+    protected Class<? extends FileSystem> getConfigClass()
     {
         return SftpFileSystem.class;
     }
