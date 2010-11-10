@@ -56,7 +56,7 @@ public class LRUFilesCache extends AbstractFilesCache
     /**
      * The file cache
      */
-    private class MyLRUMap extends LRUMap
+    private class MyLRUMap extends LRUMap /* implements Map<FileName, FileObject> */
     {
         /** The FileSystem */
         private final FileSystem filesystem;
@@ -168,6 +168,7 @@ public class LRUFilesCache extends AbstractFilesCache
         }
     }
 
+    @SuppressWarnings("unchecked") // (1)
     protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem)
     {
         Map<FileName, FileObject> files = filesystemCache.get(filesystem);
@@ -175,7 +176,7 @@ public class LRUFilesCache extends AbstractFilesCache
         {
             // System.err.println(">>> create fs " + filesystem);
 
-            files = new MyLRUMap(filesystem, lruSize);
+            files = new MyLRUMap(filesystem, lruSize); // 1
             filesystemCache.put(filesystem, files);
         }
 
