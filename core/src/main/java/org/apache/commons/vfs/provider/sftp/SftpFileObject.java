@@ -298,7 +298,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
     protected FileObject[] doListChildrenResolved() throws Exception
     {
         // List the contents of the folder
-        Vector<LsEntry> vector = null;
+        Vector<?> vector = null;
         final ChannelSftp channel = fileSystem.getChannel();
 
         try
@@ -364,7 +364,8 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 
         // Extract the child names
         final ArrayList<FileObject> children = new ArrayList<FileObject>();
-        for (Iterator<LsEntry> iterator = vector.iterator(); iterator.hasNext();)
+        for (@SuppressWarnings("unchecked") // OK because ChannelSftp.ls() is documented to return Vector<LsEntry>
+            Iterator<LsEntry> iterator = (Iterator<LsEntry>) vector.iterator(); iterator.hasNext();)
         {
             final LsEntry stat = iterator.next();
 
