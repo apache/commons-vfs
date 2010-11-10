@@ -24,14 +24,20 @@ import org.apache.commons.vfs.FileSystemOptions;
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision$ $Date$
  */
-class FileSystemKey implements Comparable
+class FileSystemKey implements Comparable<FileSystemKey>
 {
     private static final FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
 
-    private final Comparable key;
+    private final Comparable<?> key;
     private final FileSystemOptions fileSystemOptions;
 
-    FileSystemKey(final Comparable key, final FileSystemOptions fileSystemOptions)
+    /**
+     * Create the FS key.
+     * 
+     * @param key must implement Comparable, and must be self-comparable
+     * @param fileSystemOptions the required options
+     */
+    FileSystemKey(final Comparable<?> key, final FileSystemOptions fileSystemOptions)
     {
         this.key = key;
         if (fileSystemOptions != null)
@@ -44,17 +50,17 @@ class FileSystemKey implements Comparable
         }
     }
 
-    public int compareTo(Object o)
+    public int compareTo(FileSystemKey o)
     {
-        FileSystemKey fk = (FileSystemKey) o;
-
-        int ret = key.compareTo(fk.key);
+        @SuppressWarnings("unchecked") // Keys must implement comparable, and be comparable to themselves
+        Comparable<Comparable<?>> comparable = (Comparable<Comparable<?>>)key;
+        int ret = comparable.compareTo(o.key);
         if (ret != 0)
         {
             // other filesystem
             return ret;
         }
 
-        return fileSystemOptions.compareTo(fk.fileSystemOptions);
+        return fileSystemOptions.compareTo(o.fileSystemOptions);
     }
 }

@@ -95,7 +95,7 @@ public abstract class AbstractFileProvider
      * Adds a file system to those cached by this provider.  The file system
      * may implement {@link VfsComponent}, in which case it is initialised.
      */
-    protected void addFileSystem(final Comparable key, final FileSystem fs)
+    protected void addFileSystem(final Comparable<?> key, final FileSystem fs)
         throws FileSystemException
     {
         // Add to the cache
@@ -115,7 +115,7 @@ public abstract class AbstractFileProvider
      *
      * @return The provider, or null if it is not cached.
      */
-    protected FileSystem findFileSystem(final Comparable key, final FileSystemOptions fileSystemProps)
+    protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemProps)
     {
         FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
 
