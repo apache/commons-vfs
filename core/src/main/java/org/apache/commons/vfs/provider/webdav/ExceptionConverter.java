@@ -65,7 +65,7 @@ public final class ExceptionConverter
                             Constructor<?> excConstr = cl.getConstructor(new Class[]{String.class});
                             if (excConstr != null)
                             {
-                                Object o = excConstr.newInstance(new String[]{msg});
+                                Object o = excConstr.newInstance(new Object[]{msg});
                                 if (o instanceof FileSystemException)
                                 {
                                     return (FileSystemException) o;

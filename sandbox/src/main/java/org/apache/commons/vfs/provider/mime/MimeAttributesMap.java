@@ -147,7 +147,7 @@ public class MimeAttributesMap implements Map<String, Object>
 
             try
             {
-                Object value = method.invoke(part, null);
+                Object value = method.invoke(part, (Object[]) null);
                 ret.put(OBJECT_PREFIX + name, value);
             }
             catch (IllegalAccessException e)
