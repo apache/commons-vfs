@@ -26,8 +26,10 @@
     <property name="localeLanguage" value="en"/>
 
     <!-- Checks that a package.html file exists for each package.     -->
-    <!-- See http://checkstyle.sf.net/config_javadoc.html#PackageHtml -->
-    <module name="PackageHtml"/>
+    <!-- See http://checkstyle.sourceforge.net/config_javadoc.html -->
+    <module name="JavadocPackage">
+      <property name="allowLegacy" value="true"/>
+    </module>
 
     <!-- Checks whether files end with a new line.                        -->
     <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
@@ -36,6 +38,28 @@
     <!-- Checks that property files contain the same keys.         -->
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
     <module name="Translation"/>
+
+    <!-- Checks for Headers                              -->
+    <!-- See http://checkstyle.sourceforge.net/config_header.html#Header -->
+    <module name="Header">
+        <property name="headerFile" value="${licensedir}"/>
+        <property name="fileExtensions" value="java"/>
+        <!--<property name="ignoreLines" value="2"/> -->
+    </module>
+
+    <!-- Checks for Tab characters -->
+    <!-- See http://checkstyle.sourceforge.net/config_whitespace.html#FileTabCharacter -->
+    <module name="FileTabCharacter">
+        <property name="fileExtensions" value="java"/>
+    </module>
+
+    <!-- Checks for white space at the end of the line -->
+    <!-- See http://checkstyle.sourceforge.net/config_regexp.html -->
+    <module name="RegexpSingleline">
+      <property name="format" value="\s+$"/>
+      <property name="message" value="Line has trailing spaces."/>
+      <property name="fileExtensions" value="java"/>
+    </module>
 
     <!-- Exceptions -->
     <!--<module name="SuppressionFilter">
@@ -55,6 +79,8 @@
         </module>
         <module name="JavadocType">
             <property name="authorFormat" value="\S"/>
+            <!-- It is unfortunate to have to do this but checkstyle doesn't allow custom tags -->
+            <property name="allowUnknownTags" value="true"/>
         </module>
         <module name="JavadocVariable">
             <property name="scope" value="protected"/>
@@ -75,14 +101,6 @@
         <module name="ParameterName"/>
         <module name="StaticVariableName"/>
         <module name="TypeName"/>
-
-
-        <!-- Checks for Headers                              -->
-        <!-- See http://checkstyle.sf.net/config_header.html -->
-        <module name="Header">
-            <property name="headerFile" value="${licensedir}"/>
-            <!--<property name="ignoreLines" value="2"/> -->
-        </module>
 
         <!-- Following interprets the header file as regular expressions. -->
         <!-- <module name="RegexpHeader"/>                                -->
@@ -118,9 +136,9 @@
            <property name="option" value="eol"/>
         </module>
         <module name="ParenPad"/>
-        <module name="TabCharacter"/>
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround"/>
+        <module name="GenericWhitespace"/>
 
 
         <!-- Modifier Checks                                    -->
@@ -185,10 +203,6 @@
         <!-- Miscellaneous other checks.                   -->
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle"/>
-        <module name="GenericIllegalRegexp">
-            <property name="format" value="\s+$"/>
-            <property name="message" value="Line has trailing spaces."/>
-        </module>
         <module name="TodoComment">
             <property name="severity" value="info"/>
         </module>

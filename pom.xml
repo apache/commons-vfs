@@ -134,7 +134,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.2</version>
+          <version>2.6</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -156,6 +156,23 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>5.3</version>
+            <exclusions>
+              <exclusion>  <!-- exclude older artifacts -->
+                <groupId>checkstyle</groupId>
+                <artifactId>checkstyle</artifactId>
+              </exclusion>
+              <exclusion>
+                <groupId>com.sun</groupId>
+                <artifactId>tools</artifactId>
+              </exclusion>
+             </exclusions>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.commons</groupId>
@@ -195,7 +212,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.2</version>
+        <version>2.6</version>
         <configuration>
           <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
           <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
@@ -218,6 +235,14 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.5</version>
         <configuration>
+           <tags>
+            <tag>
+              <name>todo</name>
+              <!-- todo tag for all places -->
+              <placement>a</placement>
+              <head>To Do:</head>
+            </tag>
+          </tags>
           <aggregate>true</aggregate>
         </configuration>
       </plugin>
