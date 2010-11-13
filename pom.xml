@@ -27,7 +27,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-vfs-project</artifactId>
+  <artifactId>commons-vfs2-project</artifactId>
   <name>Commons VFS</name>
   <description>VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>

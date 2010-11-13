@@ -23,14 +23,14 @@ limitations under the License.
 
   <name>Commons VFS Distribution</name>
   <groupId>org.apache.commons</groupId>
-  <artifactId>commons-vfs-distribution</artifactId>
+  <artifactId>commons-vfs2-distribution</artifactId>
   <version>2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>VFS is a Virtual File System library - Distribution archives.</description>
 
   <parent>
     <groupId>org.apache.commons</groupId>
-    <artifactId>commons-vfs-project</artifactId>
+    <artifactId>commons-vfs2-project</artifactId>
     <version>2.0-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
