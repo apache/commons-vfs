@@ -1,11 +1,11 @@
 <providers>
 
-	<provider class-name="org.apache.commons.vfs.provider.smb.SmbFileProvider">
+	<provider class-name="org.apache.commons.vfs2.provider.smb.SmbFileProvider">
 		<scheme name="smb"/>
 		<if-available class-name="jcifs.smb.SmbFile"/>
 	</provider>
-	
-	<provider class-name="org.apache.commons.vfs.provider.mime.MimeFileProvider">
+
+	<provider class-name="org.apache.commons.vfs2.provider.mime.MimeFileProvider">
 		<scheme name="mime"/>
 		<if-available class-name="javax.mail.internet.MimeMultipart"/>
 	</provider>

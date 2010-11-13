@@ -100,14 +100,14 @@
             <p>
                To create an encrypted password do:
             </p>
-            <code> java -cp commons-vfs-2.0.jar org.apache.commons.vfs.util.EncryptUtil encrypt mypassword
+            <code> java -cp commons-vfs-2.0.jar org.apache.commons.vfs2.util.EncryptUtil encrypt mypassword
             </code>
             <p>
                where <i>mypassword</i> is the password you want to encrypt. The result of this will be a
                single line of output containing uppercase hex characters.  For example,
             </p>
             <code>
- java -cp commons-vfs-2.0.jar org.apache.commons.vfs.util.EncryptUtil encrypt WontUBee9
+ java -cp commons-vfs-2.0.jar org.apache.commons.vfs2.util.EncryptUtil encrypt WontUBee9
  D7B82198B272F5C93790FEB38A73C7B8
             </code>
             <p>

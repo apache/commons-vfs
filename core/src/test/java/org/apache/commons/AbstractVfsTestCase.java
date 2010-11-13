@@ -17,8 +17,8 @@
 package org.apache.commons;
 
 import junit.framework.TestCase;
-import org.apache.commons.vfs.FileSystemException;
-import org.apache.commons.vfs.util.Messages;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.util.Messages;
 
 import java.io.File;
 import java.io.IOException;
