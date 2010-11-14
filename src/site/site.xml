@@ -44,9 +44,9 @@
     </menu>
 
     <menu name="Components">
-      <item name="Core" href="commons-vfs/index.html"/>
-      <item name="Examples" href="commons-vfs-examples/index.html"/>
-      <item name="Sandbox" href="commons-vfs-sandbox/index.html"/>
+      <item name="Core" href="commons-vfs2/index.html"/>
+      <item name="Examples" href="commons-vfs2-examples/index.html"/>
+      <item name="Sandbox" href="commons-vfs2-sandbox/index.html"/>
     </menu>
   </body>
 

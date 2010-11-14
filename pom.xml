@@ -190,7 +190,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.1</version>
+        <version>2.2</version>
       </plugin>
 
       <plugin>
@@ -227,7 +227,7 @@
         <artifactId>maven-jxr-plugin</artifactId>
         <version>2.1</version>
         <configuration>
-          <aggregate>true</aggregate>
+          <aggregate>false</aggregate>
         </configuration>
       </plugin>
       <plugin>
