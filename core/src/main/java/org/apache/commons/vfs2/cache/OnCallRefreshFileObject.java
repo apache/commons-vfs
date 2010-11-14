@@ -89,7 +89,8 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
-    public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected) throws FileSystemException
+    public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected)
+        throws FileSystemException
     {
         refresh();
         super.findFiles(selector, depthwise, selected);

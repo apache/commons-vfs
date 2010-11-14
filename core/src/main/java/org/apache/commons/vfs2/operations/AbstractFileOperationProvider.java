@@ -29,8 +29,7 @@ import java.util.Iterator;
  * @author Siarhei Baidun
  * @since 0.1
  */
-public abstract class AbstractFileOperationProvider implements
-        FileOperationProvider
+public abstract class AbstractFileOperationProvider implements FileOperationProvider
 {
 
     /**
@@ -39,7 +38,8 @@ public abstract class AbstractFileOperationProvider implements
      * "svn", "svnssh", but not for "file", etc. The Map has scheme as a key and
      * Colleaction of operations that are available for that scheme.
      */
-    private final Collection<Class<? extends FileOperation>> operations = new ArrayList<Class<? extends FileOperation>>();
+    private final Collection<Class<? extends FileOperation>> operations =
+        new ArrayList<Class<? extends FileOperation>>();
 
     /**
      * Gather available operations for the specified FileObject and put them into
@@ -58,7 +58,6 @@ public abstract class AbstractFileOperationProvider implements
     public final void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
             final FileObject file) throws FileSystemException
     {
-
         doCollectOperations(operations, operationsList, file);
     }
 
@@ -67,7 +66,8 @@ public abstract class AbstractFileOperationProvider implements
      * @throws FileSystemException
      */
     protected abstract void doCollectOperations(
-            final Collection<Class<? extends FileOperation>> availableOperations, final Collection<Class<? extends FileOperation>> resultList,
+            final Collection<Class<? extends FileOperation>> availableOperations,
+            final Collection<Class<? extends FileOperation>> resultList,
             final FileObject file) throws FileSystemException;
 
     /**

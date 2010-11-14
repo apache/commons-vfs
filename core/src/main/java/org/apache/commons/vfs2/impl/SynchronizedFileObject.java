@@ -102,7 +102,8 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
         @Override
-        public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected) throws FileSystemException
+        public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected)
+            throws FileSystemException
         {
         synchronized (this)
         {

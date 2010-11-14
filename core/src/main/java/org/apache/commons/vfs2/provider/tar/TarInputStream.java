@@ -34,7 +34,7 @@ import java.io.OutputStream;
  * @see TarEntry
  */
 class TarInputStream
-        extends FilterInputStream
+    extends FilterInputStream
 {
     private TarBuffer buffer;
     private TarEntry currEntry;
@@ -80,9 +80,7 @@ class TarInputStream
      * @param blockSize  the block size to use
      * @param recordSize the record size to use
      */
-    TarInputStream(final InputStream input,
-                   final int blockSize,
-                   final int recordSize)
+    TarInputStream(final InputStream input, final int blockSize, final int recordSize)
     {
         super(input);
 
@@ -112,8 +110,7 @@ class TarInputStream
      * @return The next TarEntry in the archive, or null.
      * @throws IOException Description of Exception
      */
-    public TarEntry getNextEntry()
-            throws IOException
+    public TarEntry getNextEntry() throws IOException
     {
         if (hasHitEOF)
         {
@@ -127,8 +124,8 @@ class TarInputStream
             if (debug)
             {
                 final String message = "TarInputStream: SKIP currENTRY '" +
-                        currEntry.getName() + "' SZ " + entrySize +
-                        " OFF " + entryOffset + "  skipping " + numToSkip + " bytes";
+                    currEntry.getName() + "' SZ " + entrySize +
+                    " OFF " + entryOffset + "  skipping " + numToSkip + " bytes";
                 debug(message);
             }
 
@@ -168,8 +165,8 @@ class TarInputStream
             currEntry = new TarEntry(headerBuf);
 
             if (!(headerBuf[257] == 'u' && headerBuf[258] == 's' &&
-                    headerBuf[259] == 't' && headerBuf[260] == 'a' &&
-                    headerBuf[261] == 'r'))
+                headerBuf[259] == 't' && headerBuf[260] == 'a' &&
+                headerBuf[261] == 'r'))
             {
                 //Must be v7Format
             }
@@ -177,7 +174,7 @@ class TarInputStream
             if (debug)
             {
                 final String message = "TarInputStream: SET CURRENTRY '" +
-                        currEntry.getName() + "' size = " + currEntry.getSize();
+                    currEntry.getName() + "' size = " + currEntry.getSize();
                 debug(message);
             }
 
@@ -201,7 +198,7 @@ class TarInputStream
 
             // remove trailing null terminator
             if (longName.length() > 0
-                    && longName.charAt(longName.length() - 1) == 0)
+                && longName.charAt(longName.length() - 1) == 0)
             {
                 longName.deleteCharAt(longName.length() - 1);
             }
@@ -233,16 +230,16 @@ class TarInputStream
      * @throws IOException when an IO error causes operation to fail
      */
     @Override
-    public int available()
-            throws IOException
+    public int available() throws IOException
     {
-      long remaining = entrySize - entryOffset;
+        long remaining = entrySize - entryOffset;
 
-      if(remaining > Integer.MAX_VALUE) {
-        return Integer.MAX_VALUE;
-      }
+        if (remaining > Integer.MAX_VALUE)
+        {
+            return Integer.MAX_VALUE;
+        }
 
-      return (int) remaining;
+        return (int) remaining;
     }
 
     /**
@@ -251,8 +248,7 @@ class TarInputStream
      * @throws IOException when an IO error causes operation to fail
      */
     @Override
-    public void close()
-            throws IOException
+    public void close() throws IOException
     {
         buffer.close();
     }
@@ -264,8 +260,7 @@ class TarInputStream
      * @param output The OutputStream into which to write the entry's data.
      * @throws IOException when an IO error causes operation to fail
      */
-    public void copyEntryContents(final OutputStream output)
-            throws IOException
+    public void copyEntryContents(final OutputStream output) throws IOException
     {
         final byte[] buffer = new byte[32 * 1024];
         while (true)
@@ -309,8 +304,7 @@ class TarInputStream
      * @throws IOException when an IO error causes operation to fail
      */
     @Override
-    public int read()
-            throws IOException
+    public int read() throws IOException
     {
         final int num = read(oneBuf, 0, 1);
         if (num == -1)
@@ -332,8 +326,7 @@ class TarInputStream
      * @throws IOException when an IO error causes operation to fail
      */
     @Override
-    public int read(final byte[] buffer)
-            throws IOException
+    public int read(final byte[] buffer) throws IOException
     {
         return read(buffer, 0, buffer.length);
     }
@@ -350,10 +343,7 @@ class TarInputStream
      * @throws IOException when an IO error causes operation to fail
      */
     @Override
-    public int read(final byte[] buffer,
-                    final int offset,
-                    final int count)
-            throws IOException
+    public int read(final byte[] buffer, final int offset, final int count) throws IOException
     {
         int position = offset;
         int numToRead = count;
@@ -366,13 +356,13 @@ class TarInputStream
 
         if ((numToRead + entryOffset) > entrySize)
         {
-            numToRead = (int)(entrySize - entryOffset);
+            numToRead = (int) (entrySize - entryOffset);
         }
 
         if (null != readBuf)
         {
             final int size =
-                    (numToRead > readBuf.length) ? readBuf.length : numToRead;
+                (numToRead > readBuf.length) ? readBuf.length : numToRead;
 
             System.arraycopy(readBuf, 0, buffer, position, size);
 
@@ -402,7 +392,7 @@ class TarInputStream
             {
                 // Unexpected EOF!
                 final String message =
-                        "unexpected EOF with " + numToRead + " bytes unread";
+                    "unexpected EOF with " + numToRead + " bytes unread";
                 throw new IOException(message);
             }
 
@@ -442,16 +432,21 @@ class TarInputStream
     {
     }
 
-    public void longSkip(final long numToSkip) throws IOException {
-      for(long skipped = 0; skipped < numToSkip;) {
-        if(numToSkip - skipped > Integer.MAX_VALUE) {
-          skip(Integer.MAX_VALUE);
-          skipped += Integer.MAX_VALUE;
-        } else {
-          skip((int)(numToSkip - skipped));
-          skipped += numToSkip - skipped;
+    public void longSkip(final long numToSkip) throws IOException
+    {
+        for (long skipped = 0; skipped < numToSkip;)
+        {
+            if (numToSkip - skipped > Integer.MAX_VALUE)
+            {
+                skip(Integer.MAX_VALUE);
+                skipped += Integer.MAX_VALUE;
+            }
+            else
+            {
+                skip((int) (numToSkip - skipped));
+                skipped += numToSkip - skipped;
+            }
         }
-      }
     }
 
     /**
@@ -462,8 +457,7 @@ class TarInputStream
      * @param numToSkip The number of bytes to skip.
      * @throws IOException when an IO error causes operation to fail
      */
-    public void skip(final int numToSkip)
-            throws IOException
+    public void skip(final int numToSkip) throws IOException
     {
         // REVIEW
         // This is horribly inefficient, but it ensures that we

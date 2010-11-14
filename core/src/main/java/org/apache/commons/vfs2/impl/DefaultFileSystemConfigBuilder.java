@@ -61,7 +61,8 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Dummy class that implements FileSystem.
      */
-    abstract static class DefaultFileSystem implements FileSystem {
+    abstract static class DefaultFileSystem implements FileSystem
+    {
     }
 
     @Override

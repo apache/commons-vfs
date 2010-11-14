@@ -71,8 +71,10 @@ class FtpsClientWrapper implements FtpClient
 
             return FtpsClientFactory.createConnection(rootName.getHostName(),
                 rootName.getPort(),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                                               UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                                               UserAuthenticatorUtils.toChar(rootName.getPassword())),
                 rootName.getPath(),
                 getFileSystemOptions());
         }

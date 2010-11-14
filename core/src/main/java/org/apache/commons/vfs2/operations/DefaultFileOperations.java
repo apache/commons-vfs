@@ -78,7 +78,8 @@ public class DefaultFileOperations implements FileOperations
         }
 
         @SuppressWarnings("unchecked")
-        Class<? extends FileOperation>[] array = (Class<? extends FileOperation>[]) operations.toArray(new Class<?>[] {});
+        Class<? extends FileOperation>[] array =
+            (Class<? extends FileOperation>[]) operations.toArray(new Class<?>[] {});
         return array;
     }
 

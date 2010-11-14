@@ -52,7 +52,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 public class FtpFileObject
     extends AbstractFileObject
 {
-    private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections.unmodifiableMap(new TreeMap<String, FTPFile>());
+    private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP =
+        Collections.unmodifiableMap(new TreeMap<String, FTPFile>());
     private static final FTPFile UNKNOWN = new FTPFile();
 
     private final Log log = LogFactory.getLog(FtpFileObject.class);

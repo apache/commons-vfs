@@ -113,10 +113,11 @@ public final class HttpClientFactory
                         client.getState().setProxyCredentials(scope, proxyCreds);
                     }
 
-                    if (builder.isPreemptiveAuth(fileSystemOptions)) {
-	                    HttpClientParams httpClientParams = new HttpClientParams();
-	                    httpClientParams.setAuthenticationPreemptive(true);
-	                    client.setParams(httpClientParams);
+                    if (builder.isPreemptiveAuth(fileSystemOptions))
+                    {
+                        HttpClientParams httpClientParams = new HttpClientParams();
+                        httpClientParams.setAuthenticationPreemptive(true);
+                        client.setParams(httpClientParams);
                     }
                 }
 

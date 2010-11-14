@@ -488,7 +488,7 @@ class CBZip2OutputStream
             int ch = (bsBuff >> 24);
             try
             {
-                bsStream.write(ch);// write 8-bit
+                bsStream.write(ch); // write 8-bit
             }
             catch (IOException e)
             {
@@ -535,7 +535,7 @@ class CBZip2OutputStream
             int ch = (bsBuff >> 24);
             try
             {
-                bsStream.write(ch);// write 8-bit
+                bsStream.write(ch); // write 8-bit
             }
             catch (IOException e)
             {

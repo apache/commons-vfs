@@ -343,7 +343,8 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
                 }
                 catch (SftpException xe)
                 {
-                    throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error", workingDirectory, lsEx);
+                    throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error",
+                                                  workingDirectory, lsEx);
                 }
             }
 

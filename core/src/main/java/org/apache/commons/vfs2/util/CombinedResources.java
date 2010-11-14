@@ -120,11 +120,14 @@ public class CombinedResources extends ResourceBundle
         {
             init();
         }
-        return new Enumeration<String>(){
-            public boolean hasMoreElements() {
+        return new Enumeration<String>()
+        {
+            public boolean hasMoreElements()
+            {
                 return properties.keys().hasMoreElements();
             }
-            public String nextElement() {
+            public String nextElement()
+            {
                 // We know that our properties will only ever contain Strings
                 return (String) properties.keys().nextElement();
             }

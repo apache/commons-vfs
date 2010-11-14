@@ -42,8 +42,8 @@ public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler
         return INSTANCE;
     }
 
-    public boolean retryMethod(HttpMethod method, IOException exception,
-            int executionCount) {
+    public boolean retryMethod(HttpMethod method, IOException exception, int executionCount)
+    {
         return executionCount < 2;
     }
 }

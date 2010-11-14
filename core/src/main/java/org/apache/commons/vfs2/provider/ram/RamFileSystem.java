@@ -100,7 +100,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         Collection<RamFileData> children = data.getChildren();
         String[] names;
 
-        synchronized(children) {
+        synchronized (children)
+        {
             names = new String[children.size()];
 
             int pos = 0;
@@ -298,7 +299,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     int size()
     {
         int size = 0;
-        synchronized(cache) {
+        synchronized (cache)
+        {
             Iterator<RamFileData> iter = cache.values().iterator();
             while (iter.hasNext())
             {

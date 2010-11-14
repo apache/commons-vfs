@@ -39,7 +39,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private static final String OPTION_NAME__PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
-	protected HttpFileSystemConfigBuilder(String prefix)
+    protected HttpFileSystemConfigBuilder(String prefix)
     {
         super(prefix);
     }
@@ -214,8 +214,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return true if preemptiveAuth is requested.
      */
-    public boolean isPreemptiveAuth(FileSystemOptions opts) {
-		return getBoolean(opts, OPTION_NAME__PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
+    public boolean isPreemptiveAuth(FileSystemOptions opts)
+    {
+        return getBoolean(opts, OPTION_NAME__PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
 	}
 
     /**
@@ -227,8 +228,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param preemptiveAuth the desired setting; true=enabled and false=disabled.
      */
-	public void setPreemptiveAuth(FileSystemOptions opts, boolean preemptiveAuth) {
-		setParam(opts, OPTION_NAME__PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
+	public void setPreemptiveAuth(FileSystemOptions opts, boolean preemptiveAuth)
+    {
+        setParam(opts, OPTION_NAME__PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
 	}
 
 	@Override

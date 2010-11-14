@@ -33,7 +33,7 @@ class FileSystemKey implements Comparable<FileSystemKey>
 
     /**
      * Create the FS key.
-     * 
+     *
      * @param key must implement Comparable, and must be self-comparable
      * @param fileSystemOptions the required options
      */
@@ -53,7 +53,7 @@ class FileSystemKey implements Comparable<FileSystemKey>
     public int compareTo(FileSystemKey o)
     {
         @SuppressWarnings("unchecked") // Keys must implement comparable, and be comparable to themselves
-        Comparable<Comparable<?>> comparable = (Comparable<Comparable<?>>)key;
+        Comparable<Comparable<?>> comparable = (Comparable<Comparable<?>>) key;
         int ret = comparable.compareTo(o.key);
         if (ret != 0)
         {

@@ -48,7 +48,7 @@ public final class FileSystemOptions implements Cloneable
         /** The option name */
         private final String name;
 
-        // TODO the parameter name suggests that the class should only be a 
+        // TODO: the parameter name suggests that the class should only be a
         // a FileSystem, however some of the tests pass in DefaultFileSystemConfigBuilder
         private FileSystemOptionKey(Class<? extends FileSystem> fileSystemClass, String name)
         {
