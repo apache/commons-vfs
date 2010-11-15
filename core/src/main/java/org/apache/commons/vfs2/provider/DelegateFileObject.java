@@ -65,6 +65,7 @@ public class DelegateFileObject
     /**
      * Get access to the delegated file.
      * @return The FileObject.
+     * @since 2.0
      */
     public FileObject getDelegateFile()
     {
@@ -310,6 +311,7 @@ public class DelegateFileObject
 
     /**
      * Sets the last-modified time of this file.
+     * @since 2.0
      */
     @Override
     protected boolean doSetLastModTime(final long modtime)
@@ -408,6 +410,7 @@ public class DelegateFileObject
     /**
      * Refresh file information.
      * @throws FileSystemException if an error occurs.
+     * @since 2.0
      */
     @Override
     public void refresh() throws FileSystemException
@@ -419,6 +422,7 @@ public class DelegateFileObject
         }
     }
 
+    /** @since 2.0 */
     protected FileContentInfo doGetContentInfo() throws Exception
     {
         return file.getContent().getContentInfo();
@@ -426,6 +430,7 @@ public class DelegateFileObject
 
     /**
      * Renames the file.
+     * @since 2.0
      */
     @Override
     protected void doRename(FileObject newFile)
@@ -436,6 +441,7 @@ public class DelegateFileObject
 
     /**
      * Removes an attribute of this file.
+     * @since 2.0
      */
     @Override
     protected void doRemoveAttribute(final String atttrName)
@@ -446,6 +452,7 @@ public class DelegateFileObject
 
     /**
      * Creates access to the file for random i/o.
+     * @since 2.0
      */
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception

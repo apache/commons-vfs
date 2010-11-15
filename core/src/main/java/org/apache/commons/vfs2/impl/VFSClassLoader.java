@@ -120,6 +120,7 @@ public class VFSClassLoader extends SecureClassLoader
     /**
      * Provide access to the file objects this class loader represents.
      * @return An array of FileObjects.
+     * @since 2.0
      */
     public FileObject[] getFileObjects()
     {
