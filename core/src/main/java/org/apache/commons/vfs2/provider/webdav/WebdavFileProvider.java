@@ -38,6 +38,7 @@ import java.util.Collections;
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
+ * @since 2.0
  */
 public class WebdavFileProvider
     extends HttpFileProvider

@@ -77,6 +77,7 @@ import java.util.Iterator;
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$
+ * @since 2.0
  */
 public class WebdavFileObject extends HttpFileObject implements FileObject
 {

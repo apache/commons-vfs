@@ -28,6 +28,7 @@ import org.apache.commons.httpclient.HttpMethod;
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
+ * @since 2.0
  */
 public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler
 {
