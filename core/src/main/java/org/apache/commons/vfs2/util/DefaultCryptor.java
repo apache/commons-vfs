@@ -22,6 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Allows passwords to be encrypted and decrypted.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
+ * @since 2.0
  */
 public class DefaultCryptor implements Cryptor
 {
