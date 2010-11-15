@@ -63,7 +63,7 @@ public class ResourceFileProvider extends AbstractFileProvider
                                final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        StringBuffer buf = new StringBuffer(80);
+        StringBuilder buf = new StringBuilder(80);
         UriParser.extractScheme(uri, buf);
         String resourceName = buf.toString();
 

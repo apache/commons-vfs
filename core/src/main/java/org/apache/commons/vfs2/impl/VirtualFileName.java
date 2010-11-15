@@ -40,7 +40,7 @@ public class VirtualFileName extends AbstractFileName
     }
 
     @Override
-    protected void appendRootUri(StringBuffer buffer, boolean addPassword)
+    protected void appendRootUri(StringBuilder buffer, boolean addPassword)
     {
         buffer.append(getScheme());
     }

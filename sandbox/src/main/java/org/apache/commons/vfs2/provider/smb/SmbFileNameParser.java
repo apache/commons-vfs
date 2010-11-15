@@ -44,7 +44,7 @@ public class SmbFileNameParser extends URLFileNameParser
     @Override
     public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
     {
-        final StringBuffer name = new StringBuffer();
+        final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
         final Authority auth = extractToPath(filename, name);

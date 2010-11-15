@@ -427,7 +427,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public URL getURL() throws FileSystemException
     {
-        final StringBuffer buf = new StringBuffer();
+        final StringBuilder buf = new StringBuilder();
         try
         {
             return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>()

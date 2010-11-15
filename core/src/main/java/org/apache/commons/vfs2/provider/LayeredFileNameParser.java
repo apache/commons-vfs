@@ -61,7 +61,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
     public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
             throws FileSystemException
     {
-        final StringBuffer name = new StringBuffer();
+        final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
         final String scheme = UriParser.extractScheme(filename, name);
@@ -86,7 +86,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
-    protected String extractRootName(final StringBuffer uri)
+    protected String extractRootName(final StringBuilder uri)
         throws FileSystemException
     {
         // Looking for <name>!<abspath> (staring at the end)

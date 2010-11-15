@@ -58,7 +58,7 @@ public final class UriParser
      * @param name StringBuffer containing the path.
      * @return The first element of the path.
      */
-    public static String extractFirstElement(final StringBuffer name)
+    public static String extractFirstElement(final StringBuilder name)
     {
         final int len = name.length();
         if (len < 1)
@@ -103,7 +103,7 @@ public final class UriParser
      *
      *  @see #fixSeparators
      */
-    public static FileType normalisePath(final StringBuffer path)
+    public static FileType normalisePath(final StringBuilder path)
             throws FileSystemException
     {
         FileType fileType = FileType.FOLDER;
@@ -202,7 +202,7 @@ public final class UriParser
      * @param name The StringBuffer containing the name
      * @return true if the StringBuffer was modified.
      */
-    public static boolean fixSeparators(final StringBuffer name)
+    public static boolean fixSeparators(final StringBuilder name)
     {
         boolean changed = false;
         final int maxlen = name.length();
@@ -237,7 +237,7 @@ public final class UriParser
      * @param buffer Returns the remainder of the URI.
      * @return The scheme name. Returns null if there is no scheme.
      */
-    public static String extractScheme(final String uri, final StringBuffer buffer)
+    public static String extractScheme(final String uri, final StringBuilder buffer)
     {
         if (buffer != null)
         {
@@ -305,7 +305,7 @@ public final class UriParser
         {
             return encodedStr;
         }
-        final StringBuffer buffer = new StringBuffer(encodedStr);
+        final StringBuilder buffer = new StringBuilder(encodedStr);
         decode(buffer, 0, buffer.length());
         return buffer.toString();
     }
@@ -317,7 +317,7 @@ public final class UriParser
      * @param length The number of characters to decode.
      * @throws FileSystemException if an error occurs.
      */
-    public static void decode(final StringBuffer buffer, final int offset, final int length)
+    public static void decode(final StringBuilder buffer, final int offset, final int length)
             throws FileSystemException
     {
         int index = offset;
@@ -360,7 +360,7 @@ public final class UriParser
      * @param unencodedValue The String to encode and append.
      * @param reserved characters to encode.
      */
-    public static void appendEncoded(final StringBuffer buffer,
+    public static void appendEncoded(final StringBuilder buffer,
             final String unencodedValue, final char[] reserved)
     {
         final int offset = buffer.length();
@@ -376,7 +376,7 @@ public final class UriParser
      * @param length The number of characters to encode.
      * @param reserved characters to encode.
      */
-    public static void encode(final StringBuffer buffer, final int offset,
+    public static void encode(final StringBuilder buffer, final int offset,
             final int length, final char[] reserved)
     {
         int index = offset;
@@ -430,7 +430,7 @@ public final class UriParser
         {
             return null;
         }
-        final StringBuffer buffer = new StringBuffer(decodedStr);
+        final StringBuilder buffer = new StringBuilder(decodedStr);
         encode(buffer, 0, buffer.length(), reserved);
         return buffer.toString();
     }
@@ -463,7 +463,7 @@ public final class UriParser
         decode(uri);
     }
 
-    public static void canonicalizePath(StringBuffer buffer, int offset,
+    public static void canonicalizePath(StringBuilder buffer, int offset,
             int length, FileNameParser fileNameParser)
             throws FileSystemException
     {
@@ -526,7 +526,7 @@ public final class UriParser
      * @param name StringBuffer containing the URI.
      * @return The query string, if any. null otherwise.
      */
-    public static String extractQueryString(StringBuffer name)
+    public static String extractQueryString(StringBuilder name)
     {
         for (int pos = 0; pos < name.length(); pos++)
         {

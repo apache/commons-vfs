@@ -86,7 +86,7 @@ public class DefaultURLStreamHandler
             }
 
             final String url = newURL.getName().getURI();
-            final StringBuffer filePart = new StringBuffer();
+            final StringBuilder filePart = new StringBuilder();
             final String protocolPart = UriParser.extractScheme(url, filePart);
 
             setURL(u, protocolPart, "", -1, null, null, filePart.toString(), null, null);

@@ -45,7 +45,7 @@ public class URLFileNameParser extends HostFileNameParser
             throws FileSystemException
     {
         // FTP URI are generic URI (as per RFC 2396)
-        final StringBuffer name = new StringBuffer();
+        final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
         final Authority auth = extractToPath(filename, name);

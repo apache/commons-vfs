@@ -46,7 +46,7 @@ public class GenericFileNameParser
      */
     @Override
     protected String extractRootPrefix(final String uri,
-                                       final StringBuffer name)
+                                       final StringBuilder name)
         throws FileSystemException
     {
         // TODO - this class isn't generic at all.  Need to fix this

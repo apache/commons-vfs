@@ -46,8 +46,7 @@ public abstract class AbstractFileName
     private boolean calculateHashCode = true;
     private int calculatedHashCode;
 
-    public AbstractFileName(final String scheme,
-                            final String absPath, FileType type)
+    public AbstractFileName(final String scheme, final String absPath, FileType type)
     {
         this.rootUri = null;
         this.scheme = scheme;
@@ -147,10 +146,10 @@ public abstract class AbstractFileName
     /**
      * Builds the root URI for this file name.  Note that the root URI must not
      * end with a separator character.
-     * @param buffer A StringBuffer to use to construct the URI.
+     * @param buffer A StringBuilder to use to construct the URI.
      * @param addPassword true if the password should be added, false otherwise.
      */
-    protected abstract void appendRootUri(StringBuffer buffer, boolean addPassword);
+    protected abstract void appendRootUri(StringBuilder buffer, boolean addPassword);
 
     /**
      * Returns the base name of the file.
@@ -272,7 +271,7 @@ public abstract class AbstractFileName
 
     protected String createURI()
     {
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         appendRootUri(buffer, true);
         buffer.append(getPath());
         return buffer.toString();
@@ -349,7 +348,7 @@ public abstract class AbstractFileName
     {
         if (rootUri == null)
         {
-            final StringBuffer buffer = new StringBuffer();
+            final StringBuilder buffer = new StringBuilder();
             appendRootUri(buffer, true);
             buffer.append(SEPARATOR_CHAR);
             rootUri = buffer.toString().intern();
@@ -548,7 +547,7 @@ public abstract class AbstractFileName
      */
     public String getFriendlyURI()
     {
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         appendRootUri(buffer, false);
         buffer.append(getPath());
         return buffer.toString();

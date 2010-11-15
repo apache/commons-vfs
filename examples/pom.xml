@@ -37,7 +37,7 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
-      <artifactId>commons-vfs</artifactId>
+      <artifactId>commons-vfs2</artifactId>
     </dependency>
 
     <dependency>

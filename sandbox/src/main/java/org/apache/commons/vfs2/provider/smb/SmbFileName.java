@@ -27,8 +27,7 @@ import org.apache.commons.vfs2.provider.GenericFileName;
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @version $Revision$ $Date$
  */
-public class SmbFileName
-    extends GenericFileName
+public class SmbFileName extends GenericFileName
 {
     private static final int DEFAULT_PORT = 139;
 
@@ -64,7 +63,7 @@ public class SmbFileName
      * Builds the root URI for this file name.
      */
     @Override
-    protected void appendRootUri(final StringBuffer buffer, boolean addPassword)
+    protected void appendRootUri(final StringBuilder buffer, boolean addPassword)
     {
         super.appendRootUri(buffer, addPassword);
         buffer.append('/');
@@ -75,7 +74,7 @@ public class SmbFileName
      * put domain before username if both are set
      */
     @Override
-    protected void appendCredentials(StringBuffer buffer, boolean addPassword)
+    protected void appendCredentials(StringBuilder buffer, boolean addPassword)
     {
         if (getDomain() != null && getDomain().length() != 0 &&
             getUserName() != null && getUserName().length() != 0)
@@ -114,7 +113,7 @@ public class SmbFileName
             return uriWithoutAuth;
         }
 
-        StringBuffer sb = new StringBuffer(120);
+        StringBuilder sb = new StringBuilder(120);
         sb.append(getScheme());
         sb.append("://");
         sb.append(getHostName());

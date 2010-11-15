@@ -99,7 +99,7 @@ public class TemporaryFileProvider
         throws FileSystemException
     {
         // Parse the name
-        final StringBuffer buffer = new StringBuffer(uri);
+        final StringBuilder buffer = new StringBuilder(uri);
         final String scheme = UriParser.extractScheme(uri, buffer);
 
         UriParser.fixSeparators(buffer);

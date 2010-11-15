@@ -53,7 +53,7 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
                                final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        StringBuffer buf = new StringBuffer(INITIAL_BUFSZ);
+        StringBuilder buf = new StringBuilder(INITIAL_BUFSZ);
 
         UriParser.extractScheme(uri, buf);
 

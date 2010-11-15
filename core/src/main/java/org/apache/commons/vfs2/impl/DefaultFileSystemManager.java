@@ -761,7 +761,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             realBase = base;
         }
 
-        final StringBuffer buffer = new StringBuffer(name);
+        final StringBuilder buffer = new StringBuilder(name);
 
         // Adjust separators
         UriParser.fixSeparators(buffer);

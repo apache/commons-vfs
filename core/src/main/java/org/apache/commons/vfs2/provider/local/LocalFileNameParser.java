@@ -39,7 +39,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
     public boolean isAbsoluteName(final String name)
     {
         // TODO - this is yucky
-        StringBuffer b = new StringBuffer(name);
+        StringBuilder b = new StringBuilder(name);
         try
         {
             UriParser.fixSeparators(b);
@@ -56,14 +56,14 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
     protected abstract String extractRootPrefix(final String uri,
-                                                final StringBuffer name)
+                                                final StringBuilder name)
         throws FileSystemException;
 
 
     public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
         throws FileSystemException
     {
-        final StringBuffer name = new StringBuffer();
+        final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
         String scheme = UriParser.extractScheme(filename, name);

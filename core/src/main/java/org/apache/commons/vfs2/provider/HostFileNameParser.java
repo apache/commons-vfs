@@ -55,7 +55,7 @@ public class HostFileNameParser extends AbstractFileNameParser
             throws FileSystemException
     {
         // FTP URI are generic URI (as per RFC 2396)
-        final StringBuffer name = new StringBuffer();
+        final StringBuilder name = new StringBuilder();
 
         // Extract the scheme and authority parts
         final Authority auth = extractToPath(filename, name);
@@ -85,7 +85,7 @@ public class HostFileNameParser extends AbstractFileNameParser
      * @param name Used to return the remainder of the URI.
      */
     protected Authority extractToPath(final String uri,
-                                      final StringBuffer name)
+                                      final StringBuilder name)
         throws FileSystemException
     {
         final Authority auth = new Authority();
@@ -163,7 +163,7 @@ public class HostFileNameParser extends AbstractFileNameParser
      * Extracts the user info from a URI.  The scheme:// part has been removed
      * already.
      */
-    protected String extractUserInfo(final StringBuffer name)
+    protected String extractUserInfo(final StringBuilder name)
     {
         final int maxlen = name.length();
         for (int pos = 0; pos < maxlen; pos++)
@@ -191,7 +191,7 @@ public class HostFileNameParser extends AbstractFileNameParser
      * Extracts the hostname from a URI.  The scheme://userinfo@ part has
      * been removed.
      */
-    protected String extractHostName(final StringBuffer name)
+    protected String extractHostName(final StringBuilder name)
     {
         final int maxlen = name.length();
         int pos = 0;
@@ -221,7 +221,7 @@ public class HostFileNameParser extends AbstractFileNameParser
      *
      * @return The port, or -1 if the URI does not contain a port.
      */
-    protected int extractPort(final StringBuffer name, final String uri) throws FileSystemException
+    protected int extractPort(final StringBuilder name, final String uri) throws FileSystemException
     {
         if (name.length() < 1 || name.charAt(0) != ':')
         {

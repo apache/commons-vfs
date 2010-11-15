@@ -26,15 +26,14 @@ import org.apache.commons.vfs2.FileType;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class WindowsFileNameParser
-    extends LocalFileNameParser
+public class WindowsFileNameParser extends LocalFileNameParser
 {
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
     @Override
     protected String extractRootPrefix(final String uri,
-                                       final StringBuffer name)
+                                       final StringBuilder name)
         throws FileSystemException
     {
         return extractWindowsRootPrefix(uri, name);
@@ -50,7 +49,7 @@ public class WindowsFileNameParser
      * Extracts a Windows root prefix from a name.
      */
     private String extractWindowsRootPrefix(final String uri,
-                                            final StringBuffer name)
+                                            final StringBuilder name)
         throws FileSystemException
     {
         // Looking for:
@@ -89,7 +88,7 @@ public class WindowsFileNameParser
     /**
      * Extracts a drive prefix from a path.  Leading '/' chars have been removed.
      */
-    private String extractDrivePrefix(final StringBuffer name)
+    private String extractDrivePrefix(final StringBuilder name)
     {
         // Looking for <letter> ':' '/'
         if (name.length() < 3)
@@ -124,7 +123,7 @@ public class WindowsFileNameParser
      * Extracts a UNC name from a path.  Leading '/' chars have been removed.
      */
     private String extractUNCPrefix(final String uri,
-                                    final StringBuffer name)
+                                    final StringBuilder name)
         throws FileSystemException
     {
         // Looking for <name> '/' <name> ( '/' | <end> )

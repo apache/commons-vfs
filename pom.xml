@@ -274,12 +274,12 @@
       <!-- artifacts of project, versions managed by release-plugin -->
       <dependency>
         <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs</artifactId>
+        <artifactId>commons-vfs2</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs</artifactId>
+        <artifactId>commons-vfs2</artifactId>
         <version>${project.version}</version>
         <type>test-jar</type>
         <scope>test</scope>

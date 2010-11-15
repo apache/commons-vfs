@@ -62,7 +62,7 @@ public class URLFileName extends GenericFileName
      */
     public String getPathQuery()
     {
-        StringBuffer sb = new StringBuffer(BUFFSZ);
+        StringBuilder sb = new StringBuilder(BUFFSZ);
         sb.append(getPath());
         sb.append("?");
         sb.append(getQueryString());
@@ -92,7 +92,7 @@ public class URLFileName extends GenericFileName
             }
         }
 
-        StringBuffer sb = new StringBuffer(BUFFSZ);
+        StringBuilder sb = new StringBuilder(BUFFSZ);
         if (charset != null)
         {
             sb.append(URIUtil.encodePath(getPathDecoded(), charset));
@@ -136,7 +136,7 @@ public class URLFileName extends GenericFileName
     {
         if (getQueryString() != null)
         {
-            StringBuffer sb = new StringBuffer(BUFFSZ);
+            StringBuilder sb = new StringBuilder(BUFFSZ);
             sb.append(super.createURI());
             sb.append("?");
             sb.append(getQueryString());
@@ -156,7 +156,7 @@ public class URLFileName extends GenericFileName
      */
     public String getURIEncoded(String charset) throws FileSystemException, URIException
     {
-        StringBuffer sb = new StringBuffer(BUFFSZ);
+        StringBuilder sb = new StringBuilder(BUFFSZ);
         appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));
         return sb.toString();

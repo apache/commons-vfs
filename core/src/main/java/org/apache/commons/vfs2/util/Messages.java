@@ -17,10 +17,10 @@
 package org.apache.commons.vfs2.util;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Formats messages.
@@ -33,7 +33,8 @@ public final class Messages
     /**
      * Map from message code to MessageFormat object for the message.
      */
-    private static Map<String, MessageFormat> messages = new HashMap<String, MessageFormat>();
+    private static ConcurrentMap<String, MessageFormat> messages =
+        new ConcurrentHashMap<String, MessageFormat>();
     private static ResourceBundle resources;
 
     private Messages()
@@ -91,7 +92,7 @@ public final class Messages
     /**
      * Locates a message by its code.
      */
-    private static synchronized MessageFormat findMessage(final String code)
+    private static MessageFormat findMessage(final String code)
         throws MissingResourceException
     {
         // Check if the message is cached
@@ -108,7 +109,7 @@ public final class Messages
         }
         final String msgText = resources.getString(code);
         msg = new MessageFormat(msgText);
-        messages.put(code, msg);
-        return msg;
+        messages.putIfAbsent(code, msg);
+        return messages.get(code);
     }
 }
