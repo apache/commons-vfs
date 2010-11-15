@@ -172,7 +172,6 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
      * @param timeout The timeout value.
      * @return The HttpConnection.
      * @see HttpConnectionManager#getConnectionWithTimeout(HostConfiguration, long)
-     * @since 3.0
      */
     public HttpConnection getConnectionWithTimeout(
         HostConfiguration hostConfiguration, long timeout)
@@ -253,7 +252,6 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
 
     /**
      * @param idleTimeout The timeout value.
-     * @since 3.0
      */
     public void closeIdleConnections(long idleTimeout)
     {
