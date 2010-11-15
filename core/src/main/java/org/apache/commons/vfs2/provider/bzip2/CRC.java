@@ -30,7 +30,7 @@ package org.apache.commons.vfs2.provider.bzip2;
  */
 class CRC
 {
-    private static int[] CRC32_TABLE = new int[]
+    private static final int[] CRC32_TABLE = new int[]
     {
         0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,
         0x130476dc, 0x17c56b6b, 0x1a864db2, 0x1e475005,
@@ -98,7 +98,7 @@ class CRC
         0xbcb4666d, 0xb8757bda, 0xb5365d03, 0xb1f740b4
     };
 
-    private int m_globalCrc;
+    private int globalCrc;
 
     protected CRC()
     {
@@ -107,22 +107,22 @@ class CRC
 
     int getFinalCRC()
     {
-        return ~m_globalCrc;
+        return ~globalCrc;
     }
 
     void initialiseCRC()
     {
-        m_globalCrc = 0xffffffff;
+        globalCrc = 0xffffffff;
     }
 
     void updateCRC(final int inCh)
     {
-        int temp = (m_globalCrc >> 24) ^ inCh;
+        int temp = (globalCrc >> 24) ^ inCh;
         if (temp < 0)
         {
             temp = 256 + temp;
         }
-        m_globalCrc = (m_globalCrc << 8) ^ CRC32_TABLE[temp];
+        globalCrc = (globalCrc << 8) ^ CRC32_TABLE[temp];
     }
 }
 

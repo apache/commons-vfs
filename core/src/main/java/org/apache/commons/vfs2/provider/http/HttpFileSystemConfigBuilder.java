@@ -37,7 +37,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private static final int DEFAULT_MAX_CONNECTIONS = 50;
 
-    private static final String OPTION_NAME__PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
+    private static final String OPTION_NAME_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
     protected HttpFileSystemConfigBuilder(String prefix)
     {
@@ -216,8 +216,8 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public boolean isPreemptiveAuth(FileSystemOptions opts)
     {
-        return getBoolean(opts, OPTION_NAME__PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
-	}
+        return getBoolean(opts, OPTION_NAME_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
+    }
 
     /**
      * Sets the given value for preemptive HTTP authentication (using BASIC) on the
@@ -228,12 +228,12 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param preemptiveAuth the desired setting; true=enabled and false=disabled.
      */
-	public void setPreemptiveAuth(FileSystemOptions opts, boolean preemptiveAuth)
+    public void setPreemptiveAuth(FileSystemOptions opts, boolean preemptiveAuth)
     {
-        setParam(opts, OPTION_NAME__PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
-	}
+        setParam(opts, OPTION_NAME_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
+    }
 
-	@Override
+    @Override
     protected Class<? extends FileSystem> getConfigClass()
     {
         return HttpFileSystem.class;

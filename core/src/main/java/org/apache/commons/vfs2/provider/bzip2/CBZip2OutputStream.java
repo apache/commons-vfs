@@ -19,6 +19,8 @@ package org.apache.commons.vfs2.provider.bzip2;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.*;
+
 /*
  * This package is based on the work done by Keiron Liddle, Aftex Software
  * <keiron@aftexsw.com> to whom the Ant project is very grateful for his
@@ -31,9 +33,7 @@ import java.io.OutputStream;
  *
  * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
  */
-class CBZip2OutputStream
-        extends OutputStream
-        implements BZip2Constants
+class CBZip2OutputStream extends OutputStream
 {
     private static final int LOWER_BYTE_MASK = 0x000000ff;
     private static final int UPPER_BYTE_MASK = 0xffffff00;
@@ -817,12 +817,12 @@ class CBZip2OutputStream
         char tmp2;
         int zPend;
         int wr;
-        int EOB;
+        int eob;
 
         makeMaps();
-        EOB = nInUse + 1;
+        eob = nInUse + 1;
 
-        for (i = 0; i <= EOB; i++)
+        for (i = 0; i <= eob; i++)
         {
             mtfFreq[i] = 0;
         }
@@ -918,9 +918,9 @@ class CBZip2OutputStream
             }
         }
 
-        szptr[wr] = (short) EOB;
+        szptr[wr] = (short) eob;
         wr++;
-        mtfFreq[EOB]++;
+        mtfFreq[eob]++;
 
         nMTF = wr;
     }
@@ -1272,9 +1272,9 @@ class CBZip2OutputStream
 
         sp = 0;
 
-        stack[sp].m_ll = loSt;
-        stack[sp].m_hh = hiSt;
-        stack[sp].m_dd = dSt;
+        stack[sp].ll = loSt;
+        stack[sp].hh = hiSt;
+        stack[sp].dd = dSt;
         sp++;
 
         while (sp > 0)
@@ -1285,9 +1285,9 @@ class CBZip2OutputStream
             }
 
             sp--;
-            lo = stack[sp].m_ll;
-            hi = stack[sp].m_hh;
-            d = stack[sp].m_dd;
+            lo = stack[sp].ll;
+            hi = stack[sp].hh;
+            d = stack[sp].dd;
 
             if (hi - lo < SMALL_THRESH || d > DEPTH_THRESH)
             {
@@ -1372,9 +1372,9 @@ class CBZip2OutputStream
 
             if (gtHi < ltLo)
             {
-                stack[sp].m_ll = lo;
-                stack[sp].m_hh = hi;
-                stack[sp].m_dd = d + 1;
+                stack[sp].ll = lo;
+                stack[sp].hh = hi;
+                stack[sp].dd = d + 1;
                 sp++;
                 continue;
             }
@@ -1387,19 +1387,19 @@ class CBZip2OutputStream
             n = lo + unLo - ltLo - 1;
             m = hi - (gtHi - unHi) + 1;
 
-            stack[sp].m_ll = lo;
-            stack[sp].m_hh = n;
-            stack[sp].m_dd = d;
+            stack[sp].ll = lo;
+            stack[sp].hh = n;
+            stack[sp].dd = d;
             sp++;
 
-            stack[sp].m_ll = n + 1;
-            stack[sp].m_hh = m - 1;
-            stack[sp].m_dd = d + 1;
+            stack[sp].ll = n + 1;
+            stack[sp].hh = m - 1;
+            stack[sp].dd = d + 1;
             sp++;
 
-            stack[sp].m_ll = m;
-            stack[sp].m_hh = hi;
-            stack[sp].m_dd = d;
+            stack[sp].ll = m;
+            stack[sp].hh = hi;
+            stack[sp].dd = d;
             sp++;
         }
     }
@@ -2031,11 +2031,14 @@ class CBZip2OutputStream
         }
     }
 
+    /**
+     * A Stack element
+     */
     private static class StackElem
     {
-        int m_dd;
-        int m_hh;
-        int m_ll;
+        int dd;
+        int hh;
+        int ll;
     }
 }
 

@@ -583,16 +583,15 @@ public final class DefaultFileContent implements FileContent
      * An input stream for reading content.  Provides buffering, and
      * end-of-stream monitoring.
      */
-    private final class FileContentInputStream
-        extends MonitorInputStream
+    private final class FileContentInputStream extends MonitorInputStream
     {
         // avoid gc
-        private final FileObject _file;
+        private final FileObject file;
 
         FileContentInputStream(final FileObject file, final InputStream instr)
         {
             super(instr);
-            this._file = file;
+            this.file = file;
         }
 
         /**
@@ -607,7 +606,7 @@ public final class DefaultFileContent implements FileContent
             }
             catch (final IOException e)
             {
-                throw new FileSystemException("vfs.provider/close-instr.error", _file, e);
+                throw new FileSystemException("vfs.provider/close-instr.error", file, e);
             }
         }
 
@@ -635,14 +634,15 @@ public final class DefaultFileContent implements FileContent
     {
         // avoid gc
         @SuppressWarnings("unused")
-        private final FileObject _file;
+        private final FileObject file;
+
         @SuppressWarnings("unused")
         private final RandomAccessContent content;
 
         FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
         {
             super(content);
-            this._file = file;
+            this.file = file;
             this.content = content;
         }
 
@@ -669,12 +669,12 @@ public final class DefaultFileContent implements FileContent
     final class FileContentOutputStream extends MonitorOutputStream
     {
         // avoid gc
-        private final FileObject _file;
+        private final FileObject file;
 
         FileContentOutputStream(final FileObject file, final OutputStream outstr)
         {
             super(outstr);
-            this._file = file;
+            this.file = file;
         }
 
         /**
@@ -689,7 +689,7 @@ public final class DefaultFileContent implements FileContent
             }
             catch (final IOException e)
             {
-                throw new FileSystemException("vfs.provider/close-outstr.error", _file, e);
+                throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
             }
         }
 
@@ -711,7 +711,7 @@ public final class DefaultFileContent implements FileContent
                 }
                 catch (Exception e)
                 {
-                    throw new FileSystemException("vfs.provider/close-outstr.error", _file, e);
+                    throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
                 }
             }
         }

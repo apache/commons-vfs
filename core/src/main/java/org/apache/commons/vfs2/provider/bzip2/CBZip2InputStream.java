@@ -19,6 +19,8 @@ package org.apache.commons.vfs2.provider.bzip2;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.*;
+
 /*
  * This package is based on the work done by Keiron Liddle, Aftex Software
  * <keiron@aftexsw.com> to whom the Ant project is very grateful for his
@@ -31,9 +33,7 @@ import java.io.InputStream;
  *
  * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
  */
-class CBZip2InputStream
-        extends InputStream
-        implements BZip2Constants
+class CBZip2InputStream extends InputStream
 {
     private static final int START_BLOCK_STATE = 1;
     private static final int RAND_PART_A_STATE = 2;
@@ -76,7 +76,7 @@ class CBZip2InputStream
     private int j2;
     private char z;
 
-    private boolean m_blockRandomised;
+    private boolean blockRandomised;
 
     /*
      * always: in the range 0 .. 9.
@@ -86,7 +86,7 @@ class CBZip2InputStream
     private int bsBuff;
     private int bsLive;
 
-    private InputStream m_input;
+    private InputStream inputStream;
 
     private int computedBlockCRC;
     private int computedCombinedCRC;
@@ -245,7 +245,7 @@ class CBZip2InputStream
         /*
          * not a char and not EOF
          */
-        if (m_blockRandomised)
+        if (blockRandomised)
         {
             rNToGo = 0;
             rTPos = 0;
@@ -417,7 +417,7 @@ class CBZip2InputStream
         origPtr = readVariableSizedInt(24);
 
         recvDecodingTables();
-        int EOB = nInUse + 1;
+        int eob = nInUse + 1;
         int groupNo = -1;
         int groupPos = 0;
 
@@ -458,7 +458,7 @@ class CBZip2InputStream
                 int zzi = 0;
                 try
                 {
-                    zzi = m_input.read();
+                    zzi = inputStream.read();
                 }
                 catch (IOException e)
                 {
@@ -481,7 +481,7 @@ class CBZip2InputStream
 
         while (true)
         {
-            if (nextSym == EOB)
+            if (nextSym == eob)
             {
                 break;
             }
@@ -490,18 +490,18 @@ class CBZip2InputStream
             {
                 char ch;
                 int s = -1;
-                int N = 1;
+                int n = 1;
                 do
                 {
                     if (nextSym == RUNA)
                     {
-                        s = s + (0 + 1) * N;
+                        s = s + (0 + 1) * n;
                     }
                     else // if( nextSym == RUNB )
                     {
-                        s = s + (1 + 1) * N;
+                        s = s + (1 + 1) * n;
                     }
-                    N = N * 2;
+                    n = n * 2;
 
                     if (groupPos == 0)
                     {
@@ -521,7 +521,7 @@ class CBZip2InputStream
                             int zzi = 0;
                             try
                             {
-                                zzi = m_input.read();
+                                zzi = inputStream.read();
                             }
                             catch (IOException e)
                             {
@@ -613,7 +613,7 @@ class CBZip2InputStream
                         char ch = 0;
                         try
                         {
-                            ch = (char) m_input.read();
+                            ch = (char) inputStream.read();
                         }
                         catch (IOException e)
                         {
@@ -638,18 +638,18 @@ class CBZip2InputStream
 
     private void bsFinishedWithStream()
     {
-        if (m_input != null)
+        if (inputStream != null)
         {
             try
             {
-                m_input.close();
+                inputStream.close();
             }
             catch (IOException e)
             {
                 // Ignore the exception.
             }
         }
-        m_input = null;
+        inputStream = null;
     }
 
     private int readVariableSizedInt(final int numBits)
@@ -679,7 +679,7 @@ class CBZip2InputStream
             int ch = 0;
             try
             {
-                ch = m_input.read();
+                ch = inputStream.read();
             }
             catch (final IOException ioe)
             {
@@ -702,7 +702,7 @@ class CBZip2InputStream
 
     private void bsSetStream(final InputStream input)
     {
-        m_input = input;
+        inputStream = input;
         bsLive = 0;
         bsBuff = 0;
     }
@@ -817,11 +817,11 @@ class CBZip2InputStream
 
         if (bsR(1) == 1)
         {
-            m_blockRandomised = true;
+            blockRandomised = true;
         }
         else
         {
-            m_blockRandomised = false;
+            blockRandomised = false;
         }
 
         //        currBlockNo++;

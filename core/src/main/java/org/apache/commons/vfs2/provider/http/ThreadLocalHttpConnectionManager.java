@@ -102,7 +102,7 @@ public class ThreadLocalHttpConnectionManager implements HttpConnectionManager
     /**
      * A connection entry.
      */
-    private static class Entry
+    private static final class Entry
     {
         /**
          * The http connection.

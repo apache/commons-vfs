@@ -28,12 +28,12 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import java.io.IOException;
 
 /**
- * Create a FtpClient instance
+ * Create a FtpClient instance.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision: 480428 $ $Date: 2006-11-29 07:15:24 +0100 (Mi, 29 Nov 2006) $
  */
-public class FtpsClientFactory
+public final class FtpsClientFactory
 {
     private FtpsClientFactory()
     {

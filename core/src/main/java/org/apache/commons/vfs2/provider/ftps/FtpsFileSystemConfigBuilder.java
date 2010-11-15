@@ -23,12 +23,12 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
 
 /**
- * The config BUILDER for various ftp configuration options
+ * The config BUILDER for various ftp configuration options.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  * @version $Revision: 480428 $ $Date: 2006-11-29 07:15:24 +0100 (Mi, 29 Nov 2006) $
  */
-public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
+public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private static final FtpsFileSystemConfigBuilder BUILDER =
         new FtpsFileSystemConfigBuilder();
@@ -65,7 +65,7 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * FTPFileEntryParserFactory which will be used for ftp-entry parsing
+     * FTPFileEntryParserFactory which will be used for ftp-entry parsing.
      *
      * @param opts
      * @param factory instance of your factory
@@ -87,7 +87,8 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * set the FQCN of your FileEntryParser used to parse the directory listing from your server.<br />
      * <br />
-     * <i>If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using {@link #setEntryParserFactory}
+     * <i>If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using
+     * {@link #setEntryParserFactory}
      * this is the "key" parameter passed as argument into your custom factory</i>
      *
      * @param opts
@@ -114,7 +115,7 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * enter into passive mode
+     * Enter into passive mode.
      *
      * @param opts
      * @param passiveMode
@@ -134,7 +135,7 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * use user directory as root (do not change to fs root)
+     * use user directory as root (do not change to fs root).
      *
      * @param opts
      * @param userDirIsRoot
@@ -155,7 +156,7 @@ public class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set FTPS security mode, either "implicit" or "explicit"
+     * Set FTPS security mode, either "implicit" or "explicit".
      *
      * @param opts
      * @param ftpsType
