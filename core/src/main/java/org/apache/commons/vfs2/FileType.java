@@ -22,31 +22,31 @@ package org.apache.commons.vfs2;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public final class FileType
+public enum FileType
 {
     /**
      * A folder.  May contain other files, and have attributes, but does not
      * have any data content.
      */
-    public static final FileType FOLDER = new FileType("folder", true, false, true);
+    FOLDER("folder", true, false, true),
 
     /**
      * A regular file.  May have data content and attributes, but cannot
      * contain other files.
      */
-    public static final FileType FILE = new FileType("file", false, true, true);
+    FILE("file", false, true, true),
 
     /**
      * A file or folder.  May have data content and attributes, and can
      * contain other files.
      */
-    public static final FileType FILE_OR_FOLDER = new FileType("fileOrFolder", true, true, true);
+    FILE_OR_FOLDER("fileOrFolder", true, true, true),
 
     /**
      * A file that does not exist.  May not have data content, attributes,
      * or contain other files.
      */
-    public static final FileType IMAGINARY = new FileType("imaginary", false, false, false);
+    IMAGINARY("imaginary", false, false, false);
 
     /** The name of the FileType */
     private final String name;
