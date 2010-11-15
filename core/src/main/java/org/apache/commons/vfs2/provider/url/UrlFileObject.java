@@ -34,7 +34,7 @@ import java.net.URLConnection;
 /**
  * A {@link FileObject} implementation backed by a {@link URL}.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()

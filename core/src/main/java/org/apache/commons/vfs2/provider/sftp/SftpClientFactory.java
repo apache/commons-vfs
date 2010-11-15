@@ -33,7 +33,7 @@ import java.util.Properties;
 /**
  * Create a JSch Session instance.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public final class SftpClientFactory

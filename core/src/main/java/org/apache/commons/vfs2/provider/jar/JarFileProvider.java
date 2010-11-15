@@ -36,7 +36,7 @@ import java.util.Collections;
  * systems.  This provides access to Jar specific features like Signing and
  * Manifest Attributes.
  *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class JarFileProvider

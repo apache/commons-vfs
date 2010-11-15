@@ -36,8 +36,7 @@ import java.io.IOException;
 /**
  * A file object implementation which uses direct file access.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @author Gary D. Gregory
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class LocalFile

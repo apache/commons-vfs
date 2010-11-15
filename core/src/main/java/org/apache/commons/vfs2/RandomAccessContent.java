@@ -24,7 +24,7 @@ import java.io.InputStream;
 /**
  * Random Access Content.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public interface RandomAccessContent extends DataOutput, DataInput

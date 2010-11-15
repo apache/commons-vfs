@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.util.CryptorFactory;
  * Parses the url into user/password/host/port/path<br />
  * Does not handle a query string (after ?)
  *
- * @author imario@apache.org
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
  */

@@ -34,7 +34,7 @@ import java.util.jar.Manifest;
 /**
  * A default URL connection that will work for most file systems.
  *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class JarURLConnectionImpl

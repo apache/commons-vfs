@@ -42,7 +42,7 @@ import org.w3c.dom.NodeList;
  * classpath. You have to configure your debugging facility to log "debug" messages to see
  * if a provider was skipped due to "unresolved externals".
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class StandardFileSystemManager

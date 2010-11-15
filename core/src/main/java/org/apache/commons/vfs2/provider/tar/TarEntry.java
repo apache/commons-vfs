@@ -61,9 +61,7 @@ import java.util.Locale;
  * } header;
  * </pre>
  *
- * @author <a href="mailto:time@ice.com">Timothy Gerard Endres</a>
- * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
- * @author <a href="mailto:peter@apache.org">Peter Donald</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @see TarInputStream
  */

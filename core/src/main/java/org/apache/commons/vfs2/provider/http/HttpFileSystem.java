@@ -32,7 +32,7 @@ import java.util.Collection;
 /**
  * An HTTP file system.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class HttpFileSystem

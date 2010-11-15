@@ -19,8 +19,7 @@ package org.apache.commons.vfs2.provider.tar;
 /**
  * This class provides static utility methods to work with byte streams.
  *
- * @author <a href="mailto:time@ice.com">Timothy Gerard Endres</a>
- * @author <a href="mailto:stefano@apache.org">Stefano Mazzocchi</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 final class TarUtils

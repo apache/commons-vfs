@@ -28,7 +28,7 @@ import java.util.jar.Attributes;
  * Helper class for VFSClassLoader. This represents a resource loaded with
  * the classloader.
  *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @see VFSClassLoader
  */

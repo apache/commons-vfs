@@ -29,7 +29,7 @@ import java.io.Serializable;
 /**
  * The config BUILDER for various sftp configuration options.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder

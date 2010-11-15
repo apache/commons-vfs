@@ -35,8 +35,7 @@ import java.util.Collections;
 /**
  * A provider for accessing files over SFTP.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @author Gary D. Gregory
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Id$
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider

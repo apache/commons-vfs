@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
  * Implementation for any java.net.url based filesystem.<br />
  * Composite of URLFilenameParser and GenericFilenameParser
  *
- * @author imario@apache.org
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class UrlFileNameParser extends AbstractFileNameParser

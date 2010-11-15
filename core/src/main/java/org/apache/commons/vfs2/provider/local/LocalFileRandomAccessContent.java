@@ -30,7 +30,7 @@ import java.io.RandomAccessFile;
 /**
  * RandomAccess for local files
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent

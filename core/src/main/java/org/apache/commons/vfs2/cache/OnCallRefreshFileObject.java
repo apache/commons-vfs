@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.impl.DecoratedFileObject;
 /**
  * This decorator refreshes the fileObject data on every call.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class OnCallRefreshFileObject extends DecoratedFileObject

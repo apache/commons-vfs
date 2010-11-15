@@ -28,7 +28,7 @@ import java.util.Collection;
 /**
  * A File system backed by Java's URL API.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class UrlFileSystem

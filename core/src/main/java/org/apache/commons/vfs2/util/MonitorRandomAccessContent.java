@@ -24,7 +24,7 @@ import java.io.InputStream;
 /**
  * An RandomAccessContent that provides end-of-stream monitoring.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class MonitorRandomAccessContent implements RandomAccessContent
