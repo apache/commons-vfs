@@ -31,7 +31,7 @@ import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.*;
  * An output stream that compresses into the BZip2 format (without the file
  * header chars) into another stream. TODO: Update to BZip2 1.0.1
  *
- * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class CBZip2OutputStream extends OutputStream
 {

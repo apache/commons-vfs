@@ -26,7 +26,7 @@ import java.io.IOException;
  * UnsupportedOperationException if one of those methods are called.
  * (for read-only random access implementations)
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent

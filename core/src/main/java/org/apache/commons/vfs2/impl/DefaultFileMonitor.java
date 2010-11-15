@@ -77,7 +77,7 @@ import java.util.Stack;
  * <i>(where CustomFileListener is a class that implements the FileListener
  * interface.)</i>
  *
- * @author <a href="mailto:xknight@users.sourceforge.net">Christopher Ottley</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor

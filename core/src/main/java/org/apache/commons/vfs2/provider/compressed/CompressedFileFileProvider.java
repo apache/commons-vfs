@@ -33,7 +33,7 @@ import java.util.Collection;
  * A file system provider for compressed files.  Provides read-only file
  * systems.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public abstract class CompressedFileFileProvider

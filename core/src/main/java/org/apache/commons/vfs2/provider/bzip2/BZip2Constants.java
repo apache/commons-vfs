@@ -27,7 +27,7 @@ package org.apache.commons.vfs2.provider.bzip2;
  * Base class for both the compress and decompress classes. Holds common arrays,
  * and static data.
  *
- * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 final class BZip2Constants
 {

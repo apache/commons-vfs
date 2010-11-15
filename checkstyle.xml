@@ -78,7 +78,7 @@
               <property name="allowMissingJavadoc" value="true"/>
         </module>
         <module name="JavadocType">
-            <property name="authorFormat" value="\S"/>
+            <property name="authorFormat" value=".+Commons VFS team.+"/>
             <!-- It is unfortunate to have to do this but checkstyle doesn't allow custom tags -->
             <property name="allowUnknownTags" value="true"/>
         </module>

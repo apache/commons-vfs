@@ -55,8 +55,7 @@ import java.util.Map;
 /**
  * A partial file object implementation.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @author Gary D. Gregory
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @todo Chop this class up - move all the protected methods to several
  * interfaces, so that structure and content can be separately overridden.

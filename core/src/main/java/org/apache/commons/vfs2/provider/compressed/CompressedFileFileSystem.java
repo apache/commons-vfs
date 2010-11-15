@@ -29,7 +29,7 @@ import java.util.Collection;
 /**
  * A read-only file system for compressed files.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public abstract class CompressedFileFileSystem

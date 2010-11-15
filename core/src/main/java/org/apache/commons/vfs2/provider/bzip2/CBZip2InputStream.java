@@ -31,7 +31,7 @@ import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.*;
  * An input stream that decompresses from the BZip2 format (without the file
  * header chars) to be read as any other stream.
  *
- * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class CBZip2InputStream extends InputStream
 {

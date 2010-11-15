@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * local fs, or on an FTP server.  An originating file system cannot be
  * layered on top of another file system.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public abstract class AbstractOriginatingFileProvider

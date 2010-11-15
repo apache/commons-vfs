@@ -26,7 +26,7 @@ package org.apache.commons.vfs2.provider.bzip2;
  * A simple class the hold and calculate the CRC for sanity checking of the
  * data.
  *
- * @author <a href="mailto:keiron@aftexsw.com">Keiron Liddle</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class CRC
 {

@@ -28,7 +28,7 @@ import java.util.Map;
  * This implementation caches every file for the complete lifetime of the used
  * {@link org.apache.commons.vfs2.FileSystemManager}.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class DefaultFilesCache extends AbstractFilesCache
