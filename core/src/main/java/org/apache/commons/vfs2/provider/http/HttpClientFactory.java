@@ -63,6 +63,7 @@ public final class HttpClientFactory
      * @param fileSystemOptions The file system options.
      * @return a new HttpClient connection.
      * @throws FileSystemException if an error occurs.
+     * @since 2.0
      */
     public static HttpClient createConnection(HttpFileSystemConfigBuilder builder, String scheme,
                                               String hostname, int port, String username,

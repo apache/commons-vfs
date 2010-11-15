@@ -39,6 +39,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private static final String OPTION_NAME_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
+    /** @since 2.0 */
     protected HttpFileSystemConfigBuilder(String prefix)
     {
         super(prefix);
@@ -172,6 +173,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * The maximum number of connections allowed.
      * @param opts The FileSystem options.
      * @param maxTotalConnections The maximum number of connections.
+     * @since 2.0
      */
     public void setMaxTotalConnections(FileSystemOptions opts, int maxTotalConnections)
     {
@@ -182,6 +184,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Retrieve the maximum number of connections allowed.
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed.
+     * @since 2.0
      */
     public int getMaxTotalConnections(FileSystemOptions opts)
     {
@@ -192,6 +195,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * The maximum number of connections allowed to any host.
      * @param opts The FileSystem options.
      * @param maxHostConnections The maximum number of connections to a host.
+     * @since 2.0
      */
     public void setMaxConnectionsPerHost(FileSystemOptions opts, int maxHostConnections)
     {
@@ -202,6 +206,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Retrieve the maximum number of connections allowed per host.
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed per host.
+     * @since 2.0
      */
     public int getMaxConnectionsPerHost(FileSystemOptions opts)
     {
@@ -213,6 +218,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * authentication is requested.
      * @param opts The FileSystemOptions.
      * @return true if preemptiveAuth is requested.
+     * @since 2.0
      */
     public boolean isPreemptiveAuth(FileSystemOptions opts)
     {
