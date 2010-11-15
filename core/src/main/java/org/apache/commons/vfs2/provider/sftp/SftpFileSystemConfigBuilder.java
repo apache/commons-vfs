@@ -92,6 +92,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
             return true;
         }
 
+        /** @since 2.0 */
         @Override
         public int hashCode()
         {
@@ -345,6 +346,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Configure authentication order.
      * @param opts The FileSystem options.
      * @param preferredAuthentications The authentication order.
+     * @since 2.0
      */
     public void setPreferredAuthentications(FileSystemOptions opts, String preferredAuthentications)
     {
@@ -355,6 +357,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Get authentication order.
      * @param opts The FileSystem options.
      * @return The authentication order.
+     * @since 2.0
      */
     public String getPreferredAuthentications(FileSystemOptions opts)
     {

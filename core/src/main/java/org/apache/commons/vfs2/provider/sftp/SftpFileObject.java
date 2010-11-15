@@ -68,6 +68,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
                 name));
     }
 
+    /** @since 2.0 */
     @Override
     protected void doDetach() throws Exception
     {
