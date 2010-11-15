@@ -35,7 +35,7 @@ import java.util.Map;
  * A logical file system, made up of set of junctions, or links, to files from
  * other file systems.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @todo Handle nested junctions.
  */

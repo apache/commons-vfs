@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <li>{@link TemporaryFileStore}
  * </ul>
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public interface VfsComponent

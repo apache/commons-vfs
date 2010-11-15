@@ -41,7 +41,7 @@ import java.util.zip.ZipFile;
 /**
  * A read-only file system for Zip/Jar files.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class ZipFileSystem

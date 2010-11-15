@@ -43,7 +43,7 @@ import java.util.jar.Attributes.Name;
  * by creating a layered file system with the "jar" scheme.
  * TODO - Test this with signed Jars and a SecurityManager.
  *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @see FileSystemManager#createFileSystem
  */

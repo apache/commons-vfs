@@ -20,7 +20,7 @@ import java.util.Calendar;
 
 /**
  *
- * @author Siarhei Baidun
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 0.1
  */
 public class VcsLogEntry

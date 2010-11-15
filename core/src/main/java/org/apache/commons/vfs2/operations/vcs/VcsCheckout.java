@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileObject;
 
 /**
  *
- * @author Siarhei Baidun
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 0.1
  */
 public interface VcsCheckout extends FileOperation

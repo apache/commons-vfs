@@ -30,7 +30,7 @@ import org.apache.tools.ant.Task;
  * and for cleaning it up at the end of the build.  Also provides some
  * utility methods.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class VfsTask
