@@ -210,6 +210,7 @@ public final class DefaultFileContent implements FileContent
      * @param attrName The name of the attribute to check.
      * @return true if the attribute is associated with the file.
      * @throws FileSystemException if an error occurs.
+     * @since 2.0
      */
     public boolean hasAttribute(final String attrName) throws FileSystemException
     {
@@ -254,6 +255,7 @@ public final class DefaultFileContent implements FileContent
     /**
      * Used internally to flag situations where the file attributes should be
      * reretrieved.
+     * @since 2.0
      */
     public void resetAttributes()
     {
@@ -317,6 +319,7 @@ public final class DefaultFileContent implements FileContent
      * Removes an attribute.
      * @param attrName The name of the attribute to remove.
      * @throws FileSystemException if an error occurs.
+     * @since 2.0
      */
     public void removeAttribute(final String attrName) throws FileSystemException
     {

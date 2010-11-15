@@ -154,6 +154,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetLastModifiedTime(long)
      */
+    /** @since 2.0 */
     @Override
     protected boolean doSetLastModTime(long modtime) throws Exception
     {

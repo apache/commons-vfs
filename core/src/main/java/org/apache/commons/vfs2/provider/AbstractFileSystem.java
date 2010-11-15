@@ -183,6 +183,7 @@ public abstract class AbstractFileSystem
     /**
      * Returns the root URI specified for this file System.
      * @return The root URI used in this file system.
+     * @since 2.0
      */
     public String getRootURI()
     {

@@ -53,6 +53,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
+     * @since 2.0
      */
     @Override
     public int hashCode()
@@ -68,6 +69,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
+     * @since 2.0
      */
     @Override
     public boolean equals(Object obj)
@@ -111,6 +113,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
+     * @since 2.0
      */
     public int compareTo(final StaticUserAuthenticator other)
     {
@@ -149,6 +152,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
+     * @since 2.0
      */
     @Override
     public String toString()

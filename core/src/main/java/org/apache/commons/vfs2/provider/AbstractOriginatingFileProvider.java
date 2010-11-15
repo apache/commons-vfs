@@ -92,6 +92,7 @@ public abstract class AbstractOriginatingFileProvider
      * @param fileSystemOptions The FileSystem options.
      * @return The FileSystem.
      * @throws FileSystemException if an error occurs.
+     * @since 2.0
      */
     protected synchronized FileSystem getFileSystem(FileName rootName, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
