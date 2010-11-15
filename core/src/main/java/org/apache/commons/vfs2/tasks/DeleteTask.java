@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
 /**
  * An Ant task that deletes matching files.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @todo Allow selector to be specified.
  */

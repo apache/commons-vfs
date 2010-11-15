@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * @see FileOperation on what a operation in the context of VFS is.
  *
- * @author Siarhei Baidun
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 0.1
  */
 public interface FileOperations

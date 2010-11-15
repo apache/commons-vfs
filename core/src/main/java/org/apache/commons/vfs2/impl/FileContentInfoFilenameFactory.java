@@ -28,7 +28,7 @@ import java.net.URLConnection;
  * Uses the filename extension to determine the content-type.<br>
  * The content-encoding is not resolved.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory

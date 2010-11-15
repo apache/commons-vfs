@@ -35,7 +35,7 @@ import java.util.Collections;
 /**
  * A file system provider, which uses direct file access.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class DefaultLocalFileProvider

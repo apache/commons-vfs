@@ -36,7 +36,7 @@ import java.util.Map;
  * <p>A file may have multiple InputStreams open at the sametime.
  * <p/>
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @see FileObject#getContent
  */

@@ -32,7 +32,7 @@ import java.util.Collection;
  * <p/>
  * <p>A file provider may also implement {@link VfsComponent}.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public interface FileProvider

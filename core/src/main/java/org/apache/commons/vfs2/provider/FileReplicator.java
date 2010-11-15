@@ -27,7 +27,7 @@ import java.io.File;
  * <p/>
  * <p>A file replicator may also implement {@link VfsComponent}.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public interface FileReplicator

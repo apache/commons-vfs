@@ -33,7 +33,7 @@ import java.util.Collections;
 /**
  * A provider for FTP file systems.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public class FtpFileProvider

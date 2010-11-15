@@ -19,7 +19,7 @@ package org.apache.commons.vfs2;
 /**
  * Create a class which is able to determine the content-info for the given content.
  *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 public interface FileContentInfoFactory

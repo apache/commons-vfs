@@ -19,7 +19,7 @@ package org.apache.commons.vfs2;
 /**
  * This interface is used to select files when traversing a file hierarchy.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @see Selectors
  */

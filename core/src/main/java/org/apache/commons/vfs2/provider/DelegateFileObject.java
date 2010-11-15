@@ -38,8 +38,7 @@ import java.util.Set;
 /**
  * A file backed by another file.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @author Gary D. Gregory
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  * @todo Extract subclass that overlays the children
  */

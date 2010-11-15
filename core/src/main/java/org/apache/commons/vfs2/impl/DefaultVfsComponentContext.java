@@ -31,7 +31,7 @@ import java.io.File;
 /**
  * The default context implementation.
  *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
 final class DefaultVfsComponentContext
