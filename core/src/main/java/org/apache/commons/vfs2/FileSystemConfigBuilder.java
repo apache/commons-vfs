@@ -37,6 +37,7 @@ public abstract class FileSystemConfigBuilder
     {
         this.prefix = PREFIX;
     }
+    /** @since 2.0 */
     protected FileSystemConfigBuilder(String component)
     {
         this.prefix = PREFIX + component;
@@ -46,6 +47,7 @@ public abstract class FileSystemConfigBuilder
      * The root URI of the file system.
      * @param opts The FileSystem options
      * @param rootURI The creator name to be associated with the file.
+     * @since 2.0
      */
     public void setRootURI(FileSystemOptions opts, String rootURI)
     {
@@ -56,6 +58,7 @@ public abstract class FileSystemConfigBuilder
      * Return the root URI of the file system.
      * @param opts The FileSystem options
      * @return The root URI.
+     * @since 2.0
      */
     public String getRootURI(FileSystemOptions opts)
     {
@@ -83,21 +86,25 @@ public abstract class FileSystemConfigBuilder
         return opts != null && opts.hasOption(getConfigClass(), name);
     }
 
+    /** @since 2.0 */
     protected boolean hasObject(FileSystemOptions opts, String name)
     {
         return hasParam(opts, name) || System.getProperties().containsKey(PREFIX + name);
     }
 
+    /** @since 2.0 */
     protected Boolean getBoolean(FileSystemOptions opts, String name)
     {
         return getBoolean(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected boolean getBoolean(FileSystemOptions opts, String name, boolean defaultValue)
     {
         return getBoolean(opts, name, new Boolean(defaultValue)).booleanValue();
     }
 
+    /** @since 2.0 */
     protected Boolean getBoolean(FileSystemOptions opts, String name, Boolean defaultValue)
     {
         Boolean value = (Boolean) getParam(opts, name);
@@ -113,16 +120,19 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected Byte getByte(FileSystemOptions opts, String name)
     {
         return getByte(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected byte getByte(FileSystemOptions opts, String name, byte defaultValue)
     {
         return getByte(opts, name, new Byte(defaultValue)).byteValue();
     }
 
+    /** @since 2.0 */
     protected Byte getByte(FileSystemOptions opts, String name, Byte defaultValue)
     {
         Byte value = (Byte) getParam(opts, name);
@@ -138,16 +148,19 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected Character getCharacter(FileSystemOptions opts, String name)
     {
         return getCharacter(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected char getCharacter(FileSystemOptions opts, String name, char defaultValue)
     {
         return getCharacter(opts, name, new Character(defaultValue)).charValue();
     }
 
+    /** @since 2.0 */
     protected Character getCharacter(FileSystemOptions opts, String name, Character defaultValue)
     {
         Character value = (Character) getParam(opts, name);
@@ -163,16 +176,19 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected Double getDouble(FileSystemOptions opts, String name)
     {
         return getDouble(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected double getDouble(FileSystemOptions opts, String name, double defaultValue)
     {
         return getDouble(opts, name, new Double(defaultValue)).doubleValue();
     }
 
+    /** @since 2.0 */
     protected Double getDouble(FileSystemOptions opts, String name, Double defaultValue)
     {
         Double value = (Double) getParam(opts, name);
@@ -188,16 +204,19 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected Float getFloat(FileSystemOptions opts, String name)
     {
         return getFloat(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected float getFloat(FileSystemOptions opts, String name, float defaultValue)
     {
         return getFloat(opts, name, new Float(defaultValue)).floatValue();
     }
 
+    /** @since 2.0 */
     protected Float getFloat(FileSystemOptions opts, String name, Float defaultValue)
     {
         Float value = (Float) getParam(opts, name);
@@ -213,16 +232,19 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected Integer getInteger(FileSystemOptions opts, String name)
     {
         return getInteger(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected int getInteger(FileSystemOptions opts, String name, int defaultValue)
     {
         return getInteger(opts, name, new Integer(defaultValue)).intValue();
     }
 
+    /** @since 2.0 */
     protected Integer getInteger(FileSystemOptions opts, String name, Integer defaultValue)
     {
         Integer value = (Integer) getParam(opts, name);
@@ -238,16 +260,19 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected Long getLong(FileSystemOptions opts, String name)
     {
         return getLong(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected long getLong(FileSystemOptions opts, String name, long defaultValue)
     {
         return getLong(opts, name, new Long(defaultValue)).longValue();
     }
 
+    /** @since 2.0 */
     protected Long getLong(FileSystemOptions opts, String name, Long defaultValue)
     {
         Long value = (Long) getParam(opts, name);
@@ -263,16 +288,19 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected Short getShort(FileSystemOptions opts, String name)
     {
         return getShort(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected short getShort(FileSystemOptions opts, String name, short defaultValue)
     {
         return getShort(opts, name, new Short(defaultValue)).shortValue();
     }
 
+    /** @since 2.0 */
     protected Short getShort(FileSystemOptions opts, String name, Short defaultValue)
     {
         Short value = (Short) getParam(opts, name);
@@ -288,11 +316,13 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.0 */
     protected String getString(FileSystemOptions opts, String name)
     {
         return getString(opts, name, null);
     }
 
+    /** @since 2.0 */
     protected String getString(FileSystemOptions opts, String name, String defaultValue)
     {
         String value = (String) getParam(opts, name);

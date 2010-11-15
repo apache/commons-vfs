@@ -147,6 +147,7 @@ public final class Capability
     /**
      * Provides directories which allows you to read its content through
      * {@link org.apache.commons.vfs2.FileContent#getInputStream()}.
+     * @since 2.0
      */
     public static final Capability DIRECTORY_READ_CONTENT = new Capability("DIRECTORY_READ_CONTENT");
 
