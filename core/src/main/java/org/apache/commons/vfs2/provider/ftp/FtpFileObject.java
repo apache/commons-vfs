@@ -390,7 +390,7 @@ public class FtpFileObject
      * @return The list of children
      * @throws FileSystemException If there was a problem listing children
      * @see AbstractFileObject#getChildren()
-     * @since 1.0
+     * @since 2.0
      */
     @Override
     public FileObject[] getChildren() throws FileSystemException

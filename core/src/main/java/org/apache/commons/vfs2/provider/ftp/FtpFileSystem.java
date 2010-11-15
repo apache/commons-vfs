@@ -48,6 +48,7 @@ public class FtpFileSystem extends AbstractFileSystem
     // An idle client
     private FtpClient idleClient;
 
+    /** @since 2.0 (was protected) */
     public FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient,
                          final FileSystemOptions fileSystemOptions)
     {

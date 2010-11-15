@@ -75,6 +75,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         attrs = null;
     }
 
+    /** @since 2.0 */
     @Override
     public void refresh() throws FileSystemException
     {

@@ -62,6 +62,7 @@ public class HttpFileSystem
         return client;
     }
 
+    /** @since 2.0 */
     @Override
     public void closeCommunicationLink()
     {

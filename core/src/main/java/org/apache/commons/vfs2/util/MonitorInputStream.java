@@ -43,6 +43,7 @@ public class MonitorInputStream
      * Returns 0 if the stream is at eof, else the underlaying inputStream will be queried.
      * @return The number of bytes that are available.
      * @throws IOException if an error occurs.
+     * @since 2.0
      */
     @Override
     public synchronized int available() throws IOException

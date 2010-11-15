@@ -80,6 +80,7 @@ public class MonitorOutputStream
     }
 
 
+    /** @since 2.0 */
     @Override
     public synchronized void write(int b) throws IOException
     {
@@ -87,6 +88,7 @@ public class MonitorOutputStream
         super.write(b);
     }
 
+    /** @since 2.0 */
     @Override
     public synchronized void write(byte[] b, int off, int len) throws IOException
     {
@@ -94,6 +96,7 @@ public class MonitorOutputStream
         super.write(b, off, len);
     }
 
+    /** @since 2.0 */
     @Override
     public synchronized void flush() throws IOException
     {
@@ -101,6 +104,7 @@ public class MonitorOutputStream
         super.flush();
     }
 
+    /** @since 2.0 */
     @Override
     public void write(byte[] b) throws IOException
     {
@@ -110,8 +114,9 @@ public class MonitorOutputStream
 
     /**
      * check if file is still open. <br />
-     * This is a workaround for an oddidy with javas BufferedOutputStream where you can write to
+     * This is a workaround for an oddity with Java's BufferedOutputStream where you can write to
      * even if the stream has been closed
+     * @since 2.0
      */
     protected void assertOpen() throws FileSystemException
     {

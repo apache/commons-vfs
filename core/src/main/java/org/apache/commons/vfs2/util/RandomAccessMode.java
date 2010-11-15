@@ -54,6 +54,7 @@ public enum RandomAccessMode
         return write;
     }
 
+    /** @since 2.0 */
     public String getModeString()
     {
         if (requestRead())

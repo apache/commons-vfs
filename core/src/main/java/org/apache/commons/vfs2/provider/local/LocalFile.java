@@ -200,6 +200,7 @@ public class LocalFile
 
     /**
      * Sets the last modified time of this file.
+     * @since 2.0
      */
     @Override
     protected boolean doSetLastModTime(final long modtime)

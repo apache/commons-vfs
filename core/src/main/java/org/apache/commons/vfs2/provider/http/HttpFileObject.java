@@ -180,6 +180,7 @@ public class HttpFileObject
 
     /**
      * Prepares a Method object.
+     * @since 2.0 (was package)
      */
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
