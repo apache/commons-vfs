@@ -181,6 +181,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @return The timeout value.
      * @see #getDataTimeout
+     * @since 2.0
      */
     public Integer getSoTimeout(FileSystemOptions opts)
     {
@@ -194,6 +195,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *
      * @param opts The FileSystem options.
      * @param soTimeout The timeout value.
+     * @since 2.0
      */
     public void setSoTimeout(FileSystemOptions opts, Integer soTimeout)
     {
@@ -315,12 +317,14 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * see {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
      * @param opts The FileSystemOptions.
      * @param encoding the encoding to use
+     * @since 2.0
      */
     public void setControlEncoding(FileSystemOptions opts, String encoding)
     {
         setParam(opts, ENCODING, encoding);
     }
 
+    /** @since 2.0 */
     public String getControlEncoding(FileSystemOptions opts)
     {
         return  (String) getParam(opts, ENCODING);
