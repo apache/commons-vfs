@@ -165,6 +165,7 @@ public final class FileSystemOptions implements Cloneable
 
     /**
      * {@inheritDoc}
+     * @since 2.0
      */
     @Override
     public Object clone()
