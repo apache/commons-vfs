@@ -22,17 +22,17 @@ package org.apache.commons.vfs2.util;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public final class RandomAccessMode
+public enum RandomAccessMode
 {
     /**
      * read.
      */
-    public static final RandomAccessMode READ = new RandomAccessMode(true, false);
+    READ(true, false),
 
     /**
      * read/write.
      */
-    public static final RandomAccessMode READWRITE = new RandomAccessMode(true, true);
+    READWRITE(true, true);
 
 
     private final boolean read;

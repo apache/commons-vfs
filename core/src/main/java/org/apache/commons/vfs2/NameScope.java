@@ -23,21 +23,21 @@ package org.apache.commons.vfs2;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public final class NameScope
+public enum NameScope
 {
     /**
      * Resolve against the children of the base file.  The name is resolved
      * as described by {@link #FILE_SYSTEM}.  However, an exception is
      * thrown if the resolved file is not a direct child of the base file.
      */
-    public static final NameScope CHILD = new NameScope("child");
+    CHILD("child"),
 
     /**
      * Resolve against the descendents of the base file.  The name is resolved
      * as described by {@link #FILE_SYSTEM}.  However, an exception is thrown
      * if the resolved file is not a descendent of the base file.
      */
-    public static final NameScope DESCENDENT = new NameScope("descendent");
+    DESCENDENT("descendent"),
 
     /**
      * Resolve against the descendents of the base file.  The name is resolved
@@ -45,8 +45,7 @@ public final class NameScope
      * if the resolved file is not a descendent of the base file, or the base
      * files itself.
      */
-    public static final NameScope DESCENDENT_OR_SELF =
-        new NameScope("descendent_or_self");
+    DESCENDENT_OR_SELF("descendent_or_self"),
 
     /**
      * Resolve against files in the same file system as the base file.
@@ -63,14 +62,14 @@ public final class NameScope
      * <p>A path is considered absolute if it starts with a separator character,
      * and relative if it does not.
      */
-    public static final NameScope FILE_SYSTEM = new NameScope("filesystem");
+    FILE_SYSTEM("filesystem");
 
     /** The name */
-    private final String name;
+    private final String realName;
 
     private NameScope(final String name)
     {
-        this.name = name;
+        this.realName = name;
     }
 
     /**
@@ -80,7 +79,7 @@ public final class NameScope
     @Override
     public String toString()
     {
-        return name;
+        return realName;
     }
 
     /**
@@ -89,6 +88,6 @@ public final class NameScope
      */
     public String getName()
     {
-        return name;
+        return realName;
     }
 }

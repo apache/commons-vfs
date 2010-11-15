@@ -22,33 +22,33 @@ package org.apache.commons.vfs2;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public final class CacheStrategy
+public enum CacheStrategy
 {
     /**
      * Deal with cached data manually. Call {@link FileObject#refresh()} to refresh the object data.
      */
-    public static final CacheStrategy MANUAL = new CacheStrategy("manual");
+    MANUAL("manual"),
 
     /**
      * Refresh the data every time you request a file from {@link FileSystemManager#resolveFile}.
      */
-    public static final CacheStrategy ON_RESOLVE = new CacheStrategy("onresolve");
+    ON_RESOLVE("onresolve"),
 
     /**
      * Refresh the data every time you call a method on the fileObject.
      * You'll use this only if you really need the latest info as this setting is a major performance
      * loss.
      */
-    public static final CacheStrategy ON_CALL = new CacheStrategy("oncall");
+    ON_CALL("oncall");
 
     /**
      * Cache strategy name
      */
-    private final String name;
+    private final String realName;
 
     private CacheStrategy(final String name)
     {
-        this.name = name;
+        this.realName = name;
     }
 
     /**
@@ -58,7 +58,7 @@ public final class CacheStrategy
     @Override
     public String toString()
     {
-        return name;
+        return realName;
     }
 
     /**
@@ -67,6 +67,6 @@ public final class CacheStrategy
      */
     public String getName()
     {
-        return name;
+        return realName;
     }
 }
