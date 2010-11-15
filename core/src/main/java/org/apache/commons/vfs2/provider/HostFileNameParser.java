@@ -260,51 +260,61 @@ public class HostFileNameParser extends AbstractFileNameParser
         private String password;
         private int port;
 
+        /** @since 2.0 */
         public String getScheme()
         {
             return scheme;
         }
 
+        /** @since 2.0 */
         public void setScheme(String scheme)
         {
             this.scheme = scheme;
         }
 
+        /** @since 2.0 */
         public String getHostName()
         {
             return hostName;
         }
 
+        /** @since 2.0 */
         public void setHostName(String hostName)
         {
             this.hostName = hostName;
         }
 
+        /** @since 2.0 */
         public String getUserName()
         {
             return userName;
         }
 
+        /** @since 2.0 */
         public void setUserName(String userName)
         {
             this.userName = userName;
         }
 
+        /** @since 2.0 */
         public String getPassword()
         {
             return password;
         }
 
+        /** @since 2.0 */
         public void setPassword(String password)
         {
             this.password = password;
         }
 
+        /** @since 2.0 */
         public int getPort()
         {
             return port;
         }
 
+        /** @since 2.0 */
         public void setPort(int port)
         {
             this.port = port;

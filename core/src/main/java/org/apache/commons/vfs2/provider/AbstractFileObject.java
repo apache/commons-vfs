@@ -268,6 +268,7 @@ public abstract class AbstractFileObject implements FileObject
      * This implementation throws an exception.
      *
      * @return false if it was not possible to change the time
+     * @since 2.0
      */
     protected boolean doSetLastModTime(final long modtime)
         throws Exception
@@ -282,7 +283,7 @@ public abstract class AbstractFileObject implements FileObject
      * <p/>
      * This implementation throws an exception.
      *
-     * @deprecated use {@link #doSetLastModTime}
+     * @deprecated (2.0) use {@link #doSetLastModTime}
      */
     @Deprecated
     protected void doSetLastModifiedTime(final long modtime)
@@ -322,6 +323,7 @@ public abstract class AbstractFileObject implements FileObject
      * This implementation throws an exception.
      * @returns true if removing the attribute succeed. In this case we remove the attribute from
      * our cache
+     * @since 2.0
      */
     protected void doRemoveAttribute(final String atttrName)
         throws Exception
@@ -1195,6 +1197,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Create a FileContent implementation.
+     * @since 2.0
      */
     protected FileContent doCreateFileContent() throws FileSystemException
     {
