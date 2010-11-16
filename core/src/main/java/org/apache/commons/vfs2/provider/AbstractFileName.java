@@ -319,7 +319,7 @@ public abstract class AbstractFileName
         }
 
         // Strip the common prefix off the path
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         if (pathLen > 1 && (pos < pathLen || getPath().charAt(pos) != SEPARATOR_CHAR))
         {
             // Not a direct ancestor, need to back up

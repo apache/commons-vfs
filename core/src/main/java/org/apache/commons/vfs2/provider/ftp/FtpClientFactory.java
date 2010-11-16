@@ -103,7 +103,7 @@ public final class FtpClientFactory
                         FtpFileSystemConfigBuilder.getInstance().getShortMonthNames(fileSystemOptions);
                 if (shortMonthNames != null)
                 {
-                    StringBuffer shortMonthNamesStr = new StringBuffer(BUFSZ);
+                    StringBuilder shortMonthNamesStr = new StringBuilder(BUFSZ);
                     for (int i = 0; i < shortMonthNames.length; i++)
                     {
                         if (shortMonthNamesStr.length() > 0)

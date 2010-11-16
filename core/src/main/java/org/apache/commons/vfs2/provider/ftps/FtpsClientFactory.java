@@ -111,7 +111,7 @@ public final class FtpsClientFactory
                         fileSystemOptions);
                     if (shortMonthNames != null)
                     {
-                        StringBuffer shortMonthNamesStr = new StringBuffer(40);
+                        StringBuilder shortMonthNamesStr = new StringBuilder(40);
                         for (int i = 0; i < shortMonthNames.length; i++)
                         {
                             if (shortMonthNamesStr.length() > 0)

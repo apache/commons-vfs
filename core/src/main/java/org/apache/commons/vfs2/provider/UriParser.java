@@ -55,7 +55,7 @@ public final class UriParser
 
     /**
      * Extracts the first element of a path.
-     * @param name StringBuffer containing the path.
+     * @param name StringBuilder containing the path.
      * @return The first element of the path.
      */
     public static String extractFirstElement(final StringBuilder name)
@@ -199,8 +199,8 @@ public final class UriParser
 
     /**
      * Normalises the separators in a name.
-     * @param name The StringBuffer containing the name
-     * @return true if the StringBuffer was modified.
+     * @param name The StringBuilder containing the name
+     * @return true if the StringBuilder was modified.
      */
     public static boolean fixSeparators(final StringBuilder name)
     {
@@ -312,7 +312,7 @@ public final class UriParser
 
     /**
      * Removes %nn encodings from a string.
-     * @param buffer StringBuffer containing the string to decode.
+     * @param buffer StringBuilder containing the string to decode.
      * @param offset The position in the string to start decoding.
      * @param length The number of characters to decode.
      * @throws FileSystemException if an error occurs.
@@ -355,8 +355,8 @@ public final class UriParser
     }
 
     /**
-     * Encodes and appends a string to a StringBuffer.
-     * @param buffer The StringBuffer to append to.
+     * Encodes and appends a string to a StringBuilder.
+     * @param buffer The StringBuilder to append to.
      * @param unencodedValue The String to encode and append.
      * @param reserved characters to encode.
      */
@@ -369,9 +369,9 @@ public final class UriParser
     }
 
     /**
-     * Encodes a set of reserved characters in a StringBuffer, using the URI %nn
+     * Encodes a set of reserved characters in a StringBuilder, using the URI %nn
      * encoding. Always encodes % characters.
-     * @param buffer The StringBuffer to append to.
+     * @param buffer The StringBuilder to append to.
      * @param offset The position in the buffer to start encoding at.
      * @param length The number of characters to encode.
      * @param reserved characters to encode.
@@ -523,7 +523,7 @@ public final class UriParser
 
     /**
      * Extract the query String from the URI.
-     * @param name StringBuffer containing the URI.
+     * @param name StringBuilder containing the URI.
      * @return The query string, if any. null otherwise.
      */
     public static String extractQueryString(StringBuilder name)

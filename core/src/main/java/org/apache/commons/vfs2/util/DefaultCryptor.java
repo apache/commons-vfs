@@ -80,7 +80,7 @@ public class DefaultCryptor implements Cryptor
 
     private String encode(byte[] bytes)
     {
-        StringBuffer builder = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < bytes.length; ++i)
         {

@@ -93,7 +93,7 @@ public class ShowFileTask
     private void showFile(final FileObject file, final String prefix) throws Exception
     {
         // Write details
-        StringBuffer msg = new StringBuffer(prefix);
+        StringBuilder msg = new StringBuilder(prefix);
         msg.append(file.getName().getBaseName());
         if (file.exists())
         {

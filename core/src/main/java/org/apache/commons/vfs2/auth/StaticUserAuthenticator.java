@@ -157,7 +157,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     @Override
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         if (domain != null)
         {
             buffer.append(domain).append('\\');
