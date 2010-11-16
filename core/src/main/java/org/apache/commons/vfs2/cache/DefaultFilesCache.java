@@ -22,6 +22,8 @@ import org.apache.commons.vfs2.FileSystem;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * A {@link org.apache.commons.vfs2.FilesCache} implementation.<br>
@@ -35,8 +37,8 @@ public class DefaultFilesCache extends AbstractFilesCache
 {
 
     /** The FileSystem cache */
-    private final Map<FileSystem, Map<FileName, FileObject>> filesystemCache =
-          new HashMap<FileSystem, Map<FileName, FileObject>>(10);
+    private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> filesystemCache =
+          new ConcurrentHashMap<FileSystem, ConcurrentMap<FileName, FileObject>>(10);
 
     public void putFile(final FileObject file)
     {
@@ -56,13 +58,13 @@ public class DefaultFilesCache extends AbstractFilesCache
         files.clear();
     }
 
-    protected Map<FileName, FileObject> getOrCreateFilesystemCache(FileSystem filesystem)
+    protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(FileSystem filesystem)
     {
-        Map<FileName, FileObject> files = filesystemCache.get(filesystem);
+        ConcurrentMap<FileName, FileObject> files = filesystemCache.get(filesystem);
         if (files == null)
         {
-            files = new HashMap<FileName, FileObject>();
-            filesystemCache.put(filesystem, files);
+            filesystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<FileName, FileObject>());
+            files = filesystemCache.get(filesystem);
         }
 
         return files;
