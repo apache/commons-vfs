@@ -314,7 +314,7 @@ public class DelegateFileObject
      * @since 2.0
      */
     @Override
-    protected boolean doSetLastModTime(final long modtime)
+    protected boolean doSetLastModifiedTime(final long modtime)
         throws Exception
     {
         file.getContent().setLastModifiedTime(modtime);

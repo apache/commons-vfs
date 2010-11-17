@@ -156,7 +156,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      */
     /** @since 2.0 */
     @Override
-    protected boolean doSetLastModTime(long modtime) throws Exception
+    protected boolean doSetLastModifiedTime(long modtime) throws Exception
     {
         data.setLastModified(modtime);
         return true;

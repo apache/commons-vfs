@@ -203,7 +203,7 @@ public class LocalFile
      * @since 2.0
      */
     @Override
-    protected boolean doSetLastModTime(final long modtime)
+    protected boolean doSetLastModifiedTime(final long modtime)
         throws FileSystemException
     {
         return file.setLastModified(modtime);

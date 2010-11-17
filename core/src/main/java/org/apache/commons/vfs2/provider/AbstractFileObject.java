@@ -267,26 +267,8 @@ public abstract class AbstractFileObject implements FileObject
      * <p/>
      * This implementation throws an exception.
      *
-     * @return false if it was not possible to change the time
-     * @since 2.0
      */
-    protected boolean doSetLastModTime(final long modtime)
-        throws Exception
-    {
-        doSetLastModifiedTime(modtime);
-        return true;
-    }
-
-    /**
-     * Sets the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation throws an exception.
-     *
-     * @deprecated (2.0) use {@link #doSetLastModTime}
-     */
-    @Deprecated
-    protected void doSetLastModifiedTime(final long modtime)
+    protected boolean doSetLastModifiedTime(final long modtime)
         throws Exception
     {
         throw new FileSystemException("vfs.provider/set-last-modified-not-supported.error");

@@ -236,7 +236,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
      *            them with second precision.
      */
     @Override
-    protected void doSetLastModifiedTime(final long modtime) throws Exception
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
         try
@@ -250,6 +250,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         {
             fileSystem.putChannel(channel);
         }
+        return true;
     }
 
     /**
