@@ -27,9 +27,7 @@ public interface VcsUpdateListener
      *
      * @param path The path.
      * @param revision The revision number.
-     * @param contentStatus
-     *            takes one of the values as defined in the
-     * @see VcsStatus constants.
+     * @param contentStatus The status.
      */
-    void updated(final String path, final long revision, final int contentStatus);
+    void updated(final String path, final long revision, final VcsStatus contentStatus);
 }
