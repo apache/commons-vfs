@@ -110,6 +110,7 @@ public abstract class AbstractFileObject implements FileObject
      * this method to perform lazy initialisation.
      * <p/>
      * This implementation does nothing.
+     * @throws Exception if an error occurs.
      */
     protected void doAttach() throws Exception
     {
@@ -122,6 +123,7 @@ public abstract class AbstractFileObject implements FileObject
      * reused later, so should be able to be reattached.
      * <p/>
      * This implementation does nothing.
+     * @throws Exception if an error occurs.
      */
     protected void doDetach() throws Exception
     {
@@ -130,6 +132,8 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Determines the type of this file.  Must not return null.  The return
      * value of this method is cached, so the implementation can be expensive.
+     * @return the type of the file.
+     * @throws Exception if an error occurs.
      */
     protected abstract FileType doGetType() throws Exception;
 
@@ -138,6 +142,8 @@ public abstract class AbstractFileObject implements FileObject
      * does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation always returns false.
+     * @return true if the file is hidden, false otherwise.
+     * @throws Exception if an error occurs.
      */
     protected boolean doIsHidden() throws Exception
     {
@@ -149,6 +155,8 @@ public abstract class AbstractFileObject implements FileObject
      * does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation always returns true.
+     * @return true if the file is readable, false otherwise.
+     * @throws Exception if an error occurs.
      */
     protected boolean doIsReadable() throws Exception
     {
@@ -160,6 +168,8 @@ public abstract class AbstractFileObject implements FileObject
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation always returns true.
+     * @return true if the file is writable.
+     * @throws Exception if an error occurs.
      */
     protected boolean doIsWriteable() throws Exception
     {
@@ -171,7 +181,8 @@ public abstract class AbstractFileObject implements FileObject
      * returns {@link FileType#FOLDER}.  The return value of this method
      * is cached, so the implementation can be expensive.<br />
      * @return a possible empty String array if the file is a directory or null or an exception if the
-     * file is not a directory or can't be read
+     * file is not a directory or can't be read.
+     * @throws Exception if an error occurs.
      */
     protected abstract String[] doListChildren() throws Exception;
 
@@ -182,6 +193,8 @@ public abstract class AbstractFileObject implements FileObject
      * Other than <code>doListChildren</code> you could return FileObject's to e.g. reinitialize the
      * type of the file.<br>
      * (Introduced for Webdav: "permission denied on resource" during getType())
+     * @return The children of this FileObject.
+     * @throws Exception if an error occurs.
      */
     protected FileObject[] doListChildrenResolved() throws Exception
     {
@@ -197,6 +210,7 @@ public abstract class AbstractFileObject implements FileObject
      * </ul>
      * <p/>
      * This implementation throws an exception.
+     * @throws Exception if an error occurs.
      */
     protected void doDelete() throws Exception
     {
@@ -210,6 +224,8 @@ public abstract class AbstractFileObject implements FileObject
      * </ul>
      * <p/>
      * This implementation throws an exception.
+     * @param newfile A FileObject with the new file name.
+     * @throws Exception if an error occurs.
      */
     protected void doRename(FileObject newfile) throws Exception
     {
@@ -225,6 +241,7 @@ public abstract class AbstractFileObject implements FileObject
      * </ul>
      * <p/>
      * This implementation throws an exception.
+     * @throws Exception if an error occurs.
      */
     protected void doCreateFolder() throws Exception
     {
@@ -236,6 +253,9 @@ public abstract class AbstractFileObject implements FileObject
      * refresh any cached information about the children of this file.
      * <p/>
      * This implementation does nothing.
+     * @param child The name of the child that changed.
+     * @param newType The type of the file.
+     * @throws Exception if an error occurs.
      */
     protected void onChildrenChanged(FileName child, FileType newType) throws Exception
     {
@@ -245,6 +265,7 @@ public abstract class AbstractFileObject implements FileObject
      * Called when the type or content of this file changes.
      * <p/>
      * This implementation does nothing.
+     * @throws Exception if an error occurs.
      */
     protected void onChange() throws Exception
     {
@@ -255,6 +276,8 @@ public abstract class AbstractFileObject implements FileObject
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation throws an exception.
+     * @return The last modification time.
+     * @throws Exception if an error occurs.
      */
     protected long doGetLastModifiedTime() throws Exception
     {
@@ -266,10 +289,12 @@ public abstract class AbstractFileObject implements FileObject
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation throws an exception.
+     * @param modtime The last modification time.
+     * @return true if the time was set.
+     * @throws Exception if an error occurs.
      *
      */
-    protected boolean doSetLastModifiedTime(final long modtime)
-        throws Exception
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
     {
         throw new FileSystemException("vfs.provider/set-last-modified-not-supported.error");
     }
@@ -279,9 +304,10 @@ public abstract class AbstractFileObject implements FileObject
      * does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation always returns an empty map.
+     * @return The attributes of the file.
+     * @throws Exception if an error occurs.
      */
-    protected Map<String, Object> doGetAttributes()
-        throws Exception
+    protected Map<String, Object> doGetAttributes() throws Exception
     {
         return Collections.emptyMap();
     }
@@ -291,9 +317,11 @@ public abstract class AbstractFileObject implements FileObject
      * does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation throws an exception.
+     * @param attrName The attribute name.
+     * @param value The value to be associated with the attribute name.
+     * @throws Exception if an error occurs.
      */
-    protected void doSetAttribute(final String atttrName, final Object value)
-        throws Exception
+    protected void doSetAttribute(final String attrName, final Object value) throws Exception
     {
         throw new FileSystemException("vfs.provider/set-attribute-not-supported.error");
     }
@@ -303,12 +331,11 @@ public abstract class AbstractFileObject implements FileObject
      * does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation throws an exception.
-     * @returns true if removing the attribute succeed. In this case we remove the attribute from
-     * our cache
+     * @param attrName The name of the attribute to remove.
+     * @throws Exception if an error occurs.
      * @since 2.0
      */
-    protected void doRemoveAttribute(final String atttrName)
-        throws Exception
+    protected void doRemoveAttribute(final String attrName) throws Exception
     {
         throw new FileSystemException("vfs.provider/remove-attribute-not-supported.error");
     }
@@ -318,6 +345,8 @@ public abstract class AbstractFileObject implements FileObject
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
      * This implementation always returns null.
+     * @return The certificates used to sign the file.
+     * @throws Exception if an error occurs.
      */
     protected Certificate[] doGetCertificates() throws Exception
     {
@@ -327,6 +356,8 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Returns the size of the file content (in bytes).  Is only called if
      * {@link #doGetType} returns {@link FileType#FILE}.
+     * @return The size of the file in bytes.
+     * @throws Exception if an error occurs.
      */
     protected abstract long doGetContentSize() throws Exception;
 
@@ -338,6 +369,8 @@ public abstract class AbstractFileObject implements FileObject
      * when this method is called.
      * <p/>
      * <p>The returned stream does not have to be buffered.
+     * @return An InputStream to read the file content.
+     * @throws Exception if an error occurs.
      */
     protected abstract InputStream doGetInputStream() throws Exception;
 
@@ -348,6 +381,9 @@ public abstract class AbstractFileObject implements FileObject
      * <p>It is guaranteed that there are no open output streams for this file
      * when this method is called.
      * <p/>
+     * @param mode The mode to access the file.
+     * @return The RandomAccessContext.
+     * @throws Exception if an error occurs.
      */
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
@@ -370,6 +406,9 @@ public abstract class AbstractFileObject implements FileObject
      * <p>The returned stream does not have to be buffered.
      * <p/>
      * This implementation throws an exception.
+     * @param bAppend true if the file should be appended to, false if it should be overwritten.
+     * @return An OutputStream to write to the file.
+     * @throws Exception if an error occurs.
      */
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
@@ -772,6 +811,7 @@ public abstract class AbstractFileObject implements FileObject
      * Deletes this file, once all its children have been deleted
      *
      * @return true if this file has been deleted
+     * @throws FileSystemException if an error occurs.
      */
     private boolean deleteSelf() throws FileSystemException
     {
@@ -1105,6 +1145,9 @@ public abstract class AbstractFileObject implements FileObject
      * Checks if this fileObject is the same file as <code>destFile</code> just with a different
      * name.<br />
      * E.g. for case insensitive filesystems like windows.
+     * @param destFile The file to compare to.
+     * @return true if the FileObjects are the same.
+     * @throws FileSystemException if an error occurs.
      */
     protected boolean isSameFile(FileObject destFile) throws FileSystemException
     {
@@ -1116,6 +1159,9 @@ public abstract class AbstractFileObject implements FileObject
      * Checks if this fileObject is the same file as <code>destFile</code> just with a different
      * name.<br />
      * E.g. for case insensitive filesystems like windows.
+     * @param destFile The file to compare to.
+     * @return true if the FileObjects are the same.
+     * @throws FileSystemException if an error occurs.
      */
     protected boolean doIsSameFile(FileObject destFile) throws FileSystemException
     {
@@ -1131,12 +1177,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public boolean canRenameTo(FileObject newfile)
     {
-        if (getFileSystem() == newfile.getFileSystem())
-        {
-            return true;
-        }
-
-        return false;
+        return getFileSystem() == newfile.getFileSystem();
     }
 
     /**
@@ -1179,6 +1220,8 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Create a FileContent implementation.
+     * @return The FileContent.
+     * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
     protected FileContent doCreateFileContent() throws FileSystemException
@@ -1401,6 +1444,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Detaches this file, invaliating all cached info.  This will force
      * a call to {@link #doAttach} next time this file is used.
+     * @throws Exception if an error occurs.
      */
     private void detach() throws Exception
     {
@@ -1445,6 +1489,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Attaches to the file.
+     * @throws FileSystemException if an error occurs.
      */
     private void attach() throws FileSystemException
     {
@@ -1484,6 +1529,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Called when the ouput stream for this file is closed.
+     * @throws Exception if an error occurs.
      */
     protected void endOutput() throws Exception
     {
@@ -1502,6 +1548,8 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Called when this file is created.  Updates cached info and notifies
      * the parent and file system.
+     * @param newType The type of the file.
+     * @throws Exception if an error occurs.
      */
     protected void handleCreate(final FileType newType) throws Exception
     {
@@ -1530,6 +1578,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Called when this file is deleted.  Updates cached info and notifies
      * subclasses, parent and file system.
+     * @throws Exception if an error occurs.
      */
     protected void handleDelete() throws Exception
     {
@@ -1557,6 +1606,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Called when this file is changed.<br />
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * @throws Exception if an error occurs.
      */
     protected void handleChanged() throws Exception
     {
@@ -1566,17 +1616,9 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Notifies the file that its children have changed.
-     *
-     * @deprecated use {@link #childrenChanged(FileName,FileType)}
-     */
-    @Deprecated
-    protected void childrenChanged() throws Exception
-    {
-        childrenChanged(null, null);
-    }
-
-    /**
-     * Notifies the file that its children have changed.
+     * @param childName The name of the child.
+     * @param newType The type of the child.
+     * @throws Exception if an error occurs.
      */
     protected void childrenChanged(FileName childName, FileType newType) throws Exception
     {
@@ -1608,6 +1650,9 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Notify the parent of a change to its children, when a child is created
      * or deleted.
+     * @param childName The name of the child.
+     * @param newType The type of the child.
+     * @throws Exception if an error occurs.
      */
     private void notifyParent(FileName childName, FileType newType) throws Exception
     {
@@ -1731,7 +1776,8 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * create the filecontentinfo implementation
+     * create the filecontentinfo implementation.
+     * @return The FileContentInfoFactory.
      */
     protected FileContentInfoFactory getFileContentInfoFactory()
     {
