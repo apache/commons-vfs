@@ -66,14 +66,20 @@ public class UserAuthenticationData
             return type.compareTo(o.type);
         }
 
-        /** @since 2.0 */
+        /**
+         * @return The hash code.
+         * @since 2.0
+         * */
         @Override
         public int hashCode()
         {
             return type != null ? type.hashCode() : 0;
         }
 
-        /** @since 2.0 */
+        /**
+         * @return The type.
+         * @since 2.0
+         * */
         @Override
         public String toString()
         {
