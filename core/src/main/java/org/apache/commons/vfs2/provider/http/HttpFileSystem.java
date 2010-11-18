@@ -69,10 +69,6 @@ public class HttpFileSystem
         if (getClient() != null)
         {
             HttpConnectionManager mgr = getClient().getHttpConnectionManager();
-            if (mgr instanceof ThreadLocalHttpConnectionManager)
-            {
-                ((ThreadLocalHttpConnectionManager) mgr).releaseLocalConnection();
-            }
             if (mgr instanceof MultiThreadedHttpConnectionManager)
             {
                 ((MultiThreadedHttpConnectionManager) mgr).shutdown();

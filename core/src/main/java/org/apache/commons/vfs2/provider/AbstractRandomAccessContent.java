@@ -109,7 +109,8 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
     }
 
     /**
-     * @deprecated see {@link java.io.DataInputStream#readLine()}
+     * @deprecated see {@link java.io.DataInputStream#readLine()} This method will be removed when it is
+     * removed from the DataInput interface this class implements (which will probably never happen).
      * @return The line as a String.
      * @throws IOException if an error occurs.
      */
