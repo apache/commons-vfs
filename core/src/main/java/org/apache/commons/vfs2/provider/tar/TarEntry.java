@@ -295,19 +295,6 @@ class TarEntry
     }
 
     /**
-     * Set this entry's group id.
-     *
-     * @param groupId This entry's new group id.
-     * @see #setGroupID(int)
-     * @deprecated Use setGroupID() instead
-     */
-    @Deprecated
-    public void setGroupId(final int groupId)
-    {
-        groupID = groupId;
-    }
-
-    /**
      * Set this entry's group name.
      *
      * @param groupName This entry's new group name.
@@ -379,19 +366,6 @@ class TarEntry
     }
 
     /**
-     * Set this entry's user id.
-     *
-     * @param userId This entry's new user id.
-     * @see #setUserID(int)
-     * @deprecated Use setUserID() instead
-     */
-    @Deprecated
-    public void setUserId(final int userId)
-    {
-        userID = userId;
-    }
-
-    /**
      * Set this entry's user name.
      *
      * @param userName This entry's new user name.
@@ -433,19 +407,6 @@ class TarEntry
     public File getFile()
     {
         return file;
-    }
-
-    /**
-     * Get this entry's group id.
-     *
-     * @return This entry's group id.
-     * @see #getGroupID()
-     * @deprecated Use getGroupID() instead
-     */
-    @Deprecated
-    public int getGroupId()
-    {
-        return groupID;
     }
 
     /**
@@ -516,19 +477,6 @@ class TarEntry
     public int getCheckSum()
     {
         return checkSum;
-    }
-
-    /**
-     * Get this entry's user id.
-     *
-     * @return This entry's user id.
-     * @see #getUserID()
-     * @deprecated Use getUserID() instead
-     */
-    @Deprecated
-    public int getUserId()
-    {
-        return userID;
     }
 
     /**

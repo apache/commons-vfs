@@ -401,9 +401,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     /**
      * Build a long from first 8 bytes of the array.
      *
-     * @author Apache-Commons-Id Team
-     * @param b
-     *            The byte[] to convert.
+     * @param b The byte[] to convert.
      * @return A long.
      */
     public static long toLong(byte[] b)
@@ -420,12 +418,8 @@ public class RamFileRandomAccessContent implements RandomAccessContent
      * Build a 8-byte array from a long. No check is performed on the array
      * length.
      *
-     * @author Commons-Id Team
-     *
-     * @param n
-     *            The number to convert.
-     * @param b
-     *            The array to fill.
+     * @param n The number to convert.
+     * @param b The array to fill.
      * @return A byte[].
      */
     public static byte[] toBytes(long n, byte[] b)
@@ -450,10 +444,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
 
     /**
      * Build a short from first 2 bytes of the array.
-     *
-     * @author Apache-Commons-Id Team
-     * @param b
-     *            The byte[] to convert.
+     * @param b The byte[] to convert.
      * @return A short.
      */
     public static short toShort(byte[] b)
@@ -464,9 +455,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     /**
      * Build a short from first 2 bytes of the array.
      *
-     * @author Apache-Commons-Id Team
-     * @param b
-     *            The byte[] to convert.
+     * @param b The byte[] to convert.
      * @return A short.
      */
     public static int toUnsignedShort(byte[] b)
