@@ -47,6 +47,12 @@ public enum VcsStatus
 
     private int status;
 
+
+    private VcsStatus(int status)
+    {
+        this.status = status;
+    }   
+
     /**
      *
      * @return the status of FileObject
@@ -54,10 +60,5 @@ public enum VcsStatus
     public int getStatus()
     {
         return status;
-    }
-
-    private VcsStatus(int status)
-    {
-        this.status = status;
     }
 }

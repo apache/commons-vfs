@@ -68,7 +68,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * FTPFileEntryParserFactory which will be used for ftp-entry parsing.
      *
-     * @param opts
+     * @param opts The FileSystemOptions.
      * @param factory instance of your factory
      */
     public void setEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
@@ -77,7 +77,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystemOptions
+     * @return The FTPFileEntryParserFactory.
      * @see #setEntryParserFactory
      */
     public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
@@ -92,8 +93,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * {@link #setEntryParserFactory}
      * this is the "key" parameter passed as argument into your custom factory</i>
      *
-     * @param opts
-     * @param key
+     * @param opts The FileSystemOptions.
+     * @param key The key.
      */
     public void setEntryParser(FileSystemOptions opts, String key)
     {
@@ -101,7 +102,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystemOptions.
+     * @return The key.
      * @see #setEntryParser
      */
     public String getEntryParser(FileSystemOptions opts)
@@ -118,8 +120,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Enter into passive mode.
      *
-     * @param opts
-     * @param passiveMode
+     * @param opts The FileSystemOptions.
+     * @param passiveMode true if passive mode should be used, false otherwise.
      */
     public void setPassiveMode(FileSystemOptions opts, boolean passiveMode)
     {
@@ -127,7 +129,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystemOptions.
+     * @return true if passive mode is being used.
      * @see #setPassiveMode
      */
     public Boolean getPassiveMode(FileSystemOptions opts)
@@ -138,8 +141,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * use user directory as root (do not change to fs root).
      *
-     * @param opts
-     * @param userDirIsRoot
+     * @param opts The FileSystemOptions.
+     * @param userDirIsRoot true if the user directory should be the root.
      */
     public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
     {
@@ -148,7 +151,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystemOptions.
+     * @return true if the user directory is the root.
      * @see #setUserDirIsRoot
      */
     public Boolean getUserDirIsRoot(FileSystemOptions opts)
@@ -159,8 +163,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Set FTPS security mode, either "implicit" or "explicit".
      *
-     * @param opts
-     * @param ftpsType
+     * @param opts The FileSystemOptions.
+     * @param ftpsType The file type.
      */
     public void setFtpsType(FileSystemOptions opts, String ftpsType)
     {
@@ -170,7 +174,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Return the FTPS security mode. Defaults to "explicit" if not defined.
      *
-     * @param opts
+     * @param opts The FileSystemOptions.
+     * @return The file type.
      * @see #setFtpsType
      */
     public String getFtpsType(FileSystemOptions opts)
@@ -179,7 +184,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts
+     * @param opts The FileSystemOptions.
+     * @return The timeout value.
      * @see #setDataTimeout
      */
     public Integer getDataTimeout(FileSystemOptions opts)
@@ -192,8 +198,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * If you set the dataTimeout to <code>null</code> no dataTimeout will be set on the
      * ftp client.
      *
-     * @param opts
-     * @param dataTimeout
+     * @param opts  The FileSystemOptions.
+     * @param dataTimeout The timeout value.
      */
     public void setDataTimeout(FileSystemOptions opts, Integer dataTimeout)
     {
@@ -203,6 +209,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return The language code.
      */
     public String getServerLanguageCode(FileSystemOptions opts)
     {
@@ -212,6 +220,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * set the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     * @param opts The FileSystemOptions.
+     * @param serverLanguageCode the language code.
      */
     public void setServerLanguageCode(FileSystemOptions opts,
                                       String serverLanguageCode)
@@ -222,6 +232,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return The default date format.
      */
     public String getDefaultDateFormat(FileSystemOptions opts)
     {
@@ -231,6 +243,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * set the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     * @param opts The FileSystemOptions.
+     * @param defaultDateFormat The default date format.
      */
     public void setDefaultDateFormat(FileSystemOptions opts,
                                      String defaultDateFormat)
@@ -240,6 +254,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return The recent date format.
      */
     public String getRecentDateFormat(FileSystemOptions opts)
     {
@@ -248,6 +264,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions
+     * @param recentDateFormat The recent date format.
      */
     public void setRecentDateFormat(FileSystemOptions opts,
                                     String recentDateFormat)
@@ -257,6 +275,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return The server timezone id.
      */
     public String getServerTimeZoneId(FileSystemOptions opts)
     {
@@ -265,6 +285,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @param serverTimeZoneId The server's timezone id.
      */
     public void setServerTimeZoneId(FileSystemOptions opts,
                                     String serverTimeZoneId)
@@ -274,6 +296,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return An array of short month names.
      */
     public String[] getShortMonthNames(FileSystemOptions opts)
     {
@@ -282,6 +306,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @param shortMonthNames An array of short month names.
      */
     public void setShortMonthNames(FileSystemOptions opts,
                                    String[] shortMonthNames)

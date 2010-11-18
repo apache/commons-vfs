@@ -42,6 +42,14 @@ public final class FtpsClientFactory
 
     /**
      * Creates a new connection to the server.
+     * @param hostname The host name.
+     * @param port The port.
+     * @param username The user name for authentication.
+     * @param password The user's password.
+     * @param workingDirectory The directory to use.
+     * @param fileSystemOptions The FileSystemOptions.
+     * @return The FTPSClient.
+     * @throws FileSystemException if an error occurs.
      */
     public static FTPSClient createConnection(String hostname, int port, char[] username, char[] password,
                                               String workingDirectory, FileSystemOptions fileSystemOptions)

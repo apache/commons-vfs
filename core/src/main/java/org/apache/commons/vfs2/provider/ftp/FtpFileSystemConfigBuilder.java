@@ -324,7 +324,11 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
         setParam(opts, ENCODING, encoding);
     }
 
-    /** @since 2.0 */
+    /**
+     * @param opts The FileSystemOptions.
+     * @return The encoding.
+     * @since 2.0
+     * */
     public String getControlEncoding(FileSystemOptions opts)
     {
         return  (String) getParam(opts, ENCODING);

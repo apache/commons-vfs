@@ -28,8 +28,7 @@ import org.apache.commons.vfs2.VFS;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public abstract class AbstractFileName
-    implements FileName
+public abstract class AbstractFileName implements FileName
 {
 
     private final String scheme;

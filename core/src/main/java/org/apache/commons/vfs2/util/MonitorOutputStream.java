@@ -80,7 +80,11 @@ public class MonitorOutputStream
     }
 
 
-    /** @since 2.0 */
+    /**
+     * @param b The character to write.
+     * @throws IOException if an error occurs.
+     * @since 2.0
+     */
     @Override
     public synchronized void write(int b) throws IOException
     {
@@ -88,7 +92,13 @@ public class MonitorOutputStream
         super.write(b);
     }
 
-    /** @since 2.0 */
+    /**
+     * @param b The byte array.
+     * @param off The offset into the array.
+     * @param len The number of bytes to write.
+     * @throws IOException if an error occurs.
+     * @since 2.0
+     */
     @Override
     public synchronized void write(byte[] b, int off, int len) throws IOException
     {
@@ -96,7 +106,10 @@ public class MonitorOutputStream
         super.write(b, off, len);
     }
 
-    /** @since 2.0 */
+    /**
+     * @throws IOException if an error occurs.
+     * @since 2.0
+     */
     @Override
     public synchronized void flush() throws IOException
     {
@@ -104,7 +117,11 @@ public class MonitorOutputStream
         super.flush();
     }
 
-    /** @since 2.0 */
+    /**
+     * @param b The byte array.
+     * @throws IOException if an error occurs.
+     * @since 2.0
+     */
     @Override
     public void write(byte[] b) throws IOException
     {
@@ -116,6 +133,7 @@ public class MonitorOutputStream
      * check if file is still open. <br />
      * This is a workaround for an oddity with Java's BufferedOutputStream where you can write to
      * even if the stream has been closed
+     * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
     protected void assertOpen() throws FileSystemException
@@ -128,6 +146,7 @@ public class MonitorOutputStream
 
     /**
      * Called after this stream is closed.  This implementation does nothing.
+     * @throws IOException if an error occurs.
      */
     @SuppressWarnings("unused") // IOException is needed because subclasses may need to throw it
     protected void onClose() throws IOException
