@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A partial {@link org.apache.commons.vfs2.FileSystem} implementation.
@@ -101,7 +102,7 @@ public abstract class AbstractFileSystem
     /**
      * open streams counter for this filesystem
      */
-    private int openStreams;
+    private AtomicInteger openStreams = new AtomicInteger(0);
 
     protected AbstractFileSystem(final FileName rootName,
                                  final FileObject parentLayer,
@@ -647,24 +648,25 @@ public abstract class AbstractFileSystem
 
     void streamOpened()
     {
-        synchronized (this)
-        {
-            openStreams++;
-        }
+        openStreams.incrementAndGet();
     }
 
     void streamClosed()
     {
-        synchronized (this)
+        int count;
+
+        do
         {
-            if (openStreams > 0)
+            count = openStreams.get();
+            if (count < 1)
             {
-                openStreams--;
-                if (openStreams < 1)
-                {
-                    notifyAllStreamsClosed();
-                }
+                return;
             }
+        } while(openStreams.compareAndSet(count, count - 1));
+
+        if (count == 1)
+        {
+            notifyAllStreamsClosed();
         }
     }
 
@@ -681,9 +683,6 @@ public abstract class AbstractFileSystem
      */
     public boolean isOpen()
     {
-        synchronized (this)
-        {
-            return openStreams > 0;
-        }
+        return openStreams.get() > 0;
     }
 }
