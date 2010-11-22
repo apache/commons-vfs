@@ -47,6 +47,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A partial {@link org.apache.commons.vfs2.FileSystem} implementation.
@@ -94,7 +95,7 @@ public abstract class AbstractFileSystem
     /**
      * How many fileObjects are handed out
      */
-    private long useCount;
+    private AtomicLong useCount = new AtomicLong(0);
 
 
     private FileSystemKey cacheKey;
@@ -570,7 +571,7 @@ public abstract class AbstractFileSystem
      */
     public boolean isReleaseable()
     {
-        return useCount < 1;
+        return useCount.get() < 1;
     }
 
     void freeResources()
@@ -628,12 +629,12 @@ public abstract class AbstractFileSystem
 
     void fileObjectHanded(FileObject fileObject)
     {
-        useCount++;
+        useCount.incrementAndGet();
     }
 
     void fileObjectDestroyed(FileObject fileObject)
     {
-        useCount--;
+        useCount.decrementAndGet();
     }
 
     void setCacheKey(FileSystemKey cacheKey)
