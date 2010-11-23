@@ -148,7 +148,7 @@ public class MonitorOutputStream
      * Called after this stream is closed.  This implementation does nothing.
      * @throws IOException if an error occurs.
      */
-    @SuppressWarnings("unused") // IOException is needed because subclasses may need to throw it
+    // IOException is needed because subclasses may need to throw it
     protected void onClose() throws IOException
     {
     }
