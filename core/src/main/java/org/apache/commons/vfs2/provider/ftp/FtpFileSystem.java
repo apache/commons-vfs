@@ -29,6 +29,7 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * An FTP file system.
@@ -46,7 +47,7 @@ public class FtpFileSystem extends AbstractFileSystem
 //    private final String password;
 
     // An idle client
-    private FtpClient idleClient;
+    private final AtomicReference<FtpClient> idleClient = new AtomicReference<FtpClient>();
 
     /**
      * @param rootName The root of the file system.
@@ -61,17 +62,17 @@ public class FtpFileSystem extends AbstractFileSystem
         // hostname = rootName.getHostName();
         // port = rootName.getPort();
 
-        idleClient = ftpClient;
+        idleClient.set(ftpClient);
     }
 
     @Override
     protected void doCloseCommunicationLink()
     {
+        FtpClient idle = idleClient.getAndSet(null);
         // Clean up the connection
-        if (idleClient != null)
+        if (idle != null)
         {
-            closeConnection(idleClient);
-            idleClient = null;
+            closeConnection(idle);
         }
     }
 
@@ -112,21 +113,14 @@ public class FtpFileSystem extends AbstractFileSystem
      */
     public FtpClient getClient() throws FileSystemException
     {
-        synchronized (this)
-            {
-                if (idleClient == null || !idleClient.isConnected())
-                {
-                    idleClient = null;
+        FtpClient client = idleClient.getAndSet(null);
 
-                    return new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
-                }
-                else
-                {
-                    final FtpClient client = idleClient;
-                    idleClient = null;
-                    return client;
-                }
-            }
+        if (client == null || !client.isConnected())
+        {
+            client = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
+        }
+
+        return client;
     }
 
     /**
@@ -135,20 +129,14 @@ public class FtpFileSystem extends AbstractFileSystem
      */
     public void putClient(final FtpClient client)
     {
-        synchronized (this)
-            {
-                if (idleClient == null)
-                {
-                    // Hang on to client for later
-                    idleClient = client;
-                }
-                else
-                {
-                    // Close the client
-                    closeConnection(client);
-                }
-            }
+        // Save client for reuse if none is idle.
+        if (!idleClient.compareAndSet(null, client))
+        {
+            // An idle client is already present so close the connection.
+            closeConnection(client);
+        }
     }
+
 
     /**
      * Creates a file object.

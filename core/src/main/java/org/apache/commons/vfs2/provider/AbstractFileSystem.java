@@ -95,7 +95,7 @@ public abstract class AbstractFileSystem
     /**
      * How many fileObjects are handed out
      */
-    private AtomicLong useCount = new AtomicLong(0);
+    private final AtomicLong useCount = new AtomicLong(0);
 
 
     private FileSystemKey cacheKey;
@@ -103,7 +103,7 @@ public abstract class AbstractFileSystem
     /**
      * open streams counter for this filesystem
      */
-    private AtomicInteger openStreams = new AtomicInteger(0);
+    private final AtomicInteger openStreams = new AtomicInteger(0);
 
     protected AbstractFileSystem(final FileName rootName,
                                  final FileObject parentLayer,
