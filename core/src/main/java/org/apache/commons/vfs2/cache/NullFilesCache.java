@@ -40,6 +40,11 @@ public class NullFilesCache extends AbstractFilesCache
     {
     }
 
+    public boolean putFileIfAbsent(final FileObject file)
+    {
+        return false;
+    }
+
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
         return null;

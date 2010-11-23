@@ -45,6 +45,12 @@ public class DefaultFilesCache extends AbstractFilesCache
         files.put(file.getName(), file);
     }
 
+    public boolean putFileIfAbsent(final FileObject file)
+    {
+        ConcurrentMap<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
+        return files.putIfAbsent(file.getName(), file) == null;
+    }
+
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);

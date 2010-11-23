@@ -18,7 +18,7 @@ package org.apache.commons.vfs2;
 
 
 /**
- * The fileCache interface.
+ * The fileCache interface. Implementations of this interface are expected to be thread safe.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
@@ -31,6 +31,14 @@ public interface FilesCache
      * @param file the file
      */
     void putFile(final FileObject file);
+
+    /**
+     * add a fileobject to the cache if it isn't already present.
+     *
+     * @param file the file
+     * @return true if the file was stored, false otherwise.
+     */
+    boolean putFileIfAbsent(final FileObject file);
 
     /**
      * retrieve a file from the cache by its name.

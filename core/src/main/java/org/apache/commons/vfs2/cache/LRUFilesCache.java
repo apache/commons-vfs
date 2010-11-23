@@ -16,8 +16,12 @@
  */
 package org.apache.commons.vfs2.cache;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.collections.map.AbstractLinkedMap;
 import org.apache.commons.collections.map.LRUMap;
@@ -47,11 +51,15 @@ public class LRUFilesCache extends AbstractFilesCache
     private final Log log = LogFactory.getLog(LRUFilesCache.class);
 
     /** The FileSystem cache */
-    private final Map<FileSystem, Map<FileName, FileObject>> filesystemCache =
-          new HashMap<FileSystem, Map<FileName, FileObject>>(10);
+    private final ConcurrentMap<FileSystem, Map<FileName, FileObject>> filesystemCache =
+          new ConcurrentHashMap<FileSystem, Map<FileName, FileObject>>(10);
 
     /** The size of the cache */
     private final int lruSize;
+
+    private ReadWriteLock rwLock = new ReentrantReadWriteLock();
+    private Lock readLock = rwLock.readLock();
+    private Lock writeLock = rwLock.writeLock();
 
     /**
      * The file cache
@@ -132,39 +140,80 @@ public class LRUFilesCache extends AbstractFilesCache
 
     public void putFile(final FileObject file)
     {
-        synchronized (this)
-        {
-            Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
+        Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
 
+        writeLock.lock();
+        try
+        {
             // System.err.println(">>> " + files.size() + " put:" + file.toString());
 
             files.put(file.getName(), file);
+        }
+        finally
+        {
+            writeLock.unlock();
+        }
+    }
+
+
+    public boolean putFileIfAbsent(final FileObject file)
+    {
+        Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
+
+        writeLock.lock();
+        try
+        {
+            FileName name = file.getName();
+
+            // System.err.println(">>> " + files.size() + " put:" + file.toString());
+            if (files.containsKey(name))
+            {
+                return false;
+            }
+
+            files.put(name, file);
+            return true;
+        }
+        finally
+        {
+            writeLock.unlock();
         }
     }
 
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
-        synchronized (this)
-        {
-            Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
+        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
 
+        readLock.lock();
+        try
+        {
             // FileObject fo = (FileObject) files.get(name);
             // System.err.println(">>> " + files.size() + " get:" + name.toString() + " " + fo);
 
             return files.get(name);
         }
+        finally
+        {
+            readLock.unlock();
+        }
     }
 
     public void clear(final FileSystem filesystem)
     {
-        synchronized (this)
+        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
+
+        writeLock.lock();
+        try
         {
             // System.err.println(">>> clear fs " + filesystem);
 
-            Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
             files.clear();
 
             filesystemCache.remove(filesystem);
+        }
+        finally
+        {
+            writeLock.unlock();
         }
     }
 
@@ -176,8 +225,8 @@ public class LRUFilesCache extends AbstractFilesCache
         {
             // System.err.println(">>> create fs " + filesystem);
 
-            files = new MyLRUMap(filesystem, lruSize); // 1
-            filesystemCache.put(filesystem, files);
+            files = new MyLRUMap(filesystem, lruSize);
+            filesystemCache.putIfAbsent(filesystem, files);
         }
 
         return files;
@@ -188,20 +237,18 @@ public class LRUFilesCache extends AbstractFilesCache
     {
         super.close();
 
-        synchronized (this)
-        {
-            // System.err.println(">>> clear all");
+        // System.err.println(">>> clear all");
 
-            filesystemCache.clear();
-        }
+        filesystemCache.clear();
     }
 
     public void removeFile(final FileSystem filesystem, final FileName name)
     {
-        synchronized (this)
-        {
-            Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
+        Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
 
+        writeLock.lock();
+        try
+        {
             // System.err.println(">>> " + files.size() + " remove:" + name.toString());
 
             files.remove(name);
@@ -210,6 +257,10 @@ public class LRUFilesCache extends AbstractFilesCache
             {
                 filesystemCache.remove(filesystem);
             }
+        }
+        finally
+        {
+            writeLock.unlock();
         }
     }
 
