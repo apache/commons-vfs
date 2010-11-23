@@ -144,6 +144,7 @@ class TarInputStream
                 debug("READ NULL RECORD");
             }
             hasHitEOF = true;
+            currEntry = null;
         }
         else if (buffer.isEOFRecord(headerBuf))
         {
@@ -152,10 +153,6 @@ class TarInputStream
                 debug("READ EOF RECORD");
             }
             hasHitEOF = true;
-        }
-
-        if (hasHitEOF)
-        {
             currEntry = null;
         }
         else
