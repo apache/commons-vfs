@@ -314,7 +314,7 @@ public abstract class AbstractFileSystem
      * @return The located FileObject or null if none could be located.
      * @throws FileSystemException if an error occurs.
      */
-    public synchronized FileObject resolveFile(final FileName name) throws FileSystemException
+    public FileObject resolveFile(final FileName name) throws FileSystemException
     {
         return resolveFile(name, true);
     }
@@ -343,10 +343,7 @@ public abstract class AbstractFileSystem
         {
             try
             {
-                synchronized (this)
-                {
-                    file = createFile(name);
-                }
+                file = createFile(name);
             }
             catch (Exception e)
             {
