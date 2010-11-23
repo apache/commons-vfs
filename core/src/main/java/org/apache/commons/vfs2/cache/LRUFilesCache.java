@@ -57,9 +57,9 @@ public class LRUFilesCache extends AbstractFilesCache
     /** The size of the cache */
     private final int lruSize;
 
-    private ReadWriteLock rwLock = new ReentrantReadWriteLock();
-    private Lock readLock = rwLock.readLock();
-    private Lock writeLock = rwLock.writeLock();
+    private final ReadWriteLock rwLock = new ReentrantReadWriteLock();
+    private final Lock readLock = rwLock.readLock();
+    private final Lock writeLock = rwLock.writeLock();
 
     /**
      * The file cache
