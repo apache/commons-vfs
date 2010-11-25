@@ -42,8 +42,7 @@ public abstract class AbstractFileName implements FileName
     private String extension;
     private String decodedAbsPath;
 
-    private boolean calculateHashCode = true;
-    private int calculatedHashCode;
+    private String key = null;
 
     public AbstractFileName(final String scheme, final String absPath, FileType type)
     {
@@ -67,35 +66,27 @@ public abstract class AbstractFileName implements FileName
         }
     }
 
-    /**
-     * Returns the hashcode for this name.
-     * @return The hashCode.
-     */
     @Override
-    public int hashCode()
+    public boolean equals(Object o)
     {
-        if (calculateHashCode)
+        if (this == o)
         {
-            calculatedHashCode = getRootURI().hashCode() ^ getPath().hashCode();
-            calculateHashCode = false;
+            return true;
         }
-        return calculatedHashCode;
-    }
-
-    /**
-     * Determines if this object is equal to another.
-     * @param obj The object to compare.
-     * @return true if equal, false if not.
-     */
-    @Override
-    public boolean equals(final Object obj)
-    {
-        if (!(obj instanceof AbstractFileName))
+        if (o == null || getClass() != o.getClass())
         {
             return false;
         }
-        final AbstractFileName name = (AbstractFileName) obj;
-        return getRootURI().equals(name.getRootURI()) && getPath().equals(name.getPath());
+
+        AbstractFileName that = (AbstractFileName) o;
+
+        return (getKey().equals(that.getKey()));
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return getKey().hashCode();
     }
 
     /**
@@ -107,21 +98,7 @@ public abstract class AbstractFileName implements FileName
     public int compareTo(FileName obj)
     {
         final AbstractFileName name = (AbstractFileName) obj;
-        int ret = getRootURI().compareTo(name.getRootURI());
-        if (ret != 0)
-        {
-            return ret;
-        }
-
-        // return absPath.compareTo(name.absPath);
-        try
-        {
-            return getPathDecoded().compareTo(name.getPathDecoded());
-        }
-        catch (FileSystemException e)
-        {
-            throw new RuntimeException(e.getMessage());
-        }
+        return getKey().compareTo(name.getKey());
     }
 
     /**
@@ -270,11 +247,39 @@ public abstract class AbstractFileName implements FileName
 
     protected String createURI()
     {
+        return createURI(false, true);
+    }
+
+    /**
+     * Create a path that does not use the FileType since that field is not immutable.
+     * @return The key.
+     */
+    private String getKey()
+    {
+        if (key == null)
+        {
+            key = createURI(true, true);
+        }
+        return key;
+    }
+
+    /**
+     * returns a "friendly path", this is a path without a password.
+     * @return The "friendly" URI.
+     */
+    public String getFriendlyURI()
+    {
+        return createURI(false, false);
+    }
+
+    private String createURI(boolean useAbsolutePath, boolean usePassword)
+    {
         final StringBuilder buffer = new StringBuilder();
-        appendRootUri(buffer, true);
-        buffer.append(getPath());
+        appendRootUri(buffer, usePassword);
+        buffer.append(useAbsolutePath ? absPath : getPath());
         return buffer.toString();
     }
+
 
     /**
      * Converts a file name to a relative name, relative to this file name.
@@ -538,17 +543,5 @@ public abstract class AbstractFileName implements FileName
         }
 
         return true;
-    }
-
-    /**
-     * returns a "friendly path", this is a path without a password.
-     * @return The "friendly" URI.
-     */
-    public String getFriendlyURI()
-    {
-        final StringBuilder buffer = new StringBuilder();
-        appendRootUri(buffer, false);
-        buffer.append(getPath());
-        return buffer.toString();
     }
 }
