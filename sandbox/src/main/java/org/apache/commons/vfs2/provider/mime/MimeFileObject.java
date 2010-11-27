@@ -37,6 +37,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
@@ -55,7 +56,7 @@ public class MimeFileObject
     private Part part;
     private Map<String, Object> attributeMap;
 
-    protected MimeFileObject(final FileName name,
+    protected MimeFileObject(final AbstractFileName name,
                             final Part part,
                             final AbstractFileSystem fileSystem) throws FileSystemException
     {

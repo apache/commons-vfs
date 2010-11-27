@@ -22,6 +22,7 @@ import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
 import org.apache.commons.vfs2.*;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.RandomAccessMode;
@@ -44,7 +45,7 @@ public class SmbFileObject
     // private final String fileName;
     private SmbFile file;
 
-    protected SmbFileObject(final FileName name,
+    protected SmbFileObject(final AbstractFileName name,
                             final SmbFileSystem fileSystem) throws FileSystemException
     {
         super(name, fileSystem);
