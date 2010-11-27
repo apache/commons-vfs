@@ -20,10 +20,10 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
 
@@ -81,7 +81,7 @@ public class HttpFileSystem
      * file is not cached.
      */
     @Override
-    protected FileObject createFile(final FileName name)
+    protected FileObject createFile(final AbstractFileName name)
         throws Exception
     {
         return new HttpFileObject(name, this);

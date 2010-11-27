@@ -96,10 +96,10 @@ public abstract class AbstractFileObject implements FileObject
      * @param fs the file system
      * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
      */
-    protected AbstractFileObject(final FileName name,
+    protected AbstractFileObject(final AbstractFileName name,
                                  final AbstractFileSystem fs)
     {
-        this.name = (AbstractFileName) name;
+        this.name = name;
         this.fs = fs;
         fs.fileObjectHanded(this);
     }

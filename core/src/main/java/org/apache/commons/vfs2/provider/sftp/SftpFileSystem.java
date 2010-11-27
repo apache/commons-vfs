@@ -22,12 +22,12 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
 import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
@@ -190,7 +190,7 @@ public class SftpFileSystem
      * file is not cached.
      */
     @Override
-    protected FileObject createFile(final FileName name)
+    protected FileObject createFile(final AbstractFileName name)
         throws FileSystemException
     {
         return new SftpFileObject(name, this);

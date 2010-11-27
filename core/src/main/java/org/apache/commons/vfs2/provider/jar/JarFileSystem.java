@@ -17,10 +17,10 @@
 package org.apache.commons.vfs2.provider.jar;
 
 import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 import org.apache.commons.vfs2.provider.zip.ZipFileSystem;
 
@@ -40,12 +40,11 @@ import java.util.zip.ZipFile;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class JarFileSystem
-    extends ZipFileSystem
+public class JarFileSystem extends ZipFileSystem
 {
     private Attributes attributes;
 
-    protected JarFileSystem(final FileName rootName,
+    protected JarFileSystem(final AbstractFileName rootName,
                             final FileObject file,
                             final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
@@ -66,7 +65,7 @@ public class JarFileSystem
     }
 
     @Override
-    protected ZipFileObject createZipFileObject(FileName name,
+    protected ZipFileObject createZipFileObject(AbstractFileName name,
                                                 ZipEntry entry) throws FileSystemException
     {
         return new JarFileObject(name, entry, this, true);

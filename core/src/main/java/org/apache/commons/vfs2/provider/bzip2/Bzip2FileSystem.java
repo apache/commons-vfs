@@ -21,6 +21,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 import java.util.Collection;
@@ -39,7 +40,7 @@ public class Bzip2FileSystem extends CompressedFileFileSystem
     }
 
     @Override
-    protected FileObject createFile(FileName name) throws FileSystemException
+    protected FileObject createFile(AbstractFileName name) throws FileSystemException
     {
         return new Bzip2FileObject(name, getParentLayer(), this);
     }

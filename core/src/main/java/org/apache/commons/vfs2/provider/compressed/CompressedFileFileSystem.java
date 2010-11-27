@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
 import java.util.Collection;
@@ -60,5 +61,5 @@ public abstract class CompressedFileFileSystem
      * Creates a file object.
      */
     @Override
-    protected abstract FileObject createFile(final FileName name) throws FileSystemException;
+    protected abstract FileObject createFile(final AbstractFileName name) throws FileSystemException;
 }

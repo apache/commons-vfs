@@ -16,8 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class JarFileObject extends ZipFileObject
 
     private Attributes attributes;
 
-    protected JarFileObject(final FileName name,
+    protected JarFileObject(final AbstractFileName name,
                             final ZipEntry entry,
                             final JarFileSystem fs,
                             final boolean zipExists) throws FileSystemException

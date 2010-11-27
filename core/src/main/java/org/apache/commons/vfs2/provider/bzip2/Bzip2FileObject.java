@@ -19,9 +19,9 @@ package org.apache.commons.vfs2.provider.bzip2;
 //TODO: Revert to [compress]
 //import org.apache.commons.compress.bzip2.CBZip2InputStream;
 //import org.apache.commons.compress.bzip2.CBZip2OutputStream;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
@@ -37,7 +37,7 @@ import java.io.OutputStream;
  */
 public class Bzip2FileObject extends CompressedFileFileObject
 {
-    protected Bzip2FileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
+    protected Bzip2FileObject(AbstractFileName name, FileObject container, CompressedFileFileSystem fs)
     {
         super(name, container, fs);
     }

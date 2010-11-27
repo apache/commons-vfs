@@ -35,6 +35,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.FileObjectUtils;
@@ -49,8 +50,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class FtpFileObject
-    extends AbstractFileObject
+public class FtpFileObject extends AbstractFileObject
 {
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP =
         Collections.unmodifiableMap(new TreeMap<String, FTPFile>());
@@ -67,7 +67,7 @@ public class FtpFileObject
 
     private boolean inRefresh;
 
-    protected FtpFileObject(final FileName name,
+    protected FtpFileObject(final AbstractFileName name,
                             final FtpFileSystem fileSystem,
                             final FileName rootName)
         throws FileSystemException

@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.RandomAccessMode;
@@ -39,9 +39,7 @@ import java.io.IOException;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class LocalFile
-    extends AbstractFileObject
-    implements FileObject
+public class LocalFile extends AbstractFileObject implements FileObject
 {
     private final String rootFile;
 
@@ -52,7 +50,7 @@ public class LocalFile
      */
     protected LocalFile(final LocalFileSystem fileSystem,
                         final String rootFile,
-                        final FileName name) throws FileSystemException
+                        final AbstractFileName name) throws FileSystemException
     {
         super(name, fileSystem);
         this.rootFile = rootFile;
@@ -70,8 +68,7 @@ public class LocalFile
      * Attaches this file object to its file resource.
      */
     @Override
-    protected void doAttach()
-        throws Exception
+    protected void doAttach() throws Exception
     {
         if (file == null)
         {
@@ -87,8 +84,7 @@ public class LocalFile
      * Returns the file's type.
      */
     @Override
-    protected FileType doGetType()
-        throws Exception
+    protected FileType doGetType() throws Exception
     {
         // JDK BUG: 6192331
         // if (!file.exists())
@@ -115,8 +111,7 @@ public class LocalFile
      * Returns the children of the file.
      */
     @Override
-    protected String[] doListChildren()
-        throws Exception
+    protected String[] doListChildren() throws Exception
     {
         return UriParser.encode(file.list());
     }
@@ -125,8 +120,7 @@ public class LocalFile
      * Deletes this file, and all children.
      */
     @Override
-    protected void doDelete()
-        throws Exception
+    protected void doDelete() throws Exception
     {
         if (!file.delete())
         {
@@ -153,8 +147,7 @@ public class LocalFile
      * Creates this folder.
      */
     @Override
-    protected void doCreateFolder()
-        throws Exception
+    protected void doCreateFolder() throws Exception
     {
         if (!file.mkdirs())
         {
@@ -203,8 +196,7 @@ public class LocalFile
      * @since 2.0
      */
     @Override
-    protected boolean doSetLastModifiedTime(final long modtime)
-        throws FileSystemException
+    protected boolean doSetLastModifiedTime(final long modtime) throws FileSystemException
     {
         return file.setLastModified(modtime);
     }
@@ -213,8 +205,7 @@ public class LocalFile
      * Creates an input stream to read the content from.
      */
     @Override
-    protected InputStream doGetInputStream()
-        throws Exception
+    protected InputStream doGetInputStream() throws Exception
     {
         return new FileInputStream(file);
     }
@@ -233,8 +224,7 @@ public class LocalFile
      * Returns the size of the file content (in bytes).
      */
     @Override
-    protected long doGetContentSize()
-        throws Exception
+    protected long doGetContentSize() throws Exception
     {
         return file.length();
     }

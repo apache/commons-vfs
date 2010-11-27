@@ -20,6 +20,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 
 import java.io.InputStream;
@@ -32,9 +33,7 @@ import java.util.zip.ZipEntry;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class ZipFileObject
-    extends AbstractFileObject
-    implements FileObject
+public class ZipFileObject extends AbstractFileObject implements FileObject
 {
     /** The ZipEntry. */
     protected ZipEntry entry;
@@ -44,7 +43,7 @@ public class ZipFileObject
 
     private FileType type;
 
-    protected ZipFileObject(FileName name,
+    protected ZipFileObject(AbstractFileName name,
                             ZipEntry entry,
                             ZipFileSystem fs,
                             boolean zipExists) throws FileSystemException

@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
@@ -50,7 +50,7 @@ public class RamFileObject extends AbstractFileObject implements FileObject
      * @param name The name of the file.
      * @param fs The FileSystem.
      */
-    protected RamFileObject(FileName name, RamFileSystem fs)
+    protected RamFileObject(AbstractFileName name, RamFileSystem fs)
     {
         super(name, fs);
         this.fs = fs;

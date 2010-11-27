@@ -21,10 +21,10 @@ import java.util.Collection;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.DefaultURLStreamHandler;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.http.HttpFileSystem;
@@ -67,7 +67,7 @@ public class WebdavFileSystem extends HttpFileSystem implements FileSystem
      * @return The created FileObject.
      */
     @Override
-    protected FileObject createFile(final FileName name)
+    protected FileObject createFile(final AbstractFileName name)
     {
 
         return new WebdavFileObject(name, this);

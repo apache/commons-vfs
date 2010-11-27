@@ -20,7 +20,6 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.SftpException;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -28,6 +27,7 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.FileObjectUtils;
@@ -59,7 +59,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
 
     private boolean inRefresh;
 
-    protected SftpFileObject(final FileName name,
+    protected SftpFileObject(final AbstractFileName name,
             final SftpFileSystem fileSystem) throws FileSystemException
     {
         super(name, fileSystem);

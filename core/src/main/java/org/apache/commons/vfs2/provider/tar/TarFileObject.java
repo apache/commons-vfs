@@ -22,6 +22,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 
 import java.io.InputStream;
@@ -31,9 +32,7 @@ import java.util.HashSet;
  * A file in a Tar file system.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class TarFileObject
-    extends AbstractFileObject
-    implements FileObject
+public class TarFileObject extends AbstractFileObject implements FileObject
 {
     /** The TarEntry */
     protected TarEntry entry;
@@ -41,7 +40,7 @@ public class TarFileObject
     private final TarFileSystem fs;
     private FileType type;
 
-    protected TarFileObject(FileName name,
+    protected TarFileObject(AbstractFileName name,
                             TarEntry entry,
                             TarFileSystem fs,
                             boolean tarExists) throws FileSystemException

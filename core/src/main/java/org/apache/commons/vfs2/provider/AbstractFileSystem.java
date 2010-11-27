@@ -165,8 +165,7 @@ public abstract class AbstractFileSystem
      * Creates a file object.  This method is called only if the requested
      * file is not cached.
      */
-    protected abstract FileObject createFile(final FileName name)
-        throws Exception;
+    protected abstract FileObject createFile(final AbstractFileName name) throws Exception;
 
     /**
      * Adds the capabilities of this file system.
@@ -343,7 +342,7 @@ public abstract class AbstractFileSystem
         {
             try
             {
-                file = createFile(name);
+                file = createFile((AbstractFileName) name);
             }
             catch (Exception e)
             {

@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VfsLog;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 
@@ -44,16 +45,14 @@ import java.util.zip.ZipFile;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class ZipFileSystem
-    extends AbstractFileSystem
-    implements FileSystem
+public class ZipFileSystem extends AbstractFileSystem implements FileSystem
 {
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
     private final File file;
     private ZipFile zipFile;
 
-  public ZipFileSystem(final FileName rootName,
+  public ZipFileSystem(final AbstractFileName rootName,
                          final FileObject parentLayer,
                          final FileSystemOptions fileSystemOptions)
         throws FileSystemException
@@ -87,7 +86,8 @@ public class ZipFileSystem
             while (entries.hasMoreElements())
             {
                 ZipEntry entry = entries.nextElement();
-                FileName name = getFileSystemManager().resolveName(getRootName(), UriParser.encode(entry.getName()));
+                AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
+                    UriParser.encode(entry.getName()));
 
                 // Create the file
                 ZipFileObject fileObj;
@@ -106,9 +106,9 @@ public class ZipFileSystem
                 // Make sure all ancestors exist
                 // TODO - create these on demand
                 ZipFileObject parent;
-                for (FileName parentName = name.getParent();
+                for (AbstractFileName parentName = (AbstractFileName) name.getParent();
                      parentName != null;
-                     fileObj = parent, parentName = parentName.getParent())
+                     fileObj = parent, parentName = (AbstractFileName) parentName.getParent())
                 {
                     // Locate the parent
                     parent = (ZipFileObject) getFileFromCache(parentName);
@@ -143,7 +143,7 @@ public class ZipFileSystem
         return zipFile;
     }
 
-    protected ZipFileObject createZipFileObject(final FileName name,
+    protected ZipFileObject createZipFileObject(final AbstractFileName name,
                                                 final ZipEntry entry) throws FileSystemException
     {
         return new ZipFileObject(name, entry, this, true);
@@ -193,7 +193,7 @@ public class ZipFileSystem
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final FileName name) throws FileSystemException
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
     {
         // This is only called for files which do not exist in the Zip file
         return new ZipFileObject(name, null, this, false);

@@ -25,11 +25,11 @@ import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.httpclient.util.URIUtil;
 
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.URLFileName;
 import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileNotFoundException;
@@ -47,15 +47,13 @@ import java.net.HttpURLConnection;
  * @version $Revision$ $Date$
  * @todo status codes
  */
-public class HttpFileObject
-    extends AbstractFileObject
+public class HttpFileObject extends AbstractFileObject
 {
     private final HttpFileSystem fileSystem;
     private final String urlCharset;
     private HeadMethod method;
 
-    protected HttpFileObject(final FileName name,
-                             final HttpFileSystem fileSystem)
+    protected HttpFileObject(final AbstractFileName name, final HttpFileSystem fileSystem)
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;
@@ -66,8 +64,7 @@ public class HttpFileObject
      * Detaches this file object from its file resource.
      */
     @Override
-    protected void doDetach()
-        throws Exception
+    protected void doDetach() throws Exception
     {
         method = null;
     }
@@ -77,8 +74,7 @@ public class HttpFileObject
      * value of this method is cached, so the implementation can be expensive.
      */
     @Override
-    protected FileType doGetType()
-        throws Exception
+    protected FileType doGetType() throws Exception
     {
         // Use the HEAD method to probe the file.
         method = new HeadMethod();
@@ -105,8 +101,7 @@ public class HttpFileObject
      * Lists the children of this file.
      */
     @Override
-    protected String[] doListChildren()
-        throws Exception
+    protected String[] doListChildren() throws Exception
     {
         throw new Exception("Not implemented.");
     }
@@ -115,8 +110,7 @@ public class HttpFileObject
      * Returns the size of the file content (in bytes).
      */
     @Override
-    protected long doGetContentSize()
-        throws Exception
+    protected long doGetContentSize() throws Exception
     {
         final Header header = method.getResponseHeader("content-length");
         if (header == null)
@@ -133,8 +127,7 @@ public class HttpFileObject
      * This implementation throws an exception.
      */
     @Override
-    protected long doGetLastModifiedTime()
-        throws Exception
+    protected long doGetLastModifiedTime() throws Exception
     {
         final Header header = method.getResponseHeader("last-modified");
         if (header == null)
@@ -154,8 +147,7 @@ public class HttpFileObject
      * <p>The returned stream does not have to be buffered.
      */
     @Override
-    protected InputStream doGetInputStream()
-        throws Exception
+    protected InputStream doGetInputStream() throws Exception
     {
         final GetMethod getMethod = new GetMethod();
         setupMethod(getMethod);
@@ -199,8 +191,7 @@ public class HttpFileObject
     /**
      * An InputStream that cleans up the HTTP connection on close.
      */
-    static class HttpInputStream
-        extends MonitorInputStream
+    static class HttpInputStream extends MonitorInputStream
     {
         private final GetMethod method;
 
@@ -215,8 +206,7 @@ public class HttpFileObject
          * Called after the stream has been closed.
          */
         @Override
-        protected void onClose()
-            throws IOException
+        protected void onClose() throws IOException
         {
             method.releaseConnection();
         }

@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.LayeredFileName;
 import org.apache.commons.vfs2.provider.zip.ZipFileProvider;
 
@@ -39,8 +40,7 @@ import java.util.Collections;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class JarFileProvider
-    extends ZipFileProvider
+public class JarFileProvider extends ZipFileProvider
 {
     static final Collection<Capability> capabilities;
 
@@ -78,7 +78,7 @@ public class JarFileProvider
                                             final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        final FileName name =
+        final AbstractFileName name =
             new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return new JarFileSystem(name, file, fileSystemOptions);
     }

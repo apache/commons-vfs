@@ -21,6 +21,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.URLFileName;
 
@@ -39,14 +40,12 @@ import java.net.URLConnection;
  * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()
  */
-public class UrlFileObject
-    extends AbstractFileObject
-    implements FileObject
+public class UrlFileObject extends AbstractFileObject implements FileObject
 {
     private URL url;
 
     protected UrlFileObject(final UrlFileSystem fs,
-                            final FileName fileName)
+                            final AbstractFileName fileName)
     {
         super(fileName, fs);
     }

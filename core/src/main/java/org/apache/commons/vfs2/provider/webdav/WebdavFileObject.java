@@ -24,6 +24,7 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.httpclient.util.DateUtil;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.URLFileName;
 import org.apache.commons.vfs2.provider.DefaultFileContent;
 import org.apache.commons.vfs2.provider.http.HttpFileObject;
@@ -34,7 +35,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.FileNotFolderException;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.jackrabbit.webdav.client.methods.DavMethod;
@@ -91,7 +91,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     /** The FileSystemConfigBuilder */
     private final WebdavFileSystemConfigBuilder builder;
 
-    protected WebdavFileObject(final FileName name, final WebdavFileSystem fileSystem)
+    protected WebdavFileObject(final AbstractFileName name, final WebdavFileSystem fileSystem)
     {
         super(name, fileSystem);
         this.fileSystem = fileSystem;

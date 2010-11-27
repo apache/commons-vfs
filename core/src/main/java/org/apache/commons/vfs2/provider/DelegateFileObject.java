@@ -42,15 +42,13 @@ import java.util.Set;
  * @version $Revision$ $Date$
  * @todo Extract subclass that overlays the children
  */
-public class DelegateFileObject
-    extends AbstractFileObject
-    implements FileListener
+public class DelegateFileObject extends AbstractFileObject implements FileListener
 {
     private FileObject file;
     private final Set<String> children = new HashSet<String>();
     private boolean ignoreEvent;
 
-    public DelegateFileObject(final FileName name,
+    public DelegateFileObject(final AbstractFileName name,
                               final AbstractFileSystem fileSystem,
                               final FileObject file) throws FileSystemException
     {

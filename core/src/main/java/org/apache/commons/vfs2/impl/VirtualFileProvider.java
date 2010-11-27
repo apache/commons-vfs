@@ -20,6 +20,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractVfsContainer;
 
 
@@ -29,8 +30,7 @@ import org.apache.commons.vfs2.provider.AbstractVfsContainer;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class VirtualFileProvider
-    extends AbstractVfsContainer
+public class VirtualFileProvider extends AbstractVfsContainer
 {
     /**
      * Creates a virtual file system, with the supplied file as its root.
@@ -38,10 +38,9 @@ public class VirtualFileProvider
      * @return A FileObject in the FileSystem.
      * @throws FileSystemException if an error occurs.
      */
-    public FileObject createFileSystem(final FileObject rootFile)
-        throws FileSystemException
+    public FileObject createFileSystem(final FileObject rootFile) throws FileSystemException
     {
-        final FileName rootName =
+        final AbstractFileName rootName = (AbstractFileName)
             getContext().getFileSystemManager().resolveName(rootFile.getName(), FileName.ROOT_PATH);
         // final FileName rootName =
         //    new BasicFileName(rootFile.getName(), FileName.ROOT_PATH);
@@ -59,7 +58,7 @@ public class VirtualFileProvider
      */
     public FileObject createFileSystem(final String rootUri) throws FileSystemException
     {
-        final FileName rootName =
+        final AbstractFileName rootName =
             new VirtualFileName(rootUri, FileName.ROOT_PATH, FileType.FOLDER);
         // final FileName rootName =
         //    new BasicFileName(rootUri, FileName.ROOT_PATH);

@@ -21,6 +21,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 
 /**
@@ -30,14 +31,12 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public abstract class CompressedFileFileObject
-    extends AbstractFileObject
-    implements FileObject
+public abstract class CompressedFileFileObject extends AbstractFileObject implements FileObject
 {
     private final FileObject container;
     private final String[] children;
 
-    protected CompressedFileFileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
+    protected CompressedFileFileObject(AbstractFileName name, FileObject container, CompressedFileFileSystem fs)
     {
         super(name, fs);
         this.container = container;

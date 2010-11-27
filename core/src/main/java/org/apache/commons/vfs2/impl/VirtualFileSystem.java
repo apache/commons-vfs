@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.DelegateFileObject;
 
@@ -39,12 +40,11 @@ import java.util.Map;
  * @version $Revision$ $Date$
  * @todo Handle nested junctions.
  */
-public class VirtualFileSystem
-    extends AbstractFileSystem
+public class VirtualFileSystem extends AbstractFileSystem
 {
     private final Map<FileName, FileObject> junctions = new HashMap<FileName, FileObject>();
 
-    public VirtualFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
+    public VirtualFileSystem(final AbstractFileName rootName, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
     }
@@ -76,8 +76,7 @@ public class VirtualFileSystem
      * file is not cached.
      */
     @Override
-    protected FileObject createFile(final FileName name)
-        throws Exception
+    protected FileObject createFile(final AbstractFileName name) throws Exception
     {
         // Find the file that the name points to
         final FileName junctionPoint = getJunctionForFile(name);
@@ -132,9 +131,9 @@ public class VirtualFileSystem
             // Create ancestors of junction point
             FileName childName = junctionName;
             boolean done = false;
-            for (FileName parentName = childName.getParent();
+            for (AbstractFileName parentName = (AbstractFileName) childName.getParent();
                  !done && parentName != null;
-                 childName = parentName, parentName = parentName.getParent())
+                 childName = parentName, parentName = (AbstractFileName) parentName.getParent())
             {
                 DelegateFileObject file = (DelegateFileObject) getFileFromCache(parentName);
                 if (file == null)

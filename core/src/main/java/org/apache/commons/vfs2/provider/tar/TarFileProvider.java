@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
@@ -35,9 +36,7 @@ import java.util.Collections;
  * A file system provider for Tar files.  Provides read-only file systems.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class TarFileProvider
-    extends AbstractLayeredFileProvider
-    implements FileProvider
+public class TarFileProvider extends AbstractLayeredFileProvider implements FileProvider
 {
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities =
@@ -70,7 +69,7 @@ public class TarFileProvider
                                             final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        final FileName rootName =
+        final AbstractFileName rootName =
             new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return new TarFileSystem(rootName, file, fileSystemOptions);
     }

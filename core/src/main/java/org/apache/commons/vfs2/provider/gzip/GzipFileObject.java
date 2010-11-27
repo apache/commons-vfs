@@ -16,8 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.gzip;
 
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
@@ -34,7 +34,7 @@ import java.util.zip.GZIPOutputStream;
  */
 public class GzipFileObject extends CompressedFileFileObject
 {
-    protected GzipFileObject(FileName name, FileObject container, CompressedFileFileSystem fs)
+    protected GzipFileObject(AbstractFileName name, FileObject container, CompressedFileFileSystem fs)
     {
         super(name, container, fs);
     }

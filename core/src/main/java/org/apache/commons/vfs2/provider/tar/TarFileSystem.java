@@ -22,13 +22,13 @@ package org.apache.commons.vfs2.provider.tar;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VfsLog;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
@@ -48,16 +48,14 @@ import java.util.zip.GZIPInputStream;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @version $Revision$ $Date$
  */
-public class TarFileSystem
-    extends AbstractFileSystem
-    implements FileSystem
+public class TarFileSystem extends AbstractFileSystem implements FileSystem
 {
     private static final Log LOG = LogFactory.getLog(TarFileSystem.class);
 
     private final File file;
     private TarInputStream tarFile;
 
-    protected TarFileSystem(final FileName rootName,
+    protected TarFileSystem(final AbstractFileName rootName,
                             final FileObject parentLayer,
                             final FileSystemOptions fileSystemOptions)
         throws FileSystemException
@@ -90,7 +88,8 @@ public class TarFileSystem
             TarEntry entry;
             while ((entry = getTarFile().getNextEntry()) != null)
             {
-                FileName name = getFileSystemManager().resolveName(getRootName(), UriParser.encode(entry.getName()));
+                AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
+                    UriParser.encode(entry.getName()));
 
                 // Create the file
                 TarFileObject fileObj;
@@ -109,9 +108,9 @@ public class TarFileSystem
                 // Make sure all ancestors exist
                 // TODO - create these on demand
                 TarFileObject parent = null;
-                for (FileName parentName = name.getParent();
+                for (AbstractFileName parentName = (AbstractFileName) name.getParent();
                      parentName != null;
-                     fileObj = parent, parentName = parentName.getParent())
+                     fileObj = parent, parentName = (AbstractFileName) parentName.getParent())
                 {
                     // Locate the parent
                     parent = (TarFileObject) getFileFromCache(parentName);
@@ -193,7 +192,7 @@ public class TarFileSystem
         return tarFile;
     }
 
-    protected TarFileObject createTarFileObject(final FileName name,
+    protected TarFileObject createTarFileObject(final AbstractFileName name,
                                                 final TarEntry entry) throws FileSystemException
     {
         return new TarFileObject(name, entry, this, true);
@@ -252,7 +251,7 @@ public class TarFileSystem
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final FileName name) throws FileSystemException
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
     {
         // This is only called for files which do not exist in the Tar file
         return new TarFileObject(name, null, this, false);

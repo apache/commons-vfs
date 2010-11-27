@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
 /**
@@ -51,8 +52,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param rootName The root file name.
      * @param fileSystemOptions The FileSystem options.
      */
-    protected RamFileSystem(FileName rootName,
-            FileSystemOptions fileSystemOptions)
+    protected RamFileSystem(FileName rootName, FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
         this.cache = Collections.synchronizedMap(new HashMap<FileName, RamFileData>());
@@ -69,7 +69,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @see org.apache.commons.vfs2.provider.AbstractFileSystem#createFile(org.apache.commons.vfs2.FileName)
      */
     @Override
-    protected FileObject createFile(FileName name) throws Exception
+    protected FileObject createFile(AbstractFileName name) throws Exception
     {
         RamFileObject file = new RamFileObject(name, this);
         return file;
