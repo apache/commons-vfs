@@ -21,7 +21,14 @@ import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import jcifs.smb.SmbFileInputStream;
 import jcifs.smb.SmbFileOutputStream;
-import org.apache.commons.vfs2.*;
+
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.FileTypeHasNoContentException;
+import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
@@ -223,7 +230,7 @@ public class SmbFileObject
         {
             if (e.getErrorCode() == SmbException.ERRbadfile)
             {
-                throw new FileNotFoundException(getName());
+                throw new org.apache.commons.vfs2.FileNotFoundException(getName());
             }
             else if (file.isDirectory())
             {
