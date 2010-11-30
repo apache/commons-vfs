@@ -32,7 +32,6 @@ import javax.mail.Part;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.vfs2.FileContentInfoFactory;
-import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
