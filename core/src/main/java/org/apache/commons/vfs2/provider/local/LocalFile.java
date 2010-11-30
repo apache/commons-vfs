@@ -16,6 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -23,15 +30,8 @@ import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.commons.vfs2.util.FileObjectUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * A file object implementation which uses direct file access.

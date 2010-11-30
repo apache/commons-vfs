@@ -16,16 +16,16 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.provider.AbstractRandomAccessContent;
-import org.apache.commons.vfs2.util.RandomAccessMode;
-
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.provider.AbstractRandomAccessContent;
+import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * RandomAccess for local files

@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.tasks;
 
-import org.apache.commons.vfs2.FileContent;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.tools.ant.BuildException;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
+
+import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.tools.ant.BuildException;
 
 /**
  * An Ant task that writes the details of a file to Ant's log.

@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2.util;
 
-import org.apache.commons.vfs2.RandomAccessContent;
-
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
  * An RandomAccessContent that provides end-of-stream monitoring.

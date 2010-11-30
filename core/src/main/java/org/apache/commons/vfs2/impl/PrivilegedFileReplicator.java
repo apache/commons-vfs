@@ -16,6 +16,12 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.io.File;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelector;
@@ -23,12 +29,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.FileReplicator;
 import org.apache.commons.vfs2.provider.VfsComponent;
 import org.apache.commons.vfs2.provider.VfsComponentContext;
-
-import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 
 /**
  * A file replicator that wraps another file replicator, performing

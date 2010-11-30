@@ -16,8 +16,8 @@
  */
 package org.apache.commons.vfs2.operations.vcs;
 
-import org.apache.commons.vfs2.operations.FileOperation;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.operations.FileOperation;
 
 /**
  *

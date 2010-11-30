@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.test;
 
+import java.io.File;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
-
-import java.io.File;
 
 /**
  * Test cases for the VFS factory.

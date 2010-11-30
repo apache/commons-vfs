@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.File;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
-
-import java.io.File;
 
 /**
  * Allows VFS components to access the services they need, such as the file

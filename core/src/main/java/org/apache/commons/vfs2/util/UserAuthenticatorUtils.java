@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2.util;
 
-import org.apache.commons.vfs2.UserAuthenticator;
-import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.UserAuthenticationData;
+import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 
 /**

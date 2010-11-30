@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.operations;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.FileObject;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  *

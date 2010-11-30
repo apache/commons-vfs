@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.mime;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -26,10 +30,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * A provider for MIME Message.

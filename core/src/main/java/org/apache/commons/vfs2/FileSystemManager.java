@@ -16,13 +16,12 @@
  */
 package org.apache.commons.vfs2;
 
-import org.apache.commons.logging.Log;
-
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.net.URLStreamHandlerFactory;
 import java.util.Collection;
-import java.lang.reflect.Constructor;
 
+import org.apache.commons.logging.Log;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
 
 /**

@@ -16,9 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
-import org.apache.commons.vfs2.FileContent;
-import org.apache.commons.vfs2.FileSystemException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,6 +27,9 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
+import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * A default URL connection that will work for most file systems.

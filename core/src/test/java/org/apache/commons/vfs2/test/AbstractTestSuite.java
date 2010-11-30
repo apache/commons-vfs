@@ -16,17 +16,6 @@
  */
 package org.apache.commons.vfs2.test;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.impl.DefaultFileReplicator;
-import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.impl.PrivilegedFileReplicator;
-import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
-
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -34,6 +23,18 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.impl.DefaultFileReplicator;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.PrivilegedFileReplicator;
+import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 
 /**
  * The suite of tests for a file system.

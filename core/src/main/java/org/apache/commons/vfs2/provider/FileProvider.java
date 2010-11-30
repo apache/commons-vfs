@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.Collection;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
-
-import java.util.Collection;
 
 
 /**

@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.local.test;
 
+import java.io.File;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
-
-import java.io.File;
 
 /**
  * Additional naming tests for local file system.

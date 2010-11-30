@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.test;
 
+import java.io.OutputStream;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
-
-import java.io.OutputStream;
 
 /**
  * File system test that check that a file system can be renamed.

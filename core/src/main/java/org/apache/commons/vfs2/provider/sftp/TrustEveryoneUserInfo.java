@@ -16,9 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import com.jcraft.jsch.UserInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.jcraft.jsch.UserInfo;
 
 /**
  * Helper class to trust a new host.

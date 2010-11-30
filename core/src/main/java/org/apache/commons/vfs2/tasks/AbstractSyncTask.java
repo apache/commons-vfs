@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.tasks;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileType;
@@ -24,11 +29,6 @@ import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.util.Messages;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 /**
  * An abstract file synchronization task.  Scans a set of source files and

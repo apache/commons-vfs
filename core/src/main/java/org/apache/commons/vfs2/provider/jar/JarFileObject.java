@@ -16,10 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.provider.AbstractFileName;
-import org.apache.commons.vfs2.provider.zip.ZipFileObject;
-
 import java.io.IOException;
 import java.security.cert.Certificate;
 import java.util.HashMap;
@@ -31,6 +27,10 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
+
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.provider.AbstractFileName;
+import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 
 /**
  * A file in a Jar file system.

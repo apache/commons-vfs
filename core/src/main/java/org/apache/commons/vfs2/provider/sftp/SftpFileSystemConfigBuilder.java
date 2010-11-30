@@ -16,15 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import com.jcraft.jsch.UserInfo;
+import java.io.File;
+import java.io.Serializable;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 
-import java.io.File;
-import java.io.Serializable;
+import com.jcraft.jsch.UserInfo;
 
 /**
  * The config BUILDER for various sftp configuration options.

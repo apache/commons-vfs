@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticator;
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 /**
  * Configuration options for HTTP.

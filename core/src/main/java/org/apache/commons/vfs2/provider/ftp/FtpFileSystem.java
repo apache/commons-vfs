@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -26,10 +30,6 @@ import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * An FTP file system.

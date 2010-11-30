@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.tar.test;
 
 import junit.framework.Test;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;

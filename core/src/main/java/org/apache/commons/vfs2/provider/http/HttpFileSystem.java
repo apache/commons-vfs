@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import java.util.Collection;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
@@ -26,8 +28,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
-
-import java.util.Collection;
 
 /**
  * An HTTP file system.

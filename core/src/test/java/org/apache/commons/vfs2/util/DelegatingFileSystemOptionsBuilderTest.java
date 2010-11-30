@@ -16,16 +16,17 @@
  */
 package org.apache.commons.vfs2.util;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+
 import junit.framework.TestCase;
+
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
-
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Some tests for the DelegatingFileSystemOptionsBuilder

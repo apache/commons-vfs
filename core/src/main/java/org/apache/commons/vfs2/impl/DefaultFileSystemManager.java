@@ -16,6 +16,17 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.net.URLStreamHandler;
+import java.net.URLStreamHandlerFactory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.CacheStrategy;
@@ -43,17 +54,6 @@ import org.apache.commons.vfs2.provider.LocalFileProvider;
 import org.apache.commons.vfs2.provider.TemporaryFileStore;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.VfsComponent;
-
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.net.URLStreamHandler;
-import java.net.URLStreamHandlerFactory;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A default file system manager implementation.

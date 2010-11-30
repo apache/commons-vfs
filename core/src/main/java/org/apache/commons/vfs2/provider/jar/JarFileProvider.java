@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -26,11 +31,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.LayeredFileName;
 import org.apache.commons.vfs2.provider.zip.ZipFileProvider;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * A file system provider for Jar files.  Provides read-only file

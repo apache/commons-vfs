@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A helper class that determines the provider to use for a file.

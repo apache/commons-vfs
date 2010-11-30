@@ -16,22 +16,22 @@
  */
 package org.apache.commons.vfs2.provider.webdav.test;
 
-import org.apache.commons.vfs2.test.ProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderCacheStrategyTests;
-import org.apache.commons.vfs2.test.UriTests;
-import org.apache.commons.vfs2.test.NamingTests;
 import org.apache.commons.vfs2.test.ContentTests;
-import org.apache.commons.vfs2.test.ProviderReadTests;
-import org.apache.commons.vfs2.test.ProviderRandomReadTests;
-import org.apache.commons.vfs2.test.ProviderWriteTests;
-import org.apache.commons.vfs2.test.ProviderWriteAppendTests;
-import org.apache.commons.vfs2.test.ProviderRandomReadWriteTests;
-import org.apache.commons.vfs2.test.ProviderRenameTests;
-import org.apache.commons.vfs2.test.ProviderDeleteTests;
 import org.apache.commons.vfs2.test.LastModifiedTests;
-import org.apache.commons.vfs2.test.UrlTests;
-import org.apache.commons.vfs2.test.UrlStructureTests;
+import org.apache.commons.vfs2.test.NamingTests;
+import org.apache.commons.vfs2.test.ProviderCacheStrategyTests;
+import org.apache.commons.vfs2.test.ProviderDeleteTests;
+import org.apache.commons.vfs2.test.ProviderRandomReadTests;
+import org.apache.commons.vfs2.test.ProviderRandomReadWriteTests;
+import org.apache.commons.vfs2.test.ProviderReadTests;
+import org.apache.commons.vfs2.test.ProviderRenameTests;
+import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+import org.apache.commons.vfs2.test.ProviderWriteAppendTests;
+import org.apache.commons.vfs2.test.ProviderWriteTests;
+import org.apache.commons.vfs2.test.UriTests;
+import org.apache.commons.vfs2.test.UrlStructureTests;
+import org.apache.commons.vfs2.test.UrlTests;
 
 /**
  * The suite of tests for a file system.

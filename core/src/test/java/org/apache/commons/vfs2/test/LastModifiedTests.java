@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.test;
 
 import junit.framework.AssertionFailedError;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 

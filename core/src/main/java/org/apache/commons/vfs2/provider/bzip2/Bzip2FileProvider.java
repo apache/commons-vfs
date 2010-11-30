@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.bzip2;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -23,10 +27,6 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileProvider;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Provides access to the content of bzip2 compressed files.

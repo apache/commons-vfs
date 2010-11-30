@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2.operations;
 
+import java.util.Collection;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
-
-import java.util.Collection;
 
 /**
  * FileOperationProvider is responsible for dealing with FileOperation's.

@@ -16,15 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.gzip;
 
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.provider.AbstractFileName;
-import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
-import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.provider.AbstractFileName;
+import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
+import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * the gzip file.

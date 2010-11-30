@@ -20,6 +20,7 @@ import java.io.File;
 
 import junit.framework.Test;
 
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
@@ -31,7 +32,6 @@ import org.apache.commons.vfs2.provider.ram.RamFileSystem;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-import org.apache.commons.AbstractVfsTestCase;
 
 /**
  * Tests for the RAM file system.

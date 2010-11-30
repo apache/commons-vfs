@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.tasks;
 
+import java.util.StringTokenizer;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.util.Messages;
 import org.apache.tools.ant.BuildException;
-
-import java.util.StringTokenizer;
 
 /**
  * An Ant task that deletes matching files.

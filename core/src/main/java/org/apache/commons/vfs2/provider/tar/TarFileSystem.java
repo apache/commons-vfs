@@ -19,6 +19,15 @@ package org.apache.commons.vfs2.provider.tar;
 //TODO: Revert to [compress]
 //import org.apache.commons.compress.tar.TarEntry;
 //import org.apache.commons.compress.tar.TarInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.zip.GZIPInputStream;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -32,15 +41,6 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.zip.GZIPInputStream;
 
 /**
  * A read-only file system for Tar files.

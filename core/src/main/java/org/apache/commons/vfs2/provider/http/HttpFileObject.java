@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
@@ -24,21 +28,16 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.httpclient.util.URIUtil;
-
+import org.apache.commons.vfs2.FileContentInfoFactory;
+import org.apache.commons.vfs2.FileNotFoundException;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.URLFileName;
 import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileNotFoundException;
-import org.apache.commons.vfs2.RandomAccessContent;
-import org.apache.commons.vfs2.FileContentInfoFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 
 /**
  * A file object backed by commons httpclient.

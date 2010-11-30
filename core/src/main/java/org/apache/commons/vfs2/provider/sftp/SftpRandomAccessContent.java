@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.provider.AbstractRandomAccessStreamContent;
-import org.apache.commons.vfs2.util.RandomAccessMode;
-
 import java.io.DataInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.provider.AbstractRandomAccessStreamContent;
+import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * Random access content.

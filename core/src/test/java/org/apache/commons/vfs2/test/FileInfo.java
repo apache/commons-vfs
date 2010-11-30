@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2.test;
 
-import org.apache.commons.vfs2.FileType;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.vfs2.FileType;
 
 /**
  * Info about a file.

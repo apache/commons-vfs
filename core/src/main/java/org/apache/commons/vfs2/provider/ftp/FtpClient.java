@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.vfs2.FileSystemException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * What VFS expects from an ftp client to provide.

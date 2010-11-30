@@ -16,14 +16,15 @@
  */
 package org.apache.commons.vfs2.provider.test;
 
+import java.io.File;
+
 import junit.framework.Test;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-
-import java.io.File;
 
 /**
  * Test cases for the virtual file system provider.

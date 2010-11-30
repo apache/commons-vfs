@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.cache;
 
-import org.apache.commons.vfs2.FileObject;
-
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+
+import org.apache.commons.vfs2.FileObject;
 
 /**
  * This implementation caches every file as long as it is strongly reachable by

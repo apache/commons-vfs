@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.libcheck;
 
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Vector;
+
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.UserInfo;
-
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Vector;
 
 /**
  * Basic check for sftp

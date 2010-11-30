@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.io.File;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -24,8 +26,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.FileReplicator;
 import org.apache.commons.vfs2.provider.TemporaryFileStore;
 import org.apache.commons.vfs2.provider.VfsComponentContext;
-
-import java.io.File;
 
 
 /**

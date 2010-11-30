@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import org.apache.commons.vfs2.FileSystemException;
-
 import java.util.ArrayList;
+
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * A {@link VfsComponent} that contains a set of sub-components.

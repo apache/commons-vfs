@@ -16,6 +16,14 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.cert.Certificate;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileContentInfoFactory;
@@ -26,14 +34,6 @@ import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.MonitorOutputStream;
 import org.apache.commons.vfs2.util.MonitorRandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.cert.Certificate;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The content of a file.

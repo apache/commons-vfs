@@ -16,6 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -26,11 +31,6 @@ import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.LocalFileProvider;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.Os;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * A file system provider, which uses direct file access.

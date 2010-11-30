@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -23,9 +26,6 @@ import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
-
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * A partial {@link FileProvider} implementation.  Takes care of managing the

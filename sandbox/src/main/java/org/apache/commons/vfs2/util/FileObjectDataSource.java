@@ -16,13 +16,14 @@
  */
 package org.apache.commons.vfs2.util;
 
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.activation.DataSource;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * Provide access to a FileObject as DataSource

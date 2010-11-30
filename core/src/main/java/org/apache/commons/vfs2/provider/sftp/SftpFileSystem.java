@@ -16,10 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
+import java.io.IOException;
+import java.util.Collection;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -28,12 +26,14 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.provider.AbstractFileName;
-import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
+import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
-import java.io.IOException;
-import java.util.Collection;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 
 /**
  * Represents the files on an SFTP server.

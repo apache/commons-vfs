@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.test;
 
+import java.io.File;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
-
-import java.io.File;
 
 /**
  * Additional junction test cases.

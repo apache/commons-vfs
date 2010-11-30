@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
@@ -27,10 +31,6 @@ import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 
 /**

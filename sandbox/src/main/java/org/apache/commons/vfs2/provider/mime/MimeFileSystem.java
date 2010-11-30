@@ -16,6 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.mime;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+
+import javax.mail.MessagingException;
+import javax.mail.Part;
+import javax.mail.internet.MimeMessage;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -27,13 +35,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.util.SharedRandomContentInputStream;
-
-import javax.mail.MessagingException;
-import javax.mail.Part;
-import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
 
 /**
  * An MIME file system.

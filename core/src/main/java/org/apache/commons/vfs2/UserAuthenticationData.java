@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Iterator;
 
 /**
  * Container for various authentication data.

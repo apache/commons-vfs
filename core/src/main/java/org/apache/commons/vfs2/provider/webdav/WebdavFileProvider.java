@@ -16,22 +16,24 @@
  */
 package org.apache.commons.vfs2.provider.webdav;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileSystem;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.UserAuthenticationData;
-import org.apache.commons.vfs2.FileSystemConfigBuilder;
-import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
-import org.apache.commons.vfs2.provider.GenericFileName;
-import org.apache.commons.vfs2.provider.http.HttpFileProvider;
-import org.apache.commons.vfs2.provider.http.HttpClientFactory;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystem;
+import org.apache.commons.vfs2.FileSystemConfigBuilder;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.UserAuthenticationData;
+import org.apache.commons.vfs2.provider.GenericFileName;
+import org.apache.commons.vfs2.provider.http.HttpClientFactory;
+import org.apache.commons.vfs2.provider.http.HttpFileProvider;
+import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * A provider for WebDAV.

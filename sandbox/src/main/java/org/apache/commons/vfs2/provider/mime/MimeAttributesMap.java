@@ -16,14 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.mime;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.mail.Header;
-import javax.mail.MessagingException;
-import javax.mail.Part;
-import javax.mail.Address;
-import javax.mail.internet.MimeMessage;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -36,6 +28,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.mail.Address;
+import javax.mail.Header;
+import javax.mail.MessagingException;
+import javax.mail.Part;
+import javax.mail.internet.MimeMessage;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A map which tries to allow access to the various aspects of the mail

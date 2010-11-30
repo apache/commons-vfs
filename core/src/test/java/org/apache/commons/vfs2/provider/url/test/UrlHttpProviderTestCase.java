@@ -16,7 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.url.test;
 
+import java.io.File;
+import java.net.URL;
+
 import junit.framework.Test;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -24,9 +28,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.url.UrlFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-
-import java.io.File;
-import java.net.URL;
 
 /**
  * Test cases for the generic provider.

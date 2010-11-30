@@ -16,10 +16,19 @@
  */
 package org.apache.commons.vfs2.provider.bzip2;
 
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.BASE_BLOCK_SIZE;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.G_SIZE;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.MAX_ALPHA_SIZE;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.MAX_SELECTORS;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.NUM_OVERSHOOT_BYTES;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.N_GROUPS;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.N_ITERS;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.RAND_NUMS;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.RUNA;
+import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.RUNB;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import static org.apache.commons.vfs2.provider.bzip2.BZip2Constants.*;
 
 /*
  * This package is based on the work done by Keiron Liddle, Aftex Software

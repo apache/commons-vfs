@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.url.test;
 
 import junit.framework.Test;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;

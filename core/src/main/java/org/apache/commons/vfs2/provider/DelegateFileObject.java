@@ -16,24 +16,24 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import org.apache.commons.vfs2.util.WeakRefFileListener;
-import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.apache.commons.vfs2.FileListener;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.FileNotFolderException;
-import org.apache.commons.vfs2.FileChangeEvent;
-import org.apache.commons.vfs2.FileContentInfo;
-import org.apache.commons.vfs2.RandomAccessContent;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.vfs2.FileChangeEvent;
+import org.apache.commons.vfs2.FileContentInfo;
+import org.apache.commons.vfs2.FileListener;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileNotFolderException;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.util.RandomAccessMode;
+import org.apache.commons.vfs2.util.WeakRefFileListener;
 
 /**
  * A file backed by another file.

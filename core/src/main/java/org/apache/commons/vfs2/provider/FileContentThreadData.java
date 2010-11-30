@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.RandomAccessContent;
-
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
  * Holds the data which needs to be local to the current thread

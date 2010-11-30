@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.File;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileSystemException;
-
-import java.io.File;
 
 /**
  * Responsible for making local replicas of files.

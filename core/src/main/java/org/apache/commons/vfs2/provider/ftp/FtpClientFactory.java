@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
+import java.io.IOException;
+
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
@@ -24,8 +26,6 @@ import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
-
-import java.io.IOException;
 
 /**
  * Create a FtpClient instance.

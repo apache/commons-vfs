@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.impl;
 
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileUtil;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.jar.Attributes;
+
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileUtil;
 
 /**
  * Helper class for VFSClassLoader. This represents a resource loaded with

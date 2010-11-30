@@ -17,19 +17,18 @@
 package org.apache.commons.vfs2.provider.ftps;
 
 
-import org.apache.commons.net.ftp.FTPSClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.UserAuthenticationData;
-import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
-import org.apache.commons.vfs2.provider.GenericFileName;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPSClient;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.UserAuthenticationData;
+import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.ftp.FtpClient;
+import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 
 /**

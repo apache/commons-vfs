@@ -16,15 +16,15 @@
  */
 package org.apache.commons.vfs2.test;
 
+import java.io.InputStream;
+import java.util.Iterator;
+
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
-
-import java.io.InputStream;
-import java.util.Iterator;
 
 /**
  * Test cases for reading file content.

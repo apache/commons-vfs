@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2;
 
-import org.apache.commons.vfs2.util.RandomAccessMode;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.Certificate;
 import java.util.Map;
+
+import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * Represents the data content of a file.

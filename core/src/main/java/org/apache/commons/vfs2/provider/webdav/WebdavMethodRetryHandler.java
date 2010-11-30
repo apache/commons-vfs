@@ -18,8 +18,8 @@ package org.apache.commons.vfs2.provider.webdav;
 
 import java.io.IOException;
 
-import org.apache.commons.httpclient.HttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpMethodRetryHandler;
 
 
 /**

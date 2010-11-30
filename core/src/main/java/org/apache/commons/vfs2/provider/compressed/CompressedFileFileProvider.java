@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.compressed;
 
+import java.util.Collection;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -26,8 +28,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
-
-import java.util.Collection;
 
 /**
  * A file system provider for compressed files.  Provides read-only file

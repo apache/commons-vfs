@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.libcheck;
 
+import java.io.OutputStream;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
-
-import java.io.OutputStream;
 
 /**
  * Basic check for sftp

@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileListener;
@@ -24,10 +28,6 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
 
 /**
  * A polling {@link FileMonitor} implementation.<br />

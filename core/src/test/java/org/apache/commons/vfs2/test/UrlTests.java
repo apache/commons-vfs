@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.test;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileObject;
 
 /**
  * URL test cases for providers.

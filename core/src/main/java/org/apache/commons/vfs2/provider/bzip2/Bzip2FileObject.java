@@ -19,15 +19,15 @@ package org.apache.commons.vfs2.provider.bzip2;
 //TODO: Revert to [compress]
 //import org.apache.commons.compress.bzip2.CBZip2InputStream;
 //import org.apache.commons.compress.bzip2.CBZip2OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * the bzip2 file.

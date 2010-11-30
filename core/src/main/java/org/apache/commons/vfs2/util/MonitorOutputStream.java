@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2.util;
 
-import org.apache.commons.vfs2.FileSystemException;
-
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * An OutputStream that provides buffering and end-of-stream monitoring.

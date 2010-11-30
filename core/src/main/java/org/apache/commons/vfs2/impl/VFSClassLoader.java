@@ -16,11 +16,6 @@
  */
 package org.apache.commons.vfs2.impl;
 
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.NameScope;
-
 import java.io.IOException;
 import java.net.URL;
 import java.security.CodeSource;
@@ -34,6 +29,11 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
+
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.NameScope;
 
 
 /**

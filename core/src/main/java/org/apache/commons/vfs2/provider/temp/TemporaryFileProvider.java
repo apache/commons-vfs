@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.temp;
 
+import java.io.File;
+import java.util.Collection;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -28,9 +31,6 @@ import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
-
-import java.io.File;
-import java.util.Collection;
 
 /**
  * A provider for temporary files.

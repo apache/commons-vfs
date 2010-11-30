@@ -20,10 +20,10 @@ import org.apache.commons.vfs2.CacheStrategy;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
-import org.apache.commons.vfs2.provider.ram.RamFileObject;
-import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.VirtualFileSystem;
+import org.apache.commons.vfs2.provider.ram.RamFileObject;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * Test the cache stragey

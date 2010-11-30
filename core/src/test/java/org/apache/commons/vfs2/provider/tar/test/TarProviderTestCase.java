@@ -16,7 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.tar.test;
 
+import java.io.File;
+
 import junit.framework.Test;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -25,8 +28,6 @@ import org.apache.commons.vfs2.provider.tar.TarFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
-
-import java.io.File;
 
 /**
  * Tests for the Tar file system.

@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.impl;
 
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSelector;
+import java.util.List;
+
 import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSelector;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
-
-import java.util.List;
 
 /**
  * This decorator synchronize all access to the FileObject.

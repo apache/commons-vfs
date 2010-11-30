@@ -18,15 +18,15 @@ package org.apache.commons.vfs2.provider.tar;
 
 //TODO: Revert to [compress]
 //import org.apache.commons.compress.tar.TarEntry;
+import java.io.InputStream;
+import java.util.HashSet;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
-
-import java.io.InputStream;
-import java.util.HashSet;
 
 /**
  * A file in a Tar file system.

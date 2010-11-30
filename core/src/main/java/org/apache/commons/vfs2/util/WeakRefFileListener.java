@@ -16,13 +16,13 @@
  */
 package org.apache.commons.vfs2.util;
 
+import java.lang.ref.WeakReference;
+
 import org.apache.commons.vfs2.FileChangeEvent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Wrap a listener with a WeakReference.

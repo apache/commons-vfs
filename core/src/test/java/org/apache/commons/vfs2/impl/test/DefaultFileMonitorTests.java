@@ -16,16 +16,16 @@
  */
 package org.apache.commons.vfs2.impl.test;
 
-import org.apache.commons.AbstractVfsTestCase;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileChangeEvent;
-import org.apache.commons.vfs2.FileSystemManager;
-import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.FileListener;
-import org.apache.commons.vfs2.impl.DefaultFileMonitor;
-
 import java.io.File;
 import java.io.FileWriter;
+
+import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.vfs2.FileChangeEvent;
+import org.apache.commons.vfs2.FileListener;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.impl.DefaultFileMonitor;
 
 /**
  * Test to verify DefaultFileMonitor

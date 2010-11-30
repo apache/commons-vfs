@@ -16,10 +16,10 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.IOException;
+
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
-
-import java.io.IOException;
 
 /**
  * Implements the DataOutput part of the RandomAccessContent interface and throws

@@ -16,15 +16,16 @@
  */
 package org.apache.commons;
 
-import junit.framework.TestCase;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.util.Messages;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import junit.framework.TestCase;
+
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.util.Messages;
 
 /**
  * A base class for VFS tests.  Provides utility methods for locating

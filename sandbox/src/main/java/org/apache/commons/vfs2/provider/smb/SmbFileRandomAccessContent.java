@@ -16,17 +16,18 @@
  */
 package org.apache.commons.vfs2.provider.smb;
 
-import jcifs.smb.SmbException;
-import jcifs.smb.SmbFile;
-import jcifs.smb.SmbRandomAccessFile;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.provider.AbstractRandomAccessContent;
-import org.apache.commons.vfs2.util.RandomAccessMode;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+
+import jcifs.smb.SmbException;
+import jcifs.smb.SmbFile;
+import jcifs.smb.SmbRandomAccessFile;
+
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.provider.AbstractRandomAccessContent;
+import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * RandomAccess for smb files

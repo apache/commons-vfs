@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Random;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
@@ -28,10 +32,6 @@ import org.apache.commons.vfs2.provider.FileReplicator;
 import org.apache.commons.vfs2.provider.TemporaryFileStore;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.Messages;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * A simple file replicator and temporary file store.

@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.provider.webdav;
 
-import org.apache.jackrabbit.webdav.DavException;
+import java.lang.reflect.Constructor;
+
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.jackrabbit.webdav.DavConstants;
+import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.client.methods.DavMethod;
 import org.apache.jackrabbit.webdav.xml.DomUtil;
-import org.apache.commons.vfs2.FileSystemException;
 import org.w3c.dom.Element;
-
-import java.lang.reflect.Constructor;
 
 /**
  * <code>ExceptionConverter</code> converts WebDAV exceptions into FileSystemExceptions.

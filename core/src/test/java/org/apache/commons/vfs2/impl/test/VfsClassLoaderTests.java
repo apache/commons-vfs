@@ -16,14 +16,14 @@
  */
 package org.apache.commons.vfs2.impl.test;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.impl.VFSClassLoader;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
-
 import java.net.URL;
 import java.net.URLConnection;
+
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.impl.VFSClassLoader;
+import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
  * VfsClassLoader test cases.

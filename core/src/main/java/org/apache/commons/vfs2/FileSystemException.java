@@ -16,11 +16,11 @@
  */
 package org.apache.commons.vfs2;
 
-import org.apache.commons.vfs2.util.Messages;
-
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.vfs2.util.Messages;
 
 /**
  * Thrown for file system errors.

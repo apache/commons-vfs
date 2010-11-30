@@ -16,12 +16,12 @@
  */
 package org.apache.commons.vfs2.impl;
 
+import java.net.FileNameMap;
+import java.net.URLConnection;
+
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileContentInfoFactory;
-
-import java.net.FileNameMap;
-import java.net.URLConnection;
 
 /**
  * The FileContentInfoFilenameFactory.<br>

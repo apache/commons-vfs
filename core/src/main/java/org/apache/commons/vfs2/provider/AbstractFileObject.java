@@ -17,29 +17,10 @@
 package org.apache.commons.vfs2.provider;
 
 
-import org.apache.commons.vfs2.operations.DefaultFileOperations;
-import org.apache.commons.vfs2.operations.FileOperations;
-import org.apache.commons.vfs2.util.FileObjectUtils;
-import org.apache.commons.vfs2.util.RandomAccessMode;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileContent;
-import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.RandomAccessContent;
-import org.apache.commons.vfs2.FileSystem;
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileNotFolderException;
-import org.apache.commons.vfs2.NameScope;
-import org.apache.commons.vfs2.Selectors;
-import org.apache.commons.vfs2.FileSelector;
-import org.apache.commons.vfs2.FileContentInfoFactory;
-import org.apache.commons.vfs2.FileUtil;
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.AccessController;
@@ -51,6 +32,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileContentInfoFactory;
+import org.apache.commons.vfs2.FileName;
+import org.apache.commons.vfs2.FileNotFolderException;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSelector;
+import org.apache.commons.vfs2.FileSystem;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.FileUtil;
+import org.apache.commons.vfs2.NameScope;
+import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.Selectors;
+import org.apache.commons.vfs2.operations.DefaultFileOperations;
+import org.apache.commons.vfs2.operations.FileOperations;
+import org.apache.commons.vfs2.util.FileObjectUtils;
+import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * A partial file object implementation.

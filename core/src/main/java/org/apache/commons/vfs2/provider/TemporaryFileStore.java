@@ -16,9 +16,9 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import org.apache.commons.vfs2.FileSystemException;
-
 import java.io.File;
+
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * Manages a repository of temporary local files.

@@ -16,14 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.jar;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSystemOptions;
-import org.apache.commons.vfs2.provider.AbstractFileName;
-import org.apache.commons.vfs2.provider.zip.ZipFileObject;
-import org.apache.commons.vfs2.provider.zip.ZipFileSystem;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -33,6 +25,14 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.provider.AbstractFileName;
+import org.apache.commons.vfs2.provider.zip.ZipFileObject;
+import org.apache.commons.vfs2.provider.zip.ZipFileSystem;
 
 /**
  * A read-only file system for Jar files.

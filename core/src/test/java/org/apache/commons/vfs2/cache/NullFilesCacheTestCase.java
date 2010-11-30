@@ -16,7 +16,10 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import java.io.File;
+
 import junit.framework.Test;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -24,8 +27,6 @@ import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.CacheTestSuite;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
-
-import java.io.File;
 
 /**
  * Tests the NullFilesCache

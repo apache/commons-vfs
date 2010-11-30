@@ -16,17 +16,18 @@
  */
 package org.apache.commons.vfs2.util;
 
-import org.apache.commons.vfs2.Capability;
-import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.RandomAccessContent;
-
-import javax.mail.internet.SharedInputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.mail.internet.SharedInputStream;
+
+import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
  * A wrapper to an FileObject to get a {@link javax.mail.internet.SharedInputStream}
