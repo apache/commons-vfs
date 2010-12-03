@@ -23,6 +23,11 @@ package org.apache.commons.vfs2;
  */
 public class FileNotFolderException extends FileSystemException
 {
+    /**
+     * serialVersionUID format is YYYYMMDD for the data of the last binary change.
+     */
+    private static final long serialVersionUID = 20101208L;
+
     public FileNotFolderException(final Object info0)
     {
         super("vfs.provider/list-children-not-folder.error", info0);

@@ -32,6 +32,11 @@ import org.apache.commons.vfs2.FileType;
 class RamFileData implements Serializable
 {
     /**
+     * serialVersionUID format is YYYYMMDD for the data of the last binary change.
+     */
+    private static final long serialVersionUID = 20101208L;
+
+    /**
      * File Name.
      */
     private FileName name;

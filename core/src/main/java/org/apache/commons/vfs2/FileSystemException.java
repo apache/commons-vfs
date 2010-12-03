@@ -31,6 +31,11 @@ import org.apache.commons.vfs2.util.Messages;
 public class FileSystemException
     extends IOException
 {
+    /**
+     * serialVersionUID format is YYYYMMDD for the data of the last binary change.
+     */
+    private static final long serialVersionUID = 20101208L;
+
     /** URL pattern */
     private static final Pattern URL_PATTERN = Pattern.compile("[a-z]+://.*");
 
