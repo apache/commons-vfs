@@ -44,7 +44,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 public class RamFileSystem extends AbstractFileSystem implements Serializable
 {
     /**
-     * serialVersionUID format is YYYYMMDD for the data of the last binary change.
+     * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
     private static final long serialVersionUID = 20101208L;
 

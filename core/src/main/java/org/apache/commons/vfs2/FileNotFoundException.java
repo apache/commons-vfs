@@ -24,7 +24,7 @@ package org.apache.commons.vfs2;
 public class FileNotFoundException extends FileSystemException
 {
     /**
-     * serialVersionUID format is YYYYMMDD for the data of the last binary change.
+     * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
     private static final long serialVersionUID = 20101208L;
 
