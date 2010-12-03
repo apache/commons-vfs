@@ -24,54 +24,224 @@
 
     <body>
         <section name="Supported File Systems">
-            <p>Commons VFS currently supports the following file systems:</p>
-            <ul>
-                <li>
-                    <a href="#FTP">FTP</a>
-                </li>
-                <li>
-                    <a href="#FTPS">FTPS</a>
-                </li>
-                <li>
-                    <a href="#Local Files">Local Files</a>
-                </li>
-                <li>
-                    <a href="#HTTP and HTTPS">HTTP and HTTPS</a>
-                </li>
-                <li>
-                    <a href="#SFTP">SFTP</a>
-                </li>
-                <li>
-                    <a href="#Temporary Files">Temporary Files</a>
-                </li>
-                <li>
-                    <a href="#Zip, Jar and Tar">Zip, Jar and Tar (uncompressed, tgz or tbz2)</a>
-                </li>
-                <li>
-                    <a href="#gzip and bzip2">gzip and bzip2</a>
-                </li>
-                <li>
-                    <a href="#res">res</a>
-                </li>
-                <li>
-                    <a href="#ram">ram</a>
-                </li>
-                <li>
-                    <a href="#WebDAV">WebDAV</a><br />
-                </li>
-            </ul>
+            <p>Commons VFS directly supports the following file systems with the listed capabilities:</p>
+          <table>
+            <tr>
+              <th>File System</th>
+              <th>Directory Contents</th>
+              <th>Authentication</th>
+              <th>Read</th>
+              <th>Write</th>
+              <th>Create/Delete</th>
+              <th>Random</th>
+              <th>Version</th>
+              <th>Rename</th>
+            </tr>
+            <tr>
+              <td><a href="#gzip and bzip2">BZIP2</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><a href="#Local Files">File</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read/Write</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#FTP">FTP</a></td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#FTPS">FTPS</a></td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#gzip and bzip2">GZIP</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><a href="#HTTP and HTTPS">HTTP</a></td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Read</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><a href="#HTTP and HTTPS">HTTPS</a></td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Read</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><a href="#Zip, Jar and Tar">Jar</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><a href="#ram">RAM</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read/Write</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#res">RES</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read/Write</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#SFTP">SFTP</a></td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#Zip, Jar and Tar">Tar</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><a href="#Temporary Fils">Temp</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read/Write</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="WebDAV">WebDAV</a></td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read/Write</td>
+              <td>Yes</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#Zip, Jar and Tar">Zip</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+          </table>
         </section>
 
         <section name="Things from the sandbox">
-            <p>The following file systems are in development:</p>
-            <ul>
-                <li>
-                    <a href="#CIFS">CIFS</a>
-                </li>
-                <li>
-                    <a href="#mime">mime</a>
-                </li>
-            </ul>
+          <p>The following file systems are in development:</p>
+          <table>
+            <tr>
+              <th>File System</th>
+              <th>Directory Contents</th>
+              <th>Authentication</th>
+              <th>Read</th>
+              <th>Write</th>
+              <th>Create/Delete</th>
+              <th>Random</th>
+              <th>Version</th>
+              <th>Rename</th>
+            </tr>
+            <tr>
+              <td><a href="#CIFS">CIFS</a></td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td>Read/Write</td>
+              <td>No</td>
+              <td>Yes</td>
+            </tr>
+            <tr>
+              <td><a href="#mime">mime</a></td>
+              <td>No</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+          </table>
         </section>
 
         <section name="Naming">

@@ -23,9 +23,16 @@
 
   <body>
     <release version="2.0" date="in SVN" description="">
+      <action issue="VFS-230" dev="rgoers" type="fix">
+        Documented FileSystem capabilities on the web site.
+      </action>
+      <action issue="VFS-337" dev="rgoers" type="fix">
+        AbstractFileObject and classes that extend from it use AbstractFileName in the constructor and in
+        the createFile method.
+      </action>
        <action issue="VFS-245" dev="rgoers" type="fix">
         AbstractFileName is not immutable as it should be. equals(), hashcode() and compareTo() have been modified
-        to return the same results regardless of whether the FileType is changed. 
+        to return the same results regardless of whether the FileType is changed.
       </action>
       <action issue="VFS-334" dev="sebb" type="fix" due-to="sebb">
         DefaultFileSystemConfigBuilder.getConfigClass() returns DefaultFileSystemConfigBuilder.class which is not a FileSystem
