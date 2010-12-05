@@ -42,6 +42,7 @@ limitations under the License.
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-vfs</artifactId>
+          <version>${project.version}</version>
         </dependency>
 
         <dependency>
