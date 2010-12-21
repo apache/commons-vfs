@@ -22,7 +22,7 @@
   </properties>
 
   <body>
-    <release version="2.0" date="in SVN" description="">
+    <release version="2.0" date="" description="Backwards incompatible update of Commons VFS to Java 5">
       <action issue="VFS-230" dev="rgoers" type="fix">
         Documented FileSystem capabilities on the web site.
       </action>

@@ -31,7 +31,7 @@
   <name>Commons VFS</name>
   <description>VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
-  <version>2.1-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
 
   <url>http://commons.apache.org/vfs/</url>
   <inceptionYear>2002</inceptionYear>
@@ -196,7 +196,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.3</version>
         <configuration>
           <xmlPath>${basedir}/src/changes/changes.xml</xmlPath>
           <issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
@@ -411,6 +411,25 @@
       <id>apache-release</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-changes-plugin</artifactId>
+            <version>2.3</version>
+            <configuration>
+              <template>announcement.vm</template>
+              <templateDirectory>src/changes</templateDirectory>
+              <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+            </configuration>
+            <executions>
+              <execution>
+                <id>create-announcement</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>announcement-generate</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           <!-- Activate the right profile for the actual release build. Make sure that
                the release plugin passes this on to the deploy plugin.
                remove when commons-parent 18 is released.
