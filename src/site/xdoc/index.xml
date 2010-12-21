@@ -75,7 +75,10 @@
         <section name="News">
           <p>
             Commons VFS 2.0 is now available. Support for FTPS and WebDav have been added in addition to many bugs
-            being fixed.
+            being fixed. Version 2.0 is not binary compatible with version 1.0. To insure that both 1.0 and 2.0 can
+            coexist version 2.0 has had its Maven groupId changed to org.apache.commons, its Maven artifact changed
+            to commons-vfs2, and the package names are now org.apache.commons.vfs2. The API changes are fairly minor
+            and will mostly impact provider implementations.
           </p>
         </section>
 
