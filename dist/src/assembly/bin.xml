@@ -50,9 +50,9 @@ limitations under the License.
     </fileSets>
     <files>
          <file>
-            <source>../target/announcement/announcement.vm</source>
+            <source>../target/announcement/RELEASE-NOTES.txt</source>
             <outputDirectory>.</outputDirectory>
             <destName>RELEASE-NOTES.txt</destName>
-        </file>     
+        </file>
     </files>
 </assembly>

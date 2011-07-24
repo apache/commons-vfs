@@ -14,12 +14,14 @@
 ## KIND, either express or implied.  See the License for the
 ## specific language governing permissions and limitations
 ## under the License.
+              Apache Commons VFS ${version} RELEASE NOTES
+
 The ${developmentTeam} is pleased to announce the commons-vfs2 ${version} release!
 
 ${introduction}
 
-Commons VFS 2.0 requires a minimum of Java 5 to build and run and is not binary compatible with Commons VFS 1.0. The
-Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
+Apache Commons VFS ${version} requires a minimum of Java 5 to build and run and is not binary compatible with
+Commons VFS 1.0. The Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
 
 #if ($release.getActions().size() == 0)
 No changes defined in this version.

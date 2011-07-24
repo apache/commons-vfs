@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.0" date="" description="Backwards incompatible update of Commons VFS to Java 5">
+      <action issue="VFS-348" dev="rgoers" type="fix" due-to="Stefan Bodewig">
+        Update the version of commons-net.
+      </action>
       <action issue="VFS-230" dev="rgoers" type="fix">
         Documented FileSystem capabilities on the web site.
       </action>
