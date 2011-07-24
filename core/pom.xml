@@ -81,10 +81,6 @@
     </dependency>
   </dependencies>
 
-  <properties>
-    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
-  </properties>
-
   <build>
     <resources>
       <resource>
@@ -94,14 +90,14 @@
         </excludes>
       </resource>
       <resource>
-        <directory>..</directory>
+        <directory>${basedir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
         </includes>
       </resource>
       <resource>
-        <directory>..</directory>
+        <directory>${basedir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>LICENSE.txt</include>
@@ -115,14 +111,14 @@
         <directory>src/test/resources</directory>
       </testResource>
       <testResource>
-        <directory>..</directory>
+        <directory>${basedir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
         </includes>
       </testResource>
       <testResource>
-        <directory>..</directory>
+        <directory>${basedir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
           <include>LICENSE.txt</include>
