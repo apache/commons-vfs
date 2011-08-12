@@ -306,7 +306,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
             while (iter2.hasNext())
             {
                 DavProperty property = iter2.next();
-                if (!attributes.containsKey(property.getName()))
+                if (!attributes.containsKey(property.getName().getName()))
                 {
                     property = getProperty(fileName, property.getName());
                     if (property != null)
