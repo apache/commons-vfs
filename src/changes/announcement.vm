@@ -19,8 +19,9 @@
 
 The ${developmentTeam} is pleased to announce the commons-vfs2 ${version} release!
 
-Apache Commons VFS ${version} requires a minimum of Java 5 to build and run and is not binary compatible with
-Commons VFS 1.0. The Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
+Apache Commons VFS ${version} requires a minimum of Java 5 to build and run and is not binary or source compatible with
+Commons VFS 1.0. The package names have been changed from org.apache.commons.vfs to org.apache.commons.vfs2 and the
+Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
 
 ## Hack to improve layout: replace all pairs of spaces with a single new-line
 $release.description.replaceAll("  ", "
