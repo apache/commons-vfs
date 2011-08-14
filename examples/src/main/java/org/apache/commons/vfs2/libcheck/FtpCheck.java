@@ -72,7 +72,7 @@ public class FtpCheck
             }
         }
 
-        System.err.println("System: " + client.getSystemName());
+        System.err.println("System: " + client.getSystemType());
 
         FTPFile[] files = client.listFiles();
         for (int i = 0; i < files.length; i++)

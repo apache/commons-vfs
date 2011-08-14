@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>17</version>
+    <version>21</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -126,29 +126,37 @@
     <maven.compile.target>1.5</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
+    <commons.manifestfile>${}</commons.manifestfile>
   </properties>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/osgi</directory>
+        <targetPath>osgi</targetPath>
+        <includes>
+          <include>MANIFEST.MF</include>
+        </includes>
+      </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.6</version>
+          <version>2.7</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>2.1.1</version>
-        </plugin>
-        <!-- Commons parent specifies 2.2-beta-5 which does not work well
-             with multimodule builds. Explicitly update here.
-             Should be removed when commons-parent-18 is released.
-        -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.2</version>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.2.1</version>
+          <configuration>
+            <preparationGoals>clean verify exec:exec -Dexec.executable=svn -Dexec.args="add RELEASE-NOTES.txt"</preparationGoals>
+            <completionGoals>exec:exec -Dexec.executable=svn -Dexec.args="delete RELEASE-NOTES.txt"</completionGoals>
+            <useReleaseProfile>false</useReleaseProfile>
+            <goals>deploy</goals>
+            <arguments>-Papache-release</arguments>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -156,23 +164,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>5.3</version>
-            <exclusions>
-              <exclusion>  <!-- exclude older artifacts -->
-                <groupId>checkstyle</groupId>
-                <artifactId>checkstyle</artifactId>
-              </exclusion>
-              <exclusion>
-                <groupId>com.sun</groupId>
-                <artifactId>tools</artifactId>
-              </exclusion>
-             </exclusions>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.commons</groupId>
@@ -189,14 +180,8 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.2</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.6</version>
         <configuration>
           <xmlPath>${basedir}/src/changes/changes.xml</xmlPath>
           <issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
@@ -212,7 +197,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.6</version>
+        <version>2.7</version>
         <configuration>
           <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
           <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
@@ -224,16 +209,8 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <aggregate>false</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.5</version>
+        <version>${commons.javadoc.version}</version>
         <configuration>
            <tags>
             <tag>
@@ -249,22 +226,12 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>1.0.0</version>
+        <version>2.3.2</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
           <excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>2.1.1</version>
-        <configuration>
-          <moduleExcludes>
-            <xdoc>navigation.xml,changes.xml</xdoc>
-          </moduleExcludes>
-        </configuration>
       </plugin>
     </plugins>
   </reporting>
@@ -304,7 +271,7 @@
       <dependency>
         <groupId>commons-net</groupId>
         <artifactId>commons-net</artifactId>
-        <version>2.0</version>
+        <version>2.2</version>
       </dependency>
       <dependency>
         <groupId>commons-collections</groupId>
@@ -360,6 +327,19 @@
     </dependencies>
   </dependencyManagement>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-api</artifactId>
+      <version>1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.scm</groupId>
+      <artifactId>maven-scm-provider-svnexe</artifactId>
+      <version>1.4</version>
+    </dependency>
+  </dependencies>
+
   <repositories>
     <repository>
       <id>apache.snapshots.https</id>
@@ -398,7 +378,7 @@
     </snapshotRepository>
     <site>
       <id>apache.website</id>
-      <url>scp://people.apache.org/www/commons.apache.org/vfs/</url>
+      <url>scp://people.apache.org/www/commons.apache.org/vfs</url>
     </site>
   </distributionManagement>
 
@@ -411,42 +391,38 @@
       <id>apache-release</id>
       <build>
         <plugins>
-          <!-- Activate the right profile for the actual release build. Make sure that
-               the release plugin passes this on to the deploy plugin.
-               remove when commons-parent 18 is released.
-          -->
-          <plugin>
-            <artifactId>maven-release-plugin</artifactId>
-            <configuration>
-                <releaseProfiles>apache-release</releaseProfiles>
-            </configuration>
-          </plugin>
-          <!-- Create source for the test jar. This should be in the
-               commons or apache parent pom.
-               remove when commons-parent 18 is released.
-          -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
+            <artifactId>maven-changes-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+              <template>announcement.vm</template>
+              <templateDirectory>src/changes</templateDirectory>
+              <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+            </configuration>
             <executions>
               <execution>
-                <id>attach-test-sources</id>
+                <id>create-release-notes</id>
+                <phase>generate-resources</phase>
                 <goals>
-                  <goal>test-jar</goal>
+                  <goal>announcement-generate</goal>
                 </goals>
+                <configuration>
+                  <outputDirectory>.</outputDirectory>
+                  <announcementFile>RELEASE-NOTES.txt</announcementFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>create-announcement</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>announcement-generate</goal>
+                </goals>
+                <configuration>
+                  <announcementFile>RELEASE-NOTES.txt</announcementFile>
+                </configuration>
               </execution>
             </executions>
-          </plugin>
-          <!-- Commons turns checksums on for installs in its
-               parent pom. But vfs does not use the commons release
-               profile. So we turn it on for the vfs release explicitly.
-               remove when commons-parent 18 is released.
-          -->
-          <plugin>
-            <artifactId>maven-install-plugin</artifactId>
-            <configuration>
-              <createChecksum>true</createChecksum>
-            </configuration>
           </plugin>
 
           <plugin>
@@ -463,6 +439,11 @@
             </executions>
           </plugin>
         </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>cleanup-release</id>
+      <build>
       </build>
     </profile>
   </profiles>

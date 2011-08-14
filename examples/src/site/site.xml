@@ -31,5 +31,6 @@
     <menu name="Commons&#xA0;VFS">
       <item name="Overview"                href="../index.html"/>
     </menu>
+    <menu ref="reports"/>
   </body>
 </project>

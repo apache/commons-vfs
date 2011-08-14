@@ -268,7 +268,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
                 }
             }
 
-            if (filesystemCache.size() < 1)
+            if (files.size() < 1)
             {
                 filesystemClose(filesystem);
             }
