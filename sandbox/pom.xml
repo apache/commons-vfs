@@ -115,16 +115,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <systemProperties>
-            <property>
-              <name>test.basedir</name>
-              <value>../core/target/test-classes/test-data</value>
-            </property>
-            <property>
-              <name>test.basedir.res</name>
-              <value>test-data</value>
-            </property>
-          </systemProperties>
+          <systemPropertyVariables>
+            <test.basedir>../core/target/test-classes/test-data</test.basedir>
+            <test.basedir.res>test-data</test.basedir.res>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
     </plugins>
@@ -141,20 +135,11 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>test.basedir</name>
-                  <value>../core/target/test-classes/test-data</value>
-                </property>
-                <property>
-                  <name>test.basedir.res</name>
-                  <value>test-data</value>
-                </property>
-                <property>
-                  <name>test.http.uri</name>
-                  <value>${test.smb.uri}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <test.basedir>../core/target/test-classes/test-data</test.basedir>
+                <test.basedir.res>test-data</test.basedir.res>
+                <test.smb.uri>${test.smb.uri}</test.smb.uri>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>

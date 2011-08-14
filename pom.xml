@@ -146,18 +146,6 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>2.7</version>
         </plugin>
-        <!-- <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.2.1</version>
-          <configuration>
-            <preparationGoals>clean verify scm:add scm:checkin -Dinclude="RELEASE-NOTES.txt" -Dmessage="add release notes"</preparationGoals>
-            <completionGoals>exec:exec scm:commit -Dexec.executable=svn -Dexec.args="delete RELEASE-NOTES.txt" -Dmessage="remove release notes"</completionGoals>
-            <useReleaseProfile>false</useReleaseProfile>
-            <goals>deploy</goals>
-            <arguments>-Papache-release</arguments>
-          </configuration>
-        </plugin> -->
       </plugins>
     </pluginManagement>
     <plugins>
