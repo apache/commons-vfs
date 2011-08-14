@@ -126,9 +126,19 @@
     <maven.compile.target>1.5</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
+    <commons.manifestfile>${}</commons.manifestfile>
   </properties>
 
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/osgi</directory>
+        <targetPath>osgi</targetPath>
+        <includes>
+          <include>MANIFEST.MF</include>
+        </includes>
+      </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
