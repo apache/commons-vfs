@@ -146,18 +146,6 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>2.7</version>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.2.1</version>
-          <configuration>
-            <preparationGoals>clean verify exec:exec -Dexec.executable=svn -Dexec.args="add RELEASE-NOTES.txt"</preparationGoals>
-            <completionGoals>exec:exec -Dexec.executable=svn -Dexec.args="delete RELEASE-NOTES.txt"</completionGoals>
-            <useReleaseProfile>false</useReleaseProfile>
-            <goals>deploy</goals>
-            <arguments>-Papache-release</arguments>
-          </configuration>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -424,7 +412,19 @@
               </execution>
             </executions>
           </plugin>
-
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>2.2.1</version>
+            <configuration>
+              <preparationGoals>clean verify exec:exec -Dexec.executable=svn -Dexec.args="add RELEASE-NOTES.txt"</preparationGoals>
+              <completionGoals>exec:exec -Dexec.executable=svn -Dexec.args="delete RELEASE-NOTES.txt"</completionGoals>
+              <useReleaseProfile>false</useReleaseProfile>
+              <goals>deploy</goals>
+              <arguments>-Papache-release</arguments>
+              <releaseProfiles>apache-release</releaseProfiles>
+            </configuration>
+          </plugin>
           <plugin>
             <artifactId>maven-assembly-plugin</artifactId>
             <executions>
