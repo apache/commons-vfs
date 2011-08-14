@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.util.Messages;
  * test resources.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  */
 public abstract class AbstractVfsTestCase
     extends TestCase

@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * layered on top of another file system.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileProvider

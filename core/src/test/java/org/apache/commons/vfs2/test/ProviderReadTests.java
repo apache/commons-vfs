@@ -30,7 +30,6 @@ import org.apache.commons.vfs2.FileType;
  * Read-only test cases for file providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  * @todo Test getLastModified(), getAttribute()
  */
 public class ProviderReadTests

@@ -26,7 +26,6 @@ import java.net.URLStreamHandler;
  * A proxy for URLs that are supported by the standard stream handler factory.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 class URLStreamHandlerProxy
     extends URLStreamHandler

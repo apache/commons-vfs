@@ -26,7 +26,6 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
  * The config BUILDER for various ftp configuration options.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision: 480428 $ $Date: 2006-11-29 07:15:24 +0100 (Mi, 29 Nov 2006) $
  * @since 2.0
  */
 public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder

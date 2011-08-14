@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.VFS;
  * Test cases for the VFS factory.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  */
 public class FileSystemManagerFactoryTestCase
     extends AbstractVfsTestCase

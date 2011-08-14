@@ -25,7 +25,6 @@ import java.util.TreeMap;
  * * = the filesystem provider short name
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder
  */

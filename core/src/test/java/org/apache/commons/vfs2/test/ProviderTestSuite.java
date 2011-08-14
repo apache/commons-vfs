@@ -23,7 +23,6 @@ import org.apache.commons.vfs2.impl.test.VfsClassLoaderTests;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id$
  */
 public class ProviderTestSuite
     extends AbstractTestSuite

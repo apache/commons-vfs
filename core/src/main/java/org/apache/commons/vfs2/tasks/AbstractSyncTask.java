@@ -42,7 +42,6 @@ import org.apache.tools.ant.Project;
  * </ul>
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @todo Deal with case where dest file maps to a child of one of the source files
  * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
  * @todo Use visitors

@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.provider.ram.RamFileSystemConfigBuilder;
  * Custom tests
  *
  * @author edgar poce
- * @version
  *
  */
 public class CustomRamProviderTest extends TestCase

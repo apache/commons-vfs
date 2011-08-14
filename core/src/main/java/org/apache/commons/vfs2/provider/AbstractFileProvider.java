@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
  * file systems created by the provider.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public abstract class AbstractFileProvider
     extends AbstractVfsContainer

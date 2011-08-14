@@ -56,7 +56,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * A partial file object implementation.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @todo Chop this class up - move all the protected methods to several
  * interfaces, so that structure and content can be separately overridden.
  * @todo Check caps in methods like getChildren(), etc, and give better error messages

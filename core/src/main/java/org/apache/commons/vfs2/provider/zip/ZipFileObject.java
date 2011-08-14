@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * A file in a Zip file system.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class ZipFileObject extends AbstractFileObject implements FileObject
 {

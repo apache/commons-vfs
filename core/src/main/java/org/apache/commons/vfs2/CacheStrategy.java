@@ -20,7 +20,6 @@ package org.apache.commons.vfs2;
  * An enumerated type to deal with the various cache strategies.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public enum CacheStrategy
 {

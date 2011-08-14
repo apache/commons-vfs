@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.FileObject;
  * as it don't wait until a memory limitation.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date: 2005-09-30 09:02:41 +0200 (Fr, 30 Sep
  *          2005) $
  * @see java.lang.ref.WeakReference
  */

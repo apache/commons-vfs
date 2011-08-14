@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
  * A partial {@link org.apache.commons.vfs2.test.ProviderTestConfig} implementation.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  */
 public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase
     implements ProviderTestConfig

@@ -46,7 +46,6 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
  * that base folder.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase

@@ -37,7 +37,6 @@ import org.apache.commons.vfs2.test.UrlTests;
  * The suite of tests for a file system.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Id$
  */
 public class WebdavProviderTestSuite extends ProviderTestSuite
 {

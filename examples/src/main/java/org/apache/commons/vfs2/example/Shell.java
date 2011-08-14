@@ -38,7 +38,6 @@ import org.apache.commons.vfs2.VFS;
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @author Gary D. Gregory
- * @version $Id:Shell.java 232419 2005-08-13 07:23:40 +0200 (Sa, 13 Aug 2005) imario $
  */
 public class Shell
 {

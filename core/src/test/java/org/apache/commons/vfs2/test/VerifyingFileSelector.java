@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.FileType;
  * order.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  */
 public class VerifyingFileSelector
     extends Assert

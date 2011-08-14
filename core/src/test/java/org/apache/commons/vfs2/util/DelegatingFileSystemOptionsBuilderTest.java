@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
  * Some tests for the DelegatingFileSystemOptionsBuilder
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision$ $Date$
  */
 public class DelegatingFileSystemOptionsBuilderTest extends TestCase
 {

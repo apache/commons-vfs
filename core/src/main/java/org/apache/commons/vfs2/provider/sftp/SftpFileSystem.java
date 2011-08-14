@@ -39,7 +39,6 @@ import com.jcraft.jsch.SftpException;
  * Represents the files on an SFTP server.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class SftpFileSystem
     extends AbstractFileSystem

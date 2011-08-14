@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.FileSystemException;
  * A helper class that determines the provider to use for a file.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 class FileTypeMap
 {

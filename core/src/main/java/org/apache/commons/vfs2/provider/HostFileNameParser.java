@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.util.CryptorFactory;
  * Does not handle a query string (after ?)
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
  */
 public class HostFileNameParser extends AbstractFileNameParser

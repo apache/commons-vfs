@@ -26,7 +26,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * RanomdRead/Write test cases for file providers.
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision$ $Date$
  */
 public class ProviderRandomReadWriteTests
     extends AbstractProviderTestCase

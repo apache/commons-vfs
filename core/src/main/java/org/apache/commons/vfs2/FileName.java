@@ -21,7 +21,6 @@ package org.apache.commons.vfs2;
  * keys in hash tables.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @see FileObject
  */
 public interface FileName extends Comparable<FileName>

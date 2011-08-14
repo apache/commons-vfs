@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * Stuff to get some strange things from an FileObject.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public final class FileObjectUtils
 {

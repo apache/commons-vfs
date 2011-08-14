@@ -35,7 +35,6 @@ import org.apache.commons.vfs2.provider.AbstractFileProvider;
  * A file provider backed by Java's URL API.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class UrlFileProvider
     extends AbstractFileProvider

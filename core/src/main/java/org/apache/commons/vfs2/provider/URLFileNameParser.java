@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.FileType;
  * Parses the url into user/password/host/port/path/queryString<br />
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class URLFileNameParser extends HostFileNameParser
 {

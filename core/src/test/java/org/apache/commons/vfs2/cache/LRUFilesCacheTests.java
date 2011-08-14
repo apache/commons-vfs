@@ -23,7 +23,6 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
  * NullFilesCache
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision$ $Date$
  */
 public class LRUFilesCacheTests extends AbstractProviderTestCase
 {

@@ -22,7 +22,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * Used to identify a filesystem
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 class FileSystemKey implements Comparable<FileSystemKey>
 {

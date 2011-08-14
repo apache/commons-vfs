@@ -39,7 +39,6 @@ import org.apache.commons.vfs2.util.Messages;
  * The default constructor uses a LRU size of 100 per filesystem.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class LRUFilesCache extends AbstractFilesCache
 {

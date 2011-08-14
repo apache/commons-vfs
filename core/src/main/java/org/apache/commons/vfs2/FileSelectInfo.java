@@ -21,7 +21,6 @@ package org.apache.commons.vfs2;
  * traversal of a hierarchy.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @todo Rename this interface, as it is used by both FileSelector and FileVisitor.
  */
 public interface FileSelectInfo

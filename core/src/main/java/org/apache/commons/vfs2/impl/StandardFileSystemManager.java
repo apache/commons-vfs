@@ -43,7 +43,6 @@ import org.w3c.dom.NodeList;
  * if a provider was skipped due to "unresolved externals".
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager
