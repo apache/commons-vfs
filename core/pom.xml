@@ -167,16 +167,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <systemProperties>
-            <property>
-              <name>test.basedir</name>
-              <value>target/test-classes/test-data</value>
-            </property>
-            <property>
-              <name>test.basedir.res</name>
-              <value>test-data</value>
-            </property>
-          </systemProperties>
+          <systemPropertyVariables>
+            <test.basedir>target/test-classes/test-data</test.basedir>
+            <test.basedir.res>test-data</test.basedir.res>
+          </systemPropertyVariables>
           <excludes>
             <!-- Main class -->
             <exclude>**/RunTest.java</exclude>
@@ -214,20 +208,11 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>test.basedir</name>
-                  <value>target/test-classes/test-data</value>
-                </property>
-                <property>
-                  <name>test.basedir.res</name>
-                  <value>test-data</value>
-                </property>
-                <property>
-                  <name>test.webdav.uri</name>
-                  <value>${test.webdav.uri}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <test.basedir>target/test-classes/test-data</test.basedir>
+                <test.basedir.res>test-data</test.basedir.res>
+                <test.webdav.uri>${test.webdav.uri}</test.webdav.uri>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>
@@ -244,20 +229,11 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>test.basedir</name>
-                  <value>target/test-classes/test-data</value>
-                </property>
-                <property>
-                  <name>test.basedir.res</name>
-                  <value>test-data</value>
-                </property>
-                <property>
-                  <name>test.ftp.uri</name>
-                  <value>${test.ftp.uri}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <test.basedir>target/test-classes/test-data</test.basedir>
+                <test.basedir.res>test-data</test.basedir.res>
+                <test.ftp.uri>${test.ftp.uri}</test.ftp.uri>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>
@@ -274,20 +250,11 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>test.basedir</name>
-                  <value>target/test-classes/test-data</value>
-                </property>
-                <property>
-                  <name>test.basedir.res</name>
-                  <value>test-data</value>
-                </property>
-                <property>
-                  <name>test.sftp.uri</name>
-                  <value>${test.sftp.uri}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <test.basedir>target/test-classes/test-data</test.basedir>
+                <test.basedir.res>test-data</test.basedir.res>
+                <test.sftp.uri>${test.sftp.uri}</test.sftp.uri>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>
@@ -304,20 +271,11 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
-              <systemProperties>
-                <property>
-                  <name>test.basedir</name>
-                  <value>target/test-classes/test-data</value>
-                </property>
-                <property>
-                  <name>test.basedir.res</name>
-                  <value>test-data</value>
-                </property>
-                <property>
-                  <name>test.http.uri</name>
-                  <value>${test.http.uri}</value>
-                </property>
-              </systemProperties>
+              <systemPropertyVariables>
+                <test.basedir>target/test-classes/test-data</test.basedir>
+                <test.basedir.res>test-data</test.basedir.res>
+                <test.http.uri>${test.http.uri}</test.http.uri>
+              </systemPropertyVariables>
             </configuration>
           </plugin>
         </plugins>
