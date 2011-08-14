@@ -50,7 +50,7 @@ limitations under the License.
     </fileSets>
     <files>
          <file>
-            <source>../target/announcement/RELEASE-NOTES.txt</source>
+            <source>../RELEASE-NOTES.txt</source>
             <outputDirectory>.</outputDirectory>
             <destName>RELEASE-NOTES.txt</destName>
         </file>
