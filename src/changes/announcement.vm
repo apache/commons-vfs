@@ -14,14 +14,17 @@
 ## KIND, either express or implied.  See the License for the
 ## specific language governing permissions and limitations
 ## under the License.
+
               Apache Commons VFS ${version} RELEASE NOTES
 
 The ${developmentTeam} is pleased to announce the commons-vfs2 ${version} release!
 
-${introduction}
-
 Apache Commons VFS ${version} requires a minimum of Java 5 to build and run and is not binary compatible with
 Commons VFS 1.0. The Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
+
+## Hack to improve layout: replace all pairs of spaces with a single new-line
+$release.description.replaceAll("  ", "
+")
 
 #if ($release.getActions().size() == 0)
 No changes defined in this version.
@@ -31,7 +34,9 @@ Changes in this version include:
 #if ($release.getActions('add').size() !=0)
 New features:
 #foreach($actionItem in $release.getActions('add'))
-#set($action=$actionItem.getAction())
+## Use replaceAll to fix up LF-only line ends on Windows.
+#set($action=$actionItem.getAction().replaceAll("\n","
+"))
 #if ($actionItem.getIssue())
 #set($issue=$actionItem.getIssue())
 #else
@@ -42,7 +47,7 @@ New features:
 #else
 #set($dueto="")
 #end
-o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $dueto. #end
+o#if($!issue != "") $issue: #end ${action} #if($!dueto != "")Thanks to $dueto. #end
 
 #set($issue="")
 #set($dueto="")
@@ -52,7 +57,9 @@ o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $d
 #if ($release.getActions('fix').size() !=0)
 Fixed Bugs:
 #foreach($actionItem in $release.getActions('fix'))
-#set($action=$actionItem.getAction())
+## Use replaceAll to fix up LF-only line ends on Windows.
+#set($action=$actionItem.getAction().replaceAll("\n","
+"))
 #if ($actionItem.getIssue())
 #set($issue=$actionItem.getIssue())
 #else
@@ -63,7 +70,7 @@ Fixed Bugs:
 #else
 #set($dueto="")
 #end
-o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $dueto. #end
+o#if($!issue != "") $issue: #end ${action} #if($!dueto != "")Thanks to $dueto. #end
 
 #set($issue="")
 #set($dueto="")
@@ -73,7 +80,9 @@ o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $d
 #if ($release.getActions('update').size() !=0)
 Changes:
 #foreach($actionItem in $release.getActions('update'))
-#set($action=$actionItem.getAction())
+## Use replaceAll to fix up LF-only line ends on Windows.
+#set($action=$actionItem.getAction().replaceAll("\n","
+"))
 #if ($actionItem.getIssue())
 #set($issue=$actionItem.getIssue())
 #else
@@ -84,7 +93,7 @@ Changes:
 #else
 #set($dueto="")
 #end
-o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $dueto. #end
+o#if($!issue != "") $issue: #end ${action} #if($!dueto != "")Thanks to $dueto. #end
 
 #set($issue="")
 #set($dueto="")
@@ -94,7 +103,9 @@ o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $d
 #if ($release.getActions('remove').size() !=0)
 Removed:
 #foreach($actionItem in $release.getActions('remove'))
-#set($action=$actionItem.getAction())
+## Use replaceAll to fix up LF-only line ends on Windows.
+#set($action=$actionItem.getAction().replaceAll("\n","
+"))
 #if ($actionItem.getIssue())
 #set($issue=$actionItem.getIssue())
 #else
@@ -105,7 +116,7 @@ Removed:
 #else
 #set($dueto="")
 #end
-o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $dueto. #end
+o#if($!issue != "") $issue. #end ${action} #if($!dueto != "")Thanks to $dueto. #end
 
 #set($issue="")
 #set($dueto="")
@@ -113,11 +124,10 @@ o ${action} #if($!issue != "") Issue: $issue. #end#if($!dueto != "")Thanks to $d
 #end
 ## End of main loop
 #end
-#if ($urlDownload)
 
-For a manual installation, you can download the ${finalName} here:
-${urlDownload}
-#end
+For complete information on ${project.name}, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache ${project.name} website:
 
-Have fun!
--${developmentTeam}
+${project.url}
+
+

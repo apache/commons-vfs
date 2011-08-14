@@ -1,0 +1,53 @@
+
+              Apache Commons VFS 2.0 RELEASE NOTES
+
+The Commons VFS team is pleased to announce the commons-vfs2 2.0 release!
+
+Apache Commons VFS 2.0 requires a minimum of Java 5 to build and run and is not binary compatible with
+Commons VFS 1.0. The Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
+
+Backwards incompatible update of Commons VFS to Java 5
+
+Changes in this version include:
+
+New features:
+o VFS-244:  Rename HttpRandomAccesContent to HttpRandomAccessContent. 
+
+Fixed Bugs:
+o VFS-348:  Update the version of commons-net. Thanks to Stefan Bodewig. 
+o VFS-230:  Documented FileSystem capabilities on the web site. 
+o VFS-337:  AbstractFileObject and classes that extend from it use AbstractFileName in the constructor and in
+        the createFile method. 
+o VFS-245:  AbstractFileName is not immutable as it should be. equals(), hashcode() and compareTo() have been modified
+        to return the same results regardless of whether the FileType is changed. 
+o VFS-334:  DefaultFileSystemConfigBuilder.getConfigClass() returns DefaultFileSystemConfigBuilder.class which is not a FileSystem Thanks to sebb. 
+o VFS-305:  Add encoding option to FTP provider. Thanks to Tom. 
+o VFS-315:  Fix potential NullPointerException if the DavProperty is null or contains null values. Thanks to David Hausladen. 
+o VFS-316:  Add option for preemptive authentication for HTTP based protocols. Thanks to David Hausladen. 
+o VFS-322:  Allow tar files that contain files over 2GB in size. Thanks to Curtis Boyden. 
+o VFS-324:  Clear the cache in RamFileSystem and the children in RamFileData. Thanks to sebb. 
+o VFS-319:  Typo in FtpsFileSystemConfigBuilder.setFtpsType Thanks to sebb. 
+o VFS-227:  InputStream and RandomAccessContent memory leak in FileContentThreadData Thanks to Sergey Vladimirov. 
+o VFS-259:  Http and Webdav FIleContentInfoFactory: undress to AbstractFileObject before casting Thanks to Marek Zawirski. 
+o VFS-261:  WebDAV upload corrupts binary files Thanks to Simon Olofsson. 
+o VFS-276:  add ProviderTestConfig.getDefaultFileSystemManager() method Thanks to Vince Bonfanti. 
+o VFS-282:  SftpFileProvider and SftpFileSystemConfigBuilder can't change ssh authentication methods Thanks to Alexey. 
+o VFS-269:  HttpFileObject: unsupported content over 2GB length Thanks to Marek Zawirski. 
+o VFS-287:  LocalFileName objects are not released from AbstractFileSystem.listenerMap when all listeners are removed. Thanks to Mircea-Eugen Ionica. 
+o VFS-216:  The FTP Configuration includes an option to set a timeout for the data connection, but not for the socket
+        timeout. This is a problem, as idle sockets can cause your download to hang forever and never timeout. Thanks to Reetu Mutti. 
+o VFS-289:  FTP connection is not released If exception is thrown out of FtpFileObject.doGetOutputStream(). Thanks to Kirill Safonov. 
+o VFS-286:  SftpFileObject.doListChildrenResolved() changes the working dir before doing ChannelSftp.ls() call.
+        If ls() throws an exception, the current directory is not reset. All the subsequent operations that rely on the
+        current dir will fail trying to change into nonexistent directory. Thanks to Kirill Safonov. 
+
+Changes:
+o VFS-263:  WebdavFileObject does not implement doSetAttribute() Thanks to Ingo Maas. 
+
+
+For complete information on Commons VFS, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Commons VFS website:
+
+http://commons.apache.org/vfs/
+
+
