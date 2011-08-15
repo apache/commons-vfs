@@ -168,6 +168,33 @@
         </executions>
       </plugin>
       <plugin>
+        <!--
+          - Copy LICENSE.txt and NOTICE.txt so that they are included
+          - in the -javadoc jar file for the component.
+          -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>javadoc.resources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy todir="${project.build.directory}/apidocs/META-INF">
+                  <fileset dir="${vfs.parent.dir}">
+                    <include name="LICENSE.txt" />
+                    <include name="NOTICE.txt" />
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
