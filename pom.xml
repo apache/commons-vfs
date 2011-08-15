@@ -434,6 +434,9 @@
               <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
               <outputDirectory>.</outputDirectory>
               <announcementFile>RELEASE-NOTES.txt</announcementFile>
+              <announceParameters>
+                <releaseVersion>${commons.release.version}</releaseVersion>
+              </announceParameters>
             </configuration>
             <executions>
               <execution>

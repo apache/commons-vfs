@@ -15,11 +15,12 @@
 ## specific language governing permissions and limitations
 ## under the License.
 
-              Apache Commons VFS ${version} RELEASE NOTES
+#set($relVersion=$announceParameters.releaseVersion)
+              Apache Commons VFS ${relVersion} RELEASE NOTES
 
-The ${developmentTeam} is pleased to announce the commons-vfs2 ${version} release!
+The ${developmentTeam} is pleased to announce the commons-vfs2 ${relVersion} release!
 
-Apache Commons VFS ${version} requires a minimum of Java 5 to build and run and is not binary or source compatible with
+Apache Commons VFS ${relVersion} requires a minimum of Java 5 to build and run and is not binary or source compatible with
 Commons VFS 1.0. The package names have been changed from org.apache.commons.vfs to org.apache.commons.vfs2 and the
 Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
 
