@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * (for read-only random access implementations)
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent
 {

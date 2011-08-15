@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.FileUtil;
  * the classloader.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @see VFSClassLoader
  */
 class Resource

@@ -37,7 +37,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * A file object implementation which uses direct file access.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class LocalFile extends AbstractFileObject implements FileObject
 {

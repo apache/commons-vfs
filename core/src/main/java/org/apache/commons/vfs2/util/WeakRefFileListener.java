@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.FileSystem;
  * Wrap a listener with a WeakReference.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision: 262 $ $Date: 2006-12-20T09:14:53.055649Z $
  * @since 2.0
  */
 public class WeakRefFileListener implements FileListener

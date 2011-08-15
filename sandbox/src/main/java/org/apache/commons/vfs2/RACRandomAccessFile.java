@@ -25,7 +25,6 @@ import java.io.RandomAccessFile;
  * as a {@link RandomAccessFile} instance.
  *
  * @author Elifarley Callado Coelho Cruz <elifarley@gmail.com>
- * @version 1.1, $LastChangedRevision: 1163 $, $LastChangedDate: 2006-12-13 03:18:57 +0000 (Qua, 13 Dez 2006) $
  */
 public class RACRandomAccessFile extends RandomAccessFile implements RandomAccessContent
 {

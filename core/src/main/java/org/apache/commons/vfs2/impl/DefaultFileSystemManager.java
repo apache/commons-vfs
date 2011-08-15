@@ -59,7 +59,6 @@ import org.apache.commons.vfs2.provider.VfsComponent;
  * A default file system manager implementation.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date: 2006-03-30 21:16:24 +0200 (Do, 30 Mrz
  *          2006) $
  */
 public class DefaultFileSystemManager implements FileSystemManager

@@ -33,7 +33,6 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
  * Test cases for the resource provider.
  *
  * @author Emmanuel Bourg
- * @version $Revision$, $Date$
  */
 public class ResourceProviderTestCase extends AbstractProviderTestConfig
 {

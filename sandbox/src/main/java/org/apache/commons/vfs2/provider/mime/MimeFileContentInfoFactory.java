@@ -30,7 +30,6 @@ import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
  * get access to the content info stuff for mime objects
  *
  * @author <a href="mailto:imario@apache.org">imario@apache.org</a>
- * @version $Revision$ $Date$
  */
 public class MimeFileContentInfoFactory implements FileContentInfoFactory
 {

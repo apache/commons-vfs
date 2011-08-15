@@ -43,7 +43,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * A file object backed by commons httpclient.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @todo status codes
  */
 public class HttpFileObject extends AbstractFileObject

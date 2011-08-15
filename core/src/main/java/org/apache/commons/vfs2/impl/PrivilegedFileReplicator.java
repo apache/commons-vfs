@@ -35,7 +35,6 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  * the replication as a privileged action.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class PrivilegedFileReplicator
     implements FileReplicator, VfsComponent

@@ -24,7 +24,6 @@ import org.apache.commons.logging.Log;
  * I hope i could remove it sometimes.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public final class VfsLog
 {

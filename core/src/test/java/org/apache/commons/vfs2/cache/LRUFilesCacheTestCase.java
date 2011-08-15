@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.test.ProviderTestConfig;
  * Tests the NullFilesCache
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
- * @version $Revision$ $Date$
  */
 public class LRUFilesCacheTestCase
     extends AbstractProviderTestConfig

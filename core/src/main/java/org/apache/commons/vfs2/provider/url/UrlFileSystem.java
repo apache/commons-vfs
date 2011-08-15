@@ -30,7 +30,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * A File system backed by Java's URL API.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class UrlFileSystem
     extends AbstractFileSystem

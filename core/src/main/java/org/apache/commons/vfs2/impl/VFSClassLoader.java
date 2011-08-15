@@ -44,7 +44,6 @@ import org.apache.commons.vfs2.NameScope;
  * TODO - Test this with signed Jars and a SecurityManager.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @see FileSystemManager#createFileSystem
  */
 public class VFSClassLoader extends SecureClassLoader

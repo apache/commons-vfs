@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.provider.UriParser;
  * The Resource provider.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class ResourceFileProvider extends AbstractFileProvider
 {

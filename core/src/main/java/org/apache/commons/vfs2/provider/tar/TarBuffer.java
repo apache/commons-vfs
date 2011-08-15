@@ -32,7 +32,6 @@ import java.util.Arrays;
  * created by Tar IO Streams.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 class TarBuffer
 {

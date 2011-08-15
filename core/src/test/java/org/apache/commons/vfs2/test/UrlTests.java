@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.FileObject;
  * URL test cases for providers.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  */
 public class UrlTests
     extends AbstractProviderTestCase

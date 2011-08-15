@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  * The default context implementation.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 final class DefaultVfsComponentContext
     implements VfsComponentContext

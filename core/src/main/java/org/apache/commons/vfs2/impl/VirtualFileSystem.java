@@ -37,7 +37,6 @@ import org.apache.commons.vfs2.provider.DelegateFileObject;
  * other file systems.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @todo Handle nested junctions.
  */
 public class VirtualFileSystem extends AbstractFileSystem

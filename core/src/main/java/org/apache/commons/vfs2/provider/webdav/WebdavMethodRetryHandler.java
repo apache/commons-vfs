@@ -27,7 +27,6 @@ import org.apache.commons.httpclient.HttpMethodRetryHandler;
  * Now that webdavlib didnt support adding a MethodRetryHandler only a few operations are restartable yet.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  * @since 2.0
  */
 public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler

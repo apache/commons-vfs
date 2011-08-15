@@ -31,7 +31,6 @@ import org.apache.tools.ant.Task;
  * utility methods.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class VfsTask
     extends Task

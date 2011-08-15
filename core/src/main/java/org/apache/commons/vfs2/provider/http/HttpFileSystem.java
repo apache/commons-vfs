@@ -33,7 +33,6 @@ import org.apache.commons.vfs2.provider.GenericFileName;
  * An HTTP file system.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class HttpFileSystem
     extends AbstractFileSystem

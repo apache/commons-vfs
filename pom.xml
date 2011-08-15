@@ -126,7 +126,6 @@
     <maven.compile.target>1.5</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <commons.manifestfile>${}</commons.manifestfile>
   </properties>
 
   <build>
@@ -146,21 +145,55 @@
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>2.7</version>
         </plugin>
-        <!-- <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.2.1</version>
-          <configuration>
-            <preparationGoals>clean verify scm:add scm:checkin -Dinclude="RELEASE-NOTES.txt" -Dmessage="add release notes"</preparationGoals>
-            <completionGoals>exec:exec scm:commit -Dexec.executable=svn -Dexec.args="delete RELEASE-NOTES.txt" -Dmessage="remove release notes"</completionGoals>
-            <useReleaseProfile>false</useReleaseProfile>
-            <goals>deploy</goals>
-            <arguments>-Papache-release</arguments>
-          </configuration>
-        </plugin> -->
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>jar-manifest</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <mkdir dir="${project.build.directory}/osgi" />
+                <touch file="${project.build.directory}/osgi/MANIFEST.MF" />
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!--
+          - Copy LICENSE.txt and NOTICE.txt so that they are included
+          - in the -javadoc jar file for the component.
+          -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>javadoc.resources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <copy todir="${project.build.directory}/apidocs/META-INF">
+                  <fileset dir="${vfs.parent.dir}">
+                    <include name="LICENSE.txt" />
+                    <include name="NOTICE.txt" />
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -401,6 +434,9 @@
               <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
               <outputDirectory>.</outputDirectory>
               <announcementFile>RELEASE-NOTES.txt</announcementFile>
+              <announceParameters>
+                <releaseVersion>${commons.release.version}</releaseVersion>
+              </announceParameters>
             </configuration>
             <executions>
               <execution>
@@ -418,6 +454,7 @@
     <profile>
       <id>apache-release</id>
       <build>
+
         <plugins>
 
           <plugin>

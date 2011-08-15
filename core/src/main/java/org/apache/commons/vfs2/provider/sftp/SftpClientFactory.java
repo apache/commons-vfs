@@ -35,7 +35,6 @@ import com.jcraft.jsch.UserInfo;
  * Create a JSch Session instance.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public final class SftpClientFactory
 {

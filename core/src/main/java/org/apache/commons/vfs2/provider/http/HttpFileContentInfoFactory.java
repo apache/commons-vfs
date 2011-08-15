@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  * Creates the FileContentInfo.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class HttpFileContentInfoFactory implements FileContentInfoFactory
 {

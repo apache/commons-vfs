@@ -33,7 +33,6 @@ import org.apache.commons.vfs2.provider.FileProvider;
  * A provider for SMB (Samba, Windows share) file systems.
  *
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @version $Revision$ $Date$
  */
 public class SmbFileProvider
     extends AbstractOriginatingFileProvider

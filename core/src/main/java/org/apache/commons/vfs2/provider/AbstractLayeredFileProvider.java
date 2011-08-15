@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * contents of a zip or tar file.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileProvider

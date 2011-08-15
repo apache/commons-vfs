@@ -37,7 +37,6 @@ import org.apache.commons.vfs2.util.Messages;
  * A simple file replicator and temporary file store.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- * @version $Revision$ $Date$
  */
 public class DefaultFileReplicator
     extends AbstractVfsComponent
