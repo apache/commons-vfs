@@ -126,7 +126,6 @@
     <maven.compile.target>1.5</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <commons.manifestfile>${}</commons.manifestfile>
   </properties>
 
   <build>
@@ -149,6 +148,25 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>jar-manifest</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <mkdir dir="${project.build.directory}/osgi"/>
+                <touch file="${project.build.directory}/osgi/MANIFEST.MF"/>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -406,6 +424,7 @@
     <profile>
       <id>apache-release</id>
       <build>
+
         <plugins>
 
           <plugin>
