@@ -98,13 +98,7 @@
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>${vfs.parent.dir}</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>LICENSE.txt</include>
+           <include>LICENSE.txt</include>
         </includes>
       </resource>
     </resources>
@@ -119,17 +113,10 @@
         <targetPath>META-INF</targetPath>
         <includes>
           <include>NOTICE.txt</include>
-        </includes>
-      </testResource>
-      <testResource>
-        <directory>${vfs.parent.dir}</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
           <include>LICENSE.txt</include>
         </includes>
       </testResource>
     </testResources>
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
