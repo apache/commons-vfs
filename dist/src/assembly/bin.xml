@@ -29,10 +29,10 @@ limitations under the License.
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>org.apache.commons:commons-vfs*</include>
+                <include>org.apache.commons:commons-vfs2*</include>
             </includes>
             <excludes>
-                <exclude>org.apache.commons:commons-vfs-distribution</exclude>
+                <exclude>org.apache.commons:commons-vfs2-distribution</exclude>
             </excludes>
             <outputDirectory></outputDirectory>
             <unpack>false</unpack>
