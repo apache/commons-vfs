@@ -380,12 +380,6 @@
         <enabled>false</enabled>
       </releases>
     </repository>
-    <repository>
-      <id>apache.m1</id>
-      <name>Apache Maven 1 Repository</name>
-      <url>http://people.apache.org/repo/m1-snapshot-repository/</url>
-      <layout>legacy</layout>
-    </repository>
   </repositories>
 
   <distributionManagement>
