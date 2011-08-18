@@ -1,5 +1,9 @@
-To view the release notes run
+To build Commons VFS run
 
-mvn changes:announcement-generate
+mvn clean install
 
-then view target/announcement/announcement.vm
+To build the distribution binaries run
+
+mvn -P apache-release clean install
+
+
