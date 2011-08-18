@@ -39,7 +39,6 @@
   <modules>
     <module>core</module>
     <module>examples</module>
-    <module>sandbox</module>
     <module>dist</module>
   </modules>
 
@@ -404,6 +403,12 @@
        get the build done and then uses the assembly to package it up.
   -->
   <profiles>
+    <profile>
+      <id>include-sandbox</id>
+      <modules>
+        <module>sandbox</module>
+      </modules>
+    </profile>
     <profile>
       <id>relnotes</id>
       <build>
