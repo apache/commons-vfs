@@ -88,37 +88,6 @@ limitations under the License.
           <version>${project.version}</version>
           <classifier>javadoc</classifier>
         </dependency>
-
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-vfs2-sandbox</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-vfs2-sandbox</artifactId>
-          <version>${project.version}</version>
-          <classifier>sources</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-vfs2-sandbox</artifactId>
-          <version>${project.version}</version>
-          <classifier>javadoc</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-vfs2-sandbox</artifactId>
-          <version>${project.version}</version>
-          <classifier>tests</classifier>
-        </dependency>
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-vfs2-sandbox</artifactId>
-          <version>${project.version}</version>
-          <classifier>test-sources</classifier>
-        </dependency>
       </dependencies>
       <build>
         <plugins>
