@@ -590,7 +590,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
         {
             name += "/";
         }
-        return href.equals(name);
+        return href.equals(name) || href.equals(fileName.getPath());
     }
 
     /**

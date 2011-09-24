@@ -22,7 +22,12 @@
   </properties>
 
   <body>
-    <release version="2.0" date="" description="Backwards incompatible update of Commons VFS to Java 5">
+    <release version="2.1" date="TBD" description="">
+      <action issue="VFS-364" dev="rgoers" type="fix">
+        Check the href in the response for just a path in addition to a full uri.
+      </action>
+    </release>
+    <release version="2.0" date="2011-08-24" description="Backwards incompatible update of Commons VFS to Java 5">
       <action issue="VFS-348" dev="rgoers" type="fix" due-to="Stefan Bodewig">
         Update the version of commons-net.
       </action>
