@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-325" dev="rgoers" type="fix" due-to="Larry Reeve">
+        Allow # character in file names.
+      </action>
       <action issue="VFS-335" dev="rgoers" type="fix">
         Use atomic variables in MonitorInputStream.
       </action>

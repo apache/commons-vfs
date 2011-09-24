@@ -18,7 +18,9 @@ package org.apache.commons.vfs2.provider.local;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractFileName;
+import org.apache.commons.vfs2.provider.UriParser;
 
 /**
  * A local file URI.
@@ -27,6 +29,21 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
  */
 public class LocalFileName extends AbstractFileName
 {
+    // URI Characters that are possible in local filenames, but must be escaped 
+    // for proper URI handling.
+    //
+    // How reserved URI chars were selected:
+    //
+    //  URIs can contain :, /, ?, #, @ 
+    //      See http://download.oracle.com/javase/6/docs/api/java/net/URI.html
+    //          http://tools.ietf.org/html/rfc3986#section-2.2
+    //
+    //  Since : and / occur before the path, only chars after path are escaped (i.e., # and ?)
+    //  ? is a reserved filesystem character for Windows and Unix, so can't be part of a filename.
+    //  Therefore only # is a reserved char in a URI as part of the path that can be in the filename.
+    private static final char RESERVED_URI_CHARS[] = {'#'};
+
+    
     private final String rootFile;
 
     protected LocalFileName(final String scheme,
@@ -58,6 +75,81 @@ public class LocalFileName extends AbstractFileName
     {
         return new LocalFileName(getScheme(), rootFile, path, type);
     }
+    
+    /**
+     * Returns the absolute URI of the file.
+     * @return The absolute URI of the file.
+     */
+    @Override
+    public String getURI()
+    {
+        String uri = super.getURI();
+        
+        if (uri != null && uri.length() > 0)
+        {
+            try
+            {
+                // VFS-325: Handle URI special characters in filename
+                // Decode the base uri and re-encode with URI special characters
+                uri = UriParser.decode(uri);
+                
+                uri = UriParser.encode(uri, RESERVED_URI_CHARS);
+            }
+            catch(FileSystemException e)
+            {
+                // Default to base uri value
+            }
+        }
+        
+        return uri;
+    }    
+    
+    /**
+     * returns a "friendly path", this is a path without a password.
+     * @return The "friendly" URI.
+     */
+    @Override
+    public String getFriendlyURI()
+    {
+        String uri = super.getFriendlyURI();
+        
+        if (uri != null && uri.length() > 0)
+        {
+            try
+            {
+                // VFS-325: Handle URI special characters in filename
+                // Decode the base uri and re-encode with URI special characters
+                uri = UriParser.decode(uri);
+                
+                uri = UriParser.encode(uri, RESERVED_URI_CHARS);
+            }
+            catch(FileSystemException e)
+            {
+                // Default to base uri value
+            }
+        }
+        
+        return uri;
+    }
+    
+    /**
+     * Returns the decoded URI of the file.
+     * @return the FileName as a URI.
+     */
+    @Override
+    public String toString()
+    {
+        try
+        {
+            return UriParser.decode(super.getURI());
+        }
+        catch(FileSystemException e)
+        {
+            return super.getURI();
+        }
+    }
+    
+    
 
     /**
      * Builds the root URI for this file name.

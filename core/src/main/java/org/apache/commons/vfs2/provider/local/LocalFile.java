@@ -256,6 +256,24 @@ public class LocalFile extends AbstractFileObject implements FileObject
         {
             throw new FileSystemException(e);
         }
-
+    }
+    
+    /**
+     * Returns the URI of the file.
+     * @return The URI of the file.
+     */
+    @Override
+    public String toString()
+    {
+        try
+        {
+            // VFS-325: URI may contain percent-encoded values as part of filename, so decode
+            // those characters before returning
+            return UriParser.decode(getName().getURI());
+        }
+        catch(FileSystemException e)
+        {
+            return getName().getURI();
+        }
     }
 }

@@ -43,6 +43,10 @@ public class LocalProviderTestCase
     {
         final ProviderTestSuite testSuite = new ProviderTestSuite(new LocalProviderTestCase());
         testSuite.addTests(FileNameTests.class);
+        
+        // VFS-325
+        testSuite.addTests(UrlTests.class);
+        
         return testSuite;
     }
 
