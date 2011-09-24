@@ -19,6 +19,8 @@ package org.apache.commons.vfs2.util;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * An InputStream that provides buffering and end-of-stream monitoring.
@@ -28,13 +30,12 @@ import java.io.InputStream;
 public class MonitorInputStream
     extends BufferedInputStream
 {
-    private boolean finished;
-    private long count;
+    private AtomicBoolean finished = new AtomicBoolean(false);
+    private AtomicLong count = new AtomicLong(0);
 
     public MonitorInputStream(final InputStream in)
     {
         super(in);
-        count = 0;
     }
 
 
@@ -47,7 +48,7 @@ public class MonitorInputStream
     @Override
     public synchronized int available() throws IOException
     {
-        if (finished)
+        if (finished.get())
         {
             return 0;
         }
@@ -63,7 +64,7 @@ public class MonitorInputStream
     @Override
     public int read() throws IOException
     {
-        if (finished)
+        if (finished.get())
         {
             return -1;
         }
@@ -71,7 +72,7 @@ public class MonitorInputStream
         final int ch = super.read();
         if (ch != -1)
         {
-            count++;
+            count.incrementAndGet();
             return ch;
         }
 
@@ -92,7 +93,7 @@ public class MonitorInputStream
     public int read(final byte[] buffer, final int offset, final int length)
         throws IOException
     {
-        if (finished)
+        if (finished.get())
         {
             return -1;
         }
@@ -100,7 +101,7 @@ public class MonitorInputStream
         final int nread = super.read(buffer, offset, length);
         if (nread != -1)
         {
-            count += nread;
+            count.addAndGet(nread);
             return nread;
         }
 
@@ -117,7 +118,8 @@ public class MonitorInputStream
     @Override
     public void close() throws IOException
     {
-        if (finished)
+        boolean closed = finished.getAndSet(true);
+        if (closed)
         {
             return;
         }
@@ -143,7 +145,6 @@ public class MonitorInputStream
             exc = ioe;
         }
 
-        finished = true;
         if (exc != null)
         {
             throw exc;
@@ -165,6 +166,6 @@ public class MonitorInputStream
      */
     public long getCount()
     {
-        return count;
+        return count.get();
     }
 }

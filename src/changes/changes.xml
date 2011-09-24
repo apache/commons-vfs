@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-335" dev="rgoers" type="fix">
+        Use atomic variables in MonitorInputStream.
+      </action>
       <action issue="VFS-364" dev="rgoers" type="fix">
         Check the href in the response for just a path in addition to a full uri.
       </action>
