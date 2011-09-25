@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-351" dev="rgoers" type="fix" due-to="John Backstrand">
+        Chain the SftpException in the FileSystemException.
+      </action>
       <action issue="VFS-361" dev="rgoers" type="update">
         Upgrade commons collections version to 3.2.1.
       </action>
