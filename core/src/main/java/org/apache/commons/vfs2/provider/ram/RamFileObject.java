@@ -135,6 +135,10 @@ public class RamFileObject extends AbstractFileObject implements FileObject
     @Override
     protected void doDelete() throws Exception
     {
+
+        if (this.isContentOpen()) {
+            throw new FileSystemException(this.getName() + " cannot be deleted while the file is openg");
+        }
         fs.delete(this);
     }
 

@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-359" dev="rgoers" type="fix" due-to="Miroslav Pokorny">
+        Don't delete a RamFileObject if it is open.
+      </action>
       <action issue="VFS-352" dev="rgoers" type="fix">
         ZipFileSystem now uses an internal Map as a cache for all the files in the zip archive.
       </action>
