@@ -21,13 +21,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
@@ -49,6 +52,11 @@ public class ZipFileSystem extends AbstractFileSystem implements FileSystem
 
     private final File file;
     private ZipFile zipFile;
+
+    /**
+     * Cache doesn't need to be synchronized since it is read-only.
+     */
+    private Map<FileName, FileObject> cache = new HashMap<FileName, FileObject>();
 
   public ZipFileSystem(final AbstractFileName rootName,
                          final FileObject parentLayer,
@@ -195,6 +203,30 @@ public class ZipFileSystem extends AbstractFileSystem implements FileSystem
     {
         // This is only called for files which do not exist in the Zip file
         return new ZipFileObject(name, null, this, false);
+    }
+
+    /**
+     * Adds a file object to the cache.
+     */
+    protected void putFileToCache(final FileObject file)
+    {
+        cache.put(file.getName(), file);
+    }
+
+    /**
+     * Returns a cached file.
+     */
+    protected FileObject getFileFromCache(final FileName name)
+    {
+        return cache.get(name);
+    }
+
+    /**
+     * remove a cached file.
+     */
+    protected void removeFileFromCache(final FileName name)
+    {
+        cache.remove(name);
     }
 
     /**

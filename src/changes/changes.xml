@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-352" dev="rgoers" type="fix">
+        ZipFileSystem now uses an internal Map as a cache for all the files in the zip archive.
+      </action>
       <action issue="VFS-351" dev="rgoers" type="fix" due-to="John Backstrand">
         Chain the SftpException in the FileSystemException.
       </action>
