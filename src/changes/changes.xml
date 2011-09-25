@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-356" dev="rgoers" type="fix">
+        Throw an IOException if an attempt is made to seek to a position before the start of the file.
+      </action>
       <action issue="VFS-359" dev="rgoers" type="fix" due-to="Miroslav Pokorny">
         Don't delete a RamFileObject if it is open.
       </action>

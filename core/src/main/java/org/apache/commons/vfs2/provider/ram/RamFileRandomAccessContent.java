@@ -151,6 +151,9 @@ public class RamFileRandomAccessContent implements RandomAccessContent
      */
     public void seek(long pos) throws IOException
     {
+        if (pos < 0) {
+            throw new IOException("Attempt to position before the start of the file");
+        }
         this.filePointer = (int) pos;
     }
 
