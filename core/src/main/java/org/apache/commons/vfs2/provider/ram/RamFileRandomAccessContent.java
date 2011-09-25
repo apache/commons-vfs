@@ -121,8 +121,12 @@ public class RamFileRandomAccessContent implements RandomAccessContent
             @Override
             public int read(byte[] b, int off, int len) throws IOException
             {
-                int retLen = Math.min(len, getLeftBytes());
-                RamFileRandomAccessContent.this.readFully(b, off, retLen);
+                int retLen = -1;
+                final int left = getLeftBytes();
+                if (left > 0) {
+                    retLen = Math.min(len, left);
+                    RamFileRandomAccessContent.this.readFully(b, off, retLen);
+                }
                 return retLen;
             }
 

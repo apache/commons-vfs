@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-355" dev="rgoers" type="fix" due-to="Miroslav Pokorny">
+        The read method of RamFileRandomAccessContent's input stream does not return -1 at eof.
+      </action>
       <action issue="VFS-356" dev="rgoers" type="fix">
         Throw an IOException if an attempt is made to seek to a position before the start of the file.
       </action>
