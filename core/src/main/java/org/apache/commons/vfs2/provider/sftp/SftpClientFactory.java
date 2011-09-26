@@ -19,12 +19,15 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.File;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.util.Os;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Logger;
 import com.jcraft.jsch.Proxy;
 import com.jcraft.jsch.ProxyHTTP;
 import com.jcraft.jsch.ProxySOCKS5;
@@ -39,6 +42,13 @@ import com.jcraft.jsch.UserInfo;
 public final class SftpClientFactory
 {
     private static final String SSH_DIR_NAME = ".ssh";
+
+    private static final Log LOG = LogFactory.getLog(SftpClientFactory.class);
+
+    static
+    {
+        JSch.setLogger(new JSchLogger());
+    }
 
     private SftpClientFactory()
     {
@@ -283,5 +293,45 @@ public final class SftpClientFactory
             }
         }
         return new File("");
+    }
+
+    private static class JSchLogger implements Logger
+    {
+        public boolean isEnabled(int level) {
+            switch (level)
+            {
+                case FATAL:
+                    return LOG.isFatalEnabled();
+                case ERROR:
+                    return LOG.isErrorEnabled();
+                case WARN:
+                    return LOG.isDebugEnabled();
+                case DEBUG:
+                    return LOG.isDebugEnabled();
+                case INFO:
+                    return LOG.isInfoEnabled();
+                default:
+                    return LOG.isDebugEnabled();
+
+            }
+        }
+
+        public void log(int level, String msg) {
+            switch (level)
+            {
+                case FATAL:
+                    LOG.fatal(msg);
+                case ERROR:
+                    LOG.error(msg);
+                case WARN:
+                    LOG.warn(msg);
+                case DEBUG:
+                    LOG.debug(msg);
+                case INFO:
+                    LOG.info(msg);
+                default:
+                    LOG.debug(msg);
+            }
+        }
     }
 }
