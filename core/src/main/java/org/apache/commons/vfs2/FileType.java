@@ -91,7 +91,7 @@ public enum FileType
 
     /**
      * Returns true if files of this type may contain other files.
-     * @return tru if files can contain other files.
+     * @return true if files can contain other files.
      */
     public boolean hasChildren()
     {
