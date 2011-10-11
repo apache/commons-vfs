@@ -279,7 +279,7 @@ public abstract class AbstractSyncTask
             final FileObject rootFile = srcs.get(i);
             final FileName rootName = rootFile.getName();
 
-            if (rootFile.getType() == FileType.FILE)
+            if (rootFile.isFile())
             {
                 // Build the destination file name
                 String relName = null;
@@ -382,7 +382,7 @@ public abstract class AbstractSyncTask
         }
         final SourceInfo src = srcFiles.get(0);
         final FileObject srcFile = resolveFile(src.file);
-        if (srcFile.getType() != FileType.FILE)
+        if (!srcFile.isFile())
         {
             final String message =
                 Messages.getString("vfs.tasks/sync.source-not-file.error", srcFile);

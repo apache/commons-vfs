@@ -332,6 +332,16 @@ public interface FileObject
      */
     boolean isContentOpen();
 
+    /**
+     * Checks if this file is a regular file.
+     * 
+     * @return true if this file is a regular file.
+     * @throws FileSystemException if an error occurs.
+     * @see #getType() 
+     * @see FileType#FILE
+     */
+    public boolean isFile() throws FileSystemException;
+
 
     // --- OPERATIONS --
     /**

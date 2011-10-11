@@ -114,6 +114,7 @@ public class ProviderWriteTests
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());
@@ -125,6 +126,7 @@ public class ProviderWriteTests
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());

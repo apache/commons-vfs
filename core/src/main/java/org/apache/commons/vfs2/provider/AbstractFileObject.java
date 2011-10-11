@@ -510,6 +510,19 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
+     * Checks if this file is a regular file by using its file type.
+     * 
+     * @return true if this file is a regular file.
+     * @throws FileSystemException
+     * @see #getType() 
+     * @see FileType#FILE
+     */
+    public boolean isFile() throws FileSystemException {
+        // Use equals instead of == to avoid any class loader worries.
+        return FileType.FILE.equals(this.getType());
+    }
+    
+    /**
      * Determines if this file can be read.
      * @return true if the file is a hidden file, false otherwise.
      * @throws FileSystemException if an error occurs.
@@ -926,7 +939,7 @@ public abstract class AbstractFileObject implements FileObject
             {
                 // VFS-210: We do not want to trunc any existing file, checking for its existence is
                 // still required
-                if (exists() && !FileType.FILE.equals(getType()))
+                if (exists() && !isFile())
                 {
                     throw new FileSystemException("vfs.provider/create-file.error", name);
                 }

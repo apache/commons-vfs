@@ -158,6 +158,7 @@ public class ContentTests
         // Check for file
         FileObject file = getReadFolder().resolveFile("file1.txt");
         assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
         try
         {
             file.getChildren();
@@ -285,6 +286,7 @@ public class ContentTests
         // Get the test file
         FileObject file = getReadFolder().resolveFile("file1.txt");
         assertEquals(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
 
         // Get the file content
         assertSameContent(FILE1_CONTENT, file);
@@ -308,6 +310,7 @@ public class ContentTests
         // Get the test file
         FileObject file = getReadFolder().resolveFile("file1.txt");
         assertEquals(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
 
         // Open some input streams
         final InputStream instr1 = file.getContent().getInputStream();

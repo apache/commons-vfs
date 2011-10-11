@@ -255,7 +255,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
                 this.toRamFileObject(child, root);
             }
         }
-        else if (fo.getType().equals(FileType.FILE))
+        else if (fo.isFile())
         {
             // Read bytes
             try

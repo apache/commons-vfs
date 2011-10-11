@@ -46,6 +46,7 @@ public class FileSystemManagerFactoryTestCase
         assertNotNull(file);
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
 
         // Expand it
         file = manager.createFileSystem(file);

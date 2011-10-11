@@ -185,6 +185,11 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.isContentOpen();
     }
 
+    public boolean isFile() throws FileSystemException 
+    {
+        return decoratedFileObject.isFile();        
+    }
+
     @Override
     public String toString()
     {

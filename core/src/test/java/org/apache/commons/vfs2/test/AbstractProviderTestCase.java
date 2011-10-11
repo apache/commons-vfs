@@ -288,6 +288,7 @@ public abstract class AbstractProviderTestCase
         // Check the file exists, and is a file
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
 
         // Get file content as a binary stream
         final byte[] expectedBin = expected.getBytes("utf-8");

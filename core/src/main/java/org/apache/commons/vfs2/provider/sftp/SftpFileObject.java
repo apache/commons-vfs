@@ -262,7 +262,7 @@ public class SftpFileObject extends AbstractFileObject implements FileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            if (getType() == FileType.FILE)
+            if (isFile())
             {
                 channel.rm(relPath);
             }

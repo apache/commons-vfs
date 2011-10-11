@@ -73,7 +73,7 @@ public class DefaultURLStreamHandler
             }
             else
             {
-                if (old.getType() == FileType.FILE && old.getParent() != null)
+                if (old.isFile() && old.getParent() != null)
                 {
                     // for files we have to resolve relative
                     newURL = old.getParent().resolveFile(spec);
