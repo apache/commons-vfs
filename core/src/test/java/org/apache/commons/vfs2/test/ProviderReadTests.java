@@ -137,6 +137,7 @@ public class ProviderReadTests
         // Test a file
         FileObject file = getReadFolder().resolveFile("file1.txt");
         assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
 
         // Test a folder
         file = getReadFolder().resolveFile("dir1");
