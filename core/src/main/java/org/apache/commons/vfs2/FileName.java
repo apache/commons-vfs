@@ -182,6 +182,16 @@ public interface FileName extends Comparable<FileName>
     boolean isDescendent(FileName descendent, NameScope nameScope);
 
     /**
+     * Checks if this file name is a name for a regular file.
+     * 
+     * @return true if this file name is a name for a regular file.
+     * @throws FileSystemException if an error occurs.
+     * @see #getType() 
+     * @see FileType#FILE
+     */
+    public boolean isFile() throws FileSystemException;
+
+    /**
      * Returns the requested or current type of this name. <br />
      * <p>
      * The "requested" type is the one determined during resolving the name. <br/>

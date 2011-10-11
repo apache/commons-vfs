@@ -665,7 +665,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     {
         final FileObject realBaseFile;
         if (baseFile != null && VFS.isUriStyle()
-                && baseFile.getName().getType() == FileType.FILE)
+                && baseFile.getName().isFile())
         {
             realBaseFile = baseFile.getParent();
         }
@@ -751,7 +751,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             final NameScope scope) throws FileSystemException
     {
         final FileName realBase;
-        if (base != null && VFS.isUriStyle() && base.getType() == FileType.FILE)
+        if (base != null && VFS.isUriStyle() && base.isFile())
         {
             realBase = base.getParent();
         }
