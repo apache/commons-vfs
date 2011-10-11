@@ -140,6 +140,7 @@ public class ProviderWriteTests
         file.createFile();
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
         assertTrue(file.getParent().exists());
         assertTrue(file.getParent().getParent().exists());
@@ -165,6 +166,7 @@ public class ProviderWriteTests
         FileObject file = scratchFolder.resolveFile("dir1/file1.txt");
         file.createFile();
         assertEquals(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
 
         FileObject folder = scratchFolder.resolveFile("dir1/dir2");
         folder.createFolder();
