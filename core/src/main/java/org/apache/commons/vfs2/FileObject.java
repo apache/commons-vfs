@@ -342,6 +342,16 @@ public interface FileObject
      */
     public boolean isFile() throws FileSystemException;
 
+    /**
+     * Checks if this file is a folder.
+     * 
+     * @return true if this file is a folder.
+     * @throws FileSystemException if an error occurs.
+     * @see #getType() 
+     * @see FileType#FOLDER
+     */
+    public boolean isFolder() throws FileSystemException;
+
 
     // --- OPERATIONS --
     /**

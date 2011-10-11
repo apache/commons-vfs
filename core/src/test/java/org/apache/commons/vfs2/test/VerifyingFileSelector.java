@@ -91,6 +91,7 @@ public class VerifyingFileSelector
         // Check that the given file is a folder
         final FileObject folder = fileInfo.getFile();
         assertSame(FileType.FOLDER, folder.getType());
+        assertTrue(folder.isFolder());
 
         // Locate the info for the folder
         final String baseName = folder.getName().getBaseName();

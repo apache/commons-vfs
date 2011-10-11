@@ -82,6 +82,7 @@ public class ProviderWriteTests
         folder.createFolder();
         assertTrue(folder.exists());
         assertSame(FileType.FOLDER, folder.getType());
+        assertTrue(folder.isFolder());
         assertEquals(0, folder.getChildren().length);
 
         // Create a descendant, where the intermediate folders don't exist
@@ -92,6 +93,7 @@ public class ProviderWriteTests
         folder.createFolder();
         assertTrue(folder.exists());
         assertSame(FileType.FOLDER, folder.getType());
+        assertTrue(folder.isFolder());
         assertEquals(0, folder.getChildren().length);
         assertTrue(folder.getParent().exists());
         assertTrue(folder.getParent().getParent().exists());
@@ -171,6 +173,7 @@ public class ProviderWriteTests
         FileObject folder = scratchFolder.resolveFile("dir1/dir2");
         folder.createFolder();
         assertEquals(FileType.FOLDER, folder.getType());
+        assertTrue(folder.isFolder());
 
         // Attempt to create a file that already exists as a folder
         try

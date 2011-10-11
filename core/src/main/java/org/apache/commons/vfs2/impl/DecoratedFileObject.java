@@ -190,6 +190,11 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.isFile();        
     }
 
+    public boolean isFolder() throws FileSystemException 
+    {
+        return decoratedFileObject.isFolder();        
+    }
+
     @Override
     public String toString()
     {

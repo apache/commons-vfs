@@ -142,6 +142,7 @@ public class ProviderReadTests
         // Test a folder
         file = getReadFolder().resolveFile("dir1");
         assertSame(FileType.FOLDER, file.getType());
+        assertTrue(file.isFolder());
 
         // Test an unknown file
         file = getReadFolder().resolveFile("unknown-child");

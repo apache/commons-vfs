@@ -53,6 +53,7 @@ public class FileSystemManagerFactoryTestCase
         assertNotNull(file);
         assertTrue(file.exists());
         assertSame(FileType.FOLDER, file.getType());
+        assertTrue(file.isFolder());
     }
 
 }

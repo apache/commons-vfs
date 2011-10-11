@@ -523,6 +523,19 @@ public abstract class AbstractFileObject implements FileObject
     }
     
     /**
+     * Checks if this file is a folder by using its file type.
+     * 
+     * @return true if this file is a regular file.
+     * @throws FileSystemException
+     * @see #getType() 
+     * @see FileType#FOLDER
+     */
+    public boolean isFolder() throws FileSystemException {
+        // Use equals instead of == to avoid any class loader worries.
+        return FileType.FOLDER.equals(this.getType());
+    }
+    
+    /**
      * Determines if this file can be read.
      * @return true if the file is a hidden file, false otherwise.
      * @throws FileSystemException if an error occurs.
