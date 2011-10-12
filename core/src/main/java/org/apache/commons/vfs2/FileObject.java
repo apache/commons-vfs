@@ -17,6 +17,8 @@
 package org.apache.commons.vfs2;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.vfs2.operations.FileOperations;
@@ -63,13 +65,15 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * </ul>
  * <p/>
  * <p>To find files in another file system, use a {@link FileSystemManager}.
+ * <h4>Sorting Files</h4>
+ *<p>Files may be sorted using {@link Arrays#sort(Object[])} and {@link Collections#sort(List)}.</p>
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see FileSystemManager
  * @see FileContent
  * @see FileName
  */
-public interface FileObject
+public interface FileObject extends Comparable<FileObject>
 {
     /**
      * Returns the name of this file.

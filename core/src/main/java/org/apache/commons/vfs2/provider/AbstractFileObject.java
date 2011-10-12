@@ -1028,6 +1028,17 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
+     * Compares two FileObjects (ignores case)
+     */
+    public int compareTo(FileObject fo) 
+    {        
+        if (fo == null) {
+            return 1;
+        }
+        return this.toString().compareToIgnoreCase(fo.toString());
+    }
+    
+    /**
      * Copies another file to this file.
      * @param file The FileObject to copy.
      * @param selector The FileSelector.

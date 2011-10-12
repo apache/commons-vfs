@@ -54,6 +54,11 @@ public class DecoratedFileObject implements FileObject
         decoratedFileObject.close();
     }
 
+    public int compareTo(FileObject fo) 
+    {
+        return decoratedFileObject.compareTo(fo);
+    }
+
     public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
     {
         decoratedFileObject.copyFrom(srcFile, selector);
@@ -205,4 +210,5 @@ public class DecoratedFileObject implements FileObject
     {
         return decoratedFileObject.getFileOperations();
     }
+
 }

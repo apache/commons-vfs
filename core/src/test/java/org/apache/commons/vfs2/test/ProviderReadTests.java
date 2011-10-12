@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.test;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.vfs2.Capability;
@@ -158,6 +160,36 @@ public class ProviderReadTests
         String uri = fs.getRootURI();
         final FileObject file = getManager().resolveFile(uri);
         file.getChildren();
+    }
+
+    /**
+     * Tests that FileObjects can be sorted.
+     */
+    public void testSort() throws FileSystemException
+    {
+        final FileInfo fileInfo = buildExpectedStructure();
+        final VerifyingFileSelector selector = new VerifyingFileSelector(fileInfo);
+
+        // Find the files
+        final FileObject[] actualFiles = getReadFolder().findFiles(selector);
+        Arrays.sort(actualFiles);
+        FileObject prevActualFile = actualFiles[0];
+        for (FileObject actualFile : actualFiles) {
+            assertTrue(prevActualFile.toString().compareTo(actualFile.toString()) <= 0);
+            prevActualFile = actualFile;
+        }
+
+        // Compare actual and expected list of files
+        final List<FileObject> expectedFiles = selector.finish();
+        Collections.sort(expectedFiles);
+        assertEquals(expectedFiles.size(), actualFiles.length);
+        final int count = expectedFiles.size();
+        for (int i = 0; i < count; i++)
+        {
+            final FileObject expected = expectedFiles.get(i);
+            final FileObject actual = actualFiles[i];
+            assertEquals(expected, actual);
+        }
     }
 
     /**
