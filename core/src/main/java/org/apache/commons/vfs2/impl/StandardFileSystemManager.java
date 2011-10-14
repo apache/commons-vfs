@@ -38,7 +38,7 @@ import org.w3c.dom.NodeList;
 /**
  * A {@link org.apache.commons.vfs2.FileSystemManager} that configures itself
  * from an XML (Default: providers.xml) configuration file.<br>
- * Certain providers are only loaded and available if the dependend library is in your
+ * Certain providers are only loaded and available if the dependent library is in your
  * classpath. You have to configure your debugging facility to log "debug" messages to see
  * if a provider was skipped due to "unresolved externals".
  *
