@@ -343,6 +343,7 @@ public interface FileObject extends Comparable<FileObject>
      * @throws FileSystemException if an error occurs.
      * @see #getType() 
      * @see FileType#FILE
+     * @since 2.1
      */
     public boolean isFile() throws FileSystemException;
 
@@ -353,6 +354,7 @@ public interface FileObject extends Comparable<FileObject>
      * @throws FileSystemException if an error occurs.
      * @see #getType() 
      * @see FileType#FOLDER
+     * @since 2.1
      */
     public boolean isFolder() throws FileSystemException;
 

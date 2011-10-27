@@ -188,6 +188,7 @@ public interface FileName extends Comparable<FileName>
      * @throws FileSystemException if an error occurs.
      * @see #getType() 
      * @see FileType#FILE
+     * @since 2.1
      */
     public boolean isFile() throws FileSystemException;
 
