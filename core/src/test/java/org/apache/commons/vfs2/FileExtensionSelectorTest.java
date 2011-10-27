@@ -80,8 +80,8 @@ public class FileExtensionSelectorTest
     @Test
     public void testEmpty() throws Exception
     {
-        FileSelector selector0 = new FileExtensionSelector();
-        FileObject[] foList = BaseFolder.findFiles(selector0);
+        FileSelector selector = new FileExtensionSelector();
+        FileObject[] foList = BaseFolder.findFiles(selector);
         Assert.assertEquals(0, foList.length);
     }
 
