@@ -37,7 +37,7 @@ public class AllFileSelector
     /**
      * Determines whether a folder should be traversed.
      * @param fileInfo The file selection information.
-     * @return true if descendents should be traversed, fase otherwise.
+     * @return true if descendents should be traversed, false otherwise.
      */
     public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
