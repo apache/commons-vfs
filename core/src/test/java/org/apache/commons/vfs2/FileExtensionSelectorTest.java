@@ -25,6 +25,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Tests FileExtensionSelector.
+ * 
+ * @since 2.1
+ */
 public class FileExtensionSelectorTest
 {
     private static FileObject BaseFolder;
