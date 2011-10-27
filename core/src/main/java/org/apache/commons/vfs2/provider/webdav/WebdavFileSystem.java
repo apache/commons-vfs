@@ -51,7 +51,7 @@ public class WebdavFileSystem extends HttpFileSystem implements FileSystem
 
     /**
      * Returns the capabilities of this file system.
-     * @caps The Capabilities to add.
+     * @param caps The Capabilities to add.
      */
     @Override
     protected void addCapabilities(final Collection<Capability> caps)
