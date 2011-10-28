@@ -20,12 +20,12 @@ import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * <p>
- * A FileOperation is an object that brings an extra functions to a FileObject.
- * The VFS provides the basic functionality to deal with FileObject's. Tha is
- * create, delete, rename, copy, etc functions. However, if you are working with
+ * A FileOperation is an object that brings an extra function to a FileObject.
+ * The VFS provides the basic functionality to deal with FileObject's. That is
+ * create, delete, rename, copy, and so on functions. However, if you are working with
  * FileSystem and its files are, for example, under Version Control System (VCS)
  * you might want to get an access to the versioning framework and to be able to
- * manage your files regarding VCS (e.g. commit them, undate, get logs, etc.).
+ * manage your files regarding VCS (e.g. commit them, update, get logs, etc.).
  * Such type of extended functionality is provided by FileOperation.
  * </p>
  * <p>
