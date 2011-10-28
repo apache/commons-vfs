@@ -31,7 +31,7 @@ public interface ProviderTestConfig
     /**
      * Returns a DefaultFileSystemManager instance (or subclass instance).
      */
-    public DefaultFileSystemManager getDefaultFileSystemManager();
+    DefaultFileSystemManager getDefaultFileSystemManager();
 
     /**
      * Prepares the file system manager.
