@@ -190,7 +190,7 @@ public interface FileName extends Comparable<FileName>
      * @see FileType#FILE
      * @since 2.1
      */
-    public boolean isFile() throws FileSystemException;
+    boolean isFile() throws FileSystemException;
 
     /**
      * Returns the requested or current type of this name. <br />
