@@ -26,6 +26,15 @@
       <action issue="VFS-372" dev="ggregory" type="update">
         Add constructors FileDepthSelector() and FileDepthSelector(int).
       </action>
+      <action issue="VFS-370" dev="ggregory" type="update">
+        Add a FileExtensionSelector class.
+      </action>
+      <action issue="VFS-367" dev="ggregory" type="update">
+        Add APIs FileObject isFile(), FileObject isFolder(), and FileName isFile().
+      </action>
+      <action issue="VFS-366" dev="ggregory" type="update">
+        Can't sort a List of FileObject's, FileObject to implement Comparable&lt;FileObject&gt;.
+      </action>
       <action issue="VFS-341" dev="rgoers" type="update" due-to="Rajika Kumarasiri">
         Enable logging of JSch using the Commons Logging Log object in SftpClientFactory.
       </action>
