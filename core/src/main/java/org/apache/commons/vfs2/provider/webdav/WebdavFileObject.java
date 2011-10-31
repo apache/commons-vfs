@@ -290,7 +290,7 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
         try
         {
             URLFileName fileName = (URLFileName) getName();
-            DavPropertySet properties = getProperties(fileName, PropFindMethod.PROPFIND_ALL_PROP,
+            DavPropertySet properties = getProperties(fileName, DavConstants.PROPFIND_ALL_PROP,
                     new DavPropertyNameSet(), false);
             @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
             Iterator<DavProperty> iter = properties.iterator();
@@ -482,19 +482,19 @@ public class WebdavFileObject extends HttpFileObject implements FileObject
     DavPropertySet getProperties(URLFileName name, DavPropertyNameSet nameSet, boolean addEncoding)
             throws FileSystemException
     {
-        return getProperties(name, PropFindMethod.PROPFIND_BY_PROPERTY, nameSet, addEncoding);
+        return getProperties(name, DavConstants.PROPFIND_BY_PROPERTY, nameSet, addEncoding);
     }
 
     DavPropertySet getProperties(URLFileName name) throws FileSystemException
     {
-        return getProperties(name, PropFindMethod.PROPFIND_ALL_PROP, new DavPropertyNameSet(),
+        return getProperties(name, DavConstants.PROPFIND_ALL_PROP, new DavPropertyNameSet(),
                 false);
     }
 
 
     DavPropertySet getPropertyNames(URLFileName name) throws FileSystemException
     {
-        return getProperties(name, PropFindMethod.PROPFIND_PROPERTY_NAMES,
+        return getProperties(name, DavConstants.PROPFIND_PROPERTY_NAMES,
                 new DavPropertyNameSet(), false);
     }
 

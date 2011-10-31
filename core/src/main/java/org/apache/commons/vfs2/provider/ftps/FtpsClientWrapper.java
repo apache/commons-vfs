@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.ftp.FtpClient;
+import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 
@@ -68,7 +69,7 @@ class FtpsClientWrapper implements FtpClient
         UserAuthenticationData authData = null;
         try
         {
-            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, FtpsFileProvider.AUTHENTICATOR_TYPES);
+            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, FtpFileProvider.AUTHENTICATOR_TYPES);
 
             return FtpsClientFactory.createConnection(rootName.getHostName(),
                 rootName.getPort(),
