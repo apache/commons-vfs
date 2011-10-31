@@ -1064,11 +1064,8 @@ public abstract class AbstractFileObject implements FileObject
         file.findFiles(selector, false, files);
 
         // Copy everything across
-        final int count = files.size();
-        for (int i = 0; i < count; i++)
+        for (FileObject srcFile : files)
         {
-            final FileObject srcFile = files.get(i);
-
             // Determine the destination file
             final String relPath = file.getName().getRelativeName(srcFile.getName());
             final FileObject destFile = resolveFile(relPath, NameScope.DESCENDENT_OR_SELF);
