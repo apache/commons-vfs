@@ -52,6 +52,7 @@ public class FileDepthSelector implements FileSelector
      * 
      * @param minMaxDepth
      *            minimum and maximum depth
+     * @since 2.1
      */
     public FileDepthSelector(int minMaxDepth)
     {
@@ -60,6 +61,8 @@ public class FileDepthSelector implements FileSelector
 
     /**
      * Creates a selector with the same minimum and maximum depths of 0.
+     * 
+     * @since 2.1
      */
     public FileDepthSelector()
     {
