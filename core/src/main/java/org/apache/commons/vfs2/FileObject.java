@@ -325,13 +325,13 @@ public interface FileObject extends Comparable<FileObject>
     void refresh() throws FileSystemException;
 
     /**
-     * check if the fileObject is attaced.
+     * Checks if the fileObject is attached.
      * @return true if the FileObject is attached.
      */
     boolean isAttached();
 
     /**
-     * check if someone reads/write to this file.
+     * Checks if someone reads/write to this file.
      * @return true if the file content is open.
      */
     boolean isContentOpen();
