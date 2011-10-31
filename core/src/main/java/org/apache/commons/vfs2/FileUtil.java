@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Utility methods for dealng with FileObjects.
+ * Utility methods for dealing with FileObjects.
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
