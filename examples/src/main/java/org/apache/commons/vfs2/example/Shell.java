@@ -320,9 +320,7 @@ public class Shell
         throws FileSystemException
     {
         final FileObject[] children = dir.getChildren();
-        for (int i = 0; i < children.length; i++)
-        {
-            final FileObject child = children[i];
+        for (final FileObject child : children) {
             System.out.print(prefix);
             System.out.print(child.getName().getBaseName());
             if (child.getType() == FileType.FOLDER)

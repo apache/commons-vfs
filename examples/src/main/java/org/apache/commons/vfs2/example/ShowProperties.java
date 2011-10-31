@@ -42,14 +42,13 @@ public class ShowProperties
             System.err.println("e.g. java org.apache.commons.vfs2.example.ShowProperties LICENSE.txt");
             return;
         }
-        for (int i = 0; i < args.length; i++)
-        {
+        for (String arg : args) {
             try
             {
                 FileSystemManager mgr = VFS.getManager();
                 System.out.println();
-                System.out.println("Parsing: " + args[i]);
-                FileObject file = mgr.resolveFile(args[i]);
+                System.out.println("Parsing: " + arg);
+                FileObject file = mgr.resolveFile(arg);
                 System.out.println("URL: " + file.getURL());
                 System.out.println("getName(): " + file.getName());
                 System.out.println("BaseName: " + file.getName().getBaseName());
