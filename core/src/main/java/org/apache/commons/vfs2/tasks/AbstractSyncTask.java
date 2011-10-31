@@ -328,9 +328,8 @@ public abstract class AbstractSyncTask
         if (detectMissingSourceFiles())
         {
             final FileObject[] allDestFiles = destFolder.findFiles(Selectors.SELECT_FILES);
-            for (int i = 0; i < allDestFiles.length; i++)
+            for (FileObject destFile : allDestFiles)
             {
-                final FileObject destFile = allDestFiles[i];
                 if (!destFiles.contains(destFile))
                 {
                     handleMissingSourceFile(destFile);

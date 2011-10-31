@@ -1114,10 +1114,8 @@ public class DefaultFileSystemManager implements FileSystemManager
             final FileOperationProvider operationProvider)
             throws FileSystemException
     {
-        for (int i = 0; i < schemes.length; i++)
+        for (String scheme : schemes)
         {
-            final String scheme = schemes[i];
-
             if (!operationProviders.containsKey(scheme))
             {
                 final List<FileOperationProvider> providers = new ArrayList<FileOperationProvider>();

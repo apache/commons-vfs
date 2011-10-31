@@ -119,9 +119,9 @@ public abstract class AbstractTestSuite
 
         // Locate the test methods
         final Method[] methods = testClass.getMethods();
-        for (int i = 0; i < methods.length; i++)
+        for (Method method2 : methods)
         {
-            final Method method = methods[i];
+            final Method method = method2;
             if (!method.getName().startsWith("test")
                 || Modifier.isStatic(method.getModifiers())
                 || method.getReturnType() != Void.TYPE

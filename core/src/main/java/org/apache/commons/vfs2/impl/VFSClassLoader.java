@@ -137,9 +137,8 @@ public class VFSClassLoader extends SecureClassLoader
     private void addFileObjects(final FileSystemManager manager,
                                 final FileObject[] files) throws FileSystemException
     {
-        for (int i = 0; i < files.length; i++)
+        for (FileObject file : files)
         {
-            FileObject file = files[i];
             if (!file.exists())
             {
                 // Does not exist - skip

@@ -451,9 +451,8 @@ public class DelegatingFileSystemOptionsBuilder
         Map<String, List<Method>> schemeMethods = new TreeMap<String, List<Method>>();
 
         Method[] methods = fscb.getClass().getMethods();
-        for (int iterMethods = 0; iterMethods < methods.length; iterMethods++)
+        for (Method method : methods)
         {
-            Method method = methods[iterMethods];
             if (!Modifier.isPublic(method.getModifiers()))
             {
                 continue;

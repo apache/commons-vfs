@@ -191,9 +191,9 @@ public abstract class AbstractProviderTestCase
         final Capability[] caps = getRequiredCaps();
         if (caps != null)
         {
-            for (int i = 0; i < caps.length; i++)
+            for (Capability cap2 : caps)
             {
-                final Capability cap = caps[i];
+                final Capability cap = cap2;
                 FileSystem fs = readFolder.getFileSystem();
                 if (!fs.hasCapability(cap))
                 {

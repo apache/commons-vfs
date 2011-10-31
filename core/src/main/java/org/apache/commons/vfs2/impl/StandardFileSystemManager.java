@@ -341,9 +341,8 @@ public class StandardFileSystemManager
 
         // Make sure all required schemes are available
         final String[] requiredSchemes = getRequiredSchemes(providerDef);
-        for (int i = 0; i < requiredSchemes.length; i++)
+        for (String requiredScheme : requiredSchemes)
         {
-            final String requiredScheme = requiredSchemes[i];
             if (!hasProvider(requiredScheme))
             {
                 final String msg = Messages.getString("vfs.impl/skipping-provider-scheme.debug",
@@ -355,9 +354,8 @@ public class StandardFileSystemManager
 
         // Make sure all required classes are in classpath
         final String[] requiredClasses = getRequiredClasses(providerDef);
-        for (int i = 0; i < requiredClasses.length; i++)
+        for (String requiredClass : requiredClasses)
         {
-            final String requiredClass = requiredClasses[i];
             if (!findClass(requiredClass))
             {
                 final String msg = Messages.getString("vfs.impl/skipping-provider.debug",
