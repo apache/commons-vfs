@@ -26,7 +26,7 @@ public final class Selectors
     /**
      * A {@link FileSelector} that selects only the base file/folder.
      */
-    public static final FileSelector SELECT_SELF = new FileDepthSelector(0, 0);
+    public static final FileSelector SELECT_SELF = new FileDepthSelector();
 
     /**
      * A {@link FileSelector} that selects the base file/folder and its
@@ -38,7 +38,7 @@ public final class Selectors
      * A {@link FileSelector} that selects only the direct children
      * of the base folder.
      */
-    public static final FileSelector SELECT_CHILDREN = new FileDepthSelector(1, 1);
+    public static final FileSelector SELECT_CHILDREN = new FileDepthSelector(1);
 
     /**
      * A {@link FileSelector} that selects all the descendents of the

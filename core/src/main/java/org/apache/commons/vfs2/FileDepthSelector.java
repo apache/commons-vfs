@@ -18,11 +18,10 @@ package org.apache.commons.vfs2;
 
 /**
  * A {@link FileSelector} that selects all files in a particular depth range.
- *
+ * 
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class FileDepthSelector
-    implements FileSelector
+public class FileDepthSelector implements FileSelector
 {
     /**
      * The minimum depth
@@ -34,6 +33,14 @@ public class FileDepthSelector
      */
     private final int maxDepth;
 
+    /**
+     * Creates a selector with the given minimum and maximum depths.
+     * 
+     * @param minDepth
+     *            minimum depth
+     * @param maxDepth
+     *            maximum depth
+     */
     public FileDepthSelector(int minDepth, int maxDepth)
     {
         this.minDepth = minDepth;
@@ -41,8 +48,29 @@ public class FileDepthSelector
     }
 
     /**
+     * Creates a selector with the same minimum and maximum depths.
+     * 
+     * @param minMaxDepth
+     *            minimum and maximum depth
+     */
+    public FileDepthSelector(int minMaxDepth)
+    {
+        this(minMaxDepth, minMaxDepth);
+    }
+
+    /**
+     * Creates a selector with the same minimum and maximum depths of 0.
+     */
+    public FileDepthSelector()
+    {
+        this(0, 0);
+    }
+
+    /**
      * Determines if a file or folder should be selected.
-     * @param fileInfo The file selection information
+     * 
+     * @param fileInfo
+     *            The file selection information
      * @return true if the file or folder should be included, false otherwise.
      */
     public boolean includeFile(final FileSelectInfo fileInfo)
@@ -53,7 +81,9 @@ public class FileDepthSelector
 
     /**
      * Determines whether a folder should be traversed.
-     * @param fileInfo The file selection information
+     * 
+     * @param fileInfo
+     *            The file selection information
      * @return true if the file or folder should be traversed, false otherwise.
      */
     public boolean traverseDescendents(final FileSelectInfo fileInfo)

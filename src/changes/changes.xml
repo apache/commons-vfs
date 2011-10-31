@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-372" dev="ggregory" type="update">
+        Add constructors FileDepthSelector() and FileDepthSelector(int).
+      </action>
       <action issue="VFS-341" dev="rgoers" type="update" due-to="Rajika Kumarasiri">
         Enable logging of JSch using the Commons Logging Log object in SftpClientFactory.
       </action>
