@@ -175,7 +175,6 @@ public abstract class AbstractTestSuite
         assertFalse(readFolder.getName().getPath().equals(FileName.ROOT_PATH));
 
         // Configure the tests
-        @SuppressWarnings("unchecked")
         final Enumeration<Test> tests = testSuite.tests();
         while (tests.hasMoreElements())
         {
