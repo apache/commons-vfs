@@ -111,9 +111,8 @@ public class ProviderReadTests
             assertEquals("count children of \"" + file.getName() + "\"", info.children.size(), length);
 
             // Recursively check each child
-            for (int i = 0; i < children.length; i++)
+            for (final FileObject child : children)
             {
-                final FileObject child = children[i];
                 String childName = child.getName().getBaseName();
                 if (childName.startsWith("."))
                 {

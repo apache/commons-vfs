@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.jar;
 import java.io.IOException;
 import java.security.cert.Certificate;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.jar.Attributes;
@@ -122,9 +121,8 @@ public class JarFileObject extends ZipFileObject
      */
     private void addAll(final Attributes src, final Map<String, Object> dest)
     {
-        for (Iterator<Entry<Object, Object>> iterator = src.entrySet().iterator(); iterator.hasNext();)
+        for (Entry<Object, Object> entry : src.entrySet())
         {
-            final Map.Entry<Object, Object> entry = iterator.next();
             // final String name = entry.getKey().toString().toLowerCase();
             final String name = entry.getKey().toString();
             dest.put(name, entry.getValue());

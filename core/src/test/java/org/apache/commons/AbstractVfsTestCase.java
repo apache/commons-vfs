@@ -162,9 +162,8 @@ public abstract class AbstractVfsTestCase
     public static void assertSameMessage(final String[] messages, final Throwable throwable)
     {
         Throwable current = throwable;
-        for (int i = 0; i < messages.length; i++)
+        for (String message : messages)
         {
-            String message = messages[i];
             assertNotNull(current);
             if (message != null)
             {

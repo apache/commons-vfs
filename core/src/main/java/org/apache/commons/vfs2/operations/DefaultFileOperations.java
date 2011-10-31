@@ -70,10 +70,8 @@ public class DefaultFileOperations implements FileOperations
 
         final List<Class<? extends FileOperation>> operations = new ArrayList<Class<? extends FileOperation>>();
 
-        for (int i = 0; i < providers.length; i++)
+        for (FileOperationProvider provider : providers)
         {
-            FileOperationProvider provider = providers[i];
-
             provider.collectOperations(operations, fileObject);
         }
 
@@ -105,10 +103,8 @@ public class DefaultFileOperations implements FileOperations
 
         FileOperation resultOperation = null;
 
-        for (int i = 0; i < providers.length; i++)
+        for (FileOperationProvider provider : providers)
         {
-            FileOperationProvider provider = providers[i];
-
             resultOperation = provider.getOperation(fileObject, operationClass);
 
             if (resultOperation != null)
@@ -142,9 +138,8 @@ public class DefaultFileOperations implements FileOperations
             return false;
         }
 
-        for (int i = 0; i < operations.length; i++)
+        for (Class<? extends FileOperation> operation : operations)
         {
-            Class<? extends FileOperation> operation = operations[i];
             if (operationClass.isAssignableFrom(operation))
             {
                 return true;

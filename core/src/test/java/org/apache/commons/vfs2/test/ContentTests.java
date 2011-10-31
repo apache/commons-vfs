@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.test;
 
 import java.io.InputStream;
-import java.util.Iterator;
 
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
@@ -51,9 +50,8 @@ public class ContentTests
     private void assertSameContent(final FileInfo expected,
                                    final FileObject folder) throws Exception
     {
-        for (Iterator<FileInfo> iterator = expected.children.values().iterator(); iterator.hasNext();)
+        for (FileInfo fileInfo : expected.children.values())
         {
-            final FileInfo fileInfo = iterator.next();
             final FileObject child = folder.resolveFile(fileInfo.baseName, NameScope.CHILD);
 
             assertTrue(child.getName().toString(), child.exists());

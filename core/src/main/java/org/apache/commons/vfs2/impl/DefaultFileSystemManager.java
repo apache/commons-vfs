@@ -23,7 +23,6 @@ import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -172,9 +171,8 @@ public class DefaultFileSystemManager implements FileSystemManager
             final FileProvider provider) throws FileSystemException
     {
         // Warn about duplicate providers
-        for (int i = 0; i < urlSchemes.length; i++)
+        for (final String scheme : urlSchemes)
         {
-            final String scheme = urlSchemes[i];
             if (providers.containsKey(scheme))
             {
                 throw new FileSystemException(
@@ -186,9 +184,8 @@ public class DefaultFileSystemManager implements FileSystemManager
         setupComponent(provider);
 
         // Add to map
-        for (int i = 0; i < urlSchemes.length; i++)
+        for (final String scheme : urlSchemes)
         {
-            final String scheme = urlSchemes[i];
             providers.put(scheme, provider);
         }
 
@@ -520,10 +517,8 @@ public class DefaultFileSystemManager implements FileSystemManager
         }
 
         // Close the providers.
-        for (Iterator<?> iterator = providers.values().iterator(); iterator
-                .hasNext();)
+        for (Object provider : providers.values())
         {
-            final Object provider = iterator.next();
             closeComponent(provider);
         }
 
@@ -553,11 +548,9 @@ public class DefaultFileSystemManager implements FileSystemManager
         }
 
         // Close the providers.
-        for (Iterator<FileProvider> iterator = providers.values().iterator(); iterator
-                .hasNext();)
+        for (FileProvider fileProvider : providers.values())
         {
-            final AbstractFileProvider provider = (AbstractFileProvider) iterator
-                    .next();
+            final AbstractFileProvider provider = (AbstractFileProvider) fileProvider;
             provider.freeUnusedResources();
         }
     }

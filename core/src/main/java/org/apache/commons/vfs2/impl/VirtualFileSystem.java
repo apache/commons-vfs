@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.impl;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.vfs2.Capability;
@@ -187,9 +186,8 @@ public class VirtualFileSystem extends AbstractFileSystem
         }
 
         // Find matching junction
-        for (Iterator<FileName> iterator = junctions.keySet().iterator(); iterator.hasNext();)
+        for (FileName junctionPoint : junctions.keySet())
         {
-            final FileName junctionPoint = iterator.next();
             if (junctionPoint.isDescendent(name))
             {
                 return junctionPoint;

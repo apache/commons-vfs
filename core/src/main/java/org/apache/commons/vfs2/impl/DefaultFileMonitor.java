@@ -179,9 +179,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 // Traverse the children
                 final FileObject[] children = file.getChildren();
-                for (int i = 0; i < children.length; i++)
+                for (FileObject element : children)
                 {
-                    doAddFile(children[i]);
+                    doAddFile(element);
                 }
             }
         }
@@ -215,9 +215,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     {
                         // Traverse the children
                         final FileObject[] children = file.getChildren();
-                        for (int i = 0; i < children.length; i++)
+                        for (FileObject element : children)
                         {
-                            this.addFile(children[i]); // Add depth first
+                            this.addFile(element); // Add depth first
                         }
                     }
 
@@ -475,9 +475,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 {
                     this.children = new HashMap<FileName, Object>();
                     FileObject[] childrenList = this.file.getChildren();
-                    for (int i = 0; i < childrenList.length; i++)
+                    for (FileObject element : childrenList)
                     {
-                        this.children.put(childrenList[i].getName(), new
+                        this.children.put(element.getName(), new
                             Object()); // null?
                     }
                 }
@@ -538,9 +538,9 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     if (child.getType().hasChildren())
                     {
                         FileObject[] newChildren = child.getChildren();
-                        for (int i = 0; i < newChildren.length; i++)
+                        for (FileObject element : newChildren)
                         {
-                            fireAllCreate(newChildren[i]);
+                            fireAllCreate(element);
                         }
                     }
                 }
@@ -602,11 +602,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         {
                             this.children = new HashMap<FileName, Object>();
                         }
-                        for (int i = 0; i < newChildren.length; i++)
+                        for (FileObject element : newChildren)
                         {
-                            this.children.put(newChildren[i].getName(), new
+                            this.children.put(element.getName(), new
                                 Object()); // null?
-                            this.fireAllCreate(newChildren[i]);
+                            this.fireAllCreate(element);
                         }
                     }
                 }

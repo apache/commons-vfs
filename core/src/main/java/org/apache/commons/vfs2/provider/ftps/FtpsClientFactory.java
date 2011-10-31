@@ -119,13 +119,13 @@ public final class FtpsClientFactory
                     if (shortMonthNames != null)
                     {
                         StringBuilder shortMonthNamesStr = new StringBuilder(40);
-                        for (int i = 0; i < shortMonthNames.length; i++)
+                        for (String shortMonthName : shortMonthNames)
                         {
                             if (shortMonthNamesStr.length() > 0)
                             {
                                 shortMonthNamesStr.append("|");
                             }
-                            shortMonthNamesStr.append(shortMonthNames[i]);
+                            shortMonthNamesStr.append(shortMonthName);
                         }
                         config.setShortMonthNames(shortMonthNamesStr.toString());
                     }

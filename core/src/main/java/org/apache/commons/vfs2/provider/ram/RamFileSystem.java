@@ -249,9 +249,8 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
             memFo.createFolder();
             // Import recursively
             FileObject[] fos = fo.getChildren();
-            for (int i = 0; i < fos.length; i++)
+            for (FileObject child : fos)
             {
-                FileObject child = fos[i];
                 this.toRamFileObject(child, root);
             }
         }

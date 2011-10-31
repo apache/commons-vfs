@@ -196,13 +196,13 @@ public final class FtpClientFactory
             if (shortMonthNames != null)
             {
                 StringBuilder shortMonthNamesStr = new StringBuilder(BUFSZ);
-                for (int i = 0; i < shortMonthNames.length; i++)
+                for (String shortMonthName : shortMonthNames)
                 {
                     if (shortMonthNamesStr.length() > 0)
                     {
                         shortMonthNamesStr.append("|");
                     }
-                    shortMonthNamesStr.append(shortMonthNames[i]);
+                    shortMonthNamesStr.append(shortMonthName);
                 }
                 config.setShortMonthNames(shortMonthNamesStr.toString());
             }

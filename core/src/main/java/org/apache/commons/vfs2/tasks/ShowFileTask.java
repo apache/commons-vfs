@@ -123,9 +123,8 @@ public class ShowFileTask
             if (file.getType().hasChildren())
             {
                 final FileObject[] children = file.getChildren();
-                for (int i = 0; i < children.length; i++)
+                for (FileObject child : children)
                 {
-                    FileObject child = children[i];
                     if (recursive)
                     {
                         showFile(child, newPrefix);

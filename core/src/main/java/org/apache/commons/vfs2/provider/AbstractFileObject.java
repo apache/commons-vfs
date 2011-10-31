@@ -788,10 +788,10 @@ public abstract class AbstractFileObject implements FileObject
     {
         // TODO - use a hashtable when there are a large number of children
         FileObject[] children = getChildren();
-        for (int i = 0; i < children.length; i++)
+        for (FileObject element : children)
         {
             // final FileObject child = children[i];
-            final FileName child = children[i].getName();
+            final FileName child = element.getName();
             // TODO - use a comparator to compare names
             // if (child.getName().getBaseName().equals(name))
             if (child.getBaseName().equals(name))
@@ -1759,9 +1759,8 @@ public abstract class AbstractFileObject implements FileObject
 
             // Traverse the children
             final FileObject[] children = file.getChildren();
-            for (int i = 0; i < children.length; i++)
+            for (final FileObject child : children)
             {
-                final FileObject child = children[i];
                 fileInfo.setFile(child);
                 traverse(fileInfo, selector, depthwise, selected);
             }

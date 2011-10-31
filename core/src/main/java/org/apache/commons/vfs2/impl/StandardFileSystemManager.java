@@ -391,9 +391,8 @@ public class StandardFileSystemManager
 
         // Attach only to available schemas
         final String[] schemas = getSchemas(providerDef);
-        for (int i = 0; i < schemas.length; i++)
+        for (final String schema : schemas)
         {
-            final String schema = schemas[i];
             if (hasProvider(schema))
             {
                 final FileOperationProvider operationProvider = (FileOperationProvider) createInstance(classname);

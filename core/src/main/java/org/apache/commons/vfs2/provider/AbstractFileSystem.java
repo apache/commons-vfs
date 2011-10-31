@@ -592,9 +592,8 @@ public abstract class AbstractFileSystem
 
         if (fileListeners != null)
         {
-            for (int i = 0; i < fileListeners.length; i++)
+            for (final FileListener fileListener : fileListeners)
             {
-                final FileListener fileListener = fileListeners[i];
                 try
                 {
                     event.notify(fileListener);

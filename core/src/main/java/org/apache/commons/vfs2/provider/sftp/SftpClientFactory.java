@@ -108,9 +108,8 @@ public final class SftpClientFactory
 
         if (identities != null)
         {
-            for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++)
+            for (final File privateKeyFile : identities)
             {
-                final File privateKeyFile = identities[iterIdentities];
                 try
                 {
                     jsch.addIdentity(privateKeyFile.getAbsolutePath());

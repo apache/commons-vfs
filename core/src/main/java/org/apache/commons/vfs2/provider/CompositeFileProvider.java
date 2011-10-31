@@ -57,10 +57,10 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
         UriParser.extractScheme(uri, buf);
 
         String[] schemes = getSchemes();
-        for (int iterSchemes = 0; iterSchemes < schemes.length; iterSchemes++)
+        for (String scheme : schemes)
         {
             buf.insert(0, ":");
-            buf.insert(0, schemes[iterSchemes]);
+            buf.insert(0, scheme);
         }
 
         FileObject fo = getContext().getFileSystemManager().resolveFile(buf.toString(), fileSystemOptions);

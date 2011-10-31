@@ -228,9 +228,8 @@ public final class Os
      */
     public static OsFamily getFamily(final String name)
     {
-        for (int i = 0; i < ALL_FAMILIES.length; i++)
+        for (final OsFamily osFamily : ALL_FAMILIES)
         {
-            final OsFamily osFamily = ALL_FAMILIES[i];
             if (osFamily.getName().equalsIgnoreCase(name))
             {
                 return osFamily;
@@ -276,9 +275,8 @@ public final class Os
         {
             return false;
         }
-        for (int i = 0; i < OS_ALL_FAMILIES.length; i++)
+        for (final OsFamily osFamily : OS_ALL_FAMILIES)
         {
-            final OsFamily osFamily = OS_ALL_FAMILIES[i];
             if (family == osFamily)
             {
                 return true;
@@ -300,9 +298,8 @@ public final class Os
                 final OsFamily family = queue.remove(0);
                 allFamilies.add(family);
                 final OsFamily[] families = family.getFamilies();
-                for (int i = 0; i < families.length; i++)
+                for (OsFamily parent : families)
                 {
-                    OsFamily parent = families[i];
                     queue.add(parent);
                 }
             }

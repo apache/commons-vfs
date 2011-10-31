@@ -557,9 +557,8 @@ public class ProviderWriteTests
         assertEquals(names.size(), files.length);
 
         // Check for unexpected names
-        for (int i = 0; i < files.length; i++)
+        for (FileObject file : files)
         {
-            FileObject file = files[i];
             assertTrue(names.contains(file.getName().getBaseName()));
         }
     }

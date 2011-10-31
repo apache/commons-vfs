@@ -150,9 +150,9 @@ public class ProviderCacheStrategyTests
 
     public void assertContainsNot(FileObject[] fos, String string)
     {
-        for (int i = 0; i<fos.length; i++)
+        for (FileObject fo : fos)
         {
-            if (string.equals(fos[i].getName().getBaseName()))
+            if (string.equals(fo.getName().getBaseName()))
             {
                 fail(string + " should not be seen");
             }
@@ -161,9 +161,9 @@ public class ProviderCacheStrategyTests
 
     public void assertContains(FileObject[] fos, String string)
     {
-        for (int i = 0; i<fos.length; i++)
+        for (FileObject fo : fos)
         {
-            if (string.equals(fos[i].getName().getBaseName()))
+            if (string.equals(fo.getName().getBaseName()))
             {
                 return;
             }

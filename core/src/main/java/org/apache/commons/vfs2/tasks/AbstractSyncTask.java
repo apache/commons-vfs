@@ -302,10 +302,8 @@ public abstract class AbstractSyncTask
                 final FileObject[] files = rootFile.findFiles(srcDirIsBase
                     ? Selectors.SELECT_ALL : Selectors.SELECT_FILES);
 
-                for (int j = 0; j < files.length; j++)
+                for (final FileObject srcFile : files)
                 {
-                    final FileObject srcFile = files[j];
-
                     // Build the destination file name
                     String relName = null;
                     if (srcDirName == null || !srcDirIsBase)
