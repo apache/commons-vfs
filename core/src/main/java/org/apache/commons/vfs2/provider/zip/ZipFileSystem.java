@@ -208,6 +208,7 @@ public class ZipFileSystem extends AbstractFileSystem implements FileSystem
     /**
      * Adds a file object to the cache.
      */
+    @Override
     protected void putFileToCache(final FileObject file)
     {
         cache.put(file.getName(), file);
@@ -216,6 +217,7 @@ public class ZipFileSystem extends AbstractFileSystem implements FileSystem
     /**
      * Returns a cached file.
      */
+    @Override
     protected FileObject getFileFromCache(final FileName name)
     {
         return cache.get(name);
@@ -224,6 +226,7 @@ public class ZipFileSystem extends AbstractFileSystem implements FileSystem
     /**
      * remove a cached file.
      */
+    @Override
     protected void removeFileFromCache(final FileName name)
     {
         cache.remove(name);
