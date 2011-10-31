@@ -23,13 +23,16 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
-      <action issue="VFS-372" dev="ggregory" type="update">
+      <action issue="VFS-373" dev="ggregory" type="add">
+        Add FileContent write APIs.
+      </action>
+      <action issue="VFS-372" dev="ggregory" type="add">
         Add constructors FileDepthSelector() and FileDepthSelector(int).
       </action>
-      <action issue="VFS-370" dev="ggregory" type="update">
+      <action issue="VFS-370" dev="ggregory" type="add">
         Add a FileExtensionSelector class.
       </action>
-      <action issue="VFS-367" dev="ggregory" type="update">
+      <action issue="VFS-367" dev="ggregory" type="add">
         Add APIs FileObject isFile(), FileObject isFolder(), and FileName isFile().
       </action>
       <action issue="VFS-366" dev="ggregory" type="update">

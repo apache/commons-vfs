@@ -49,6 +49,11 @@ public final class DefaultFileContent implements FileContent
     static final int STATE_RANDOM_ACCESS = 3;
     */
 
+    /**
+     * The default buffer size for {@link #write(OutputStream)}
+     */
+    private static final int WRITE_BUFFER_SIZE = 4096;
+    
     static final int STATE_CLOSED = 0;
     static final int STATE_OPENED = 1;
 
@@ -732,5 +737,88 @@ public final class DefaultFileContent implements FileContent
         }
 
         return fileContentInfo;
+    }
+    
+    /**
+     * Writes this content to another FileContent.
+     * 
+     * @param fileContent
+     *            The target FileContent.
+     * @throws IOException
+     *             if an error occurs writing the content.
+     * @since 2.1             
+     */
+    public long write(final FileContent fileContent) throws IOException
+    {
+        final OutputStream output = fileContent.getOutputStream();
+        try
+        {
+            return this.write(output);
+        } 
+        finally
+        {
+            output.close();
+        }
+    }
+    
+    /**
+     * Writes this content to another FileObject.
+     * 
+     * @param file
+     *            The target FileObject.
+     * @throws IOException
+     *             if an error occurs writing the content.
+     * @since 2.1             
+     */
+    public long write(final FileObject file) throws IOException
+    {
+        return write(file.getContent());
+    }
+    
+    /**
+     * Writes this content to an OutputStream.
+     * 
+     * @param output
+     *            The target OutputStream.
+     * @throws IOException
+     *             if an error occurs writing the content.
+     * @since 2.1             
+     */
+    public long write(final OutputStream output) throws IOException
+    {
+        return write(output, WRITE_BUFFER_SIZE);
+    }
+    
+    /**
+     * Writes this content to an OutputStream.
+     * 
+     * @param output
+     *            The target OutputStream.
+     * @param bufferSize
+     *            The buffer size to write data chunks.
+     * @throws IOException
+     *             if an error occurs writing the file.
+     * @since 2.1             
+     */
+    public long write(final OutputStream output, final int bufferSize) throws IOException
+    {
+        final InputStream input = this.getInputStream();
+        long count = 0;
+        try
+        {
+            // This read/write code from Apache Commons IO
+            final byte[] buffer = new byte[bufferSize];
+            int n = 0;
+            while (-1 != (n = input.read(buffer)))
+            {
+                output.write(buffer, 0, n);
+                count += n;
+            }
+        } 
+        finally
+        {
+            input.close();
+        }
+        return count;
     }
 }

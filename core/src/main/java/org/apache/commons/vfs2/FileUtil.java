@@ -28,9 +28,6 @@ import java.io.OutputStream;
 public final class FileUtil
 {
 
-    /** The buffer size */
-    private static final int BUFFER_SIZE = 1024;
-
     private FileUtil()
     {
     }
@@ -69,31 +66,15 @@ public final class FileUtil
     /**
      * Writes the content of a file to an OutputStream.
      * @param file The FileObject to write.
-     * @param outstr The OutputStream to write to.
+     * @param output The OutputStream to write to.
      * @throws IOException if an error occurs writing the file.
+     * @see FileContent#write(OutputStream)
      */
     public static void writeContent(final FileObject file,
-                                    final OutputStream outstr)
+                                    final OutputStream output)
         throws IOException
     {
-        final InputStream instr = file.getContent().getInputStream();
-        try
-        {
-            final byte[] buffer = new byte[BUFFER_SIZE];
-            while (true)
-            {
-                final int nread = instr.read(buffer);
-                if (nread < 0)
-                {
-                    break;
-                }
-                outstr.write(buffer, 0, nread);
-            }
-        }
-        finally
-        {
-            instr.close();
-        }
+        file.getContent().write(output);
     }
 
     /**
@@ -101,22 +82,14 @@ public final class FileUtil
      * @param srcFile The source FileObject.
      * @param destFile The target FileObject
      * @throws IOException If an error occurs copying the file.
+     * @see FileContent#write(FileContent)
+     * @see FileContent#write(FileObject)
      */
     public static void copyContent(final FileObject srcFile,
                                    final FileObject destFile)
         throws IOException
     {
-        // Create the output stream via getContent(), to pick up the
-        // validation it does
-        final OutputStream outstr = destFile.getContent().getOutputStream();
-        try
-        {
-            writeContent(srcFile, outstr);
-        }
-        finally
-        {
-            outstr.close();
-        }
+        srcFile.getContent().write(destFile);
     }
 
 }

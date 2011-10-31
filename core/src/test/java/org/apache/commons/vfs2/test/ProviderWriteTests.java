@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileChangeEvent;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileListener;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -361,7 +362,7 @@ public class ProviderWriteTests
     /**
      * Tests overwriting a file on the same file system.
      */
-    public void testOverwriteSameFileSystem() throws Exception
+    public void testCopyFromOverwriteSameFileSystem() throws Exception
     {
         final FileObject scratchFolder = createScratchFolder();
 
@@ -645,4 +646,126 @@ public class ProviderWriteTests
             assertEquals("Missing event", 0, events.size());
         }
     }
+    
+    /**
+     * Tests file write to and from the same filesystem type
+     */
+    public void testWriteSameFileSystem() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertTrue(!file.exists());
+
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+        final OutputStream os = file.getContent().getOutputStream();
+        try
+        {
+            os.write(content.getBytes("utf-8"));
+        }
+        finally
+        {
+            os.close();
+        }
+
+        assertSameContent(content, file);
+
+        // Make sure we can copy the new file to another file on the same filesystem
+        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        assertTrue(!fileCopy.exists());
+
+        //fileCopy.copyFrom(file, Selectors.SELECT_SELF);
+        //assertSameContent(content, fileCopy);
+        final FileContent sourceContent = file.getContent();
+        //
+        sourceContent.write(fileCopy.getContent());
+        assertSameContent(content, fileCopy);
+        //
+        OutputStream output = sourceContent.getOutputStream();
+        try {
+            sourceContent.write(output);
+            assertSameContent(content, fileCopy);            
+        } finally {
+            output.close();
+        }
+        //
+        output = sourceContent.getOutputStream();
+        try {
+            sourceContent.write(output, 1234);
+            assertSameContent(content, fileCopy);            
+        } finally {
+            output.close();
+        }
+    }
+
+    /**
+     * Tests overwriting a file on the same file system.
+     */
+    public void testOverwriteSameFileSystem() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertTrue(!file.exists());
+
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+        final OutputStream os = file.getContent().getOutputStream();
+        try
+        {
+            os.write(content.getBytes("utf-8"));
+        }
+        finally
+        {
+            os.close();
+        }
+
+        assertSameContent(content, file);
+
+        // Make sure we can copy the new file to another file on the same file system
+        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        assertTrue(!fileCopy.exists());
+        file.getContent().write(fileCopy);
+
+        assertSameContent(content, fileCopy);
+
+        // Make sure we can copy the same new file to the same target file on the same file system
+        assertTrue(fileCopy.exists());
+        file.getContent().write(fileCopy);
+
+        assertSameContent(content, fileCopy);
+
+        // Make sure we can copy the same new file to the same target file on the same file system
+        assertTrue(fileCopy.exists());
+        file.getContent().write(fileCopy.getContent());
+
+        assertSameContent(content, fileCopy);
+
+        // Make sure we can copy the same new file to the same target file on the same file system
+        assertTrue(fileCopy.exists());
+        OutputStream outputStream = fileCopy.getContent().getOutputStream();
+        try {
+            file.getContent().write(outputStream);
+        }
+        finally {
+            outputStream.close();
+        }
+        assertSameContent(content, fileCopy);
+
+        // Make sure we can copy the same new file to the same target file on the same file system
+        assertTrue(fileCopy.exists());
+        outputStream = fileCopy.getContent().getOutputStream();
+        try {
+            file.getContent().write(outputStream, 1234);
+        }
+        finally {
+            outputStream.close();
+        }
+        assertSameContent(content, fileCopy);
+}
+
+
 }
