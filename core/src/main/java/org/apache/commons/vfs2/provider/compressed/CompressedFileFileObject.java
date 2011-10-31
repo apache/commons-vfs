@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public abstract class CompressedFileFileObject extends AbstractFileObject implements FileObject
+public abstract class CompressedFileFileObject extends AbstractFileObject 
 {
     private final FileObject container;
     private final String[] children;

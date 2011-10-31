@@ -39,7 +39,7 @@ import org.apache.commons.vfs2.provider.URLFileName;
  * @todo Implement set lastModified and get/set attribute
  * @todo Implement getOutputStream()
  */
-public class UrlFileObject extends AbstractFileObject implements FileObject
+public class UrlFileObject extends AbstractFileObject 
 {
     private URL url;
 

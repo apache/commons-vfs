@@ -32,7 +32,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * A file in a Tar file system.
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class TarFileObject extends AbstractFileObject implements FileObject
+public class TarFileObject extends AbstractFileObject 
 {
     /** The TarEntry */
     protected TarEntry entry;

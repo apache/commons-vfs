@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class LocalFile extends AbstractFileObject implements FileObject
+public class LocalFile extends AbstractFileObject 
 {
     private final String rootFile;
 
