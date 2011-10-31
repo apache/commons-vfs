@@ -61,9 +61,7 @@ public class MimeAttributesMap implements Map<String, Object>
 
     private void addMimeMessageMethod(Method[] methods)
     {
-        for (int i = 0; i < methods.length; i++)
-        {
-            Method method = methods[i];
+        for (Method method : methods) {
             if (!Modifier.isPublic(method.getModifiers()))
             {
                 continue;

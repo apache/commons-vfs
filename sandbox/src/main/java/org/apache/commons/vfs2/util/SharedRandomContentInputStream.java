@@ -222,9 +222,8 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         {
             SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
             createdStreams.toArray(streams);
-            for (int i = 0; i<streams.length; i++)
-            {
-                streams[i].close();
+            for (SharedRandomContentInputStream stream : streams) {
+                stream.close();
             }
         }
     }
