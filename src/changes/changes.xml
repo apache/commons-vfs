@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-374" dev="ggregory" type="fix">
+        Incorrect lazy initialization of static field org.apache.commons.vfs2.util.Messages.resources in org.apache.commons.vfs2.util.Messages.findMessage(String)Add FileContent write APIs.
+      </action>
       <action issue="VFS-373" dev="ggregory" type="add">
         Add FileContent write APIs.
       </action>

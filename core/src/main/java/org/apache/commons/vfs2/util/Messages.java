@@ -34,7 +34,7 @@ public final class Messages
      */
     private static ConcurrentMap<String, MessageFormat> messages =
         new ConcurrentHashMap<String, MessageFormat>();
-    private static ResourceBundle resources;
+    private static final ResourceBundle resources = new CombinedResources("org.apache.commons.vfs2.Resources");
 
     private Messages()
     {
@@ -101,11 +101,6 @@ public final class Messages
             return msg;
         }
 
-        // Locate the message
-        if (resources == null)
-        {
-            resources = new CombinedResources("org.apache.commons.vfs2.Resources");
-        }
         final String msgText = resources.getString(code);
         msg = new MessageFormat(msgText);
         messages.putIfAbsent(code, msg);
