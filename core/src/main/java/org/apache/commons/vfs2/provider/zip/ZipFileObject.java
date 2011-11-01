@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.zip.ZipEntry;
 
 import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
