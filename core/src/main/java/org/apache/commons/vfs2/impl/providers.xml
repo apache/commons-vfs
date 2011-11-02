@@ -25,7 +25,7 @@
     </provider>
     <provider class-name="org.apache.commons.vfs2.provider.tar.TarFileProvider">
         <scheme name="tar"/>
-        <if-available class-name="org.apache.commons.vfs2.provider.tar.TarInputStream"/>
+        <if-available class-name="org.apache.commons.compress.archivers.tar.TarArchiveOutputStream"/>
     </provider>
 
     <provider class-name="org.apache.commons.vfs2.provider.bzip2.Bzip2FileProvider">

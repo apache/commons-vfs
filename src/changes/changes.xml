@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-377" dev="ggregory" type="update">
+        Replace custom TAR code with Apache Commons Compress 1.3.
+      </action>
       <action issue="VFS-375" dev="ggregory" type="update">
         Upgrade to Apache Commons Compress 1.3 from 1.2.
       </action>

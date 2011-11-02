@@ -16,9 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
-//TODO: Revert to [compress]
-//import org.apache.commons.compress.tar.TarEntry;
-//import org.apache.commons.compress.tar.TarInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,6 +25,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
@@ -52,7 +51,7 @@ public class TarFileSystem extends AbstractFileSystem implements FileSystem
     private static final Log LOG = LogFactory.getLog(TarFileSystem.class);
 
     private final File file;
-    private TarInputStream tarFile;
+    private TarArchiveInputStream tarFile;
 
     protected TarFileSystem(final AbstractFileName rootName,
                             final FileObject parentLayer,
@@ -84,8 +83,8 @@ public class TarFileSystem extends AbstractFileSystem implements FileSystem
         try
         {
             List<TarFileObject> strongRef = new ArrayList<TarFileObject>(100);
-            TarEntry entry;
-            while ((entry = getTarFile().getNextEntry()) != null)
+            TarArchiveEntry entry;
+            while ((entry = getTarFile().getNextTarEntry()) != null)
             {
                 AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
                     UriParser.encode(entry.getName()));
@@ -136,7 +135,7 @@ public class TarFileSystem extends AbstractFileSystem implements FileSystem
         }
     }
 
-    public InputStream getInputStream(TarEntry entry) throws FileSystemException
+    public InputStream getInputStream(TarArchiveEntry entry) throws FileSystemException
     {
         resetTarFile();
         try
@@ -177,11 +176,11 @@ public class TarFileSystem extends AbstractFileSystem implements FileSystem
             }
             tarFile = null;
         }
-        TarInputStream tarFile = createTarFile(this.file);
+        TarArchiveInputStream tarFile = createTarFile(this.file);
         this.tarFile = tarFile;
     }
 
-    protected TarInputStream getTarFile() throws FileSystemException
+    protected TarArchiveInputStream getTarFile() throws FileSystemException
     {
         if (tarFile == null && this.file.exists())
         {
@@ -192,25 +191,25 @@ public class TarFileSystem extends AbstractFileSystem implements FileSystem
     }
 
     protected TarFileObject createTarFileObject(final AbstractFileName name,
-                                                final TarEntry entry) throws FileSystemException
+                                                final TarArchiveEntry entry) throws FileSystemException
     {
         return new TarFileObject(name, entry, this, true);
     }
 
-    protected TarInputStream createTarFile(final File file) throws FileSystemException
+    protected TarArchiveInputStream createTarFile(final File file) throws FileSystemException
     {
         try
         {
             if ("tgz".equalsIgnoreCase(getRootName().getScheme()))
             {
-                return new TarInputStream(new GZIPInputStream(new FileInputStream(file)));
+                return new TarArchiveInputStream(new GZIPInputStream(new FileInputStream(file)));
             }
             else if ("tbz2".equalsIgnoreCase(getRootName().getScheme()))
             {
-                return new TarInputStream(Bzip2FileObject.wrapInputStream(file.getAbsolutePath(),
+                return new TarArchiveInputStream(Bzip2FileObject.wrapInputStream(file.getAbsolutePath(),
                     new FileInputStream(file)));
             }
-            return new TarInputStream(new FileInputStream(file));
+            return new TarArchiveInputStream(new FileInputStream(file));
         }
         catch (IOException ioe)
         {

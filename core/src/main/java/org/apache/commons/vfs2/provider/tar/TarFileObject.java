@@ -16,11 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.tar;
 
-//TODO: Revert to [compress]
-//import org.apache.commons.compress.tar.TarEntry;
 import java.io.InputStream;
 import java.util.HashSet;
 
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -33,14 +32,14 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  */
 public class TarFileObject extends AbstractFileObject 
 {
-    /** The TarEntry */
-    protected TarEntry entry;
+    /** The TarArchiveEntry */
+    protected TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<String>();
     private final TarFileSystem fs;
     private FileType type;
 
     protected TarFileObject(AbstractFileName name,
-                            TarEntry entry,
+                            TarArchiveEntry entry,
                             TarFileSystem fs,
                             boolean tarExists) throws FileSystemException
     {
@@ -56,7 +55,7 @@ public class TarFileObject extends AbstractFileObject
     /**
      * Sets the details for this file object.
      */
-    protected void setTarEntry(final TarEntry entry)
+    protected void setTarEntry(final TarArchiveEntry entry)
     {
         if (this.entry != null)
         {
