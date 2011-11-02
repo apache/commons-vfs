@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.tar.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -24,8 +28,6 @@ import java.io.PipedOutputStream;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -39,9 +41,11 @@ import org.apache.commons.vfs2.cache.SoftRefFilesCache;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.apache.commons.vfs2.provider.tar.TarFileProvider;
+import org.junit.Before;
+import org.junit.Test;
 
 //@SuppressWarnings("nls")
-public class LargeTarTestCase extends TestCase {
+public class LargeTarTestCase {
   private final static String baseDir = "target/test-classes/test-data/";
 
   private DefaultFileSystemManager manager;
@@ -49,7 +53,7 @@ public class LargeTarTestCase extends TestCase {
   private final static String largeFileName = "largefile";
 
 
-  @Override
+  @Before
 public void setUp() throws Exception {
     manager = new DefaultFileSystemManager();
 
@@ -64,6 +68,7 @@ public void setUp() throws Exception {
     createLargeFile(largeFilePath, largeFileName);
   }
 
+  @Test
   public void testLargeFile() throws Exception {
     File realFile = new File(largeFilePath + largeFileName + ".tar.gz");
 
