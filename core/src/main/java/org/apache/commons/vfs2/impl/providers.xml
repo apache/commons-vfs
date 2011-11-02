@@ -30,7 +30,7 @@
 
     <provider class-name="org.apache.commons.vfs2.provider.bzip2.Bzip2FileProvider">
         <scheme name="bz2"/>
-        <if-available class-name="org.apache.commons.vfs2.provider.bzip2.CBZip2InputStream"/>
+        <if-available class-name="org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream"/>
     </provider>
     <provider class-name="org.apache.commons.vfs2.provider.gzip.GzipFileProvider">
         <scheme name="gz"/>

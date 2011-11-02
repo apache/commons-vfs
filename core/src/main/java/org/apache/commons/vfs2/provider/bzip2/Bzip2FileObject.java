@@ -16,13 +16,12 @@
  */
 package org.apache.commons.vfs2.provider.bzip2;
 
-//TODO: Revert to [compress]
-//import org.apache.commons.compress.bzip2.CBZip2InputStream;
-//import org.apache.commons.compress.bzip2.CBZip2OutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -51,22 +50,13 @@ public class Bzip2FileObject extends CompressedFileFileObject
 
     public static InputStream wrapInputStream(final String name, final InputStream is) throws IOException
     {
-        final int b1 = is.read();
-        final int b2 = is.read();
-        if (b1 != 'B' || b2 != 'Z')
-        {
-            throw new FileSystemException("vfs.provider.compressedFile/not-a-compressedFile-file.error", name);
-        }
-        return new CBZip2InputStream(is);
+        return new BZip2CompressorInputStream(is);
     }
 
     @Override
     protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
     {
         OutputStream os = getContainer().getContent().getOutputStream(false);
-        os.write('B');
-        os.write('Z');
-
-        return new CBZip2OutputStream(os);
+        return new BZip2CompressorOutputStream(os);
     }
 }
