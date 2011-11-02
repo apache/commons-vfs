@@ -16,10 +16,13 @@
  */
 package org.apache.commons.vfs2.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-
-import junit.framework.TestCase;
 
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -27,20 +30,22 @@ import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Some tests for the DelegatingFileSystemOptionsBuilder
  *
  * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  */
-public class DelegatingFileSystemOptionsBuilderTest extends TestCase
+public class DelegatingFileSystemOptionsBuilderTest
 {
     private StandardFileSystemManager fsm = null;
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-        super.setUp();
 
         // get a full blown, fully functional manager
         fsm = new StandardFileSystemManager();
@@ -48,17 +53,16 @@ public class DelegatingFileSystemOptionsBuilderTest extends TestCase
     }
 
 
-    @Override
-    protected void tearDown() throws Exception
+    @After
+    public void tearDown() throws Exception
     {
         if (fsm != null)
         {
             fsm.close();
         }
-
-        super.tearDown();
     }
 
+    @Test
     public void testDelegatingGood() throws Throwable
     {
         final String[] identityPaths = new String[]
@@ -90,6 +94,7 @@ public class DelegatingFileSystemOptionsBuilderTest extends TestCase
         }
     }
 
+    @Test
     public void testDelegatingBad() throws Throwable
     {
         FileSystemOptions opts = new FileSystemOptions();
@@ -122,6 +127,7 @@ public class DelegatingFileSystemOptionsBuilderTest extends TestCase
         "webdav", "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz", "jar", "tmp", "ram"
     };
 
+    @Test
     public void testConfiguration() throws Exception
     {
         for (int i=0; i < schemes.length; ++i)
