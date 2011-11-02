@@ -655,49 +655,50 @@ public class ProviderWriteTests
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
+        final FileObject fileSource = scratchFolder.resolveFile("file1.txt");
+        assertTrue(!fileSource.exists());
 
         // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-        final OutputStream os = file.getContent().getOutputStream();
+        final String expectedString = "Here is some sample content for the file.  Blah Blah Blah.";
+        final OutputStream expectedOutputStream = fileSource.getContent().getOutputStream();
         try
         {
-            os.write(content.getBytes("utf-8"));
+            expectedOutputStream.write(expectedString.getBytes("utf-8"));
         }
         finally
         {
-            os.close();
+            expectedOutputStream.close();
         }
 
-        assertSameContent(content, file);
+        assertSameContent(expectedString, fileSource);
 
         // Make sure we can copy the new file to another file on the same filesystem
-        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
-        assertTrue(!fileCopy.exists());
+        FileObject fileTarget = scratchFolder.resolveFile("file1copy.txt");
+        assertTrue(!fileTarget.exists());
 
-        //fileCopy.copyFrom(file, Selectors.SELECT_SELF);
-        //assertSameContent(content, fileCopy);
-        final FileContent sourceContent = file.getContent();
+        final FileContent contentSource = fileSource.getContent();
         //
-        sourceContent.write(fileCopy.getContent());
-        assertSameContent(content, fileCopy);
+        // Tests FileContent#write(FileContent)
+        contentSource.write(fileTarget.getContent());
+        assertSameContent(expectedString, fileTarget);
         //
-        OutputStream output = sourceContent.getOutputStream();
+        // Tests FileContent#write(OutputStream)
+        OutputStream outputStream = fileTarget.getContent().getOutputStream();
         try {
-            sourceContent.write(output);
-            assertSameContent(content, fileCopy);            
+            contentSource.write(outputStream);
         } finally {
-            output.close();
+            outputStream.close();
         }
+        assertSameContent(expectedString, fileTarget);            
         //
-        output = sourceContent.getOutputStream();
+        // Tests FileContent#write(OutputStream, int)
+        outputStream = fileTarget.getContent().getOutputStream();
         try {
-            sourceContent.write(output, 1234);
-            assertSameContent(content, fileCopy);            
+            contentSource.write(outputStream, 1234);
         } finally {
-            output.close();
+            outputStream.close();
         }
+        assertSameContent(expectedString, fileTarget);            
     }
 
     /**
