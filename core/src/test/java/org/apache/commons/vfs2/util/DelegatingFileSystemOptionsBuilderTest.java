@@ -132,7 +132,7 @@ public class DelegatingFileSystemOptionsBuilderTest
     {
         for (int i=0; i < schemes.length; ++i)
         {
-            assertTrue("Missing" + schemes[i] + " provider", fsm.hasProvider(schemes[i]));
+            assertTrue("Missing " + schemes[i] + " provider", fsm.hasProvider(schemes[i]));
         }
     }
 }
