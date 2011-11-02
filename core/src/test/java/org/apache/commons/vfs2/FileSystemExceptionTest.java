@@ -16,7 +16,9 @@
  */
 package org.apache.commons.vfs2;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 
 /**
@@ -24,11 +26,12 @@ import junit.framework.TestCase;
  *
  * @author J&ouml;rg Schaible
  */
-public class FileSystemExceptionTest extends TestCase {
+public class FileSystemExceptionTest {
     /**
      * Tests a {@link FileSystemException} containing info with a URL containing a complete
      * basic authentication.
      */
+    @Test
     public void testMasksPasswordOfUrlsWithBasicAuthentication() {
         final FileSystemException fse = new FileSystemException(
             "vfs.provider/rename.error", new String[]{
@@ -42,6 +45,7 @@ public class FileSystemExceptionTest extends TestCase {
      * Tests a {@link FileSystemException} containing info with a URL containing only the user
      * information.
      */
+    @Test
     public void testDoesNotModifyUrlsWithoutPassword() {
         final FileSystemException fse = new FileSystemException(
             "vfs.provider/delete.error", new String[]{"http://foo@junit.org/test.bin"});
@@ -52,6 +56,7 @@ public class FileSystemExceptionTest extends TestCase {
      * Tests a {@link FileSystemException} containing info with a nested URL containing a
      * complete basic authentication.
      */
+    @Test
     public void testProperDetectionOfUrl() {
         final FileSystemException fse = new FileSystemException(
             "vfs.provider/delete.error", new String[]{"zip:http://foo:bar@junit.org/test.bin"});
