@@ -16,14 +16,17 @@
  */
 package org.apache.commons.vfs2.util;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
  *
  */
-public class EncryptDecryptTest extends TestCase
+public class EncryptDecryptTest
 {
 
+    @Test
     public void testEncryptDecrypt() throws Exception
     {
         String source = "Qryp2!t&tpR59";
