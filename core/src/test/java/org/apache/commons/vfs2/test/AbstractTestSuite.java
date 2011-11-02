@@ -201,16 +201,12 @@ public abstract class AbstractTestSuite
         fTest = null;
 
         // force the SoftRefFilesChache to free all files
-        System.err.println(".");
         System.gc();
         Thread.sleep(1000);
-        System.err.println(".");
         System.gc();
         Thread.sleep(1000);
-        System.err.println(".");
         System.gc();
         Thread.sleep(1000);
-        System.err.println(".");
         System.gc();
         Thread.sleep(1000);
 
