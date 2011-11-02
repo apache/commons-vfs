@@ -26,7 +26,7 @@
       <action issue="VFS-379" dev="ggregory" type="update">
         Replace custom BZIP2 code with Apache Commons Compress 1.3.
       </action>
-      <action issue="VFS-378" dev="ggregory" type="update">
+      <action issue="VFS-378" dev="ggregory" type="fix">
         Tar error message are missing from resource file.
       </action>
       <action issue="VFS-377" dev="ggregory" type="update">
