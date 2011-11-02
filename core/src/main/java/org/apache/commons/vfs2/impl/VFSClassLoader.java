@@ -400,18 +400,14 @@ public class VFSClassLoader extends SecureClassLoader
      */
     private Resource loadResource(final String name) throws FileSystemException
     {
-        final Iterator<FileObject> it = resources.iterator();
-        while (it.hasNext())
+        for (FileObject baseFile : resources)
         {
-            final FileObject baseFile = it.next();
-            final FileObject file =
-                baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
+            final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
             if (file.exists())
             {
                 return new Resource(name, baseFile, file);
             }
         }
-
         return null;
     }
 }
