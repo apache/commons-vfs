@@ -30,6 +30,7 @@ import org.junit.Test;
 
 /**
  * Tests FileObject sorting.
+ * 
  * $Id$
  */
 public class FileObjectSortTestCase {
