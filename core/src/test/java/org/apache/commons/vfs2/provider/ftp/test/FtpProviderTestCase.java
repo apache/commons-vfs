@@ -38,6 +38,7 @@ public class FtpProviderTestCase
     implements ProviderTestConfig
 {
     private static final String TEST_URI = "test.ftp.uri";
+    
     /**
      * Creates the test suite for the ftp file system.
      */
