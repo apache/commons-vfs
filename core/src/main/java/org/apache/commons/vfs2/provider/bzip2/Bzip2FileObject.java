@@ -23,7 +23,6 @@ import java.io.OutputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
