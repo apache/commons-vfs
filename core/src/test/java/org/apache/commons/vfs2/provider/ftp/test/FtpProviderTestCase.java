@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.ftp.test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import junit.framework.Test;
 
 import org.apache.commons.vfs2.FileObject;
@@ -27,31 +30,118 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+import org.apache.ftpserver.FtpServer;
+import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.ftplet.FtpException;
+import org.apache.ftpserver.ftplet.UserManager;
+import org.apache.ftpserver.listener.ListenerFactory;
+import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
+import org.apache.ftpserver.usermanager.impl.BaseUser;
+import org.junit.Assert;
 
 /**
  * Tests for FTP file systems.
- *
+ * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class FtpProviderTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public class FtpProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
+    private static final String USER_PROP_RES = "org.apache.ftpserver/users.properties";
+
+    private static final int DEFAULT_PORT = 2121;
+
+    /**
+     * Use %40 for @ in the FTP URL password
+     */
+    private static final String DEFAULT_URI = "ftp://test:test@localhost:" + DEFAULT_PORT;
+
     private static final String TEST_URI = "test.ftp.uri";
-    
+
+    private static FtpServer Server;
+
+    /**
+     * Creates and starts an embedded Apache FTP Server (MINA).
+     * 
+     * @throws FtpException
+     * @throws MalformedURLException
+     */
+    private static void setUpClass() throws FtpException, MalformedURLException
+    {
+        if (Server != null)
+        {
+            return;
+        }
+        final FtpServerFactory serverFactory = new FtpServerFactory();
+        final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
+        final URL userResource = ClassLoader.getSystemClassLoader().getResource(USER_PROP_RES);
+        Assert.assertNotNull(USER_PROP_RES, userResource);
+        propertiesUserManagerFactory.setUrl(userResource);
+        final UserManager userManager = propertiesUserManagerFactory.createUserManager();
+        final BaseUser user = (BaseUser) userManager.getUserByName("test");
+        // Pickup the home dir value at runtime even though we have it set in the user prop file
+        // The user prop file requires the "homedirectory" to be set
+        user.setHomeDirectory(getTestDirectory());
+        serverFactory.setUserManager(userManager);
+        ListenerFactory factory = new ListenerFactory();
+        // set the port of the listener
+        factory.setPort(DEFAULT_PORT);
+
+        // replace the default listener
+        serverFactory.addListener("default", factory.createListener());
+
+        // start the server
+        Server = serverFactory.createServer();
+        Server.start();
+    }
+
     /**
      * Creates the test suite for the ftp file system.
      */
     public static Test suite() throws Exception
     {
-        if (System.getProperty(TEST_URI) != null)
+        return new ProviderTestSuite(new FtpProviderTestCase())
         {
-            return new ProviderTestSuite(new FtpProviderTestCase());
-        }
-        else
+            @Override
+            protected void setUp() throws Exception
+            {
+                setUpClass();
+                super.setUp();
+            }
+
+            @Override
+            protected void tearDown() throws Exception
+            {
+                tearDownClass();
+                super.tearDown();
+            }
+        };
+    }
+
+    /**
+     * Stops the embedded Apache FTP Server (MINA).
+     */
+    public static void tearDownClass()
+    {
+        if (Server != null)
         {
-            return notConfigured(FtpProviderTestCase.class);
+            Server.stop();
         }
+    }
+
+    /**
+     * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by TEST_URI.
+     */
+    @Override
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
+    {
+        String uri = System.getProperty(TEST_URI);
+        if (uri == null)
+        {
+            uri = DEFAULT_URI;
+        }
+        FileSystemOptions opts = new FileSystemOptions();
+        FtpFileSystemConfigBuilder.getInstance().setPassiveMode(opts, true);
+        return manager.resolveFile(uri, opts);
     }
 
     /**
@@ -61,17 +151,5 @@ public class FtpProviderTestCase
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
         manager.addProvider("ftp", new FtpFileProvider());
-    }
-
-    /**
-     * Returns the base folder for tests.
-     */
-    @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
-        final String uri = System.getProperty(TEST_URI);
-        FileSystemOptions opts = new FileSystemOptions();
-        FtpFileSystemConfigBuilder.getInstance().setPassiveMode(opts, true);
-        return manager.resolveFile(uri, opts);
     }
 }
