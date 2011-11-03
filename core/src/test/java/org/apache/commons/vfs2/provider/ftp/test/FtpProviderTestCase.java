@@ -46,8 +46,6 @@ import org.junit.Assert;
  */
 public class FtpProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
-    private static final String USER_PROP_RES = "org.apache.ftpserver/users.properties";
-
     private static final int DEFAULT_PORT = 2121;
 
     /**
@@ -55,9 +53,11 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
      */
     private static final String DEFAULT_URI = "ftp://test:test@localhost:" + DEFAULT_PORT;
 
+    private static FtpServer Server;
+
     private static final String TEST_URI = "test.ftp.uri";
 
-    private static FtpServer Server;
+    private static final String USER_PROP_RES = "org.apache.ftpserver/users.properties";
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
