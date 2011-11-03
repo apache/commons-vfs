@@ -206,7 +206,7 @@ public final class FtpsClientFactory
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider.ftp/connect.error", new Object[]{hostname}, exc);
+                throw new FileSystemException("vfs.provider.sftp/connect.error", new Object[]{hostname}, exc);
             }
         }
     }
