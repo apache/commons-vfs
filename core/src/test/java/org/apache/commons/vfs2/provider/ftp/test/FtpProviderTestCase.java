@@ -120,7 +120,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
     /**
      * Stops the embedded Apache FTP Server (MINA).
      */
-    public static void tearDownClass()
+    private static void tearDownClass()
     {
         if (Server != null)
         {
