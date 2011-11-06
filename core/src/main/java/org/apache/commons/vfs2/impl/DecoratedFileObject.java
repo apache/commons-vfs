@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.impl;
 
 import java.net.URL;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.vfs2.FileContent;
@@ -153,6 +154,11 @@ public class DecoratedFileObject implements FileObject
     public boolean isWriteable() throws FileSystemException
     {
         return decoratedFileObject.isWriteable();
+    }
+
+    public Iterator<FileObject> iterator()
+    {
+        return decoratedFileObject.iterator();
     }
 
     public void moveTo(FileObject destFile) throws FileSystemException

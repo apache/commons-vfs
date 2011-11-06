@@ -30,6 +30,7 @@ import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -611,6 +612,43 @@ public abstract class AbstractFileObject implements FileObject
             throw new FileSystemException("vfs.provider/check-is-writeable.error", name, exc);
         }
     }
+
+    /**
+     * Returns an iterator over a set of all FileObject in this file object.
+     * 
+     * @return an Iterator.
+     */
+    public Iterator<FileObject> iterator()
+    {
+        try
+        {
+            return listFiles(Selectors.SELECT_ALL).iterator();
+        } catch (FileSystemException e)
+        {
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    /**
+     * Lists the set of matching descendents of this file, in depthwise
+     * order.
+     *
+     * @param selector The FileSelector.
+     * @return list of files or null if the base file (this object) do not exist or the {@code selector} is null
+     * @throws FileSystemException if an error occurs.
+     */
+    public List<FileObject> listFiles(final FileSelector selector) throws FileSystemException
+    {
+        if (!exists() || selector == null)
+        {
+            return null;
+        }
+
+        final ArrayList<FileObject> list = new ArrayList<FileObject>();
+        this.findFiles(selector, true, list);
+        return list;
+    }
+
 
     /**
      * Returns the parent of the file.
@@ -1223,14 +1261,8 @@ public abstract class AbstractFileObject implements FileObject
      */
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
     {
-        if (!exists())
-        {
-            return null;
-        }
-
-        final ArrayList<FileObject> list = new ArrayList<FileObject>();
-        findFiles(selector, true, list);
-        return list.toArray(new FileObject[list.size()]);
+        final List<FileObject> list = this.listFiles(selector);
+        return list != null ? list.toArray(new FileObject[list.size()]) : null;
     }
 
     /**
