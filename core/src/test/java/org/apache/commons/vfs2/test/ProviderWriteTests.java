@@ -224,19 +224,19 @@ public class ProviderWriteTests
         // Delete a file
         FileObject file = folder.resolveFile("file1.txt");
         assertTrue(file.exists());
-        file.delete(Selectors.SELECT_ALL);
+        file.deleteAll();
         assertTrue(!file.exists());
 
         // Delete a special name file
         file = folder.resolveFile("file%25.txt");
         assertTrue(file.exists());
-        file.delete(Selectors.SELECT_ALL);
+        file.deleteAll();
         assertTrue(!file.exists());
 
         // Delete an empty folder
         file = folder.resolveFile("emptydir");
         assertTrue(file.exists());
-        file.delete(Selectors.SELECT_ALL);
+        file.deleteAll();
         assertTrue(!file.exists());
 
         // Recursive delete
@@ -244,14 +244,61 @@ public class ProviderWriteTests
         FileObject file2 = file.resolveFile("dir2/file2.txt");
         assertTrue(file.exists());
         assertTrue(file2.exists());
-        file.delete(Selectors.SELECT_ALL);
+        file.deleteAll();
         assertTrue(!file.exists());
         assertTrue(!file2.exists());
 
         // Delete a file that does not exist
         file = folder.resolveFile("some-folder/some-file");
         assertTrue(!file.exists());
-        file.delete(Selectors.SELECT_ALL);
+        file.deleteAll();
+        assertTrue(!file.exists());
+    }
+
+    /**
+     * Tests deletion
+     */
+    public void testDeleteAllDescendents() throws Exception
+    {
+        // Set-up the test structure
+        FileObject folder = createScratchFolder();
+        folder.resolveFile("file1.txt").createFile();
+        folder.resolveFile("file%25.txt").createFile();
+        folder.resolveFile("emptydir").createFolder();
+        folder.resolveFile("dir1/file1.txt").createFile();
+        folder.resolveFile("dir1/dir2/file2.txt").createFile();
+
+        // Delete a file
+        FileObject file = folder.resolveFile("file1.txt");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertTrue(!file.exists());
+
+        // Delete a special name file
+        file = folder.resolveFile("file%25.txt");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertTrue(!file.exists());
+
+        // Delete an empty folder
+        file = folder.resolveFile("emptydir");
+        assertTrue(file.exists());
+        file.deleteAll();
+        assertTrue(!file.exists());
+
+        // Recursive delete
+        file = folder.resolveFile("dir1");
+        FileObject file2 = file.resolveFile("dir2/file2.txt");
+        assertTrue(file.exists());
+        assertTrue(file2.exists());
+        file.deleteAll();
+        assertTrue(!file.exists());
+        assertTrue(!file2.exists());
+
+        // Delete a file that does not exist
+        file = folder.resolveFile("some-folder/some-file");
+        assertTrue(!file.exists());
+        file.deleteAll();
         assertTrue(!file.exists());
     }
 
@@ -474,17 +521,17 @@ public class ProviderWriteTests
         assertSameFileSet(names, folder.getChildren());
 
         // Delete a child folder
-        folder.resolveFile("dir1").delete(Selectors.SELECT_ALL);
+        folder.resolveFile("dir1").deleteAll();
         names.remove("dir1");
         assertSameFileSet(names, folder.getChildren());
 
         // Delete a child file
-        folder.resolveFile("file1.html").delete(Selectors.SELECT_ALL);
+        folder.resolveFile("file1.html").deleteAll();
         names.remove("file1.html");
         assertSameFileSet(names, folder.getChildren());
 
         // Recreate the folder
-        folder.delete(Selectors.SELECT_ALL);
+        folder.deleteAll();
         folder.createFolder();
         assertEquals(0, folder.getChildren().length);
     }

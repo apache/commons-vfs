@@ -25,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VfsLog;
 import org.apache.commons.vfs2.provider.AbstractVfsComponent;
 import org.apache.commons.vfs2.provider.FileReplicator;
@@ -127,7 +126,7 @@ public class DefaultFileReplicator
         try
         {
             final FileObject fileObject = getContext().toFileObject(file);
-            fileObject.delete(Selectors.SELECT_ALL);
+            fileObject.deleteAll();
         }
         catch (final FileSystemException e)
         {

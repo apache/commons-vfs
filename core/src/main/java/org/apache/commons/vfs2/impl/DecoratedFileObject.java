@@ -85,6 +85,11 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.delete(selector);
     }
 
+    public int deleteAll() throws FileSystemException
+    {
+        return decoratedFileObject.deleteAll();
+    }
+
     public boolean exists() throws FileSystemException
     {
         return decoratedFileObject.exists();
@@ -216,5 +221,6 @@ public class DecoratedFileObject implements FileObject
     {
         return decoratedFileObject.getFileOperations();
     }
+
 
 }

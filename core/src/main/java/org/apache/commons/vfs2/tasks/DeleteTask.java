@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.tasks;
 import java.util.StringTokenizer;
 
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.util.Messages;
 import org.apache.tools.ant.BuildException;
 
@@ -91,14 +90,14 @@ public class DeleteTask
                 {
                     String nextFile = tok.nextToken();
                     final FileObject srcFile = resolveFile(srcDirUrl + nextFile);
-                    srcFile.delete(Selectors.SELECT_ALL);
+                    srcFile.deleteAll();
                 }
             }
             else
             {
                 final FileObject srcFile = resolveFile(file);
                 log("Deleting " + srcFile);
-                srcFile.delete(Selectors.SELECT_ALL);
+                srcFile.deleteAll();
             }
         }
         catch (final Exception e)

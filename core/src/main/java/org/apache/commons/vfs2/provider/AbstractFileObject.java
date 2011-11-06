@@ -929,7 +929,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Deletes this file, and all children.
+     * Deletes this file, and all children matching the {@code selector}
      *
      * @param selector The FileSelector.
      * @return the number of deleted files.
@@ -976,6 +976,19 @@ public abstract class AbstractFileObject implements FileObject
         }
 
         return nuofDeleted;
+    }
+
+    /**
+     * Deletes this file and all children. Shorthand for {@code delete(Selectors.SELECT_ALL)}
+     *
+     * @return the number of deleted files.
+     * @throws FileSystemException if an error occurs.
+     * @see #delete(FileSelector)
+     * @see Selectors#SELECT_ALL
+     */
+    public int deleteAll() throws FileSystemException
+    {
+        return this.delete(Selectors.SELECT_ALL);
     }
 
     /**
@@ -1114,7 +1127,7 @@ public abstract class AbstractFileObject implements FileObject
                 // The destination file exists, and is not of the same type,
                 // so delete it
                 // TODO - add a pluggable policy for deleting and overwriting existing files
-                destFile.delete(Selectors.SELECT_ALL);
+                destFile.deleteAll();
             }
 
             // Copy across
@@ -1161,7 +1174,7 @@ public abstract class AbstractFileObject implements FileObject
 
         if (destFile.exists() && !isSameFile(destFile))
         {
-            destFile.delete(Selectors.SELECT_ALL);
+            destFile.deleteAll();
             // throw new FileSystemException("vfs.provider/rename-dest-exists.error", destFile.getName());
         }
 

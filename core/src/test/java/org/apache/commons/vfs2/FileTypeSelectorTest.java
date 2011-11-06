@@ -59,7 +59,7 @@ public class FileTypeSelectorTest
     {
         if (BaseFolder != null)
         {
-            BaseFolder.delete(Selectors.SELECT_ALL);
+            BaseFolder.deleteAll();
         }
     }
 

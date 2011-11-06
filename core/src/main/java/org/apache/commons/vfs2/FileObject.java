@@ -217,7 +217,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Deletes this file.  Does nothing if this file does not exist of if it is a
      * folder that has children.  Does not delete any descendents of this file,
-     * use {@link #delete(FileSelector)} for that.
+     * use {@link #delete(FileSelector)} or {@link #deleteAll()} for that.
      *
      * @return true if this object has been deleted
      * @throws FileSystemException If this file is a non-empty folder, or if this file is read-only,
@@ -238,6 +238,16 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      *                             deleting this file or one of its descendents.
      */
     int delete(FileSelector selector) throws FileSystemException;
+
+    /**
+     * Deletes this file and all children.
+     *
+     * @return the number of deleted files.
+     * @throws FileSystemException if an error occurs.
+     * @see #delete(FileSelector)
+     * @see Selectors#SELECT_ALL
+     */
+    int deleteAll() throws FileSystemException;
 
     /**
      * Creates this folder, if it does not exist.  Also creates any ancestor

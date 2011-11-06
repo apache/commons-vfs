@@ -73,7 +73,7 @@ public class FileExtensionSelectorTest
     {
         if (BaseFolder != null)
         {
-            BaseFolder.delete(Selectors.SELECT_ALL);
+            BaseFolder.deleteAll();
         }
     }
 
