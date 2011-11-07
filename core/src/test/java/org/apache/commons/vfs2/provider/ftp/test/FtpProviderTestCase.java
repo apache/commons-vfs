@@ -59,6 +59,11 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
 
     private static final String USER_PROP_RES = "org.apache.ftpserver/users.properties";
 
+    private static String getSystemTestUriOverride()
+    {
+        return System.getProperty(TEST_URI);
+    }
+
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
      * 
@@ -104,7 +109,10 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
             @Override
             protected void setUp() throws Exception
             {
-                setUpClass();
+                if (getSystemTestUriOverride() == null)
+                {
+                    setUpClass();
+                }
                 super.setUp();
             }
 
@@ -134,7 +142,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        String uri = System.getProperty(TEST_URI);
+        String uri = getSystemTestUriOverride();
         if (uri == null)
         {
             uri = DEFAULT_URI;
