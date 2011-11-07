@@ -2,6 +2,7 @@ package org.apache.commons.vfs2;
 
 import java.util.Iterator;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,7 +26,8 @@ public class FileIteratorTest
     @BeforeClass
     public static void setUpClass() throws Exception
     {
-        BaseFolder = VFS.getManager().resolveFile("ram://" + FileExtensionSelectorTest.class.getName());
+        BaseFolder = VFS.getManager().resolveFile("ram://" + FileIteratorTest.class.getName());
+        BaseFolder.deleteAll();
         BaseFolder.resolveFile("a.htm").createFile();
         BaseFolder.resolveFile("a.html").createFile();
         BaseFolder.resolveFile("a.xhtml").createFile();
@@ -39,6 +41,20 @@ public class FileIteratorTest
         BaseFolder.resolveFile("subdir1/subfile1.txt").createFile();
         BaseFolder.resolveFile("subdir2").createFolder();
         BaseFolder.resolveFile("subdir2/subfile1.txt").createFile();
+    }
+
+    /**
+     * Deletes RAM FS files.
+     * 
+     * @throws Exception
+     */
+    @AfterClass
+    public static void tearDownClass() throws Exception
+    {
+        if (BaseFolder != null)
+        {
+            BaseFolder.deleteAll();
+        }
     }
 
     @Test

@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -51,6 +50,7 @@ public class FileExtensionSelectorTest
     public static void setUpClass() throws Exception
     {
         BaseFolder = VFS.getManager().resolveFile("ram://" + FileExtensionSelectorTest.class.getName());
+        BaseFolder.deleteAll();
         BaseFolder.createFolder();
         BaseFolder.resolveFile("a.htm").createFile();
         BaseFolder.resolveFile("a.html").createFile();
