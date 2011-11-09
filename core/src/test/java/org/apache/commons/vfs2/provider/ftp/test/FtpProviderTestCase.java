@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.ftp.test;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -30,6 +31,7 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
@@ -46,12 +48,12 @@ import org.junit.Assert;
  */
 public class FtpProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
-    private static final int DEFAULT_PORT = 2121;
+    private static int SocketPort;
 
     /**
      * Use %40 for @ in the FTP URL password
      */
-    private static final String DEFAULT_URI = "ftp://test:test@localhost:" + DEFAULT_PORT;
+    private static String ConnectionUri;
 
     private static FtpServer Server;
 
@@ -89,7 +91,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         serverFactory.setUserManager(userManager);
         ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
-        factory.setPort(DEFAULT_PORT);
+        factory.setPort(SocketPort);
 
         // replace the default listener
         serverFactory.addListener("default", factory.createListener());
@@ -136,6 +138,13 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         }
     }
 
+    public FtpProviderTestCase() throws IOException
+    {
+        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
+        // Use %40 for @ in the a URL a @
+        ConnectionUri = "ftp://test:test@localhost:" + SocketPort;
+    }
+
     /**
      * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by TEST_URI.
      */
@@ -145,7 +154,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         String uri = getSystemTestUriOverride();
         if (uri == null)
         {
-            uri = DEFAULT_URI;
+            uri = ConnectionUri;
         }
         FileSystemOptions opts = new FileSystemOptions();
         FtpFileSystemConfigBuilder.getInstance().setPassiveMode(opts, true);
