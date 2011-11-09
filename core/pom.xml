@@ -81,7 +81,7 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- ftpserver-core -->
+    <!-- Test FTP with Apache FTP Server (MINA) -->
     <dependency>
       <groupId>org.apache.ftpserver</groupId>
       <artifactId>ftpserver-core</artifactId>
@@ -97,7 +97,7 @@
       <artifactId>slf4j-log4j12</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- SSHd -->
+    <!-- Test SFTP with Apache SHHd Server (MINA) -->
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-core</artifactId>
