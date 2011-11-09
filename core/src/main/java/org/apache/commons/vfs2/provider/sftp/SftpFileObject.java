@@ -300,6 +300,10 @@ public class SftpFileObject extends AbstractFileObject
     @Override
     protected FileObject[] doListChildrenResolved() throws Exception
     {
+        // should not require a round-trip because type is already set.
+        if (this.isFile()) {
+            return null;
+        }
         // List the contents of the folder
         Vector<?> vector = null;
         final ChannelSftp channel = fileSystem.getChannel();

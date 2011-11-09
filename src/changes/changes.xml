@@ -23,6 +23,12 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-382" dev="ggregory" type="fix">
+        SFTP getChildren() does not fail when called on a file.
+      </action>
+      <action issue="VFS-381" dev="ggregory" type="add">
+        Iterate over a FileObject using the Java "foreach" statement, to provide all descendents of a FileObject.
+      </action>
       <action issue="VFS-380" dev="ggregory" type="fix">
         FTP connect.error message used instead of SFTP connect.error message.
       </action>
@@ -46,6 +52,9 @@
       </action>
       <action issue="VFS-372" dev="ggregory" type="add">
         Add constructors FileDepthSelector() and FileDepthSelector(int).
+      </action>
+      <action issue="VFS-371" dev="ggregory" type="add">
+        Add FileObject API deleteAll().
       </action>
       <action issue="VFS-370" dev="ggregory" type="add">
         Add a FileExtensionSelector class.
