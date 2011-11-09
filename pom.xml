@@ -361,7 +361,7 @@
         <version>4.10</version>
         <scope>test</scope>
       </dependency>
-      <!-- ftpserver-core -->
+      <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
         <groupId>org.apache.ftpserver</groupId>
         <artifactId>ftpserver-core</artifactId>
@@ -380,7 +380,7 @@
         <version>1.6.3</version>
         <scope>test</scope>
       </dependency>
-      <!-- SSHd -->
+      <!-- Test SFTP with Apache SHHd Server (MINA) -->
       <dependency>
         <groupId>org.apache.sshd</groupId>
         <artifactId>sshd-core</artifactId>
