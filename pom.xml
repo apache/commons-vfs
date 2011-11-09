@@ -380,6 +380,25 @@
         <version>1.6.3</version>
         <scope>test</scope>
       </dependency>
+      <!-- SSHd -->
+      <dependency>
+        <groupId>org.apache.sshd</groupId>
+        <artifactId>sshd-core</artifactId>
+        <version>0.6.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk15</artifactId>
+        <version>1.46</version>
+        <scope>test</scope>
+      </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.1</version>
+      <scope>test</scope>
+    </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -433,10 +452,8 @@
     </site>
   </distributionManagement>
 
-  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat
-       painful. This profile hooks into the commons-parent and the apache-pom to
-       get the build done and then uses the assembly to package it up.
-  -->
+  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent and the apache-pom 
+    to get the build done and then uses the assembly to package it up. -->
   <profiles>
     <profile>
       <id>include-sandbox</id>
