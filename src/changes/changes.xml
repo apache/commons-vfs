@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-383" dev="ggregory" type="update">
+        Update JSch to 0.1.45 from 0.1.42 for the SFTP provider.
+      </action>
       <action issue="VFS-382" dev="ggregory" type="fix">
         SFTP getChildren() does not fail when called on a file.
       </action>
