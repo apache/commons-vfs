@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-384" dev="ggregory" type="update">
+        Update Apache Commons Net to 3.0.1 from 2.2 for FTP and SFTP providers.
+      </action>
       <action issue="VFS-383" dev="ggregory" type="update">
         Update JSch to 0.1.45 from 0.1.42 for the SFTP provider.
       </action>
