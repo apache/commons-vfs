@@ -51,7 +51,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
     private static int SocketPort;
 
     /**
-     * Use %40 for @ in the FTP URL password
+     * Use %40 for @ in URLs
      */
     private static String ConnectionUri;
 
