@@ -63,7 +63,7 @@ public class FileSystemException
      */
     public FileSystemException(final String code)
     {
-        this(code, null, null);
+        this(code, null, (Object[])null);
     }
 
     /**
@@ -74,7 +74,7 @@ public class FileSystemException
      */
     public FileSystemException(final String code, final Object info0)
     {
-        this(code, new Object[]{info0}, null);
+        this(code, null, new Object[]{info0});
     }
 
     /**
@@ -88,7 +88,7 @@ public class FileSystemException
                                final Object info0,
                                final Throwable throwable)
     {
-        this(code, new Object[]{info0}, throwable);
+        this(code, throwable, new Object[]{info0});
     }
 
     /**
@@ -97,9 +97,9 @@ public class FileSystemException
      * @param code the error code of the message.
      * @param info array of complementary info (context).
      */
-    public FileSystemException(final String code, final Object[] info)
+    public FileSystemException(final String code, final Object... info)
     {
-        this(code, info, null);
+        this(code, null, info);
     }
 
     /**
@@ -110,7 +110,23 @@ public class FileSystemException
      */
     public FileSystemException(final String code, final Throwable throwable)
     {
-        this(code, null, throwable);
+        this(code, throwable, (Object[])null);
+    }
+
+    /**
+     * Constructs exception with the specified detail message.
+     *
+     * @param code      the error code of the message.
+     * @param info      array of complementary info (context).
+     * @param throwable the cause.
+     * @deprecated Use instead {@link #FileSystemException(String, Throwable, Object[])}. Will be removed in 3.0.
+     */
+    @Deprecated
+    public FileSystemException(final String code,
+                               final Object[] info,
+                               final Throwable throwable)
+    {
+        this(code, throwable, info);
     }
 
     /**
@@ -121,8 +137,8 @@ public class FileSystemException
      * @param throwable the cause.
      */
     public FileSystemException(final String code,
-                               final Object[] info,
-                               final Throwable throwable)
+                               final Throwable throwable,
+                               final Object... info)
     {
         super(code);
 
@@ -157,7 +173,7 @@ public class FileSystemException
      */
     public FileSystemException(final Throwable throwable)
     {
-        this(throwable.getMessage(), null, throwable);
+        this(throwable.getMessage(), throwable, (Object[])null);
     }
 
     /**

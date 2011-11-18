@@ -514,7 +514,7 @@ public class FtpFileObject extends AbstractFileObject
             if (!ok)
             {
                 throw new FileSystemException("vfs.provider.ftp/rename-file.error",
-                        new Object[]{getName().toString(), newfile});
+                        getName().toString(), newfile);
             }
             this.fileInfo = null;
             children = EMPTY_FTP_FILE_MAP;
@@ -645,11 +645,9 @@ public class FtpFileObject extends AbstractFileObject
 
             if (out == null)
             {
-                throw new FileSystemException("vfs.provider.ftp/output-error.debug", new Object[]
-                    {
+                throw new FileSystemException("vfs.provider.ftp/output-error.debug", 
                         this.getName(),
-                        client.getReplyString()
-                    });
+                        client.getReplyString());
             }
 
             return new FtpOutputStream(client, out);
@@ -674,11 +672,9 @@ public class FtpFileObject extends AbstractFileObject
             final InputStream instr = client.retrieveFileStream(relPath, filePointer);
             if (instr == null)
             {
-                throw new FileSystemException("vfs.provider.ftp/input-error.debug", new Object[]
-                    {
+                throw new FileSystemException("vfs.provider.ftp/input-error.debug", 
                         this.getName(),
-                        client.getReplyString()
-                    });
+                        client.getReplyString());
             }
             return new FtpInputStream(client, instr);
         }

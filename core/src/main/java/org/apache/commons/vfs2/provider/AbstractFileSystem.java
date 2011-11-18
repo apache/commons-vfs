@@ -322,8 +322,7 @@ public abstract class AbstractFileSystem
         if (!rootName.getRootURI().equals(name.getRootURI()))
         {
             throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error",
-                new Object[]{
-                    name, rootName, name.getRootURI()});
+                    name, rootName, name.getRootURI());
         }
 
         // imario@apache.org ==> use getFileFromCache

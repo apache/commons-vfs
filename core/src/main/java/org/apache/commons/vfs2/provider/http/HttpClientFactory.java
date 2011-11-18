@@ -149,7 +149,7 @@ public final class HttpClientFactory
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider.http/connect.error", new Object[]{hostname}, exc);
+            throw new FileSystemException("vfs.provider.http/connect.error", exc, hostname);
         }
 
         return client;

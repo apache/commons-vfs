@@ -34,8 +34,8 @@ public class FileSystemExceptionTest {
     @Test
     public void testMasksPasswordOfUrlsWithBasicAuthentication() {
         final FileSystemException fse = new FileSystemException(
-            "vfs.provider/rename.error", new String[]{
-                "file://test.bin", "http://foo:bar@junit.org/test.bin"});
+            "vfs.provider/rename.error", 
+            "file://test.bin", "http://foo:bar@junit.org/test.bin");
 
         assertEquals("file://test.bin", fse.getInfo()[0]);
         assertEquals("http://foo:***@junit.org/test.bin", fse.getInfo()[1]);
@@ -48,7 +48,7 @@ public class FileSystemExceptionTest {
     @Test
     public void testDoesNotModifyUrlsWithoutPassword() {
         final FileSystemException fse = new FileSystemException(
-            "vfs.provider/delete.error", new String[]{"http://foo@junit.org/test.bin"});
+            "vfs.provider/delete.error", "http://foo@junit.org/test.bin");
         assertEquals("http://foo@junit.org/test.bin", fse.getInfo()[0]);
     }
 
@@ -59,7 +59,7 @@ public class FileSystemExceptionTest {
     @Test
     public void testProperDetectionOfUrl() {
         final FileSystemException fse = new FileSystemException(
-            "vfs.provider/delete.error", new String[]{"zip:http://foo:bar@junit.org/test.bin"});
+            "vfs.provider/delete.error", "zip:http://foo:bar@junit.org/test.bin");
         assertEquals("zip:http://foo:***@junit.org/test.bin", fse.getInfo()[0]);
     }
 

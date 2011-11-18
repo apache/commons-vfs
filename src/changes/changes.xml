@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-389" dev="ggregory" type="update">
+        Use variable argument lists in FileSystemException instead of Object[]s.
+      </action>
       <action issue="VFS-388" dev="ggregory" type="update">
         Build tests SFTP file system with an embedded SFTP server (Apache MINA).
       </action>

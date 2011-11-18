@@ -93,7 +93,7 @@ public class PrivilegedFileReplicator
             }
             catch (final PrivilegedActionException e)
             {
-                throw new FileSystemException("vfs.impl/init-replicator.error", null, e);
+                throw new FileSystemException("vfs.impl/init-replicator.error", e);
             }
         }
     }
@@ -126,7 +126,7 @@ public class PrivilegedFileReplicator
         }
         catch (final PrivilegedActionException e)
         {
-            throw new FileSystemException("vfs.impl/replicate-file.error", new Object[]{srcFile.getName()}, e);
+            throw new FileSystemException("vfs.impl/replicate-file.error", e, srcFile.getName());
         }
     }
 

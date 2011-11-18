@@ -236,7 +236,7 @@ public final class SftpClientFactory
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider.sftp/connect.error", new Object[]{hostname}, exc);
+            throw new FileSystemException("vfs.provider.sftp/connect.error", exc, hostname);
         }
 
 

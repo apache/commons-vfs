@@ -138,7 +138,7 @@ public class LocalFile extends AbstractFileObject
         if (!file.renameTo(newLocalFile.getLocalFile()))
         {
             throw new FileSystemException("vfs.provider.local/rename-file.error",
-                new String[]{file.toString(), newfile.toString()});
+                file.toString(), newfile.toString());
         }
     }
 

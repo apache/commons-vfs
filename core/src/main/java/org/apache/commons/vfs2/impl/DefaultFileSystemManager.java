@@ -700,8 +700,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             // An unknown scheme - hand it to the default provider
             if (defaultProvider == null)
             {
-                throw new FileSystemException("vfs.impl/unknown-scheme.error",
-                        new Object[] {scheme, uri});
+                throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme, uri);
             }
             return defaultProvider.findFile(realBaseFile, uri, fileSystemOptions);
         }
@@ -862,8 +861,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             // An unknown scheme - hand it to the default provider
             if (defaultProvider == null)
             {
-                throw new FileSystemException("vfs.impl/unknown-scheme.error",
-                        new Object[] {scheme, uri});
+                throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme, uri);
             }
             return defaultProvider.parseUri(null, uri);
         }
@@ -901,8 +899,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         final FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
-            throw new FileSystemException("vfs.impl/unknown-provider.error",
-                    new Object[] {scheme, file});
+            throw new FileSystemException("vfs.impl/unknown-provider.error", scheme, file);
         }
         return provider.createFileSystem(scheme, file, file.getFileSystem().getFileSystemOptions());
     }
@@ -1058,8 +1055,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
-            throw new FileSystemException("vfs.impl/unknown-scheme.error",
-                    new Object[] {scheme});
+            throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme);
         }
 
         return provider.getCapabilities();
@@ -1077,7 +1073,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
-            throw new FileSystemException("vfs.impl/unknown-scheme.error", new Object[] {scheme});
+            throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme);
         }
 
         return provider.getConfigBuilder();

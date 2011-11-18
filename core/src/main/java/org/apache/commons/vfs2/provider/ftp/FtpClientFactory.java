@@ -96,7 +96,7 @@ public final class FtpClientFactory
                     UserAuthenticatorUtils.toString(password)))
                 {
                     throw new FileSystemException("vfs.provider.ftp/login.error",
-                        new Object[]{hostname, UserAuthenticatorUtils.toString(username)}, null);
+                        hostname, UserAuthenticatorUtils.toString(username));
                 }
 
                 // Set binary mode
@@ -156,7 +156,7 @@ public final class FtpClientFactory
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider.ftp/connect.error", new Object[]{hostname}, exc);
+            throw new FileSystemException("vfs.provider.ftp/connect.error", exc, hostname);
         }
     }
 

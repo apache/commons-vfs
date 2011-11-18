@@ -503,7 +503,7 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (Exception e)
             {
-                throw new FileSystemException("vfs.provider/get-type.error", new Object[]{name}, e);
+                throw new FileSystemException("vfs.provider/get-type.error", e, name);
             }
 
             return type;
@@ -725,7 +725,7 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (Exception exc)
             {
-                throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
+                throw new FileSystemException("vfs.provider/list-children.error", exc, name);
             }
 
             if (childrenObjects != null)
@@ -746,7 +746,7 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (Exception exc)
             {
-                throw new FileSystemException("vfs.provider/list-children.error", new Object[]{name}, exc);
+                throw new FileSystemException("vfs.provider/list-children.error", exc, name);
             }
 
             if (files == null)
@@ -909,7 +909,7 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/delete.error", new Object[]{name}, exc);
+                throw new FileSystemException("vfs.provider/delete.error", exc, name);
             }
 
             return true;
@@ -1144,7 +1144,7 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (final IOException e)
             {
-                throw new FileSystemException("vfs.provider/copy-file.error", new Object[]{srcFile, destFile}, e);
+                throw new FileSystemException("vfs.provider/copy-file.error", e, srcFile, destFile);
             }
         }
     }
@@ -1160,8 +1160,9 @@ public abstract class AbstractFileObject implements FileObject
         {
             if (!getParent().isWriteable())
             {
-                throw new FileSystemException("vfs.provider/rename-parent-read-only.error", new FileName[]{getName(),
-                        getParent().getName()});
+                throw new FileSystemException("vfs.provider/rename-parent-read-only.error", 
+                        getName(),
+                        getParent().getName());
             }
         }
         else
@@ -1198,11 +1199,9 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/rename.error", new Object[]
-                    {
+                throw new FileSystemException("vfs.provider/rename.error",  exc,
                         getName(),
-                        destFile.getName()
-                    }, exc);
+                        destFile.getName());
             }
         }
         else
@@ -1515,7 +1514,7 @@ public abstract class AbstractFileObject implements FileObject
         }
         catch (Exception exc)
         {
-            throw new FileSystemException("vfs.provider/write.error", new Object[]{name}, exc);
+            throw new FileSystemException("vfs.provider/write.error", exc, name);
         }
     }
 
@@ -1598,7 +1597,7 @@ public abstract class AbstractFileObject implements FileObject
             }
             catch (Exception exc)
             {
-                throw new FileSystemException("vfs.provider/get-type.error", new Object[]{name}, exc);
+                throw new FileSystemException("vfs.provider/get-type.error", exc, name);
             }
 
             // fs.fileAttached(this);

@@ -65,10 +65,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         if (pos < 0)
         {
             throw new FileSystemException("vfs.provider/random-access-invalid-position.error",
-                new Object[]
-                {
-                    new Long(pos)
-                });
+                    new Long(pos));
         }
         if (dis != null)
         {
@@ -92,12 +89,10 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         final int status = fileSystem.getClient().executeMethod(getMethod);
         if (status != HttpURLConnection.HTTP_PARTIAL && status != HttpURLConnection.HTTP_OK)
         {
-            throw new FileSystemException("vfs.provider.http/get-range.error", new Object[]
-            {
+            throw new FileSystemException("vfs.provider.http/get-range.error", 
                 fileObject.getName(),
                 Long.valueOf(filePointer),
-                Integer.valueOf(status)
-            });
+                Integer.valueOf(status));
         }
 
         mis = new HttpFileObject.HttpInputStream(getMethod);
@@ -107,12 +102,10 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
             long skipped = mis.skip(filePointer);
             if (skipped != filePointer)
             {
-                throw new FileSystemException("vfs.provider.http/get-range.error", new Object[]
-                {
+                throw new FileSystemException("vfs.provider.http/get-range.error", 
                     fileObject.getName(),
                     Long.valueOf(filePointer),
-                    Integer.valueOf(status)
-                });
+                    Integer.valueOf(status));
             }
         }
         dis = new DataInputStream(new FilterInputStream(mis)

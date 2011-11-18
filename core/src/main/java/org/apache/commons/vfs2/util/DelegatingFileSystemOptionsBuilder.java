@@ -198,11 +198,9 @@ public class DelegatingFileSystemOptionsBuilder
         // find all setter methods suitable for the given "name"
         if (!fillConfigSetters(ctx))
         {
-            throw new FileSystemException("vfs.provider/config-key-invalid.error", new String[]
-            {
+            throw new FileSystemException("vfs.provider/config-key-invalid.error",
                 ctx.scheme,
-                ctx.name
-            });
+                ctx.name);
         }
 
         // get the fileSystemConfigBuilder
@@ -219,12 +217,10 @@ public class DelegatingFileSystemOptionsBuilder
             }
         }
 
-        throw new FileSystemException("vfs.provider/config-value-invalid.error", new Object[]
-        {
+        throw new FileSystemException("vfs.provider/config-value-invalid.error", 
             ctx.scheme,
             ctx.name,
-            ctx.values
-        });
+            ctx.values);
     }
 
     /**

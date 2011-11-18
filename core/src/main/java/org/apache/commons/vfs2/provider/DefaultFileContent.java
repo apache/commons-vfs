@@ -148,7 +148,7 @@ public final class DefaultFileContent implements FileContent
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/get-size.error", new Object[]{fileObject}, exc);
+            throw new FileSystemException("vfs.provider/get-size.error", exc, fileObject);
         }
     }
 
@@ -302,7 +302,7 @@ public final class DefaultFileContent implements FileContent
     {
         if (!fileObject.getType().hasAttributes())
         {
-            throw new FileSystemException("vfs.provider/set-attribute-no-exist.error", new Object[]{attrName, fileObject});
+            throw new FileSystemException("vfs.provider/set-attribute-no-exist.error", attrName, fileObject);
         }
         try
         {
@@ -310,7 +310,7 @@ public final class DefaultFileContent implements FileContent
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.provider/set-attribute.error", new Object[]{attrName, fileObject}, e);
+            throw new FileSystemException("vfs.provider/set-attribute.error", e,attrName, fileObject);
         }
 
         if (attrs != null)
@@ -338,7 +338,7 @@ public final class DefaultFileContent implements FileContent
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.provider/remove-attribute.error", new Object[]{attrName, fileObject}, e);
+            throw new FileSystemException("vfs.provider/remove-attribute.error", e, attrName, fileObject);
         }
 
         if (attrs != null)
