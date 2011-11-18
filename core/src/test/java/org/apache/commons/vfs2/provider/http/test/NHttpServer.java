@@ -97,27 +97,27 @@ public class NHttpServer
     {
         public void connectionClosed(final NHttpConnection conn)
         {
-            System.out.println("Connection closed: " + conn);
+            debug("Connection closed: " + conn);
         }
 
         public void connectionOpen(final NHttpConnection conn)
         {
-            System.out.println("Connection open: " + conn);
+            debug("Connection open: " + conn);
         }
 
         public void connectionTimeout(final NHttpConnection conn)
         {
-            System.out.println("Connection timed out: " + conn);
+            debug("Connection timed out: " + conn);
         }
 
         public void fatalIOException(final IOException ex, final NHttpConnection conn)
         {
-            System.err.println("I/O error: " + ex.getMessage());
+            debug("I/O error: " + ex.getMessage());
         }
 
         public void fatalProtocolException(final HttpException ex, final NHttpConnection conn)
         {
-            System.err.println("HTTP error: " + ex.getMessage());
+            debug("HTTP error: " + ex.getMessage());
         }
     }
 
@@ -144,7 +144,7 @@ public class NHttpServer
             {
                 HttpEntity entity = ((HttpEntityEnclosingRequest) request).getEntity();
                 byte[] entityContent = EntityUtils.toByteArray(entity);
-                System.out.println("Incoming entity content (bytes): " + entityContent.length);
+                debug("Incoming entity content (bytes): " + entityContent.length);
             }
 
             String target = request.getRequestLine().getUri();
@@ -156,7 +156,7 @@ public class NHttpServer
                         + " not found</h1></body></html>", "UTF-8");
                 entity.setContentType("text/html; charset=UTF-8");
                 response.setEntity(entity);
-                System.out.println("File " + file.getPath() + " not found");
+                debug("File " + file.getPath() + " not found");
 
             } else if (!file.canRead())
             {
@@ -164,7 +164,7 @@ public class NHttpServer
                 NStringEntity entity = new NStringEntity("<html><body><h1>Access denied</h1></body></html>", "UTF-8");
                 entity.setContentType("text/html; charset=UTF-8");
                 response.setEntity(entity);
-                System.out.println("Cannot read file " + file.getPath());
+                debug("Cannot read file " + file.getPath());
 
             } else
             {
@@ -175,8 +175,18 @@ public class NHttpServer
                 {
                     response.addHeader(HttpHeaders.LAST_MODIFIED, DateUtil.formatDate(new Date(file.lastModified())));
                 }
-                System.out.println("Serving file " + file.getPath());
+                debug("Serving file " + file.getPath());
             }
+        }
+    }
+
+    static final boolean Debug = false;
+
+    private static void debug(String s)
+    {
+        if (Debug)
+        {
+            System.out.println(s);
         }
     }
 
@@ -238,12 +248,12 @@ public class NHttpServer
             ioReactor.execute(ioEventDispatch);
         } catch (InterruptedIOException ex)
         {
-            System.err.println("Interrupted");
+            debug("Interrupted");
         } catch (IOException e)
         {
-            System.err.println("I/O error: " + e.getMessage());
+            debug("I/O error: " + e.getMessage());
         }
-        System.out.println("Shutdown");
+        debug("Shutdown");
     }
 
     public void stop() throws IOException
