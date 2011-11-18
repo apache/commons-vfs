@@ -268,7 +268,7 @@ public abstract class FileSystemConfigBuilder
     /** @since 2.0 */
     protected long getLong(FileSystemOptions opts, String name, long defaultValue)
     {
-        return getLong(opts, name, new Long(defaultValue)).longValue();
+        return getLong(opts, name, Long.valueOf(defaultValue)).longValue();
     }
 
     /** @since 2.0 */
