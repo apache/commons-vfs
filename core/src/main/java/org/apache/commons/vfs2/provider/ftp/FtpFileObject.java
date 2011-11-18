@@ -155,10 +155,7 @@ public class FtpFileObject extends AbstractFileObject
                         if (log.isDebugEnabled())
                         {
                             log.debug(Messages.getString("vfs.provider.ftp/invalid-directory-entry.debug",
-                                new Object[]
-                                    {
-                                        Integer.valueOf(i), relPath
-                                    }));
+                                    Integer.valueOf(i), relPath));
                         }
                         continue;
                     }

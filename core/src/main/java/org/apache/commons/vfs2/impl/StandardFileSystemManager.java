@@ -346,7 +346,7 @@ public class StandardFileSystemManager
             if (!hasProvider(requiredScheme))
             {
                 final String msg = Messages.getString("vfs.impl/skipping-provider-scheme.debug",
-                    new String[]{classname, requiredScheme});
+                    classname, requiredScheme);
                 VfsLog.debug(getLogger(), getLogger(), msg);
                 return;
             }
@@ -359,7 +359,7 @@ public class StandardFileSystemManager
             if (!findClass(requiredClass))
             {
                 final String msg = Messages.getString("vfs.impl/skipping-provider.debug",
-                    new String[]{classname, requiredClass});
+                    classname, requiredClass);
                 VfsLog.debug(getLogger(), getLogger(), msg);
                 return;
             }

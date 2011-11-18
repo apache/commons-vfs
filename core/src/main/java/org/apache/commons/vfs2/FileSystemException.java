@@ -183,7 +183,7 @@ public class FileSystemException
     @Override
     public String getMessage()
     {
-        return Messages.getString(super.getMessage(), getInfo());
+        return Messages.getString(super.getMessage(), (Object[])getInfo());
     }
 
     /**

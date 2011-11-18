@@ -274,12 +274,11 @@ public class DelegatingFileSystemOptionsBuilder
         }
         if (valueClass != String.class)
         {
-            log.warn(Messages.getString("vfs.provider/config-unexpected-value-class.error", new String[]
-            {
+            log.warn(Messages.getString("vfs.provider/config-unexpected-value-class.error",
                 valueClass.getName(),
                 ctx.scheme,
                 ctx.name
-            }));
+            ));
             return false;
         }
 

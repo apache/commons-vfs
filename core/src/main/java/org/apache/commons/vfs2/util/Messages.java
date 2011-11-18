@@ -53,11 +53,16 @@ public final class Messages
 
     /**
      * Formats a message.
-     *
-     * @param code  The message code.
-     * @param param The message parameter.
+     * 
+     * @param code
+     *            The message code.
+     * @param param
+     *            The message parameter.
      * @return The formatted message.
+     * @deprecated Will be removed in 3.0 in favor of {@link #getString(String, Object[])} When removed, calls to this method will
+     *             automatically recompile to {@link #getString(String, Object[])}
      */
+    @Deprecated
     public static String getString(final String code, final Object param)
     {
         return getString(code, new Object[]{param});
@@ -70,7 +75,7 @@ public final class Messages
      * @param params The message parameters.
      * @return The formatted message.
      */
-    public static String getString(final String code, final Object[] params)
+    public static String getString(final String code, final Object... params)
     {
         try
         {
