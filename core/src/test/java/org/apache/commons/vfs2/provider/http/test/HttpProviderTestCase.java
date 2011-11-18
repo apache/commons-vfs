@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.http.test;
 
+import java.io.IOException;
+
 import junit.framework.Test;
 
 import org.apache.commons.vfs2.FileObject;
@@ -24,46 +26,109 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.http.HttpFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 
 /**
  * Test cases for the HTTP provider.
- *
+ * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class HttpProviderTestCase
-    extends AbstractProviderTestConfig
+public class HttpProviderTestCase extends AbstractProviderTestConfig
 {
+    private static NHttpServer Server;
+
+    private static int SocketPort;
+
     private static final String TEST_URI = "test.http.uri";
-    public static Test suite() throws Exception
+
+    /**
+     * Use %40 for @ in URLs
+     */
+    private static String ConnectionUri;
+
+    private static String getSystemTestUriOverride()
     {
-        if (System.getProperty(TEST_URI) != null)
-        {
-            return new ProviderTestSuite(new HttpProviderTestCase());
-        }
-        else
-        {
-            return notConfigured(HttpProviderTestCase.class);
-        }
+        return System.getProperty(TEST_URI);
     }
 
     /**
-     * Prepares the file system manager.
+     * Creates and starts an embedded Apache HTTP Server ().
+     * 
+     * @throws Exception
      */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
+    private static void setUpClass() throws Exception
     {
-        manager.addProvider("http", new HttpFileProvider());
+        Server = new NHttpServer();
+        if (!Server.run(SocketPort, getTestDirectory(), 5000))
+        {
+            throw new IllegalStateException("The embedded HTTP server has not completed startup, increase wait time");
+        }
+    }
+
+    public static Test suite() throws Exception
+    {
+        return new ProviderTestSuite(new HttpProviderTestCase())
+        {
+            @Override
+            protected void setUp() throws Exception
+            {
+                if (getSystemTestUriOverride() == null)
+                {
+                    setUpClass();
+                }
+                super.setUp();
+            }
+
+            @Override
+            protected void tearDown() throws Exception
+            {
+                tearDownClass();
+                super.tearDown();
+            }
+        };
+    }
+
+    /**
+     * Stops the embedded Apache HTTP Server ().
+     * 
+     * @throws IOException
+     */
+    private static void tearDownClass() throws IOException
+    {
+        if (Server != null)
+        {
+            Server.stop();
+        }
+
+    }
+
+    public HttpProviderTestCase() throws IOException
+    {
+        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
+        // Use %40 for @ in the a URL a @
+        ConnectionUri = "http://localhost:" + SocketPort;
     }
 
     /**
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager)
-        throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final String uri = System.getProperty(TEST_URI);
+        String uri = getSystemTestUriOverride();
+        if (uri == null)
+        {
+            uri = ConnectionUri;
+        }
         return manager.resolveFile(uri);
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception
+    {
+        manager.addProvider("http", new HttpFileProvider());
     }
 }
