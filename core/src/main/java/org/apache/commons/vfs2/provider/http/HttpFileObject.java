@@ -91,7 +91,7 @@ public class HttpFileObject extends AbstractFileObject
         }
         else
         {
-            throw new FileSystemException("vfs.provider.http/head.error", getName());
+            throw new FileSystemException("vfs.provider.http/head.error", new Object[]{getName(), Integer.valueOf(status)});
         }
     }
 
@@ -156,7 +156,7 @@ public class HttpFileObject extends AbstractFileObject
         }
         if (status != HttpURLConnection.HTTP_OK)
         {
-            throw new FileSystemException("vfs.provider.http/get.error", getName());
+            throw new FileSystemException("vfs.provider.http/get.error", new Object[]{getName(), Integer.valueOf(status)});
         }
 
         return new HttpInputStream(getMethod);

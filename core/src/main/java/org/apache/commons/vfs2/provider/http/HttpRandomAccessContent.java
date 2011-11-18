@@ -95,7 +95,8 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
             throw new FileSystemException("vfs.provider.http/get-range.error", new Object[]
             {
                 fileObject.getName(),
-                new Long(filePointer)
+                Long.valueOf(filePointer),
+                Integer.valueOf(status)
             });
         }
 
@@ -109,7 +110,8 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
                 throw new FileSystemException("vfs.provider.http/get-range.error", new Object[]
                 {
                     fileObject.getName(),
-                    new Long(filePointer)
+                    Long.valueOf(filePointer),
+                    Integer.valueOf(status)
                 });
             }
         }
