@@ -297,7 +297,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setProxyPort(FileSystemOptions opts, int proxyPort)
     {
-        setParam(opts, "proxyPort", new Integer(proxyPort));
+        setParam(opts, "proxyPort", Integer.valueOf(proxyPort));
     }
 
     /**

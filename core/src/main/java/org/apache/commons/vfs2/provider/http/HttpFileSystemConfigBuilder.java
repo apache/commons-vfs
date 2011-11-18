@@ -99,7 +99,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setProxyPort(FileSystemOptions opts, int proxyPort)
     {
-        setParam(opts, "proxyPort", new Integer(proxyPort));
+        setParam(opts, "proxyPort", Integer.valueOf(proxyPort));
     }
 
     /**
@@ -176,7 +176,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setMaxTotalConnections(FileSystemOptions opts, int maxTotalConnections)
     {
-        setParam(opts, HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, new Integer(maxTotalConnections));
+        setParam(opts, HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, Integer.valueOf(maxTotalConnections));
     }
 
     /**
@@ -198,7 +198,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setMaxConnectionsPerHost(FileSystemOptions opts, int maxHostConnections)
     {
-        setParam(opts, HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, new Integer(maxHostConnections));
+        setParam(opts, HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, Integer.valueOf(maxHostConnections));
     }
 
     /**

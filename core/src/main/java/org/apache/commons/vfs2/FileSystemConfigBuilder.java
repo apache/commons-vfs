@@ -240,7 +240,7 @@ public abstract class FileSystemConfigBuilder
     /** @since 2.0 */
     protected int getInteger(FileSystemOptions opts, String name, int defaultValue)
     {
-        return getInteger(opts, name, new Integer(defaultValue)).intValue();
+        return getInteger(opts, name, Integer.valueOf(defaultValue)).intValue();
     }
 
     /** @since 2.0 */

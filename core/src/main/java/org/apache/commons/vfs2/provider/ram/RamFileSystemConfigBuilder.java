@@ -76,7 +76,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setMaxSize(FileSystemOptions opts, int sizeInBytes)
     {
-        setParam(opts, MAX_SIZE_KEY, new Integer(sizeInBytes));
+        setParam(opts, MAX_SIZE_KEY, Integer.valueOf(sizeInBytes));
     }
 
 }
