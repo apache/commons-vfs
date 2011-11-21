@@ -99,7 +99,6 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         {
             Server.stop();
         }
-
     }
 
     public HttpProviderTestCase() throws IOException
