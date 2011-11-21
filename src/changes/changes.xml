@@ -23,19 +23,22 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-391" dev="ggregory" type="update">
+        Build tests URL HTTP file system with an embedded HTTP server (Apache HttpComponent Core).
+      </action>
       <action issue="VFS-390" dev="ggregory" type="update">
         Use variable argument list in org.apache.commons.vfs2.util.Messages instead of Object[].
       </action>
       <action issue="VFS-389" dev="ggregory" type="update">
         Use variable argument lists in FileSystemException instead of Object[]s.
       </action>
-      <action issue="VFS-388" dev="ggregory" type="add">
+      <action issue="VFS-388" dev="ggregory" type="update">
         Build tests SFTP file system with an embedded SFTP server (Apache MINA).
       </action>
-      <action issue="VFS-387" dev="ggregory" type="add">
+      <action issue="VFS-387" dev="ggregory" type="update">
         Build tests FTP file system with an embedded FTP server (Apache MINA).
       </action>
-      <action issue="VFS-386" dev="ggregory" type="add">
+      <action issue="VFS-386" dev="ggregory" type="update">
         Build tests HTTP file system with an embedded HTTP server (Apache HttpComponent Core).
       </action>
       <action issue="VFS-385" dev="ggregory" type="update">
