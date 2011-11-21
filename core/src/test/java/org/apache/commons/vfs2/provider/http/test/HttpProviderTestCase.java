@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
+import org.apache.commons.vfs2.util.NHttpServer;
 
 /**
  * Test cases for the HTTP provider.

@@ -24,7 +24,7 @@
  * <http://www.apache.org/>.
  *
  */
-package org.apache.commons.vfs2.provider.http.test;
+package org.apache.commons.vfs2.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -87,7 +87,7 @@ import org.apache.http.util.EntityUtils;
  * efficient way of building an HTTP server.
  * </p>
  * 
- * @version $Id: $
+ * @version $Id$
  * @since 2.1
  */
 public class NHttpServer
@@ -296,6 +296,8 @@ public class NHttpServer
                 } catch (IOException e)
                 {
                     // ignore
+                    // System.out.println("While waiting: " + e);
+                    // e.printStackTrace();
                 }
                 Thread.sleep(100);
             }
