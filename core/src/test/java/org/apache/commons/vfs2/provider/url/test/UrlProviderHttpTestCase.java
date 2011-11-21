@@ -43,7 +43,7 @@ public class UrlProviderHttpTestCase
         }
         else
         {
-            return notConfigured(UrlProviderTestCase.class);
+            return notConfigured(UrlProviderHttpTestCase.class);
         }
     }
 
