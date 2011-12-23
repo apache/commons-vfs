@@ -69,14 +69,14 @@ public class LastModifiedTests
             file.getContent().setLastModifiedTime(now);
             try
             {
-                assertEquals(now, file.getContent().getLastModifiedTime(), file.getFileSystem().getLastModTimeAccuracy());
+                assertEquals("Check 1", now, file.getContent().getLastModifiedTime(), file.getFileSystem().getLastModTimeAccuracy());
             }
             catch (AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
                 if (file.getFileSystem().getLastModTimeAccuracy() < 1000L)
                 {
-                    assertEquals(now, file.getContent().getLastModifiedTime(), 1000L);
+                    assertEquals("Check 2", now, file.getContent().getLastModifiedTime(), 1000L);
                 }
                 else
                 {
@@ -92,14 +92,14 @@ public class LastModifiedTests
             folder.getContent().setLastModifiedTime(now);
             try
             {
-                assertEquals(now, folder.getContent().getLastModifiedTime(), folder.getFileSystem().getLastModTimeAccuracy());
+                assertEquals("Check 3", now, folder.getContent().getLastModifiedTime(), folder.getFileSystem().getLastModTimeAccuracy());
             }
             catch (AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
                 if (folder.getFileSystem().getLastModTimeAccuracy() < 1000L)
                 {
-                    assertEquals(now, folder.getContent().getLastModifiedTime(), 1000L);
+                    assertEquals("Check 4", now, folder.getContent().getLastModifiedTime(), 1000L);
                 }
                 else
                 {
