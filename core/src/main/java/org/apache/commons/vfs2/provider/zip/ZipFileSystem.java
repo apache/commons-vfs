@@ -87,7 +87,7 @@ public class ZipFileSystem extends AbstractFileSystem implements FileSystem
         try
         {
             // Build the index
-            List<ZipFileObject> strongRef = new ArrayList<ZipFileObject>(100);
+            List<ZipFileObject> strongRef = new ArrayList<ZipFileObject>(getZipFile().size());
             Enumeration<? extends ZipEntry> entries = getZipFile().entries();
             while (entries.hasMoreElements())
             {
