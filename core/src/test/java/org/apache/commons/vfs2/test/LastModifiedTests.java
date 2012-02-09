@@ -67,16 +67,18 @@ public class LastModifiedTests
             // Try a file
             final FileObject file = getReadFolder().resolveFile("file1.txt");
             file.getContent().setLastModifiedTime(now);
+            final double lastModTimeAccuracy = file.getFileSystem().getLastModTimeAccuracy();
+            final long lastModifiedTime = file.getContent().getLastModifiedTime();
             try
             {
-                assertEquals("Check 1", now, file.getContent().getLastModifiedTime(), file.getFileSystem().getLastModTimeAccuracy());
+                assertEquals("Check 1", now, lastModifiedTime, lastModTimeAccuracy);
             }
             catch (AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
-                if (file.getFileSystem().getLastModTimeAccuracy() < 1000L)
+                if (lastModTimeAccuracy < 1000L)
                 {
-                    assertEquals("Check 2", now, file.getContent().getLastModifiedTime(), 1000L);
+                    assertEquals("Check 2", now, lastModifiedTime, 1000L);
                 }
                 else
                 {
@@ -90,16 +92,18 @@ public class LastModifiedTests
             // Try a folder
             final FileObject folder = getReadFolder().resolveFile("dir1");
             folder.getContent().setLastModifiedTime(now);
+            final double lastModTimeAccuracy = folder.getFileSystem().getLastModTimeAccuracy();
+            final long lastModifiedTime = folder.getContent().getLastModifiedTime();
             try
             {
-                assertEquals("Check 3", now, folder.getContent().getLastModifiedTime(), folder.getFileSystem().getLastModTimeAccuracy());
+                assertEquals("Check 3", now, lastModifiedTime, lastModTimeAccuracy);
             }
             catch (AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
-                if (folder.getFileSystem().getLastModTimeAccuracy() < 1000L)
+                if (lastModTimeAccuracy < 1000L)
                 {
-                    assertEquals("Check 4", now, folder.getContent().getLastModifiedTime(), 1000L);
+                    assertEquals("Check 4", now, lastModifiedTime, 1000L);
                 }
                 else
                 {
