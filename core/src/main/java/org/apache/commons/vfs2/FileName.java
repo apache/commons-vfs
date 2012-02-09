@@ -53,7 +53,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Returns the absolute path of this file, within its file system.  This
-     * path is normalised, so that <code>.</code> and <code>..</code> elements
+     * path is normalized, so that <code>.</code> and <code>..</code> elements
      * have been removed.  Also, the path only contains <code>/</code> as its
      * separator character.  The path always starts with <code>/</code>
      * <p/>
@@ -65,7 +65,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Returns the absolute path of this file, within its file system.  This
-     * path is normalised, so that <code>.</code> and <code>..</code> elements
+     * path is normalized, so that <code>.</code> and <code>..</code> elements
      * have been removed.  Also, the path only contains <code>/</code> as its
      * separator character.  The path always starts with <code>/</code>
      * <p/>
