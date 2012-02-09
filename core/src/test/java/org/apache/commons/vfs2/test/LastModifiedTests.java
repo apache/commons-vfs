@@ -20,24 +20,35 @@ import junit.framework.AssertionFailedError;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
+import org.junit.Assert;
 
 /**
  * Test cases for getting and setting file last modified time.
- *
+ * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public class LastModifiedTests
-    extends AbstractProviderTestCase
+public class LastModifiedTests extends AbstractProviderTestCase
 {
+    private void asssertDelta(String message, final long expected, final long actual, final long delta)
+    {
+        if (expected == actual)
+        {
+            return;
+        }
+        if (!(Math.abs(expected - actual) <= delta))
+        {
+            Assert.fail(String.format("%s expected=%d, actual=%d, delta=%d", new Long(expected), new Long(actual)));
+        }
+    }
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
     protected Capability[] getRequiredCaps()
     {
-        return new Capability[]{
-            Capability.GET_LAST_MODIFIED
-        };
+        return new Capability[]
+        { Capability.GET_LAST_MODIFIED };
     }
 
     /**
@@ -51,8 +62,8 @@ public class LastModifiedTests
 
         // TODO - switch this on
         // Try a folder
-        //final FileObject folder = getReadFolder().resolveFile( "dir1" );
-        //folder.getContent().getLastModifiedTime();
+        // final FileObject folder = getReadFolder().resolveFile( "dir1" );
+        // folder.getContent().getLastModifiedTime();
     }
 
     /**
@@ -72,15 +83,13 @@ public class LastModifiedTests
             try
             {
                 assertEquals("Check 1", now, lastModifiedTime, lastModTimeAccuracy);
-            }
-            catch (AssertionFailedError e)
+            } catch (AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
                 if (lastModTimeAccuracy < 1000L)
                 {
-                    assertEquals("Check 2", now, lastModifiedTime, 1000L);
-                }
-                else
+                    asssertDelta("Check 2", now, lastModifiedTime, 1000L);
+                } else
                 {
                     throw e;
                 }
@@ -97,15 +106,13 @@ public class LastModifiedTests
             try
             {
                 assertEquals("Check 3", now, lastModifiedTime, lastModTimeAccuracy);
-            }
-            catch (AssertionFailedError e)
+            } catch (AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
                 if (lastModTimeAccuracy < 1000L)
                 {
-                    assertEquals("Check 4", now, lastModifiedTime, 1000L);
-                }
-                else
+                    asssertDelta("Check 4", now, lastModifiedTime, 1000L);
+                } else
                 {
                     throw e;
                 }
