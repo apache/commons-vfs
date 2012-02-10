@@ -90,7 +90,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     }
 
     /**
-     * Stops the embedded Apache HTTP Server ().
+     * Stops the embedded Apache HTTP Server.
      * 
      * @throws IOException
      */
