@@ -53,7 +53,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     }
 
     /**
-     * Creates and starts an embedded Apache HTTP Server ().
+     * Creates and starts an embedded Apache HTTP Server (HttpComponents).
      * 
      * @throws Exception
      */
