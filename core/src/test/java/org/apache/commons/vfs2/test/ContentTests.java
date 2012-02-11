@@ -97,14 +97,26 @@ public class ContentTests
     /**
      * Tests root of file system exists.
      */
-    public void testRoot() throws FileSystemException
+    public void testRootURI() throws FileSystemException
     {
         FileSystem fs = getReadFolder().getFileSystem();
         String uri = fs.getRootURI();
-        final FileObject file = getManager().resolveFile(uri);
-        //final FileObject file = getReadFolder().getFileSystem().getRoot();
-        assertTrue(file.exists());
-        assertTrue(file.getType() != FileType.IMAGINARY);
+        testRoot(getManager().resolveFile(uri));
+    }
+
+    /**
+     * Tests root of file system exists.
+     */
+    public void testRootAPI() throws FileSystemException
+    {
+        FileSystem fs = getReadFolder().getFileSystem();
+        testRoot(fs.getRoot());
+    }
+
+    private void testRoot(final FileObject root) throws FileSystemException
+    {
+        assertTrue(root.exists());
+        assertTrue(root.getType() != FileType.IMAGINARY);
     }
 
     /**
