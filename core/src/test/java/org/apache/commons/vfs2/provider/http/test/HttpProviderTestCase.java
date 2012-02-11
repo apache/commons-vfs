@@ -105,7 +105,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     public HttpProviderTestCase() throws IOException
     {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in the a URL a @
+        // Use %40 for @ in a URL
         ConnectionUri = "http://localhost:" + SocketPort;
     }
 
