@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-402" dev="ggregory" type="update">
+        [WebDAV] Update Apache Jackrabbit 1.5.2 to 1.6.5.
+      </action>
       <action issue="VFS-401" dev="ggregory" type="update">
         Update JSch to 0.1.46 from 0.1.45 for the SFTP provider.
       </action>
