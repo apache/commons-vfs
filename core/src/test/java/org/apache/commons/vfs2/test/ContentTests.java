@@ -99,6 +99,10 @@ public class ContentTests
      */
     public void testRootURI() throws FileSystemException
     {
+        if (!this.getProviderConfig().isFileSystemRootAccessible())
+        {
+            return;
+        }
         FileSystem fs = getReadFolder().getFileSystem();
         String uri = fs.getRootURI();
         testRoot(getManager().resolveFile(uri));
@@ -108,7 +112,11 @@ public class ContentTests
      * Tests root of file system exists.
      */
     public void testRootAPI() throws FileSystemException
-    {
+    {        
+        if (!this.getProviderConfig().isFileSystemRootAccessible())
+        {
+            return;
+        }
         FileSystem fs = getReadFolder().getFileSystem();
         testRoot(fs.getRoot());
     }

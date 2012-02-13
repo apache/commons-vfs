@@ -73,4 +73,9 @@ public class JunctionProviderConfig
 
         return newFs.resolveFile(junctionPoint);
     }
+
+    public boolean isFileSystemRootAccessible()
+    {
+        return true;
+    }
 }

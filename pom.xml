@@ -17,9 +17,7 @@
    limitations under the License.
   -->
 
-<project
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.apache.commons</groupId>
@@ -370,13 +368,13 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.6.3</version>
+        <version>1.5.5</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.6.3</version>
+        <version>1.5.5</version>
         <scope>test</scope>
       </dependency>
       <!-- Test SFTP with Apache SHHd Server (MINA) -->
@@ -404,6 +402,25 @@
         <artifactId>httpcore-nio</artifactId>
         <version>4.1.4</version>
         <scope>test</scope>
+      </dependency>
+      <!-- Test WebDAV with Apache Jackrabbit -->
+      <dependency> 
+        <groupId>javax.jcr</groupId> 
+        <artifactId>jcr</artifactId> 
+        <version>1.0</version> 
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-standalone</artifactId>
+        <version>1.5.2</version>
+        <scope>test</scope>
+        <exclusions>
+          <exclusion>
+            <!-- Exclude Derby due to a sealing violation -->
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -458,8 +475,8 @@
     </site>
   </distributionManagement>
 
-  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent and the apache-pom 
-    to get the build done and then uses the assembly to package it up. -->
+  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent 
+    and the apache-pom to get the build done and then uses the assembly to package it up. -->
   <profiles>
     <profile>
       <id>include-sandbox</id>

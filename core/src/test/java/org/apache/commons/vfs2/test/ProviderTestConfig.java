@@ -23,11 +23,10 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 
 /**
  * Test configuration for a file system.
- *
+ * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
-public interface ProviderTestConfig
-{
+public interface ProviderTestConfig {
     /**
      * Returns a DefaultFileSystemManager instance (or subclass instance).
      */
@@ -39,8 +38,7 @@ public interface ProviderTestConfig
     void prepare(DefaultFileSystemManager manager) throws Exception;
 
     /**
-     * Returns the base folder for tests.  This folder must exist, and contain
-     * the following structure:
+     * Returns the base folder for tests. This folder must exist, and contain the following structure:
      * <ul>
      * <li>/read-tests
      * <li>/write-tests
@@ -52,4 +50,13 @@ public interface ProviderTestConfig
      * Returns the filesCache implementation used for tests.
      */
     FilesCache getFilesCache();
+
+    /**
+     * Whether or not the root of test file system is accessible.
+     * 
+     * For example, with the default Jackrabbit (WebDAV) server, the root is not accessible, but deeper paths are OK.
+     * 
+     * @return Whether or not the root of test file system is accessible.
+     */
+    boolean isFileSystemRootAccessible();
 }

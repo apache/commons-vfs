@@ -30,12 +30,11 @@ import org.apache.commons.vfs2.FileType;
 
 /**
  * Read-only test cases for file providers.
- *
+ * 
  * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  * @todo Test getLastModified(), getAttribute()
  */
-public class ProviderReadTests
-    extends AbstractProviderTestCase
+public class ProviderReadTests extends AbstractProviderTestCase
 {
     /**
      * Returns the capabilities required by the tests of this test case.
@@ -44,16 +43,11 @@ public class ProviderReadTests
     protected Capability[] getRequiredCaps()
     {
         return new Capability[]
-        {
-            Capability.GET_TYPE,
-            Capability.LIST_CHILDREN,
-            Capability.READ_CONTENT
-        };
+        { Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT };
     }
 
     /**
-     * Walks the base folder structure, asserting it contains exactly the
-     * expected files and folders.
+     * Walks the base folder structure, asserting it contains exactly the expected files and folders.
      */
     public void testStructure() throws Exception
     {
@@ -62,12 +56,9 @@ public class ProviderReadTests
     }
 
     /**
-     * Walks a folder structure, asserting it contains exactly the
-     * expected files and folders.
+     * Walks a folder structure, asserting it contains exactly the expected files and folders.
      */
-    protected void assertSameStructure(final FileObject folder,
-                                       final FileInfo expected)
-        throws Exception
+    protected void assertSameStructure(final FileObject folder, final FileInfo expected) throws Exception
     {
         // Setup the structure
         final List<FileInfo> queueExpected = new ArrayList<FileInfo>();
@@ -97,7 +88,7 @@ public class ProviderReadTests
             int length = children.length;
             if (info.children.size() != children.length)
             {
-                for (int i=0; i < children.length; ++i)
+                for (int i = 0; i < children.length; ++i)
                 {
                     if (children[i].getName().getBaseName().startsWith("."))
                     {
@@ -155,6 +146,10 @@ public class ProviderReadTests
      */
     public void testRoot() throws FileSystemException
     {
+        if (!this.getProviderConfig().isFileSystemRootAccessible())
+        {
+            return;
+        }
         FileSystem fs = getReadFolder().getFileSystem();
         String uri = fs.getRootURI();
         final FileObject file = getManager().resolveFile(uri);
@@ -173,7 +168,8 @@ public class ProviderReadTests
         final FileObject[] actualFiles = getReadFolder().findFiles(selector);
         Arrays.sort(actualFiles);
         FileObject prevActualFile = actualFiles[0];
-        for (FileObject actualFile : actualFiles) {
+        for (FileObject actualFile : actualFiles)
+        {
             assertTrue(prevActualFile.toString().compareTo(actualFile.toString()) <= 0);
             prevActualFile = actualFile;
         }
@@ -208,8 +204,7 @@ public class ProviderReadTests
         {
             folder.getContent().getInputStream();
             fail();
-        }
-        catch (FileSystemException e)
+        } catch (FileSystemException e)
         {
             assertSameMessage("vfs.provider/read-not-file.error", folder, e);
         }
@@ -233,8 +228,7 @@ public class ProviderReadTests
             folder.exists();
             folder.getType();
             folder.getChildren();
-        }
-        finally
+        } finally
         {
             instr.close();
         }
