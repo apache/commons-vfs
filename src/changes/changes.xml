@@ -29,6 +29,9 @@
       <action issue="VFS-401" dev="ggregory" type="update">
         Update JSch to 0.1.46 from 0.1.45 for the SFTP provider.
       </action>
+      <action issue="VFS-392" dev="ggregory" type="update">
+        Build tests WebDAV file system with an embedded WebDAV server (Apache Jackrabbit).
+      </action>
       <action issue="VFS-391" dev="ggregory" type="update">
         Build tests URL HTTP file system with an embedded HTTP server (Apache HttpComponent Core).
       </action>
