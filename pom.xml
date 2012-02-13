@@ -412,7 +412,7 @@
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
         <artifactId>jackrabbit-standalone</artifactId>
-        <version>1.5.2</version>
+        <version>1.6.5</version>
         <scope>test</scope>
         <exclusions>
           <exclusion>
