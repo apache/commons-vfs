@@ -27,10 +27,12 @@ import java.util.Set;
  * The extension comparison is case insensitive.
  * </p>
  * <p>
- * The selector makes a copy of a given Collection or array. Changing the object passed in the constructors will not affect the selector.
+ * The selector makes a copy of a given Collection or array. Changing the object passed in the constructors will not 
+ * affect the selector.
  * </p>
  *
  * @since 2.1
+ * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileExtensionSelector implements FileSelector
 {
