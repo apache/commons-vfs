@@ -744,6 +744,7 @@ public final class DefaultFileContent implements FileContent
      *
      * @param fileContent
      *            The target FileContent.
+     * @return the total number of bytes written
      * @throws IOException
      *             if an error occurs writing the content.
      * @since 2.1
@@ -780,6 +781,7 @@ public final class DefaultFileContent implements FileContent
      *
      * @param output
      *            The target OutputStream.
+     * @return the total number of bytes written
      * @throws IOException
      *             if an error occurs writing the content.
      * @since 2.1
@@ -796,6 +798,7 @@ public final class DefaultFileContent implements FileContent
      *            The target OutputStream.
      * @param bufferSize
      *            The buffer size to write data chunks.
+     * @return the total number of bytes written
      * @throws IOException
      *             if an error occurs writing the file.
      * @since 2.1

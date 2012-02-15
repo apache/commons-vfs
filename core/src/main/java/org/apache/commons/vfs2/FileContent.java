@@ -243,6 +243,7 @@ public interface FileContent
      *            The target OutputStream.
      * @throws IOException
      *             if an error occurs writing the content.
+     * @return the total number of bytes written
      * @since 2.1
      */
     long write(FileContent output) throws IOException;
@@ -254,6 +255,7 @@ public interface FileContent
      *            The target FileObject.
      * @throws IOException
      *             if an error occurs writing the content.
+     * @return the total number of bytes written
      * @since 2.1
      */
     long write(FileObject file) throws IOException;
@@ -263,6 +265,7 @@ public interface FileContent
      *
      * @param output
      *            The target OutputStream.
+     * @return the total number of bytes written
      * @throws IOException
      *             if an error occurs writing the content.
      * @since 2.1
@@ -276,6 +279,7 @@ public interface FileContent
      *            The target OutputStream.
      * @param bufferSize
      *            The buffer size to write data chunks.
+     * @return the total number of bytes written
      * @throws IOException
      *             if an error occurs writing the file.
      * @since 2.1
