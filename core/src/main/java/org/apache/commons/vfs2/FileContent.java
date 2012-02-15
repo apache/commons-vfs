@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * {@link #getOutputStream} method.  This will create the file, and the parent
  * folder, if necessary.
  * <p/>
- * <p>A file may have multiple InputStreams open at the sametime.
+ * <p>A file may have multiple InputStreams open at the same time.
  * <p/>
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
