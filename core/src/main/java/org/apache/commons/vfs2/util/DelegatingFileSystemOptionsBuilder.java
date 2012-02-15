@@ -217,7 +217,7 @@ public class DelegatingFileSystemOptionsBuilder
             }
         }
 
-        throw new FileSystemException("vfs.provider/config-value-invalid.error", 
+        throw new FileSystemException("vfs.provider/config-value-invalid.error",
             ctx.scheme,
             ctx.name,
             ctx.values);

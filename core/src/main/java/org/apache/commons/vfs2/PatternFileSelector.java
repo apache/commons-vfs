@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 /**
  * A {@link FileSelector} that selects based on regular expressions matched against base filename.
- * 
+ *
  * @since 2.1
  */
 public class PatternFileSelector implements FileSelector
@@ -33,7 +33,7 @@ public class PatternFileSelector implements FileSelector
 
     /**
      * Creates a new selector for the given pattern.
-     * 
+     *
      * @param pattern
      *            The regular expressed used by this selector.
      */
@@ -44,7 +44,7 @@ public class PatternFileSelector implements FileSelector
 
     /**
      * Creates a new selector for the given pattern.
-     * 
+     *
      * @param regex
      *            The regular expressed used by this selector.
      */
@@ -55,13 +55,13 @@ public class PatternFileSelector implements FileSelector
 
     /**
      * Creates a new selector for the given Pattern and flags.
-     * 
+     *
      * @param regex
      *            The expression to be compiled
-     * 
+     *
      * @param flags
      *            Match flags, a bit mask.
-     * 
+     *
      * @see Pattern#compile(String, int)
      */
     public PatternFileSelector(String regex, int flags)
@@ -71,7 +71,7 @@ public class PatternFileSelector implements FileSelector
 
     /**
      * Determines if a file or folder should be selected.
-     * 
+     *
      * @param fileInfo
      *            The file selection information.
      * @return true if the file should be selected, false otherwise.
@@ -89,7 +89,7 @@ public class PatternFileSelector implements FileSelector
 
     /**
      * Determines whether a folder should be traversed.
-     * 
+     *
      * @param fileInfo
      *            The file selection information.
      * @return true if descendents should be traversed, false otherwise.

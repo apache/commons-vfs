@@ -448,17 +448,17 @@ public abstract class AbstractFileName implements FileName
 
     /**
      * Checks if this file name is a name for a regular file by using its type.
-     * 
+     *
      * @return true if this file is a regular file.
      * @throws FileSystemException
-     * @see #getType() 
+     * @see #getType()
      * @see FileType#FILE
      */
     public boolean isFile() throws FileSystemException {
         // Use equals instead of == to avoid any class loader worries.
         return FileType.FILE.equals(this.getType());
     }
-    
+
     /**
      * Returns the requested or current type of this name. <br />
      * <p>

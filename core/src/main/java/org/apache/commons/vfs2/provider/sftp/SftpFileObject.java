@@ -51,7 +51,7 @@ import com.jcraft.jsch.SftpException;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  *          2005) $
  */
-public class SftpFileObject extends AbstractFileObject 
+public class SftpFileObject extends AbstractFileObject
 {
     private final SftpFileSystem fileSystem;
     private SftpATTRS attrs;

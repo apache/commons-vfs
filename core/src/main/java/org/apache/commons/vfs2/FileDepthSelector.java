@@ -18,7 +18,7 @@ package org.apache.commons.vfs2;
 
 /**
  * A {@link FileSelector} that selects all files in a particular depth range.
- * 
+ *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileDepthSelector implements FileSelector
@@ -35,7 +35,7 @@ public class FileDepthSelector implements FileSelector
 
     /**
      * Creates a selector with the given minimum and maximum depths.
-     * 
+     *
      * @param minDepth
      *            minimum depth
      * @param maxDepth
@@ -49,7 +49,7 @@ public class FileDepthSelector implements FileSelector
 
     /**
      * Creates a selector with the same minimum and maximum depths.
-     * 
+     *
      * @param minMaxDepth
      *            minimum and maximum depth
      * @since 2.1
@@ -61,7 +61,7 @@ public class FileDepthSelector implements FileSelector
 
     /**
      * Creates a selector with the same minimum and maximum depths of 0.
-     * 
+     *
      * @since 2.1
      */
     public FileDepthSelector()
@@ -71,7 +71,7 @@ public class FileDepthSelector implements FileSelector
 
     /**
      * Determines if a file or folder should be selected.
-     * 
+     *
      * @param fileInfo
      *            The file selection information
      * @return true if the file or folder should be included, false otherwise.
@@ -84,7 +84,7 @@ public class FileDepthSelector implements FileSelector
 
     /**
      * Determines whether a folder should be traversed.
-     * 
+     *
      * @param fileInfo
      *            The file selection information
      * @return true if the file or folder should be traversed, false otherwise.

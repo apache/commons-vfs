@@ -238,47 +238,47 @@ public interface FileContent
 
     /**
      * Writes this content to another FileContent.
-     * 
+     *
      * @param output
      *            The target OutputStream.
      * @throws IOException
      *             if an error occurs writing the content.
-     * @since 2.1             
+     * @since 2.1
      */
     long write(FileContent output) throws IOException;
-    
+
     /**
      * Writes this content to another FileObject.
-     * 
+     *
      * @param file
      *            The target FileObject.
      * @throws IOException
      *             if an error occurs writing the content.
-     * @since 2.1             
+     * @since 2.1
      */
     long write(FileObject file) throws IOException;
-    
+
     /**
      * Writes this content to an OutputStream.
-     * 
+     *
      * @param output
      *            The target OutputStream.
      * @throws IOException
      *             if an error occurs writing the content.
-     * @since 2.1             
+     * @since 2.1
      */
     long write(OutputStream output) throws IOException;
-    
+
     /**
      * Writes this content to an OutputStream.
-     * 
+     *
      * @param output
      *            The target OutputStream.
      * @param bufferSize
      *            The buffer size to write data chunks.
      * @throws IOException
      *             if an error occurs writing the file.
-     * @since 2.1             
+     * @since 2.1
      */
     long write(OutputStream output, int bufferSize) throws IOException;
 

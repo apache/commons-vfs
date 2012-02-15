@@ -55,7 +55,7 @@ public class DecoratedFileObject implements FileObject
         decoratedFileObject.close();
     }
 
-    public int compareTo(FileObject fo) 
+    public int compareTo(FileObject fo)
     {
         return decoratedFileObject.compareTo(fo);
     }
@@ -201,14 +201,14 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.isContentOpen();
     }
 
-    public boolean isFile() throws FileSystemException 
+    public boolean isFile() throws FileSystemException
     {
-        return decoratedFileObject.isFile();        
+        return decoratedFileObject.isFile();
     }
 
-    public boolean isFolder() throws FileSystemException 
+    public boolean isFolder() throws FileSystemException
     {
-        return decoratedFileObject.isFolder();        
+        return decoratedFileObject.isFolder();
     }
 
     @Override

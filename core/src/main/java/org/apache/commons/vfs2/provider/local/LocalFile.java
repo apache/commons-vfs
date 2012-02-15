@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  *
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
-public class LocalFile extends AbstractFileObject 
+public class LocalFile extends AbstractFileObject
 {
     private final String rootFile;
 
@@ -257,7 +257,7 @@ public class LocalFile extends AbstractFileObject
             throw new FileSystemException(e);
         }
     }
-    
+
     /**
      * Returns the URI of the file.
      * @return The URI of the file.

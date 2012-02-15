@@ -29,7 +29,7 @@ import java.util.Set;
  * <p>
  * The selector makes a copy of a given Collection or array. Changing the object passed in the constructors will not affect the selector.
  * </p>
- * 
+ *
  * @since 2.1
  */
 public class FileExtensionSelector implements FileSelector
@@ -42,7 +42,7 @@ public class FileExtensionSelector implements FileSelector
 
     /**
      * Creates a new selector for the given extensions.
-     * 
+     *
      * @param extensions
      *            The extensions to be included by this selector.
      */
@@ -56,7 +56,7 @@ public class FileExtensionSelector implements FileSelector
 
     /**
      * Creates a new selector for the given extensions.
-     * 
+     *
      * @param extensions
      *            The extensions to be included by this selector.
      */
@@ -70,7 +70,7 @@ public class FileExtensionSelector implements FileSelector
 
     /**
      * Determines if a file or folder should be selected.
-     * 
+     *
      * @param fileInfo
      *            The file selection information.
      * @return true if the file should be selected, false otherwise.
@@ -93,7 +93,7 @@ public class FileExtensionSelector implements FileSelector
 
     /**
      * Determines whether a folder should be traversed.
-     * 
+     *
      * @param fileInfo
      *            The file selection information.
      * @return true if descendents should be traversed, fase otherwise.

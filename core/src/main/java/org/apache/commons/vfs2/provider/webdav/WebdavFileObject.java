@@ -78,7 +78,7 @@ import org.w3c.dom.Node;
  * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 2.0
  */
-public class WebdavFileObject extends HttpFileObject 
+public class WebdavFileObject extends HttpFileObject
 {
     /** The character set property name. */
     public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create(

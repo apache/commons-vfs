@@ -512,30 +512,30 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Checks if this file is a regular file by using its file type.
-     * 
+     *
      * @return true if this file is a regular file.
      * @throws FileSystemException
-     * @see #getType() 
+     * @see #getType()
      * @see FileType#FILE
      */
     public boolean isFile() throws FileSystemException {
         // Use equals instead of == to avoid any class loader worries.
         return FileType.FILE.equals(this.getType());
     }
-    
+
     /**
      * Checks if this file is a folder by using its file type.
-     * 
+     *
      * @return true if this file is a regular file.
      * @throws FileSystemException
-     * @see #getType() 
+     * @see #getType()
      * @see FileType#FOLDER
      */
     public boolean isFolder() throws FileSystemException {
         // Use equals instead of == to avoid any class loader worries.
         return FileType.FOLDER.equals(this.getType());
     }
-    
+
     /**
      * Determines if this file can be read.
      * @return true if the file is a hidden file, false otherwise.
@@ -615,7 +615,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Returns an iterator over a set of all FileObject in this file object.
-     * 
+     *
      * @return an Iterator.
      */
     public Iterator<FileObject> iterator()
@@ -628,7 +628,7 @@ public abstract class AbstractFileObject implements FileObject
             throw new IllegalStateException(e);
         }
     }
-    
+
     /**
      * Lists the set of matching descendents of this file, in depthwise
      * order.
@@ -1081,14 +1081,14 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Compares two FileObjects (ignores case)
      */
-    public int compareTo(FileObject fo) 
-    {        
+    public int compareTo(FileObject fo)
+    {
         if (fo == null) {
             return 1;
         }
         return this.toString().compareToIgnoreCase(fo.toString());
     }
-    
+
     /**
      * Copies another file to this file.
      * @param file The FileObject to copy.
@@ -1160,7 +1160,7 @@ public abstract class AbstractFileObject implements FileObject
         {
             if (!getParent().isWriteable())
             {
-                throw new FileSystemException("vfs.provider/rename-parent-read-only.error", 
+                throw new FileSystemException("vfs.provider/rename-parent-read-only.error",
                         getName(),
                         getParent().getName());
             }

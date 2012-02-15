@@ -53,7 +53,7 @@ public final class Messages
 
     /**
      * Formats a message.
-     * 
+     *
      * @param code
      *            The message code.
      * @param param

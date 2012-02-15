@@ -183,10 +183,10 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Checks if this file name is a name for a regular file.
-     * 
+     *
      * @return true if this file name is a name for a regular file.
      * @throws FileSystemException if an error occurs.
-     * @see #getType() 
+     * @see #getType()
      * @see FileType#FILE
      * @since 2.1
      */

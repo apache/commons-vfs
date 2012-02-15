@@ -642,7 +642,7 @@ public class FtpFileObject extends AbstractFileObject
 
             if (out == null)
             {
-                throw new FileSystemException("vfs.provider.ftp/output-error.debug", 
+                throw new FileSystemException("vfs.provider.ftp/output-error.debug",
                         this.getName(),
                         client.getReplyString());
             }
@@ -669,7 +669,7 @@ public class FtpFileObject extends AbstractFileObject
             final InputStream instr = client.retrieveFileStream(relPath, filePointer);
             if (instr == null)
             {
-                throw new FileSystemException("vfs.provider.ftp/input-error.debug", 
+                throw new FileSystemException("vfs.provider.ftp/input-error.debug",
                         this.getName(),
                         client.getReplyString());
             }

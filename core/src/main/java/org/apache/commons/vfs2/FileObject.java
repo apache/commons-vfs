@@ -352,10 +352,10 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Checks if this file is a regular file.
-     * 
+     *
      * @return true if this file is a regular file.
      * @throws FileSystemException if an error occurs.
-     * @see #getType() 
+     * @see #getType()
      * @see FileType#FILE
      * @since 2.1
      */
@@ -363,10 +363,10 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Checks if this file is a folder.
-     * 
+     *
      * @return true if this file is a folder.
      * @throws FileSystemException if an error occurs.
-     * @see #getType() 
+     * @see #getType()
      * @see FileType#FOLDER
      * @since 2.1
      */

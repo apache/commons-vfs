@@ -89,7 +89,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         final int status = fileSystem.getClient().executeMethod(getMethod);
         if (status != HttpURLConnection.HTTP_PARTIAL && status != HttpURLConnection.HTTP_OK)
         {
-            throw new FileSystemException("vfs.provider.http/get-range.error", 
+            throw new FileSystemException("vfs.provider.http/get-range.error",
                 fileObject.getName(),
                 Long.valueOf(filePointer),
                 Integer.valueOf(status));
@@ -102,7 +102,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
             long skipped = mis.skip(filePointer);
             if (skipped != filePointer)
             {
-                throw new FileSystemException("vfs.provider.http/get-range.error", 
+                throw new FileSystemException("vfs.provider.http/get-range.error",
                     fileObject.getName(),
                     Long.valueOf(filePointer),
                     Integer.valueOf(status));

@@ -51,7 +51,7 @@ public enum VcsStatus
     private VcsStatus(int status)
     {
         this.status = status;
-    }   
+    }
 
     /**
      *
