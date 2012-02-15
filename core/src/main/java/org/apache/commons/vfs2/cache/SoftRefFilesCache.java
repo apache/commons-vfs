@@ -59,7 +59,8 @@ public class SoftRefFilesCache extends AbstractFilesCache
           new HashMap<Reference<FileObject>, FileSystemAndNameKey>(100);
     private final ReferenceQueue<FileObject> refqueue = new ReferenceQueue<FileObject>();
 
-    private final AtomicReference<SoftRefReleaseThread> softRefReleaseThread = new AtomicReference<SoftRefReleaseThread>();
+    private final AtomicReference<SoftRefReleaseThread> softRefReleaseThread = 
+            new AtomicReference<SoftRefReleaseThread>();
 
     private final Lock lock = new ReentrantLock();
 
