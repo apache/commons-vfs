@@ -45,6 +45,8 @@ public class SftpFileSystem
     implements FileSystem
 {
 
+    private static final long LAST_MOD_TIME_ACCURACY = 1000L;
+
     private Session session;
     // private final JSch jSch;
     private ChannelSftp idleChannel;
@@ -196,13 +198,13 @@ public class SftpFileSystem
     }
 
     /**
-     * last mod time is only a int and in seconds, thus can be off by 999.
+     * Last mod time is only a int and in seconds, thus can be off by 999.
      *
      * @return 1000
      */
     @Override
     public double getLastModTimeAccuracy()
     {
-        return 1000L;
+        return LAST_MOD_TIME_ACCURACY;
     }
 }

@@ -454,7 +454,8 @@ public abstract class AbstractFileName implements FileName
      * @see #getType()
      * @see FileType#FILE
      */
-    public boolean isFile() throws FileSystemException {
+    public boolean isFile() throws FileSystemException
+    {
         // Use equals instead of == to avoid any class loader worries.
         return FileType.FILE.equals(this.getType());
     }

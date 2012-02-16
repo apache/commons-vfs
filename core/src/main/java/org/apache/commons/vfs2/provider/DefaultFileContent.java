@@ -310,7 +310,7 @@ public final class DefaultFileContent implements FileContent
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.provider/set-attribute.error", e,attrName, fileObject);
+            throw new FileSystemException("vfs.provider/set-attribute.error", e, attrName, fileObject);
         }
 
         if (attrs != null)

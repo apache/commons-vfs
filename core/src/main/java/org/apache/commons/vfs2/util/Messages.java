@@ -32,9 +32,8 @@ public final class Messages
     /**
      * Map from message code to MessageFormat object for the message.
      */
-    private static ConcurrentMap<String, MessageFormat> messages =
-        new ConcurrentHashMap<String, MessageFormat>();
-    private static final ResourceBundle resources = new CombinedResources("org.apache.commons.vfs2.Resources");
+    private static ConcurrentMap<String, MessageFormat> MessageMap = new ConcurrentHashMap<String, MessageFormat>();
+    private static final ResourceBundle RESOURCES = new CombinedResources("org.apache.commons.vfs2.Resources");
 
     private Messages()
     {
@@ -53,7 +52,7 @@ public final class Messages
 
     /**
      * Formats a message.
-     * 
+     *
      * @param code
      *            The message code.
      * @param param
@@ -100,15 +99,15 @@ public final class Messages
         throws MissingResourceException
     {
         // Check if the message is cached
-        MessageFormat msg = messages.get(code);
+        MessageFormat msg = MessageMap.get(code);
         if (msg != null)
         {
             return msg;
         }
 
-        final String msgText = resources.getString(code);
+        final String msgText = RESOURCES.getString(code);
         msg = new MessageFormat(msgText);
-        messages.putIfAbsent(code, msg);
-        return messages.get(code);
+        MessageMap.putIfAbsent(code, msg);
+        return MessageMap.get(code);
     }
 }

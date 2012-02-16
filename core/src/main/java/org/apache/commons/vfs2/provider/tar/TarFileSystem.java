@@ -48,6 +48,8 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
  */
 public class TarFileSystem extends AbstractFileSystem implements FileSystem
 {
+    private static final int DEFAULT_INDEX_SIZE = 100;
+
     private static final Log LOG = LogFactory.getLog(TarFileSystem.class);
 
     private final File file;
@@ -82,7 +84,7 @@ public class TarFileSystem extends AbstractFileSystem implements FileSystem
         // Build the index
         try
         {
-            List<TarFileObject> strongRef = new ArrayList<TarFileObject>(100);
+            List<TarFileObject> strongRef = new ArrayList<TarFileObject>(DEFAULT_INDEX_SIZE);
             TarArchiveEntry entry;
             while ((entry = getTarFile().getNextTarEntry()) != null)
             {

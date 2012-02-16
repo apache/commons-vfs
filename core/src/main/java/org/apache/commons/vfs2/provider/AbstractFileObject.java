@@ -518,7 +518,8 @@ public abstract class AbstractFileObject implements FileObject
      * @see #getType()
      * @see FileType#FILE
      */
-    public boolean isFile() throws FileSystemException {
+    public boolean isFile() throws FileSystemException
+    {
         // Use equals instead of == to avoid any class loader worries.
         return FileType.FILE.equals(this.getType());
     }
@@ -531,7 +532,8 @@ public abstract class AbstractFileObject implements FileObject
      * @see #getType()
      * @see FileType#FOLDER
      */
-    public boolean isFolder() throws FileSystemException {
+    public boolean isFolder() throws FileSystemException
+    {
         // Use equals instead of == to avoid any class loader worries.
         return FileType.FOLDER.equals(this.getType());
     }
@@ -623,7 +625,8 @@ public abstract class AbstractFileObject implements FileObject
         try
         {
             return listFiles(Selectors.SELECT_ALL).iterator();
-        } catch (FileSystemException e)
+        }
+        catch (FileSystemException e)
         {
             throw new IllegalStateException(e);
         }
@@ -929,7 +932,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Deletes this file, and all children matching the {@code selector}
+     * Deletes this file, and all children matching the {@code selector}.
      *
      * @param selector The FileSelector.
      * @return the number of deleted files.
@@ -1079,11 +1082,12 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Compares two FileObjects (ignores case)
+     * Compares two FileObjects (ignores case).
      */
     public int compareTo(FileObject fo)
     {
-        if (fo == null) {
+        if (fo == null)
+        {
             return 1;
         }
         return this.toString().compareToIgnoreCase(fo.toString());
@@ -1091,6 +1095,7 @@ public abstract class AbstractFileObject implements FileObject
 
     /**
      * Copies another file to this file.
+     *
      * @param file The FileObject to copy.
      * @param selector The FileSelector.
      * @throws FileSystemException if an error occurs.

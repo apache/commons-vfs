@@ -296,7 +296,8 @@ public final class SftpClientFactory
 
     private static class JSchLogger implements Logger
     {
-        public boolean isEnabled(int level) {
+        public boolean isEnabled(int level)
+        {
             switch (level)
             {
                 case FATAL:
@@ -315,7 +316,8 @@ public final class SftpClientFactory
             }
         }
 
-        public void log(int level, String msg) {
+        public void log(int level, String msg)
+        {
             switch (level)
             {
                 case FATAL:

@@ -53,6 +53,8 @@ import com.jcraft.jsch.SftpException;
  */
 public class SftpFileObject extends AbstractFileObject
 {
+    private static final long MOD_TIME_FACTOR = 1000L;
+
     private final SftpFileSystem fileSystem;
     private SftpATTRS attrs;
     private final String relPath;
@@ -75,7 +77,10 @@ public class SftpFileObject extends AbstractFileObject
         attrs = null;
     }
 
-    /** @since 2.0 */
+    /**
+     * @throws FileSystemException if error occurs.
+     * @since 2.0
+     */
     @Override
     public void refresh() throws FileSystemException
     {
@@ -223,7 +228,7 @@ public class SftpFileObject extends AbstractFileObject
             throw new FileSystemException(
                     "vfs.provider.sftp/unknown-modtime.error");
         }
-        return attrs.getMTime() * 1000L;
+        return attrs.getMTime() * MOD_TIME_FACTOR;
     }
 
     /**
@@ -241,7 +246,7 @@ public class SftpFileObject extends AbstractFileObject
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            int newMTime = (int) (modtime / 1000L);
+            int newMTime = (int) (modtime / MOD_TIME_FACTOR);
 
             attrs.setACMODTIME(attrs.getATime(), newMTime);
             channel.setStat(relPath, attrs);
@@ -301,7 +306,8 @@ public class SftpFileObject extends AbstractFileObject
     protected FileObject[] doListChildrenResolved() throws Exception
     {
         // should not require a round-trip because type is already set.
-        if (this.isFile()) {
+        if (this.isFile())
+        {
             return null;
         }
         // List the contents of the folder
