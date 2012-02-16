@@ -27,7 +27,7 @@ import java.util.Set;
  * The extension comparison is case insensitive.
  * </p>
  * <p>
- * The selector makes a copy of a given Collection or array. Changing the object passed in the constructors will not 
+ * The selector makes a copy of a given Collection or array. Changing the object passed in the constructors will not
  * affect the selector.
  * </p>
  *

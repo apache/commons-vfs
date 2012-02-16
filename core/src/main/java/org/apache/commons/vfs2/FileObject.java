@@ -67,7 +67,8 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * <p/>
  * <p>To find files in another file system, use a {@link FileSystemManager}.
  * <h4>Iterating Files</h4>
- *<p>You can iterate over a FileObject using the Java "foreach" statement, which provides all descendents of a FileObject.</p>
+ *<p>You can iterate over a FileObject using the Java "foreach" statement, which provides all descendents of a File
+ * Object.</p>
  *
  * <h4>Sorting Files</h4>
  *<p>Files may be sorted using {@link Arrays#sort(Object[])} and {@link Collections#sort(List)}.</p>
