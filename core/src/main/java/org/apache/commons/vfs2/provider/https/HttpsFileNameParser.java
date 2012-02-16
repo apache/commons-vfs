@@ -25,11 +25,13 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
  */
 public class HttpsFileNameParser extends URLFileNameParser
 {
+    private static final int DEFAULT_PORT = 443;
+    
     private static final HttpsFileNameParser INSTANCE = new HttpsFileNameParser();
 
     public HttpsFileNameParser()
     {
-        super(443);
+        super(DEFAULT_PORT);
     }
 
     public static FileNameParser getInstance()

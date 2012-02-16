@@ -65,7 +65,7 @@ public final class SftpClientFactory
      * @throws FileSystemException if an error occurs.
      */
     public static Session createConnection(String hostname, int port, char[] username, char[] password,
-                                           FileSystemOptions fileSystemOptions) throws FileSystemException
+            FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         JSch jsch = new JSch();
 

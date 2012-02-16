@@ -95,7 +95,7 @@ public class LocalFileName extends AbstractFileName
 
                 uri = UriParser.encode(uri, RESERVED_URI_CHARS);
             }
-            catch(FileSystemException e)
+            catch (FileSystemException e)
             {
                 // Default to base uri value
             }
@@ -123,7 +123,7 @@ public class LocalFileName extends AbstractFileName
 
                 uri = UriParser.encode(uri, RESERVED_URI_CHARS);
             }
-            catch(FileSystemException e)
+            catch (FileSystemException e)
             {
                 // Default to base uri value
             }
@@ -143,7 +143,7 @@ public class LocalFileName extends AbstractFileName
         {
             return UriParser.decode(super.getURI());
         }
-        catch(FileSystemException e)
+        catch (FileSystemException e)
         {
             return super.getURI();
         }

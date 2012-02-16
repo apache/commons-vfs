@@ -63,7 +63,7 @@ public class FileSystemException
      */
     public FileSystemException(final String code)
     {
-        this(code, null, (Object[])null);
+        this(code, null, (Object[]) null);
     }
 
     /**
@@ -110,7 +110,7 @@ public class FileSystemException
      */
     public FileSystemException(final String code, final Throwable throwable)
     {
-        this(code, throwable, (Object[])null);
+        this(code, throwable, (Object[]) null);
     }
 
     /**
@@ -173,7 +173,7 @@ public class FileSystemException
      */
     public FileSystemException(final Throwable throwable)
     {
-        this(throwable.getMessage(), throwable, (Object[])null);
+        this(throwable.getMessage(), throwable, (Object[]) null);
     }
 
     /**
@@ -183,7 +183,7 @@ public class FileSystemException
     @Override
     public String getMessage()
     {
-        return Messages.getString(super.getMessage(), (Object[])getInfo());
+        return Messages.getString(super.getMessage(), (Object[]) getInfo());
     }
 
     /**

@@ -271,7 +271,7 @@ public class LocalFile extends AbstractFileObject
             // those characters before returning
             return UriParser.decode(getName().getURI());
         }
-        catch(FileSystemException e)
+        catch (FileSystemException e)
         {
             return getName().getURI();
         }

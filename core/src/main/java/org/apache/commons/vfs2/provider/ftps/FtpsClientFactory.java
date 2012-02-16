@@ -35,6 +35,8 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  */
 public final class FtpsClientFactory
 {
+    private static final int SHORT_MONTH_NAME_LEN = 40;
+
     private FtpsClientFactory()
     {
     }
@@ -118,7 +120,7 @@ public final class FtpsClientFactory
                         fileSystemOptions);
                     if (shortMonthNames != null)
                     {
-                        StringBuilder shortMonthNamesStr = new StringBuilder(40);
+                        StringBuilder shortMonthNamesStr = new StringBuilder(SHORT_MONTH_NAME_LEN);
                         for (String shortMonthName : shortMonthNames)
                         {
                             if (shortMonthNamesStr.length() > 0)
