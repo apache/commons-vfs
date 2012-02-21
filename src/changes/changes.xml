@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-404" dev="ggregory" type="update">
+        [FTP][FTPS] Update Apache Commons Net to 3.1 from 3.0.1
+      </action>
       <action issue="VFS-402" dev="ggregory" type="update">
         [WebDAV] Update Apache Jackrabbit 1.5.2 to 1.6.5.
       </action>
