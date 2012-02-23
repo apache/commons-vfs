@@ -61,6 +61,13 @@
       <property name="fileExtensions" value="java"/>
     </module>
 
+    <!-- @author tags are deprecated -->
+    <module name="RegexpSingleline">
+      <property name="format" value="^\s+\*\s+@author\s"/>
+      <property name="message" value="Deprecated @author tag"/>
+      <property name="fileExtensions" value="java"/>
+    </module>
+
     <!-- Exceptions -->
     <!--<module name="SuppressionFilter">
         <property name="file" value="conf/checkstyle-suppressions.xml"/>
