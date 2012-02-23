@@ -77,8 +77,8 @@
             <property name="allowUndeclaredRTE" value="true"/>
               <property name="allowMissingJavadoc" value="true"/>
         </module>
+        <!-- http://checkstyle.sourceforge.net/config_javadoc.html#JavadocType -->
         <module name="JavadocType">
-            <property name="authorFormat" value=".+Commons VFS team.+"/>
             <!-- It is unfortunate to have to do this but checkstyle doesn't allow custom tags -->
             <property name="allowUnknownTags" value="true"/>
         </module>
