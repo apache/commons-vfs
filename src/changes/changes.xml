@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-407" dev="ggregory" type="fix" due-to="mp1">
+        [RAM] Reading a RAM FileSystem file fails because it never returns EOF -1.
+      </action>
       <action issue="VFS-404" dev="ggregory" type="update">
         [FTP][FTPS] Update Apache Commons Net to 3.1 from 3.0.1
       </action>
