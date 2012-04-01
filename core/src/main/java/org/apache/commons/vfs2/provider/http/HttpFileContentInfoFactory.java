@@ -34,8 +34,8 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
 {
     public FileContentInfo create(FileContent fileContent) throws FileSystemException
     {
-        HttpFileObject httpFile = (HttpFileObject) (FileObjectUtils
-            .getAbstractFileObject(fileContent.getFile()));
+        HttpFileObject httpFile = (HttpFileObject) FileObjectUtils
+            .getAbstractFileObject(fileContent.getFile());
 
         String contentType = null;
         String contentEncoding = null;

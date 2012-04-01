@@ -60,9 +60,9 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     {
         final int prime = 37;
         int result = 1;
-        result = prime * result + ((domain == null) ? 0 : domain.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        result = prime * result + (domain == null ? 0 : domain.hashCode());
+        result = prime * result + (password == null ? 0 : password.hashCode());
+        result = prime * result + (username == null ? 0 : username.hashCode());
 
         return result;
     }

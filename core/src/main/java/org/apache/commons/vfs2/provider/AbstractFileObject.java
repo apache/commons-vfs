@@ -1192,7 +1192,7 @@ public abstract class AbstractFileObject implements FileObject
                 attach();
                 doRename(destFile);
 
-                (FileObjectUtils.getAbstractFileObject(destFile)).handleCreate(getType());
+                FileObjectUtils.getAbstractFileObject(destFile).handleCreate(getType());
 
                 destFile.close(); // now the destFile is no longer imaginary. force reattach.
 
@@ -1215,10 +1215,10 @@ public abstract class AbstractFileObject implements FileObject
 
             destFile.copyFrom(this, Selectors.SELECT_SELF);
 
-            if (((destFile.getType().hasContent()
-                    && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
-                  || (destFile.getType().hasChildren()
-                    && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER)))
+            if ((destFile.getType().hasContent()
+                    && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)
+                  || destFile.getType().hasChildren()
+                    && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))
                     && getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED))
             {
                 destFile.getContent().setLastModifiedTime(this.getContent().getLastModifiedTime());

@@ -546,7 +546,7 @@ public class WebdavFileObject extends HttpFileObject
             path = path.substring(0, path.length() - 1);
         }
         final int i = path.lastIndexOf("/");
-        return (i >= 0) ? path.substring(i + 1) : path;
+        return i >= 0 ? path.substring(i + 1) : path;
     }
 
     private String urlString(URLFileName name)

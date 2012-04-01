@@ -387,7 +387,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                 if (getChecksPerRun() > 0)
                 {
-                    if ((iterFileNames % getChecksPerRun()) == 0)
+                    if (iterFileNames % getChecksPerRun() == 0)
                     {
                         try
                         {

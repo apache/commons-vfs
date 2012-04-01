@@ -584,7 +584,7 @@ public class FtpFileObject extends AbstractFileObject
                 }
                 else
                 {
-                    return (timestamp.getTime().getTime());
+                    return timestamp.getTime().getTime();
                 }
             }
         }

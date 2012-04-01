@@ -62,7 +62,7 @@ public class TarFileObject extends AbstractFileObject
             return;
         }
 
-        if ((entry == null) || (entry.isDirectory()))
+        if (entry == null || entry.isDirectory())
         {
             type = FileType.FOLDER;
         }

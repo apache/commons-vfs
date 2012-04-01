@@ -38,8 +38,8 @@ public class WebdavFileContentInfoFactory implements FileContentInfoFactory
 {
     public FileContentInfo create(FileContent fileContent) throws FileSystemException
     {
-        WebdavFileObject file = (WebdavFileObject) (FileObjectUtils
-            .getAbstractFileObject(fileContent.getFile()));
+        WebdavFileObject file = (WebdavFileObject) FileObjectUtils
+            .getAbstractFileObject(fileContent.getFile());
 
         String contentType = null;
         String contentEncoding = null;

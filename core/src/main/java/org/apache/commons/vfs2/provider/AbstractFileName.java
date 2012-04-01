@@ -79,7 +79,7 @@ public abstract class AbstractFileName implements FileName
 
         AbstractFileName that = (AbstractFileName) o;
 
-        return (getKey().equals(that.getKey()));
+        return getKey().equals(that.getKey());
     }
 
     @Override
@@ -366,7 +366,7 @@ public abstract class AbstractFileName implements FileName
     public int getDepth()
     {
         final int len = getPath().length();
-        if (len == 0 || (len == 1 && getPath().charAt(0) == SEPARATOR_CHAR))
+        if (len == 0 || len == 1 && getPath().charAt(0) == SEPARATOR_CHAR)
         {
             return 0;
         }
@@ -393,7 +393,7 @@ public abstract class AbstractFileName implements FileName
             // do not treat filenames like
             // .bashrc c:\windows\.java c:\windows\.javaws c:\windows\.jedit c:\windows\.appletviewer
             // as extension
-            if ((pos < 1) || (pos == baseName.length() - 1))
+            if (pos < 1 || pos == baseName.length() - 1)
             {
                 // No extension
                 extension = "";
@@ -527,7 +527,7 @@ public abstract class AbstractFileName implements FileName
         if (scope == NameScope.CHILD)
         {
             if (path.length() == baseLen
-                || (baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR)
+                || baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR
                 || path.indexOf(SEPARATOR_CHAR, baseLen + 1) != -1)
             {
                 return false;
@@ -536,7 +536,7 @@ public abstract class AbstractFileName implements FileName
         else if (scope == NameScope.DESCENDENT)
         {
             if (path.length() == baseLen
-                || (baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR))
+                || baseLen > 1 && path.charAt(baseLen) != SEPARATOR_CHAR)
             {
                 return false;
             }

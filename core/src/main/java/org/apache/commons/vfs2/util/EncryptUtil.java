@@ -39,7 +39,7 @@ public final class EncryptUtil
      */
     public static void main(String[] args) throws Exception
     {
-        if (args.length != 2 || !(args[0].equals("encrypt")))
+        if (args.length != 2 || !args[0].equals("encrypt"))
         {
             System.err.println("Usage: \"EncryptUtil encrypt\" password");
             System.err.println("     password : The clear text password to encrypt");
