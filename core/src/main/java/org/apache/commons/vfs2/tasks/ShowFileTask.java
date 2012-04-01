@@ -27,8 +27,6 @@ import org.apache.tools.ant.BuildException;
 
 /**
  * An Ant task that writes the details of a file to Ant's log.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class ShowFileTask
     extends VfsTask

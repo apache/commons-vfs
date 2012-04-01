@@ -18,8 +18,6 @@ package org.apache.commons.vfs2;
 
 /**
  * An enumerated type that represents a file's type.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public enum FileType
 {

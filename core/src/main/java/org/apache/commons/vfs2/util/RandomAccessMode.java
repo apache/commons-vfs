@@ -18,8 +18,6 @@ package org.apache.commons.vfs2.util;
 
 /**
  * An enumerated type representing the modes of a random access content.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public enum RandomAccessMode
 {

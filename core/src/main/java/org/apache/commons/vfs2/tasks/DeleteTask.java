@@ -25,7 +25,6 @@ import org.apache.tools.ant.BuildException;
 /**
  * An Ant task that deletes matching files.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @todo Allow selector to be specified.
  */
 public class DeleteTask

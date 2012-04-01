@@ -23,7 +23,6 @@ import com.jcraft.jsch.UserInfo;
 
 /**
  * Helper class to trust a new host.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class TrustEveryoneUserInfo implements UserInfo
 {

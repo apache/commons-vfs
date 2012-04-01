@@ -22,7 +22,6 @@ import org.apache.commons.vfs2.FileObject;
 
 /**
  * A change event that knows how to notify a listener.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractFileChangeEvent extends FileChangeEvent
 {

@@ -24,8 +24,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * An InputStream that provides buffering and end-of-stream monitoring.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class MonitorInputStream
     extends BufferedInputStream

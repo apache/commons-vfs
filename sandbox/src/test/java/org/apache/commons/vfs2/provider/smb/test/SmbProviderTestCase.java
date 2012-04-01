@@ -28,8 +28,6 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 
 /**
  * Tests for the SMB file system.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class SmbProviderTestCase
     extends AbstractProviderTestConfig

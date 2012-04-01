@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.provider.url.UrlFileSystem;
 
 /**
  * The config BUILDER for various ftp configuration options.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

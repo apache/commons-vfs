@@ -38,7 +38,6 @@ import org.apache.commons.vfs2.util.WeakRefFileListener;
 /**
  * A file backed by another file.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @todo Extract subclass that overlays the children
  */
 public class DelegateFileObject extends AbstractFileObject implements FileListener

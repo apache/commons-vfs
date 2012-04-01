@@ -27,8 +27,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
  * A default URL stream handler that will work for most file systems.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DefaultURLStreamHandler
     extends URLStreamHandler

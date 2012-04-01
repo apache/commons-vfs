@@ -44,7 +44,6 @@ import org.junit.Assert;
 /**
  * Tests for FTP file systems.
  * 
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class FtpProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {

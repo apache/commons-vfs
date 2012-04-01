@@ -60,7 +60,6 @@ import org.apache.sshd.server.sftp.SftpSubsystem;
  * Starts and stops an embedded Apache SSHd (MINA) server.
  * </p>
  * 
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class SftpProviderTestCase extends AbstractProviderTestConfig
 {

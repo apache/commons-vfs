@@ -35,8 +35,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * An HTTP provider that uses commons-httpclient.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class HttpFileProvider
     extends AbstractOriginatingFileProvider

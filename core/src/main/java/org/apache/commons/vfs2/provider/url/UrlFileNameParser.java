@@ -27,8 +27,6 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
 /**
  * Implementation for any java.net.url based filesystem.<br />
  * Composite of URLFilenameParser and GenericFilenameParser
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class UrlFileNameParser extends AbstractFileNameParser
 {
@@ -70,7 +68,6 @@ public class UrlFileNameParser extends AbstractFileNameParser
      * A filename is url-based if the base is a <code>URLFileName</code> or there are only 2 slashes
      * after the scheme.<br/>
      * e.g: http://host/path, file:/path/to/file, file:///path/to/file
-     *
      */
     protected boolean isUrlBased(final FileName base, final String filename)
     {

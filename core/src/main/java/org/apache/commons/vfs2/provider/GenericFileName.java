@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.FileType;
  * A file name that represents a 'generic' URI, as per RFC 2396.  Consists of
  * a scheme, userinfo (typically username and password), hostname, port, and
  * path.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class GenericFileName extends AbstractFileName
 {

@@ -37,8 +37,6 @@ import org.apache.commons.vfs2.util.Messages;
 /**
  * This implementation caches every file using {@link LRUMap}.<br>
  * The default constructor uses a LRU size of 100 per filesystem.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class LRUFilesCache extends AbstractFilesCache
 {

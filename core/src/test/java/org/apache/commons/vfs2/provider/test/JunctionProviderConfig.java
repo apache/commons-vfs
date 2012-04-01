@@ -26,8 +26,6 @@ import org.apache.commons.vfs2.test.ProviderTestConfig;
 /**
  * A provider config that wraps another provider, to run the tests via
  * junctions.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class JunctionProviderConfig
     implements ProviderTestConfig

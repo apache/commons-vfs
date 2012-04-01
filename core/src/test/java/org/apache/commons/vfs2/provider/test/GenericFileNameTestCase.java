@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 
 /**
  * Some GenericFileName test cases.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class GenericFileNameTestCase
     extends AbstractVfsTestCase

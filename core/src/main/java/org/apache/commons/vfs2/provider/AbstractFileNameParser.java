@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.provider;
 
 /**
  * Provides methods to parse a filename into a {@link org.apache.commons.vfs2.FileName}.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractFileNameParser implements FileNameParser
 {

@@ -29,8 +29,6 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * the bzip2 file.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class Bzip2FileObject extends CompressedFileFileObject
 {

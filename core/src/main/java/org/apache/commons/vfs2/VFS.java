@@ -22,8 +22,6 @@ import java.lang.reflect.Method;
 /**
  * The main entry point for the VFS.  Used to create {@link FileSystemManager}
  * instances.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class VFS
 {

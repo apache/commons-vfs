@@ -18,8 +18,6 @@ package code.sealed;
 
 /**
  * A test class for the ClassLoader tests.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class AnotherClass
 {

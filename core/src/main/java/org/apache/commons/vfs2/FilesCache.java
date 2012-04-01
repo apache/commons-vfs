@@ -19,8 +19,6 @@ package org.apache.commons.vfs2;
 
 /**
  * The fileCache interface. Implementations of this interface are expected to be thread safe.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FilesCache
 {

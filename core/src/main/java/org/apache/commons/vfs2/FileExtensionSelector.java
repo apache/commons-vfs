@@ -32,7 +32,6 @@ import java.util.Set;
  * </p>
  *
  * @since 2.1
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileExtensionSelector implements FileSelector
 {

@@ -31,8 +31,6 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 
 /**
  * Test cases for the generic provider.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class UrlHttpProviderTestCase
     extends AbstractProviderTestConfig

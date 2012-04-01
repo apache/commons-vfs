@@ -32,8 +32,6 @@ import org.apache.commons.vfs2.FileType;
 /**
  * A file selector that asserts that all files are visited, in the correct
  * order.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class VerifyingFileSelector
     extends Assert

@@ -28,8 +28,6 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 
 /**
  * Test cases for the virtual file system provider.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class VirtualProviderTestCase
     extends AbstractProviderTestConfig

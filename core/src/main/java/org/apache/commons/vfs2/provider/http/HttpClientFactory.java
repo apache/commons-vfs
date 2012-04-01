@@ -34,8 +34,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * Create a HttpClient instance.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class HttpClientFactory
 {

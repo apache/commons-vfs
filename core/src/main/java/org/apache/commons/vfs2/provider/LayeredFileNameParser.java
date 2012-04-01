@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.FileType;
  * Implementation for layered filesystems.
  * <p/>
  * Additionally encodes the '!' character.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class LayeredFileNameParser extends AbstractFileNameParser
 {

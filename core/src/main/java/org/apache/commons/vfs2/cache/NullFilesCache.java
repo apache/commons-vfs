@@ -30,8 +30,6 @@ import org.apache.commons.vfs2.FileSystem;
  * create a new instance.
  * Changes on one instance of this file are not seen by the others.</b>
  * </p>
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class NullFilesCache extends AbstractFilesCache
 {

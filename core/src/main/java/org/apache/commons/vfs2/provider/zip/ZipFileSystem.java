@@ -43,8 +43,6 @@ import org.apache.commons.vfs2.provider.UriParser;
 
 /**
  * A read-only file system for Zip/Jar files.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class ZipFileSystem extends AbstractFileSystem implements FileSystem
 {

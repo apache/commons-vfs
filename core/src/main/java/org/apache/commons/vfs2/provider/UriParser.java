@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.util.Os;
 /**
  * Utilities for dealing with URIs. See RFC 2396 for details.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  *          2005) $
  */
 public final class UriParser

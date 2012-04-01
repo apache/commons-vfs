@@ -31,8 +31,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * RandomAccess for smb files
- *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  */
 class SmbFileRandomAccessContent extends AbstractRandomAccessContent
 {

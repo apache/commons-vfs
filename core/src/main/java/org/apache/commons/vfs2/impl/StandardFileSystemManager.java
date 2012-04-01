@@ -41,8 +41,6 @@ import org.w3c.dom.NodeList;
  * Certain providers are only loaded and available if the dependent library is in your
  * classpath. You have to configure your debugging facility to log "debug" messages to see
  * if a provider was skipped due to "unresolved externals".
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class StandardFileSystemManager
     extends DefaultFileSystemManager

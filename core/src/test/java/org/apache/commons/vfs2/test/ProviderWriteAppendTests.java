@@ -24,8 +24,6 @@ import org.apache.commons.vfs2.Selectors;
 
 /**
  * File system test that check that a file system can be modified.
- *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  */
 public class ProviderWriteAppendTests
     extends AbstractProviderTestCase

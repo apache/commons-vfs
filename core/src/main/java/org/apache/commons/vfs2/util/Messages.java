@@ -24,8 +24,6 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * Formats messages.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class Messages
 {

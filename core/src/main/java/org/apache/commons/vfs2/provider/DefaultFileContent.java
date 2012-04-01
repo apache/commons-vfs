@@ -37,8 +37,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * The content of a file.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class DefaultFileContent implements FileContent
 {

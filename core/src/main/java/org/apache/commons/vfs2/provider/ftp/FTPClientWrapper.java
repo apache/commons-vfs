@@ -33,7 +33,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * A wrapper to the FTPClient to allow automatic reconnect on connection loss.<br />
  * I decided to not to use eg. noop() to determine the state of the connection to avoid
  * unnecesary server round-trips.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class FTPClientWrapper implements FtpClient
 {

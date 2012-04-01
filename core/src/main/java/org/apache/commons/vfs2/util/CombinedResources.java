@@ -24,7 +24,6 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 2.0
  */
 public class CombinedResources extends ResourceBundle

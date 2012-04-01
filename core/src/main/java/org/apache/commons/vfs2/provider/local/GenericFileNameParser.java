@@ -22,8 +22,6 @@ import org.apache.commons.vfs2.FileType;
 
 /**
  * A general-purpose file name parser.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class GenericFileNameParser
     extends LocalFileNameParser

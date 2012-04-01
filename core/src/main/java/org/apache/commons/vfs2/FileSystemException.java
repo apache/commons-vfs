@@ -24,8 +24,6 @@ import org.apache.commons.vfs2.util.Messages;
 
 /**
  * Thrown for file system errors.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileSystemException
     extends IOException

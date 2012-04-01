@@ -18,7 +18,6 @@ package org.apache.commons.vfs2;
 
 /**
  * Delivers a file-not-folder exception which happens when trying to issue {@link FileObject#getChildren()} on a file.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 2.0
  */
 public class FileNotFolderException extends FileSystemException

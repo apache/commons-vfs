@@ -22,8 +22,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
  * Description.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class CompositeFileProvider extends AbstractFileProvider
 {

@@ -31,8 +31,6 @@ import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
  * A wrapper to an FileObject to get a {@link javax.mail.internet.SharedInputStream}
- *
- * @author <a href="mailto:imario@apache.org">imario@apache.org</a>
  */
 public class SharedRandomContentInputStream extends BufferedInputStream implements SharedInputStream
 {

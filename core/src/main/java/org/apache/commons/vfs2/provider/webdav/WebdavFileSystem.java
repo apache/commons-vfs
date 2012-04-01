@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystem;
 /**
  * A WebDAV file system.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 2.0
  */
 public class WebdavFileSystem extends HttpFileSystem implements FileSystem

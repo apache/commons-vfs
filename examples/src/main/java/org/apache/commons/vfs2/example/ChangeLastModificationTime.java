@@ -21,8 +21,6 @@ import org.apache.commons.vfs2.VFS;
 
 /**
  * Simply changed the last modification time of the given file
- *
- * @author imario@apache.org
  */
 public class ChangeLastModificationTime
 {

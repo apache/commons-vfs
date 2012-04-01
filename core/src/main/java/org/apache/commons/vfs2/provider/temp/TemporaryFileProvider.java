@@ -34,8 +34,6 @@ import org.apache.commons.vfs2.provider.local.LocalFileSystem;
 
 /**
  * A provider for temporary files.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider

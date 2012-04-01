@@ -28,8 +28,6 @@ import org.apache.commons.vfs2.FileSystemException;
  * <li>{@link FileReplicator}
  * <li>{@link TemporaryFileStore}
  * </ul>
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface VfsComponent
 {

@@ -25,8 +25,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * Implements the DataOutput part of the RandomAccessContent interface and throws
  * UnsupportedOperationException if one of those methods are called.
  * (for read-only random access implementations)
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent
 {

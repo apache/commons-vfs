@@ -23,8 +23,6 @@ import java.io.RandomAccessFile;
 /**
  * Encapsulates a {@link RandomAccessContent} instance, allowing it to be used
  * as a {@link RandomAccessFile} instance.
- *
- * @author Elifarley Callado Coelho Cruz <elifarley@gmail.com>
  */
 public class RACRandomAccessFile extends RandomAccessFile implements RandomAccessContent
 {

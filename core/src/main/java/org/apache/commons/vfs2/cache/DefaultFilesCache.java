@@ -28,8 +28,6 @@ import org.apache.commons.vfs2.FileSystem;
  * A {@link org.apache.commons.vfs2.FilesCache} implementation.<br>
  * This implementation caches every file for the complete lifetime of the used
  * {@link org.apache.commons.vfs2.FileSystemManager}.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DefaultFilesCache extends AbstractFilesCache
 {

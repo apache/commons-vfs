@@ -23,7 +23,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 
 /**
  * Some helper methods used for authentication.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class UserAuthenticatorUtils
 {

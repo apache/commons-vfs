@@ -25,7 +25,6 @@ import org.junit.Assert;
 /**
  * Test cases for getting and setting file last modified time.
  * 
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class LastModifiedTests extends AbstractProviderTestCase
 {

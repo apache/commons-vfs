@@ -38,9 +38,6 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 
 /**
  * The suite of tests for a file system.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @author Gary D. Gregory
  */
 public abstract class AbstractTestSuite
     extends TestSetup

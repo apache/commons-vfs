@@ -21,8 +21,6 @@ import org.apache.commons.vfs2.util.Messages;
 /**
  * A {@link org.apache.commons.vfs2.FileSelector} that selects all children of the given fileObject.<br />
  * This is to mimic the {@link java.io.FileFilter} interface
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileFilterSelector extends FileDepthSelector
 {

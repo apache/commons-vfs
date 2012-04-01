@@ -22,7 +22,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
  * Config Builder for the RAM filesystem.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

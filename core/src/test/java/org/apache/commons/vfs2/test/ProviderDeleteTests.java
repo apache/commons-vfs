@@ -26,8 +26,6 @@ import org.apache.commons.vfs2.Selectors;
 
 /**
  * File system test that do some delete operations.
- *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  */
 public class ProviderDeleteTests
     extends AbstractProviderTestCase

@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * RandomAccess content using Http.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
 {

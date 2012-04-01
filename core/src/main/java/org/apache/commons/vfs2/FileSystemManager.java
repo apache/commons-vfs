@@ -64,8 +64,6 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * details.</p>
  * <p/>
  * </ul>
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FileSystemManager
 {

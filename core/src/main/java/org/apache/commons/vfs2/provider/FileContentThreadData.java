@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
  * Holds the data which needs to be local to the current thread
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class FileContentThreadData
 {

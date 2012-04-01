@@ -20,7 +20,6 @@ package org.apache.commons.vfs2;
  * Represents a file name.  File names are immutable, and work correctly as
  * keys in hash tables.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see FileObject
  */
 public interface FileName extends Comparable<FileName>

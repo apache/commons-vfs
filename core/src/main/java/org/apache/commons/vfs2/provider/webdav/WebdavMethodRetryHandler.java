@@ -26,7 +26,6 @@ import org.apache.commons.httpclient.HttpMethodRetryHandler;
  * A retry handler which will retry a failed webdav method one time.<br />
  * Now that webdavlib didnt support adding a MethodRetryHandler only a few operations are restartable yet.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 2.0
  */
 public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler

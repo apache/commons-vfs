@@ -23,8 +23,6 @@ import org.junit.Test;
 
 /**
  * Tests the {@link FileSystemException}.
- *
- * @author J&ouml;rg Schaible
  */
 public class FileSystemExceptionTest {
     /**

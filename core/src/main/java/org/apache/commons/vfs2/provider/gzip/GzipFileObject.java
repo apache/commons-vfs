@@ -28,8 +28,6 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * the gzip file.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class GzipFileObject extends CompressedFileFileObject
 {

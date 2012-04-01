@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
  * An RandomAccessContent that provides end-of-stream monitoring.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class MonitorRandomAccessContent implements RandomAccessContent
 {

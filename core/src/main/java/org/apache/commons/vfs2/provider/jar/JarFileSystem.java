@@ -36,8 +36,6 @@ import org.apache.commons.vfs2.provider.zip.ZipFileSystem;
 
 /**
  * A read-only file system for Jar files.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class JarFileSystem extends ZipFileSystem
 {

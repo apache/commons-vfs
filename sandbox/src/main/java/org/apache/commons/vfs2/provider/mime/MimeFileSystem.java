@@ -38,8 +38,6 @@ import org.apache.commons.vfs2.util.SharedRandomContentInputStream;
 
 /**
  * An MIME file system.
- *
- * @author <a href="mailto:imario@apache.org">imario@apache.org</a>
  */
 public class MimeFileSystem
     extends AbstractFileSystem

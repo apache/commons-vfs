@@ -24,8 +24,6 @@ import org.apache.commons.vfs2.provider.UriParser;
 
 /**
  * A local file URI.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class LocalFileName extends AbstractFileName
 {

@@ -30,8 +30,6 @@ import org.apache.commons.vfs2.util.Messages;
 /**
  * A base class for VFS tests.  Provides utility methods for locating
  * test resources.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public abstract class AbstractVfsTestCase
     extends TestCase

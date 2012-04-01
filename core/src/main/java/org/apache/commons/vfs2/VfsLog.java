@@ -22,8 +22,6 @@ import org.apache.commons.logging.Log;
  * This class is to keep the old logging behaviour (for ant-task) and to be able to
  * correctly use commons-logging.<br>
  * I hope i could remove it sometimes.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class VfsLog
 {

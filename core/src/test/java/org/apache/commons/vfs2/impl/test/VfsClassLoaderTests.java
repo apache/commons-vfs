@@ -27,8 +27,6 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
  * VfsClassLoader test cases.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class VfsClassLoaderTests
     extends AbstractProviderTestCase

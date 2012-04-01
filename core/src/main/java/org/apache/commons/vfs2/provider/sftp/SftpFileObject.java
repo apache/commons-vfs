@@ -48,7 +48,6 @@ import com.jcraft.jsch.SftpException;
 /**
  * An SFTP file.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  *          2005) $
  */
 public class SftpFileObject extends AbstractFileObject

@@ -28,8 +28,6 @@ import com.jcraft.jsch.UserInfo;
 
 /**
  * The config BUILDER for various sftp configuration options.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

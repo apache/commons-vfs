@@ -36,8 +36,6 @@ import org.junit.Test;
 
 /**
  * Some tests for the DelegatingFileSystemOptionsBuilder
- *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  */
 public class DelegatingFileSystemOptionsBuilderTest
 {

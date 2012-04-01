@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.Selectors;
 /**
  * An Ant task that copies matching files.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @todo Copy folders that do not contain files
  */
 public class CopyTask

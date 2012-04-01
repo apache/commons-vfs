@@ -22,7 +22,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * Provides always the same credentials data passed in with the constructor.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class StaticUserAuthenticator implements UserAuthenticator, Comparable<StaticUserAuthenticator>
 {

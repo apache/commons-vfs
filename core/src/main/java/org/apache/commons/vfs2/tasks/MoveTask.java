@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.Selectors;
 /**
  * An Ant task that moves matching files.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @todo Delete matching folders
  */
 public class MoveTask

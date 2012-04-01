@@ -32,8 +32,6 @@ import org.apache.commons.vfs2.operations.FileOperations;
 
 /**
  * Base class to build a fileObject decoration.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DecoratedFileObject implements FileObject
 {

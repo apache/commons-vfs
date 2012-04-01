@@ -18,8 +18,6 @@ package org.apache.commons.vfs2;
 
 /**
  * Interface to the content info.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FileContentInfo
 {

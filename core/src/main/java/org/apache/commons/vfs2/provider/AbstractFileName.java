@@ -24,8 +24,6 @@ import org.apache.commons.vfs2.VFS;
 
 /**
  * A default file name implementation.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractFileName implements FileName
 {

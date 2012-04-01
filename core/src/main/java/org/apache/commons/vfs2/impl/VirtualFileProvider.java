@@ -26,8 +26,6 @@ import org.apache.commons.vfs2.provider.AbstractVfsContainer;
 
 /**
  * A virtual filesystem provider.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class VirtualFileProvider extends AbstractVfsContainer
 {

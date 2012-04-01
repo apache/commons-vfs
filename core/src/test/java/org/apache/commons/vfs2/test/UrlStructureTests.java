@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.FileObject;
 
 /**
  * URL Test cases for providers that supply structural info.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class UrlStructureTests
     extends AbstractProviderTestCase

@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
 
 /**
  * A file system provider for Tar files.  Provides read-only file systems.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class TarFileProvider extends AbstractLayeredFileProvider implements FileProvider
 {

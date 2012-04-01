@@ -45,8 +45,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * delegate.setConfigString(fso, "http", "proxyPort", "8080");
  * delegate.setConfigClass(fso, "sftp", "userinfo", TrustEveryoneUserInfo.class);
  * </pre>
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DelegatingFileSystemOptionsBuilder
 {

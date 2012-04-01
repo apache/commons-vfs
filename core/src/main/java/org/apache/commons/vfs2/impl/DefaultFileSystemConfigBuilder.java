@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.UserAuthenticator;
 
 /**
  * Default options usable for all filesystems.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

@@ -22,8 +22,6 @@ import java.io.OutputStream;
 
 /**
  * Utility methods for dealing with FileObjects.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class FileUtil
 {

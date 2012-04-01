@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.FileUtil;
  * Helper class for VFSClassLoader. This represents a resource loaded with
  * the classloader.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see VFSClassLoader
  */
 class Resource

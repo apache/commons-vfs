@@ -18,8 +18,6 @@ package org.apache.commons.vfs2;
 
 /**
  * This interface is used to select files when traversing the direct children of the base.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FileFilter
 {

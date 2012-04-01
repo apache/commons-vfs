@@ -27,8 +27,6 @@ import org.apache.commons.vfs2.NameScope;
 
 /**
  * Test cases for reading file content.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class ContentTests
     extends AbstractProviderTestCase

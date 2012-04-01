@@ -29,7 +29,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * replicator.  A VFS component is supplied with a context as part of its
  * initialisation.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see VfsComponent#setContext
  */
 public interface VfsComponentContext

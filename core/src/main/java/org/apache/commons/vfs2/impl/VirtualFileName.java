@@ -22,8 +22,6 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 
 /**
  * A simple Filename to hold the scheme for to be created virtual filesytsem.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class VirtualFileName extends AbstractFileName
 {

@@ -58,7 +58,6 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
      * Imports test data from the disk.
      *
      * @throws Exception
-     *
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager)

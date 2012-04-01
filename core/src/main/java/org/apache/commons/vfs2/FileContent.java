@@ -37,7 +37,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * <p>A file may have multiple InputStreams open at the same time.
  * <p/>
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see FileObject#getContent
  */
 public interface FileContent

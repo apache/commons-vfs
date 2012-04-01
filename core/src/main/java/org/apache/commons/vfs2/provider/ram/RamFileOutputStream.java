@@ -23,7 +23,6 @@ import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * OutputStream to a RamFile.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class RamFileOutputStream extends OutputStream
 {

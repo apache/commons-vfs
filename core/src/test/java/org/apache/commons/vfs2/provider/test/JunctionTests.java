@@ -26,8 +26,6 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
  * Additional junction test cases.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class JunctionTests
     extends AbstractProviderTestCase

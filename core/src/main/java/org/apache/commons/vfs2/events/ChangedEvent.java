@@ -21,7 +21,6 @@ import org.apache.commons.vfs2.FileObject;
 
 /**
  * File changed event.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class ChangedEvent extends AbstractFileChangeEvent
 {

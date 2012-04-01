@@ -76,8 +76,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * </pre>
  * <i>(where CustomFileListener is a class that implements the FileListener
  * interface.)</i>
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor
 {

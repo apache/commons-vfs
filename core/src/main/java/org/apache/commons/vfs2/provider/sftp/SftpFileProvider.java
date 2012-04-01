@@ -35,8 +35,6 @@ import com.jcraft.jsch.Session;
 
 /**
  * A provider for accessing files over SFTP.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class SftpFileProvider extends AbstractOriginatingFileProvider
 {

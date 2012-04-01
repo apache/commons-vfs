@@ -24,8 +24,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractRandomAccessStreamContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
-/**
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
 {

@@ -21,7 +21,6 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 
 /**
  * Implementation for https. set default port to 443.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class HttpsFileNameParser extends URLFileNameParser
 {

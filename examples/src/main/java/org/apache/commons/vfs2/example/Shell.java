@@ -35,9 +35,6 @@ import org.apache.commons.vfs2.VFS;
 
 /**
  * A simple command-line shell for performing file operations.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @author Gary D. Gregory
  */
 public class Shell
 {

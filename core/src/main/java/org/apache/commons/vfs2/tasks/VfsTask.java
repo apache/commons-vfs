@@ -29,8 +29,6 @@ import org.apache.tools.ant.Task;
  * Base class for the VFS Ant tasks.  Takes care of creating a FileSystemManager,
  * and for cleaning it up at the end of the build.  Also provides some
  * utility methods.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class VfsTask
     extends Task

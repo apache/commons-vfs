@@ -27,7 +27,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * Random access content.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class SftpRandomAccessContent extends AbstractRandomAccessStreamContent
 {

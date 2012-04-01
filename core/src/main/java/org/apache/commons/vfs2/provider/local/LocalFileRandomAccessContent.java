@@ -29,8 +29,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * RandomAccess for local files
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent
 {

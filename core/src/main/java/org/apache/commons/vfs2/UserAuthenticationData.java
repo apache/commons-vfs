@@ -22,7 +22,6 @@ import java.util.TreeMap;
 
 /**
  * Container for various authentication data.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class UserAuthenticationData
 {

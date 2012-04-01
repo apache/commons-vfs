@@ -18,8 +18,6 @@ package code;
 
 /**
  * The test class for the VFS classloader.
- *
- * @author <a href="mailto:brian@mmmanager.org">Brian Olsen</a>
  */
 public class ClassToLoad
 {

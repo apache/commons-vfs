@@ -38,7 +38,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 /**
  * A provider for WebDAV.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 2.0
  */
 public class WebdavFileProvider

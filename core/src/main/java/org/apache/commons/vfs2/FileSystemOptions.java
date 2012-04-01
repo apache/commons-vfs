@@ -24,7 +24,6 @@ import java.util.TreeMap;
  * You have to use *FileSystemConfigBuilder.getInstance() to fill this container<br>
  * * = the filesystem provider short name
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder
  */

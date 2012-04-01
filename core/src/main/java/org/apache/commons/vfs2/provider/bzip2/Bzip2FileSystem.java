@@ -28,8 +28,6 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * Filesytem to handle compressed files using the bzip2 method.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class Bzip2FileSystem extends CompressedFileFileSystem
 {

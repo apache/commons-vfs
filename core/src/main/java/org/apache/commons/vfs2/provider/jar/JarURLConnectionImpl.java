@@ -33,8 +33,6 @@ import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * A default URL connection that will work for most file systems.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class JarURLConnectionImpl
     extends JarURLConnection

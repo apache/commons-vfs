@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * A file provider which handles local files.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface LocalFileProvider
     extends FileProvider
@@ -43,7 +41,6 @@ public interface LocalFileProvider
      * @param name The name of the file to locate.
      * @return The FileObject for the file.
      * @throws FileSystemException if an error occurs.
-     *
      */
     FileObject findLocalFile(final String name)
         throws FileSystemException;

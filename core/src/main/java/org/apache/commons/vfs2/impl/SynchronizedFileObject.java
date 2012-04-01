@@ -27,8 +27,6 @@ import org.apache.commons.vfs2.NameScope;
 
 /**
  * This decorator synchronize all access to the FileObject.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class SynchronizedFileObject extends DecoratedFileObject
 {

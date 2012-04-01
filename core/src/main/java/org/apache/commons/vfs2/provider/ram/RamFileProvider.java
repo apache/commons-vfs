@@ -30,8 +30,6 @@ import org.apache.commons.vfs2.provider.FileProvider;
 
 /**
  * RAM File Provider.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
- *
  */
 public class RamFileProvider extends AbstractOriginatingFileProvider implements
         FileProvider

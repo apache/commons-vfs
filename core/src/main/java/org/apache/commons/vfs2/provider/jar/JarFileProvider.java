@@ -36,8 +36,6 @@ import org.apache.commons.vfs2.provider.zip.ZipFileProvider;
  * A file system provider for Jar files.  Provides read-only file
  * systems.  This provides access to Jar specific features like Signing and
  * Manifest Attributes.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class JarFileProvider extends ZipFileProvider
 {

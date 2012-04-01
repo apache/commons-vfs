@@ -43,7 +43,6 @@ import org.apache.commons.vfs2.NameScope;
  * by creating a layered file system with the "jar" scheme.
  * TODO - Test this with signed Jars and a SecurityManager.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see FileSystemManager#createFileSystem
  */
 public class VFSClassLoader extends SecureClassLoader

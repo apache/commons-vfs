@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.operations.FileOperation;
  * from the repository.
  * </p>
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 0.1
  */
 public interface VcsRevert extends FileOperation

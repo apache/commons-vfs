@@ -23,8 +23,6 @@ import java.io.InputStream;
 
 /**
  * Random Access Content.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface RandomAccessContent extends DataOutput, DataInput
 {

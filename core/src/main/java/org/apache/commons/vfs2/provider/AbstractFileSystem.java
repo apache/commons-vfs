@@ -51,8 +51,6 @@ import org.apache.commons.vfs2.util.Messages;
 
 /**
  * A partial {@link org.apache.commons.vfs2.FileSystem} implementation.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractFileSystem
     extends AbstractVfsComponent

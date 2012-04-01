@@ -29,8 +29,6 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 
 /**
  * Tests for the Zip file system, using a zip file nested inside another zip file.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class NestedZipTestCase
     extends AbstractProviderTestConfig

@@ -73,7 +73,6 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * <h4>Sorting Files</h4>
  *<p>Files may be sorted using {@link Arrays#sort(Object[])} and {@link Collections#sort(List)}.</p>
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @see FileSystemManager
  * @see FileContent
  * @see FileName

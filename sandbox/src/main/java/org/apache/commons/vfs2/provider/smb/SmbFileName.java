@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 
 /**
  * An SMB URI.  Adds a share name to the generic URI.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class SmbFileName extends GenericFileName
 {

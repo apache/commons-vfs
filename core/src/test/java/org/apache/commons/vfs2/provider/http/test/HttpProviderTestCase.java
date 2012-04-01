@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.util.NHttpServer;
 /**
  * Test cases for the HTTP provider.
  * 
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class HttpProviderTestCase extends AbstractProviderTestConfig
 {

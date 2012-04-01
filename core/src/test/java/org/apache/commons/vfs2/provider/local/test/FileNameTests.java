@@ -23,8 +23,6 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
  * Additional naming tests for local file system.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class FileNameTests
     extends AbstractProviderTestCase

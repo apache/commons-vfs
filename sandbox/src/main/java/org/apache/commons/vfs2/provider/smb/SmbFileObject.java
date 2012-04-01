@@ -41,8 +41,6 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * A file in an SMB file system.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class SmbFileObject
     extends AbstractFileObject

@@ -25,8 +25,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * A {@link FileProvider} that is layered on top of another, such as the
  * contents of a zip or tar file.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileProvider

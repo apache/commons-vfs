@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
  * NOTE: Most of the heavy lifting for FTPS is done by the org.apache.commons.vfs2.provider.ftp package since
  * they both use commons-net package
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 2.0
  */
 public class FtpsFileProvider extends FtpFileProvider

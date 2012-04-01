@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * A RAM File contains a single RAM FileData instance, it provides methods to
  * access the data by implementing FileObject interface.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class RamFileObject extends AbstractFileObject
 {

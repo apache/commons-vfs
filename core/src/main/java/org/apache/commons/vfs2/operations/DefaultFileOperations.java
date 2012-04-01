@@ -25,18 +25,15 @@ import org.apache.commons.vfs2.FileSystemManager;
 
 /**
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 0.1
  */
 public class DefaultFileOperations implements FileOperations
 {
     /**
-     *
      */
     private final FileSystemManager fsmanager;
 
     /**
-     *
      */
     private final FileObject fileObject;
 
@@ -54,7 +51,6 @@ public class DefaultFileOperations implements FileOperations
     /**
      * @return The operation classes.
      * @throws FileSystemException If an error occurs.
-     *
      */
     public Class<? extends FileOperation>[] getOperations() throws FileSystemException
     {
@@ -85,7 +81,6 @@ public class DefaultFileOperations implements FileOperations
      * @param operationClass The Class that performs the operation.
      * @return The FileOperation.
      * @throws FileSystemException if an error occurs.
-     *
      */
     public FileOperation getOperation(Class<? extends FileOperation> operationClass)
             throws FileSystemException
@@ -128,7 +123,6 @@ public class DefaultFileOperations implements FileOperations
      *         FileObject and false otherwise.
      *
      * @throws FileSystemException if an error occurs.
-     *
      */
     public boolean hasOperation(Class<? extends FileOperation> operationClass) throws FileSystemException
     {

@@ -18,8 +18,6 @@ package org.apache.commons.vfs2;
 
 /**
  * An enumerated type representing the capabilities of files and file systems.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public enum Capability
 {

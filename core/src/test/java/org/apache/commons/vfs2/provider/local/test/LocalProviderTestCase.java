@@ -29,8 +29,6 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 
 /**
  * Tests for the local file system.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class LocalProviderTestCase
     extends AbstractProviderTestConfig

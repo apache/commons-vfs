@@ -43,8 +43,6 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
 
 /**
  * A read-only file system for Tar files.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class TarFileSystem extends AbstractFileSystem implements FileSystem
 {

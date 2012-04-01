@@ -29,8 +29,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
 /**
  * An SMB file system.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class SmbFileSystem
     extends AbstractFileSystem

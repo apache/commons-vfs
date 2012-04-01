@@ -20,9 +20,6 @@ import org.apache.commons.vfs2.impl.test.VfsClassLoaderTests;
 
 /**
  * The suite of tests for a file system.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
- * @author Gary D. Gregory
  */
 public class ProviderTestSuite
     extends AbstractTestSuite

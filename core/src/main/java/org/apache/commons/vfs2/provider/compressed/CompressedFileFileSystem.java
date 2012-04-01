@@ -29,8 +29,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
 /**
  * A read-only file system for compressed files.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class CompressedFileFileSystem
     extends AbstractFileSystem

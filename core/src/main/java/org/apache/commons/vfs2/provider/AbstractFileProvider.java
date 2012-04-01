@@ -30,8 +30,6 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
 /**
  * A partial {@link FileProvider} implementation.  Takes care of managing the
  * file systems created by the provider.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractFileProvider
     extends AbstractVfsContainer

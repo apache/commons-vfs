@@ -26,8 +26,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * A {@link FileProvider} that handles physical files, such as the files in a
  * local fs, or on an FTP server.  An originating file system cannot be
  * layered on top of another file system.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public abstract class AbstractOriginatingFileProvider
     extends AbstractFileProvider

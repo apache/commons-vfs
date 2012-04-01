@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * FileOperationProvider is responsible for dealing with FileOperation's.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @since 0.1
  */
 public interface FileOperationProvider

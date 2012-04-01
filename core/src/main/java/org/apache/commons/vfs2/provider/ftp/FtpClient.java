@@ -25,7 +25,6 @@ import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * What VFS expects from an ftp client to provide.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FtpClient
 {

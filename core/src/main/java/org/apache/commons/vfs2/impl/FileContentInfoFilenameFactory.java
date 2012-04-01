@@ -27,8 +27,6 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
  * The FileContentInfoFilenameFactory.<br>
  * Uses the filename extension to determine the content-type.<br>
  * The content-encoding is not resolved.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory
 {

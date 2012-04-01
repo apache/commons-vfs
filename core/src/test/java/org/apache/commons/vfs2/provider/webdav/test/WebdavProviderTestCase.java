@@ -51,7 +51,6 @@ import org.apache.log4j.Logger;
 /**
  * Test cases for the WebDAV provider.
  * 
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public class WebdavProviderTestCase extends AbstractProviderTestConfig
 {

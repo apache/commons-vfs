@@ -33,8 +33,6 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
 
 /**
  * A provider for MIME Message.
- *
- * @author <a href="mailto:imario@apache.org">imario@apache.org</a>
  */
 public class MimeFileProvider
     extends AbstractLayeredFileProvider

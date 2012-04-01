@@ -39,7 +39,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
 /**
  * A RAM File System.
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable
 {

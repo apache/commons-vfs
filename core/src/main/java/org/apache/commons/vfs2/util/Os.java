@@ -24,8 +24,6 @@ import java.util.Set;
 
 /**
  * Class to help determining the OS.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public final class Os
 {

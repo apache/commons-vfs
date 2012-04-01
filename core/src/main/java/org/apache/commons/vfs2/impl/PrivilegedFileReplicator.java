@@ -33,8 +33,6 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
 /**
  * A file replicator that wraps another file replicator, performing
  * the replication as a privileged action.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class PrivilegedFileReplicator
     implements FileReplicator, VfsComponent

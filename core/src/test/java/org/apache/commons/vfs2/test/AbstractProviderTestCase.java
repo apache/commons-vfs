@@ -44,8 +44,6 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
  * <p/>
  * Works from a base folder, and assumes a particular structure under
  * that base folder.
- *
- * @author <a href="mailto:adammurdoch@apache.org">Adam Murdoch</a>
  */
 public abstract class AbstractProviderTestCase
     extends AbstractVfsTestCase

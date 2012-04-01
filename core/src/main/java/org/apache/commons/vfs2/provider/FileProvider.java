@@ -31,8 +31,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * a particular URI scheme.
  * <p/>
  * <p>A file provider may also implement {@link VfsComponent}.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public interface FileProvider
 {

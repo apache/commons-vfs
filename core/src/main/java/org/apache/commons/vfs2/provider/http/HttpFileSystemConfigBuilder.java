@@ -25,8 +25,6 @@ import org.apache.commons.vfs2.UserAuthenticator;
 
 /**
  * Configuration options for HTTP.
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {

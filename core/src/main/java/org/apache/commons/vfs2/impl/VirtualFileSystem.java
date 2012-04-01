@@ -35,7 +35,6 @@ import org.apache.commons.vfs2.provider.DelegateFileObject;
  * A logical file system, made up of set of junctions, or links, to files from
  * other file systems.
  *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  * @todo Handle nested junctions.
  */
 public class VirtualFileSystem extends AbstractFileSystem

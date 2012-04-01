@@ -35,7 +35,6 @@ import org.apache.jackrabbit.webdav.version.VersionControlledResource;
 public class WebdavVersioningTests extends AbstractProviderTestCase
 {
     /**
-     *
      */
     public void testVersioning() throws Exception
     {
@@ -89,7 +88,6 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         builder.setVersioning(opts, false);
     }
     /**
-     *
      */
     public void testVersioningWithCreator() throws Exception
     {

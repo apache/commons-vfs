@@ -27,8 +27,6 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * Test the cache stragey
- *
- * @author <a href="mailto:imario@apache.org">Mario Ivankovits</a>
  */
 public class ProviderCacheStrategyTests
     extends AbstractProviderTestCase

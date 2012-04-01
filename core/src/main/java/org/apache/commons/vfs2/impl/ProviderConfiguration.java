@@ -22,8 +22,6 @@ import java.util.List;
 /**
  * This class describes the configuration for a provider.<br>
  * Used by digester in StandardFileSystemManager
- *
- * @author <a href="http://commons.apache.org/vfs/team-list.html">Commons VFS team</a>
  */
 public class ProviderConfiguration
 {
