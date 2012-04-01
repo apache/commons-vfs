@@ -396,6 +396,12 @@
         <version>1.5.5</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>1.5.5</version>
+        <scope>test</scope>
+      </dependency>
       <!-- Test SFTP with Apache SHHd Server (MINA) -->
       <dependency>
         <groupId>org.apache.sshd</groupId>
