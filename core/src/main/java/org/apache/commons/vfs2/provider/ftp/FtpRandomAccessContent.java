@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractRandomAccessStreamContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
- */
+
 class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
 {
     protected long filePointer;
