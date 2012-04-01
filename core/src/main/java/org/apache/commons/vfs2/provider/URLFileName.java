@@ -22,7 +22,6 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 
- */
 public class URLFileName extends GenericFileName
 {
     private static final int BUFFSZ = 250;
