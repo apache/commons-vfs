@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-409" dev="ggregory" type="update" due-to="ggregory">
+        Update Apache Commons Compress to 1.4 from 1.3.
+      </action>
       <action issue="VFS-407" dev="ggregory" type="fix" due-to="mp1">
         [RAM] Reading a RAM FileSystem file fails because it never returns EOF -1.
       </action>
