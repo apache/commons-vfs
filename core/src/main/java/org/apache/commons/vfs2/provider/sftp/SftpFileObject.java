@@ -16,8 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.sftp;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -447,32 +445,21 @@ public class SftpFileObject extends AbstractFileObject
 
     /**
      * Creates an input stream to read the file content from.
+     * The input stream is starting at the given position in the file.
      */
     InputStream getInputStream(long filePointer) throws IOException
     {
         final ChannelSftp channel = fileSystem.getChannel();
+        // Using InputStream directly from the channel
+        // is much faster than the memory method.
         try
         {
-            // hmmm - using the in memory method is soooo much faster ...
-            // TODO - Don't read the entire file into memory. Use the
-            // stream-based methods on ChannelSftp once they work properly final
-            // .... no stream based method with resume???
-            ByteArrayOutputStream outstr = new ByteArrayOutputStream();
-            try
-            {
-                channel.get(getName().getPathDecoded(), outstr, null,
-                        ChannelSftp.RESUME, filePointer);
-            }
-            catch (SftpException e)
-            {
-                throw new FileSystemException(e);
-            }
-            outstr.close();
-            return new ByteArrayInputStream(outstr.toByteArray());
-        }
-        finally
+            InputStream is = channel.get(getName().getPathDecoded(), null, filePointer);
+            return new SftpInputStream(channel, is);
+        } catch (SftpException e)
         {
             fileSystem.putChannel(channel);
+            throw new FileSystemException(e);
         }
     }
 
