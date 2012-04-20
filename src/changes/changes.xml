@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-395" dev="ggregory" type="update" due-to="ggregory">
+        [POM] Declare maven-scm-* dependencies as optional.
+      </action>
       <action issue="VFS-411" dev="ggregory" type="update" due-to="ggregory">
         [SFTP] Update Jsch to version 0.1.47 from 0.1.46.
       </action>
