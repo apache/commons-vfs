@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileType;
 
 public class URLFileName extends GenericFileName
 {
-    private static final int BUFFSZ = 250;
+    private static final int BUFFER_SIZE = 250;
 
     private final String queryString;
 
@@ -59,7 +59,7 @@ public class URLFileName extends GenericFileName
      */
     public String getPathQuery()
     {
-        StringBuilder sb = new StringBuilder(BUFFSZ);
+        StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         sb.append(getPath());
         sb.append("?");
         sb.append(getQueryString());
@@ -89,7 +89,7 @@ public class URLFileName extends GenericFileName
             }
         }
 
-        StringBuilder sb = new StringBuilder(BUFFSZ);
+        StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         if (charset != null)
         {
             sb.append(URIUtil.encodePath(getPathDecoded(), charset));
@@ -133,7 +133,7 @@ public class URLFileName extends GenericFileName
     {
         if (getQueryString() != null)
         {
-            StringBuilder sb = new StringBuilder(BUFFSZ);
+            StringBuilder sb = new StringBuilder(BUFFER_SIZE);
             sb.append(super.createURI());
             sb.append("?");
             sb.append(getQueryString());
@@ -153,7 +153,7 @@ public class URLFileName extends GenericFileName
      */
     public String getURIEncoded(String charset) throws FileSystemException, URIException
     {
-        StringBuilder sb = new StringBuilder(BUFFSZ);
+        StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));
         return sb.toString();
