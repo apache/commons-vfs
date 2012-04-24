@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
-
 /**
  * An HTTP provider that uses commons-httpclient.
  */
