@@ -65,6 +65,13 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         }
     }
 
+    /**
+     * Creates a new test suite.
+     * 
+     * @return a new test suite.
+     * @throws Exception
+     *             Thrown when the suite cannot be constructed.
+     */
     public static Test suite() throws Exception
     {
         return new ProviderTestSuite(new HttpProviderTestCase())
@@ -101,6 +108,12 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         }
     }
 
+    /**
+     * Builds a new test case.
+     * 
+     * @throws IOException
+     *             Thrown if a free local socket port cannot be found.
+     */
     public HttpProviderTestCase() throws IOException
     {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
