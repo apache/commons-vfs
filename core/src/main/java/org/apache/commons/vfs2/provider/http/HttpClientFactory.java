@@ -126,7 +126,7 @@ public final class HttpClientFactory
                 }
             }
             /**
-             * ConnectionManager set methodsmust be called after the host & port and proxy host & port
+             * ConnectionManager set methods must be called after the host & port and proxy host & port
              * are set in the HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams
              * tries to locate the host configuration.
              */
