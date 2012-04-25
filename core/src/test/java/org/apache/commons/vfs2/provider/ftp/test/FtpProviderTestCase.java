@@ -43,7 +43,6 @@ import org.junit.Assert;
 
 /**
  * Tests for FTP file systems.
- * 
  */
 public class FtpProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
@@ -58,7 +57,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
 
     private static final String TEST_URI = "test.ftp.uri";
 
-    private static final String USER_PROP_RES = "org.apache.ftpserver/users.properties";
+    private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
     private static String getSystemTestUriOverride()
     {
@@ -79,8 +78,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         }
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
-        final URL userResource = ClassLoader.getSystemClassLoader().getResource(USER_PROP_RES);
-        Assert.assertNotNull(USER_PROP_RES, userResource);
+        final URL userResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
+        Assert.assertNotNull(USER_PROPS_RES, userResource);
         propertiesUserManagerFactory.setUrl(userResource);
         final UserManager userManager = propertiesUserManagerFactory.createUserManager();
         final BaseUser user = (BaseUser) userManager.getUserByName("test");
