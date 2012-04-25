@@ -5,8 +5,12 @@ import java.net.MalformedURLException;
 import java.net.SocketException;
 
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.VFS;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,6 +27,18 @@ public class MultipleConnectionTestCase
     public static void tearDownClass() throws MalformedURLException, FtpException
     {
         FtpProviderTestCase.tearDownClass();
+    }
+
+    private FileObject resolveRoot() throws FileSystemException
+    {
+        return VFS.getManager().resolveFile(FtpProviderTestCase.getConnectionUri());
+    }
+
+    @Test
+    public void testConnectRoot() throws SocketException, IOException
+    {
+        resolveRoot();
+        resolveRoot();
     }
 
     @Test

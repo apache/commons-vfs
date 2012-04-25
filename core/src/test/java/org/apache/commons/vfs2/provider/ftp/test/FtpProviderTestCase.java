@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.ftp.test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import junit.framework.Test;
@@ -59,6 +58,11 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
 
     private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
+    static String getConnectionUri()
+    {
+        return ConnectionUri;
+    }
+
     static int getSocketPort()
     {
         return SocketPort;
@@ -80,7 +84,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
      * Creates and starts an embedded Apache FTP Server (MINA).
      * 
      * @throws FtpException
-     * @throws IOException 
+     * @throws IOException
      */
     static void setUpClass() throws FtpException, IOException
     {
