@@ -78,9 +78,9 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         }
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
-        final URL userResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
-        Assert.assertNotNull(USER_PROPS_RES, userResource);
-        propertiesUserManagerFactory.setUrl(userResource);
+        final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
+        Assert.assertNotNull(USER_PROPS_RES, userPropsResource);
+        propertiesUserManagerFactory.setUrl(userPropsResource);
         final UserManager userManager = propertiesUserManagerFactory.createUserManager();
         final BaseUser user = (BaseUser) userManager.getUserByName("test");
         // Pickup the home dir value at runtime even though we have it set in the user prop file
