@@ -71,11 +71,11 @@ public final class FtpsClientFactory
 
             final FTPSClient client;
 
-            if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals("explicit"))
+            if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT))
             {
                 client = new FTPSClient();
             }
-            else if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals("implicit"))
+            else if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT))
             {
                 client = new FTPSClient(true);
             }
@@ -144,6 +144,13 @@ public final class FtpsClientFactory
                 try
                 {
                     client.connect(hostname, port);
+
+// For VFS-412                    
+//                    String execPROT = FtpsFileSystemConfigBuilder.getInstance().getDataChannelProtectionLevel(fileSystemOptions); 
+//                    if (execPROT != null)
+//                    {
+//                        client.execPROT(execPROT);
+//                    }
 
                     int reply = client.getReplyCode();
                     if (!FTPReply.isPositiveCompletion(reply))

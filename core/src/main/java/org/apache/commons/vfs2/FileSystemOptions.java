@@ -26,6 +26,7 @@ import java.util.TreeMap;
  *
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder
  */
 public final class FileSystemOptions implements Cloneable
 {

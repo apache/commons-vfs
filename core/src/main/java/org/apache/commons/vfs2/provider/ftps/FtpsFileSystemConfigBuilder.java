@@ -42,7 +42,6 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
         FtpsFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
     private static final String FTPS_TYPE =
         FtpsFileSystemConfigBuilder.class.getName() + ".FTPS_TYPE";
-
     private static final String SERVER_LANGUAGE_CODE =
         FtpsFileSystemConfigBuilder.class.getName() + ".SERVER_LANGUAGE_CODE";
     private static final String DEFAULT_DATE_FORMAT =
@@ -53,6 +52,11 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
         FtpsFileSystemConfigBuilder.class.getName() + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES =
         FtpsFileSystemConfigBuilder.class.getName() + ".SHORT_MONTH_NAMES";
+    public static final String FTPS_TYPE_IMPLICIT = "implicit";
+    public static final String FTPS_TYPE_EXPLICIT = "explicit";
+// For VFS-412                    
+//  private static final String PROT = 
+//          FtpsFileSystemConfigBuilder.class.getName() + ".PROT";
 
     private FtpsFileSystemConfigBuilder()
     {
@@ -178,7 +182,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getFtpsType(FileSystemOptions opts)
     {
-        return getString(opts, FTPS_TYPE, "explicit");
+        return getString(opts, FTPS_TYPE, FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT);
     }
 
     /**
@@ -319,4 +323,32 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
         setParam(opts, SHORT_MONTH_NAMES, clone);
     }
+
+    
+// For VFS-412                    
+//    /**
+//     * Gets the data channel protection level (PROT).
+//     * 
+//     * @param opts The FileSystemOptions.
+//     * @return The PROT value.
+//     * @see org.apache.commons.net.ftp.FTPSClient#execPROT(String)
+//     * @since 2.1
+//     */
+//    public String getDataChannelProtectionLevel(FileSystemOptions opts)
+//    {
+//        return (String) getParam(opts, PROT);
+//    }
+//
+//    /**
+//     * Sets the data channel protection level (PROT).
+//     *
+//     * @param opts  The FileSystemOptions.
+//     * @param prot The PROT value, {@code null} has no effect.
+//     * @see org.apache.commons.net.ftp.FTPSClient#execPROT(String)
+//     * @since 2.1
+//     */
+//    public void setDataChannelProtectionLevel(FileSystemOptions opts, String prot)
+//    {
+//        setParam(opts, PROT, prot);
+//    }
 }
