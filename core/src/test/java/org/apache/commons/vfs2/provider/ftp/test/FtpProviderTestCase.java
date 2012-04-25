@@ -59,23 +59,36 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
 
     private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
+    static int getSocketPort()
+    {
+        return SocketPort;
+    }
+
     private static String getSystemTestUriOverride()
     {
         return System.getProperty(TEST_URI);
+    }
+
+    static void init() throws IOException
+    {
+        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
+        // Use %40 for @ in a URL
+        ConnectionUri = "ftp://test:test@localhost:" + SocketPort;
     }
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
      * 
      * @throws FtpException
-     * @throws MalformedURLException
+     * @throws IOException 
      */
-    private static void setUpClass() throws FtpException, MalformedURLException
+    static void setUpClass() throws FtpException, IOException
     {
         if (Server != null)
         {
             return;
         }
+        init();
         final FtpServerFactory serverFactory = new FtpServerFactory();
         final PropertiesUserManagerFactory propertiesUserManagerFactory = new PropertiesUserManagerFactory();
         final URL userPropsResource = ClassLoader.getSystemClassLoader().getResource(USER_PROPS_RES);
@@ -128,23 +141,18 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
     /**
      * Stops the embedded Apache FTP Server (MINA).
      */
-    private static void tearDownClass()
+    static void tearDownClass()
     {
         if (Server != null)
         {
             Server.stop();
+            Server = null;
         }
     }
 
-    public FtpProviderTestCase() throws IOException
-    {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = "ftp://test:test@localhost:" + SocketPort;
-    }
-
     /**
-     * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by TEST_URI.
+     * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by
+     * TEST_URI.
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
