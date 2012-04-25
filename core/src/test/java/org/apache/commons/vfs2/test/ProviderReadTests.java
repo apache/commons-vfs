@@ -149,9 +149,9 @@ public class ProviderReadTests extends AbstractProviderTestCase
         {
             return;
         }
-        FileSystem fs = getReadFolder().getFileSystem();
+        FileSystem fs = getFileSystem();
         String uri = fs.getRootURI();
-        final FileObject file = getManager().resolveFile(uri);
+        final FileObject file = getManager().resolveFile(uri, fs.getFileSystemOptions());
         file.getChildren();
     }
 
@@ -191,7 +191,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
      */
     public void testFolderContent() throws Exception
     {
-        if (getReadFolder().getFileSystem().hasCapability(Capability.DIRECTORY_READ_CONTENT))
+        if (getFileSystem().hasCapability(Capability.DIRECTORY_READ_CONTENT))
         {
             // test wont fail
             return;

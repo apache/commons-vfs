@@ -106,11 +106,6 @@ public class ContentTests
         testRoot(getManager().resolveFile(uri, fileSystem.getFileSystemOptions()));
     }
 
-    private FileSystem getFileSystem()
-    {
-        return getReadFolder().getFileSystem();
-    }
-
     /**
      * Tests root of file system exists.
      */

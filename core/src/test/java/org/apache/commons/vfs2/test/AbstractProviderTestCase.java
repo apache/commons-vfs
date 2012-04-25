@@ -119,6 +119,11 @@ public abstract class AbstractProviderTestCase
         return providerConfig.getBaseTestFolder(fs);
     }
 
+    protected FileSystem getFileSystem()
+    {
+        return getReadFolder().getFileSystem();
+    }
+
     /**
      * Returns the base test folder.  This is the parent of both the read
      * test and write test folders.
