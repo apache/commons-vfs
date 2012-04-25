@@ -55,9 +55,9 @@ import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.VfsComponent;
 
 /**
- * A default file system manager implementation.
+ * The default file system manager implementation.
  *
- *          2006) $
+ * @version $Id$
  */
 public class DefaultFileSystemManager implements FileSystemManager
 {
