@@ -101,9 +101,14 @@ public class ContentTests
         {
             return;
         }
-        FileSystem fs = getReadFolder().getFileSystem();
-        String uri = fs.getRootURI();
-        testRoot(getManager().resolveFile(uri));
+        FileSystem fileSystem = getFileSystem();
+        String uri = fileSystem.getRootURI();
+        testRoot(getManager().resolveFile(uri, fileSystem.getFileSystemOptions()));
+    }
+
+    private FileSystem getFileSystem()
+    {
+        return getReadFolder().getFileSystem();
     }
 
     /**
@@ -115,8 +120,7 @@ public class ContentTests
         {
             return;
         }
-        FileSystem fs = getReadFolder().getFileSystem();
-        testRoot(fs.getRoot());
+        testRoot(getFileSystem().getRoot());
     }
 
     private void testRoot(final FileObject root) throws FileSystemException
@@ -152,7 +156,7 @@ public class ContentTests
 
         // Test the parent of the root of the file system
         // TODO - refactor out test cases for layered vs originating fs
-        final FileSystem fileSystem = getReadFolder().getFileSystem();
+        final FileSystem fileSystem = getFileSystem();
         FileObject root = fileSystem.getRoot();
         if (fileSystem.getParentLayer() == null)
         {
@@ -253,7 +257,19 @@ public class ContentTests
     /**
      * Tests concurrent reads on a file.
      */
-    public void testConcurrentRead() throws Exception
+    public void testReadSingleSequencial() throws Exception
+    {
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertTrue(file.exists());
+
+        file.getContent().getInputStream().close();
+        file.getContent().getInputStream().close();
+    }
+
+    /**
+     * Tests concurrent reads on a file.
+     */
+    public void testReadSingleConcurrent() throws Exception
     {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
@@ -274,7 +290,7 @@ public class ContentTests
     /**
      * Tests concurrent reads on different files works.
      */
-    public void testConcurrentReadFiles() throws Exception
+    public void testReadMultipleConcurrent() throws Exception
     {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
@@ -321,7 +337,7 @@ public class ContentTests
     /**
      * Tests that input streams are cleaned up on file close.
      */
-    public void testInstrCleanup() throws Exception
+    public void testInputStreamMultipleCleanup() throws Exception
     {
         // Get the test file
         FileObject file = getReadFolder().resolveFile("file1.txt");
@@ -340,5 +356,26 @@ public class ContentTests
         // Check
         assertTrue(instr1.read() == -1);
         assertTrue(instr2.read() == -1);
+    }
+
+    /**
+     * Tests that input streams are cleaned up on file close.
+     */
+    public void testInputStreamSingleCleanup() throws Exception
+    {
+        // Get the test file
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertEquals(FileType.FILE, file.getType());
+        assertTrue(file.isFile());
+
+        // Open some input streams
+        final InputStream instr1 = file.getContent().getInputStream();
+        assertTrue(instr1.read() == FILE1_CONTENT.charAt(0));
+
+        // Close the file
+        file.close();
+
+        // Check
+        assertTrue(instr1.read() == -1);
     }
 }
