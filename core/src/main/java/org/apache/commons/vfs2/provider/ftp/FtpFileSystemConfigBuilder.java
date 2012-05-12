@@ -22,36 +22,38 @@ import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * The config BUILDER for various ftp configuration options.
+ * The config builder for various ftp configuration options.
  */
 public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
+    private static final String _PREFIX = FtpFileSystemConfigBuilder.class.getName();
+
     private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();
 
     private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
-    private static final String PASSIVE_MODE = FtpFileSystemConfigBuilder.class.getName() + ".PASSIVE";
-    private static final String USER_DIR_IS_ROOT = FtpFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
-    private static final String DATA_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
-    private static final String SO_TIMEOUT = FtpFileSystemConfigBuilder.class.getName() + ".SO_TIMEOUT";
+    private static final String FILE_TYPE = _PREFIX + ".FILE_TYPE";
+    private static final String PASSIVE_MODE = _PREFIX + ".PASSIVE";
+    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
+    private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
 
-    private static final String SERVER_LANGUAGE_CODE =
-            FtpFileSystemConfigBuilder.class.getName() + ".SERVER_LANGUAGE_CODE";
-    private static final String DEFAULT_DATE_FORMAT =
-            FtpFileSystemConfigBuilder.class.getName() + ".DEFAULT_DATE_FORMAT";
-    private static final String RECENT_DATE_FORMAT =
-            FtpFileSystemConfigBuilder.class.getName() + ".RECENT_DATE_FORMAT";
-    private static final String SERVER_TIME_ZONE_ID =
-            FtpFileSystemConfigBuilder.class.getName() + ".SERVER_TIME_ZONE_ID";
-    private static final String SHORT_MONTH_NAMES =
-            FtpFileSystemConfigBuilder.class.getName() + ".SHORT_MONTH_NAMES";
-    private static final String ENCODING =
-            FtpFileSystemConfigBuilder.class.getName() + ".ENCODING";
+    private static final String SERVER_LANGUAGE_CODE = _PREFIX + ".SERVER_LANGUAGE_CODE";
+    private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
+    private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
+    private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
+    private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
+    private static final String ENCODING = _PREFIX + ".ENCODING";
 
     private FtpFileSystemConfigBuilder()
     {
         super("ftp.");
     }
 
+    /**
+     * Gets the singleton instance.
+     * 
+     * @return the singleton instance.
+     */
     public static FtpFileSystemConfigBuilder getInstance()
     {
         return BUILDER;
@@ -69,6 +71,18 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * Sets the file type parameter.
+     * 
+     * @param opts The FileSystemOptions.
+     * @param ftpFileType A FtpFileType
+     * @since 2.1
+     */
+    public void setFileType(FileSystemOptions opts, FtpFileType ftpFileType)
+    {
+        setParam(opts, FILE_TYPE, ftpFileType);
+    }
+
+    /**
      * @param opts The FlleSystemOptions.
      * @see #setEntryParserFactory
      * @return An FTPFileEntryParserFactory.
@@ -76,6 +90,18 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
     {
         return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
+    }
+
+    /**
+     * Gets the file type parameter.
+     * 
+     * @param opts The FileSystemOptions.
+     * @return A FtpFileType
+     * @since 2.1
+     */
+    public FtpFileType getFileType(FileSystemOptions opts)
+    {
+        return (FtpFileType) getParam(opts, FILE_TYPE);
     }
 
     /**
@@ -328,6 +354,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * */
     public String getControlEncoding(FileSystemOptions opts)
     {
-        return  (String) getParam(opts, ENCODING);
+        return (String) getParam(opts, ENCODING);
     }
+
 }

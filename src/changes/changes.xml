@@ -23,6 +23,12 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-414" dev="ggregory" type="update" due-to="ggregory">
+        [FTP] Add config API to set the file type.
+      </action>
+      <action issue="VFS-182" dev="ggregory" type="update" due-to="ggregory">
+        [FTP] Usage of FTP with heterogeneous FTP server (possibility of using Ascii file type).
+      </action>
       <action issue="VFS-395" dev="ggregory" type="update" due-to="ggregory">
         [POM] Remove maven-scm-* dependencies.
       </action>

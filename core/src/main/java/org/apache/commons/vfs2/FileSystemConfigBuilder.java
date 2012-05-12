@@ -62,6 +62,13 @@ public abstract class FileSystemConfigBuilder
         return getString(opts, ROOTURI);
     }
 
+    /**
+     * @since 2.1
+     */
+    protected void setParam(FileSystemOptions opts, String name, boolean value)
+    {
+        setParam(opts, name, Boolean.valueOf(value));
+    }
 
     protected void setParam(FileSystemOptions opts, String name, Object value)
     {

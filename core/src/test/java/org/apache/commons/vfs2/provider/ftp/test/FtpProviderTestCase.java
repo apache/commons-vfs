@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
 import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.ftp.FtpFileType;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
@@ -168,6 +169,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         }
         FileSystemOptions opts = new FileSystemOptions();
         FtpFileSystemConfigBuilder.getInstance().setPassiveMode(opts, true);
+        // FtpFileType.BINARY is the default
+        FtpFileSystemConfigBuilder.getInstance().setFileType(opts, FtpFileType.BINARY);
         return manager.resolveFile(uri, opts);
     }
 
