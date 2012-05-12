@@ -171,6 +171,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         FtpFileSystemConfigBuilder.getInstance().setPassiveMode(opts, true);
         // FtpFileType.BINARY is the default
         FtpFileSystemConfigBuilder.getInstance().setFileType(opts, FtpFileType.BINARY);
+        FtpFileSystemConfigBuilder.getInstance().setConnectTimeout(opts, 10000);
         return manager.resolveFile(uri, opts);
     }
 

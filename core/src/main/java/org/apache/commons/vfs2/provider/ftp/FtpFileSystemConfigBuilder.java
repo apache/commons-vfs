@@ -30,6 +30,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();
 
+    private static final String CONNECT_TIMEOUT = _PREFIX + ".CONNECT_TIMEOUT";
     private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
     private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
     private static final String ENCODING = _PREFIX + ".ENCODING";
@@ -63,6 +64,18 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     protected Class<? extends FileSystem> getConfigClass()
     {
         return FtpFileSystem.class;
+    }
+
+    /**
+     * Gets the timeout in milliseconds to use for the socket connection.
+     * 
+     * @param opts The FileSystemOptions.
+     * @return The timeout in milliseconds to use for the socket connection.
+     * @since 2.1
+     */
+    public Integer getConnectTimeout(FileSystemOptions opts)
+    {
+        return (Integer) getParam(opts, CONNECT_TIMEOUT);
     }
 
     /**
@@ -201,6 +214,21 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * Sets the timeout for the initial control connection.
+     * <p>
+     * If you set the connectTimeout to <code>null</code> no connectTimeout will be set.
+     * </p>
+     * 
+     * @param opts The FileSystemOptions.
+     * @param connectTimeout the timeout value in milliseconds
+     * @since 2.1
+     */
+    public void setConnectTimeout(FileSystemOptions opts, Integer connectTimeout)
+    {
+        setParam(opts, CONNECT_TIMEOUT, connectTimeout);
+    }
+
+    /**
      * see {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
      * @param opts The FileSystemOptions.
      * @param encoding the encoding to use
@@ -333,7 +361,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the socket timeout for the ftp client.<br />
+     * Sets the socket timeout for the FTP client.<br />
      * If you set the socketTimeout to <code>null</code> no socketTimeout will be set on the
      * ftp client.
      *

@@ -18,7 +18,6 @@ package org.apache.commons.vfs2.provider.ftp;
 
 import java.io.IOException;
 
-import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPReply;
@@ -80,6 +79,13 @@ public final class FtpClientFactory
 
             try
             {
+                // Set connect timeout
+                Integer connectTimeout = FtpFileSystemConfigBuilder.getInstance().getConnectTimeout(fileSystemOptions);
+                if (connectTimeout != null)
+                {
+                    client.setDefaultTimeout(connectTimeout.intValue());
+                }
+
                 client.connect(hostname, port);
 
                 int reply = client.getReplyCode();
