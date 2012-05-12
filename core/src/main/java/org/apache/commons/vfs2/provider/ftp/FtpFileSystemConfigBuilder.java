@@ -30,24 +30,19 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();
 
+    private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
+    private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
+    private static final String ENCODING = _PREFIX + ".ENCODING";
     private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
     private static final String FILE_TYPE = _PREFIX + ".FILE_TYPE";
     private static final String PASSIVE_MODE = _PREFIX + ".PASSIVE";
-    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
-    private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
-    private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
 
-    private static final String SERVER_LANGUAGE_CODE = _PREFIX + ".SERVER_LANGUAGE_CODE";
-    private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
     private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
+    private static final String SERVER_LANGUAGE_CODE = _PREFIX + ".SERVER_LANGUAGE_CODE";
     private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
-    private static final String ENCODING = _PREFIX + ".ENCODING";
-
-    private FtpFileSystemConfigBuilder()
-    {
-        super("ftp.");
-    }
+    private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
+    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
 
     /**
      * Gets the singleton instance.
@@ -57,6 +52,202 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public static FtpFileSystemConfigBuilder getInstance()
     {
         return BUILDER;
+    }
+
+    private FtpFileSystemConfigBuilder()
+    {
+        super("ftp.");
+    }
+
+    @Override
+    protected Class<? extends FileSystem> getConfigClass()
+    {
+        return FtpFileSystem.class;
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @return The encoding.
+     * @since 2.0
+     * */
+    public String getControlEncoding(FileSystemOptions opts)
+    {
+        return (String) getParam(opts, ENCODING);
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @return The timeout as an Integer.
+     * @see #setDataTimeout
+     */
+    public Integer getDataTimeout(FileSystemOptions opts)
+    {
+        return getInteger(opts, DATA_TIMEOUT);
+    }
+
+    /**
+     * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * for details and examples.
+     * @param opts The FileSystemOptions
+     * @return The default date format.
+     */
+    public String getDefaultDateFormat(FileSystemOptions opts)
+    {
+        return getString(opts, DEFAULT_DATE_FORMAT);
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @see #setEntryParser
+     * @return the key to the EntryParser.
+     */
+    public String getEntryParser(FileSystemOptions opts)
+    {
+        return getString(opts, FACTORY_KEY);
+    }
+
+    /**
+     * @param opts The FlleSystemOptions.
+     * @see #setEntryParserFactory
+     * @return An FTPFileEntryParserFactory.
+     */
+    public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
+    {
+        return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
+    }
+
+    /**
+     * Gets the file type parameter.
+     * 
+     * @param opts The FileSystemOptions.
+     * @return A FtpFileType
+     * @since 2.1
+     */
+    public FtpFileType getFileType(FileSystemOptions opts)
+    {
+        return (FtpFileType) getParam(opts, FILE_TYPE);
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @return true if passive mode is set.
+     * @see #setPassiveMode
+     */
+    public Boolean getPassiveMode(FileSystemOptions opts)
+    {
+        return getBoolean(opts, PASSIVE_MODE);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return The recent date format.
+     */
+    public String getRecentDateFormat(FileSystemOptions opts)
+    {
+        return getString(opts, RECENT_DATE_FORMAT);
+    }
+
+    /**
+     * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * for details and examples.
+     * @param opts The FilesystemOptions.
+     * @return The language code of the server.
+     */
+    public String getServerLanguageCode(FileSystemOptions opts)
+    {
+        return getString(opts, SERVER_LANGUAGE_CODE);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return The server timezone id.
+     */
+    public String getServerTimeZoneId(FileSystemOptions opts)
+    {
+        return getString(opts, SERVER_TIME_ZONE_ID);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @return An array of short month names.
+     */
+    public String[] getShortMonthNames(FileSystemOptions opts)
+    {
+        return (String[]) getParam(opts, SHORT_MONTH_NAMES);
+    }
+
+    /**
+     * @param opts The FileSystem options.
+     * @return The timeout value.
+     * @see #getDataTimeout
+     * @since 2.0
+     */
+    public Integer getSoTimeout(FileSystemOptions opts)
+    {
+        return (Integer) getParam(opts, SO_TIMEOUT);
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @return true if the user directory is treated as the root.
+     * @see #setUserDirIsRoot
+     */
+    public Boolean getUserDirIsRoot(FileSystemOptions opts)
+    {
+        return getBoolean(opts, USER_DIR_IS_ROOT);
+    }
+
+    /**
+     * see {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
+     * @param opts The FileSystemOptions.
+     * @param encoding the encoding to use
+     * @since 2.0
+     */
+    public void setControlEncoding(FileSystemOptions opts, String encoding)
+    {
+        setParam(opts, ENCODING, encoding);
+    }
+
+    /**
+     * set the data timeout for the ftp client.<br />
+     * If you set the dataTimeout to <code>null</code> no dataTimeout will be set on the
+     * ftp client.
+     *
+     * @param opts The FileSystemOptions.
+     * @param dataTimeout The timeout value.
+     */
+    public void setDataTimeout(FileSystemOptions opts, Integer dataTimeout)
+    {
+        setParam(opts, DATA_TIMEOUT, dataTimeout);
+    }
+
+    /**
+     * set the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * for details and examples.
+     * @param opts The FileSystemOptions.
+     * @param defaultDateFormat The default date format.
+     */
+    public void setDefaultDateFormat(FileSystemOptions opts, String defaultDateFormat)
+    {
+        setParam(opts, DEFAULT_DATE_FORMAT, defaultDateFormat);
+    }
+
+    /**
+     * set the FQCN of your FileEntryParser used to parse the directory listing from your server.<br />
+     * <br />
+     * <i>If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using
+     * {@link #setEntryParserFactory}
+     * this is the "key" parameter passed as argument into your custom factory</i>
+     *
+     * @param opts The FileSystemOptions.
+     * @param key The key.
+     */
+    public void setEntryParser(FileSystemOptions opts, String key)
+    {
+        setParam(opts, FACTORY_KEY, key);
     }
 
     /**
@@ -83,59 +274,6 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * @param opts The FlleSystemOptions.
-     * @see #setEntryParserFactory
-     * @return An FTPFileEntryParserFactory.
-     */
-    public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
-    {
-        return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
-    }
-
-    /**
-     * Gets the file type parameter.
-     * 
-     * @param opts The FileSystemOptions.
-     * @return A FtpFileType
-     * @since 2.1
-     */
-    public FtpFileType getFileType(FileSystemOptions opts)
-    {
-        return (FtpFileType) getParam(opts, FILE_TYPE);
-    }
-
-    /**
-     * set the FQCN of your FileEntryParser used to parse the directory listing from your server.<br />
-     * <br />
-     * <i>If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using
-     * {@link #setEntryParserFactory}
-     * this is the "key" parameter passed as argument into your custom factory</i>
-     *
-     * @param opts The FileSystemOptions.
-     * @param key The key.
-     */
-    public void setEntryParser(FileSystemOptions opts, String key)
-    {
-        setParam(opts, FACTORY_KEY, key);
-    }
-
-    /**
-     * @param opts The FileSystemOptions.
-     * @see #setEntryParser
-     * @return the key to the EntryParser.
-     */
-    public String getEntryParser(FileSystemOptions opts)
-    {
-        return getString(opts, FACTORY_KEY);
-    }
-
-    @Override
-    protected Class<? extends FileSystem> getConfigClass()
-    {
-        return FtpFileSystem.class;
-    }
-
-    /**
      * enter into passive mode.
      *
      * @param opts The FileSystemOptions.
@@ -147,93 +285,13 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
      * @param opts The FileSystemOptions.
-     * @return true if passive mode is set.
-     * @see #setPassiveMode
+     * @param recentDateFormat The recent date format.
      */
-    public Boolean getPassiveMode(FileSystemOptions opts)
+    public void setRecentDateFormat(FileSystemOptions opts, String recentDateFormat)
     {
-        return getBoolean(opts, PASSIVE_MODE);
-    }
-
-    /**
-     * use user directory as root (do not change to fs root).
-     *
-     * @param opts The FileSystemOptions.
-     * @param userDirIsRoot true if the user directory should be treated as the root.
-     */
-    public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
-    {
-        setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
-    }
-
-    /**
-     * @param opts The FileSystemOptions.
-     * @return true if the user directory is treated as the root.
-     * @see #setUserDirIsRoot
-     */
-    public Boolean getUserDirIsRoot(FileSystemOptions opts)
-    {
-        return getBoolean(opts, USER_DIR_IS_ROOT);
-    }
-
-    /**
-     * @param opts The FileSystemOptions.
-     * @return The timeout as an Integer.
-     * @see #setDataTimeout
-     */
-    public Integer getDataTimeout(FileSystemOptions opts)
-    {
-        return getInteger(opts, DATA_TIMEOUT);
-    }
-
-    /**
-     * set the data timeout for the ftp client.<br />
-     * If you set the dataTimeout to <code>null</code> no dataTimeout will be set on the
-     * ftp client.
-     *
-     * @param opts The FileSystemOptions.
-     * @param dataTimeout The timeout value.
-     */
-    public void setDataTimeout(FileSystemOptions opts, Integer dataTimeout)
-    {
-        setParam(opts, DATA_TIMEOUT, dataTimeout);
-    }
-
-    /**
-     * @param opts The FileSystem options.
-     * @return The timeout value.
-     * @see #getDataTimeout
-     * @since 2.0
-     */
-    public Integer getSoTimeout(FileSystemOptions opts)
-    {
-        return (Integer) getParam(opts, SO_TIMEOUT);
-    }
-
-    /**
-     * set the socket timeout for the ftp client.<br />
-     * If you set the socketTimeout to <code>null</code> no socketTimeout will be set on the
-     * ftp client.
-     *
-     * @param opts The FileSystem options.
-     * @param soTimeout The timeout value.
-     * @since 2.0
-     */
-    public void setSoTimeout(FileSystemOptions opts, Integer soTimeout)
-    {
-        setParam(opts, SO_TIMEOUT, soTimeout);
-    }
-
-    /**
-     * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
-     * for details and examples.
-     * @param opts The FilesystemOptions.
-     * @return The language code of the server.
-     */
-    public String getServerLanguageCode(FileSystemOptions opts)
-    {
-        return getString(opts, SERVER_LANGUAGE_CODE);
+        setParam(opts, RECENT_DATE_FORMAT, recentDateFormat);
     }
 
     /**
@@ -248,58 +306,6 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
-     * for details and examples.
-     * @param opts The FileSystemOptions
-     * @return The default date format.
-     */
-    public String getDefaultDateFormat(FileSystemOptions opts)
-    {
-        return getString(opts, DEFAULT_DATE_FORMAT);
-    }
-
-    /**
-     * set the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
-     * for details and examples.
-     * @param opts The FileSystemOptions.
-     * @param defaultDateFormat The default date format.
-     */
-    public void setDefaultDateFormat(FileSystemOptions opts, String defaultDateFormat)
-    {
-        setParam(opts, DEFAULT_DATE_FORMAT, defaultDateFormat);
-    }
-
-    /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
-     * @param opts The FileSystemOptions.
-     * @return The recent date format.
-     */
-    public String getRecentDateFormat(FileSystemOptions opts)
-    {
-        return getString(opts, RECENT_DATE_FORMAT);
-    }
-
-    /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
-     * @param opts The FileSystemOptions.
-     * @param recentDateFormat The recent date format.
-     */
-    public void setRecentDateFormat(FileSystemOptions opts, String recentDateFormat)
-    {
-        setParam(opts, RECENT_DATE_FORMAT, recentDateFormat);
-    }
-
-    /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
-     * @param opts The FileSystemOptions.
-     * @return The server timezone id.
-     */
-    public String getServerTimeZoneId(FileSystemOptions opts)
-    {
-        return getString(opts, SERVER_TIME_ZONE_ID);
-    }
-
-    /**
      * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
      * @param opts The FileSystemOptions.
      * @param serverTimeZoneId The server timezone id.
@@ -307,16 +313,6 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setServerTimeZoneId(FileSystemOptions opts, String serverTimeZoneId)
     {
         setParam(opts, SERVER_TIME_ZONE_ID, serverTimeZoneId);
-    }
-
-    /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
-     * @param opts The FileSystemOptions.
-     * @return An array of short month names.
-     */
-    public String[] getShortMonthNames(FileSystemOptions opts)
-    {
-        return (String[]) getParam(opts, SHORT_MONTH_NAMES);
     }
 
     /**
@@ -337,24 +333,28 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
-     * @param opts The FileSystemOptions.
-     * @param encoding the encoding to use
+     * set the socket timeout for the ftp client.<br />
+     * If you set the socketTimeout to <code>null</code> no socketTimeout will be set on the
+     * ftp client.
+     *
+     * @param opts The FileSystem options.
+     * @param soTimeout The timeout value.
      * @since 2.0
      */
-    public void setControlEncoding(FileSystemOptions opts, String encoding)
+    public void setSoTimeout(FileSystemOptions opts, Integer soTimeout)
     {
-        setParam(opts, ENCODING, encoding);
+        setParam(opts, SO_TIMEOUT, soTimeout);
     }
 
     /**
+     * use user directory as root (do not change to fs root).
+     *
      * @param opts The FileSystemOptions.
-     * @return The encoding.
-     * @since 2.0
-     * */
-    public String getControlEncoding(FileSystemOptions opts)
+     * @param userDirIsRoot true if the user directory should be treated as the root.
+     */
+    public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
     {
-        return (String) getParam(opts, ENCODING);
+        setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
     }
 
 }
