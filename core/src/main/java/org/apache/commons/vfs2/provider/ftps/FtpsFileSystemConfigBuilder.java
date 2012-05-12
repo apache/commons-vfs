@@ -29,32 +29,25 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
  */
 public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
+    private static final String _PREFIX = FtpsFileSystemConfigBuilder.class.getName();
+
     private static final FtpsFileSystemConfigBuilder BUILDER =
         new FtpsFileSystemConfigBuilder();
 
-    private static final String FACTORY_KEY =
-        FTPFileEntryParserFactory.class.getName() + ".KEY";
-    private static final String PASSIVE_MODE =
-        FtpsFileSystemConfigBuilder.class.getName() + ".PASSIVE";
-    private static final String USER_DIR_IS_ROOT =
-        FtpsFileSystemConfigBuilder.class.getName() + ".USER_DIR_IS_ROOT";
-    private static final String DATA_TIMEOUT =
-        FtpsFileSystemConfigBuilder.class.getName() + ".DATA_TIMEOUT";
-    private static final String FTPS_TYPE =
-        FtpsFileSystemConfigBuilder.class.getName() + ".FTPS_TYPE";
-    private static final String SERVER_LANGUAGE_CODE =
-        FtpsFileSystemConfigBuilder.class.getName() + ".SERVER_LANGUAGE_CODE";
-    private static final String DEFAULT_DATE_FORMAT =
-        FtpsFileSystemConfigBuilder.class.getName() + ".DEFAULT_DATE_FORMAT";
-    private static final String RECENT_DATE_FORMAT =
-        FtpsFileSystemConfigBuilder.class.getName() + ".RECENT_DATE_FORMAT";
-    private static final String SERVER_TIME_ZONE_ID =
-        FtpsFileSystemConfigBuilder.class.getName() + ".SERVER_TIME_ZONE_ID";
-    private static final String SHORT_MONTH_NAMES =
-        FtpsFileSystemConfigBuilder.class.getName() + ".SHORT_MONTH_NAMES";
+    private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
+    private static final String PASSIVE_MODE = _PREFIX + ".PASSIVE";
+    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
+    private static final String FTPS_TYPE = _PREFIX + ".FTPS_TYPE";
+    private static final String SERVER_LANGUAGE_CODE = _PREFIX + ".SERVER_LANGUAGE_CODE";
+    private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
+    private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
+    private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
+    private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     public static final String FTPS_TYPE_IMPLICIT = "implicit";
     public static final String FTPS_TYPE_EXPLICIT = "explicit";
-// For VFS-412                    
+
+    // For VFS-412                    
 //  private static final String PROT = 
 //          FtpsFileSystemConfigBuilder.class.getName() + ".PROT";
 
