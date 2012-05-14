@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-200" dev="ggregory" type="update">
+        [SFTP] Failure when files are very large.
+      </action>
       <action issue="VFS-416" dev="ggregory" type="update">
         [SFTP] Update Jsch to version 0.1.48 from 0.1.47.
       </action>
