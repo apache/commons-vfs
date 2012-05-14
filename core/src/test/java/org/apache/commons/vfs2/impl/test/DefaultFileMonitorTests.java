@@ -42,7 +42,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     {
         super.setUp();
         fsManager = VFS.getManager();
-        testDir = AbstractVfsTestCase.getTestDirectoryFile();
+        testDir = AbstractVfsTestCase.getTestDirectory();
         changeStatus = 0;
         testFile = new File(testDir, "testReload.properties");
 

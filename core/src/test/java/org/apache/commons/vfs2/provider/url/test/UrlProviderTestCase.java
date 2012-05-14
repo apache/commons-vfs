@@ -57,7 +57,7 @@ public class UrlProviderTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final File baseDir = AbstractVfsTestCase.getTestDirectory();
         final URL url = baseDir.toURL();
         return manager.resolveFile(url.toExternalForm());
     }

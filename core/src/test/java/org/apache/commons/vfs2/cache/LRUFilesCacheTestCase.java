@@ -51,7 +51,7 @@ public class LRUFilesCacheTestCase
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File testDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final File testDir = AbstractVfsTestCase.getTestDirectory();
         return manager.toFileObject(testDir);
     }
 }

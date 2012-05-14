@@ -78,7 +78,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             {
                 return null;
             }
-            return new TestFileSystemView(getTestDirectory(), userName);
+            return new TestFileSystemView(getTestDirectoryString(), userName);
         }
     }
 

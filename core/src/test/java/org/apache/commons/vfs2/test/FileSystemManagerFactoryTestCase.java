@@ -39,7 +39,7 @@ public class FileSystemManagerFactoryTestCase
         final FileSystemManager manager = VFS.getManager();
 
         // Lookup a test jar file
-        final File jarFile = getTestResource("test.jar");
+        final File jarFile = getTestResourceFile("test.jar");
         FileObject file = manager.toFileObject(jarFile);
         assertNotNull(file);
         assertTrue(file.exists());

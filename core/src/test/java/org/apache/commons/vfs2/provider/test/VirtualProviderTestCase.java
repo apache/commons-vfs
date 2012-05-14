@@ -45,7 +45,7 @@ public class VirtualProviderTestCase
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final File baseDir = AbstractVfsTestCase.getTestDirectory();
         final FileObject baseFile = manager.toFileObject(baseDir);
         return manager.createVirtualFileSystem(baseFile);
     }

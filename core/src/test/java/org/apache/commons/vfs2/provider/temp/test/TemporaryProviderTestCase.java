@@ -51,7 +51,7 @@ public class TemporaryProviderTestCase
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
-        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final File baseDir = AbstractVfsTestCase.getTestDirectory();
         manager.addProvider("tmp", new TemporaryFileProvider(baseDir));
     }
 

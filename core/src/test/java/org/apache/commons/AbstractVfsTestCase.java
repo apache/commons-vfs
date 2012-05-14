@@ -72,9 +72,9 @@ public abstract class AbstractVfsTestCase
      *
      * @param name path of the resource, relative to this test's base directory.
      */
-    public static File getTestResource(final String name)
+    public static File getTestResourceFile(final String name)
     {
-        return getTestResource(name, true);
+        return getTestResourceFile(name, true);
     }
 
     /**
@@ -82,9 +82,9 @@ public abstract class AbstractVfsTestCase
      *
      * @param name path of the resource, relative to this test's base directory.
      */
-    public static File getTestResource(final String name, final boolean mustExist)
+    public static File getTestResourceFile(final String name, final boolean mustExist)
     {
-        File file = new File(getTestDirectoryFile(), name);
+        File file = new File(getTestDirectory(), name);
         file = getCanonicalFile(file);
         if (mustExist)
         {
@@ -101,23 +101,28 @@ public abstract class AbstractVfsTestCase
     /**
      * Locates the base directory for this test.
      */
-    public static File getTestDirectoryFile()
+    public static File getTestDirectory()
     {
         if (baseDir == null)
         {
             // final String baseDirProp = System.getProperty("test.basedir");
-            final String baseDirProp = getTestDirectory();
+            final String baseDirProp = getTestDirectoryString();
             baseDir = getCanonicalFile(new File(baseDirProp));
         }
         return baseDir;
     }
 
-    public static String getTestDirectory()
+    /**
+     * Returns the test directory as a String.
+     * 
+     * @return the test directory as a String
+     */
+    public static String getTestDirectoryString()
     {
         return System.getProperty("test.basedir", "target/test-classes/test-data");
     }
 
-    public static String getResourceTestDirectory()
+    public static String getResourceTestDirectoryString()
     {
         return System.getProperty("test.basedir.res", "test-data");
     }
@@ -129,7 +134,7 @@ public abstract class AbstractVfsTestCase
      */
     public static File getTestDirectory(final String name)
     {
-        File file = new File(getTestDirectoryFile(), name);
+        File file = new File(getTestDirectory(), name);
         file = getCanonicalFile(file);
         assertTrue("Test directory \"" + file + "\" does not exist or is not a directory.",
             file.isDirectory() || file.mkdirs());
