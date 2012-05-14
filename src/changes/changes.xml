@@ -26,9 +26,6 @@
       <action issue="VFS-416" dev="ggregory" type="update">
         [SFTP] Update Jsch to version 0.1.48 from 0.1.47.
       </action>
-      <action issue="VFS-415" dev="ggregory" type="update">
-        Update VFS requirement to Java 1.6.
-      </action>
       <action issue="VFS-296" dev="ggregory" type="add" due-to="andreasp">
         [FTP] FTP socket timeout setting doesn't work if connect hangs.
       </action>

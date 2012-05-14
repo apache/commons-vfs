@@ -128,8 +128,8 @@
     <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
-    <maven.compile.source>1.6</maven.compile.source>
-    <maven.compile.target>1.6</maven.compile.target>
+    <maven.compile.source>1.5</maven.compile.source>
+    <maven.compile.target>1.5</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
   </properties>
@@ -267,7 +267,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>2.7.1</version>
         <configuration>
-          <targetJdk>1.6</targetJdk>
+          <targetJdk>1.5</targetJdk>
         </configuration>
       </plugin>
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
@@ -418,7 +418,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.3</version>
+        <version>2.2</version>
         <scope>test</scope>
       </dependency>
       <!-- Test HTTP with Apache HttpComponent Core -->
