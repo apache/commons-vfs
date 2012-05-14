@@ -46,7 +46,7 @@ import com.jcraft.jsch.SftpException;
 /**
  * An SFTP file.
  *
- *          2005) $
+ * @version $Id$
  */
 public class SftpFileObject extends AbstractFileObject
 {
