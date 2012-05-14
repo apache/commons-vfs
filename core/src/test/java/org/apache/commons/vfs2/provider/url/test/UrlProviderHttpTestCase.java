@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.url.test;
 
+import java.io.File;
 import java.io.IOException;
 
 import junit.framework.Test;
@@ -59,7 +60,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
     private static void setUpClass() throws Exception
     {
         Server = new NHttpServer();
-        if (!Server.run(SocketPort, getTestDirectory(), 5000))
+        if (!Server.run(SocketPort, new File(getTestDirectory()), 5000))
         {
             throw new IllegalStateException("The embedded HTTP server has not completed startup, increase wait time");
         }
