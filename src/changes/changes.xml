@@ -23,34 +23,37 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
-      <action issue="VFS-353" dev="ggregory" type="update" due-to="bergander">
+      <action issue="VFS-327" dev="ggregory" type="update" due-to="sebb@apache.org">
+        UriParser.canonicalizePath possible NPE for filenameParser.
+      </action>
+      <action issue="VFS-353" dev="ggregory" type="fix" due-to="bergander">
         [FTP] Client should call logout before disconnecting.
       </action>
-      <action issue="VFS-408" dev="ggregory" type="update" due-to="anilm2@yahoo.com">
+      <action issue="VFS-408" dev="ggregory" type="fix" due-to="anilm2@yahoo.com">
         CompressedFileFileObject Exception thrown when container file has no extension.
       </action>
       <action issue="VFS-400" dev="ggregory" type="add">
         Add a FileSelector based on regular expressions.
       </action>
-      <action issue="VFS-258" dev="ggregory" type="update" due-to="mzawirski">
+      <action issue="VFS-258" dev="ggregory" type="fix" due-to="mzawirski">
         [SFTP][RAM] Unsafe casting to AbstractFileObject subclasses in doRename().
       </action>
-      <action issue="VFS-254" dev="ggregory" type="update" due-to="mzawirski">
+      <action issue="VFS-254" dev="ggregory" type="add" due-to="mzawirski">
         Let FileObject and FileContent extend java.io.Closeable.
       </action>
-      <action issue="VFS-413" dev="ggregory" type="update" due-to="polivenok">
+      <action issue="VFS-413" dev="ggregory" type="fix" due-to="polivenok">
         [FTP] No support for FTP servers with non Latin-1 control encoding.
       </action>
-      <action issue="VFS-252" dev="ggregory" type="update">
+      <action issue="VFS-252" dev="ggregory" type="add">
         [SMB] SmbFileObject does not support setLastModifiedTime while jcifs supports it.
       </action>
-      <action issue="VFS-200" dev="ggregory" type="update">
+      <action issue="VFS-200" dev="ggregory" type="fix">
         [SFTP] Failure when files are very large.
       </action>
       <action issue="VFS-416" dev="ggregory" type="update">
         [SFTP] Update Jsch to version 0.1.48 from 0.1.47.
       </action>
-      <action issue="VFS-296" dev="ggregory" type="add" due-to="andreasp">
+      <action issue="VFS-296" dev="ggregory" type="fix" due-to="andreasp">
         [FTP] FTP socket timeout setting doesn't work if connect hangs.
       </action>
       <action issue="VFS-313" dev="ggregory" type="add" due-to="bdavis@saintandreas.org">

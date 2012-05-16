@@ -490,8 +490,7 @@ public final class UriParser
                 }
                 char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
 
-                boolean match = value == '%'
-                        || (fileNameParser != null && fileNameParser.encodeCharacter(value));
+                boolean match = value == '%' || fileNameParser.encodeCharacter(value);
 
                 if (match)
                 {
