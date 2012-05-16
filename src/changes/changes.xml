@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-321" dev="ggregory" type="update" due-to="sebb@apache.org">
+        AbstractFileObject sometimes uses getFileSystem() and sometimes references "fs" field directly.
+      </action>
       <action issue="VFS-327" dev="ggregory" type="update" due-to="sebb@apache.org">
         UriParser.canonicalizePath possible NPE for filenameParser.
       </action>

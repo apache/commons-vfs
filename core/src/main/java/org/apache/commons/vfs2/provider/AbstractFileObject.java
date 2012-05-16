@@ -693,7 +693,7 @@ public abstract class AbstractFileObject implements FileObject
         synchronized (fs)
         {
             // VFS-210
-            if (!getFileSystem().hasCapability(Capability.LIST_CHILDREN))
+            if (!fs.hasCapability(Capability.LIST_CHILDREN))
             {
                 throw new FileNotFolderException(name);
             }
@@ -772,7 +772,7 @@ public abstract class AbstractFileObject implements FileObject
                     final String file = files[i];
                     // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
                     // children[i] = name.resolveName(file, NameScope.CHILD);
-                    children[i] = getFileSystem().getFileSystemManager().resolveName(name, file, NameScope.CHILD);
+                    children[i] = fs.getFileSystemManager().resolveName(name, file, NameScope.CHILD);
                 }
             }
 
@@ -852,7 +852,7 @@ public abstract class AbstractFileObject implements FileObject
         throws FileSystemException
     {
         // return fs.resolveFile(this.name.resolveName(name, scope));
-        return fs.resolveFile(getFileSystem().getFileSystemManager().resolveName(this.name, name, scope));
+        return fs.resolveFile(fs.getFileSystemManager().resolveName(this.name, name, scope));
     }
 
     /**
@@ -867,7 +867,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public FileObject resolveFile(final String path) throws FileSystemException
     {
-        final FileName otherName = getFileSystem().getFileSystemManager().resolveName(name, path);
+        final FileName otherName = fs.getFileSystemManager().resolveName(name, path);
         return fs.resolveFile(otherName);
     }
 
@@ -1217,7 +1217,7 @@ public abstract class AbstractFileObject implements FileObject
                     && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)
                   || destFile.getType().hasChildren()
                     && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))
-                    && getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED))
+                    && fs.hasCapability(Capability.GET_LAST_MODIFIED))
             {
                 destFile.getContent().setLastModifiedTime(this.getContent().getLastModifiedTime());
             }
@@ -1263,7 +1263,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     public boolean canRenameTo(FileObject newfile)
     {
-        return getFileSystem() == newfile.getFileSystem();
+        return fs == newfile.getFileSystem();
     }
 
     /**
@@ -1423,7 +1423,7 @@ public abstract class AbstractFileObject implements FileObject
 
         if (mode.requestRead())
         {
-            if (!getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
+            if (!fs.hasCapability(Capability.RANDOM_ACCESS_READ))
             {
                 throw new FileSystemException("vfs.provider/random-access-read-not-supported.error");
             }
@@ -1435,7 +1435,7 @@ public abstract class AbstractFileObject implements FileObject
 
         if (mode.requestWrite())
         {
-            if (!getFileSystem().hasCapability(Capability.RANDOM_ACCESS_WRITE))
+            if (!fs.hasCapability(Capability.RANDOM_ACCESS_WRITE))
             {
                 throw new FileSystemException("vfs.provider/random-access-write-not-supported.error");
             }
@@ -1491,7 +1491,7 @@ public abstract class AbstractFileObject implements FileObject
         }
         */
 
-        if (bAppend && !getFileSystem().hasCapability(Capability.APPEND_CONTENT))
+        if (bAppend && !fs.hasCapability(Capability.APPEND_CONTENT))
         {
             throw new FileSystemException("vfs.provider/write-append-not-supported.error", name);
         }
@@ -1860,7 +1860,7 @@ public abstract class AbstractFileObject implements FileObject
      */
     protected FileContentInfoFactory getFileContentInfoFactory()
     {
-        return getFileSystem().getFileSystemManager().getFileContentInfoFactory();
+        return fs.getFileSystemManager().getFileContentInfoFactory();
     }
 
     protected void injectType(FileType fileType)
