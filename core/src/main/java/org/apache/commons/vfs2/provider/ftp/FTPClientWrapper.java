@@ -101,11 +101,16 @@ class FTPClientWrapper implements FtpClient
     {
         try
         {
-            getFtpClient().disconnect();
-        }
-        finally
+            getFtpClient().quit();
+        } finally
         {
-            ftpClient = null;
+            try
+            {
+                getFtpClient().disconnect();
+            } finally
+            {
+                ftpClient = null;
+            }
         }
     }
 
@@ -120,7 +125,6 @@ class FTPClientWrapper implements FtpClient
         catch (IOException e)
         {
             disconnect();
-
             FTPFile[] files = listFilesInDirectory(relPath);
             return files;
         }
@@ -246,7 +250,6 @@ class FTPClientWrapper implements FtpClient
         catch (IOException e)
         {
             disconnect();
-
             FTPClient client = getFtpClient();
             client.setRestartOffset(restartOffset);
             return client.retrieveFileStream(relPath);
