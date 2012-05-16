@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-408" dev="ggregory" type="update" due-to="anilm2@yahoo.com">
+        CompressedFileFileObject Exception thrown when container file has no extension.
+      </action>
       <action issue="VFS-400" dev="ggregory" type="add">
         Add a FileSelector based on regular expressions.
       </action>

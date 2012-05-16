@@ -40,12 +40,11 @@ public abstract class CompressedFileFileObject extends AbstractFileObject
         // todo, add getBaseName(String) to FileName
         String basename = container.getName().getBaseName();
         int pos = basename.lastIndexOf('.');
-        basename = basename.substring(0, pos);
-
-        children = new String[]
+        if (pos > 0)
         {
-            basename
-        };
+            basename = basename.substring(0, pos);
+        }
+        children = new String[] { basename };
     }
 
     /**
