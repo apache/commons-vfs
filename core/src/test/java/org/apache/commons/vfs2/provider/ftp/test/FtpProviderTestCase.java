@@ -168,10 +168,11 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
             uri = ConnectionUri;
         }
         FileSystemOptions opts = new FileSystemOptions();
-        FtpFileSystemConfigBuilder.getInstance().setPassiveMode(opts, true);
+        final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
+        builder.setPassiveMode(opts, true);
         // FtpFileType.BINARY is the default
-        FtpFileSystemConfigBuilder.getInstance().setFileType(opts, FtpFileType.BINARY);
-        FtpFileSystemConfigBuilder.getInstance().setConnectTimeout(opts, 10000);
+        builder.setFileType(opts, FtpFileType.BINARY);
+        builder.setConnectTimeout(opts, 10000);
         return manager.resolveFile(uri, opts);
     }
 
