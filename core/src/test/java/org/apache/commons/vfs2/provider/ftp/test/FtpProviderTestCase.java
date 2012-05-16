@@ -173,6 +173,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         // FtpFileType.BINARY is the default
         builder.setFileType(opts, FtpFileType.BINARY);
         builder.setConnectTimeout(opts, 10000);
+        builder.setControlEncoding(opts, "UTF-8");
         return manager.resolveFile(uri, opts);
     }
 

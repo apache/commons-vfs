@@ -86,6 +86,12 @@ public final class FtpClientFactory
                     client.setDefaultTimeout(connectTimeout.intValue());
                 }
 
+                String controlEncoding = FtpFileSystemConfigBuilder.getInstance().getControlEncoding(fileSystemOptions);
+                if (controlEncoding != null)
+                {
+                    client.setControlEncoding(controlEncoding);
+                }
+
                 client.connect(hostname, port);
 
                 int reply = client.getReplyCode();
@@ -146,11 +152,6 @@ public final class FtpClientFactory
                     client.enterLocalPassiveMode();
                 }
 
-                String controlEncoding = FtpFileSystemConfigBuilder.getInstance().getControlEncoding(fileSystemOptions);
-                if (controlEncoding != null)
-                {
-                    client.setControlEncoding(controlEncoding);
-                }
             }
             catch (final IOException e)
             {
