@@ -283,12 +283,12 @@ public class SftpFileObject extends AbstractFileObject
      * Rename the file.
      */
     @Override
-    protected void doRename(FileObject newfile) throws Exception
+    protected void doRename(FileObject newFile) throws Exception
     {
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            channel.rename(relPath, ((SftpFileObject) newfile).relPath);
+            channel.rename(relPath, ((SftpFileObject) newFile).relPath);
         }
         finally
         {

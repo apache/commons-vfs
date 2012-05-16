@@ -184,9 +184,9 @@ public class RamFileObject extends AbstractFileObject
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(org.apache.commons.vfs2.FileObject)
      */
     @Override
-    protected void doRename(FileObject newfile) throws Exception
+    protected void doRename(FileObject newFile) throws Exception
     {
-        fs.rename(this, (RamFileObject) newfile);
+        fs.rename(this, (RamFileObject) newFile);
     }
 
     /*

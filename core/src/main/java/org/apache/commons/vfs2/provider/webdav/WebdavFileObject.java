@@ -237,10 +237,10 @@ public class WebdavFileObject extends HttpFileObject
      * Rename the file.
      */
     @Override
-    protected void doRename(FileObject newfile) throws Exception
+    protected void doRename(FileObject newFile) throws Exception
     {
         String url = encodePath(urlString((URLFileName) getName()));
-        String dest = urlString((URLFileName) newfile.getName(), false);
+        String dest = urlString((URLFileName) newFile.getName(), false);
         DavMethod method = new MoveMethod(url, dest, false);
         setupMethod(method);
         execute(method);
