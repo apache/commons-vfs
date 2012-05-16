@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
+import java.io.Closeable;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -77,7 +78,7 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * @see FileContent
  * @see FileName
  */
-public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
+public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>, Closeable
 {
     /**
      * Returns the name of this file.

@@ -23,8 +23,11 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-254" dev="ggregory" type="update" due-to="mzawirski">
+        Let FileObject and FileContent extend java.io.Closeable.
+      </action>
       <action issue="VFS-413" dev="ggregory" type="update" due-to="polivenok">
-        [VFS] No support for FTP servers with non Latin-1 control encoding.
+        [FTP] No support for FTP servers with non Latin-1 control encoding.
       </action>
       <action issue="VFS-252" dev="ggregory" type="update">
         [SMB] SmbFileObject does not support setLastModifiedTime while jcifs supports it.

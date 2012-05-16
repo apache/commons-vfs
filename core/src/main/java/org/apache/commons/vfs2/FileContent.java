@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,7 +40,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  *
  * @see FileObject#getContent
  */
-public interface FileContent
+public interface FileContent extends Closeable
 {
     /**
      * Returns the file which this is the content of.
