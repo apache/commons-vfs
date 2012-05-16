@@ -60,7 +60,7 @@ public class ProviderRandomReadWriteTests
     }
 
     /**
-     * Read a file
+     * Writes a file
      */
     public void testRandomWrite() throws Exception
     {
