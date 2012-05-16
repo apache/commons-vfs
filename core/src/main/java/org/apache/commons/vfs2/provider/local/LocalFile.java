@@ -129,14 +129,14 @@ public class LocalFile extends AbstractFileObject
      * rename this file
      */
     @Override
-    protected void doRename(final FileObject newfile) throws Exception
+    protected void doRename(final FileObject newFile) throws Exception
     {
-        LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newfile);
+        LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newFile);
 
         if (!file.renameTo(newLocalFile.getLocalFile()))
         {
             throw new FileSystemException("vfs.provider.local/rename-file.error",
-                file.toString(), newfile.toString());
+                file.toString(), newFile.toString());
         }
     }
 
