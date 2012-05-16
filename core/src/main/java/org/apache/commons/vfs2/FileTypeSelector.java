@@ -25,6 +25,12 @@ public class FileTypeSelector
     /** The FileType */
     private final FileType type;
 
+    /**
+     * Creates a new selector for the given file type.
+     *
+     * @param type
+     *            The file type to select
+     */
     public FileTypeSelector(final FileType type)
     {
         this.type = type;
