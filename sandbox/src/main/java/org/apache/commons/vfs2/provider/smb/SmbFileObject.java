@@ -255,4 +255,10 @@ public class SmbFileObject
     {
         return new SmbFileRandomAccessContent(file, mode);
     }
+
+    @Override
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
+        file.setLastModified(modtime);
+        return true;
+    }
 }

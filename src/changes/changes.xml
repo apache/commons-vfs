@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-252" dev="ggregory" type="update">
+        [SMB] SmbFileObject does not support setLastModifiedTime while jcifs supports it.
+      </action>
       <action issue="VFS-200" dev="ggregory" type="update">
         [SFTP] Failure when files are very large.
       </action>

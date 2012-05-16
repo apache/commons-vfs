@@ -43,6 +43,8 @@ public class SmbFileProvider
         Capability.RENAME,
         Capability.GET_TYPE,
         Capability.GET_LAST_MODIFIED,
+        Capability.SET_LAST_MODIFIED_FILE,
+        Capability.SET_LAST_MODIFIED_FOLDER,
         Capability.LIST_CHILDREN,
         Capability.READ_CONTENT,
         Capability.URI,
