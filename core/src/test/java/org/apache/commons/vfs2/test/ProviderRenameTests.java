@@ -16,10 +16,13 @@
  */
 package org.apache.commons.vfs2.test;
 
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.Selectors;
 
 /**
@@ -60,34 +63,9 @@ public class ProviderRenameTests
         return scratchFolder;
     }
 
-    /**
-     * Tests create-delete-create-a-file sequence on the same file system.
-     */
-    public void testRenameFile() throws Exception
+    private void moveFile(final FileObject scratchFolder, final FileObject file, final String content)
+            throws FileSystemException, Exception
     {
-        final FileObject scratchFolder = createScratchFolder();
-
-        // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        assertTrue(!file.exists());
-
-        // Create the source file
-        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
-
-        final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
-            os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
-            os.close();
-        }
-        assertSameContent(content, file);
-
-
-        // Make sure we can move the new file to another file on the same filesystem
-
         FileObject fileMove = scratchFolder.resolveFile("file1move.txt");
         assertTrue(!fileMove.exists());
 
@@ -102,4 +80,61 @@ public class ProviderRenameTests
         assertTrue(fileMove.exists());
         assertTrue(fileMove.delete());
     }
+
+    private String createTestFile(final FileObject file) throws FileSystemException, IOException,
+            UnsupportedEncodingException, Exception
+    {
+        // Create the source file
+        final String content = "Here is some sample content for the file.  Blah Blah Blah.";
+
+        final OutputStream os = file.getContent().getOutputStream();
+        try
+        {
+            os.write(content.getBytes("utf-8"));
+        }
+        finally
+        {
+            os.close();
+        }
+        assertSameContent(content, file);
+        return content;
+    }
+
+    /**
+     * Tests create-delete-create-a-file sequence on the same file system.
+     */
+    public void testRenameFile() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertTrue(!file.exists());
+
+        final String content = createTestFile(file);
+
+        // Make sure we can move the new file to another file on the same file system
+        moveFile(scratchFolder, file, content);
+    }
+
+    /**
+     * Moves a file from a child folder to a parent folder to test what happens when the original folder is now empty.
+     * 
+     * See [VFS-298] FTP: Exception is thrown when renaming a file.
+     */
+    public void testRenameFileAndLeaveFolderEmpty() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+        final FileObject folder = scratchFolder.resolveFile("folder");
+        folder.createFolder();
+        assertTrue(folder.exists());
+        final FileObject file = folder.resolveFile("file1.txt");
+        assertTrue(!file.exists());
+
+        final String content = createTestFile(file);
+
+        // Make sure we can move the new file to another file on the same file system
+        moveFile(scratchFolder, file, content);
+        assertTrue(folder.getChildren().length == 0);
+    }    
 }
