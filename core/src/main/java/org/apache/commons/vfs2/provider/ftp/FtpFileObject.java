@@ -489,7 +489,7 @@ public class FtpFileObject extends AbstractFileObject
      * Renames the file
      */
     @Override
-    protected void doRename(FileObject newfile) throws Exception
+    protected void doRename(FileObject newFile) throws Exception
     {
         synchronized (getFileSystem())
         {
@@ -498,7 +498,7 @@ public class FtpFileObject extends AbstractFileObject
             try
             {
                 String oldName = getName().getPath();
-                String newName = newfile.getName().getPath();
+                String newName = newFile.getName().getPath();
                 ok = ftpClient.rename(oldName, newName);
             }
             finally
@@ -509,7 +509,7 @@ public class FtpFileObject extends AbstractFileObject
             if (!ok)
             {
                 throw new FileSystemException("vfs.provider.ftp/rename-file.error",
-                        getName().toString(), newfile);
+                        getName().toString(), newFile);
             }
             this.fileInfo = null;
             children = EMPTY_FTP_FILE_MAP;
