@@ -223,10 +223,10 @@ public abstract class AbstractFileObject implements FileObject
      * </ul>
      * <p/>
      * This implementation throws an exception.
-     * @param newfile A FileObject with the new file name.
+     * @param newFile A FileObject with the new file name.
      * @throws Exception if an error occurs.
      */
-    protected void doRename(FileObject newfile) throws Exception
+    protected void doRename(FileObject newFile) throws Exception
     {
         throw new FileSystemException("vfs.provider/rename-not-supported.error");
     }
