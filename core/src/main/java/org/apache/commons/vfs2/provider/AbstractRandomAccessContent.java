@@ -35,49 +35,16 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
         this.mode = mode;
     }
 
-    public void writeDouble(double v) throws IOException
+    /**
+     * @deprecated see {@link java.io.DataInputStream#readLine()} This method will be removed when it is
+     * removed from the DataInput interface this class implements (which will probably never happen).
+     * @return The line as a String.
+     * @throws IOException if an error occurs.
+     */
+    @Deprecated
+    public String readLine() throws IOException
     {
-        throw new UnsupportedOperationException();
-    }
-
-    public void writeFloat(float v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void write(int b) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void writeByte(int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void writeChar(int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void writeInt(int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void writeShort(int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void writeLong(long v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    public void writeBoolean(boolean v) throws IOException
-    {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("deprecated");
     }
 
     public void write(byte[] b) throws IOException
@@ -90,7 +57,27 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
         throw new UnsupportedOperationException();
     }
 
+    public void write(int b) throws IOException
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    public void writeBoolean(boolean v) throws IOException
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    public void writeByte(int v) throws IOException
+    {
+        throw new UnsupportedOperationException();
+    }
+
     public void writeBytes(String s) throws IOException
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    public void writeChar(int v) throws IOException
     {
         throw new UnsupportedOperationException();
     }
@@ -100,20 +87,33 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
         throw new UnsupportedOperationException();
     }
 
-    public void writeUTF(String str) throws IOException
+    public void writeDouble(double v) throws IOException
     {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * @deprecated see {@link java.io.DataInputStream#readLine()} This method will be removed when it is
-     * removed from the DataInput interface this class implements (which will probably never happen).
-     * @return The line as a String.
-     * @throws IOException if an error occurs.
-     */
-    @Deprecated
-    public String readLine() throws IOException
+    public void writeFloat(float v) throws IOException
     {
-        throw new UnsupportedOperationException("deprecated");
+        throw new UnsupportedOperationException();
+    }
+
+    public void writeInt(int v) throws IOException
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    public void writeLong(long v) throws IOException
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    public void writeShort(int v) throws IOException
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    public void writeUTF(String str) throws IOException
+    {
+        throw new UnsupportedOperationException();
     }
 }
