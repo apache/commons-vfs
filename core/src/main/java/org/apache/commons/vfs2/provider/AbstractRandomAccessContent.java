@@ -16,15 +16,16 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * Implements the DataOutput part of the RandomAccessContent interface and throws
- * UnsupportedOperationException if one of those methods are called.
- * (for read-only random access implementations)
+ * Implements the {@link DataOutput} part of the {@link RandomAccessContent} interface and throws
+ * {@link UnsupportedOperationException} when one of these methods are called. For read-only random access
+ * implementations.
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent
 {
@@ -36,10 +37,11 @@ public abstract class AbstractRandomAccessContent implements RandomAccessContent
     }
 
     /**
-     * @deprecated see {@link java.io.DataInputStream#readLine()} This method will be removed when it is
-     * removed from the DataInput interface this class implements (which will probably never happen).
+     * @deprecated see {@link java.io.DataInputStream#readLine()} This method will be removed when it is removed from
+     *             the DataInput interface this class implements (which will probably never happen).
      * @return The line as a String.
-     * @throws IOException if an error occurs.
+     * @throws IOException
+     *             if an error occurs.
      */
     @Deprecated
     public String readLine() throws IOException
