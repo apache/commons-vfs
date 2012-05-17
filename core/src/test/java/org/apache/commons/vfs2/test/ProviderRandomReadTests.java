@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * Random read-only test cases for file providers.
+ * Random read-only test case for file providers.
  * 
  * @version $Id$
  */
