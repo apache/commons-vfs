@@ -22,7 +22,9 @@ import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * RanomdRead-only test cases for file providers.
+ * Random read-only test cases for file providers.
+ * 
+ * @version $Id$
  */
 public class ProviderRandomReadTests
     extends AbstractProviderTestCase
