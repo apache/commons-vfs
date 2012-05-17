@@ -56,6 +56,7 @@ public class DefaultLocalFileProvider
         Capability.WRITE_CONTENT,
         Capability.APPEND_CONTENT,
         Capability.RANDOM_ACCESS_READ,
+        Capability.RANDOM_ACCESS_SET_LENGTH,
         Capability.RANDOM_ACCESS_WRITE
     }));
 

@@ -282,4 +282,9 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
     {
         return rafis;
     }
+
+    public void setLength(long newLength) throws IOException
+    {
+        raf.setLength(newLength);
+    }
 }

@@ -272,11 +272,18 @@ class RamFileData implements Serializable
      *
      * @param newSize The new buffer size.
      */
-    void resize(int newSize)
+    void resize(long newSize)
     {
+        // A future implementation may allow longs/multiple buffer/and so on
+        if (newSize > Integer.MAX_VALUE)
+        {
+            throw new IllegalArgumentException(String.format("newSize(%d) > Integer.MAX_VALUE(%d)", newSize,
+                    Integer.MAX_VALUE));
+        }
+        int resize = (int) newSize;
         int size = this.size();
-        byte[] newBuf = new byte[newSize];
-        System.arraycopy(this.buffer, 0, newBuf, 0, size);
+        byte[] newBuf = new byte[resize];
+        System.arraycopy(this.buffer, 0, newBuf, 0, Math.min(resize, size));
         this.buffer = newBuf;
         updateLastModified();
     }

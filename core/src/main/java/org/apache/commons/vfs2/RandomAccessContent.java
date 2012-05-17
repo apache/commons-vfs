@@ -89,4 +89,24 @@ public interface RandomAccessContent extends DataOutput, DataInput
      *             if <code>pos</code> is less than <code>0</code> or if an I/O error occurs.
      */
     void seek(long pos) throws IOException;
+
+    /**
+     * Sets the length of this content.
+     * 
+     * <p>
+     * If the the {@code newLength} argument is smaller than {@link #length()}, the content is truncated.
+     * </p>
+     * 
+     * <p>
+     * If the the {@code newLength} argument is greater than {@link #length()}, the content grows with undefined data.
+     * </p>
+     * 
+     * @param newLength
+     *            The desired content length
+     * @exception IOException
+     *                If an I/O error occurs
+     * @since 2.1
+     */
+    void setLength(long newLength) throws IOException;
+
 }

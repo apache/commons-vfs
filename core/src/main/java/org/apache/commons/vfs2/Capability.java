@@ -32,12 +32,17 @@ public enum Capability
     WRITE_CONTENT,
 
     /**
-     * File content can be read in random mode.<br>
+     * File content can be read in random mode.
      */
     RANDOM_ACCESS_READ,
 
     /**
-     * File content can be written in random mode.<br>
+     * File content length can be set in random mode.
+     */
+    RANDOM_ACCESS_SET_LENGTH,
+
+    /**
+     * File content can be written in random mode.
      */
     RANDOM_ACCESS_WRITE,
 

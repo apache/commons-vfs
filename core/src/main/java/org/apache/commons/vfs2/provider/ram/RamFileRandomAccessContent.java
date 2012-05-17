@@ -614,4 +614,11 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     {
         return rafis;
     }
+
+    @Override
+    public void setLength(long newLength) throws IOException
+    {
+        this.file.resize(newLength);
+        this.buf = this.file.getData().getBuffer();
+    }
 }

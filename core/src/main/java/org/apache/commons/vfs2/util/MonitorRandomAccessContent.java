@@ -183,6 +183,11 @@ public class MonitorRandomAccessContent implements RandomAccessContent
         return content.skipBytes(n);
     }
 
+    public void setLength(long newLength) throws IOException
+    {
+        content.setLength(newLength);
+    }
+    
     public boolean readBoolean() throws IOException
     {
         return content.readBoolean();
@@ -247,4 +252,5 @@ public class MonitorRandomAccessContent implements RandomAccessContent
     {
         return content.getInputStream();
     }
+
 }
