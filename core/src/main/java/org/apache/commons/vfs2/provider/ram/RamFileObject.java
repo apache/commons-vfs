@@ -262,11 +262,7 @@ public class RamFileObject extends AbstractFileObject
      */
     int size()
     {
-        if (data == null)
-        {
-            return 0;
-        }
-        return data.size();
+        return data == null ? 0 : data.size();
     }
 
     /**
