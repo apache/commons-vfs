@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * RandomAccess content using Http.
+ * RandomAccess content using HTTP.
  */
 class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
 {
