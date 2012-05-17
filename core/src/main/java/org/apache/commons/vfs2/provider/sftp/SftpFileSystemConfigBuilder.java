@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import com.jcraft.jsch.UserInfo;
 
 /**
- * The config BUILDER for various sftp configuration options.
+ * The config BUILDER for various SFTP configuration options.
  */
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
@@ -167,7 +167,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get authentication order.
+     * Gets authentication order.
      * 
      * @param opts
      *            The FileSystem options.
@@ -180,7 +180,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get the proxy to use for sftp connection. You have to set the ProxyPort too if you would like to have the proxy
+     * Gets the proxy to use for the SFTP connection. You have to set the ProxyPort too if you would like to have the proxy
      * relly used.
      * 
      * @param opts
@@ -194,8 +194,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get the proxy-port to use for sftp the connection You have to set the ProxyHost too if you would like to have the
-     * proxy relly used.
+     * Gets the proxy-port to use for the SFTP the connection You have to set the ProxyHost too if you would like to have the
+     * proxy really used.
      * 
      * @param opts
      *            The FileSystem options.
@@ -208,7 +208,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Get the proxy type to use for sftp connection.
+     * Gets the proxy type to use for the SFTP connection.
      * 
      * @param opts
      *            The FileSystem options.
@@ -264,9 +264,13 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * configure the compression to use.<br>
-     * e.g. pass "zlib,none" to enable the compression.<br>
-     * See the jsch documentation for details.
+     * Configures the compression to use.
+     * <p>
+     * For example, use {@code "zlib,none"} to enable compression.
+     * </p>
+     * <p>
+     * See the Jsch documentation for details.
+     * </p>
      * 
      * @param opts
      *            The FileSystem options.
@@ -299,8 +303,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the known_hosts file. e.g. /home/user/.ssh/known_hosts2<br>
-     * Need to use a java.io.File as JSch cant deal with vfs FileObjects ;-)
+     * Sets the known_hosts file. e.g. /home/user/.ssh/known_hosts2.
+     * <p>
+     * We use java.io.File because JSch cannot deal with VFS FileObjects.
+     * </p>
      * 
      * @param opts
      *            The FileSystem options.
@@ -315,7 +321,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Configure authentication order.
+     * Configures authentication order.
      * 
      * @param opts
      *            The FileSystem options.
@@ -329,8 +335,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the proxy to use for sftp connection.<br>
-     * You have to set the ProxyPort too if you would like to have the proxy relly used.
+     * Sets the proxy to use for the SFTP connection.
+     * 
+     * You MUST also set the ProxyPort to use the proxy.
      * 
      * @param opts
      *            The FileSystem options.
@@ -344,8 +351,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the proxy-port to use for sftp connection. You have to set the ProxyHost too if you would like to have the
-     * proxy relly used.
+     * Sets the proxy port to use for the SFTP connection. 
+     * 
+     * You MUST also set the ProxyHost to use the proxy.
      * 
      * @param opts
      *            The FileSystem options.
@@ -359,7 +367,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the proxy type to use for sftp connection.
+     * Sets the proxy type to use for the SFTP connection.
      * 
      * @param opts
      *            The FileSystem options.
@@ -372,9 +380,13 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * configure the host key checking to use.<br>
-     * valid arguments are only yes, no and ask.<br>
+     * Configures the host key checking to use.
+     * <p>
+     * Valid arguments are: {@code "yes"}, {@code "no"} and {@code "ask"}.
+     * </p>
+     * <p>
      * See the jsch documentation for details.
+     * </p>
      * 
      * @param opts
      *            The FileSystem options.
@@ -397,7 +409,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the timeout value on jsch session.
+     * Sets the timeout value on Jsch session.
      * 
      * @param opts
      *            The FileSystem options.
@@ -410,12 +422,12 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * use user directory as root (do not change to fs root).
+     * Sets the whether to use the user directory as root (do not change to file system root).
      * 
      * @param opts
      *            The FileSystem options.
      * @param userDirIsRoot
-     *            true if the user dir is the root directory.
+     *            true if the user directory is the root directory.
      */
     public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot)
     {
@@ -423,7 +435,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the userinfo class to use if e.g. a password or a not known host will be contacted.
+     * Sets the Jsch UserInfo class to use.
      * 
      * @param opts
      *            The FileSystem options.
