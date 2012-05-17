@@ -22,7 +22,7 @@ import java.io.InputStream;
 import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
- * An RandomAccessContent that provides end-of-stream monitoring.
+ * A RandomAccessContent that provides end-of-stream monitoring.
  */
 public class MonitorRandomAccessContent implements RandomAccessContent
 {
