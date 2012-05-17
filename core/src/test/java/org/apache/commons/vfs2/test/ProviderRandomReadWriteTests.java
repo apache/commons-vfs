@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 public class ProviderRandomReadWriteTests
     extends AbstractProviderTestCase
 {
-    private final String TEST_DATA = "This is a test file.";
+    private static final String TEST_DATA = "This is a test file.";
 
     /**
      * Returns the capabilities required by the tests of this test case.
