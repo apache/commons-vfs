@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 
 /**
- * Some helper methods used for authentication.
+ * Helps with authentication.
  */
 public final class UserAuthenticatorUtils
 {
@@ -31,8 +31,9 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * gets data of given type from the UserAuthenticationData or null if there is no data or data
+     * Gets data of given type from the UserAuthenticationData or null if there is no data or data
      * of this type available.
+     * 
      * @param data The UserAuthenticationData.
      * @param type The type of the element to retrieve.
      * @param overriddenValue The default value.
@@ -55,7 +56,8 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * if there is a authenticator the authentication will take place, else null will be returned.
+     * Authenticates if there is an authenticator, else returns null.
+     * 
      * @param opts The FileSystemOptions.
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
@@ -68,7 +70,8 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * if there is a authenticator the authentication will take place, else null will be returned.
+     * Authenticates if there is an authenticator, else returns null.
+     * 
      * @param auth The UserAuthenticator.
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
@@ -85,7 +88,8 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * Converts a string to a char array (null safe).
+     * Converts a string to a char array (null-safe).
+     * 
      * @param string The String to convert.
      * @return The character array.
      */
@@ -100,7 +104,8 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * cleanup the data in the UerAuthenticationData (null safe).
+     * Cleans up the data in the UerAuthenticationData (null-safe).
+     * 
      * @param authData The UserAuthenticationDAta.
      */
     public static void cleanup(UserAuthenticationData authData)
@@ -114,7 +119,8 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * converts the given data to a string (null safe).
+     * Converts the given data to a string (null-safe).
+     * 
      * @param data A character array containing the data to convert to a String.
      * @return The String.
      */
