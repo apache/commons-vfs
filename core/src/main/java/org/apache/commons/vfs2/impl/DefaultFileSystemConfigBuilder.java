@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticator;
 
 /**
- * Default options usable for all filesystems.
+ * Default options usable for all file systems.
  */
 public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
