@@ -36,68 +36,57 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
 
     public byte readByte() throws IOException
     {
-        byte data = getDataInputStream().readByte();
-        return data;
+        return getDataInputStream().readByte();
     }
 
     public char readChar() throws IOException
     {
-        char data = getDataInputStream().readChar();
-        return data;
+        return getDataInputStream().readChar();
     }
 
     public double readDouble() throws IOException
     {
-        double data = getDataInputStream().readDouble();
-        return data;
+        return getDataInputStream().readDouble();
     }
 
     public float readFloat() throws IOException
     {
-        float data = getDataInputStream().readFloat();
-        return data;
+        return getDataInputStream().readFloat();
     }
 
     public int readInt() throws IOException
     {
-        int data = getDataInputStream().readInt();
-        return data;
+        return getDataInputStream().readInt();
     }
 
     public int readUnsignedByte() throws IOException
     {
-        int data = getDataInputStream().readUnsignedByte();
-        return data;
+        return getDataInputStream().readUnsignedByte();
     }
 
     public int readUnsignedShort() throws IOException
     {
-        int data = getDataInputStream().readUnsignedShort();
-        return data;
+        return getDataInputStream().readUnsignedShort();
     }
 
     public long readLong() throws IOException
     {
-        long data = getDataInputStream().readLong();
-        return data;
+        return getDataInputStream().readLong();
     }
 
     public short readShort() throws IOException
     {
-        short data = getDataInputStream().readShort();
-        return data;
+        return getDataInputStream().readShort();
     }
 
     public boolean readBoolean() throws IOException
     {
-        boolean data = getDataInputStream().readBoolean();
-        return data;
+        return getDataInputStream().readBoolean();
     }
 
     public int skipBytes(int n) throws IOException
     {
-        int data = getDataInputStream().skipBytes(n);
-        return data;
+        return getDataInputStream().skipBytes(n);
     }
 
     public void readFully(byte[] b) throws IOException
@@ -112,8 +101,7 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
 
     public String readUTF() throws IOException
     {
-        String data = getDataInputStream().readUTF();
-        return data;
+        return getDataInputStream().readUTF();
     }
 
     public InputStream getInputStream() throws IOException
