@@ -55,7 +55,7 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * if there is a authenticator the authentication will take place, else null will be reutrned.
+     * if there is a authenticator the authentication will take place, else null will be returned.
      * @param opts The FileSystemOptions.
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
@@ -68,7 +68,7 @@ public final class UserAuthenticatorUtils
     }
 
     /**
-     * if there is a authenticator the authentication will take place, else null will be reutrned.
+     * if there is a authenticator the authentication will take place, else null will be returned.
      * @param auth The UserAuthenticator.
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
