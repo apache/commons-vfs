@@ -23,7 +23,9 @@ import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * RanomdRead/Write test cases for file providers.
+ * Random read and write test case for file providers.
+ * 
+ * @version $Id$
  */
 public class ProviderRandomReadWriteTests
     extends AbstractProviderTestCase
