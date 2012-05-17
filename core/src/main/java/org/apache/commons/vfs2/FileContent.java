@@ -27,17 +27,17 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * Represents the data content of a file.
- * <p/>
- * <p>To read from a file, use the <code>InputStream</code> returned by
- * {@link #getInputStream}.
- * <p/>
- * <p>To write to a file, use the <code>OutputStream</code> returned by
- * {@link #getOutputStream} method.  This will create the file, and the parent
- * folder, if necessary.
- * <p/>
- * <p>A file may have multiple InputStreams open at the same time.
- * <p/>
- *
+ * <p>
+ * To read from a file, use the <code>InputStream</code> returned by {@link #getInputStream()}.
+ * </p>
+ * <p>
+ * To write to a file, use the <code>OutputStream</code> returned by {@link #getOutputStream()} method. This will create
+ * the file, and the parent folder, if necessary.
+ * </p>
+ * <p>
+ * A file may have multiple InputStreams open at the same time.
+ * </p>
+ * 
  * @see FileObject#getContent
  */
 public interface FileContent extends Closeable
