@@ -21,18 +21,23 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Container for various authentication data.
+ * Contains various authentication data.
  */
 public class UserAuthenticationData
 {
     /**
-     * Inner class to represent portions of the user authentication data.
+     * Represents a user authentication item.
      */
     public static class Type implements Comparable<Type>
     {
         /** The type name */
         private final String type;
 
+        /**
+         * Creates a new Type
+         * 
+         * @param type the type
+         */
         public Type(String type)
         {
             this.type = type;
@@ -98,12 +103,16 @@ public class UserAuthenticationData
     /** The authentication data. */
     private final Map<Type, char[]> authenticationData = new TreeMap<Type, char[]>();
 
+    /**
+     * Creates a new uninitialized instance.
+     */
     public UserAuthenticationData()
     {
+        // do nothing
     }
 
     /**
-     * set a data to this collection.
+     * Sets a data to this collection.
      * @param type The Type to add
      * @param data The data associated with the Type
      */
@@ -113,7 +122,7 @@ public class UserAuthenticationData
     }
 
     /**
-     * get a data from the collection.
+     * Gets a data from the collection.
      * @param type The Type to retrieve.
      * @return a character array containing the data associated with the type.
      */
@@ -123,7 +132,7 @@ public class UserAuthenticationData
     }
 
     /**
-     * deleted all data stored within this authenticator.
+     * Deletes all data stored within this authenticator.
      */
     public void cleanup()
     {
