@@ -23,6 +23,12 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-417" dev="ggregory" type="add">
+        [RAM][Local] Add and implement new API: RandomAccessContent.setLength(long).
+      </action>
+      <action issue="VFS-406" dev="ggregory" type="fix" due-to="mp1">
+        [RAM] resize throws ArrayOOBE when shrinking in size.
+      </action>
       <action issue="VFS-321" dev="ggregory" type="update" due-to="sebb@apache.org">
         AbstractFileObject sometimes uses getFileSystem() and sometimes references "fs" field directly.
       </action>
