@@ -114,6 +114,10 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
         raf.seek(pos);
     }
 
+    public void setLength(long newLength) throws IOException {
+        raf.setLength(newLength);
+    }
+
     public long length() throws IOException
     {
         return raf.length();
@@ -282,4 +286,5 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
     {
         return rafis;
     }
+
 }
