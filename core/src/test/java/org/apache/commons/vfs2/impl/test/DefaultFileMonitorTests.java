@@ -64,7 +64,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
 
     public void testFileCreated() throws Exception
     {
-        FileObject fileObj = fsManager.resolveFile(testFile.toURL().toString());
+        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
         DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);
@@ -79,7 +79,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     public void testFileDeleted() throws Exception
     {
         writeToFile(testFile);
-        FileObject fileObj = fsManager.resolveFile(testFile.toURL().toString());
+        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toString());
         DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);
@@ -94,7 +94,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     public void testFileModified() throws Exception
     {
         writeToFile(testFile);
-        FileObject fileObj = fsManager.resolveFile(testFile.toURL().toString());
+        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
         DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);
@@ -114,7 +114,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
 
     public void testFileRecreated() throws Exception
     {
-        FileObject fileObj = fsManager.resolveFile(testFile.toURL().toString());
+        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
         DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);

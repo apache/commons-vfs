@@ -58,7 +58,6 @@ public class UrlHttpProviderTestCase
         throws Exception
     {
         final File baseDir = AbstractVfsTestCase.getTestDirectory();
-        final URL url = baseDir.toURL();
-        return manager.resolveFile(url.toExternalForm());
+        return manager.resolveFile(baseDir.toURI().toURL().toExternalForm());
     }
 }
