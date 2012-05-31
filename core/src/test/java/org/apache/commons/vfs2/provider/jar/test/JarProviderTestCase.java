@@ -32,10 +32,15 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 /**
  * Tests for the Jar file system.
  */
-public class JarProviderTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
+public class JarProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
+    static FileObject getTestJar(final FileSystemManager manager, String name) throws Exception
+    {
+        final File jarFile = AbstractVfsTestCase.getTestResourceFile(name);
+        final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
+        return manager.resolveFile(uri);
+    }
+
     /**
      * Creates the test suite for the jar file system.
      */
@@ -45,23 +50,20 @@ public class JarProviderTestCase
     }
 
     /**
-     * Prepares the file system manager.
-     */
-    @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
-        manager.addProvider("jar", new JarFileProvider());
-    }
-
-    /**
      * Returns the base folder for tests.
      */
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File jarFile = AbstractVfsTestCase.getTestResourceFile("test.jar");
-        final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
-        return manager.resolveFile(uri);
+        return JarProviderTestCase.getTestJar(manager, "test.jar");
+    }
+
+    /**
+     * Prepares the file system manager.
+     */
+    @Override
+    public void prepare(final DefaultFileSystemManager manager) throws Exception
+    {
+        manager.addProvider("jar", new JarFileProvider());
     }
 }

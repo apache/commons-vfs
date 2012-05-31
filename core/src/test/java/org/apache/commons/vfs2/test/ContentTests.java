@@ -93,6 +93,13 @@ public class ContentTests
     }
 
     /**
+     * Tests attributes
+     */
+    public void testAttributes() throws FileSystemException {
+        this.getReadFolder().getContent().getAttributes();
+    }
+    
+    /**
      * Tests root of file system exists.
      */
     public void testRootURI() throws FileSystemException
