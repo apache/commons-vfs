@@ -75,8 +75,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     @Override
     protected FileObject createFile(AbstractFileName name) throws Exception
     {
-        RamFileObject file = new RamFileObject(name, this);
-        return file;
+        return new RamFileObject(name, this);
     }
 
     /*
