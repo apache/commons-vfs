@@ -48,6 +48,12 @@ public class JarFileSystem extends ZipFileSystem
         super(rootName, file, fileSystemOptions);
     }
 
+//    @Override
+//    protected FileObject createFile(AbstractFileName name) throws FileSystemException
+//    {
+//        return new JarFileObject(name, null, this, false);
+//    }
+
     @Override
     protected ZipFile createZipFile(File file) throws FileSystemException
     {
@@ -211,4 +217,5 @@ public class JarFileSystem extends ZipFileSystem
     {
         return super.getZipFile();
     }
+
 }
