@@ -55,6 +55,9 @@ public class HttpFileProvider
         Capability.DIRECTORY_READ_CONTENT,
     }));
 
+    /**
+     * Constructs a new provider.
+     */
     public HttpFileProvider()
     {
         super();

@@ -67,6 +67,9 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
 
     // private JSch jSch = new JSch();
 
+    /**
+     * Constructs a new provider.
+     */
     public SftpFileProvider()
     {
         super();

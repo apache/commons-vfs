@@ -64,6 +64,9 @@ public class FtpFileProvider
         Capability.RANDOM_ACCESS_READ,
     }));
 
+    /**
+     * Constructs a new provider.
+     */
     public FtpFileProvider()
     {
         super();

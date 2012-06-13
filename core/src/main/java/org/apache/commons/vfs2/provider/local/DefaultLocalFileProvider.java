@@ -60,6 +60,9 @@ public class DefaultLocalFileProvider
         Capability.RANDOM_ACCESS_WRITE
     }));
 
+    /**
+     * Constructs a new provider.
+     */
     public DefaultLocalFileProvider()
     {
         super();

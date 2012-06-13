@@ -56,7 +56,7 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
             }));
 
     /**
-     * Constructor.
+     * Constructs a new provider.
      */
     public RamFileProvider()
     {
