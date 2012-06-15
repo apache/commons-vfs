@@ -25,6 +25,7 @@ import java.util.List;
 
 import junit.framework.Test;
 
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -78,7 +79,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             {
                 return null;
             }
-            return new TestFileSystemView(getTestDirectoryString(), userName);
+            return new TestFileSystemView(AbstractVfsTestCase.getTestDirectoryString(), userName);
         }
     }
 
