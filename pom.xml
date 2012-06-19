@@ -152,6 +152,7 @@
           <version>2.9.1</version>
         </plugin>
         <!-- Use 2.11 to run individual tests, 2.12 seems to no longer support this feature.  -->
+        <!-- See http://jira.codehaus.org/browse/SUREFIRE-827 -->
         <!-- 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
