@@ -47,6 +47,11 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
         super("http.");
     }
 
+    /**
+     * Gets the singleton builder.
+     * 
+     * @return the singleton builder.
+     */
     public static HttpFileSystemConfigBuilder getInstance()
     {
         return BUILDER;

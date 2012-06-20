@@ -55,6 +55,11 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
     }
 
+    /**
+     * Gets the singleton builder.
+     * 
+     * @return the singleton builder.
+     */
     public static FtpsFileSystemConfigBuilder getInstance()
     {
         return BUILDER;
