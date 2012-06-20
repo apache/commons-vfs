@@ -33,7 +33,6 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.provider.ram.RamFileObject;
 import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.MonitorOutputStream;
