@@ -96,8 +96,9 @@ public class DefaultLocalFileProvider
     public FileObject findLocalFile(final String name)
         throws FileSystemException
     {
-        StringBuilder uri = new StringBuilder(name.length() + 5);
-        uri.append("file:");
+        final String scheme = "file:";
+        StringBuilder uri = new StringBuilder(name.length() + scheme.length());
+        uri.append(scheme);
         uri.append(name);
         FileName filename = parseUri(null, uri.toString());
         return findFile(filename, null);
