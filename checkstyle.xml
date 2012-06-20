@@ -69,7 +69,7 @@
       <property name="severity" value="warning"/>
     </module>
 
-    <!-- Don't use SVN $Date$ variable - it's localised and causes source archives to differ from the SVN tag -->
+    <!-- Don't use SVN $Date$ variable - it's localized and causes source archives to differ from the SVN tag -->
     <module name="RegexpSingleline">
       <property name="format" value="\$Date.+\$"/>
       <property name="message" value="Don't use SVN $Date$ variable"/>
