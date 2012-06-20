@@ -114,6 +114,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String TIMEOUT = _PREFIX + ".TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
 
+    /**
+     * Gets the singleton builder.
+     * 
+     * @return the singleton builder.
+     */
     public static SftpFileSystemConfigBuilder getInstance()
     {
         return BUILDER;
