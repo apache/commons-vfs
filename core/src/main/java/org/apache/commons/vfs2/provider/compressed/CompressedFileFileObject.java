@@ -44,7 +44,7 @@ public abstract class CompressedFileFileObject extends AbstractFileObject
         {
             basename = basename.substring(0, pos);
         }
-        children = new String[] { basename };
+        children = new String[]{ basename };
     }
 
     /**
