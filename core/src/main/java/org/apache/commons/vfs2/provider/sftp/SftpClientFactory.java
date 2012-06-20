@@ -72,6 +72,8 @@ public final class SftpClientFactory
         // new style - user passed
         File knownHostsFile = SftpFileSystemConfigBuilder.getInstance().getKnownHosts(fileSystemOptions);
         File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(fileSystemOptions);
+        IdentityRepositoryFactory repositoryFactory = 
+                SftpFileSystemConfigBuilder.getInstance().getIdentityRepositoryFactory(fileSystemOptions);
 
         if (knownHostsFile != null)
         {
@@ -102,6 +104,11 @@ public final class SftpClientFactory
                         knownHostsFile.getAbsolutePath(), e);
                 }
             }
+        }
+
+        if (repositoryFactory != null) 
+        {
+            jsch.setIdentityRepository(repositoryFactory.create(jsch));
         }
 
         if (identities != null)

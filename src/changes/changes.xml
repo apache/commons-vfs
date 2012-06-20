@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="">
+      <action issue="VFS-421" dev="ggregory" type="add" due-to="bpiwowar">
+        [SFTP] Configure a custom Identity Repository.
+      </action>
       <action issue="VFS-418" dev="ggregory" type="fix">
         Update to Apache Commons Compress 1.4.1.
       </action>

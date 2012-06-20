@@ -55,6 +55,8 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.sftp.SftpSubsystem;
 
+import com.jcraft.jsch.TestIdentityRepositoryFactory;
+
 /**
  * Tests cases for the SFTP provider.
  * <p>
@@ -295,6 +297,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         FileSystemOptions fileSystemOptions = new FileSystemOptions();
         SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(fileSystemOptions, "no");
         SftpFileSystemConfigBuilder.getInstance().setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
+        SftpFileSystemConfigBuilder.getInstance().setIdentityRepositoryFactory(fileSystemOptions, new TestIdentityRepositoryFactory());
 
         return manager.resolveFile(uri, fileSystemOptions);
     }

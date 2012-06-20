@@ -32,6 +32,7 @@ import com.jcraft.jsch.UserInfo;
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
 
+
     /**
      * Proxy type.
      */
@@ -97,6 +98,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String HOST_KEY_CHECK_NO = "no";
     private static final String HOST_KEY_CHECK_YES = "yes";
     private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
+    private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
     private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
     private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
     private static final String PROXY_HOST = _PREFIX + ".PROXY_HOST";
@@ -153,6 +155,18 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public File[] getIdentities(final FileSystemOptions opts)
     {
         return (File[]) this.getParam(opts, IDENTITIES);
+    }
+
+    /**
+     * Get the identity repository factory
+     * 
+     * @param opts
+     *            The FileSystem options.
+     * @return the IdentityRepositoryFactory
+     */
+    public IdentityRepositoryFactory getIdentityRepositoryFactory(FileSystemOptions opts)
+    {
+        return (IdentityRepositoryFactory) this.getParam(opts, IDENTITY_REPOSITORY_FACTORY);
     }
 
     /**
@@ -300,6 +314,23 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setIdentities(final FileSystemOptions opts, final File... identityFiles) throws FileSystemException
     {
         this.setParam(opts, IDENTITIES, identityFiles);
+    }
+
+    /**
+     * Set the identity repository. This is useful when you want to use e.g. an SSH agent as provided See for example
+     * 
+     * @param opts
+     *            The FileSystem options.
+     * @param factory
+     *            An identity repository.
+     * @throws FileSystemException
+     *             if an error occurs.
+     * @see <a href="http://www.jcraft.com/jsch-agent-proxy/">JSch agent proxy</a>
+     */
+    public void setIdentityRepositoryFactory(FileSystemOptions opts, IdentityRepositoryFactory factory)
+            throws FileSystemException
+    {
+        this.setParam(opts, IDENTITY_REPOSITORY_FACTORY, factory);
     }
 
     /**
