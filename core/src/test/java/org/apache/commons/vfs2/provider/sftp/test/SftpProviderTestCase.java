@@ -295,9 +295,10 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         }
 
         FileSystemOptions fileSystemOptions = new FileSystemOptions();
-        SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(fileSystemOptions, "no");
-        SftpFileSystemConfigBuilder.getInstance().setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
-        SftpFileSystemConfigBuilder.getInstance().setIdentityRepositoryFactory(fileSystemOptions, new TestIdentityRepositoryFactory());
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+        builder.setStrictHostKeyChecking(fileSystemOptions, "no");
+        builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
+        builder.setIdentityRepositoryFactory(fileSystemOptions, new TestIdentityRepositoryFactory());
 
         return manager.resolveFile(uri, fileSystemOptions);
     }

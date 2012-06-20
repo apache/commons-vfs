@@ -70,10 +70,10 @@ public final class SftpClientFactory
         File sshDir = null;
 
         // new style - user passed
-        File knownHostsFile = SftpFileSystemConfigBuilder.getInstance().getKnownHosts(fileSystemOptions);
-        File[] identities = SftpFileSystemConfigBuilder.getInstance().getIdentities(fileSystemOptions);
-        IdentityRepositoryFactory repositoryFactory = 
-                SftpFileSystemConfigBuilder.getInstance().getIdentityRepositoryFactory(fileSystemOptions);
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+        File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
+        File[] identities = builder.getIdentities(fileSystemOptions);
+        IdentityRepositoryFactory repositoryFactory = builder.getIdentityRepositoryFactory(fileSystemOptions);
 
         if (knownHostsFile != null)
         {
@@ -158,13 +158,13 @@ public final class SftpClientFactory
                 session.setPassword(new String(password));
             }
 
-            Integer timeout = SftpFileSystemConfigBuilder.getInstance().getTimeout(fileSystemOptions);
+            Integer timeout = builder.getTimeout(fileSystemOptions);
             if (timeout != null)
             {
                 session.setTimeout(timeout.intValue());
             }
 
-            UserInfo userInfo = SftpFileSystemConfigBuilder.getInstance().getUserInfo(fileSystemOptions);
+            UserInfo userInfo = builder.getUserInfo(fileSystemOptions);
             if (userInfo != null)
             {
                 session.setUserInfo(userInfo);
@@ -174,13 +174,13 @@ public final class SftpClientFactory
 
             //set StrictHostKeyChecking property
             String strictHostKeyChecking =
-                SftpFileSystemConfigBuilder.getInstance().getStrictHostKeyChecking(fileSystemOptions);
+                builder.getStrictHostKeyChecking(fileSystemOptions);
             if (strictHostKeyChecking != null)
             {
                 config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
             }
             //set PreferredAuthentications property
-            String preferredAuthentications = SftpFileSystemConfigBuilder.getInstance().
+            String preferredAuthentications = builder.
             getPreferredAuthentications(fileSystemOptions);
             if (preferredAuthentications != null)
             {
@@ -188,19 +188,19 @@ public final class SftpClientFactory
             }
 
             //set compression property
-            String compression = SftpFileSystemConfigBuilder.getInstance().getCompression(fileSystemOptions);
+            String compression = builder.getCompression(fileSystemOptions);
             if (compression != null)
             {
                 config.setProperty("compression.s2c", compression);
                 config.setProperty("compression.c2s", compression);
             }
 
-            String proxyHost = SftpFileSystemConfigBuilder.getInstance().getProxyHost(fileSystemOptions);
+            String proxyHost = builder.getProxyHost(fileSystemOptions);
             if (proxyHost != null)
             {
-                int proxyPort = SftpFileSystemConfigBuilder.getInstance().getProxyPort(fileSystemOptions);
+                int proxyPort = builder.getProxyPort(fileSystemOptions);
                 SftpFileSystemConfigBuilder.ProxyType proxyType =
-                    SftpFileSystemConfigBuilder.getInstance().getProxyType(fileSystemOptions);
+                    builder.getProxyType(fileSystemOptions);
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType))
                 {
@@ -243,7 +243,6 @@ public final class SftpClientFactory
         {
             throw new FileSystemException("vfs.provider.sftp/connect.error", exc, hostname);
         }
-
 
         return session;
     }
