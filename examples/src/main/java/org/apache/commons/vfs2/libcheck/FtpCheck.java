@@ -23,7 +23,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
 /**
- * Basic check for sftp
+ * Basic check for FTP.
  */
 public class FtpCheck
 {
