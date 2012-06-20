@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.url.test;
 
 import java.io.File;
-import java.net.URL;
 
 import junit.framework.Test;
 
