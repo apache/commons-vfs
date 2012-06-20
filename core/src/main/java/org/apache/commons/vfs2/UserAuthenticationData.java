@@ -34,8 +34,8 @@ public class UserAuthenticationData
         private final String type;
 
         /**
-         * Creates a new Type
-         * 
+         * Creates a new Type.
+         *
          * @param type the type
          */
         public Type(String type)
