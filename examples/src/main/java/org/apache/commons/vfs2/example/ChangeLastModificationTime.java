@@ -20,7 +20,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 
 /**
- * Simply changed the last modification time of the given file
+ * Simply changed the last modification time of the given file.
  */
 public class ChangeLastModificationTime
 {
