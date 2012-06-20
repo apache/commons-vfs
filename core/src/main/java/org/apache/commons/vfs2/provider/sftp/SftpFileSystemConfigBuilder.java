@@ -200,7 +200,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the proxy to use for the SFTP connection. You have to set the ProxyPort too if you would like to have the proxy
-     * relly used.
+     * really used.
      * 
      * @param opts
      *            The FileSystem options.
