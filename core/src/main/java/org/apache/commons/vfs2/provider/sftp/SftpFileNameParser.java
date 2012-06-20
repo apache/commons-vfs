@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 public class SftpFileNameParser extends URLFileNameParser
 {
     private static final int DEFAULT_PORT = 22;
-    
+
     private static final SftpFileNameParser INSTANCE = new SftpFileNameParser();
 
     public SftpFileNameParser()

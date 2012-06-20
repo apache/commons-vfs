@@ -66,7 +66,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetType()
      */
     @Override
@@ -77,7 +77,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doListChildren()
      */
     @Override
@@ -88,7 +88,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetContentSize()
      */
     @Override
@@ -99,7 +99,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetInputStream()
      */
     @Override
@@ -116,7 +116,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream(boolean)
      */
     @Override
@@ -131,7 +131,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doDelete()
      */
     @Override
@@ -147,7 +147,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
      */
     @Override
@@ -158,7 +158,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetLastModifiedTime(long)
      */
     /** @since 2.0 */
@@ -171,7 +171,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doCreateFolder()
      */
     @Override
@@ -183,7 +183,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(org.apache.commons.vfs2.FileObject)
      */
     @Override
@@ -195,7 +195,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetRandomAccessContent(
      * org.apache.commons.vfs2.util.RandomAccessMode)
      */
@@ -207,7 +207,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doAttach()
      */
     @Override
@@ -235,7 +235,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#injectType(org.apache.commons.vfs2.FileType)
      */
     @Override
@@ -247,7 +247,7 @@ public class RamFileObject extends AbstractFileObject
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#endOutput()
      */
     @Override

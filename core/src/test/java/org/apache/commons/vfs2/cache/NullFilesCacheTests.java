@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
  * NullFilesCache
- * 
+ *
  */
 public class NullFilesCacheTests extends AbstractProviderTestCase
 {

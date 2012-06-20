@@ -37,7 +37,7 @@ public class UrlTests
     public void testHashURL() throws Exception
     {
         final FileObject file = getReadFolder().resolveFile("test-hash-#test.txt");
-        
+
         assertEquals(file.toString(), UriParser.decode(file.getURL().toString()));
     }
 
@@ -47,9 +47,9 @@ public class UrlTests
     public void testHashFindFiles() throws Exception
     {
         FileSystemManager fsManager = VFS.getManager();
-        
+
         FileObject[] foList = getBaseFolder().findFiles(Selectors.SELECT_FILES);
-        
+
         boolean hashFileFound = false;
         for (FileObject fo : foList)
         {
@@ -60,7 +60,7 @@ public class UrlTests
                 assertEquals(fo.toString(), UriParser.decode(fo.getURL().toString()));
             }
         }
-        
+
         if (!hashFileFound)
         {
             fail("Test hash file containing 'test-hash' not found");

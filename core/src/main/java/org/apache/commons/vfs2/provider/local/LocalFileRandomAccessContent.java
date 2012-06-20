@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * Implements {@link RandomAccessContent} for local files.
- * 
+ *
  * @version $Id$
  */
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent

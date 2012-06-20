@@ -47,8 +47,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     public static final String FTPS_TYPE_IMPLICIT = "implicit";
     public static final String FTPS_TYPE_EXPLICIT = "explicit";
 
-    // For VFS-412                    
-//  private static final String PROT = 
+    // For VFS-412
+//  private static final String PROT =
 //          FtpsFileSystemConfigBuilder.class.getName() + ".PROT";
 
     private FtpsFileSystemConfigBuilder()
@@ -57,7 +57,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the singleton builder.
-     * 
+     *
      * @return the singleton builder.
      */
     public static FtpsFileSystemConfigBuilder getInstance()
@@ -322,11 +322,11 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
         setParam(opts, SHORT_MONTH_NAMES, clone);
     }
 
-    
-// For VFS-412                    
+
+// For VFS-412
 //    /**
 //     * Gets the data channel protection level (PROT).
-//     * 
+//     *
 //     * @param opts The FileSystemOptions.
 //     * @return The PROT value.
 //     * @see org.apache.commons.net.ftp.FTPSClient#execPROT(String)

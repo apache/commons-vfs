@@ -30,7 +30,7 @@ public class FreeSocketPortUtil
 
     /**
      * Finds a free local socket port.
-     * 
+     *
      * @return a free local socket port.
      * @throws IOException
      */

@@ -35,7 +35,7 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
 
     /**
      * Gets the singleton builder.
-     * 
+     *
      * @return the singleton builder.
      */
     public static ResourceFileSystemConfigBuilder getInstance()

@@ -122,7 +122,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
             {
                 int retLen = -1;
                 final int left = getLeftBytes();
-                if (left > 0) 
+                if (left > 0)
                 {
                     retLen = Math.min(len, left);
                     RamFileRandomAccessContent.this.readFully(b, off, retLen);
@@ -155,7 +155,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
      */
     public void seek(long pos) throws IOException
     {
-        if (pos < 0) 
+        if (pos < 0)
         {
             throw new IOException("Attempt to position before the start of the file");
         }

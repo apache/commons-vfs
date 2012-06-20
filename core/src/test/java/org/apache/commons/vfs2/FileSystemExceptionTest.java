@@ -32,7 +32,7 @@ public class FileSystemExceptionTest {
     @Test
     public void testMasksPasswordOfUrlsWithBasicAuthentication() {
         final FileSystemException fse = new FileSystemException(
-            "vfs.provider/rename.error", 
+            "vfs.provider/rename.error",
             "file://test.bin", "http://foo:bar@junit.org/test.bin");
 
         assertEquals("file://test.bin", fse.getInfo()[0]);

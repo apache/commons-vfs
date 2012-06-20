@@ -47,7 +47,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the singleton instance.
-     * 
+     *
      * @return the singleton instance.
      */
     public static FtpFileSystemConfigBuilder getInstance()
@@ -68,7 +68,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the timeout in milliseconds to use for the socket connection.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return The timeout in milliseconds to use for the socket connection.
      * @since 2.1
@@ -131,7 +131,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the file type parameter.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return A FtpFileType
      * @since 2.1
@@ -218,7 +218,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * If you set the connectTimeout to <code>null</code> no connectTimeout will be set.
      * </p>
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @param connectTimeout the timeout value in milliseconds
      * @since 2.1
@@ -291,7 +291,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the file type parameter.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @param ftpFileType A FtpFileType
      * @since 2.1

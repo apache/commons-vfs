@@ -50,7 +50,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Test cases for the WebDAV provider.
- * 
+ *
  */
 public class WebdavProviderTestCase extends AbstractProviderTestConfig
 {
@@ -227,7 +227,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates and starts an embedded Apache WebDAV Server (Jackrabbit).
-     * 
+     *
      * @throws Exception
      */
     private static void setUpClass() throws Exception
@@ -245,7 +245,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Starts an embedded Apache Jackrabbit server.
-     * 
+     *
      * @param repoDirectory
      * @throws Exception
      */
@@ -296,7 +296,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
      * <li>Remove temporary repository directory.</li>
      * </ol>
      * Stops the embedded Apache WebDAV Server.
-     * 
+     *
      * @throws Exception
      * @throws
      */

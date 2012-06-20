@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * Random set length test cases for file providers.
- * 
+ *
  * @version $Id$
  */
 public class ProviderRandomSetLengthTests extends AbstractProviderTestCase

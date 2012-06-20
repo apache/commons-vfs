@@ -33,7 +33,7 @@ public final class UserAuthenticatorUtils
     /**
      * Gets data of given type from the UserAuthenticationData or null if there is no data or data
      * of this type available.
-     * 
+     *
      * @param data The UserAuthenticationData.
      * @param type The type of the element to retrieve.
      * @param overriddenValue The default value.
@@ -57,7 +57,7 @@ public final class UserAuthenticatorUtils
 
     /**
      * Authenticates if there is an authenticator, else returns null.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
@@ -71,7 +71,7 @@ public final class UserAuthenticatorUtils
 
     /**
      * Authenticates if there is an authenticator, else returns null.
-     * 
+     *
      * @param auth The UserAuthenticator.
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
@@ -89,7 +89,7 @@ public final class UserAuthenticatorUtils
 
     /**
      * Converts a string to a char array (null-safe).
-     * 
+     *
      * @param string The String to convert.
      * @return The character array.
      */
@@ -105,7 +105,7 @@ public final class UserAuthenticatorUtils
 
     /**
      * Cleans up the data in the UerAuthenticationData (null-safe).
-     * 
+     *
      * @param authData The UserAuthenticationDAta.
      */
     public static void cleanup(UserAuthenticationData authData)
@@ -120,7 +120,7 @@ public final class UserAuthenticatorUtils
 
     /**
      * Converts the given data to a string (null-safe).
-     * 
+     *
      * @param data A character array containing the data to convert to a String.
      * @return The String.
      */

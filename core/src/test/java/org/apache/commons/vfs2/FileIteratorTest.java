@@ -36,7 +36,7 @@ public class FileIteratorTest
 
     /**
      * Creates a RAM FS.
-     * 
+     *
      * @throws Exception
      */
     @BeforeClass
@@ -61,7 +61,7 @@ public class FileIteratorTest
 
     /**
      * Deletes RAM FS files.
-     * 
+     *
      * @throws Exception
      */
     @AfterClass

@@ -106,7 +106,7 @@ public final class SftpClientFactory
             }
         }
 
-        if (repositoryFactory != null) 
+        if (repositoryFactory != null)
         {
             jsch.setIdentityRepository(repositoryFactory.create(jsch));
         }

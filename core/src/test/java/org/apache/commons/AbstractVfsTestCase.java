@@ -114,7 +114,7 @@ public abstract class AbstractVfsTestCase
 
     /**
      * Returns the test directory as a String.
-     * 
+     *
      * @return the test directory as a String
      */
     public static String getTestDirectoryString()

@@ -28,9 +28,9 @@ import javax.jcr.Value;
 
 /**
  * Collection of static utility methods for use with the JCR 1.0 API and Apache Jackrabbit 1.5.2.
- * 
+ *
  * Copied, adapted and pruned down from Jackrabbit 2.4.0.
- * 
+ *
  * @since 2.1
  */
 class JcrUtils
@@ -59,7 +59,7 @@ class JcrUtils
      * Note that the type of the returned node is <em>not</em> guaranteed to match nt:folder in case the node already existed. The caller
      * can use an explicit {@link Node#isNodeType(String)} check if needed, or simply use a data-first approach and not worry about the node
      * type until a constraint violation is encountered.
-     * 
+     *
      * @param parent
      *            parent node
      * @param name
@@ -76,7 +76,7 @@ class JcrUtils
     /**
      * Returns the named child of the given node, creating the child if it does not already exist. If the child node gets added, then it is
      * created with the given node type. The caller is expected to take care of saving or discarding any transient changes.
-     * 
+     *
      * @see Node#getNode(String)
      * @see Node#addNode(String, String)
      * @see Node#isNodeType(String)
@@ -123,7 +123,7 @@ class JcrUtils
      * data-first approach and not worry about the node type until a constraint violation is encountered.
      * <p>
      * The given binary content stream is closed by this method.
-     * 
+     *
      * @param parent
      *            parent node
      * @param name
@@ -163,7 +163,7 @@ class JcrUtils
      * data-first approach and not worry about the node type until a constraint violation is encountered.
      * <p>
      * The given binary content stream is closed by this method.
-     * 
+     *
      * @param parent
      *            parent node
      * @param name

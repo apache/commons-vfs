@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 
 /**
  * Test configuration for a file system.
- * 
+ *
  */
 public interface ProviderTestConfig {
     /**
@@ -52,9 +52,9 @@ public interface ProviderTestConfig {
 
     /**
      * Whether or not the root of test file system is accessible.
-     * 
+     *
      * For example, with the default Jackrabbit (WebDAV) server, the root is not accessible, but deeper paths are OK.
-     * 
+     *
      * @return Whether or not the root of test file system is accessible.
      */
     boolean isFileSystemRootAccessible();

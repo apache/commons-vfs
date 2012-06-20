@@ -62,7 +62,7 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
  * <p>
  * Starts and stops an embedded Apache SSHd (MINA) server.
  * </p>
- * 
+ *
  */
 public class SftpProviderTestCase extends AbstractProviderTestConfig
 {
@@ -163,7 +163,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates and starts an embedded Apache SSHd Server (MINA).
-     * 
+     *
      * @throws FtpException
      * @throws IOException
      */
@@ -264,7 +264,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Stops the embedded Apache SSHd Server (MINA).
-     * 
+     *
      * @throws InterruptedException
      */
     private static void tearDownClass() throws InterruptedException

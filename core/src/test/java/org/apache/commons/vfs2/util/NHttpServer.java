@@ -93,7 +93,7 @@ import org.apache.http.protocol.ResponseServer;
 
 /**
  * Adapted from org.apache.http.examples.nio.NHttpServer.
- * 
+ *
  * <p>
  * HTTP/1.1 file server based on the non-blocking I/O model and capable of direct channel (zero copy) data transfer.
  * </p>
@@ -101,7 +101,7 @@ import org.apache.http.protocol.ResponseServer;
  * Please note the purpose of this application is demonstrate the usage of HttpCore APIs. It is NOT intended to
  * demonstrate the most efficient way of building an HTTP server.
  * </p>
- * 
+ *
  * @version $Id$
  * @since 2.1
  */

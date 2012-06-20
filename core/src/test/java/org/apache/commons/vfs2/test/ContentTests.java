@@ -98,7 +98,7 @@ public class ContentTests
     public void testAttributes() throws FileSystemException {
         this.getReadFolder().getContent().getAttributes();
     }
-    
+
     /**
      * Tests root of file system exists.
      */
@@ -117,7 +117,7 @@ public class ContentTests
      * Tests root of file system exists.
      */
     public void testRootAPI() throws FileSystemException
-    {        
+    {
         if (!this.getProviderConfig().isFileSystemRootAccessible())
         {
             return;

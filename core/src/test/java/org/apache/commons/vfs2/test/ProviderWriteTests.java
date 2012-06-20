@@ -691,7 +691,7 @@ public class ProviderWriteTests
             assertEquals("Missing event", 0, events.size());
         }
     }
-    
+
     /**
      * Tests file write to and from the same filesystem type
      */
@@ -734,7 +734,7 @@ public class ProviderWriteTests
         } finally {
             outputStream.close();
         }
-        assertSameContent(expectedString, fileTarget);            
+        assertSameContent(expectedString, fileTarget);
         //
         // Tests FileContent#write(OutputStream, int)
         outputStream = fileTarget.getContent().getOutputStream();
@@ -743,7 +743,7 @@ public class ProviderWriteTests
         } finally {
             outputStream.close();
         }
-        assertSameContent(expectedString, fileTarget);            
+        assertSameContent(expectedString, fileTarget);
     }
 
     /**

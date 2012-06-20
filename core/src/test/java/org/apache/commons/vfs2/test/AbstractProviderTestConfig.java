@@ -53,7 +53,7 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
 
         return cache;
     }
-    
+
     public boolean isFileSystemRootAccessible()
     {
         return true;

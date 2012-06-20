@@ -23,7 +23,7 @@ import org.junit.Test;
 
 /**
  * Tests FileTypeSelector.
- * 
+ *
  * @since 2.1
  */
 public class FileTypeSelectorTest
@@ -32,7 +32,7 @@ public class FileTypeSelectorTest
 
     /**
      * Creates a RAM FS.
-     * 
+     *
      * @throws Exception
      */
     @BeforeClass
@@ -51,7 +51,7 @@ public class FileTypeSelectorTest
 
     /**
      * Deletes RAM FS files.
-     * 
+     *
      * @throws Exception
      */
     @AfterClass

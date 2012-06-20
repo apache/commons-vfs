@@ -30,7 +30,7 @@ import org.junit.Test;
 
 /**
  * Tests FileObject sorting.
- * 
+ *
  * $Id$
  */
 public class FileObjectSortTestCase {
@@ -68,7 +68,7 @@ public class FileObjectSortTestCase {
 
     /**
      * Tests that sorting ignores case.
-     * 
+     *
      * @throws FileSystemException
      */
     @Test
@@ -84,7 +84,7 @@ public class FileObjectSortTestCase {
 
     /**
      * Tests sorting an array
-     * 
+     *
      * @throws FileSystemException
      */
     @Test
@@ -97,7 +97,7 @@ public class FileObjectSortTestCase {
 
     /**
      * Tests that sorting an array already in oder does not mess it up.
-     * 
+     *
      * @throws FileSystemException
      */
     @Test
@@ -109,7 +109,7 @@ public class FileObjectSortTestCase {
 
     /**
      * Tests sorting a list
-     * 
+     *
      * @throws FileSystemException
      */
     @Test
@@ -123,7 +123,7 @@ public class FileObjectSortTestCase {
 
     /**
      * Tests that sorting a list already in oder does not mess it up.
-     * 
+     *
      * @throws FileSystemException
      */
     @Test

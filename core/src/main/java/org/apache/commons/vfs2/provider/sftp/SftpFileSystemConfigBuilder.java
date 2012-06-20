@@ -116,7 +116,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the singleton builder.
-     * 
+     *
      * @return the singleton builder.
      */
     public static SftpFileSystemConfigBuilder getInstance()
@@ -151,7 +151,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
      * </p>
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return the array of identity Files.
@@ -164,7 +164,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Get the identity repository factory
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return the IdentityRepositoryFactory
@@ -187,7 +187,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets authentication order.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return The authentication order.
@@ -201,7 +201,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Gets the proxy to use for the SFTP connection. You have to set the ProxyPort too if you would like to have the proxy
      * really used.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return proxyHost
@@ -215,7 +215,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Gets the proxy-port to use for the SFTP the connection You have to set the ProxyHost too if you would like to have the
      * proxy really used.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return proxyPort: the port number or 0 if it is not set
@@ -228,7 +228,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the proxy type to use for the SFTP connection.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return The ProxyType.
@@ -290,7 +290,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * See the Jsch documentation for details.
      * </p>
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param compression
@@ -308,7 +308,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
      * </p>
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param identityFiles
@@ -323,7 +323,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Set the identity repository. This is useful when you want to use e.g. an SSH agent as provided See for example
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param factory
@@ -343,7 +343,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
      * </p>
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param sshdir
@@ -358,7 +358,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Configures authentication order.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param preferredAuthentications
@@ -372,9 +372,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the proxy to use for the SFTP connection.
-     * 
+     *
      * You MUST also set the ProxyPort to use the proxy.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param proxyHost
@@ -387,10 +387,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Sets the proxy port to use for the SFTP connection. 
-     * 
+     * Sets the proxy port to use for the SFTP connection.
+     *
      * You MUST also set the ProxyHost to use the proxy.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param proxyPort
@@ -404,7 +404,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the proxy type to use for the SFTP connection.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param proxyType
@@ -423,7 +423,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * See the jsch documentation for details.
      * </p>
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param hostKeyChecking
@@ -446,7 +446,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the timeout value on Jsch session.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param timeout
@@ -459,7 +459,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the whether to use the user directory as root (do not change to file system root).
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param userDirIsRoot
@@ -472,7 +472,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the Jsch UserInfo class to use.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param info

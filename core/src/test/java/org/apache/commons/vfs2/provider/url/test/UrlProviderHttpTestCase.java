@@ -32,7 +32,7 @@ import org.apache.commons.vfs2.util.NHttpServer;
 
 /**
  * Test cases for HTTP with the default provider.
- * 
+ *
  */
 public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
 {
@@ -54,7 +54,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates and starts an embedded Apache HTTP Server ().
-     * 
+     *
      * @throws Exception
      */
     private static void setUpClass() throws Exception
@@ -91,7 +91,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
 
     /**
      * Stops the embedded Apache HTTP Server ().
-     * 
+     *
      * @throws IOException
      */
     private static void tearDownClass() throws IOException

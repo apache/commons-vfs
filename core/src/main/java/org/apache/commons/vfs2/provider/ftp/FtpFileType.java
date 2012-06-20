@@ -20,7 +20,7 @@ import org.apache.commons.net.ftp.FTP;
 
 /**
  * The FTP file types.
- * 
+ *
  * @since 2.1
  */
 public enum FtpFileType
@@ -52,7 +52,7 @@ public enum FtpFileType
 
     /**
      * Constructs a file type.
-     * 
+     *
      * @param fileType
      *            The Apache Commons Net FTP file type.
      */
@@ -63,7 +63,7 @@ public enum FtpFileType
 
     /**
      * Gets the Apache Commons Net FTP file type.
-     * 
+     *
      * @return
      */
     int getValue()

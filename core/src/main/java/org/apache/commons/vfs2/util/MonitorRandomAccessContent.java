@@ -187,7 +187,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent
     {
         content.setLength(newLength);
     }
-    
+
     public boolean readBoolean() throws IOException
     {
         return content.readBoolean();

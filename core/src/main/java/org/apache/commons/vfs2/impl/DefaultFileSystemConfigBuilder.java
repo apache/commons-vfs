@@ -32,7 +32,7 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the singleton builder.
-     * 
+     *
      * @return the singleton builder.
      */
     public static DefaultFileSystemConfigBuilder getInstance()

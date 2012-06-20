@@ -21,7 +21,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * 
+ *
  * @version $Id$
  */
 public class UriParserTestCase

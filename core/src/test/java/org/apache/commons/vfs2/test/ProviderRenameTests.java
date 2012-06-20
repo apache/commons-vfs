@@ -119,7 +119,7 @@ public class ProviderRenameTests
 
     /**
      * Moves a file from a child folder to a parent folder to test what happens when the original folder is now empty.
-     * 
+     *
      * See [VFS-298] FTP: Exception is thrown when renaming a file.
      */
     public void testRenameFileAndLeaveFolderEmpty() throws Exception
@@ -136,5 +136,5 @@ public class ProviderRenameTests
         // Make sure we can move the new file to another file on the same file system
         moveFile(scratchFolder, file, content);
         assertTrue(folder.getChildren().length == 0);
-    }    
+    }
 }

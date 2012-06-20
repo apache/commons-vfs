@@ -44,7 +44,7 @@ import org.junit.Assert;
 
 /**
  * Tests for FTP file systems.
- * 
+ *
  * This is test fails because we cannot read from more than two input streams at the same time.
  */
 public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig implements ProviderTestConfig
@@ -92,7 +92,7 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
-     * 
+     *
      * @throws FtpException
      * @throws IOException
      */

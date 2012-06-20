@@ -34,7 +34,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * <p>
      * If this file has an associated channel then the channel is closed as well.
      * <p>
-     * 
+     *
      * @throws IOException
      *             if an I/O error occurs.
      */
@@ -42,7 +42,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
 
     /**
      * Returns the current offset in this file.
-     * 
+     *
      * @return the offset from the beginning of the file, in bytes, at which the next read or write occurs.
      * @throws IOException
      *             if an I/O error occurs.
@@ -54,7 +54,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * <p>
      * <b>Notice: If you use {@link #seek(long)} you have to re-get the InputStream</b>
      * </p>
-     * 
+     *
      * @return the InputStream.
      * @throws IOException
      *             if an I/O error occurs.
@@ -63,7 +63,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
 
     /**
      * Returns the length of this file.
-     * 
+     *
      * @return the length of this file, measured in bytes.
      * @throws IOException
      *             if an I/O error occurs.
@@ -81,7 +81,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * <b>Notice: If you use {@link #getInputStream()} you have to re-get the InputStream after calling
      * {@link #seek(long)}</b>
      * </p>
-     * 
+     *
      * @param pos
      *            the offset position, measured in bytes from the beginning of the file, at which to set the file
      *            pointer.
@@ -92,15 +92,15 @@ public interface RandomAccessContent extends DataOutput, DataInput
 
     /**
      * Sets the length of this content.
-     * 
+     *
      * <p>
      * If the the {@code newLength} argument is smaller than {@link #length()}, the content is truncated.
      * </p>
-     * 
+     *
      * <p>
      * If the the {@code newLength} argument is greater than {@link #length()}, the content grows with undefined data.
      * </p>
-     * 
+     *
      * @param newLength
      *            The desired content length
      * @exception IOException

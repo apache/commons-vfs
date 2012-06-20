@@ -145,8 +145,8 @@ public final class FtpsClientFactory
                 {
                     client.connect(hostname, port);
 
-// For VFS-412                    
-//                    String execPROT = FtpsFileSystemConfigBuilder.getInstance().getDataChannelProtectionLevel(fileSystemOptions); 
+// For VFS-412
+//                    String execPROT = FtpsFileSystemConfigBuilder.getInstance().getDataChannelProtectionLevel(fileSystemOptions);
 //                    if (execPROT != null)
 //                    {
 //                        client.execPROT(execPROT);

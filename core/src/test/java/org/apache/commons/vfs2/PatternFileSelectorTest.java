@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /**
  * Tests FileExtensionSelector.
- * 
+ *
  * @since 2.1
  */
 public class PatternFileSelectorTest
@@ -45,7 +45,7 @@ public class PatternFileSelectorTest
 
     /**
      * Creates a RAM FS.
-     * 
+     *
      * @throws Exception
      */
     @BeforeClass
@@ -67,7 +67,7 @@ public class PatternFileSelectorTest
 
     /**
      * Deletes RAM FS files.
-     * 
+     *
      * @throws Exception
      */
     @AfterClass
@@ -81,7 +81,7 @@ public class PatternFileSelectorTest
 
     /**
      * Tests a null selector.
-     * 
+     *
      * @throws Exception
      */
     @Test(expected = NullPointerException.class)
@@ -93,7 +93,7 @@ public class PatternFileSelectorTest
 
     /**
      * Tests matching all
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -105,7 +105,7 @@ public class PatternFileSelectorTest
 
     /**
      * Tests a one extension selector.
-     * 
+     *
      * @throws Exception
      */
     @Test

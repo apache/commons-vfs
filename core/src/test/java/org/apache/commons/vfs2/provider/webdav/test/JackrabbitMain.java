@@ -44,9 +44,9 @@ import org.mortbay.jetty.webapp.WebAppContext;
 
 /**
  * Manages a Jackrabbit server instance.
- * 
+ *
  * Copied and minimally changed from Jackrabbit's Main class in 1.5.2 to add a shutdown method.
- * 
+ *
  * @since 2.1
  */
 class JackrabbitMain

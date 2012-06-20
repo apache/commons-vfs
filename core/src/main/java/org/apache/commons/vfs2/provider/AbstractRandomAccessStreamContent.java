@@ -108,9 +108,9 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     {
         return getDataInputStream();
     }
-    
+
     public void setLength(long newLength) throws IOException
     {
-        throw new UnsupportedOperationException();        
+        throw new UnsupportedOperationException();
     }
 }
