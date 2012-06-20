@@ -37,7 +37,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * <p>
  * A file may have multiple InputStreams open at the same time.
  * </p>
- * 
+ *
  * @see FileObject#getContent
  */
 public interface FileContent extends Closeable
