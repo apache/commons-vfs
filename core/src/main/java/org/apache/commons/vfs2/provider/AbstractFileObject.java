@@ -66,7 +66,7 @@ public abstract class AbstractFileObject implements FileObject
     // private static final FileObject[] EMPTY_FILE_ARRAY = {};
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 
-    private static final int INITIAL_LISTSZ = 5;
+    private static final int INITIAL_LIST_SIZE = 5;
 
     private final AbstractFileName name;
     private final AbstractFileSystem fs;
@@ -1896,7 +1896,7 @@ public abstract class AbstractFileObject implements FileObject
     {
         if (objects == null)
         {
-            objects = new ArrayList<Object>(INITIAL_LISTSZ);
+            objects = new ArrayList<Object>(INITIAL_LIST_SIZE);
         }
         objects.add(strongRef);
     }
