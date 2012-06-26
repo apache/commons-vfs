@@ -30,180 +30,180 @@ import org.apache.commons.vfs2.NameScope;
  */
 public class SynchronizedFileObject extends DecoratedFileObject
 {
-        public SynchronizedFileObject(FileObject fileObject)
-        {
-                super(fileObject);
-        }
+    public SynchronizedFileObject(FileObject fileObject)
+    {
+        super(fileObject);
+    }
 
-        @Override
-        public void close() throws FileSystemException
+    @Override
+    public void close() throws FileSystemException
     {
         synchronized (this)
         {
-                    super.close();
+            super.close();
         }
     }
 
-        @Override
-        public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
-        {
+    @Override
+    public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
+    {
         synchronized (this)
         {
-                super.copyFrom(srcFile, selector);
+            super.copyFrom(srcFile, selector);
         }
     }
 
-        @Override
-        public void createFile() throws FileSystemException
-        {
+    @Override
+    public void createFile() throws FileSystemException
+    {
         synchronized (this)
         {
-                super.createFile();
+            super.createFile();
         }
     }
 
-        @Override
-        public void createFolder() throws FileSystemException
-        {
+    @Override
+    public void createFolder() throws FileSystemException
+    {
         synchronized (this)
         {
-                super.createFolder();
+            super.createFolder();
         }
     }
 
-        @Override
-        public boolean delete() throws FileSystemException
-        {
+    @Override
+    public boolean delete() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.delete();
+            return super.delete();
         }
     }
 
-        @Override
-        public int delete(FileSelector selector) throws FileSystemException
-        {
+    @Override
+    public int delete(FileSelector selector) throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.delete(selector);
+            return super.delete(selector);
         }
     }
 
-        @Override
-        public boolean exists() throws FileSystemException
-        {
+    @Override
+    public boolean exists() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.exists();
+            return super.exists();
         }
     }
 
-        @Override
-        public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected)
+    @Override
+    public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected)
             throws FileSystemException
-        {
+    {
         synchronized (this)
         {
-                super.findFiles(selector, depthwise, selected);
+            super.findFiles(selector, depthwise, selected);
         }
     }
 
-        @Override
-        public FileObject[] findFiles(FileSelector selector) throws FileSystemException
-        {
+    @Override
+    public FileObject[] findFiles(FileSelector selector) throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.findFiles(selector);
+            return super.findFiles(selector);
         }
     }
 
-        @Override
-        public FileObject getChild(String name) throws FileSystemException
-        {
+    @Override
+    public FileObject getChild(String name) throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.getChild(name);
+            return super.getChild(name);
         }
     }
 
-        @Override
-        public FileObject[] getChildren() throws FileSystemException
-        {
+    @Override
+    public FileObject[] getChildren() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.getChildren();
+            return super.getChildren();
         }
     }
 
-        @Override
-        public FileContent getContent() throws FileSystemException
-        {
+    @Override
+    public FileContent getContent() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.getContent();
+            return super.getContent();
         }
     }
 
-        @Override
-        public FileType getType() throws FileSystemException
-        {
+    @Override
+    public FileType getType() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.getType();
+            return super.getType();
         }
     }
 
-        @Override
-        public boolean isHidden() throws FileSystemException
-        {
+    @Override
+    public boolean isHidden() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.isHidden();
+            return super.isHidden();
         }
     }
 
-        @Override
-        public boolean isReadable() throws FileSystemException
-        {
+    @Override
+    public boolean isReadable() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.isReadable();
+            return super.isReadable();
         }
     }
 
-        @Override
-        public boolean isWriteable() throws FileSystemException
-        {
+    @Override
+    public boolean isWriteable() throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.isWriteable();
+            return super.isWriteable();
         }
     }
 
-        @Override
-        public void moveTo(FileObject destFile) throws FileSystemException
-        {
+    @Override
+    public void moveTo(FileObject destFile) throws FileSystemException
+    {
         synchronized (this)
         {
-                super.moveTo(destFile);
+            super.moveTo(destFile);
         }
     }
 
-        @Override
-        public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
-        {
+    @Override
+    public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.resolveFile(name, scope);
+            return super.resolveFile(name, scope);
         }
     }
 
-        @Override
-        public FileObject resolveFile(String path) throws FileSystemException
-        {
+    @Override
+    public FileObject resolveFile(String path) throws FileSystemException
+    {
         synchronized (this)
         {
-                return super.resolveFile(path);
+            return super.resolveFile(path);
         }
     }
 }
