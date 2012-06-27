@@ -22,6 +22,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -35,6 +37,18 @@ import org.apache.commons.vfs2.FileType;
  */
 public class ProviderReadTests extends AbstractProviderTestCase
 {
+    
+    /**
+     * Returns the read folder named "dir1". 
+     * 
+     * @return the read folder named "dir1".
+     * @throws FileSystemException
+     */
+    protected FileObject getReadFolderDir1() throws FileSystemException
+    {
+        return getReadFolder().resolveFile("dir1");
+    }
+    
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -131,7 +145,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
         assertTrue(file.isFile());
 
         // Test a folder
-        file = getReadFolder().resolveFile("dir1");
+        file = getReadFolderDir1();
         assertSame(FileType.FOLDER, file.getType());
         assertTrue(file.isFolder());
 
@@ -198,7 +212,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
         }
 
         // Try getting the content of a folder
-        FileObject folder = getReadFolder().resolveFile("dir1");
+        FileObject folder = getReadFolderDir1();
         try
         {
             folder.getContent().getInputStream();
@@ -210,13 +224,31 @@ public class ProviderReadTests extends AbstractProviderTestCase
     }
 
     /**
+     * Tests that test read folder is not hidden.
+     */
+    public void testFolderIsHidden() throws Exception    
+    {
+        FileObject folder = getReadFolderDir1();
+        Assert.assertFalse(folder.isHidden());
+    }
+
+    /**
+     * Tests that test read folder is readable.
+     */
+    public void testFolderIsReadable() throws Exception    
+    {
+        FileObject folder = getReadFolderDir1();
+        Assert.assertTrue(folder.isReadable());
+    }
+    
+/**
      * Tests can perform operations on a folder while reading from a different files.
      */
     public void testConcurrentReadFolder() throws Exception
     {
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
-        final FileObject folder = getReadFolder().resolveFile("dir1");
+        final FileObject folder = getReadFolderDir1();
         assertTrue(folder.exists());
 
         // Start reading from the file
