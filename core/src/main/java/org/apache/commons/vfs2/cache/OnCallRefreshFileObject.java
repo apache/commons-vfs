@@ -129,6 +129,13 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
+    public boolean isExecutable() throws FileSystemException
+    {
+        refresh();
+        return super.isExecutable();
+    }
+
+    @Override
     public boolean isHidden() throws FileSystemException
     {
         refresh();

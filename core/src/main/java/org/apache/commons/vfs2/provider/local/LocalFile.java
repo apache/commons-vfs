@@ -165,6 +165,15 @@ public class LocalFile extends AbstractFileObject
      * Determines if this file is hidden.
      */
     @Override
+    protected boolean doIsExecutable()
+    {
+        return file.canExecute();
+    }
+
+    /**
+     * Determines if this file is hidden.
+     */
+    @Override
     protected boolean doIsHidden()
     {
         return file.isHidden();

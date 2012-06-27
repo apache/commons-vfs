@@ -102,6 +102,14 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean exists() throws FileSystemException;
 
     /**
+     * Determines if this file is executable.
+     *
+     * @return <code>true</code> if this file is executable, <code>false</code> if not.
+     * @throws FileSystemException On error determining if this file exists.
+     */
+    boolean isExecutable() throws FileSystemException;
+
+    /**
      * Determines if this file is hidden.
      *
      * @return <code>true</code> if this file is hidden, <code>false</code> if not.

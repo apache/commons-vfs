@@ -137,6 +137,19 @@ public abstract class AbstractFileObject implements FileObject
     protected abstract FileType doGetType() throws Exception;
 
     /**
+     * Determines if this file is executable.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation always returns false.
+     * @return true if the file is executable, false otherwise.
+     * @throws Exception if an error occurs.
+     */
+    protected boolean doIsExecutable() throws Exception
+    {
+        return false;
+    }
+
+    /**
      * Determines if this file is hidden.  Is only called if {@link #doGetType}
      * does not return {@link FileType#IMAGINARY}.
      * <p/>
@@ -534,6 +547,29 @@ public abstract class AbstractFileObject implements FileObject
     {
         // Use equals instead of == to avoid any class loader worries.
         return FileType.FOLDER.equals(this.getType());
+    }
+
+    /**
+     * Determines if this file is executable.
+     *
+     * @return <code>true</code> if this file is executable, <code>false</code> if not.
+     * @throws FileSystemException On error determining if this file exists.
+     */
+    public boolean isExecutable() throws FileSystemException
+    {
+        try
+        {
+            if (exists())
+            {
+                return doIsExecutable();
+            } else
+            {
+                return false;
+            }
+        } catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/check-is-executable.error", name, exc);
+        }
     }
 
     /**

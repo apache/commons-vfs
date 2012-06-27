@@ -53,6 +53,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertSame(FileType.FILE, file.getType());
         assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
+        assertFalse(file.isExecutable());
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
@@ -107,6 +108,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertSame(FileType.FILE, file.getType());
         assertTrue(file.isFile());
         assertEquals(0, file.getContent().getSize());
+        assertFalse(file.isExecutable());
         assertFalse(file.isHidden());
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());

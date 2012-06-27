@@ -144,6 +144,11 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.getURL();
     }
 
+    public boolean isExecutable() throws FileSystemException
+    {
+        return decoratedFileObject.isExecutable();
+    }
+
     public boolean isHidden() throws FileSystemException
     {
         return decoratedFileObject.isHidden();

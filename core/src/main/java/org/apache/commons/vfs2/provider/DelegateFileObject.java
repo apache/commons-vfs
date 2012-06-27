@@ -174,6 +174,22 @@ public class DelegateFileObject extends AbstractFileObject implements FileListen
     }
 
     /**
+     * Determines if this file is executable.
+     */
+    @Override
+    protected boolean doIsExecutable() throws FileSystemException
+    {
+        if (file != null)
+        {
+            return file.isExecutable();
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
      * Determines if this file is hidden.
      */
     @Override
