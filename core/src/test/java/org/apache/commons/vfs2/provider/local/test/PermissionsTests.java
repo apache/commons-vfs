@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.local.test;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang3.SystemUtils;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
@@ -32,7 +34,7 @@ public class PermissionsTests extends AbstractProviderTestCase
     public void testFolderIsExecutable() throws Exception
     {
         final FileObject folder = this.getReadFolder().resolveFile("file1.txt");
-        Assert.assertTrue(folder.isExecutable());
+        Assert.assertEquals(SystemUtils.IS_OS_WINDOWS, folder.isExecutable());
     }
 
 }
