@@ -37,7 +37,7 @@ public class NullFilesCacheTestCase
 {
     public static Test suite() throws Exception
     {
-        CacheTestSuite suite = new CacheTestSuite(new org.apache.commons.vfs2.cache.NullFilesCacheTestCase());
+        CacheTestSuite suite = new CacheTestSuite(new NullFilesCacheTestCase());
         suite.addTests(NullFilesCacheTests.class);
         return suite;
     }
