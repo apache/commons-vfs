@@ -255,7 +255,7 @@ public abstract class AbstractFileName implements FileName
     {
         if (key == null)
         {
-            key = createURI(true, true);
+            key = getURI();
         }
         return key;
     }
