@@ -478,7 +478,8 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Initialises this manager.
+     * Initializes this manager.
+     * 
      * @throws FileSystemException if an error occurs during initialization.
      */
     public void init() throws FileSystemException
