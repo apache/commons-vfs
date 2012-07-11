@@ -241,7 +241,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
         Assert.assertTrue(folder.isReadable());
     }
     
-/**
+    /**
      * Tests can perform operations on a folder while reading from a different files.
      */
     public void testConcurrentReadFolder() throws Exception
