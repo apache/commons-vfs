@@ -25,6 +25,8 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.commons.vfs2.Capability;
+import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
@@ -140,7 +142,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
     public void testType() throws Exception
     {
         // Test a file
-        FileObject file = getReadFolder().resolveFile("file1.txt");
+        FileObject file = resolveFile1Txt();
         assertSame(FileType.FILE, file.getType());
         assertTrue(file.isFile());
 
@@ -241,12 +243,17 @@ public class ProviderReadTests extends AbstractProviderTestCase
         Assert.assertTrue(folder.isReadable());
     }
     
+    private FileObject resolveFile1Txt() throws FileSystemException
+    {
+        return getReadFolder().resolveFile("file1.txt");
+    }
+    
     /**
      * Tests can perform operations on a folder while reading from a different files.
      */
     public void testConcurrentReadFolder() throws Exception
     {
-        final FileObject file = getReadFolder().resolveFile("file1.txt");
+        final FileObject file = resolveFile1Txt();
         assertTrue(file.exists());
         final FileObject folder = getReadFolderDir1();
         assertTrue(folder.exists());
@@ -265,6 +272,24 @@ public class ProviderReadTests extends AbstractProviderTestCase
         }
     }
 
+    public void testContent() throws Exception
+    {
+        final FileObject file = resolveFile1Txt();
+        assertTrue(file.exists());
+        final FileContent content = file.getContent();
+        assertNotNull(content);
+    }
+
+    public void testContentInfo() throws Exception
+    {
+        final FileObject file = resolveFile1Txt();
+        assertTrue(file.exists());
+        final FileContent content = file.getContent();
+        assertNotNull(content);
+        final FileContentInfo contentInfo = content.getContentInfo();
+        assertNotNull(contentInfo);
+    }
+    
     /**
      * Tests that findFiles() works.
      */
