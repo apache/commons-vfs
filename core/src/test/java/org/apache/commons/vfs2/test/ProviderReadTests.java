@@ -243,6 +243,24 @@ public class ProviderReadTests extends AbstractProviderTestCase
         Assert.assertTrue(folder.isReadable());
     }
     
+    public void testGetContent() throws Exception
+    {
+        final FileObject file = resolveFile1Txt();
+        assertTrue(file.exists());
+        final FileContent content = file.getContent();
+        assertNotNull(content);
+    }
+
+    public void testGetContentInfo() throws Exception
+    {
+        final FileObject file = resolveFile1Txt();
+        assertTrue(file.exists());
+        final FileContent content = file.getContent();
+        assertNotNull(content);
+        final FileContentInfo contentInfo = content.getContentInfo();
+        assertNotNull(contentInfo);
+    }
+    
     private FileObject resolveFile1Txt() throws FileSystemException
     {
         return getReadFolder().resolveFile("file1.txt");
@@ -272,24 +290,6 @@ public class ProviderReadTests extends AbstractProviderTestCase
         }
     }
 
-    public void testContent() throws Exception
-    {
-        final FileObject file = resolveFile1Txt();
-        assertTrue(file.exists());
-        final FileContent content = file.getContent();
-        assertNotNull(content);
-    }
-
-    public void testContentInfo() throws Exception
-    {
-        final FileObject file = resolveFile1Txt();
-        assertTrue(file.exists());
-        final FileContent content = file.getContent();
-        assertNotNull(content);
-        final FileContentInfo contentInfo = content.getContentInfo();
-        assertNotNull(contentInfo);
-    }
-    
     /**
      * Tests that findFiles() works.
      */

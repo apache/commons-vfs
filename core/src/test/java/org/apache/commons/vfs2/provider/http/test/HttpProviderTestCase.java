@@ -19,10 +19,14 @@ package org.apache.commons.vfs2.provider.http.test;
 import java.io.File;
 import java.io.IOException;
 
+import junit.framework.Assert;
 import junit.framework.Test;
 
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.http.HttpFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
@@ -32,7 +36,7 @@ import org.apache.commons.vfs2.util.NHttpServer;
 
 /**
  * Test cases for the HTTP provider.
- *
+ * 
  */
 public class HttpProviderTestCase extends AbstractProviderTestConfig
 {
@@ -54,7 +58,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates and starts an embedded Apache HTTP Server (HttpComponents).
-     *
+     * 
      * @throws Exception
      */
     private static void setUpClass() throws Exception
@@ -68,7 +72,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates a new test suite.
-     *
+     * 
      * @return a new test suite.
      * @throws Exception
      *             Thrown when the suite cannot be constructed.
@@ -98,7 +102,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Stops the embedded Apache HTTP Server.
-     *
+     * 
      * @throws IOException
      */
     private static void tearDownClass() throws IOException
@@ -111,7 +115,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Builds a new test case.
-     *
+     * 
      * @throws IOException
      *             Thrown if a free local socket port cannot be found.
      */
@@ -143,5 +147,19 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
         manager.addProvider("http", new HttpFileProvider());
+    }
+
+    public void testGetContent() throws FileSystemException
+    {
+        final FileObject file = VFS.getManager().resolveFile(ConnectionUri + "/read-tests/file1.txt");
+        Assert.assertNotNull(file.getContent());
+    }
+
+    public void testGetContentInfo() throws FileSystemException
+    {
+        final FileObject file = VFS.getManager().resolveFile(ConnectionUri + "/read-tests/file1.txt");
+        final FileContent content = file.getContent();
+        Assert.assertNotNull(content);
+        Assert.assertNotNull(content.getContentInfo());
     }
 }
