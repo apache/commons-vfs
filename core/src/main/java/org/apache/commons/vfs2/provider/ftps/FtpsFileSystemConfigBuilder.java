@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
 
 /**
- * The config BUILDER for various ftp configuration options.
+ * The configuration builder for various FTP configuration options.
  *
  * @since 2.0
  */

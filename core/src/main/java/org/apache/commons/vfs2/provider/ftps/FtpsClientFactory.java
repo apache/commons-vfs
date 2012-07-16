@@ -52,8 +52,7 @@ public final class FtpsClientFactory
      * @throws FileSystemException if an error occurs.
      */
     public static FTPSClient createConnection(String hostname, int port, char[] username, char[] password,
-                                              String workingDirectory, FileSystemOptions fileSystemOptions)
-        throws FileSystemException
+            String workingDirectory, FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         // Determine the username and password to use
         if (username == null)
@@ -71,11 +70,13 @@ public final class FtpsClientFactory
 
             final FTPSClient client;
 
-            if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT))
+            if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals(
+                    FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT))
             {
                 client = new FTPSClient();
             }
-            else if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT))
+            else if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions).equals(
+                    FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT))
             {
                 client = new FTPSClient(true);
             }
@@ -146,7 +147,8 @@ public final class FtpsClientFactory
                     client.connect(hostname, port);
 
 // For VFS-412
-//                    String execPROT = FtpsFileSystemConfigBuilder.getInstance().getDataChannelProtectionLevel(fileSystemOptions);
+//                    String execPROT = FtpsFileSystemConfigBuilder.getInstance().getDataChannelProtectionLevel(
+//                          fileSystemOptions);
 //                    if (execPROT != null)
 //                    {
 //                        client.execPROT(execPROT);
