@@ -22,6 +22,9 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 
+/**
+ * A file name that represents URL.
+ */
 public class URLFileName extends GenericFileName
 {
     private static final int BUFFER_SIZE = 250;
