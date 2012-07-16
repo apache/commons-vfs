@@ -112,7 +112,7 @@ public abstract class AbstractProviderTestCase
 
     /**
      * some provider config do some post-initialization in getBaseTestFolder.
-     * This is a hack to allow access to this code for <code>createManager</code>
+     * This is a hack to allow access to this code for {@code createManager}
      */
     public FileObject getBaseTestFolder(FileSystemManager fs) throws Exception
     {

@@ -42,7 +42,7 @@ public interface FileName extends Comparable<FileName>
     /**
      * Returns the base name of this file.  The base name is the last element
      * of the file name.  For example the base name of
-     * <code>/somefolder/somefile</code> is <code>somefile</code>.
+     * {@code /somefolder/somefile} is {@code somefile}.
      * <p/>
      * <p>The root file of a file system has an empty base name.
      *
@@ -52,11 +52,11 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Returns the absolute path of this file, within its file system.  This
-     * path is normalized, so that <code>.</code> and <code>..</code> elements
-     * have been removed.  Also, the path only contains <code>/</code> as its
-     * separator character.  The path always starts with <code>/</code>
+     * path is normalized, so that {@code .} and {@code ..} elements
+     * have been removed.  Also, the path only contains {@code /} as its
+     * separator character.  The path always starts with {@code /}
      * <p/>
-     * <p>The root of a file system has <code>/</code> as its absolute path.
+     * <p>The root of a file system has {@code /} as its absolute path.
      *
      * @return The path.  Never returns null.
      */
@@ -64,11 +64,11 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Returns the absolute path of this file, within its file system.  This
-     * path is normalized, so that <code>.</code> and <code>..</code> elements
-     * have been removed.  Also, the path only contains <code>/</code> as its
-     * separator character.  The path always starts with <code>/</code>
+     * path is normalized, so that {@code .} and {@code ..} elements
+     * have been removed.  Also, the path only contains {@code /} as its
+     * separator character.  The path always starts with {@code /}
      * <p/>
-     * <p>The root of a file system has <code>/</code> as its absolute path.
+     * <p>The root of a file system has {@code /} as its absolute path.
      * <p/>
      * In contrast to {@link #getPath()} the path is decoded i.e. all %nn stuff
      * replaced by its character.
@@ -129,7 +129,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Resolves a name, relative to this file name.  Equivalent to calling
-     * <code>resolveName( path, NameScope.FILE_SYSTEM )</code>.
+     * {@code resolveName( path, NameScope.FILE_SYSTEM )}.
      *
      * @param name The name to resolve.
      * @return A {@link FileName} object representing the resolved file name.

@@ -28,10 +28,10 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * Represents the data content of a file.
  * <p>
- * To read from a file, use the <code>InputStream</code> returned by {@link #getInputStream()}.
+ * To read from a file, use the {@code InputStream} returned by {@link #getInputStream()}.
  * </p>
  * <p>
- * To write to a file, use the <code>OutputStream</code> returned by {@link #getOutputStream()} method. This will create
+ * To write to a file, use the {@code OutputStream} returned by {@link #getOutputStream()} method. This will create
  * the file, and the parent folder, if necessary.
  * </p>
  * <p>
@@ -151,7 +151,7 @@ public interface FileContent extends Closeable
      *
      * @return An input stream to read the file's content from.  The input
      *         stream is buffered, so there is no need to wrap it in a
-     *         <code>BufferedInputStream</code>.
+     *         {@code BufferedInputStream}.
      * @throws FileSystemException If the file does not exist, or is being read, or is being written,
      *                             or on error opening the stream.
      */
@@ -169,7 +169,7 @@ public interface FileContent extends Closeable
      *
      * @return An output stream to write the file's content to.  The stream is
      *         buffered, so there is no need to wrap it in a
-     *         <code>BufferedOutputStream</code>.
+     *         {@code BufferedOutputStream}.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written,
      *                             or on error opening the stream.
      */
@@ -206,7 +206,7 @@ public interface FileContent extends Closeable
      * @param bAppend true if you would like to append to the file
      * @return An output stream to write the file's content to.  The stream is
      *         buffered, so there is no need to wrap it in a
-     *         <code>BufferedOutputStream</code>.
+     *         {@code BufferedOutputStream}.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written,
      *                             or on error opening the stream.
      */

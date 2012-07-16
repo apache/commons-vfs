@@ -52,9 +52,9 @@ public enum NameScope
      * If a relative name is supplied, then it is resolved relative to the base
      * file.
      * <p/>
-     * <p>The path may use any mix of <code>/</code>, <code>\</code>, or file
+     * <p>The path may use any mix of {@code /}, {@code \}, or file
      * system specific separators to separate elements in the path.  It may
-     * also contain <code>.</code> and <code>..</code> elements.
+     * also contain {@code .} and {@code ..} elements.
      * <p/>
      * <p>A path is considered absolute if it starts with a separator character,
      * and relative if it does not.

@@ -250,7 +250,7 @@ public abstract class AbstractFileObject implements FileObject
      * Lists the children of this file.  Is only called if {@link #doGetType}
      * returns {@link FileType#FOLDER}.  The return value of this method
      * is cached, so the implementation can be expensive.<br>
-     * Other than <code>doListChildren</code> you could return FileObject's to e.g. reinitialize the
+     * Other than {@code doListChildren} you could return FileObject's to e.g. reinitialize the
      * type of the file.<br>
      * (Introduced for Webdav: "permission denied on resource" during getType())
      * @return The children of this FileObject.
@@ -600,7 +600,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Determines if this file is executable.
      *
-     * @return {@code true} if this file is executable, <code>false</code> if not.
+     * @return {@code true} if this file is executable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     public boolean isExecutable() throws FileSystemException
@@ -1372,7 +1372,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Checks if this fileObject is the same file as <code>destFile</code> just with a different
+     * Checks if this fileObject is the same file as {@code destFile} just with a different
      * name.<br />
      * E.g. for case insensitive filesystems like windows.
      * @param destFile The file to compare to.
@@ -1386,7 +1386,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Checks if this fileObject is the same file as <code>destFile</code> just with a different
+     * Checks if this fileObject is the same file as {@code destFile} just with a different
      * name.<br />
      * E.g. for case insensitive filesystems like windows.
      * @param destFile The file to compare to.
@@ -1399,7 +1399,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Queries the object if a simple rename to the filename of <code>newfile</code>
+     * Queries the object if a simple rename to the filename of {@code newfile}
      * is possible.
      *
      * @param newfile the new filename

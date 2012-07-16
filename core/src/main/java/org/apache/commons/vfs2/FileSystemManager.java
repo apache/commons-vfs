@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * A FileSystemManager manages a set of file systems.  This interface is
  * used to locate a {@link FileObject} by name from one of those file systems.
  * <p/>
- * <p>To locate a {@link FileObject}, use one of the <code>resolveFile()</code>
+ * <p>To locate a {@link FileObject}, use one of the {@code resolveFile()}
  * methods.</p>
  * <p/>
  * <h4><a name="naming">File Naming</a></h4>
@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * <ul>
  * <p/>
  * <li><p>Absolute URI.  These must start with a scheme, such as
- * <code>file:</code> or <code>ftp:</code>, followed by a scheme dependent
+ * {@code file:} or {@code ftp:}, followed by a scheme dependent
  * file name.  Some examples:</p>
  * <pre>
  * file:/c:/somefile
@@ -46,21 +46,21 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * </pre>
  * <p/>
  * <li><p>Absolute local file name.  For example,
- * <code>/home/someuser/a-file</code> or <code>c:\dir\somefile.html</code>.
+ * {@code /home/someuser/a-file} or {@code c:\dir\somefile.html}.
  * Elements in the name can be separated using any of the following
- * characters: <code>/</code>, <code>\</code>, or the native file separator
+ * characters: {@code /}, {@code \}, or the native file separator
  * character. For example, the following file names are the same:</p>
  * <pre>
  * c:\somedir\somefile.xml
  * c:/somedir/somefile.xml
  * </pre>
  * <p/>
- * <li><p>Relative path.  For example: <code>../somefile</code> or
- * <code>somedir/file.txt</code>.   The file system manager resolves relative
+ * <li><p>Relative path.  For example: {@code ../somefile} or
+ * {@code somedir/file.txt}.   The file system manager resolves relative
  * paths against its <i>base file</i>.  Elements in the relative path can be
- * separated using <code>/</code>, <code>\</code>, or file system specific
- * separator characters.  Relative paths may also contain <code>..</code> and
- * <code>.</code> elements.  See {@link FileObject#resolveFile} for more
+ * separated using {@code /}, {@code \}, or file system specific
+ * separator characters.  Relative paths may also contain {@code ..} and
+ * {@code .} elements.  See {@link FileObject#resolveFile} for more
  * details.</p>
  * <p/>
  * </ul>
@@ -76,7 +76,7 @@ public interface FileSystemManager
 
     /**
      * Locates a file by name.  Equivalent to calling
-     * <code>resolveFile(uri, getBaseName())</code>.
+     * {@code resolveFile(uri, getBaseName())}.
      *
      * @param name The name of the file.
      * @return The file.  Never returns null.
@@ -86,7 +86,7 @@ public interface FileSystemManager
 
     /**
      * Locates a file by name.  Equivalent to calling
-     * <code>resolveFile(uri, getBaseName())</code>.
+     * {@code resolveFile(uri, getBaseName())}.
      *
      * @param name              The name of the file.
      * @param fileSystemOptions The FileSystemOptions used for FileSystem creation
@@ -100,7 +100,7 @@ public interface FileSystemManager
      * Locates a file by name.  The name is resolved as described
      * <a href="#naming">above</a>.  That is, the name can be either
      * an absolute URI, an absolute file name, or a relative path to
-     * be resolved against <code>baseFile</code>.
+     * be resolved against {@code baseFile}.
      * <p/>
      * <p>Note that the file does not have to exist when this method is called.
      *
@@ -126,7 +126,7 @@ public interface FileSystemManager
 
     /**
      * Resolves a name, relative to this file name.  Equivalent to calling
-     * <code>resolveName( path, NameScope.FILE_SYSTEM )</code>.
+     * {@code resolveName( path, NameScope.FILE_SYSTEM )}.
      *
      * @param root the base filename
      * @param name The name to resolve.

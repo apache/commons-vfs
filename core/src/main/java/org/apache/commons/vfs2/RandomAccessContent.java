@@ -86,7 +86,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      *            the offset position, measured in bytes from the beginning of the file, at which to set the file
      *            pointer.
      * @throws IOException
-     *             if <code>pos</code> is less than <code>0</code> or if an I/O error occurs.
+     *             if {@code pos} is less than {@code 0} or if an I/O error occurs.
      */
     void seek(long pos) throws IOException;
 

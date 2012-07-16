@@ -26,7 +26,7 @@ import org.apache.jackrabbit.webdav.xml.DomUtil;
 import org.w3c.dom.Element;
 
 /**
- * <code>ExceptionConverter</code> converts WebDAV exceptions into FileSystemExceptions.
+ * {@code ExceptionConverter} converts WebDAV exceptions into FileSystemExceptions.
  * @since 2.0
  */
 public final class ExceptionConverter

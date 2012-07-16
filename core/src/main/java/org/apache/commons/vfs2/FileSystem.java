@@ -65,7 +65,7 @@ public interface FileSystem
     /**
      * Gets the value of an attribute of the file system.
      * <p/>
-     * <p>TODO - change to <code>Map getAttributes()</code> instead?
+     * <p>TODO - change to {@code Map getAttributes()} instead?
      * <p/>
      * <p>TODO - define the standard attribute names, and define which attrs
      * are guaranteed to be present.

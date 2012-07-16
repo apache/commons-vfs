@@ -96,7 +96,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Determines if this file exists.
      *
-     * @return <code>true</code> if this file exists, <code>false</code> if not.
+     * @return {@code true} if this file exists, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     boolean exists() throws FileSystemException;
@@ -104,7 +104,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Determines if this file is executable.
      *
-     * @return <code>true</code> if this file is executable, <code>false</code> if not.
+     * @return {@code true} if this file is executable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     boolean isExecutable() throws FileSystemException;
@@ -112,7 +112,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Determines if this file is hidden.
      *
-     * @return <code>true</code> if this file is hidden, <code>false</code> if not.
+     * @return {@code true} if this file is hidden, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     boolean isHidden() throws FileSystemException;
@@ -120,7 +120,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Determines if this file can be read.
      *
-     * @return <code>true</code> if this file is readable, <code>false</code> if not.
+     * @return {@code true} if this file is readable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     boolean isReadable() throws FileSystemException;
@@ -128,7 +128,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Determines if this file can be written to.
      *
-     * @return <code>true</code> if this file is writeable, <code>false</code> if not.
+     * @return {@code true} if this file is writeable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     boolean isWriteable() throws FileSystemException;
@@ -169,7 +169,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject[] getChildren() throws FileSystemException;
 
     /**
-     * Returns a child of this file.  Note that this method returns <code>null</code>
+     * Returns a child of this file.  Note that this method returns {@code null}
      * when the child does not exist.  This differs from
      * {@link #resolveFile( String, NameScope)} which never returns null.
      *
@@ -198,7 +198,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @param executable
      *            True to allow read access, false to disallow
      * @param ownerOnly
-     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
      * @throws FileSystemException
      *             On error determining if this file exists.
@@ -212,7 +212,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @param readable
      *            True to allow read access, false to disallow
      * @param ownerOnly
-     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
      * @throws FileSystemException
      *             On error determining if this file exists.
@@ -226,7 +226,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @param writable
      *            True to allow read access, false to disallow
      * @param ownerOnly
-     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
      * @throws FileSystemException
      *             On error determining if this file exists.
@@ -236,7 +236,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Finds a file, relative to this file.  Equivalent to calling
-     * <code>resolveFile( path, NameScope.FILE_SYSTEM )</code>.
+     * {@code resolveFile( path, NameScope.FILE_SYSTEM )}.
      *
      * @param path The path of the file to locate.  Can either be a relative
      *             path or an absolute path.

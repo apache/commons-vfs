@@ -174,7 +174,7 @@ public abstract class AbstractFileProvider
     /**
      * Parses an absolute URI.
      *
-     * @param base The base file - if null the <code>uri</code> needs to be absolute
+     * @param base The base file - if null the {@code uri} needs to be absolute
      * @param uri The URI to parse.
      * @return The FileName.
      * @throws FileSystemException if an error occurs.

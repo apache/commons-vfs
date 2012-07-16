@@ -216,7 +216,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the timeout for the initial control connection.
      * <p>
-     * If you set the connectTimeout to <code>null</code> no connectTimeout will be set.
+     * If you set the connectTimeout to {@code null} no connectTimeout will be set.
      * </p>
      *
      * @param opts The FileSystemOptions.
@@ -241,7 +241,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * set the data timeout for the ftp client.<br />
-     * If you set the dataTimeout to <code>null</code> no dataTimeout will be set on the
+     * If you set the dataTimeout to {@code null} no dataTimeout will be set on the
      * ftp client.
      *
      * @param opts The FileSystemOptions.
@@ -362,7 +362,7 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the socket timeout for the FTP client.<br />
-     * If you set the socketTimeout to <code>null</code> no socketTimeout will be set on the
+     * If you set the socketTimeout to {@code null} no socketTimeout will be set on the
      * ftp client.
      *
      * @param opts The FileSystem options.

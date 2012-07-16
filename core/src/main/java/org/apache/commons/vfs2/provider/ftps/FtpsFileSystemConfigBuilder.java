@@ -195,7 +195,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * set the data timeout for the ftp client.<br />
-     * If you set the dataTimeout to <code>null</code> no dataTimeout will be set on the
+     * If you set the dataTimeout to {@code null} no dataTimeout will be set on the
      * ftp client.
      *
      * @param opts  The FileSystemOptions.

@@ -65,7 +65,7 @@ public class UrlFileNameParser extends AbstractFileNameParser
 
     /**
      * Guess is the given filename is a url with host or not. VFS treats such urls differently.<br />
-     * A filename is url-based if the base is a <code>URLFileName</code> or there are only 2 slashes
+     * A filename is url-based if the base is a {@code URLFileName} or there are only 2 slashes
      * after the scheme.<br/>
      * e.g: http://host/path, file:/path/to/file, file:///path/to/file
      */

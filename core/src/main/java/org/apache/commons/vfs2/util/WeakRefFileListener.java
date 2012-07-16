@@ -43,7 +43,7 @@ public class WeakRefFileListener implements FileListener
     }
 
     /**
-     * This will install the <code>listener</code> at the given <code>file</code>.
+     * This will install the {@code listener} at the given {@code file}.
      * @param file The FileObject to listen on.
      * @param listener The FileListener
      */

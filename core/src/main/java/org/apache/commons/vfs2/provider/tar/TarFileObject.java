@@ -84,7 +84,7 @@ public class TarFileObject extends AbstractFileObject
     /**
      * Determines if this file can be written to.
      *
-     * @return <code>true</code> if this file is writeable, <code>false</code> if not.
+     * @return {@code true} if this file is writeable, {@code false} if not.
      * @throws FileSystemException if an error occurs.
      */
     @Override
