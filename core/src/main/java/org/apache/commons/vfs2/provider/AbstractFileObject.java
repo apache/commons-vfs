@@ -178,6 +178,11 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * 
+     * @param writable
+     *            True to allow access, false to disallow
+     * @param ownerOnly
+     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
      * @see {@link #setReadable(boolean, boolean)}
      * @since 2.1
      */
@@ -202,6 +207,11 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * 
+     * @param writable
+     *            True to allow access, false to disallow
+     * @param ownerOnly
+     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
      * @see {@link #setWritable(boolean, boolean)}
      * @since 2.1
      */
@@ -213,6 +223,11 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * 
+     * @param writable
+     *            True to allow access, false to disallow
+     * @param ownerOnly
+     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
      * @see {@link #setExecutable(boolean, boolean)}
      * @since 2.1
      */
