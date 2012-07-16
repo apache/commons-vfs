@@ -120,10 +120,11 @@ public void setUp() throws Exception {
   }
 
   /**
-   * Search for the expected file in a given list, without using the full path
-   * @param expectedFile
-   * @param files
-   * @return
+   * Search for the expected file in a given list, without using the full path.
+   * 
+   * @param expectedFile the expected file.
+   * @param files a list of files to search.
+   * @return {@code true} if {@code expectedFile} is in {@code files}. 
    */
   protected boolean fileExists(String expectedFile, List<FileObject> files) {
     Iterator<FileObject> iter = files.iterator();
