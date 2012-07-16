@@ -47,13 +47,13 @@ public final class DefaultFileContent implements FileContent
     static final int STATE_RANDOM_ACCESS = 3;
     */
 
+    static final int STATE_CLOSED = 0;
+    static final int STATE_OPENED = 1;
+
     /**
      * The default buffer size for {@link #write(OutputStream)}
      */
     private static final int WRITE_BUFFER_SIZE = 4096;
-
-    static final int STATE_CLOSED = 0;
-    static final int STATE_OPENED = 1;
 
     private final AbstractFileObject fileObject;
     private Map<String, Object> attrs;
@@ -765,6 +765,7 @@ public final class DefaultFileContent implements FileContent
      *
      * @param file
      *            The target FileObject.
+     * @return the total number of bytes written
      * @throws IOException
      *             if an error occurs writing the content.
      * @since 2.1
