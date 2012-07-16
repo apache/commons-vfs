@@ -35,7 +35,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * Available operations. Operations could be registered for different schemes.
      * Some operations can work only for "file" scheme, other - for "svnhttp(s)",
      * "svn", "svnssh", but not for "file", etc. The Map has scheme as a key and
-     * Colleaction of operations that are available for that scheme.
+     * Collection of operations that are available for that scheme.
      */
     private final Collection<Class<? extends FileOperation>> operations =
         new ArrayList<Class<? extends FileOperation>>();
@@ -45,7 +45,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * specified operationsList.
      *
      * @param operationsList
-     *            the list of available operations for the specivied FileObject.
+     *            the list of available operations for the specified FileObject.
      *            The operationList contains classes of available operations, e.g.
      *            Class objects.
      * @param file
