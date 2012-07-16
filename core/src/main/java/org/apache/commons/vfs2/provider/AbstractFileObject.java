@@ -178,7 +178,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * 
-     * @param writable
+     * @param readable
      *            True to allow access, false to disallow
      * @param ownerOnly
      *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
