@@ -181,9 +181,9 @@ public abstract class AbstractFileObject implements FileObject
      * @param writable
      *            True to allow access, false to disallow
      * @param ownerOnly
-     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
-     * @see {@link #setReadable(boolean, boolean)}
+     * @see #setReadable(boolean, boolean)
      * @since 2.1
      */
     protected boolean doSetReadable(boolean readable, boolean ownerOnly) throws Exception
@@ -210,9 +210,9 @@ public abstract class AbstractFileObject implements FileObject
      * @param writable
      *            True to allow access, false to disallow
      * @param ownerOnly
-     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
-     * @see {@link #setWritable(boolean, boolean)}
+     * @see #setWritable(boolean, boolean)
      * @since 2.1
      */
     protected boolean doSetWritable(boolean writable, boolean ownerOnly) throws Exception
@@ -226,9 +226,9 @@ public abstract class AbstractFileObject implements FileObject
      * @param writable
      *            True to allow access, false to disallow
      * @param ownerOnly
-     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
-     * @see {@link #setExecutable(boolean, boolean)}
+     * @see #setExecutable(boolean, boolean)
      * @since 2.1
      */
     protected boolean doSetExecutable(boolean writable, boolean ownerOnly) throws Exception
@@ -600,7 +600,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Determines if this file is executable.
      *
-     * @return <code>true</code> if this file is executable, <code>false</code> if not.
+     * @return {@code true} if this file is executable, <code>false</code> if not.
      * @throws FileSystemException On error determining if this file exists.
      */
     public boolean isExecutable() throws FileSystemException
