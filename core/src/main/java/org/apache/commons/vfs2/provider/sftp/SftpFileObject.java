@@ -380,8 +380,7 @@ public class SftpFileObject extends AbstractFileObject
     @Override
     protected boolean doIsExecutable() throws Exception
     {
-        final PosixPermissions permissions = getPermissions(true);
-        return permissions.isExecutable();
+        return getPermissions(true).isExecutable();
     }
 
 
