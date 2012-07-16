@@ -573,7 +573,7 @@ public abstract class AbstractFileObject implements FileObject
      * Checks if this file is a regular file by using its file type.
      *
      * @return true if this file is a regular file.
-     * @throws FileSystemException
+     * @throws FileSystemException if an error occurs.
      * @see #getType()
      * @see FileType#FILE
      */

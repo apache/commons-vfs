@@ -448,7 +448,7 @@ public abstract class AbstractFileName implements FileName
      * Checks if this file name is a name for a regular file by using its type.
      *
      * @return true if this file is a regular file.
-     * @throws FileSystemException
+     * @throws FileSystemException may be thrown by subclasses.
      * @see #getType()
      * @see FileType#FILE
      */
