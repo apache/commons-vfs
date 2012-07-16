@@ -221,8 +221,9 @@ public class SftpFileSystem
     }
 
     /**
-     * Get the (numeric) group ids
-     * @return
+     * Gets the (numeric) group IDs.
+     * 
+     * @return the (numeric) group IDs.
      * @throws JSchException If a problem occurs while retrieving the groups ID
      */
     public int[] getGroupsIds() throws JSchException, IOException
@@ -249,7 +250,8 @@ public class SftpFileSystem
     }
 
     /**
-     * Get the (numeric) group ids
+     * Get the (numeric) group IDs.
+     * 
      * @return The numeric user ID
      * @throws JSchException
      * @throws IOException
@@ -269,7 +271,8 @@ public class SftpFileSystem
     }
 
     /**
-     * Execute a command and returns the (standard) output through a StringBuilder
+     * Execute a command and returns the (standard) output through a StringBuilder.
+     * 
      * @param command The command
      * @param output The output
      * @return The exit code of the command

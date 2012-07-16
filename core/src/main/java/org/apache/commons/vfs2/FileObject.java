@@ -82,12 +82,14 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 {
     /**
      * Returns the name of this file.
+     * 
      * @return the FileName.
      */
     FileName getName();
 
     /**
      * Returns a URL representing this file.
+     * 
      * @return the URL for the file.
      * @throws FileSystemException if an error occurs.
      */
@@ -171,7 +173,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Returns a child of this file.  Note that this method returns {@code null}
      * when the child does not exist.  This differs from
-     * {@link #resolveFile( String, NameScope)} which never returns null.
+     * {@link #resolveFile(String, NameScope)} which never returns null.
      *
      * @param name The name of the child.
      * @return The child, or null if there is no such child.
@@ -256,13 +258,13 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject[] findFiles(FileSelector selector) throws FileSystemException;
 
     /**
-         * Finds the set of matching descendents of this file.
-         *
-         * @param selector  the selector used to determine if the file should be selected
-         * @param depthwise controls the ordering in the list. e.g. deepest first
-         * @param selected  container for selected files. list needs not to be empty.
-         * @throws FileSystemException if an error occurs.
-         */
+      * Finds the set of matching descendents of this file.
+      *
+      * @param selector  the selector used to determine if the file should be selected
+      * @param depthwise controls the ordering in the list. e.g. deepest first
+      * @param selected  container for selected files. list needs not to be empty.
+      * @throws FileSystemException if an error occurs.
+      */
     void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected) throws FileSystemException;
 
     /**
@@ -279,9 +281,10 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Deletes all descendents of this file that match a selector.  Does
      * nothing if this file does not exist.
-     * <p/>
+     * 
      * <p>This method is not transactional.  If it fails and throws an
      * exception, this file will potentially only be partially deleted.
+     * </p>
      *
      * @param selector The selector to use to select which files to delete.
      * @return the number of deleted objects
@@ -324,13 +327,15 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Copies another file, and all its descendents, to this file.
-     * <p/>
+     * <p>
      * If this file does not exist, it is created.  Its parent folder is also
      * created, if necessary.  If this file does exist, it is deleted first.
-     * <p/>
-     * <p>This method is not transactional.  If it fails and throws an
+     * </p>
+     * <p>
+     * This method is not transactional.  If it fails and throws an
      * exception, this file will potentially only be partially copied.
-     *
+     * </p>
+     * 
      * @param srcFile  The source file to copy.
      * @param selector The selector to use to select which files to copy.
      * @throws FileSystemException If this file is read-only, or if the source file does not exist,
@@ -341,7 +346,10 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Move this file.
-     * <p>If the destFile exists, it is deleted first</p>
+     * 
+     * <p>
+     * If the destFile exists, it is deleted first.
+     * </p>
      *
      * @param destFile the New filename.
      * @throws FileSystemException If this file is read-only, or if the source file does not exist,
@@ -361,10 +369,11 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Returns this file's content.  The {@link FileContent} returned by this
      * method can be used to read and write the content of the file.
-     * <p/>
+     * 
      * <p>This method can be called if the file does not exist, and
      * the returned {@link FileContent} can be used to create the file
      * by writing its content.
+     * </p>
      *
      * @return This file's content.
      * @throws FileSystemException On error getting this file's content.
@@ -375,8 +384,9 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * Closes this file, and its content.  This method is a hint to the
      * implementation that it can release any resources associated with
      * the file.
-     * <p/>
-     * <p>The file object can continue to be used after this method is called.
+     * <p>
+     * The file object can continue to be used after this method is called.
+     * </p>
      *
      * @throws FileSystemException On error closing the file.
      * @see FileContent#close
@@ -384,19 +394,22 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     void close() throws FileSystemException;
 
     /**
-     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required.
+     * This will prepare the fileObject to get resynchronized with the underlying file system if required.
+     * 
      * @throws FileSystemException if an error occurs.
      */
     void refresh() throws FileSystemException;
 
     /**
      * Checks if the fileObject is attached.
+     * 
      * @return true if the FileObject is attached.
      */
     boolean isAttached();
 
     /**
      * Checks if someone reads/write to this file.
+     * 
      * @return true if the file content is open.
      */
     boolean isContentOpen();
@@ -424,7 +437,6 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean isFolder() throws FileSystemException;
 
 
-    // --- OPERATIONS --
     /**
      * @return FileOperations interface that provides access to the operations API.
      * @throws FileSystemException if an error occurs.
