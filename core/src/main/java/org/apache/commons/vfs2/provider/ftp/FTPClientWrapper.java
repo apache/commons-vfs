@@ -102,12 +102,14 @@ class FTPClientWrapper implements FtpClient
         try
         {
             getFtpClient().quit();
-        } finally
+        } 
+        finally
         {
             try
             {
                 getFtpClient().disconnect();
-            } finally
+            } 
+            finally
             {
                 ftpClient = null;
             }
