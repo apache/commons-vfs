@@ -307,7 +307,7 @@ public class SftpFileObject extends AbstractFileObject
     /**
      * Returns the POSIX type permissions of the file.
      * 
-     * @boolean true if user and group ID should be checked (needed for some access rights checks)
+     * @param checkIds {@code true} if user and group ID should be checked (needed for some access rights checks)
      * @return A PosixPermission object
      * @throws Exception If an error occurs
      * @since 2.1
