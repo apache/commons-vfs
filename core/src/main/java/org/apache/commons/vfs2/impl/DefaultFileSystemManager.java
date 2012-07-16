@@ -479,7 +479,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Initializes this manager.
-     * 
+     *
      * @throws FileSystemException if an error occurs during initialization.
      */
     public void init() throws FileSystemException
@@ -999,8 +999,11 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Closes the given filesystem.<br />
+     * Closes the given file system.
+     * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method
+     * </p>
+     * 
      * @param filesystem The FileSystem to close.
      */
     public void _closeFileSystem(FileSystem filesystem)
