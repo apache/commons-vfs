@@ -42,6 +42,8 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  */
 public class RamFileSystem extends AbstractFileSystem implements Serializable
 {
+    private static final int BUFFER_SIZE = 512;
+
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
@@ -261,7 +263,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
                 try
                 {
                     OutputStream os = new BufferedOutputStream(memFo
-                            .getOutputStream(), 512);
+                            .getOutputStream(), BUFFER_SIZE);
                     int i;
                     while ((i = is.read()) != -1)
                     {
