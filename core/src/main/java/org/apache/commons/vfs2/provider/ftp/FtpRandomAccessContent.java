@@ -24,7 +24,9 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractRandomAccessStreamContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
-
+/**
+ * Implements FTP stream-based random access.
+ */
 class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
 {
     protected long filePointer;
