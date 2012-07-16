@@ -559,7 +559,8 @@ public class SftpFileObject extends AbstractFileObject
         {
             InputStream is = channel.get(getName().getPathDecoded(), null, filePointer);
             return new SftpInputStream(channel, is);
-        } catch (SftpException e)
+        } 
+        catch (SftpException e)
         {
             fileSystem.putChannel(channel);
             throw new FileSystemException(e);
