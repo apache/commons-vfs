@@ -147,9 +147,11 @@ public class SftpFileObject extends AbstractFileObject
     }
 
     /**
-     * Fetches file attrs from server.
+     * Fetches file attributes from server.
+     * 
+     * @throws IOException 
      */
-    private void statSelf() throws Exception
+    private void statSelf() throws IOException
     {
         ChannelSftp channel = fileSystem.getChannel();
         try
@@ -173,7 +175,7 @@ public class SftpFileObject extends AbstractFileObject
                     attrs = null;
                 }
             }
-            catch (final SftpException e2)
+            catch (final SftpException innerEx)
             {
                 // TODO - not strictly true, but jsch 0.1.2 does not give us
                 // enough info in the exception. Should be using:

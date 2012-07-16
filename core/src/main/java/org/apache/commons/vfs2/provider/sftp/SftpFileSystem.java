@@ -39,6 +39,10 @@ public class SftpFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
+    private static final int SLEEP_MILLIS = 100;
+
+    private static final int EXEC_BUFFER_SIZE = 128;
+
     private static final long LAST_MOD_TIME_ACCURACY = 1000L;
 
     private Session session;
@@ -83,6 +87,9 @@ public class SftpFileSystem
 
     /**
      * Returns an SFTP channel to the server.
+     * 
+     * @throws FileSystemException if a session cannot be created.
+     * @throws IOException if an I/O error is detected.
      */
     protected ChannelSftp getChannel() throws IOException
     {
@@ -125,7 +132,9 @@ public class SftpFileSystem
     }
 
     /**
-     * Ensures that the session link is established
+     * Ensures that the session link is established.
+     * 
+     * @throws FileSystemException if a session cannot be created.
      */
     private void ensureSession() throws FileSystemException
     {
@@ -204,7 +213,7 @@ public class SftpFileSystem
     }
 
     /**
-     * Last mod time is only a int and in seconds, thus can be off by 999.
+     * Last modification time is only an int and in seconds, thus can be off by 999.
      *
      * @return 1000
      */
@@ -218,7 +227,9 @@ public class SftpFileSystem
      * Gets the (numeric) group IDs.
      * 
      * @return the (numeric) group IDs.
-     * @throws JSchException If a problem occurs while retrieving the groups ID
+     * @throws JSchException If a problem occurs while retrieving the group IDs.
+     * @throws IOException if an I/O error is detected.
+     * @since 2.1
      */
     public int[] getGroupsIds() throws JSchException, IOException
     {
@@ -245,8 +256,9 @@ public class SftpFileSystem
      * Get the (numeric) group IDs.
      * 
      * @return The numeric user ID
-     * @throws JSchException
-     * @throws IOException
+     * @throws JSchException If a problem occurs while retrieving the group ID.
+     * @throws IOException if an I/O error is detected.
+     * @since 2.1
      */
     public int getUId() throws JSchException, IOException
     {
@@ -255,7 +267,7 @@ public class SftpFileSystem
             StringBuilder output = new StringBuilder();
             int code = executeCommand("id -u", output);
             if (code != 0) {
-                throw new JSchException("Could not get the user id of the current user (error code: " + code  + ")");
+                throw new FileSystemException("Could not get the user id of the current user (error code: " + code  + ")");
             }
             uid = Integer.parseInt(output.toString().trim());
         }
@@ -268,8 +280,9 @@ public class SftpFileSystem
      * @param command The command
      * @param output The output
      * @return The exit code of the command
-     * @throws JSchException
-     * @throws IOException
+     * @throws JSchException if a JSch error is detected.
+     * @throws FileSystemException if a session cannot be created.
+     * @throws IOException if an I/O error is detected.
      */
     private int executeCommand(String command, StringBuilder output) throws JSchException, IOException
     {
@@ -283,7 +296,7 @@ public class SftpFileSystem
         channel.connect();
 
         // Read the stream
-        char[] buffer = new char[128];
+        char[] buffer = new char[EXEC_BUFFER_SIZE];
         int read;
         while ((read = stream.read(buffer, 0, buffer.length)) >= 0)
         {
@@ -296,7 +309,7 @@ public class SftpFileSystem
         {
             try
             {
-                Thread.sleep(100);
+                Thread.sleep(SLEEP_MILLIS);
             } catch (Exception ee)
             {
                 // TODO: swallow exception, really?
