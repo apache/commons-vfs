@@ -35,6 +35,8 @@ import org.apache.commons.vfs2.provider.UriParser;
  */
 public class ResourceFileProvider extends AbstractFileProvider
 {
+    private static final int BUFFER_SIZE = 80;
+    
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities =
         Collections.unmodifiableCollection(Arrays.asList(new Capability[]
@@ -60,7 +62,7 @@ public class ResourceFileProvider extends AbstractFileProvider
                                final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        StringBuilder buf = new StringBuilder(80);
+        StringBuilder buf = new StringBuilder(BUFFER_SIZE);
         UriParser.extractScheme(uri, buf);
         String resourceName = buf.toString();
 
