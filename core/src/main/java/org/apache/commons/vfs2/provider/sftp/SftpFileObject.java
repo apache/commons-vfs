@@ -20,11 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.jcraft.jsch.JSchException;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -35,7 +33,11 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.util.*;
+import org.apache.commons.vfs2.util.FileObjectUtils;
+import org.apache.commons.vfs2.util.MonitorInputStream;
+import org.apache.commons.vfs2.util.MonitorOutputStream;
+import org.apache.commons.vfs2.util.PosixPermissions;
+import org.apache.commons.vfs2.util.RandomAccessMode;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
