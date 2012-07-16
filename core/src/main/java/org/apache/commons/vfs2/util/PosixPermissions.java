@@ -17,12 +17,8 @@
 
 package org.apache.commons.vfs2.util;
 
-import org.apache.commons.vfs2.FileSystemException;
-
-import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Map;
-
 
 /**
  * UNIX permissions.
@@ -32,193 +28,268 @@ import java.util.Map;
 public class PosixPermissions
 {
 
-
+    /**
+     * Permission types.
+     */
     static public enum Type
     {
-        // User rights
+        /**
+         * User right readable.
+         */
         UserReadable(00400),
+
+        /**
+         * User right writable.
+         */
         UserWritable(00200),
+
+        /**
+         * User right executable.
+         */
         UserExecutable(00100),
 
-        // Group rights
+        /**
+         * Group right readable.
+         */
         GroupReadable(00040),
+
+        /**
+         * Group right writable.
+         */
         GroupWritable(00020),
+
+        /**
+         * Group right executable.
+         */
         GroupExecutable(00010),
 
-        // Other rights
+        /**
+         * Other right readable.
+         */
         OtherReadable(00004),
+
+        /**
+         * Other right writable.
+         */
         OtherWritable(00002),
+
+        /**
+         * Other right executable.
+         */
         OtherExecutable(00001);
 
         final private int mask;
 
         /**
-         * Initialise with the mask
+         * Initialize with the mask
          */
-        private Type(int mask)
+        private Type(final int mask)
         {
             this.mask = mask;
         }
 
         /**
-         * Return the mask for this permission
+         * Return the mask for this permission.
+         * 
+         * @return the mask for this permission.
          */
         public int getMask()
         {
-            return mask;
+            return this.mask;
         }
 
     }
 
     /**
-     * Current permissions
+     * Current permissions.
      */
-    int permissions;
+    private final int permissions;
 
     /**
-     * If the user is the owner of the file
+     * If the user is the owner of the file.
      */
-    boolean isOwner;
+    private final boolean isOwner;
 
     /**
-     * If one user group is the group of the file
+     * If one user group is the group of the file.
      */
-    boolean isInGroup;
-
+    private final boolean isInGroup;
 
     /**
-     * Creates a new PosixPermissions object
-     * @param permissions The permissions
-     * @param isOwner true if the user is the owner of the file
-     * @param isInGroup true if the user is a group owner of the file
+     * Creates a new PosixPermissions object.
+     * 
+     * @param permissions
+     *            The permissions
+     * @param isOwner
+     *            true if the user is the owner of the file
+     * @param isInGroup
+     *            true if the user is a group owner of the file
      */
-    public PosixPermissions(int permissions, boolean isOwner, boolean isInGroup)
+    public PosixPermissions(final int permissions, final boolean isOwner, final boolean isInGroup)
     {
         this.permissions = permissions;
         this.isOwner = isOwner;
         this.isInGroup = isInGroup;
     }
 
-    public int getPermissions()
-    {
-        return permissions;
-    }
-
-
     /**
-     * Computes new permission from old ones
-     *
-     * @param values The permissions to set
-     * @return The new permission
+     * Computes new permission from old ones.
+     * 
+     * @param values
+     *            The permissions to set.
+     * @return The new permissions.
      */
-    private int computeNewPermissions(Map<Type, Boolean> values)
+    private int computeNewPermissions(final Map<Type, Boolean> values)
     {
-        int old = this.permissions;
-        for (Map.Entry<Type, Boolean> entry : values.entrySet())
+        int newPerms = this.permissions;
+        for (final Map.Entry<Type, Boolean> entry : values.entrySet())
         {
             final Type type = entry.getKey();
             if (entry.getValue())
             {
-                old |= type.getMask();
+                newPerms |= type.getMask();
             } else
             {
-                old &= ~type.getMask();
+                newPerms &= ~type.getMask();
             }
         }
-
-        return old;
+        return newPerms;
     }
 
-
     /**
-     * Test whether the bit corresponding to the permission is set
+     * Tests whether the bit corresponding to the permission is set.
+     * 
+     * @return whether the bit corresponding to the permission is set.
      */
-    private boolean get(Type type)
+    private boolean get(final Type type)
     {
-        return (type.getMask() & permissions) != 0;
+        return (type.getMask() & this.permissions) != 0;
     }
 
     /**
-     * Check if whether the user can read the file
-     *
-     * @return true if the user can read
+     * Gets permissions.
+     * 
+     * @return permissions.
+     */
+    public int getPermissions()
+    {
+        return this.permissions;
+    }
+
+    /**
+     * Gets whether the permissions are executable.
+     * 
+     * @return whether the permissions are executable.
+     */
+    public boolean isExecutable()
+    {
+        if (this.isOwner)
+        {
+            return this.get(Type.UserExecutable);
+        }
+        if (this.isInGroup)
+        {
+            return this.get(Type.GroupExecutable);
+        }
+        return this.get(Type.OtherExecutable);
+    }
+
+    /**
+     * Gets whether the permissions are readable.
+     * 
+     * @return whether the permissions are readable.
      */
     public boolean isReadable()
     {
-        if (isOwner)
+        if (this.isOwner)
         {
-            return get(Type.UserReadable);
+            return this.get(Type.UserReadable);
         }
-        if (isInGroup)
+        if (this.isInGroup)
         {
-            return get(Type.GroupReadable);
+            return this.get(Type.GroupReadable);
         }
-        return get(Type.OtherReadable);
+        return this.get(Type.OtherReadable);
     }
 
-
-    public Integer makeReadable(boolean readable, boolean ownerOnly)
-    {
-        EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
-        map.put(Type.UserReadable, readable);
-        if (!ownerOnly)
-        {
-            map.put(Type.GroupReadable, readable);
-            map.put(Type.OtherReadable, readable);
-        }
-
-        return this.computeNewPermissions(map);
-    }
-
+    /**
+     * Gets whether the permissions are writable.
+     * 
+     * @return whether the permissions are writable.
+     */
     public boolean isWritable()
     {
-        if (isOwner)
+        if (this.isOwner)
         {
-            return get(Type.UserWritable);
+            return this.get(Type.UserWritable);
         }
-        if (isInGroup)
+        if (this.isInGroup)
         {
-            return get(Type.GroupWritable);
+            return this.get(Type.GroupWritable);
         }
-        return get(Type.OtherWritable);
+        return this.get(Type.OtherWritable);
     }
 
-    public Integer makeWritable(boolean writable, boolean ownerOnly)
+    /**
+     * Creates new permissions based on these permissions.
+     * 
+     * @param executable
+     *            Whether the new permissions should be readable.
+     * @param ownerOnly
+     *            Whether the new permissions are only for the owner.
+     * @return the new permissions.
+     */
+    public int makeExecutable(final boolean executable, final boolean ownerOnly)
     {
-        EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
-        map.put(Type.UserWritable, writable);
-        if (!ownerOnly)
-        {
-            map.put(Type.GroupWritable, writable);
-            map.put(Type.OtherWritable, writable);
-        }
-
-        return this.computeNewPermissions(map);
-    }
-
-    public boolean isExecutable()
-    {
-        if (isOwner)
-        {
-            return get(Type.UserExecutable);
-        }
-        if (isInGroup)
-        {
-            return get(Type.GroupExecutable);
-        }
-        return get(Type.OtherExecutable);
-    }
-
-    public int makeExecutable(boolean executable, boolean ownerOnly)
-    {
-        EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
+        final EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
         map.put(Type.UserExecutable, executable);
         if (!ownerOnly)
         {
             map.put(Type.GroupExecutable, executable);
             map.put(Type.OtherExecutable, executable);
         }
+        return this.computeNewPermissions(map);
+    }
 
+    /**
+     * Creates new permissions based on these permissions.
+     * 
+     * @param readable
+     *            Whether the new permissions should be readable.
+     * @param ownerOnly
+     *            Whether the new permissions are only for the owner.
+     * @return the new permissions.
+     */
+    public Integer makeReadable(final boolean readable, final boolean ownerOnly)
+    {
+        final EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
+        map.put(Type.UserReadable, readable);
+        if (!ownerOnly)
+        {
+            map.put(Type.GroupReadable, readable);
+            map.put(Type.OtherReadable, readable);
+        }
+        return this.computeNewPermissions(map);
+    }
+
+    /**
+     * Creates new permissions based on these permissions.
+     * 
+     * @param writable
+     *            Whether the new permissions should be readable.
+     * @param ownerOnly
+     *            Whether the new permissions are only for the owner.
+     * @return the new permissions.
+     */
+    public Integer makeWritable(final boolean writable, final boolean ownerOnly)
+    {
+        final EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
+        map.put(Type.UserWritable, writable);
+        if (!ownerOnly)
+        {
+            map.put(Type.GroupWritable, writable);
+            map.put(Type.OtherWritable, writable);
+        }
         return this.computeNewPermissions(map);
     }
 }
