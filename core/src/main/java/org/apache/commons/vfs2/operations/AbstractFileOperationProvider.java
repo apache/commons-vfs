@@ -91,7 +91,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
     /**
      *
      * @param operationClass
-     * @return
+     * @return a new file operation
      * @throws FileSystemException
      */
     protected abstract FileOperation instantiateOperation(final FileObject file,
