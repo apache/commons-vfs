@@ -39,16 +39,19 @@ public class SftpFileSystem
     extends AbstractFileSystem
     implements FileSystem
 {
-
     private static final long LAST_MOD_TIME_ACCURACY = 1000L;
 
     private Session session;
+
     // private final JSch jSch;
+    
     private ChannelSftp idleChannel;
+    
     /**
      * Cache for the user ID (-1 when not set)
      */
     private int uid = -1;
+    
     /**
      * Cache for the user groups ids (null when not set)
      */
@@ -84,7 +87,6 @@ public class SftpFileSystem
     protected ChannelSftp getChannel() throws IOException
     {
         ensureSession();
-
         try
         {
             // Use the pooled channel, or create a new one
@@ -98,7 +100,6 @@ public class SftpFileSystem
             {
                 channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect();
-
                 Boolean userDirIsRoot =
                     SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
                 String workingDirectory = getRootName().getPath();
@@ -115,14 +116,11 @@ public class SftpFileSystem
                     }
                 }
             }
-
             return channel;
         }
         catch (final JSchException e)
         {
-            throw new FileSystemException("vfs.provider.sftp/connect.error",
-                getRootName(),
-                e);
+            throw new FileSystemException("vfs.provider.sftp/connect.error", getRootName(), e);
         }
     }
 
@@ -156,15 +154,12 @@ public class SftpFileSystem
             }
             catch (final Exception e)
             {
-                throw new FileSystemException("vfs.provider.sftp/connect.error",
-                    getRootName(),
-                    e);
+                throw new FileSystemException("vfs.provider.sftp/connect.error", getRootName(), e);
             }
             finally
             {
                 UserAuthenticatorUtils.cleanup(authData);
             }
-
             this.session = session;
         }
     }
@@ -229,7 +224,6 @@ public class SftpFileSystem
     {
         if (groupsIds == null)
         {
-
             StringBuilder output = new StringBuilder();
             int code = executeCommand("id -G", output);
             if (code != 0)
@@ -243,7 +237,6 @@ public class SftpFileSystem
                 groupsIds[i] = Integer.parseInt(groups[i]);
 
             this.groupsIds = groupsIds;
-
         }
         return groupsIds;
     }
@@ -259,11 +252,11 @@ public class SftpFileSystem
     {
         if (uid < 0)
         {
-
             StringBuilder output = new StringBuilder();
             int code = executeCommand("id -u", output);
-            if (code != 0)
+            if (code != 0) {
                 throw new JSchException("Could not get the user id of the current user (error code: " + code  + ")");
+            }
             uid = Integer.parseInt(output.toString().trim());
         }
         return uid;
@@ -299,12 +292,17 @@ public class SftpFileSystem
         stream.close();
 
         // Wait until the command finishes (should not be long since we read the output stream)
-        while (!channel.isClosed()) {
-            try{Thread.sleep(100);} catch(Exception ee){}
+        while (!channel.isClosed())
+        {
+            try
+            {
+                Thread.sleep(100);
+            } catch (Exception ee)
+            {
+                // TODO: swallow exception, really?
+            }
         }
-
         channel.disconnect();
-
         return channel.getExitStatus();
     }
 }
