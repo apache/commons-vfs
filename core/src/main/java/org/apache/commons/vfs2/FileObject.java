@@ -183,8 +183,9 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject getChild(String name) throws FileSystemException;
 
     /**
-     * Finds a file, relative to this file.  Refer to {@link NameScope}
-     * for a description of how names are resolved in the different scopes.
+     * Finds a file relative to this file.
+     * 
+     * Refer to {@link NameScope} for a description of how names are resolved in the different scopes.
      *
      * @param name The name to resolve.
      * @param scope the NameScope for the file.
@@ -195,13 +196,13 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
         throws FileSystemException;
 
     /**
-     * Sets the owner's (or everybody's) write permission
+     * Sets the owner's (or everybody's) write permission.
      * 
      * @param executable
-     *            True to allow read access, false to disallow
+     *            True to allow read access, false to disallow.
      * @param ownerOnly
      *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
-     * @return true if the operation succeeded
+     * @return true if the operation succeeded.
      * @throws FileSystemException
      *             On error determining if this file exists.
      * @since 2.1
