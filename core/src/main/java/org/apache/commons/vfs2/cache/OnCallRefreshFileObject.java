@@ -157,6 +157,27 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
+    public boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException
+    {
+        refresh();
+        return super.setExecutable(executable, ownerOnly);
+    }
+
+    @Override
+    public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
+    {
+        refresh();
+        return super.setReadable(readable, ownerOnly);
+    }
+
+    @Override
+    public boolean setWritable(boolean writable, boolean ownerOnly) throws FileSystemException
+    {
+        refresh();
+        return super.setWritable(writable, ownerOnly);
+    }
+
+    @Override
     public void moveTo(FileObject destFile) throws FileSystemException
     {
         refresh();

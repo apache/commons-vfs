@@ -159,9 +159,27 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.isReadable();
     }
 
+    @Override
+    public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
+    {
+        return decoratedFileObject.setReadable(readable, ownerOnly);
+    }
+
     public boolean isWriteable() throws FileSystemException
     {
         return decoratedFileObject.isWriteable();
+    }
+
+    @Override
+    public boolean setWritable(boolean writable, boolean ownerOnly) throws FileSystemException
+    {
+        return decoratedFileObject.setWritable(writable, ownerOnly);
+    }
+
+    @Override
+    public boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException
+    {
+        return decoratedFileObject.setExecutable(executable, ownerOnly);
     }
 
     public Iterator<FileObject> iterator()

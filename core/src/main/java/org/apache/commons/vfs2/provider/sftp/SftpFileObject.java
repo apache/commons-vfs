@@ -20,9 +20,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.jcraft.jsch.JSchException;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -33,10 +35,7 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.UriParser;
-import org.apache.commons.vfs2.util.FileObjectUtils;
-import org.apache.commons.vfs2.util.MonitorInputStream;
-import org.apache.commons.vfs2.util.MonitorOutputStream;
-import org.apache.commons.vfs2.util.RandomAccessMode;
+import org.apache.commons.vfs2.util.*;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -240,19 +239,23 @@ public class SftpFileObject extends AbstractFileObject
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception
     {
+        int newMTime = (int) (modtime / MOD_TIME_FACTOR);
+        attrs.setACMODTIME(attrs.getATime(), newMTime);
+        flushStat();
+        return true;
+    }
+
+    private void flushStat() throws IOException, SftpException
+    {
         final ChannelSftp channel = fileSystem.getChannel();
         try
         {
-            int newMTime = (int) (modtime / MOD_TIME_FACTOR);
-
-            attrs.setACMODTIME(attrs.getATime(), newMTime);
             channel.setStat(relPath, attrs);
         }
         finally
         {
             fileSystem.putChannel(channel);
         }
-        return true;
     }
 
     /**
@@ -295,6 +298,103 @@ public class SftpFileObject extends AbstractFileObject
         {
             fileSystem.putChannel(channel);
         }
+    }
+
+    /**
+     * Returns the POSIX type permissions of the file.
+     * 
+     * @boolean true if user and group ID should be checked (needed for some access rights checks)
+     * @return A PosixPermission object
+     * @throws Exception If an error occurs
+     * @since 2.1
+     */
+    protected PosixPermissions getPermissions(boolean checkIds) throws Exception
+    {
+        statSelf();
+        boolean isInGroup = false;
+        if (checkIds)
+        {
+            for (int groupId : fileSystem.getGroupsIds())
+            {
+                if (groupId == attrs.getGId())
+                {
+                    isInGroup = true;
+                    break;
+                }
+            }
+        }
+        final boolean isOwner = checkIds ?  attrs.getUId() == fileSystem.getUId() : false;
+        final PosixPermissions permissions = new PosixPermissions(attrs.getPermissions(), isOwner, isInGroup);
+
+        return permissions;
+    }
+
+    @Override
+    protected boolean doIsReadable() throws Exception
+    {
+        return getPermissions(true).isReadable();
+    }
+
+    @Override
+    protected boolean doSetReadable(boolean readable, boolean ownerOnly) throws Exception
+    {
+        final PosixPermissions permissions = getPermissions(false);
+        int newPermissions = permissions.makeReadable(readable, ownerOnly);
+        if (newPermissions == permissions.getPermissions())
+        {
+            return true;
+        }
+
+        attrs.setPERMISSIONS(newPermissions);
+        flushStat();
+
+        return true;
+    }
+
+    @Override
+    protected boolean doIsWriteable() throws Exception
+    {
+        return getPermissions(true).isWritable();
+    }
+
+    @Override
+    protected boolean doSetWritable(boolean writable, boolean ownerOnly) throws Exception
+    {
+        final PosixPermissions permissions = getPermissions(false);
+        int newPermissions = permissions.makeWritable(writable, ownerOnly);
+        if (newPermissions == permissions.getPermissions())
+        {
+            return true;
+        }
+
+        attrs.setPERMISSIONS(newPermissions);
+        flushStat();
+
+        return true;
+    }
+
+    @Override
+    protected boolean doIsExecutable() throws Exception
+    {
+        final PosixPermissions permissions = getPermissions(true);
+        return permissions.isExecutable();
+    }
+
+
+    @Override
+    protected boolean doSetExecutable(boolean executable, boolean ownerOnly) throws Exception
+    {
+        final PosixPermissions permissions = getPermissions(false);
+        int newPermissions = permissions.makeExecutable(executable, ownerOnly);
+        if (newPermissions == permissions.getPermissions())
+        {
+            return true;
+        }
+
+        attrs.setPERMISSIONS(newPermissions);
+        flushStat();
+
+        return true;
     }
 
     /**

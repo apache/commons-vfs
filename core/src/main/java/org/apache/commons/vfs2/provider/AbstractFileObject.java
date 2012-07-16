@@ -176,6 +176,17 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
+     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * 
+     * @see {@link #setReadable(boolean, boolean)}
+     * @since 2.1
+     */
+    protected boolean doSetReadable(boolean readable, boolean ownerOnly) throws Exception
+    {
+        return false;
+    }
+
+    /**
      * Determines if this file can be written to.  Is only called if
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
@@ -186,6 +197,28 @@ public abstract class AbstractFileObject implements FileObject
     protected boolean doIsWriteable() throws Exception
     {
         return true;
+    }
+
+    /**
+     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * 
+     * @see {@link #setWritable(boolean, boolean)}
+     * @since 2.1
+     */
+    protected boolean doSetWritable(boolean writable, boolean ownerOnly) throws Exception
+    {
+        return false;
+    }
+
+    /**
+     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * 
+     * @see {@link #setExecutable(boolean, boolean)}
+     * @since 2.1
+     */
+    protected boolean doSetExecutable(boolean writable, boolean ownerOnly) throws Exception
+    {
+        return false;
     }
 
     /**
@@ -620,6 +653,26 @@ public abstract class AbstractFileObject implements FileObject
         }
     }
 
+    @Override
+    public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
+    {
+        try
+        {
+            if (exists())
+            {
+                return doSetReadable(readable, ownerOnly);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/set-readable.error", name, exc);
+        }
+    }
+
     /**
      * Determines if this file can be written to.
      * @return true if the file can be written to, false otherwise.
@@ -646,6 +699,46 @@ public abstract class AbstractFileObject implements FileObject
         catch (final Exception exc)
         {
             throw new FileSystemException("vfs.provider/check-is-writeable.error", name, exc);
+        }
+    }
+
+    @Override
+    public boolean setWritable(boolean readable, boolean ownerOnly) throws FileSystemException
+    {
+        try
+        {
+            if (exists())
+            {
+                return doSetWritable(readable, ownerOnly);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/set-writeable.error", name, exc);
+        }
+    }
+
+    @Override
+    public boolean setExecutable(boolean readable, boolean ownerOnly) throws FileSystemException
+    {
+        try
+        {
+            if (exists())
+            {
+                return doSetExecutable(readable, ownerOnly);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/set-executable.error", name, exc);
         }
     }
 

@@ -128,8 +128,8 @@
     <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
-    <maven.compile.source>1.5</maven.compile.source>
-    <maven.compile.target>1.5</maven.compile.target>
+    <maven.compile.source>1.6</maven.compile.source>
+    <maven.compile.target>1.6</maven.compile.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
   </properties>
@@ -153,13 +153,11 @@
         </plugin>
         <!-- Use 2.11 to run individual tests, 2.12 seems to no longer support this feature.  -->
         <!-- See http://jira.codehaus.org/browse/SUREFIRE-827 -->
-        <!-- 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.11</version>
         </plugin>
-         -->
       </plugins>
     </pluginManagement>
     <plugins>

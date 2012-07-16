@@ -17,8 +17,11 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 import java.util.Collection;
 
+import com.jcraft.jsch.*;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
@@ -29,11 +32,6 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
-
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
 
 /**
  * Represents the files on an SFTP server.
@@ -48,6 +46,14 @@ public class SftpFileSystem
     private Session session;
     // private final JSch jSch;
     private ChannelSftp idleChannel;
+    /**
+     * Cache for the user ID (-1 when not set)
+     */
+    private int uid = -1;
+    /**
+     * Cache for the user groups ids (null when not set)
+     */
+    private int[] groupsIds;
 
     protected SftpFileSystem(final GenericFileName rootName,
                              final Session session,
@@ -78,42 +84,7 @@ public class SftpFileSystem
      */
     protected ChannelSftp getChannel() throws IOException
     {
-        if (this.session == null || !this.session.isConnected())
-        {
-            doCloseCommunicationLink();
-
-            // channel closed. e.g. by freeUnusedResources, but now we need it again
-            Session session;
-            UserAuthenticationData authData = null;
-            try
-            {
-                final GenericFileName rootName = (GenericFileName) getRootName();
-
-                authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(),
-                    SftpFileProvider.AUTHENTICATOR_TYPES);
-
-                session = SftpClientFactory.createConnection(
-                    rootName.getHostName(),
-                    rootName.getPort(),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                        UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                        UserAuthenticatorUtils.toChar(rootName.getPassword())),
-                    getFileSystemOptions());
-            }
-            catch (final Exception e)
-            {
-                throw new FileSystemException("vfs.provider.sftp/connect.error",
-                    getRootName(),
-                    e);
-            }
-            finally
-            {
-                UserAuthenticatorUtils.cleanup(authData);
-            }
-
-            this.session = session;
-        }
+        ensureSession();
 
         try
         {
@@ -153,6 +124,49 @@ public class SftpFileSystem
             throw new FileSystemException("vfs.provider.sftp/connect.error",
                 getRootName(),
                 e);
+        }
+    }
+
+    /**
+     * Ensures that the session link is established
+     */
+    private void ensureSession() throws FileSystemException
+    {
+        if (this.session == null || !this.session.isConnected())
+        {
+            doCloseCommunicationLink();
+
+            // channel closed. e.g. by freeUnusedResources, but now we need it again
+            Session session;
+            UserAuthenticationData authData = null;
+            try
+            {
+                final GenericFileName rootName = (GenericFileName) getRootName();
+
+                authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(),
+                        SftpFileProvider.AUTHENTICATOR_TYPES);
+
+                session = SftpClientFactory.createConnection(
+                        rootName.getHostName(),
+                        rootName.getPort(),
+                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                                UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                                UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                        getFileSystemOptions());
+            }
+            catch (final Exception e)
+            {
+                throw new FileSystemException("vfs.provider.sftp/connect.error",
+                    getRootName(),
+                    e);
+            }
+            finally
+            {
+                UserAuthenticatorUtils.cleanup(authData);
+            }
+
+            this.session = session;
         }
     }
 
@@ -204,5 +218,91 @@ public class SftpFileSystem
     public double getLastModTimeAccuracy()
     {
         return LAST_MOD_TIME_ACCURACY;
+    }
+
+    /**
+     * Get the (numeric) group ids
+     * @return
+     * @throws JSchException If a problem occurs while retrieving the groups ID
+     */
+    public int[] getGroupsIds() throws JSchException, IOException
+    {
+        if (groupsIds == null)
+        {
+
+            StringBuilder output = new StringBuilder();
+            int code = executeCommand("id -G", output);
+            if (code != 0)
+                throw new JSchException("Could not get the groups id of the current user (error code: " + code  + ")");
+
+            // Retrieve the different groups
+            final String[] groups = output.toString().trim().split("\\s+");
+
+            int [] groupsIds = new int [groups.length];
+            for(int i = 0; i < groups.length; i++)
+                groupsIds[i] = Integer.parseInt(groups[i]);
+
+            this.groupsIds = groupsIds;
+
+        }
+        return groupsIds;
+    }
+
+    /**
+     * Get the (numeric) group ids
+     * @return The numeric user ID
+     * @throws JSchException
+     * @throws IOException
+     */
+    public int getUId() throws JSchException, IOException
+    {
+        if (uid < 0)
+        {
+
+            StringBuilder output = new StringBuilder();
+            int code = executeCommand("id -u", output);
+            if (code != 0)
+                throw new JSchException("Could not get the user id of the current user (error code: " + code  + ")");
+            uid = Integer.parseInt(output.toString().trim());
+        }
+        return uid;
+    }
+
+    /**
+     * Execute a command and returns the (standard) output through a StringBuilder
+     * @param command The command
+     * @param output The output
+     * @return The exit code of the command
+     * @throws JSchException
+     * @throws IOException
+     */
+    private int executeCommand(String command, StringBuilder output) throws JSchException, IOException
+    {
+        ensureSession();
+        ChannelExec channel = (ChannelExec) session.openChannel("exec");
+
+        channel.setCommand(command);
+        channel.setInputStream(null);
+        final InputStreamReader stream = new InputStreamReader(channel.getInputStream());
+        channel.setErrStream(System.err, true);
+        channel.connect();
+
+        // Read the stream
+        char[] buffer = new char[128];
+        int read;
+        while ((read = stream.read(buffer, 0, buffer.length)) >= 0)
+        {
+            output.append(buffer, 0, read);
+        }
+        stream.close();
+
+        // Wait until the command finishes (should not be long since we read the output stream)
+        while (!channel.isClosed()) {
+            try{Thread.sleep(100);} catch(Exception ee){}
+        }
+
+        channel.disconnect();
+
+        return channel.getExitStatus();
     }
 }

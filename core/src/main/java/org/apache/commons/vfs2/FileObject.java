@@ -193,6 +193,48 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
         throws FileSystemException;
 
     /**
+     * Sets the owner's (or everybody's) write permission
+     * 
+     * @param executable
+     *            True to allow read access, false to disallow
+     * @param ownerOnly
+     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
+     * @throws FileSystemException
+     *             On error determining if this file exists.
+     * @since 2.1
+     */
+    boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException;
+
+    /**
+     * Sets the owner's (or everybody's) read permission
+     * 
+     * @param readable
+     *            True to allow read access, false to disallow
+     * @param ownerOnly
+     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
+     * @throws FileSystemException
+     *             On error determining if this file exists.
+     * @since 2.1
+     */
+    boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException;
+
+    /**
+     * Sets the owner's (or everybody's) write permission
+     * 
+     * @param writable
+     *            True to allow read access, false to disallow
+     * @param ownerOnly
+     *            If <code>true</code>, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
+     * @throws FileSystemException
+     *             On error determining if this file exists.
+     * @since 2.1
+     */
+    boolean setWritable(boolean writable, boolean ownerOnly) throws FileSystemException;
+
+    /**
      * Finds a file, relative to this file.  Equivalent to calling
      * <code>resolveFile( path, NameScope.FILE_SYSTEM )</code>.
      *

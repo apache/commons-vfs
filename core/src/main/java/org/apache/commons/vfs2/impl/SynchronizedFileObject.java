@@ -181,6 +181,38 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
+    public boolean isExecutable() throws FileSystemException
+    {
+        synchronized (this) {
+            return super.isExecutable();
+        }
+    }
+
+    @Override
+    public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
+    {
+        synchronized (this) {
+            return super.setReadable(readable, ownerOnly);
+        }
+    }
+
+    @Override
+    public boolean setWritable(boolean writable, boolean ownerOnly) throws FileSystemException
+    {
+        synchronized (this) {
+            return super.setWritable(writable, ownerOnly);
+        }
+    }
+
+    @Override
+    public boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException
+    {
+        synchronized (this) {
+            return super.setExecutable(executable, ownerOnly);
+        }
+    }
+
+    @Override
     public void moveTo(FileObject destFile) throws FileSystemException
     {
         synchronized (this)

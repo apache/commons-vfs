@@ -161,6 +161,12 @@ public class LocalFile extends AbstractFileObject
         return file.canWrite();
     }
 
+    @Override
+    protected boolean doSetWritable(boolean writable, boolean ownerOnly) throws Exception
+    {
+        return file.setWritable(writable, ownerOnly);
+    }
+
     /**
      * Determines if this file is hidden.
      */
@@ -186,6 +192,18 @@ public class LocalFile extends AbstractFileObject
     protected boolean doIsReadable() throws FileSystemException
     {
         return file.canRead();
+    }
+
+    @Override
+    protected boolean doSetReadable(boolean readable, boolean ownerOnly) throws Exception
+    {
+        return file.setReadable(readable, ownerOnly);
+    }
+
+    @Override
+    protected boolean doSetExecutable(boolean executable, boolean ownerOnly) throws Exception
+    {
+        return file.setExecutable(executable, ownerOnly);
     }
 
     /**
