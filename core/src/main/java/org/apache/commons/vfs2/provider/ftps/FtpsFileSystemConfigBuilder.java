@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
 
 /**
- * The configuration builder for various FTP configuration options.
+ * The configuration builder for various FTPS configuration options.
  *
  * @since 2.0
  */
@@ -44,15 +44,24 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
     private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
+    
+    /**
+     * FTPS implicit file type.
+     */
     public static final String FTPS_TYPE_IMPLICIT = "implicit";
+
+    /**
+     * FTPS explicit file type.
+     */
     public static final String FTPS_TYPE_EXPLICIT = "explicit";
 
     // For VFS-412
-//  private static final String PROT =
-//          FtpsFileSystemConfigBuilder.class.getName() + ".PROT";
+    // private static final String PROT =
+    // FtpsFileSystemConfigBuilder.class.getName() + ".PROT";
 
     private FtpsFileSystemConfigBuilder()
     {
+        // no init.
     }
 
     /**
