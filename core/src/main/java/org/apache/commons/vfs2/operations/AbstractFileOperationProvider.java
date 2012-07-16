@@ -74,7 +74,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      *            the FileObject for which we need a operation.
      * @param operationClass
      *            the Class which instance we are needed.
-     * @return the requried operation instance.
+     * @return the required operation instance.
      * @throws org.apache.commons.vfs2.FileSystemException
      *             if operation cannot be retrieved.
      */
