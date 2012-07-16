@@ -126,27 +126,29 @@ public void setUp() throws Exception {
    * @param files a list of files to search.
    * @return {@code true} if {@code expectedFile} is in {@code files}. 
    */
-  protected boolean fileExists(String expectedFile, List<FileObject> files) {
-    Iterator<FileObject> iter = files.iterator();
-    while (iter.hasNext()) {
-      FileObject file = iter.next();
-      if(file.getName().getBaseName().equals(expectedFile)) {
-        return true;
-      }
+    protected boolean fileExists(String expectedFile, List<FileObject> files)
+    {
+        for (FileObject file : files)
+        {
+            if (file.getName().getBaseName().equals(expectedFile))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
-    return false;
-  }
-
-  protected boolean endsWith(String testString, String[] testList) {
-    for(int i=0; i < testList.length; ++i) {
-      String testItem = testList[i];
-      if(testString.endsWith(testItem)) {
-        return true;
-      }
+    protected boolean endsWith(String testString, String[] testList)
+    {
+        for (String string : testList)
+        {
+            if (testString.endsWith(string))
+            {
+                return true;
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
   //@SuppressWarnings("unused")
   protected void createLargeFile(String path, final String name) throws Exception {
