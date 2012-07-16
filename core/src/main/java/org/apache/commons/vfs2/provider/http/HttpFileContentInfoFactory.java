@@ -16,8 +16,11 @@
  */
 package org.apache.commons.vfs2.provider.http;
 
+import java.io.IOException;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HeaderElement;
+import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileContentInfo;
 import org.apache.commons.vfs2.FileContentInfoFactory;
@@ -26,7 +29,7 @@ import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
 import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
- * Creates the FileContentInfo.
+ * Creates FileContentInfo instances for HTTP.
  */
 public class HttpFileContentInfoFactory implements FileContentInfoFactory
 {
@@ -38,7 +41,15 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
         String contentType = null;
         String contentEncoding = null;
 
-        Header header = httpFile.getHeadMethod().getResponseHeader("content-type");
+        HeadMethod headMethod;
+        try
+        {
+            headMethod = httpFile.getHeadMethod();
+        } catch (IOException e)
+        {
+            throw new FileSystemException(e);
+        }
+        Header header = headMethod.getResponseHeader("content-type");
         if (header != null)
         {
             HeaderElement[] element = header.getElements();
@@ -48,7 +59,7 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
             }
         }
 
-        contentEncoding = httpFile.getHeadMethod().getResponseCharSet();
+        contentEncoding = headMethod.getResponseCharSet();
 
         return new DefaultFileContentInfo(contentType, contentEncoding);
     }

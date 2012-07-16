@@ -74,11 +74,7 @@ public class HttpFileObject extends AbstractFileObject
     protected FileType doGetType() throws Exception
     {
         // Use the HEAD method to probe the file.
-        method = new HeadMethod();
-        setupMethod(method);
-        final HttpClient client = fileSystem.getClient();
-        final int status = client.executeMethod(method);
-        method.releaseConnection();
+        final int status = this.getHeadMethod().getStatusCode();
         if (status == HttpURLConnection.HTTP_OK)
         {
             return FileType.FILE;
@@ -216,8 +212,16 @@ public class HttpFileObject extends AbstractFileObject
         return new HttpFileContentInfoFactory();
     }
 
-    HeadMethod getHeadMethod()
+    HeadMethod getHeadMethod() throws IOException
     {
+        if (method != null) {
+            return method;
+        }
+        method = new HeadMethod();
+        setupMethod(method);
+        final HttpClient client = fileSystem.getClient();
+        client.executeMethod(method);
+        method.releaseConnection();
         return method;
     }
 

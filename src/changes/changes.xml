@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="New features and bug fix release.">
+      <action issue="VFS-427" dev="ggregory" type="add" due-to="awelynant">
+        [HTTP] NPE on HttpFileObject.getContent().getContentInfo().
+      </action>
       <action issue="VFS-405" dev="ggregory" type="add" due-to="dwaszak">
         Get/set the file permissions.
       </action>
@@ -108,7 +111,7 @@
         [RAM] Reading a RAM FileSystem file fails because it never returns EOF -1.
       </action>
       <action issue="VFS-404" dev="ggregory" type="update">
-        [FTP][FTPS] Update Apache Commons Net to 3.1 from 3.0.1
+        [FTP][FTPS] Update Apache Commons Net to 3.1 from 3.0.1.
       </action>
       <action issue="VFS-402" dev="ggregory" type="update">
         [WebDAV] Update Apache Jackrabbit 1.5.2 to 1.6.5.
