@@ -40,7 +40,8 @@ public class ShowProperties
             System.err.println("e.g. java org.apache.commons.vfs2.example.ShowProperties LICENSE.txt");
             return;
         }
-        for (String arg : args) {
+        for (String arg : args) 
+        {
             try
             {
                 FileSystemManager mgr = VFS.getManager();
@@ -80,7 +81,8 @@ public class ShowProperties
                             }
                         }
                     }
-                    System.out.println("Last modified: " + DateFormat.getInstance().format(new Date(file.getContent().getLastModifiedTime())));
+                    System.out.println("Last modified: " + DateFormat.getInstance().format(
+                            new Date(file.getContent().getLastModifiedTime())));
                 }
                 else
                 {
