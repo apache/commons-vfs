@@ -52,7 +52,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      *            the FileObject for which we want to get the list of available
      *            operations.
      * @throws org.apache.commons.vfs2.FileSystemException
-     *             if list of operations cannto be retrieved.
+     *             if list of operations cannot be retrieved.
      */
     public final void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
             final FileObject file) throws FileSystemException
