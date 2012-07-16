@@ -27,7 +27,7 @@ import java.io.InputStream;
 public interface RandomAccessContent extends DataOutput, DataInput
 {
     /**
-     * Closes this random access file stream and releases any system resources associated with the stream. </p>
+     * Closes this random access file stream and releases any system resources associated with the stream.
      * <p>
      * A closed random access file cannot perform input or output operations and cannot be reopened.
      * </p>
