@@ -254,7 +254,7 @@ public final class SftpClientFactory
      * <ol>
      * <li>The system property {@code vfs.sftp.sshdir} (the override
      * mechanism)</li>
-     * <li>{@code {user.home}/.ssh}</li>
+     * <li>{user.home}/.ssh</li>
      * <li>On Windows only: C:\cygwin\home\{user.name}\.ssh</li>
      * <li>The current directory, as a last resort.</li>
      * <ol>
