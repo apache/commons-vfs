@@ -44,6 +44,7 @@ final class DefaultVfsComponentContext
     /**
      * Locate a file by name.
      */
+    @Override
     public FileObject resolveFile(final FileObject baseFile, final String name,
                                   final FileSystemOptions fileSystemOptions)
         throws FileSystemException
@@ -54,12 +55,14 @@ final class DefaultVfsComponentContext
     /**
      * Locate a file by name.
      */
+    @Override
     public FileObject resolveFile(final String name, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         return manager.resolveFile(name, fileSystemOptions);
     }
 
+    @Override
     public FileName parseURI(String uri) throws FileSystemException
     {
         return manager.resolveURI(uri);
@@ -68,6 +71,7 @@ final class DefaultVfsComponentContext
     /**
      * Returns a {@link FileObject} for a local file.
      */
+    @Override
     public FileObject toFileObject(File file)
         throws FileSystemException
     {
@@ -77,6 +81,7 @@ final class DefaultVfsComponentContext
     /**
      * Locates a file replicator for the provider to use.
      */
+    @Override
     public FileReplicator getReplicator() throws FileSystemException
     {
         return manager.getReplicator();
@@ -85,6 +90,7 @@ final class DefaultVfsComponentContext
     /**
      * Locates a temporary file store for the provider to use.
      */
+    @Override
     public TemporaryFileStore getTemporaryFileStore() throws FileSystemException
     {
         return manager.getTemporaryFileStore();
@@ -95,6 +101,7 @@ final class DefaultVfsComponentContext
      *
      * @return the filesystem manager
      */
+    @Override
     public FileSystemManager getFileSystemManager()
     {
         return manager;

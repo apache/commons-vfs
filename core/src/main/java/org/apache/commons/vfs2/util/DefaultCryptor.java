@@ -43,6 +43,7 @@ public class DefaultCryptor implements Cryptor
      * @return The encrypted password String.
      * @throws Exception If an error occurs.
      */
+    @Override
     public String encrypt(String plainKey) throws Exception
     {
         byte[] input = plainKey.getBytes();
@@ -65,6 +66,7 @@ public class DefaultCryptor implements Cryptor
      * @return The plain text password.
      * @throws Exception If an error occurs.
      */
+    @Override
     public String decrypt(String encryptedKey) throws Exception
     {
         SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");

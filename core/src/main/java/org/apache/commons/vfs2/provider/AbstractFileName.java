@@ -92,6 +92,7 @@ public abstract class AbstractFileName implements FileName
      * @param obj another abstract filename
      * @return negative number if less than, 0 if equal, positive if greater than.
      */
+    @Override
     public int compareTo(FileName obj)
     {
         final AbstractFileName name = (AbstractFileName) obj;
@@ -128,6 +129,7 @@ public abstract class AbstractFileName implements FileName
      * Returns the base name of the file.
      * @return The base name of the file.
      */
+    @Override
     public String getBaseName()
     {
         if (baseName == null)
@@ -151,6 +153,7 @@ public abstract class AbstractFileName implements FileName
      * file system that the file belongs to.
      * @return The path String.
      */
+    @Override
     public String getPath()
     {
         if (VFS.isUriStyle())
@@ -170,6 +173,7 @@ public abstract class AbstractFileName implements FileName
      * @return The decoded path String.
      * @throws FileSystemException If an error occurs.
      */
+    @Override
     public String getPathDecoded() throws FileSystemException
     {
         if (decodedAbsPath == null)
@@ -184,6 +188,7 @@ public abstract class AbstractFileName implements FileName
      * Returns the name of the parent of the file.
      * @return the FileName of the parent.
      */
+    @Override
     public FileName getParent()
     {
         final String parentPath;
@@ -209,6 +214,7 @@ public abstract class AbstractFileName implements FileName
      * find the root of the filesystem.
      * @return The root FileName.
      */
+    @Override
     public FileName getRoot()
     {
         FileName root = this;
@@ -224,6 +230,7 @@ public abstract class AbstractFileName implements FileName
      * Returns the URI scheme of this file.
      * @return The protocol used to access the file.
      */
+    @Override
     public String getScheme()
     {
         return scheme;
@@ -233,6 +240,7 @@ public abstract class AbstractFileName implements FileName
      * Returns the absolute URI of the file.
      * @return The absolute URI of the file.
      */
+    @Override
     public String getURI()
     {
         if (uri == null)
@@ -264,6 +272,7 @@ public abstract class AbstractFileName implements FileName
      * returns a "friendly path", this is a path without a password.
      * @return The "friendly" URI.
      */
+    @Override
     public String getFriendlyURI()
     {
         return createURI(false, false);
@@ -284,6 +293,7 @@ public abstract class AbstractFileName implements FileName
      * @return The relative path to the file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public String getRelativeName(final FileName name) throws FileSystemException
     {
         final String path = name.getPath();
@@ -345,6 +355,7 @@ public abstract class AbstractFileName implements FileName
      * Returns the root URI of the file system this file belongs to.
      * @return The URI of the root.
      */
+    @Override
     public String getRootURI()
     {
         if (rootUri == null)
@@ -361,6 +372,7 @@ public abstract class AbstractFileName implements FileName
      * Returns the depth of this file name, within its file system.
      * @return The depth of the file name.
      */
+    @Override
     public int getDepth()
     {
         final int len = getPath().length();
@@ -380,6 +392,7 @@ public abstract class AbstractFileName implements FileName
      * Returns the extension of this file name.
      * @return The file extension.
      */
+    @Override
     public String getExtension()
     {
         if (extension == null)
@@ -409,6 +422,7 @@ public abstract class AbstractFileName implements FileName
      * @param ancestor The FileName to check.
      * @return true if the FileName is an ancestor, false otherwise.
      */
+    @Override
     public boolean isAncestor(final FileName ancestor)
     {
         if (!ancestor.getRootURI().equals(getRootURI()))
@@ -423,6 +437,7 @@ public abstract class AbstractFileName implements FileName
      * @param descendent The FileName to check.
      * @return true if the FileName is a descendent, false otherwise.
      */
+    @Override
     public boolean isDescendent(final FileName descendent)
     {
         return isDescendent(descendent, NameScope.DESCENDENT);
@@ -434,6 +449,7 @@ public abstract class AbstractFileName implements FileName
      * @param scope The NameScope.
      * @return true if the FileName is a descendent, false otherwise.
      */
+    @Override
     public boolean isDescendent(final FileName descendent,
                                 final NameScope scope)
     {
@@ -452,6 +468,7 @@ public abstract class AbstractFileName implements FileName
      * @see #getType()
      * @see FileType#FILE
      */
+    @Override
     public boolean isFile() throws FileSystemException
     {
         // Use equals instead of == to avoid any class loader worries.
@@ -471,6 +488,7 @@ public abstract class AbstractFileName implements FileName
      *
      * @return {@link FileType#FOLDER} or {@link FileType#FILE}
      */
+    @Override
     public FileType getType()
     {
         return type;

@@ -392,6 +392,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @throws FileSystemException On error closing the file.
      * @see FileContent#close
      */
+    @Override
     void close() throws FileSystemException;
 
     /**

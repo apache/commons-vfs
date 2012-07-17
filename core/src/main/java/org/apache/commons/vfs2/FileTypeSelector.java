@@ -42,6 +42,7 @@ public class FileTypeSelector
      * @return true if the file or folder should be selected.
      * @throws FileSystemException if an error occurs
      */
+    @Override
     public boolean includeFile(final FileSelectInfo fileInfo)
         throws FileSystemException
     {
@@ -53,6 +54,7 @@ public class FileTypeSelector
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be traversed.
      */
+    @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
         return true;

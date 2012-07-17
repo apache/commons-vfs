@@ -57,6 +57,7 @@ public class ResourceFileProvider extends AbstractFileProvider
      * @return the FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject findFile(final FileObject baseFile,
                                final String uri,
                                final FileSystemOptions fileSystemOptions)
@@ -94,6 +95,7 @@ public class ResourceFileProvider extends AbstractFileProvider
         // no filesystem created here - so nothing to do
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

@@ -72,40 +72,49 @@ public class VfsTask
     private class CloseListener
         implements SubBuildListener
     {
+        @Override
         public void subBuildStarted(BuildEvent buildEvent)
         {
         }
 
+        @Override
         public void subBuildFinished(BuildEvent buildEvent)
         {
             closeManager();
         }
 
+        @Override
         public void buildFinished(BuildEvent event)
         {
             closeManager();
         }
 
+        @Override
         public void buildStarted(BuildEvent event)
         {
         }
 
+        @Override
         public void messageLogged(BuildEvent event)
         {
         }
 
+        @Override
         public void targetFinished(BuildEvent event)
         {
         }
 
+        @Override
         public void targetStarted(BuildEvent event)
         {
         }
 
+        @Override
         public void taskFinished(BuildEvent event)
         {
         }
 
+        @Override
         public void taskStarted(BuildEvent event)
         {
         }
@@ -117,89 +126,107 @@ public class VfsTask
     private class AntLogger
         implements Log
     {
+        @Override
         public void debug(final Object o)
         {
             log(String.valueOf(o), Project.MSG_DEBUG);
         }
 
+        @Override
         public void debug(Object o, Throwable throwable)
         {
             debug(o);
         }
 
+        @Override
         public void error(Object o)
         {
             log(String.valueOf(o), Project.MSG_ERR);
         }
 
+        @Override
         public void error(Object o, Throwable throwable)
         {
             error(o);
         }
 
+        @Override
         public void fatal(Object o)
         {
             log(String.valueOf(o), Project.MSG_ERR);
         }
 
+        @Override
         public void fatal(Object o, Throwable throwable)
         {
             fatal(o);
         }
 
+        @Override
         public void info(Object o)
         {
             log(String.valueOf(o), Project.MSG_INFO);
         }
 
+        @Override
         public void info(Object o, Throwable throwable)
         {
             info(o);
         }
 
+        @Override
         public void trace(Object o)
         {
         }
 
+        @Override
         public void trace(Object o, Throwable throwable)
         {
         }
 
+        @Override
         public void warn(Object o)
         {
             log(String.valueOf(o), Project.MSG_WARN);
         }
 
+        @Override
         public void warn(Object o, Throwable throwable)
         {
             warn(o);
         }
 
+        @Override
         public boolean isDebugEnabled()
         {
             return true;
         }
 
+        @Override
         public boolean isErrorEnabled()
         {
             return true;
         }
 
+        @Override
         public boolean isFatalEnabled()
         {
             return true;
         }
 
+        @Override
         public boolean isInfoEnabled()
         {
             return true;
         }
 
+        @Override
         public boolean isTraceEnabled()
         {
             return false;
         }
 
+        @Override
         public boolean isWarnEnabled()
         {
             return true;

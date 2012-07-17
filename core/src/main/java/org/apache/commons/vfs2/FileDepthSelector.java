@@ -74,6 +74,7 @@ public class FileDepthSelector implements FileSelector
      *            The file selection information
      * @return true if the file or folder should be included, false otherwise.
      */
+    @Override
     public boolean includeFile(final FileSelectInfo fileInfo)
     {
         final int depth = fileInfo.getDepth();
@@ -87,6 +88,7 @@ public class FileDepthSelector implements FileSelector
      *            The file selection information
      * @return true if the file or folder should be traversed, false otherwise.
      */
+    @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
         return fileInfo.getDepth() < maxDepth;

@@ -33,6 +33,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  */
 public class HttpFileContentInfoFactory implements FileContentInfoFactory
 {
+    @Override
     public FileContentInfo create(FileContent fileContent) throws FileSystemException
     {
         HttpFileObject httpFile = (HttpFileObject) FileObjectUtils

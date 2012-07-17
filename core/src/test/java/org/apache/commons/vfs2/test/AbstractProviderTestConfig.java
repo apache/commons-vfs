@@ -31,6 +31,7 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     /**
      * Returns a DefaultFileSystemManager instance (or subclass instance).
      */
+    @Override
     public DefaultFileSystemManager getDefaultFileSystemManager() {
         return new DefaultFileSystemManager();
     }
@@ -38,11 +39,13 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     /**
      * Prepares the file system manager.  This implementation does nothing.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
     }
 
+    @Override
     public FilesCache getFilesCache()
     {
         if (cache == null)
@@ -54,6 +57,7 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
         return cache;
     }
 
+    @Override
     public boolean isFileSystemRootAccessible()
     {
         return true;

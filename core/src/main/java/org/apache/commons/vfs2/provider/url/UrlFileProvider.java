@@ -60,6 +60,7 @@ public class UrlFileProvider
      * @return The FileObject
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public synchronized FileObject findFile(final FileObject baseFile,
                                             final String uri,
                                             final FileSystemOptions fileSystemOptions)
@@ -96,6 +97,7 @@ public class UrlFileProvider
         return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

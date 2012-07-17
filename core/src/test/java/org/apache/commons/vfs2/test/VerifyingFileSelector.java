@@ -55,6 +55,7 @@ public class VerifyingFileSelector
     /**
      * Determines if a file or folder should be selected.
      */
+    @Override
     public boolean includeFile(final FileSelectInfo fileInfo)
         throws FileSystemException
     {
@@ -83,6 +84,7 @@ public class VerifyingFileSelector
     /**
      * Determines whether a folder should be traversed.
      */
+    @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo)
         throws FileSystemException
     {

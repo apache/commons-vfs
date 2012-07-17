@@ -46,6 +46,7 @@ public class TgzFileProvider extends CompositeFileProvider
         return SCHEMES;
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

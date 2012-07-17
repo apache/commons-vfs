@@ -81,6 +81,7 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
      *
      * @see org.apache.commons.vfs2.provider.FileProvider#getCapabilities()
      */
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

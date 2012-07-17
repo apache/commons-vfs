@@ -82,6 +82,7 @@ public class DefaultLocalFileProvider
      * @param name The file name.
      * @return true if the name is absolute, false otherwise.
      */
+    @Override
     public boolean isAbsoluteLocalName(final String name)
     {
         return ((LocalFileNameParser) getFileNameParser()).isAbsoluteName(name);
@@ -93,6 +94,7 @@ public class DefaultLocalFileProvider
      * @return the located FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject findLocalFile(final String name)
         throws FileSystemException
     {
@@ -110,6 +112,7 @@ public class DefaultLocalFileProvider
      * @return the located FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject findLocalFile(final File file)
         throws FileSystemException
     {
@@ -129,6 +132,7 @@ public class DefaultLocalFileProvider
         return new LocalFileSystem(rootName, rootName.getRootFile(), fileSystemOptions);
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

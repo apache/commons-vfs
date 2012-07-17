@@ -45,6 +45,7 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
      * @return A FileObject for the located file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject findFile(final FileObject baseFile,
                                final String uri,
                                final FileSystemOptions fileSystemOptions)

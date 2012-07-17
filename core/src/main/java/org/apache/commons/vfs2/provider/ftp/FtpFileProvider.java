@@ -102,6 +102,7 @@ public class FtpFileProvider
         return FtpFileSystemConfigBuilder.getInstance();
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

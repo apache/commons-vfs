@@ -199,6 +199,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @param scheme The scheme to check.
      * @return true if a provider is configured for this scheme, false otherwise.
      */
+    @Override
     public boolean hasProvider(final String scheme)
     {
         return providers.containsKey(scheme);
@@ -243,6 +244,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Returns the filesCache implementation used to cache files.
      * @return The FilesCache.
      */
+    @Override
     public FilesCache getFilesCache()
     {
         return filesCache;
@@ -292,6 +294,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Get the cache strategy used.
      * @return The CacheStrategy.
      */
+    @Override
     public CacheStrategy getCacheStrategy()
     {
         return fileCacheStrategy;
@@ -301,6 +304,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Get the file object decorator used.
      * @return The decorator.
      */
+    @Override
     public Class<?> getFileObjectDecorator()
     {
         return fileObjectDecorator;
@@ -311,6 +315,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * We cache it here for performance reasons.
      * @return The decorator's Constructor.
      */
+    @Override
     public Constructor<?> getFileObjectDecoratorConst()
     {
         return fileObjectDecoratorConst;
@@ -351,6 +356,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * content.
      * @return The FileContentInfoFactory.
      */
+    @Override
     public FileContentInfoFactory getFileContentInfoFactory()
     {
         return fileContentInfoFactory;
@@ -403,6 +409,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Sets the logger to use.
      * @param log The Logger to use.
      */
+    @Override
     public void setLogger(final Log log)
     {
         this.log = log;
@@ -581,6 +588,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileObject that represents the base file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject getBaseFile() throws FileSystemException
     {
         return baseFile;
@@ -592,6 +600,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileObject for the located file.
      * @throws FileSystemException if the file cannot be located or an error occurs.
      */
+    @Override
     public FileObject resolveFile(final String uri) throws FileSystemException
     {
         // return resolveFile(baseFile, uri);
@@ -606,6 +615,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @throws FileSystemException if the file cannot be located or an error occurs.
      */
 
+    @Override
     public FileObject resolveFile(final String uri,
             final FileSystemOptions fileSystemOptions)
             throws FileSystemException
@@ -621,6 +631,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileObject for the located file.
      * @throws FileSystemException if the file cannot be located or an error occurs.
      */
+    @Override
     public FileObject resolveFile(final File baseFile, final String uri)
             throws FileSystemException
     {
@@ -636,6 +647,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileObject for the located file.
      * @throws FileSystemException if the file cannot be located or an error occurs.
      */
+    @Override
     public FileObject resolveFile(final FileObject baseFile, final String uri)
             throws FileSystemException
     {
@@ -724,6 +736,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The constructed FileName.
      * @throws FileSystemException if an error occurs constructing the FileName.
      */
+    @Override
     public FileName resolveName(final FileName root, final String path)
             throws FileSystemException
     {
@@ -739,6 +752,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileName of the file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileName resolveName(final FileName base, final String name,
             final NameScope scope) throws FileSystemException
     {
@@ -826,6 +840,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileName of the file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileName resolveURI(String uri) throws FileSystemException
     {
         UriParser.checkUriEncoding(uri);
@@ -881,6 +896,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return the create FileObject
      * @throws FileSystemException if an error occurs creating the file naem.
      */
+    @Override
     public FileObject toFileObject(final File file) throws FileSystemException
     {
         return getLocalFileProvider().findLocalFile(file);
@@ -893,6 +909,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The layered FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject createFileSystem(final String scheme,
             final FileObject file) throws FileSystemException
     {
@@ -910,6 +927,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The layered FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject createFileSystem(final FileObject file)
             throws FileSystemException
     {
@@ -930,6 +948,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return true if the FileSystem can be created.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean canCreateFileSystem(final FileObject file)
             throws FileSystemException
     {
@@ -942,6 +961,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileObject in the VirtualFileSystem.
      * @throws FileSystemException if an error occurs creating the file.
      */
+    @Override
     public FileObject createVirtualFileSystem(final FileObject rootFile)
             throws FileSystemException
     {
@@ -954,6 +974,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return A FileObject in the virtual FileSystem.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject createVirtualFileSystem(final String rootUri)
             throws FileSystemException
     {
@@ -979,6 +1000,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Get the URLStreamHandlerFactory.
      * @return The URLStreamHandlerFactory.
      */
+    @Override
     public URLStreamHandlerFactory getURLStreamHandlerFactory()
     {
         return new VfsStreamHandlerFactory();
@@ -989,6 +1011,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * If you use VFS as singleton it is VERY dangerous to call this method
      * @param filesystem The FileSystem to close.
      */
+    @Override
     public void closeFileSystem(FileSystem filesystem)
     {
         // inform the cache ...
@@ -1021,6 +1044,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      */
     final class VfsStreamHandlerFactory implements URLStreamHandlerFactory
     {
+        @Override
         public URLStreamHandler createURLStreamHandler(final String protocol)
         {
             FileProvider provider = providers.get(protocol);
@@ -1038,6 +1062,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Get the schemes currently available.
      * @return The array of scheme names.
      */
+    @Override
     public String[] getSchemes()
     {
         String[] schemes = new String[providers.size()];
@@ -1052,6 +1077,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return A Collection of capabilities.
      * @throws FileSystemException if the given scheme is not konwn
      */
+    @Override
     public Collection<Capability> getProviderCapabilities(final String scheme)
             throws FileSystemException
     {
@@ -1070,6 +1096,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @return The FileSystemConfigBuilder for the scheme.
      * @throws FileSystemException if the given scheme is not konwn
      */
+    @Override
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme)
             throws FileSystemException
     {
@@ -1094,6 +1121,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @param operationProvider The FileOperationProvider.
      * @throws FileSystemException if an error occurs adding the provider.
      */
+    @Override
     public void addOperationProvider(final String scheme,
             final FileOperationProvider operationProvider)
             throws FileSystemException
@@ -1109,6 +1137,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @param operationProvider The FileOperationProvider.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void addOperationProvider(final String[] schemes,
             final FileOperationProvider operationProvider)
             throws FileSystemException
@@ -1146,6 +1175,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      *
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileOperationProvider[] getOperationProviders(final String scheme)
             throws FileSystemException
     {

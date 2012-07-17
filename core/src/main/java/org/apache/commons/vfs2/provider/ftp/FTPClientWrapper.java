@@ -92,11 +92,13 @@ class FTPClientWrapper implements FtpClient
         return ftpClient;
     }
 
+    @Override
     public boolean isConnected() throws FileSystemException
     {
         return ftpClient != null && ftpClient.isConnected();
     }
 
+    @Override
     public void disconnect() throws IOException
     {
         try
@@ -116,6 +118,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public FTPFile[] listFiles(String relPath) throws IOException
     {
         try
@@ -166,6 +169,7 @@ class FTPClientWrapper implements FtpClient
         return files;
     }
 
+    @Override
     public boolean removeDirectory(String relPath) throws IOException
     {
         try
@@ -179,6 +183,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public boolean deleteFile(String relPath) throws IOException
     {
         try
@@ -192,6 +197,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public boolean rename(String oldName, String newName) throws IOException
     {
         try
@@ -205,6 +211,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public boolean makeDirectory(String relPath) throws IOException
     {
         try
@@ -218,6 +225,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public boolean completePendingCommand() throws IOException
     {
         if (ftpClient != null)
@@ -228,6 +236,7 @@ class FTPClientWrapper implements FtpClient
         return true;
     }
 
+    @Override
     public InputStream retrieveFileStream(String relPath) throws IOException
     {
         try
@@ -241,6 +250,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException
     {
         try
@@ -258,6 +268,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public OutputStream appendFileStream(String relPath) throws IOException
     {
         try
@@ -271,6 +282,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public OutputStream storeFileStream(String relPath) throws IOException
     {
         try
@@ -284,6 +296,7 @@ class FTPClientWrapper implements FtpClient
         }
     }
 
+    @Override
     public boolean abort() throws IOException
     {
         try
@@ -303,6 +316,7 @@ class FTPClientWrapper implements FtpClient
         return true;
     }
 
+    @Override
     public String getReplyString() throws IOException
     {
         return getFtpClient().getReplyString();

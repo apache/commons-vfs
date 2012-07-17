@@ -43,117 +43,140 @@ public class DecoratedFileObject implements FileObject
         this.decoratedFileObject = decoratedFileObject;
     }
 
+    @Override
     public boolean canRenameTo(FileObject newfile)
     {
         return decoratedFileObject.canRenameTo(newfile);
     }
 
+    @Override
     public void close() throws FileSystemException
     {
         decoratedFileObject.close();
     }
 
+    @Override
     public int compareTo(FileObject fo)
     {
         return decoratedFileObject.compareTo(fo);
     }
 
+    @Override
     public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
     {
         decoratedFileObject.copyFrom(srcFile, selector);
     }
 
+    @Override
     public void createFile() throws FileSystemException
     {
         decoratedFileObject.createFile();
     }
 
+    @Override
     public void createFolder() throws FileSystemException
     {
         decoratedFileObject.createFolder();
     }
 
+    @Override
     public boolean delete() throws FileSystemException
     {
         return decoratedFileObject.delete();
     }
 
+    @Override
     public int delete(FileSelector selector) throws FileSystemException
     {
         return decoratedFileObject.delete(selector);
     }
 
+    @Override
     public int deleteAll() throws FileSystemException
     {
         return decoratedFileObject.deleteAll();
     }
 
+    @Override
     public boolean exists() throws FileSystemException
     {
         return decoratedFileObject.exists();
     }
 
+    @Override
     public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected)
         throws FileSystemException
     {
         decoratedFileObject.findFiles(selector, depthwise, selected);
     }
 
+    @Override
     public FileObject[] findFiles(FileSelector selector) throws FileSystemException
     {
         return decoratedFileObject.findFiles(selector);
     }
 
+    @Override
     public FileObject getChild(String name) throws FileSystemException
     {
         return decoratedFileObject.getChild(name);
     }
 
+    @Override
     public FileObject[] getChildren() throws FileSystemException
     {
         return decoratedFileObject.getChildren();
     }
 
+    @Override
     public FileContent getContent() throws FileSystemException
     {
         return decoratedFileObject.getContent();
     }
 
+    @Override
     public FileSystem getFileSystem()
     {
         return decoratedFileObject.getFileSystem();
     }
 
+    @Override
     public FileName getName()
     {
         return decoratedFileObject.getName();
     }
 
+    @Override
     public FileObject getParent() throws FileSystemException
     {
         return decoratedFileObject.getParent();
     }
 
+    @Override
     public FileType getType() throws FileSystemException
     {
         return decoratedFileObject.getType();
     }
 
+    @Override
     public URL getURL() throws FileSystemException
     {
         return decoratedFileObject.getURL();
     }
 
+    @Override
     public boolean isExecutable() throws FileSystemException
     {
         return decoratedFileObject.isExecutable();
     }
 
+    @Override
     public boolean isHidden() throws FileSystemException
     {
         return decoratedFileObject.isHidden();
     }
 
+    @Override
     public boolean isReadable() throws FileSystemException
     {
         return decoratedFileObject.isReadable();
@@ -165,6 +188,7 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.setReadable(readable, ownerOnly);
     }
 
+    @Override
     public boolean isWriteable() throws FileSystemException
     {
         return decoratedFileObject.isWriteable();
@@ -182,26 +206,31 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.setExecutable(executable, ownerOnly);
     }
 
+    @Override
     public Iterator<FileObject> iterator()
     {
         return decoratedFileObject.iterator();
     }
 
+    @Override
     public void moveTo(FileObject destFile) throws FileSystemException
     {
         decoratedFileObject.moveTo(destFile);
     }
 
+    @Override
     public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
     {
         return decoratedFileObject.resolveFile(name, scope);
     }
 
+    @Override
     public FileObject resolveFile(String path) throws FileSystemException
     {
         return decoratedFileObject.resolveFile(path);
     }
 
+    @Override
     public void refresh() throws FileSystemException
     {
         decoratedFileObject.refresh();
@@ -212,21 +241,25 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject;
     }
 
+    @Override
     public boolean isAttached()
     {
         return decoratedFileObject.isAttached();
     }
 
+    @Override
     public boolean isContentOpen()
     {
         return decoratedFileObject.isContentOpen();
     }
 
+    @Override
     public boolean isFile() throws FileSystemException
     {
         return decoratedFileObject.isFile();
     }
 
+    @Override
     public boolean isFolder() throws FileSystemException
     {
         return decoratedFileObject.isFolder();
@@ -238,6 +271,7 @@ public class DecoratedFileObject implements FileObject
         return decoratedFileObject.toString();
     }
 
+    @Override
     public FileOperations getFileOperations() throws FileSystemException
     {
         return decoratedFileObject.getFileOperations();

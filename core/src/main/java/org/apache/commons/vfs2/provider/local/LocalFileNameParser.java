@@ -57,6 +57,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         throws FileSystemException;
 
 
+    @Override
     public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
         throws FileSystemException
     {

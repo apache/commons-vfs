@@ -55,6 +55,7 @@ public final class FileSystemOptions implements Cloneable
             this.name = name;
         }
 
+        @Override
         public int compareTo(FileSystemOptionKey o)
         {
             int ret = fileSystemClass.getName().compareTo(o.fileSystemClass.getName());

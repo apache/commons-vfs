@@ -52,6 +52,7 @@ public class UrlFileNameParser extends AbstractFileNameParser
    * @return The FileName.
    * @throws FileSystemException if an error occurs
    */
+    @Override
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
         throws FileSystemException
     {

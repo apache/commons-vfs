@@ -29,6 +29,7 @@ final class DefaultFileSelectorInfo
     private FileObject file;
     private int depth;
 
+    @Override
     public FileObject getBaseFolder()
     {
         return baseFolder;
@@ -39,6 +40,7 @@ final class DefaultFileSelectorInfo
         this.baseFolder = baseFolder;
     }
 
+    @Override
     public FileObject getFile()
     {
         return file;
@@ -49,6 +51,7 @@ final class DefaultFileSelectorInfo
         this.file = file;
     }
 
+    @Override
     public int getDepth()
     {
         return depth;

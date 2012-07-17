@@ -115,6 +115,7 @@ public final class DefaultFileContent implements FileContent
      * Returns the file that this is the content of.
      * @return the FileObject.
      */
+    @Override
     public FileObject getFile()
     {
         return fileObject;
@@ -125,6 +126,7 @@ public final class DefaultFileContent implements FileContent
      * @return The size of the content (in bytes).
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public long getSize() throws FileSystemException
     {
         // Do some checking
@@ -155,6 +157,7 @@ public final class DefaultFileContent implements FileContent
      * @return The last modified timestamp.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public long getLastModifiedTime() throws FileSystemException
     {
         /*
@@ -182,6 +185,7 @@ public final class DefaultFileContent implements FileContent
      * @param modTime The last modified timestamp.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void setLastModifiedTime(final long modTime) throws FileSystemException
     {
         /*
@@ -214,6 +218,7 @@ public final class DefaultFileContent implements FileContent
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
+    @Override
     public boolean hasAttribute(final String attrName) throws FileSystemException
     {
         if (!fileObject.getType().hasAttributes())
@@ -229,6 +234,7 @@ public final class DefaultFileContent implements FileContent
      * @return a Map of the file's attributes.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public Map<String, Object> getAttributes() throws FileSystemException
     {
         if (!fileObject.getType().hasAttributes())
@@ -269,6 +275,7 @@ public final class DefaultFileContent implements FileContent
      * @return An array of attribute names.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public String[] getAttributeNames() throws FileSystemException
     {
         getAttributes();
@@ -282,6 +289,7 @@ public final class DefaultFileContent implements FileContent
      * @return The value of the attribute or null.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public Object getAttribute(final String attrName)
         throws FileSystemException
     {
@@ -295,6 +303,7 @@ public final class DefaultFileContent implements FileContent
      * @param value The value of the attribute.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void setAttribute(final String attrName, final Object value)
         throws FileSystemException
     {
@@ -323,6 +332,7 @@ public final class DefaultFileContent implements FileContent
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
+    @Override
     public void removeAttribute(final String attrName) throws FileSystemException
     {
         if (!fileObject.getType().hasAttributes())
@@ -350,6 +360,7 @@ public final class DefaultFileContent implements FileContent
      * @return An array of Certificates.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public Certificate[] getCertificates() throws FileSystemException
     {
         if (!fileObject.exists())
@@ -386,6 +397,7 @@ public final class DefaultFileContent implements FileContent
      * @return The InputStream
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public InputStream getInputStream() throws FileSystemException
     {
         /*
@@ -414,6 +426,7 @@ public final class DefaultFileContent implements FileContent
      * @return A RandomAccessContent object to access the file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
     {
         /*
@@ -439,6 +452,7 @@ public final class DefaultFileContent implements FileContent
      * @return The OutputStream for the file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public OutputStream getOutputStream() throws FileSystemException
     {
         return getOutputStream(false);
@@ -450,6 +464,7 @@ public final class DefaultFileContent implements FileContent
      * @return The OutputStream for the file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
     {
         /*
@@ -476,6 +491,7 @@ public final class DefaultFileContent implements FileContent
      * and writers.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void close() throws FileSystemException
     {
         try
@@ -564,6 +580,7 @@ public final class DefaultFileContent implements FileContent
      *
      * @return true if this is the case
      */
+    @Override
     public boolean isOpen()
     {
         // return getThreadData().getState() == STATE_OPENED;
@@ -727,6 +744,7 @@ public final class DefaultFileContent implements FileContent
      * @return The FileContentInfo.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileContentInfo getContentInfo() throws FileSystemException
     {
         if (fileContentInfo == null)
@@ -747,6 +765,7 @@ public final class DefaultFileContent implements FileContent
      *             if an error occurs writing the content.
      * @since 2.1
      */
+    @Override
     public long write(final FileContent fileContent) throws IOException
     {
         final OutputStream output = fileContent.getOutputStream();
@@ -770,6 +789,7 @@ public final class DefaultFileContent implements FileContent
      *             if an error occurs writing the content.
      * @since 2.1
      */
+    @Override
     public long write(final FileObject file) throws IOException
     {
         return write(file.getContent());
@@ -785,6 +805,7 @@ public final class DefaultFileContent implements FileContent
      *             if an error occurs writing the content.
      * @since 2.1
      */
+    @Override
     public long write(final OutputStream output) throws IOException
     {
         return write(output, WRITE_BUFFER_SIZE);
@@ -802,6 +823,7 @@ public final class DefaultFileContent implements FileContent
      *             if an error occurs writing the file.
      * @since 2.1
      */
+    @Override
     public long write(final OutputStream output, final int bufferSize) throws IOException
     {
         final InputStream input = this.getInputStream();

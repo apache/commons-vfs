@@ -71,6 +71,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         /**
          * Accepts only the known test user.
          */
+        @Override
         public FileSystemView createFileSystemView(Session session) throws IOException
         {
             final String userName = session.getUsername();
@@ -99,11 +100,13 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             this.userName = userName;
         }
 
+        @Override
         public SshFile getFile(SshFile baseDir, String file)
         {
             return this.getFile(baseDir.getAbsolutePath(), file);
         }
 
+        @Override
         public SshFile getFile(final String file)
         {
             return this.getFile(homeDirStr, file);
@@ -200,6 +203,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         Server.setSubsystemFactories(list);
         Server.setPasswordAuthenticator(new PasswordAuthenticator()
         {
+            @Override
             public boolean authenticate(String username, String password, ServerSession session)
             {
                 return username != null && username.equals(password);
@@ -207,6 +211,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         });
         Server.setPublickeyAuthenticator(new PublickeyAuthenticator()
         {
+            @Override
             public boolean authenticate(String username, PublicKey key, ServerSession session)
             {
                 // File f = new File("/Users/" + username + "/.ssh/authorized_keys");
@@ -215,21 +220,25 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         });
         Server.setForwardingFilter(new ForwardingFilter()
         {
+            @Override
             public boolean canConnect(InetSocketAddress address, ServerSession session)
             {
                 return true;
             }
 
+            @Override
             public boolean canForwardAgent(ServerSession session)
             {
                 return true;
             }
 
+            @Override
             public boolean canForwardX11(ServerSession session)
             {
                 return true;
             }
 
+            @Override
             public boolean canListen(InetSocketAddress address, ServerSession session)
             {
                 return true;
@@ -340,6 +349,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
      */
     private static class TestCommandFactory extends ScpCommandFactory
     {
+        @Override
         public Command createCommand(final String command)
         {
             return new Command()
@@ -497,6 +507,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
         }
 
+        @Override
         protected void writeAttrs(Buffer buffer, SshFile file, int flags) throws IOException
         {
             if (!file.doesExist()) {

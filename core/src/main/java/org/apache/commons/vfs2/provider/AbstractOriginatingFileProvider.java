@@ -44,6 +44,7 @@ public abstract class AbstractOriginatingFileProvider
      * @return The located FileObject
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject findFile(final FileObject baseFile,
                                final String uri,
                                final FileSystemOptions fileSystemOptions) throws FileSystemException

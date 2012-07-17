@@ -67,6 +67,7 @@ public class TemporaryFileProvider
         super();
     }
 
+    @Override
     public int compareTo(Object o)
     {
         int h1 = hashCode();
@@ -91,6 +92,7 @@ public class TemporaryFileProvider
      * @return The FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public synchronized FileObject findFile(final FileObject baseFile, final String uri,
                                             final FileSystemOptions properties)
         throws FileSystemException
@@ -125,6 +127,7 @@ public class TemporaryFileProvider
         return filesystem.resolveFile(path);
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return DefaultLocalFileProvider.capabilities;

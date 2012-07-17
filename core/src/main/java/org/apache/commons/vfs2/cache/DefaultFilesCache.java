@@ -36,24 +36,28 @@ public class DefaultFilesCache extends AbstractFilesCache
     private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> filesystemCache =
           new ConcurrentHashMap<FileSystem, ConcurrentMap<FileName, FileObject>>(10);
 
+    @Override
     public void putFile(final FileObject file)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
         files.put(file.getName(), file);
     }
 
+    @Override
     public boolean putFileIfAbsent(final FileObject file)
     {
         ConcurrentMap<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
         return files.putIfAbsent(file.getName(), file) == null;
     }
 
+    @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
         return files.get(name);
     }
 
+    @Override
     public void clear(FileSystem filesystem)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
@@ -80,6 +84,7 @@ public class DefaultFilesCache extends AbstractFilesCache
         filesystemCache.clear();
     }
 
+    @Override
     public void removeFile(FileSystem filesystem, FileName name)
     {
         Map<?, ?> files = getOrCreateFilesystemCache(filesystem);

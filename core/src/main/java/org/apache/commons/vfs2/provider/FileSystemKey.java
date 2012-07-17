@@ -47,6 +47,7 @@ class FileSystemKey implements Comparable<FileSystemKey>
         }
     }
 
+    @Override
     public int compareTo(FileSystemKey o)
     {
         @SuppressWarnings("unchecked") // Keys must implement comparable, and be comparable to themselves

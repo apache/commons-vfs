@@ -145,6 +145,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider
         return SftpFileSystemConfigBuilder.getInstance();
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

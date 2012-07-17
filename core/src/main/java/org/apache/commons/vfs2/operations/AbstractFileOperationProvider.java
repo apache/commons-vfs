@@ -54,6 +54,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * @throws org.apache.commons.vfs2.FileSystemException
      *             if list of operations cannot be retrieved.
      */
+    @Override
     public final void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
             final FileObject file) throws FileSystemException
     {
@@ -78,6 +79,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * @throws org.apache.commons.vfs2.FileSystemException
      *             if operation cannot be retrieved.
      */
+    @Override
     public final FileOperation getOperation(FileObject file, Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {

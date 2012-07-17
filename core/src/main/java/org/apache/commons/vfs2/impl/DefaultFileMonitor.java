@@ -167,6 +167,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      * Adds a file to be monitored.
      * @param file The FileObject to monitor.
      */
+    @Override
     public void addFile(final FileObject file)
     {
         doAddFile(file);
@@ -233,6 +234,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      * Removes a file from being monitored.
      * @param file The FileObject to remove from monitoring.
      */
+    @Override
     public void removeFile(final FileObject file)
     {
         synchronized (this.monitorMap)
@@ -353,6 +355,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * Asks the agent for each file being monitored to check its file for changes.
      */
+    @Override
     public void run()
     {
         mainloop:

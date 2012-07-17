@@ -73,6 +73,7 @@ public class TarFileProvider extends AbstractLayeredFileProvider implements File
         return new TarFileSystem(rootName, file, fileSystemOptions);
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

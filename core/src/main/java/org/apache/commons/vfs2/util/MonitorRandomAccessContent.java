@@ -46,6 +46,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent
      * Closes this content.
      * @throws IOException if an error occurs.
      */
+    @Override
     public void close() throws IOException
     {
         if (finished)
@@ -83,171 +84,205 @@ public class MonitorRandomAccessContent implements RandomAccessContent
         }
     }
 
+    @Override
     public long getFilePointer() throws IOException
     {
         return content.getFilePointer();
     }
 
+    @Override
     public void seek(long pos) throws IOException
     {
         content.seek(pos);
     }
 
+    @Override
     public long length() throws IOException
     {
         return content.length();
     }
 
+    @Override
     public void write(int b) throws IOException
     {
         content.write(b);
     }
 
+    @Override
     public void write(byte[] b) throws IOException
     {
         content.write(b);
     }
 
+    @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
         content.write(b, off, len);
     }
 
+    @Override
     public void writeBoolean(boolean v) throws IOException
     {
         content.writeBoolean(v);
     }
 
+    @Override
     public void writeByte(int v) throws IOException
     {
         content.writeByte(v);
     }
 
+    @Override
     public void writeShort(int v) throws IOException
     {
         content.writeShort(v);
     }
 
+    @Override
     public void writeChar(int v) throws IOException
     {
         content.writeChar(v);
     }
 
+    @Override
     public void writeInt(int v) throws IOException
     {
         content.writeInt(v);
     }
 
+    @Override
     public void writeLong(long v) throws IOException
     {
         content.writeLong(v);
     }
 
+    @Override
     public void writeFloat(float v) throws IOException
     {
         content.writeFloat(v);
     }
 
+    @Override
     public void writeDouble(double v) throws IOException
     {
         content.writeDouble(v);
     }
 
+    @Override
     public void writeBytes(String s) throws IOException
     {
         content.writeBytes(s);
     }
 
+    @Override
     public void writeChars(String s) throws IOException
     {
         content.writeChars(s);
     }
 
+    @Override
     public void writeUTF(String str) throws IOException
     {
         content.writeUTF(str);
     }
 
+    @Override
     public void readFully(byte[] b) throws IOException
     {
         content.readFully(b);
     }
 
+    @Override
     public void readFully(byte[] b, int off, int len) throws IOException
     {
         content.readFully(b, off, len);
     }
 
+    @Override
     public int skipBytes(int n) throws IOException
     {
         return content.skipBytes(n);
     }
 
+    @Override
     public void setLength(long newLength) throws IOException
     {
         content.setLength(newLength);
     }
 
+    @Override
     public boolean readBoolean() throws IOException
     {
         return content.readBoolean();
     }
 
+    @Override
     public byte readByte() throws IOException
     {
         return content.readByte();
     }
 
+    @Override
     public int readUnsignedByte() throws IOException
     {
         return content.readUnsignedByte();
     }
 
+    @Override
     public short readShort() throws IOException
     {
         return content.readShort();
     }
 
+    @Override
     public int readUnsignedShort() throws IOException
     {
         return content.readUnsignedShort();
     }
 
+    @Override
     public char readChar() throws IOException
     {
         return content.readChar();
     }
 
+    @Override
     public int readInt() throws IOException
     {
         return content.readInt();
     }
 
+    @Override
     public long readLong() throws IOException
     {
         return content.readLong();
     }
 
+    @Override
     public float readFloat() throws IOException
     {
         return content.readFloat();
     }
 
+    @Override
     public double readDouble() throws IOException
     {
         return content.readDouble();
     }
 
+    @Override
     public String readLine() throws IOException
     {
         return content.readLine();
     }
 
+    @Override
     public String readUTF() throws IOException
     {
         return content.readUTF();
     }
 
+    @Override
     public InputStream getInputStream() throws IOException
     {
         return content.getInputStream();

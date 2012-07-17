@@ -663,6 +663,7 @@ public class ProviderWriteTests
         /**
          * Called when a file is created.
          */
+        @Override
         public void fileCreated(final FileChangeEvent event)
         {
             assertTrue("Unexpected create event", events.size() > 0);
@@ -681,6 +682,7 @@ public class ProviderWriteTests
         /**
          * Called when a file is deleted.
          */
+        @Override
         public void fileDeleted(final FileChangeEvent event)
         {
             assertTrue("Unexpected delete event", events.size() > 0);
@@ -696,6 +698,7 @@ public class ProviderWriteTests
             }
         }
 
+        @Override
         public void fileChanged(FileChangeEvent event) throws Exception
         {
             assertTrue("Unexpected changed event", events.size() > 0);

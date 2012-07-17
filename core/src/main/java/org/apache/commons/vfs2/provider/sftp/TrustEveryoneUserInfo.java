@@ -28,28 +28,33 @@ public class TrustEveryoneUserInfo implements UserInfo
 {
     private final Log log = LogFactory.getLog(TrustEveryoneUserInfo.class);
 
+    @Override
     public String getPassphrase()
     {
         return null;
     }
 
+    @Override
     public String getPassword()
     {
         return null;
     }
 
+    @Override
     public boolean promptPassword(String s)
     {
         log.info(s + " - Answer: False");
         return false;
     }
 
+    @Override
     public boolean promptPassphrase(String s)
     {
         log.info(s + " - Answer: False");
         return false;
     }
 
+    @Override
     public boolean promptYesNo(String s)
     {
         log.debug(s + " - Answer: Yes");
@@ -58,6 +63,7 @@ public class TrustEveryoneUserInfo implements UserInfo
         return true;
     }
 
+    @Override
     public void showMessage(String s)
     {
         log.debug(s);

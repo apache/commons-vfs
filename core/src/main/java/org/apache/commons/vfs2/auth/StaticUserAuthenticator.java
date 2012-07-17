@@ -41,6 +41,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         this.domain = domain;
     }
 
+    @Override
     public UserAuthenticationData requestAuthentication(UserAuthenticationData.Type[] types)
     {
         UserAuthenticationData data = new UserAuthenticationData();
@@ -114,6 +115,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
      * {@inheritDoc}
      * @since 2.0
      */
+    @Override
     public int compareTo(final StaticUserAuthenticator other)
     {
         int result = compareStringOrNull(domain, other.domain);

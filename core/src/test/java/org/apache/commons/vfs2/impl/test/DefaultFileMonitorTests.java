@@ -149,16 +149,19 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
 
     public class TestFileListener implements FileListener
     {
+        @Override
         public void fileChanged(FileChangeEvent event) throws Exception
         {
             changeStatus = 1;
         }
 
+        @Override
         public void fileDeleted(FileChangeEvent event) throws Exception
         {
             changeStatus = 2;
         }
 
+        @Override
         public void fileCreated(FileChangeEvent event) throws Exception
         {
             changeStatus = 3;

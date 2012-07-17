@@ -78,5 +78,6 @@ public abstract class CompressedFileFileProvider
                                                    final FileSystemOptions fileSystemOptions)
         throws FileSystemException;
 
+    @Override
     public abstract Collection<Capability> getCapabilities();
 }

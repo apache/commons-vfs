@@ -48,11 +48,13 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         fileSystem = (HttpFileSystem) this.fileObject.getFileSystem();
     }
 
+    @Override
     public long getFilePointer() throws IOException
     {
         return filePointer;
     }
 
+    @Override
     public void seek(long pos) throws IOException
     {
         if (pos == filePointer)
@@ -147,6 +149,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
 
+    @Override
     public void close() throws IOException
     {
         if (dis != null)
@@ -157,6 +160,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         }
     }
 
+    @Override
     public long length() throws IOException
     {
         return fileObject.getContent().getSize();

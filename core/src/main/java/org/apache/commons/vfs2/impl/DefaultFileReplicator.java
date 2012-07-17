@@ -164,6 +164,7 @@ public class DefaultFileReplicator
      * @return The created File.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public File allocateFile(final String baseName) throws FileSystemException
     {
         // Create a unique-ish file name
@@ -234,6 +235,7 @@ public class DefaultFileReplicator
      * @return the created File.
      * @throws FileSystemException if an error occurs copying the file.
      */
+    @Override
     public File replicateFile(final FileObject srcFile,
                               final FileSelector selector)
         throws FileSystemException

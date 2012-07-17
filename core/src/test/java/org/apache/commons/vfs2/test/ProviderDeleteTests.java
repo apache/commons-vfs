@@ -39,11 +39,13 @@ public class ProviderDeleteTests
             this.basename = basename;
         }
 
+        @Override
         public boolean includeFile(FileSelectInfo fileInfo) throws Exception
         {
             return this.basename.equals(fileInfo.getFile().getName().getBaseName());
         }
 
+        @Override
         public boolean traverseDescendents(FileSelectInfo fileInfo) throws Exception
         {
             return true;

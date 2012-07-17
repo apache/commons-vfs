@@ -105,91 +105,109 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
         }
     }
 
+    @Override
     public long getFilePointer() throws IOException
     {
         return raf.getFilePointer();
     }
 
+    @Override
     public void seek(long pos) throws IOException
     {
         raf.seek(pos);
     }
 
+    @Override
     public long length() throws IOException
     {
         return raf.length();
     }
 
+    @Override
     public void close() throws IOException
     {
         raf.close();
     }
 
+    @Override
     public byte readByte() throws IOException
     {
         return raf.readByte();
     }
 
+    @Override
     public char readChar() throws IOException
     {
         return raf.readChar();
     }
 
+    @Override
     public double readDouble() throws IOException
     {
         return raf.readDouble();
     }
 
+    @Override
     public float readFloat() throws IOException
     {
         return raf.readFloat();
     }
 
+    @Override
     public int readInt() throws IOException
     {
         return raf.readInt();
     }
 
+    @Override
     public int readUnsignedByte() throws IOException
     {
         return raf.readUnsignedByte();
     }
 
+    @Override
     public int readUnsignedShort() throws IOException
     {
         return raf.readUnsignedShort();
     }
 
+    @Override
     public long readLong() throws IOException
     {
         return raf.readLong();
     }
 
+    @Override
     public short readShort() throws IOException
     {
         return raf.readShort();
     }
 
+    @Override
     public boolean readBoolean() throws IOException
     {
         return raf.readBoolean();
     }
 
+    @Override
     public int skipBytes(int n) throws IOException
     {
         return raf.skipBytes(n);
     }
 
+    @Override
     public void readFully(byte[] b) throws IOException
     {
         raf.readFully(b);
     }
 
+    @Override
     public void readFully(byte[] b, int off, int len) throws IOException
     {
         raf.readFully(b, off, len);
     }
 
+    @Override
     public String readUTF() throws IOException
     {
         return raf.readUTF();
@@ -279,11 +297,13 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
         raf.writeUTF(str);
     }
 
+    @Override
     public InputStream getInputStream() throws IOException
     {
         return rafis;
     }
 
+    @Override
     public void setLength(long newLength) throws IOException
     {
         raf.setLength(newLength);

@@ -140,6 +140,7 @@ public class LRUFilesCache extends AbstractFilesCache
         this.lruSize = lruSize;
     }
 
+    @Override
     public void putFile(final FileObject file)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
@@ -158,6 +159,7 @@ public class LRUFilesCache extends AbstractFilesCache
     }
 
 
+    @Override
     public boolean putFileIfAbsent(final FileObject file)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
@@ -182,6 +184,7 @@ public class LRUFilesCache extends AbstractFilesCache
         }
     }
 
+    @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
@@ -200,6 +203,7 @@ public class LRUFilesCache extends AbstractFilesCache
         }
     }
 
+    @Override
     public void clear(final FileSystem filesystem)
     {
         Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
@@ -244,6 +248,7 @@ public class LRUFilesCache extends AbstractFilesCache
         filesystemCache.clear();
     }
 
+    @Override
     public void removeFile(final FileSystem filesystem, final FileName name)
     {
         Map<?, ?> files = getOrCreateFilesystemCache(filesystem);

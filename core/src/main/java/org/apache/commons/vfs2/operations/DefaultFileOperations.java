@@ -52,6 +52,7 @@ public class DefaultFileOperations implements FileOperations
      * @return The operation classes.
      * @throws FileSystemException If an error occurs.
      */
+    @Override
     public Class<? extends FileOperation>[] getOperations() throws FileSystemException
     {
 
@@ -82,6 +83,7 @@ public class DefaultFileOperations implements FileOperations
      * @return The FileOperation.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileOperation getOperation(Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {
@@ -124,6 +126,7 @@ public class DefaultFileOperations implements FileOperations
      *
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean hasOperation(Class<? extends FileOperation> operationClass) throws FileSystemException
     {
         Class<? extends FileOperation>[] operations = getOperations();

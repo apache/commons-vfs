@@ -32,11 +32,13 @@ public class DefaultFileContentInfo implements FileContentInfo
         this.contentEncoding = contentEncoding;
     }
 
+    @Override
     public String getContentType()
     {
         return contentType;
     }
 
+    @Override
     public String getContentEncoding()
     {
         return contentEncoding;

@@ -156,6 +156,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
+    @Override
     public void putFile(final FileObject file)
     {
         if (log.isDebugEnabled())
@@ -185,6 +186,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
     }
 
 
+    @Override
     public boolean putFileIfAbsent(final FileObject file)
     {
         if (log.isDebugEnabled())
@@ -223,6 +225,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         return new SoftReference<FileObject>(file, refqueue);
     }
 
+    @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
         Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(filesystem);
@@ -249,6 +252,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
+    @Override
     public void clear(FileSystem filesystem)
     {
         Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(filesystem);
@@ -320,6 +324,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
+    @Override
     public void removeFile(FileSystem filesystem, FileName name)
     {
         if (removeFile(new FileSystemAndNameKey(filesystem, name)))

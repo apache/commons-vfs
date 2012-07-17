@@ -104,6 +104,7 @@ public class HttpFileProvider
         return HttpFileSystemConfigBuilder.getInstance();
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

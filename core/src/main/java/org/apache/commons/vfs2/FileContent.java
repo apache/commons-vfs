@@ -221,6 +221,7 @@ public interface FileContent extends Closeable
      * method.
      * @throws FileSystemException if an error occurs closing the file.
      */
+    @Override
     void close() throws FileSystemException;
 
     /**

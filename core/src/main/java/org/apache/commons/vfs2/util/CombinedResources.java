@@ -122,10 +122,12 @@ public class CombinedResources extends ResourceBundle
         }
         return new Enumeration<String>()
         {
+            @Override
             public boolean hasMoreElements()
             {
                 return properties.keys().hasMoreElements();
             }
+            @Override
             public String nextElement()
             {
                 // We know that our properties will only ever contain Strings

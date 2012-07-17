@@ -81,6 +81,7 @@ public abstract class AbstractFileProvider
      * @return A FileObject associated with the new FileSystem.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject createFileSystem(final String scheme, final FileObject file, final FileSystemOptions properties)
         throws FileSystemException
     {
@@ -126,6 +127,7 @@ public abstract class AbstractFileProvider
      * Returns the FileSystemConfigBuidler.
      * @return the FileSystemConfigBuilder.
      */
+    @Override
     public FileSystemConfigBuilder getConfigBuilder()
     {
         return null;
@@ -179,6 +181,7 @@ public abstract class AbstractFileProvider
      * @return The FileName.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileName parseUri(FileName base, String uri) throws FileSystemException
     {
         if (getFileNameParser() != null)

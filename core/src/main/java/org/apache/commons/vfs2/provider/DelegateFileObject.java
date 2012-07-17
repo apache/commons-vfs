@@ -356,6 +356,7 @@ public class DelegateFileObject extends AbstractFileObject implements FileListen
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */
+    @Override
     public void fileCreated(final FileChangeEvent event) throws Exception
     {
         if (event.getFile() != file)
@@ -373,6 +374,7 @@ public class DelegateFileObject extends AbstractFileObject implements FileListen
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */
+    @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception
     {
         if (event.getFile() != file)
@@ -392,6 +394,7 @@ public class DelegateFileObject extends AbstractFileObject implements FileListen
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */
+    @Override
     public void fileChanged(FileChangeEvent event) throws Exception
     {
         if (event.getFile() != file)

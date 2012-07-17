@@ -488,6 +488,7 @@ public abstract class AbstractFileObject implements FileObject
      * Returns the name of the file.
      * @return The FileName.
      */
+    @Override
     public FileName getName()
     {
         return name;
@@ -497,6 +498,7 @@ public abstract class AbstractFileObject implements FileObject
      * Returns the file system this file belongs to.
      * @return The FileSystem this file is associated with.
      */
+    @Override
     public FileSystem getFileSystem()
     {
         return fs;
@@ -507,6 +509,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return The URL representation of the file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public URL getURL() throws FileSystemException
     {
         final StringBuilder buf = new StringBuilder();
@@ -514,6 +517,7 @@ public abstract class AbstractFileObject implements FileObject
         {
             return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>()
             {
+                @Override
                 public URL run() throws MalformedURLException
                 {
                     return new URL(UriParser.extractScheme(name.getURI(), buf), "", -1,
@@ -532,6 +536,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return true if the file exists, false otherwise,
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean exists() throws FileSystemException
     {
         return getType() != FileType.IMAGINARY;
@@ -542,6 +547,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return The FileType.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileType getType() throws FileSystemException
     {
         synchronized (fs)
@@ -577,6 +583,7 @@ public abstract class AbstractFileObject implements FileObject
      * @see #getType()
      * @see FileType#FILE
      */
+    @Override
     public boolean isFile() throws FileSystemException
     {
         // Use equals instead of == to avoid any class loader worries.
@@ -591,6 +598,7 @@ public abstract class AbstractFileObject implements FileObject
      * @see #getType()
      * @see FileType#FOLDER
      */
+    @Override
     public boolean isFolder() throws FileSystemException
     {
         // Use equals instead of == to avoid any class loader worries.
@@ -603,6 +611,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return {@code true} if this file is executable, {@code false} if not.
      * @throws FileSystemException On error determining if this file exists.
      */
+    @Override
     public boolean isExecutable() throws FileSystemException
     {
         try
@@ -625,6 +634,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return true if the file is a hidden file, false otherwise.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean isHidden() throws FileSystemException
     {
         try
@@ -649,6 +659,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return true if the file can be read, false otherwise.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean isReadable() throws FileSystemException
     {
         try
@@ -693,6 +704,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return true if the file can be written to, false otherwise.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean isWriteable() throws FileSystemException
     {
         try
@@ -762,6 +774,7 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @return an Iterator.
      */
+    @Override
     public Iterator<FileObject> iterator()
     {
         try
@@ -800,6 +813,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return the parent FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject getParent() throws FileSystemException
     {
         if (this == fs.getRoot())
@@ -832,6 +846,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return an array of FileObjects, one per child.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject[] getChildren() throws FileSystemException
     {
         synchronized (fs)
@@ -967,6 +982,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return The FileObject for the file or null if the child does not exist.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject getChild(final String name) throws FileSystemException
     {
         // TODO - use a hashtable when there are a large number of children
@@ -992,6 +1008,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return The FileObject for the file or null if the child does not exist.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject resolveFile(final String name, final NameScope scope)
         throws FileSystemException
     {
@@ -1009,6 +1026,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return The FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject resolveFile(final String path) throws FileSystemException
     {
         final FileName otherName = fs.getFileSystemManager().resolveName(name, path);
@@ -1068,6 +1086,7 @@ public abstract class AbstractFileObject implements FileObject
      * @todo This will not fail if this is a non-empty folder.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public boolean delete() throws FileSystemException
     {
         return delete(Selectors.SELECT_SELF) > 0;
@@ -1080,6 +1099,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return the number of deleted files.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public int delete(final FileSelector selector) throws FileSystemException
     {
         int nuofDeleted = 0;
@@ -1131,6 +1151,7 @@ public abstract class AbstractFileObject implements FileObject
      * @see #delete(FileSelector)
      * @see Selectors#SELECT_ALL
      */
+    @Override
     public int deleteAll() throws FileSystemException
     {
         return this.delete(Selectors.SELECT_ALL);
@@ -1140,6 +1161,7 @@ public abstract class AbstractFileObject implements FileObject
      * Creates this file, if it does not exist.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void createFile() throws FileSystemException
     {
         synchronized (fs)
@@ -1175,6 +1197,7 @@ public abstract class AbstractFileObject implements FileObject
      * files which do not exist.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void createFolder() throws FileSystemException
     {
         synchronized (fs)
@@ -1226,6 +1249,7 @@ public abstract class AbstractFileObject implements FileObject
     /**
      * Compares two FileObjects (ignores case).
      */
+    @Override
     public int compareTo(FileObject fo)
     {
         if (fo == null)
@@ -1242,6 +1266,7 @@ public abstract class AbstractFileObject implements FileObject
      * @param selector The FileSelector.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void copyFrom(final FileObject file, final FileSelector selector)
         throws FileSystemException
     {
@@ -1301,6 +1326,7 @@ public abstract class AbstractFileObject implements FileObject
      * @param destFile The target FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void moveTo(FileObject destFile) throws FileSystemException
     {
         if (canRenameTo(destFile))
@@ -1405,6 +1431,7 @@ public abstract class AbstractFileObject implements FileObject
      * @param newfile the new filename
      * @return true if rename is possible
      */
+    @Override
     public boolean canRenameTo(FileObject newfile)
     {
         return fs == newfile.getFileSystem();
@@ -1418,6 +1445,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return list of files or null if the base file (this object) do not exist
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
     {
         final List<FileObject> list = this.listFiles(selector);
@@ -1429,6 +1457,7 @@ public abstract class AbstractFileObject implements FileObject
      * @return the FileContent for this FileObject.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileContent getContent() throws FileSystemException
     {
         synchronized (fs)
@@ -1457,6 +1486,7 @@ public abstract class AbstractFileObject implements FileObject
      * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void refresh() throws FileSystemException
     {
         // Detach from the file
@@ -1474,6 +1504,7 @@ public abstract class AbstractFileObject implements FileObject
      * Closes this file, and its content.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void close() throws FileSystemException
     {
         FileSystemException exc = null;
@@ -1904,6 +1935,7 @@ public abstract class AbstractFileObject implements FileObject
      * @param selected A List of the located FileObjects.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void findFiles(final FileSelector selector,
                           final boolean depthwise,
                           final List<FileObject> selected) throws FileSystemException
@@ -1978,6 +2010,7 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @return true if this is the case
      */
+    @Override
     public boolean isContentOpen()
     {
         if (content == null)
@@ -1993,6 +2026,7 @@ public abstract class AbstractFileObject implements FileObject
      *
      * @return true if this is the case
      */
+    @Override
     public boolean isAttached()
     {
         return attached;
@@ -2059,6 +2093,7 @@ public abstract class AbstractFileObject implements FileObject
      *         API.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileOperations getFileOperations() throws FileSystemException
     {
         if (operations == null)

@@ -173,6 +173,7 @@ public abstract class AbstractFileSystem
      * Returns the name of the root of this file system.
      * @return the root FileName.
      */
+    @Override
     public FileName getRootName()
     {
         return rootName;
@@ -183,6 +184,7 @@ public abstract class AbstractFileSystem
      * @return The root URI used in this file system.
      * @since 2.0
      */
+    @Override
     public String getRootURI()
     {
         return rootURI;
@@ -234,6 +236,7 @@ public abstract class AbstractFileSystem
      * @param capability the Capability to check for.
      * @return true if the FileSystem has the Capability, false otherwise.
      */
+    @Override
     public boolean hasCapability(final Capability capability)
     {
         return caps.contains(capability);
@@ -246,6 +249,7 @@ public abstract class AbstractFileSystem
      * @return the Object associated with the attribute or null if no object is.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public Object getAttribute(final String attrName) throws FileSystemException
     {
         throw new FileSystemException("vfs.provider/get-attribute-not-supported.error");
@@ -258,6 +262,7 @@ public abstract class AbstractFileSystem
      * @param value The object to associate with the attribute.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void setAttribute(final String attrName, final Object value)
         throws FileSystemException
     {
@@ -269,6 +274,7 @@ public abstract class AbstractFileSystem
      * @return The FileObject for the parent layer.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject getParentLayer() throws FileSystemException
     {
         return parentLayer;
@@ -279,6 +285,7 @@ public abstract class AbstractFileSystem
      * @return The root FileObject of the FileSystem
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject getRoot() throws FileSystemException
     {
         return resolveFile(rootName);
@@ -297,6 +304,7 @@ public abstract class AbstractFileSystem
      * @return The located FileObject or null if none could be located.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject resolveFile(final String nameStr) throws FileSystemException
     {
         // Resolve the name, and create the file
@@ -310,6 +318,7 @@ public abstract class AbstractFileSystem
      * @return The located FileObject or null if none could be located.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public FileObject resolveFile(final FileName name) throws FileSystemException
     {
         return resolveFile(name, true);
@@ -406,6 +415,7 @@ public abstract class AbstractFileSystem
      * @return The replicated File.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public File replicateFile(final FileObject file,
                               final FileSelector selector)
         throws FileSystemException
@@ -429,6 +439,7 @@ public abstract class AbstractFileSystem
      * Return the FileSystemOptions used to instantiate this filesystem.
      * @return the FileSystemOptions.
      */
+    @Override
     public FileSystemOptions getFileSystemOptions()
     {
         return fileSystemOptions;
@@ -438,6 +449,7 @@ public abstract class AbstractFileSystem
      * Return the FileSystemManager used to instantiate this filesystem.
      * @return the FileSystemManager.
      */
+    @Override
     public FileSystemManager getFileSystemManager()
     {
         return getContext().getFileSystemManager();
@@ -449,6 +461,7 @@ public abstract class AbstractFileSystem
      *
      * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms
      */
+    @Override
     public double getLastModTimeAccuracy()
     {
         return 0;
@@ -470,6 +483,7 @@ public abstract class AbstractFileSystem
      * @param targetFile The target to add.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void addJunction(final String junctionPoint,
                             final FileObject targetFile)
         throws FileSystemException
@@ -482,6 +496,7 @@ public abstract class AbstractFileSystem
      * @param junctionPoint The junction point.
      * @throws FileSystemException if an error occurs
      */
+    @Override
     public void removeJunction(final String junctionPoint) throws FileSystemException
     {
         throw new FileSystemException("vfs.provider/junctions-not-supported.error", rootName);
@@ -492,6 +507,7 @@ public abstract class AbstractFileSystem
      * @param file The FileObject to be monitored.
      * @param listener The FileListener
      */
+    @Override
     public void addListener(final FileObject file,
                             final FileListener listener)
     {
@@ -512,6 +528,7 @@ public abstract class AbstractFileSystem
      * @param file The FileObject to be monitored.
      * @param listener The FileListener
      */
+    @Override
     public void removeListener(final FileObject file,
                                final FileListener listener)
     {

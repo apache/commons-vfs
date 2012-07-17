@@ -65,6 +65,7 @@ public class UserAuthenticationData
             return true;
         }
 
+        @Override
         public int compareTo(Type o)
         {
             return type.compareTo(o.type);

@@ -46,6 +46,7 @@ public class Tbz2FileProvider extends CompositeFileProvider
         return SCHEMES;
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

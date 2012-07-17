@@ -40,10 +40,12 @@ public class JunctionProviderConfig
     /**
      * Returns a DefaultFileSystemManager instance (or subclass instance).
      */
+    @Override
     public DefaultFileSystemManager getDefaultFileSystemManager() {
         return config.getDefaultFileSystemManager();
     }
 
+    @Override
     public FilesCache getFilesCache()
     {
         return config.getFilesCache();
@@ -52,6 +54,7 @@ public class JunctionProviderConfig
     /**
      * Prepares the file system manager.
      */
+    @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception
     {
         config.prepare(manager);
@@ -60,6 +63,7 @@ public class JunctionProviderConfig
     /**
      * Returns the base folder for tests.
      */
+    @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         final FileObject baseFolder = config.getBaseTestFolder(manager);
@@ -72,6 +76,7 @@ public class JunctionProviderConfig
         return newFs.resolveFile(junctionPoint);
     }
 
+    @Override
     public boolean isFileSystemRootAccessible()
     {
         return true;

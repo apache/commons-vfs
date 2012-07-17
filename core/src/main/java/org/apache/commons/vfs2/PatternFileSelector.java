@@ -76,6 +76,7 @@ public class PatternFileSelector implements FileSelector
      *            The file selection information.
      * @return true if the file should be selected, false otherwise.
      */
+    @Override
     public boolean includeFile(final FileSelectInfo fileInfo)
     {
         return this.pattern.matcher(fileInfo.getFile().getName().getPath()).matches();
@@ -94,6 +95,7 @@ public class PatternFileSelector implements FileSelector
      *            The file selection information.
      * @return true if descendents should be traversed, false otherwise.
      */
+    @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo)
     {
         return true;

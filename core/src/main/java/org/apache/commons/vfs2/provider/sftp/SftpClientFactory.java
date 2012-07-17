@@ -301,6 +301,7 @@ public final class SftpClientFactory
 
     private static class JSchLogger implements Logger
     {
+        @Override
         public boolean isEnabled(int level)
         {
             switch (level)
@@ -321,6 +322,7 @@ public final class SftpClientFactory
             }
         }
 
+        @Override
         public void log(int level, String msg)
         {
             switch (level)

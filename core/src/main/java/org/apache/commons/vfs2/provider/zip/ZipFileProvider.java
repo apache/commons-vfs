@@ -74,6 +74,7 @@ public class ZipFileProvider extends AbstractLayeredFileProvider implements File
         return new ZipFileSystem(rootName, file, fileSystemOptions);
     }
 
+    @Override
     public Collection<Capability> getCapabilities()
     {
         return capabilities;

@@ -378,11 +378,13 @@ public class VFSClassLoader extends SecureClassLoader
     {
         return new Enumeration<URL>()
         {
+            @Override
             public boolean hasMoreElements()
             {
                 return false;
             }
 
+            @Override
             public URL nextElement()
             {
                 return null;

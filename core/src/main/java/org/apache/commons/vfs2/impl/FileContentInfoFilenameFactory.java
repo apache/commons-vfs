@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
  */
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory
 {
+    @Override
     public FileContentInfo create(FileContent fileContent)
     {
         String contentType = null;

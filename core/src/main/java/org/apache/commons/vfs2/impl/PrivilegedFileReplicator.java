@@ -57,6 +57,7 @@ public class PrivilegedFileReplicator
      * Sets the Logger to use for the component.
      * @param logger The logger.
      */
+    @Override
     public void setLogger(final Log logger)
     {
         if (replicatorComponent != null)
@@ -69,6 +70,7 @@ public class PrivilegedFileReplicator
      * Sets the context for the replicator.
      * @param context The component context.
      */
+    @Override
     public void setContext(final VfsComponentContext context)
     {
         if (replicatorComponent != null)
@@ -81,6 +83,7 @@ public class PrivilegedFileReplicator
      * Initialises the component.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public void init() throws FileSystemException
     {
         if (replicatorComponent != null)
@@ -99,6 +102,7 @@ public class PrivilegedFileReplicator
     /**
      * Closes the replicator.
      */
+    @Override
     public void close()
     {
         if (replicatorComponent != null)
@@ -114,6 +118,7 @@ public class PrivilegedFileReplicator
      * @return The replicated file.
      * @throws FileSystemException if an error occurs.
      */
+    @Override
     public File replicateFile(FileObject srcFile, FileSelector selector)
         throws FileSystemException
     {
@@ -136,6 +141,7 @@ public class PrivilegedFileReplicator
         /**
          * Performs the action.
          */
+        @Override
         public Object run() throws Exception
         {
             replicatorComponent.init();
@@ -162,6 +168,7 @@ public class PrivilegedFileReplicator
          * Performs the action.
          * @throws Exception if an error occurs.
          */
+        @Override
         public File run() throws Exception
         {
             // TODO - Do not pass the selector through.  It is untrusted
@@ -178,6 +185,7 @@ public class PrivilegedFileReplicator
         /**
          * Performs the action.
          */
+        @Override
         public Object run()
         {
             replicatorComponent.close();

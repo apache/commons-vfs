@@ -34,81 +34,97 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
 
     protected abstract DataInputStream getDataInputStream() throws IOException;
 
+    @Override
     public byte readByte() throws IOException
     {
         return getDataInputStream().readByte();
     }
 
+    @Override
     public char readChar() throws IOException
     {
         return getDataInputStream().readChar();
     }
 
+    @Override
     public double readDouble() throws IOException
     {
         return getDataInputStream().readDouble();
     }
 
+    @Override
     public float readFloat() throws IOException
     {
         return getDataInputStream().readFloat();
     }
 
+    @Override
     public int readInt() throws IOException
     {
         return getDataInputStream().readInt();
     }
 
+    @Override
     public int readUnsignedByte() throws IOException
     {
         return getDataInputStream().readUnsignedByte();
     }
 
+    @Override
     public int readUnsignedShort() throws IOException
     {
         return getDataInputStream().readUnsignedShort();
     }
 
+    @Override
     public long readLong() throws IOException
     {
         return getDataInputStream().readLong();
     }
 
+    @Override
     public short readShort() throws IOException
     {
         return getDataInputStream().readShort();
     }
 
+    @Override
     public boolean readBoolean() throws IOException
     {
         return getDataInputStream().readBoolean();
     }
 
+    @Override
     public int skipBytes(int n) throws IOException
     {
         return getDataInputStream().skipBytes(n);
     }
 
+    @Override
     public void readFully(byte[] b) throws IOException
     {
         getDataInputStream().readFully(b);
     }
 
+    @Override
     public void readFully(byte[] b, int off, int len) throws IOException
     {
         getDataInputStream().readFully(b, off, len);
     }
 
+    @Override
     public String readUTF() throws IOException
     {
         return getDataInputStream().readUTF();
     }
 
+    @Override
     public InputStream getInputStream() throws IOException
     {
         return getDataInputStream();
     }
 
+    @Override
     public void setLength(long newLength) throws IOException
     {
         throw new UnsupportedOperationException();
