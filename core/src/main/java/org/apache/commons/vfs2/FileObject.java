@@ -59,7 +59,7 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * <p>Other files in the <i>same</i> file system as this file can be found
  * using:
  * <ul>
- * <li>{@link #findFiles} to find a set of matching descendents in in the same file system.
+ * <li>{@link #findFiles} to find a set of matching descendants in in the same file system.
  * <li>{@link #getChildren} and {@link #getChild} to find the children of this file.
  * <li>{@link #getParent} to find the folder containing this file.
  * <li>{@link #getFileSystem} to find another file in the same file system.
@@ -68,7 +68,7 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * <p/>
  * <p>To find files in another file system, use a {@link FileSystemManager}.
  * <h4>Iterating Files</h4>
- *<p>You can iterate over a FileObject using the Java "foreach" statement, which provides all descendents of a File
+ *<p>You can iterate over a FileObject using the Java "foreach" statement, which provides all descendants of a File
  * Object.</p>
  *
  * <h4>Sorting Files</h4>
@@ -249,7 +249,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject resolveFile(String path) throws FileSystemException;
 
     /**
-     * Finds the set of matching descendents of this file, in depthwise order.
+     * Finds the set of matching descendants of this file, in depthwise order.
      *
      * @param selector The selector to use to select matching files.
      * @return The matching files.  The files are returned in depthwise order
@@ -259,7 +259,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject[] findFiles(FileSelector selector) throws FileSystemException;
 
     /**
-      * Finds the set of matching descendents of this file.
+      * Finds the set of matching descendants of this file.
       *
       * @param selector  the selector used to determine if the file should be selected
       * @param depthwise controls the ordering in the list. e.g. deepest first
@@ -270,7 +270,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Deletes this file.  Does nothing if this file does not exist of if it is a
-     * folder that has children.  Does not delete any descendents of this file,
+     * folder that has children.  Does not delete any descendants of this file,
      * use {@link #delete(FileSelector)} or {@link #deleteAll()} for that.
      *
      * @return true if this object has been deleted
@@ -280,7 +280,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean delete() throws FileSystemException;
 
     /**
-     * Deletes all descendents of this file that match a selector.  Does
+     * Deletes all descendants of this file that match a selector.  Does
      * nothing if this file does not exist.
      * 
      * <p>This method is not transactional.  If it fails and throws an
@@ -289,8 +289,8 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      *
      * @param selector The selector to use to select which files to delete.
      * @return the number of deleted objects
-     * @throws FileSystemException If this file or one of its descendents is read-only, or on error
-     *                             deleting this file or one of its descendents.
+     * @throws FileSystemException If this file or one of its descendants is read-only, or on error
+     *                             deleting this file or one of its descendants.
      */
     int delete(FileSelector selector) throws FileSystemException;
 
@@ -327,7 +327,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     void createFile() throws FileSystemException;
 
     /**
-     * Copies another file, and all its descendents, to this file.
+     * Copies another file, and all its descendants, to this file.
      * <p>
      * If this file does not exist, it is created.  Its parent folder is also
      * created, if necessary.  If this file does exist, it is deleted first.

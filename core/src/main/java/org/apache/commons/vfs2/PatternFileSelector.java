@@ -93,7 +93,7 @@ public class PatternFileSelector implements FileSelector
      *
      * @param fileInfo
      *            The file selection information.
-     * @return true if descendents should be traversed, false otherwise.
+     * @return true if descendants should be traversed, false otherwise.
      */
     @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo)

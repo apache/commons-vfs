@@ -409,7 +409,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Creates a temporary local copy of a file and its descendents.
+     * Creates a temporary local copy of a file and its descendants.
      * @param file The FileObject to replicate.
      * @param selector The FileSelector.
      * @return The replicated File.
@@ -468,7 +468,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Creates a temporary local copy of a file and its descendents.
+     * Creates a temporary local copy of a file and its descendants.
      */
     protected File doReplicateFile(final FileObject file,
                                    final FileSelector selector)

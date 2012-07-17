@@ -112,7 +112,7 @@ public class PrivilegedFileReplicator
     }
 
     /**
-     * Creates a local copy of the file, and all its descendents.
+     * Creates a local copy of the file, and all its descendants.
      * @param srcFile The source FileObject.
      * @param selector The file selector.
      * @return The replicated file.

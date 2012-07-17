@@ -67,7 +67,7 @@ public class LocalFileSystem
     }
 
     /**
-     * Creates a temporary local copy of a file and its descendents.
+     * Creates a temporary local copy of a file and its descendants.
      */
     @Override
     protected File doReplicateFile(final FileObject fileObject,

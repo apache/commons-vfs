@@ -788,7 +788,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Lists the set of matching descendents of this file, in depthwise
+     * Lists the set of matching descendants of this file, in depthwise
      * order.
      *
      * @param selector The FileSelector.
@@ -1438,7 +1438,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Finds the set of matching descendents of this file, in depthwise
+     * Finds the set of matching descendants of this file, in depthwise
      * order.
      *
      * @param selector The FileSelector.
@@ -1928,7 +1928,7 @@ public abstract class AbstractFileObject implements FileObject
     }
 
     /**
-     * Traverses the descendents of this file, and builds a list of selected
+     * Traverses the descendants of this file, and builds a list of selected
      * files.
      * @param selector The FileSelector.
      * @param depthwise if true files are added after their descendants, before otherwise.
@@ -1994,12 +1994,12 @@ public abstract class AbstractFileObject implements FileObject
         {
             if (depthwise)
             {
-                // Add this file after its descendents
+                // Add this file after its descendants
                 selected.add(file);
             }
             else
             {
-                // Add this file before its descendents
+                // Add this file before its descendants
                 selected.add(index, file);
             }
         }

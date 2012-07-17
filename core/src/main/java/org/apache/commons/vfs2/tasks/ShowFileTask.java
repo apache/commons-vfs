@@ -57,8 +57,8 @@ public class ShowFileTask
     }
 
     /**
-     * Recursively shows the descendents of the file.
-     * @param recursive true if descendents should be shown.
+     * Recursively shows the descendants of the file.
+     * @param recursive true if descendants should be shown.
      */
     public void setRecursive(final boolean recursive)
     {

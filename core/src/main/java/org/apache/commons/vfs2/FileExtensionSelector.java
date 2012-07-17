@@ -98,7 +98,7 @@ public class FileExtensionSelector implements FileSelector
      *
      * @param fileInfo
      *            The file selection information.
-     * @return true if descendents should be traversed, fase otherwise.
+     * @return true if descendants should be traversed, fase otherwise.
      */
     @Override
     public boolean traverseDescendents(final FileSelectInfo fileInfo)

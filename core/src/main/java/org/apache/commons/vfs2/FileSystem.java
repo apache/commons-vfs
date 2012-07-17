@@ -149,7 +149,7 @@ public interface FileSystem
     void removeJunction(String junctionPoint) throws FileSystemException;
 
     /**
-     * Creates a temporary local copy of a file and its descendents.  If
+     * Creates a temporary local copy of a file and its descendants.  If
      * this file is already a local file, a copy is not made.
      * <p/>
      * <p>Note that the local copy may include additonal files, that were

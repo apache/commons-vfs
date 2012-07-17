@@ -39,7 +39,7 @@ public final class Selectors
     public static final FileSelector SELECT_CHILDREN = new FileDepthSelector(1);
 
     /**
-     * A {@link FileSelector} that selects all the descendents of the
+     * A {@link FileSelector} that selects all the descendants of the
      * base folder, but does not select the base folder itself.
      */
     public static final FileSelector EXCLUDE_SELF = new FileDepthSelector(1, Integer.MAX_VALUE);
@@ -56,7 +56,7 @@ public final class Selectors
 
     /**
      * A {@link FileSelector} that selects the base file/folder, plus all
-     * its descendents.
+     * its descendants.
      */
     public static final FileSelector SELECT_ALL = new AllFileSelector();
 

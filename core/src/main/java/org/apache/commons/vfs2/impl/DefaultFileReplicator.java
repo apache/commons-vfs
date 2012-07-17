@@ -229,7 +229,7 @@ public class DefaultFileReplicator
     }
 
     /**
-     * Creates a local copy of the file, and all its descendents.
+     * Creates a local copy of the file, and all its descendants.
      * @param srcFile The file to copy.
      * @param selector The FileSelector.
      * @return the created File.

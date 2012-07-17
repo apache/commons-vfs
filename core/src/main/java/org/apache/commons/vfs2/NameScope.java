@@ -30,14 +30,14 @@ public enum NameScope
     CHILD("child"),
 
     /**
-     * Resolve against the descendents of the base file.  The name is resolved
+     * Resolve against the descendants of the base file.  The name is resolved
      * as described by {@link #FILE_SYSTEM}.  However, an exception is thrown
      * if the resolved file is not a descendent of the base file.
      */
     DESCENDENT("descendent"),
 
     /**
-     * Resolve against the descendents of the base file.  The name is resolved
+     * Resolve against the descendants of the base file.  The name is resolved
      * as described by {@link #FILE_SYSTEM}.  However, an exception is thrown
      * if the resolved file is not a descendent of the base file, or the base
      * files itself.
