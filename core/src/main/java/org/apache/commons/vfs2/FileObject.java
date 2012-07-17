@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * Represents a file, and is used to access the content and
  * structure of the file.
  * <p/>
- * <p>Files are arranged in a hierarchy.  Each hierachy forms a
+ * <p>Files are arranged in a hierarchy.  Each hierarchy forms a
  * <i>file system</i>.  A file system represents things like a local OS
  * file system, a windows share, an HTTP server, or the contents of a Zip file.
  * <p/>
