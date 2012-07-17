@@ -32,7 +32,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 public class TarFileObject extends AbstractFileObject
 {
     /** The TarArchiveEntry */
-    protected TarArchiveEntry entry;
+    private TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<String>();
     private final TarFileSystem fs;
     private FileType type;
@@ -54,7 +54,7 @@ public class TarFileObject extends AbstractFileObject
     /**
      * Sets the details for this file object.
      */
-    protected void setTarEntry(final TarArchiveEntry entry)
+    void setTarEntry(final TarArchiveEntry entry)
     {
         if (this.entry != null)
         {
