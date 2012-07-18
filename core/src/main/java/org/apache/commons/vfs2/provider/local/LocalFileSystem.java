@@ -24,7 +24,6 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelector;
-import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -35,7 +34,6 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  */
 public class LocalFileSystem
     extends AbstractFileSystem
-    implements FileSystem
 {
     private final String rootFile;
 

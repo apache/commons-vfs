@@ -31,7 +31,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.Selectors;
@@ -44,7 +43,7 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
 /**
  * A read-only file system for Tar files.
  */
-public class TarFileSystem extends AbstractFileSystem implements FileSystem
+public class TarFileSystem extends AbstractFileSystem
 {
     private static final int DEFAULT_INDEX_SIZE = 100;
 

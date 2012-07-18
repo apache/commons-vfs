@@ -20,10 +20,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
 
-import com.jcraft.jsch.*;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
@@ -32,12 +30,17 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
+
 /**
  * Represents the files on an SFTP server.
  */
 public class SftpFileSystem
     extends AbstractFileSystem
-    implements FileSystem
 {
     private static final int SLEEP_MILLIS = 100;
 

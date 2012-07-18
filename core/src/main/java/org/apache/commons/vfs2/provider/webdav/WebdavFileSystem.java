@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystem;
  *
  * @since 2.0
  */
-public class WebdavFileSystem extends HttpFileSystem implements FileSystem
+public class WebdavFileSystem extends HttpFileSystem
 {
     protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client,
                                final FileSystemOptions fileSystemOptions)

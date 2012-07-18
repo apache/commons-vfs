@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.Selectors;
@@ -44,7 +43,7 @@ import org.apache.commons.vfs2.provider.UriParser;
 /**
  * A read-only file system for Zip/Jar files.
  */
-public class ZipFileSystem extends AbstractFileSystem implements FileSystem
+public class ZipFileSystem extends AbstractFileSystem
 {
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
