@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -41,7 +40,6 @@ import org.apache.commons.vfs2.util.SharedRandomContentInputStream;
  */
 public class MimeFileSystem
     extends AbstractFileSystem
-    implements FileSystem
 {
     private Log log = LogFactory.getLog(MimeFileSystem.class);
 
