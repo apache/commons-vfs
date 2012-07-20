@@ -55,13 +55,14 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * A partial file object implementation.
+ * @param <AFS> An AbstractFileSystem subclass
  *
  * @todo Chop this class up - move all the protected methods to several
  * interfaces, so that structure and content can be separately overridden.
  * @todo Check caps in methods like getChildren(), etc, and give better error messages
  * (eg 'this file type does not support listing children', vs 'this is not a folder')
  */
-public abstract class AbstractFileObject implements FileObject
+public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject
 {
     // private static final FileObject[] EMPTY_FILE_ARRAY = {};
     private static final FileName[] EMPTY_FILE_ARRAY = {};
@@ -69,7 +70,7 @@ public abstract class AbstractFileObject implements FileObject
     private static final int INITIAL_LIST_SIZE = 5;
 
     private final AbstractFileName name;
-    private final AbstractFileSystem fs;
+    private final AFS fs;
 
     private FileContent content;
 
@@ -96,7 +97,7 @@ public abstract class AbstractFileObject implements FileObject
      * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
      */
     protected AbstractFileObject(final AbstractFileName name,
-                                 final AbstractFileSystem fs)
+                                 final AFS fs)
     {
         this.name = name;
         this.fs = fs;
@@ -500,6 +501,15 @@ public abstract class AbstractFileObject implements FileObject
      */
     @Override
     public FileSystem getFileSystem()
+    {
+        return fs;
+    }
+
+    /**
+     * Returns the file system this file belongs to.
+     * @return The FileSystem this file is associated with.
+     */
+    protected AFS getAbstractFileSystem()
     {
         return fs;
     }

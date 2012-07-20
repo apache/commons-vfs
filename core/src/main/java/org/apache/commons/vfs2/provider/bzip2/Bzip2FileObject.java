@@ -25,14 +25,13 @@ import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
-import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * the bzip2 file.
  */
-public class Bzip2FileObject extends CompressedFileFileObject
+public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
 {
-    protected Bzip2FileObject(AbstractFileName name, FileObject container, CompressedFileFileSystem fs)
+    protected Bzip2FileObject(AbstractFileName name, FileObject container, Bzip2FileSystem fs)
     {
         super(name, container, fs);
     }

@@ -47,14 +47,13 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * An FTP file.
  */
-public class FtpFileObject extends AbstractFileObject
+public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
 {
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP =
         Collections.unmodifiableMap(new TreeMap<String, FTPFile>());
     private static final FTPFile UNKNOWN = new FTPFile();
 
     private final Log log = LogFactory.getLog(FtpFileObject.class);
-    private final FtpFileSystem ftpFs;
     private final String relPath;
 
     // Cached info
@@ -70,7 +69,6 @@ public class FtpFileObject extends AbstractFileObject
         throws FileSystemException
     {
         super(name, fileSystem);
-        ftpFs = fileSystem;
         String relPath = UriParser.decode(rootName.getRelativeName(name));
         if (".".equals(relPath))
         {
@@ -128,7 +126,7 @@ public class FtpFileObject extends AbstractFileObject
             return;
         }
 
-        final FtpClient client = ftpFs.getClient();
+        final FtpClient client = getAbstractFileSystem().getClient();
         try
         {
             final String path = fileInfo != null && fileInfo.isSymbolicLink()
@@ -167,7 +165,7 @@ public class FtpFileObject extends AbstractFileObject
         }
         finally
         {
-            ftpFs.putClient(client);
+            getAbstractFileSystem().putClient(client);
         }
     }
 
@@ -459,7 +457,7 @@ public class FtpFileObject extends AbstractFileObject
         synchronized (getFileSystem())
         {
             final boolean ok;
-            final FtpClient ftpClient = ftpFs.getClient();
+            final FtpClient ftpClient = getAbstractFileSystem().getClient();
             try
             {
                 if (this.fileInfo.isDirectory())
@@ -473,7 +471,7 @@ public class FtpFileObject extends AbstractFileObject
             }
             finally
             {
-                ftpFs.putClient(ftpClient);
+                getAbstractFileSystem().putClient(ftpClient);
             }
 
             if (!ok)
@@ -494,7 +492,7 @@ public class FtpFileObject extends AbstractFileObject
         synchronized (getFileSystem())
         {
             final boolean ok;
-            final FtpClient ftpClient = ftpFs.getClient();
+            final FtpClient ftpClient = getAbstractFileSystem().getClient();
             try
             {
                 String oldName = getName().getPath();
@@ -503,7 +501,7 @@ public class FtpFileObject extends AbstractFileObject
             }
             finally
             {
-                ftpFs.putClient(ftpClient);
+                getAbstractFileSystem().putClient(ftpClient);
             }
 
             if (!ok)
@@ -524,14 +522,14 @@ public class FtpFileObject extends AbstractFileObject
         throws Exception
     {
         final boolean ok;
-        final FtpClient client = ftpFs.getClient();
+        final FtpClient client = getAbstractFileSystem().getClient();
         try
         {
             ok = client.makeDirectory(relPath);
         }
         finally
         {
-            ftpFs.putClient(client);
+            getAbstractFileSystem().putClient(client);
         }
 
         if (!ok)
@@ -594,7 +592,7 @@ public class FtpFileObject extends AbstractFileObject
     @Override
     protected InputStream doGetInputStream() throws Exception
     {
-        final FtpClient client = ftpFs.getClient();
+        final FtpClient client = getAbstractFileSystem().getClient();
         try
         {
             final InputStream instr = client.retrieveFileStream(relPath);
@@ -607,7 +605,7 @@ public class FtpFileObject extends AbstractFileObject
         }
         catch (Exception e)
         {
-            ftpFs.putClient(client);
+            getAbstractFileSystem().putClient(client);
             throw e;
         }
     }
@@ -625,7 +623,7 @@ public class FtpFileObject extends AbstractFileObject
     protected OutputStream doGetOutputStream(boolean bAppend)
         throws Exception
     {
-        final FtpClient client = ftpFs.getClient();
+        final FtpClient client = getAbstractFileSystem().getClient();
         try
         {
             OutputStream out = null;
@@ -649,7 +647,7 @@ public class FtpFileObject extends AbstractFileObject
         }
         catch (Exception e)
         {
-            ftpFs.putClient(client);
+            getAbstractFileSystem().putClient(client);
             throw e;
         }
     }
@@ -661,7 +659,7 @@ public class FtpFileObject extends AbstractFileObject
 
     FtpInputStream getInputStream(long filePointer) throws IOException
     {
-        final FtpClient client = ftpFs.getClient();
+        final FtpClient client = getAbstractFileSystem().getClient();
         try
         {
             final InputStream instr = client.retrieveFileStream(relPath, filePointer);
@@ -675,7 +673,7 @@ public class FtpFileObject extends AbstractFileObject
         }
         catch (IOException e)
         {
-            ftpFs.putClient(client);
+            getAbstractFileSystem().putClient(client);
             throw e;
         }
     }
@@ -713,7 +711,7 @@ public class FtpFileObject extends AbstractFileObject
             }
             finally
             {
-                ftpFs.putClient(client);
+                getAbstractFileSystem().putClient(client);
             }
 
             if (!ok)
@@ -750,7 +748,7 @@ public class FtpFileObject extends AbstractFileObject
             }
             finally
             {
-                ftpFs.putClient(client);
+                getAbstractFileSystem().putClient(client);
             }
 
             if (!ok)

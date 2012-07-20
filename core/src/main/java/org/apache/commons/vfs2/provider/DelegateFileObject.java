@@ -37,17 +37,19 @@ import org.apache.commons.vfs2.util.WeakRefFileListener;
 
 /**
  * A file backed by another file.
+ * 
+ * @param <AFS>  A subclass of AbstractFileSystem.
  *
  * @todo Extract subclass that overlays the children
  */
-public class DelegateFileObject extends AbstractFileObject implements FileListener
+public class DelegateFileObject<AFS extends AbstractFileSystem> extends AbstractFileObject<AFS> implements FileListener
 {
     private FileObject file;
     private final Set<String> children = new HashSet<String>();
     private boolean ignoreEvent;
 
     public DelegateFileObject(final AbstractFileName name,
-                              final AbstractFileSystem fileSystem,
+                              final AFS fileSystem,
                               final FileObject file) throws FileSystemException
     {
         super(name, fileSystem);

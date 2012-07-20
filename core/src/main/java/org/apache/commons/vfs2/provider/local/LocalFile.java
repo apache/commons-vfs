@@ -36,7 +36,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * A file object implementation which uses direct file access.
  */
-public class LocalFile extends AbstractFileObject
+public class LocalFile extends AbstractFileObject<LocalFileSystem>
 {
     private final String rootFile;
 

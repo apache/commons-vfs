@@ -23,6 +23,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -34,13 +35,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * A RAM File contains a single RAM FileData instance, it provides methods to access the data by implementing FileObject
  * interface.
  */
-public class RamFileObject extends AbstractFileObject
+public class RamFileObject extends AbstractFileObject<RamFileSystem>
 {
-    /**
-     * File System.
-     */
-    private final RamFileSystem fs;
-
     /**
      * RAM File Object Data.
      */
@@ -55,13 +51,12 @@ public class RamFileObject extends AbstractFileObject
     protected RamFileObject(AbstractFileName name, RamFileSystem fs)
     {
         super(name, fs);
-        this.fs = fs;
-        this.fs.attach(this);
+        this.getAbstractFileSystem().attach(this);
     }
 
     private void save() throws FileSystemException
     {
-        this.fs.save(this);
+        this.getAbstractFileSystem().save(this);
     }
 
     /*
@@ -83,7 +78,7 @@ public class RamFileObject extends AbstractFileObject
     @Override
     protected String[] doListChildren() throws Exception
     {
-        return this.fs.listChildren(this.getName());
+        return this.getAbstractFileSystem().listChildren(this.getName());
     }
 
     /*
@@ -142,7 +137,7 @@ public class RamFileObject extends AbstractFileObject
         {
             throw new FileSystemException(this.getName() + " cannot be deleted while the file is openg");
         }
-        fs.delete(this);
+        getAbstractFileSystem().delete(this);
     }
 
     /*
@@ -190,7 +185,7 @@ public class RamFileObject extends AbstractFileObject
     protected void doRename(FileObject newFile) throws Exception
     {
         RamFileObject newRamFileObject = (RamFileObject) FileObjectUtils.getAbstractFileObject(newFile);
-        fs.rename(this, newRamFileObject);
+        getAbstractFileSystem().rename(this, newRamFileObject);
     }
 
     /*
@@ -213,7 +208,7 @@ public class RamFileObject extends AbstractFileObject
     @Override
     protected void doAttach() throws Exception
     {
-        this.fs.attach(this);
+        this.getAbstractFileSystem().attach(this);
     }
 
     /**
@@ -272,11 +267,13 @@ public class RamFileObject extends AbstractFileObject
      */
     synchronized void resize(long newSize) throws IOException
     {
-        if (fs.getFileSystemOptions() != null)
+        final RamFileSystem afs = getAbstractFileSystem();
+        final FileSystemOptions afsOptions = afs.getFileSystemOptions();
+        if (afsOptions != null)
         {
             // A future implementation may allow longs...
-            int maxSize = RamFileSystemConfigBuilder.getInstance().getMaxSize(fs.getFileSystemOptions());
-            if (fs.size() + newSize - this.size() > maxSize)
+            int maxSize = RamFileSystemConfigBuilder.getInstance().getMaxSize(afsOptions);
+            if (afs.size() + newSize - this.size() > maxSize)
             {
                 throw new IOException("FileSystem capacity (" + maxSize + ") exceeded.");
             }

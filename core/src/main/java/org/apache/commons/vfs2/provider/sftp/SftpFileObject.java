@@ -49,11 +49,10 @@ import com.jcraft.jsch.SftpException;
  *
  * @version $Id$
  */
-public class SftpFileObject extends AbstractFileObject
+public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
 {
     private static final long MOD_TIME_FACTOR = 1000L;
 
-    private final SftpFileSystem fileSystem;
     private SftpATTRS attrs;
     private final String relPath;
 
@@ -63,7 +62,6 @@ public class SftpFileObject extends AbstractFileObject
             final SftpFileSystem fileSystem) throws FileSystemException
     {
         super(name, fileSystem);
-        this.fileSystem = fileSystem;
         relPath = UriParser.decode(fileSystem.getRootName().getRelativeName(
                 name));
     }
@@ -153,7 +151,7 @@ public class SftpFileObject extends AbstractFileObject
      */
     private void statSelf() throws IOException
     {
-        ChannelSftp channel = fileSystem.getChannel();
+        ChannelSftp channel = getAbstractFileSystem().getChannel();
         try
         {
             setStat(channel.stat(relPath));
@@ -166,7 +164,7 @@ public class SftpFileObject extends AbstractFileObject
                 if (e.id != ChannelSftp.SSH_FX_NO_SUCH_FILE)
                 {
                     channel.disconnect();
-                    channel = fileSystem.getChannel();
+                    channel = getAbstractFileSystem().getChannel();
                     setStat(channel.stat(relPath));
                 }
                 else
@@ -190,7 +188,7 @@ public class SftpFileObject extends AbstractFileObject
         }
         finally
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
     }
 
@@ -208,14 +206,14 @@ public class SftpFileObject extends AbstractFileObject
     @Override
     protected void doCreateFolder() throws Exception
     {
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try
         {
             channel.mkdir(relPath);
         }
         finally
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
     }
 
@@ -251,14 +249,14 @@ public class SftpFileObject extends AbstractFileObject
 
     private void flushStat() throws IOException, SftpException
     {
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try
         {
             channel.setStat(relPath, attrs);
         }
         finally
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
     }
 
@@ -268,7 +266,7 @@ public class SftpFileObject extends AbstractFileObject
     @Override
     protected void doDelete() throws Exception
     {
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try
         {
             if (isFile())
@@ -282,7 +280,7 @@ public class SftpFileObject extends AbstractFileObject
         }
         finally
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
     }
 
@@ -292,7 +290,7 @@ public class SftpFileObject extends AbstractFileObject
     @Override
     protected void doRename(FileObject newFile) throws Exception
     {
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try
         {
             SftpFileObject newSftpFileObject = (SftpFileObject) FileObjectUtils.getAbstractFileObject(newFile);
@@ -300,7 +298,7 @@ public class SftpFileObject extends AbstractFileObject
         }
         finally
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
     }
 
@@ -318,7 +316,7 @@ public class SftpFileObject extends AbstractFileObject
         boolean isInGroup = false;
         if (checkIds)
         {
-            for (int groupId : fileSystem.getGroupsIds())
+            for (int groupId : getAbstractFileSystem().getGroupsIds())
             {
                 if (groupId == attrs.getGId())
                 {
@@ -327,7 +325,7 @@ public class SftpFileObject extends AbstractFileObject
                 }
             }
         }
-        final boolean isOwner = checkIds ?  attrs.getUId() == fileSystem.getUId() : false;
+        final boolean isOwner = checkIds ?  attrs.getUId() == getAbstractFileSystem().getUId() : false;
         final PosixPermissions permissions = new PosixPermissions(attrs.getPermissions(), isOwner, isInGroup);
 
         return permissions;
@@ -413,7 +411,7 @@ public class SftpFileObject extends AbstractFileObject
         }
         // List the contents of the folder
         Vector<?> vector = null;
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
 
         try
         {
@@ -469,7 +467,7 @@ public class SftpFileObject extends AbstractFileObject
         }
         finally
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
         if (vector == null)
         {
@@ -553,7 +551,7 @@ public class SftpFileObject extends AbstractFileObject
      */
     InputStream getInputStream(long filePointer) throws IOException
     {
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
         // Using InputStream directly from the channel
         // is much faster than the memory method.
         try
@@ -563,7 +561,7 @@ public class SftpFileObject extends AbstractFileObject
         } 
         catch (SftpException e)
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
             throw new FileSystemException(e);
         }
     }
@@ -575,9 +573,9 @@ public class SftpFileObject extends AbstractFileObject
     protected InputStream doGetInputStream() throws Exception
     {
         // VFS-113: avoid npe
-        synchronized (fileSystem)
+        synchronized (getAbstractFileSystem())
         {
-            final ChannelSftp channel = fileSystem.getChannel();
+            final ChannelSftp channel = getAbstractFileSystem().getChannel();
             try
             {
                 // return channel.get(getName().getPath());
@@ -620,7 +618,7 @@ public class SftpFileObject extends AbstractFileObject
             }
             finally
             {
-//              fileSystem.putChannel(channel);
+//              getAbstractFileSystem().putChannel(channel);
             }
         }
     }
@@ -634,11 +632,11 @@ public class SftpFileObject extends AbstractFileObject
         // TODO - Don't write the entire file into memory. Use the stream-based
         // methods on ChannelSftp once the work properly
         /*
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
         return new SftpOutputStream(channel);
         */
 
-        final ChannelSftp channel = fileSystem.getChannel();
+        final ChannelSftp channel = getAbstractFileSystem().getChannel();
         return new SftpOutputStream(channel, channel.put(relPath));
     }
 
@@ -661,7 +659,7 @@ public class SftpFileObject extends AbstractFileObject
         @Override
         protected void onClose() throws IOException
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
     }
 
@@ -685,7 +683,7 @@ public class SftpFileObject extends AbstractFileObject
         @Override
         protected void onClose() throws IOException
         {
-            fileSystem.putChannel(channel);
+            getAbstractFileSystem().putChannel(channel);
         }
     }
 

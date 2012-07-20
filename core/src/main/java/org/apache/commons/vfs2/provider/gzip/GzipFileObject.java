@@ -24,14 +24,13 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
-import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * the gzip file.
  */
-public class GzipFileObject extends CompressedFileFileObject
+public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem>
 {
-    protected GzipFileObject(AbstractFileName name, FileObject container, CompressedFileFileSystem fs)
+    protected GzipFileObject(AbstractFileName name, FileObject container, GzipFileSystem fs)
     {
         super(name, container, fs);
     }

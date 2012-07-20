@@ -29,12 +29,11 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 /**
  * A file in a Tar file system.
  */
-public class TarFileObject extends AbstractFileObject
+public class TarFileObject extends AbstractFileObject<TarFileSystem>
 {
     /** The TarArchiveEntry */
     private TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<String>();
-    private final TarFileSystem fs;
     private FileType type;
 
     protected TarFileObject(AbstractFileName name,
@@ -43,7 +42,6 @@ public class TarFileObject extends AbstractFileObject
                             boolean tarExists) throws FileSystemException
     {
         super(name, fs);
-        this.fs = fs;
         setTarEntry(entry);
         if (!tarExists)
         {
@@ -170,6 +168,6 @@ public class TarFileObject extends AbstractFileObject
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
         }
 
-        return fs.getInputStream(entry);
+        return getAbstractFileSystem().getInputStream(entry);
     }
 }

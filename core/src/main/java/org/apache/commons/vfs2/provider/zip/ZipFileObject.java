@@ -29,12 +29,11 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 /**
  * A file in a Zip file system.
  */
-public class ZipFileObject extends AbstractFileObject
+public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
 {
     /** The ZipEntry. */
     protected ZipEntry entry;
     private final HashSet<String> children = new HashSet<String>();
-    private final ZipFileSystem fs;
     // protected final ZipFile file;
 
     private FileType type;
@@ -45,7 +44,6 @@ public class ZipFileObject extends AbstractFileObject
                             boolean zipExists) throws FileSystemException
     {
         super(name, fs);
-        this.fs = fs;
         setZipEntry(entry);
         if (!zipExists)
         {
@@ -163,6 +161,6 @@ public class ZipFileObject extends AbstractFileObject
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
         }
 
-        return fs.getZipFile().getInputStream(entry);
+        return getAbstractFileSystem().getZipFile().getInputStream(entry);
     }
 }

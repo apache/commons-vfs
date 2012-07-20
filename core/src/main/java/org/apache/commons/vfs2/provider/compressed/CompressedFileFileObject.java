@@ -24,15 +24,21 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
 
 /**
- * A compressed file.<br>
- * Such a file do only have one child (the compressed filename with stripped last extension)
+ * A compressed file.
+ * 
+ * <p>
+ * Such a file only has one child (the compressed filename with stripped last extension)
+ * </p>
+ * 
+ * @param <FS>
+ *            A CompressedFileFileSystem
  */
-public abstract class CompressedFileFileObject extends AbstractFileObject
+public abstract class CompressedFileFileObject<FS extends CompressedFileFileSystem> extends AbstractFileObject<FS>
 {
     private final FileObject container;
     private final String[] children;
 
-    protected CompressedFileFileObject(AbstractFileName name, FileObject container, CompressedFileFileSystem fs)
+    protected CompressedFileFileObject(AbstractFileName name, FileObject container, FS fs)
     {
         super(name, fs);
         this.container = container;

@@ -44,16 +44,14 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  *
  * @todo status codes
  */
-public class HttpFileObject extends AbstractFileObject
+public class HttpFileObject extends AbstractFileObject<HttpFileSystem>
 {
-    private final HttpFileSystem fileSystem;
     private final String urlCharset;
     private HeadMethod method;
 
     protected HttpFileObject(final AbstractFileName name, final HttpFileSystem fileSystem)
     {
         super(name, fileSystem);
-        this.fileSystem = fileSystem;
         urlCharset = HttpFileSystemConfigBuilder.getInstance().getUrlCharset(getFileSystem().getFileSystemOptions());
     }
 
@@ -144,7 +142,7 @@ public class HttpFileObject extends AbstractFileObject
     {
         final GetMethod getMethod = new GetMethod();
         setupMethod(getMethod);
-        final int status = fileSystem.getClient().executeMethod(getMethod);
+        final int status = getAbstractFileSystem().getClient().executeMethod(getMethod);
         if (status == HttpURLConnection.HTTP_NOT_FOUND)
         {
             throw new FileNotFoundException(getName());
@@ -219,7 +217,7 @@ public class HttpFileObject extends AbstractFileObject
         }
         method = new HeadMethod();
         setupMethod(method);
-        final HttpClient client = fileSystem.getClient();
+        final HttpClient client = getAbstractFileSystem().getClient();
         client.executeMethod(method);
         method.releaseConnection();
         return method;
