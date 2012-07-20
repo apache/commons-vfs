@@ -23,14 +23,14 @@ package org.apache.commons.vfs2;
 public interface FilesCache
 {
     /**
-     * add a fileobject to the cache.
+     * Adds a FileObject to the cache.
      *
      * @param file the file
      */
     void putFile(final FileObject file);
 
     /**
-     * add a fileobject to the cache if it isn't already present.
+     * Add a FileObject to the cache if it isn't already present.
      *
      * @param file the file
      * @return true if the file was stored, false otherwise.
@@ -38,7 +38,7 @@ public interface FilesCache
     boolean putFileIfAbsent(final FileObject file);
 
     /**
-     * retrieve a file from the cache by its name.
+     * Retrieve a FileObject from the cache by name.
      *
      * @param filesystem The FileSystem.
      * @param name the name
@@ -47,18 +47,18 @@ public interface FilesCache
     FileObject getFile(final FileSystem filesystem, final FileName name);
 
     /**
-     * purge the entries corresponding to the filesystem.
-     * @param filesystem The FileSystem.
+     * Purges the entries corresponding to the FileSystem.
+     * @param fileSystem The FileSystem.
      */
-    void clear(final FileSystem filesystem);
+    void clear(final FileSystem fileSystem);
 
     /**
-     * purge the whole cache.
+     * Purges the whole cache.
      */
     void close();
 
     /**
-     * removes a file from cache.
+     * Removes a file from cache.
      *
      * @param filesystem filesystem
      * @param name       filename
@@ -66,7 +66,7 @@ public interface FilesCache
     void removeFile(final FileSystem filesystem, final FileName name);
 
     /**
-     * if the cache uses timestamps it could use this method to handle
+     * If the cache uses timestamps it could use this method to handle
      * updates of them.
      *
      * @param file filename
