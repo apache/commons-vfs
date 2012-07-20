@@ -2074,7 +2074,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * This method is meant to add an object where this object holds a strong reference then.
-     * E.g. a archive-filesystem creates a list of all childs and they shouldnt get
+     * E.g. a archive-filesystem creates a list of all children and they shouldnt get
      * garbage collected until the container is garbage collected
      *
      * @param strongRef The Object to add.

@@ -75,7 +75,7 @@ public class FileNamePerformance
         }
         long end = System.currentTimeMillis();
 
-        System.err.println("time to resolve " + NUOF_RESOLVES + " childs: "
+        System.err.println("time to resolve " + NUOF_RESOLVES + " children: "
                 + (end - start) + "ms");
     }
 
