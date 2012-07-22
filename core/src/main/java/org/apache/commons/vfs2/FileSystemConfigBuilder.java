@@ -34,6 +34,7 @@ public abstract class FileSystemConfigBuilder
     {
         this.prefix = PREFIX;
     }
+    
     /** @since 2.0 */
     protected FileSystemConfigBuilder(String component)
     {
