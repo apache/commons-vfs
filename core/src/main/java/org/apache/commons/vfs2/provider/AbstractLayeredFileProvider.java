@@ -40,14 +40,14 @@ public abstract class AbstractLayeredFileProvider
      * Locates a file object, by absolute URI.
      * @param baseFile The base FileObject.
      * @param uri The name of the file to locate.
-     * @param properties The FileSystemOptions.
+     * @param fileSystemOptions The FileSystemOptions.
      * @return The FileObject if it is located, null otherwise.
      * @throws FileSystemException if an error occurs.
      */
     @Override
     public FileObject findFile(final FileObject baseFile,
                                final String uri,
-                               final FileSystemOptions properties) throws FileSystemException
+                               final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         // Split the URI up into its parts
         final LayeredFileName name = (LayeredFileName) parseUri(baseFile != null ? baseFile.getName() : null, uri);
@@ -56,10 +56,10 @@ public abstract class AbstractLayeredFileProvider
 
         // Resolve the outer file name
         final FileName fileName = name.getOuterName();
-        final FileObject file = getContext().resolveFile(baseFile, fileName.getURI(), properties);
+        final FileObject file = getContext().resolveFile(baseFile, fileName.getURI(), fileSystemOptions);
 
         // Create the file system
-        final FileObject rootFile = createFileSystem(name.getScheme(), file, properties);
+        final FileObject rootFile = createFileSystem(name.getScheme(), file, fileSystemOptions);
 
         // Resolve the file
         return rootFile.resolveFile(name.getPath());
