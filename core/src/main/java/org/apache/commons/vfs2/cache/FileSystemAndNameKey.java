@@ -20,8 +20,10 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystem;
 
 /**
- * Key for various cache implementations.<br>
+ * Key for various cache implementations.
+ * <p>
  * It compares the fileSystem (by hashCode) and the filename.
+ * </p>
  */
 class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey>
 {
