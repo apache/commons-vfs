@@ -174,4 +174,9 @@ public final class FileSystemOptions implements Cloneable
         clone.options = new TreeMap<FileSystemOptionKey, Object>(options);
         return clone;
     }
+    
+    @Override
+    public String toString() {
+        return options.toString();
+    }
 }
