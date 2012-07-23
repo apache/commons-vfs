@@ -147,7 +147,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
                 DavPropertyNameSet nameSet = new DavPropertyNameSet();
                 nameSet.add(DavPropertyName.create(DavConstants.PROPERTY_DISPLAYNAME));
 
-                method = new PropFindMethod(urlString(name), nameSet,
+                method = new PropFindMethod(toUrlString(name), nameSet,
                         DavConstants.DEPTH_1);
 
                 execute(method);
@@ -207,7 +207,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     @Override
     protected void doCreateFolder() throws Exception
     {
-        DavMethod method = new MkColMethod(urlString((URLFileName) getName()));
+        DavMethod method = new MkColMethod(toUrlString((URLFileName) getName()));
         setupMethod(method);
         try
         {
@@ -226,7 +226,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     @Override
     protected void doDelete() throws Exception
     {
-        DavMethod method = new DeleteMethod(urlString((URLFileName) getName()));
+        DavMethod method = new DeleteMethod(toUrlString((URLFileName) getName()));
         setupMethod(method);
         execute(method);
     }
@@ -237,7 +237,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     @Override
     protected void doRename(FileObject newFile) throws Exception
     {
-        String url = encodePath(urlString((URLFileName) getName()));
+        String url = encodePath(toUrlString((URLFileName) getName()));
         String dest = toUrlString((URLFileName) newFile.getName(), false);
         DavMethod method = new MoveMethod(url, dest, false);
         setupMethod(method);
@@ -337,7 +337,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         try
         {
             URLFileName fileName = (URLFileName) getName();
-            String urlStr = urlString(fileName);
+            String urlStr = toUrlString(fileName);
             DavPropertySet properties = new DavPropertySet();
             DavPropertyNameSet propertyNameSet = new DavPropertyNameSet();
             DavProperty property = new DefaultDavProperty(attrName, value, Namespace.EMPTY_NAMESPACE);
@@ -500,7 +500,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     {
         try
         {
-            String urlStr = urlString(name);
+            String urlStr = toUrlString(name);
             PropFindMethod method = new PropFindMethod(urlStr, type, nameSet, DavConstants.DEPTH_0);
             setupMethod(method);
             execute(method);
@@ -545,7 +545,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         return i >= 0 ? path.substring(i + 1) : path;
     }
 
-    private String urlString(URLFileName name)
+    private String toUrlString(URLFileName name)
     {
         return toUrlString(name, true);
     }
@@ -633,7 +633,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         {
             RequestEntity entity = new ByteArrayRequestEntity(((ByteArrayOutputStream) out).toByteArray());
             URLFileName fileName = (URLFileName) getName();
-            String urlStr = urlString(fileName);
+            String urlStr = toUrlString(fileName);
             if (builder.isVersioning(getFileSystem().getFileSystemOptions()))
             {
                 DavPropertySet set = null;
