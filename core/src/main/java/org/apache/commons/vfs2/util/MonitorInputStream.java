@@ -28,8 +28,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public class MonitorInputStream
     extends BufferedInputStream
 {
-    private AtomicBoolean finished = new AtomicBoolean(false);
-    private AtomicLong count = new AtomicLong(0);
+    private final AtomicBoolean finished = new AtomicBoolean(false);
+    private final AtomicLong count = new AtomicLong(0);
 
     public MonitorInputStream(final InputStream in)
     {
