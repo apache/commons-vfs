@@ -161,7 +161,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         if (log.isDebugEnabled())
         {
-            log.debug("putFile: " + file.getName());
+            log.debug("putFile: " + this.getSafeName(file));
         }
 
         Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(file.getFileSystem());
@@ -185,13 +185,22 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
+    private String getSafeName(final FileName file)
+    {
+        return file.getFriendlyURI();
+    }
+
+    private String getSafeName(final FileObject file)
+    {
+        return this.getSafeName(file.getName());
+    }
 
     @Override
     public boolean putFileIfAbsent(final FileObject file)
     {
         if (log.isDebugEnabled())
         {
-            log.debug("putFile: " + file.getName());
+            log.debug("putFile: " + this.getSafeName(file));
         }
 
         Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(file.getFileSystem());
@@ -341,7 +350,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         if (log.isDebugEnabled())
         {
-            log.debug("removeFile: " + key.getFileName());
+            log.debug("removeFile: " + this.getSafeName(key.getFileName()));
         }
 
         Map<?, ?> files = getOrCreateFilesystemCache(key.getFileSystem());
