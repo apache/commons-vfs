@@ -52,7 +52,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
      */
     private final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
-    private final ConcurrentMap<FileSystem, Map<FileName, Reference<FileObject>>> filesystemCache =
+    private final ConcurrentMap<FileSystem, Map<FileName, Reference<FileObject>>> fileSystemCache =
           new ConcurrentHashMap<FileSystem, Map<FileName, Reference<FileObject>>>();
     private final Map<Reference<FileObject>, FileSystemAndNameKey> refReverseMap =
           new HashMap<Reference<FileObject>, FileSystemAndNameKey>(100);
@@ -302,8 +302,8 @@ public class SoftRefFilesCache extends AbstractFilesCache
             log.debug("close fs: " + filesystem.getRootName());
         }
 
-        filesystemCache.remove(filesystem);
-        if (filesystemCache.size() < 1)
+        fileSystemCache.remove(filesystem);
+        if (fileSystemCache.size() < 1)
         {
             endThread();
         }
@@ -323,7 +323,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         lock.lock();
         try
         {
-            filesystemCache.clear();
+            fileSystemCache.clear();
 
             refReverseMap.clear();
         }
@@ -374,7 +374,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
     protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem filesystem)
     {
-        if (filesystemCache.size() < 1)
+        if (fileSystemCache.size() < 1)
         {
             startThread();
         }
@@ -383,13 +383,13 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
         do
         {
-            files = filesystemCache.get(filesystem);
+            files = fileSystemCache.get(filesystem);
             if (files != null)
             {
                 break;
             }
             files = new HashMap<FileName, Reference<FileObject>>();
-        } while (filesystemCache.putIfAbsent(filesystem, files) == null);
+        } while (fileSystemCache.putIfAbsent(filesystem, files) == null);
 
         return files;
     }
