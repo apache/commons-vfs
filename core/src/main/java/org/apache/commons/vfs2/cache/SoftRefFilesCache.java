@@ -157,22 +157,22 @@ public class SoftRefFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void putFile(final FileObject file)
+    public void putFile(final FileObject fileObject)
     {
         if (log.isDebugEnabled())
         {
-            log.debug("putFile: " + this.getSafeName(file));
+            log.debug("putFile: " + this.getSafeName(fileObject));
         }
 
-        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(file.getFileSystem());
+        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(fileObject.getFileSystem());
 
-        Reference<FileObject> ref = createReference(file, refQueue);
-        FileSystemAndNameKey key = new FileSystemAndNameKey(file.getFileSystem(), file.getName());
+        Reference<FileObject> ref = createReference(fileObject, refQueue);
+        FileSystemAndNameKey key = new FileSystemAndNameKey(fileObject.getFileSystem(), fileObject.getName());
 
         lock.lock();
         try
         {
-            Reference<FileObject> old = files.put(file.getName(), ref);
+            Reference<FileObject> old = files.put(fileObject.getName(), ref);
             if (old != null)
             {
                 refReverseMap.remove(old);
@@ -185,37 +185,37 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
-    private String getSafeName(final FileName file)
+    private String getSafeName(final FileName fileName)
     {
-        return file.getFriendlyURI();
+        return fileName.getFriendlyURI();
     }
 
-    private String getSafeName(final FileObject file)
+    private String getSafeName(final FileObject fileObject)
     {
-        return this.getSafeName(file.getName());
+        return this.getSafeName(fileObject.getName());
     }
 
     @Override
-    public boolean putFileIfAbsent(final FileObject file)
+    public boolean putFileIfAbsent(final FileObject fileObject)
     {
         if (log.isDebugEnabled())
         {
-            log.debug("putFile: " + this.getSafeName(file));
+            log.debug("putFile: " + this.getSafeName(fileObject));
         }
 
-        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(file.getFileSystem());
+        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(fileObject.getFileSystem());
 
-        Reference<FileObject> ref = createReference(file, refQueue);
-        FileSystemAndNameKey key = new FileSystemAndNameKey(file.getFileSystem(), file.getName());
+        Reference<FileObject> ref = createReference(fileObject, refQueue);
+        FileSystemAndNameKey key = new FileSystemAndNameKey(fileObject.getFileSystem(), fileObject.getName());
 
         lock.lock();
         try
         {
-            if (files.containsKey(file.getName()) && files.get(file.getName()).get() != null)
+            if (files.containsKey(fileObject.getName()) && files.get(fileObject.getName()).get() != null)
             {
                 return false;
             }
-            Reference<FileObject> old = files.put(file.getName(), ref);
+            Reference<FileObject> old = files.put(fileObject.getName(), ref);
             if (old != null)
             {
                 refReverseMap.remove(old);
@@ -235,14 +235,14 @@ public class SoftRefFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public FileObject getFile(final FileSystem fileSystem, final FileName name)
+    public FileObject getFile(final FileSystem fileSystem, final FileName fileName)
     {
         Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(fileSystem);
 
         lock.lock();
         try
         {
-            Reference<FileObject> ref = files.get(name);
+            Reference<FileObject> ref = files.get(fileName);
             if (ref == null)
             {
                 return null;
@@ -251,7 +251,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             FileObject fo = ref.get();
             if (fo == null)
             {
-                removeFile(fileSystem, name);
+                removeFile(fileSystem, fileName);
             }
             return fo;
         }
@@ -334,15 +334,15 @@ public class SoftRefFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void removeFile(FileSystem fileSystem, FileName name)
+    public void removeFile(FileSystem fileSystem, FileName fileName)
     {
-        if (removeFile(new FileSystemAndNameKey(fileSystem, name)))
+        if (removeFile(new FileSystemAndNameKey(fileSystem, fileName)))
         {
             close(fileSystem);
         }
     }
 
-    public void touchFile(FileObject file)
+    public void touchFile(FileObject fileObject)
     {
     }
 
