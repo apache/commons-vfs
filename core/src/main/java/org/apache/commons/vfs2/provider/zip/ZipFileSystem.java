@@ -53,7 +53,7 @@ public class ZipFileSystem extends AbstractFileSystem
     /**
      * Cache doesn't need to be synchronized since it is read-only.
      */
-    private Map<FileName, FileObject> cache = new HashMap<FileName, FileObject>();
+    private final Map<FileName, FileObject> cache = new HashMap<FileName, FileObject>();
 
   public ZipFileSystem(final AbstractFileName rootName,
                          final FileObject parentLayer,
