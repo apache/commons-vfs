@@ -85,7 +85,6 @@ public class WebdavFileObject extends HttpFileObject
             "response-charset");
 
     private final WebdavFileSystem fileSystem;
-    private final String urlCharset;
 
     /** The FileSystemConfigBuilder */
     private final WebdavFileSystemConfigBuilder builder;
@@ -95,8 +94,6 @@ public class WebdavFileObject extends HttpFileObject
         super(name, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
         this.fileSystem = fileSystem;
         builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
-        final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
-        this.urlCharset = builder.getUrlCharset(fileSystemOptions);
     }
 
     protected void configureMethod(HttpMethodBase httpMethod)
@@ -394,7 +391,7 @@ public class WebdavFileObject extends HttpFileObject
     @Override
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
-        String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
+        String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
         method.setPath(pathEncoded);
         method.setFollowRedirects(this.getFollowRedirect());
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
@@ -575,7 +572,7 @@ public class WebdavFileObject extends HttpFileObject
                 name.getPath(), name.getType(), name.getQueryString());
         try
         {
-            return newFile.getURIEncoded(urlCharset);
+            return newFile.getURIEncoded(this.getUrlCharset());
         }
         catch (Exception e)
         {
@@ -606,7 +603,7 @@ public class WebdavFileObject extends HttpFileObject
                 name.getPath(), name.getType(), name.getQueryString());
         try
         {
-            return newFile.getURIEncoded(urlCharset);
+            return newFile.getURIEncoded(this.getUrlCharset());
         }
         catch (Exception e)
         {

@@ -177,7 +177,7 @@ public class HttpFileObject extends AbstractFileObject<HttpFileSystem>
      */
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
-        String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
+        String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
         method.setPath(pathEncoded);
         method.setFollowRedirects(this.getFollowRedirect());
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
@@ -223,6 +223,11 @@ public class HttpFileObject extends AbstractFileObject<HttpFileSystem>
     protected boolean getFollowRedirect()
     {
         return followRedirect;
+    }
+
+    protected String getUrlCharset()
+    {
+        return urlCharset;
     }
 
     HeadMethod getHeadMethod() throws IOException
