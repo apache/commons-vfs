@@ -235,9 +235,9 @@ public class SoftRefFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public FileObject getFile(final FileSystem filesystem, final FileName name)
+    public FileObject getFile(final FileSystem fileSystem, final FileName name)
     {
-        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(filesystem);
+        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(fileSystem);
 
         lock.lock();
         try
@@ -251,7 +251,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             FileObject fo = ref.get();
             if (fo == null)
             {
-                removeFile(filesystem, name);
+                removeFile(fileSystem, name);
             }
             return fo;
         }
@@ -262,9 +262,9 @@ public class SoftRefFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void clear(FileSystem filesystem)
+    public void clear(FileSystem fileSystem)
     {
-        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(filesystem);
+        Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(fileSystem);
 
         lock.lock();
         try
@@ -273,7 +273,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             while (iterKeys.hasNext())
             {
                 FileSystemAndNameKey key = iterKeys.next();
-                if (key.getFileSystem() == filesystem)
+                if (key.getFileSystem() == fileSystem)
                 {
                     iterKeys.remove();
                     files.remove(key.getFileName());
@@ -282,7 +282,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
             if (files.size() < 1)
             {
-                close(filesystem);
+                close(fileSystem);
             }
         }
         finally
@@ -293,16 +293,16 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
     /**
      * Called while the lock is held
-     * @param filesystem The file system to close.
+     * @param fileSystem The file system to close.
      */
-    private void close(FileSystem filesystem)
+    private void close(FileSystem fileSystem)
     {
         if (log.isDebugEnabled())
         {
-            log.debug("close fs: " + filesystem.getRootName());
+            log.debug("close fs: " + fileSystem.getRootName());
         }
 
-        fileSystemCache.remove(filesystem);
+        fileSystemCache.remove(fileSystem);
         if (fileSystemCache.size() < 1)
         {
             endThread();
@@ -334,11 +334,11 @@ public class SoftRefFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void removeFile(FileSystem filesystem, FileName name)
+    public void removeFile(FileSystem fileSystem, FileName name)
     {
-        if (removeFile(new FileSystemAndNameKey(filesystem, name)))
+        if (removeFile(new FileSystemAndNameKey(fileSystem, name)))
         {
-            close(filesystem);
+            close(fileSystem);
         }
     }
 
@@ -372,7 +372,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
-    protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem filesystem)
+    protected Map<FileName, Reference<FileObject>> getOrCreateFilesystemCache(final FileSystem fileSystem)
     {
         if (fileSystemCache.size() < 1)
         {
@@ -383,13 +383,13 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
         do
         {
-            files = fileSystemCache.get(filesystem);
+            files = fileSystemCache.get(fileSystem);
             if (files != null)
             {
                 break;
             }
             files = new HashMap<FileName, Reference<FileObject>>();
-        } while (fileSystemCache.putIfAbsent(filesystem, files) == null);
+        } while (fileSystemCache.putIfAbsent(fileSystem, files) == null);
 
         return files;
     }
