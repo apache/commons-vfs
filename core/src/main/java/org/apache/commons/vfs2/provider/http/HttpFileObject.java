@@ -41,22 +41,24 @@ import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * A file object backed by commons httpclient.
+ * A file object backed by Apache Commons HttpClient.
+ * 
+ * @param <FS> An {@link HttpFileSystem} subclass
  *
  * @todo status codes
  */
-public class HttpFileObject extends AbstractFileObject<HttpFileSystem>
+public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObject<FS>
 {
     private final String urlCharset;
     private final boolean followRedirect;
     private HeadMethod method;
 
-    protected HttpFileObject(final AbstractFileName name, final HttpFileSystem fileSystem)
+    protected HttpFileObject(final AbstractFileName name, final FS fileSystem)
     {
         this(name, fileSystem, HttpFileSystemConfigBuilder.getInstance());
     }
 
-    protected HttpFileObject(final AbstractFileName name, final HttpFileSystem fileSystem, final HttpFileSystemConfigBuilder builder)
+    protected HttpFileObject(final AbstractFileName name, final FS fileSystem, final HttpFileSystemConfigBuilder builder)
     {
         super(name, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();

@@ -39,7 +39,6 @@ import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -78,7 +77,7 @@ import org.w3c.dom.Node;
  *
  * @since 2.0
  */
-public class WebdavFileObject extends HttpFileObject
+public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
 {
     /** The character set property name. */
     public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create(
