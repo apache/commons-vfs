@@ -22,13 +22,15 @@ import java.io.IOException;
 import junit.framework.Assert;
 import junit.framework.Test;
 
-import org.apache.commons.vfs2.FileContent;
+import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.http.HttpFileProvider;
+import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
@@ -81,6 +83,16 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     {
         return new ProviderTestSuite(new HttpProviderTestCase())
         {
+            /**
+             * Adds base tests - excludes the nested test cases.
+             */
+            @Override
+            protected void addBaseTests() throws Exception
+            {
+                super.addBaseTests();
+                addTests(HttpProviderTestCase.class);
+            }
+
             @Override
             protected void setUp() throws Exception
             {
@@ -126,6 +138,12 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         ConnectionUri = "http://localhost:" + SocketPort;
     }
 
+    private void checkReadTestsFolder(final FileObject file) throws FileSystemException
+    {
+        Assert.assertNotNull(file.getChildren());
+        Assert.assertTrue(file.getChildren().length > 0);
+    }
+
     /**
      * Returns the base folder for tests.
      */
@@ -149,17 +167,38 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         manager.addProvider("http", new HttpFileProvider());
     }
 
-    public void testGetContent() throws FileSystemException
+    private void testResloveFolderSlash(String uri, boolean followRedirect) throws FileSystemException
     {
-        final FileObject file = VFS.getManager().resolveFile(ConnectionUri + "/read-tests/file1.txt");
-        Assert.assertNotNull(file.getContent());
+        VFS.getManager().getFilesCache().close();
+        final FileSystemOptions opts = new FileSystemOptions();
+        HttpFileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
+        final FileObject file = VFS.getManager().resolveFile(uri, opts);
+        try
+        {
+            checkReadTestsFolder(file);
+        } catch (FileNotFolderException e)
+        {
+            // Expected: VFS HTTP does not support listing children yet.
+        }
     }
 
-    public void testGetContentInfo() throws FileSystemException
+    public void testResloveFolderSlashNoRedirectOff() throws FileSystemException
     {
-        final FileObject file = VFS.getManager().resolveFile(ConnectionUri + "/read-tests/file1.txt");
-        final FileContent content = file.getContent();
-        Assert.assertNotNull(content);
-        Assert.assertNotNull(content.getContentInfo());
+        testResloveFolderSlash(ConnectionUri + "/read-tests", false);
+    }
+
+    public void testResloveFolderSlashNoRedirectOn() throws FileSystemException
+    {
+        testResloveFolderSlash(ConnectionUri + "/read-tests", true);
+    }
+
+    public void testResloveFolderSlashYesRedirectOff() throws FileSystemException
+    {
+        testResloveFolderSlash(ConnectionUri + "/read-tests/", false);
+    }
+
+    public void testResloveFolderSlashYesRedirectOn() throws FileSystemException
+    {
+        testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
     }
 }

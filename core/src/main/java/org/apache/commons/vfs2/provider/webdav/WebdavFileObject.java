@@ -39,6 +39,7 @@ import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -91,10 +92,11 @@ public class WebdavFileObject extends HttpFileObject
 
     protected WebdavFileObject(final AbstractFileName name, final WebdavFileSystem fileSystem)
     {
-        super(name, fileSystem);
+        super(name, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
         this.fileSystem = fileSystem;
         builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
-        this.urlCharset = builder.getUrlCharset(getFileSystem().getFileSystemOptions());
+        final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
+        this.urlCharset = builder.getUrlCharset(fileSystemOptions);
     }
 
     protected void configureMethod(HttpMethodBase httpMethod)
@@ -394,8 +396,7 @@ public class WebdavFileObject extends HttpFileObject
     {
         String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
         method.setPath(pathEncoded);
-        // All the WebDav methods are EntityEnclosingMethods and are not allowed to redirect.
-        method.setFollowRedirects(false);
+        method.setFollowRedirects(this.getFollowRedirect());
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
         method.addRequestHeader("Cache-control", "no-cache");
         method.addRequestHeader("Cache-store", "no-store");

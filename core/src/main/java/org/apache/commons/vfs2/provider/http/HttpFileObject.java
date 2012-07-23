@@ -31,6 +31,7 @@ import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileNotFoundException;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -47,12 +48,20 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 public class HttpFileObject extends AbstractFileObject<HttpFileSystem>
 {
     private final String urlCharset;
+    private final boolean followRedirect;
     private HeadMethod method;
 
     protected HttpFileObject(final AbstractFileName name, final HttpFileSystem fileSystem)
     {
+        this(name, fileSystem, HttpFileSystemConfigBuilder.getInstance());
+    }
+
+    protected HttpFileObject(final AbstractFileName name, final HttpFileSystem fileSystem, final HttpFileSystemConfigBuilder builder)
+    {
         super(name, fileSystem);
-        urlCharset = HttpFileSystemConfigBuilder.getInstance().getUrlCharset(getFileSystem().getFileSystemOptions());
+        final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
+        urlCharset = builder.getUrlCharset(fileSystemOptions);
+        followRedirect = builder.getFollowRedirect(fileSystemOptions);
     }
 
     /**
@@ -162,14 +171,15 @@ public class HttpFileObject extends AbstractFileObject<HttpFileSystem>
     }
 
     /**
-     * Prepares a Method object.
+     * Prepares a HttpMethod object.
+     * 
      * @since 2.0 (was package)
      */
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
     {
         String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(urlCharset);
         method.setPath(pathEncoded);
-        method.setFollowRedirects(true);
+        method.setFollowRedirects(this.getFollowRedirect());
         method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
     }
 
@@ -208,6 +218,11 @@ public class HttpFileObject extends AbstractFileObject<HttpFileSystem>
     protected FileContentInfoFactory getFileContentInfoFactory()
     {
         return new HttpFileContentInfoFactory();
+    }
+
+    protected boolean getFollowRedirect()
+    {
+        return followRedirect;
     }
 
     HeadMethod getHeadMethod() throws IOException

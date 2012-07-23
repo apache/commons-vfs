@@ -34,7 +34,11 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private static final int DEFAULT_MAX_CONNECTIONS = 50;
 
-    private static final String OPTION_NAME_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
+    private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
+
+    private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
+
+    protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
     /** @since 2.0 */
     protected HttpFileSystemConfigBuilder(String prefix)
@@ -162,6 +166,21 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * Sets whether to follow redirects for the connection.
+     * 
+     * @param opts
+     *            The FileSystem options.
+     * @param redirect
+     *            {@code true} to follow redirects, {@code false} not to.
+     * @see #setFollowRedirect
+     * @since 2.1
+     */
+    public void setFollowRedirect(FileSystemOptions opts, boolean redirect)
+    {
+        setParam(opts, KEY_FOLLOW_REDIRECT, redirect);
+    }
+
+    /**
      * The cookies to add to the request.
      * @param opts The FileSystem options.
      * @return the Cookie array.
@@ -169,6 +188,20 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public Cookie[] getCookies(FileSystemOptions opts)
     {
         return (Cookie[]) getParam(opts, "cookies");
+    }
+
+    /**
+     * Gets whether to follow redirects for the connection.
+     * 
+     * @param opts
+     *            The FileSystem options.
+     * @return {@code true} to follow redirects, {@code false} not to.
+     * @see #setFollowRedirect
+     * @since 2.1
+     */
+    public boolean getFollowRedirect(FileSystemOptions opts)
+    {
+        return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
     }
 
     /**
@@ -224,7 +257,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public boolean isPreemptiveAuth(FileSystemOptions opts)
     {
-        return getBoolean(opts, OPTION_NAME_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
+        return getBoolean(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
     }
 
     /**
@@ -238,7 +271,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setPreemptiveAuth(FileSystemOptions opts, boolean preemptiveAuth)
     {
-        setParam(opts, OPTION_NAME_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
+        setParam(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
     }
 
     @Override

@@ -28,6 +28,8 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
 {
     private static final WebdavFileSystemConfigBuilder BUILDER = new WebdavFileSystemConfigBuilder();
+    
+    private static final boolean DEFAULT_FOLLOW_REDIRECT = false;
 
     private WebdavFileSystemConfigBuilder()
     {
@@ -62,6 +64,20 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
     public String getCreatorName(FileSystemOptions opts)
     {
         return getString(opts, "creatorName");
+    }
+
+    /**
+     * Gets whether to follow redirects for the connection.
+     * 
+     * @param opts
+     *            The FileSystem options.
+     * @return {@code true} to follow redirects, {@code false} not to.
+     * @see #setFollowRedirect
+     * @since 2.1
+     */
+    public boolean getFollowRedirect(FileSystemOptions opts)
+    {
+        return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
     }
 
     /**
