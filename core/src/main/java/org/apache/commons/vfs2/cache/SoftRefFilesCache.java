@@ -100,7 +100,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
                         {
                             if (removeFile(key))
                             {
-                                filesystemClose(key.getFileSystem());
+                                close(key.getFileSystem());
                             }
                         }
                     }
@@ -273,7 +273,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
             if (files.size() < 1)
             {
-                filesystemClose(filesystem);
+                close(filesystem);
             }
         }
         finally
@@ -286,7 +286,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
      * Called while the lock is held
      * @param filesystem The file system to close.
      */
-    private void filesystemClose(FileSystem filesystem)
+    private void close(FileSystem filesystem)
     {
         if (log.isDebugEnabled())
         {
@@ -329,7 +329,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
     {
         if (removeFile(new FileSystemAndNameKey(filesystem, name)))
         {
-            filesystemClose(filesystem);
+            close(filesystem);
         }
     }
 
