@@ -238,7 +238,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     protected void doRename(FileObject newFile) throws Exception
     {
         String url = encodePath(urlString((URLFileName) getName()));
-        String dest = urlString((URLFileName) newFile.getName(), false);
+        String dest = toUrlString((URLFileName) newFile.getName(), false);
         DavMethod method = new MoveMethod(url, dest, false);
         setupMethod(method);
         execute(method);
@@ -547,17 +547,17 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
 
     private String urlString(URLFileName name)
     {
-        return urlString(name, true);
+        return toUrlString(name, true);
     }
 
     /**
-     * Convert the FileName to an encoded url String.
+     * Converts the given URLFileName to an encoded URL String.
      *
      * @param name The FileName.
      * @param includeUserInfo true if user information should be included.
      * @return The encoded URL String.
      */
-    private String urlString(URLFileName name, boolean includeUserInfo)
+    private String toUrlString(URLFileName name, boolean includeUserInfo)
     {
         String user = null;
         String password = null;
