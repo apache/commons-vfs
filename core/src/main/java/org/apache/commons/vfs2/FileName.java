@@ -43,8 +43,9 @@ public interface FileName extends Comparable<FileName>
      * Returns the base name of this file.  The base name is the last element
      * of the file name.  For example the base name of
      * {@code /somefolder/somefile} is {@code somefile}.
-     * <p/>
-     * <p>The root file of a file system has an empty base name.
+     * <p>
+     * The root file of a file system has an empty base name.
+     * </p>
      *
      * @return The base name.  Never returns null.
      */
@@ -55,8 +56,9 @@ public interface FileName extends Comparable<FileName>
      * path is normalized, so that {@code .} and {@code ..} elements
      * have been removed.  Also, the path only contains {@code /} as its
      * separator character.  The path always starts with {@code /}
-     * <p/>
-     * <p>The root of a file system has {@code /} as its absolute path.
+     * <p>
+     * The root of a file system has {@code /} as its absolute path.
+     * </p>
      *
      * @return The path.  Never returns null.
      */
@@ -67,11 +69,13 @@ public interface FileName extends Comparable<FileName>
      * path is normalized, so that {@code .} and {@code ..} elements
      * have been removed.  Also, the path only contains {@code /} as its
      * separator character.  The path always starts with {@code /}
-     * <p/>
-     * <p>The root of a file system has {@code /} as its absolute path.
-     * <p/>
+     * <p>
+     * The root of a file system has {@code /} as its absolute path.
+     * </p>
+     * <p>
      * In contrast to {@link #getPath()} the path is decoded i.e. all %nn stuff
      * replaced by its character.
+     * </p>
      *
      * @return The path.  Never returns null.
      * @throws FileSystemException if the path is not correctly encoded
@@ -90,30 +94,35 @@ public interface FileName extends Comparable<FileName>
      * Returns the depth of this file name, within its file system.  The depth
      * of the root of a file system is 0.  The depth of any other file is
      * 1 + the depth of its parent.
+     * 
      * @return The depth of this file name.
      */
     int getDepth();
 
     /**
      * Returns the URI scheme of this file.
+     * 
      * @return The URI scheme of this file.
      */
     String getScheme();
 
     /**
      * Returns the absolute URI of this file.
+     * 
      * @return the absolute URI of this file.
      */
     String getURI();
 
     /**
      * Returns the root URI of the file system this file belongs to.
+     * 
      * @return the root URI.
      */
     String getRootURI();
 
     /**
-     * find the root of the filesystem.
+     * Finds the root of the file system.
+     * 
      * @return the file system root.
      */
     FileName getRoot();
@@ -160,6 +169,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Determines if another file name is an ancestor of this file name.
+     * 
      * @param ancestor The FileName to check.
      * @return true if another file name is an ancestor of this file name.
      */
@@ -167,6 +177,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Determines if another file name is a descendent of this file name.
+     * 
      * @param descendent the FileName to check.
      * @return true if the other FileName is a descendent of this file name.
      */
@@ -174,6 +185,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Determines if another file name is a descendent of this file name.
+     * 
      * @param descendent the FileName to check.
      * @param nameScope the NameScope of the FileName.
      * @return true if the other FileName is a descendent of this file name.
@@ -207,8 +219,11 @@ public interface FileName extends Comparable<FileName>
     FileType getType();
 
     /**
-     * returns a "friendly path", this is a path without a password.<br />
+     * Returns a "friendly path", this is a path without a password.
+     * <p>
      * This path can not be used to resolve the path again
+     * </p>
+     * 
      * @return the friendly URI as a String.
      */
     String getFriendlyURI();
