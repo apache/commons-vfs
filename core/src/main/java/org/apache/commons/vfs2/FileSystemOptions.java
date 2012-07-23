@@ -31,7 +31,20 @@ import java.util.TreeMap;
 public final class FileSystemOptions implements Cloneable
 {
     /** The options */
-    private Map<FileSystemOptionKey, Object> options = new TreeMap<FileSystemOptionKey, Object>();
+    private final Map<FileSystemOptionKey, Object> options;
+
+    /**
+     * Creates a new instance.
+     */
+    public FileSystemOptions()
+    {
+        this(new TreeMap<FileSystemOptionKey, Object>());
+    }
+
+    protected FileSystemOptions(Map<FileSystemOptionKey, Object> options)
+    {
+        this.options = options;
+    }
 
     /**
      * Keys in the options Map.
@@ -102,10 +115,6 @@ public final class FileSystemOptions implements Cloneable
         }
     }
 
-    public FileSystemOptions()
-    {
-    }
-
     void setOption(Class<? extends FileSystem> fileSystemClass, String name, Object value)
     {
         options.put(new FileSystemOptionKey(fileSystemClass, name), value);
@@ -170,9 +179,7 @@ public final class FileSystemOptions implements Cloneable
     @Override
     public Object clone()
     {
-        FileSystemOptions clone = new FileSystemOptions();
-        clone.options = new TreeMap<FileSystemOptionKey, Object>(options);
-        return clone;
+        return new FileSystemOptions(new TreeMap<FileSystemOptionKey, Object>(options));
     }
     
     @Override
