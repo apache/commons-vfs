@@ -56,7 +56,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
           new ConcurrentHashMap<FileSystem, Map<FileName, Reference<FileObject>>>();
     private final Map<Reference<FileObject>, FileSystemAndNameKey> refReverseMap =
           new HashMap<Reference<FileObject>, FileSystemAndNameKey>(100);
-    private final ReferenceQueue<FileObject> refqueue = new ReferenceQueue<FileObject>();
+    private final ReferenceQueue<FileObject> refQueue = new ReferenceQueue<FileObject>();
 
     private final AtomicReference<SoftRefReleaseThread> softRefReleaseThread =
             new AtomicReference<SoftRefReleaseThread>();
@@ -85,7 +85,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             {
                 try
                 {
-                    Reference<?> ref = refqueue.remove(TIMEOUT);
+                    Reference<?> ref = refQueue.remove(TIMEOUT);
                     if (ref == null)
                     {
                         continue;
@@ -166,7 +166,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
         Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(file.getFileSystem());
 
-        Reference<FileObject> ref = createReference(file, refqueue);
+        Reference<FileObject> ref = createReference(file, refQueue);
         FileSystemAndNameKey key = new FileSystemAndNameKey(file.getFileSystem(), file.getName());
 
         lock.lock();
@@ -205,7 +205,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
         Map<FileName, Reference<FileObject>> files = getOrCreateFilesystemCache(file.getFileSystem());
 
-        Reference<FileObject> ref = createReference(file, refqueue);
+        Reference<FileObject> ref = createReference(file, refQueue);
         FileSystemAndNameKey key = new FileSystemAndNameKey(file.getFileSystem(), file.getName());
 
         lock.lock();
