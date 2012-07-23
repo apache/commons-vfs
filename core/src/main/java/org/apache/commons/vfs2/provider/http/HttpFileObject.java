@@ -187,8 +187,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
 
     protected String encodePath(final String decodedPath) throws URIException
     {
-        String pathEncoded = URIUtil.encodePath(decodedPath);
-        return pathEncoded;
+        return URIUtil.encodePath(decodedPath);
     }
 
     /**
