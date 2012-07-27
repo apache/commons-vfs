@@ -203,11 +203,13 @@ public interface FileContent extends Closeable
      * <p>There may only be a single input or output stream open for the
      * file at any time.
      *
-     * @param bAppend true if you would like to append to the file
+     * @param bAppend true if you would like to append to the file.
+     *        This may not be supported by all implementations.
      * @return An output stream to write the file's content to.  The stream is
      *         buffered, so there is no need to wrap it in a
      *         {@code BufferedOutputStream}.
      * @throws FileSystemException If the file is read-only, or is being read, or is being written,
+     *                             or bAppend is true and the implementation does not support it,
      *                             or on error opening the stream.
      */
     OutputStream getOutputStream(boolean bAppend) throws FileSystemException;
