@@ -1659,9 +1659,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * write the content of the file to.<br>
      *
      * @param bAppend true when append to the file.<br>
-     *                Note: If the underlaying filesystem do not support this, it wont work.
+     *                Note: If the underlaying filesystem does not support appending,
+     *                a FileSystemException is thrown.
      * @return An OutputStream where the new contents of the file can be written.
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException if an error occurs; for example:<br>
+     *         bAppend is true, and the unbderlying FileSystem does not support it
      */
     public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
     {
