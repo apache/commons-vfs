@@ -23,6 +23,9 @@
 
   <body>
     <release version="2.1" date="TBD" description="New features and bug fix release.">
+      <action issue="VFS-433" dev="ggregory" type="add" due-to="ggregory">
+        Message "vfs.provider.webdav/propfind.error" is not defined.
+      </action>
       <action issue="VFS-430" dev="ggregory" type="add" due-to="antonin.stefanutti">
         The SoftRefFilesCache class logs clear text password.
       </action>

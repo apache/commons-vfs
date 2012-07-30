@@ -320,7 +320,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         }
         catch (Exception e)
         {
-            throw new FileSystemException("vfs.provider.webdav/propfind.error", getName(), e);
+            throw new FileSystemException("vfs.provider.webdav/get-attributes.error", getName(), e);
         }
     }
 
@@ -364,7 +364,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         }
         catch (Exception e)
         {
-            throw new FileSystemException("vfs.provider.webdav/propfind.error", getName(), e);
+            throw new FileSystemException("vfs.provider.webdav/set-attributes", e, getName(), attrName);
         }
     }
 
@@ -525,7 +525,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         }
         catch (Exception e)
         {
-            throw new FileSystemException("vfs.provider.webdav/propfind.error", getName(), e);
+            throw new FileSystemException("vfs.provider.webdav/get-property.error", e, getName(), name, type,
+                    nameSet.getContent(), addEncoding);
         }
     }
 
