@@ -40,7 +40,7 @@ public class FileSystemException
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
 
     /**
-     * array of complementary info (context).
+     * Array of complementary info (context).
      */
     private final String[] info;
 
@@ -163,7 +163,7 @@ public class FileSystemException
     }
 
     /**
-     * retrieve message from bundle.
+     * Retrieves message from bundle.
      * @return The exception message.
      */
     @Override
@@ -173,7 +173,7 @@ public class FileSystemException
     }
 
     /**
-     * Retrieve error code of the exception.
+     * Retrieves error code of the exception.
      * Could be used as key for internationalization.
      *
      * @return the code.
@@ -184,7 +184,7 @@ public class FileSystemException
     }
 
     /**
-     * Retrieve array of complementary info (context).
+     * Retrieves array of complementary info (context).
      * Could be used as parameter for internationalization.
      *
      * @return the context info.
