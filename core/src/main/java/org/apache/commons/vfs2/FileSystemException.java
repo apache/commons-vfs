@@ -40,16 +40,6 @@ public class FileSystemException
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(":(?:[^/]+)@");
 
     /**
-     * The Throwable that caused this exception to be thrown.
-     */
-    private final Throwable throwable;
-
-    /**
-     * The message code.
-     */
-    private final String code;
-
-    /**
      * array of complementary info (context).
      */
     private final String[] info;
@@ -138,7 +128,7 @@ public class FileSystemException
                                final Throwable throwable,
                                final Object... info)
     {
-        super(code);
+        super(code, throwable);
 
         if (info == null)
         {
@@ -160,8 +150,6 @@ public class FileSystemException
                 this.info[i] = value;
             }
         }
-        this.code = code;
-        this.throwable = throwable;
     }
 
     /**
@@ -185,17 +173,6 @@ public class FileSystemException
     }
 
     /**
-     * Retrieve root cause of the exception.
-     *
-     * @return the root cause
-     */
-    @Override
-    public final Throwable getCause()
-    {
-        return throwable;
-    }
-
-    /**
      * Retrieve error code of the exception.
      * Could be used as key for internationalization.
      *
@@ -203,7 +180,7 @@ public class FileSystemException
      */
     public String getCode()
     {
-        return code;
+        return super.getMessage();
     }
 
     /**
