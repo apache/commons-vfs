@@ -86,6 +86,17 @@ public abstract class FileSystemConfigBuilder
         return opts.getOption(getConfigClass(), name);
     }
 
+    /**
+     * Gets the system property for the given name.
+     * 
+     * @param name The name to lookup combined with the prefix.
+     * @return a system property.
+     */
+    private String getProperty(String name)
+    {
+        return System.getProperty(toPropertyKey(name));
+    }
+
     protected boolean hasParam(FileSystemOptions opts, String name)
     {
         return opts != null && opts.hasOption(getConfigClass(), name);
@@ -94,7 +105,7 @@ public abstract class FileSystemConfigBuilder
     /** @since 2.0 */
     protected boolean hasObject(FileSystemOptions opts, String name)
     {
-        return hasParam(opts, name) || System.getProperties().containsKey(PREFIX + name);
+        return hasParam(opts, name) || System.getProperties().containsKey(toPropertyKey(name));
     }
 
     /** @since 2.0 */
@@ -115,7 +126,7 @@ public abstract class FileSystemConfigBuilder
         Boolean value = (Boolean) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(PREFIX + name);
+            String str = getProperty(name);
             if (str == null)
             {
                 return defaultValue;
@@ -143,7 +154,7 @@ public abstract class FileSystemConfigBuilder
         Byte value = (Byte) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(this.prefix + name);
+            String str = getProperty(name);
             if (str == null)
             {
                 return defaultValue;
@@ -171,7 +182,7 @@ public abstract class FileSystemConfigBuilder
         Character value = (Character) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(this.prefix + name);
+            String str = getProperty(name);
             if (str == null || str.length() <= 0)
             {
                 return defaultValue;
@@ -199,7 +210,7 @@ public abstract class FileSystemConfigBuilder
         Double value = (Double) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(this.prefix + name);
+            String str = getProperty(name);
             if (str == null || str.length() <= 0)
             {
                 return defaultValue;
@@ -227,7 +238,7 @@ public abstract class FileSystemConfigBuilder
         Float value = (Float) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(this.prefix + name);
+            String str = getProperty(name);
             if (str == null || str.length() <= 0)
             {
                 return defaultValue;
@@ -255,7 +266,7 @@ public abstract class FileSystemConfigBuilder
         Integer value = (Integer) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(this.prefix + name);
+            String str = getProperty(name);
             if (str == null)
             {
                 return defaultValue;
@@ -283,7 +294,7 @@ public abstract class FileSystemConfigBuilder
         Long value = (Long) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(this.prefix + name);
+            String str = getProperty(name);
             if (str == null)
             {
                 return defaultValue;
@@ -311,7 +322,7 @@ public abstract class FileSystemConfigBuilder
         Short value = (Short) getParam(opts, name);
         if (value == null)
         {
-            String str = System.getProperty(this.prefix + name);
+            String str = getProperty(name);
             if (str == null)
             {
                 return defaultValue;
@@ -333,7 +344,7 @@ public abstract class FileSystemConfigBuilder
         String value = (String) getParam(opts, name);
         if (value == null)
         {
-            value = System.getProperty(this.prefix + name);
+            value = getProperty(name);
             if (value == null)
             {
                 return defaultValue;
@@ -343,4 +354,16 @@ public abstract class FileSystemConfigBuilder
     }
 
     protected abstract Class<? extends FileSystem> getConfigClass();
+
+    /**
+     * Converts the given name into a System property key for this builder.
+     * 
+     * @param name a name to combine with the builder prefix.
+     * @return a System property key for this builder.
+     */
+    private String toPropertyKey(String name)
+    {
+        return this.prefix + name;
+    }
+
 }
