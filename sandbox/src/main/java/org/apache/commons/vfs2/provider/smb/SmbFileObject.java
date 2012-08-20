@@ -43,8 +43,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  * A file in an SMB file system.
  */
 public class SmbFileObject
-    extends AbstractFileObject
-    implements FileObject
+    extends AbstractFileObject<SmbFileSystem>
 {
     // private final String fileName;
     private SmbFile file;

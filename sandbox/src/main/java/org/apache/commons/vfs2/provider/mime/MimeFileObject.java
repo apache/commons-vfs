@@ -38,7 +38,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
-import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.util.FileObjectUtils;
 
@@ -46,7 +45,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
  * A part of a MIME message.
  */
 public class MimeFileObject
-    extends AbstractFileObject
+    extends AbstractFileObject<MimeFileSystem>
     implements FileObject
 {
     private Part part;
@@ -54,7 +53,7 @@ public class MimeFileObject
 
     protected MimeFileObject(final AbstractFileName name,
                             final Part part,
-                            final AbstractFileSystem fileSystem) throws FileSystemException
+                            final MimeFileSystem fileSystem) throws FileSystemException
     {
         super(name, fileSystem);
         setPart(part);
