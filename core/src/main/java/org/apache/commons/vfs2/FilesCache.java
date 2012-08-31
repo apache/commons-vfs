@@ -30,7 +30,7 @@ public interface FilesCache
     void putFile(final FileObject file);
 
     /**
-     * Add a FileObject to the cache if it isn't already present.
+     * Adds a FileObject to the cache if it isn't already present.
      *
      * @param file the file
      * @return true if the file was stored, false otherwise.
@@ -38,7 +38,7 @@ public interface FilesCache
     boolean putFileIfAbsent(final FileObject file);
 
     /**
-     * Retrieve a FileObject from the cache by name.
+     * Retrieves a FileObject from the cache by name.
      *
      * @param filesystem The FileSystem.
      * @param name the name
@@ -48,6 +48,7 @@ public interface FilesCache
 
     /**
      * Purges the entries corresponding to the FileSystem.
+     * 
      * @param fileSystem The FileSystem.
      */
     void clear(final FileSystem fileSystem);
