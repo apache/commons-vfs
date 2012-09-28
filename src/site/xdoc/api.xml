@@ -117,7 +117,7 @@ for ( int i = 0; i < children.length; i++ )
                 <p>
                     For example:
                     <code>
-                        StaticUserAuthenticator auth = new StaticUserAuthenticator("username", "password", null);
+                        StaticUserAuthenticator auth = new StaticUserAuthenticator("domain", "username", "password");
                         FileSystemOptions opts = new FileSystemOptions();
                         DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
 
