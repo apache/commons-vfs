@@ -26,6 +26,9 @@
       <action issue="VFS-439" dev="ggregory" type="fix" due-to="pensecit">
         StaticUserAuthenticator usage example wrong.
       </action>
+      <action issue="VFS-437" dev="ggregory" type="add" due-to="denniszhu, danttran, jpowang">
+        [FTP] StackOverFlowError getting the type of a directory with a symbolic link to a parent directory with the same name.
+      </action>
       <action issue="VFS-435" dev="ggregory" type="add" due-to="george scott">
         FileSystemConfigBuilder does not use prefix for some system property lookups.
       </action>

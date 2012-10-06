@@ -334,10 +334,20 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             }
             else if (this.fileInfo.isSymbolicLink())
             {
-                return getLinkDestination().getType();
+                FileObject linkDest = getLinkDestination();
+                // VFS-437: We need to check if the symbolic link links back to the symbolic link itself
+                if (this.isCircular(linkDest))
+                {
+                    // If the symbolic link links back to itself, treat it as an imaginary file to prevent following
+                    // this link. If the user tries to access the link as a file or directory, the user will end up with
+                    // a FileSystemException warning that the file cannot be accessed. This is to prevent the infinite
+                    // call back to doGetType() to prevent the StackOverFlow
+                    return FileType.IMAGINARY;
+                }
+                return linkDest.getType();
+
             }
         }
-
         throw new FileSystemException("vfs.provider.ftp/get-type.error", getName());
     }
 
@@ -369,10 +379,15 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
         {
             if (this.fileInfo != null && this.fileInfo.isSymbolicLink())
             {
-                return getLinkDestination().getChildren();
+                final FileObject linkDest = getLinkDestination();
+                // VFS-437: Try to avoid a recursion loop.
+                if (this.isCircular(linkDest))
+                {
+                    return null;
+                }
+                return linkDest.getChildren();
             }
         }
-
         return null;
     }
 
@@ -398,7 +413,6 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
         {
             throw new FileNotFolderException(getName(), ex);
         }
-
 
         try
         {
@@ -548,7 +562,13 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
         {
             if (this.fileInfo.isSymbolicLink())
             {
-                return getLinkDestination().getContent().getSize();
+                final FileObject linkDest = getLinkDestination();
+                // VFS-437: Try to avoid a recursion loop.
+                if (this.isCircular(linkDest))
+                {
+                    return this.fileInfo.getSize();
+                }
+                return linkDest.getContent().getSize();
             }
             else
             {
@@ -569,19 +589,17 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
         {
             if (this.fileInfo.isSymbolicLink())
             {
-                return getLinkDestination().getContent().getLastModifiedTime();
+                final FileObject linkDest = getLinkDestination();
+                // VFS-437: Try to avoid a recursion loop.
+                if (this.isCircular(linkDest))
+                {
+                    return getTimestamp();
+                }
+                return linkDest.getContent().getLastModifiedTime();
             }
             else
             {
-                Calendar timestamp = this.fileInfo.getTimestamp();
-                if (timestamp == null)
-                {
-                    return 0L;
-                }
-                else
-                {
-                    return timestamp.getTime().getTime();
-                }
+                return getTimestamp();
             }
         }
     }
@@ -655,6 +673,20 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
     String getRelPath()
     {
         return relPath;
+    }
+
+    private long getTimestamp()
+    {
+        Calendar timestamp = this.fileInfo.getTimestamp();
+        return timestamp == null ? 0L : timestamp.getTime().getTime();
+    }
+
+    /**
+     * This is an over simplistic implementation for VFS-437.
+     */
+    private boolean isCircular(FileObject linkDest) throws FileSystemException
+    {
+        return linkDest.getName().getPathDecoded().equals(this.getName().getPathDecoded());
     }
 
     FtpInputStream getInputStream(long filePointer) throws IOException
