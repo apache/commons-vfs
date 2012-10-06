@@ -26,19 +26,19 @@
       <action issue="VFS-439" dev="ggregory" type="fix" due-to="pensecit">
         StaticUserAuthenticator usage example wrong.
       </action>
-      <action issue="VFS-437" dev="ggregory" type="add" due-to="denniszhu, danttran, jpowang">
+      <action issue="VFS-437" dev="ggregory" type="fix" due-to="denniszhu, danttran, jpowang">
         [FTP] StackOverFlowError getting the type of a directory with a symbolic link to a parent directory with the same name.
       </action>
-      <action issue="VFS-435" dev="ggregory" type="add" due-to="george scott">
+      <action issue="VFS-435" dev="ggregory" type="fix" due-to="george scott">
         FileSystemConfigBuilder does not use prefix for some system property lookups.
       </action>
-      <action issue="VFS-434" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-434" dev="ggregory" type="fix" due-to="ggregory">
         FileSystemException should reuse IOException's chained exception.
       </action>
-      <action issue="VFS-433" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-433" dev="ggregory" type="fix" due-to="ggregory">
         Message "vfs.provider.webdav/propfind.error" is not defined.
       </action>
-      <action issue="VFS-430" dev="ggregory" type="add" due-to="antonin.stefanutti">
+      <action issue="VFS-430" dev="ggregory" type="fix" due-to="antonin.stefanutti">
         The SoftRefFilesCache class logs clear text password.
       </action>
       <action issue="VFS-432" dev="ggregory" type="add" due-to="ggregory">
@@ -47,16 +47,16 @@
       <action issue="VFS-431" dev="ggregory" type="add" due-to="ggregory">
         FileSystemOption does not implement toString().
       </action>
-      <action issue="VFS-429" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-429" dev="ggregory" type="fix" due-to="ggregory">
         Remove extra FileSystem ivar in AbstractFileObject subclasses with generics.
       </action>
-      <action issue="VFS-427" dev="ggregory" type="add" due-to="awelynant">
+      <action issue="VFS-427" dev="ggregory" type="fix" due-to="awelynant">
         [HTTP] NPE on HttpFileObject.getContent().getContentInfo().
       </action>
       <action issue="VFS-405" dev="ggregory" type="add" due-to="dwaszak">
         Get/set the file permissions.
       </action>
-      <action issue="VFS-415" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-415" dev="ggregory" type="update" due-to="ggregory">
         Update VFS requirement to Java 1.6.
       </action>
       <action issue="VFS-426" dev="ggregory" type="add" due-to="daniel.bergholm">
@@ -68,7 +68,7 @@
       <action issue="VFS-421" dev="ggregory" type="add" due-to="bpiwowar">
         [SFTP] Configure a custom Identity Repository.
       </action>
-      <action issue="VFS-418" dev="ggregory" type="fix">
+      <action issue="VFS-418" dev="ggregory" type="update">
         Update to Apache Commons Compress 1.4.1.
       </action>
       <action issue="VFS-417" dev="ggregory" type="add">
