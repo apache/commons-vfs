@@ -122,7 +122,7 @@ public class PermissionsTests extends AbstractProviderTestCase
         else
         {
             // Set the executable flag
-            System.err.println(file.setReadable(true, true));
+            file.setReadable(true, true);
             Assert.assertTrue(file.isReadable());
 
             // Set the executable flag
