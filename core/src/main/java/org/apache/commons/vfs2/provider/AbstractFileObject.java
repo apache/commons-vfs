@@ -830,15 +830,15 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         if (this == fs.getRoot())
         {
-            if (fs.getParentLayer() != null)
-            {
-                // Return the parent of the parent layer
-                return fs.getParentLayer().getParent();
-            }
-            else
+            if (fs.getParentLayer() == null)
             {
                 // Root file has no parent
                 return null;
+            }
+            else
+            {
+                // Return the parent of the parent layer
+                return fs.getParentLayer().getParent();
             }
         }
 
