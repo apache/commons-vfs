@@ -626,14 +626,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         try
         {
-            if (exists())
-            {
-                return doIsExecutable();
-            }
-            else
-            {
-                return false;
-            }
+            return exists() ? doIsExecutable() : false;
         }
         catch (final Exception exc)
         {
@@ -651,14 +644,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         try
         {
-            if (exists())
-            {
-                return doIsHidden();
-            }
-            else
-            {
-                return false;
-            }
+            return exists() ? doIsHidden() : false;
         }
         catch (final Exception exc)
         {
@@ -676,14 +662,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         try
         {
-            if (exists())
-            {
-                return doIsReadable();
-            }
-            else
-            {
-                return false;
-            }
+            return exists() ? doIsReadable() : false;
         }
         catch (final Exception exc)
         {
@@ -696,14 +675,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         try
         {
-            if (exists())
-            {
-                return doSetReadable(readable, ownerOnly);
-            }
-            else
-            {
-                return false;
-            }
+            return exists() ? doSetReadable(readable, ownerOnly) : false;
         }
         catch (final Exception exc)
         {
@@ -746,14 +718,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         try
         {
-            if (exists())
-            {
-                return doSetWritable(readable, ownerOnly);
-            }
-            else
-            {
-                return false;
-            }
+            return exists() ? doSetWritable(readable, ownerOnly) : false;
         }
         catch (final Exception exc)
         {
@@ -766,14 +731,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         try
         {
-            if (exists())
-            {
-                return doSetExecutable(readable, ownerOnly);
-            }
-            else
-            {
-                return false;
-            }
+            return exists() ? doSetExecutable(readable, ownerOnly) : false;
         }
         catch (final Exception exc)
         {
