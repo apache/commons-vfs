@@ -84,7 +84,7 @@ public class SftpStreamProxy implements Proxy
     /**
      * The options for connection.
      */
-    private FileSystemOptions proxyOptions;
+    private final FileSystemOptions proxyOptions;
 
     /**
      * The password to be used for connection.
