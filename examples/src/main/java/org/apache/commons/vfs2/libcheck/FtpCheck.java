@@ -27,7 +27,7 @@ import org.apache.commons.net.ftp.FTPReply;
  */
 public class FtpCheck
 {
-    public static void main(String args[]) throws Exception
+    public static void main(String[] args) throws Exception
     {
         if (args.length < 3)
         {
