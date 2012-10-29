@@ -28,7 +28,7 @@ import java.io.OutputStream;
 
 /**
  * Additional naming tests for local file system.
- * 
+ *
  * @since 2.1
  */
 public class PermissionsTests extends AbstractProviderTestCase
