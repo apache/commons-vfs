@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.VFS;
  */
 public class Shell
 {
-    private static final String CVS_ID = "$Id:Shell.java 232419 2005-08-13 07:23:40 +0200 (Sa, 13 Aug 2005) imario $";
+    private static final String SVN_ID = "$Id$";
     private final FileSystemManager mgr;
     private FileObject cwd;
     private BufferedReader reader;
@@ -66,7 +66,7 @@ public class Shell
 
     private void go() throws Exception
     {
-        System.out.println("VFS Shell [" + CVS_ID + "]");
+        System.out.println("VFS Shell [" + SVN_ID + "]");
         while (true)
         {
             final String[] cmd = nextCommand();
