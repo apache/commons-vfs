@@ -30,7 +30,7 @@ import com.jcraft.jsch.UserInfo;
  */
 public class SftpCheck
 {
-    public static void main(String args[]) throws Exception
+    public static void main(String[] args) throws Exception
     {
         if (args.length != 4)
         {
