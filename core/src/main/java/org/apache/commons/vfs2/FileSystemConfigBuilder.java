@@ -34,7 +34,7 @@ public abstract class FileSystemConfigBuilder
     {
         this.prefix = PREFIX;
     }
-    
+
     /** @since 2.0 */
     protected FileSystemConfigBuilder(String component)
     {
@@ -88,7 +88,7 @@ public abstract class FileSystemConfigBuilder
 
     /**
      * Gets the system property for the given name.
-     * 
+     *
      * @param name The name to lookup combined with the prefix.
      * @return a system property.
      */
@@ -357,7 +357,7 @@ public abstract class FileSystemConfigBuilder
 
     /**
      * Converts the given name into a System property key for this builder.
-     * 
+     *
      * @param name a name to combine with the builder prefix.
      * @return a System property key for this builder.
      */
