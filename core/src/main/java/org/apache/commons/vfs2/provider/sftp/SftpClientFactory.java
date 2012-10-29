@@ -205,14 +205,7 @@ public final class SftpClientFactory
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType))
                 {
-                    if (proxyPort != 0)
-                    {
-                        proxy = new ProxyHTTP(proxyHost, proxyPort);
-                    }
-                    else
-                    {
-                        proxy = new ProxyHTTP(proxyHost);
-                    }
+                    proxy = proxyPort == 0 ? new ProxyHTTP(proxyHost) : new ProxyHTTP(proxyHost, proxyPort);
                 }
                 else if (SftpFileSystemConfigBuilder.PROXY_SOCKS5.equals(proxyType))
                 {                    
