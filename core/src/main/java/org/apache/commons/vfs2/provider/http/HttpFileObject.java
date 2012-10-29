@@ -233,7 +233,8 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
 
     HeadMethod getHeadMethod() throws IOException
     {
-        if (method != null) {
+        if (method != null)
+        {
             return method;
         }
         method = new HeadMethod();
