@@ -82,14 +82,14 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 {
     /**
      * Returns the name of this file.
-     * 
+     *
      * @return the FileName.
      */
     FileName getName();
 
     /**
      * Returns a URL representing this file.
-     * 
+     *
      * @return the URL for the file.
      * @throws FileSystemException if an error occurs.
      */
@@ -184,7 +184,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Finds a file relative to this file.
-     * 
+     *
      * Refer to {@link NameScope} for a description of how names are resolved in the different scopes.
      *
      * @param name The name to resolve.
@@ -197,7 +197,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Sets the owner's (or everybody's) write permission.
-     * 
+     *
      * @param executable
      *            True to allow read access, false to disallow.
      * @param ownerOnly
@@ -211,7 +211,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Sets the owner's (or everybody's) read permission
-     * 
+     *
      * @param readable
      *            True to allow read access, false to disallow
      * @param ownerOnly
@@ -225,7 +225,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Sets the owner's (or everybody's) write permission
-     * 
+     *
      * @param writable
      *            True to allow read access, false to disallow
      * @param ownerOnly
@@ -282,7 +282,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Deletes all descendants of this file that match a selector.  Does
      * nothing if this file does not exist.
-     * 
+     *
      * <p>This method is not transactional.  If it fails and throws an
      * exception, this file will potentially only be partially deleted.
      * </p>
@@ -336,7 +336,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * This method is not transactional.  If it fails and throws an
      * exception, this file will potentially only be partially copied.
      * </p>
-     * 
+     *
      * @param srcFile  The source file to copy.
      * @param selector The selector to use to select which files to copy.
      * @throws FileSystemException If this file is read-only, or if the source file does not exist,
@@ -347,7 +347,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * Move this file.
-     * 
+     *
      * <p>
      * If the destFile exists, it is deleted first.
      * </p>
@@ -370,7 +370,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Returns this file's content.  The {@link FileContent} returned by this
      * method can be used to read and write the content of the file.
-     * 
+     *
      * <p>This method can be called if the file does not exist, and
      * the returned {@link FileContent} can be used to create the file
      * by writing its content.
@@ -397,21 +397,21 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
 
     /**
      * This will prepare the fileObject to get resynchronized with the underlying file system if required.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     void refresh() throws FileSystemException;
 
     /**
      * Checks if the fileObject is attached.
-     * 
+     *
      * @return true if the FileObject is attached.
      */
     boolean isAttached();
 
     /**
      * Checks if someone reads/write to this file.
-     * 
+     *
      * @return true if the file content is open.
      */
     boolean isContentOpen();
