@@ -157,9 +157,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
                     MultiStatusResponse[] responses =
                             method.getResponseBodyAsMultiStatus().getResponses();
 
-                    for (int i = 0; i < responses.length; ++i)
+                    for (MultiStatusResponse response : responses)
                     {
-                        MultiStatusResponse response = responses[i];
                         if (isCurrentFile(response.getHref(), name))
                         {
                             continue;

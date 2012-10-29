@@ -143,9 +143,9 @@ public abstract class AbstractFileProvider
         {
             item = fileSystems.values().toArray();
         }
-        for (int i = 0; i < item.length; ++i)
+        for (Object element : item)
         {
-            AbstractFileSystem fs = (AbstractFileSystem) item[i];
+            AbstractFileSystem fs = (AbstractFileSystem) element;
             if (fs.isReleaseable())
             {
                 fs.closeCommunicationLink();

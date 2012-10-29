@@ -83,10 +83,10 @@ public class DefaultCryptor implements Cryptor
     {
         StringBuilder builder = new StringBuilder();
 
-        for (int i = 0; i < bytes.length; ++i)
+        for (byte b : bytes)
         {
-            builder.append(HEX_CHARS[(bytes[i] >> BITS_IN_HALF_BYTE) & MASK]);
-            builder.append(HEX_CHARS[bytes[i] & MASK]);
+            builder.append(HEX_CHARS[(b >> BITS_IN_HALF_BYTE) & MASK]);
+            builder.append(HEX_CHARS[b & MASK]);
         }
         return builder.toString();
     }
