@@ -1125,7 +1125,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         */
 
         // Locate all the files to delete
-        ArrayList<FileObject> files = new ArrayList<FileObject>();
+        final ArrayList<FileObject> files = new ArrayList<FileObject>();
         findFiles(selector, true, files);
 
         // Delete 'em
