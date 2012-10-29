@@ -148,7 +148,7 @@ public class PosixPermissions
             if (entry.getValue())
             {
                 newPerms |= type.getMask();
-            } 
+            }
             else
             {
                 newPerms &= ~type.getMask();
