@@ -178,7 +178,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     * 
+     *
      * @param readable
      *            True to allow access, false to disallow
      * @param ownerOnly
@@ -207,7 +207,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     * 
+     *
      * @param writable
      *            True to allow access, false to disallow
      * @param ownerOnly
@@ -223,7 +223,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     * 
+     *
      * @param writable
      *            True to allow access, false to disallow
      * @param ownerOnly

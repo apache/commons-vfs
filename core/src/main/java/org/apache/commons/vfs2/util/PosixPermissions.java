@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * UNIX permissions.
- * 
+ *
  * @since 2.1
  */
 public class PosixPermissions
@@ -90,7 +90,7 @@ public class PosixPermissions
 
         /**
          * Return the mask for this permission.
-         * 
+         *
          * @return the mask for this permission.
          */
         public int getMask()
@@ -117,7 +117,7 @@ public class PosixPermissions
 
     /**
      * Creates a new PosixPermissions object.
-     * 
+     *
      * @param permissions
      *            The permissions
      * @param isOwner
@@ -134,7 +134,7 @@ public class PosixPermissions
 
     /**
      * Computes new permission from old ones.
-     * 
+     *
      * @param values
      *            The permissions to set.
      * @return The new permissions.
@@ -158,7 +158,7 @@ public class PosixPermissions
 
     /**
      * Tests whether the bit corresponding to the permission is set.
-     * 
+     *
      * @return whether the bit corresponding to the permission is set.
      */
     private boolean get(final Type type)
@@ -168,7 +168,7 @@ public class PosixPermissions
 
     /**
      * Gets permissions.
-     * 
+     *
      * @return permissions.
      */
     public int getPermissions()
@@ -178,7 +178,7 @@ public class PosixPermissions
 
     /**
      * Gets whether the permissions are executable.
-     * 
+     *
      * @return whether the permissions are executable.
      */
     public boolean isExecutable()
@@ -196,7 +196,7 @@ public class PosixPermissions
 
     /**
      * Gets whether the permissions are readable.
-     * 
+     *
      * @return whether the permissions are readable.
      */
     public boolean isReadable()
@@ -214,7 +214,7 @@ public class PosixPermissions
 
     /**
      * Gets whether the permissions are writable.
-     * 
+     *
      * @return whether the permissions are writable.
      */
     public boolean isWritable()
@@ -232,7 +232,7 @@ public class PosixPermissions
 
     /**
      * Creates new permissions based on these permissions.
-     * 
+     *
      * @param executable
      *            Whether the new permissions should be readable.
      * @param ownerOnly
@@ -253,7 +253,7 @@ public class PosixPermissions
 
     /**
      * Creates new permissions based on these permissions.
-     * 
+     *
      * @param readable
      *            Whether the new permissions should be readable.
      * @param ownerOnly
@@ -274,7 +274,7 @@ public class PosixPermissions
 
     /**
      * Creates new permissions based on these permissions.
-     * 
+     *
      * @param writable
      *            Whether the new permissions should be readable.
      * @param ownerOnly

@@ -44,7 +44,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
     private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
-    
+
     /**
      * FTPS implicit file type.
      */

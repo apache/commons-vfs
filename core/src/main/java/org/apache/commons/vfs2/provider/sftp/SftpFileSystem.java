@@ -51,14 +51,14 @@ public class SftpFileSystem
     private Session session;
 
     // private final JSch jSch;
-    
+
     private ChannelSftp idleChannel;
-    
+
     /**
      * Cache for the user ID (-1 when not set)
      */
     private int uid = -1;
-    
+
     /**
      * Cache for the user groups ids (null when not set)
      */
@@ -90,7 +90,7 @@ public class SftpFileSystem
 
     /**
      * Returns an SFTP channel to the server.
-     * 
+     *
      * @throws FileSystemException if a session cannot be created.
      * @throws IOException if an I/O error is detected.
      */
@@ -136,7 +136,7 @@ public class SftpFileSystem
 
     /**
      * Ensures that the session link is established.
-     * 
+     *
      * @throws FileSystemException if a session cannot be created.
      */
     private void ensureSession() throws FileSystemException
@@ -228,7 +228,7 @@ public class SftpFileSystem
 
     /**
      * Gets the (numeric) group IDs.
-     * 
+     *
      * @return the (numeric) group IDs.
      * @throws JSchException If a problem occurs while retrieving the group IDs.
      * @throws IOException if an I/O error is detected.
@@ -257,7 +257,7 @@ public class SftpFileSystem
 
     /**
      * Get the (numeric) group IDs.
-     * 
+     *
      * @return The numeric user ID
      * @throws JSchException If a problem occurs while retrieving the group ID.
      * @throws IOException if an I/O error is detected.
@@ -279,7 +279,7 @@ public class SftpFileSystem
 
     /**
      * Execute a command and returns the (standard) output through a StringBuilder.
-     * 
+     *
      * @param command The command
      * @param output The output
      * @return The exit code of the command

@@ -42,7 +42,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * A file object backed by Apache Commons HttpClient.
- * 
+ *
  * @param <FS> An {@link HttpFileSystem} subclass
  *
  * @todo status codes
@@ -174,7 +174,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
 
     /**
      * Prepares a HttpMethod object.
-     * 
+     *
      * @since 2.0 (was package)
      */
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException

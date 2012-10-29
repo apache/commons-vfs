@@ -54,7 +54,7 @@ public final class SftpClientFactory
 
     /**
      * Creates a new connection to the server.
-     * 
+     *
      * @param hostname The name of the host to connect to.
      * @param port The port to use.
      * @param username The user's id.

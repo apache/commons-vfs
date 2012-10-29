@@ -25,11 +25,11 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 
 /**
  * A compressed file.
- * 
+ *
  * <p>
  * Such a file only has one child (the compressed filename with stripped last extension)
  * </p>
- * 
+ *
  * @param <FS>
  *            A CompressedFileFileSystem
  */

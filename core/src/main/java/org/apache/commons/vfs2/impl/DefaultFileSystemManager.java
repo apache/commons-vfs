@@ -1026,7 +1026,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method
      * </p>
-     * 
+     *
      * @param filesystem The FileSystem to close.
      */
     public void _closeFileSystem(FileSystem filesystem)

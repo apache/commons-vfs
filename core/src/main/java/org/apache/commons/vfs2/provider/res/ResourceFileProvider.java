@@ -36,7 +36,7 @@ import org.apache.commons.vfs2.provider.UriParser;
 public class ResourceFileProvider extends AbstractFileProvider
 {
     private static final int BUFFER_SIZE = 80;
-    
+
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities =
         Collections.unmodifiableCollection(Arrays.asList(new Capability[]

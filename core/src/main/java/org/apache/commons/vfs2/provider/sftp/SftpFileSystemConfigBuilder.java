@@ -299,9 +299,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the command that will be run on the proxy
-     * host when using a {@linkplain SftpStreamProxy}. The 
+     * host when using a {@linkplain SftpStreamProxy}. The
      * command defaults to {@linkplain SftpStreamProxy#NETCAT_COMMAND}.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return proxyOptions

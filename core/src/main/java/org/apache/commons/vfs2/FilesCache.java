@@ -48,7 +48,7 @@ public interface FilesCache
 
     /**
      * Purges the entries corresponding to the FileSystem.
-     * 
+     *
      * @param fileSystem The FileSystem.
      */
     void clear(final FileSystem fileSystem);

@@ -37,7 +37,7 @@ import org.apache.commons.vfs2.util.WeakRefFileListener;
 
 /**
  * A file backed by another file.
- * 
+ *
  * @param <AFS>  A subclass of AbstractFileSystem.
  *
  * @todo Extract subclass that overlays the children

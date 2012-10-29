@@ -38,7 +38,7 @@ public class SftpFileNameParser extends URLFileNameParser
 
     /**
      * Gets the singleton instance.
-     * 
+     *
      * @return the singleton instance.
      */
     public static FileNameParser getInstance()

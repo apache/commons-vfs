@@ -167,7 +167,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets whether to follow redirects for the connection.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param redirect
@@ -192,7 +192,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets whether to follow redirects for the connection.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return {@code true} to follow redirects, {@code false} not to.

@@ -183,7 +183,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     @Override
     public boolean isExecutable() throws FileSystemException
     {
-        synchronized (this) 
+        synchronized (this)
         {
             return super.isExecutable();
         }
@@ -192,7 +192,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     @Override
     public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
     {
-        synchronized (this) 
+        synchronized (this)
         {
             return super.setReadable(readable, ownerOnly);
         }
@@ -201,7 +201,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     @Override
     public boolean setWritable(boolean writable, boolean ownerOnly) throws FileSystemException
     {
-        synchronized (this) 
+        synchronized (this)
         {
             return super.setWritable(writable, ownerOnly);
         }
@@ -210,7 +210,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     @Override
     public boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException
     {
-        synchronized (this) 
+        synchronized (this)
         {
             return super.setExecutable(executable, ownerOnly);
         }

@@ -146,8 +146,8 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
 
     /**
      * Fetches file attributes from server.
-     * 
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     private void statSelf() throws IOException
     {
@@ -304,7 +304,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
 
     /**
      * Returns the POSIX type permissions of the file.
-     * 
+     *
      * @param checkIds {@code true} if user and group ID should be checked (needed for some access rights checks)
      * @return A PosixPermission object
      * @throws Exception If an error occurs
@@ -558,7 +558,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
         {
             InputStream is = channel.get(getName().getPathDecoded(), null, filePointer);
             return new SftpInputStream(channel, is);
-        } 
+        }
         catch (SftpException e)
         {
             getAbstractFileSystem().putChannel(channel);

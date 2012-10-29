@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.DefaultURLStreamHandler;
