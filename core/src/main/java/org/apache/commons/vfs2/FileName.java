@@ -94,35 +94,35 @@ public interface FileName extends Comparable<FileName>
      * Returns the depth of this file name, within its file system.  The depth
      * of the root of a file system is 0.  The depth of any other file is
      * 1 + the depth of its parent.
-     * 
+     *
      * @return The depth of this file name.
      */
     int getDepth();
 
     /**
      * Returns the URI scheme of this file.
-     * 
+     *
      * @return The URI scheme of this file.
      */
     String getScheme();
 
     /**
      * Returns the absolute URI of this file.
-     * 
+     *
      * @return the absolute URI of this file.
      */
     String getURI();
 
     /**
      * Returns the root URI of the file system this file belongs to.
-     * 
+     *
      * @return the root URI.
      */
     String getRootURI();
 
     /**
      * Finds the root of the file system.
-     * 
+     *
      * @return the file system root.
      */
     FileName getRoot();
@@ -169,7 +169,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Determines if another file name is an ancestor of this file name.
-     * 
+     *
      * @param ancestor The FileName to check.
      * @return true if another file name is an ancestor of this file name.
      */
@@ -177,7 +177,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Determines if another file name is a descendent of this file name.
-     * 
+     *
      * @param descendent the FileName to check.
      * @return true if the other FileName is a descendent of this file name.
      */
@@ -185,7 +185,7 @@ public interface FileName extends Comparable<FileName>
 
     /**
      * Determines if another file name is a descendent of this file name.
-     * 
+     *
      * @param descendent the FileName to check.
      * @param nameScope the NameScope of the FileName.
      * @return true if the other FileName is a descendent of this file name.
@@ -223,7 +223,7 @@ public interface FileName extends Comparable<FileName>
      * <p>
      * This path can not be used to resolve the path again
      * </p>
-     * 
+     *
      * @return the friendly URI as a String.
      */
     String getFriendlyURI();
