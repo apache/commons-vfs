@@ -145,7 +145,7 @@ public abstract class FileSystemConfigBuilder
     /** @since 2.0 */
     protected byte getByte(FileSystemOptions opts, String name, byte defaultValue)
     {
-        return getByte(opts, name, new Byte(defaultValue)).byteValue();
+        return getByte(opts, name, Byte.valueOf(defaultValue)).byteValue();
     }
 
     /** @since 2.0 */
