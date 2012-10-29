@@ -210,7 +210,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException;
 
     /**
-     * Sets the owner's (or everybody's) read permission
+     * Sets the owner's (or everybody's) read permission.
      *
      * @param readable
      *            True to allow read access, false to disallow
@@ -224,7 +224,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException;
 
     /**
-     * Sets the owner's (or everybody's) write permission
+     * Sets the owner's (or everybody's) write permission.
      *
      * @param writable
      *            True to allow read access, false to disallow
