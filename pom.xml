@@ -399,6 +399,12 @@
         <version>0.7.0</version>
         <scope>test</scope>
       </dependency>
+      <!-- For sshd-core 0.8.0: -->
+      <!--       <dependency> -->
+      <!--         <groupId>org.apache.mina</groupId> -->
+      <!--         <artifactId>mina-core</artifactId> -->
+      <!--         <version>2.0.5</version> -->
+      <!--       </dependency> -->
       <dependency>
         <groupId>org.bouncycastle</groupId>
         <artifactId>bcprov-jdk15on</artifactId>
