@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.test;
 
+import java.io.OutputStream;
+
 import junit.framework.Assert;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -23,8 +25,6 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
-
-import java.io.OutputStream;
 
 /**
  * Additional naming tests for local file system.

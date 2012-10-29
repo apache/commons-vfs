@@ -16,11 +16,26 @@
  */
 package org.apache.commons.vfs2.provider.sftp.test;
 
-import com.jcraft.jsch.SftpATTRS;
-import com.jcraft.jsch.TestIdentityRepositoryFactory;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.URI;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -62,21 +77,8 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.sftp.SftpSubsystem;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.URI;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.jcraft.jsch.SftpATTRS;
+import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
 /**
  * Tests cases for the SFTP provider.
@@ -327,13 +329,13 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
      */
     public static Test suite() throws Exception
     {
-        // The test suite to be returned        
+        // The test suite to be returned
         TestSuite suite = new TestSuite();
 
         // --- Standard VFS test suite
         final SftpProviderTestCase standardTestCase = new SftpProviderTestCase(false);
         final ProviderTestSuite sftpSuite = new BaseTest(standardTestCase);
-        
+
         // VFS-405: set/get permissions
         sftpSuite.addTests(PermissionsTests.class);
 
@@ -575,6 +577,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
     {
         Thread thread = new Thread(new Runnable()
         {
+            @Override
             public void run()
             {
                 int code = 0;
