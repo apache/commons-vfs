@@ -341,14 +341,19 @@ public final class SftpClientFactory
             {
                 case FATAL:
                     LOG.fatal(msg);
+                    break;
                 case ERROR:
                     LOG.error(msg);
+                    break;
                 case WARN:
                     LOG.warn(msg);
+                    break;
                 case DEBUG:
                     LOG.debug(msg);
+                    break;
                 case INFO:
                     LOG.info(msg);
+                    break;
                 default:
                     LOG.debug(msg);
             }
