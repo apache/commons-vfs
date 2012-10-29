@@ -317,7 +317,7 @@ public class Shell
         throws FileSystemException
     {
         final FileObject[] children = dir.getChildren();
-        for (final FileObject child : children) 
+        for (final FileObject child : children)
         {
             System.out.print(prefix);
             System.out.print(child.getName().getBaseName());
