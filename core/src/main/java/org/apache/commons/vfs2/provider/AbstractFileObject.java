@@ -1466,7 +1466,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
     {
         final List<FileObject> list = this.listFiles(selector);
-        return list != null ? list.toArray(new FileObject[list.size()]) : null;
+        return list == null ? null : list.toArray(new FileObject[list.size()]);
     }
 
     /**
