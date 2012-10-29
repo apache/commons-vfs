@@ -225,6 +225,23 @@ public final class SftpClientFactory
                         proxy = new ProxySOCKS5(proxyHost);
                     }
                 }
+                else if (SftpFileSystemConfigBuilder.PROXY_STREAM.equals(proxyType))
+                {
+                    // Use a stream proxy, i.e. it will use a remote host as a proxy
+                    // and run a command (e.g. netcat) that forwards input/output
+                    // to the target host.
+
+                    // Here we get the settings for connecting to the proxy:
+                    // user, password, options and a command
+                    String proxyUser = builder.getProxyUser(fileSystemOptions);
+                    String proxyPassword = builder.getProxyPassword(fileSystemOptions);
+                    FileSystemOptions proxyOptions = builder.getProxyOptions(fileSystemOptions);
+
+                    String proxyCommand = builder.getProxyCommand(fileSystemOptions);
+
+                    // Create the stream proxy
+                    proxy = new SftpStreamProxy(proxyCommand, proxyUser, proxyHost, proxyPort, proxyPassword, proxyOptions);
+                }
 
                 if (proxy != null)
                 {

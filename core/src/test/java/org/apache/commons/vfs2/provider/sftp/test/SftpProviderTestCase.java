@@ -16,35 +16,44 @@
  */
 package org.apache.commons.vfs2.provider.sftp.test;
 
-import java.io.*;
-import java.net.InetSocketAddress;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-
 import com.jcraft.jsch.SftpATTRS;
+import com.jcraft.jsch.TestIdentityRepositoryFactory;
+import junit.extensions.TestSetup;
 import junit.framework.Test;
-
+import junit.framework.TestSuite;
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.test.PermissionsTests;
 import org.apache.commons.vfs2.provider.sftp.SftpFileProvider;
+import org.apache.commons.vfs2.provider.sftp.SftpFileSystem;
 import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.sftp.SftpStreamProxy;
 import org.apache.commons.vfs2.provider.sftp.TrustEveryoneUserInfo;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
+import org.apache.commons.vfs2.test.PermissionsTests;
+import org.apache.commons.vfs2.test.ProviderReadTests;
+import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.Session;
+import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.*;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.FileSystemFactory;
+import org.apache.sshd.server.FileSystemView;
+import org.apache.sshd.server.ForwardingFilter;
+import org.apache.sshd.server.PasswordAuthenticator;
+import org.apache.sshd.server.PublickeyAuthenticator;
+import org.apache.sshd.server.SshFile;
 import org.apache.sshd.server.auth.UserAuthNone;
 import org.apache.sshd.server.command.ScpCommandFactory;
 import org.apache.sshd.server.filesystem.NativeSshFile;
@@ -53,7 +62,21 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.sftp.SftpSubsystem;
 
-import com.jcraft.jsch.TestIdentityRepositoryFactory;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.URI;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Tests cases for the SFTP provider.
@@ -63,6 +86,11 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
  */
 public class SftpProviderTestCase extends AbstractProviderTestConfig
 {
+    /**
+     * The underlying filesystem
+     */
+    private SftpFileSystem filesystem;
+
     /**
      * Implements FileSystemFactory because SSHd does not know about users and home directories.
      */
@@ -156,6 +184,9 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
     private static final String TEST_URI = "test.sftp.uri";
 
+    /** True if we are testing the SFTP stream proxy */
+    private boolean streamProxyMode;
+
     private static String getSystemTestUriOverride()
     {
         return System.getProperty(TEST_URI);
@@ -167,8 +198,12 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
      * @throws FtpException
      * @throws IOException
      */
-    private static void setUpClass() throws FtpException, IOException
+    private static void setUpClass() throws FtpException, IOException, InterruptedException
     {
+        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
+        // Use %40 for @ in a URL
+        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
+
         if (Server != null)
         {
             return;
@@ -179,7 +214,14 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         Server.setPort(SocketPort);
         if (SecurityUtils.isBouncyCastleRegistered())
         {
-            Server.setKeyPairProvider(new PEMGeneratorHostKeyProvider(tmpDir + "/key.pem"));
+            // A temporary file will hold the key
+            final File keyFile = File.createTempFile("key", ".pem", new File(tmpDir));
+            keyFile.deleteOnExit();
+            // It has to be deleted in order to be generated
+            keyFile.delete();
+
+            final PEMGeneratorHostKeyProvider keyProvider = new PEMGeneratorHostKeyProvider(keyFile.getAbsolutePath());
+            Server.setKeyPairProvider(keyProvider);
         } else
         {
             Server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir + "/key.ser"));
@@ -256,6 +298,27 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         // Do this after we start the server to simplify this set up code.
         Server.getUserAuthFactories().add(new UserAuthNone.Factory());
         // HACK End
+    }
+
+
+    static private class BaseTest extends ProviderTestSuite {
+
+        public BaseTest(ProviderTestConfig providerConfig) throws Exception
+        {
+            super(providerConfig);
+        }
+
+        @Override
+        protected void tearDown() throws Exception
+        {
+            // Close all active sessions
+            // Note that it should be done by super.tearDown()
+            // while closing
+            for (AbstractSession session : Server.getActiveSessions()) {
+                session.close(true);
+            }
+            super.tearDown();
+        }
 
     }
 
@@ -264,7 +327,38 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
      */
     public static Test suite() throws Exception
     {
-        final ProviderTestSuite suite = new ProviderTestSuite(new SftpProviderTestCase())
+        // The test suite to be returned        
+        TestSuite suite = new TestSuite();
+
+        // --- Standard VFS test suite
+        final SftpProviderTestCase standardTestCase = new SftpProviderTestCase(false);
+        final ProviderTestSuite sftpSuite = new BaseTest(standardTestCase);
+        
+        // VFS-405: set/get permissions
+        sftpSuite.addTests(PermissionsTests.class);
+
+        suite.addTest(sftpSuite);
+
+
+        // --- VFS-440: stream proxy test suite
+        // We override the addBaseTests method so that only
+        // one test is run (we just test that the input/output are correctly forwarded, and
+        // hence if the reading test succeeds/fails the other will also succeed/fail)
+        final SftpProviderTestCase streamProxyTestCase = new SftpProviderTestCase(true);
+        final ProviderTestSuite sftpStreamSuite = new BaseTest(streamProxyTestCase)
+        {
+            @Override
+            protected void addBaseTests() throws Exception
+            {
+                // Just tries to read
+                addTests(ProviderReadTests.class);
+            }
+        };
+        suite.addTest(sftpStreamSuite);
+
+
+        // Decorate the test suite to set up the Sftp server
+        final TestSetup setup = new TestSetup(suite)
         {
             @Override
             protected void setUp() throws Exception
@@ -279,17 +373,14 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             @Override
             protected void tearDown() throws Exception
             {
+                // Close SFTP server if needed
                 tearDownClass();
                 super.tearDown();
             }
         };
 
 
-        // VFS-405: set/get permissions
-        suite.addTests(PermissionsTests.class);
-
-        return suite;
-
+        return setup;
     }
 
     /**
@@ -305,11 +396,9 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         }
     }
 
-    public SftpProviderTestCase() throws IOException
+    public SftpProviderTestCase(boolean streamProxyMode) throws IOException
     {
-        SocketPort = FreeSocketPortUtil.findFreeLocalPort();
-        // Use %40 for @ in a URL
-        ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
+        this.streamProxyMode = streamProxyMode;
     }
 
     /**
@@ -330,7 +419,33 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
         builder.setIdentityRepositoryFactory(fileSystemOptions, new TestIdentityRepositoryFactory());
 
-        return manager.resolveFile(uri, fileSystemOptions);
+        if (streamProxyMode)
+        {
+            final FileSystemOptions proxyOptions = (FileSystemOptions) fileSystemOptions.clone();
+
+            URI parsedURI = new URI(uri);
+            final String userInfo = parsedURI.getUserInfo();
+            final String[] userFields = userInfo.split(":", 2);
+
+            builder.setProxyType(fileSystemOptions, SftpFileSystemConfigBuilder.PROXY_STREAM);
+            builder.setProxyUser(fileSystemOptions, userFields[0]);
+            if (userFields.length > 1)
+            {
+                builder.setProxyPassword(fileSystemOptions, userFields[1]);
+            }
+            builder.setProxyHost(fileSystemOptions, parsedURI.getHost());
+            builder.setProxyPort(fileSystemOptions, parsedURI.getPort());
+            builder.setProxyCommand(fileSystemOptions, SftpStreamProxy.NETCAT_COMMAND);
+            builder.setProxyOptions(fileSystemOptions, proxyOptions);
+            builder.setProxyPassword(fileSystemOptions, parsedURI.getAuthority());
+
+            // Set up the new URI
+            uri = String.format("sftp://%s@localhost:%d", userInfo, parsedURI.getPort());
+        }
+
+        final FileObject fileObject = manager.resolveFile(uri, fileSystemOptions);
+        this.filesystem = (SftpFileSystem) fileObject.getFileSystem();
+        return fileObject;
     }
 
     /**
@@ -345,34 +460,44 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * The command factory for the SSH server:
-     * Handles two commands: id -u and id -G
+     * Handles these commands
+     * <p>
+     * <li><code>id -u</code> (permissions test)</li>
+     * <li><code>id -G</code> (permission tests)</li>
+     * <li><code>nc -q 0 localhost port</code> (Stream proxy tests)</li>
+     * </p>
      */
     private static class TestCommandFactory extends ScpCommandFactory
     {
+
+        public static final Pattern NETCAT_COMMAND = Pattern.compile("nc -q 0 localhost (\\d+)");
+
         @Override
         public Command createCommand(final String command)
         {
             return new Command()
             {
                 public ExitCallback callback = null;
-                public PrintStream out = null;
-                public PrintStream err = null;
+                public OutputStream out = null;
+                public OutputStream err = null;
+                public InputStream in = null;
 
                 @Override
                 public void setInputStream(InputStream in)
                 {
+                    this.in = in;
                 }
 
                 @Override
                 public void setOutputStream(OutputStream out)
                 {
-                    this.out = new PrintStream(out);
+                    this.out = out;
                 }
 
                 @Override
                 public void setErrorStream(OutputStream err)
                 {
-                    this.err = new PrintStream(err);
+                    this.err = err;
                 }
 
                 @Override
@@ -388,15 +513,36 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                     int code = 0;
                     if (command.equals("id -G") || command.equals("id -u"))
                     {
-                        out.println(0);
+                        new PrintStream(out).println(0);
+                    } else if (NETCAT_COMMAND.matcher(command).matches())
+                    {
+                        final Matcher matcher = NETCAT_COMMAND.matcher(command);
+                        matcher.matches();
+                        final int port = Integer.parseInt(matcher.group(1));
+
+                        Socket socket = new Socket((String) null, port);
+
+                        if (out != null)
+                        {
+                            connect("from nc", socket.getInputStream(), out, null);
+                        }
+
+                        if (in != null)
+                        {
+                            connect("to nc", in, socket.getOutputStream(), callback);
+                        }
+
+                        return;
+
                     } else
                     {
                         if (err != null)
                         {
-                            err.format("Unknown command %s%n", command);
+                            new PrintStream(err).format("Unknown command %s%n", command);
                         }
                         code = -1;
                     }
+
                     if (out != null)
                     {
                         out.flush();
@@ -414,6 +560,54 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                 }
             };
         }
+    }
+
+    /**
+     * Creates a pipe thread that connects an input to an output
+     * @param name The name of the thread (for debugging purposes)
+     * @param in The input stream
+     * @param out The output stream
+     * @param callback An object whose method {@linkplain ExitCallback#onExit(int)} will be
+     *                 called when the pipe is broken. The integer argument is 0 if everything
+     *                 went well.
+     */
+    private static void connect(final String name, final InputStream in, final OutputStream out, final ExitCallback callback)
+    {
+        Thread thread = new Thread(new Runnable()
+        {
+            public void run()
+            {
+                int code = 0;
+                try
+                {
+                    byte buffer[] = new byte[1024];
+                    int len;
+                    while ((len = in.read(buffer, 0, buffer.length)) != -1)
+                    {
+                        out.write(buffer, 0, len);
+                        out.flush();
+                    }
+                }
+                catch (SshException ex)
+                {
+                    // Nothing to do, this occurs when the connection
+                    // is closed on the remote side
+                }
+                catch (IOException ex)
+                {
+                    if (!ex.getMessage().equals("Pipe closed"))
+                    {
+                        code = -1;
+                    }
+                }
+                if (callback != null)
+                {
+                    callback.onExit(code);
+                }
+            }
+        }, name);
+        thread.setDaemon(true);
+        thread.start();
     }
 
 
