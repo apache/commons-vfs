@@ -1692,7 +1692,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         if (getType() == FileType.IMAGINARY)
         {
 // Does not exist - make sure parent does
-            FileObject parent = getParent();
+            final FileObject parent = getParent();
             if (parent != null)
             {
                 parent.createFolder();
@@ -1902,7 +1902,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             if (childName != null && newType != null)
             {
                 // TODO - figure out if children[] can be replaced by list
-                ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
+                final ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
                 if (newType.equals(FileType.IMAGINARY))
                 {
                     list.remove(childName);
