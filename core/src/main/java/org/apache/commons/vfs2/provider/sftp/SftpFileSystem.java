@@ -319,7 +319,8 @@ public class SftpFileSystem
             try
             {
                 Thread.sleep(SLEEP_MILLIS);
-            } catch (Exception ee)
+            }
+            catch (Exception ee)
             {
                 // TODO: swallow exception, really?
             }
