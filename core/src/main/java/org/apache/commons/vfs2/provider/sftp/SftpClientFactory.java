@@ -76,84 +76,21 @@ public final class SftpClientFactory
         File[] identities = builder.getIdentities(fileSystemOptions);
         IdentityRepositoryFactory repositoryFactory = builder.getIdentityRepositoryFactory(fileSystemOptions);
 
-        if (knownHostsFile != null)
-        {
-            try
-            {
-                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
-            }
-            catch (JSchException e)
-            {
-                throw new FileSystemException("vfs.provider.sftp/known-hosts.error",
-                    knownHostsFile.getAbsolutePath(), e);
-            }
-        }
-        else
-        {
-            sshDir = findSshDir();
-            // Load the known hosts file
-            knownHostsFile = new File(sshDir, "known_hosts");
-            if (knownHostsFile.isFile() && knownHostsFile.canRead())
-            {
-                try
-                {
-                    jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
-                }
-                catch (JSchException e)
-                {
-                    throw new FileSystemException("vfs.provider.sftp/known-hosts.error",
-                        knownHostsFile.getAbsolutePath(), e);
-                }
-            }
-        }
+        sshDir = findSshDir();
+
+        setKnownHosts(jsch, sshDir, knownHostsFile);
 
         if (repositoryFactory != null)
         {
             jsch.setIdentityRepository(repositoryFactory.create(jsch));
         }
 
-        if (identities != null)
-        {
-            for (final File privateKeyFile : identities)
-            {
-                try
-                {
-                    jsch.addIdentity(privateKeyFile.getAbsolutePath());
-                }
-                catch (final JSchException e)
-                {
-                    throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
-                }
-            }
-        }
-        else
-        {
-            if (sshDir == null)
-            {
-                sshDir = findSshDir();
-            }
-
-            // Load the private key (rsa-key only)
-            final File privateKeyFile = new File(sshDir, "id_rsa");
-            if (privateKeyFile.isFile() && privateKeyFile.canRead())
-            {
-                try
-                {
-                    jsch.addIdentity(privateKeyFile.getAbsolutePath());
-                }
-                catch (final JSchException e)
-                {
-                    throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
-                }
-            }
-        }
+        addIdentities(jsch, sshDir, identities);
 
         Session session;
         try
         {
-            session = jsch.getSession(new String(username),
-                    hostname,
-                    port);
+            session = jsch.getSession(new String(username), hostname, port);
             if (password != null)
             {
                 session.setPassword(new String(password));
@@ -173,22 +110,20 @@ public final class SftpClientFactory
 
             Properties config = new Properties();
 
-            //set StrictHostKeyChecking property
-            String strictHostKeyChecking =
-                builder.getStrictHostKeyChecking(fileSystemOptions);
+            // set StrictHostKeyChecking property
+            String strictHostKeyChecking = builder.getStrictHostKeyChecking(fileSystemOptions);
             if (strictHostKeyChecking != null)
             {
                 config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
             }
-            //set PreferredAuthentications property
-            String preferredAuthentications = builder.
-            getPreferredAuthentications(fileSystemOptions);
+            // set PreferredAuthentications property
+            String preferredAuthentications = builder.getPreferredAuthentications(fileSystemOptions);
             if (preferredAuthentications != null)
             {
                 config.setProperty("PreferredAuthentications", preferredAuthentications);
             }
 
-            //set compression property
+            // set compression property
             String compression = builder.getCompression(fileSystemOptions);
             if (compression != null)
             {
@@ -207,7 +142,7 @@ public final class SftpClientFactory
                     proxy = createProxyHTTP(proxyHost, proxyPort);
                 }
                 else if (SftpFileSystemConfigBuilder.PROXY_SOCKS5.equals(proxyType))
-                {                    
+                {
                     proxy = createProxySOCKS5(proxyHost, proxyPort);
                 }
                 else if (SftpFileSystemConfigBuilder.PROXY_STREAM.equals(proxyType))
@@ -221,7 +156,7 @@ public final class SftpClientFactory
                 }
             }
 
-            //set properties for the session
+            // set properties for the session
             if (config.size() > 0)
             {
                 session.setConfig(config);
@@ -235,6 +170,63 @@ public final class SftpClientFactory
         }
 
         return session;
+    }
+
+    private static void addIdentities(JSch jsch, File sshDir, File[] identities) throws FileSystemException
+    {
+        if (identities != null)
+        {
+            for (final File privateKeyFile : identities)
+            {
+                addIndentity(jsch, privateKeyFile);
+            }
+        }
+        else
+        {
+            // Load the private key (rsa-key only)
+            final File privateKeyFile = new File(sshDir, "id_rsa");
+            if (privateKeyFile.isFile() && privateKeyFile.canRead())
+            {
+                addIndentity(jsch, privateKeyFile);
+            }
+        }
+    }
+
+    private static void addIndentity(JSch jsch, final File privateKeyFile) throws FileSystemException
+    {
+        try
+        {
+            jsch.addIdentity(privateKeyFile.getAbsolutePath());
+        }
+        catch (final JSchException e)
+        {
+            throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
+        }
+    }
+
+    private static void setKnownHosts(JSch jsch, File sshDir, File knownHostsFile) throws FileSystemException
+    {
+        try
+        {
+            if (knownHostsFile != null)
+            {
+                jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+            }
+            else
+            {
+                // Load the known hosts file
+                knownHostsFile = new File(sshDir, "known_hosts");
+                if (knownHostsFile.isFile() && knownHostsFile.canRead())
+                {
+                    jsch.setKnownHosts(knownHostsFile.getAbsolutePath());
+                }
+            }
+        }
+        catch (JSchException e)
+        {
+            throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
+        }
+
     }
 
     private static Proxy createStreamProxy(String proxyHost, int proxyPort, FileSystemOptions fileSystemOptions,
