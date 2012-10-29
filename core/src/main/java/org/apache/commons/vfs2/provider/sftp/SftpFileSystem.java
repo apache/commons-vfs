@@ -242,14 +242,14 @@ public class SftpFileSystem
             int code = executeCommand("id -G", output);
             if (code != 0)
             {
-                throw new JSchException("Could not get the groups id of the current user (error code: " + code  + ")");
+                throw new JSchException("Could not get the groups id of the current user (error code: " + code + ")");
             }
 
             // Retrieve the different groups
             final String[] groups = output.toString().trim().split("\\s+");
 
-            int [] groupsIds = new int [groups.length];
-            for(int i = 0; i < groups.length; i++)
+            int[] groupsIds = new int[groups.length];
+            for (int i = 0; i < groups.length; i++)
             {
                 groupsIds[i] = Integer.parseInt(groups[i]);
             }
