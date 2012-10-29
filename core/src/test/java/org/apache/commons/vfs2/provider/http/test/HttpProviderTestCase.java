@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.util.NHttpServer;
 
 /**
  * Test cases for the HTTP provider.
- * 
+ *
  */
 public class HttpProviderTestCase extends AbstractProviderTestConfig
 {
@@ -60,7 +60,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates and starts an embedded Apache HTTP Server (HttpComponents).
-     * 
+     *
      * @throws Exception
      */
     private static void setUpClass() throws Exception
@@ -74,7 +74,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates a new test suite.
-     * 
+     *
      * @return a new test suite.
      * @throws Exception
      *             Thrown when the suite cannot be constructed.
@@ -114,7 +114,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Stops the embedded Apache HTTP Server.
-     * 
+     *
      * @throws IOException
      */
     private static void tearDownClass() throws IOException
@@ -127,7 +127,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Builds a new test case.
-     * 
+     *
      * @throws IOException
      *             Thrown if a free local socket port cannot be found.
      */

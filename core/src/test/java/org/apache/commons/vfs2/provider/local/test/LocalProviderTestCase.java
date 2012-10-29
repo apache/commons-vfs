@@ -41,7 +41,7 @@ public class LocalProviderTestCase
     public static Test suite() throws Exception
     {
         final ProviderTestSuite testSuite = new ProviderTestSuite(new LocalProviderTestCase());
-        
+
         testSuite.addTests(FileNameTests.class);
         // VFS-325
         testSuite.addTests(UrlTests.class);

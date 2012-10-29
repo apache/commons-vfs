@@ -39,10 +39,10 @@ import org.apache.commons.vfs2.FileType;
  */
 public class ProviderReadTests extends AbstractProviderTestCase
 {
-    
+
     /**
-     * Returns the read folder named "dir1". 
-     * 
+     * Returns the read folder named "dir1".
+     *
      * @return the read folder named "dir1".
      * @throws FileSystemException
      */
@@ -50,7 +50,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
     {
         return getReadFolder().resolveFile("dir1");
     }
-    
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -103,14 +103,14 @@ public class ProviderReadTests extends AbstractProviderTestCase
             int length = children.length;
             if (info.children.size() != children.length)
             {
-                for (int i = 0; i < children.length; ++i)
+                for (FileObject element : children)
                 {
-                    if (children[i].getName().getBaseName().startsWith("."))
+                    if (element.getName().getBaseName().startsWith("."))
                     {
                         --length;
                         continue;
                     }
-                    System.out.println(children[i].getName());
+                    System.out.println(element.getName());
                 }
             }
 
@@ -228,7 +228,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
     /**
      * Tests that test read folder is not hidden.
      */
-    public void testFolderIsHidden() throws Exception    
+    public void testFolderIsHidden() throws Exception
     {
         FileObject folder = getReadFolderDir1();
         Assert.assertFalse(folder.isHidden());
@@ -237,12 +237,12 @@ public class ProviderReadTests extends AbstractProviderTestCase
     /**
      * Tests that test read folder is readable.
      */
-    public void testFolderIsReadable() throws Exception    
+    public void testFolderIsReadable() throws Exception
     {
         FileObject folder = getReadFolderDir1();
         Assert.assertTrue(folder.isReadable());
     }
-    
+
     public void testGetContent() throws Exception
     {
         final FileObject file = resolveFile1Txt();
@@ -260,12 +260,12 @@ public class ProviderReadTests extends AbstractProviderTestCase
         final FileContentInfo contentInfo = content.getContentInfo();
         assertNotNull(contentInfo);
     }
-    
+
     private FileObject resolveFile1Txt() throws FileSystemException
     {
         return getReadFolder().resolveFile("file1.txt");
     }
-    
+
     /**
      * Tests can perform operations on a folder while reading from a different files.
      */

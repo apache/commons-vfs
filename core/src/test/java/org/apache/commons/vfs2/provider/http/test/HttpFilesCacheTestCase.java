@@ -27,7 +27,7 @@ import org.junit.Test;
 
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-426
- * 
+ *
  * @version $Id$
  * @since 2.1
  */

@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo()
- * 
+ *
  * @since 2.1
  */
 public class GetContentInfoFunctionalTest
@@ -18,7 +18,7 @@ public class GetContentInfoFunctionalTest
 
     /**
      * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
-     * 
+     *
      * @throws FileSystemException
      *             thrown when the getContentInfo API fails.
      */

@@ -39,12 +39,12 @@ import org.apache.commons.vfs2.Selectors;
 public class ProviderWriteTests
     extends AbstractProviderTestCase
 {
-    
+
     protected FileObject getReadFolderDir1() throws FileSystemException
     {
         return getReadFolder().resolveFile("dir1");
     }
-    
+
     /**
      * Returns the capabilities required by the tests of this test case.
      */
@@ -497,7 +497,7 @@ public class ProviderWriteTests
     /**
      * Tests that test read folder is not hidden.
      */
-    public void testFolderIsHidden() throws Exception    
+    public void testFolderIsHidden() throws Exception
     {
         FileObject folder = getReadFolderDir1();
         Assert.assertFalse(folder.isHidden());
@@ -506,7 +506,7 @@ public class ProviderWriteTests
     /**
      * Tests that test read folder is readable.
      */
-    public void testFolderIsReadable() throws Exception    
+    public void testFolderIsReadable() throws Exception
     {
         FileObject folder = getReadFolderDir1();
         Assert.assertTrue(folder.isReadable());
@@ -515,12 +515,12 @@ public class ProviderWriteTests
     /**
      * Tests that test folder iswritable.
      */
-    public void testFolderIsWritable() throws Exception    
+    public void testFolderIsWritable() throws Exception
     {
         FileObject folder = getWriteFolder().resolveFile("dir1");
         Assert.assertTrue(folder.isWriteable());
     }
-    
+
     /**
      * Test that children are handled correctly by create and delete.
      */
