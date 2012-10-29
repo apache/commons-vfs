@@ -128,9 +128,9 @@ public class DelegatingFileSystemOptionsBuilderTest
     @Test
     public void testConfiguration() throws Exception
     {
-        for (int i=0; i < schemes.length; ++i)
+        for (String scheme : schemes)
         {
-            assertTrue("Missing " + schemes[i] + " provider", fsm.hasProvider(schemes[i]));
+            assertTrue("Missing " + scheme + " provider", fsm.hasProvider(scheme));
         }
     }
 }

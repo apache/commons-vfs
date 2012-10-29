@@ -112,18 +112,18 @@ public void setUp() throws Exception {
     List<FileObject> files = Arrays.asList(file.getChildren());
 
     assertNotNull(files);
-    for(int i=0; i < expectedFiles.length; ++i) {
-      String expectedFile = expectedFiles[i];
+    for (String expectedFile : expectedFiles)
+    {
       assertTrue("Expected file not found: " + expectedFile, fileExists(expectedFile, files));
     }
   }
 
   /**
    * Search for the expected file in a given list, without using the full path.
-   * 
+   *
    * @param expectedFile the expected file.
    * @param files a list of files to search.
-   * @return {@code true} if {@code expectedFile} is in {@code files}. 
+   * @return {@code true} if {@code expectedFile} is in {@code files}.
    */
     protected boolean fileExists(String expectedFile, List<FileObject> files)
     {
