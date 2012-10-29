@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
- * Create a FtpClient instance.
+ * Create FTPSClient instances.
  *
  * @since 2.0
  */
