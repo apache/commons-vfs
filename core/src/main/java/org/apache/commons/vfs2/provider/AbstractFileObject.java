@@ -1145,8 +1145,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
 
             // Delete the file
-            boolean deleted = file.deleteSelf();
-            if (deleted)
+            if (file.deleteSelf())
             {
                 nuofDeleted++;
             }
