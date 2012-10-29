@@ -998,7 +998,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     public FileObject getChild(final String name) throws FileSystemException
     {
         // TODO - use a hashtable when there are a large number of children
-        FileObject[] children = getChildren();
+        final FileObject[] children = getChildren();
         for (FileObject element : children)
         {
             // final FileObject child = children[i];
