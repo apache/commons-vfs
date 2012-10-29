@@ -40,7 +40,7 @@ public class ShowProperties
             System.err.println("e.g. java org.apache.commons.vfs2.example.ShowProperties LICENSE.txt");
             return;
         }
-        for (String arg : args) 
+        for (String arg : args)
         {
             try
             {
