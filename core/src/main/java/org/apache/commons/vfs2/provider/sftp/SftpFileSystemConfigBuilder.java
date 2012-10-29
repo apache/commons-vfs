@@ -238,9 +238,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Gets the proxy to use for the SFTP connection. You have to set the ProxyPort too if you would like to have the proxy
-     * really used.
-     *
+     * Gets the proxy to use for the SFTP connection. You have to set the ProxyPort too if you would like to have the
+     * proxy really used.
+     * 
      * @param opts
      *            The FileSystem options.
      * @return proxyHost
@@ -252,9 +252,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Gets the proxy-port to use for the SFTP the connection You have to set the ProxyHost too if you would like to have the
-     * proxy really used.
-     *
+     * Gets the proxy-port to use for the SFTP the connection You have to set the ProxyHost too if you would like to
+     * have the proxy really used.
+     * 
      * @param opts
      *            The FileSystem options.
      * @return proxyPort: the port number or 0 if it is not set
