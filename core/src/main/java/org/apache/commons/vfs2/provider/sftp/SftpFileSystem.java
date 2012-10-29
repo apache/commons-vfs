@@ -273,8 +273,10 @@ public class SftpFileSystem
         {
             StringBuilder output = new StringBuilder();
             int code = executeCommand("id -u", output);
-            if (code != 0) {
-                throw new FileSystemException("Could not get the user id of the current user (error code: " + code  + ")");
+            if (code != 0)
+            {
+                throw new FileSystemException("Could not get the user id of the current user (error code: " + code
+                        + ")");
             }
             uid = Integer.parseInt(output.toString().trim());
         }
