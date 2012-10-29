@@ -1260,15 +1260,20 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Compares two FileObjects (ignores case).
+     * 
+     * @param file
+     *            the object to compare.
+     * @return a negative integer, zero, or a positive integer when this object is less than, equal to, or greater than
+     *         the given object.
      */
     @Override
-    public int compareTo(FileObject fo)
+    public int compareTo(FileObject file)
     {
-        if (fo == null)
+        if (file == null)
         {
             return 1;
         }
-        return this.toString().compareToIgnoreCase(fo.toString());
+        return this.toString().compareToIgnoreCase(file.toString());
     }
 
     /**
