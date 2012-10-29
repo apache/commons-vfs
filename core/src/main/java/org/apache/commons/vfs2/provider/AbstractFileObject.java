@@ -629,11 +629,13 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             if (exists())
             {
                 return doIsExecutable();
-            } else
+            }
+            else
             {
                 return false;
             }
-        } catch (final Exception exc)
+        }
+        catch (final Exception exc)
         {
             throw new FileSystemException("vfs.provider/check-is-executable.error", name, exc);
         }
