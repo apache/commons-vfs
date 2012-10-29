@@ -36,8 +36,7 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
     @Override
     public FileContentInfo create(FileContent fileContent) throws FileSystemException
     {
-        HttpFileObject httpFile = (HttpFileObject) FileObjectUtils
-            .getAbstractFileObject(fileContent.getFile());
+        HttpFileObject httpFile = (HttpFileObject) FileObjectUtils.getAbstractFileObject(fileContent.getFile());
 
         String contentType = null;
         String contentEncoding = null;
@@ -46,7 +45,8 @@ public class HttpFileContentInfoFactory implements FileContentInfoFactory
         try
         {
             headMethod = httpFile.getHeadMethod();
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             throw new FileSystemException(e);
         }
