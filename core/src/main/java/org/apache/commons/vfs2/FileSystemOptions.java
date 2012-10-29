@@ -174,6 +174,7 @@ public final class FileSystemOptions implements Cloneable
 
     /**
      * {@inheritDoc}
+     *
      * @since 2.0
      */
     @Override
@@ -183,7 +184,8 @@ public final class FileSystemOptions implements Cloneable
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return options.toString();
     }
 }
