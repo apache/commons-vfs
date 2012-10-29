@@ -117,7 +117,7 @@ public abstract class FileSystemConfigBuilder
     /** @since 2.0 */
     protected boolean getBoolean(FileSystemOptions opts, String name, boolean defaultValue)
     {
-        return getBoolean(opts, name, Boolean.valueOf(defaultValue).booleanValue();
+        return getBoolean(opts, name, Boolean.valueOf(defaultValue).booleanValue());
     }
 
     /** @since 2.0 */
