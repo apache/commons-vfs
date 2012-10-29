@@ -28,6 +28,8 @@ import org.apache.commons.vfs2.UserAuthenticator;
  */
 public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
+    protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
+
     private static final HttpFileSystemConfigBuilder BUILDER = new HttpFileSystemConfigBuilder();
 
     private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
@@ -37,8 +39,6 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
 
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
-
-    protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
     /** @since 2.0 */
     protected HttpFileSystemConfigBuilder(String prefix)
