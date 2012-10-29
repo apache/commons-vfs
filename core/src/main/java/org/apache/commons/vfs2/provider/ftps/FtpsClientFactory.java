@@ -34,11 +34,8 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  */
 public final class FtpsClientFactory
 {
+    private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
     private static final int SHORT_MONTH_NAME_LEN = 40;
-
-    private FtpsClientFactory()
-    {
-    }
 
     /**
      * Creates a new connection to the server.
@@ -57,81 +54,23 @@ public final class FtpsClientFactory
         // Determine the username and password to use
         if (username == null)
         {
-            username = "anonymous".toCharArray();
+            username = ANON_CHAR_ARRAY;
         }
 
         if (password == null)
         {
-            password = "anonymous".toCharArray();
+            password = ANON_CHAR_ARRAY;
         }
 
         try
         {
 
-            final FTPSClient client;
-
-            if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions)
-                    .equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT))
-            {
-                client = new FTPSClient();
-            }
-            else if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions)
-                    .equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT))
-            {
-                client = new FTPSClient(true);
-            }
-            else
-            {
-                throw new FileSystemException("Invalid FTPS type of "
-                        + FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions)
-                        + " specified. Must be 'implicit' or 'explicit'");
-            }
+            final FTPSClient client = createFTPSClient(fileSystemOptions);
 
             String key = FtpsFileSystemConfigBuilder.getInstance().getEntryParser(fileSystemOptions);
             if (key != null)
             {
-                FTPClientConfig config = new FTPClientConfig(key);
-
-                String serverLanguageCode = FtpsFileSystemConfigBuilder.getInstance().getServerLanguageCode(
-                        fileSystemOptions);
-                if (serverLanguageCode != null)
-                {
-                    config.setServerLanguageCode(serverLanguageCode);
-                }
-                String defaultDateFormat = FtpsFileSystemConfigBuilder.getInstance().getDefaultDateFormat(
-                        fileSystemOptions);
-                if (defaultDateFormat != null)
-                {
-                    config.setDefaultDateFormatStr(defaultDateFormat);
-                }
-                String recentDateFormat = FtpsFileSystemConfigBuilder.getInstance().getRecentDateFormat(
-                        fileSystemOptions);
-                if (recentDateFormat != null)
-                {
-                    config.setRecentDateFormatStr(recentDateFormat);
-                }
-                String serverTimeZoneId = FtpsFileSystemConfigBuilder.getInstance().getServerTimeZoneId(
-                        fileSystemOptions);
-                if (serverTimeZoneId != null)
-                {
-                    config.setServerTimeZoneId(serverTimeZoneId);
-                }
-                String[] shortMonthNames = FtpsFileSystemConfigBuilder.getInstance().getShortMonthNames(
-                        fileSystemOptions);
-                if (shortMonthNames != null)
-                {
-                    StringBuilder shortMonthNamesStr = new StringBuilder(SHORT_MONTH_NAME_LEN);
-                    for (String shortMonthName : shortMonthNames)
-                    {
-                        if (shortMonthNamesStr.length() > 0)
-                        {
-                            shortMonthNamesStr.append("|");
-                        }
-                        shortMonthNamesStr.append(shortMonthName);
-                    }
-                    config.setShortMonthNames(shortMonthNamesStr.toString());
-                }
-
+                FTPClientConfig config = createFTPClientConfig(fileSystemOptions, key);
                 client.configure(config);
             }
 
@@ -214,5 +153,76 @@ public final class FtpsClientFactory
         {
             throw new FileSystemException("vfs.provider.sftp/connect.error", exc, hostname);
         }
+    }
+
+    private static FTPClientConfig createFTPClientConfig(FileSystemOptions fileSystemOptions, String key)
+    {
+        FTPClientConfig config = new FTPClientConfig(key);
+
+        String serverLanguageCode = FtpsFileSystemConfigBuilder.getInstance().getServerLanguageCode(
+                fileSystemOptions);
+        if (serverLanguageCode != null)
+        {
+            config.setServerLanguageCode(serverLanguageCode);
+        }
+        String defaultDateFormat = FtpsFileSystemConfigBuilder.getInstance().getDefaultDateFormat(
+                fileSystemOptions);
+        if (defaultDateFormat != null)
+        {
+            config.setDefaultDateFormatStr(defaultDateFormat);
+        }
+        String recentDateFormat = FtpsFileSystemConfigBuilder.getInstance().getRecentDateFormat(
+                fileSystemOptions);
+        if (recentDateFormat != null)
+        {
+            config.setRecentDateFormatStr(recentDateFormat);
+        }
+        String serverTimeZoneId = FtpsFileSystemConfigBuilder.getInstance().getServerTimeZoneId(
+                fileSystemOptions);
+        if (serverTimeZoneId != null)
+        {
+            config.setServerTimeZoneId(serverTimeZoneId);
+        }
+        String[] shortMonthNames = FtpsFileSystemConfigBuilder.getInstance().getShortMonthNames(
+                fileSystemOptions);
+        if (shortMonthNames != null)
+        {
+            StringBuilder shortMonthNamesStr = new StringBuilder(SHORT_MONTH_NAME_LEN);
+            for (String shortMonthName : shortMonthNames)
+            {
+                if (shortMonthNamesStr.length() > 0)
+                {
+                    shortMonthNamesStr.append("|");
+                }
+                shortMonthNamesStr.append(shortMonthName);
+            }
+            config.setShortMonthNames(shortMonthNamesStr.toString());
+        }
+        return config;
+    }
+
+    private static FTPSClient createFTPSClient(FileSystemOptions fileSystemOptions)
+            throws FileSystemException
+    {
+        if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions)
+                .equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT))
+        {
+            return new FTPSClient();
+        }
+        else if (FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions)
+                .equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT))
+        {
+            return new FTPSClient(true);
+        }
+        else
+        {
+            throw new FileSystemException("Invalid FTPS type of "
+                    + FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions)
+                    + " specified. Must be 'implicit' or 'explicit'");
+        }
+    }
+
+    private FtpsClientFactory()
+    {
     }
     }
