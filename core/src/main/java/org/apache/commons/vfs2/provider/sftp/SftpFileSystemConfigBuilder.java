@@ -278,7 +278,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public FileSystemOptions getProxyOptions(final FileSystemOptions opts)
     {
-        return (FileSystemOptions)this.getParam(opts, PROXY_OPTIONS);
+        return (FileSystemOptions) this.getParam(opts, PROXY_OPTIONS);
     }
 
     /**
