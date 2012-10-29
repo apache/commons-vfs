@@ -313,7 +313,7 @@ public abstract class FileSystemConfigBuilder
     /** @since 2.0 */
     protected short getShort(FileSystemOptions opts, String name, short defaultValue)
     {
-        return getShort(opts, name, new Short(defaultValue)).shortValue();
+        return getShort(opts, name, Short.valueOf(defaultValue)).shortValue();
     }
 
     /** @since 2.0 */
