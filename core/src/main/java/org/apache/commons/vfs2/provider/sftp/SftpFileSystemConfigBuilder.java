@@ -109,9 +109,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public static final ProxyType PROXY_SOCKS5 = new ProxyType("socks");
 
     /**
-     * @brief Stream Proxy.
-     *
-     * <p>Connects to the SFTP server through a remote host reached by SSH.
+     * Connects to the SFTP server through a remote host reached by SSH.
      * On this proxy host, a command
      * (e.g. {@linkplain SftpStreamProxy#NETCAT_COMMAND}
      * or {@linkplain SftpStreamProxy#NETCAT_COMMAND}) is run to forward
