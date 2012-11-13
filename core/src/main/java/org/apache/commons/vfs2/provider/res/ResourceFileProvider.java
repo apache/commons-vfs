@@ -79,8 +79,7 @@ public class ResourceFileProvider extends AbstractFileProvider
             throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri);
         }
 
-        FileObject fo = getContext().getFileSystemManager().resolveFile(url.toExternalForm());
-        return fo;
+        return getContext().getFileSystemManager().resolveFile(url.toExternalForm());
     }
 
     @Override
