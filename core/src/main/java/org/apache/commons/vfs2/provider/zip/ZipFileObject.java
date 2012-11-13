@@ -75,6 +75,10 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
 
     /**
      * Attaches a child.
+     * <p/>
+     * TODO: Shouldn't this method have package-only visibility? 
+     * Cannot change this without breaking binary compatibility.  
+     * 
      * @param childName The name of the child.
      */
     public void attachChild(FileName childName)
