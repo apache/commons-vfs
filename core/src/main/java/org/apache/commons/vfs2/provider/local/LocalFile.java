@@ -55,8 +55,16 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
 
     /**
      * Returns the local file that this file object represents.
+     * <p/>
+     * <h2>Usage recommendation</h2>
+     * <p>
+     * Use this method to interface with code that only supports {@linkplain File} objects.
+     * </p>
+     * 
+     * @return the local file that this file object represents.
+     * @since 2.1 (this methods was protected in 2.0)
      */
-    protected File getLocalFile()
+    public File getLocalFile()
     {
         return file;
     }
