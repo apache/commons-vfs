@@ -32,16 +32,6 @@ public class UrlTests
     extends AbstractProviderTestCase
 {
     /**
-     * Tests resolution of an absolute file name.
-     */
-    public void testHashURL() throws Exception
-    {
-        final FileObject file = getReadFolder().resolveFile("test-hash-#test.txt");
-
-        assertEquals(file.toString(), UriParser.decode(file.getURL().toString()));
-    }
-
-    /**
      * Tests FindFiles with a filename that has a hash sign in it.
      */
     public void testHashFindFiles() throws Exception
@@ -65,5 +55,15 @@ public class UrlTests
         {
             fail("Test hash file containing 'test-hash' not found");
         }
+    }
+
+    /**
+     * Tests resolution of an absolute file name.
+     */
+    public void testHashURL() throws Exception
+    {
+        final FileObject file = getReadFolder().resolveFile("test-hash-#test.txt");
+
+        assertEquals(file.toString(), UriParser.decode(file.getURL().toString()));
     }
 }
