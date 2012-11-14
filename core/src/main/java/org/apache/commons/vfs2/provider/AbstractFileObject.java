@@ -522,7 +522,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public URL getURL() throws FileSystemException
     {
-        final StringBuilder buf = new StringBuilder();
         try
         {
             return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>()
@@ -530,6 +529,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 @Override
                 public URL run() throws MalformedURLException
                 {
+                    final StringBuilder buf = new StringBuilder();
                     return new URL(UriParser.extractScheme(name.getURI(), buf), "", -1,
                         buf.toString(), new DefaultURLStreamHandler(fs.getContext(), fs.getFileSystemOptions()));
                 }
