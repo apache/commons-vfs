@@ -603,7 +603,6 @@ public class DefaultFileSystemManager implements FileSystemManager
     @Override
     public FileObject resolveFile(final String uri) throws FileSystemException
     {
-        // return resolveFile(baseFile, uri);
         return resolveFile(getBaseFile(), uri);
     }
 
