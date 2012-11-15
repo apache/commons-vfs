@@ -76,7 +76,7 @@ public interface FileSystemManager
 
     /**
      * Locates a file by name.  Equivalent to calling
-     * {@code resolveFile(uri, getBaseName())}.
+     * {@code resolveFile(getBaseFile(), name)}.
      *
      * @param name The name of the file.
      * @return The file.  Never returns null.
@@ -86,7 +86,7 @@ public interface FileSystemManager
 
     /**
      * Locates a file by name.  Equivalent to calling
-     * {@code resolveFile(uri, getBaseName())}.
+     * {@code resolveFile(getBaseFile(), name)}.
      *
      * @param name              The name of the file.
      * @param fileSystemOptions The FileSystemOptions used for FileSystem creation
