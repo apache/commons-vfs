@@ -30,8 +30,8 @@ import org.apache.commons.vfs2.util.Os;
 public final class UriParser
 {
     /**
-     * The set of valid separators. These are all converted to the normalised
-     * one. Does <i>not</i> contain the normalised separator
+     * The set of valid separators. These are all converted to the normalized
+     * one. Does <i>not</i> contain the normalized separator
      */
     // public static final char[] separators = {'\\'};
     public static final char TRANS_SEPARATOR = '\\';
