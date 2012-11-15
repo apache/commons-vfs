@@ -18,6 +18,9 @@ package org.apache.commons.vfs2.impl;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLStreamHandler;
 import java.net.URLStreamHandlerFactory;
 import java.util.ArrayList;
@@ -1185,5 +1188,43 @@ public class DefaultFileSystemManager implements FileSystemManager
             return null;
         }
         return providers.toArray(new FileOperationProvider[] {});
+    }
+
+    /**
+     * Converts a URI into a {@link FileObject}.
+     *
+     * @param uri The URI to convert.
+     * @return The {@link FileObject} that represents the URI.  Never
+     *         returns null.
+     * @throws FileSystemException On error converting the URI.
+     * @since 2.1
+     */
+    @Override
+    public FileObject resolveFile(URI uri) throws FileSystemException
+    {
+        // TODO Push the URI deeper into VFS
+        return resolveFile(baseFile, uri.toString(), null);
+    }
+
+    /**
+     * Converts a URL into a {@link FileObject}.
+     *
+     * @param url The URL to convert.
+     * @return The {@link FileObject} that represents the URL.  Never
+     *         returns null.
+     * @throws FileSystemException On error converting the URL.
+     * @since 2.1
+     */
+    @Override
+    public FileObject resolveFile(URL url) throws FileSystemException
+    {
+        try
+        {
+            return this.resolveFile(url.toURI());
+        }
+        catch (URISyntaxException e)
+        {
+            throw new FileSystemException(e);
+        }
     }
 }

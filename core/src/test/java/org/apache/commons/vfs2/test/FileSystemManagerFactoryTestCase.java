@@ -20,6 +20,7 @@ import java.io.File;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
@@ -40,7 +41,19 @@ public class FileSystemManagerFactoryTestCase
 
         // Lookup a test jar file
         final File jarFile = getTestResourceFile("test.jar");
+        // File
         FileObject file = manager.toFileObject(jarFile);
+        check(manager, file);
+        // URI
+        FileObject file2 = manager.resolveFile(jarFile.toURI());
+        check(manager, file2);
+        // URL
+        FileObject file3 = manager.resolveFile(jarFile.toURI().toURL());
+        check(manager, file3);
+    }
+
+    private void check(final FileSystemManager manager, FileObject file) throws FileSystemException
+    {
         assertNotNull(file);
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());

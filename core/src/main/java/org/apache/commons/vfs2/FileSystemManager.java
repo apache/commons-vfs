@@ -18,6 +18,8 @@ package org.apache.commons.vfs2;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.net.URI;
+import java.net.URL;
 import java.net.URLStreamHandlerFactory;
 import java.util.Collection;
 
@@ -335,4 +337,27 @@ public interface FileSystemManager
      * @throws FileSystemException if an error occurs.
      */
     FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException;
+    
+    /**
+     * Resolves a URI into a {@link FileObject}.
+     *
+     * @param uri The URI to convert.
+     * @return The {@link FileObject} that represents the URI.  Never
+     *         returns null.
+     * @throws FileSystemException On error converting the file.
+     * @since 2.1
+     */
+    FileObject resolveFile(URI uri) throws FileSystemException;
+
+    /**
+     * Resolves a URL into a {@link FileObject}.
+     *
+     * @param url The URL to convert.
+     * @return The {@link FileObject} that represents the URL.  Never
+     *         returns null.
+     * @throws FileSystemException On error converting the file.
+     * @since 2.1
+     */
+    FileObject resolveFile(URL url) throws FileSystemException;
+
 }
