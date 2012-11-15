@@ -35,10 +35,10 @@ public interface FileNameParser
      * parses a String into a filename.
      * @param context The component context.
      * @param base The base FileName.
-     * @param filename The target file name.
+     * @param uri The target file name.
      * @return A FileName that represents the taret file.
      * @throws FileSystemException if an error occurs parsing the URI.
      */
-    FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
             throws FileSystemException;
 }

@@ -58,13 +58,13 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
 
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, FileName base, final String uri)
         throws FileSystemException
     {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
-        String scheme = UriParser.extractScheme(filename, name);
+        String scheme = UriParser.extractScheme(uri, name);
         if (scheme == null)
         {
             scheme = "file";
@@ -76,7 +76,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         UriParser.fixSeparators(name);
 
         // Extract the root prefix
-        final String rootFile = extractRootPrefix(filename, name);
+        final String rootFile = extractRootPrefix(uri, name);
 
         // Normalise the path
         FileType fileType = UriParser.normalisePath(name);

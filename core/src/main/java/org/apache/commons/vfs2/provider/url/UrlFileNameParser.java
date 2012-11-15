@@ -48,20 +48,20 @@ public class UrlFileNameParser extends AbstractFileNameParser
    * Parse a URI.
    * @param context The component context.
    * @param base The base FileName.
-   * @param filename The target file name.
+   * @param uri The target file name.
    * @return The FileName.
    * @throws FileSystemException if an error occurs
    */
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
         throws FileSystemException
     {
-        if (isUrlBased(base, filename))
+        if (isUrlBased(base, uri))
         {
-            return url.parseUri(context, base, filename);
+            return url.parseUri(context, base, uri);
         }
 
-        return generic.parseUri(context, base, filename);
+        return generic.parseUri(context, base, uri);
     }
 
     /**
