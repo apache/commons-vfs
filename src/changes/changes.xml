@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-447" dev="ggregory" type="add" due-to="ggregory">
+        Update Apache Commons Net to 3.2 from 3.1.
+      </action>
       <action issue="VFS-445" dev="ggregory" type="add" due-to="ggregory">
         Add FileSystemManager.resolveFile(URI) and resolveFile(URL).
       </action>
