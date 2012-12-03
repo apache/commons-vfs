@@ -32,7 +32,7 @@ public class FileObjectDataSource implements DataSource
 {
     private final FileObject fo;
 
-    public FileObjectDataSource(FileObject fo)
+    public FileObjectDataSource(final FileObject fo)
     {
         this.fo = fo;
     }
@@ -53,7 +53,7 @@ public class FileObjectDataSource implements DataSource
         {
             return fo.getContent().getContentInfo().getContentType();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e);
         }

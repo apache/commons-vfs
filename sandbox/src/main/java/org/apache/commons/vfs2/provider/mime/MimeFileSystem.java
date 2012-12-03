@@ -41,7 +41,7 @@ import org.apache.commons.vfs2.util.SharedRandomContentInputStream;
 public class MimeFileSystem
     extends AbstractFileSystem
 {
-    private Log log = LogFactory.getLog(MimeFileSystem.class);
+    private final Log log = LogFactory.getLog(MimeFileSystem.class);
 
     public final static String NULL_BP_NAME = "_body_part_";
     public final static String CONTENT_NAME = "_content";
@@ -86,7 +86,7 @@ public class MimeFileSystem
             closeMimeStream();
             mimeStream = null;
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             log.warn(e.getLocalizedMessage(), e);
         }
@@ -111,7 +111,7 @@ public class MimeFileSystem
             closeMimeStream();
         }
 
-        FileObject parentLayer = getParentLayer();
+        final FileObject parentLayer = getParentLayer();
         if (!parentLayer.exists())
         {
             return null;

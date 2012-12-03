@@ -31,10 +31,10 @@ import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
  */
 public class MimeFileContentInfoFactory implements FileContentInfoFactory
 {
-    public FileContentInfo create(FileContent fileContent) throws FileSystemException
+    public FileContentInfo create(final FileContent fileContent) throws FileSystemException
     {
-        MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
-        Part part = mimeFile.getPart();
+        final MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
+        final Part part = mimeFile.getPart();
 
         String contentTypeString = null;
         String charset = null;
@@ -52,7 +52,7 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
                 charset = MimeFileSystem.PREAMBLE_CHARSET;
             }
         }
-        catch (MessagingException e)
+        catch (final MessagingException e)
         {
             throw new FileSystemException(e);
         }
@@ -64,7 +64,7 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
             {
                 contentTypeString = part.getContentType();
             }
-            catch (MessagingException e)
+            catch (final MessagingException e)
             {
                 throw new FileSystemException(e);
             }
@@ -75,7 +75,7 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
         {
             contentType = new ContentType(contentTypeString);
         }
-        catch (MessagingException e)
+        catch (final MessagingException e)
         {
             throw new FileSystemException(e);
         }

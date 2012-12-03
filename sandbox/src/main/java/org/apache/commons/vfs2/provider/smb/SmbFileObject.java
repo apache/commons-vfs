@@ -75,11 +75,11 @@ public class SmbFileObject
         file = null;
     }
 
-    private SmbFile createSmbFile(FileName fileName) throws MalformedURLException, SmbException, FileSystemException
+    private SmbFile createSmbFile(final FileName fileName) throws MalformedURLException, SmbException, FileSystemException
     {
-        SmbFileName smbFileName = (SmbFileName) fileName;
+        final SmbFileName smbFileName = (SmbFileName) fileName;
 
-        String path = smbFileName.getUriWithoutAuth();
+        final String path = smbFileName.getUriWithoutAuth();
 
         UserAuthenticationData authData = null;
         SmbFile file;
@@ -178,7 +178,7 @@ public class SmbFileObject
     }
 
     @Override
-    protected void doRename(FileObject newfile) throws Exception
+    protected void doRename(final FileObject newfile) throws Exception
     {
         file.renameTo(createSmbFile(newfile.getName()));
     }
@@ -222,7 +222,7 @@ public class SmbFileObject
         {
             return new SmbFileInputStream(file);
         }
-        catch (SmbException e)
+        catch (final SmbException e)
         {
             if (e.getErrorCode() == SmbException.ERRbadfile)
             {
@@ -241,7 +241,7 @@ public class SmbFileObject
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
     {
         return new SmbFileOutputStream(file, bAppend);
     }

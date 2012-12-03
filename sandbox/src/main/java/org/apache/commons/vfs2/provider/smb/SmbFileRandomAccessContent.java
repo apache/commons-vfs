@@ -49,7 +49,7 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
                 @Override
                 public int available() throws IOException
                 {
-                    long available = raf.length() - raf.getFilePointer();
+                    final long available = raf.length() - raf.getFilePointer();
                     if (available > Integer.MAX_VALUE)
                     {
                         return Integer.MAX_VALUE;
@@ -71,34 +71,34 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
                 }
 
                 @Override
-                public int read(byte b[]) throws IOException
+                public int read(final byte b[]) throws IOException
                 {
                     return raf.read(b);
                 }
 
                 @Override
-                public int read(byte b[], int off, int len) throws IOException
+                public int read(final byte b[], final int off, final int len) throws IOException
                 {
                     return raf.read(b, off, len);
                 }
 
                 @Override
-                public long skip(long n) throws IOException
+                public long skip(final long n) throws IOException
                 {
                     raf.seek(raf.getFilePointer() + n);
                     return n;
                 }
             };
         }
-        catch (MalformedURLException e)
+        catch (final MalformedURLException e)
         {
             throw new FileSystemException("vfs.provider/random-access-open-failed.error", smbFile, e);
         }
-        catch (SmbException e)
+        catch (final SmbException e)
         {
             throw new FileSystemException("vfs.provider/random-access-open-failed.error", smbFile, e);
         }
-        catch (UnknownHostException e)
+        catch (final UnknownHostException e)
         {
             throw new FileSystemException("vfs.provider/random-access-open-failed.error", smbFile, e);
         }
@@ -149,12 +149,12 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
         return raf.readFloat();
     }
 
-    public void readFully(byte b[]) throws IOException
+    public void readFully(final byte b[]) throws IOException
     {
         raf.readFully(b);
     }
 
-    public void readFully(byte b[], int off, int len) throws IOException
+    public void readFully(final byte b[], final int off, final int len) throws IOException
     {
         raf.readFully(b, off, len);
     }
@@ -189,100 +189,100 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
         return raf.readUTF();
     }
 
-    public void seek(long pos) throws IOException
+    public void seek(final long pos) throws IOException
     {
         raf.seek(pos);
     }
 
-    public void setLength(long newLength) throws IOException {
+    public void setLength(final long newLength) throws IOException {
         raf.setLength(newLength);
     }
 
-    public int skipBytes(int n) throws IOException
+    public int skipBytes(final int n) throws IOException
     {
         return raf.skipBytes(n);
     }
 
     @Override
-    public void write(byte b[]) throws IOException
+    public void write(final byte b[]) throws IOException
     {
         raf.write(b);
     }
 
     @Override
-    public void write(byte b[], int off, int len) throws IOException
+    public void write(final byte b[], final int off, final int len) throws IOException
     {
         raf.write(b, off, len);
     }
 
     @Override
-    public void write(int b) throws IOException
+    public void write(final int b) throws IOException
     {
         raf.write(b);
     }
 
     @Override
-    public void writeBoolean(boolean v) throws IOException
+    public void writeBoolean(final boolean v) throws IOException
     {
         raf.writeBoolean(v);
     }
 
     @Override
-    public void writeByte(int v) throws IOException
+    public void writeByte(final int v) throws IOException
     {
         raf.writeByte(v);
     }
 
     @Override
-    public void writeBytes(String s) throws IOException
+    public void writeBytes(final String s) throws IOException
     {
         raf.writeBytes(s);
     }
 
     @Override
-    public void writeChar(int v) throws IOException
+    public void writeChar(final int v) throws IOException
     {
         raf.writeChar(v);
     }
 
     @Override
-    public void writeChars(String s) throws IOException
+    public void writeChars(final String s) throws IOException
     {
         raf.writeChars(s);
     }
 
     @Override
-    public void writeDouble(double v) throws IOException
+    public void writeDouble(final double v) throws IOException
     {
         raf.writeDouble(v);
     }
 
     @Override
-    public void writeFloat(float v) throws IOException
+    public void writeFloat(final float v) throws IOException
     {
         raf.writeFloat(v);
     }
 
     @Override
-    public void writeInt(int v) throws IOException
+    public void writeInt(final int v) throws IOException
     {
         raf.writeInt(v);
     }
 
     @Override
-    public void writeLong(long v) throws IOException
+    public void writeLong(final long v) throws IOException
     {
         raf.writeLong(v);
     }
 
     @Override
-    public void writeShort(int v) throws IOException
+    public void writeShort(final int v) throws IOException
     {
         raf.writeShort(v);
     }
 
     @Override
-    public void writeUTF(String str) throws IOException
+    public void writeUTF(final String str) throws IOException
     {
         raf.writeUTF(str);
     }

@@ -68,7 +68,7 @@ public class MimeFileObject
         {
             if (!getName().equals(getFileSystem().getRootName()))
             {
-                MimeFileObject foParent = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+                final MimeFileObject foParent = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent());
                 setPart(foParent.findPart(getName().getBaseName()));
                 return;
             }
@@ -77,7 +77,7 @@ public class MimeFileObject
         }
     }
 
-    private Part findPart(String partName) throws Exception
+    private Part findPart(final String partName) throws Exception
     {
         if (getType() == FileType.IMAGINARY)
         {
@@ -87,10 +87,10 @@ public class MimeFileObject
 
         if (isMultipart())
         {
-            Multipart multipart = (Multipart)  part.getContent();
+            final Multipart multipart = (Multipart)  part.getContent();
             if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
             {
-                int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
+                final int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
                 if (partNumber < 0 || partNumber+1 > multipart.getCount())
                 {
                     // non existent
@@ -102,7 +102,7 @@ public class MimeFileObject
 
             for (int i = 0; i<multipart.getCount(); i++)
             {
-                Part childPart = multipart.getBodyPart(i);
+                final Part childPart = multipart.getBodyPart(i);
                 if (partName.equals(childPart.getFileName()))
                 {
                     return childPart;
@@ -157,17 +157,17 @@ public class MimeFileObject
             return null;
         }
 
-        List<MimeFileObject> vfs = new ArrayList<MimeFileObject>();
+        final List<MimeFileObject> vfs = new ArrayList<MimeFileObject>();
         if (isMultipart())
         {
-            Object container = part.getContent();
+            final Object container = part.getContent();
             if (container instanceof Multipart)
             {
-                Multipart multipart = (Multipart) container;
+                final Multipart multipart = (Multipart) container;
 
                 for (int i = 0; i<multipart.getCount(); i++)
                 {
-                    Part part = multipart.getBodyPart(i);
+                    final Part part = multipart.getBodyPart(i);
 
                     String filename = UriParser.encode(part.getFileName());
                     if (filename == null)
@@ -175,7 +175,7 @@ public class MimeFileObject
                         filename = MimeFileSystem.NULL_BP_NAME + i;
                     }
 
-                    MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
+                    final MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
                         getFileSystem().getFileSystemManager().resolveName(
                             getName(),
                             filename,
@@ -189,7 +189,7 @@ public class MimeFileObject
         return vfs.toArray(new MimeFileObject[vfs.size()]);
     }
 
-    private void setPart(Part part)
+    private void setPart(final Part part)
     {
         this.part = part;
         this.attributeMap = null;
@@ -211,7 +211,7 @@ public class MimeFileObject
     protected long doGetLastModifiedTime()
         throws Exception
     {
-        Message mm = getMessage();
+        final Message mm = getMessage();
         if (mm == null)
         {
             return -1;
@@ -247,7 +247,7 @@ public class MimeFileObject
         {
             // deliver the preamble as the only content
 
-            String preamble = ((MimeMultipart) part.getContent()).getPreamble();
+            final String preamble = ((MimeMultipart) part.getContent()).getPreamble();
             if (preamble == null)
             {
                 return new ByteArrayInputStream(new byte[]{});

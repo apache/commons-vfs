@@ -42,7 +42,7 @@ public class SmbFileNameParser extends URLFileNameParser
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename) throws FileSystemException
     {
         final StringBuilder name = new StringBuilder();
 
@@ -51,7 +51,7 @@ public class SmbFileNameParser extends URLFileNameParser
 
         // extract domain
         String username = auth.getUserName();
-        String domain = extractDomain(username);
+        final String domain = extractDomain(username);
         if (domain != null)
         {
             username = username.substring(domain.length() + 1);
@@ -70,7 +70,7 @@ public class SmbFileNameParser extends URLFileNameParser
 
         // Normalise the path.  Do this after extracting the share name,
         // to deal with things like smb://hostname/share/..
-        FileType fileType = UriParser.normalisePath(name);
+        final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
         return new SmbFileName(
@@ -85,7 +85,7 @@ public class SmbFileNameParser extends URLFileNameParser
             fileType);
     }
 
-    private String extractDomain(String username)
+    private String extractDomain(final String username)
     {
         if (username == null)
         {

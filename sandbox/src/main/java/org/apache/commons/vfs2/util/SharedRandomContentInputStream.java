@@ -75,14 +75,14 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         {
             return -1;
         }
-        int r = super.read();
+        final int r = super.read();
         pos++;
         resetCount++;
         return r;
     }
 
     @Override
-    public synchronized int read(byte b[], int off, int len) throws IOException
+    public synchronized int read(final byte b[], final int off, int len) throws IOException
     {
         if (checkEnd())
         {
@@ -95,7 +95,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
             len = (int) (fileEnd - getFilePosition());
         }
 
-        int nread = super.read(b, off, len);
+        final int nread = super.read(b, off, len);
         pos+=nread;
         resetCount+=nread;
         return nread;
@@ -115,7 +115,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
             n = fileEnd - getFilePosition();
         }
 
-        long nskip = super.skip(n);
+        final long nskip = super.skip(n);
         pos+=nskip;
         resetCount+=nskip;
         return nskip;
@@ -155,13 +155,13 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         return fileStart + pos;
     }
 
-    protected long calcFilePosition(long nadd)
+    protected long calcFilePosition(final long nadd)
     {
         return getFilePosition()+nadd;
     }
 
     @Override
-    public synchronized void mark(int readlimit)
+    public synchronized void mark(final int readlimit)
     {
         super.mark(readlimit);
         resetCount = 0;
@@ -192,14 +192,14 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         }
     }
 
-    public InputStream newStream(long start, long end)
+    public InputStream newStream(final long start, final long end)
     {
         try
         {
-            long newFileStart = this.fileStart+start;
-            long newFileEnd = end<0?this.fileEnd:this.fileStart+end;
+            final long newFileStart = this.fileStart+start;
+            final long newFileEnd = end<0?this.fileEnd:this.fileStart+end;
 
-            RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
+            final RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
             rac.seek(newFileStart);
             return new SharedRandomContentInputStream(
                 createdStreams,
@@ -208,7 +208,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
                 newFileEnd,
                 rac.getInputStream());
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new RuntimeException(e);
         }
@@ -218,9 +218,9 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     {
         synchronized(createdStreams)
         {
-            SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
+            final SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
             createdStreams.toArray(streams);
-            for (SharedRandomContentInputStream stream : streams) {
+            for (final SharedRandomContentInputStream stream : streams) {
                 stream.close();
             }
         }

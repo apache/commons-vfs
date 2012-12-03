@@ -60,7 +60,7 @@ public class SmbFileName extends GenericFileName
      * Builds the root URI for this file name.
      */
     @Override
-    protected void appendRootUri(final StringBuilder buffer, boolean addPassword)
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
     {
         super.appendRootUri(buffer, addPassword);
         buffer.append('/');
@@ -71,7 +71,7 @@ public class SmbFileName extends GenericFileName
      * put domain before username if both are set
      */
     @Override
-    protected void appendCredentials(StringBuilder buffer, boolean addPassword)
+    protected void appendCredentials(final StringBuilder buffer, final boolean addPassword)
     {
         if (getDomain() != null && getDomain().length() != 0 &&
             getUserName() != null && getUserName().length() != 0)
@@ -86,7 +86,7 @@ public class SmbFileName extends GenericFileName
      * Factory method for creating name instances.
      */
     @Override
-    public FileName createName(final String path, FileType type)
+    public FileName createName(final String path, final FileType type)
     {
         return new SmbFileName(
             getScheme(),
@@ -110,7 +110,7 @@ public class SmbFileName extends GenericFileName
             return uriWithoutAuth;
         }
 
-        StringBuilder sb = new StringBuilder(120);
+        final StringBuilder sb = new StringBuilder(120);
         sb.append(getScheme());
         sb.append("://");
         sb.append(getHostName());

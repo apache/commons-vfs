@@ -34,13 +34,13 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         return File.createTempFile("fraf", "");
     }
 
-    private void deleteTempFile(File tempFile)
+    private void deleteTempFile(final File tempFile)
     {
         try
         {
             super.close();
         }
-        catch (IOException ex)
+        catch (final IOException ex)
         {
             throw new RuntimeException(ex);
         }
@@ -50,13 +50,13 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         }
     }
 
-    public RACRandomAccessFile(RandomAccessContent rac) throws IOException
+    public RACRandomAccessFile(final RandomAccessContent rac) throws IOException
     {
         this(createTempFile());
         this.rac = rac;
     }
 
-    private RACRandomAccessFile(File tempFile) throws IOException
+    private RACRandomAccessFile(final File tempFile) throws IOException
     {
         super(tempFile, "r");
         deleteTempFile(tempFile);
@@ -69,13 +69,13 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
     }
 
     @Override
-    public void seek(long pos) throws IOException
+    public void seek(final long pos) throws IOException
     {
         this.rac.seek(pos);
     }
 
     @Override
-    public int skipBytes(int n) throws IOException
+    public int skipBytes(final int n) throws IOException
     {
         return this.rac.skipBytes(n);
     }
@@ -90,7 +90,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
          * @see org.ecc.base.io.FilterRandomAccessFile#setLength(long)
          */
     @Override
-    public void setLength(long newLength) throws IOException
+    public void setLength(final long newLength) throws IOException
     {
         throw new IOException("Underlying RandomAccessContent instance length cannot be modified.");
     }
@@ -111,7 +111,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
      * @see java.io.RandomAccessFile#read(byte[])
      */
     @Override
-    public final int read(byte[] b) throws IOException
+    public final int read(final byte[] b) throws IOException
     {
         return read(b, 0, b.length);
     }
@@ -123,12 +123,12 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
     public final int read() throws IOException
     {
         final byte[] buf = this.singleByteBuf;
-        int count = read(buf, 0, 1);
+        final int count = read(buf, 0, 1);
         return count < 0 ? -1 : (buf[0] & 0xFF);
     }
 
     @Override
-    public int read(byte[] b, int off, int len) throws IOException
+    public int read(final byte[] b, final int off, final int len) throws IOException
     {
         this.rac.readFully(b, off, len);
         return len;
@@ -138,7 +138,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
      * @see java.io.RandomAccessFile#write(int)
      */
     @Override
-    public final void write(int b) throws IOException
+    public final void write(final int b) throws IOException
     {
         final byte[] buf = this.singleByteBuf;
         buf[0] = (byte) b;
@@ -149,7 +149,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
      * @see java.io.RandomAccessFile#write(byte[])
      */
     @Override
-    public final void write(byte[] b) throws IOException
+    public final void write(final byte[] b) throws IOException
     {
         write(b, 0, b.length);
     }
@@ -158,7 +158,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
      * @see java.io.RandomAccessFile#write(byte[],int,int)
      */
     @Override
-    public void write(byte[] b, int off, int len) throws IOException
+    public void write(final byte[] b, final int off, final int len) throws IOException
     {
         this.rac.write(b, off, len);
     }
