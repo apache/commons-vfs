@@ -41,7 +41,7 @@ public class Shell
     private static final String SVN_ID = "$Id$";
     private final FileSystemManager mgr;
     private FileObject cwd;
-    private BufferedReader reader;
+    private final BufferedReader reader;
 
     public static void main(final String[] args)
     {
@@ -49,7 +49,7 @@ public class Shell
         {
             (new Shell()).go();
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             e.printStackTrace();
             System.exit(1);
@@ -234,7 +234,7 @@ public class Shell
         }
 
         // Locate and validate the folder
-        FileObject tmp = mgr.resolveFile(cwd, path);
+        final FileObject tmp = mgr.resolveFile(cwd, path);
         if (tmp.exists())
         {
             cwd = tmp;

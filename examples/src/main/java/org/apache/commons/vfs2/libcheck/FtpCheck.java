@@ -27,24 +27,24 @@ import org.apache.commons.net.ftp.FTPReply;
  */
 public class FtpCheck
 {
-    public static void main(String[] args) throws Exception
+    public static void main(final String[] args) throws Exception
     {
         if (args.length < 3)
         {
             throw new IllegalArgumentException("Usage: FtpCheck user pass host dir");
         }
-        String user = args[0];
-        String pass = args[1];
-        String host = args[2];
+        final String user = args[0];
+        final String pass = args[1];
+        final String host = args[2];
         String dir = null;
         if (args.length == 4)
         {
             dir = args[3];
         }
 
-        FTPClient client = new FTPClient();
+        final FTPClient client = new FTPClient();
         client.connect(host);
-        int reply = client.getReplyCode();
+        final int reply = client.getReplyCode();
         if (!FTPReply.isPositiveCompletion(reply))
         {
             throw new IllegalArgumentException("cant connect: " + reply);
@@ -55,7 +55,7 @@ public class FtpCheck
         }
         client.enterLocalPassiveMode();
 
-        OutputStream os = client.storeFileStream(dir + "/test.txt");
+        final OutputStream os = client.storeFileStream(dir + "/test.txt");
         if (os == null)
         {
             throw new IllegalStateException(client.getReplyString());
@@ -74,10 +74,10 @@ public class FtpCheck
 
         System.err.println("System: " + client.getSystemType());
 
-        FTPFile[] files = client.listFiles();
+        final FTPFile[] files = client.listFiles();
         for (int i = 0; i < files.length; i++)
         {
-            FTPFile file = files[i];
+            final FTPFile file = files[i];
             if (file == null)
             {
                 System.err.println("#" + i + ": " + null);

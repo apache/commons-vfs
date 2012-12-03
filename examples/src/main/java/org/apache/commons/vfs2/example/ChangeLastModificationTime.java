@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.VFS;
  */
 public class ChangeLastModificationTime
 {
-    public static void main(String[] args) throws Exception
+    public static void main(final String[] args) throws Exception
     {
         if (args.length == 0)
         {
@@ -32,8 +32,8 @@ public class ChangeLastModificationTime
             return;
         }
 
-        FileObject fo = VFS.getManager().resolveFile(args[0]);
-        long setTo = System.currentTimeMillis();
+        final FileObject fo = VFS.getManager().resolveFile(args[0]);
+        final long setTo = System.currentTimeMillis();
         System.err.println("set to: " + setTo);
         fo.getContent().setLastModifiedTime(setTo);
         System.err.println("after set: " + fo.getContent().getLastModifiedTime());

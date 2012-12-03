@@ -32,7 +32,7 @@ import org.apache.commons.vfs2.VFS;
 
 public class ShowProperties
 {
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         if (args.length == 0)
         {
@@ -40,14 +40,14 @@ public class ShowProperties
             System.err.println("e.g. java org.apache.commons.vfs2.example.ShowProperties LICENSE.txt");
             return;
         }
-        for (String arg : args)
+        for (final String arg : args)
         {
             try
             {
-                FileSystemManager mgr = VFS.getManager();
+                final FileSystemManager mgr = VFS.getManager();
                 System.out.println();
                 System.out.println("Parsing: " + arg);
-                FileObject file = mgr.resolveFile(arg);
+                final FileObject file = mgr.resolveFile(arg);
                 System.out.println("URL: " + file.getURL());
                 System.out.println("getName(): " + file.getName());
                 System.out.println("BaseName: " + file.getName().getBaseName());
@@ -70,7 +70,7 @@ public class ShowProperties
                     }
                     else if (file.getType().equals(FileType.FOLDER) && file.isReadable())
                     {
-                        FileObject[] children = file.getChildren();
+                        final FileObject[] children = file.getChildren();
                         System.out.println("Directory with " + children.length + " files");
                         for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
                         {
@@ -90,7 +90,7 @@ public class ShowProperties
                 }
                 file.close();
             }
-            catch (FileSystemException ex)
+            catch (final FileSystemException ex)
             {
                 ex.printStackTrace();
             }

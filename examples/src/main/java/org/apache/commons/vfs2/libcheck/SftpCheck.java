@@ -30,21 +30,21 @@ import com.jcraft.jsch.UserInfo;
  */
 public class SftpCheck
 {
-    public static void main(String[] args) throws Exception
+    public static void main(final String[] args) throws Exception
     {
         if (args.length != 4)
         {
             throw new IllegalArgumentException("Usage: SftpCheck user pass host dir");
         }
-        String user = args[0];
-        String pass = args[1];
-        String host = args[2];
-        String dir = args[3];
+        final String user = args[0];
+        final String pass = args[1];
+        final String host = args[2];
+        final String dir = args[3];
 
-        Properties props = new Properties();
+        final Properties props = new Properties();
         props.setProperty("StrictHostKeyChecking", "false");
-        JSch jsch = new JSch();
-        Session session = jsch.getSession(user, host, 22);
+        final JSch jsch = new JSch();
+        final Session session = jsch.getSession(user, host, 22);
         session.setUserInfo(new UserInfo()
         {
             public String getPassphrase()
@@ -57,31 +57,31 @@ public class SftpCheck
                 return null;
             }
 
-            public boolean promptPassword(String string)
+            public boolean promptPassword(final String string)
             {
                 return false;
             }
 
-            public boolean promptPassphrase(String string)
+            public boolean promptPassphrase(final String string)
             {
                 return false;
             }
 
-            public boolean promptYesNo(String string)
+            public boolean promptYesNo(final String string)
             {
                 return true;
             }
 
-            public void showMessage(String string)
+            public void showMessage(final String string)
             {
             }
         });
         session.setPassword(pass);
         session.connect();
-        ChannelSftp chan = (ChannelSftp) session.openChannel("sftp");
+        final ChannelSftp chan = (ChannelSftp) session.openChannel("sftp");
         chan.connect();
-        Vector<?> list = chan.ls(dir);
-        Iterator<?> iterList = list.iterator();
+        final Vector<?> list = chan.ls(dir);
+        final Iterator<?> iterList = list.iterator();
         while (iterList.hasNext())
         {
             System.err.println(iterList.next());
