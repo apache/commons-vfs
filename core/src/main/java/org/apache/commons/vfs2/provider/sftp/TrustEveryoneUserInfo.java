@@ -41,21 +41,21 @@ public class TrustEveryoneUserInfo implements UserInfo
     }
 
     @Override
-    public boolean promptPassword(String s)
+    public boolean promptPassword(final String s)
     {
         log.info(s + " - Answer: False");
         return false;
     }
 
     @Override
-    public boolean promptPassphrase(String s)
+    public boolean promptPassphrase(final String s)
     {
         log.info(s + " - Answer: False");
         return false;
     }
 
     @Override
-    public boolean promptYesNo(String s)
+    public boolean promptYesNo(final String s)
     {
         log.debug(s + " - Answer: Yes");
 
@@ -64,7 +64,7 @@ public class TrustEveryoneUserInfo implements UserInfo
     }
 
     @Override
-    public void showMessage(String s)
+    public void showMessage(final String s)
     {
         log.debug(s);
     }

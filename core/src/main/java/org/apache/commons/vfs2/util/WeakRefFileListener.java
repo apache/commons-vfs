@@ -49,7 +49,7 @@ public class WeakRefFileListener implements FileListener
      */
     public static void installListener(final FileObject file, final FileListener listener)
     {
-        WeakRefFileListener weakListener = new WeakRefFileListener(file, listener);
+        final WeakRefFileListener weakListener = new WeakRefFileListener(file, listener);
 
         file.getFileSystem().addListener(file, new WeakRefFileListener(file, weakListener));
     }
@@ -62,10 +62,10 @@ public class WeakRefFileListener implements FileListener
      */
     protected FileListener getListener() throws Exception
     {
-        FileListener listener = this.listener.get();
+        final FileListener listener = this.listener.get();
         if (listener == null)
         {
-            FileObject file = fs.resolveFile(name);
+            final FileObject file = fs.resolveFile(name);
             file.getFileSystem().removeListener(file, this);
         }
         return listener;
@@ -79,7 +79,7 @@ public class WeakRefFileListener implements FileListener
     @Override
     public void fileCreated(final FileChangeEvent event) throws Exception
     {
-        FileListener listener = getListener();
+        final FileListener listener = getListener();
         if (listener == null)
         {
             return;
@@ -95,7 +95,7 @@ public class WeakRefFileListener implements FileListener
     @Override
     public void fileDeleted(final FileChangeEvent event) throws Exception
     {
-        FileListener listener = getListener();
+        final FileListener listener = getListener();
         if (listener == null)
         {
             return;
@@ -111,9 +111,9 @@ public class WeakRefFileListener implements FileListener
      * @throws Exception if an error occurs.
      */
     @Override
-    public void fileChanged(FileChangeEvent event) throws Exception
+    public void fileChanged(final FileChangeEvent event) throws Exception
     {
-        FileListener listener = getListener();
+        final FileListener listener = getListener();
         if (listener == null)
         {
             return;

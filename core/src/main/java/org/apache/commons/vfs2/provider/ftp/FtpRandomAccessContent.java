@@ -35,7 +35,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
     private DataInputStream dis;
     private FtpFileObject.FtpInputStream mis;
 
-    FtpRandomAccessContent(final FtpFileObject fileObject, RandomAccessMode mode)
+    FtpRandomAccessContent(final FtpFileObject fileObject, final RandomAccessMode mode)
     {
         super(mode);
 
@@ -50,7 +50,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    public void seek(long pos) throws IOException
+    public void seek(final long pos) throws IOException
     {
         if (pos == filePointer)
         {
@@ -86,7 +86,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
             @Override
             public int read() throws IOException
             {
-                int ret = super.read();
+                final int ret = super.read();
                 if (ret > -1)
                 {
                     filePointer++;
@@ -95,9 +95,9 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
             }
 
             @Override
-            public int read(byte[] b) throws IOException
+            public int read(final byte[] b) throws IOException
             {
-                int ret = super.read(b);
+                final int ret = super.read(b);
                 if (ret > -1)
                 {
                     filePointer += ret;
@@ -106,9 +106,9 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
             }
 
             @Override
-            public int read(byte[] b, int off, int len) throws IOException
+            public int read(final byte[] b, final int off, final int len) throws IOException
             {
-                int ret = super.read(b, off, len);
+                final int ret = super.read(b, off, len);
                 if (ret > -1)
                 {
                     filePointer += ret;
@@ -135,7 +135,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
             mis.abort();
 
             // this is to avoid recursive close
-            DataInputStream oldDis = dis;
+            final DataInputStream oldDis = dis;
             dis = null;
             oldDis.close();
             mis = null;

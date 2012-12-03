@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
  */
 public class JarProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
-    static FileObject getTestJar(final FileSystemManager manager, String name) throws Exception
+    static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception
     {
         final File jarFile = AbstractVfsTestCase.getTestResourceFile(name);
         final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";

@@ -81,11 +81,11 @@ public class TarFileSystem extends AbstractFileSystem
         // Build the index
         try
         {
-            List<TarFileObject> strongRef = new ArrayList<TarFileObject>(DEFAULT_INDEX_SIZE);
+            final List<TarFileObject> strongRef = new ArrayList<TarFileObject>(DEFAULT_INDEX_SIZE);
             TarArchiveEntry entry;
             while ((entry = getTarFile().getNextTarEntry()) != null)
             {
-                AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
+                final AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
                     UriParser.encode(entry.getName()));
 
                 // Create the file
@@ -124,7 +124,7 @@ public class TarFileSystem extends AbstractFileSystem
                 }
             }
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new FileSystemException(e);
         }
@@ -134,7 +134,7 @@ public class TarFileSystem extends AbstractFileSystem
         }
     }
 
-    public InputStream getInputStream(TarArchiveEntry entry) throws FileSystemException
+    public InputStream getInputStream(final TarArchiveEntry entry) throws FileSystemException
     {
         resetTarFile();
         try
@@ -144,7 +144,7 @@ public class TarFileSystem extends AbstractFileSystem
             }
             return tarFile;
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new FileSystemException(e);
         }
@@ -169,13 +169,13 @@ public class TarFileSystem extends AbstractFileSystem
             {
                 this.tarFile.close();
             }
-            catch (IOException e)
+            catch (final IOException e)
             {
                 throw new FileSystemException("vfs.provider.tar/close-tar-file.error", file, e);
             }
             tarFile = null;
         }
-        TarArchiveInputStream tarFile = createTarFile(this.file);
+        final TarArchiveInputStream tarFile = createTarFile(this.file);
         this.tarFile = tarFile;
     }
 
@@ -210,7 +210,7 @@ public class TarFileSystem extends AbstractFileSystem
             }
             return new TarArchiveInputStream(new FileInputStream(file));
         }
-        catch (IOException ioe)
+        catch (final IOException ioe)
         {
             throw new FileSystemException("vfs.provider.tar/open-tar-file.error", file, ioe);
         }

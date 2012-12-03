@@ -54,7 +54,7 @@ public abstract class AbstractTestSuite
 
     private Thread[] startThreadSnapshot;
     private Thread[] endThreadSnapshot;
-    private boolean addEmptyDir;
+    private final boolean addEmptyDir;
 
     /**
      * Adds the tests for a file system to this suite.
@@ -116,7 +116,7 @@ public abstract class AbstractTestSuite
 
         // Locate the test methods
         final Method[] methods = testClass.getMethods();
-        for (Method method2 : methods)
+        for (final Method method2 : methods)
         {
             final Method method = method2;
             if (!method.getName().startsWith("test")
@@ -210,10 +210,10 @@ public abstract class AbstractTestSuite
         manager.freeUnusedResources();
         endThreadSnapshot = createThreadSnapshot();
 
-        Thread[] diffThreadSnapshot = diffThreadSnapshot(startThreadSnapshot, endThreadSnapshot);
+        final Thread[] diffThreadSnapshot = diffThreadSnapshot(startThreadSnapshot, endThreadSnapshot);
         if (diffThreadSnapshot.length > 0)
         {
-            String message = dumpThreadSnapshot(diffThreadSnapshot);
+            final String message = dumpThreadSnapshot(diffThreadSnapshot);
             /*
             if (providerConfig.checkCleanThreadState())
             {
@@ -247,9 +247,9 @@ public abstract class AbstractTestSuite
         }
     }
 
-    private String dumpThreadSnapshot(Thread[] threadSnapshot)
+    private String dumpThreadSnapshot(final Thread[] threadSnapshot)
     {
-        StringBuffer sb = new StringBuffer(256);
+        final StringBuffer sb = new StringBuffer(256);
         sb.append("created threads still running:\n");
 
         Field threadTargetField = null;
@@ -258,14 +258,14 @@ public abstract class AbstractTestSuite
             threadTargetField = Thread.class.getDeclaredField("target");
             threadTargetField.setAccessible(true);
         }
-        catch (NoSuchFieldException e)
+        catch (final NoSuchFieldException e)
         {
             // ignored
         }
 
         for (int iter = 0; iter < threadSnapshot.length; iter++)
         {
-            Thread thread = threadSnapshot[iter];
+            final Thread thread = threadSnapshot[iter];
             if (thread == null)
             {
                 continue;
@@ -292,7 +292,7 @@ public abstract class AbstractTestSuite
                 sb.append("\t");
                 try
                 {
-                    Object threadTarget = threadTargetField.get(thread);
+                    final Object threadTarget = threadTargetField.get(thread);
                     if (threadTarget != null)
                     {
                         sb.append(threadTarget.getClass());
@@ -302,7 +302,7 @@ public abstract class AbstractTestSuite
                         sb.append("null");
                     }
                 }
-                catch (IllegalAccessException e)
+                catch (final IllegalAccessException e)
                 {
                     sb.append("unknown class");
                 }
@@ -314,9 +314,9 @@ public abstract class AbstractTestSuite
         return sb.toString();
     }
 
-    private Thread[] diffThreadSnapshot(Thread[] startThreadSnapshot, Thread[] endThreadSnapshot)
+    private Thread[] diffThreadSnapshot(final Thread[] startThreadSnapshot, final Thread[] endThreadSnapshot)
     {
-        List<Thread> diff = new ArrayList<Thread>(10);
+        final List<Thread> diff = new ArrayList<Thread>(10);
 
         nextEnd: for (int iterEnd = 0; iterEnd < endThreadSnapshot.length; iterEnd++)
         {
@@ -331,7 +331,7 @@ public abstract class AbstractTestSuite
             diff.add(endThreadSnapshot[iterEnd]);
         }
 
-        Thread ret[] = new Thread[diff.size()];
+        final Thread ret[] = new Thread[diff.size()];
         diff.toArray(ret);
         return ret;
     }
@@ -344,7 +344,7 @@ public abstract class AbstractTestSuite
             tg = tg.getParent();
         }
 
-        Thread snapshot[] = new Thread[200];
+        final Thread snapshot[] = new Thread[200];
         tg.enumerate(snapshot, true);
 
         return snapshot;

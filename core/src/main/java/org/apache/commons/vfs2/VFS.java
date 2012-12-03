@@ -115,7 +115,7 @@ public final class VFS
         return uriStyle.booleanValue();
     }
 
-    public static void setUriStyle(boolean uriStyle)
+    public static void setUriStyle(final boolean uriStyle)
     {
         if (VFS.uriStyle != null && VFS.uriStyle.booleanValue() != uriStyle)
         {

@@ -191,7 +191,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *            The FileSystem options.
      * @return the IdentityRepositoryFactory
      */
-    public IdentityRepositoryFactory getIdentityRepositoryFactory(FileSystemOptions opts)
+    public IdentityRepositoryFactory getIdentityRepositoryFactory(final FileSystemOptions opts)
     {
         return (IdentityRepositoryFactory) this.getParam(opts, IDENTITY_REPOSITORY_FACTORY);
     }
@@ -418,7 +418,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *             if an error occurs.
      * @see <a href="http://www.jcraft.com/jsch-agent-proxy/">JSch agent proxy</a>
      */
-    public void setIdentityRepositoryFactory(FileSystemOptions opts, IdentityRepositoryFactory factory)
+    public void setIdentityRepositoryFactory(final FileSystemOptions opts, final IdentityRepositoryFactory factory)
             throws FileSystemException
     {
         this.setParam(opts, IDENTITY_REPOSITORY_FACTORY, factory);

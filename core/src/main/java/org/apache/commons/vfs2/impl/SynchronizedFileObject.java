@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.NameScope;
  */
 public class SynchronizedFileObject extends DecoratedFileObject
 {
-    public SynchronizedFileObject(FileObject fileObject)
+    public SynchronizedFileObject(final FileObject fileObject)
     {
         super(fileObject);
     }
@@ -45,7 +45,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
+    public void copyFrom(final FileObject srcFile, final FileSelector selector) throws FileSystemException
     {
         synchronized (this)
         {
@@ -81,7 +81,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public int delete(FileSelector selector) throws FileSystemException
+    public int delete(final FileSelector selector) throws FileSystemException
     {
         synchronized (this)
         {
@@ -99,7 +99,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected)
+    public void findFiles(final FileSelector selector, final boolean depthwise, final List<FileObject> selected)
             throws FileSystemException
     {
         synchronized (this)
@@ -109,7 +109,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public FileObject[] findFiles(FileSelector selector) throws FileSystemException
+    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
     {
         synchronized (this)
         {
@@ -118,7 +118,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public FileObject getChild(String name) throws FileSystemException
+    public FileObject getChild(final String name) throws FileSystemException
     {
         synchronized (this)
         {
@@ -190,7 +190,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
+    public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
         synchronized (this)
         {
@@ -199,7 +199,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public boolean setWritable(boolean writable, boolean ownerOnly) throws FileSystemException
+    public boolean setWritable(final boolean writable, final boolean ownerOnly) throws FileSystemException
     {
         synchronized (this)
         {
@@ -208,7 +208,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException
+    public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException
     {
         synchronized (this)
         {
@@ -217,7 +217,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public void moveTo(FileObject destFile) throws FileSystemException
+    public void moveTo(final FileObject destFile) throws FileSystemException
     {
         synchronized (this)
         {
@@ -226,7 +226,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
+    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException
     {
         synchronized (this)
         {
@@ -235,7 +235,7 @@ public class SynchronizedFileObject extends DecoratedFileObject
     }
 
     @Override
-    public FileObject resolveFile(String path) throws FileSystemException
+    public FileObject resolveFile(final String path) throws FileSystemException
     {
         synchronized (this)
         {

@@ -439,7 +439,7 @@ public final class DefaultFileContent implements FileContent
         // Get the content
         final RandomAccessContent rastr = fileObject.getRandomAccessContent(mode);
 
-        FileRandomAccessContent rac = new FileRandomAccessContent(fileObject, rastr);
+        final FileRandomAccessContent rac = new FileRandomAccessContent(fileObject, rastr);
         this.getThreadData().addRastr(rac);
         streamOpened();
 
@@ -465,7 +465,7 @@ public final class DefaultFileContent implements FileContent
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
+    public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException
     {
         /*
         if (getThreadData().getState() != STATE_NONE)
@@ -511,7 +511,7 @@ public final class DefaultFileContent implements FileContent
                 {
                     ra.close();
                 }
-                catch (IOException e)
+                catch (final IOException e)
                 {
                     throw new FileSystemException(e);
                 }
@@ -547,7 +547,7 @@ public final class DefaultFileContent implements FileContent
     /**
      * Handles the end of random access.
      */
-    private void endRandomAccess(RandomAccessContent rac)
+    private void endRandomAccess(final RandomAccessContent rac)
     {
         getThreadData().removeRastr(rac);
         streamClosed();
@@ -731,7 +731,7 @@ public final class DefaultFileContent implements FileContent
                 {
                     endOutput();
                 }
-                catch (Exception e)
+                catch (final Exception e)
                 {
                     throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
                 }

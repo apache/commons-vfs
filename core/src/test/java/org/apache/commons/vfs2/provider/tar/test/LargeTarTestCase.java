@@ -69,16 +69,16 @@ public void setUp() throws Exception {
 
   @Test
   public void testLargeFile() throws Exception {
-    File realFile = new File(largeFilePath + largeFileName + ".tar.gz");
+    final File realFile = new File(largeFilePath + largeFileName + ".tar.gz");
 
-    FileObject file = manager.resolveFile("tgz:file://" + realFile.getCanonicalPath() + "!/");
+    final FileObject file = manager.resolveFile("tgz:file://" + realFile.getCanonicalPath() + "!/");
 
     assertNotNull(file);
-    List<FileObject> files = Arrays.asList(file.getChildren());
+    final List<FileObject> files = Arrays.asList(file.getChildren());
 
     assertNotNull(files);
     assertEquals(1, files.size());
-    FileObject f = files.get(0);
+    final FileObject f = files.get(0);
 
     assertTrue("Expected file not found: " + largeFileName + ".txt",
         f.getName().getBaseName().equals(largeFileName + ".txt"));
@@ -104,15 +104,15 @@ public void setUp() throws Exception {
     fileCheck(expectedFiles, "tar:file://c:/temp/data/data/data-small.tar");
   } */
 
-  protected void fileCheck(String[] expectedFiles, String tarFile) throws Exception {
+  protected void fileCheck(final String[] expectedFiles, final String tarFile) throws Exception {
     assertNotNull(manager);
-    FileObject file = manager.resolveFile(tarFile);
+    final FileObject file = manager.resolveFile(tarFile);
 
     assertNotNull(file);
-    List<FileObject> files = Arrays.asList(file.getChildren());
+    final List<FileObject> files = Arrays.asList(file.getChildren());
 
     assertNotNull(files);
-    for (String expectedFile : expectedFiles)
+    for (final String expectedFile : expectedFiles)
     {
       assertTrue("Expected file not found: " + expectedFile, fileExists(expectedFile, files));
     }
@@ -125,9 +125,9 @@ public void setUp() throws Exception {
    * @param files a list of files to search.
    * @return {@code true} if {@code expectedFile} is in {@code files}.
    */
-    protected boolean fileExists(String expectedFile, List<FileObject> files)
+    protected boolean fileExists(final String expectedFile, final List<FileObject> files)
     {
-        for (FileObject file : files)
+        for (final FileObject file : files)
         {
             if (file.getName().getBaseName().equals(expectedFile))
             {
@@ -137,9 +137,9 @@ public void setUp() throws Exception {
         return false;
     }
 
-    protected boolean endsWith(String testString, String[] testList)
+    protected boolean endsWith(final String testString, final String[] testList)
     {
-        for (String string : testList)
+        for (final String string : testList)
         {
             if (testString.endsWith(string))
             {
@@ -150,7 +150,7 @@ public void setUp() throws Exception {
     }
 
   //@SuppressWarnings("unused")
-  protected void createLargeFile(String path, final String name) throws Exception {
+  protected void createLargeFile(final String path, final String name) throws Exception {
     final long _1K = 1024;
     final long _1M = 1024 * _1K;
 //    long _256M = 256 * _1M;
@@ -160,28 +160,28 @@ public void setUp() throws Exception {
     // File size of 3 GB
     final long fileSize = 3 * _1G;
 
-    File tarGzFile = new File(path + name + ".tar.gz");
+    final File tarGzFile = new File(path + name + ".tar.gz");
 
     if(!tarGzFile.exists()) {
       System.out.println("This test is a bit slow. It needs to write 3GB of data as a compressed file (approx. 3MB) to your hard drive");
 
       final PipedOutputStream outTarFileStream = new PipedOutputStream();
-      PipedInputStream inTarFileStream = new PipedInputStream(outTarFileStream);
+      final PipedInputStream inTarFileStream = new PipedInputStream(outTarFileStream);
 
-      Thread source = new Thread(){
+      final Thread source = new Thread(){
 
         @Override
         public void run() {
-            byte ba_1k[] = new byte[(int) _1K];
+            final byte ba_1k[] = new byte[(int) _1K];
             for(int i=0; i < ba_1k.length; i++){
                 ba_1k[i]='a';
             }
             try {
-                TarArchiveOutputStream outTarStream =
+                final TarArchiveOutputStream outTarStream =
                     (TarArchiveOutputStream)new ArchiveStreamFactory()
                     .createArchiveOutputStream(ArchiveStreamFactory.TAR, outTarFileStream);
                 // Create archive contents
-                TarArchiveEntry tarArchiveEntry = new TarArchiveEntry(name + ".txt");
+                final TarArchiveEntry tarArchiveEntry = new TarArchiveEntry(name + ".txt");
                 tarArchiveEntry.setSize(fileSize);
 
                 outTarStream.putArchiveEntry(tarArchiveEntry);
@@ -191,7 +191,7 @@ public void setUp() throws Exception {
                 outTarStream.closeArchiveEntry();
                 outTarStream.close();
                 outTarFileStream.close();
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
             }
         }
@@ -200,9 +200,9 @@ public void setUp() throws Exception {
       source.start();
 
       // Create compressed archive
-      OutputStream outGzipFileStream = new FileOutputStream(path + name + ".tar.gz");
+      final OutputStream outGzipFileStream = new FileOutputStream(path + name + ".tar.gz");
 
-      GzipCompressorOutputStream outGzipStream = (GzipCompressorOutputStream)new CompressorStreamFactory()
+      final GzipCompressorOutputStream outGzipStream = (GzipCompressorOutputStream)new CompressorStreamFactory()
       .createCompressorOutputStream(CompressorStreamFactory.GZIP, outGzipFileStream);
 
       IOUtils.copy(inTarFileStream, outGzipStream);

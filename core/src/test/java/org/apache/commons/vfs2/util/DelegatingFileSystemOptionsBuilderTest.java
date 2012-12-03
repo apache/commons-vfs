@@ -69,8 +69,8 @@ public class DelegatingFileSystemOptionsBuilderTest
             "/file2",
         };
 
-        FileSystemOptions opts = new FileSystemOptions();
-        DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
+        final FileSystemOptions opts = new FileSystemOptions();
+        final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
 
         delgate.setConfigString(opts, "http", "proxyHost", "proxy");
         delgate.setConfigString(opts, "http", "proxyPort", "8080");
@@ -81,7 +81,7 @@ public class DelegatingFileSystemOptionsBuilderTest
         assertEquals("http.proxyPort", HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080);
         assertEquals("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), TrustEveryoneUserInfo.class);
 
-        File identities[] = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
+        final File identities[] = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
         assertNotNull("sftp.identities", identities);
         assertEquals("sftp.identities size", identities.length, identityPaths.length);
         for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++)
@@ -95,15 +95,15 @@ public class DelegatingFileSystemOptionsBuilderTest
     @Test
     public void testDelegatingBad() throws Throwable
     {
-        FileSystemOptions opts = new FileSystemOptions();
-        DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
+        final FileSystemOptions opts = new FileSystemOptions();
+        final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
 
         try
         {
             delgate.setConfigString(opts, "http", "proxyPort", "wrong_port");
             fail();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             assertEquals(e.getCause().getClass(), InvocationTargetException.class);
             assertEquals(((InvocationTargetException) e.getCause()).getTargetException().getClass(), NumberFormatException.class);
@@ -114,7 +114,7 @@ public class DelegatingFileSystemOptionsBuilderTest
             delgate.setConfigClass(opts, "sftp", "userinfo", String.class);
             fail();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             assertEquals(e.getCode(), "vfs.provider/config-value-invalid.error");
         }
@@ -128,7 +128,7 @@ public class DelegatingFileSystemOptionsBuilderTest
     @Test
     public void testConfiguration() throws Exception
     {
-        for (String scheme : schemes)
+        for (final String scheme : schemes)
         {
             assertTrue("Missing " + scheme + " provider", fsm.hasProvider(scheme));
         }

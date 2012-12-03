@@ -44,7 +44,7 @@ public abstract class AbstractVfsContainer
             // Initialise
             if (component instanceof VfsComponent)
             {
-                VfsComponent vfsComponent = (VfsComponent) component;
+                final VfsComponent vfsComponent = (VfsComponent) component;
                 vfsComponent.setLogger(getLogger());
                 vfsComponent.setContext(getContext());
                 vfsComponent.init();

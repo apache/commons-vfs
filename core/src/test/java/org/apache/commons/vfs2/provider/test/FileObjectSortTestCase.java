@@ -49,7 +49,7 @@ public class FileObjectSortTestCase {
     // Consider @Immutable
     private static FileObject[] UnSortedArray;
 
-    private static FileObject resolveFile(final FileSystem fs, int i) throws FileSystemException {
+    private static FileObject resolveFile(final FileSystem fs, final int i) throws FileSystemException {
         return fs.resolveFile(String.format("%010d", i));
     }
 
@@ -76,8 +76,8 @@ public class FileObjectSortTestCase {
         final FileObject file1 = VfsFileSystem.resolveFile("A1");
         final FileObject file2 = VfsFileSystem.resolveFile("a2");
         final FileObject file3 = VfsFileSystem.resolveFile("A3");
-        FileObject[] actualArray = { file3, file1, file2, file1, file2 };
-        FileObject[] expectedArray = { file1, file1, file2, file2, file3 };
+        final FileObject[] actualArray = { file3, file1, file2, file1, file2 };
+        final FileObject[] expectedArray = { file1, file1, file2, file2, file3 };
         Arrays.sort(actualArray);
         Assert.assertArrayEquals(expectedArray, actualArray);
     }
@@ -89,7 +89,7 @@ public class FileObjectSortTestCase {
      */
     @Test
     public void testSortArrayMoveAll() throws FileSystemException {
-        FileObject[] actualArray = UnSortedArray.clone();
+        final FileObject[] actualArray = UnSortedArray.clone();
         Assert.assertFalse(Arrays.equals(UnSortedArray, SortedArray));
         Arrays.sort(actualArray);
         Assert.assertArrayEquals(SortedArray, actualArray);
@@ -102,7 +102,7 @@ public class FileObjectSortTestCase {
      */
     @Test
     public void testSortArrayMoveNone() throws FileSystemException {
-        FileObject[] actualArray = SortedArray.clone();
+        final FileObject[] actualArray = SortedArray.clone();
         Arrays.sort(actualArray);
         Assert.assertArrayEquals(SortedArray, actualArray);
     }
@@ -114,8 +114,8 @@ public class FileObjectSortTestCase {
      */
     @Test
     public void testSortListMoveAll() throws FileSystemException {
-        List<FileObject> actualList = Arrays.asList(UnSortedArray);
-        List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
+        final List<FileObject> actualList = Arrays.asList(UnSortedArray);
+        final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
         Assert.assertFalse(actualList.equals(expectedSortedList));
         Collections.sort(actualList);
         Assert.assertTrue(actualList.equals(expectedSortedList));
@@ -128,8 +128,8 @@ public class FileObjectSortTestCase {
      */
     @Test
     public void testSortListMoveNone() throws FileSystemException {
-        List<FileObject> actualList = Arrays.asList(SortedArray);
-        List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
+        final List<FileObject> actualList = Arrays.asList(SortedArray);
+        final List<FileObject> expectedSortedList = Arrays.asList(SortedArray);
         Collections.sort(actualList);
         Assert.assertTrue(actualList.equals(expectedSortedList));
     }

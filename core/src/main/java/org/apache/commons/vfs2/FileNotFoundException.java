@@ -32,7 +32,7 @@ public class FileNotFoundException extends FileSystemException
         super("vfs.provider/read-not-file.error", info0);
     }
 
-    public FileNotFoundException(Object info0, Throwable throwable)
+    public FileNotFoundException(final Object info0, final Throwable throwable)
     {
         super("vfs.provider/read-not-file.error", info0, throwable);
     }

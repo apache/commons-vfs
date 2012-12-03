@@ -44,7 +44,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
      * @return true if the character should be encoded.
      */
     @Override
-    public boolean encodeCharacter(char ch)
+    public boolean encodeCharacter(final char ch)
     {
         return super.encodeCharacter(ch) || ch == '!';
     }
@@ -58,7 +58,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
             throws FileSystemException
     {
         final StringBuilder name = new StringBuilder();
@@ -77,7 +77,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
         // Decode and normalise the path
         UriParser.canonicalizePath(name, 0, name.length(), this);
         UriParser.fixSeparators(name);
-        FileType fileType = UriParser.normalisePath(name);
+        final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
         return new LayeredFileName(scheme, rootUri, path, fileType);
@@ -90,7 +90,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
         throws FileSystemException
     {
         // Looking for <name>!<abspath> (staring at the end)
-        int maxlen = uri.length();
+        final int maxlen = uri.length();
         int pos = maxlen - 1;
         for (; pos > 0 && uri.charAt(pos) != '!'; pos--)
         {
@@ -104,7 +104,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
         }
 
         // Extract the name
-        String prefix = uri.substring(0, pos);
+        final String prefix = uri.substring(0, pos);
         if (pos < maxlen)
         {
             uri.delete(0, pos + 1);

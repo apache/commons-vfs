@@ -49,12 +49,12 @@ class FileContentThreadData
     }
     */
 
-    void addInstr(InputStream is)
+    void addInstr(final InputStream is)
     {
         this.instrs.add(is);
     }
 
-    void setOutstr(DefaultFileContent.FileContentOutputStream os)
+    void setOutstr(final DefaultFileContent.FileContentOutputStream os)
     {
         this.outstr = os;
     }
@@ -64,7 +64,7 @@ class FileContentThreadData
         return this.outstr;
     }
 
-    void addRastr(RandomAccessContent ras)
+    void addRastr(final RandomAccessContent ras)
     {
         this.rastrs.add(ras);
     }
@@ -74,22 +74,22 @@ class FileContentThreadData
         return this.instrs.size();
     }
 
-    public Object removeInstr(int pos)
+    public Object removeInstr(final int pos)
     {
         return this.instrs.remove(pos);
     }
 
-    public void removeInstr(InputStream instr)
+    public void removeInstr(final InputStream instr)
     {
         this.instrs.remove(instr);
     }
 
-    public Object removeRastr(int pos)
+    public Object removeRastr(final int pos)
     {
         return this.rastrs.remove(pos);
     }
 
-    public void removeRastr(RandomAccessContent ras)
+    public void removeRastr(final RandomAccessContent ras)
     {
         this.rastrs.remove(ras);
     }

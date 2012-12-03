@@ -44,7 +44,7 @@ public class MultipleConnectionTestCase
         FtpsProviderTestCase_Disabled.tearDownClass();
     }
 
-    private FTPSClient init(FTPSClient client)
+    private FTPSClient init(final FTPSClient client)
     {
         client.enterLocalPassiveMode();
         return client;
@@ -66,8 +66,8 @@ public class MultipleConnectionTestCase
     @Test
     public void testUnderlyingConnect() throws SocketException, IOException
     {
-        FTPSClient client1 = this.init(new FTPSClient(true));
-        FTPSClient client2 = this.init(new FTPSClient(true));
+        final FTPSClient client1 = this.init(new FTPSClient(true));
+        final FTPSClient client2 = this.init(new FTPSClient(true));
         try
         {
             final String hostname = "localhost";

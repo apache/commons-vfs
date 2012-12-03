@@ -63,9 +63,9 @@ public class ResourceFileProvider extends AbstractFileProvider
                                final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        StringBuilder buf = new StringBuilder(BUFFER_SIZE);
+        final StringBuilder buf = new StringBuilder(BUFFER_SIZE);
         UriParser.extractScheme(uri, buf);
-        String resourceName = buf.toString();
+        final String resourceName = buf.toString();
 
         ClassLoader cl = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
         if (cl == null)
@@ -89,7 +89,7 @@ public class ResourceFileProvider extends AbstractFileProvider
     }
 
     @Override
-    public void closeFileSystem(FileSystem filesystem)
+    public void closeFileSystem(final FileSystem filesystem)
     {
         // no filesystem created here - so nothing to do
     }

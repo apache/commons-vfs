@@ -54,7 +54,7 @@ public abstract class AbstractFileProvider
         return parser;
     }
 
-    protected void setFileNameParser(FileNameParser parser)
+    protected void setFileNameParser(final FileNameParser parser)
     {
         this.parser = parser;
     }
@@ -99,7 +99,7 @@ public abstract class AbstractFileProvider
         // Add to the cache
         addComponent(fs);
 
-        FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
+        final FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
         ((AbstractFileSystem) fs).setCacheKey(treeKey);
 
         synchronized (this)
@@ -115,7 +115,7 @@ public abstract class AbstractFileProvider
      */
     protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemProps)
     {
-        FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
+        final FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
 
         synchronized (this)
         {
@@ -143,9 +143,9 @@ public abstract class AbstractFileProvider
         {
             item = fileSystems.values().toArray();
         }
-        for (Object element : item)
+        for (final Object element : item)
         {
-            AbstractFileSystem fs = (AbstractFileSystem) element;
+            final AbstractFileSystem fs = (AbstractFileSystem) element;
             if (fs.isReleaseable())
             {
                 fs.closeCommunicationLink();
@@ -159,7 +159,7 @@ public abstract class AbstractFileProvider
      */
     public void closeFileSystem(final FileSystem filesystem)
     {
-        AbstractFileSystem fs = (AbstractFileSystem) filesystem;
+        final AbstractFileSystem fs = (AbstractFileSystem) filesystem;
 
         synchronized (this)
         {
@@ -182,7 +182,7 @@ public abstract class AbstractFileProvider
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileName parseUri(FileName base, String uri) throws FileSystemException
+    public FileName parseUri(final FileName base, final String uri) throws FileSystemException
     {
         if (getFileNameParser() != null)
         {

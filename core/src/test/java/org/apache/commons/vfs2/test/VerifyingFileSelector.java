@@ -43,7 +43,7 @@ public class VerifyingFileSelector
     private FileInfo currentFolderInfo;
     private FileObject currentFolder;
     private Set<String> children;
-    private List<Set<String>> stack = new ArrayList<Set<String>>();
+    private final List<Set<String>> stack = new ArrayList<Set<String>>();
 
     public VerifyingFileSelector(final FileInfo fileInfo)
     {

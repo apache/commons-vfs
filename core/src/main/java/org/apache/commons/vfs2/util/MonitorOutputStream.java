@@ -83,7 +83,7 @@ public class MonitorOutputStream
      * @since 2.0
      */
     @Override
-    public synchronized void write(int b) throws IOException
+    public synchronized void write(final int b) throws IOException
     {
         assertOpen();
         super.write(b);
@@ -97,7 +97,7 @@ public class MonitorOutputStream
      * @since 2.0
      */
     @Override
-    public synchronized void write(byte[] b, int off, int len) throws IOException
+    public synchronized void write(final byte[] b, final int off, final int len) throws IOException
     {
         assertOpen();
         super.write(b, off, len);
@@ -120,7 +120,7 @@ public class MonitorOutputStream
      * @since 2.0
      */
     @Override
-    public void write(byte[] b) throws IOException
+    public void write(final byte[] b) throws IOException
     {
         assertOpen();
         super.write(b);

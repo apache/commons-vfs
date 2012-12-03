@@ -272,19 +272,19 @@ public class VFSClassLoader extends SecureClassLoader
         try
         {
             final String url = cs.getLocation().toString();
-            FileObject file = lookupFileObject(url);
+            final FileObject file = lookupFileObject(url);
             if (file == null)
             {
                 return super.getPermissions(cs);
             }
 
-            FileObject parentLayer = file.getFileSystem().getParentLayer();
+            final FileObject parentLayer = file.getFileSystem().getParentLayer();
             if (parentLayer == null)
             {
                 return super.getPermissions(cs);
             }
 
-            Permissions combi = new Permissions();
+            final Permissions combi = new Permissions();
             PermissionCollection permCollect = super.getPermissions(cs);
             copyPermissions(permCollect, combi);
 
@@ -315,7 +315,7 @@ public class VFSClassLoader extends SecureClassLoader
     protected void copyPermissions(final PermissionCollection src,
                                    final PermissionCollection dest)
     {
-        for (Enumeration<Permission> elem = src.elements(); elem.hasMoreElements();)
+        for (final Enumeration<Permission> elem = src.elements(); elem.hasMoreElements();)
         {
             final Permission permission = elem.nextElement();
             dest.add(permission);
@@ -401,7 +401,7 @@ public class VFSClassLoader extends SecureClassLoader
      */
     private Resource loadResource(final String name) throws FileSystemException
     {
-        for (FileObject baseFile : resources)
+        for (final FileObject baseFile : resources)
         {
             final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
             if (file.exists())

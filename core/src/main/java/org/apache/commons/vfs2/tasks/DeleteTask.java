@@ -84,10 +84,10 @@ public class DeleteTask
                 {
                     srcDirUrl += "/";
                 }
-                StringTokenizer tok = new StringTokenizer(filesList, ", \t\n\r\f", false);
+                final StringTokenizer tok = new StringTokenizer(filesList, ", \t\n\r\f", false);
                 while (tok.hasMoreTokens())
                 {
-                    String nextFile = tok.nextToken();
+                    final String nextFile = tok.nextToken();
                     final FileObject srcFile = resolveFile(srcDirUrl + nextFile);
                     srcFile.deleteAll();
                 }

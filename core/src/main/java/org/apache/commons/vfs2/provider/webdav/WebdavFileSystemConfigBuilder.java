@@ -51,7 +51,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      * @param opts The FileSystem options
      * @param creatorName The creator name to be associated with the file.
      */
-    public void setCreatorName(FileSystemOptions opts, String creatorName)
+    public void setCreatorName(final FileSystemOptions opts, final String creatorName)
     {
         setParam(opts, "creatorName", creatorName);
     }
@@ -61,7 +61,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      * @param opts The FileSystem options
      * @return The creatorName.
      */
-    public String getCreatorName(FileSystemOptions opts)
+    public String getCreatorName(final FileSystemOptions opts)
     {
         return getString(opts, "creatorName");
     }
@@ -76,7 +76,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      * @since 2.1
      */
     @Override
-    public boolean getFollowRedirect(FileSystemOptions opts)
+    public boolean getFollowRedirect(final FileSystemOptions opts)
     {
         return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
     }
@@ -86,7 +86,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      * @param opts The FileSystem options.
      * @param versioning true if versioning should be enabled.
      */
-    public void setVersioning(FileSystemOptions opts, boolean versioning)
+    public void setVersioning(final FileSystemOptions opts, final boolean versioning)
     {
         setParam(opts, "versioning", Boolean.valueOf(versioning));
     }
@@ -96,7 +96,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      * @param opts The FileSystem options.
      * @return true if versioning is enabled.
      */
-    public boolean isVersioning(FileSystemOptions opts)
+    public boolean isVersioning(final FileSystemOptions opts)
     {
         return getBoolean(opts, "versioning", false);
     }

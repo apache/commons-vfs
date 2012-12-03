@@ -70,12 +70,12 @@ public class UrlFileProvider
         {
             final URL url = new URL(uri);
 
-            URL rootUrl = new URL(url, "/");
+            final URL rootUrl = new URL(url, "/");
             final String key = this.getClass().getName() + rootUrl.toString();
             FileSystem fs = findFileSystem(key, fileSystemOptions);
             if (fs == null)
             {
-                String extForm = rootUrl.toExternalForm();
+                final String extForm = rootUrl.toExternalForm();
                 final FileName rootName =
                     getContext().parseURI(extForm);
                 // final FileName rootName =

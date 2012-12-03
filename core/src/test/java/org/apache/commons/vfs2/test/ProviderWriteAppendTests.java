@@ -51,7 +51,7 @@ public class ProviderWriteAppendTests
      */
     protected FileObject createScratchFolder() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
@@ -99,7 +99,7 @@ public class ProviderWriteAppendTests
         assertSameContent(contentAppend, file);
 
         // Make sure we can copy the new file to another file on the same filesystem
-        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
         assertTrue(!fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 

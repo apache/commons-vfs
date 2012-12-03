@@ -47,7 +47,7 @@ public enum VcsStatus
     private int status;
 
 
-    private VcsStatus(int status)
+    private VcsStatus(final int status)
     {
         this.status = status;
     }

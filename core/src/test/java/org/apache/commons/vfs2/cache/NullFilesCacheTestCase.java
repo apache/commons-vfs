@@ -37,7 +37,7 @@ public class NullFilesCacheTestCase
 {
     public static Test suite() throws Exception
     {
-        CacheTestSuite suite = new CacheTestSuite(new NullFilesCacheTestCase());
+        final CacheTestSuite suite = new CacheTestSuite(new NullFilesCacheTestCase());
         suite.addTests(NullFilesCacheTests.class);
         return suite;
     }

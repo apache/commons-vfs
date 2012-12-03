@@ -71,7 +71,7 @@ public class LRUFilesCache extends AbstractFilesCache
         /** The FileSystem */
         private final FileSystem filesystem;
 
-        public MyLRUMap(final FileSystem filesystem, int size)
+        public MyLRUMap(final FileSystem filesystem, final int size)
         {
             super(size, true);
             this.filesystem = filesystem;
@@ -82,7 +82,7 @@ public class LRUFilesCache extends AbstractFilesCache
         {
             synchronized (LRUFilesCache.this)
             {
-                FileObject file = (FileObject) linkEntry.getValue();
+                final FileObject file = (FileObject) linkEntry.getValue();
 
                 // System.err.println(">>> " + size() + " check removeLRU:" + linkEntry.getKey().toString());
 
@@ -103,12 +103,12 @@ public class LRUFilesCache extends AbstractFilesCache
                         // force detach
                         file.close();
                     }
-                    catch (FileSystemException e)
+                    catch (final FileSystemException e)
                     {
                         VfsLog.warn(getLogger(), log, Messages.getString("vfs.impl/LRUFilesCache-remove-ex.warn"), e);
                     }
 
-                    Map<?, ?> files = filesystemCache.get(filesystem);
+                    final Map<?, ?> files = filesystemCache.get(filesystem);
                     if (files.size() < 1)
                     {
                         filesystemCache.remove(filesystem);
@@ -135,7 +135,7 @@ public class LRUFilesCache extends AbstractFilesCache
      *
      * @param lruSize the LRU size
      */
-    public LRUFilesCache(int lruSize)
+    public LRUFilesCache(final int lruSize)
     {
         this.lruSize = lruSize;
     }
@@ -143,7 +143,7 @@ public class LRUFilesCache extends AbstractFilesCache
     @Override
     public void putFile(final FileObject file)
     {
-        Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
+        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
 
         writeLock.lock();
         try
@@ -162,12 +162,12 @@ public class LRUFilesCache extends AbstractFilesCache
     @Override
     public boolean putFileIfAbsent(final FileObject file)
     {
-        Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
+        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
 
         writeLock.lock();
         try
         {
-            FileName name = file.getName();
+            final FileName name = file.getName();
 
             // System.err.println(">>> " + files.size() + " put:" + file.toString());
             if (files.containsKey(name))
@@ -187,7 +187,7 @@ public class LRUFilesCache extends AbstractFilesCache
     @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
-        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
+        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
 
         readLock.lock();
         try
@@ -206,7 +206,7 @@ public class LRUFilesCache extends AbstractFilesCache
     @Override
     public void clear(final FileSystem filesystem)
     {
-        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
+        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
 
         writeLock.lock();
         try
@@ -251,7 +251,7 @@ public class LRUFilesCache extends AbstractFilesCache
     @Override
     public void removeFile(final FileSystem filesystem, final FileName name)
     {
-        Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
+        final Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
 
         writeLock.lock();
         try

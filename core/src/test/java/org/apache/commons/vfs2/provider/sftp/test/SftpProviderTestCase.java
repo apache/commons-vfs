@@ -102,7 +102,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
          * Accepts only the known test user.
          */
         @Override
-        public FileSystemView createFileSystemView(Session session) throws IOException
+        public FileSystemView createFileSystemView(final Session session) throws IOException
         {
             final String userName = session.getUsername();
             if (!DEFAULT_USER.equals(userName))
@@ -124,14 +124,14 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
         // private boolean caseInsensitive;
 
-        public TestFileSystemView(String homeDirStr, String userName)
+        public TestFileSystemView(final String homeDirStr, final String userName)
         {
             this.homeDirStr = new File(homeDirStr).getAbsolutePath();
             this.userName = userName;
         }
 
         @Override
-        public SshFile getFile(SshFile baseDir, String file)
+        public SshFile getFile(final SshFile baseDir, final String file)
         {
             return this.getFile(baseDir.getAbsolutePath(), file);
         }
@@ -168,7 +168,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
      */
     static class TestNativeSshFile extends NativeSshFile
     {
-        TestNativeSshFile(String fileName, File file, String userName)
+        TestNativeSshFile(final String fileName, final File file, final String userName)
         {
             super(fileName, file, userName);
         }
@@ -187,7 +187,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
     private static final String TEST_URI = "test.sftp.uri";
 
     /** True if we are testing the SFTP stream proxy */
-    private boolean streamProxyMode;
+    private final boolean streamProxyMode;
 
     private static String getSystemTestUriOverride()
     {
@@ -211,7 +211,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             return;
         }
         // System.setProperty("vfs.sftp.sshdir", getTestDirectory() + "/../vfs.sftp.sshdir");
-        String tmpDir = System.getProperty("java.io.tmpdir");
+        final String tmpDir = System.getProperty("java.io.tmpdir");
         Server = SshServer.setUpDefaultServer();
         Server.setPort(SocketPort);
         if (SecurityUtils.isBouncyCastleRegistered())
@@ -228,7 +228,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         {
             Server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir + "/key.ser"));
         }
-        List<NamedFactory<Command>> list = new ArrayList<NamedFactory<Command>>(1);
+        final List<NamedFactory<Command>> list = new ArrayList<NamedFactory<Command>>(1);
         list.add(new NamedFactory<Command>()
         {
 
@@ -248,7 +248,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         Server.setPasswordAuthenticator(new PasswordAuthenticator()
         {
             @Override
-            public boolean authenticate(String username, String password, ServerSession session)
+            public boolean authenticate(final String username, final String password, final ServerSession session)
             {
                 return username != null && username.equals(password);
             }
@@ -256,7 +256,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         Server.setPublickeyAuthenticator(new PublickeyAuthenticator()
         {
             @Override
-            public boolean authenticate(String username, PublicKey key, ServerSession session)
+            public boolean authenticate(final String username, final PublicKey key, final ServerSession session)
             {
                 // File f = new File("/Users/" + username + "/.ssh/authorized_keys");
                 return true;
@@ -265,25 +265,25 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         Server.setForwardingFilter(new ForwardingFilter()
         {
             @Override
-            public boolean canConnect(InetSocketAddress address, ServerSession session)
+            public boolean canConnect(final InetSocketAddress address, final ServerSession session)
             {
                 return true;
             }
 
             @Override
-            public boolean canForwardAgent(ServerSession session)
+            public boolean canForwardAgent(final ServerSession session)
             {
                 return true;
             }
 
             @Override
-            public boolean canForwardX11(ServerSession session)
+            public boolean canForwardX11(final ServerSession session)
             {
                 return true;
             }
 
             @Override
-            public boolean canListen(InetSocketAddress address, ServerSession session)
+            public boolean canListen(final InetSocketAddress address, final ServerSession session)
             {
                 return true;
             }
@@ -305,7 +305,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
     static private class BaseTest extends ProviderTestSuite {
 
-        public BaseTest(ProviderTestConfig providerConfig) throws Exception
+        public BaseTest(final ProviderTestConfig providerConfig) throws Exception
         {
             super(providerConfig);
         }
@@ -316,7 +316,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             // Close all active sessions
             // Note that it should be done by super.tearDown()
             // while closing
-            for (AbstractSession session : Server.getActiveSessions()) {
+            for (final AbstractSession session : Server.getActiveSessions()) {
                 session.close(true);
             }
             super.tearDown();
@@ -330,7 +330,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
     public static Test suite() throws Exception
     {
         // The test suite to be returned
-        TestSuite suite = new TestSuite();
+        final TestSuite suite = new TestSuite();
 
         // --- Standard VFS test suite
         final SftpProviderTestCase standardTestCase = new SftpProviderTestCase(false);
@@ -398,7 +398,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         }
     }
 
-    public SftpProviderTestCase(boolean streamProxyMode) throws IOException
+    public SftpProviderTestCase(final boolean streamProxyMode) throws IOException
     {
         this.streamProxyMode = streamProxyMode;
     }
@@ -415,7 +415,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             uri = ConnectionUri;
         }
 
-        FileSystemOptions fileSystemOptions = new FileSystemOptions();
+        final FileSystemOptions fileSystemOptions = new FileSystemOptions();
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         builder.setStrictHostKeyChecking(fileSystemOptions, "no");
         builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
@@ -425,7 +425,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         {
             final FileSystemOptions proxyOptions = (FileSystemOptions) fileSystemOptions.clone();
 
-            URI parsedURI = new URI(uri);
+            final URI parsedURI = new URI(uri);
             final String userInfo = parsedURI.getUserInfo();
             final String[] userFields = userInfo.split(":", 2);
 
@@ -485,32 +485,32 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                 public InputStream in = null;
 
                 @Override
-                public void setInputStream(InputStream in)
+                public void setInputStream(final InputStream in)
                 {
                     this.in = in;
                 }
 
                 @Override
-                public void setOutputStream(OutputStream out)
+                public void setOutputStream(final OutputStream out)
                 {
                     this.out = out;
                 }
 
                 @Override
-                public void setErrorStream(OutputStream err)
+                public void setErrorStream(final OutputStream err)
                 {
                     this.err = err;
                 }
 
                 @Override
-                public void setExitCallback(ExitCallback callback)
+                public void setExitCallback(final ExitCallback callback)
                 {
                     this.callback = callback;
 
                 }
 
                 @Override
-                public void start(Environment env) throws IOException
+                public void start(final Environment env) throws IOException
                 {
                     int code = 0;
                     if (command.equals("id -G") || command.equals("id -u"))
@@ -522,7 +522,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                         matcher.matches();
                         final int port = Integer.parseInt(matcher.group(1));
 
-                        Socket socket = new Socket((String) null, port);
+                        final Socket socket = new Socket((String) null, port);
 
                         if (out != null)
                         {
@@ -575,7 +575,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
      */
     private static void connect(final String name, final InputStream in, final OutputStream out, final ExitCallback callback)
     {
-        Thread thread = new Thread(new Runnable()
+        final Thread thread = new Thread(new Runnable()
         {
             @Override
             public void run()
@@ -583,7 +583,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                 int code = 0;
                 try
                 {
-                    byte buffer[] = new byte[1024];
+                    final byte buffer[] = new byte[1024];
                     int len;
                     while ((len = in.read(buffer, 0, buffer.length)) != -1)
                     {
@@ -591,12 +591,12 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                         out.flush();
                     }
                 }
-                catch (SshException ex)
+                catch (final SshException ex)
                 {
                     // Nothing to do, this occurs when the connection
                     // is closed on the remote side
                 }
-                catch (IOException ex)
+                catch (final IOException ex)
                 {
                     if (!ex.getMessage().equals("Pipe closed"))
                     {
@@ -625,7 +625,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         private int mtime;
         private String[] extended;
 
-        private SftpAttrs(Buffer buf)
+        private SftpAttrs(final Buffer buf)
         {
             int flags = 0;
             flags = buf.getInt();
@@ -661,12 +661,12 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         private int _version;
 
         @Override
-        protected void process(Buffer buffer) throws IOException
+        protected void process(final Buffer buffer) throws IOException
         {
-            int rpos = buffer.rpos();
-            int length = buffer.getInt();
-            int type = buffer.getByte();
-            int id = buffer.getInt();
+            final int rpos = buffer.rpos();
+            final int length = buffer.getInt();
+            final int type = buffer.getByte();
+            final int id = buffer.getInt();
 
             switch (type)
             {
@@ -674,9 +674,9 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                 case SSH_FXP_FSETSTAT:
                 {
                     // Get the path
-                    String path = buffer.getString();
+                    final String path = buffer.getString();
                     // Get the permission
-                    SftpAttrs attrs = new SftpAttrs(buffer);
+                    final SftpAttrs attrs = new SftpAttrs(buffer);
                     permissions.put(path, attrs.permissions);
 //                    System.err.format("Setting [%s] permission to %o%n", path, attrs.permissions);
                     break;
@@ -685,7 +685,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
                 case SSH_FXP_REMOVE:
                 {
                     // Remove cached attributes
-                    String path = buffer.getString();
+                    final String path = buffer.getString();
                     permissions.remove(path);
 //                    System.err.format("Removing [%s] permission cache%n", path);
                     break;
@@ -705,7 +705,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         }
 
         @Override
-        protected void writeAttrs(Buffer buffer, SshFile file, int flags) throws IOException
+        protected void writeAttrs(final Buffer buffer, final SshFile file, final int flags) throws IOException
         {
             if (!file.doesExist()) {
                 throw new FileNotFoundException(file.getAbsolutePath());
@@ -739,9 +739,9 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
             if (_version >= 4)
             {
-                long size = file.getSize();
+                final long size = file.getSize();
 //                String username = session.getUsername();
-                long lastModif = file.getLastModified();
+                final long lastModif = file.getLastModified();
                 if (file.isFile())
                 {
                     buffer.putInt(SSH_FILEXFER_ATTR_PERMISSIONS);

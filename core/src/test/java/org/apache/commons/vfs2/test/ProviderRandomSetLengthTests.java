@@ -90,7 +90,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase
             {
                 ra.readByte();
                 Assert.fail("Expected " + Exception.class.getName());
-            } catch (IOException e)
+            } catch (final IOException e)
             {
                 // Expected
             }

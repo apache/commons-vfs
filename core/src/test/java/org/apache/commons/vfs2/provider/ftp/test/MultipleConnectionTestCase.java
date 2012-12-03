@@ -43,8 +43,8 @@ public class MultipleConnectionTestCase
     @Test
     public void testUnderlyingConnect() throws SocketException, IOException
     {
-        FTPClient client1 = new FTPClient();
-        FTPClient client2 = new FTPClient();
+        final FTPClient client1 = new FTPClient();
+        final FTPClient client2 = new FTPClient();
         try
         {
             final String hostname = "localhost";

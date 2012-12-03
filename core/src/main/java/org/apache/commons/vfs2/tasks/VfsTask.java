@@ -45,7 +45,7 @@ public class VfsTask
     {
         if (manager == null)
         {
-            StandardFileSystemManager mngr = new StandardFileSystemManager();
+            final StandardFileSystemManager mngr = new StandardFileSystemManager();
             mngr.setLogger(new AntLogger());
             mngr.init();
             manager = mngr;
@@ -73,49 +73,49 @@ public class VfsTask
         implements SubBuildListener
     {
         @Override
-        public void subBuildStarted(BuildEvent buildEvent)
+        public void subBuildStarted(final BuildEvent buildEvent)
         {
         }
 
         @Override
-        public void subBuildFinished(BuildEvent buildEvent)
-        {
-            closeManager();
-        }
-
-        @Override
-        public void buildFinished(BuildEvent event)
+        public void subBuildFinished(final BuildEvent buildEvent)
         {
             closeManager();
         }
 
         @Override
-        public void buildStarted(BuildEvent event)
+        public void buildFinished(final BuildEvent event)
+        {
+            closeManager();
+        }
+
+        @Override
+        public void buildStarted(final BuildEvent event)
         {
         }
 
         @Override
-        public void messageLogged(BuildEvent event)
+        public void messageLogged(final BuildEvent event)
         {
         }
 
         @Override
-        public void targetFinished(BuildEvent event)
+        public void targetFinished(final BuildEvent event)
         {
         }
 
         @Override
-        public void targetStarted(BuildEvent event)
+        public void targetStarted(final BuildEvent event)
         {
         }
 
         @Override
-        public void taskFinished(BuildEvent event)
+        public void taskFinished(final BuildEvent event)
         {
         }
 
         @Override
-        public void taskStarted(BuildEvent event)
+        public void taskStarted(final BuildEvent event)
         {
         }
     }
@@ -133,65 +133,65 @@ public class VfsTask
         }
 
         @Override
-        public void debug(Object o, Throwable throwable)
+        public void debug(final Object o, final Throwable throwable)
         {
             debug(o);
         }
 
         @Override
-        public void error(Object o)
+        public void error(final Object o)
         {
             log(String.valueOf(o), Project.MSG_ERR);
         }
 
         @Override
-        public void error(Object o, Throwable throwable)
+        public void error(final Object o, final Throwable throwable)
         {
             error(o);
         }
 
         @Override
-        public void fatal(Object o)
+        public void fatal(final Object o)
         {
             log(String.valueOf(o), Project.MSG_ERR);
         }
 
         @Override
-        public void fatal(Object o, Throwable throwable)
+        public void fatal(final Object o, final Throwable throwable)
         {
             fatal(o);
         }
 
         @Override
-        public void info(Object o)
+        public void info(final Object o)
         {
             log(String.valueOf(o), Project.MSG_INFO);
         }
 
         @Override
-        public void info(Object o, Throwable throwable)
+        public void info(final Object o, final Throwable throwable)
         {
             info(o);
         }
 
         @Override
-        public void trace(Object o)
+        public void trace(final Object o)
         {
         }
 
         @Override
-        public void trace(Object o, Throwable throwable)
+        public void trace(final Object o, final Throwable throwable)
         {
         }
 
         @Override
-        public void warn(Object o)
+        public void warn(final Object o)
         {
             log(String.valueOf(o), Project.MSG_WARN);
         }
 
         @Override
-        public void warn(Object o, Throwable throwable)
+        public void warn(final Object o, final Throwable throwable)
         {
             warn(o);
         }

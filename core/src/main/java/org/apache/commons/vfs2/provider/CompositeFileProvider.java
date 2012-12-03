@@ -51,18 +51,18 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
                                final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-        StringBuilder buf = new StringBuilder(INITIAL_BUFSZ);
+        final StringBuilder buf = new StringBuilder(INITIAL_BUFSZ);
 
         UriParser.extractScheme(uri, buf);
 
-        String[] schemes = getSchemes();
-        for (String scheme : schemes)
+        final String[] schemes = getSchemes();
+        for (final String scheme : schemes)
         {
             buf.insert(0, ":");
             buf.insert(0, scheme);
         }
 
-        FileObject fo = getContext().getFileSystemManager().resolveFile(buf.toString(), fileSystemOptions);
+        final FileObject fo = getContext().getFileSystemManager().resolveFile(buf.toString(), fileSystemOptions);
         return fo;
     }
 }

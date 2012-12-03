@@ -44,13 +44,13 @@ public class HostFileNameParser extends AbstractFileNameParser
     }
 
     @Override
-    public boolean encodeCharacter(char ch)
+    public boolean encodeCharacter(final char ch)
     {
         return super.encodeCharacter(ch);
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
             throws FileSystemException
     {
         // FTP URI are generic URI (as per RFC 2396)
@@ -62,7 +62,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         // Decode and normalise the file name
         UriParser.canonicalizePath(name, 0, name.length(), this);
         UriParser.fixSeparators(name);
-        FileType fileType = UriParser.normalisePath(name);
+        final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
         return new GenericFileName(
@@ -105,7 +105,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         final String password;
         if (userInfo != null)
         {
-            int idx = userInfo.indexOf(':');
+            final int idx = userInfo.indexOf(':');
             if (idx == -1)
             {
                 userName = userInfo;
@@ -129,10 +129,10 @@ public class HostFileNameParser extends AbstractFileNameParser
         {
             try
             {
-                Cryptor cryptor = CryptorFactory.getCryptor();
+                final Cryptor cryptor = CryptorFactory.getCryptor();
                 auth.password = cryptor.decrypt(auth.password.substring(1, auth.password.length() - 1));
             }
-            catch (Exception ex)
+            catch (final Exception ex)
             {
                 throw new FileSystemException("Unable to decrypt password", ex);
             }
@@ -171,7 +171,7 @@ public class HostFileNameParser extends AbstractFileNameParser
             if (ch == '@')
             {
                 // Found the end of the user info
-                String userInfo = name.substring(0, pos);
+                final String userInfo = name.substring(0, pos);
                 name.delete(0, pos + 1);
                 return userInfo;
             }
@@ -266,7 +266,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         }
 
         /** @since 2.0 */
-        public void setScheme(String scheme)
+        public void setScheme(final String scheme)
         {
             this.scheme = scheme;
         }
@@ -278,7 +278,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         }
 
         /** @since 2.0 */
-        public void setHostName(String hostName)
+        public void setHostName(final String hostName)
         {
             this.hostName = hostName;
         }
@@ -290,7 +290,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         }
 
         /** @since 2.0 */
-        public void setUserName(String userName)
+        public void setUserName(final String userName)
         {
             this.userName = userName;
         }
@@ -302,7 +302,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         }
 
         /** @since 2.0 */
-        public void setPassword(String password)
+        public void setPassword(final String password)
         {
             this.password = password;
         }
@@ -314,7 +314,7 @@ public class HostFileNameParser extends AbstractFileNameParser
         }
 
         /** @since 2.0 */
-        public void setPort(int port)
+        public void setPort(final int port)
         {
             this.port = port;
         }

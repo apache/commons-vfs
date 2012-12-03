@@ -58,12 +58,12 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param rootName The root file name.
      * @param fileSystemOptions The FileSystem options.
      */
-    protected RamFileSystem(FileName rootName, FileSystemOptions fileSystemOptions)
+    protected RamFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, null, fileSystemOptions);
         this.cache = Collections.synchronizedMap(new HashMap<FileName, RamFileData>());
         // create root
-        RamFileData rootData = new RamFileData(rootName);
+        final RamFileData rootData = new RamFileData(rootName);
         rootData.setType(FileType.FOLDER);
         rootData.setLastModified(System.currentTimeMillis());
         this.cache.put(rootName, rootData);
@@ -75,7 +75,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @see org.apache.commons.vfs2.provider.AbstractFileSystem#createFile(org.apache.commons.vfs2.FileName)
      */
     @Override
-    protected FileObject createFile(AbstractFileName name) throws Exception
+    protected FileObject createFile(final AbstractFileName name) throws Exception
     {
         return new RamFileObject(name, this);
     }
@@ -86,7 +86,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @see org.apache.commons.vfs2.provider.AbstractFileSystem#addCapabilities(java.util.Collection)
      */
     @Override
-    protected void addCapabilities(Collection<Capability> caps)
+    protected void addCapabilities(final Collection<Capability> caps)
     {
         caps.addAll(RamFileProvider.capabilities);
     }
@@ -95,14 +95,14 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param name The name of the file.
      * @return children The names of the children.
      */
-    String[] listChildren(FileName name)
+    String[] listChildren(final FileName name)
     {
-        RamFileData data = this.cache.get(name);
+        final RamFileData data = this.cache.get(name);
         if (data == null || !data.getType().hasChildren())
         {
             return null;
         }
-        Collection<RamFileData> children = data.getChildren();
+        final Collection<RamFileData> children = data.getChildren();
         String[] names;
 
         synchronized (children)
@@ -110,10 +110,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
             names = new String[children.size()];
 
             int pos = 0;
-            Iterator<RamFileData> iter = children.iterator();
+            final Iterator<RamFileData> iter = children.iterator();
             while (iter.hasNext())
             {
-                RamFileData childData = iter.next();
+                final RamFileData childData = iter.next();
                 names[pos] = childData.getName().getBaseName();
                 pos++;
             }
@@ -128,7 +128,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param file
      * @throws FileSystemException
      */
-    void delete(RamFileObject file) throws FileSystemException
+    void delete(final RamFileObject file) throws FileSystemException
     {
         // root is read only check
         if (file.getParent() == null)
@@ -139,7 +139,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         // Remove reference from cache
         this.cache.remove(file.getName());
         // Notify the parent
-        RamFileObject parent = (RamFileObject) this.resolveFile(file
+        final RamFileObject parent = (RamFileObject) this.resolveFile(file
                 .getParent().getName());
         parent.getData().removeChild(file.getData());
         parent.close();
@@ -167,11 +167,11 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         // Add to the parent
         if (file.getName().getDepth() > 0)
         {
-            RamFileData parentData = this.cache.get(file.getParent().getName());
+            final RamFileData parentData = this.cache.get(file.getParent().getName());
             // Only if not already added
             if (!parentData.hasChildren(file.getData()))
             {
-                RamFileObject parent = (RamFileObject) file.getParent();
+                final RamFileObject parent = (RamFileObject) file.getParent();
                 parent.getData().addChild(file.getData());
                 parent.close();
             }
@@ -187,7 +187,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param to The new file.
      * @throws FileSystemException if an error occurs.
      */
-    void rename(RamFileObject from, RamFileObject to)
+    void rename(final RamFileObject from, final RamFileObject to)
             throws FileSystemException
     {
         if (!this.cache.containsKey(from.getName()))
@@ -205,7 +205,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         this.delete(from);
     }
 
-    public void attach(RamFileObject fo)
+    public void attach(final RamFileObject fo)
     {
         if (fo.getName() == null)
         {
@@ -225,9 +225,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param file The File
      * @throws FileSystemException if an error occurs.
      */
-    public void importTree(File file) throws FileSystemException
+    public void importTree(final File file) throws FileSystemException
     {
-        FileObject fileFo = getFileSystemManager().toFileObject(file);
+        final FileObject fileFo = getFileSystemManager().toFileObject(file);
         this.toRamFileObject(fileFo, fileFo);
     }
 
@@ -238,18 +238,18 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
      * @param root
      * @throws FileSystemException
      */
-    void toRamFileObject(FileObject fo, FileObject root)
+    void toRamFileObject(final FileObject fo, final FileObject root)
             throws FileSystemException
     {
-        RamFileObject memFo = (RamFileObject) this.resolveFile(fo.getName()
+        final RamFileObject memFo = (RamFileObject) this.resolveFile(fo.getName()
                 .getPath().substring(root.getName().getPath().length()));
         if (fo.getType().hasChildren())
         {
             // Create Folder
             memFo.createFolder();
             // Import recursively
-            FileObject[] fos = fo.getChildren();
-            for (FileObject child : fos)
+            final FileObject[] fos = fo.getChildren();
+            for (final FileObject child : fos)
             {
                 this.toRamFileObject(child, root);
             }
@@ -259,10 +259,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
             // Read bytes
             try
             {
-                InputStream is = fo.getContent().getInputStream();
+                final InputStream is = fo.getContent().getInputStream();
                 try
                 {
-                    OutputStream os = new BufferedOutputStream(memFo
+                    final OutputStream os = new BufferedOutputStream(memFo
                             .getOutputStream(), BUFFER_SIZE);
                     int i;
                     while ((i = is.read()) != -1)
@@ -278,13 +278,13 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
                     {
                         is.close();
                     }
-                    catch (IOException e)
+                    catch (final IOException e)
                     {
                         // ignore on close exception
                     }
                 }
             }
-            catch (IOException e)
+            catch (final IOException e)
             {
                 throw new FileSystemException(e.getClass().getName() + " "
                         + e.getMessage());
@@ -305,10 +305,10 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         int size = 0;
         synchronized (cache)
         {
-            Iterator<RamFileData> iter = cache.values().iterator();
+            final Iterator<RamFileData> iter = cache.values().iterator();
             while (iter.hasNext())
             {
-                RamFileData data = iter.next();
+                final RamFileData data = iter.next();
                 size += data.size();
             }
         }

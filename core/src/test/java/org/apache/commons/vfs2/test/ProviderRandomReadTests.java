@@ -53,7 +53,7 @@ public class ProviderRandomReadTests
         try
         {
             file = getReadFolder().resolveFile("file1.txt");
-            RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READ);
+            final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READ);
 
             // read first byte
             byte c = ra.readByte();

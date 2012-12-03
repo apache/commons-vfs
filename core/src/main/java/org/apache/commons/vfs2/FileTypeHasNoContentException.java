@@ -33,7 +33,7 @@ public class FileTypeHasNoContentException extends FileSystemException
         super("vfs.provider/read-not-file.error", info0);
     }
 
-    public FileTypeHasNoContentException(Object info0, Throwable throwable)
+    public FileTypeHasNoContentException(final Object info0, final Throwable throwable)
     {
         super("vfs.provider/read-not-file.error", info0, throwable);
     }

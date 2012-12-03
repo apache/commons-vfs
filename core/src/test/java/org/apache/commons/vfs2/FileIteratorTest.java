@@ -81,17 +81,17 @@ public class FileIteratorTest
         final FileObject[] listFiles = BaseFolder.getChildren();
         Assert.assertTrue(FileCount > listFiles.length);
         int i = 0;
-        for (FileObject actualFile : BaseFolder)
+        for (final FileObject actualFile : BaseFolder)
         {
-            FileObject expectedFile = findFiles[i];
+            final FileObject expectedFile = findFiles[i];
             Assert.assertEquals(expectedFile, actualFile);
             i++;
         }
-        Iterator<FileObject> iter = BaseFolder.iterator();
+        final Iterator<FileObject> iter = BaseFolder.iterator();
         i = 0;
         while (iter.hasNext())
         {
-            FileObject expectedFile = findFiles[i];
+            final FileObject expectedFile = findFiles[i];
             Assert.assertEquals(expectedFile, iter.next());
             i++;
         }

@@ -64,7 +64,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The maximum size of the file.
      * @see #setMaxSize
      */
-    public int getMaxSize(FileSystemOptions opts)
+    public int getMaxSize(final FileSystemOptions opts)
     {
         return getInteger(opts, MAX_SIZE_KEY, Integer.MAX_VALUE);
     }
@@ -75,7 +75,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @param sizeInBytes The maximum file size.
      */
-    public void setMaxSize(FileSystemOptions opts, int sizeInBytes)
+    public void setMaxSize(final FileSystemOptions opts, final int sizeInBytes)
     {
         setParam(opts, MAX_SIZE_KEY, Integer.valueOf(sizeInBytes));
     }

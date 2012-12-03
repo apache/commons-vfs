@@ -32,13 +32,13 @@ public class URLFileNameParser extends HostFileNameParser
     }
 
     @Override
-    public boolean encodeCharacter(char ch)
+    public boolean encodeCharacter(final char ch)
     {
         return super.encodeCharacter(ch) || ch == '?';
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String filename)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
             throws FileSystemException
     {
         // FTP URI are generic URI (as per RFC 2396)
@@ -48,12 +48,12 @@ public class URLFileNameParser extends HostFileNameParser
         final Authority auth = extractToPath(filename, name);
 
         // Extract the queryString
-        String queryString = UriParser.extractQueryString(name);
+        final String queryString = UriParser.extractQueryString(name);
 
         // Decode and normalise the file name
         UriParser.canonicalizePath(name, 0, name.length(), this);
         UriParser.fixSeparators(name);
-        FileType fileType = UriParser.normalisePath(name);
+        final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
         return new URLFileName(

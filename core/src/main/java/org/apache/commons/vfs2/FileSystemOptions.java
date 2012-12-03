@@ -41,7 +41,7 @@ public final class FileSystemOptions implements Cloneable
         this(new TreeMap<FileSystemOptionKey, Object>());
     }
 
-    protected FileSystemOptions(Map<FileSystemOptionKey, Object> options)
+    protected FileSystemOptions(final Map<FileSystemOptionKey, Object> options)
     {
         this.options = options;
     }
@@ -62,16 +62,16 @@ public final class FileSystemOptions implements Cloneable
 
         // TODO: the parameter name suggests that the class should only be a
         // a FileSystem, however some of the tests pass in DefaultFileSystemConfigBuilder
-        private FileSystemOptionKey(Class<? extends FileSystem> fileSystemClass, String name)
+        private FileSystemOptionKey(final Class<? extends FileSystem> fileSystemClass, final String name)
         {
             this.fileSystemClass = fileSystemClass;
             this.name = name;
         }
 
         @Override
-        public int compareTo(FileSystemOptionKey o)
+        public int compareTo(final FileSystemOptionKey o)
         {
-            int ret = fileSystemClass.getName().compareTo(o.fileSystemClass.getName());
+            final int ret = fileSystemClass.getName().compareTo(o.fileSystemClass.getName());
             if (ret != 0)
             {
                 return ret;
@@ -80,7 +80,7 @@ public final class FileSystemOptions implements Cloneable
         }
 
         @Override
-        public boolean equals(Object o)
+        public boolean equals(final Object o)
         {
             if (this == o)
             {
@@ -115,24 +115,24 @@ public final class FileSystemOptions implements Cloneable
         }
     }
 
-    void setOption(Class<? extends FileSystem> fileSystemClass, String name, Object value)
+    void setOption(final Class<? extends FileSystem> fileSystemClass, final String name, final Object value)
     {
         options.put(new FileSystemOptionKey(fileSystemClass, name), value);
     }
 
-    Object getOption(Class<? extends FileSystem> fileSystemClass, String name)
+    Object getOption(final Class<? extends FileSystem> fileSystemClass, final String name)
     {
-        FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
+        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
         return options.get(key);
     }
 
-    boolean hasOption(Class<? extends FileSystem> fileSystemClass, String name)
+    boolean hasOption(final Class<? extends FileSystem> fileSystemClass, final String name)
     {
-        FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
+        final FileSystemOptionKey key = new FileSystemOptionKey(fileSystemClass, name);
         return options.containsKey(key);
     }
 
-    public int compareTo(FileSystemOptions other)
+    public int compareTo(final FileSystemOptions other)
     {
         if (this == other)
         {
@@ -140,8 +140,8 @@ public final class FileSystemOptions implements Cloneable
             return 0;
         }
 
-        int propsSz = options == null ? 0 : options.size();
-        int propsFkSz = other.options == null ? 0 : other.options.size();
+        final int propsSz = options == null ? 0 : options.size();
+        final int propsFkSz = other.options == null ? 0 : other.options.size();
         if (propsSz < propsFkSz)
         {
             return -1;
@@ -156,8 +156,8 @@ public final class FileSystemOptions implements Cloneable
             return 0;
         }
 
-        int hash = options.hashCode();
-        int hashFk = other.options.hashCode();
+        final int hash = options.hashCode();
+        final int hashFk = other.options.hashCode();
         if (hash < hashFk)
         {
             return -1;

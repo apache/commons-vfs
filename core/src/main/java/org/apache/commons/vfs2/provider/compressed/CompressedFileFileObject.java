@@ -38,14 +38,14 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
     private final FileObject container;
     private final String[] children;
 
-    protected CompressedFileFileObject(AbstractFileName name, FileObject container, FS fs)
+    protected CompressedFileFileObject(final AbstractFileName name, final FileObject container, final FS fs)
     {
         super(name, fs);
         this.container = container;
 
         // todo, add getBaseName(String) to FileName
         String basename = container.getName().getBaseName();
-        int pos = basename.lastIndexOf('.');
+        final int pos = basename.lastIndexOf('.');
         if (pos > 0)
         {
             basename = basename.substring(0, pos);

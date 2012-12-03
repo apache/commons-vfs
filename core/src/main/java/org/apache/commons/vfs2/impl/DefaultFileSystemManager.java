@@ -331,7 +331,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * constructor with a single {@link FileObject} as argument
      * @throws FileSystemException if an error occurs setting the decorator.
      */
-    public void setFileObjectDecorator(Class<?> fileObjectDecorator) throws FileSystemException
+    public void setFileObjectDecorator(final Class<?> fileObjectDecorator) throws FileSystemException
     {
         if (init)
         {
@@ -346,7 +346,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         {
             fileObjectDecoratorConst = fileObjectDecorator.getConstructor(new Class[]{FileObject.class});
         }
-        catch (NoSuchMethodException e)
+        catch (final NoSuchMethodException e)
         {
             throw new FileSystemException("vfs.impl/invalid-decorator.error", fileObjectDecorator.getName(), e);
         }
@@ -371,7 +371,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @param fileContentInfoFactory The FileContentInfoFactory.
      * @throws FileSystemException if an error occurs setting the FileContentInfoFactory.
      */
-    public void setFileContentInfoFactory(FileContentInfoFactory fileContentInfoFactory)
+    public void setFileContentInfoFactory(final FileContentInfoFactory fileContentInfoFactory)
             throws FileSystemException
     {
         if (init)
@@ -527,7 +527,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         }
 
         // Close the providers.
-        for (Object provider : providers.values())
+        for (final Object provider : providers.values())
         {
             closeComponent(provider);
         }
@@ -558,7 +558,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         }
 
         // Close the providers.
-        for (FileProvider fileProvider : providers.values())
+        for (final FileProvider fileProvider : providers.values())
         {
             final AbstractFileProvider provider = (AbstractFileProvider) fileProvider;
             provider.freeUnusedResources();
@@ -789,7 +789,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         // // UriParser.canonicalizePath(buffer, 0, name.length());
 
         // Normalise the path
-        FileType fileType = UriParser.normalisePath(buffer);
+        final FileType fileType = UriParser.normalisePath(buffer);
 
         // Check the name is ok
         final String resolvedPath = buffer.toString();
@@ -843,7 +843,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileName resolveURI(String uri) throws FileSystemException
+    public FileName resolveURI(final String uri) throws FileSystemException
     {
         UriParser.checkUriEncoding(uri);
 
@@ -1014,7 +1014,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @param filesystem The FileSystem to close.
      */
     @Override
-    public void closeFileSystem(FileSystem filesystem)
+    public void closeFileSystem(final FileSystem filesystem)
     {
         // inform the cache ...
         getFilesCache().clear(filesystem);
@@ -1031,9 +1031,9 @@ public class DefaultFileSystemManager implements FileSystemManager
      *
      * @param filesystem The FileSystem to close.
      */
-    public void _closeFileSystem(FileSystem filesystem)
+    public void _closeFileSystem(final FileSystem filesystem)
     {
-        FileProvider provider = providers.get(filesystem.getRootName().getScheme());
+        final FileProvider provider = providers.get(filesystem.getRootName().getScheme());
         if (provider != null)
         {
             ((AbstractFileProvider) provider).closeFileSystem(filesystem);
@@ -1049,7 +1049,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         @Override
         public URLStreamHandler createURLStreamHandler(final String protocol)
         {
-            FileProvider provider = providers.get(protocol);
+            final FileProvider provider = providers.get(protocol);
             if (provider != null)
             {
                 return new DefaultURLStreamHandler(context);
@@ -1067,7 +1067,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     @Override
     public String[] getSchemes()
     {
-        String[] schemes = new String[providers.size()];
+        final String[] schemes = new String[providers.size()];
         providers.keySet().toArray(schemes);
         return schemes;
     }
@@ -1083,7 +1083,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     public Collection<Capability> getProviderCapabilities(final String scheme)
             throws FileSystemException
     {
-        FileProvider provider = providers.get(scheme);
+        final FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
             throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme);
@@ -1102,7 +1102,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme)
             throws FileSystemException
     {
-        FileProvider provider = providers.get(scheme);
+        final FileProvider provider = providers.get(scheme);
         if (provider == null)
         {
             throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme);
@@ -1144,7 +1144,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             final FileOperationProvider operationProvider)
             throws FileSystemException
     {
-        for (String scheme : schemes)
+        for (final String scheme : schemes)
         {
             if (!operationProviders.containsKey(scheme))
             {
@@ -1182,7 +1182,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             throws FileSystemException
     {
 
-        List<?> providers = operationProviders.get(scheme);
+        final List<?> providers = operationProviders.get(scheme);
         if (providers == null || providers.size() == 0)
         {
             return null;
@@ -1200,7 +1200,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @since 2.1
      */
     @Override
-    public FileObject resolveFile(URI uri) throws FileSystemException
+    public FileObject resolveFile(final URI uri) throws FileSystemException
     {
         // TODO Push the URI deeper into VFS
         return resolveFile(baseFile, uri.toString(), null);
@@ -1216,13 +1216,13 @@ public class DefaultFileSystemManager implements FileSystemManager
      * @since 2.1
      */
     @Override
-    public FileObject resolveFile(URL url) throws FileSystemException
+    public FileObject resolveFile(final URL url) throws FileSystemException
     {
         try
         {
             return this.resolveFile(url.toURI());
         }
-        catch (URISyntaxException e)
+        catch (final URISyntaxException e)
         {
             throw new FileSystemException(e);
         }

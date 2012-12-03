@@ -63,7 +63,7 @@ public class HttpFileSystem
     {
         if (getClient() != null)
         {
-            HttpConnectionManager mgr = getClient().getHttpConnectionManager();
+            final HttpConnectionManager mgr = getClient().getHttpConnectionManager();
             if (mgr instanceof MultiThreadedHttpConnectionManager)
             {
                 ((MultiThreadedHttpConnectionManager) mgr).shutdown();

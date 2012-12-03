@@ -27,10 +27,10 @@ public class NullFilesCacheTests extends AbstractProviderTestCase
 {
     public void testFilesCache() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
-        FileObject dir1 = scratchFolder.resolveFile("dir1");
-        FileObject dir1_2 = scratchFolder.resolveFile("dir1");
+        final FileObject dir1 = scratchFolder.resolveFile("dir1");
+        final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
 
         assertFalse(dir1 == dir1_2);
     }

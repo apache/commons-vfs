@@ -36,12 +36,12 @@ public class UrlTests
      */
     public void testHashFindFiles() throws Exception
     {
-        FileSystemManager fsManager = VFS.getManager();
+        final FileSystemManager fsManager = VFS.getManager();
 
-        FileObject[] foList = getBaseFolder().findFiles(Selectors.SELECT_FILES);
+        final FileObject[] foList = getBaseFolder().findFiles(Selectors.SELECT_FILES);
 
         boolean hashFileFound = false;
-        for (FileObject fo : foList)
+        for (final FileObject fo : foList)
         {
             if (fo.getURL().toString().contains("test-hash"))
             {

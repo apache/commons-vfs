@@ -116,7 +116,7 @@ public class MonitorInputStream
     @Override
     public void close() throws IOException
     {
-        boolean closed = finished.getAndSet(true);
+        final boolean closed = finished.getAndSet(true);
         if (closed)
         {
             return;

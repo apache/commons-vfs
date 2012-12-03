@@ -55,21 +55,21 @@ public class JarFileSystem extends ZipFileSystem
 //    }
 
     @Override
-    protected ZipFile createZipFile(File file) throws FileSystemException
+    protected ZipFile createZipFile(final File file) throws FileSystemException
     {
         try
         {
             return new JarFile(file);
         }
-        catch (IOException ioe)
+        catch (final IOException ioe)
         {
             throw new FileSystemException("vfs.provider.jar/open-jar-file.error", file, ioe);
         }
     }
 
     @Override
-    protected ZipFileObject createZipFileObject(AbstractFileName name,
-                                                ZipEntry entry) throws FileSystemException
+    protected ZipFileObject createZipFileObject(final AbstractFileName name,
+                                                final ZipEntry entry) throws FileSystemException
     {
         return new JarFileObject(name, entry, this, true);
     }
@@ -106,7 +106,7 @@ public class JarFileSystem extends ZipFileSystem
         return attributes;
     }
 
-    Object getAttribute(Name attrName)
+    Object getAttribute(final Name attrName)
         throws FileSystemException
     {
         try
@@ -115,13 +115,13 @@ public class JarFileSystem extends ZipFileSystem
             final String value = attr.getValue(attrName);
             return value;
         }
-        catch (IOException ioe)
+        catch (final IOException ioe)
         {
             throw new FileSystemException(attrName.toString(), ioe);
         }
     }
 
-    Name lookupName(String attrName)
+    Name lookupName(final String attrName)
     {
         if (Name.CLASS_PATH.toString().equals(attrName))
         {
@@ -205,7 +205,7 @@ public class JarFileSystem extends ZipFileSystem
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public Object getAttribute(String attrName) throws FileSystemException
+    public Object getAttribute(final String attrName) throws FileSystemException
     {
         final Name name = lookupName(attrName);
         return getAttribute(name);

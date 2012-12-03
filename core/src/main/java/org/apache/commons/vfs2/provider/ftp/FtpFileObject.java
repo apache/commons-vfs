@@ -69,7 +69,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
         throws FileSystemException
     {
         super(name, fileSystem);
-        String relPath = UriParser.decode(rootName.getRelativeName(name));
+        final String relPath = UriParser.decode(rootName.getRelativeName(name));
         if (".".equals(relPath))
         {
             // do not use the "." as path against the ftp-server
@@ -112,7 +112,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
         }
 
         // Look for the requested child
-        FTPFile ftpFile = children.get(name);
+        final FTPFile ftpFile = children.get(name);
         return ftpFile;
     }
 
@@ -183,7 +183,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
     /**
      * Fetches the info for this file.
      */
-    private void getInfo(boolean flush) throws IOException
+    private void getInfo(final boolean flush) throws IOException
     {
         final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
         FTPFile newFileInfo;
@@ -262,7 +262,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
      * Called when the children of this file change.
      */
     @Override
-    protected void onChildrenChanged(FileName child, FileType newType)
+    protected void onChildrenChanged(final FileName child, final FileType newType)
     {
         if (children != null && newType.equals(FileType.IMAGINARY))
         {
@@ -270,7 +270,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             {
                 children.remove(UriParser.decode(child.getBaseName()));
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 throw new RuntimeException(e.getMessage());
             }
@@ -334,7 +334,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             }
             else if (this.fileInfo.isSymbolicLink())
             {
-                FileObject linkDest = getLinkDestination();
+                final FileObject linkDest = getLinkDestination();
                 // VFS-437: We need to check if the symbolic link links back to the symbolic link itself
                 if (this.isCircular(linkDest))
                 {
@@ -365,7 +365,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             {
                 relativeTo = getName();
             }
-            FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
+            final FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
             linkDestination = getFileSystem().resolveFile(linkDestinationName);
         }
 
@@ -409,7 +409,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
                 throw new FileNotFolderException(getName());
             }
         }
-        catch (Exception ex)
+        catch (final Exception ex)
         {
             throw new FileNotFolderException(getName(), ex);
         }
@@ -451,7 +451,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
         // TODO - get rid of this children stuff
         final String[] childNames = new String[children.size()];
         int childNum = -1;
-        Iterator<FTPFile> iterChildren = children.values().iterator();
+        final Iterator<FTPFile> iterChildren = children.values().iterator();
         while (iterChildren.hasNext())
         {
             childNum++;
@@ -501,7 +501,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
      * Renames the file
      */
     @Override
-    protected void doRename(FileObject newFile) throws Exception
+    protected void doRename(final FileObject newFile) throws Exception
     {
         synchronized (getFileSystem())
         {
@@ -509,8 +509,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             final FtpClient ftpClient = getAbstractFileSystem().getClient();
             try
             {
-                String oldName = getName().getPath();
-                String newName = newFile.getName().getPath();
+                final String oldName = getName().getPath();
+                final String newName = newFile.getName().getPath();
                 ok = ftpClient.rename(oldName, newName);
             }
             finally
@@ -621,7 +621,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             }
             return new FtpInputStream(client, instr);
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             getAbstractFileSystem().putClient(client);
             throw e;
@@ -638,7 +638,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend)
+    protected OutputStream doGetOutputStream(final boolean bAppend)
         throws Exception
     {
         final FtpClient client = getAbstractFileSystem().getClient();
@@ -663,7 +663,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
 
             return new FtpOutputStream(client, out);
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             getAbstractFileSystem().putClient(client);
             throw e;
@@ -677,19 +677,19 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
 
     private long getTimestamp()
     {
-        Calendar timestamp = this.fileInfo.getTimestamp();
+        final Calendar timestamp = this.fileInfo.getTimestamp();
         return timestamp == null ? 0L : timestamp.getTime().getTime();
     }
 
     /**
      * This is an over simplistic implementation for VFS-437.
      */
-    private boolean isCircular(FileObject linkDest) throws FileSystemException
+    private boolean isCircular(final FileObject linkDest) throws FileSystemException
     {
         return linkDest.getName().getPathDecoded().equals(this.getName().getPathDecoded());
     }
 
-    FtpInputStream getInputStream(long filePointer) throws IOException
+    FtpInputStream getInputStream(final long filePointer) throws IOException
     {
         final FtpClient client = getAbstractFileSystem().getClient();
         try
@@ -703,7 +703,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             }
             return new FtpInputStream(client, instr);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             getAbstractFileSystem().putClient(client);
             throw e;

@@ -36,12 +36,12 @@ public final class ExceptionConverter
     {
     }
 
-    public static FileSystemException generate(DavException davExc) throws FileSystemException
+    public static FileSystemException generate(final DavException davExc) throws FileSystemException
     {
         return generate(davExc, null);
     }
 
-    public static FileSystemException generate(DavException davExc, DavMethod method)
+    public static FileSystemException generate(final DavException davExc, final DavMethod method)
             throws FileSystemException
     {
         String msg = davExc.getMessage();
@@ -49,23 +49,23 @@ public final class ExceptionConverter
         {
             try
             {
-                Element error = davExc.toXml(DomUtil.BUILDER_FACTORY.newDocumentBuilder().newDocument());
+                final Element error = davExc.toXml(DomUtil.BUILDER_FACTORY.newDocumentBuilder().newDocument());
                 if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE))
                 {
                     if (DomUtil.hasChildElement(error, "exception", null))
                     {
-                        Element exc = DomUtil.getChildElement(error, "exception", null);
+                        final Element exc = DomUtil.getChildElement(error, "exception", null);
                         if (DomUtil.hasChildElement(exc, "message", null))
                         {
                             msg = DomUtil.getChildText(exc, "message", null);
                         }
                         if (DomUtil.hasChildElement(exc, "class", null))
                         {
-                            Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null));
-                            Constructor<?> excConstr = cl.getConstructor(new Class[]{String.class});
+                            final Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null));
+                            final Constructor<?> excConstr = cl.getConstructor(new Class[]{String.class});
                             if (excConstr != null)
                             {
-                                Object o = excConstr.newInstance(new Object[]{msg});
+                                final Object o = excConstr.newInstance(new Object[]{msg});
                                 if (o instanceof FileSystemException)
                                 {
                                     return (FileSystemException) o;
@@ -79,7 +79,7 @@ public final class ExceptionConverter
                     }
                 }
             }
-            catch (Exception e)
+            catch (final Exception e)
             {
                 throw new FileSystemException(e);
             }

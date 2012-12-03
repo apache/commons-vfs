@@ -92,9 +92,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         return tempFile;
     }
 
-    private static void dump(File repoDirectory) throws Exception
+    private static void dump(final File repoDirectory) throws Exception
     {
-        TransientRepository repository = getTransientRepository(repoDirectory);
+        final TransientRepository repository = getTransientRepository(repoDirectory);
         try
         {
             final Session session = getSession(repository);
@@ -108,7 +108,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
     }
 
     /** Recursively outputs the contents of the given node. */
-    private static void dump(Node node) throws RepositoryException
+    private static void dump(final Node node) throws RepositoryException
     {
         // First output the node path
         message(node.getPath());
@@ -124,15 +124,15 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         }
 
         // Then output the properties
-        PropertyIterator properties = node.getProperties();
+        final PropertyIterator properties = node.getProperties();
         while (properties.hasNext())
         {
-            Property property = properties.nextProperty();
+            final Property property = properties.nextProperty();
             if (property.getDefinition().isMultiple())
             {
                 // A multi-valued property, print all values
-                Value[] values = property.getValues();
-                for (Value value : values)
+                final Value[] values = property.getValues();
+                for (final Value value : values)
                 {
                     message(property.getPath() + " = " + value.getString());
                 }
@@ -144,14 +144,14 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         }
 
         // Finally output all the child nodes recursively
-        NodeIterator nodes = node.getNodes();
+        final NodeIterator nodes = node.getNodes();
         while (nodes.hasNext())
         {
             dump(nodes.nextNode());
         }
     }
 
-    private static Session getSession(TransientRepository repository) throws RepositoryException
+    private static Session getSession(final TransientRepository repository) throws RepositoryException
     {
         return repository.login(new SimpleCredentials(USER_ID, PASSWORD));
     }
@@ -161,7 +161,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         return System.getProperty(TEST_URI);
     }
 
-    private static TransientRepository getTransientRepository(File repoDirectory) throws IOException
+    private static TransientRepository getTransientRepository(final File repoDirectory) throws IOException
     {
         // Jackrabbit 1.6:
         // TransientRepository repository = new TransientRepository(repoDirectory);
@@ -169,9 +169,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         return new TransientRepository(new File(repoDirectory, "repository.xml").toString(), repoDirectory.toString());
     }
 
-    private static void importFiles(File repoDirectory, File sourceDir) throws Exception
+    private static void importFiles(final File repoDirectory, final File sourceDir) throws Exception
     {
-        TransientRepository repository = getTransientRepository(repoDirectory);
+        final TransientRepository repository = getTransientRepository(repoDirectory);
         try
         {
             final Session session = getSession(repository);
@@ -187,7 +187,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
     private static void importFiles(final Node parent, final File sourceDir) throws RepositoryException, IOException
     {
         final File[] files = sourceDir.listFiles();
-        for (File file : files)
+        for (final File file : files)
         {
             if (file.isFile())
             {
@@ -209,7 +209,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         }
     }
 
-    private static void message(IOException e)
+    private static void message(final IOException e)
     {
         if (DEBUG)
         {
@@ -217,7 +217,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         }
     }
 
-    private static void message(String string)
+    private static void message(final String string)
     {
         if (DEBUG)
         {
@@ -249,7 +249,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
      * @param repoDirectory
      * @throws Exception
      */
-    private static void startJackrabbit(File repoDirectory) throws Exception
+    private static void startJackrabbit(final File repoDirectory) throws Exception
     {
         boolean quiet = false;
         if (!DEBUG)
@@ -311,7 +311,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         {
             message("Deleting temp directory " + RepoDirectory);
             FileUtils.deleteDirectory(RepoDirectory);
-        } catch (IOException e)
+        } catch (final IOException e)
         {
             message(e);
             if (RepoDirectory.exists())
@@ -342,9 +342,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         {
             uri = ConnectionUri;
         }
-        WebdavFileSystemConfigBuilder builder = (WebdavFileSystemConfigBuilder) manager
+        final WebdavFileSystemConfigBuilder builder = (WebdavFileSystemConfigBuilder) manager
                 .getFileSystemConfigBuilder("webdav");
-        FileSystemOptions opts = new FileSystemOptions();
+        final FileSystemOptions opts = new FileSystemOptions();
         builder.setRootURI(opts, uri);
         return manager.resolveFile(uri, opts);
     }

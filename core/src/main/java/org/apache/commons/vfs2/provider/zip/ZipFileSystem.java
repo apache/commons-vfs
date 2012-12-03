@@ -84,12 +84,12 @@ public class ZipFileSystem extends AbstractFileSystem
         try
         {
             // Build the index
-            List<ZipFileObject> strongRef = new ArrayList<ZipFileObject>(getZipFile().size());
-            Enumeration<? extends ZipEntry> entries = getZipFile().entries();
+            final List<ZipFileObject> strongRef = new ArrayList<ZipFileObject>(getZipFile().size());
+            final Enumeration<? extends ZipEntry> entries = getZipFile().entries();
             while (entries.hasMoreElements())
             {
-                ZipEntry entry = entries.nextElement();
-                AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
+                final ZipEntry entry = entries.nextElement();
+                final AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
                     UriParser.encode(entry.getName()));
 
                 // Create the file
@@ -138,7 +138,7 @@ public class ZipFileSystem extends AbstractFileSystem
     {
         if (zipFile == null && this.file.exists())
         {
-            ZipFile zipFile = createZipFile(this.file);
+            final ZipFile zipFile = createZipFile(this.file);
 
             this.zipFile = zipFile;
         }
@@ -158,7 +158,7 @@ public class ZipFileSystem extends AbstractFileSystem
         {
             return new ZipFile(file);
         }
-        catch (IOException ioe)
+        catch (final IOException ioe)
         {
             throw new FileSystemException("vfs.provider.zip/open-zip-file.error", file, ioe);
         }

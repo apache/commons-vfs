@@ -37,7 +37,7 @@ public class PatternFileSelector implements FileSelector
      * @param pattern
      *            The regular expressed used by this selector.
      */
-    public PatternFileSelector(Pattern pattern)
+    public PatternFileSelector(final Pattern pattern)
     {
         this.pattern = pattern;
     }
@@ -48,7 +48,7 @@ public class PatternFileSelector implements FileSelector
      * @param regex
      *            The regular expressed used by this selector.
      */
-    public PatternFileSelector(String regex)
+    public PatternFileSelector(final String regex)
     {
         this(Pattern.compile(regex));
     }
@@ -64,7 +64,7 @@ public class PatternFileSelector implements FileSelector
      *
      * @see Pattern#compile(String, int)
      */
-    public PatternFileSelector(String regex, int flags)
+    public PatternFileSelector(final String regex, final int flags)
     {
         this(Pattern.compile(regex, flags));
     }

@@ -28,7 +28,7 @@ import org.junit.Assert;
  */
 public class LastModifiedTests extends AbstractProviderTestCase
 {
-    private void asssertDelta(String message, final long expected, final long actual, final long delta)
+    private void asssertDelta(final String message, final long expected, final long actual, final long delta)
     {
         if (expected == actual)
         {
@@ -82,7 +82,7 @@ public class LastModifiedTests extends AbstractProviderTestCase
             try
             {
                 assertEquals("Check 1", now, lastModifiedTime, lastModTimeAccuracy);
-            } catch (AssertionFailedError e)
+            } catch (final AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
                 if (lastModTimeAccuracy < 1000L)
@@ -105,7 +105,7 @@ public class LastModifiedTests extends AbstractProviderTestCase
             try
             {
                 assertEquals("Check 3", now, lastModifiedTime, lastModTimeAccuracy);
-            } catch (AssertionFailedError e)
+            } catch (final AssertionFailedError e)
             {
                 // on linux ext3 the above check is not necessarily true
                 if (lastModTimeAccuracy < 1000L)

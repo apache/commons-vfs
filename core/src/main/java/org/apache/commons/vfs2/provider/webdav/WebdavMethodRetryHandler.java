@@ -42,7 +42,7 @@ public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler
     }
 
     @Override
-    public boolean retryMethod(HttpMethod method, IOException exception, int executionCount)
+    public boolean retryMethod(final HttpMethod method, final IOException exception, final int executionCount)
     {
         return executionCount < 2;
     }

@@ -110,16 +110,16 @@ public class SftpFileSystem
             {
                 channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect();
-                Boolean userDirIsRoot =
+                final Boolean userDirIsRoot =
                     SftpFileSystemConfigBuilder.getInstance().getUserDirIsRoot(getFileSystemOptions());
-                String workingDirectory = getRootName().getPath();
+                final String workingDirectory = getRootName().getPath();
                 if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
                 {
                     try
                     {
                         channel.cd(workingDirectory);
                     }
-                    catch (SftpException e)
+                    catch (final SftpException e)
                     {
                         throw new FileSystemException("vfs.provider.sftp/change-work-directory.error",
                             workingDirectory, e);
@@ -238,8 +238,8 @@ public class SftpFileSystem
     {
         if (groupsIds == null)
         {
-            StringBuilder output = new StringBuilder();
-            int code = executeCommand("id -G", output);
+            final StringBuilder output = new StringBuilder();
+            final int code = executeCommand("id -G", output);
             if (code != 0)
             {
                 throw new JSchException("Could not get the groups id of the current user (error code: " + code + ")");
@@ -248,7 +248,7 @@ public class SftpFileSystem
             // Retrieve the different groups
             final String[] groups = output.toString().trim().split("\\s+");
 
-            int[] groupsIds = new int[groups.length];
+            final int[] groupsIds = new int[groups.length];
             for (int i = 0; i < groups.length; i++)
             {
                 groupsIds[i] = Integer.parseInt(groups[i]);
@@ -271,8 +271,8 @@ public class SftpFileSystem
     {
         if (uid < 0)
         {
-            StringBuilder output = new StringBuilder();
-            int code = executeCommand("id -u", output);
+            final StringBuilder output = new StringBuilder();
+            final int code = executeCommand("id -u", output);
             if (code != 0)
             {
                 throw new FileSystemException("Could not get the user id of the current user (error code: " + code
@@ -293,10 +293,10 @@ public class SftpFileSystem
      * @throws FileSystemException if a session cannot be created.
      * @throws IOException if an I/O error is detected.
      */
-    private int executeCommand(String command, StringBuilder output) throws JSchException, IOException
+    private int executeCommand(final String command, final StringBuilder output) throws JSchException, IOException
     {
         ensureSession();
-        ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        final ChannelExec channel = (ChannelExec) session.openChannel("exec");
 
         channel.setCommand(command);
         channel.setInputStream(null);
@@ -305,7 +305,7 @@ public class SftpFileSystem
         channel.connect();
 
         // Read the stream
-        char[] buffer = new char[EXEC_BUFFER_SIZE];
+        final char[] buffer = new char[EXEC_BUFFER_SIZE];
         int read;
         while ((read = stream.read(buffer, 0, buffer.length)) >= 0)
         {
@@ -320,7 +320,7 @@ public class SftpFileSystem
             {
                 Thread.sleep(SLEEP_MILLIS);
             }
-            catch (Exception ee)
+            catch (final Exception ee)
             {
                 // TODO: swallow exception, really?
             }

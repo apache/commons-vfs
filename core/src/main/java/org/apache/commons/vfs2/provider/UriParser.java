@@ -335,15 +335,15 @@ public final class UriParser
             }
 
             // Decode
-            int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
-            int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
+            final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
+            final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
             if (dig1 == -1 || dig2 == -1)
             {
                 throw new FileSystemException(
                         "vfs.provider/invalid-escape-sequence.error", buffer
                                 .substring(index, index + 3));
             }
-            char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
+            final char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
 
             // Replace
             buffer.setCharAt(index, value);
@@ -396,7 +396,7 @@ public final class UriParser
             if (match)
             {
                 // Encode
-                char[] digits =
+                final char[] digits =
                     {Character.forDigit(((ch >> BITS_IN_HALF_BYTE) & LOW_MASK), HEX_BASE),
                      Character.forDigit((ch & LOW_MASK), HEX_BASE)};
                 buffer.setCharAt(index, '%');
@@ -438,7 +438,7 @@ public final class UriParser
      * @param strings The array of Strings to encode.
      * @return An array of encoded Strings.
      */
-    public static String[] encode(String[] strings)
+    public static String[] encode(final String[] strings)
     {
         if (strings == null)
         {
@@ -456,13 +456,13 @@ public final class UriParser
      * @param uri The String to decode.
      * @throws FileSystemException if an error occurs.
      */
-    public static void checkUriEncoding(String uri) throws FileSystemException
+    public static void checkUriEncoding(final String uri) throws FileSystemException
     {
         decode(uri);
     }
 
-    public static void canonicalizePath(StringBuilder buffer, int offset,
-            int length, FileNameParser fileNameParser)
+    public static void canonicalizePath(final StringBuilder buffer, final int offset,
+            final int length, final FileNameParser fileNameParser)
             throws FileSystemException
     {
         int index = offset;
@@ -480,17 +480,17 @@ public final class UriParser
                 }
 
                 // Decode
-                int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
-                int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
+                final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
+                final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
                 if (dig1 == -1 || dig2 == -1)
                 {
                     throw new FileSystemException(
                             "vfs.provider/invalid-escape-sequence.error",
                             buffer.substring(index, index + 3));
                 }
-                char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
+                final char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
 
-                boolean match = value == '%' || fileNameParser.encodeCharacter(value);
+                final boolean match = value == '%' || fileNameParser.encodeCharacter(value);
 
                 if (match)
                 {
@@ -508,7 +508,7 @@ public final class UriParser
             else if (fileNameParser.encodeCharacter(ch))
             {
                 // Encode
-                char[] digits =
+                final char[] digits =
                     {Character.forDigit(((ch >> BITS_IN_HALF_BYTE) & LOW_MASK), HEX_BASE),
                      Character.forDigit((ch & LOW_MASK), HEX_BASE) };
                 buffer.setCharAt(index, '%');
@@ -523,13 +523,13 @@ public final class UriParser
      * @param name StringBuilder containing the URI.
      * @return The query string, if any. null otherwise.
      */
-    public static String extractQueryString(StringBuilder name)
+    public static String extractQueryString(final StringBuilder name)
     {
         for (int pos = 0; pos < name.length(); pos++)
         {
             if (name.charAt(pos) == '?')
             {
-                String queryString = name.substring(pos + 1);
+                final String queryString = name.substring(pos + 1);
                 name.delete(pos, name.length());
                 return queryString;
             }

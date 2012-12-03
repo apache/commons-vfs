@@ -95,19 +95,19 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     }
 
     @Override
-    public int skipBytes(int n) throws IOException
+    public int skipBytes(final int n) throws IOException
     {
         return getDataInputStream().skipBytes(n);
     }
 
     @Override
-    public void readFully(byte[] b) throws IOException
+    public void readFully(final byte[] b) throws IOException
     {
         getDataInputStream().readFully(b);
     }
 
     @Override
-    public void readFully(byte[] b, int off, int len) throws IOException
+    public void readFully(final byte[] b, final int off, final int len) throws IOException
     {
         getDataInputStream().readFully(b, off, len);
     }
@@ -125,7 +125,7 @@ public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAc
     }
 
     @Override
-    public void setLength(long newLength) throws IOException
+    public void setLength(final long newLength) throws IOException
     {
         throw new UnsupportedOperationException();
     }

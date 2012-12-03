@@ -41,7 +41,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
     /** @since 2.0 */
-    protected HttpFileSystemConfigBuilder(String prefix)
+    protected HttpFileSystemConfigBuilder(final String prefix)
     {
         super(prefix);
     }
@@ -67,7 +67,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @param chaset the chaset
      */
-    public void setUrlCharset(FileSystemOptions opts, String chaset)
+    public void setUrlCharset(final FileSystemOptions opts, final String chaset)
     {
         setParam(opts, "urlCharset", chaset);
     }
@@ -78,7 +78,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @return the chaset
      */
-    public String getUrlCharset(FileSystemOptions opts)
+    public String getUrlCharset(final FileSystemOptions opts)
     {
         return getString(opts, "urlCharset");
     }
@@ -91,7 +91,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param proxyHost the host
      * @see #setProxyPort
      */
-    public void setProxyHost(FileSystemOptions opts, String proxyHost)
+    public void setProxyHost(final FileSystemOptions opts, final String proxyHost)
     {
         setParam(opts, "proxyHost", proxyHost);
     }
@@ -104,7 +104,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param proxyPort the port
      * @see #setProxyHost
      */
-    public void setProxyPort(FileSystemOptions opts, int proxyPort)
+    public void setProxyPort(final FileSystemOptions opts, final int proxyPort)
     {
         setParam(opts, "proxyPort", Integer.valueOf(proxyPort));
     }
@@ -117,7 +117,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return proxyHost
      * @see #setProxyPort
      */
-    public String getProxyHost(FileSystemOptions opts)
+    public String getProxyHost(final FileSystemOptions opts)
     {
         return getString(opts, "proxyHost");
     }
@@ -130,7 +130,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return proxyPort: the port number or 0 if it is not set
      * @see #setProxyHost
      */
-    public int getProxyPort(FileSystemOptions opts)
+    public int getProxyPort(final FileSystemOptions opts)
     {
         return getInteger(opts, "proxyPort", 0);
     }
@@ -140,7 +140,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @param authenticator The UserAuthenticator.
      */
-    public void setProxyAuthenticator(FileSystemOptions opts, UserAuthenticator authenticator)
+    public void setProxyAuthenticator(final FileSystemOptions opts, final UserAuthenticator authenticator)
     {
         setParam(opts, "proxyAuthenticator", authenticator);
     }
@@ -150,7 +150,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @return The UserAuthenticator.
      */
-    public UserAuthenticator getProxyAuthenticator(FileSystemOptions opts)
+    public UserAuthenticator getProxyAuthenticator(final FileSystemOptions opts)
     {
         return (UserAuthenticator) getParam(opts, "proxyAuthenticator");
     }
@@ -160,7 +160,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @param cookies An array of Cookies.
      */
-    public void setCookies(FileSystemOptions opts, Cookie[] cookies)
+    public void setCookies(final FileSystemOptions opts, final Cookie[] cookies)
     {
         setParam(opts, "cookies", cookies);
     }
@@ -175,7 +175,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @see #setFollowRedirect
      * @since 2.1
      */
-    public void setFollowRedirect(FileSystemOptions opts, boolean redirect)
+    public void setFollowRedirect(final FileSystemOptions opts, final boolean redirect)
     {
         setParam(opts, KEY_FOLLOW_REDIRECT, redirect);
     }
@@ -185,7 +185,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @return the Cookie array.
      */
-    public Cookie[] getCookies(FileSystemOptions opts)
+    public Cookie[] getCookies(final FileSystemOptions opts)
     {
         return (Cookie[]) getParam(opts, "cookies");
     }
@@ -199,7 +199,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @see #setFollowRedirect
      * @since 2.1
      */
-    public boolean getFollowRedirect(FileSystemOptions opts)
+    public boolean getFollowRedirect(final FileSystemOptions opts)
     {
         return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
     }
@@ -210,7 +210,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param maxTotalConnections The maximum number of connections.
      * @since 2.0
      */
-    public void setMaxTotalConnections(FileSystemOptions opts, int maxTotalConnections)
+    public void setMaxTotalConnections(final FileSystemOptions opts, final int maxTotalConnections)
     {
         setParam(opts, HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, Integer.valueOf(maxTotalConnections));
     }
@@ -221,7 +221,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The maximum number of connections allowed.
      * @since 2.0
      */
-    public int getMaxTotalConnections(FileSystemOptions opts)
+    public int getMaxTotalConnections(final FileSystemOptions opts)
     {
         return getInteger(opts, HttpConnectionManagerParams.MAX_TOTAL_CONNECTIONS, DEFAULT_MAX_CONNECTIONS);
     }
@@ -232,7 +232,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param maxHostConnections The maximum number of connections to a host.
      * @since 2.0
      */
-    public void setMaxConnectionsPerHost(FileSystemOptions opts, int maxHostConnections)
+    public void setMaxConnectionsPerHost(final FileSystemOptions opts, final int maxHostConnections)
     {
         setParam(opts, HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, Integer.valueOf(maxHostConnections));
     }
@@ -243,7 +243,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The maximum number of connections allowed per host.
      * @since 2.0
      */
-    public int getMaxConnectionsPerHost(FileSystemOptions opts)
+    public int getMaxConnectionsPerHost(final FileSystemOptions opts)
     {
         return getInteger(opts, HttpConnectionManagerParams.MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
     }
@@ -255,7 +255,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return true if preemptiveAuth is requested.
      * @since 2.0
      */
-    public boolean isPreemptiveAuth(FileSystemOptions opts)
+    public boolean isPreemptiveAuth(final FileSystemOptions opts)
     {
         return getBoolean(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
     }
@@ -269,7 +269,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param preemptiveAuth the desired setting; true=enabled and false=disabled.
      */
-    public void setPreemptiveAuth(FileSystemOptions opts, boolean preemptiveAuth)
+    public void setPreemptiveAuth(final FileSystemOptions opts, final boolean preemptiveAuth)
     {
         setParam(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
     }

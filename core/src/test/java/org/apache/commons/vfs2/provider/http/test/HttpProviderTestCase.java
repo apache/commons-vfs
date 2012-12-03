@@ -167,7 +167,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         manager.addProvider("http", new HttpFileProvider());
     }
 
-    private void testResloveFolderSlash(String uri, boolean followRedirect) throws FileSystemException
+    private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException
     {
         VFS.getManager().getFilesCache().close();
         final FileSystemOptions opts = new FileSystemOptions();
@@ -176,7 +176,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         try
         {
             checkReadTestsFolder(file);
-        } catch (FileNotFolderException e)
+        } catch (final FileNotFolderException e)
         {
             // Expected: VFS HTTP does not support listing children yet.
         }

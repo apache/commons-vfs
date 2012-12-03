@@ -119,23 +119,23 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public FTPFile[] listFiles(String relPath) throws IOException
+    public FTPFile[] listFiles(final String relPath) throws IOException
     {
         try
         {
             // VFS-210: return getFtpClient().listFiles(relPath);
-            FTPFile[] files = listFilesInDirectory(relPath);
+            final FTPFile[] files = listFilesInDirectory(relPath);
             return files;
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
-            FTPFile[] files = listFilesInDirectory(relPath);
+            final FTPFile[] files = listFilesInDirectory(relPath);
             return files;
         }
     }
 
-    private FTPFile[] listFilesInDirectory(String relPath) throws IOException
+    private FTPFile[] listFilesInDirectory(final String relPath) throws IOException
     {
         FTPFile[] files;
 
@@ -170,13 +170,13 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public boolean removeDirectory(String relPath) throws IOException
+    public boolean removeDirectory(final String relPath) throws IOException
     {
         try
         {
             return getFtpClient().removeDirectory(relPath);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
             return getFtpClient().removeDirectory(relPath);
@@ -184,13 +184,13 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public boolean deleteFile(String relPath) throws IOException
+    public boolean deleteFile(final String relPath) throws IOException
     {
         try
         {
             return getFtpClient().deleteFile(relPath);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
             return getFtpClient().deleteFile(relPath);
@@ -198,13 +198,13 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public boolean rename(String oldName, String newName) throws IOException
+    public boolean rename(final String oldName, final String newName) throws IOException
     {
         try
         {
             return getFtpClient().rename(oldName, newName);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
             return getFtpClient().rename(oldName, newName);
@@ -212,13 +212,13 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public boolean makeDirectory(String relPath) throws IOException
+    public boolean makeDirectory(final String relPath) throws IOException
     {
         try
         {
             return getFtpClient().makeDirectory(relPath);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
             return getFtpClient().makeDirectory(relPath);
@@ -237,13 +237,13 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public InputStream retrieveFileStream(String relPath) throws IOException
+    public InputStream retrieveFileStream(final String relPath) throws IOException
     {
         try
         {
             return getFtpClient().retrieveFileStream(relPath);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
             return getFtpClient().retrieveFileStream(relPath);
@@ -251,31 +251,31 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public InputStream retrieveFileStream(String relPath, long restartOffset) throws IOException
+    public InputStream retrieveFileStream(final String relPath, final long restartOffset) throws IOException
     {
         try
         {
-            FTPClient client = getFtpClient();
+            final FTPClient client = getFtpClient();
             client.setRestartOffset(restartOffset);
             return client.retrieveFileStream(relPath);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
-            FTPClient client = getFtpClient();
+            final FTPClient client = getFtpClient();
             client.setRestartOffset(restartOffset);
             return client.retrieveFileStream(relPath);
         }
     }
 
     @Override
-    public OutputStream appendFileStream(String relPath) throws IOException
+    public OutputStream appendFileStream(final String relPath) throws IOException
     {
         try
         {
             return getFtpClient().appendFileStream(relPath);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
             return getFtpClient().appendFileStream(relPath);
@@ -283,13 +283,13 @@ class FTPClientWrapper implements FtpClient
     }
 
     @Override
-    public OutputStream storeFileStream(String relPath) throws IOException
+    public OutputStream storeFileStream(final String relPath) throws IOException
     {
         try
         {
             return getFtpClient().storeFileStream(relPath);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
             return getFtpClient().storeFileStream(relPath);
@@ -309,7 +309,7 @@ class FTPClientWrapper implements FtpClient
             disconnect();
             return true;
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             disconnect();
         }

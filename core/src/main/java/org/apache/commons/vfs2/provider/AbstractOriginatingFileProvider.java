@@ -55,7 +55,7 @@ public abstract class AbstractOriginatingFileProvider
         {
             name = parseUri(baseFile != null ? baseFile.getName() : null, uri);
         }
-        catch (FileSystemException exc)
+        catch (final FileSystemException exc)
         {
             throw new FileSystemException("vfs.provider/invalid-absolute-uri.error", uri, exc);
         }
@@ -77,7 +77,7 @@ public abstract class AbstractOriginatingFileProvider
         // Check in the cache for the file system
         final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
 
-        FileSystem fs = getFileSystem(rootName, fileSystemOptions);
+        final FileSystem fs = getFileSystem(rootName, fileSystemOptions);
 
         // Locate the file
         // return fs.resolveFile(name.getPath());
@@ -92,7 +92,7 @@ public abstract class AbstractOriginatingFileProvider
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
-    protected synchronized FileSystem getFileSystem(FileName rootName, final FileSystemOptions fileSystemOptions)
+    protected synchronized FileSystem getFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         FileSystem fs = findFileSystem(rootName, fileSystemOptions);

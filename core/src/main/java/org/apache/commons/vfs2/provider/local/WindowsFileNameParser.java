@@ -37,7 +37,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
     }
 
     @Override
-    protected FileName createFileName(String scheme, final String rootFile, final String path, final FileType type)
+    protected FileName createFileName(final String scheme, final String rootFile, final String path, final FileType type)
     {
         return new WindowsFileName(scheme, rootFile, path, type);
     }
@@ -55,7 +55,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
 
         // Skip over first 4 (unc) leading '/' chars
         int startPos = 0;
-        int maxlen = Math.min(4, name.length());
+        final int maxlen = Math.min(4, name.length());
         for (; startPos < maxlen && name.charAt(startPos) == '/'; startPos++)
         {
         }
@@ -67,7 +67,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
         name.delete(0, startPos);
 
         // Look for drive name
-        String driveName = extractDrivePrefix(name);
+        final String driveName = extractDrivePrefix(name);
         if (driveName != null)
         {
             return driveName;
@@ -93,7 +93,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
             // Too short
             return null;
         }
-        char ch = name.charAt(0);
+        final char ch = name.charAt(0);
         if (ch == '/' || ch == ':')
         {
             // Missing drive letter
@@ -110,7 +110,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
             return null;
         }
 
-        String prefix = name.substring(0, 2);
+        final String prefix = name.substring(0, 2);
         name.delete(0, 2);
 
         return prefix.intern();
@@ -126,7 +126,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
         // Looking for <name> '/' <name> ( '/' | <end> )
 
         // Look for first separator
-        int maxpos = name.length();
+        final int maxpos = name.length();
         int pos = 0;
         for (; pos < maxpos && name.charAt(pos) != '/'; pos++)
         {
@@ -138,7 +138,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
         }
 
         // Now have <name> '/'
-        int startShareName = pos;
+        final int startShareName = pos;
         for (; pos < maxpos && name.charAt(pos) != '/'; pos++)
         {
         }
@@ -148,7 +148,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
         }
 
         // Now have <name> '/' <name> ( '/' | <end> )
-        String prefix = name.substring(0, pos);
+        final String prefix = name.substring(0, pos);
         name.delete(0, pos);
         return prefix;
     }

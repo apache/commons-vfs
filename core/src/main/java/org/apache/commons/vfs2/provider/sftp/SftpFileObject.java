@@ -91,7 +91,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
                     attrs = null;
                     getType();
                 }
-                catch (IOException e)
+                catch (final IOException e)
                 {
                     throw new FileSystemException(e);
                 }
@@ -195,7 +195,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
     /**
      * Set attrs from listChildrenResolved
      */
-    private void setStat(SftpATTRS attrs)
+    private void setStat(final SftpATTRS attrs)
     {
         this.attrs = attrs;
     }
@@ -241,7 +241,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
     @Override
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception
     {
-        int newMTime = (int) (modtime / MOD_TIME_FACTOR);
+        final int newMTime = (int) (modtime / MOD_TIME_FACTOR);
         attrs.setACMODTIME(attrs.getATime(), newMTime);
         flushStat();
         return true;
@@ -288,12 +288,12 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
      * Rename the file.
      */
     @Override
-    protected void doRename(FileObject newFile) throws Exception
+    protected void doRename(final FileObject newFile) throws Exception
     {
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
         try
         {
-            SftpFileObject newSftpFileObject = (SftpFileObject) FileObjectUtils.getAbstractFileObject(newFile);
+            final SftpFileObject newSftpFileObject = (SftpFileObject) FileObjectUtils.getAbstractFileObject(newFile);
             channel.rename(relPath, newSftpFileObject.relPath);
         }
         finally
@@ -310,13 +310,13 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
      * @throws Exception If an error occurs
      * @since 2.1
      */
-    protected PosixPermissions getPermissions(boolean checkIds) throws Exception
+    protected PosixPermissions getPermissions(final boolean checkIds) throws Exception
     {
         statSelf();
         boolean isInGroup = false;
         if (checkIds)
         {
-            for (int groupId : getAbstractFileSystem().getGroupsIds())
+            for (final int groupId : getAbstractFileSystem().getGroupsIds())
             {
                 if (groupId == attrs.getGId())
                 {
@@ -338,10 +338,10 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
     }
 
     @Override
-    protected boolean doSetReadable(boolean readable, boolean ownerOnly) throws Exception
+    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception
     {
         final PosixPermissions permissions = getPermissions(false);
-        int newPermissions = permissions.makeReadable(readable, ownerOnly);
+        final int newPermissions = permissions.makeReadable(readable, ownerOnly);
         if (newPermissions == permissions.getPermissions())
         {
             return true;
@@ -360,10 +360,10 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
     }
 
     @Override
-    protected boolean doSetWritable(boolean writable, boolean ownerOnly) throws Exception
+    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception
     {
         final PosixPermissions permissions = getPermissions(false);
-        int newPermissions = permissions.makeWritable(writable, ownerOnly);
+        final int newPermissions = permissions.makeWritable(writable, ownerOnly);
         if (newPermissions == permissions.getPermissions())
         {
             return true;
@@ -383,10 +383,10 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
 
 
     @Override
-    protected boolean doSetExecutable(boolean executable, boolean ownerOnly) throws Exception
+    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception
     {
         final PosixPermissions permissions = getPermissions(false);
-        int newPermissions = permissions.makeExecutable(executable, ownerOnly);
+        final int newPermissions = permissions.makeExecutable(executable, ownerOnly);
         if (newPermissions == permissions.getPermissions())
         {
             return true;
@@ -418,7 +418,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
             // try the direct way to list the directory on the server to avoid too many roundtrips
             vector = channel.ls(relPath);
         }
-        catch (SftpException e)
+        catch (final SftpException e)
         {
             String workingDirectory = null;
             try
@@ -429,7 +429,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
                     channel.cd(relPath);
                 }
             }
-            catch (SftpException ex)
+            catch (final SftpException ex)
             {
                 // VFS-210: seems not to be a directory
                 return null;
@@ -440,7 +440,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
             {
                 vector = channel.ls(".");
             }
-            catch (SftpException ex)
+            catch (final SftpException ex)
             {
                 lsEx = ex;
             }
@@ -453,7 +453,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
                         channel.cd(workingDirectory);
                     }
                 }
-                catch (SftpException xe)
+                catch (final SftpException xe)
                 {
                     throw new FileSystemException("vfs.provider.sftp/change-work-directory-back.error",
                                                   workingDirectory, lsEx);
@@ -478,6 +478,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
         // Extract the child names
         final ArrayList<FileObject> children = new ArrayList<FileObject>();
         for (@SuppressWarnings("unchecked") // OK because ChannelSftp.ls() is documented to return Vector<LsEntry>
+        final
             Iterator<LsEntry> iterator = (Iterator<LsEntry>) vector.iterator(); iterator.hasNext();)
         {
             final LsEntry stat = iterator.next();
@@ -498,7 +499,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
                 continue;
             }
 
-            FileObject fo =
+            final FileObject fo =
                 getFileSystem()
                     .resolveFile(
                             getFileSystem().getFileSystemManager().resolveName(
@@ -549,17 +550,17 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
      * Creates an input stream to read the file content from.
      * The input stream is starting at the given position in the file.
      */
-    InputStream getInputStream(long filePointer) throws IOException
+    InputStream getInputStream(final long filePointer) throws IOException
     {
         final ChannelSftp channel = getAbstractFileSystem().getChannel();
         // Using InputStream directly from the channel
         // is much faster than the memory method.
         try
         {
-            InputStream is = channel.get(getName().getPathDecoded(), null, filePointer);
+            final InputStream is = channel.get(getName().getPathDecoded(), null, filePointer);
             return new SftpInputStream(channel, is);
         }
-        catch (SftpException e)
+        catch (final SftpException e)
         {
             getAbstractFileSystem().putChannel(channel);
             throw new FileSystemException(e);
@@ -603,7 +604,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
 
                     is = channel.get(relPath);
                 }
-                catch (SftpException e)
+                catch (final SftpException e)
                 {
                     if (e.id == ChannelSftp.SSH_FX_NO_SUCH_FILE)
                     {
@@ -627,7 +628,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
     {
         // TODO - Don't write the entire file into memory. Use the stream-based
         // methods on ChannelSftp once the work properly
@@ -671,7 +672,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
     {
         private final ChannelSftp channel;
 
-        public SftpOutputStream(final ChannelSftp channel, OutputStream out)
+        public SftpOutputStream(final ChannelSftp channel, final OutputStream out)
         {
             super(out);
             this.channel = channel;

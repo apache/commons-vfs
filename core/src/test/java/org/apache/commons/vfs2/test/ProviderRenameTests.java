@@ -54,7 +54,7 @@ public class ProviderRenameTests
      */
     protected FileObject createScratchFolder() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
@@ -66,7 +66,7 @@ public class ProviderRenameTests
     private void moveFile(final FileObject scratchFolder, final FileObject file, final String content)
             throws FileSystemException, Exception
     {
-        FileObject fileMove = scratchFolder.resolveFile("file1move.txt");
+        final FileObject fileMove = scratchFolder.resolveFile("file1move.txt");
         assertTrue(!fileMove.exists());
 
         file.moveTo(fileMove);

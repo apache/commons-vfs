@@ -150,7 +150,7 @@ public abstract class AbstractVfsTestCase
         {
             return file.getCanonicalFile();
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             return file.getAbsoluteFile();
         }
@@ -165,7 +165,7 @@ public abstract class AbstractVfsTestCase
     public static void assertSameMessage(final String[] messages, final Throwable throwable)
     {
         Throwable current = throwable;
-        for (String message : messages)
+        for (final String message : messages)
         {
             assertNotNull(current);
             if (message != null)
@@ -181,14 +181,14 @@ public abstract class AbstractVfsTestCase
     /**
      * Returns the cause of an exception.
      */
-    public static Throwable getCause(Throwable throwable)
+    public static Throwable getCause(final Throwable throwable)
     {
         try
         {
-            Method method = throwable.getClass().getMethod("getCause", (Class[]) null);
+            final Method method = throwable.getClass().getMethod("getCause", (Class[]) null);
             return (Throwable) method.invoke(throwable, (Object[]) null);
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             return null;
         }

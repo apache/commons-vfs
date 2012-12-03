@@ -31,14 +31,14 @@ import org.apache.commons.vfs2.FileContentInfoFactory;
 public class FileContentInfoFilenameFactory implements FileContentInfoFactory
 {
     @Override
-    public FileContentInfo create(FileContent fileContent)
+    public FileContentInfo create(final FileContent fileContent)
     {
         String contentType = null;
 
-        String name = fileContent.getFile().getName().getBaseName();
+        final String name = fileContent.getFile().getName().getBaseName();
         if (name != null)
         {
-            FileNameMap fileNameMap = URLConnection.getFileNameMap();
+            final FileNameMap fileNameMap = URLConnection.getFileNameMap();
             contentType = fileNameMap.getContentTypeFor(name);
         }
 

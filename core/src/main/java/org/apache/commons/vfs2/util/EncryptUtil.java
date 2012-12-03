@@ -36,7 +36,7 @@ public final class EncryptUtil
      * @param args The arguments in the form "command" parm1, parm2.
      * @throws Exception If an error occurs.
      */
-    public static void main(String[] args) throws Exception
+    public static void main(final String[] args) throws Exception
     {
         if (args.length != 2 || !args[0].equals("encrypt"))
         {
@@ -44,7 +44,7 @@ public final class EncryptUtil
             System.err.println("     password : The clear text password to encrypt");
             System.exit(0);
         }
-        Cryptor cryptor = CryptorFactory.getCryptor();
+        final Cryptor cryptor = CryptorFactory.getCryptor();
 
         if (args[0].equals("encrypt"))
         {

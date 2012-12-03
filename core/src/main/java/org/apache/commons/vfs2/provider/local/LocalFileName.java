@@ -69,7 +69,7 @@ public class LocalFileName extends AbstractFileName
      * @return The FileName.
      */
     @Override
-    public FileName createName(final String path, FileType type)
+    public FileName createName(final String path, final FileType type)
     {
         return new LocalFileName(getScheme(), rootFile, path, type);
     }
@@ -93,7 +93,7 @@ public class LocalFileName extends AbstractFileName
 
                 uri = UriParser.encode(uri, RESERVED_URI_CHARS);
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 // Default to base uri value
             }
@@ -121,7 +121,7 @@ public class LocalFileName extends AbstractFileName
 
                 uri = UriParser.encode(uri, RESERVED_URI_CHARS);
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 // Default to base uri value
             }
@@ -141,7 +141,7 @@ public class LocalFileName extends AbstractFileName
         {
             return UriParser.decode(super.getURI());
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             return super.getURI();
         }
@@ -153,7 +153,7 @@ public class LocalFileName extends AbstractFileName
      * Builds the root URI for this file name.
      */
     @Override
-    protected void appendRootUri(final StringBuilder buffer, boolean addPassword)
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
     {
         buffer.append(getScheme());
         buffer.append("://");

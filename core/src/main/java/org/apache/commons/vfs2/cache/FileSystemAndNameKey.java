@@ -45,7 +45,7 @@ class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey>
     }
 
     @Override
-    public int compareTo(FileSystemAndNameKey other)
+    public int compareTo(final FileSystemAndNameKey other)
     {
         if (fileSystemId < other.fileSystemId)
         {

@@ -47,7 +47,7 @@ public class FileExtensionSelector implements FileSelector
      * @param extensions
      *            The extensions to be included by this selector.
      */
-    public FileExtensionSelector(Collection<String> extensions)
+    public FileExtensionSelector(final Collection<String> extensions)
     {
         if (extensions != null)
         {
@@ -61,7 +61,7 @@ public class FileExtensionSelector implements FileSelector
      * @param extensions
      *            The extensions to be included by this selector.
      */
-    public FileExtensionSelector(String... extensions)
+    public FileExtensionSelector(final String... extensions)
     {
         if (extensions != null)
         {
@@ -83,7 +83,7 @@ public class FileExtensionSelector implements FileSelector
         {
             return false;
         }
-        for (String extension : this.extensions)
+        for (final String extension : this.extensions)
         {
             if (fileInfo.getFile().getName().getExtension().equalsIgnoreCase(extension))
             {

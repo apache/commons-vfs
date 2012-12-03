@@ -67,7 +67,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
     {
         if (name instanceof URLFileName)
         {
-            URLFileName urlName = (URLFileName) getName();
+            final URLFileName urlName = (URLFileName) getName();
 
             // TODO: charset
             return new URL(urlName.getURIEncoded(null));

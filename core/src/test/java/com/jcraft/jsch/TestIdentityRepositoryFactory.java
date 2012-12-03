@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.provider.sftp.IdentityRepositoryFactory;
 public class TestIdentityRepositoryFactory implements IdentityRepositoryFactory
 {
     @Override
-    public IdentityRepository create(JSch jsch)
+    public IdentityRepository create(final JSch jsch)
     {
         return new LocalIdentityRepository(jsch);
     }

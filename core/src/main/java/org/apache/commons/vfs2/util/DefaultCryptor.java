@@ -44,17 +44,17 @@ public class DefaultCryptor implements Cryptor
      * @throws Exception If an error occurs.
      */
     @Override
-    public String encrypt(String plainKey) throws Exception
+    public String encrypt(final String plainKey) throws Exception
     {
-        byte[] input = plainKey.getBytes();
-        SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");
+        final byte[] input = plainKey.getBytes();
+        final SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");
 
-        Cipher cipher = Cipher.getInstance("AES");
+        final Cipher cipher = Cipher.getInstance("AES");
 
         // encryption pass
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
-        byte[] cipherText = new byte[cipher.getOutputSize(input.length)];
+        final byte[] cipherText = new byte[cipher.getOutputSize(input.length)];
         int ctLength = cipher.update(input, 0, input.length, cipherText, 0);
         ctLength += cipher.doFinal(cipherText, ctLength);
         return encode(cipherText);
@@ -67,23 +67,23 @@ public class DefaultCryptor implements Cryptor
      * @throws Exception If an error occurs.
      */
     @Override
-    public String decrypt(String encryptedKey) throws Exception
+    public String decrypt(final String encryptedKey) throws Exception
     {
-        SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");
-        Cipher cipher = Cipher.getInstance("AES");
+        final SecretKeySpec key = new SecretKeySpec(KEY_BYTES, "AES");
+        final Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] decoded = decode(encryptedKey);
-        byte[] plainText = new byte[cipher.getOutputSize(decoded.length)];
+        final byte[] decoded = decode(encryptedKey);
+        final byte[] plainText = new byte[cipher.getOutputSize(decoded.length)];
         int ptLength = cipher.update(decoded, 0, decoded.length, plainText, 0);
         ptLength += cipher.doFinal(plainText, ptLength);
         return new String(plainText).substring(0, ptLength);
     }
 
-    private String encode(byte[] bytes)
+    private String encode(final byte[] bytes)
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
-        for (byte b : bytes)
+        for (final byte b : bytes)
         {
             builder.append(HEX_CHARS[(b >> BITS_IN_HALF_BYTE) & MASK]);
             builder.append(HEX_CHARS[b & MASK]);
@@ -91,21 +91,21 @@ public class DefaultCryptor implements Cryptor
         return builder.toString();
     }
 
-    private byte[] decode(String str)
+    private byte[] decode(final String str)
     {
-        int length = str.length() / 2;
-        byte[] decoded = new byte[length];
-        char[] chars = str.toCharArray();
+        final int length = str.length() / 2;
+        final byte[] decoded = new byte[length];
+        final char[] chars = str.toCharArray();
         int index = 0;
         for (int i = 0; i < chars.length; ++i)
         {
-            int id1 = indexOf(HEX_CHARS, chars[i]);
+            final int id1 = indexOf(HEX_CHARS, chars[i]);
             if (id1 == -1)
             {
                 throw new IllegalArgumentException("Character " + chars[i] + " at position " + i
                         + " is not a valid hexidecimal character");
             }
-            int id2 = indexOf(HEX_CHARS, chars[++i]);
+            final int id2 = indexOf(HEX_CHARS, chars[++i]);
             if (id2 == -1)
             {
                 throw new IllegalArgumentException("Character " + chars[i] + " at position " + i
@@ -116,7 +116,7 @@ public class DefaultCryptor implements Cryptor
         return decoded;
     }
 
-    private int indexOf(char[] array, char valueToFind)
+    private int indexOf(final char[] array, final char valueToFind)
     {
         if (array == null)
         {

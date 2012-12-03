@@ -67,12 +67,13 @@ public class DefaultFileOperations implements FileOperations
 
         final List<Class<? extends FileOperation>> operations = new ArrayList<Class<? extends FileOperation>>();
 
-        for (FileOperationProvider provider : providers)
+        for (final FileOperationProvider provider : providers)
         {
             provider.collectOperations(operations, fileObject);
         }
 
         @SuppressWarnings("unchecked")
+        final
         Class<? extends FileOperation>[] array =
             (Class<? extends FileOperation>[]) operations.toArray(new Class<?>[] {});
         return array;
@@ -84,7 +85,7 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileOperation getOperation(Class<? extends FileOperation> operationClass)
+    public FileOperation getOperation(final Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {
 
@@ -100,7 +101,7 @@ public class DefaultFileOperations implements FileOperations
 
         FileOperation resultOperation = null;
 
-        for (FileOperationProvider provider : providers)
+        for (final FileOperationProvider provider : providers)
         {
             resultOperation = provider.getOperation(fileObject, operationClass);
 
@@ -127,15 +128,15 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean hasOperation(Class<? extends FileOperation> operationClass) throws FileSystemException
+    public boolean hasOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException
     {
-        Class<? extends FileOperation>[] operations = getOperations();
+        final Class<? extends FileOperation>[] operations = getOperations();
         if (operations == null)
         {
             return false;
         }
 
-        for (Class<? extends FileOperation> operation : operations)
+        for (final Class<? extends FileOperation> operation : operations)
         {
             if (operationClass.isAssignableFrom(operation))
             {

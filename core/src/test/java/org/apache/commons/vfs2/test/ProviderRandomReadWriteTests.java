@@ -52,7 +52,7 @@ public class ProviderRandomReadWriteTests
      */
     protected FileObject createScratchFolder() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
@@ -71,7 +71,7 @@ public class ProviderRandomReadWriteTests
         {
             file = createScratchFolder().resolveFile("random_write.txt");
             file.createFile();
-            RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE);
+            final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE);
 
             // write first byte
             ra.writeByte(TEST_DATA.charAt(0));

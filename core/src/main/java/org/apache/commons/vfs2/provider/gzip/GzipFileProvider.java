@@ -54,7 +54,7 @@ public class GzipFileProvider extends CompressedFileFileProvider
     }
 
     @Override
-    protected FileSystem createFileSystem(FileName name, FileObject file, FileSystemOptions fileSystemOptions)
+    protected FileSystem createFileSystem(final FileName name, final FileObject file, final FileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
         return new GzipFileSystem(name, file, fileSystemOptions);

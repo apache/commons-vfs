@@ -75,7 +75,7 @@ public class DefaultFileReplicator
     {
         if (tempDir == null)
         {
-            String baseTmpDir = System.getProperty("java.io.tmpdir");
+            final String baseTmpDir = System.getProperty("java.io.tmpdir");
 
             tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
         }
@@ -119,7 +119,7 @@ public class DefaultFileReplicator
      * physically deletes the file from the filesystem
      * @param file The File to delete.
      */
-    protected void deleteFile(File file)
+    protected void deleteFile(final File file)
     {
         try
         {
@@ -150,7 +150,7 @@ public class DefaultFileReplicator
      * removes a instance from the list of copies
      * @param file The File to remove.
      */
-    protected void removeFile(Object file)
+    protected void removeFile(final Object file)
     {
         synchronized (copies)
         {
@@ -187,7 +187,7 @@ public class DefaultFileReplicator
         return file;
     }
 
-    protected void addFile(Object file)
+    protected void addFile(final Object file)
     {
         synchronized (copies)
         {
@@ -212,7 +212,7 @@ public class DefaultFileReplicator
 
         // imario@apache.org: BUG34976 get rid of maybe reserved and dangerous characters
         // e.g. to allow replication of http://hostname.org/fileservlet?file=abc.txt
-        String safeBasename = UriParser.encode(baseName, TMP_RESERVED_CHARS).replace('%', '_');
+        final String safeBasename = UriParser.encode(baseName, TMP_RESERVED_CHARS).replace('%', '_');
         return "tmp_" + getFilecount() + "_" + safeBasename;
     }
 

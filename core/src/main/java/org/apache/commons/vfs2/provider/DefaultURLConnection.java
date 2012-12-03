@@ -68,7 +68,7 @@ public final class DefaultURLConnection
         {
             return content.getLastModifiedTime();
         }
-        catch (FileSystemException fse)
+        catch (final FileSystemException fse)
         {
             // Ignore the exception
         }
@@ -83,7 +83,7 @@ public final class DefaultURLConnection
         {
             return (int) content.getSize();
         }
-        catch (FileSystemException fse)
+        catch (final FileSystemException fse)
         {
             // Ignore the exception
         }
@@ -98,7 +98,7 @@ public final class DefaultURLConnection
         {
             return content.getContentInfo().getContentType();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e.getMessage());
         }
@@ -111,7 +111,7 @@ public final class DefaultURLConnection
         {
             return content.getContentInfo().getContentEncoding();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new RuntimeException(e.getMessage());
         }

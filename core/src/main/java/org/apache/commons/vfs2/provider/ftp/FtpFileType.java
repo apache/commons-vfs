@@ -56,7 +56,7 @@ public enum FtpFileType
      * @param fileType
      *            The Apache Commons Net FTP file type.
      */
-    private FtpFileType(int fileType)
+    private FtpFileType(final int fileType)
     {
         this.value = fileType;
     }

@@ -41,7 +41,7 @@ public abstract class AbstractFileName implements FileName
 
     private String key = null;
 
-    public AbstractFileName(final String scheme, final String absPath, FileType type)
+    public AbstractFileName(final String scheme, final String absPath, final FileType type)
     {
         this.rootUri = null;
         this.scheme = scheme;
@@ -64,7 +64,7 @@ public abstract class AbstractFileName implements FileName
     }
 
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (this == o)
         {
@@ -75,7 +75,7 @@ public abstract class AbstractFileName implements FileName
             return false;
         }
 
-        AbstractFileName that = (AbstractFileName) o;
+        final AbstractFileName that = (AbstractFileName) o;
 
         return getKey().equals(that.getKey());
     }
@@ -93,7 +93,7 @@ public abstract class AbstractFileName implements FileName
      * @return negative number if less than, 0 if equal, positive if greater than.
      */
     @Override
-    public int compareTo(FileName obj)
+    public int compareTo(final FileName obj)
     {
         final AbstractFileName name = (AbstractFileName) obj;
         return getKey().compareTo(name.getKey());
@@ -278,7 +278,7 @@ public abstract class AbstractFileName implements FileName
         return createURI(false, false);
     }
 
-    private String createURI(boolean useAbsolutePath, boolean usePassword)
+    private String createURI(final boolean useAbsolutePath, final boolean usePassword)
     {
         final StringBuilder buffer = new StringBuilder();
         appendRootUri(buffer, usePassword);
@@ -500,7 +500,7 @@ public abstract class AbstractFileName implements FileName
      * @param type {@link FileType#FOLDER} or {@link FileType#FILE}
      * @throws FileSystemException if an error occurs.
      */
-    void setType(FileType type) throws FileSystemException
+    void setType(final FileType type) throws FileSystemException
     {
         if (type != FileType.FOLDER && type != FileType.FILE && type != FileType.FILE_OR_FOLDER)
         {

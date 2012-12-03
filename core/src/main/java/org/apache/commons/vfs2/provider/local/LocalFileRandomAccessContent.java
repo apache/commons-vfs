@@ -55,14 +55,14 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                     {
                         return raf.readByte();
                     }
-                    catch (EOFException e)
+                    catch (final EOFException e)
                     {
                         return -1;
                     }
                 }
 
                 @Override
-                public long skip(long n) throws IOException
+                public long skip(final long n) throws IOException
                 {
                     raf.seek(raf.getFilePointer() + n);
                     return n;
@@ -75,13 +75,13 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                 }
 
                 @Override
-                public int read(byte[] b) throws IOException
+                public int read(final byte[] b) throws IOException
                 {
                     return raf.read(b);
                 }
 
                 @Override
-                public int read(byte[] b, int off, int len) throws IOException
+                public int read(final byte[] b, final int off, final int len) throws IOException
                 {
                     return raf.read(b, off, len);
                 }
@@ -89,7 +89,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                 @Override
                 public int available() throws IOException
                 {
-                    long available = raf.length() - raf.getFilePointer();
+                    final long available = raf.length() - raf.getFilePointer();
                     if (available > Integer.MAX_VALUE)
                     {
                         return Integer.MAX_VALUE;
@@ -99,7 +99,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                 }
             };
         }
-        catch (FileNotFoundException e)
+        catch (final FileNotFoundException e)
         {
             throw new FileSystemException("vfs.provider/random-access-open-failed.error", localFile);
         }
@@ -112,7 +112,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
     }
 
     @Override
-    public void seek(long pos) throws IOException
+    public void seek(final long pos) throws IOException
     {
         raf.seek(pos);
     }
@@ -190,19 +190,19 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
     }
 
     @Override
-    public int skipBytes(int n) throws IOException
+    public int skipBytes(final int n) throws IOException
     {
         return raf.skipBytes(n);
     }
 
     @Override
-    public void readFully(byte[] b) throws IOException
+    public void readFully(final byte[] b) throws IOException
     {
         raf.readFully(b);
     }
 
     @Override
-    public void readFully(byte[] b, int off, int len) throws IOException
+    public void readFully(final byte[] b, final int off, final int len) throws IOException
     {
         raf.readFully(b, off, len);
     }
@@ -214,85 +214,85 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
     }
 
     @Override
-    public void writeDouble(double v) throws IOException
+    public void writeDouble(final double v) throws IOException
     {
         raf.writeDouble(v);
     }
 
     @Override
-    public void writeFloat(float v) throws IOException
+    public void writeFloat(final float v) throws IOException
     {
         raf.writeFloat(v);
     }
 
     @Override
-    public void write(int b) throws IOException
+    public void write(final int b) throws IOException
     {
         raf.write(b);
     }
 
     @Override
-    public void writeByte(int v) throws IOException
+    public void writeByte(final int v) throws IOException
     {
         raf.writeByte(v);
     }
 
     @Override
-    public void writeChar(int v) throws IOException
+    public void writeChar(final int v) throws IOException
     {
         raf.writeChar(v);
     }
 
     @Override
-    public void writeInt(int v) throws IOException
+    public void writeInt(final int v) throws IOException
     {
         raf.writeInt(v);
     }
 
     @Override
-    public void writeShort(int v) throws IOException
+    public void writeShort(final int v) throws IOException
     {
         raf.writeShort(v);
     }
 
     @Override
-    public void writeLong(long v) throws IOException
+    public void writeLong(final long v) throws IOException
     {
         raf.writeLong(v);
     }
 
     @Override
-    public void writeBoolean(boolean v) throws IOException
+    public void writeBoolean(final boolean v) throws IOException
     {
         raf.writeBoolean(v);
     }
 
     @Override
-    public void write(byte[] b) throws IOException
+    public void write(final byte[] b) throws IOException
     {
         raf.write(b);
     }
 
     @Override
-    public void write(byte[] b, int off, int len) throws IOException
+    public void write(final byte[] b, final int off, final int len) throws IOException
     {
         raf.write(b, off, len);
     }
 
     @Override
-    public void writeBytes(String s) throws IOException
+    public void writeBytes(final String s) throws IOException
     {
         raf.writeBytes(s);
     }
 
     @Override
-    public void writeChars(String s) throws IOException
+    public void writeChars(final String s) throws IOException
     {
         raf.writeChars(s);
     }
 
     @Override
-    public void writeUTF(String str) throws IOException
+    public void writeUTF(final String str) throws IOException
     {
         raf.writeUTF(str);
     }
@@ -304,7 +304,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
     }
 
     @Override
-    public void setLength(long newLength) throws IOException
+    public void setLength(final long newLength) throws IOException
     {
         raf.setLength(newLength);
     }

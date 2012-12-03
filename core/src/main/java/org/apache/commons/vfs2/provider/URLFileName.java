@@ -62,7 +62,7 @@ public class URLFileName extends GenericFileName
      */
     public String getPathQuery()
     {
-        StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+        final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         sb.append(getPath());
         sb.append("?");
         sb.append(getQueryString());
@@ -78,7 +78,7 @@ public class URLFileName extends GenericFileName
      * @throws URIException If an error occurs encoding the URI.
      * @throws FileSystemException If some other error occurs.
      */
-    public String getPathQueryEncoded(String charset) throws URIException, FileSystemException
+    public String getPathQueryEncoded(final String charset) throws URIException, FileSystemException
     {
         if (getQueryString() == null)
         {
@@ -92,7 +92,7 @@ public class URLFileName extends GenericFileName
             }
         }
 
-        StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+        final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         if (charset != null)
         {
             sb.append(URIUtil.encodePath(getPathDecoded(), charset));
@@ -113,7 +113,7 @@ public class URLFileName extends GenericFileName
      * @return The FileName
      */
     @Override
-    public FileName createName(final String absPath, FileType type)
+    public FileName createName(final String absPath, final FileType type)
     {
         return new URLFileName(getScheme(),
             getHostName(),
@@ -136,7 +136,7 @@ public class URLFileName extends GenericFileName
     {
         if (getQueryString() != null)
         {
-            StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+            final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
             sb.append(super.createURI());
             sb.append("?");
             sb.append(getQueryString());
@@ -154,9 +154,9 @@ public class URLFileName extends GenericFileName
      * @throws FileSystemException if some other exception occurs.
      * @throws URIException if an exception occurs encoding the URI.
      */
-    public String getURIEncoded(String charset) throws FileSystemException, URIException
+    public String getURIEncoded(final String charset) throws FileSystemException, URIException
     {
-        StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+        final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));
         return sb.toString();

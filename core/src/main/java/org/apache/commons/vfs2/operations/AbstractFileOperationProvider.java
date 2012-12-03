@@ -80,12 +80,12 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      *             if operation cannot be retrieved.
      */
     @Override
-    public final FileOperation getOperation(FileObject file, Class<? extends FileOperation> operationClass)
+    public final FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
             throws FileSystemException
     {
-        Class<? extends FileOperation> implementation = lookupOperation(operationClass);
+        final Class<? extends FileOperation> implementation = lookupOperation(operationClass);
 
-        FileOperation operationInstance = instantiateOperation(file, implementation);
+        final FileOperation operationInstance = instantiateOperation(file, implementation);
 
         return operationInstance;
     }
@@ -115,10 +115,10 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
 
         // find appropriate class
         Class<? extends FileOperation> foundClass = null;
-        Iterator<Class<? extends FileOperation>> iterator = operations.iterator();
+        final Iterator<Class<? extends FileOperation>> iterator = operations.iterator();
         while (iterator.hasNext())
         {
-            Class<? extends FileOperation> operation = iterator.next();
+            final Class<? extends FileOperation> operation = iterator.next();
             if (operationClass.isAssignableFrom(operation))
             {
                 foundClass = operation;

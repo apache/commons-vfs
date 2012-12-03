@@ -100,7 +100,7 @@ public abstract class AbstractProviderTestCase
      */
     protected DefaultFileSystemManager createManager() throws Exception
     {
-        DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
+        final DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
         fs.setFilesCache(getProviderConfig().getFilesCache());
         getProviderConfig().prepare(fs);
         if (!fs.hasProvider("file"))
@@ -114,7 +114,7 @@ public abstract class AbstractProviderTestCase
      * some provider config do some post-initialization in getBaseTestFolder.
      * This is a hack to allow access to this code for {@code createManager}
      */
-    public FileObject getBaseTestFolder(FileSystemManager fs) throws Exception
+    public FileObject getBaseTestFolder(final FileSystemManager fs) throws Exception
     {
         return providerConfig.getBaseTestFolder(fs);
     }
@@ -161,7 +161,7 @@ public abstract class AbstractProviderTestCase
      * Sets the write test folder.
      * @param folder
      */
-    protected void setWriteFolder(FileObject folder)
+    protected void setWriteFolder(final FileObject folder)
     {
         writeFolder = folder;
     }
@@ -194,10 +194,10 @@ public abstract class AbstractProviderTestCase
         final Capability[] caps = getRequiredCaps();
         if (caps != null)
         {
-            for (Capability cap2 : caps)
+            for (final Capability cap2 : caps)
             {
                 final Capability cap = cap2;
-                FileSystem fs = readFolder.getFileSystem();
+                final FileSystem fs = readFolder.getFileSystem();
                 if (!fs.hasCapability(cap))
                 {
 //                    String name = fs.getClass().getName();
@@ -376,12 +376,12 @@ public abstract class AbstractProviderTestCase
         return base;
     }
 
-    protected void addEmptyDir(boolean addEmptyDir)
+    protected void addEmptyDir(final boolean addEmptyDir)
     {
         this.addEmptyDir = addEmptyDir;
     }
 
-    protected static Test notConfigured(Class<?> testClass)
+    protected static Test notConfigured(final Class<?> testClass)
     {
         return warning(testClass + " is not configured for tests, skipping");
     }

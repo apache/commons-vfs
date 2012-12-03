@@ -98,7 +98,7 @@ public class NamingTests
             getManager().resolveFile("%");
             fail();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
         }
 
@@ -108,7 +108,7 @@ public class NamingTests
             getManager().resolveFile("%5");
             fail();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
         }
 
@@ -118,7 +118,7 @@ public class NamingTests
             getManager().resolveFile("%q");
             fail();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
         }
 
@@ -185,7 +185,7 @@ public class NamingTests
         assertTrue(!name.getPath().endsWith("/a/b"));
 
         // Test names with the same prefix
-        String path = name.getPath() + "/a";
+        final String path = name.getPath() + "/a";
         assertSameName(path, name, path, scope);
         assertSameName(path, name, "../" + name.getBaseName() + "/a", scope);
 
@@ -241,9 +241,9 @@ public class NamingTests
      * Checks that a relative name resolves to the expected absolute path.
      * Tests both forward and back slashes.
      */
-    private void assertSameName(String expectedPath,
-                                FileName baseName,
-                                String relName) throws Exception
+    private void assertSameName(final String expectedPath,
+                                final FileName baseName,
+                                final String relName) throws Exception
     {
         assertSameName(expectedPath, baseName, relName, NameScope.FILE_SYSTEM);
     }
@@ -387,7 +387,7 @@ public class NamingTests
             getManager().resolveName(name, relName, scope);
             fail("expected failure");
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             // TODO - should check error message
         }

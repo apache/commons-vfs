@@ -41,8 +41,8 @@ public final class HttpClientFactory
     {
     }
 
-    public static HttpClient createConnection(String scheme, String hostname, int port, String username,
-                                              String password, FileSystemOptions fileSystemOptions)
+    public static HttpClient createConnection(final String scheme, final String hostname, final int port, final String username,
+                                              final String password, final FileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
         return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port,
@@ -62,16 +62,16 @@ public final class HttpClientFactory
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
-    public static HttpClient createConnection(HttpFileSystemConfigBuilder builder, String scheme,
-                                              String hostname, int port, String username,
-                                              String password, FileSystemOptions fileSystemOptions)
+    public static HttpClient createConnection(final HttpFileSystemConfigBuilder builder, final String scheme,
+                                              final String hostname, final int port, final String username,
+                                              final String password, final FileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
         HttpClient client;
         try
         {
-            HttpConnectionManager mgr = new MultiThreadedHttpConnectionManager();
-            HttpConnectionManagerParams connectionMgrParams = mgr.getParams();
+            final HttpConnectionManager mgr = new MultiThreadedHttpConnectionManager();
+            final HttpConnectionManagerParams connectionMgrParams = mgr.getParams();
 
             client = new HttpClient(mgr);
 
@@ -80,18 +80,18 @@ public final class HttpClientFactory
 
             if (fileSystemOptions != null)
             {
-                String proxyHost = builder.getProxyHost(fileSystemOptions);
-                int proxyPort = builder.getProxyPort(fileSystemOptions);
+                final String proxyHost = builder.getProxyHost(fileSystemOptions);
+                final int proxyPort = builder.getProxyPort(fileSystemOptions);
 
                 if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0)
                 {
                     config.setProxy(proxyHost, proxyPort);
                 }
 
-                UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
+                final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
                 if (proxyAuth != null)
                 {
-                    UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth,
+                    final UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth,
                         new UserAuthenticationData.Type[]
                         {
                             UserAuthenticationData.USERNAME,
@@ -107,19 +107,19 @@ public final class HttpClientFactory
                                 UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
                                     UserAuthenticationData.PASSWORD, null)));
 
-                        AuthScope scope = new AuthScope(proxyHost, AuthScope.ANY_PORT);
+                        final AuthScope scope = new AuthScope(proxyHost, AuthScope.ANY_PORT);
                         client.getState().setProxyCredentials(scope, proxyCreds);
                     }
 
                     if (builder.isPreemptiveAuth(fileSystemOptions))
                     {
-                        HttpClientParams httpClientParams = new HttpClientParams();
+                        final HttpClientParams httpClientParams = new HttpClientParams();
                         httpClientParams.setAuthenticationPreemptive(true);
                         client.setParams(httpClientParams);
                     }
                 }
 
-                Cookie[] cookies = builder.getCookies(fileSystemOptions);
+                final Cookie[] cookies = builder.getCookies(fileSystemOptions);
                 if (cookies != null)
                 {
                     client.getState().addCookies(cookies);
@@ -139,7 +139,7 @@ public final class HttpClientFactory
             {
                 final UsernamePasswordCredentials creds =
                     new UsernamePasswordCredentials(username, password);
-                AuthScope scope = new AuthScope(hostname, AuthScope.ANY_PORT);
+                final AuthScope scope = new AuthScope(hostname, AuthScope.ANY_PORT);
                 client.getState().setCredentials(scope, creds);
             }
 

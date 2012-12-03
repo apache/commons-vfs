@@ -103,7 +103,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
             int length = children.length;
             if (info.children.size() != children.length)
             {
-                for (FileObject element : children)
+                for (final FileObject element : children)
                 {
                     if (element.getName().getBaseName().startsWith("."))
                     {
@@ -119,7 +119,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
             // Recursively check each child
             for (final FileObject child : children)
             {
-                String childName = child.getName().getBaseName();
+                final String childName = child.getName().getBaseName();
                 if (childName.startsWith("."))
                 {
                     continue;
@@ -165,8 +165,8 @@ public class ProviderReadTests extends AbstractProviderTestCase
         {
             return;
         }
-        FileSystem fs = getFileSystem();
-        String uri = fs.getRootURI();
+        final FileSystem fs = getFileSystem();
+        final String uri = fs.getRootURI();
         final FileObject file = getManager().resolveFile(uri, fs.getFileSystemOptions());
         file.getChildren();
     }
@@ -183,7 +183,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
         final FileObject[] actualFiles = getReadFolder().findFiles(selector);
         Arrays.sort(actualFiles);
         FileObject prevActualFile = actualFiles[0];
-        for (FileObject actualFile : actualFiles)
+        for (final FileObject actualFile : actualFiles)
         {
             assertTrue(prevActualFile.toString().compareTo(actualFile.toString()) <= 0);
             prevActualFile = actualFile;
@@ -214,12 +214,12 @@ public class ProviderReadTests extends AbstractProviderTestCase
         }
 
         // Try getting the content of a folder
-        FileObject folder = getReadFolderDir1();
+        final FileObject folder = getReadFolderDir1();
         try
         {
             folder.getContent().getInputStream();
             fail();
-        } catch (FileSystemException e)
+        } catch (final FileSystemException e)
         {
             assertSameMessage("vfs.provider/read-not-file.error", folder, e);
         }
@@ -230,7 +230,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
      */
     public void testFolderIsHidden() throws Exception
     {
-        FileObject folder = getReadFolderDir1();
+        final FileObject folder = getReadFolderDir1();
         Assert.assertFalse(folder.isHidden());
     }
 
@@ -239,7 +239,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
      */
     public void testFolderIsReadable() throws Exception
     {
-        FileObject folder = getReadFolderDir1();
+        final FileObject folder = getReadFolderDir1();
         Assert.assertTrue(folder.isReadable());
     }
 

@@ -39,8 +39,8 @@ public final class UserAuthenticatorUtils
      * @param overriddenValue The default value.
      * @return The data of the given type as a character array or null if the data is not available.
      */
-    public static char[] getData(UserAuthenticationData data, UserAuthenticationData.Type type,
-                                 char[] overriddenValue)
+    public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type,
+                                 final char[] overriddenValue)
     {
         if (overriddenValue != null)
         {
@@ -62,10 +62,10 @@ public final class UserAuthenticatorUtils
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
      */
-    public static UserAuthenticationData authenticate(FileSystemOptions opts,
-                                                      UserAuthenticationData.Type[] authenticatorTypes)
+    public static UserAuthenticationData authenticate(final FileSystemOptions opts,
+                                                      final UserAuthenticationData.Type[] authenticatorTypes)
     {
-        UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
+        final UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
         return authenticate(auth, authenticatorTypes);
     }
 
@@ -76,8 +76,8 @@ public final class UserAuthenticatorUtils
      * @param authenticatorTypes An array of types describing the data to be retrieved.
      * @return A UserAuthenticationData object containing the data requested.
      */
-    public static UserAuthenticationData authenticate(UserAuthenticator auth,
-                                                      UserAuthenticationData.Type[] authenticatorTypes)
+    public static UserAuthenticationData authenticate(final UserAuthenticator auth,
+                                                      final UserAuthenticationData.Type[] authenticatorTypes)
     {
         if (auth == null)
         {
@@ -93,7 +93,7 @@ public final class UserAuthenticatorUtils
      * @param string The String to convert.
      * @return The character array.
      */
-    public static char[] toChar(String string)
+    public static char[] toChar(final String string)
     {
         if (string == null)
         {
@@ -108,7 +108,7 @@ public final class UserAuthenticatorUtils
      *
      * @param authData The UserAuthenticationDAta.
      */
-    public static void cleanup(UserAuthenticationData authData)
+    public static void cleanup(final UserAuthenticationData authData)
     {
         if (authData == null)
         {
@@ -124,7 +124,7 @@ public final class UserAuthenticatorUtils
      * @param data A character array containing the data to convert to a String.
      * @return The String.
      */
-    public static String toString(char[] data)
+    public static String toString(final char[] data)
     {
         if (data == null)
         {

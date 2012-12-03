@@ -73,7 +73,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
         {
             // Remove the "file:///"
             // LocalFileName localFileName = (LocalFileName) getName();
-            String fileName = rootFile + getName().getPathDecoded();
+            final String fileName = rootFile + getName().getPathDecoded();
             // fileName = UriParser.decode(fileName);
             file = new File(fileName);
         }
@@ -133,7 +133,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
     @Override
     protected void doRename(final FileObject newFile) throws Exception
     {
-        LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newFile);
+        final LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newFile);
 
         if (!file.renameTo(newLocalFile.getLocalFile()))
         {
@@ -164,7 +164,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
     }
 
     @Override
-    protected boolean doSetWritable(boolean writable, boolean ownerOnly) throws Exception
+    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception
     {
         return file.setWritable(writable, ownerOnly);
     }
@@ -197,13 +197,13 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
     }
 
     @Override
-    protected boolean doSetReadable(boolean readable, boolean ownerOnly) throws Exception
+    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception
     {
         return file.setReadable(readable, ownerOnly);
     }
 
     @Override
-    protected boolean doSetExecutable(boolean executable, boolean ownerOnly) throws Exception
+    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception
     {
         return file.setExecutable(executable, ownerOnly);
     }
@@ -240,7 +240,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend)
+    protected OutputStream doGetOutputStream(final boolean bAppend)
         throws Exception
     {
         return new FileOutputStream(file.getPath(), bAppend);
@@ -262,14 +262,14 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
     }
 
     @Override
-    protected boolean doIsSameFile(FileObject destFile) throws FileSystemException
+    protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException
     {
         if (!FileObjectUtils.isInstanceOf(destFile, LocalFile.class))
         {
             return false;
         }
 
-        LocalFile destLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(destFile);
+        final LocalFile destLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(destFile);
         if (!exists() || !destLocalFile.exists())
         {
             return false;
@@ -279,7 +279,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
         {
             return file.getCanonicalPath().equals(destLocalFile.file.getCanonicalPath());
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new FileSystemException(e);
         }
@@ -298,7 +298,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
             // those characters before returning
             return UriParser.decode(getName().getURI());
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             return getName().getURI();
         }

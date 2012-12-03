@@ -32,7 +32,7 @@ public class FileNotFolderException extends FileSystemException
         super("vfs.provider/list-children-not-folder.error", info0);
     }
 
-    public FileNotFolderException(Object info0, Throwable throwable)
+    public FileNotFolderException(final Object info0, final Throwable throwable)
     {
         super("vfs.provider/list-children-not-folder.error", info0, throwable);
     }

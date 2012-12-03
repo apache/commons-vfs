@@ -37,7 +37,7 @@ public final class VfsLog
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void warn(Log vfslog, Log commonslog, String message, Throwable t)
+    public static void warn(final Log vfslog, final Log commonslog, final String message, final Throwable t)
     {
         if (vfslog != null)
         {
@@ -55,7 +55,7 @@ public final class VfsLog
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void warn(Log vfslog, Log commonslog, String message)
+    public static void warn(final Log vfslog, final Log commonslog, final String message)
     {
         if (vfslog != null)
         {
@@ -73,7 +73,7 @@ public final class VfsLog
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void debug(Log vfslog, Log commonslog, String message)
+    public static void debug(final Log vfslog, final Log commonslog, final String message)
     {
         if (vfslog != null)
         {
@@ -92,7 +92,7 @@ public final class VfsLog
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void debug(Log vfslog, Log commonslog, String message, Throwable t)
+    public static void debug(final Log vfslog, final Log commonslog, final String message, final Throwable t)
     {
         if (vfslog != null)
         {
@@ -111,7 +111,7 @@ public final class VfsLog
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void info(Log vfslog, Log commonslog, String message, Throwable t)
+    public static void info(final Log vfslog, final Log commonslog, final String message, final Throwable t)
     {
         if (vfslog != null)
         {
@@ -129,7 +129,7 @@ public final class VfsLog
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void info(Log vfslog, Log commonslog, String message)
+    public static void info(final Log vfslog, final Log commonslog, final String message)
     {
         if (vfslog != null)
         {
@@ -148,7 +148,7 @@ public final class VfsLog
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void error(Log vfslog, Log commonslog, String message, Throwable t)
+    public static void error(final Log vfslog, final Log commonslog, final String message, final Throwable t)
     {
         if (vfslog != null)
         {
@@ -166,7 +166,7 @@ public final class VfsLog
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void error(Log vfslog, Log commonslog, String message)
+    public static void error(final Log vfslog, final Log commonslog, final String message)
     {
         if (vfslog != null)
         {
@@ -185,7 +185,7 @@ public final class VfsLog
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void fatal(Log vfslog, Log commonslog, String message, Throwable t)
+    public static void fatal(final Log vfslog, final Log commonslog, final String message, final Throwable t)
     {
         if (vfslog != null)
         {
@@ -203,7 +203,7 @@ public final class VfsLog
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void fatal(Log vfslog, Log commonslog, String message)
+    public static void fatal(final Log vfslog, final Log commonslog, final String message)
     {
         if (vfslog != null)
         {

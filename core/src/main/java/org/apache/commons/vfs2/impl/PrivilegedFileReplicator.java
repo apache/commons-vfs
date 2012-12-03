@@ -40,7 +40,7 @@ public class PrivilegedFileReplicator
     private final FileReplicator replicator;
     private final VfsComponent replicatorComponent;
 
-    public PrivilegedFileReplicator(FileReplicator replicator)
+    public PrivilegedFileReplicator(final FileReplicator replicator)
     {
         this.replicator = replicator;
         if (replicator instanceof VfsComponent)
@@ -119,7 +119,7 @@ public class PrivilegedFileReplicator
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public File replicateFile(FileObject srcFile, FileSelector selector)
+    public File replicateFile(final FileObject srcFile, final FileSelector selector)
         throws FileSystemException
     {
         try

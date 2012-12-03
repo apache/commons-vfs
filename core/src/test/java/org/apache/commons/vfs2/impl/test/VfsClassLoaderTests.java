@@ -49,7 +49,7 @@ public class VfsClassLoaderTests
      */
     private VFSClassLoader createClassLoader() throws FileSystemException
     {
-        FileObject file = getBaseFolder();
+        final FileObject file = getBaseFolder();
         return new VFSClassLoader(file, getManager());
     }
 

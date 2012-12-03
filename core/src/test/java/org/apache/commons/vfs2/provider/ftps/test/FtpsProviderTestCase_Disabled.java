@@ -114,14 +114,14 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
         // The user prop file requires the "homedirectory" to be set
         user.setHomeDirectory(getTestDirectoryString());
         serverFactory.setUserManager(userManager);
-        ListenerFactory factory = new ListenerFactory();
+        final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
         factory.setPort(SocketPort);
 
         // define SSL configuration
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
         Assert.assertNotNull(SERVER_JKS_RES, serverJksResource);
-        SslConfigurationFactory ssl = new SslConfigurationFactory();
+        final SslConfigurationFactory ssl = new SslConfigurationFactory();
         final File keyStoreFile = new File(serverJksResource.getFile());
         Assert.assertTrue(keyStoreFile.toString(), keyStoreFile.exists());
         ssl.setKeystoreFile(keyStoreFile);

@@ -68,10 +68,10 @@ public class TemporaryFileProvider
     }
 
     @Override
-    public int compareTo(Object o)
+    public int compareTo(final Object o)
     {
-        int h1 = hashCode();
-        int h2 = o.hashCode();
+        final int h1 = hashCode();
+        final int h2 = o.hashCode();
         if (h1 < h2)
         {
             return -1;
@@ -103,7 +103,7 @@ public class TemporaryFileProvider
 
         UriParser.fixSeparators(buffer);
 
-        FileType fileType = UriParser.normalisePath(buffer);
+        final FileType fileType = UriParser.normalisePath(buffer);
         final String path = buffer.toString();
 
         // Create the temp file system if it does not exist

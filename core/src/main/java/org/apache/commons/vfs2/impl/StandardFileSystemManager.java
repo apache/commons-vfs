@@ -61,7 +61,7 @@ public class StandardFileSystemManager
         {
             setConfiguration(new URL(configUri));
         }
-        catch (MalformedURLException e)
+        catch (final MalformedURLException e)
         {
             getLogger().warn(e.getLocalizedMessage(), e);
         }
@@ -134,21 +134,21 @@ public class StandardFileSystemManager
      */
     protected void configurePlugins() throws FileSystemException
     {
-        ClassLoader cl = findClassLoader();
+        final ClassLoader cl = findClassLoader();
 
         Enumeration<URL> enumResources;
         try
         {
             enumResources = cl.getResources(PLUGIN_CONFIG_RESOURCE);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new FileSystemException(e);
         }
 
         while (enumResources.hasMoreElements())
         {
-            URL url = enumResources.nextElement();
+            final URL url = enumResources.nextElement();
             configure(url);
         }
     }
@@ -204,7 +204,7 @@ public class StandardFileSystemManager
                 {
                     configStream.close();
                 }
-                catch (IOException e)
+                catch (final IOException e)
                 {
                     getLogger().warn(e.getLocalizedMessage(), e);
                 }
@@ -339,7 +339,7 @@ public class StandardFileSystemManager
 
         // Make sure all required schemes are available
         final String[] requiredSchemes = getRequiredSchemes(providerDef);
-        for (String requiredScheme : requiredSchemes)
+        for (final String requiredScheme : requiredSchemes)
         {
             if (!hasProvider(requiredScheme))
             {
@@ -352,7 +352,7 @@ public class StandardFileSystemManager
 
         // Make sure all required classes are in classpath
         final String[] requiredClasses = getRequiredClasses(providerDef);
-        for (String requiredClass : requiredClasses)
+        for (final String requiredClass : requiredClasses)
         {
             if (!findClass(requiredClass))
             {
@@ -424,7 +424,7 @@ public class StandardFileSystemManager
         for (int i = 0; i < count; i++)
         {
             final Element dep = (Element) deps.item(i);
-            String className = dep.getAttribute("class-name");
+            final String className = dep.getAttribute("class-name");
             if (className != null && className.length() > 0)
             {
                 classes.add(className);
@@ -444,7 +444,7 @@ public class StandardFileSystemManager
         for (int i = 0; i < count; i++)
         {
             final Element dep = (Element) deps.item(i);
-            String scheme = dep.getAttribute("scheme");
+            final String scheme = dep.getAttribute("scheme");
             if (scheme != null && scheme.length() > 0)
             {
                 schemes.add(scheme);

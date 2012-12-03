@@ -39,7 +39,7 @@ public class FileDepthSelector implements FileSelector
      * @param maxDepth
      *            maximum depth
      */
-    public FileDepthSelector(int minDepth, int maxDepth)
+    public FileDepthSelector(final int minDepth, final int maxDepth)
     {
         this.minDepth = minDepth;
         this.maxDepth = maxDepth;
@@ -52,7 +52,7 @@ public class FileDepthSelector implements FileSelector
      *            minimum and maximum depth
      * @since 2.1
      */
-    public FileDepthSelector(int minMaxDepth)
+    public FileDepthSelector(final int minMaxDepth)
     {
         this(minMaxDepth, minMaxDepth);
     }

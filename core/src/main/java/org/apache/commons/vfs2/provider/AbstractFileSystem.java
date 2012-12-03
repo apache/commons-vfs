@@ -110,7 +110,7 @@ public abstract class AbstractFileSystem
         this.parentLayer = parentLayer;
         this.rootName = rootName;
         this.fileSystemOptions = fileSystemOptions;
-        FileSystemConfigBuilder builder = DefaultFileSystemConfigBuilder.getInstance();
+        final FileSystemConfigBuilder builder = DefaultFileSystemConfigBuilder.getInstance();
         String uri = builder.getRootURI(fileSystemOptions);
         if (uri == null)
         {
@@ -349,7 +349,7 @@ public abstract class AbstractFileSystem
             {
                 file = createFile((AbstractFileName) name);
             }
-            catch (Exception e)
+            catch (final Exception e)
             {
                 throw new FileSystemException("vfs.provider/resolve-file.error", name, e);
             }
@@ -388,17 +388,17 @@ public abstract class AbstractFileSystem
                 file = (FileObject) getFileSystemManager().getFileObjectDecoratorConst().
                         newInstance(new Object[]{file});
             }
-            catch (InstantiationException e)
+            catch (final InstantiationException e)
             {
                 throw new FileSystemException("vfs.impl/invalid-decorator.error",
                         getFileSystemManager().getFileObjectDecorator().getName(), e);
             }
-            catch (IllegalAccessException e)
+            catch (final IllegalAccessException e)
             {
                 throw new FileSystemException("vfs.impl/invalid-decorator.error",
                         getFileSystemManager().getFileObjectDecorator().getName(), e);
             }
-            catch (InvocationTargetException e)
+            catch (final InvocationTargetException e)
             {
                 throw new FileSystemException("vfs.impl/invalid-decorator.error",
                         getFileSystemManager().getFileObjectDecorator().getName(), e);
@@ -635,17 +635,17 @@ public abstract class AbstractFileSystem
     }
     */
 
-    void fileObjectHanded(FileObject fileObject)
+    void fileObjectHanded(final FileObject fileObject)
     {
         useCount.incrementAndGet();
     }
 
-    void fileObjectDestroyed(FileObject fileObject)
+    void fileObjectDestroyed(final FileObject fileObject)
     {
         useCount.decrementAndGet();
     }
 
-    void setCacheKey(FileSystemKey cacheKey)
+    void setCacheKey(final FileSystemKey cacheKey)
     {
         this.cacheKey = cacheKey;
     }

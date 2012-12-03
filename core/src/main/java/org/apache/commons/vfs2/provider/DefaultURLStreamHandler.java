@@ -61,7 +61,7 @@ public class DefaultURLStreamHandler
     {
         try
         {
-            FileObject old = context.resolveFile(u.toExternalForm(), fileSystemOptions);
+            final FileObject old = context.resolveFile(u.toExternalForm(), fileSystemOptions);
 
             FileObject newURL;
             if (start > 0 && spec.charAt(start - 1) == ':')
@@ -87,7 +87,7 @@ public class DefaultURLStreamHandler
 
             setURL(u, protocolPart, "", -1, null, null, filePart.toString(), null, null);
         }
-        catch (FileSystemException fse)
+        catch (final FileSystemException fse)
         {
             // This is rethrown to MalformedURLException in URL anyway
             throw new RuntimeException(fse.getMessage());

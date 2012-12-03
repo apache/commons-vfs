@@ -21,7 +21,7 @@ package code;
  */
 public class ClassToLoad
 {
-    private String m_message = "**PRIVATE**";
+    private final String m_message = "**PRIVATE**";
 
     @Override
     public String toString()

@@ -59,7 +59,7 @@ public class UrlTests
         {
             parentURL = new URL(url, "..");
         }
-        catch (MalformedURLException e)
+        catch (final MalformedURLException e)
         {
             throw e;
         }

@@ -31,13 +31,13 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  */
 public class Bzip2FileSystem extends CompressedFileFileSystem
 {
-    protected Bzip2FileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions)
+    protected Bzip2FileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, parentLayer, fileSystemOptions);
     }
 
     @Override
-    protected FileObject createFile(AbstractFileName name) throws FileSystemException
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
     {
         return new Bzip2FileObject(name, getParentLayer(), this);
     }

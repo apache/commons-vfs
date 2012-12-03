@@ -42,13 +42,13 @@ public class FileSystemManagerFactoryTestCase
         // Lookup a test jar file
         final File jarFile = getTestResourceFile("test.jar");
         // File
-        FileObject file = manager.toFileObject(jarFile);
+        final FileObject file = manager.toFileObject(jarFile);
         check(manager, file);
         // URI
-        FileObject file2 = manager.resolveFile(jarFile.toURI());
+        final FileObject file2 = manager.resolveFile(jarFile.toURI());
         check(manager, file2);
         // URL
-        FileObject file3 = manager.resolveFile(jarFile.toURI().toURL());
+        final FileObject file3 = manager.resolveFile(jarFile.toURI().toURL());
         check(manager, file3);
     }
 

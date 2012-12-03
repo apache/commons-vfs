@@ -33,12 +33,12 @@ public class FileNameTests
     public void testAbsoluteFileName() throws Exception
     {
         // Locate file by absolute file name
-        String fileName = new File("testdir").getAbsolutePath();
-        FileObject absFile = getManager().resolveFile(fileName);
+        final String fileName = new File("testdir").getAbsolutePath();
+        final FileObject absFile = getManager().resolveFile(fileName);
 
         // Locate file by URI
-        String uri = "file://" + fileName.replace(File.separatorChar, '/');
-        FileObject uriFile = getManager().resolveFile(uri);
+        final String uri = "file://" + fileName.replace(File.separatorChar, '/');
+        final FileObject uriFile = getManager().resolveFile(uri);
 
         assertSame("file object", absFile, uriFile);
     }

@@ -38,12 +38,12 @@ public class ProviderConfiguration
         return className;
     }
 
-    public void setClassName(String className)
+    public void setClassName(final String className)
     {
         this.className = className;
     }
 
-    public void setScheme(String scheme)
+    public void setScheme(final String scheme)
     {
         schemes.add(scheme);
     }
@@ -53,7 +53,7 @@ public class ProviderConfiguration
         return schemes;
     }
 
-    public void setDependency(String dependency)
+    public void setDependency(final String dependency)
     {
         dependenies.add(dependency);
     }

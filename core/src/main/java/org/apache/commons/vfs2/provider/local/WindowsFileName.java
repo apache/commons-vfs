@@ -39,7 +39,7 @@ public class WindowsFileName extends LocalFileName
      * @return The FileName.
      */
     @Override
-    public FileName createName(final String path, FileType type)
+    public FileName createName(final String path, final FileType type)
     {
         return new WindowsFileName(getScheme(), getRootFile(), path, type);
     }
@@ -48,7 +48,7 @@ public class WindowsFileName extends LocalFileName
      * Builds the root URI for this file name.
      */
     @Override
-    protected void appendRootUri(final StringBuilder buffer, boolean addPassword)
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
     {
         buffer.append(getScheme());
         buffer.append("://");

@@ -68,7 +68,7 @@ class JcrUtils
      * @throws RepositoryException
      *             if the child node can not be accessed or created
      */
-    public static Node getOrAddFolder(Node parent, String name) throws RepositoryException
+    public static Node getOrAddFolder(final Node parent, final String name) throws RepositoryException
     {
         return getOrAddNode(parent, name, NodeType_NT_FOLDER);
     }
@@ -90,7 +90,7 @@ class JcrUtils
      * @throws RepositoryException
      *             if the child node can not be accessed or created
      */
-    public static Node getOrAddNode(Node parent, String name, String type) throws RepositoryException
+    public static Node getOrAddNode(final Node parent, final String name, final String type) throws RepositoryException
     {
         if (parent.hasNode(name))
         {
@@ -136,7 +136,7 @@ class JcrUtils
      * @throws RepositoryException
      *             if the child node can not be created or updated
      */
-    public static Node putFile(Node parent, String name, String mime, InputStream data) throws RepositoryException
+    public static Node putFile(final Node parent, final String name, final String mime, final InputStream data) throws RepositoryException
     {
         return putFile(parent, name, mime, data, Calendar.getInstance());
     }
@@ -178,23 +178,23 @@ class JcrUtils
      * @throws RepositoryException
      *             if the child node can not be created or updated
      */
-    public static Node putFile(Node parent, String name, String mime, InputStream data, Calendar date)
+    public static Node putFile(final Node parent, final String name, final String mime, final InputStream data, final Calendar date)
             throws RepositoryException
     {
-        Value binary = parent.getSession().getValueFactory().createValue(data);
+        final Value binary = parent.getSession().getValueFactory().createValue(data);
         try
         {
-            Node file = getOrAddNode(parent, name, NodeType_NT_FILE);
-            Node content = getOrAddNode(file, Node_JCR_CONTENT, NodeType_NT_RESOURCE);
+            final Node file = getOrAddNode(parent, name, NodeType_NT_FILE);
+            final Node content = getOrAddNode(file, Node_JCR_CONTENT, NodeType_NT_RESOURCE);
 
             content.setProperty(Property_JCR_MIMETYPE, mime);
-            String[] parameters = mime.split(";");
+            final String[] parameters = mime.split(";");
             for (int i = 1; i < parameters.length; i++)
             {
-                int equals = parameters[i].indexOf('=');
+                final int equals = parameters[i].indexOf('=');
                 if (equals != -1)
                 {
-                    String parameter = parameters[i].substring(0, equals);
+                    final String parameter = parameters[i].substring(0, equals);
                     if ("charset".equalsIgnoreCase(parameter.trim()))
                     {
                         content.setProperty(Property_JCR_ENCODING, parameters[i].substring(equals + 1).trim());

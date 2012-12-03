@@ -49,7 +49,7 @@ public class CustomRamProviderTest
 {
     private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[]{ 1, 2, 3 };
 
-    private List<Closeable> closeables = new ArrayList<Closeable>();
+    private final List<Closeable> closeables = new ArrayList<Closeable>();
 
     FileSystemOptions defaultRamFs = new FileSystemOptions();
 
@@ -62,7 +62,7 @@ public class CustomRamProviderTest
     /**
      * Closes the given {@link Closeable} during the tearDown phase.
      */
-    private <C extends Closeable> C closeOnTearDown(C closeable)
+    private <C extends Closeable> C closeOnTearDown(final C closeable)
     {
         this.closeables.add(closeable);
         return closeable;
@@ -106,7 +106,7 @@ public class CustomRamProviderTest
     @After
     public void tearDown() throws Exception
     {
-        for (Closeable closeable : this.closeables)
+        for (final Closeable closeable : this.closeables)
         {
             try
             {
@@ -204,14 +204,14 @@ public class CustomRamProviderTest
     @Test
     public void testRootFolderExists() throws FileSystemException
     {
-        FileObject root = manager.resolveFile("ram:///", defaultRamFs);
+        final FileObject root = manager.resolveFile("ram:///", defaultRamFs);
         assertTrue(root.getType().hasChildren());
 
         try
         {
             root.delete();
             fail();
-        } catch (FileSystemException e)
+        } catch (final FileSystemException e)
         {
             // Expected
         }
@@ -222,34 +222,34 @@ public class CustomRamProviderTest
     public void testSmallFS() throws Exception
     {
         // Default FS
-        FileObject fo1 = manager.resolveFile("ram:/");
-        FileObject fo2 = manager.resolveFile("ram:/");
+        final FileObject fo1 = manager.resolveFile("ram:/");
+        final FileObject fo2 = manager.resolveFile("ram:/");
         assertTrue("Both files should exist in the same fs instance.", fo1.getFileSystem() == fo2.getFileSystem());
 
         // Small FS
-        FileObject fo3 = manager.resolveFile("ram:/fo3", smallSized);
-        FileObject fo4 = manager.resolveFile("ram:/", smallSized);
+        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSized);
+        final FileObject fo4 = manager.resolveFile("ram:/", smallSized);
         assertTrue("Both files should exist in different fs instances.", fo3.getFileSystem() == fo4.getFileSystem());
         assertTrue("These file shouldn't be in the same file system.", fo1.getFileSystem() != fo3.getFileSystem());
 
         fo3.createFile();
         try
         {
-            OutputStream os = fo3.getContent().getOutputStream();
+            final OutputStream os = fo3.getContent().getOutputStream();
             os.write(new byte[10]);
             os.close();
-        } catch (FileSystemException e)
+        } catch (final FileSystemException e)
         {
             fail("It shouldn't save such a small file");
         }
 
         try
         {
-            OutputStream os = fo3.getContent().getOutputStream();
+            final OutputStream os = fo3.getContent().getOutputStream();
             os.write(new byte[11]);
             os.close();
             fail("It shouldn't save such a big file");
-        } catch (FileSystemException e)
+        } catch (final FileSystemException e)
         {
             // Expected
         }

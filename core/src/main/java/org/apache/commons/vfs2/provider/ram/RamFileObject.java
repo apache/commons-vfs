@@ -48,7 +48,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @param fs
      *            The FileSystem.
      */
-    protected RamFileObject(AbstractFileName name, RamFileSystem fs)
+    protected RamFileObject(final AbstractFileName name, final RamFileSystem fs)
     {
         super(name, fs);
         this.getAbstractFileSystem().attach(this);
@@ -115,7 +115,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream(boolean)
      */
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
     {
         if (!bAppend)
         {
@@ -158,7 +158,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      */
     /** @since 2.0 */
     @Override
-    protected boolean doSetLastModifiedTime(long modtime) throws Exception
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
     {
         data.setLastModified(modtime);
         return true;
@@ -182,9 +182,9 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(org.apache.commons.vfs2.FileObject)
      */
     @Override
-    protected void doRename(FileObject newFile) throws Exception
+    protected void doRename(final FileObject newFile) throws Exception
     {
-        RamFileObject newRamFileObject = (RamFileObject) FileObjectUtils.getAbstractFileObject(newFile);
+        final RamFileObject newRamFileObject = (RamFileObject) FileObjectUtils.getAbstractFileObject(newFile);
         getAbstractFileSystem().rename(this, newRamFileObject);
     }
 
@@ -195,7 +195,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * org.apache.commons.vfs2.util.RandomAccessMode)
      */
     @Override
-    protected RandomAccessContent doGetRandomAccessContent(RandomAccessMode mode) throws Exception
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
         return new RamFileRandomAccessContent(this, mode);
     }
@@ -223,7 +223,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @param data
      *            The data to set.
      */
-    void setData(RamFileData data)
+    void setData(final RamFileData data)
     {
         this.data = data;
     }
@@ -234,7 +234,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#injectType(org.apache.commons.vfs2.FileType)
      */
     @Override
-    protected void injectType(FileType fileType)
+    protected void injectType(final FileType fileType)
     {
         this.data.setType(fileType);
         super.injectType(fileType);
@@ -265,14 +265,14 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @throws IOException
      *             if the new size exceeds the limit
      */
-    synchronized void resize(long newSize) throws IOException
+    synchronized void resize(final long newSize) throws IOException
     {
         final RamFileSystem afs = getAbstractFileSystem();
         final FileSystemOptions afsOptions = afs.getFileSystemOptions();
         if (afsOptions != null)
         {
             // A future implementation may allow longs...
-            int maxSize = RamFileSystemConfigBuilder.getInstance().getMaxSize(afsOptions);
+            final int maxSize = RamFileSystemConfigBuilder.getInstance().getMaxSize(afsOptions);
             if (afs.size() + newSize - this.size() > maxSize)
             {
                 throw new IOException("FileSystem capacity (" + maxSize + ") exceeded.");

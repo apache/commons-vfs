@@ -80,7 +80,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param factory instance of your factory
      */
-    public void setEntryParserFactory(FileSystemOptions opts, FTPFileEntryParserFactory factory)
+    public void setEntryParserFactory(final FileSystemOptions opts, final FTPFileEntryParserFactory factory)
     {
         setParam(opts, FTPFileEntryParserFactory.class.getName(), factory);
     }
@@ -90,7 +90,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The FTPFileEntryParserFactory.
      * @see #setEntryParserFactory
      */
-    public FTPFileEntryParserFactory getEntryParserFactory(FileSystemOptions opts)
+    public FTPFileEntryParserFactory getEntryParserFactory(final FileSystemOptions opts)
     {
         return (FTPFileEntryParserFactory) getParam(opts, FTPFileEntryParserFactory.class.getName());
     }
@@ -105,7 +105,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param key The key.
      */
-    public void setEntryParser(FileSystemOptions opts, String key)
+    public void setEntryParser(final FileSystemOptions opts, final String key)
     {
         setParam(opts, FACTORY_KEY, key);
     }
@@ -115,7 +115,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The key.
      * @see #setEntryParser
      */
-    public String getEntryParser(FileSystemOptions opts)
+    public String getEntryParser(final FileSystemOptions opts)
     {
         return (String) getParam(opts, FACTORY_KEY);
     }
@@ -132,7 +132,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param passiveMode true if passive mode should be used, false otherwise.
      */
-    public void setPassiveMode(FileSystemOptions opts, boolean passiveMode)
+    public void setPassiveMode(final FileSystemOptions opts, final boolean passiveMode)
     {
         setParam(opts, PASSIVE_MODE, passiveMode ? Boolean.TRUE : Boolean.FALSE);
     }
@@ -142,7 +142,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return true if passive mode is being used.
      * @see #setPassiveMode
      */
-    public Boolean getPassiveMode(FileSystemOptions opts)
+    public Boolean getPassiveMode(final FileSystemOptions opts)
     {
         return (Boolean) getParam(opts, PASSIVE_MODE);
     }
@@ -153,7 +153,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param userDirIsRoot true if the user directory should be the root.
      */
-    public void setUserDirIsRoot(FileSystemOptions opts, boolean userDirIsRoot)
+    public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot)
     {
         setParam(opts, USER_DIR_IS_ROOT,
             userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
@@ -164,7 +164,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return true if the user directory is the root.
      * @see #setUserDirIsRoot
      */
-    public Boolean getUserDirIsRoot(FileSystemOptions opts)
+    public Boolean getUserDirIsRoot(final FileSystemOptions opts)
     {
         return getBoolean(opts, USER_DIR_IS_ROOT, Boolean.TRUE);
     }
@@ -175,7 +175,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param ftpsType The file type.
      */
-    public void setFtpsType(FileSystemOptions opts, String ftpsType)
+    public void setFtpsType(final FileSystemOptions opts, final String ftpsType)
     {
         setParam(opts, FTPS_TYPE, ftpsType);
     }
@@ -187,7 +187,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The file type.
      * @see #setFtpsType
      */
-    public String getFtpsType(FileSystemOptions opts)
+    public String getFtpsType(final FileSystemOptions opts)
     {
         return getString(opts, FTPS_TYPE, FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT);
     }
@@ -197,7 +197,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The timeout value.
      * @see #setDataTimeout
      */
-    public Integer getDataTimeout(FileSystemOptions opts)
+    public Integer getDataTimeout(final FileSystemOptions opts)
     {
         return (Integer) getParam(opts, DATA_TIMEOUT);
     }
@@ -210,7 +210,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts  The FileSystemOptions.
      * @param dataTimeout The timeout value.
      */
-    public void setDataTimeout(FileSystemOptions opts, Integer dataTimeout)
+    public void setDataTimeout(final FileSystemOptions opts, final Integer dataTimeout)
     {
         setParam(opts, DATA_TIMEOUT, dataTimeout);
     }
@@ -221,7 +221,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return The language code.
      */
-    public String getServerLanguageCode(FileSystemOptions opts)
+    public String getServerLanguageCode(final FileSystemOptions opts)
     {
         return (String) getParam(opts, SERVER_LANGUAGE_CODE);
     }
@@ -232,8 +232,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param serverLanguageCode the language code.
      */
-    public void setServerLanguageCode(FileSystemOptions opts,
-                                      String serverLanguageCode)
+    public void setServerLanguageCode(final FileSystemOptions opts,
+                                      final String serverLanguageCode)
     {
         setParam(opts, SERVER_LANGUAGE_CODE, serverLanguageCode);
     }
@@ -244,7 +244,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return The default date format.
      */
-    public String getDefaultDateFormat(FileSystemOptions opts)
+    public String getDefaultDateFormat(final FileSystemOptions opts)
     {
         return (String) getParam(opts, DEFAULT_DATE_FORMAT);
     }
@@ -255,8 +255,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param defaultDateFormat The default date format.
      */
-    public void setDefaultDateFormat(FileSystemOptions opts,
-                                     String defaultDateFormat)
+    public void setDefaultDateFormat(final FileSystemOptions opts,
+                                     final String defaultDateFormat)
     {
         setParam(opts, DEFAULT_DATE_FORMAT, defaultDateFormat);
     }
@@ -266,7 +266,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return The recent date format.
      */
-    public String getRecentDateFormat(FileSystemOptions opts)
+    public String getRecentDateFormat(final FileSystemOptions opts)
     {
         return (String) getParam(opts, RECENT_DATE_FORMAT);
     }
@@ -276,8 +276,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions
      * @param recentDateFormat The recent date format.
      */
-    public void setRecentDateFormat(FileSystemOptions opts,
-                                    String recentDateFormat)
+    public void setRecentDateFormat(final FileSystemOptions opts,
+                                    final String recentDateFormat)
     {
         setParam(opts, RECENT_DATE_FORMAT, recentDateFormat);
     }
@@ -287,7 +287,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return The server timezone id.
      */
-    public String getServerTimeZoneId(FileSystemOptions opts)
+    public String getServerTimeZoneId(final FileSystemOptions opts)
     {
         return (String) getParam(opts, SERVER_TIME_ZONE_ID);
     }
@@ -297,8 +297,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param serverTimeZoneId The server's timezone id.
      */
-    public void setServerTimeZoneId(FileSystemOptions opts,
-                                    String serverTimeZoneId)
+    public void setServerTimeZoneId(final FileSystemOptions opts,
+                                    final String serverTimeZoneId)
     {
         setParam(opts, SERVER_TIME_ZONE_ID, serverTimeZoneId);
     }
@@ -308,7 +308,7 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return An array of short month names.
      */
-    public String[] getShortMonthNames(FileSystemOptions opts)
+    public String[] getShortMonthNames(final FileSystemOptions opts)
     {
         return (String[]) getParam(opts, SHORT_MONTH_NAMES);
     }
@@ -318,8 +318,8 @@ public final class FtpsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param shortMonthNames An array of short month names.
      */
-    public void setShortMonthNames(FileSystemOptions opts,
-                                   String[] shortMonthNames)
+    public void setShortMonthNames(final FileSystemOptions opts,
+                                   final String[] shortMonthNames)
     {
         String[] clone = null;
         if (shortMonthNames != null)

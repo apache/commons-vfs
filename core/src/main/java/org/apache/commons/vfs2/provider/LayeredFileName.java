@@ -51,13 +51,13 @@ public class LayeredFileName extends AbstractFileName
      * @return The FileName.
      */
     @Override
-    public FileName createName(String path, FileType type)
+    public FileName createName(final String path, final FileType type)
     {
         return new LayeredFileName(getScheme(), getOuterName(), path, type);
     }
 
     @Override
-    protected void appendRootUri(StringBuilder buffer, boolean addPassword)
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
     {
         buffer.append(getScheme());
         buffer.append(":");

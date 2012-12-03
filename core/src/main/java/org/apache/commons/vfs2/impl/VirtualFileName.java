@@ -31,13 +31,13 @@ public class VirtualFileName extends AbstractFileName
     }
 
     @Override
-    public FileName createName(String absPath, FileType type)
+    public FileName createName(final String absPath, final FileType type)
     {
         return new VirtualFileName(getScheme(), absPath, type);
     }
 
     @Override
-    protected void appendRootUri(StringBuilder buffer, boolean addPassword)
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
     {
         buffer.append(getScheme());
     }

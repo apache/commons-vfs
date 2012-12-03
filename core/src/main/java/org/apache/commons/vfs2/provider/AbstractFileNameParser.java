@@ -22,7 +22,7 @@ package org.apache.commons.vfs2.provider;
 public abstract class AbstractFileNameParser implements FileNameParser
 {
     @Override
-    public boolean encodeCharacter(char ch)
+    public boolean encodeCharacter(final char ch)
     {
         return ch == '%';
     }

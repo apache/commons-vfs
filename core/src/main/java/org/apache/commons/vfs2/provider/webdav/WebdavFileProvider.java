@@ -86,7 +86,7 @@ public class WebdavFileProvider
     {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
-        FileSystemOptions fsOpts = fileSystemOptions == null ? new FileSystemOptions() : fileSystemOptions;
+        final FileSystemOptions fsOpts = fileSystemOptions == null ? new FileSystemOptions() : fileSystemOptions;
 
         UserAuthenticationData authData = null;
         HttpClient httpClient;

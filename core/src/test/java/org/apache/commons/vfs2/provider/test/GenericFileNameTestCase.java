@@ -32,7 +32,7 @@ public class GenericFileNameTestCase
      */
     public void testParseUri() throws Exception
     {
-        URLFileNameParser urlParser = new URLFileNameParser(21);
+        final URLFileNameParser urlParser = new URLFileNameParser(21);
         // Simple name
         GenericFileName name = (GenericFileName) urlParser.parseUri(null, null, "ftp://hostname/file");
         assertEquals("ftp", name.getScheme());

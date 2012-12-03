@@ -178,13 +178,13 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 // Traverse the children
                 final FileObject[] children = file.getChildren();
-                for (FileObject element : children)
+                for (final FileObject element : children)
                 {
                     doAddFile(element);
                 }
             }
         }
-        catch (FileSystemException fse)
+        catch (final FileSystemException fse)
         {
             LOG.error(fse.getLocalizedMessage(), fse);
         }
@@ -214,14 +214,14 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     {
                         // Traverse the children
                         final FileObject[] children = file.getChildren();
-                        for (FileObject element : children)
+                        for (final FileObject element : children)
                         {
                             this.addFile(element); // Add depth first
                         }
                     }
 
                 }
-                catch (FileSystemException fse)
+                catch (final FileSystemException fse)
                 {
                     LOG.error(fse.getLocalizedMessage(), fse);
                 }
@@ -239,7 +239,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     {
         synchronized (this.monitorMap)
         {
-            FileName fn = file.getName();
+            final FileName fn = file.getName();
             if (this.monitorMap.get(fn) != null)
             {
                 FileObject parent;
@@ -247,7 +247,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 {
                     parent = file.getParent();
                 }
-                catch (FileSystemException fse)
+                catch (final FileSystemException fse)
                 {
                     parent = null;
                 }
@@ -256,7 +256,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                 if (parent != null)
                 { // Not the root
-                    FileMonitorAgent parentAgent =
+                    final FileMonitorAgent parentAgent =
                         this.monitorMap.get(parent.getName());
                     if (parentAgent != null)
                     {
@@ -289,7 +289,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      * Set the delay between runs.
      * @param delay The delay period.
      */
-    public void setDelay(long delay)
+    public void setDelay(final long delay)
     {
         if (delay > 0)
         {
@@ -316,7 +316,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      *
      * @param checksPerRun a value less than 1 will disable this feature
      */
-    public void setChecksPerRun(int checksPerRun)
+    public void setChecksPerRun(final int checksPerRun)
     {
         this.checksPerRun = checksPerRun;
     }
@@ -375,7 +375,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             for (int iterFileNames = 0; iterFileNames < fileNames.length;
                  iterFileNames++)
             {
-                FileName fileName = (FileName) fileNames[iterFileNames];
+                final FileName fileName = (FileName) fileNames[iterFileNames];
                 FileMonitorAgent agent;
                 synchronized (this.monitorMap)
                 {
@@ -394,7 +394,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         {
                             Thread.sleep(getDelay());
                         }
-                        catch (InterruptedException e)
+                        catch (final InterruptedException e)
                         {
                             // Woke up.
                         }
@@ -416,7 +416,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 Thread.sleep(getDelay());
             }
-            catch (InterruptedException e)
+            catch (final InterruptedException e)
             {
                 continue;
             }
@@ -437,7 +437,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         private long timestamp;
         private Map<FileName, Object> children;
 
-        private FileMonitorAgent(DefaultFileMonitor fm, FileObject file)
+        private FileMonitorAgent(final DefaultFileMonitor fm, final FileObject file)
         {
             this.fm = fm;
             this.file = file;
@@ -449,7 +449,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 this.exists = this.file.exists();
             }
-            catch (FileSystemException fse)
+            catch (final FileSystemException fse)
             {
                 this.exists = false;
                 this.timestamp = -1;
@@ -461,7 +461,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 {
                     this.timestamp = this.file.getContent().getLastModifiedTime();
                 }
-                catch (FileSystemException fse)
+                catch (final FileSystemException fse)
                 {
                     this.timestamp = -1;
                 }
@@ -475,15 +475,15 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 if (this.file.getType().hasChildren())
                 {
                     this.children = new HashMap<FileName, Object>();
-                    FileObject[] childrenList = this.file.getChildren();
-                    for (FileObject element : childrenList)
+                    final FileObject[] childrenList = this.file.getChildren();
+                    for (final FileObject element : childrenList)
                     {
                         this.children.put(element.getName(), new
                             Object()); // null?
                     }
                 }
             }
-            catch (FileSystemException fse)
+            catch (final FileSystemException fse)
             {
                 this.children = null;
             }
@@ -499,7 +499,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 this.file.refresh();
             }
-            catch (FileSystemException fse)
+            catch (final FileSystemException fse)
             {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
@@ -512,7 +512,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
          * FileObject.
          * @param child The child to add.
          */
-        private void fireAllCreate(FileObject child)
+        private void fireAllCreate(final FileObject child)
         {
             // Add listener so that it can be triggered
             if (this.fm.getFileListener() != null)
@@ -538,8 +538,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 {
                     if (child.getType().hasChildren())
                     {
-                        FileObject[] newChildren = child.getChildren();
-                        for (FileObject element : newChildren)
+                        final FileObject[] newChildren = child.getChildren();
+                        for (final FileObject element : newChildren)
                         {
                             fireAllCreate(element);
                         }
@@ -547,7 +547,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 }
 
             }
-            catch (FileSystemException fse)
+            catch (final FileSystemException fse)
             {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
@@ -563,12 +563,12 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 if (this.file.getType().hasChildren())
                 {
-                    FileObject[] newChildren = this.file.getChildren();
+                    final FileObject[] newChildren = this.file.getChildren();
                     if (this.children != null)
                     {
                         // See which new children are not listed in the current children map.
-                        Map<FileName, Object> newChildrenMap = new HashMap<FileName, Object>();
-                        Stack<FileObject> missingChildren = new Stack<FileObject>();
+                        final Map<FileName, Object> newChildrenMap = new HashMap<FileName, Object>();
+                        final Stack<FileObject> missingChildren = new Stack<FileObject>();
 
                         for (int i = 0; i < newChildren.length; i++)
                         {
@@ -590,7 +590,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
                             while (!missingChildren.empty())
                             {
-                                FileObject child = missingChildren.pop();
+                                final FileObject child = missingChildren.pop();
                                 this.fireAllCreate(child);
                             }
                         }
@@ -603,7 +603,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         {
                             this.children = new HashMap<FileName, Object>();
                         }
-                        for (FileObject element : newChildren)
+                        for (final FileObject element : newChildren)
                         {
                             this.children.put(element.getName(), new
                                 Object()); // null?
@@ -612,7 +612,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     }
                 }
             }
-            catch (FileSystemException fse)
+            catch (final FileSystemException fse)
             {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
@@ -680,7 +680,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                 this.checkForNewChildren();
 
             }
-            catch (FileSystemException fse)
+            catch (final FileSystemException fse)
             {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }

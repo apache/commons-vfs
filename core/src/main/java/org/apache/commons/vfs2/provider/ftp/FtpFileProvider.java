@@ -83,7 +83,7 @@ public class FtpFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
-        FTPClientWrapper ftpClient = new FTPClientWrapper(rootName, fileSystemOptions);
+        final FTPClientWrapper ftpClient = new FTPClientWrapper(rootName, fileSystemOptions);
         /*
         FTPClient ftpClient = FtpClientFactory.createConnection(rootName.getHostName(),
             rootName.getPort(),

@@ -41,7 +41,7 @@ public final class CryptorFactory
      * Allows the Cryptor class to be set programmatically.
      * @param cryptor The Cryptor.
      */
-    public static synchronized void setCryptor(Cryptor cryptor)
+    public static synchronized void setCryptor(final Cryptor cryptor)
     {
         instance = cryptor;
     }
@@ -59,16 +59,16 @@ public final class CryptorFactory
             return instance;
         }
 
-        String cryptorClass = System.getProperty(CRYPTOR_CLASS);
+        final String cryptorClass = System.getProperty(CRYPTOR_CLASS);
         if (cryptorClass != null)
         {
             try
             {
-                Class<?> clazz = Class.forName(cryptorClass);
+                final Class<?> clazz = Class.forName(cryptorClass);
                 instance = (Cryptor) clazz.newInstance();
                 return instance;
             }
-            catch (Exception ex)
+            catch (final Exception ex)
             {
                 throw new RuntimeException("Unable to create Cryptor " + cryptorClass, ex);
             }

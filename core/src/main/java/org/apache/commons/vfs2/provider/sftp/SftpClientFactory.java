@@ -63,18 +63,18 @@ public final class SftpClientFactory
      * @return A Session.
      * @throws FileSystemException if an error occurs.
      */
-    public static Session createConnection(String hostname, int port, char[] username, char[] password,
-            FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static Session createConnection(final String hostname, final int port, final char[] username, final char[] password,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
-        JSch jsch = new JSch();
+        final JSch jsch = new JSch();
 
         File sshDir = null;
 
         // new style - user passed
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
-        File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
-        File[] identities = builder.getIdentities(fileSystemOptions);
-        IdentityRepositoryFactory repositoryFactory = builder.getIdentityRepositoryFactory(fileSystemOptions);
+        final File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
+        final File[] identities = builder.getIdentities(fileSystemOptions);
+        final IdentityRepositoryFactory repositoryFactory = builder.getIdentityRepositoryFactory(fileSystemOptions);
 
         sshDir = findSshDir();
 
@@ -96,46 +96,46 @@ public final class SftpClientFactory
                 session.setPassword(new String(password));
             }
 
-            Integer timeout = builder.getTimeout(fileSystemOptions);
+            final Integer timeout = builder.getTimeout(fileSystemOptions);
             if (timeout != null)
             {
                 session.setTimeout(timeout.intValue());
             }
 
-            UserInfo userInfo = builder.getUserInfo(fileSystemOptions);
+            final UserInfo userInfo = builder.getUserInfo(fileSystemOptions);
             if (userInfo != null)
             {
                 session.setUserInfo(userInfo);
             }
 
-            Properties config = new Properties();
+            final Properties config = new Properties();
 
             // set StrictHostKeyChecking property
-            String strictHostKeyChecking = builder.getStrictHostKeyChecking(fileSystemOptions);
+            final String strictHostKeyChecking = builder.getStrictHostKeyChecking(fileSystemOptions);
             if (strictHostKeyChecking != null)
             {
                 config.setProperty("StrictHostKeyChecking", strictHostKeyChecking);
             }
             // set PreferredAuthentications property
-            String preferredAuthentications = builder.getPreferredAuthentications(fileSystemOptions);
+            final String preferredAuthentications = builder.getPreferredAuthentications(fileSystemOptions);
             if (preferredAuthentications != null)
             {
                 config.setProperty("PreferredAuthentications", preferredAuthentications);
             }
 
             // set compression property
-            String compression = builder.getCompression(fileSystemOptions);
+            final String compression = builder.getCompression(fileSystemOptions);
             if (compression != null)
             {
                 config.setProperty("compression.s2c", compression);
                 config.setProperty("compression.c2s", compression);
             }
 
-            String proxyHost = builder.getProxyHost(fileSystemOptions);
+            final String proxyHost = builder.getProxyHost(fileSystemOptions);
             if (proxyHost != null)
             {
-                int proxyPort = builder.getProxyPort(fileSystemOptions);
-                SftpFileSystemConfigBuilder.ProxyType proxyType = builder.getProxyType(fileSystemOptions);
+                final int proxyPort = builder.getProxyPort(fileSystemOptions);
+                final SftpFileSystemConfigBuilder.ProxyType proxyType = builder.getProxyType(fileSystemOptions);
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType))
                 {
@@ -172,7 +172,7 @@ public final class SftpClientFactory
         return session;
     }
 
-    private static void addIdentities(JSch jsch, File sshDir, File[] identities) throws FileSystemException
+    private static void addIdentities(final JSch jsch, final File sshDir, final File[] identities) throws FileSystemException
     {
         if (identities != null)
         {
@@ -192,7 +192,7 @@ public final class SftpClientFactory
         }
     }
 
-    private static void addIndentity(JSch jsch, final File privateKeyFile) throws FileSystemException
+    private static void addIndentity(final JSch jsch, final File privateKeyFile) throws FileSystemException
     {
         try
         {
@@ -204,7 +204,7 @@ public final class SftpClientFactory
         }
     }
 
-    private static void setKnownHosts(JSch jsch, File sshDir, File knownHostsFile) throws FileSystemException
+    private static void setKnownHosts(final JSch jsch, final File sshDir, File knownHostsFile) throws FileSystemException
     {
         try
         {
@@ -222,14 +222,14 @@ public final class SftpClientFactory
                 }
             }
         }
-        catch (JSchException e)
+        catch (final JSchException e)
         {
             throw new FileSystemException("vfs.provider.sftp/known-hosts.error", knownHostsFile.getAbsolutePath(), e);
         }
 
     }
 
-    private static Proxy createStreamProxy(String proxyHost, int proxyPort, FileSystemOptions fileSystemOptions,
+    private static Proxy createStreamProxy(final String proxyHost, final int proxyPort, final FileSystemOptions fileSystemOptions,
             final SftpFileSystemConfigBuilder builder)
     {
         Proxy proxy;
@@ -239,23 +239,23 @@ public final class SftpClientFactory
 
         // Here we get the settings for connecting to the proxy:
         // user, password, options and a command
-        String proxyUser = builder.getProxyUser(fileSystemOptions);
-        String proxyPassword = builder.getProxyPassword(fileSystemOptions);
-        FileSystemOptions proxyOptions = builder.getProxyOptions(fileSystemOptions);
+        final String proxyUser = builder.getProxyUser(fileSystemOptions);
+        final String proxyPassword = builder.getProxyPassword(fileSystemOptions);
+        final FileSystemOptions proxyOptions = builder.getProxyOptions(fileSystemOptions);
 
-        String proxyCommand = builder.getProxyCommand(fileSystemOptions);
+        final String proxyCommand = builder.getProxyCommand(fileSystemOptions);
 
         // Create the stream proxy
         proxy = new SftpStreamProxy(proxyCommand, proxyUser, proxyHost, proxyPort, proxyPassword, proxyOptions);
         return proxy;
     }
 
-    private static ProxySOCKS5 createProxySOCKS5(String proxyHost, int proxyPort)
+    private static ProxySOCKS5 createProxySOCKS5(final String proxyHost, final int proxyPort)
     {
         return proxyPort == 0 ? new ProxySOCKS5(proxyHost) : new ProxySOCKS5(proxyHost, proxyPort);
     }
 
-    private static ProxyHTTP createProxyHTTP(String proxyHost, int proxyPort)
+    private static ProxyHTTP createProxyHTTP(final String proxyHost, final int proxyPort)
     {
         return proxyPort == 0 ? new ProxyHTTP(proxyHost) : new ProxyHTTP(proxyHost, proxyPort);
     }
@@ -285,7 +285,7 @@ public final class SftpClientFactory
         sshDirPath = System.getProperty("vfs.sftp.sshdir");
         if (sshDirPath != null)
         {
-            File sshDir = new File(sshDirPath);
+            final File sshDir = new File(sshDirPath);
             if (sshDir.exists())
             {
                 return sshDir;
@@ -314,7 +314,7 @@ public final class SftpClientFactory
     private static class JSchLogger implements Logger
     {
         @Override
-        public boolean isEnabled(int level)
+        public boolean isEnabled(final int level)
         {
             switch (level)
             {
@@ -335,7 +335,7 @@ public final class SftpClientFactory
         }
 
         @Override
-        public void log(int level, String msg)
+        public void log(final int level, final String msg)
         {
             switch (level)
             {

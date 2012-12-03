@@ -50,7 +50,7 @@ public class FtpsFileProvider extends FtpFileProvider
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
-        FtpsClientWrapper ftpClient = new FtpsClientWrapper(rootName, fileSystemOptions);
+        final FtpsClientWrapper ftpClient = new FtpsClientWrapper(rootName, fileSystemOptions);
 
         return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
     }

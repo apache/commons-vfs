@@ -62,7 +62,7 @@ public class NestedTarTestCase
     {
         // Locate the base Tar file
         final String tarFilePath = AbstractVfsTestCase.getTestResourceFile("nested.tar").getAbsolutePath();
-        String uri = "tar:file:" + tarFilePath + "!/test.tar";
+        final String uri = "tar:file:" + tarFilePath + "!/test.tar";
         final FileObject tarFile = manager.resolveFile(uri);
 
         // Now build the nested file system

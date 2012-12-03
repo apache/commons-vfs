@@ -24,11 +24,11 @@ import junit.framework.TestResult;
 
 public class RunTest
 {
-    public static void main(String[] args) throws Exception
+    public static void main(final String[] args) throws Exception
     {
         final String ip = "192.168.0.128";
 
-        Properties props = System.getProperties();
+        final Properties props = System.getProperties();
         props.setProperty("test.data.src", "src/test-data");
         props.setProperty("test.basedir", "core/target/test-classes/test-data");
         props.setProperty("test.basedir.res", "test-data");
@@ -47,7 +47,7 @@ public class RunTest
         props.setProperty("test.sftp.uri",
                 "sftp://vfsusr:vfs%2f%25\\te:st@" + ip + "/vfstest");
 
-        Test tests[] = new Test[]
+        final Test tests[] = new Test[]
         {
 //          LocalProviderTestCase.suite(),
 //          FtpProviderTestCase.suite(),
@@ -74,31 +74,31 @@ public class RunTest
 // WebdavProviderTestCase.suite(),
         };
 
-        TestResult result = new TestResult()
+        final TestResult result = new TestResult()
         {
             @Override
-            public void startTest(Test test)
+            public void startTest(final Test test)
             {
                 System.out.println("start " + test);
                 System.out.flush();
             }
 
             @Override
-            public void endTest(Test test)
+            public void endTest(final Test test)
             {
                 // System.err.println("end " + test);
             }
 
             @Override
-            public synchronized void addError(Test test, Throwable throwable)
+            public synchronized void addError(final Test test, final Throwable throwable)
             {
                 // throw new RuntimeException(throwable.getMessage());
                 throwable.printStackTrace();
             }
 
             @Override
-            public synchronized void addFailure(Test test,
-                    AssertionFailedError assertionFailedError)
+            public synchronized void addFailure(final Test test,
+                    final AssertionFailedError assertionFailedError)
             {
                 // throw new RuntimeException(assertionFailedError.getMessage());
                 assertionFailedError.printStackTrace();
@@ -110,7 +110,7 @@ public class RunTest
             System.out.println("start test#" + i);
             System.out.flush();
 
-            Test test = tests[i];
+            final Test test = tests[i];
             test.run(result);
 
             // break;

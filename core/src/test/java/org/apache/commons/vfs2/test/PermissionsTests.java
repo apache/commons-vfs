@@ -139,7 +139,7 @@ public class PermissionsTests extends AbstractProviderTestCase
     private FileObject createTestFile() throws Exception
     {
         // Get the scratch folder
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
         assertNotNull(scratchFolder);
 
         // Make sure the test folder is empty

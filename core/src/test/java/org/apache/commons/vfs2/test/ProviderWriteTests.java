@@ -67,7 +67,7 @@ public class ProviderWriteTests
      */
     protected FileObject createScratchFolder() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
@@ -81,7 +81,7 @@ public class ProviderWriteTests
      */
     public void testFolderCreate() throws Exception
     {
-        FileObject scratchFolder = createScratchFolder();
+        final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
         FileObject folder = scratchFolder.resolveFile("dir1");
@@ -115,7 +115,7 @@ public class ProviderWriteTests
      */
     public void testFileCreate() throws Exception
     {
-        FileObject scratchFolder = createScratchFolder();
+        final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
         FileObject file = scratchFolder.resolveFile("file1.txt");
@@ -169,15 +169,15 @@ public class ProviderWriteTests
      */
     public void testFileCreateMismatched() throws Exception
     {
-        FileObject scratchFolder = createScratchFolder();
+        final FileObject scratchFolder = createScratchFolder();
 
         // Create a test file and folder
-        FileObject file = scratchFolder.resolveFile("dir1/file1.txt");
+        final FileObject file = scratchFolder.resolveFile("dir1/file1.txt");
         file.createFile();
         assertEquals(FileType.FILE, file.getType());
         assertTrue(file.isFile());
 
-        FileObject folder = scratchFolder.resolveFile("dir1/dir2");
+        final FileObject folder = scratchFolder.resolveFile("dir1/dir2");
         folder.createFolder();
         assertEquals(FileType.FOLDER, folder.getType());
         assertTrue(folder.isFolder());
@@ -188,7 +188,7 @@ public class ProviderWriteTests
             folder.createFile();
             fail();
         }
-        catch (FileSystemException exc)
+        catch (final FileSystemException exc)
         {
         }
 
@@ -198,18 +198,18 @@ public class ProviderWriteTests
             file.createFolder();
             fail();
         }
-        catch (FileSystemException exc)
+        catch (final FileSystemException exc)
         {
         }
 
         // Attempt to create a folder as a child of a file
-        FileObject folder2 = file.resolveFile("some-child");
+        final FileObject folder2 = file.resolveFile("some-child");
         try
         {
             folder2.createFolder();
             fail();
         }
-        catch (FileSystemException exc)
+        catch (final FileSystemException exc)
         {
         }
     }
@@ -220,7 +220,7 @@ public class ProviderWriteTests
     public void testDelete() throws Exception
     {
         // Set-up the test structure
-        FileObject folder = createScratchFolder();
+        final FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();
         folder.resolveFile("file%25.txt").createFile();
         folder.resolveFile("emptydir").createFolder();
@@ -247,7 +247,7 @@ public class ProviderWriteTests
 
         // Recursive delete
         file = folder.resolveFile("dir1");
-        FileObject file2 = file.resolveFile("dir2/file2.txt");
+        final FileObject file2 = file.resolveFile("dir2/file2.txt");
         assertTrue(file.exists());
         assertTrue(file2.exists());
         file.deleteAll();
@@ -267,7 +267,7 @@ public class ProviderWriteTests
     public void testDeleteAllDescendents() throws Exception
     {
         // Set-up the test structure
-        FileObject folder = createScratchFolder();
+        final FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();
         folder.resolveFile("file%25.txt").createFile();
         folder.resolveFile("emptydir").createFolder();
@@ -294,7 +294,7 @@ public class ProviderWriteTests
 
         // Recursive delete
         file = folder.resolveFile("dir1");
-        FileObject file2 = file.resolveFile("dir2/file2.txt");
+        final FileObject file2 = file.resolveFile("dir2/file2.txt");
         assertTrue(file.exists());
         assertTrue(file2.exists());
         file.deleteAll();
@@ -405,7 +405,7 @@ public class ProviderWriteTests
         assertSameContent(content, file);
 
         // Make sure we can copy the new file to another file on the same filesystem
-        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
         assertTrue(!fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
@@ -438,7 +438,7 @@ public class ProviderWriteTests
         assertSameContent(content, file);
 
         // Make sure we can copy the new file to another file on the same filesystem
-        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
         assertTrue(!fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
@@ -477,7 +477,7 @@ public class ProviderWriteTests
         assertSameContent(content, file);
 
         // Make sure we can copy the new file to another file on the same filesystem
-        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
         assertTrue(!fileCopy.exists());
         fileCopy.copyFrom(file, Selectors.SELECT_SELF);
 
@@ -499,7 +499,7 @@ public class ProviderWriteTests
      */
     public void testFolderIsHidden() throws Exception
     {
-        FileObject folder = getReadFolderDir1();
+        final FileObject folder = getReadFolderDir1();
         Assert.assertFalse(folder.isHidden());
     }
 
@@ -508,7 +508,7 @@ public class ProviderWriteTests
      */
     public void testFolderIsReadable() throws Exception
     {
-        FileObject folder = getReadFolderDir1();
+        final FileObject folder = getReadFolderDir1();
         Assert.assertTrue(folder.isReadable());
     }
 
@@ -517,7 +517,7 @@ public class ProviderWriteTests
      */
     public void testFolderIsWritable() throws Exception
     {
-        FileObject folder = getWriteFolder().resolveFile("dir1");
+        final FileObject folder = getWriteFolder().resolveFile("dir1");
         Assert.assertTrue(folder.isWriteable());
     }
 
@@ -526,8 +526,8 @@ public class ProviderWriteTests
      */
     public void testListChildren() throws Exception
     {
-        FileObject folder = createScratchFolder();
-        HashSet<String> names = new HashSet<String>();
+        final FileObject folder = createScratchFolder();
+        final HashSet<String> names = new HashSet<String>();
 
         // Make sure the folder is empty
         assertEquals(0, folder.getChildren().length);
@@ -548,7 +548,7 @@ public class ProviderWriteTests
         assertSameFileSet(names, folder.getChildren());
 
         // Create a child file via an output stream
-        OutputStream outstr = folder.resolveFile("file2.txt").getContent().getOutputStream();
+        final OutputStream outstr = folder.resolveFile("file2.txt").getContent().getOutputStream();
         outstr.close();
         names.add("file2.txt");
         assertSameFileSet(names, folder.getChildren());
@@ -576,11 +576,11 @@ public class ProviderWriteTests
     {
         final FileObject baseFile = createScratchFolder();
 
-        FileObject child = baseFile.resolveFile("newfile.txt");
+        final FileObject child = baseFile.resolveFile("newfile.txt");
         assertTrue(!child.exists());
 
-        FileSystem fs = baseFile.getFileSystem();
-        TestListener listener = new TestListener(child);
+        final FileSystem fs = baseFile.getFileSystem();
+        final TestListener listener = new TestListener(child);
         fs.addListener(child, listener);
 
         // Create as a folder
@@ -632,13 +632,13 @@ public class ProviderWriteTests
     /**
      * Ensures the names of a set of files match an expected set.
      */
-    private void assertSameFileSet(Set<String> names, FileObject[] files)
+    private void assertSameFileSet(final Set<String> names, final FileObject[] files)
     {
         // Make sure the sets are the same length
         assertEquals(names.size(), files.length);
 
         // Check for unexpected names
-        for (FileObject file : files)
+        for (final FileObject file : files)
         {
             assertTrue(names.contains(file.getName().getBaseName()));
         }
@@ -673,7 +673,7 @@ public class ProviderWriteTests
             {
                 assertTrue(file.exists());
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 fail();
             }
@@ -692,14 +692,14 @@ public class ProviderWriteTests
             {
                 assertTrue(!file.exists());
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 fail();
             }
         }
 
         @Override
-        public void fileChanged(FileChangeEvent event) throws Exception
+        public void fileChanged(final FileChangeEvent event) throws Exception
         {
             assertTrue("Unexpected changed event", events.size() > 0);
             assertSame("Expecting a changed event", CHANGED, events.remove(0));
@@ -708,7 +708,7 @@ public class ProviderWriteTests
             {
                 assertTrue(!file.exists());
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 fail();
             }
@@ -756,7 +756,7 @@ public class ProviderWriteTests
         assertSameContent(expectedString, fileSource);
 
         // Make sure we can copy the new file to another file on the same filesystem
-        FileObject fileTarget = scratchFolder.resolveFile("file1copy.txt");
+        final FileObject fileTarget = scratchFolder.resolveFile("file1copy.txt");
         assertTrue(!fileTarget.exists());
 
         final FileContent contentSource = fileSource.getContent();
@@ -810,7 +810,7 @@ public class ProviderWriteTests
         assertSameContent(content, file);
 
         // Make sure we can copy the new file to another file on the same file system
-        FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
+        final FileObject fileCopy = scratchFolder.resolveFile("file1copy.txt");
         assertTrue(!fileCopy.exists());
         file.getContent().write(fileCopy);
 

@@ -26,13 +26,13 @@ public class FileNamePerformance
 {
     private final static int NUOF_RESOLVES = 100000;
 
-    public static void main(String[] args) throws FileSystemException
+    public static void main(final String[] args) throws FileSystemException
     {
-        FileSystemManager mgr = VFS.getManager();
+        final FileSystemManager mgr = VFS.getManager();
 
-        FileObject root = mgr
+        final FileObject root = mgr
                 .resolveFile("smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr");
-        FileName rootName = root.getName();
+        final FileName rootName = root.getName();
 
         testNames(mgr, rootName);
 
@@ -41,7 +41,7 @@ public class FileNamePerformance
         testFiles(mgr);
     }
 
-    private static void testFiles(FileSystemManager mgr) throws FileSystemException
+    private static void testFiles(final FileSystemManager mgr) throws FileSystemException
     {
         for (int i = 0; i < 10; i++)
         {
@@ -49,18 +49,18 @@ public class FileNamePerformance
             mgr.resolveFile("smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
 
-        long start = System.currentTimeMillis();
+        final long start = System.currentTimeMillis();
         for (int i = 0; i < NUOF_RESOLVES; i++)
         {
             mgr.resolveFile("smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
-        long end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
 
         System.err.println("time to resolve " + NUOF_RESOLVES + " files: "
                 + (end - start) + "ms");
     }
 
-    private static void testChildren(FileObject root) throws FileSystemException
+    private static void testChildren(final FileObject root) throws FileSystemException
     {
         for (int i = 0; i < 10; i++)
         {
@@ -68,18 +68,18 @@ public class FileNamePerformance
             root.resolveFile("/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
 
-        long start = System.currentTimeMillis();
+        final long start = System.currentTimeMillis();
         for (int i = 0; i < NUOF_RESOLVES; i++)
         {
             root.resolveFile("/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
-        long end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
 
         System.err.println("time to resolve " + NUOF_RESOLVES + " children: "
                 + (end - start) + "ms");
     }
 
-    private static void testNames(FileSystemManager mgr, FileName rootName) throws FileSystemException
+    private static void testNames(final FileSystemManager mgr, final FileName rootName) throws FileSystemException
     {
         for (int i = 0; i < 10; i++)
         {
@@ -88,13 +88,13 @@ public class FileNamePerformance
                     "/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
 
-        long start = System.currentTimeMillis();
+        final long start = System.currentTimeMillis();
         for (int i = 0; i < NUOF_RESOLVES; i++)
         {
             mgr.resolveName(rootName,
                     "/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
-        long end = System.currentTimeMillis();
+        final long end = System.currentTimeMillis();
 
         System.err.println("time to resolve " + NUOF_RESOLVES + " names: "
                 + (end - start) + "ms");

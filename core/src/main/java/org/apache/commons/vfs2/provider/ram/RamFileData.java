@@ -64,7 +64,7 @@ class RamFileData implements Serializable
      * Constructor.
      * @param name The file name.
      */
-    public RamFileData(FileName name)
+    public RamFileData(final FileName name)
     {
         super();
         this.children = Collections.synchronizedCollection(new ArrayList<RamFileData>());
@@ -87,7 +87,7 @@ class RamFileData implements Serializable
     /**
      * @param buffer The buffer.
      */
-    void setBuffer(byte[] buffer)
+    void setBuffer(final byte[] buffer)
     {
         updateLastModified();
         this.buffer = buffer;
@@ -105,7 +105,7 @@ class RamFileData implements Serializable
      * @param lastModified
      *            The lastModified to set.
      */
-    void setLastModified(long lastModified)
+    void setLastModified(final long lastModified)
     {
         this.lastModified = lastModified;
     }
@@ -122,7 +122,7 @@ class RamFileData implements Serializable
      * @param type
      *            The type to set.
      */
-    void setType(FileType type)
+    void setType(final FileType type)
     {
         this.type = type;
     }
@@ -168,7 +168,7 @@ class RamFileData implements Serializable
      * @param data The file data.
      * @throws FileSystemException if an error occurs.
      */
-    void addChild(RamFileData data) throws FileSystemException
+    void addChild(final RamFileData data) throws FileSystemException
     {
         if (!this.getType().hasChildren())
         {
@@ -196,7 +196,7 @@ class RamFileData implements Serializable
      * @param data The file data.
      * @throws FileSystemException if an error occurs.
      */
-    void removeChild(RamFileData data) throws FileSystemException
+    void removeChild(final RamFileData data) throws FileSystemException
     {
         if (!this.getType().hasChildren())
         {
@@ -229,7 +229,7 @@ class RamFileData implements Serializable
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object o)
+    public boolean equals(final Object o)
     {
         if (this == o)
         {
@@ -239,7 +239,7 @@ class RamFileData implements Serializable
         {
             return false;
         }
-        RamFileData data = (RamFileData) o;
+        final RamFileData data = (RamFileData) o;
         return this.getName().equals(data.getName());
     }
 
@@ -254,7 +254,7 @@ class RamFileData implements Serializable
         return this.getName().hashCode();
     }
 
-    boolean hasChildren(RamFileData data)
+    boolean hasChildren(final RamFileData data)
     {
         return this.children.contains(data);
     }
@@ -272,7 +272,7 @@ class RamFileData implements Serializable
      *
      * @param newSize The new buffer size.
      */
-    void resize(long newSize)
+    void resize(final long newSize)
     {
         // A future implementation may allow longs/multiple buffer/and so on
         if (newSize > Integer.MAX_VALUE)
@@ -280,9 +280,9 @@ class RamFileData implements Serializable
             throw new IllegalArgumentException(String.format("newSize(%d) > Integer.MAX_VALUE(%d)", newSize,
                     Integer.MAX_VALUE));
         }
-        int resize = (int) newSize;
-        int size = this.size();
-        byte[] newBuf = new byte[resize];
+        final int resize = (int) newSize;
+        final int size = this.size();
+        final byte[] newBuf = new byte[resize];
         System.arraycopy(this.buffer, 0, newBuf, 0, Math.min(resize, size));
         this.buffer = newBuf;
         updateLastModified();

@@ -36,7 +36,7 @@ public class CombinedResources extends ResourceBundle
     private boolean inited;
     private final Properties properties = new Properties();
 
-    public CombinedResources(String resourceName)
+    public CombinedResources(final String resourceName)
     {
         this.resourceName = resourceName;
     }
@@ -54,14 +54,14 @@ public class CombinedResources extends ResourceBundle
         inited = true;
     }
 
-    protected void loadResources(Locale locale)
+    protected void loadResources(final Locale locale)
     {
         if (locale == null)
         {
             return;
         }
-        String[] parts = new String[]{locale.getLanguage(), locale.getCountry(), locale.getVariant()};
-        StringBuilder sb = new StringBuilder();
+        final String[] parts = new String[]{locale.getLanguage(), locale.getCountry(), locale.getVariant()};
+        final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 3; i++)
         {
             sb.append(getResourceName());
@@ -88,21 +88,21 @@ public class CombinedResources extends ResourceBundle
         resourceName = resourceName.replace('.', '/') + ".properties";
         try
         {
-            Enumeration<URL> resources = loader.getResources(resourceName);
+            final Enumeration<URL> resources = loader.getResources(resourceName);
             while (resources.hasMoreElements())
             {
-                URL resource = resources.nextElement();
+                final URL resource = resources.nextElement();
                 try
                 {
                     properties.load(resource.openConnection().getInputStream());
                 }
-                catch (IOException e)
+                catch (final IOException e)
                 {
                     // ignore
                 }
             }
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             // ignore
         }
@@ -138,7 +138,7 @@ public class CombinedResources extends ResourceBundle
     }
 
     @Override
-    protected Object handleGetObject(String key)
+    protected Object handleGetObject(final String key)
     {
         if (!inited)
         {

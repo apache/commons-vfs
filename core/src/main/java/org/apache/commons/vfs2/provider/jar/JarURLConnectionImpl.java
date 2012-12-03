@@ -45,7 +45,7 @@ public class JarURLConnectionImpl
     private final JarFileObject file;
     private final String entryName;
 
-    public JarURLConnectionImpl(JarFileObject file, FileContent content)
+    public JarURLConnectionImpl(final JarFileObject file, final FileContent content)
         throws MalformedURLException, FileSystemException
     {
         //This is because JarURLConnection SUCKS!!
@@ -135,7 +135,7 @@ public class JarURLConnectionImpl
         {
             return (int) content.getSize();
         }
-        catch (FileSystemException fse)
+        catch (final FileSystemException fse)
         {
             // Ignore the error.
         }

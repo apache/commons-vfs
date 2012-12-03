@@ -116,7 +116,7 @@ public class PatternFileSelectorTest
         final String regExPrefix = ".*\\.";
         // gather file extensions.
         final Set<String> extensionSet = new HashSet<String>();
-        for (FileObject fo : foArray)
+        for (final FileObject fo : foArray)
         {
             extensionSet.add(regExPrefix + fo.getName().getExtension());
         }
@@ -124,14 +124,14 @@ public class PatternFileSelectorTest
                 Arrays.asList(foArray).toString());
         Assert.assertEquals(message, ExtensionCount, extensionSet.size());
         // check each extension
-        for (String extension : extensionSet)
+        for (final String extension : extensionSet)
         {
             final FileSelector selector = new PatternFileSelector(extension);
             final FileObject[] list = BaseFolder.findFiles(selector);
             Assert.assertEquals(FilesPerExtensionCount, list.length);
         }
         // check each file against itself
-        for (FileObject fo : foArray)
+        for (final FileObject fo : foArray)
         {
             final FileSelector selector = new PatternFileSelector(regExPrefix + fo.getName().getExtension());
             final FileObject[] list = BaseFolder.findFiles(selector);

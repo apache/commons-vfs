@@ -36,17 +36,17 @@ import org.apache.jackrabbit.webdav.property.DavPropertySet;
 public class WebdavFileContentInfoFactory implements FileContentInfoFactory
 {
     @Override
-    public FileContentInfo create(FileContent fileContent) throws FileSystemException
+    public FileContentInfo create(final FileContent fileContent) throws FileSystemException
     {
-        WebdavFileObject file = (WebdavFileObject) FileObjectUtils
+        final WebdavFileObject file = (WebdavFileObject) FileObjectUtils
             .getAbstractFileObject(fileContent.getFile());
 
         String contentType = null;
         String contentEncoding = null;
 
-        DavPropertyNameSet nameSet = new DavPropertyNameSet();
+        final DavPropertyNameSet nameSet = new DavPropertyNameSet();
         nameSet.add(DavPropertyName.GETCONTENTTYPE);
-        DavPropertySet propertySet = file.getProperties((URLFileName) file.getName(), nameSet, true);
+        final DavPropertySet propertySet = file.getProperties((URLFileName) file.getName(), nameSet, true);
 
         DavProperty property = propertySet.get(DavPropertyName.GETCONTENTTYPE);
         if (property != null)

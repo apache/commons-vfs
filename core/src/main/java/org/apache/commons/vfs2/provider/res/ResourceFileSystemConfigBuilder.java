@@ -44,12 +44,12 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
     }
 
 
-    public void setClassLoader(FileSystemOptions opts, ClassLoader classLoader)
+    public void setClassLoader(final FileSystemOptions opts, final ClassLoader classLoader)
     {
         setParam(opts, ClassLoader.class.getName(), classLoader);
     }
 
-    public ClassLoader getClassLoader(FileSystemOptions opts)
+    public ClassLoader getClassLoader(final FileSystemOptions opts)
     {
         return (ClassLoader) getParam(opts, ClassLoader.class.getName());
     }

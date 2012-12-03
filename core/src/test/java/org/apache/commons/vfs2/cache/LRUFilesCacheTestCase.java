@@ -37,7 +37,7 @@ public class LRUFilesCacheTestCase
 {
     public static Test suite() throws Exception
     {
-        CacheTestSuite suite = new CacheTestSuite(new LRUFilesCacheTestCase());
+        final CacheTestSuite suite = new CacheTestSuite(new LRUFilesCacheTestCase());
         suite.addTests(LRUFilesCacheTests.class);
         return suite;
     }

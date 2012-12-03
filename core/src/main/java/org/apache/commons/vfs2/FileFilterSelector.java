@@ -34,7 +34,7 @@ public class FileFilterSelector extends FileDepthSelector
         this(null);
     }
 
-    public FileFilterSelector(FileFilter fileFilter)
+    public FileFilterSelector(final FileFilter fileFilter)
     {
         super(1, 1);
         this.fileFilter = fileFilter;

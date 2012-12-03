@@ -64,8 +64,8 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
 
     public void testFileCreated() throws Exception
     {
-        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
-        DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
@@ -79,8 +79,8 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     public void testFileDeleted() throws Exception
     {
         writeToFile(testFile);
-        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toString());
-        DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toString());
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
@@ -94,16 +94,16 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     public void testFileModified() throws Exception
     {
         writeToFile(testFile);
-        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
-        DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
         // Need a long delay to insure the new timestamp doesn't truncate to be the same as
         // the current timestammp. Java only guarantees the timestamp will be to 1 second.
         Thread.sleep(1000);
-        long value = System.currentTimeMillis();
-        boolean rc = testFile.setLastModified(value);
+        final long value = System.currentTimeMillis();
+        final boolean rc = testFile.setLastModified(value);
         assertTrue("setLastModified succeeded",rc);
         Thread.sleep(300);
         assertTrue("No event occurred", changeStatus != 0);
@@ -114,8 +114,8 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
 
     public void testFileRecreated() throws Exception
     {
-        FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
-        DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
@@ -138,9 +138,9 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         monitor.stop();
     }
 
-    private void writeToFile(File file) throws Exception
+    private void writeToFile(final File file) throws Exception
     {
-        FileWriter out = new FileWriter(file);
+        final FileWriter out = new FileWriter(file);
         out.write("string=value1");
         out.flush();
         out.close();
@@ -150,19 +150,19 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     public class TestFileListener implements FileListener
     {
         @Override
-        public void fileChanged(FileChangeEvent event) throws Exception
+        public void fileChanged(final FileChangeEvent event) throws Exception
         {
             changeStatus = 1;
         }
 
         @Override
-        public void fileDeleted(FileChangeEvent event) throws Exception
+        public void fileDeleted(final FileChangeEvent event) throws Exception
         {
             changeStatus = 2;
         }
 
         @Override
-        public void fileCreated(FileChangeEvent event) throws Exception
+        public void fileCreated(final FileChangeEvent event) throws Exception
         {
             changeStatus = 3;
         }

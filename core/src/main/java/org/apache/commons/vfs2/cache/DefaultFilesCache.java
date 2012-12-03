@@ -39,32 +39,32 @@ public class DefaultFilesCache extends AbstractFilesCache
     @Override
     public void putFile(final FileObject file)
     {
-        Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
+        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
         files.put(file.getName(), file);
     }
 
     @Override
     public boolean putFileIfAbsent(final FileObject file)
     {
-        ConcurrentMap<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
+        final ConcurrentMap<FileName, FileObject> files = getOrCreateFilesystemCache(file.getFileSystem());
         return files.putIfAbsent(file.getName(), file) == null;
     }
 
     @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
-        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
+        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
         return files.get(name);
     }
 
     @Override
-    public void clear(FileSystem filesystem)
+    public void clear(final FileSystem filesystem)
     {
-        Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
+        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
         files.clear();
     }
 
-    protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(FileSystem filesystem)
+    protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem)
     {
         ConcurrentMap<FileName, FileObject> files = filesystemCache.get(filesystem);
         if (files == null)
@@ -85,13 +85,13 @@ public class DefaultFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void removeFile(FileSystem filesystem, FileName name)
+    public void removeFile(final FileSystem filesystem, final FileName name)
     {
-        Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
+        final Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
         files.remove(name);
     }
 
-    public void touchFile(FileObject file)
+    public void touchFile(final FileObject file)
     {
     }
 }

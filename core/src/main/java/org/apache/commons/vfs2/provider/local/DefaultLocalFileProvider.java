@@ -99,10 +99,10 @@ public class DefaultLocalFileProvider
         throws FileSystemException
     {
         final String scheme = "file:";
-        StringBuilder uri = new StringBuilder(name.length() + scheme.length());
+        final StringBuilder uri = new StringBuilder(name.length() + scheme.length());
         uri.append(scheme);
         uri.append(name);
-        FileName filename = parseUri(null, uri.toString());
+        final FileName filename = parseUri(null, uri.toString());
         return findFile(filename, null);
     }
 

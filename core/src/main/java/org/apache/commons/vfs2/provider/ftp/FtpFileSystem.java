@@ -65,7 +65,7 @@ public class FtpFileSystem extends AbstractFileSystem
     @Override
     protected void doCloseCommunicationLink()
     {
-        FtpClient idle = idleClient.getAndSet(null);
+        final FtpClient idle = idleClient.getAndSet(null);
         // Clean up the connection
         if (idle != null)
         {

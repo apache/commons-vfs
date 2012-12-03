@@ -121,8 +121,8 @@ public class SftpStreamProxy implements Proxy
      * @param proxyOptions
      *            Options used when connecting to the proxy
      */
-    public SftpStreamProxy(String commandFormat, String proxyUser, String proxyHost, int proxyPort,
-            String proxyPassword, FileSystemOptions proxyOptions)
+    public SftpStreamProxy(final String commandFormat, final String proxyUser, final String proxyHost, final int proxyPort,
+            final String proxyPassword, final FileSystemOptions proxyOptions)
     {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
@@ -146,7 +146,7 @@ public class SftpStreamProxy implements Proxy
     }
 
     @Override
-    public void connect(SocketFactory socketFactory, String targetHost, int targetPort, int timeout) throws Exception
+    public void connect(final SocketFactory socketFactory, final String targetHost, final int targetPort, final int timeout) throws Exception
     {
         session = SftpClientFactory.createConnection(proxyHost, proxyPort, proxyUser.toCharArray(),
                 proxyPassword.toCharArray(), proxyOptions);
@@ -162,7 +162,7 @@ public class SftpStreamProxy implements Proxy
         {
             return channel.getInputStream();
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new IllegalStateException("IOException getting the SSH proxy input stream", e);
         }
@@ -175,7 +175,7 @@ public class SftpStreamProxy implements Proxy
         {
             return channel.getOutputStream();
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new IllegalStateException("IOException getting the SSH proxy output stream", e);
         }

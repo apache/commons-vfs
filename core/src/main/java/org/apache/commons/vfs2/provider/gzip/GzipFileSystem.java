@@ -31,13 +31,13 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  */
 public class GzipFileSystem extends CompressedFileFileSystem
 {
-    protected GzipFileSystem(FileName rootName, FileObject parentLayer, FileSystemOptions fileSystemOptions)
+    protected GzipFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
     {
         super(rootName, parentLayer, fileSystemOptions);
     }
 
     @Override
-    protected FileObject createFile(AbstractFileName name) throws FileSystemException
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
     {
         return new GzipFileObject(name, getParentLayer(), this);
     }

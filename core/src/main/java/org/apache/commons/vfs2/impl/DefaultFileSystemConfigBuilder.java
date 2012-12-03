@@ -46,7 +46,7 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param userAuthenticator The UserAuthenticator.
      * @throws FileSystemException if an error occurs setting the UserAuthenticator.
      */
-    public void setUserAuthenticator(FileSystemOptions opts, UserAuthenticator userAuthenticator)
+    public void setUserAuthenticator(final FileSystemOptions opts, final UserAuthenticator userAuthenticator)
             throws FileSystemException
     {
         setParam(opts, "userAuthenticator", userAuthenticator);
@@ -57,7 +57,7 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return The UserAuthenticator.
      */
-    public UserAuthenticator getUserAuthenticator(FileSystemOptions opts)
+    public UserAuthenticator getUserAuthenticator(final FileSystemOptions opts)
     {
         return (UserAuthenticator) getParam(opts, "userAuthenticator");
     }

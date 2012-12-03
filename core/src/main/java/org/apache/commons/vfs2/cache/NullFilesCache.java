@@ -51,7 +51,7 @@ public class NullFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void clear(FileSystem filesystem)
+    public void clear(final FileSystem filesystem)
     {
     }
 
@@ -62,11 +62,11 @@ public class NullFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void removeFile(FileSystem filesystem, FileName name)
+    public void removeFile(final FileSystem filesystem, final FileName name)
     {
     }
 
-    public void touchFile(FileObject file)
+    public void touchFile(final FileObject file)
     {
     }
 }

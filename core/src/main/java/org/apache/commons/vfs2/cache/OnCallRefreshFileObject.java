@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.impl.DecoratedFileObject;
  */
 public class OnCallRefreshFileObject extends DecoratedFileObject
 {
-    public OnCallRefreshFileObject(FileObject fileObject)
+    public OnCallRefreshFileObject(final FileObject fileObject)
     {
         super(fileObject);
     }
@@ -44,7 +44,7 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
-    public void copyFrom(FileObject srcFile, FileSelector selector) throws FileSystemException
+    public void copyFrom(final FileObject srcFile, final FileSelector selector) throws FileSystemException
     {
         refresh();
         super.copyFrom(srcFile, selector);
@@ -72,7 +72,7 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
-    public int delete(FileSelector selector) throws FileSystemException
+    public int delete(final FileSelector selector) throws FileSystemException
     {
         refresh();
         return super.delete(selector);
@@ -86,7 +86,7 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
-    public void findFiles(FileSelector selector, boolean depthwise, List<FileObject> selected)
+    public void findFiles(final FileSelector selector, final boolean depthwise, final List<FileObject> selected)
         throws FileSystemException
     {
         refresh();
@@ -94,14 +94,14 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
-    public FileObject[] findFiles(FileSelector selector) throws FileSystemException
+    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
     {
         refresh();
         return super.findFiles(selector);
     }
 
     @Override
-    public FileObject getChild(String name) throws FileSystemException
+    public FileObject getChild(final String name) throws FileSystemException
     {
         refresh();
         return super.getChild(name);
@@ -157,42 +157,42 @@ public class OnCallRefreshFileObject extends DecoratedFileObject
     }
 
     @Override
-    public boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException
+    public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException
     {
         refresh();
         return super.setExecutable(executable, ownerOnly);
     }
 
     @Override
-    public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
+    public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
         refresh();
         return super.setReadable(readable, ownerOnly);
     }
 
     @Override
-    public boolean setWritable(boolean writable, boolean ownerOnly) throws FileSystemException
+    public boolean setWritable(final boolean writable, final boolean ownerOnly) throws FileSystemException
     {
         refresh();
         return super.setWritable(writable, ownerOnly);
     }
 
     @Override
-    public void moveTo(FileObject destFile) throws FileSystemException
+    public void moveTo(final FileObject destFile) throws FileSystemException
     {
         refresh();
         super.moveTo(destFile);
     }
 
     @Override
-    public FileObject resolveFile(String name, NameScope scope) throws FileSystemException
+    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException
     {
         refresh();
         return super.resolveFile(name, scope);
     }
 
     @Override
-    public FileObject resolveFile(String path) throws FileSystemException
+    public FileObject resolveFile(final String path) throws FileSystemException
     {
         refresh();
         return super.resolveFile(path);

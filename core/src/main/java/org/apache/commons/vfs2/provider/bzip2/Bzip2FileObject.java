@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
  */
 public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
 {
-    protected Bzip2FileObject(AbstractFileName name, FileObject container, Bzip2FileSystem fs)
+    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs)
     {
         super(name, container, fs);
     }
@@ -40,7 +40,7 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
     protected InputStream doGetInputStream() throws Exception
     {
         // check file
-        InputStream is = getContainer().getContent().getInputStream();
+        final InputStream is = getContainer().getContent().getInputStream();
         return wrapInputStream(getName().getURI(), is);
     }
 
@@ -50,9 +50,9 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
     }
 
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
     {
-        OutputStream os = getContainer().getContent().getOutputStream(false);
+        final OutputStream os = getContainer().getContent().getOutputStream(false);
         return new BZip2CompressorOutputStream(os);
     }
 }

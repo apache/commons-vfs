@@ -45,7 +45,7 @@ public class RamFileOutputStream extends OutputStream
     /**
      * @param file The base file.
      */
-    public RamFileOutputStream(RamFileObject file)
+    public RamFileOutputStream(final RamFileObject file)
     {
         super();
         this.file = file;
@@ -57,16 +57,16 @@ public class RamFileOutputStream extends OutputStream
      * @see java.io.DataOutput#write(byte[], int, int)
      */
     @Override
-    public void write(byte[] b, int off, int len) throws IOException
+    public void write(final byte[] b, final int off, final int len) throws IOException
     {
-        int size = this.file.getData().size();
-        int newSize = this.file.getData().size() + len;
+        final int size = this.file.getData().size();
+        final int newSize = this.file.getData().size() + len;
         // Store the Exception in order to notify the client again on close()
         try
         {
             this.file.resize(newSize);
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             this.exc = e;
             throw e;
@@ -80,7 +80,7 @@ public class RamFileOutputStream extends OutputStream
      * @see java.io.DataOutput#write(int)
      */
     @Override
-    public void write(int b) throws IOException
+    public void write(final int b) throws IOException
     {
         buffer1[0] = (byte) b;
         this.write(buffer1);
@@ -109,7 +109,7 @@ public class RamFileOutputStream extends OutputStream
             // Close the
             this.file.endOutput();
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             throw new FileSystemException(e);
         }

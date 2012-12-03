@@ -105,7 +105,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         // The user prop file requires the "homedirectory" to be set
         user.setHomeDirectory(getTestDirectoryString());
         serverFactory.setUserManager(userManager);
-        ListenerFactory factory = new ListenerFactory();
+        final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
         factory.setPort(SocketPort);
 
@@ -167,7 +167,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         {
             uri = ConnectionUri;
         }
-        FileSystemOptions opts = new FileSystemOptions();
+        final FileSystemOptions opts = new FileSystemOptions();
         final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
         builder.setPassiveMode(opts, true);
         // FtpFileType.BINARY is the default

@@ -187,7 +187,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @see #setReadable(boolean, boolean)
      * @since 2.1
      */
-    protected boolean doSetReadable(boolean readable, boolean ownerOnly) throws Exception
+    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception
     {
         return false;
     }
@@ -216,7 +216,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @see #setWritable(boolean, boolean)
      * @since 2.1
      */
-    protected boolean doSetWritable(boolean writable, boolean ownerOnly) throws Exception
+    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception
     {
         return false;
     }
@@ -232,7 +232,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @see #setExecutable(boolean, boolean)
      * @since 2.1
      */
-    protected boolean doSetExecutable(boolean writable, boolean ownerOnly) throws Exception
+    protected boolean doSetExecutable(final boolean writable, final boolean ownerOnly) throws Exception
     {
         return false;
     }
@@ -288,7 +288,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @param newFile A FileObject with the new file name.
      * @throws Exception if an error occurs.
      */
-    protected void doRename(FileObject newFile) throws Exception
+    protected void doRename(final FileObject newFile) throws Exception
     {
         throw new FileSystemException("vfs.provider/rename-not-supported.error");
     }
@@ -318,7 +318,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @param newType The type of the file.
      * @throws Exception if an error occurs.
      */
-    protected void onChildrenChanged(FileName child, FileType newType) throws Exception
+    protected void onChildrenChanged(final FileName child, final FileType newType) throws Exception
     {
     }
 
@@ -470,7 +470,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @return An OutputStream to write to the file.
      * @throws Exception if an error occurs.
      */
-    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
     {
         throw new FileSystemException("vfs.provider/write-not-supported.error");
     }
@@ -577,7 +577,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     setFileType(FileType.IMAGINARY);
                 }
             }
-            catch (Exception e)
+            catch (final Exception e)
             {
                 throw new FileSystemException("vfs.provider/get-type.error", e, name);
             }
@@ -672,7 +672,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     @Override
-    public boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException
+    public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
         try
         {
@@ -715,7 +715,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     @Override
-    public boolean setWritable(boolean readable, boolean ownerOnly) throws FileSystemException
+    public boolean setWritable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
         try
         {
@@ -728,7 +728,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     @Override
-    public boolean setExecutable(boolean readable, boolean ownerOnly) throws FileSystemException
+    public boolean setExecutable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
         try
         {
@@ -752,7 +752,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         {
             return listFiles(Selectors.SELECT_ALL).iterator();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             throw new IllegalStateException(e);
         }
@@ -849,12 +849,12 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 childrenObjects = doListChildrenResolved();
                 children = extractNames(childrenObjects);
             }
-            catch (FileSystemException exc)
+            catch (final FileSystemException exc)
             {
                 // VFS-210
                 throw exc;
             }
-            catch (Exception exc)
+            catch (final Exception exc)
             {
                 throw new FileSystemException("vfs.provider/list-children.error", exc, name);
             }
@@ -870,12 +870,12 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             {
                 files = doListChildren();
             }
-            catch (FileSystemException exc)
+            catch (final FileSystemException exc)
             {
                 // VFS-210
                 throw exc;
             }
-            catch (Exception exc)
+            catch (final Exception exc)
             {
                 throw new FileSystemException("vfs.provider/list-children.error", exc, name);
             }
@@ -910,14 +910,14 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
     }
 
-    private FileName[] extractNames(FileObject[] objects)
+    private FileName[] extractNames(final FileObject[] objects)
     {
         if (objects == null)
         {
             return null;
         }
 
-        FileName[] names = new FileName[objects.length];
+        final FileName[] names = new FileName[objects.length];
         for (int iterObjects = 0; iterObjects < objects.length; iterObjects++)
         {
             names[iterObjects] = objects[iterObjects].getName();
@@ -926,14 +926,14 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         return names;
     }
 
-    private FileObject[] resolveFiles(FileName[] children) throws FileSystemException
+    private FileObject[] resolveFiles(final FileName[] children) throws FileSystemException
     {
         if (children == null)
         {
             return null;
         }
 
-        FileObject[] objects = new FileObject[children.length];
+        final FileObject[] objects = new FileObject[children.length];
         for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
         {
             objects[iterChildren] = resolveFile(children[iterChildren]);
@@ -942,7 +942,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         return objects;
     }
 
-    private FileObject resolveFile(FileName child) throws FileSystemException
+    private FileObject resolveFile(final FileName child) throws FileSystemException
     {
         return fs.resolveFile(child);
     }
@@ -958,7 +958,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         // TODO - use a hashtable when there are a large number of children
         final FileObject[] children = getChildren();
-        for (FileObject element : children)
+        for (final FileObject element : children)
         {
             // final FileObject child = children[i];
             final FileName child = element.getName();
@@ -1225,7 +1225,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      *         the given object.
      */
     @Override
-    public int compareTo(FileObject file)
+    public int compareTo(final FileObject file)
     {
         if (file == null)
         {
@@ -1262,7 +1262,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         file.findFiles(selector, false, files);
 
         // Copy everything across
-        for (FileObject srcFile : files)
+        for (final FileObject srcFile : files)
         {
             // Determine the destination file
             final String relPath = file.getName().getRelativeName(srcFile.getName());
@@ -1302,7 +1302,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void moveTo(FileObject destFile) throws FileSystemException
+    public void moveTo(final FileObject destFile) throws FileSystemException
     {
         if (canRenameTo(destFile))
         {
@@ -1380,7 +1380,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @return true if the FileObjects are the same.
      * @throws FileSystemException if an error occurs.
      */
-    protected boolean isSameFile(FileObject destFile) throws FileSystemException
+    protected boolean isSameFile(final FileObject destFile) throws FileSystemException
     {
         attach();
         return doIsSameFile(destFile);
@@ -1394,7 +1394,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @return true if the FileObjects are the same.
      * @throws FileSystemException if an error occurs.
      */
-    protected boolean doIsSameFile(FileObject destFile) throws FileSystemException
+    protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException
     {
         return false;
     }
@@ -1407,7 +1407,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @return true if rename is possible
      */
     @Override
-    public boolean canRenameTo(FileObject newfile)
+    public boolean canRenameTo(final FileObject newfile)
     {
         return fs == newfile.getFileSystem();
     }
@@ -1492,7 +1492,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 content.close();
                 content = null;
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 exc = e;
             }
@@ -1630,7 +1630,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws FileSystemException if an error occurs; for example:<br>
      *         bAppend is true, and the unbderlying FileSystem does not support it
      */
-    public OutputStream getOutputStream(boolean bAppend) throws FileSystemException
+    public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException
     {
         /* VFS-210
         if (getType() != FileType.IMAGINARY && !getType().hasContent())
@@ -1663,11 +1663,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         {
             return doGetOutputStream(bAppend);
         }
-        catch (RuntimeException re)
+        catch (final RuntimeException re)
         {
             throw re;
         }
-        catch (Exception exc)
+        catch (final Exception exc)
         {
             throw new FileSystemException("vfs.provider/write.error", exc, name);
         }
@@ -1750,7 +1750,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 }
                 */
             }
-            catch (Exception exc)
+            catch (final Exception exc)
             {
                 throw new FileSystemException("vfs.provider/get-type.error", exc, name);
             }
@@ -1852,7 +1852,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @param newType The type of the child.
      * @throws Exception if an error occurs.
      */
-    protected void childrenChanged(FileName childName, FileType newType) throws Exception
+    protected void childrenChanged(final FileName childName, final FileType newType) throws Exception
     {
         // TODO - this may be called when not attached
 
@@ -1886,11 +1886,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @param newType The type of the child.
      * @throws Exception if an error occurs.
      */
-    private void notifyParent(FileName childName, FileType newType) throws Exception
+    private void notifyParent(final FileName childName, final FileType newType) throws Exception
     {
         if (parent == null)
         {
-            FileName parentName = name.getParent();
+            final FileName parentName = name.getParent();
             if (parentName != null)
             {
                 // Locate the parent, if it is cached
@@ -2018,12 +2018,12 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         return fs.getFileSystemManager().getFileContentInfoFactory();
     }
 
-    protected void injectType(FileType fileType)
+    protected void injectType(final FileType fileType)
     {
         setFileType(fileType);
     }
 
-    private void setFileType(FileType type)
+    private void setFileType(final FileType type)
     {
         if (type != null && type != FileType.IMAGINARY)
         {
@@ -2031,7 +2031,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             {
                 name.setType(type);
             }
-            catch (FileSystemException e)
+            catch (final FileSystemException e)
             {
                 throw new RuntimeException(e.getMessage());
             }
@@ -2047,7 +2047,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @param strongRef The Object to add.
      */
     // TODO should this be a FileObject?
-    public void holdObject(Object strongRef)
+    public void holdObject(final Object strongRef)
     {
         if (objects == null)
         {

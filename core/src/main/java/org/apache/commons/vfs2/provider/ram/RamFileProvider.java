@@ -70,8 +70,8 @@ public class RamFileProvider extends AbstractOriginatingFileProvider implements
      *      org.apache.commons.vfs2.FileName, org.apache.commons.vfs2.FileSystemOptions)
      */
     @Override
-    protected FileSystem doCreateFileSystem(FileName name,
-            FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected FileSystem doCreateFileSystem(final FileName name,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         return new RamFileSystem(name, fileSystemOptions);
     }

@@ -36,7 +36,7 @@ public class CopyTask
      * Enable/disable overwriting of up-to-date files.
      * @param overwrite true if the file should be overwritten.
      */
-    public void setOverwrite(boolean overwrite)
+    public void setOverwrite(final boolean overwrite)
     {
         this.overwrite = overwrite;
     }
@@ -45,7 +45,7 @@ public class CopyTask
      * Enable/disable preserving last modified time of copied files.
      * @param preserveLastModified true if the last modified time should be preserved.
      */
-    public void setPreserveLastModified(boolean preserveLastModified)
+    public void setPreserveLastModified(final boolean preserveLastModified)
     {
         this.preserveLastModified = preserveLastModified;
     }

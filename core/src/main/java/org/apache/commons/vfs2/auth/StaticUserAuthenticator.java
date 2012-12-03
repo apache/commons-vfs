@@ -34,7 +34,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     /** The user's domain */
     private final String domain;
 
-    public StaticUserAuthenticator(String domain, String username, String password)
+    public StaticUserAuthenticator(final String domain, final String username, final String password)
     {
         this.username = username;
         this.password = password;
@@ -42,9 +42,9 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     }
 
     @Override
-    public UserAuthenticationData requestAuthentication(UserAuthenticationData.Type[] types)
+    public UserAuthenticationData requestAuthentication(final UserAuthenticationData.Type[] types)
     {
-        UserAuthenticationData data = new UserAuthenticationData();
+        final UserAuthenticationData data = new UserAuthenticationData();
         data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
         data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
         data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
@@ -72,7 +72,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
      * @since 2.0
      */
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
         if (this == obj)
         {
@@ -89,7 +89,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
             return false;
         }
 
-        StaticUserAuthenticator other = (StaticUserAuthenticator) obj;
+        final StaticUserAuthenticator other = (StaticUserAuthenticator) obj;
         return equalsNullsafe(domain, other.domain)
                 && equalsNullsafe(username, other.username)
                 && equalsNullsafe(password, other.password);
@@ -158,7 +158,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     @Override
     public String toString()
     {
-        StringBuilder buffer = new StringBuilder();
+        final StringBuilder buffer = new StringBuilder();
         if (domain != null)
         {
             buffer.append(domain).append('\\');

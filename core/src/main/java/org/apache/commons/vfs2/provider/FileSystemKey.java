@@ -48,11 +48,12 @@ class FileSystemKey implements Comparable<FileSystemKey>
     }
 
     @Override
-    public int compareTo(FileSystemKey o)
+    public int compareTo(final FileSystemKey o)
     {
         @SuppressWarnings("unchecked") // Keys must implement comparable, and be comparable to themselves
+        final
         Comparable<Comparable<?>> comparable = (Comparable<Comparable<?>>) key;
-        int ret = comparable.compareTo(o.key);
+        final int ret = comparable.compareTo(o.key);
         if (ret != 0)
         {
             // other filesystem

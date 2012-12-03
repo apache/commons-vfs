@@ -90,7 +90,7 @@ public class ShowFileTask
     private void showFile(final FileObject file, final String prefix) throws Exception
     {
         // Write details
-        StringBuilder msg = new StringBuilder(prefix);
+        final StringBuilder msg = new StringBuilder(prefix);
         msg.append(file.getName().getBaseName());
         if (file.exists())
         {
@@ -121,7 +121,7 @@ public class ShowFileTask
             if (file.getType().hasChildren())
             {
                 final FileObject[] children = file.getChildren();
-                for (FileObject child : children)
+                for (final FileObject child : children)
                 {
                     if (recursive)
                     {

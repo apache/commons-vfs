@@ -38,13 +38,13 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
      */
     public void testVersioning() throws Exception
     {
-        FileObject scratchFolder = createScratchFolder();
-        FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();
-        WebdavFileSystemConfigBuilder builder =
+        final FileObject scratchFolder = createScratchFolder();
+        final FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();
+        final WebdavFileSystemConfigBuilder builder =
             (WebdavFileSystemConfigBuilder)getManager().getFileSystemConfigBuilder("webdav");
         builder.setVersioning(opts, true);
-        FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
-        FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
+        final FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
+        final FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
         assertTrue(opts == newOpts);
         assertTrue(builder.isVersioning(newOpts));
         assertTrue(!file.exists());
@@ -58,7 +58,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
         Map<?, ?> map = file.getContent().getAttributes();
-        String name = ((URLFileName)file.getName()).getUserName();
+        final String name = ((URLFileName)file.getName()).getUserName();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         if (name != null)
         {
@@ -92,14 +92,14 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
      */
     public void testVersioningWithCreator() throws Exception
     {
-        FileObject scratchFolder = createScratchFolder();
-        FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();
-        WebdavFileSystemConfigBuilder builder =
+        final FileObject scratchFolder = createScratchFolder();
+        final FileSystemOptions opts = scratchFolder.getFileSystem().getFileSystemOptions();
+        final WebdavFileSystemConfigBuilder builder =
             (WebdavFileSystemConfigBuilder)getManager().getFileSystemConfigBuilder("webdav");
         builder.setVersioning(opts, true);
         builder.setCreatorName(opts, "testUser");
-        FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
-        FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
+        final FileObject file = getManager().resolveFile(scratchFolder, "file1.txt", opts);
+        final FileSystemOptions newOpts = file.getFileSystem().getFileSystemOptions();
         assertTrue(opts == newOpts);
         assertTrue(builder.isVersioning(newOpts));
         assertTrue(!file.exists());
@@ -113,7 +113,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
         assertTrue(file.isReadable());
         assertTrue(file.isWriteable());
         Map<?, ?> map = file.getContent().getAttributes();
-        String name = ((URLFileName)file.getName()).getUserName();
+        final String name = ((URLFileName)file.getName()).getUserName();
         assertTrue(map.containsKey(DeltaVConstants.CREATOR_DISPLAYNAME.toString()));
         assertEquals(map.get(DeltaVConstants.CREATOR_DISPLAYNAME.toString()),"testUser");
         if (name != null)
@@ -153,7 +153,7 @@ public class WebdavVersioningTests extends AbstractProviderTestCase
      */
     protected FileObject createScratchFolder() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);

@@ -66,8 +66,8 @@ public class FileTypeSelectorTest
     @Test
     public void testFileOrFolders() throws Exception
     {
-        FileSelector selector = new FileTypeSelector(FileType.FILE_OR_FOLDER);
-        FileObject[] foList = BaseFolder.findFiles(selector);
+        final FileSelector selector = new FileTypeSelector(FileType.FILE_OR_FOLDER);
+        final FileObject[] foList = BaseFolder.findFiles(selector);
         // Why 0?
         Assert.assertEquals(0, foList.length);
     }
@@ -75,16 +75,16 @@ public class FileTypeSelectorTest
     @Test
     public void testFiles() throws Exception
     {
-        FileSelector selector = new FileTypeSelector(FileType.FILE);
-        FileObject[] foList = BaseFolder.findFiles(selector);
+        final FileSelector selector = new FileTypeSelector(FileType.FILE);
+        final FileObject[] foList = BaseFolder.findFiles(selector);
         Assert.assertEquals(5, foList.length);
     }
 
     @Test
     public void testFolders() throws Exception
     {
-        FileSelector selector = new FileTypeSelector(FileType.FOLDER);
-        FileObject[] foList = BaseFolder.findFiles(selector);
+        final FileSelector selector = new FileTypeSelector(FileType.FOLDER);
+        final FileObject[] foList = BaseFolder.findFiles(selector);
         Assert.assertEquals(8, foList.length);
     }
 }

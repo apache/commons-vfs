@@ -34,19 +34,19 @@ public class ProviderDeleteTests
     {
         final String basename;
 
-        private FileNameSelector(String basename)
+        private FileNameSelector(final String basename)
         {
             this.basename = basename;
         }
 
         @Override
-        public boolean includeFile(FileSelectInfo fileInfo) throws Exception
+        public boolean includeFile(final FileSelectInfo fileInfo) throws Exception
         {
             return this.basename.equals(fileInfo.getFile().getName().getBaseName());
         }
 
         @Override
-        public boolean traverseDescendents(FileSelectInfo fileInfo) throws Exception
+        public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception
         {
             return true;
         }
@@ -72,7 +72,7 @@ public class ProviderDeleteTests
      */
     protected FileObject createScratchFolder() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
         scratchFolder.delete(Selectors.EXCLUDE_SELF);

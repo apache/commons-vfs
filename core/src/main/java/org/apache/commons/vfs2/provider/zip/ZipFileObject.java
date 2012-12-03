@@ -38,10 +38,10 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
 
     private FileType type;
 
-    protected ZipFileObject(AbstractFileName name,
-                            ZipEntry entry,
-                            ZipFileSystem fs,
-                            boolean zipExists) throws FileSystemException
+    protected ZipFileObject(final AbstractFileName name,
+                            final ZipEntry entry,
+                            final ZipFileSystem fs,
+                            final boolean zipExists) throws FileSystemException
     {
         super(name, fs);
         setZipEntry(entry);
@@ -81,7 +81,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
      * 
      * @param childName The name of the child.
      */
-    public void attachChild(FileName childName)
+    public void attachChild(final FileName childName)
     {
         children.add(childName.getBaseName());
     }
@@ -120,7 +120,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
                 return null;
             }
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             // should not happen as the type has already been cached.
             throw new RuntimeException(e);

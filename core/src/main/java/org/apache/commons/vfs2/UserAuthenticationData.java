@@ -38,13 +38,13 @@ public class UserAuthenticationData
          *
          * @param type the type
          */
-        public Type(String type)
+        public Type(final String type)
         {
             this.type = type;
         }
 
         @Override
-        public boolean equals(Object o)
+        public boolean equals(final Object o)
         {
             if (this == o)
             {
@@ -55,7 +55,7 @@ public class UserAuthenticationData
                 return false;
             }
 
-            Type type1 = (Type) o;
+            final Type type1 = (Type) o;
 
             if (type != null ? !type.equals(type1.type) : type1.type != null)
             {
@@ -66,7 +66,7 @@ public class UserAuthenticationData
         }
 
         @Override
-        public int compareTo(Type o)
+        public int compareTo(final Type o)
         {
             return type.compareTo(o.type);
         }
@@ -117,7 +117,7 @@ public class UserAuthenticationData
      * @param type The Type to add
      * @param data The data associated with the Type
      */
-    public void setData(Type type, char[] data)
+    public void setData(final Type type, final char[] data)
     {
         authenticationData.put(type, data);
     }
@@ -127,7 +127,7 @@ public class UserAuthenticationData
      * @param type The Type to retrieve.
      * @return a character array containing the data associated with the type.
      */
-    public char[] getData(Type type)
+    public char[] getData(final Type type)
     {
         return authenticationData.get(type);
     }
@@ -138,10 +138,10 @@ public class UserAuthenticationData
     public void cleanup()
     {
         // step 1: nullify character buffers
-        Iterator<char[]> iterAuthenticationData = authenticationData.values().iterator();
+        final Iterator<char[]> iterAuthenticationData = authenticationData.values().iterator();
         while (iterAuthenticationData.hasNext())
         {
-            char[] data = iterAuthenticationData.next();
+            final char[] data = iterAuthenticationData.next();
             if (data == null || data.length < 0)
             {
                 continue;

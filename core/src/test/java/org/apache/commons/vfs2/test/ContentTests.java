@@ -48,7 +48,7 @@ public class ContentTests
     private void assertSameContent(final FileInfo expected,
                                    final FileObject folder) throws Exception
     {
-        for (FileInfo fileInfo : expected.children.values())
+        for (final FileInfo fileInfo : expected.children.values())
         {
             final FileObject child = folder.resolveFile(fileInfo.baseName, NameScope.CHILD);
 
@@ -108,8 +108,8 @@ public class ContentTests
         {
             return;
         }
-        FileSystem fileSystem = getFileSystem();
-        String uri = fileSystem.getRootURI();
+        final FileSystem fileSystem = getFileSystem();
+        final String uri = fileSystem.getRootURI();
         testRoot(getManager().resolveFile(uri, fileSystem.getFileSystemOptions()));
     }
 
@@ -159,7 +159,7 @@ public class ContentTests
         // Test the parent of the root of the file system
         // TODO - refactor out test cases for layered vs originating fs
         final FileSystem fileSystem = getFileSystem();
-        FileObject root = fileSystem.getRoot();
+        final FileObject root = fileSystem.getRoot();
         if (fileSystem.getParentLayer() == null)
         {
             // No parent layer, so parent should be null
@@ -186,7 +186,7 @@ public class ContentTests
             file.getChildren();
             fail();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             assertSameMessage("vfs.provider/list-children-not-folder.error", file, e);
         }
@@ -209,7 +209,7 @@ public class ContentTests
         }
 
         // Should be able to get child by name
-        FileObject child = file.resolveFile("some-child");
+        final FileObject child = file.resolveFile("some-child");
         assertNotNull(child);
     }
 
@@ -234,14 +234,14 @@ public class ContentTests
     {
 
         // Try getting the content of an unknown file
-        FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
-        FileContent content = unknownFile.getContent();
+        final FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
+        final FileContent content = unknownFile.getContent();
         try
         {
             content.getInputStream();
             fail();
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             assertSameMessage("vfs.provider/read-not-file.error", unknownFile, e);
         }
@@ -318,7 +318,7 @@ public class ContentTests
     public void testReuse() throws Exception
     {
         // Get the test file
-        FileObject file = getReadFolder().resolveFile("file1.txt");
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertEquals(FileType.FILE, file.getType());
         assertTrue(file.isFile());
 
@@ -342,7 +342,7 @@ public class ContentTests
     public void testInputStreamMultipleCleanup() throws Exception
     {
         // Get the test file
-        FileObject file = getReadFolder().resolveFile("file1.txt");
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertEquals(FileType.FILE, file.getType());
         assertTrue(file.isFile());
 
@@ -366,7 +366,7 @@ public class ContentTests
     public void testInputStreamSingleCleanup() throws Exception
     {
         // Get the test file
-        FileObject file = getReadFolder().resolveFile("file1.txt");
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertEquals(FileType.FILE, file.getType());
         assertTrue(file.isFile());
 

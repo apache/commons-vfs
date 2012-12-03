@@ -39,7 +39,7 @@ public class UrlFileNameParser extends AbstractFileNameParser
     }
 
     @Override
-    public boolean encodeCharacter(char ch)
+    public boolean encodeCharacter(final char ch)
     {
         return super.encodeCharacter(ch) || ch == '?';
     }
@@ -77,7 +77,7 @@ public class UrlFileNameParser extends AbstractFileNameParser
             return true;
         }
 
-        int nuofSlash = countSlashes(filename);
+        final int nuofSlash = countSlashes(filename);
         return nuofSlash == 2;
     }
 
@@ -93,7 +93,7 @@ public class UrlFileNameParser extends AbstractFileNameParser
         int nuofSlash = 0;
         for (int pos = 0; pos < filename.length(); pos++)
         {
-            char c = filename.charAt(pos);
+            final char c = filename.charAt(pos);
             if (state == 0)
             {
                 if (c >= 'a' && c <= 'z')

@@ -68,7 +68,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
             manager.addProvider("ram", new RamFileProvider());
             manager.addProvider("file", new DefaultLocalFileProvider());
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             log.error(e);
             throw e;
@@ -85,8 +85,8 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
         if (!inited)
         {
             // Import the test tree
-            FileObject fo = manager.resolveFile("ram:/");
-            RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
+            final FileObject fo = manager.resolveFile("ram:/");
+            final RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
             fs.importTree(new File(AbstractVfsTestCase.getTestDirectoryString()));
             fo.close();
 

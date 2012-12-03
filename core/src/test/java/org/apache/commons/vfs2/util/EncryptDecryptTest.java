@@ -28,14 +28,14 @@ public class EncryptDecryptTest
     @Test
     public void testEncryptDecrypt() throws Exception
     {
-        String source = "Qryp2!t&tpR59";
-        String expected = "914589F049CE3E8E3BB1A41BEAE12A9C";
+        final String source = "Qryp2!t&tpR59";
+        final String expected = "914589F049CE3E8E3BB1A41BEAE12A9C";
 
-        Cryptor cryptor = CryptorFactory.getCryptor();
-        String encrypted = cryptor.encrypt(source);
+        final Cryptor cryptor = CryptorFactory.getCryptor();
+        final String encrypted = cryptor.encrypt(source);
         assertEquals(expected, encrypted);
 
-        String decrypted = cryptor.decrypt(encrypted);
+        final String decrypted = cryptor.decrypt(encrypted);
         assertEquals(source, decrypted);
 
     }

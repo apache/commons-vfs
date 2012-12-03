@@ -180,7 +180,7 @@ public abstract class AbstractSyncTask
             {
                 srcDirUrl += "/";
             }
-            StringTokenizer tok = new StringTokenizer(filesList, ", \t\n\r\f", false);
+            final StringTokenizer tok = new StringTokenizer(filesList, ", \t\n\r\f", false);
             while (tok.hasMoreTokens())
             {
                 String nextFile = tok.nextToken();
@@ -226,7 +226,7 @@ public abstract class AbstractSyncTask
         }
     }
 
-    protected void logOrDie(final String message, int level)
+    protected void logOrDie(final String message, final int level)
     {
         if (!isFailonerror())
         {
@@ -327,7 +327,7 @@ public abstract class AbstractSyncTask
         if (detectMissingSourceFiles())
         {
             final FileObject[] allDestFiles = destFolder.findFiles(Selectors.SELECT_FILES);
-            for (FileObject destFile : allDestFiles)
+            for (final FileObject destFile : allDestFiles)
             {
                 if (!destFiles.contains(destFile))
                 {

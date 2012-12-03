@@ -222,7 +222,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
                 children = file.getChildren();
             }
             // VFS-210
-            catch (FileNotFolderException e)
+            catch (final FileNotFolderException e)
             {
                 throw new FileNotFolderException(getName(), e);
             }
@@ -348,7 +348,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
     {
         return file.getContent().getOutputStream(bAppend);
     }
@@ -397,7 +397,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * @throws Exception if an error occurs.
      */
     @Override
-    public void fileChanged(FileChangeEvent event) throws Exception
+    public void fileChanged(final FileChangeEvent event) throws Exception
     {
         if (event.getFile() != file)
         {
@@ -450,7 +450,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
      * @since 2.0
      */
     @Override
-    protected void doRename(FileObject newFile)
+    protected void doRename(final FileObject newFile)
         throws Exception
     {
         file.moveTo(((DelegateFileObject) newFile).file);

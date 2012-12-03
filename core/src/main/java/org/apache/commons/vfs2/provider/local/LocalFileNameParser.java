@@ -36,14 +36,14 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
     public boolean isAbsoluteName(final String name)
     {
         // TODO - this is yucky
-        StringBuilder b = new StringBuilder(name);
+        final StringBuilder b = new StringBuilder(name);
         try
         {
             UriParser.fixSeparators(b);
             extractRootPrefix(name, b);
             return true;
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             return false;
         }
@@ -58,7 +58,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
 
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, FileName base, final String uri)
+    public FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
         throws FileSystemException
     {
         final StringBuilder name = new StringBuilder();
@@ -79,7 +79,7 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
         final String rootFile = extractRootPrefix(uri, name);
 
         // Normalise the path
-        FileType fileType = UriParser.normalisePath(name);
+        final FileType fileType = UriParser.normalisePath(name);
 
         final String path = name.toString();
 

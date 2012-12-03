@@ -34,7 +34,7 @@ import org.apache.commons.vfs2.FileObject;
 public class WeakRefFilesCache extends SoftRefFilesCache
 {
     @Override
-    protected Reference<FileObject> createReference(FileObject file, ReferenceQueue<FileObject> refqueue)
+    protected Reference<FileObject> createReference(final FileObject file, final ReferenceQueue<FileObject> refqueue)
     {
         return new WeakReference<FileObject>(file, refqueue);
     }

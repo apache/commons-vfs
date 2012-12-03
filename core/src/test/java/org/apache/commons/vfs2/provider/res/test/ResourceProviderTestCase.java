@@ -43,7 +43,7 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.  This implementation does nothing.
      */
     @Override
-    public void prepare(DefaultFileSystemManager manager)
+    public void prepare(final DefaultFileSystemManager manager)
         throws Exception
     {
         manager.addProvider("res", new ResourceFileProvider());
@@ -55,10 +55,10 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(FileSystemManager manager)
+    public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
-        String baseDir = AbstractVfsTestCase.getResourceTestDirectoryString();
+        final String baseDir = AbstractVfsTestCase.getResourceTestDirectoryString();
         return manager.resolveFile("res:" + baseDir);
     }
 }

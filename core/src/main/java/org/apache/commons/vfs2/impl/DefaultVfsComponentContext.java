@@ -63,7 +63,7 @@ final class DefaultVfsComponentContext
     }
 
     @Override
-    public FileName parseURI(String uri) throws FileSystemException
+    public FileName parseURI(final String uri) throws FileSystemException
     {
         return manager.resolveURI(uri);
     }
@@ -72,7 +72,7 @@ final class DefaultVfsComponentContext
      * Returns a {@link FileObject} for a local file.
      */
     @Override
-    public FileObject toFileObject(File file)
+    public FileObject toFileObject(final File file)
         throws FileSystemException
     {
         return manager.toFileObject(file);

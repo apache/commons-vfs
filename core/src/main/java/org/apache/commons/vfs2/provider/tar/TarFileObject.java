@@ -36,10 +36,10 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
     private final HashSet<String> children = new HashSet<String>();
     private FileType type;
 
-    protected TarFileObject(AbstractFileName name,
-                            TarArchiveEntry entry,
-                            TarFileSystem fs,
-                            boolean tarExists) throws FileSystemException
+    protected TarFileObject(final AbstractFileName name,
+                            final TarArchiveEntry entry,
+                            final TarFileSystem fs,
+                            final boolean tarExists) throws FileSystemException
     {
         super(name, fs);
         setTarEntry(entry);
@@ -74,7 +74,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
     /**
      * Attaches a child
      */
-    protected void attachChild(FileName childName)
+    protected void attachChild(final FileName childName)
     {
         children.add(childName.getBaseName());
     }
@@ -113,7 +113,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
                 return null;
             }
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             // should not happen as the type has already been cached.
             throw new RuntimeException(e);

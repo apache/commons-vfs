@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
  */
 public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem>
 {
-    protected GzipFileObject(AbstractFileName name, FileObject container, GzipFileSystem fs)
+    protected GzipFileObject(final AbstractFileName name, final FileObject container, final GzipFileSystem fs)
     {
         super(name, container, fs);
     }
@@ -38,14 +38,14 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem>
     @Override
     protected InputStream doGetInputStream() throws Exception
     {
-        InputStream is = getContainer().getContent().getInputStream();
+        final InputStream is = getContainer().getContent().getInputStream();
         return new GZIPInputStream(is);
     }
 
     @Override
-    protected OutputStream doGetOutputStream(boolean bAppend) throws Exception
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
     {
-        OutputStream os = getContainer().getContent().getOutputStream(false);
+        final OutputStream os = getContainer().getContent().getOutputStream(false);
         return new GZIPOutputStream(os);
     }
 }

@@ -50,7 +50,7 @@ public class ProviderCacheStrategyTests
      */
     public void testManualCache() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
             scratchFolder.getFileSystem() instanceof VirtualFileSystem)
         {
@@ -60,12 +60,12 @@ public class ProviderCacheStrategyTests
 
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
 
-        DefaultFileSystemManager fs = createManager();
+        final DefaultFileSystemManager fs = createManager();
         fs.setCacheStrategy(CacheStrategy.MANUAL);
         fs.init();
-        FileObject foBase2 = getBaseTestFolder(fs);
+        final FileObject foBase2 = getBaseTestFolder(fs);
 
-        FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
+        final FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
 
         FileObject[] fos = cachedFolder.getChildren();
         assertContainsNot(fos, "file1.txt");
@@ -85,7 +85,7 @@ public class ProviderCacheStrategyTests
      */
     public void testOnResolveCache() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
             scratchFolder.getFileSystem() instanceof VirtualFileSystem)
         {
@@ -95,10 +95,10 @@ public class ProviderCacheStrategyTests
 
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
 
-        DefaultFileSystemManager fs = createManager();
+        final DefaultFileSystemManager fs = createManager();
         fs.setCacheStrategy(CacheStrategy.ON_RESOLVE);
         fs.init();
-        FileObject foBase2 = getBaseTestFolder(fs);
+        final FileObject foBase2 = getBaseTestFolder(fs);
 
         FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
 
@@ -120,7 +120,7 @@ public class ProviderCacheStrategyTests
      */
     public void testOnCallCache() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
         if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
             scratchFolder.getFileSystem() instanceof VirtualFileSystem)
         {
@@ -130,12 +130,12 @@ public class ProviderCacheStrategyTests
 
         scratchFolder.delete(Selectors.EXCLUDE_SELF);
 
-        DefaultFileSystemManager fs = createManager();
+        final DefaultFileSystemManager fs = createManager();
         fs.setCacheStrategy(CacheStrategy.ON_CALL);
         fs.init();
-        FileObject foBase2 = getBaseTestFolder(fs);
+        final FileObject foBase2 = getBaseTestFolder(fs);
 
-        FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
+        final FileObject cachedFolder = foBase2.resolveFile(scratchFolder.getName().getPath());
 
         FileObject[] fos = cachedFolder.getChildren();
         assertContainsNot(fos, "file1.txt");
@@ -146,9 +146,9 @@ public class ProviderCacheStrategyTests
         assertContains(fos, "file1.txt");
     }
 
-    public void assertContainsNot(FileObject[] fos, String string)
+    public void assertContainsNot(final FileObject[] fos, final String string)
     {
-        for (FileObject fo : fos)
+        for (final FileObject fo : fos)
         {
             if (string.equals(fo.getName().getBaseName()))
             {
@@ -157,9 +157,9 @@ public class ProviderCacheStrategyTests
         }
     }
 
-    public void assertContains(FileObject[] fos, String string)
+    public void assertContains(final FileObject[] fos, final String string)
     {
-        for (FileObject fo : fos)
+        for (final FileObject fo : fos)
         {
             if (string.equals(fo.getName().getBaseName()))
             {

@@ -40,7 +40,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
     private DataInputStream dis = null;
     private MonitorInputStream mis = null;
 
-    HttpRandomAccessContent(final HttpFileObject fileObject, RandomAccessMode mode)
+    HttpRandomAccessContent(final HttpFileObject fileObject, final RandomAccessMode mode)
     {
         super(mode);
 
@@ -55,7 +55,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    public void seek(long pos) throws IOException
+    public void seek(final long pos) throws IOException
     {
         if (pos == filePointer)
         {
@@ -100,7 +100,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         // If the range request was ignored
         if (status == HttpURLConnection.HTTP_OK)
         {
-            long skipped = mis.skip(filePointer);
+            final long skipped = mis.skip(filePointer);
             if (skipped != filePointer)
             {
                 throw new FileSystemException("vfs.provider.http/get-range.error",
@@ -114,7 +114,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
             @Override
             public int read() throws IOException
             {
-                int ret = super.read();
+                final int ret = super.read();
                 if (ret > -1)
                 {
                     filePointer++;
@@ -123,9 +123,9 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
             }
 
             @Override
-            public int read(byte[] b) throws IOException
+            public int read(final byte[] b) throws IOException
             {
-                int ret = super.read(b);
+                final int ret = super.read(b);
                 if (ret > -1)
                 {
                     filePointer += ret;
@@ -134,9 +134,9 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
             }
 
             @Override
-            public int read(byte[] b, int off, int len) throws IOException
+            public int read(final byte[] b, final int off, final int len) throws IOException
             {
-                int ret = super.read(b, off, len);
+                final int ret = super.read(b, off, len);
                 if (ret > -1)
                 {
                     filePointer += ret;

@@ -52,7 +52,7 @@ public class JarFileObject extends ZipFileObject
         {
             getAttributes(); // early get the attributes as the zip file might be closed
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             throw new FileSystemException(e);
         }
@@ -119,7 +119,7 @@ public class JarFileObject extends ZipFileObject
      */
     private void addAll(final Attributes src, final Map<String, Object> dest)
     {
-        for (Entry<Object, Object> entry : src.entrySet())
+        for (final Entry<Object, Object> entry : src.entrySet())
         {
             // final String name = entry.getKey().toString().toLowerCase();
             final String name = entry.getKey().toString();

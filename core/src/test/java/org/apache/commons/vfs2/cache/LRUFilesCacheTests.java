@@ -26,45 +26,51 @@ public class LRUFilesCacheTests extends AbstractProviderTestCase
 {
     public void testFilesCache() throws Exception
     {
-        FileObject scratchFolder = getWriteFolder();
+        final FileObject scratchFolder = getWriteFolder();
 
         // releaseable
-        FileObject dir1 = scratchFolder.resolveFile("dir1");
+        final FileObject dir1 = scratchFolder.resolveFile("dir1");
 
         // avoid cache removal
-        FileObject dir2 = scratchFolder.resolveFile("dir2");
+        final FileObject dir2 = scratchFolder.resolveFile("dir2");
         dir2.getContent();
 
         // releaseable
         @SuppressWarnings("unused")
+        final
         FileObject dir3 = scratchFolder.resolveFile("dir3");
 
         // releaseable
         @SuppressWarnings("unused")
+        final
         FileObject dir4 = scratchFolder.resolveFile("dir4");
 
         // releaseable
         @SuppressWarnings("unused")
+        final
         FileObject dir5 = scratchFolder.resolveFile("dir5");
 
         // releaseable
         @SuppressWarnings("unused")
+        final
         FileObject dir6 = scratchFolder.resolveFile("dir6");
 
         // releaseable
         @SuppressWarnings("unused")
+        final
         FileObject dir7 = scratchFolder.resolveFile("dir7");
 
         // releaseable
         @SuppressWarnings("unused")
+        final
         FileObject dir8 = scratchFolder.resolveFile("dir8");
 
         // check if the cache still holds the right instance
-        FileObject dir2_2 = scratchFolder.resolveFile("dir2");
+        final FileObject dir2_2 = scratchFolder.resolveFile("dir2");
         assertTrue(dir2 == dir2_2);
 
         // check if the cache still holds the right instance
-        FileObject dir1_2 = scratchFolder.resolveFile("dir1");
+        final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
         assertFalse(dir1 == dir1_2);
     }
 }
