@@ -447,19 +447,19 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-core</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
         <scope>provided</scope>
       </dependency>    
 	  <dependency>
 		<groupId>org.apache.hadoop</groupId>
 		<artifactId>hadoop-test</artifactId>
-		<version>1.1.0</version>
+		<version>1.1.1</version>
 		<scope>test</scope>
 	  </dependency>
 	  <dependency>
 		<groupId>javax.ws.rs</groupId>
 		<artifactId>jsr311-api</artifactId>
-		<version>1.0</version>
+		<version>1.1.1</version>
 		<scope>test</scope>
  	  </dependency>
     </dependencies>
