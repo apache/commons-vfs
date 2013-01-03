@@ -303,9 +303,9 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
     }
 
 
-    static private class BaseTest extends ProviderTestSuite {
+    static private class BaseProviderTestSuite extends ProviderTestSuite {
 
-        public BaseTest(final ProviderTestConfig providerConfig) throws Exception
+        public BaseProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception
         {
             super(providerConfig);
         }
@@ -334,7 +334,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
         // --- Standard VFS test suite
         final SftpProviderTestCase standardTestCase = new SftpProviderTestCase(false);
-        final ProviderTestSuite sftpSuite = new BaseTest(standardTestCase);
+        final ProviderTestSuite sftpSuite = new BaseProviderTestSuite(standardTestCase);
 
         // VFS-405: set/get permissions
         sftpSuite.addTests(PermissionsTests.class);
@@ -347,7 +347,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         // one test is run (we just test that the input/output are correctly forwarded, and
         // hence if the reading test succeeds/fails the other will also succeed/fail)
         final SftpProviderTestCase streamProxyTestCase = new SftpProviderTestCase(true);
-        final ProviderTestSuite sftpStreamSuite = new BaseTest(streamProxyTestCase)
+        final ProviderTestSuite sftpStreamSuite = new BaseProviderTestSuite(streamProxyTestCase)
         {
             @Override
             protected void addBaseTests() throws Exception
