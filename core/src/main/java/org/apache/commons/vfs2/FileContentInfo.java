@@ -17,18 +17,20 @@
 package org.apache.commons.vfs2;
 
 /**
- * Interface to the content info.
+ * Informs on the content of a file with content type and encoding.
  */
 public interface FileContentInfo
 {
     /**
-     * the content type.
+     * Gets the content type.
+     * 
      * @return The file content type.
      */
     String getContentType();
 
     /**
-     * the content encoding.
+     * Gets the content encoding.
+     * 
      * @return The file content encoding.
      */
     String getContentEncoding();
