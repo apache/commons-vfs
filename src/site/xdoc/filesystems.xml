@@ -93,6 +93,17 @@
               <td>No</td>
             </tr>
             <tr>
+              <td><a href="#HDFS">HDFS</a></td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>No</td>
+              <td>No</td>
+              <td>Read</td>
+              <td>No</td>
+              <td>No</td>
+            </tr>
+            <tr>
               <td><a href="#HTTP and HTTPS">HTTP</a></td>
               <td>Yes</td>
               <td>Yes</td>
@@ -450,6 +461,35 @@
                 </li>
             </ul>
 
+        </section>
+
+        <section name="HDFS">
+
+            <p>Provides access to files on an Apache Hadoop File System (HDFS).</p>
+
+            <p>
+                <b>URI Format</b>
+            </p>
+
+            <p>
+                <code>hdfs://
+                    <i>hostname</i>[:
+                    <i>port</i>][
+                    <i>absolute-path</i>]
+                </code>
+            </p>
+
+            <p>
+                <b>Examples</b>
+            </p>
+            <ul>
+                <li>
+                    <code>hdfs://somehost:8080/downloads/some_dir</code>
+                </li>
+                <li>
+                    <code>hdfs://somehost:8080/downloads/some_file.ext</code>
+                </li>
+            </ul>
         </section>
 
         <section name="HTTP and HTTPS">

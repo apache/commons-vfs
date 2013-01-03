@@ -134,6 +134,22 @@
       <artifactId>jackrabbit-standalone</artifactId>
       <scope>test</scope>
     </dependency>
+    <!-- Test HDFS with Apache Hadoop -->
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-core</artifactId>
+        <scope>provided</scope>
+      </dependency>    
+	  <dependency>
+		<groupId>org.apache.hadoop</groupId>
+		<artifactId>hadoop-test</artifactId>
+		<scope>test</scope>
+	  </dependency>
+	  <dependency>
+		<groupId>javax.ws.rs</groupId>
+		<artifactId>jsr311-api</artifactId>
+		<scope>test</scope>
+ 	  </dependency>
   </dependencies>
 
   <properties>
@@ -324,6 +340,29 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>hdfs</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <os>
+          <family>Windows</family>
+        </os>        
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <excludes>
+                <exclude>**/HdfsFileProviderTest.java</exclude>
+                <exclude>**/HdfsFileProviderTestCase.java</exclude>
+              </excludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>      
     </profile>
   </profiles>
 </project>
