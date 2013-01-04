@@ -465,7 +465,7 @@
 
         <section name="HDFS">
 
-            <p>Provides access to files on an Apache Hadoop File System (HDFS).</p>
+            <p>Provides access to files in an Apache Hadoop File System (HDFS). This implementation inherits all of the restrictions of the Hadoop implementation. For example, the tests are disabled on Windows platforms as it is only supported when using Cygwin and Windows is not supported by Hadoop in production environments.</p>
 
             <p>
                 <b>URI Format</b>

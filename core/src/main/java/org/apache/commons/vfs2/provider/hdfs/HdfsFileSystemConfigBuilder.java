@@ -36,9 +36,6 @@ public class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
         return BUILDER;
     }
 
-    // TODO: Unused? REMOVE?
-    // private String hdfsUri;
-
     /**
      * @return HDFSFileSystem
      */
@@ -47,26 +44,5 @@ public class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return HdfsFileSystem.class;
     }
-
-//    /**
-//     * TODO: Unused? REMOVE?
-//     * 
-//     * @return HDFS uri
-//     */
-//    public String getHdfsUri()
-//    {
-//        return hdfsUri;
-//    }
-//
-//    /**
-//     * TODO: Unused? REMOVE?
-//     * 
-//     * @param hdfsUri
-//     *            HDFS uri
-//     */
-//    public void setHdfsUri(final String hdfsUri)
-//    {
-//        this.hdfsUri = hdfsUri;
-//    }
 
 }
