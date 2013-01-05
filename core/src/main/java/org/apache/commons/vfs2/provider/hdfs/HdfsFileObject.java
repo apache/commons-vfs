@@ -86,6 +86,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
         }
         catch (final FileNotFoundException e)
         {
+            this.stat = null;
             return;
         }
     }

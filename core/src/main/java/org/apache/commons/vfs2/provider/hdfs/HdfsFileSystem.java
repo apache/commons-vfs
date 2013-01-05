@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs2.CacheStrategy;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -121,7 +122,16 @@ public class HdfsFileSystem extends AbstractFileSystem
             }
         }
 
-        FileObject file = this.getFileFromCache(name);
+        boolean useCache = (null != getContext().getFileSystemManager().getFilesCache());
+        FileObject file;
+        if (useCache)
+        {
+            file = this.getFileFromCache(name);
+        }
+        else
+        {
+            file = null;
+        }
         if (null == file)
         {
             String path = null;
@@ -135,13 +145,19 @@ public class HdfsFileSystem extends AbstractFileSystem
             }
             final Path filePath = new Path(path);
             file = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
-            this.putFileToCache(file);
-            return file;
+            if (useCache)
+            {
+        	this.putFileToCache(file);
+            }
+            /**
+             * resync the file information if requested
+             */
+            if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE))
+            {
+                file.refresh();
+            }
         }
-        else
-        {
-            return file;
-        }
+        return file;
     }
 
 }

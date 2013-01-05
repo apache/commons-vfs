@@ -230,10 +230,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         final FileObject dir = file.getParent();
 
         final FileObject[] children = dir.getChildren();
@@ -247,10 +248,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         // Get a handle to the same file
         final FileObject file2 = manager.resolveFile(TEST_FILE1);
         Assert.assertEquals(file, file2);
@@ -261,10 +263,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         final Map<String, Object> attributes = file.getContent().getAttributes();
         Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.BLOCK_SIZE.toString()));
         Assert.assertTrue(attributes.containsKey(HdfsFileAttributes.GROUP.toString()));
@@ -280,10 +283,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         Assert.assertEquals(0, file.getContent().getSize());
     }
 
@@ -292,10 +296,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         file.getContent().getInputStream().close();
     }
 
@@ -304,6 +309,7 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_FILE1);
         Assert.assertNotNull(fo);
+        Assert.assertFalse(fo.exists());
     }
 
     @Test
@@ -311,10 +317,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         Assert.assertFalse(file.isHidden());
     }
 
@@ -323,10 +330,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());        
         Assert.assertTrue(file.isReadable());
     }
 
@@ -335,10 +343,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         Assert.assertFalse(file.isWriteable());
     }
 
@@ -347,10 +356,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         Assert.assertFalse(-1 == file.getContent().getLastModifiedTime());
     }
 
@@ -359,10 +369,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE).close();
     }
 
@@ -371,10 +382,11 @@ public class HdfsFileProviderTest
     {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
-        Assert.assertTrue(fo.exists());
+        Assert.assertFalse(fo.exists());
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
+        Assert.assertTrue(fo.exists());
         file.getContent().getRandomAccessContent(RandomAccessMode.READ).close();
     }
 
