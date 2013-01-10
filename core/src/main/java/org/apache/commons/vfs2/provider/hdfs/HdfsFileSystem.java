@@ -149,13 +149,13 @@ public class HdfsFileSystem extends AbstractFileSystem
             {
         	this.putFileToCache(file);
             }
-            /**
-             * resync the file information if requested
-             */
-            if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE))
-            {
-                file.refresh();
-            }
+        }
+        /**
+         * resync the file information if requested
+         */
+        if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE))
+        {
+            file.refresh();
         }
         return file;
     }
