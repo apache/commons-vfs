@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-451" dev="ggregory" type="fix" due-to="ilmarcoronchi">
+        Authentication fails using private key.
+      </action>
       <action issue="VFS-450" dev="ggregory" type="fix" due-to="dlmarion">
         HDFSFileSystem.resolveFile() does not honor CacheStrategy.ON_RESOLVE.
       </action>
