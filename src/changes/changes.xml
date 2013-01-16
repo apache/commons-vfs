@@ -26,6 +26,10 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-285" dev="tn" type="fix" due-to="Kirill Safonov">
+        AbstractFileObject.getChildren() may corrupt its internal state if a filename
+        can not be resolved.
+      </action>
       <action issue="VFS-451" dev="ggregory" type="fix" due-to="ilmarcoronchi">
         Authentication fails using private key.
       </action>

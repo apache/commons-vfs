@@ -896,14 +896,17 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             {
                 // Create file objects for the children
                 // children = new FileObject[files.length];
-                children = new FileName[files.length];
+                final FileName[] cache = new FileName[files.length];
                 for (int i = 0; i < files.length; i++)
                 {
                     final String file = files[i];
                     // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
                     // children[i] = name.resolveName(file, NameScope.CHILD);
-                    children[i] = fs.getFileSystemManager().resolveName(name, file, NameScope.CHILD);
+                    cache[i] = fs.getFileSystemManager().resolveName(name, file, NameScope.CHILD);
                 }
+                // VFS-285: only assign the children filenames after all of them have been
+                // resolved successfully to prevent an inconsistent internal state
+                children = cache;
             }
 
             return resolveFiles(children);
