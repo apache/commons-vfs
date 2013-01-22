@@ -896,7 +896,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Converts a local file into a {@link FileObject}.
      * @param file The input File.
      * @return the create FileObject
-     * @throws FileSystemException if an error occurs creating the file naem.
+     * @throws FileSystemException if an error occurs creating the file.
      */
     @Override
     public FileObject toFileObject(final File file) throws FileSystemException
