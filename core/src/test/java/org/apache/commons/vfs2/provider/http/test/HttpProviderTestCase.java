@@ -19,7 +19,7 @@ package org.apache.commons.vfs2.provider.http.test;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.Test;
 
 import org.apache.commons.vfs2.FileNotFolderException;

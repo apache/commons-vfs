@@ -16,7 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.http.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs2.FileObject;

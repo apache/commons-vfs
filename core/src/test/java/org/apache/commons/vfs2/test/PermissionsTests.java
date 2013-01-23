@@ -18,7 +18,7 @@ package org.apache.commons.vfs2.test;
 
 import java.io.OutputStream;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.Capability;

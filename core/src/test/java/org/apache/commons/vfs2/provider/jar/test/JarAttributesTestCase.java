@@ -18,7 +18,7 @@ package org.apache.commons.vfs2.provider.jar.test;
 
 import java.util.Map;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 import org.apache.commons.vfs2.FileObject;
