@@ -16,11 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.ram.test;
 
-import java.io.File;
 
 import junit.framework.Test;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
@@ -87,7 +85,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
             // Import the test tree
             final FileObject fo = manager.resolveFile("ram:/");
             final RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
-            fs.importTree(new File(AbstractVfsTestCase.getTestDirectoryString()));
+            fs.importTree(getTestDirectory());
             fo.close();
 
             inited=true;

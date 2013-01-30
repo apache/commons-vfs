@@ -19,6 +19,8 @@ package org.apache.commons;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,9 +107,17 @@ public abstract class AbstractVfsTestCase
     {
         if (baseDir == null)
         {
-            // final String baseDirProp = System.getProperty("test.basedir");
             final String baseDirProp = getTestDirectoryString();
-            baseDir = getCanonicalFile(new File(baseDirProp));
+            // the directory maybe expressed as URI in certain environments
+            if (baseDirProp.startsWith("file://")) {
+                try {
+                    baseDir = getCanonicalFile(new File(new URI(baseDirProp)));
+                } catch (URISyntaxException e) {
+                    baseDir = getCanonicalFile(new File(baseDirProp));
+                }
+            } else {
+                baseDir = getCanonicalFile(new File(baseDirProp));                
+            }
         }
         return baseDir;
     }
