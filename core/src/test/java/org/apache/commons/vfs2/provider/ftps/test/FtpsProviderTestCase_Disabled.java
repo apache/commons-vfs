@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.ftps.test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import junit.framework.Test;
 
@@ -122,7 +123,9 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
         final URL serverJksResource = ClassLoader.getSystemClassLoader().getResource(SERVER_JKS_RES);
         Assert.assertNotNull(SERVER_JKS_RES, serverJksResource);
         final SslConfigurationFactory ssl = new SslConfigurationFactory();
-        final File keyStoreFile = new File(serverJksResource.getFile());
+        // decode the URL before using it to create a File object as spaces in the filename
+        // are encoded as '%20' by URL class
+        final File keyStoreFile = new File(URLDecoder.decode(serverJksResource.getFile()));
         Assert.assertTrue(keyStoreFile.toString(), keyStoreFile.exists());
         ssl.setKeystoreFile(keyStoreFile);
         ssl.setKeystorePassword("password");
