@@ -49,8 +49,32 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObject<FS>
 {
+    /**
+     * An InputStream that cleans up the HTTP connection on close.
+     */
+    static class HttpInputStream extends MonitorInputStream
+    {
+        private final GetMethod method;
+
+        public HttpInputStream(final GetMethod method)
+            throws IOException
+        {
+            super(method.getResponseBodyAsStream());
+            this.method = method;
+        }
+
+        /**
+         * Called after the stream has been closed.
+         */
+        @Override
+        protected void onClose() throws IOException
+        {
+            method.releaseConnection();
+        }
+    }
     private final String urlCharset;
     private final boolean followRedirect;
+
     private HeadMethod method;
 
     protected HttpFileObject(final AbstractFileName name, final FS fileSystem)
@@ -73,6 +97,70 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     protected void doDetach() throws Exception
     {
         method = null;
+    }
+
+    /**
+     * Returns the size of the file content (in bytes).
+     */
+    @Override
+    protected long doGetContentSize() throws Exception
+    {
+        final Header header = method.getResponseHeader("content-length");
+        if (header == null)
+        {
+            // Assume 0 content-length
+            return 0;
+        }
+        return Long.parseLong(header.getValue());
+    }
+
+    /**
+     * Creates an input stream to read the file content from.  Is only called
+     * if {@link #doGetType} returns {@link FileType#FILE}.
+     * <p/>
+     * <p>It is guaranteed that there are no open output streams for this file
+     * when this method is called.
+     * <p/>
+     * <p>The returned stream does not have to be buffered.
+     */
+    @Override
+    protected InputStream doGetInputStream() throws Exception
+    {
+        final GetMethod getMethod = new GetMethod();
+        setupMethod(getMethod);
+        final int status = getAbstractFileSystem().getClient().executeMethod(getMethod);
+        if (status == HttpURLConnection.HTTP_NOT_FOUND)
+        {
+            throw new FileNotFoundException(getName());
+        }
+        if (status != HttpURLConnection.HTTP_OK)
+        {
+            throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
+        }
+
+        return new HttpInputStream(getMethod);
+    }
+
+    /**
+     * Returns the last modified time of this file.
+     * <p/>
+     * This implementation throws an exception.
+     */
+    @Override
+    protected long doGetLastModifiedTime() throws Exception
+    {
+        final Header header = method.getResponseHeader("last-modified");
+        if (header == null)
+        {
+            throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
+        }
+        return DateUtil.parseDate(header.getValue()).getTime();
+    }
+
+    @Override
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    {
+        return new HttpRandomAccessContent(this, mode);
     }
 
     /**
@@ -108,112 +196,10 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         throw new Exception("Not implemented.");
     }
 
-    /**
-     * Returns the size of the file content (in bytes).
-     */
-    @Override
-    protected long doGetContentSize() throws Exception
-    {
-        final Header header = method.getResponseHeader("content-length");
-        if (header == null)
-        {
-            // Assume 0 content-length
-            return 0;
-        }
-        return Long.parseLong(header.getValue());
-    }
-
-    /**
-     * Returns the last modified time of this file.
-     * <p/>
-     * This implementation throws an exception.
-     */
-    @Override
-    protected long doGetLastModifiedTime() throws Exception
-    {
-        final Header header = method.getResponseHeader("last-modified");
-        if (header == null)
-        {
-            throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
-        }
-        return DateUtil.parseDate(header.getValue()).getTime();
-    }
-
-    /**
-     * Creates an input stream to read the file content from.  Is only called
-     * if {@link #doGetType} returns {@link FileType#FILE}.
-     * <p/>
-     * <p>It is guaranteed that there are no open output streams for this file
-     * when this method is called.
-     * <p/>
-     * <p>The returned stream does not have to be buffered.
-     */
-    @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
-        final GetMethod getMethod = new GetMethod();
-        setupMethod(getMethod);
-        final int status = getAbstractFileSystem().getClient().executeMethod(getMethod);
-        if (status == HttpURLConnection.HTTP_NOT_FOUND)
-        {
-            throw new FileNotFoundException(getName());
-        }
-        if (status != HttpURLConnection.HTTP_OK)
-        {
-            throw new FileSystemException("vfs.provider.http/get.error", getName(), Integer.valueOf(status));
-        }
-
-        return new HttpInputStream(getMethod);
-    }
-
-    @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
-    {
-        return new HttpRandomAccessContent(this, mode);
-    }
-
-    /**
-     * Prepares a HttpMethod object.
-     *
-     * @since 2.0 (was package)
-     */
-    protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
-    {
-        final String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
-        method.setPath(pathEncoded);
-        method.setFollowRedirects(this.getFollowRedirect());
-        method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
-    }
-
     protected String encodePath(final String decodedPath) throws URIException
     {
         return URIUtil.encodePath(decodedPath);
     }
-
-    /**
-     * An InputStream that cleans up the HTTP connection on close.
-     */
-    static class HttpInputStream extends MonitorInputStream
-    {
-        private final GetMethod method;
-
-        public HttpInputStream(final GetMethod method)
-            throws IOException
-        {
-            super(method.getResponseBodyAsStream());
-            this.method = method;
-        }
-
-        /**
-         * Called after the stream has been closed.
-         */
-        @Override
-        protected void onClose() throws IOException
-        {
-            method.releaseConnection();
-        }
-    }
-
 
     @Override
     protected FileContentInfoFactory getFileContentInfoFactory()
@@ -221,14 +207,10 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         return new HttpFileContentInfoFactory();
     }
 
+
     protected boolean getFollowRedirect()
     {
         return followRedirect;
-    }
-
-    protected String getUrlCharset()
-    {
-        return urlCharset;
     }
 
     HeadMethod getHeadMethod() throws IOException
@@ -243,6 +225,24 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         client.executeMethod(method);
         method.releaseConnection();
         return method;
+    }
+
+    protected String getUrlCharset()
+    {
+        return urlCharset;
+    }
+
+    /**
+     * Prepares a HttpMethod object.
+     *
+     * @since 2.0 (was package)
+     */
+    protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
+    {
+        final String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
+        method.setPath(pathEncoded);
+        method.setFollowRedirects(this.getFollowRedirect());
+        method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
     }
 
     /*
