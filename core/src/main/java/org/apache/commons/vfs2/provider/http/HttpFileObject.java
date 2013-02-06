@@ -187,6 +187,12 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         }
     }
 
+    @Override
+    protected boolean doIsWriteable() throws Exception
+    {
+        return false;
+    }
+
     /**
      * Lists the children of this file.
      */
@@ -201,12 +207,12 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         return URIUtil.encodePath(decodedPath);
     }
 
+
     @Override
     protected FileContentInfoFactory getFileContentInfoFactory()
     {
         return new HttpFileContentInfoFactory();
     }
-
 
     protected boolean getFollowRedirect()
     {
