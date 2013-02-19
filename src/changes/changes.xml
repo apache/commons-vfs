@@ -87,6 +87,9 @@
       <action issue="VFS-405" dev="ggregory" type="add" due-to="dwaszak">
         Get/set the file permissions.
       </action>
+      <action issue="VFS-456" dev="joehni" type="update">
+        Use org.bouncycastel:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.
+      </action>
       <action issue="VFS-415" dev="ggregory" type="update" due-to="ggregory">
         Update VFS requirement to Java 1.6.
       </action>
