@@ -79,539 +79,6 @@ import org.w3c.dom.Node;
  */
 public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
 {
-    /** The character set property name. */
-    public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create(
-            "response-charset");
-
-    private final WebdavFileSystem fileSystem;
-
-    /** The FileSystemConfigBuilder */
-    private final WebdavFileSystemConfigBuilder builder;
-
-    protected WebdavFileObject(final AbstractFileName name, final WebdavFileSystem fileSystem)
-    {
-        super(name, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
-        this.fileSystem = fileSystem;
-        builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
-    }
-
-    protected void configureMethod(final HttpMethodBase httpMethod)
-    {
-        httpMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, WebdavMethodRetryHandler.getInstance());
-    }
-
-    /**
-     * Determines the type of this file.  Must not return null.  The return
-     * value of this method is cached, so the implementation can be expensive.
-     */
-    @Override
-    protected FileType doGetType() throws Exception
-    {
-        try
-        {
-            return isDirectory((URLFileName) getName()) ? FileType.FOLDER : FileType.FILE;
-        }
-        catch (final FileNotFolderException fnfe)
-        {
-            return FileType.IMAGINARY;
-        }
-        catch (final FileNotFoundException fnfe)
-        {
-            return FileType.IMAGINARY;
-        }
-
-    }
-
-    /**
-     * Lists the children of the file.
-     */
-    @Override
-    protected String[] doListChildren() throws Exception
-    {
-        // use doListChildrenResolved for performance
-        return null;
-    }
-
-    /**
-     * Lists the children of the file.
-     */
-    @Override
-    protected FileObject[] doListChildrenResolved() throws Exception
-    {
-        PropFindMethod method = null;
-        try
-        {
-            final URLFileName name = (URLFileName) getName();
-            if (isDirectory(name))
-            {
-                final DavPropertyNameSet nameSet = new DavPropertyNameSet();
-                nameSet.add(DavPropertyName.create(DavConstants.PROPERTY_DISPLAYNAME));
-
-                method = new PropFindMethod(toUrlString(name), nameSet,
-                        DavConstants.DEPTH_1);
-
-                execute(method);
-                final List<WebdavFileObject> vfs = new ArrayList<WebdavFileObject>();
-                if (method.succeeded())
-                {
-                    final MultiStatusResponse[] responses =
-                            method.getResponseBodyAsMultiStatus().getResponses();
-
-                    for (final MultiStatusResponse response : responses)
-                    {
-                        if (isCurrentFile(response.getHref(), name))
-                        {
-                            continue;
-                        }
-                        final String resourceName = resourceName(response.getHref());
-                        if (resourceName != null && resourceName.length() > 0)
-                        {
-                            final WebdavFileObject fo = (WebdavFileObject) FileObjectUtils.
-                                    getAbstractFileObject(getFileSystem().resolveFile(
-                                            getFileSystem().getFileSystemManager().
-                                                    resolveName(getName(), resourceName,
-                                                    NameScope.CHILD)));
-                            vfs.add(fo);
-                        }
-                    }
-                }
-                return vfs.toArray(new WebdavFileObject[vfs.size()]);
-            }
-            throw new FileNotFolderException(getName());
-        }
-        catch (final FileNotFolderException fnfe)
-        {
-            throw fnfe;
-        }
-        catch (final DavException e)
-        {
-            throw new FileSystemException(e.getMessage(), e);
-        }
-        catch (final IOException e)
-        {
-            throw new FileSystemException(e.getMessage(), e);
-        }
-        finally
-        {
-            if (method != null)
-            {
-                method.releaseConnection();
-            }
-        }
-    }
-
-    /**
-     * Creates this file as a folder.
-     */
-    @Override
-    protected void doCreateFolder() throws Exception
-    {
-        final DavMethod method = new MkColMethod(toUrlString((URLFileName) getName()));
-        setupMethod(method);
-        try
-        {
-            execute(method);
-        }
-        catch (final FileSystemException fse)
-        {
-            throw new FileSystemException("vfs.provider.webdav/create-collection.error", getName(),
-                    fse);
-        }
-    }
-
-    /**
-     * Deletes the file.
-     */
-    @Override
-    protected void doDelete() throws Exception
-    {
-        final DavMethod method = new DeleteMethod(toUrlString((URLFileName) getName()));
-        setupMethod(method);
-        execute(method);
-    }
-
-    /**
-     * Rename the file.
-     */
-    @Override
-    protected void doRename(final FileObject newFile) throws Exception
-    {
-        final String url = encodePath(toUrlString((URLFileName) getName()));
-        final String dest = toUrlString((URLFileName) newFile.getName(), false);
-        final DavMethod method = new MoveMethod(url, dest, false);
-        setupMethod(method);
-        execute(method);
-    }
-
-    /**
-     * Returns the size of the file content (in bytes).
-     */
-    @Override
-    protected long doGetContentSize() throws Exception
-    {
-        final DavProperty property = getProperty((URLFileName) getName(),
-                DavConstants.PROPERTY_GETCONTENTLENGTH);
-        if (property != null)
-        {
-            final String value = (String) property.getValue();
-            return Long.parseLong(value);
-        }
-        return 0;
-    }
-
-    /**
-     * Returns the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     */
-    @Override
-    protected long doGetLastModifiedTime() throws Exception
-    {
-        final DavProperty property = getProperty((URLFileName) getName(),
-                DavConstants.PROPERTY_GETLASTMODIFIED);
-        if (property != null)
-        {
-            final String value = (String) property.getValue();
-            return DateUtil.parseDate(value).getTime();
-        }
-        return 0;
-    }
-
-    /**
-     * Returns the properties of the Webdav resource.
-     */
-    @Override
-    protected Map<String, Object> doGetAttributes() throws Exception
-    {
-        final Map<String, Object> attributes = new HashMap<String, Object>();
-        try
-        {
-            final URLFileName fileName = (URLFileName) getName();
-            DavPropertySet properties = getProperties(fileName, DavConstants.PROPFIND_ALL_PROP,
-                    new DavPropertyNameSet(), false);
-            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
-            final
-            Iterator<DavProperty> iter = properties.iterator();
-            while (iter.hasNext())
-            {
-                final DavProperty property = iter.next();
-                attributes.put(property.getName().toString(), property.getValue());
-            }
-            properties = getPropertyNames(fileName);
-            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
-            final
-            Iterator<DavProperty> iter2 = properties.iterator();
-            while (iter2.hasNext())
-            {
-                DavProperty property = iter2.next();
-                if (!attributes.containsKey(property.getName().getName()))
-                {
-                    property = getProperty(fileName, property.getName());
-                    if (property != null)
-                    {
-                        final Object name = property.getName();
-                        final Object value = property.getValue();
-                        if (name != null && value != null)
-                        {
-                            attributes.put(name.toString(), value);
-                        }
-                    }
-                }
-            }
-            return attributes;
-        }
-        catch (final Exception e)
-        {
-            throw new FileSystemException("vfs.provider.webdav/get-attributes.error", getName(), e);
-        }
-    }
-
-    /**
-     * Sets an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation throws an exception.
-     */
-    @Override
-    protected void doSetAttribute(final String attrName, final Object value)
-        throws Exception
-    {
-        try
-        {
-            final URLFileName fileName = (URLFileName) getName();
-            final String urlStr = toUrlString(fileName);
-            final DavPropertySet properties = new DavPropertySet();
-            final DavPropertyNameSet propertyNameSet = new DavPropertyNameSet();
-            final DavProperty property = new DefaultDavProperty(attrName, value, Namespace.EMPTY_NAMESPACE);
-            if (value != null)
-            {
-                properties.add(property);
-            }
-            else
-            {
-                propertyNameSet.add(property.getName()); // remove property
-            }
-
-            final PropPatchMethod method = new PropPatchMethod(urlStr, properties, propertyNameSet);
-            setupMethod(method);
-            execute(method);
-            if (!method.succeeded())
-            {
-                throw new FileSystemException("Property '" + attrName + "' could not be set.");
-            }
-        }
-        catch (final FileSystemException fse)
-        {
-            throw fse;
-        }
-        catch (final Exception e)
-        {
-            throw new FileSystemException("vfs.provider.webdav/set-attributes", e, getName(), attrName);
-        }
-    }
-
-    @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
-    {
-        return new WebdavOutputStream(this);
-    }
-
-    @Override
-    protected FileContentInfoFactory getFileContentInfoFactory()
-    {
-        return new WebdavFileContentInfoFactory();
-    }
-
-    /**
-     * Prepares a Method object.
-     *
-     * @param method the HttpMethod.
-     * @throws FileSystemException if an error occurs encoding the uri.
-     * @throws URIException        if the URI is in error.
-     */
-    @Override
-    protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
-    {
-        final String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
-        method.setPath(pathEncoded);
-        method.setFollowRedirects(this.getFollowRedirect());
-        method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
-        method.addRequestHeader("Cache-control", "no-cache");
-        method.addRequestHeader("Cache-store", "no-store");
-        method.addRequestHeader("Pragma", "no-cache");
-        method.addRequestHeader("Expires", "0");
-    }
-
-    /**
-     * Execute a 'Workspace' operation.
-     *
-     * @param method The DavMethod to invoke.
-     * @throws FileSystemException If an error occurs.
-     */
-    private void execute(final DavMethod method) throws FileSystemException
-    {
-        try
-        {
-            final int status = fileSystem.getClient().executeMethod(method);
-            if (status == HttpURLConnection.HTTP_NOT_FOUND
-                    || status == HttpURLConnection.HTTP_GONE)
-            {
-                throw new FileNotFoundException(method.getURI());
-            }
-            method.checkSuccess();
-        }
-        catch (final FileSystemException fse)
-        {
-            throw fse;
-        }
-        catch (final IOException e)
-        {
-            throw new FileSystemException(e);
-        }
-        catch (final DavException e)
-        {
-            throw ExceptionConverter.generate(e);
-        }
-        finally
-        {
-            if (method != null)
-            {
-                method.releaseConnection();
-            }
-        }
-    }
-
-    private boolean isDirectory(final URLFileName name) throws IOException
-    {
-        try
-        {
-            final DavProperty property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
-            Node node;
-            if (property != null && (node = (Node) property.getValue()) != null)
-            {
-                return node.getLocalName().equals(DavConstants.XML_COLLECTION);
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch (final FileNotFoundException fse)
-        {
-            throw new FileNotFolderException(name);
-        }
-    }
-
-    DavProperty getProperty(final URLFileName fileName, final String property)
-            throws FileSystemException
-    {
-        return getProperty(fileName, DavPropertyName.create(property));
-    }
-
-    DavProperty getProperty(final URLFileName fileName, final DavPropertyName name)
-            throws FileSystemException
-    {
-        final DavPropertyNameSet nameSet = new DavPropertyNameSet();
-        nameSet.add(name);
-        final DavPropertySet propertySet = getProperties(fileName, nameSet, false);
-        return propertySet.get(name);
-    }
-
-    DavPropertySet getProperties(final URLFileName name, final DavPropertyNameSet nameSet, final boolean addEncoding)
-            throws FileSystemException
-    {
-        return getProperties(name, DavConstants.PROPFIND_BY_PROPERTY, nameSet, addEncoding);
-    }
-
-    DavPropertySet getProperties(final URLFileName name) throws FileSystemException
-    {
-        return getProperties(name, DavConstants.PROPFIND_ALL_PROP, new DavPropertyNameSet(),
-                false);
-    }
-
-
-    DavPropertySet getPropertyNames(final URLFileName name) throws FileSystemException
-    {
-        return getProperties(name, DavConstants.PROPFIND_PROPERTY_NAMES,
-                new DavPropertyNameSet(), false);
-    }
-
-    DavPropertySet getProperties(final URLFileName name, final int type, final DavPropertyNameSet nameSet,
-                                 final boolean addEncoding)
-            throws FileSystemException
-    {
-        try
-        {
-            final String urlStr = toUrlString(name);
-            final PropFindMethod method = new PropFindMethod(urlStr, type, nameSet, DavConstants.DEPTH_0);
-            setupMethod(method);
-            execute(method);
-            if (method.succeeded())
-            {
-                final MultiStatus multiStatus = method.getResponseBodyAsMultiStatus();
-                final MultiStatusResponse response = multiStatus.getResponses()[0];
-                final DavPropertySet props = response.getProperties(HttpStatus.SC_OK);
-                if (addEncoding)
-                {
-                    final DavProperty prop = new DefaultDavProperty(RESPONSE_CHARSET,
-                            method.getResponseCharSet());
-                    props.add(prop);
-                }
-                return props;
-            }
-            return new DavPropertySet();
-        }
-        catch (final FileSystemException fse)
-        {
-            throw fse;
-        }
-        catch (final Exception e)
-        {
-            throw new FileSystemException("vfs.provider.webdav/get-property.error", e, getName(), name, type,
-                    nameSet.getContent(), addEncoding);
-        }
-    }
-
-    /**
-     * Returns the resource name from the path.
-     *
-     * @param path the path to the file.
-     * @return The resource name
-     */
-    private String resourceName(String path)
-    {
-        if (path.endsWith("/"))
-        {
-            path = path.substring(0, path.length() - 1);
-        }
-        final int i = path.lastIndexOf("/");
-        return i >= 0 ? path.substring(i + 1) : path;
-    }
-
-    private String toUrlString(final URLFileName name)
-    {
-        return toUrlString(name, true);
-    }
-
-    /**
-     * Converts the given URLFileName to an encoded URL String.
-     *
-     * @param name The FileName.
-     * @param includeUserInfo true if user information should be included.
-     * @return The encoded URL String.
-     */
-    private String toUrlString(final URLFileName name, final boolean includeUserInfo)
-    {
-        String user = null;
-        String password = null;
-        if (includeUserInfo)
-        {
-            user = name.getUserName();
-            password = name.getPassword();
-        }
-        final URLFileName newFile = new URLFileName("http", name.getHostName(), name.getPort(),
-                name.getDefaultPort(), user, password,
-                name.getPath(), name.getType(), name.getQueryString());
-        try
-        {
-            return newFile.getURIEncoded(this.getUrlCharset());
-        }
-        catch (final Exception e)
-        {
-            return name.getURI();
-        }
-    }
-
-    private boolean isCurrentFile(final String href, final URLFileName fileName)
-    {
-        String name = hrefString(fileName);
-        if (href.endsWith("/") && !name.endsWith("/"))
-        {
-            name += "/";
-        }
-        return href.equals(name) || href.equals(fileName.getPath());
-    }
-
-    /**
-     * Convert the FileName to an encoded url String.
-     *
-     * @param name The FileName.
-     * @return The encoded URL String.
-     */
-    private String hrefString(final URLFileName name)
-    {
-        final URLFileName newFile = new URLFileName("http", name.getHostName(), name.getPort(),
-                name.getDefaultPort(), null, null,
-                name.getPath(), name.getType(), name.getQueryString());
-        try
-        {
-            return newFile.getURIEncoded(this.getUrlCharset());
-        }
-        catch (final Exception e)
-        {
-            return name.getURI();
-        }
-    }
-
     /**
      * An OutputStream that writes to a Webdav resource.
      *
@@ -625,6 +92,21 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         {
             super(new ByteArrayOutputStream());
             this.file = file;
+        }
+
+        private boolean createVersion(final String urlStr)
+        {
+            try
+            {
+                final VersionControlMethod method = new VersionControlMethod(urlStr);
+                setupMethod(method);
+                execute(method);
+                return true;
+            }
+            catch (final Exception ex)
+            {
+                return false;
+            }
         }
 
         /**
@@ -770,20 +252,538 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
             setupMethod(method);
             execute(method);
         }
+    }
 
-        private boolean createVersion(final String urlStr)
+    /** The character set property name. */
+    public static final DavPropertyName RESPONSE_CHARSET = DavPropertyName.create(
+            "response-charset");
+
+    /** The FileSystemConfigBuilder */
+    private final WebdavFileSystemConfigBuilder builder;
+
+    private final WebdavFileSystem fileSystem;
+
+    protected WebdavFileObject(final AbstractFileName name, final WebdavFileSystem fileSystem)
+    {
+        super(name, fileSystem, WebdavFileSystemConfigBuilder.getInstance());
+        this.fileSystem = fileSystem;
+        builder = (WebdavFileSystemConfigBuilder) WebdavFileSystemConfigBuilder.getInstance();
+    }
+
+    protected void configureMethod(final HttpMethodBase httpMethod)
+    {
+        httpMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, WebdavMethodRetryHandler.getInstance());
+    }
+
+    /**
+     * Creates this file as a folder.
+     */
+    @Override
+    protected void doCreateFolder() throws Exception
+    {
+        final DavMethod method = new MkColMethod(toUrlString((URLFileName) getName()));
+        setupMethod(method);
+        try
         {
-            try
+            execute(method);
+        }
+        catch (final FileSystemException fse)
+        {
+            throw new FileSystemException("vfs.provider.webdav/create-collection.error", getName(),
+                    fse);
+        }
+    }
+
+    /**
+     * Deletes the file.
+     */
+    @Override
+    protected void doDelete() throws Exception
+    {
+        final DavMethod method = new DeleteMethod(toUrlString((URLFileName) getName()));
+        setupMethod(method);
+        execute(method);
+    }
+
+    /**
+     * Returns the properties of the Webdav resource.
+     */
+    @Override
+    protected Map<String, Object> doGetAttributes() throws Exception
+    {
+        final Map<String, Object> attributes = new HashMap<String, Object>();
+        try
+        {
+            final URLFileName fileName = (URLFileName) getName();
+            DavPropertySet properties = getProperties(fileName, DavConstants.PROPFIND_ALL_PROP,
+                    new DavPropertyNameSet(), false);
+            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
+            final
+            Iterator<DavProperty> iter = properties.iterator();
+            while (iter.hasNext())
             {
-                final VersionControlMethod method = new VersionControlMethod(urlStr);
-                setupMethod(method);
-                execute(method);
-                return true;
+                final DavProperty property = iter.next();
+                attributes.put(property.getName().toString(), property.getValue());
             }
-            catch (final Exception ex)
+            properties = getPropertyNames(fileName);
+            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
+            final
+            Iterator<DavProperty> iter2 = properties.iterator();
+            while (iter2.hasNext())
+            {
+                DavProperty property = iter2.next();
+                if (!attributes.containsKey(property.getName().getName()))
+                {
+                    property = getProperty(fileName, property.getName());
+                    if (property != null)
+                    {
+                        final Object name = property.getName();
+                        final Object value = property.getValue();
+                        if (name != null && value != null)
+                        {
+                            attributes.put(name.toString(), value);
+                        }
+                    }
+                }
+            }
+            return attributes;
+        }
+        catch (final Exception e)
+        {
+            throw new FileSystemException("vfs.provider.webdav/get-attributes.error", getName(), e);
+        }
+    }
+
+    /**
+     * Returns the size of the file content (in bytes).
+     */
+    @Override
+    protected long doGetContentSize() throws Exception
+    {
+        final DavProperty property = getProperty((URLFileName) getName(),
+                DavConstants.PROPERTY_GETCONTENTLENGTH);
+        if (property != null)
+        {
+            final String value = (String) property.getValue();
+            return Long.parseLong(value);
+        }
+        return 0;
+    }
+
+    /**
+     * Returns the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     */
+    @Override
+    protected long doGetLastModifiedTime() throws Exception
+    {
+        final DavProperty property = getProperty((URLFileName) getName(),
+                DavConstants.PROPERTY_GETLASTMODIFIED);
+        if (property != null)
+        {
+            final String value = (String) property.getValue();
+            return DateUtil.parseDate(value).getTime();
+        }
+        return 0;
+    }
+
+    @Override
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
+    {
+        return new WebdavOutputStream(this);
+    }
+
+    /**
+     * Determines the type of this file.  Must not return null.  The return
+     * value of this method is cached, so the implementation can be expensive.
+     */
+    @Override
+    protected FileType doGetType() throws Exception
+    {
+        try
+        {
+            return isDirectory((URLFileName) getName()) ? FileType.FOLDER : FileType.FILE;
+        }
+        catch (final FileNotFolderException fnfe)
+        {
+            return FileType.IMAGINARY;
+        }
+        catch (final FileNotFoundException fnfe)
+        {
+            return FileType.IMAGINARY;
+        }
+
+    }
+
+    /**
+     * Lists the children of the file.
+     */
+    @Override
+    protected String[] doListChildren() throws Exception
+    {
+        // use doListChildrenResolved for performance
+        return null;
+    }
+
+    /**
+     * Lists the children of the file.
+     */
+    @Override
+    protected FileObject[] doListChildrenResolved() throws Exception
+    {
+        PropFindMethod method = null;
+        try
+        {
+            final URLFileName name = (URLFileName) getName();
+            if (isDirectory(name))
+            {
+                final DavPropertyNameSet nameSet = new DavPropertyNameSet();
+                nameSet.add(DavPropertyName.create(DavConstants.PROPERTY_DISPLAYNAME));
+
+                method = new PropFindMethod(toUrlString(name), nameSet,
+                        DavConstants.DEPTH_1);
+
+                execute(method);
+                final List<WebdavFileObject> vfs = new ArrayList<WebdavFileObject>();
+                if (method.succeeded())
+                {
+                    final MultiStatusResponse[] responses =
+                            method.getResponseBodyAsMultiStatus().getResponses();
+
+                    for (final MultiStatusResponse response : responses)
+                    {
+                        if (isCurrentFile(response.getHref(), name))
+                        {
+                            continue;
+                        }
+                        final String resourceName = resourceName(response.getHref());
+                        if (resourceName != null && resourceName.length() > 0)
+                        {
+                            final WebdavFileObject fo = (WebdavFileObject) FileObjectUtils.
+                                    getAbstractFileObject(getFileSystem().resolveFile(
+                                            getFileSystem().getFileSystemManager().
+                                                    resolveName(getName(), resourceName,
+                                                    NameScope.CHILD)));
+                            vfs.add(fo);
+                        }
+                    }
+                }
+                return vfs.toArray(new WebdavFileObject[vfs.size()]);
+            }
+            throw new FileNotFolderException(getName());
+        }
+        catch (final FileNotFolderException fnfe)
+        {
+            throw fnfe;
+        }
+        catch (final DavException e)
+        {
+            throw new FileSystemException(e.getMessage(), e);
+        }
+        catch (final IOException e)
+        {
+            throw new FileSystemException(e.getMessage(), e);
+        }
+        finally
+        {
+            if (method != null)
+            {
+                method.releaseConnection();
+            }
+        }
+    }
+
+    /**
+     * Rename the file.
+     */
+    @Override
+    protected void doRename(final FileObject newFile) throws Exception
+    {
+        final String url = encodePath(toUrlString((URLFileName) getName()));
+        final String dest = toUrlString((URLFileName) newFile.getName(), false);
+        final DavMethod method = new MoveMethod(url, dest, false);
+        setupMethod(method);
+        execute(method);
+    }
+
+    /**
+     * Sets an attribute of this file.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation throws an exception.
+     */
+    @Override
+    protected void doSetAttribute(final String attrName, final Object value)
+        throws Exception
+    {
+        try
+        {
+            final URLFileName fileName = (URLFileName) getName();
+            final String urlStr = toUrlString(fileName);
+            final DavPropertySet properties = new DavPropertySet();
+            final DavPropertyNameSet propertyNameSet = new DavPropertyNameSet();
+            final DavProperty property = new DefaultDavProperty(attrName, value, Namespace.EMPTY_NAMESPACE);
+            if (value != null)
+            {
+                properties.add(property);
+            }
+            else
+            {
+                propertyNameSet.add(property.getName()); // remove property
+            }
+
+            final PropPatchMethod method = new PropPatchMethod(urlStr, properties, propertyNameSet);
+            setupMethod(method);
+            execute(method);
+            if (!method.succeeded())
+            {
+                throw new FileSystemException("Property '" + attrName + "' could not be set.");
+            }
+        }
+        catch (final FileSystemException fse)
+        {
+            throw fse;
+        }
+        catch (final Exception e)
+        {
+            throw new FileSystemException("vfs.provider.webdav/set-attributes", e, getName(), attrName);
+        }
+    }
+
+    /**
+     * Execute a 'Workspace' operation.
+     *
+     * @param method The DavMethod to invoke.
+     * @throws FileSystemException If an error occurs.
+     */
+    private void execute(final DavMethod method) throws FileSystemException
+    {
+        try
+        {
+            final int status = fileSystem.getClient().executeMethod(method);
+            if (status == HttpURLConnection.HTTP_NOT_FOUND
+                    || status == HttpURLConnection.HTTP_GONE)
+            {
+                throw new FileNotFoundException(method.getURI());
+            }
+            method.checkSuccess();
+        }
+        catch (final FileSystemException fse)
+        {
+            throw fse;
+        }
+        catch (final IOException e)
+        {
+            throw new FileSystemException(e);
+        }
+        catch (final DavException e)
+        {
+            throw ExceptionConverter.generate(e);
+        }
+        finally
+        {
+            if (method != null)
+            {
+                method.releaseConnection();
+            }
+        }
+    }
+
+    @Override
+    protected FileContentInfoFactory getFileContentInfoFactory()
+    {
+        return new WebdavFileContentInfoFactory();
+    }
+
+    DavPropertySet getProperties(final URLFileName name) throws FileSystemException
+    {
+        return getProperties(name, DavConstants.PROPFIND_ALL_PROP, new DavPropertyNameSet(),
+                false);
+    }
+
+    DavPropertySet getProperties(final URLFileName name, final DavPropertyNameSet nameSet, final boolean addEncoding)
+            throws FileSystemException
+    {
+        return getProperties(name, DavConstants.PROPFIND_BY_PROPERTY, nameSet, addEncoding);
+    }
+
+    DavPropertySet getProperties(final URLFileName name, final int type, final DavPropertyNameSet nameSet,
+                                 final boolean addEncoding)
+            throws FileSystemException
+    {
+        try
+        {
+            final String urlStr = toUrlString(name);
+            final PropFindMethod method = new PropFindMethod(urlStr, type, nameSet, DavConstants.DEPTH_0);
+            setupMethod(method);
+            execute(method);
+            if (method.succeeded())
+            {
+                final MultiStatus multiStatus = method.getResponseBodyAsMultiStatus();
+                final MultiStatusResponse response = multiStatus.getResponses()[0];
+                final DavPropertySet props = response.getProperties(HttpStatus.SC_OK);
+                if (addEncoding)
+                {
+                    final DavProperty prop = new DefaultDavProperty(RESPONSE_CHARSET,
+                            method.getResponseCharSet());
+                    props.add(prop);
+                }
+                return props;
+            }
+            return new DavPropertySet();
+        }
+        catch (final FileSystemException fse)
+        {
+            throw fse;
+        }
+        catch (final Exception e)
+        {
+            throw new FileSystemException("vfs.provider.webdav/get-property.error", e, getName(), name, type,
+                    nameSet.getContent(), addEncoding);
+        }
+    }
+
+    DavProperty getProperty(final URLFileName fileName, final DavPropertyName name)
+            throws FileSystemException
+    {
+        final DavPropertyNameSet nameSet = new DavPropertyNameSet();
+        nameSet.add(name);
+        final DavPropertySet propertySet = getProperties(fileName, nameSet, false);
+        return propertySet.get(name);
+    }
+
+    DavProperty getProperty(final URLFileName fileName, final String property)
+            throws FileSystemException
+    {
+        return getProperty(fileName, DavPropertyName.create(property));
+    }
+
+
+    DavPropertySet getPropertyNames(final URLFileName name) throws FileSystemException
+    {
+        return getProperties(name, DavConstants.PROPFIND_PROPERTY_NAMES,
+                new DavPropertyNameSet(), false);
+    }
+
+    /**
+     * Convert the FileName to an encoded url String.
+     *
+     * @param name The FileName.
+     * @return The encoded URL String.
+     */
+    private String hrefString(final URLFileName name)
+    {
+        final URLFileName newFile = new URLFileName("http", name.getHostName(), name.getPort(),
+                name.getDefaultPort(), null, null,
+                name.getPath(), name.getType(), name.getQueryString());
+        try
+        {
+            return newFile.getURIEncoded(this.getUrlCharset());
+        }
+        catch (final Exception e)
+        {
+            return name.getURI();
+        }
+    }
+
+    private boolean isCurrentFile(final String href, final URLFileName fileName)
+    {
+        String name = hrefString(fileName);
+        if (href.endsWith("/") && !name.endsWith("/"))
+        {
+            name += "/";
+        }
+        return href.equals(name) || href.equals(fileName.getPath());
+    }
+
+    private boolean isDirectory(final URLFileName name) throws IOException
+    {
+        try
+        {
+            final DavProperty property = getProperty(name, DavConstants.PROPERTY_RESOURCETYPE);
+            Node node;
+            if (property != null && (node = (Node) property.getValue()) != null)
+            {
+                return node.getLocalName().equals(DavConstants.XML_COLLECTION);
+            }
+            else
             {
                 return false;
             }
+        }
+        catch (final FileNotFoundException fse)
+        {
+            throw new FileNotFolderException(name);
+        }
+    }
+
+    /**
+     * Returns the resource name from the path.
+     *
+     * @param path the path to the file.
+     * @return The resource name
+     */
+    private String resourceName(String path)
+    {
+        if (path.endsWith("/"))
+        {
+            path = path.substring(0, path.length() - 1);
+        }
+        final int i = path.lastIndexOf("/");
+        return i >= 0 ? path.substring(i + 1) : path;
+    }
+
+    /**
+     * Prepares a Method object.
+     *
+     * @param method the HttpMethod.
+     * @throws FileSystemException if an error occurs encoding the uri.
+     * @throws URIException        if the URI is in error.
+     */
+    @Override
+    protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException
+    {
+        final String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
+        method.setPath(pathEncoded);
+        method.setFollowRedirects(this.getFollowRedirect());
+        method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
+        method.addRequestHeader("Cache-control", "no-cache");
+        method.addRequestHeader("Cache-store", "no-store");
+        method.addRequestHeader("Pragma", "no-cache");
+        method.addRequestHeader("Expires", "0");
+    }
+
+    private String toUrlString(final URLFileName name)
+    {
+        return toUrlString(name, true);
+    }
+
+    /**
+     * Converts the given URLFileName to an encoded URL String.
+     *
+     * @param name The FileName.
+     * @param includeUserInfo true if user information should be included.
+     * @return The encoded URL String.
+     */
+    private String toUrlString(final URLFileName name, final boolean includeUserInfo)
+    {
+        String user = null;
+        String password = null;
+        if (includeUserInfo)
+        {
+            user = name.getUserName();
+            password = name.getPassword();
+        }
+        final URLFileName newFile = new URLFileName("http", name.getHostName(), name.getPort(),
+                name.getDefaultPort(), user, password,
+                name.getPath(), name.getType(), name.getQueryString());
+        try
+        {
+            return newFile.getURIEncoded(this.getUrlCharset());
+        }
+        catch (final Exception e)
+        {
+            return name.getURI();
         }
     }
 }
