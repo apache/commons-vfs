@@ -138,8 +138,8 @@
       <action issue="VFS-200" dev="ggregory" type="fix">
         [SFTP] Failure when files are very large.
       </action>
-      <action issue="VFS-416" dev="ggregory" type="update">
-        [SFTP] Update Jsch to version 0.1.48 from 0.1.47.
+      <action issue="VFS-416" dev="joehni" type="update">
+        [SFTP] Update Jsch to version 0.1.49 from 0.1.47.
       </action>
       <action issue="VFS-296" dev="ggregory" type="fix" due-to="andreasp">
         [FTP] FTP socket timeout setting doesn't work if connect hangs.
