@@ -416,6 +416,19 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     }
 
     /**
+     * Determines if this file can be written to.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation always returns true.
+     * @return true if the file is writable.
+     * @throws Exception if an error occurs.
+     */
+    protected boolean doIsWriteable() throws Exception
+    {
+        return true;
+    }
+
+    /**
      * Lists the children of the file.
      */
     @Override
