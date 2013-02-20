@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * The config builder for various ftp configuration options.
  */
-public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
+public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private static final String _PREFIX = FtpFileSystemConfigBuilder.class.getName();
 
@@ -58,6 +58,11 @@ public final class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private FtpFileSystemConfigBuilder()
     {
         super("ftp.");
+    }
+    
+    /** @since 2.1 */
+    protected FtpFileSystemConfigBuilder(String prefix) {
+    	super(prefix);
     }
 
     @Override

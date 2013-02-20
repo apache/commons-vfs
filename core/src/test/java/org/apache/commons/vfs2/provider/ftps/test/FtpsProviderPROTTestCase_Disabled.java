@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
 /**
  * Tests VFS-412.
  */
-public class FtpsProviderPROTTestCase_Disabled extends FtpsProviderTestCase_Disabled
+public class FtpsProviderPROTTestCase_Disabled extends FtpsProviderImplicitTestCase_Disabled
 {
 
     @Override

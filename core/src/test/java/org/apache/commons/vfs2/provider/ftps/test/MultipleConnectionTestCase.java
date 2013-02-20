@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.ftps.test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.SocketException;
 
 import org.apache.commons.net.ftp.FTPSClient;
@@ -35,13 +34,13 @@ public class MultipleConnectionTestCase
     @BeforeClass
     public static void setUpClass() throws FtpException, IOException
     {
-        FtpsProviderTestCase_Disabled.setUpClass();
+        AbstractFtpsProviderTestCase.setUpClass(true);
     }
 
     @AfterClass
-    public static void tearDownClass() throws MalformedURLException, FtpException
+    public static void tearDownClass()
     {
-        FtpsProviderTestCase_Disabled.tearDownClass();
+        AbstractFtpsProviderTestCase.tearDownClass();
     }
 
     private FTPSClient init(final FTPSClient client)
@@ -52,12 +51,12 @@ public class MultipleConnectionTestCase
 
     private FileObject resolveRoot() throws FileSystemException
     {
-        return VFS.getManager().resolveFile(FtpsProviderTestCase_Disabled.getConnectionUri(),
-                new FtpsProviderTestCase_Disabled().getFileSystemOptions());
+        return VFS.getManager().resolveFile(AbstractFtpsProviderTestCase.getConnectionUri(),
+                new FtpsProviderImplicitTestCase_Disabled().getFileSystemOptions());
     }
 
     @Test
-    public void testConnectRoot() throws SocketException, IOException
+    public void testConnectRoot() throws IOException
     {
         resolveRoot();
         resolveRoot();
@@ -71,8 +70,8 @@ public class MultipleConnectionTestCase
         try
         {
             final String hostname = "localhost";
-            client1.connect(hostname, FtpsProviderTestCase_Disabled.getSocketPort());
-            client2.connect(hostname, FtpsProviderTestCase_Disabled.getSocketPort());
+            client1.connect(hostname, AbstractFtpsProviderTestCase.getSocketPort());
+            client2.connect(hostname, AbstractFtpsProviderTestCase.getSocketPort());
         } finally
         {
             if (client1 != null)

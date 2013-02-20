@@ -19,9 +19,6 @@ package org.apache.commons.vfs2.provider.ftps.test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLDecoder;
-
-import junit.framework.Test;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
@@ -45,13 +42,10 @@ import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.Assert;
 
 /**
- * Tests for FTP file systems.
- *
- * This is test fails because we cannot read from more than two input streams at the same time.
+ * Abstract tests for FTP file systems.
  */
-public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig implements ProviderTestConfig
+abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
-
     private static int SocketPort;
 
     /**
@@ -79,8 +73,7 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
         return SocketPort;
     }
 
-    private static String getSystemTestUriOverride()
-
+    static String getSystemTestUriOverride()
     {
         return System.getProperty(TEST_URI);
     }
@@ -94,11 +87,12 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
-     *
+     * 
+     * @param implicit FTPS connection mode 
      * @throws FtpException
      * @throws IOException
      */
-    static void setUpClass() throws FtpException, IOException
+    static void setUpClass(boolean implicit) throws FtpException, IOException
     {
         if (Server != null)
         {
@@ -131,7 +125,7 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
 
         // set the SSL configuration for the listener
         factory.setSslConfiguration(ssl.createSslConfiguration());
-        factory.setImplicitSsl(true);
+        factory.setImplicitSsl(implicit);
 
         // replace the default listener
         serverFactory.addListener("default", factory.createListener());
@@ -139,32 +133,6 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
         // start the server
         Server = serverFactory.createServer();
         Server.start();
-    }
-
-    /**
-     * Creates the test suite for the ftp file system.
-     */
-    public static Test suite() throws Exception
-    {
-        return new ProviderTestSuite(new FtpsProviderTestCase_Disabled())
-        {
-            @Override
-            protected void setUp() throws Exception
-            {
-                if (getSystemTestUriOverride() == null)
-                {
-                    setUpClass();
-                }
-                super.setUp();
-            }
-
-            @Override
-            protected void tearDown() throws Exception
-            {
-                tearDownClass();
-                super.tearDown();
-            }
-        };
     }
 
     /**
@@ -178,6 +146,35 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
             Server = null;
         }
     }
+    
+    static final class FtpProviderTestSuite extends ProviderTestSuite { 
+	    private boolean implicit;
+	
+		public FtpProviderTestSuite(AbstractFtpsProviderTestCase providerConfig) throws Exception
+		{
+			super(providerConfig);
+			this.implicit = providerConfig.isImplicit();
+		}
+	
+		@Override
+	    protected void setUp() throws Exception
+	    {
+	        if (getSystemTestUriOverride() == null)
+	        {
+	            setUpClass(implicit);
+	        }
+	        super.setUp();
+	    }
+	
+	    @Override
+	    protected void tearDown() throws Exception
+	    {
+	        tearDownClass();
+	        super.tearDown();
+	    }
+    }
+    
+    protected abstract boolean isImplicit();
 
     /**
      * Returns the base folder for tests. You can override the DEFAULT_URI by using the system property name defined by
@@ -200,9 +197,11 @@ public class FtpsProviderTestCase_Disabled extends AbstractProviderTestConfig im
         {
             fileSystemOptions = new FileSystemOptions();
             final FtpsFileSystemConfigBuilder builder = FtpsFileSystemConfigBuilder.getInstance();
-            builder.setPassiveMode(fileSystemOptions, true);
+            builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
             builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
-            builder.setFtpsType(fileSystemOptions, FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT);
+            builder.setFtpsType(fileSystemOptions, isImplicit() 
+            	? FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT 
+            	: FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT);
         }
         return fileSystemOptions;
     }

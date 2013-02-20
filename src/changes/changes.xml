@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-458" dev="jos" type="fix">
+        FTPS provider missed functionality and bug fixes already available for the FTP provider.
+      </action>
       <action issue="VFS-452" dev="ggregory" type="fix" due-to="Jean-Marc Borer">
         HttpFileObject read/write attributes should reflect underlying FileSystem capabilities.
       </action>
@@ -86,6 +89,9 @@
       </action>
       <action issue="VFS-405" dev="ggregory" type="add" due-to="dwaszak">
         Get/set the file permissions.
+      </action>
+      <action issue="VFS-457" dev="joehni" type="update">
+        Update test dependencies: sshd-core to version 0.8.0 from version 0.7.0; mina-core from version 2.0.4 to version 2.0.7.
       </action>
       <action issue="VFS-456" dev="joehni" type="update">
         Use org.bouncycastel:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.

@@ -32,16 +32,15 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 /**
  * A wrapper to the FTPClient to allow automatic reconnect on connection loss.<br />
  * I decided to not to use eg. noop() to determine the state of the connection to avoid
- * unnecesary server round-trips.
+ * unnecessary server round-trips.
  */
-class FTPClientWrapper implements FtpClient
+public class FTPClientWrapper implements FtpClient
 {
     private final GenericFileName root;
-    private final FileSystemOptions fileSystemOptions;
-
+    protected final FileSystemOptions fileSystemOptions;
     private FTPClient ftpClient;
 
-    FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         this.root = root;
         this.fileSystemOptions = fileSystemOptions;
@@ -67,20 +66,26 @@ class FTPClientWrapper implements FtpClient
         {
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, FtpFileProvider.AUTHENTICATOR_TYPES);
 
-            return FtpClientFactory.createConnection(rootName.getHostName(),
-                rootName.getPort(),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                        UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                        UserAuthenticatorUtils.toChar(rootName.getPassword())),
-                rootName.getPath(),
-                getFileSystemOptions());
+            return createClient(rootName, authData);
         }
         finally
         {
             UserAuthenticatorUtils.cleanup(authData);
         }
     }
+
+	protected FTPClient createClient(final GenericFileName rootName, final UserAuthenticationData authData)
+		throws FileSystemException
+	{
+		return FtpClientFactory.createConnection(
+			rootName.getHostName(),
+			rootName.getPort(),
+			UserAuthenticatorUtils.getData(
+				authData, UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())),
+			UserAuthenticatorUtils.getData(
+				authData, UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())),
+			rootName.getPath(), getFileSystemOptions());
+	}
 
     private FTPClient getFtpClient() throws FileSystemException
     {
