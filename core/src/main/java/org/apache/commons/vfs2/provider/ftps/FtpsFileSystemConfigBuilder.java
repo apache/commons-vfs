@@ -65,8 +65,13 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     /**
      * Set FTPS security mode, either "implicit" or "explicit".
      *
+     * <p>Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with
+     * implicit mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache
+     * FTP/SSHD.</p>
+     *  
      * @param opts The FileSystemOptions.
      * @param ftpsType The file type.
+     * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
      */
     public void setFtpsType(final FileSystemOptions opts, final String ftpsType)
     {

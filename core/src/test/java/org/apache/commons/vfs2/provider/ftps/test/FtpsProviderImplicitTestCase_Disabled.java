@@ -23,6 +23,7 @@ import junit.framework.Test;
  * 
  * TODO: Fails for concurrent access.
  * Note, that the implicit mode is not standardized and the protocol may differ between the FTPS servers. 
+ * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
  */
 public class FtpsProviderImplicitTestCase_Disabled extends AbstractFtpsProviderTestCase
 {
