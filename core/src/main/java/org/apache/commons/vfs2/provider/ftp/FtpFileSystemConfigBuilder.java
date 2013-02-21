@@ -143,7 +143,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public FtpFileType getFileType(final FileSystemOptions opts)
     {
-        return (FtpFileType) getParam(opts, FILE_TYPE);
+        return getEnum(FtpFileType.class, opts, FILE_TYPE);
     }
 
     /**

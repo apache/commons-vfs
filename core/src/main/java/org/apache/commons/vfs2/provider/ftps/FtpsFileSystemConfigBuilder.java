@@ -74,8 +74,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      */
     public FtpsMode getFtpsMode(final FileSystemOptions opts)
     {
-        final FtpsMode mode = (FtpsMode)getParam(opts, FTPS_MODE);
-		return mode == null ? FtpsMode.EXPLICIT : mode;
+        return getEnum(FtpsMode.class, opts, FTPS_MODE, FtpsMode.EXPLICIT);
     }
 
 	/**
@@ -134,7 +133,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
 	 */
 	public FtpsDataChannelProtectionLevel getDataChannelProtectionLevel(final FileSystemOptions opts)
 	{
-		return (FtpsDataChannelProtectionLevel)getParam(opts, PROT);
+		return getEnum(FtpsDataChannelProtectionLevel.class, opts, PROT);
 	}
 
 	/**

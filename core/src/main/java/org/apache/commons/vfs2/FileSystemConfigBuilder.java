@@ -220,6 +220,29 @@ public abstract class FileSystemConfigBuilder
         return value;
     }
 
+    /** @since 2.1 */
+    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions opts, final String name)
+    {
+        return this.<E>getEnum(enumClass, opts, name, null);
+    }
+
+    /** @since 2.1 */
+    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions opts, final String name, final E defaultValue)
+    {
+        @SuppressWarnings("unchecked")
+		E value = (E) getParam(opts, name);
+        if (value == null)
+        {
+            final String str = getProperty(name);
+            if (str == null)
+            {
+                return defaultValue;
+            }
+            value = Enum.valueOf(enumClass, str);
+        }
+        return value;
+    }
+
     /** @since 2.0 */
     protected Float getFloat(final FileSystemOptions opts, final String name)
     {

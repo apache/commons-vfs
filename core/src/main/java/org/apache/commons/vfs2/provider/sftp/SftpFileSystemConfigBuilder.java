@@ -217,7 +217,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String getPreferredAuthentications(final FileSystemOptions opts)
     {
-        return (String) this.getParam(opts, PREFERRED_AUTHENTICATIONS);
+        return getString(opts, PREFERRED_AUTHENTICATIONS);
     }
 
 
