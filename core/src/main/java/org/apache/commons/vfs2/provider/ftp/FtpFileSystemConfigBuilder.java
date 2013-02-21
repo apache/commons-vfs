@@ -95,7 +95,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts The FileSystemOptions.
-     * @return The timeout as an Integer.
+     * @return The timeout for opening the data channel as an Integer.
      * @see #setDataTimeout
      */
     public Integer getDataTimeout(final FileSystemOptions opts)

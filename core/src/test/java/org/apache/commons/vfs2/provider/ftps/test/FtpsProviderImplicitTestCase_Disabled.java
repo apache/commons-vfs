@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.ftps.test;
 
 import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
+import org.apache.commons.vfs2.provider.ftps.FtpsMode;
 
 import junit.framework.Test;
 
@@ -39,7 +40,7 @@ public class FtpsProviderImplicitTestCase_Disabled extends AbstractFtpsProviderT
 	protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
 	{
 		super.setupOptions(builder);
-		builder.setFtpsType(fileSystemOptions, FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT);
+		builder.setFtpsMode(fileSystemOptions, FtpsMode.IMPLICIT);
 	}
 
 	/**

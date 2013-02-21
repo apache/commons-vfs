@@ -26,6 +26,11 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-462" dev="joehni" type="update">
+        [FTPS] Deprecate FtpsFileSystemConfigBuilder.setFtpsType and FtpsFileSystemConfigBuilder.getFtpsType
+        in favor of FtpsFileSystemConfigBuilder.setFtpsMode and FtpsFileSystemConfigBuilder.getFtpsMode which
+        use new enum FtpsMode instead.
+      </action>
       <action issue="VFS-461" dev="joehni" type="fix">
         [FTP/FTPS] ConfigBuilder does not consider system properties for the value of SoTimeout and Encoding.
       </action>

@@ -68,19 +68,13 @@ public final class FtpsClientFactory
 		protected FTPSClient createClient(final FileSystemOptions fileSystemOptions) throws FileSystemException
 		{
 			final FTPSClient client;
-	        if (builder.getFtpsType(fileSystemOptions).equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT))
-	        {
-	            client = new FTPSClient();
-	        }
-	        else if (builder.getFtpsType(fileSystemOptions).equals(FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT))
+	        if (builder.getFtpsMode(fileSystemOptions) == FtpsMode.IMPLICIT)
 	        {
 	            client = new FTPSClient(true);
 	        }
-	        else
+	        else 
 	        {
-	            throw new FileSystemException("Invalid FTPS type of "
-	                    + FtpsFileSystemConfigBuilder.getInstance().getFtpsType(fileSystemOptions)
-	                    + " specified. Must be 'implicit' or 'explicit'");
+	            client = new FTPSClient();
 	        }
 	        
 			final TrustManager trustManager = TrustManagerUtils.getValidateServerCertificateTrustManager();
