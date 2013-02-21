@@ -27,35 +27,35 @@
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
       <action issue="VFS-412" dev="joehni" type="add" due-to="Jose Juan Montiel">
-        Add support for FTPS command to set the DataChannelProtectionLevel.
+        [FTPS] Add support for command to set the DataChannelProtectionLevel.
       </action>
       <action issue="VFS-459" dev="joehni" type="update">
-        Sent FTP/FTPS commands and the received answer is logged at debug level.
+        [FTP/FTPS] Sent commands and the received answer is logged at debug level.
       </action>
       <action issue="VFS-458" dev="joehni" type="fix">
-        FTPS provider missed functionality and bug fixes already available for the FTP provider.
+        [FTPS] Provider missed functionality and bug fixes already available for the FTP provider.
       </action>
       <action issue="VFS-452" dev="ggregory" type="fix" due-to="Jean-Marc Borer">
-        HttpFileObject read/write attributes should reflect underlying FileSystem capabilities.
+        [HTTP] HttpFileObject read/write attributes should reflect underlying FileSystem capabilities.
       </action>
       <action issue="VFS-285" dev="tn" type="fix" due-to="Kirill Safonov">
         AbstractFileObject.getChildren() may corrupt its internal state if a filename
         can not be resolved.
       </action>
       <action issue="VFS-451" dev="ggregory" type="fix" due-to="ilmarcoronchi">
-        Authentication fails using private key.
+        [SFTP] Authentication fails using private key.
       </action>
       <action issue="VFS-450" dev="ggregory" type="fix" due-to="dlmarion">
-        HDFSFileSystem.resolveFile() does not honor CacheStrategy.ON_RESOLVE.
+        [HDFS] HDFSFileSystem.resolveFile() does not honor CacheStrategy.ON_RESOLVE.
       </action>
       <action issue="VFS-442" dev="ggregory" type="add" due-to="dlmarion">
-        Add an HDFS FileSystem Provider.
+        [HDFS] Add an HDFS FileSystem Provider.
       </action>
       <action issue="VFS-448" dev="ggregory" type="fix">
         commons-vfs 2.0 JAR has flawed OSGi MANIFEST.MF.
       </action>
       <action issue="VFS-447" dev="ggregory" type="add" due-to="ggregory">
-        Update Apache Commons Net to 3.2 from 3.1.
+        [FTP/FTPS] Update Apache Commons Net to 3.2 from 3.1.
       </action>
       <action issue="VFS-445" dev="ggregory" type="add" due-to="ggregory">
         Add FileSystemManager.resolveFile(URI) and resolveFile(URL).
@@ -76,7 +76,7 @@
         FileSystemException should reuse IOException's chained exception.
       </action>
       <action issue="VFS-433" dev="ggregory" type="fix" due-to="ggregory">
-        Message "vfs.provider.webdav/propfind.error" is not defined.
+        [WebDAV] Message "vfs.provider.webdav/propfind.error" is not defined.
       </action>
       <action issue="VFS-430" dev="ggregory" type="fix" due-to="antonin.stefanutti">
         The SoftRefFilesCache class logs clear text password.
@@ -366,6 +366,9 @@
         SftpFileObject.doListChildrenResolved() changes the working dir before doing ChannelSftp.ls() call.
         If ls() throws an exception, the current directory is not reset. All the subsequent operations that rely on the
         current dir will fail trying to change into nonexistent directory.
+      </action>
+      <action dev="jcarman" type="add" issue="VFS-264" due-to="Scott Bjerstedt">
+        Add FTPS provider.
       </action>
       <action dev="rgoers" type="add" issue="VFS-244">
         Rename HttpRandomAccesContent to HttpRandomAccessContent.
