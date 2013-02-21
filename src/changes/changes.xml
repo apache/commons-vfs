@@ -26,7 +26,10 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
-      <action issue="VFS-458" dev="jos" type="fix">
+      <action issue="VFS-459" dev="joehni" type="update">
+        Sent FTP/FTPS commands and the received answer is logged at debug level.
+      </action>
+      <action issue="VFS-458" dev="joehni" type="fix">
         FTPS provider missed functionality and bug fixes already available for the FTP provider.
       </action>
       <action issue="VFS-452" dev="ggregory" type="fix" due-to="Jean-Marc Borer">

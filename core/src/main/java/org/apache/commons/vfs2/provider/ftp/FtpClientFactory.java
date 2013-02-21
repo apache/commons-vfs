@@ -17,7 +17,13 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPReply;
@@ -72,6 +78,7 @@ public final class FtpClientFactory
         private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
     	private static final int BUFSZ = 40;
 
+    	protected Log log = LogFactory.getLog(getClass());
     	protected B builder;
 
         protected ConnectionFactory(B builder)
@@ -97,6 +104,23 @@ public final class FtpClientFactory
 	        {
 	            final C client = createClient(fileSystemOptions);
 	
+	            if (log.isDebugEnabled()) {
+					final Writer writer = new StringWriter(1024){
+						@Override
+						public void flush()
+						{
+							final StringBuffer buffer = getBuffer();
+							String message = buffer.toString();
+							if (message.toUpperCase().startsWith("PASS ") && message.length() > 5) {
+								message = "PASS ***";
+							}
+							log.debug(message);
+							buffer.setLength(0);
+						}
+	            	};
+	            	client.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(writer)));
+	            }
+	            
 	            configureClient(fileSystemOptions, client);
 	
 				final FTPFileEntryParserFactory myFactory =
