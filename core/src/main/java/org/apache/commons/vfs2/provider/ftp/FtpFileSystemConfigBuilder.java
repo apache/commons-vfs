@@ -80,7 +80,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Integer getConnectTimeout(final FileSystemOptions opts)
     {
-        return (Integer) getParam(opts, CONNECT_TIMEOUT);
+        return getInteger(opts, CONNECT_TIMEOUT);
     }
 
     /**
@@ -90,7 +90,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * */
     public String getControlEncoding(final FileSystemOptions opts)
     {
-        return (String) getParam(opts, ENCODING);
+        return getString(opts, ENCODING);
     }
 
     /**
@@ -205,7 +205,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Integer getSoTimeout(final FileSystemOptions opts)
     {
-        return (Integer) getParam(opts, SO_TIMEOUT);
+        return getInteger(opts, SO_TIMEOUT);
     }
 
     /**

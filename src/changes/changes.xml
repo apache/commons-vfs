@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-461" dev="joehni" type="fix">
+        [FTP/FTPS] ConfigBuilder does not consider system properties for the value of SoTimeout and Encoding.
+      </action>
       <action issue="VFS-412" dev="joehni" type="add" due-to="Jose Juan Montiel">
         [FTPS] Add support for command to set the DataChannelProtectionLevel.
       </action>
