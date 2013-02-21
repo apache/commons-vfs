@@ -16,6 +16,9 @@
  */
 package org.apache.commons.vfs2.provider.ftps.test;
 
+import org.apache.commons.vfs2.provider.ftps.FtpsDataChannelProtectionLevel;
+import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
+
 import junit.framework.Test;
 
 /**
@@ -27,6 +30,14 @@ public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase
 	protected boolean isImplicit()
 	{
 		return false;
+	}
+
+	@Override
+	protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
+	{
+		super.setupOptions(builder);
+		builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
+		builder.setFtpsType(fileSystemOptions, FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT);
 	}
 
 	/**

@@ -72,6 +72,12 @@ public final class FtpClientFactory
 		{
 			return new FTPClient();
 		}
+
+		@Override
+		protected void setupOpenConnection(final FTPClient client, final FileSystemOptions fileSystemOptions)
+		{
+			// nothing to do for FTP
+		}
     }
     
     public static abstract class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder> {
@@ -204,7 +210,8 @@ public final class FtpClientFactory
 	                {
 	                    client.enterLocalPassiveMode();
 	                }
-	
+	                
+	                setupOpenConnection(client, fileSystemOptions);
 	            }
 	            catch (final IOException e)
 	            {
@@ -223,7 +230,8 @@ public final class FtpClientFactory
 	        }
 	    }
 
-		protected abstract C createClient(final FileSystemOptions fileSystemOptions) throws FileSystemException;
+		protected abstract C createClient(FileSystemOptions fileSystemOptions) throws FileSystemException;
+		protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
 	
 	    private void configureClient(final FileSystemOptions fileSystemOptions, final C client)
 	    {

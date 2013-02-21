@@ -17,6 +17,9 @@
 package org.apache.commons.vfs2.provider.ftps;
 
 
+import java.io.IOException;
+
+import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManager;
 
 import org.apache.commons.net.ftp.FTPSClient;
@@ -83,6 +86,22 @@ public final class FtpsClientFactory
 			final TrustManager trustManager = TrustManagerUtils.getValidateServerCertificateTrustManager();
 			client.setTrustManager(trustManager);
 	        return client;
+		}
+
+		@Override
+		protected void setupOpenConnection(final FTPSClient client, final FileSystemOptions fileSystemOptions)
+			throws IOException
+		{
+			final FtpsDataChannelProtectionLevel level = builder.getDataChannelProtectionLevel(fileSystemOptions);
+			if (level != null) {
+				// '0' means streaming, that's what we do!
+				try {
+					client.execPBSZ(0);
+					client.execPROT(level.name());
+				} catch (final SSLException e) {
+					throw new FileSystemException("vfs.provider.ftps/data-channel.level", e, level.toString());
+				}
+			}
 		}
     }
 }

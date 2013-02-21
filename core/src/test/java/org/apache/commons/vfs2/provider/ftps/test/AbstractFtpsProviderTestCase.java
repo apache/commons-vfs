@@ -196,15 +196,16 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
         if (fileSystemOptions == null)
         {
             fileSystemOptions = new FileSystemOptions();
-            final FtpsFileSystemConfigBuilder builder = FtpsFileSystemConfigBuilder.getInstance();
-            builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
-            builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
-            builder.setFtpsType(fileSystemOptions, isImplicit() 
-            	? FtpsFileSystemConfigBuilder.FTPS_TYPE_IMPLICIT 
-            	: FtpsFileSystemConfigBuilder.FTPS_TYPE_EXPLICIT);
+            setupOptions(FtpsFileSystemConfigBuilder.getInstance());
         }
         return fileSystemOptions;
     }
+
+	protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
+	{
+		builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
+		builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
+	}
 
     /**
      * Prepares the file system manager.
