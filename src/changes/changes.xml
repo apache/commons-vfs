@@ -53,9 +53,6 @@
         AbstractFileObject.getChildren() may corrupt its internal state if a filename
         can not be resolved.
       </action>
-      <action issue="VFS-451" dev="ggregory" type="fix" due-to="ilmarcoronchi">
-        [SFTP] Authentication fails using private key.
-      </action>
       <action issue="VFS-450" dev="ggregory" type="fix" due-to="dlmarion">
         [HDFS] HDFSFileSystem.resolveFile() does not honor CacheStrategy.ON_RESOLVE.
       </action>

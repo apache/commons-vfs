@@ -85,7 +85,7 @@ public final class SftpClientFactory
             jsch.setIdentityRepository(repositoryFactory.create(jsch));
         }
 
-        addIdentities(jsch, sshDir, identities, password);
+        addIdentities(jsch, sshDir, identities);
 
         Session session;
         try
@@ -172,13 +172,13 @@ public final class SftpClientFactory
         return session;
     }
 
-    private static void addIdentities(final JSch jsch, final File sshDir, final File[] identities, char[] password) throws FileSystemException
-    {	
+    private static void addIdentities(final JSch jsch, final File sshDir, final File[] identities) throws FileSystemException
+    {
         if (identities != null)
         {
             for (final File privateKeyFile : identities)
             {
-                addIndentity(jsch, privateKeyFile, password);
+                addIndentity(jsch, privateKeyFile);
             }
         }
         else
@@ -187,16 +187,16 @@ public final class SftpClientFactory
             final File privateKeyFile = new File(sshDir, "id_rsa");
             if (privateKeyFile.isFile() && privateKeyFile.canRead())
             {
-                addIndentity(jsch, privateKeyFile, password);
+                addIndentity(jsch, privateKeyFile);
             }
         }
     }
 
-    private static void addIndentity(final JSch jsch, final File privateKeyFile, char[] password) throws FileSystemException
+    private static void addIndentity(final JSch jsch, final File privateKeyFile) throws FileSystemException
     {
         try
         {
-            jsch.addIdentity(privateKeyFile.getAbsolutePath(), password == null ? null : new String(password));
+            jsch.addIdentity(privateKeyFile.getAbsolutePath());
         }
         catch (final JSchException e)
         {
