@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-464" dev="joehni" type="fix">
+        StaticUserAuthenticator should return only requested authentication data.
+      </action>
       <action issue="VFS-463" dev="joehni" type="update">
         FileSytemConfigBuilder supports system properties for the value of enum-based configuration entries.
       </action>

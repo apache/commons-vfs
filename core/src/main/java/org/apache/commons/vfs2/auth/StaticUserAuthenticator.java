@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.auth;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
@@ -25,6 +27,8 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  */
 public class StaticUserAuthenticator implements UserAuthenticator, Comparable<StaticUserAuthenticator>
 {
+	private final static Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
+	
     /** The user name */
     private final String username;
 
@@ -45,9 +49,30 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     public UserAuthenticationData requestAuthentication(final UserAuthenticationData.Type[] types)
     {
         final UserAuthenticationData data = new UserAuthenticationData();
-        data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
-        data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
-        data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
+        for(final UserAuthenticationData.Type type : types)
+        {
+        	if (type == UserAuthenticationData.DOMAIN)
+        	{
+                data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
+        	}
+        	else if (type == UserAuthenticationData.USERNAME)
+        	{
+                data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
+        	}
+        	else if (type == UserAuthenticationData.PASSWORD)
+        	{
+                data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
+        	}
+        	else
+        	{
+        		if (LOG.isInfoEnabled())
+        		{
+                    LOG.info(StaticUserAuthenticator.class.getSimpleName()
+                    	+ " does not support authentication data type '" + type 
+                    	+ "'; authentication request ignored.");
+        		}
+        	}
+        }
         return data;
     }
 
