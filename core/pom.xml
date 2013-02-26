@@ -230,6 +230,7 @@
           <systemPropertyVariables>
             <test.basedir>target/test-classes/test-data</test.basedir>
             <test.basedir.res>test-data</test.basedir.res>
+            <derby.stream.error.file>target/derby.log</derby.stream.error.file>
           </systemPropertyVariables>
           <excludes>
             <!-- Main class -->
