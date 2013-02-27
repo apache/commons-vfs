@@ -38,12 +38,35 @@ public final class UserAuthenticatorUtils
      * @param type The type of the element to retrieve.
      * @param overriddenValue The default value.
      * @return The data of the given type as a character array or null if the data is not available.
+     * @deprecated As of 2.1 use {@link #getAuthData(UserAuthenticationData, org.apache.commons.vfs2.UserAuthenticationData.Type, Object)} instead
      */
+    @Deprecated
     public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type,
                                  final char[] overriddenValue)
     {
+        return getAuthData(data, type, overriddenValue);
+    }
+
+    /**
+     * Gets data of given type from the UserAuthenticationData or null if there is no data or data
+     * of this type available.
+     *
+     * @param data The UserAuthenticationData.
+     * @param type The type of the element to retrieve.
+     * @param overriddenValue The default value.
+     * @return The data of the given type as a character array or null if the data is not available.
+     * @since 2.1
+     */
+    public static <T, U extends T> T getAuthData(final UserAuthenticationData data, final UserAuthenticationData.Type type,
+                                 final U overriddenValue)
+    {
         if (overriddenValue != null)
         {
+            if (!type.isAssignable(overriddenValue.getClass()))
+            {
+                throw new IllegalArgumentException("overriddenValue");
+            }
+            
             return overriddenValue;
         }
 
@@ -52,7 +75,7 @@ public final class UserAuthenticatorUtils
             return null;
         }
 
-        return data.getData(type);
+        return data.getAuthData(type);
     }
 
     /**
