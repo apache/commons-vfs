@@ -19,11 +19,11 @@ package org.apache.commons.vfs2.provider.ftps;
 
 import java.io.IOException;
 
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManager;
 
 import org.apache.commons.net.ftp.FTPSClient;
-import org.apache.commons.net.util.TrustManagerUtils;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.ftp.FtpClientFactory;
@@ -77,8 +77,17 @@ public final class FtpsClientFactory
 	            client = new FTPSClient();
 	        }
 	        
-			final TrustManager trustManager = TrustManagerUtils.getValidateServerCertificateTrustManager();
-			client.setTrustManager(trustManager);
+			final TrustManager trustManager = builder.getTrustManager(fileSystemOptions);
+			if (trustManager != null)
+			{
+			    client.setTrustManager(trustManager);
+			}
+			
+			final KeyManager keyManager = builder.getKeyManager(fileSystemOptions);
+			if (keyManager != null)
+			{
+			    client.setKeyManager(keyManager);
+			}
 	        return client;
 		}
 

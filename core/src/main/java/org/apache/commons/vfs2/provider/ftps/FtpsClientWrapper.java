@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 
 /**
  * A wrapper to the FTPSClient to allow automatic reconnect on connection loss.<br />
- * The only difference to the FtpCLientWrapper is the creation of a FTPSClient instead of a FTPClient.
+ * The only difference to the FTPClientWrapper is the creation of a FTPSClient instead of a FTPClient.
  * @since 2.0
  */
 class FtpsClientWrapper extends FTPClientWrapper
