@@ -23,7 +23,7 @@ import org.junit.Test;
 public class UserAuthenticationDataTestCase
 {
     @Test
-    public void testCharacterBasedDataWithLegacyMethods()
+    public void testCharacterBasedData()
     {
         UserAuthenticationData data = new UserAuthenticationData();
         char[] array = "PMC".toCharArray();
@@ -43,49 +43,12 @@ public class UserAuthenticationDataTestCase
     }
 
     @Test
-    public void testCharacterBasedData()
+    public void testCustomType()
     {
+        UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT"); 
         UserAuthenticationData data = new UserAuthenticationData();
-        char[] array = "PMC".toCharArray();
-        data.setAuthData(UserAuthenticationData.USERNAME, array);
-        data.setAuthData(UserAuthenticationData.DOMAIN, "Apache".toCharArray());
-        assertSame(array, data.getAuthData(UserAuthenticationData.USERNAME));
-        assertArrayEquals("Apache".toCharArray(), data.<char[]>getAuthData(UserAuthenticationData.DOMAIN));
-        data.setAuthData(UserAuthenticationData.DOMAIN, "Apache Commons".toCharArray());
-        assertArrayEquals("Apache Commons".toCharArray(), data.<char[]>getAuthData(UserAuthenticationData.DOMAIN));
-        assertNull(data.getAuthData(UserAuthenticationData.PASSWORD));
-        
-        data.cleanup();
-        assertNull(data.getAuthData(UserAuthenticationData.USERNAME));
-        assertNull(data.getAuthData(UserAuthenticationData.DOMAIN));
-        char[] nulls = {0,0,0};
-        assertArrayEquals(nulls, array);
-    }
-
-    @Test
-    public void testCustomTypeWithArray()
-    {
-        UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT", UserAuthenticationDataTestCase[].class); 
-        UserAuthenticationData data = new UserAuthenticationData();
-        UserAuthenticationDataTestCase[] array = { this };
-        data.setAuthData(type, array);
-        assertSame(array, data.getAuthData(type));
-        
-        data.cleanup();
-        UserAuthenticationDataTestCase[] nulls = { null };
-        assertArrayEquals(nulls, array);
-    }
-
-    @Test
-    public void testCustomTypeWithHierarchy()
-    {
-        UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT", CharSequence.class); 
-        UserAuthenticationData data = new UserAuthenticationData();
-        assertTrue(data.setAuthData(type, "test"));
-        assertEquals("test", data.getAuthData(type));
-        assertFalse(data.setAuthData(type, Integer.valueOf(42)));
-        assertEquals("test", data.getAuthData(type));
-        assertTrue(data.setAuthData(type, null));
-        assertNull(data.getAuthData(type));
+        char[] array = "test".toCharArray();
+        data.setData(type, array);
+        assertSame(array, data.getData(type));
     }
 }
