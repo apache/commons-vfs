@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.util;
 
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
@@ -44,29 +45,39 @@ public final class UserAuthenticatorUtils
     public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type,
                                  final char[] overriddenValue)
     {
-        return getAuthData(data, type, overriddenValue);
+        try
+        {
+            return getAuthData(data, type, overriddenValue);
+        } 
+        catch (final FileSystemException e)
+        {
+            return null;
+        }
     }
 
     /**
-     * Gets data of given type from the UserAuthenticationData or null if there is no data or data
-     * of this type available.
-     *
+     * Gets data of given type from the UserAuthenticationData or null if there is no data or data of this type
+     * available.
+     * 
      * @param data The UserAuthenticationData.
      * @param type The type of the element to retrieve.
      * @param overriddenValue The default value.
      * @return The data of the given type as a character array or null if the data is not available.
+     * @throws FileSystemException if the overridden value is not compatible to the user authentication data type
      * @since 2.1
      */
-    public static <T, U extends T> T getAuthData(final UserAuthenticationData data, final UserAuthenticationData.Type type,
-                                 final U overriddenValue)
+    public static <T, U extends T> T getAuthData(
+        final UserAuthenticationData data, final UserAuthenticationData.Type type, final U overriddenValue)
+        throws FileSystemException
     {
         if (overriddenValue != null)
         {
             if (!type.isAssignable(overriddenValue.getClass()))
             {
-                throw new IllegalArgumentException("overriddenValue");
+                throw new FileSystemException(
+                    "vfs.util/incompatible-auth-value.error", type.toString(), overriddenValue.getClass().getName());
             }
-            
+
             return overriddenValue;
         }
 

@@ -65,11 +65,11 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         	}
         	else
         	{
-        		if (LOG.isInfoEnabled())
+        		if (LOG.isDebugEnabled())
         		{
-                    LOG.info(StaticUserAuthenticator.class.getSimpleName()
+                    LOG.debug(StaticUserAuthenticator.class.getSimpleName()
                     	+ " does not support authentication data type '" + type 
-                    	+ "'; authentication request ignored.");
+                    	+ "'; authentication request for this type ignored.");
         		}
         	}
         }
