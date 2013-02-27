@@ -26,10 +26,6 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
-      <action issue="VFS-466" dev="joehni" type="update">
-        Open UserAuthenticationData for other value types than char[]. Deprecate existing getter and setter
-        for the data and introduce new ones to reflect the arbitrary class type of the value.
-      </action>
       <action issue="VFS-464" dev="joehni" type="fix">
         StaticUserAuthenticator should return only requested authentication data.
       </action>
