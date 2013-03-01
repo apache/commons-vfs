@@ -173,15 +173,39 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
      * </p>
+     * 
+     * @param opts The FileSystem options.
+     * @return the array of identity Files.
+     * @see #setIdentities
+     * @deprecated As of 2.1 use {@link #getIdentityInfo(FileSystemOptions)}
+     */
+    @Deprecated
+    public File[] getIdentities(final FileSystemOptions opts)
+    {
+        final IdentityInfo[] info = getIdentityInfo(opts);
+        if (info != null)
+        {
+            final File[] files = new File[info.length];
+            for (int i = 0; i < files.length; ++i)
+            {
+                files[i] = info[i].getPrivateKey();
+            }
+            return files;
+        }
+        return null;
+    }
+
+    /**
+     * Gets the identity info.
      *
      * @param opts
      *            The FileSystem options.
-     * @return the array of identity Files.
-     * @see #setIdentities
+     * @return the array of identity info instances.
+     * @see #setIdentityInfo
      */
-    public File[] getIdentities(final FileSystemOptions opts)
+    public IdentityInfo[] getIdentityInfo(final FileSystemOptions opts)
     {
-        return (File[]) this.getParam(opts, IDENTITIES);
+        return (IdentityInfo[]) this.getParam(opts, IDENTITIES);
     }
 
     /**
@@ -394,17 +418,41 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
      * </p>
+     * 
+     * @param opts The FileSystem options.
+     * @param identityFiles An array of identity Files.
+     * @throws FileSystemException if an error occurs.
+     * @deprecated As of 2.1 use {@link #setIdentityInfo(FileSystemOptions, IdentityInfo...)}
+     */
+    @Deprecated
+    public void setIdentities(final FileSystemOptions opts, final File... identityFiles) throws FileSystemException
+    {
+        IdentityInfo[] info = null;
+        if (identityFiles != null)
+        {
+            info = new IdentityInfo[identityFiles.length];
+            for (int i = 0; i < identityFiles.length; i++)
+            {
+                info[i] = new IdentityInfo(identityFiles[i]);
+            }
+        }
+        this.setParam(opts, IDENTITIES, info);
+    }
+
+    /**
+     * Sets the identity info (your private key files).
      *
      * @param opts
      *            The FileSystem options.
-     * @param identityFiles
-     *            An array of identity Files.
+     * @param identites
+     *            An array of identity info.
      * @throws FileSystemException
      *             if an error occurs.
+     * @since 2.1             
      */
-    public void setIdentities(final FileSystemOptions opts, final File... identityFiles) throws FileSystemException
+    public void setIdentityInfo(final FileSystemOptions opts, final IdentityInfo... identites) throws FileSystemException
     {
-        this.setParam(opts, IDENTITIES, identityFiles);
+        this.setParam(opts, IDENTITIES, identites);
     }
 
     /**

@@ -73,7 +73,7 @@ public final class SftpClientFactory
         // new style - user passed
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         final File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
-        final File[] identities = builder.getIdentities(fileSystemOptions);
+        final IdentityInfo[] identities = builder.getIdentityInfo(fileSystemOptions);
         final IdentityRepositoryFactory repositoryFactory = builder.getIdentityRepositoryFactory(fileSystemOptions);
 
         sshDir = findSshDir();
@@ -172,13 +172,13 @@ public final class SftpClientFactory
         return session;
     }
 
-    private static void addIdentities(final JSch jsch, final File sshDir, final File[] identities) throws FileSystemException
+    private static void addIdentities(final JSch jsch, final File sshDir, final IdentityInfo[] identities) throws FileSystemException
     {
         if (identities != null)
         {
-            for (final File privateKeyFile : identities)
+            for (final IdentityInfo info : identities)
             {
-                addIndentity(jsch, privateKeyFile);
+                addIndentity(jsch, info);
             }
         }
         else
@@ -187,20 +187,22 @@ public final class SftpClientFactory
             final File privateKeyFile = new File(sshDir, "id_rsa");
             if (privateKeyFile.isFile() && privateKeyFile.canRead())
             {
-                addIndentity(jsch, privateKeyFile);
+                addIndentity(jsch, new IdentityInfo(privateKeyFile));
             }
         }
     }
 
-    private static void addIndentity(final JSch jsch, final File privateKeyFile) throws FileSystemException
+    private static void addIndentity(final JSch jsch, final IdentityInfo info) throws FileSystemException
     {
         try
         {
-            jsch.addIdentity(privateKeyFile.getAbsolutePath());
+            final String privateKeyFile = info.getPrivateKey() != null ? info.getPrivateKey().getAbsolutePath() : null;
+            final String publicKeyFile = info.getPublicKey() != null ? info.getPublicKey().getAbsolutePath() : null;
+            jsch.addIdentity(privateKeyFile, publicKeyFile, info.getPassPhrase());
         }
         catch (final JSchException e)
         {
-            throw new FileSystemException("vfs.provider.sftp/load-private-key.error", privateKeyFile, e);
+            throw new FileSystemException("vfs.provider.sftp/load-private-key.error", info, e);
         }
     }
 
