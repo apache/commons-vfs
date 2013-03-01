@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-460" dev="joehni" type="fix">
+        Dependency to commons-compress set as optional.
+      </action>
       <action issue="VFS-468" dev="joehni" type="add">
         [FTPS] Add option for KeyManager (and TrustManager) to support FTPS servers that ask for the client certificate for authentication.
       </action>
