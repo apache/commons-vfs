@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import junit.framework.Protectable;
+import junit.framework.TestResult;
+
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -137,6 +140,20 @@ public abstract class AbstractTestSuite
     }
 
     @Override
+    public void run(final TestResult result) {
+        Protectable p = new Protectable() {
+            @Override
+            public void protect() throws Exception {
+                setUp();
+                basicRun(result);
+                tearDown();
+                validateThreadSnapshot();
+            }
+        };
+        result.runProtected(this, p);
+    }
+
+    @Override
     protected void setUp() throws Exception
     {
         startThreadSnapshot = createThreadSnapshot();
@@ -195,7 +212,6 @@ public abstract class AbstractTestSuite
         writeFolder = null;
         baseFolder = null;
         testSuite = null;
-        fTest = null;
 
         // force the SoftRefFilesChache to free all files
         System.gc();
@@ -208,8 +224,16 @@ public abstract class AbstractTestSuite
         Thread.sleep(1000);
 
         manager.freeUnusedResources();
-        endThreadSnapshot = createThreadSnapshot();
+        manager.close();
 
+        // Make sure temp directory is empty or gone
+        checkTempDir("Temp dir not empty after test");
+    }
+
+    private void validateThreadSnapshot()
+    {
+        endThreadSnapshot = createThreadSnapshot();
+    
         final Thread[] diffThreadSnapshot = diffThreadSnapshot(startThreadSnapshot, endThreadSnapshot);
         if (diffThreadSnapshot.length > 0)
         {
@@ -229,11 +253,6 @@ public abstract class AbstractTestSuite
             // }
         }
         // System.in.read();
-
-        manager.close();
-
-        // Make sure temp directory is empty or gone
-        checkTempDir("Temp dir not empty after test");
     }
 
     /**
@@ -266,7 +285,7 @@ public abstract class AbstractTestSuite
         for (int iter = 0; iter < threadSnapshot.length; iter++)
         {
             final Thread thread = threadSnapshot[iter];
-            if (thread == null)
+            if (thread == null || !thread.isAlive())
             {
                 continue;
             }
@@ -274,9 +293,12 @@ public abstract class AbstractTestSuite
             sb.append("#");
             sb.append(iter + 1);
             sb.append(": ");
-            sb.append(thread.getThreadGroup().getName());
+            sb.append(thread.getThreadGroup() != null ? 
+                thread.getThreadGroup().getName() : "(null)");
             sb.append("\t");
             sb.append(thread.getName());
+            sb.append("\t");
+            sb.append(thread.getState());
             sb.append("\t");
             if (thread.isDaemon())
             {
