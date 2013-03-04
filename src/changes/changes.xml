@@ -26,6 +26,13 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-283" dev="joehni" type="update">
+        [SFTP] SFTP provider did not support passphrase-protected keys nor the exchange of a public key with
+        a requesting SFTP server. To support such triples (private key/passphrase/public key) instead of private
+        keys only, a new structure EntityInfo has been created. SftpFileSystemConfigBuilder has now the new
+        getter and setter methods getIdentityInfo and setIdentity info which replace the now deprecated methods
+        getIdentities and setIdentities.
+      </action>
       <action issue="VFS-460" dev="joehni" type="fix">
         Dependency to commons-compress set as optional.
       </action>
