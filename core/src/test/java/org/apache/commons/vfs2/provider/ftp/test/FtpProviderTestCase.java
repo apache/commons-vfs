@@ -137,8 +137,15 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
             @Override
             protected void tearDown() throws Exception
             {
-                tearDownClass();
-                super.tearDown();
+                try {
+                    // This will report running threads of the FTP server.
+                    // However, shutting down the FTP server first will always
+                    // report an exception closing the manager, because the
+                    // server is already down
+                    super.tearDown();
+                } finally {
+                    tearDownClass();
+                }
             }
         };
     }
