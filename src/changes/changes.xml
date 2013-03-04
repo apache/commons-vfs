@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-469" dev="joehni" type="remove">
+        Remove unused dependency to javax.jcr:jcr.
+      </action>
       <action issue="VFS-283" dev="joehni" type="update">
         [SFTP] SFTP provider did not support passphrase-protected keys nor the exchange of a public key with
         a requesting SFTP server. To support such triples (private key/passphrase/public key) instead of private
