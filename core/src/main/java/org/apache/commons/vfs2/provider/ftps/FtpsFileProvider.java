@@ -23,7 +23,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
-import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
 
 /**
  * A provider for FTP file systems.
@@ -52,7 +51,7 @@ public class FtpsFileProvider extends FtpFileProvider
 
         final FtpsClientWrapper ftpClient = new FtpsClientWrapper(rootName, fileSystemOptions);
 
-        return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
+        return new FtpsFileSystem(rootName, ftpClient, fileSystemOptions);
     }
 
     @Override

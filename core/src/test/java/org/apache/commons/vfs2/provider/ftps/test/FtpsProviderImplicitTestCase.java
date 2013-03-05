@@ -28,7 +28,7 @@ import junit.framework.Test;
  * Note, that the implicit mode is not standardized and the protocol may differ between the FTPS servers. 
  * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
  */
-public class FtpsProviderImplicitTestCase_Disabled extends AbstractFtpsProviderTestCase
+public class FtpsProviderImplicitTestCase extends AbstractFtpsProviderTestCase
 {
 	@Override
 	protected boolean isImplicit()
@@ -48,6 +48,6 @@ public class FtpsProviderImplicitTestCase_Disabled extends AbstractFtpsProviderT
      */
     public static Test suite() throws Exception
     {
-        return new FtpProviderTestSuite(new FtpsProviderImplicitTestCase_Disabled());
+        return new FtpProviderTestSuite(new FtpsProviderImplicitTestCase());
     }
 }

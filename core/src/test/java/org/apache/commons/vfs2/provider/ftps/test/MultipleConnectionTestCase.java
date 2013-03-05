@@ -52,7 +52,7 @@ public class MultipleConnectionTestCase
     private FileObject resolveRoot() throws FileSystemException
     {
         return VFS.getManager().resolveFile(AbstractFtpsProviderTestCase.getConnectionUri(),
-                new FtpsProviderImplicitTestCase_Disabled().getFileSystemOptions());
+                new FtpsProviderImplicitTestCase().getFileSystemOptions());
     }
 
     @Test

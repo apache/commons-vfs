@@ -114,10 +114,18 @@ public class FtpFileSystem extends AbstractFileSystem
 
         if (client == null || !client.isConnected())
         {
-            client = new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
+            client = createWrapper();
         }
 
         return client;
+    }
+
+    /**
+     * @since 2.1
+     */
+    protected FTPClientWrapper createWrapper() throws FileSystemException
+    {
+        return new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
     }
 
     /**
