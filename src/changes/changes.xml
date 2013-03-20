@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-471" dev="ggregory" type="update">
+        Update to Apache Commons Compress 1.5
+      </action>
       <action issue="VFS-469" dev="joehni" type="remove">
         Remove unused dependency to javax.jcr:jcr.
       </action>
