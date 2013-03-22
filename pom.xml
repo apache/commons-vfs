@@ -33,7 +33,7 @@
   <packaging>pom</packaging>
   <version>2.1-SNAPSHOT</version>
 
-  <url>http://commons.apache.org/vfs/</url>
+  <url>http://commons.apache.org/proper/commons-vfs/</url>
   <inceptionYear>2002</inceptionYear>
 
   <modules>
