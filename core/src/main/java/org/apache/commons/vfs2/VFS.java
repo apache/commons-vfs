@@ -81,7 +81,7 @@ public final class VFS
 
             try
             {
-                // Initialise
+                // Initialize
                 final Method initMethod = mgrClass.getMethod("init", (Class[]) null);
                 initMethod.invoke(mgr, (Object[]) null);
             }
