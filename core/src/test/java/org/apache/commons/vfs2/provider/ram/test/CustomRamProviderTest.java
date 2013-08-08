@@ -229,8 +229,8 @@ public class CustomRamProviderTest
         // Small FS
         final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSized);
         final FileObject fo4 = manager.resolveFile("ram:/", smallSized);
-        assertTrue("Both files should exist in different fs instances.", fo3.getFileSystem() == fo4.getFileSystem());
-        assertTrue("These file shouldn't be in the same file system.", fo1.getFileSystem() != fo3.getFileSystem());
+        assertTrue("Both files should exist in the same FileSystem instance.", fo3.getFileSystem() == fo4.getFileSystem());
+        assertTrue("Both files should exist in different FileSystem instance.", fo1.getFileSystem() != fo3.getFileSystem());
 
         fo3.createFile();
         try
@@ -240,7 +240,7 @@ public class CustomRamProviderTest
             os.close();
         } catch (final FileSystemException e)
         {
-            fail("It shouldn't save such a small file");
+            fail("Test should be able to save such a small file");
         }
 
         try

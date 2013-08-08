@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-482" dev="ggregory" type="update">
+        Wrong assertion messages in RAM provider test case.
+      </action>
       <action issue="VFS-476" dev="ggregory" type="update">
         Update Apache Commons Logging to 1.1.3 from 1.1.2.
       </action>
