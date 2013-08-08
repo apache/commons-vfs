@@ -300,9 +300,9 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
     /**
      * @return Returns the size of the FileSystem
      */
-    int size()
+    long size()
     {
-        int size = 0;
+        long size = 0;
         synchronized (cache)
         {
             final Iterator<RamFileData> iter = cache.values().iterator();

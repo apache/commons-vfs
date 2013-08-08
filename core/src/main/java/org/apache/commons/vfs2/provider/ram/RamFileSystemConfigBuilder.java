@@ -60,13 +60,41 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * Defaults to {@link Integer#MAX_VALUE}
+     * 
      * @param opts The FileSystem options.
      * @return The maximum size of the file.
-     * @see #setMaxSize
+     * @see #setMaxSize(FileSystemOptions, long)
+     * @since 2.1
+     */
+    public long getLongMaxSize(final FileSystemOptions opts)
+    {
+        return getLong(opts, MAX_SIZE_KEY, Long.MAX_VALUE);
+    }
+
+    /**
+     * Defaults to {@link Integer#MAX_VALUE}
+     * 
+     * @param opts The FileSystem options.
+     * @return The maximum size of the file. The next major version will change the return type to a long.
+     * @see #setMaxSize(FileSystemOptions, int)
      */
     public int getMaxSize(final FileSystemOptions opts)
     {
-        return getInteger(opts, MAX_SIZE_KEY, Integer.MAX_VALUE);
+        return getLong(opts, MAX_SIZE_KEY, Long.valueOf(Integer.MAX_VALUE)).intValue();
+    }
+
+    /**
+     * Sets the maximum size of the file system.
+     *
+     * @param opts The FileSystem options.
+     * @param sizeInBytes The maximum file size.
+     * @deprecated Use {@link #setMaxSize(FileSystemOptions, long)}
+     */
+    @Deprecated
+    public void setMaxSize(final FileSystemOptions opts, final int sizeInBytes)
+    {
+        setParam(opts, MAX_SIZE_KEY, Long.valueOf(sizeInBytes));
     }
 
     /**
@@ -75,9 +103,9 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @param sizeInBytes The maximum file size.
      */
-    public void setMaxSize(final FileSystemOptions opts, final int sizeInBytes)
+    public void setMaxSize(final FileSystemOptions opts, final long sizeInBytes)
     {
-        setParam(opts, MAX_SIZE_KEY, Integer.valueOf(sizeInBytes));
+        setParam(opts, MAX_SIZE_KEY, Long.valueOf(sizeInBytes));
     }
 
 }

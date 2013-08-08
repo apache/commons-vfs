@@ -253,7 +253,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
     }
 
     /**
-     * @return Returns the size of the RAMFileData
+     * @return Returns the size of the {@link RamFileData}.
      */
     int size()
     {
@@ -271,8 +271,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
         final FileSystemOptions afsOptions = afs.getFileSystemOptions();
         if (afsOptions != null)
         {
-            // A future implementation may allow longs...
-            final int maxSize = RamFileSystemConfigBuilder.getInstance().getMaxSize(afsOptions);
+            final long maxSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(afsOptions);
             if (afs.size() + newSize - this.size() > maxSize)
             {
                 throw new IOException("FileSystem capacity (" + maxSize + ") exceeded.");
