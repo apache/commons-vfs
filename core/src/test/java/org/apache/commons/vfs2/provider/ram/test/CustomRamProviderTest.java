@@ -219,12 +219,16 @@ public class CustomRamProviderTest
     }
 
     @Test
-    public void testSmallFS() throws Exception
+    public void testFSOptions() throws Exception
     {
         // Default FS
         final FileObject fo1 = manager.resolveFile("ram:/");
         final FileObject fo2 = manager.resolveFile("ram:/");
         assertTrue("Both files should exist in the same fs instance.", fo1.getFileSystem() == fo2.getFileSystem());
+
+        FileSystemOptions fsOptions = fo1.getFileSystem().getFileSystemOptions();
+        long maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
+        assertEquals("Filesystem option maxSize must be unlimited", Long.MAX_VALUE, maxFilesystemSize);
 
         // Small FS
         final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
@@ -232,6 +236,16 @@ public class CustomRamProviderTest
         assertTrue("Both files should exist in the same FileSystem instance.", fo3.getFileSystem() == fo4.getFileSystem());
         assertTrue("Both files should exist in different FileSystem instance.", fo1.getFileSystem() != fo3.getFileSystem());
 
+        fsOptions = fo3.getFileSystem().getFileSystemOptions();
+        maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
+        assertEquals("Filesystem option maxSize must be set", 10, maxFilesystemSize);
+    }
+
+    @Test
+    public void testSmallFS() throws Exception
+    {
+        // Small FS
+        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
         fo3.createFile();
         try
         {
