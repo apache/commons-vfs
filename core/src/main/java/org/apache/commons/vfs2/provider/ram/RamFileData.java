@@ -30,6 +30,8 @@ import org.apache.commons.vfs2.FileType;
  */
 class RamFileData implements Serializable
 {
+    private static final byte[] EMPTY = new byte[0];
+
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
@@ -131,7 +133,7 @@ class RamFileData implements Serializable
      */
     void clear()
     {
-        this.content = new byte[0];
+        this.content = EMPTY;
         updateLastModified();
         this.type = FileType.IMAGINARY;
         this.children.clear();
