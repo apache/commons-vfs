@@ -433,7 +433,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore-nio</artifactId>
-        <version>4.2.4</version>
+        <version>4.2.5</version>
         <scope>test</scope>
       </dependency>
       <!-- Test WebDAV with Apache Jackrabbit -->
