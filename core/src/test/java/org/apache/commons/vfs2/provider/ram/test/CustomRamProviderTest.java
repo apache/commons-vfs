@@ -51,13 +51,13 @@ public class CustomRamProviderTest
 
     private final List<Closeable> closeables = new ArrayList<Closeable>();
 
-    FileSystemOptions defaultRamFs = new FileSystemOptions();
+    FileSystemOptions defaultRamFso = new FileSystemOptions();
 
     DefaultFileSystemManager manager;
 
-    FileSystemOptions smallSized = new FileSystemOptions();
+    FileSystemOptions smallSizedFso = new FileSystemOptions();
 
-    FileSystemOptions zeroSized = new FileSystemOptions();
+    FileSystemOptions zeroSizedFso = new FileSystemOptions();
 
     /**
      * Closes the given {@link Closeable} during the tearDown phase.
@@ -99,8 +99,8 @@ public class CustomRamProviderTest
         manager.init();
 
         // File Systems Options
-        RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSized, 0L);
-        RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10L);
+        RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSizedFso, 0L);
+        RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSizedFso, 10L);
     }
 
     @After
@@ -204,7 +204,7 @@ public class CustomRamProviderTest
     @Test
     public void testRootFolderExists() throws FileSystemException
     {
-        final FileObject root = manager.resolveFile("ram:///", defaultRamFs);
+        final FileObject root = manager.resolveFile("ram:///", defaultRamFso);
         assertTrue(root.getType().hasChildren());
 
         try
@@ -227,8 +227,8 @@ public class CustomRamProviderTest
         assertTrue("Both files should exist in the same fs instance.", fo1.getFileSystem() == fo2.getFileSystem());
 
         // Small FS
-        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSized);
-        final FileObject fo4 = manager.resolveFile("ram:/", smallSized);
+        final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
+        final FileObject fo4 = manager.resolveFile("ram:/", smallSizedFso);
         assertTrue("Both files should exist in the same FileSystem instance.", fo3.getFileSystem() == fo4.getFileSystem());
         assertTrue("Both files should exist in different FileSystem instance.", fo1.getFileSystem() != fo3.getFileSystem());
 
