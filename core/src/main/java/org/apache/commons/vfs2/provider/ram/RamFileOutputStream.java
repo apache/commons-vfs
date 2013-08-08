@@ -40,7 +40,7 @@ public class RamFileOutputStream extends OutputStream
     /** File is open or closed */
     protected boolean closed = false;
 
-    private IOException exc;
+    private IOException exception;
 
     /**
      * @param file The base file.
@@ -68,7 +68,7 @@ public class RamFileOutputStream extends OutputStream
         }
         catch (final IOException e)
         {
-            this.exc = e;
+            this.exception = e;
             throw e;
         }
         System.arraycopy(b, off, this.file.getData().getContent(), size, len);
@@ -99,9 +99,9 @@ public class RamFileOutputStream extends OutputStream
             return;
         }
         // Notify on close that there was an IOException while writing
-        if (exc != null)
+        if (exception != null)
         {
-            throw exc;
+            throw exception;
         }
         try
         {
