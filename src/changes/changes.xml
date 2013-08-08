@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-484" dev="ggregory" type="update">
+        [SFTP] Update Jsch to 0.1.50 from 0.1.49.
+      </action>
       <action issue="VFS-482" dev="ggregory" type="update">
         Wrong assertion messages in RAM provider test case.
       </action>
