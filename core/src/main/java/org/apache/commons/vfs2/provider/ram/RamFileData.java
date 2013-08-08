@@ -87,12 +87,12 @@ class RamFileData implements Serializable
     }
 
     /**
-     * @param buffer The buffer.
+     * @param content The buffer.
      */
-    void setContent(final byte[] buffer)
+    void setContent(final byte[] content)
     {
         updateLastModified();
-        this.content = buffer;
+        this.content = content;
     }
 
     /**
