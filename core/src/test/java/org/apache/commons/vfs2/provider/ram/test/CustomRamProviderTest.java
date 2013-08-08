@@ -99,8 +99,8 @@ public class CustomRamProviderTest
         manager.init();
 
         // File Systems Options
-        RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSized, 0);
-        RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10);
+        RamFileSystemConfigBuilder.getInstance().setMaxSize(zeroSized, 0L);
+        RamFileSystemConfigBuilder.getInstance().setMaxSize(smallSized, 10L);
     }
 
     @After
