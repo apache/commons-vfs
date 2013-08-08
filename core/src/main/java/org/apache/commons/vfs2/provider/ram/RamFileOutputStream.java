@@ -59,8 +59,9 @@ public class RamFileOutputStream extends OutputStream
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException
     {
-        final int size = this.file.getData().size();
-        final int newSize = this.file.getData().size() + len;
+        final RamFileData data = this.file.getData();
+        final int size = data.size();
+        final int newSize = size + len;
         // Store the Exception in order to notify the client again on close()
         try
         {
@@ -71,7 +72,7 @@ public class RamFileOutputStream extends OutputStream
             this.exception = e;
             throw e;
         }
-        System.arraycopy(b, off, this.file.getData().getContent(), size, len);
+        System.arraycopy(b, off, data.getContent(), size, len);
     }
 
     /*
