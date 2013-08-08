@@ -89,7 +89,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
     @Override
     protected long doGetContentSize() throws Exception
     {
-        return this.data.getBuffer().length;
+        return this.data.getContent().length;
     }
 
     /*
@@ -106,7 +106,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
         }
 
-        return new ByteArrayInputStream(this.data.getBuffer());
+        return new ByteArrayInputStream(this.data.getContent());
     }
 
     /*
@@ -119,7 +119,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
     {
         if (!bAppend)
         {
-            this.data.setBuffer(new byte[0]);
+            this.data.setContent(new byte[0]);
         }
         return new RamFileOutputStream(this);
     }

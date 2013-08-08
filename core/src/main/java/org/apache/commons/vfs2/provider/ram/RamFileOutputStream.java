@@ -71,7 +71,7 @@ public class RamFileOutputStream extends OutputStream
             this.exc = e;
             throw e;
         }
-        System.arraycopy(b, off, this.file.getData().getBuffer(), size, len);
+        System.arraycopy(b, off, this.file.getData().getContent(), size, len);
     }
 
     /*

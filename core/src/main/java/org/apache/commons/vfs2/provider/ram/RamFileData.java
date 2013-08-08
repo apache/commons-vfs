@@ -48,7 +48,7 @@ class RamFileData implements Serializable
     /**
      * Bytes.
      */
-    private byte[] buffer;
+    private byte[] content;
 
     /**
      * Last modified time
@@ -79,18 +79,18 @@ class RamFileData implements Serializable
     /**
      * @return Returns the buffer.
      */
-    byte[] getBuffer()
+    byte[] getContent()
     {
-        return buffer;
+        return content;
     }
 
     /**
      * @param buffer The buffer.
      */
-    void setBuffer(final byte[] buffer)
+    void setContent(final byte[] buffer)
     {
         updateLastModified();
-        this.buffer = buffer;
+        this.content = buffer;
     }
 
     /**
@@ -131,7 +131,7 @@ class RamFileData implements Serializable
      */
     void clear()
     {
-        this.buffer = new byte[0];
+        this.content = new byte[0];
         updateLastModified();
         this.type = FileType.IMAGINARY;
         this.children.clear();
@@ -264,7 +264,7 @@ class RamFileData implements Serializable
      */
     int size()
     {
-        return buffer.length;
+        return content.length;
     }
 
     /**
@@ -283,8 +283,8 @@ class RamFileData implements Serializable
         final int resize = (int) newSize;
         final int size = this.size();
         final byte[] newBuf = new byte[resize];
-        System.arraycopy(this.buffer, 0, newBuf, 0, Math.min(resize, size));
-        this.buffer = newBuf;
+        System.arraycopy(this.content, 0, newBuf, 0, Math.min(resize, size));
+        this.content = newBuf;
         updateLastModified();
     }
 

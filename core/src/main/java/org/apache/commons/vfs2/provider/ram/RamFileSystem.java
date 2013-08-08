@@ -197,7 +197,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
         }
         // Copy data
 
-        to.getData().setBuffer(from.getData().getBuffer());
+        to.getData().setContent(from.getData().getContent());
         to.getData().setLastModified(from.getData().getLastModified());
         to.getData().setType(from.getData().getType());
 

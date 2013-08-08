@@ -80,7 +80,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     public RamFileRandomAccessContent(final RamFileObject file, final RandomAccessMode mode)
     {
         super();
-        this.buf = file.getData().getBuffer();
+        this.buf = file.getData().getContent();
         this.file = file;
         this.mode = mode;
 
@@ -399,7 +399,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
         {
             final int newSize = this.buf.length + len - this.getLeftBytes();
             this.file.resize(newSize);
-            this.buf = this.file.getData().getBuffer();
+            this.buf = this.file.getData().getContent();
         }
         System.arraycopy(b, off, this.buf, filePointer, len);
         this.filePointer += len;
@@ -653,6 +653,6 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     public void setLength(final long newLength) throws IOException
     {
         this.file.resize(newLength);
-        this.buf = this.file.getData().getBuffer();
+        this.buf = this.file.getData().getContent();
     }
 }
