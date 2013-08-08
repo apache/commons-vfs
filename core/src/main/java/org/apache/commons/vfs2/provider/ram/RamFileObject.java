@@ -89,7 +89,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
     @Override
     protected long doGetContentSize() throws Exception
     {
-        return this.data.getContent().length;
+        return this.size();
     }
 
     /*
