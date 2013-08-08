@@ -119,7 +119,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
     {
         if (!bAppend)
         {
-            this.data.setContent(new byte[0]);
+            this.data.setContent(RamFileData.EMPTY);
         }
         return new RamFileOutputStream(this);
     }
