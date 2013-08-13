@@ -595,7 +595,7 @@
                     <i>password</i>]@]
                     <i>hostname</i>[:
                     <i>port</i>][
-                    <i>absolute-path</i>]
+                    <i>relative-path</i>]
                 </code>
             </p>
 
@@ -607,6 +607,13 @@
                     <code>ftp://myusername:mypassword@somehost/pub/downloads/somefile.tgz</code>
                 </li>
             </ul>
+
+            <p>
+                By default, the path is relative to the user's home directory. This can be changed with:
+            </p>
+            <p>
+                <code>FtpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(options, false);</code>
+            </p>
 
         </section>
 
@@ -656,7 +663,7 @@
                     <i>password</i>]@]
                     <i>hostname</i>[:
                     <i>port</i>][
-                    <i>absolute-path</i>]
+                    <i>relative-path</i>]
                 </code>
             </p>
 
@@ -669,6 +676,13 @@
                 </li>
             </ul>
 
+            <p>
+                By default, the path is relative to the user's home directory. This can be changed with:
+            </p>
+            <p>
+                <code>FtpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(options, false);</code>
+            </p>
+            
         </section>
 
         <section name="CIFS">
