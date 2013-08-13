@@ -371,9 +371,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * Returns <code>true</code> if the user directory is the root directory. Defaults to <code>true</code>.
+     * 
      * @param opts
      *            The FileSystemOptions.
-     * @return true if the user directory is the root.
+     * @return <code>true</code> if the user directory is the root; defaults to <code>true</code>.
      * @see #setUserDirIsRoot
      */
     public Boolean getUserDirIsRoot(final FileSystemOptions opts)
