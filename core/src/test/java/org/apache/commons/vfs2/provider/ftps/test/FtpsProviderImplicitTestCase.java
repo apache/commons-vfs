@@ -30,20 +30,20 @@ import junit.framework.Test;
  */
 public class FtpsProviderImplicitTestCase extends AbstractFtpsProviderTestCase
 {
-	@Override
-	protected boolean isImplicit()
-	{
-		return true;
-	}
+    @Override
+    protected boolean isImplicit()
+    {
+        return true;
+    }
 
-	@Override
-	protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
-	{
-		super.setupOptions(builder);
-		builder.setFtpsMode(fileSystemOptions, FtpsMode.IMPLICIT);
-	}
+    @Override
+    protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
+    {
+        super.setupOptions(builder);
+        builder.setFtpsMode(fileSystemOptions, FtpsMode.IMPLICIT);
+    }
 
-	/**
+    /**
      * Creates the test suite for the ftps file system.
      */
     public static Test suite() throws Exception

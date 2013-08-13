@@ -40,7 +40,7 @@ public final class FtpClientFactory
     private FtpClientFactory()
     {
     }
-    
+
     /**
      * Creates a new connection to the server.
      *
@@ -57,231 +57,231 @@ public final class FtpClientFactory
                                              final String workingDirectory, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
-    	final FtpConnectionFactory factory = new FtpConnectionFactory(FtpFileSystemConfigBuilder.getInstance());
-		return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
+        final FtpConnectionFactory factory = new FtpConnectionFactory(FtpFileSystemConfigBuilder.getInstance());
+        return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
     }
-    
-    public static class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder> {
-		private FtpConnectionFactory(FtpFileSystemConfigBuilder builder)
-		{
-			super(builder);
-		}
-		
-		@Override
-		protected FTPClient createClient(final FileSystemOptions fileSystemOptions)
-		{
-			return new FTPClient();
-		}
 
-		@Override
-		protected void setupOpenConnection(final FTPClient client, final FileSystemOptions fileSystemOptions)
-		{
-			// nothing to do for FTP
-		}
+    public static class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder> {
+        private FtpConnectionFactory(FtpFileSystemConfigBuilder builder)
+        {
+            super(builder);
+        }
+
+        @Override
+        protected FTPClient createClient(final FileSystemOptions fileSystemOptions)
+        {
+            return new FTPClient();
+        }
+
+        @Override
+        protected void setupOpenConnection(final FTPClient client, final FileSystemOptions fileSystemOptions)
+        {
+            // nothing to do for FTP
+        }
     }
-    
+
     public static abstract class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder> {
         private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
-    	private static final int BUFSZ = 40;
+        private static final int BUFSZ = 40;
 
-    	protected Log log = LogFactory.getLog(getClass());
-    	protected B builder;
+        protected Log log = LogFactory.getLog(getClass());
+        protected B builder;
 
         protected ConnectionFactory(B builder)
         {
-    		this.builder = builder;
+            this.builder = builder;
         }
-    	
-		public C createConnection(final String hostname, final int port, char[] username, char[] password, 
-			final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException
-		{
-	        // Determine the username and password to use
-	        if (username == null)
-	        {
-	            username = ANON_CHAR_ARRAY;
-	        }
-	
-	        if (password == null)
-	        {
-	            password = ANON_CHAR_ARRAY;
-	        }
-	
-	        try
-	        {
-	            final C client = createClient(fileSystemOptions);
-	
-	            if (log.isDebugEnabled()) {
-					final Writer writer = new StringWriter(1024){
-						@Override
-						public void flush()
-						{
-							final StringBuffer buffer = getBuffer();
-							String message = buffer.toString();
-							if (message.toUpperCase().startsWith("PASS ") && message.length() > 5) {
-								message = "PASS ***";
-							}
-							log.debug(message);
-							buffer.setLength(0);
-						}
-	            	};
-	            	client.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(writer)));
-	            }
-	            
-	            configureClient(fileSystemOptions, client);
-	
-				final FTPFileEntryParserFactory myFactory =
-	                builder.getEntryParserFactory(fileSystemOptions);
-	            if (myFactory != null)
-	            {
-	                client.setParserFactory(myFactory);
-	            }
-	
-	            try
-	            {
-	                // Set connect timeout
-	                final Integer connectTimeout = builder.getConnectTimeout(fileSystemOptions);
-	                if (connectTimeout != null)
-	                {
-	                    client.setDefaultTimeout(connectTimeout.intValue());
-	                }
-	
-	                final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
-	                if (controlEncoding != null)
-	                {
-	                    client.setControlEncoding(controlEncoding);
-	                }
-	
-	                client.connect(hostname, port);
-	
-	                final int reply = client.getReplyCode();
-	                if (!FTPReply.isPositiveCompletion(reply))
-	                {
-	                    throw new FileSystemException("vfs.provider.ftp/connect-rejected.error", hostname);
-	                }
-	
-	                // Login
-	                if (!client.login(
-	                    UserAuthenticatorUtils.toString(username),
-	                    UserAuthenticatorUtils.toString(password)))
-	                {
-	                    throw new FileSystemException("vfs.provider.ftp/login.error",
-	                        hostname, UserAuthenticatorUtils.toString(username));
-	                }
-	
-	                FtpFileType fileType = builder.getFileType(fileSystemOptions);
-	                if (fileType == null)
-	                {
-	                    fileType = FtpFileType.BINARY;
-	                }
-	                // Set binary mode
-	                if (!client.setFileType(fileType.getValue()))
-	                {
-	                    throw new FileSystemException("vfs.provider.ftp/set-file-type.error", fileType);
-	                }
-	
-	                // Set dataTimeout value
-	                final Integer dataTimeout = builder.getDataTimeout(fileSystemOptions);
-	                if (dataTimeout != null)
-	                {
-	                    client.setDataTimeout(dataTimeout.intValue());
-	                }
-	
-	                final Integer socketTimeout = builder.getSoTimeout(fileSystemOptions);
-	                if (socketTimeout != null)
-	                {
-	                    client.setSoTimeout(socketTimeout.intValue());
-	                }
-	
-	                // Change to root by default
-	                // All file operations a relative to the filesystem-root
-	                // String root = getRoot().getName().getPath();
-	
-	                final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
-	                if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
-	                {
-	                    if (!client.changeWorkingDirectory(workingDirectory))
-	                    {
-	                        throw new FileSystemException("vfs.provider.ftp/change-work-directory.error", workingDirectory);
-	                    }
-	                }
-	
-	                final Boolean passiveMode = builder.getPassiveMode(fileSystemOptions);
-	                if (passiveMode != null && passiveMode.booleanValue())
-	                {
-	                    client.enterLocalPassiveMode();
-	                }
-	                
-	                setupOpenConnection(client, fileSystemOptions);
-	            }
-	            catch (final IOException e)
-	            {
-	                if (client.isConnected())
-	                {
-	                    client.disconnect();
-	                }
-	                throw e;
-	            }
-	
-	            return client;
-	        }
-	        catch (final Exception exc)
-	        {
-	            throw new FileSystemException("vfs.provider.ftp/connect.error", exc, hostname);
-	        }
-	    }
 
-		protected abstract C createClient(FileSystemOptions fileSystemOptions) throws FileSystemException;
-		protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
-	
-	    private void configureClient(final FileSystemOptions fileSystemOptions, final C client)
-	    {
-			final String key = builder.getEntryParser(fileSystemOptions);
-	        if (key != null)
-	        {
-	            final FTPClientConfig config = new FTPClientConfig(key);
-	
-	            final String serverLanguageCode =
-	                builder.getServerLanguageCode(fileSystemOptions);
-	            if (serverLanguageCode != null)
-	            {
-	                config.setServerLanguageCode(serverLanguageCode);
-	            }
-	            final String defaultDateFormat =
-	                builder.getDefaultDateFormat(fileSystemOptions);
-	            if (defaultDateFormat != null)
-	            {
-	                config.setDefaultDateFormatStr(defaultDateFormat);
-	            }
-	            final String recentDateFormat =
-	                builder.getRecentDateFormat(fileSystemOptions);
-	            if (recentDateFormat != null)
-	            {
-	                config.setRecentDateFormatStr(recentDateFormat);
-	            }
-	            final String serverTimeZoneId =
-	                builder.getServerTimeZoneId(fileSystemOptions);
-	            if (serverTimeZoneId != null)
-	            {
-	                config.setServerTimeZoneId(serverTimeZoneId);
-	            }
-	            final String[] shortMonthNames =
-	                builder.getShortMonthNames(fileSystemOptions);
-	            if (shortMonthNames != null)
-	            {
-	                final StringBuilder shortMonthNamesStr = new StringBuilder(BUFSZ);
-	                for (final String shortMonthName : shortMonthNames)
-	                {
-	                    if (shortMonthNamesStr.length() > 0)
-	                    {
-	                        shortMonthNamesStr.append("|");
-	                    }
-	                    shortMonthNamesStr.append(shortMonthName);
-	                }
-	                config.setShortMonthNames(shortMonthNamesStr.toString());
-	            }
-	
-	            client.configure(config);
-	        }
-	    }
+        public C createConnection(final String hostname, final int port, char[] username, char[] password,
+            final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException
+        {
+            // Determine the username and password to use
+            if (username == null)
+            {
+                username = ANON_CHAR_ARRAY;
+            }
+
+            if (password == null)
+            {
+                password = ANON_CHAR_ARRAY;
+            }
+
+            try
+            {
+                final C client = createClient(fileSystemOptions);
+
+                if (log.isDebugEnabled()) {
+                    final Writer writer = new StringWriter(1024){
+                        @Override
+                        public void flush()
+                        {
+                            final StringBuffer buffer = getBuffer();
+                            String message = buffer.toString();
+                            if (message.toUpperCase().startsWith("PASS ") && message.length() > 5) {
+                                message = "PASS ***";
+                            }
+                            log.debug(message);
+                            buffer.setLength(0);
+                        }
+                    };
+                    client.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(writer)));
+                }
+
+                configureClient(fileSystemOptions, client);
+
+                final FTPFileEntryParserFactory myFactory =
+                    builder.getEntryParserFactory(fileSystemOptions);
+                if (myFactory != null)
+                {
+                    client.setParserFactory(myFactory);
+                }
+
+                try
+                {
+                    // Set connect timeout
+                    final Integer connectTimeout = builder.getConnectTimeout(fileSystemOptions);
+                    if (connectTimeout != null)
+                    {
+                        client.setDefaultTimeout(connectTimeout.intValue());
+                    }
+
+                    final String controlEncoding = builder.getControlEncoding(fileSystemOptions);
+                    if (controlEncoding != null)
+                    {
+                        client.setControlEncoding(controlEncoding);
+                    }
+
+                    client.connect(hostname, port);
+
+                    final int reply = client.getReplyCode();
+                    if (!FTPReply.isPositiveCompletion(reply))
+                    {
+                        throw new FileSystemException("vfs.provider.ftp/connect-rejected.error", hostname);
+                    }
+
+                    // Login
+                    if (!client.login(
+                        UserAuthenticatorUtils.toString(username),
+                        UserAuthenticatorUtils.toString(password)))
+                    {
+                        throw new FileSystemException("vfs.provider.ftp/login.error",
+                            hostname, UserAuthenticatorUtils.toString(username));
+                    }
+
+                    FtpFileType fileType = builder.getFileType(fileSystemOptions);
+                    if (fileType == null)
+                    {
+                        fileType = FtpFileType.BINARY;
+                    }
+                    // Set binary mode
+                    if (!client.setFileType(fileType.getValue()))
+                    {
+                        throw new FileSystemException("vfs.provider.ftp/set-file-type.error", fileType);
+                    }
+
+                    // Set dataTimeout value
+                    final Integer dataTimeout = builder.getDataTimeout(fileSystemOptions);
+                    if (dataTimeout != null)
+                    {
+                        client.setDataTimeout(dataTimeout.intValue());
+                    }
+
+                    final Integer socketTimeout = builder.getSoTimeout(fileSystemOptions);
+                    if (socketTimeout != null)
+                    {
+                        client.setSoTimeout(socketTimeout.intValue());
+                    }
+
+                    // Change to root by default
+                    // All file operations a relative to the filesystem-root
+                    // String root = getRoot().getName().getPath();
+
+                    final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
+                    if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))
+                    {
+                        if (!client.changeWorkingDirectory(workingDirectory))
+                        {
+                            throw new FileSystemException("vfs.provider.ftp/change-work-directory.error", workingDirectory);
+                        }
+                    }
+
+                    final Boolean passiveMode = builder.getPassiveMode(fileSystemOptions);
+                    if (passiveMode != null && passiveMode.booleanValue())
+                    {
+                        client.enterLocalPassiveMode();
+                    }
+
+                    setupOpenConnection(client, fileSystemOptions);
+                }
+                catch (final IOException e)
+                {
+                    if (client.isConnected())
+                    {
+                        client.disconnect();
+                    }
+                    throw e;
+                }
+
+                return client;
+            }
+            catch (final Exception exc)
+            {
+                throw new FileSystemException("vfs.provider.ftp/connect.error", exc, hostname);
+            }
+        }
+
+        protected abstract C createClient(FileSystemOptions fileSystemOptions) throws FileSystemException;
+        protected abstract void setupOpenConnection(C client, FileSystemOptions fileSystemOptions) throws IOException;
+
+        private void configureClient(final FileSystemOptions fileSystemOptions, final C client)
+        {
+            final String key = builder.getEntryParser(fileSystemOptions);
+            if (key != null)
+            {
+                final FTPClientConfig config = new FTPClientConfig(key);
+
+                final String serverLanguageCode =
+                    builder.getServerLanguageCode(fileSystemOptions);
+                if (serverLanguageCode != null)
+                {
+                    config.setServerLanguageCode(serverLanguageCode);
+                }
+                final String defaultDateFormat =
+                    builder.getDefaultDateFormat(fileSystemOptions);
+                if (defaultDateFormat != null)
+                {
+                    config.setDefaultDateFormatStr(defaultDateFormat);
+                }
+                final String recentDateFormat =
+                    builder.getRecentDateFormat(fileSystemOptions);
+                if (recentDateFormat != null)
+                {
+                    config.setRecentDateFormatStr(recentDateFormat);
+                }
+                final String serverTimeZoneId =
+                    builder.getServerTimeZoneId(fileSystemOptions);
+                if (serverTimeZoneId != null)
+                {
+                    config.setServerTimeZoneId(serverTimeZoneId);
+                }
+                final String[] shortMonthNames =
+                    builder.getShortMonthNames(fileSystemOptions);
+                if (shortMonthNames != null)
+                {
+                    final StringBuilder shortMonthNamesStr = new StringBuilder(BUFSZ);
+                    for (final String shortMonthName : shortMonthNames)
+                    {
+                        if (shortMonthNamesStr.length() > 0)
+                        {
+                            shortMonthNamesStr.append("|");
+                        }
+                        shortMonthNamesStr.append(shortMonthName);
+                    }
+                    config.setShortMonthNames(shortMonthNamesStr.toString());
+                }
+
+                client.configure(config);
+            }
+        }
     }
 }

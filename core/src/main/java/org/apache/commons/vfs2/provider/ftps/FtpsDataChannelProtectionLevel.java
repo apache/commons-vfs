@@ -23,5 +23,5 @@ package org.apache.commons.vfs2.provider.ftps;
  * @since 2.1
  */
 public enum FtpsDataChannelProtectionLevel {
-	C, S, E, P
+    C, S, E, P
 }

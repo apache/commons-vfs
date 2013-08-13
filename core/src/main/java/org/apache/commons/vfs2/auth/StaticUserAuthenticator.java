@@ -27,8 +27,8 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  */
 public class StaticUserAuthenticator implements UserAuthenticator, Comparable<StaticUserAuthenticator>
 {
-	private final static Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
-	
+    private final static Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
+
     /** The user name */
     private final String username;
 
@@ -51,27 +51,27 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
         final UserAuthenticationData data = new UserAuthenticationData();
         for(final UserAuthenticationData.Type type : types)
         {
-        	if (type == UserAuthenticationData.DOMAIN)
-        	{
+            if (type == UserAuthenticationData.DOMAIN)
+            {
                 data.setData(UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(domain));
-        	}
-        	else if (type == UserAuthenticationData.USERNAME)
-        	{
+            }
+            else if (type == UserAuthenticationData.USERNAME)
+            {
                 data.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(username));
-        	}
-        	else if (type == UserAuthenticationData.PASSWORD)
-        	{
+            }
+            else if (type == UserAuthenticationData.PASSWORD)
+            {
                 data.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(password));
-        	}
-        	else
-        	{
-        		if (LOG.isDebugEnabled())
-        		{
+            }
+            else
+            {
+                if (LOG.isDebugEnabled())
+                {
                     LOG.debug(StaticUserAuthenticator.class.getSimpleName()
-                    	+ " does not support authentication data type '" + type 
-                    	+ "'; authentication request for this type ignored.");
-        		}
-        	}
+                        + " does not support authentication data type '" + type
+                        + "'; authentication request for this type ignored.");
+                }
+            }
         }
         return data;
     }

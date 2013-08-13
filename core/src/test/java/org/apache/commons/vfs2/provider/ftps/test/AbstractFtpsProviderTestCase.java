@@ -146,29 +146,29 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
             Server = null;
         }
     }
-    
+
     static final class FtpProviderTestSuite extends ProviderTestSuite { 
-	    private boolean implicit;
-	
-		public FtpProviderTestSuite(AbstractFtpsProviderTestCase providerConfig) throws Exception
-		{
-			super(providerConfig);
-			this.implicit = providerConfig.isImplicit();
-		}
-	
-		@Override
-	    protected void setUp() throws Exception
-	    {
-	        if (getSystemTestUriOverride() == null)
-	        {
-	            setUpClass(implicit);
-	        }
-	        super.setUp();
-	    }
-	
-	    @Override
-	    protected void tearDown() throws Exception
-	    {
+        private boolean implicit;
+
+        public FtpProviderTestSuite(AbstractFtpsProviderTestCase providerConfig) throws Exception
+        {
+            super(providerConfig);
+            this.implicit = providerConfig.isImplicit();
+        }
+
+        @Override
+        protected void setUp() throws Exception
+        {
+            if (getSystemTestUriOverride() == null)
+            {
+                setUpClass(implicit);
+            }
+            super.setUp();
+        }
+
+        @Override
+        protected void tearDown() throws Exception
+        {
             try {
                 // This will report running threads of the FTP server.
                 // However, shutting down the FTP server first will always
@@ -178,9 +178,9 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
             } finally {
                 tearDownClass();
             }
-	    }
+        }
     }
-    
+
     protected abstract boolean isImplicit();
 
     /**
@@ -208,11 +208,11 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
         return fileSystemOptions;
     }
 
-	protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
-	{
-		builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
-		builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
-	}
+    protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
+    {
+        builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
+        builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
+    }
 
     /**
      * Prepares the file system manager.

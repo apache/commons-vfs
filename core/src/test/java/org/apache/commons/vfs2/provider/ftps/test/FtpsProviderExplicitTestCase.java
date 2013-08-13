@@ -27,21 +27,21 @@ import junit.framework.Test;
  */
 public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase
 {
-	@Override
-	protected boolean isImplicit()
-	{
-		return false;
-	}
+    @Override
+    protected boolean isImplicit()
+    {
+        return false;
+    }
 
-	@Override
-	protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
-	{
-		super.setupOptions(builder);
-		builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
-		builder.setFtpsMode(fileSystemOptions, FtpsMode.EXPLICIT);
-	}
+    @Override
+    protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
+    {
+        super.setupOptions(builder);
+        builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
+        builder.setFtpsMode(fileSystemOptions, FtpsMode.EXPLICIT);
+    }
 
-	/**
+    /**
      * Creates the test suite for the ftps file system.
      */
     public static Test suite() throws Exception

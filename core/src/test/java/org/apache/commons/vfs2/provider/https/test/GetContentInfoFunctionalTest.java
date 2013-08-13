@@ -33,13 +33,13 @@ public class GetContentInfoFunctionalTest
     @Test
     public void testGoogle() throws FileSystemException, MalformedURLException
     {
-    	String httpsProxyHost = null;
-    	int httpsProxyPort = -1;
+        String httpsProxyHost = null;
+        int httpsProxyPort = -1;
         final String httpsProxy = System.getenv("https_proxy");
         if (httpsProxy != null) {
-        	final URL url = new URL(httpsProxy);
-        	httpsProxyHost = url.getHost();
-        	httpsProxyPort = url.getPort();
+            final URL url = new URL(httpsProxy);
+            httpsProxyHost = url.getHost();
+            httpsProxyPort = url.getPort();
         }
         final FileSystemOptions opts;
         if (httpsProxyHost != null) {
@@ -47,12 +47,12 @@ public class GetContentInfoFunctionalTest
             final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
             builder.setProxyHost(opts, httpsProxyHost);
             if (httpsProxyPort >= 0) {
-            	builder.setProxyPort(opts, httpsProxyPort);
+                builder.setProxyPort(opts, httpsProxyPort);
             }
         } else {
-        	opts = null;
+            opts = null;
         }
-        
+
         final FileSystemManager fsManager = VFS.getManager();
         final FileObject fo = fsManager.resolveFile("https://www.google.com/images/logos/ps_logo2.png", opts);
         final FileContent content = fo.getContent();

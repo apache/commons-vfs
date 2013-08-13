@@ -59,10 +59,10 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         super("ftp.");
     }
-    
+
     /** @since 2.1 */
     protected FtpFileSystemConfigBuilder(String prefix) {
-    	super(prefix);
+        super(prefix);
     }
 
     @Override

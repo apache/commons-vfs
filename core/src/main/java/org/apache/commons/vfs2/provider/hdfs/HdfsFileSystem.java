@@ -147,7 +147,7 @@ public class HdfsFileSystem extends AbstractFileSystem
             file = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
             if (useCache)
             {
-        	this.putFileToCache(file);
+            this.putFileToCache(file);
             }
         }
         /**
