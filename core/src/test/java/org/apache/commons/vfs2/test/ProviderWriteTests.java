@@ -582,51 +582,55 @@ public class ProviderWriteTests
         final FileSystem fs = baseFile.getFileSystem();
         final TestListener listener = new TestListener(child);
         fs.addListener(child, listener);
+        try
+        {
+            // Create as a folder
+            listener.addCreateEvent();
+            child.createFolder();
+            listener.assertFinished();
 
-        // Create as a folder
-        listener.addCreateEvent();
-        child.createFolder();
-        listener.assertFinished();
+            // Create the folder again. Should not get an event.
+            child.createFolder();
 
-        // Create the folder again.  Should not get an event.
-        child.createFolder();
+            // Delete
+            listener.addDeleteEvent();
+            child.delete();
+            listener.assertFinished();
 
-        // Delete
-        listener.addDeleteEvent();
-        child.delete();
-        listener.assertFinished();
+            // Delete again. Should not get an event
+            child.delete();
 
-        // Delete again.  Should not get an event
-        child.delete();
+            // Create as a file
+            listener.addCreateEvent();
+            child.createFile();
+            listener.assertFinished();
 
-        // Create as a file
-        listener.addCreateEvent();
-        child.createFile();
-        listener.assertFinished();
+            // Create the file again. Should not get an event
+            child.createFile();
 
-        // Create the file again.  Should not get an event
-        child.createFile();
+            listener.addDeleteEvent();
+            child.delete();
 
-        listener.addDeleteEvent();
-        child.delete();
+            // Create as a file, by writing to it.
+            listener.addCreateEvent();
+            child.getContent().getOutputStream().close();
+            listener.assertFinished();
 
-        // Create as a file, by writing to it.
-        listener.addCreateEvent();
-        child.getContent().getOutputStream().close();
-        listener.assertFinished();
+            // Recreate the file by writing to it
+            child.getContent().getOutputStream().close();
 
-        // Recreate the file by writing to it
-        child.getContent().getOutputStream().close();
+            // Copy another file over the top
+            final FileObject otherChild = baseFile.resolveFile("folder1");
+            otherChild.createFolder();
+            listener.addDeleteEvent();
+            listener.addCreateEvent();
+            child.copyFrom(otherChild, Selectors.SELECT_SELF);
+            listener.assertFinished();
 
-        // Copy another file over the top
-        final FileObject otherChild = baseFile.resolveFile("folder1");
-        otherChild.createFolder();
-        listener.addDeleteEvent();
-        listener.addCreateEvent();
-        child.copyFrom(otherChild, Selectors.SELECT_SELF);
-        listener.assertFinished();
-
-        fs.removeListener(child, listener);
+        }
+        finally
+        {
+            fs.removeListener(child, listener);}
     }
 
     /**
