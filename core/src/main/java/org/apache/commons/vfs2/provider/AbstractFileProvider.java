@@ -96,8 +96,10 @@ public abstract class AbstractFileProvider
     protected void addFileSystem(final Comparable<?> key, final FileSystem fs)
         throws FileSystemException
     {
-        // Add to the cache
+        // initialize component
         addComponent(fs);
+
+        // Add to the cache
 
         final FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
         ((AbstractFileSystem) fs).setCacheKey(treeKey);

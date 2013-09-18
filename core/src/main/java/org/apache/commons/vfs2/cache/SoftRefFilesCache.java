@@ -41,7 +41,6 @@ import org.apache.commons.vfs2.util.Messages;
  * the java vm. As soon as the vm needs memory - every softly reachable file
  * will be discarded.
  *
- *          2005) $
  * @see SoftReference
  */
 public class SoftRefFilesCache extends AbstractFilesCache
