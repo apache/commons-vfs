@@ -135,7 +135,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String STRICT_HOST_KEY_CHECKING = _PREFIX + ".STRICT_HOST_KEY_CHECKING";
     private static final String TIMEOUT = _PREFIX + ".TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
-
+    private static final String ENCODING = _PREFIX + ".ENCODING";
+    
     /**
      * Gets the singleton builder.
      *
@@ -166,6 +167,18 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     protected Class<? extends FileSystem> getConfigClass()
     {
         return SftpFileSystem.class;
+    }
+
+    /**
+     * Gets the file name encoding.
+     * 
+     * @param opts
+     *            The FileSystem options.
+     * @return the file name encoding
+     */
+    public String getFileNameEncoding(FileSystemOptions opts) 
+    {
+        return this.getString(opts, ENCODING);
     }
 
     /**
@@ -231,6 +244,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return (File) this.getParam(opts, KNOWN_HOSTS);
     }
 
+
     /**
      * Gets authentication order.
      *
@@ -244,19 +258,21 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         return getString(opts, PREFERRED_AUTHENTICATIONS);
     }
 
-
     /**
-     * Gets the user name for the proxy used for the SFTP connection.
+     * Gets the command that will be run on the proxy
+     * host when using a {@linkplain SftpStreamProxy}. The
+     * command defaults to {@linkplain SftpStreamProxy#NETCAT_COMMAND}.
      *
      * @param opts
      *            The FileSystem options.
-     * @return proxyUser
-     * @see #setProxyUser
+     * @return proxyOptions
+     * @see SftpStreamProxy
+     * @see #setProxyOptions
      * @since 2.1
      */
-    public String getProxyUser(final FileSystemOptions opts)
+    public String getProxyCommand(final FileSystemOptions opts)
     {
-        return this.getString(opts, PROXY_USER);
+        return this.getString(opts, PROXY_COMMAND, SftpStreamProxy.NETCAT_COMMAND);
     }
 
     /**
@@ -271,20 +287,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public String getProxyHost(final FileSystemOptions opts)
     {
         return this.getString(opts, PROXY_HOST);
-    }
-
-    /**
-     * Gets the proxy-port to use for the SFTP the connection You have to set the ProxyHost too if you would like to
-     * have the proxy really used.
-     * 
-     * @param opts
-     *            The FileSystem options.
-     * @return proxyPort: the port number or 0 if it is not set
-     * @see #setProxyHost
-     */
-    public int getProxyPort(final FileSystemOptions opts)
-    {
-        return this.getInteger(opts, PROXY_PORT, 0);
     }
 
     /**
@@ -320,20 +322,17 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Gets the command that will be run on the proxy
-     * host when using a {@linkplain SftpStreamProxy}. The
-     * command defaults to {@linkplain SftpStreamProxy#NETCAT_COMMAND}.
-     *
+     * Gets the proxy-port to use for the SFTP the connection You have to set the ProxyHost too if you would like to
+     * have the proxy really used.
+     * 
      * @param opts
      *            The FileSystem options.
-     * @return proxyOptions
-     * @see SftpStreamProxy
-     * @see #setProxyOptions
-     * @since 2.1
+     * @return proxyPort: the port number or 0 if it is not set
+     * @see #setProxyHost
      */
-    public String getProxyCommand(final FileSystemOptions opts)
+    public int getProxyPort(final FileSystemOptions opts)
     {
-        return this.getString(opts, PROXY_COMMAND, SftpStreamProxy.NETCAT_COMMAND);
+        return this.getInteger(opts, PROXY_PORT, 0);
     }
 
     /**
@@ -346,6 +345,20 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public ProxyType getProxyType(final FileSystemOptions opts)
     {
         return (ProxyType) this.getParam(opts, PROXY_TYPE);
+    }
+
+    /**
+     * Gets the user name for the proxy used for the SFTP connection.
+     *
+     * @param opts
+     *            The FileSystem options.
+     * @return proxyUser
+     * @see #setProxyUser
+     * @since 2.1
+     */
+    public String getProxyUser(final FileSystemOptions opts)
+    {
+        return this.getString(opts, PROXY_USER);
     }
 
     /**
@@ -415,6 +428,18 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setCompression(final FileSystemOptions opts, final String compression) throws FileSystemException
     {
         this.setParam(opts, COMPRESSION, compression);
+    }
+
+    /**
+     * Sets the file name encoding.
+     * 
+     * @param opts
+     *            The FileSystem options.
+     * @param fileNameEncoding
+     */
+    public void setFileNameEncoding(FileSystemOptions opts, String fileNameEncoding) 
+    {
+        this.setParam(opts, ENCODING, fileNameEncoding);
     }
 
     /**
@@ -509,6 +534,21 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
+     * Sets the proxy username to use for the SFTP connection.
+     *
+     * @param opts
+     *            The FileSystem options.
+     * @param proxyCommand
+     *            the port
+     * @see #getProxyOptions
+     * @since 2.1
+     */
+    public void setProxyCommand(final FileSystemOptions opts, final String proxyCommand)
+    {
+        this.setParam(opts, PROXY_COMMAND, proxyCommand);
+    }
+
+    /**
      * Sets the proxy to use for the SFTP connection.
      *
      * You MUST also set the ProxyPort to use the proxy.
@@ -522,6 +562,39 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setProxyHost(final FileSystemOptions opts, final String proxyHost)
     {
         this.setParam(opts, PROXY_HOST, proxyHost);
+    }
+
+
+    /**
+     * Sets the proxy username to use for the SFTP connection.
+     *
+     * @param opts
+     *            The FileSystem options.
+     * @param proxyOptions
+     *            the options
+     * @see #getProxyOptions
+     * @since 2.1
+     */
+    public void setProxyOptions(final FileSystemOptions opts, final FileSystemOptions proxyOptions)
+    {
+        this.setParam(opts, PROXY_OPTIONS, proxyOptions);
+    }
+
+
+
+    /**
+     * Sets the proxy password to use for the SFTP connection.
+     *
+     * @param opts
+     *            The FileSystem options.
+     * @param proxyPassword
+     *            the username used to connect to the proxy
+     * @see #getProxyPassword
+     * @since 2.1
+     */
+    public void setProxyPassword(final FileSystemOptions opts, final String proxyPassword)
+    {
+        this.setParam(opts, PROXY_PASSWORD, proxyPassword);
     }
 
     /**
@@ -575,54 +648,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         this.setParam(opts, PROXY_USER, proxyUser);
     }
 
-
-    /**
-     * Sets the proxy password to use for the SFTP connection.
-     *
-     * @param opts
-     *            The FileSystem options.
-     * @param proxyPassword
-     *            the username used to connect to the proxy
-     * @see #getProxyPassword
-     * @since 2.1
-     */
-    public void setProxyPassword(final FileSystemOptions opts, final String proxyPassword)
-    {
-        this.setParam(opts, PROXY_PASSWORD, proxyPassword);
-    }
-
-
-
-    /**
-     * Sets the proxy username to use for the SFTP connection.
-     *
-     * @param opts
-     *            The FileSystem options.
-     * @param proxyOptions
-     *            the options
-     * @see #getProxyOptions
-     * @since 2.1
-     */
-    public void setProxyOptions(final FileSystemOptions opts, final FileSystemOptions proxyOptions)
-    {
-        this.setParam(opts, PROXY_OPTIONS, proxyOptions);
-    }
-
-    /**
-     * Sets the proxy username to use for the SFTP connection.
-     *
-     * @param opts
-     *            The FileSystem options.
-     * @param proxyCommand
-     *            the port
-     * @see #getProxyOptions
-     * @since 2.1
-     */
-    public void setProxyCommand(final FileSystemOptions opts, final String proxyCommand)
-    {
-        this.setParam(opts, PROXY_COMMAND, proxyCommand);
-    }
-
     /**
      * Configures the host key checking to use.
      * <p>
@@ -664,7 +689,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         this.setParam(opts, TIMEOUT, timeout);
     }
-
+    
+    
     /**
      * Sets the whether to use the user directory as root (do not change to file system root).
      *

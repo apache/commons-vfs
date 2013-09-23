@@ -26,8 +26,11 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-494" dev="ggregory" type="update" due-to="Allen Xudong Cheng">
+        [SFTP] No support for SFTP servers with non Latin-1 file name encoding.
+      </action>
       <action issue="VFS-368" dev="ggregory" type="update" due-to="Brendan Long">
-        SFTP documentation implies that "userDirIsRoot" defaults to true.
+        [SFTP] Documentation implies that "userDirIsRoot" defaults to true.
       </action>
       <action issue="VFS-265" dev="ggregory" type="update" due-to="Scott Bjerstedt">
         [FTP] Set user dir as root dir by default.
