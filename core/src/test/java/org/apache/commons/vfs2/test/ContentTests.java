@@ -36,10 +36,10 @@ public class ContentTests
      */
     public void testAllContent() throws Exception
     {
-        final FileInfo baseInfo = buildExpectedStructure();
-        final FileObject baseFolder = getReadFolder();
+        final FileInfo expectedFileInfo = buildExpectedStructure();
+        final FileObject actualFolder = getReadFolder();
 
-        assertSameContent(baseInfo, baseFolder);
+        assertSameContent(expectedFileInfo, actualFolder);
     }
 
     /**
