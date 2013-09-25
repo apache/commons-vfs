@@ -64,7 +64,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public abstract class AbstractFileObject<AFS extends AbstractFileSystem> implements FileObject
 {
-    // private static final FileObject[] EMPTY_FILE_ARRAY = {};
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 
     private static final int INITIAL_LIST_SIZE = 5;
@@ -79,10 +78,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     private FileType type;
     private FileObject parent;
 
-    // Changed to hold only the name of the children and let the object
+    // hold only the name of the children and let the object
     // go into the global files cache
-    // private FileObject[] children;
     private FileName[] children;
+
     private List<Object> objects;
 
     /**
@@ -895,13 +894,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             else
             {
                 // Create file objects for the children
-                // children = new FileObject[files.length];
                 final FileName[] cache = new FileName[files.length];
                 for (int i = 0; i < files.length; i++)
                 {
                     final String file = files[i];
-                    // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
-                    // children[i] = name.resolveName(file, NameScope.CHILD);
                     cache[i] = fs.getFileSystemManager().resolveName(name, file, NameScope.CHILD);
                 }
                 // VFS-285: only assign the children filenames after all of them have been
@@ -963,10 +959,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         final FileObject[] children = getChildren();
         for (final FileObject element : children)
         {
-            // final FileObject child = children[i];
             final FileName child = element.getName();
             // TODO - use a comparator to compare names
-            // if (child.getName().getBaseName().equals(name))
             if (child.getBaseName().equals(name))
             {
                 return resolveFile(child);
@@ -986,7 +980,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     public FileObject resolveFile(final String name, final NameScope scope)
         throws FileSystemException
     {
-        // return fs.resolveFile(this.name.resolveName(name, scope));
         return fs.resolveFile(fs.getFileSystemManager().resolveName(this.name, name, scope));
     }
 
@@ -1221,7 +1214,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Compares two FileObjects (ignores case).
-     * 
+     *
      * @param file
      *            the object to compare.
      * @return a negative integer, zero, or a positive integer when this object is less than, equal to, or greater than
@@ -1653,7 +1646,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
         if (getType() == FileType.IMAGINARY)
         {
-// Does not exist - make sure parent does
+            // Does not exist - make sure parent does
             final FileObject parent = getParent();
             if (parent != null)
             {
@@ -1661,7 +1654,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
         }
 
-// Get the raw output stream
+        // Get the raw output stream
         try
         {
             return doGetOutputStream(bAppend);
@@ -1697,10 +1690,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     setFileType(null);
                     parent = null;
 
-                    // fs.fileDetached(this);
-
                     removeChildrenCache();
-                    // children = null;
                 }
             }
         }
