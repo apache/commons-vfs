@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-496" dev="ggregory" type="update" due-to="Bernd Eckenfels">
+        Resource translation issues.
+      </action>
       <action issue="VFS-494" dev="ggregory" type="update" due-to="Allen Xudong Cheng">
         [SFTP] No support for SFTP servers with non Latin-1 file name encoding.
       </action>
