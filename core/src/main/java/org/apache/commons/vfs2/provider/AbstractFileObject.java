@@ -69,7 +69,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     private static final int INITIAL_LIST_SIZE = 5;
 
-    private final AbstractFileName name;
+    private final AbstractFileName fileName;
     private final AFS fs;
 
     private FileContent content;
@@ -99,7 +99,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     protected AbstractFileObject(final AbstractFileName name,
                                  final AFS fs)
     {
-        this.name = name;
+        this.fileName = name;
         this.fs = fs;
         fs.fileObjectHanded(this);
     }
@@ -483,9 +483,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public String toString()
     {
-        return name.getURI();
+        return fileName.getURI();
     }
-
+    
     /**
      * Returns the name of the file.
      * @return The FileName.
@@ -493,7 +493,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileName getName()
     {
-        return name;
+        return fileName;
     }
 
     /**
@@ -531,7 +531,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 public URL run() throws MalformedURLException
                 {
                     final StringBuilder buf = new StringBuilder();
-                    final String scheme = UriParser.extractScheme(name.getURI(), buf);
+                    final String scheme = UriParser.extractScheme(fileName.getURI(), buf);
                     return new URL(scheme, "", -1,
                         buf.toString(), new DefaultURLStreamHandler(fs.getContext(), fs.getFileSystemOptions()));
                 }
@@ -539,7 +539,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final PrivilegedActionException e)
         {
-            throw new FileSystemException("vfs.provider/get-url.error", name, e.getException());
+            throw new FileSystemException("vfs.provider/get-url.error", fileName, e.getException());
         }
     }
 
@@ -580,7 +580,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             catch (final Exception e)
             {
-                throw new FileSystemException("vfs.provider/get-type.error", e, name);
+                throw new FileSystemException("vfs.provider/get-type.error", e, fileName);
             }
 
             return type;
@@ -632,7 +632,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/check-is-executable.error", name, exc);
+            throw new FileSystemException("vfs.provider/check-is-executable.error", fileName, exc);
         }
     }
 
@@ -650,7 +650,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/check-is-hidden.error", name, exc);
+            throw new FileSystemException("vfs.provider/check-is-hidden.error", fileName, exc);
         }
     }
 
@@ -668,7 +668,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/check-is-readable.error", name, exc);
+            throw new FileSystemException("vfs.provider/check-is-readable.error", fileName, exc);
         }
     }
 
@@ -681,7 +681,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/set-readable.error", name, exc);
+            throw new FileSystemException("vfs.provider/set-readable.error", fileName, exc);
         }
     }
 
@@ -711,7 +711,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/check-is-writeable.error", name, exc);
+            throw new FileSystemException("vfs.provider/check-is-writeable.error", fileName, exc);
         }
     }
 
@@ -724,7 +724,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/set-writeable.error", name, exc);
+            throw new FileSystemException("vfs.provider/set-writeable.error", fileName, exc);
         }
     }
 
@@ -737,7 +737,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/set-executable.error", name, exc);
+            throw new FileSystemException("vfs.provider/set-executable.error", fileName, exc);
         }
     }
 
@@ -807,7 +807,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             // Locate the parent of this file
             if (parent == null)
             {
-                parent = fs.resolveFile(name.getParent());
+                parent = fs.resolveFile(fileName.getParent());
             }
         }
         return parent;
@@ -826,7 +826,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             // VFS-210
             if (!fs.hasCapability(Capability.LIST_CHILDREN))
             {
-                throw new FileNotFolderException(name);
+                throw new FileNotFolderException(fileName);
             }
 
             /* VFS-210
@@ -857,7 +857,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/list-children.error", exc, name);
+                throw new FileSystemException("vfs.provider/list-children.error", exc, fileName);
             }
 
             if (childrenObjects != null)
@@ -878,7 +878,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/list-children.error", exc, name);
+                throw new FileSystemException("vfs.provider/list-children.error", exc, fileName);
             }
 
             if (files == null)
@@ -886,7 +886,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // VFS-210
                 // honor the new doListChildren contract
                 // return null;
-                throw new FileNotFolderException(name);
+                throw new FileNotFolderException(fileName);
             }
             else if (files.length == 0)
             {
@@ -903,7 +903,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     final String file = files[i];
                     // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
                     // children[i] = name.resolveName(file, NameScope.CHILD);
-                    cache[i] = fs.getFileSystemManager().resolveName(name, file, NameScope.CHILD);
+                    cache[i] = fs.getFileSystemManager().resolveName(fileName, file, NameScope.CHILD);
                 }
                 // VFS-285: only assign the children filenames after all of them have been
                 // resolved successfully to prevent an inconsistent internal state
@@ -988,7 +988,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         throws FileSystemException
     {
         // return fs.resolveFile(this.name.resolveName(name, scope));
-        return fs.resolveFile(fs.getFileSystemManager().resolveName(this.name, name, scope));
+        return fs.resolveFile(fs.getFileSystemManager().resolveName(this.fileName, name, scope));
     }
 
     /**
@@ -1004,7 +1004,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject resolveFile(final String path) throws FileSystemException
     {
-        final FileName otherName = fs.getFileSystemManager().resolveName(name, path);
+        final FileName otherName = fs.getFileSystemManager().resolveName(fileName, path);
         return fs.resolveFile(otherName);
     }
 
@@ -1047,7 +1047,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/delete.error", exc, name);
+                throw new FileSystemException("vfs.provider/delete.error", exc, fileName);
             }
 
             return true;
@@ -1146,7 +1146,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // still required
                 if (exists() && !isFile())
                 {
-                    throw new FileSystemException("vfs.provider/create-file.error", name);
+                    throw new FileSystemException("vfs.provider/create-file.error", fileName);
                 }
 
                 if (!exists())
@@ -1161,7 +1161,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             catch (final Exception e)
             {
-                throw new FileSystemException("vfs.provider/create-file.error", name, e);
+                throw new FileSystemException("vfs.provider/create-file.error", fileName, e);
             }
         }
     }
@@ -1184,7 +1184,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             if (getType() != FileType.IMAGINARY)
             {
-                throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", name);
+                throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", fileName);
             }
             /* VFS-210: checking for writeable is not always possible as the security constraint might
                be more complex
@@ -1215,7 +1215,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/create-folder.error", name, exc);
+                throw new FileSystemException("vfs.provider/create-folder.error", fileName, exc);
             }
         }
     }
@@ -1475,7 +1475,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.provider/resync.error", name, e);
+            throw new FileSystemException("vfs.provider/resync.error", fileName, e);
         }
     }
 
@@ -1509,7 +1509,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception e)
         {
-            exc = new FileSystemException("vfs.provider/close.error", name, e);
+            exc = new FileSystemException("vfs.provider/close.error", fileName, e);
         }
 
         if (exc != null)
@@ -1543,11 +1543,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final org.apache.commons.vfs2.FileNotFoundException exc)
         {
-            throw new org.apache.commons.vfs2.FileNotFoundException(name, exc);
+            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         }
         catch (final FileNotFoundException exc)
         {
-            throw new org.apache.commons.vfs2.FileNotFoundException(name, exc);
+            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
         }
         catch (final FileSystemException exc)
         {
@@ -1555,7 +1555,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/read.error", name, exc);
+            throw new FileSystemException("vfs.provider/read.error", fileName, exc);
         }
     }
 
@@ -1583,7 +1583,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             if (!isReadable())
             {
-                throw new FileSystemException("vfs.provider/read-not-readable.error", name);
+                throw new FileSystemException("vfs.provider/read-not-readable.error", fileName);
             }
         }
 
@@ -1595,7 +1595,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             if (!isWriteable())
             {
-                throw new FileSystemException("vfs.provider/write-read-only.error", name);
+                throw new FileSystemException("vfs.provider/write-read-only.error", fileName);
             }
         }
 
@@ -1606,7 +1606,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/random-access.error", name, exc);
+            throw new FileSystemException("vfs.provider/random-access.error", fileName, exc);
         }
     }
 
@@ -1649,7 +1649,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
         if (bAppend && !fs.hasCapability(Capability.APPEND_CONTENT))
         {
-            throw new FileSystemException("vfs.provider/write-append-not-supported.error", name);
+            throw new FileSystemException("vfs.provider/write-append-not-supported.error", fileName);
         }
 
         if (getType() == FileType.IMAGINARY)
@@ -1673,7 +1673,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception exc)
         {
-            throw new FileSystemException("vfs.provider/write.error", exc, name);
+            throw new FileSystemException("vfs.provider/write.error", exc, fileName);
         }
     }
 
@@ -1756,7 +1756,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             catch (final Exception exc)
             {
-                throw new FileSystemException("vfs.provider/get-type.error", exc, name);
+                throw new FileSystemException("vfs.provider/get-type.error", exc, fileName);
             }
 
             // fs.fileAttached(this);
@@ -1894,7 +1894,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         if (parent == null)
         {
-            final FileName parentName = name.getParent();
+            final FileName parentName = fileName.getParent();
             if (parentName != null)
             {
                 // Locate the parent, if it is cached
@@ -1935,7 +1935,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.provider/find-files.error", name, e);
+            throw new FileSystemException("vfs.provider/find-files.error", fileName, e);
         }
     }
 
@@ -2033,7 +2033,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         {
             try
             {
-                name.setType(type);
+                fileName.setType(type);
             }
             catch (final FileSystemException e)
             {
