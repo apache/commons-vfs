@@ -476,9 +476,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Returns the URI without a password.
+     * Returns the URI as a String.
      * 
-     * @return Returns the URI without a password.
+     * @return Returns the URI as a String.
      */
     @Override
     public String toString()
