@@ -19,7 +19,8 @@ package org.apache.commons.vfs2.provider.hdfs;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.vfs2.RandomAccessContent;
+import org.apache.commons.vfs2.provider.AbstractRandomAccessContent;
+import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -30,7 +31,7 @@ import org.apache.hadoop.fs.Path;
  * 
  * @since 2.1
  */
-public class HdfsRandomAccessContent implements RandomAccessContent
+public class HdfsRandomAccessContent extends AbstractRandomAccessContent
 {
     private final FSDataInputStream fis;
     private final FileSystem fs;
@@ -47,6 +48,7 @@ public class HdfsRandomAccessContent implements RandomAccessContent
      */
     public HdfsRandomAccessContent(final Path path, final FileSystem fs) throws IOException
     {
+        super(RandomAccessMode.READ);
         this.fs = fs;
         this.path = path;
         this.fis = this.fs.open(this.path);
@@ -238,132 +240,6 @@ public class HdfsRandomAccessContent implements RandomAccessContent
      */
     @Override
     public int skipBytes(final int n) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#write(byte[])
-     */
-    @Override
-    public void write(final byte[] b) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#write(byte[], int, int)
-     */
-    @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#write(int)
-     */
-    @Override
-    public void write(final int b) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeBoolean(boolean)
-     */
-    @Override
-    public void writeBoolean(final boolean v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeByte(int)
-     */
-    @Override
-    public void writeByte(final int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeBytes(java.lang.String)
-     */
-    @Override
-    public void writeBytes(final String s) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeChar(int)
-     */
-    @Override
-    public void writeChar(final int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeChars(java.lang.String)
-     */
-    @Override
-    public void writeChars(final String s) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeDouble(double)
-     */
-    @Override
-    public void writeDouble(final double v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeFloat(float)
-     */
-    @Override
-    public void writeFloat(final float v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeInt(int)
-     */
-    @Override
-    public void writeInt(final int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeLong(long)
-     */
-    @Override
-    public void writeLong(final long v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeShort(int)
-     */
-    @Override
-    public void writeShort(final int v) throws IOException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * @see java.io.DataOutput#writeUTF(java.lang.String)
-     */
-    @Override
-    public void writeUTF(final String s) throws IOException
     {
         throw new UnsupportedOperationException();
     }
