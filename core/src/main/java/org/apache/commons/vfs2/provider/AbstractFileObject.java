@@ -1302,7 +1302,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns the name of the file.
-     * @return The FileName.
+     * 
+     * @return The FileName, never {@code null}.
      */
     @Override
     public FileName getName()
