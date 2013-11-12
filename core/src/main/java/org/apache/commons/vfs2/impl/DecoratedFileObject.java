@@ -104,16 +104,16 @@ public class DecoratedFileObject implements FileObject
     }
 
     @Override
+    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
+    {
+        return decoratedFileObject.findFiles(selector);
+    }
+
+    @Override
     public void findFiles(final FileSelector selector, final boolean depthwise, final List<FileObject> selected)
         throws FileSystemException
     {
         decoratedFileObject.findFiles(selector, depthwise, selected);
-    }
-
-    @Override
-    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
-    {
-        return decoratedFileObject.findFiles(selector);
     }
 
     @Override
@@ -132,6 +132,17 @@ public class DecoratedFileObject implements FileObject
     public FileContent getContent() throws FileSystemException
     {
         return decoratedFileObject.getContent();
+    }
+
+    public FileObject getDecoratedFileObject()
+    {
+        return decoratedFileObject;
+    }
+
+    @Override
+    public FileOperations getFileOperations() throws FileSystemException
+    {
+        return decoratedFileObject.getFileOperations();
     }
 
     @Override
@@ -165,83 +176,6 @@ public class DecoratedFileObject implements FileObject
     }
 
     @Override
-    public boolean isExecutable() throws FileSystemException
-    {
-        return decoratedFileObject.isExecutable();
-    }
-
-    @Override
-    public boolean isHidden() throws FileSystemException
-    {
-        return decoratedFileObject.isHidden();
-    }
-
-    @Override
-    public boolean isReadable() throws FileSystemException
-    {
-        return decoratedFileObject.isReadable();
-    }
-
-    @Override
-    public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException
-    {
-        return decoratedFileObject.setReadable(readable, ownerOnly);
-    }
-
-    @Override
-    public boolean isWriteable() throws FileSystemException
-    {
-        return decoratedFileObject.isWriteable();
-    }
-
-    @Override
-    public boolean setWritable(final boolean writable, final boolean ownerOnly) throws FileSystemException
-    {
-        return decoratedFileObject.setWritable(writable, ownerOnly);
-    }
-
-    @Override
-    public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException
-    {
-        return decoratedFileObject.setExecutable(executable, ownerOnly);
-    }
-
-    @Override
-    public Iterator<FileObject> iterator()
-    {
-        return decoratedFileObject.iterator();
-    }
-
-    @Override
-    public void moveTo(final FileObject destFile) throws FileSystemException
-    {
-        decoratedFileObject.moveTo(destFile);
-    }
-
-    @Override
-    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException
-    {
-        return decoratedFileObject.resolveFile(name, scope);
-    }
-
-    @Override
-    public FileObject resolveFile(final String path) throws FileSystemException
-    {
-        return decoratedFileObject.resolveFile(path);
-    }
-
-    @Override
-    public void refresh() throws FileSystemException
-    {
-        decoratedFileObject.refresh();
-    }
-
-    public FileObject getDecoratedFileObject()
-    {
-        return decoratedFileObject;
-    }
-
-    @Override
     public boolean isAttached()
     {
         return decoratedFileObject.isAttached();
@@ -251,6 +185,12 @@ public class DecoratedFileObject implements FileObject
     public boolean isContentOpen()
     {
         return decoratedFileObject.isContentOpen();
+    }
+
+    @Override
+    public boolean isExecutable() throws FileSystemException
+    {
+        return decoratedFileObject.isExecutable();
     }
 
     @Override
@@ -266,15 +206,75 @@ public class DecoratedFileObject implements FileObject
     }
 
     @Override
-    public String toString()
+    public boolean isHidden() throws FileSystemException
     {
-        return decoratedFileObject.toString();
+        return decoratedFileObject.isHidden();
     }
 
     @Override
-    public FileOperations getFileOperations() throws FileSystemException
+    public boolean isReadable() throws FileSystemException
     {
-        return decoratedFileObject.getFileOperations();
+        return decoratedFileObject.isReadable();
+    }
+
+    @Override
+    public boolean isWriteable() throws FileSystemException
+    {
+        return decoratedFileObject.isWriteable();
+    }
+
+    @Override
+    public Iterator<FileObject> iterator()
+    {
+        return decoratedFileObject.iterator();
+    }
+
+    @Override
+    public void moveTo(final FileObject destFile) throws FileSystemException
+    {
+        decoratedFileObject.moveTo(destFile);
+    }
+
+    @Override
+    public void refresh() throws FileSystemException
+    {
+        decoratedFileObject.refresh();
+    }
+
+    @Override
+    public FileObject resolveFile(final String path) throws FileSystemException
+    {
+        return decoratedFileObject.resolveFile(path);
+    }
+
+    @Override
+    public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException
+    {
+        return decoratedFileObject.resolveFile(name, scope);
+    }
+
+    @Override
+    public boolean setExecutable(final boolean executable, final boolean ownerOnly) throws FileSystemException
+    {
+        return decoratedFileObject.setExecutable(executable, ownerOnly);
+    }
+
+    @Override
+    public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException
+    {
+        return decoratedFileObject.setReadable(readable, ownerOnly);
+    }
+
+    @Override
+    public boolean setWritable(final boolean writable, final boolean ownerOnly) throws FileSystemException
+    {
+        return decoratedFileObject.setWritable(writable, ownerOnly);
+    }
+
+    @Override
+    public String toString()
+    {
+        return decoratedFileObject.toString();
     }
 
 
