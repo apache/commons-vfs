@@ -69,20 +69,67 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     private static final int INITIAL_LIST_SIZE = 5;
 
+    /**
+     * Traverses a file.
+     */
+    private static void traverse(final DefaultFileSelectorInfo fileInfo,
+                                 final FileSelector selector,
+                                 final boolean depthwise,
+                                 final List<FileObject> selected)
+        throws Exception
+    {
+        // Check the file itself
+        final FileObject file = fileInfo.getFile();
+        final int index = selected.size();
+
+        // If the file is a folder, traverse it
+        if (file.getType().hasChildren() && selector.traverseDescendents(fileInfo))
+        {
+            final int curDepth = fileInfo.getDepth();
+            fileInfo.setDepth(curDepth + 1);
+
+            // Traverse the children
+            final FileObject[] children = file.getChildren();
+            for (final FileObject child : children)
+            {
+                fileInfo.setFile(child);
+                traverse(fileInfo, selector, depthwise, selected);
+            }
+
+            fileInfo.setFile(file);
+            fileInfo.setDepth(curDepth);
+        }
+
+        // Add the file if doing depthwise traversal
+        if (selector.includeFile(fileInfo))
+        {
+            if (depthwise)
+            {
+                // Add this file after its descendants
+                selected.add(file);
+            }
+            else
+            {
+                // Add this file before its descendants
+                selected.add(index, file);
+            }
+        }
+    }
     private final AbstractFileName fileName;
+
     private final AFS fs;
 
     private FileContent content;
-
     // Cached info
     private boolean attached;
     private FileType type;
-    private FileObject parent;
 
+    private FileObject parent;
     // Changed to hold only the name of the children and let the object
     // go into the global files cache
     // private FileObject[] children;
     private FileName[] children;
+
     private List<Object> objects;
 
     /**
@@ -105,6 +152,453 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
+     * Attaches to the file.
+     * @throws FileSystemException if an error occurs.
+     */
+    private void attach() throws FileSystemException
+    {
+        synchronized (fs)
+        {
+            if (attached)
+            {
+                return;
+            }
+
+            try
+            {
+                // Attach and determine the file type
+                doAttach();
+                attached = true;
+                // now the type could already be injected by doAttach (e.g from parent to child)
+
+                /* VFS-210: determine the type when really asked fore
+                if (type == null)
+                {
+                    setFileType(doGetType());
+                }
+                if (type == null)
+                {
+                    setFileType(FileType.IMAGINARY);
+                }
+                */
+            }
+            catch (final Exception exc)
+            {
+                throw new FileSystemException("vfs.provider/get-type.error", exc, fileName);
+            }
+
+            // fs.fileAttached(this);
+        }
+    }
+
+    /**
+     * Queries the object if a simple rename to the filename of {@code newfile}
+     * is possible.
+     *
+     * @param newfile the new filename
+     * @return true if rename is possible
+     */
+    @Override
+    public boolean canRenameTo(final FileObject newfile)
+    {
+        return fs == newfile.getFileSystem();
+    }
+
+    /**
+     * Notifies the file that its children have changed.
+     * @param childName The name of the child.
+     * @param newType The type of the child.
+     * @throws Exception if an error occurs.
+     */
+    protected void childrenChanged(final FileName childName, final FileType newType) throws Exception
+    {
+        // TODO - this may be called when not attached
+
+        if (children != null)
+        {
+            if (childName != null && newType != null)
+            {
+                // TODO - figure out if children[] can be replaced by list
+                final ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
+                if (newType.equals(FileType.IMAGINARY))
+                {
+                    list.remove(childName);
+                }
+                else
+                {
+                    list.add(childName);
+                }
+                children = new FileName[list.size()];
+                list.toArray(children);
+            }
+        }
+
+        // removeChildrenCache();
+        onChildrenChanged(childName, newType);
+    }
+
+    /**
+     * Closes this file, and its content.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public void close() throws FileSystemException
+    {
+        FileSystemException exc = null;
+
+        // Close the content
+        if (content != null)
+        {
+            try
+            {
+                content.close();
+                content = null;
+            }
+            catch (final FileSystemException e)
+            {
+                exc = e;
+            }
+        }
+
+        // Detach from the file
+        try
+        {
+            detach();
+        }
+        catch (final Exception e)
+        {
+            exc = new FileSystemException("vfs.provider/close.error", fileName, e);
+        }
+
+        if (exc != null)
+        {
+            throw exc;
+        }
+    }
+
+    /**
+     * Compares two FileObjects (ignores case).
+     * 
+     * @param file
+     *            the object to compare.
+     * @return a negative integer, zero, or a positive integer when this object is less than, equal to, or greater than
+     *         the given object.
+     */
+    @Override
+    public int compareTo(final FileObject file)
+    {
+        if (file == null)
+        {
+            return 1;
+        }
+        return this.toString().compareToIgnoreCase(file.toString());
+    }
+
+    /**
+     * Copies another file to this file.
+     *
+     * @param file The FileObject to copy.
+     * @param selector The FileSelector.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public void copyFrom(final FileObject file, final FileSelector selector)
+        throws FileSystemException
+    {
+        if (!file.exists())
+        {
+            throw new FileSystemException("vfs.provider/copy-missing-file.error", file);
+        }
+        /* we do not alway know if a file is writeable
+        if (!isWriteable())
+        {
+            throw new FileSystemException("vfs.provider/copy-read-only.error", new Object[]{file.getType(),
+            file.getName(), this}, null);
+        }
+        */
+
+        // Locate the files to copy across
+        final ArrayList<FileObject> files = new ArrayList<FileObject>();
+        file.findFiles(selector, false, files);
+
+        // Copy everything across
+        for (final FileObject srcFile : files)
+        {
+            // Determine the destination file
+            final String relPath = file.getName().getRelativeName(srcFile.getName());
+            final FileObject destFile = resolveFile(relPath, NameScope.DESCENDENT_OR_SELF);
+
+            // Clean up the destination file, if necessary
+            if (destFile.exists() && destFile.getType() != srcFile.getType())
+            {
+                // The destination file exists, and is not of the same type,
+                // so delete it
+                // TODO - add a pluggable policy for deleting and overwriting existing files
+                destFile.deleteAll();
+            }
+
+            // Copy across
+            try
+            {
+                if (srcFile.getType().hasContent())
+                {
+                    FileUtil.copyContent(srcFile, destFile);
+                }
+                else if (srcFile.getType().hasChildren())
+                {
+                    destFile.createFolder();
+                }
+            }
+            catch (final IOException e)
+            {
+                throw new FileSystemException("vfs.provider/copy-file.error", e, srcFile, destFile);
+            }
+        }
+    }
+
+    /**
+     * Creates this file, if it does not exist.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public void createFile() throws FileSystemException
+    {
+        synchronized (fs)
+        {
+            try
+            {
+                // VFS-210: We do not want to trunc any existing file, checking for its existence is
+                // still required
+                if (exists() && !isFile())
+                {
+                    throw new FileSystemException("vfs.provider/create-file.error", fileName);
+                }
+
+                if (!exists())
+                {
+                    getOutputStream().close();
+                    endOutput();
+                }
+            }
+            catch (final RuntimeException re)
+            {
+                throw re;
+            }
+            catch (final Exception e)
+            {
+                throw new FileSystemException("vfs.provider/create-file.error", fileName, e);
+            }
+        }
+    }
+
+    /**
+     * Creates this folder, if it does not exist.  Also creates any ancestor
+     * files which do not exist.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public void createFolder() throws FileSystemException
+    {
+        synchronized (fs)
+        {
+            // VFS-210: we create a folder only if it does not already exist. So this check should be safe.
+            if (getType().hasChildren())
+            {
+                // Already exists as correct type
+                return;
+            }
+            if (getType() != FileType.IMAGINARY)
+            {
+                throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", fileName);
+            }
+            /* VFS-210: checking for writeable is not always possible as the security constraint might
+               be more complex
+            if (!isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/create-folder-read-only.error", name);
+            }
+            */
+
+            // Traverse up the heirarchy and make sure everything is a folder
+            final FileObject parent = getParent();
+            if (parent != null)
+            {
+                parent.createFolder();
+            }
+
+            try
+            {
+                // Create the folder
+                doCreateFolder();
+
+                // Update cached info
+                handleCreate(FileType.FOLDER);
+            }
+            catch (final RuntimeException re)
+            {
+                throw re;
+            }
+            catch (final Exception exc)
+            {
+                throw new FileSystemException("vfs.provider/create-folder.error", fileName, exc);
+            }
+        }
+    }
+
+    /**
+     * Deletes this file.
+     *
+     * @return true if this object has been deleted
+     * @todo This will not fail if this is a non-empty folder.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public boolean delete() throws FileSystemException
+    {
+        return delete(Selectors.SELECT_SELF) > 0;
+    }
+
+    /**
+     * Deletes this file, and all children matching the {@code selector}.
+     *
+     * @param selector The FileSelector.
+     * @return the number of deleted files.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public int delete(final FileSelector selector) throws FileSystemException
+    {
+        int nuofDeleted = 0;
+
+        /* VFS-210
+        if (getType() == FileType.IMAGINARY)
+        {
+            // File does not exist
+            return nuofDeleted;
+        }
+        */
+
+        // Locate all the files to delete
+        final ArrayList<FileObject> files = new ArrayList<FileObject>();
+        findFiles(selector, true, files);
+
+        // Delete 'em
+        final int count = files.size();
+        for (int i = 0; i < count; i++)
+        {
+            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(files.get(i));
+            // file.attach();
+
+            // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
+            // in it, else it would not be hidden. Checking for the file-type seems ok in this case
+            // If the file is a folder, make sure all its children have been deleted
+            if (file.getType().hasChildren() && file.getChildren().length != 0)
+            {
+                // Skip - as the selector forced us not to delete all files
+                continue;
+            }
+
+            // Delete the file
+            if (file.deleteSelf())
+            {
+                nuofDeleted++;
+            }
+        }
+
+        return nuofDeleted;
+    }
+
+    /**
+     * Deletes this file and all children. Shorthand for {@code delete(Selectors.SELECT_ALL)}
+     *
+     * @return the number of deleted files.
+     * @throws FileSystemException if an error occurs.
+     * @see #delete(FileSelector)
+     * @see Selectors#SELECT_ALL
+     */
+    @Override
+    public int deleteAll() throws FileSystemException
+    {
+        return this.delete(Selectors.SELECT_ALL);
+    }
+
+    /**
+     * Deletes this file, once all its children have been deleted
+     *
+     * @return true if this file has been deleted
+     * @throws FileSystemException if an error occurs.
+     */
+    private boolean deleteSelf() throws FileSystemException
+    {
+        synchronized (fs)
+        {
+            /* Its possible to delete a read-only file if you have write-execute access to the directory
+            if (!isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/delete-read-only.error", name);
+            }
+            */
+
+            /* VFS-210
+            if (getType() == FileType.IMAGINARY)
+            {
+                // File does not exist
+                return false;
+            }
+            */
+
+            try
+            {
+                // Delete the file
+                doDelete();
+
+                // Update cached info
+                handleDelete();
+            }
+            catch (final RuntimeException re)
+            {
+                throw re;
+            }
+            catch (final Exception exc)
+            {
+                throw new FileSystemException("vfs.provider/delete.error", exc, fileName);
+            }
+
+            return true;
+        }
+    }
+
+    /**
+     * Detaches this file, invaliating all cached info.  This will force
+     * a call to {@link #doAttach} next time this file is used.
+     * @throws Exception if an error occurs.
+     */
+    private void detach() throws Exception
+    {
+        synchronized (fs)
+        {
+            if (attached)
+            {
+                try
+                {
+                    doDetach();
+                }
+                finally
+                {
+                    attached = false;
+                    setFileType(null);
+                    parent = null;
+
+                    // fs.fileDetached(this);
+
+                    removeChildrenCache();
+                    // children = null;
+                }
+            }
+        }
+    }
+
+    /**
      * Attaches this file object to its file resource.  This method is called
      * before any of the doBlah() or onBlah() methods.  Sub-classes can use
      * this method to perform lazy initialisation.
@@ -117,180 +611,14 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Detaches this file object from its file resource.
-     * <p/>
-     * <p>Called when this file is closed.  Note that the file object may be
-     * reused later, so should be able to be reattached.
-     * <p/>
-     * This implementation does nothing.
-     * @throws Exception if an error occurs.
+     * Create a FileContent implementation.
+     * @return The FileContent.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.0
      */
-    protected void doDetach() throws Exception
+    protected FileContent doCreateFileContent() throws FileSystemException
     {
-    }
-
-    /**
-     * Determines the type of this file.  Must not return null.  The return
-     * value of this method is cached, so the implementation can be expensive.
-     * @return the type of the file.
-     * @throws Exception if an error occurs.
-     */
-    protected abstract FileType doGetType() throws Exception;
-
-    /**
-     * Determines if this file is executable.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation always returns false.
-     * @return true if the file is executable, false otherwise.
-     * @throws Exception if an error occurs.
-     */
-    protected boolean doIsExecutable() throws Exception
-    {
-        return false;
-    }
-
-    /**
-     * Determines if this file is hidden.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation always returns false.
-     * @return true if the file is hidden, false otherwise.
-     * @throws Exception if an error occurs.
-     */
-    protected boolean doIsHidden() throws Exception
-    {
-        return false;
-    }
-
-    /**
-     * Determines if this file can be read.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation always returns true.
-     * @return true if the file is readable, false otherwise.
-     * @throws Exception if an error occurs.
-     */
-    protected boolean doIsReadable() throws Exception
-    {
-        return true;
-    }
-
-    /**
-     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     *
-     * @param readable
-     *            True to allow access, false to disallow
-     * @param ownerOnly
-     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
-     * @return true if the operation succeeded
-     * @see #setReadable(boolean, boolean)
-     * @since 2.1
-     */
-    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception
-    {
-        return false;
-    }
-
-    /**
-     * Determines if this file can be written to.  Is only called if
-     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation always returns true.
-     * @return true if the file is writable.
-     * @throws Exception if an error occurs.
-     */
-    protected boolean doIsWriteable() throws Exception
-    {
-        return true;
-    }
-
-    /**
-     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     *
-     * @param writable
-     *            True to allow access, false to disallow
-     * @param ownerOnly
-     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
-     * @return true if the operation succeeded
-     * @see #setWritable(boolean, boolean)
-     * @since 2.1
-     */
-    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception
-    {
-        return false;
-    }
-
-    /**
-     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     *
-     * @param writable
-     *            True to allow access, false to disallow
-     * @param ownerOnly
-     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
-     * @return true if the operation succeeded
-     * @see #setExecutable(boolean, boolean)
-     * @since 2.1
-     */
-    protected boolean doSetExecutable(final boolean writable, final boolean ownerOnly) throws Exception
-    {
-        return false;
-    }
-
-    /**
-     * Lists the children of this file.  Is only called if {@link #doGetType}
-     * returns {@link FileType#FOLDER}.  The return value of this method
-     * is cached, so the implementation can be expensive.<br />
-     * @return a possible empty String array if the file is a directory or null or an exception if the
-     * file is not a directory or can't be read.
-     * @throws Exception if an error occurs.
-     */
-    protected abstract String[] doListChildren() throws Exception;
-
-    /**
-     * Lists the children of this file.  Is only called if {@link #doGetType}
-     * returns {@link FileType#FOLDER}.  The return value of this method
-     * is cached, so the implementation can be expensive.<br>
-     * Other than {@code doListChildren} you could return FileObject's to e.g. reinitialize the
-     * type of the file.<br>
-     * (Introduced for Webdav: "permission denied on resource" during getType())
-     * @return The children of this FileObject.
-     * @throws Exception if an error occurs.
-     */
-    protected FileObject[] doListChildrenResolved() throws Exception
-    {
-        return null;
-    }
-
-    /**
-     * Deletes the file.  Is only called when:
-     * <ul>
-     * <li>{@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     * <li>{@link #doIsWriteable} returns true.
-     * <li>This file has no children, if a folder.
-     * </ul>
-     * <p/>
-     * This implementation throws an exception.
-     * @throws Exception if an error occurs.
-     */
-    protected void doDelete() throws Exception
-    {
-        throw new FileSystemException("vfs.provider/delete-not-supported.error");
-    }
-
-    /**
-     * Renames the file.  Is only called when:
-     * <ul>
-     * <li>{@link #doIsWriteable} returns true.
-     * </ul>
-     * <p/>
-     * This implementation throws an exception.
-     * @param newFile A FileObject with the new file name.
-     * @throws Exception if an error occurs.
-     */
-    protected void doRename(final FileObject newFile) throws Exception
-    {
-        throw new FileSystemException("vfs.provider/rename-not-supported.error");
+        return new DefaultFileContent(this, getFileContentInfoFactory());
     }
 
     /**
@@ -310,53 +638,32 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Called when the children of this file change.  Allows subclasses to
-     * refresh any cached information about the children of this file.
-     * <p/>
-     * This implementation does nothing.
-     * @param child The name of the child that changed.
-     * @param newType The type of the file.
-     * @throws Exception if an error occurs.
-     */
-    protected void onChildrenChanged(final FileName child, final FileType newType) throws Exception
-    {
-    }
-
-    /**
-     * Called when the type or content of this file changes.
-     * <p/>
-     * This implementation does nothing.
-     * @throws Exception if an error occurs.
-     */
-    protected void onChange() throws Exception
-    {
-    }
-
-    /**
-     * Returns the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * Deletes the file.  Is only called when:
+     * <ul>
+     * <li>{@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <li>{@link #doIsWriteable} returns true.
+     * <li>This file has no children, if a folder.
+     * </ul>
      * <p/>
      * This implementation throws an exception.
-     * @return The last modification time.
      * @throws Exception if an error occurs.
      */
-    protected long doGetLastModifiedTime() throws Exception
+    protected void doDelete() throws Exception
     {
-        throw new FileSystemException("vfs.provider/get-last-modified-not-supported.error");
+        throw new FileSystemException("vfs.provider/delete-not-supported.error");
     }
 
     /**
-     * Sets the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * Detaches this file object from its file resource.
      * <p/>
-     * This implementation throws an exception.
-     * @param modtime The last modification time.
-     * @return true if the time was set.
+     * <p>Called when this file is closed.  Note that the file object may be
+     * reused later, so should be able to be reattached.
+     * <p/>
+     * This implementation does nothing.
      * @throws Exception if an error occurs.
      */
-    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
+    protected void doDetach() throws Exception
     {
-        throw new FileSystemException("vfs.provider/set-last-modified-not-supported.error");
     }
 
     /**
@@ -370,34 +677,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     protected Map<String, Object> doGetAttributes() throws Exception
     {
         return Collections.emptyMap();
-    }
-
-    /**
-     * Sets an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation throws an exception.
-     * @param attrName The attribute name.
-     * @param value The value to be associated with the attribute name.
-     * @throws Exception if an error occurs.
-     */
-    protected void doSetAttribute(final String attrName, final Object value) throws Exception
-    {
-        throw new FileSystemException("vfs.provider/set-attribute-not-supported.error");
-    }
-
-    /**
-     * Removes an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation throws an exception.
-     * @param attrName The name of the attribute to remove.
-     * @throws Exception if an error occurs.
-     * @since 2.0
-     */
-    protected void doRemoveAttribute(final String attrName) throws Exception
-    {
-        throw new FileSystemException("vfs.provider/remove-attribute-not-supported.error");
     }
 
     /**
@@ -435,19 +714,16 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     protected abstract InputStream doGetInputStream() throws Exception;
 
     /**
-     * Creates access to the file for random i/o.  Is only called
-     * if {@link #doGetType} returns {@link FileType#FILE}.
+     * Returns the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p/>
-     * <p>It is guaranteed that there are no open output streams for this file
-     * when this method is called.
-     * <p/>
-     * @param mode The mode to access the file.
-     * @return The RandomAccessContext.
+     * This implementation throws an exception.
+     * @return The last modification time.
      * @throws Exception if an error occurs.
      */
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
+    protected long doGetLastModifiedTime() throws Exception
     {
-        throw new FileSystemException("vfs.provider/random-access-not-supported.error");
+        throw new FileSystemException("vfs.provider/get-last-modified-not-supported.error");
     }
 
     /**
@@ -476,70 +752,239 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Returns the URI as a String.
-     * 
-     * @return Returns the URI as a String.
+     * Creates access to the file for random i/o.  Is only called
+     * if {@link #doGetType} returns {@link FileType#FILE}.
+     * <p/>
+     * <p>It is guaranteed that there are no open output streams for this file
+     * when this method is called.
+     * <p/>
+     * @param mode The mode to access the file.
+     * @return The RandomAccessContext.
+     * @throws Exception if an error occurs.
      */
-    @Override
-    public String toString()
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
     {
-        return fileName.getURI();
+        throw new FileSystemException("vfs.provider/random-access-not-supported.error");
+    }
+
+    /**
+     * Determines the type of this file.  Must not return null.  The return
+     * value of this method is cached, so the implementation can be expensive.
+     * @return the type of the file.
+     * @throws Exception if an error occurs.
+     */
+    protected abstract FileType doGetType() throws Exception;
+
+    /**
+     * Determines if this file is executable.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation always returns false.
+     * @return true if the file is executable, false otherwise.
+     * @throws Exception if an error occurs.
+     */
+    protected boolean doIsExecutable() throws Exception
+    {
+        return false;
     }
     
     /**
-     * Returns the name of the file.
-     * @return The FileName.
+     * Determines if this file is hidden.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation always returns false.
+     * @return true if the file is hidden, false otherwise.
+     * @throws Exception if an error occurs.
      */
-    @Override
-    public FileName getName()
+    protected boolean doIsHidden() throws Exception
     {
-        return fileName;
+        return false;
     }
 
     /**
-     * Returns the file system this file belongs to.
-     * @return The FileSystem this file is associated with.
+     * Determines if this file can be read.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation always returns true.
+     * @return true if the file is readable, false otherwise.
+     * @throws Exception if an error occurs.
      */
-    @Override
-    public FileSystem getFileSystem()
+    protected boolean doIsReadable() throws Exception
     {
-        return fs;
+        return true;
     }
 
     /**
-     * Returns the file system this file belongs to.
-     * @return The FileSystem this file is associated with.
-     */
-    protected AFS getAbstractFileSystem()
-    {
-        return fs;
-    }
-
-    /**
-     * Returns a URL representation of the file.
-     * @return The URL representation of the file.
+     * Checks if this fileObject is the same file as {@code destFile} just with a different
+     * name.<br />
+     * E.g. for case insensitive filesystems like windows.
+     * @param destFile The file to compare to.
+     * @return true if the FileObjects are the same.
      * @throws FileSystemException if an error occurs.
      */
-    @Override
-    public URL getURL() throws FileSystemException
+    protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException
     {
-        try
+        return false;
+    }
+
+    /**
+     * Determines if this file can be written to.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation always returns true.
+     * @return true if the file is writable.
+     * @throws Exception if an error occurs.
+     */
+    protected boolean doIsWriteable() throws Exception
+    {
+        return true;
+    }
+
+    /**
+     * Lists the children of this file.  Is only called if {@link #doGetType}
+     * returns {@link FileType#FOLDER}.  The return value of this method
+     * is cached, so the implementation can be expensive.<br />
+     * @return a possible empty String array if the file is a directory or null or an exception if the
+     * file is not a directory or can't be read.
+     * @throws Exception if an error occurs.
+     */
+    protected abstract String[] doListChildren() throws Exception;
+
+    /**
+     * Lists the children of this file.  Is only called if {@link #doGetType}
+     * returns {@link FileType#FOLDER}.  The return value of this method
+     * is cached, so the implementation can be expensive.<br>
+     * Other than {@code doListChildren} you could return FileObject's to e.g. reinitialize the
+     * type of the file.<br>
+     * (Introduced for Webdav: "permission denied on resource" during getType())
+     * @return The children of this FileObject.
+     * @throws Exception if an error occurs.
+     */
+    protected FileObject[] doListChildrenResolved() throws Exception
+    {
+        return null;
+    }
+
+    /**
+     * Removes an attribute of this file.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation throws an exception.
+     * @param attrName The name of the attribute to remove.
+     * @throws Exception if an error occurs.
+     * @since 2.0
+     */
+    protected void doRemoveAttribute(final String attrName) throws Exception
+    {
+        throw new FileSystemException("vfs.provider/remove-attribute-not-supported.error");
+    }
+
+    /**
+     * Renames the file.  Is only called when:
+     * <ul>
+     * <li>{@link #doIsWriteable} returns true.
+     * </ul>
+     * <p/>
+     * This implementation throws an exception.
+     * @param newFile A FileObject with the new file name.
+     * @throws Exception if an error occurs.
+     */
+    protected void doRename(final FileObject newFile) throws Exception
+    {
+        throw new FileSystemException("vfs.provider/rename-not-supported.error");
+    }
+
+    /**
+     * Sets an attribute of this file.  Is only called if {@link #doGetType}
+     * does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation throws an exception.
+     * @param attrName The attribute name.
+     * @param value The value to be associated with the attribute name.
+     * @throws Exception if an error occurs.
+     */
+    protected void doSetAttribute(final String attrName, final Object value) throws Exception
+    {
+        throw new FileSystemException("vfs.provider/set-attribute-not-supported.error");
+    }
+
+    /**
+     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     *
+     * @param writable
+     *            True to allow access, false to disallow
+     * @param ownerOnly
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
+     * @see #setExecutable(boolean, boolean)
+     * @since 2.1
+     */
+    protected boolean doSetExecutable(final boolean writable, final boolean ownerOnly) throws Exception
+    {
+        return false;
+    }
+
+    /**
+     * Sets the last modified time of this file.  Is only called if
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <p/>
+     * This implementation throws an exception.
+     * @param modtime The last modification time.
+     * @return true if the time was set.
+     * @throws Exception if an error occurs.
+     */
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
+    {
+        throw new FileSystemException("vfs.provider/set-last-modified-not-supported.error");
+    }
+
+    /**
+     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     *
+     * @param readable
+     *            True to allow access, false to disallow
+     * @param ownerOnly
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
+     * @see #setReadable(boolean, boolean)
+     * @since 2.1
+     */
+    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception
+    {
+        return false;
+    }
+
+    /**
+     * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     *
+     * @param writable
+     *            True to allow access, false to disallow
+     * @param ownerOnly
+     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded
+     * @see #setWritable(boolean, boolean)
+     * @since 2.1
+     */
+    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception
+    {
+        return false;
+    }
+
+    /**
+     * Called when the ouput stream for this file is closed.
+     * @throws Exception if an error occurs.
+     */
+    protected void endOutput() throws Exception
+    {
+        if (getType() == FileType.IMAGINARY)
         {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>()
-            {
-                @Override
-                public URL run() throws MalformedURLException
-                {
-                    final StringBuilder buf = new StringBuilder();
-                    final String scheme = UriParser.extractScheme(fileName.getURI(), buf);
-                    return new URL(scheme, "", -1,
-                        buf.toString(), new DefaultURLStreamHandler(fs.getContext(), fs.getFileSystemOptions()));
-                }
-            });
+            // File was created
+            handleCreate(FileType.FILE);
         }
-        catch (final PrivilegedActionException e)
+        else
         {
-            throw new FileSystemException("vfs.provider/get-url.error", fileName, e.getException());
+            // File has changed
+            onChange();
         }
     }
 
@@ -554,263 +999,109 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         return getType() != FileType.IMAGINARY;
     }
 
-    /**
-     * Returns the file's type.
-     * @return The FileType.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public FileType getType() throws FileSystemException
+    private FileName[] extractNames(final FileObject[] objects)
     {
-        synchronized (fs)
+        if (objects == null)
         {
-            attach();
-
-            // VFS-210: get the type only if requested for
-            try
-            {
-                if (type == null)
-                {
-                    setFileType(doGetType());
-                }
-                if (type == null)
-                {
-                    setFileType(FileType.IMAGINARY);
-                }
-            }
-            catch (final Exception e)
-            {
-                throw new FileSystemException("vfs.provider/get-type.error", e, fileName);
-            }
-
-            return type;
+            return null;
         }
+
+        final FileName[] names = new FileName[objects.length];
+        for (int iterObjects = 0; iterObjects < objects.length; iterObjects++)
+        {
+            names[iterObjects] = objects[iterObjects].getName();
+        }
+
+        return names;
     }
 
+    @Override
+    protected void finalize() throws Throwable
+    {
+        fs.fileObjectDestroyed(this);
+
+        super.finalize();
+    }
+
+
     /**
-     * Checks if this file is a regular file by using its file type.
+     * Finds the set of matching descendants of this file, in depthwise
+     * order.
      *
-     * @return true if this file is a regular file.
-     * @throws FileSystemException if an error occurs.
-     * @see #getType()
-     * @see FileType#FILE
-     */
-    @Override
-    public boolean isFile() throws FileSystemException
-    {
-        // Use equals instead of == to avoid any class loader worries.
-        return FileType.FILE.equals(this.getType());
-    }
-
-    /**
-     * Checks if this file is a folder by using its file type.
-     *
-     * @return true if this file is a regular file.
-     * @throws FileSystemException if an error occurs.
-     * @see #getType()
-     * @see FileType#FOLDER
-     */
-    @Override
-    public boolean isFolder() throws FileSystemException
-    {
-        // Use equals instead of == to avoid any class loader worries.
-        return FileType.FOLDER.equals(this.getType());
-    }
-
-    /**
-     * Determines if this file is executable.
-     *
-     * @return {@code true} if this file is executable, {@code false} if not.
-     * @throws FileSystemException On error determining if this file exists.
-     */
-    @Override
-    public boolean isExecutable() throws FileSystemException
-    {
-        try
-        {
-            return exists() ? doIsExecutable() : false;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/check-is-executable.error", fileName, exc);
-        }
-    }
-
-    /**
-     * Determines if this file can be read.
-     * @return true if the file is a hidden file, false otherwise.
+     * @param selector The FileSelector.
+     * @return list of files or null if the base file (this object) do not exist
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean isHidden() throws FileSystemException
+    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
     {
-        try
-        {
-            return exists() ? doIsHidden() : false;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/check-is-hidden.error", fileName, exc);
-        }
+        final List<FileObject> list = this.listFiles(selector);
+        return list == null ? null : list.toArray(new FileObject[list.size()]);
     }
 
     /**
-     * Determines if this file can be read.
-     * @return true if the file can be read, false otherwise.
+     * Traverses the descendants of this file, and builds a list of selected
+     * files.
+     * @param selector The FileSelector.
+     * @param depthwise if true files are added after their descendants, before otherwise.
+     * @param selected A List of the located FileObjects.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean isReadable() throws FileSystemException
-    {
-        try
-        {
-            return exists() ? doIsReadable() : false;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/check-is-readable.error", fileName, exc);
-        }
-    }
-
-    @Override
-    public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException
-    {
-        try
-        {
-            return exists() ? doSetReadable(readable, ownerOnly) : false;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/set-readable.error", fileName, exc);
-        }
-    }
-
-    /**
-     * Determines if this file can be written to.
-     * @return true if the file can be written to, false otherwise.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public boolean isWriteable() throws FileSystemException
+    public void findFiles(final FileSelector selector,
+                          final boolean depthwise,
+                          final List<FileObject> selected) throws FileSystemException
     {
         try
         {
             if (exists())
             {
-                return doIsWriteable();
-            }
-            else
-            {
-                final FileObject parent = getParent();
-                if (parent != null)
-                {
-                    return parent.isWriteable();
-                }
-                return true;
+                // Traverse starting at this file
+                final DefaultFileSelectorInfo info = new DefaultFileSelectorInfo();
+                info.setBaseFolder(this);
+                info.setDepth(0);
+                info.setFile(this);
+                traverse(info, selector, depthwise, selected);
             }
         }
-        catch (final Exception exc)
+        catch (final Exception e)
         {
-            throw new FileSystemException("vfs.provider/check-is-writeable.error", fileName, exc);
-        }
-    }
-
-    @Override
-    public boolean setWritable(final boolean readable, final boolean ownerOnly) throws FileSystemException
-    {
-        try
-        {
-            return exists() ? doSetWritable(readable, ownerOnly) : false;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/set-writeable.error", fileName, exc);
-        }
-    }
-
-    @Override
-    public boolean setExecutable(final boolean readable, final boolean ownerOnly) throws FileSystemException
-    {
-        try
-        {
-            return exists() ? doSetExecutable(readable, ownerOnly) : false;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/set-executable.error", fileName, exc);
+            throw new FileSystemException("vfs.provider/find-files.error", fileName, e);
         }
     }
 
     /**
-     * Returns an iterator over a set of all FileObject in this file object.
-     *
-     * @return an Iterator.
+     * Returns the file system this file belongs to.
+     * @return The FileSystem this file is associated with.
      */
-    @Override
-    public Iterator<FileObject> iterator()
+    protected AFS getAbstractFileSystem()
     {
-        try
-        {
-            return listFiles(Selectors.SELECT_ALL).iterator();
-        }
-        catch (final FileSystemException e)
-        {
-            throw new IllegalStateException(e);
-        }
+        return fs;
     }
 
     /**
-     * Lists the set of matching descendants of this file, in depthwise
-     * order.
-     *
-     * @param selector The FileSelector.
-     * @return list of files or null if the base file (this object) do not exist or the {@code selector} is null
-     * @throws FileSystemException if an error occurs.
-     */
-    public List<FileObject> listFiles(final FileSelector selector) throws FileSystemException
-    {
-        if (!exists() || selector == null)
-        {
-            return null;
-        }
-
-        final ArrayList<FileObject> list = new ArrayList<FileObject>();
-        this.findFiles(selector, true, list);
-        return list;
-    }
-
-
-    /**
-     * Returns the parent of the file.
-     * @return the parent FileObject.
+     * Returns a child of this file.
+     * @param name The name of the child to locate.
+     * @return The FileObject for the file or null if the child does not exist.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject getParent() throws FileSystemException
+    public FileObject getChild(final String name) throws FileSystemException
     {
-        if (this == fs.getRoot())
+        // TODO - use a hashtable when there are a large number of children
+        final FileObject[] children = getChildren();
+        for (final FileObject element : children)
         {
-            if (fs.getParentLayer() == null)
+            // final FileObject child = children[i];
+            final FileName child = element.getName();
+            // TODO - use a comparator to compare names
+            // if (child.getName().getBaseName().equals(name))
+            if (child.getBaseName().equals(name))
             {
-                // Root file has no parent
-                return null;
-            }
-            else
-            {
-                // Return the parent of the parent layer
-                return fs.getParentLayer().getParent();
+                return resolveFile(child);
             }
         }
-
-        synchronized (fs)
-        {
-            // Locate the parent of this file
-            if (parent == null)
-            {
-                parent = fs.resolveFile(fileName.getParent());
-            }
-        }
-        return parent;
+        return null;
     }
 
     /**
@@ -914,390 +1205,606 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
     }
 
-    private FileName[] extractNames(final FileObject[] objects)
-    {
-        if (objects == null)
-        {
-            return null;
-        }
-
-        final FileName[] names = new FileName[objects.length];
-        for (int iterObjects = 0; iterObjects < objects.length; iterObjects++)
-        {
-            names[iterObjects] = objects[iterObjects].getName();
-        }
-
-        return names;
-    }
-
-    private FileObject[] resolveFiles(final FileName[] children) throws FileSystemException
-    {
-        if (children == null)
-        {
-            return null;
-        }
-
-        final FileObject[] objects = new FileObject[children.length];
-        for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
-        {
-            objects[iterChildren] = resolveFile(children[iterChildren]);
-        }
-
-        return objects;
-    }
-
-    private FileObject resolveFile(final FileName child) throws FileSystemException
-    {
-        return fs.resolveFile(child);
-    }
-
     /**
-     * Returns a child of this file.
-     * @param name The name of the child to locate.
-     * @return The FileObject for the file or null if the child does not exist.
+     * Returns the file's content.
+     * @return the FileContent for this FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject getChild(final String name) throws FileSystemException
-    {
-        // TODO - use a hashtable when there are a large number of children
-        final FileObject[] children = getChildren();
-        for (final FileObject element : children)
-        {
-            // final FileObject child = children[i];
-            final FileName child = element.getName();
-            // TODO - use a comparator to compare names
-            // if (child.getName().getBaseName().equals(name))
-            if (child.getBaseName().equals(name))
-            {
-                return resolveFile(child);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns a child by name.
-     * @param name The name of the child to locate.
-     * @param scope the NameScope.
-     * @return The FileObject for the file or null if the child does not exist.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public FileObject resolveFile(final String name, final NameScope scope)
-        throws FileSystemException
-    {
-        // return fs.resolveFile(this.name.resolveName(name, scope));
-        return fs.resolveFile(fs.getFileSystemManager().resolveName(this.fileName, name, scope));
-    }
-
-    /**
-     * Finds a file, relative to this file.
-     *
-     * @param path The path of the file to locate.  Can either be a relative
-     *             path, which is resolved relative to this file, or an
-     *             absolute path, which is resolved relative to the file system
-     *             that contains this file.
-     * @return The FileObject.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public FileObject resolveFile(final String path) throws FileSystemException
-    {
-        final FileName otherName = fs.getFileSystemManager().resolveName(fileName, path);
-        return fs.resolveFile(otherName);
-    }
-
-    /**
-     * Deletes this file, once all its children have been deleted
-     *
-     * @return true if this file has been deleted
-     * @throws FileSystemException if an error occurs.
-     */
-    private boolean deleteSelf() throws FileSystemException
+    public FileContent getContent() throws FileSystemException
     {
         synchronized (fs)
         {
-            /* Its possible to delete a read-only file if you have write-execute access to the directory
-            if (!isWriteable())
+            attach();
+            if (content == null)
             {
-                throw new FileSystemException("vfs.provider/delete-read-only.error", name);
+                content = doCreateFileContent();
             }
-            */
-
-            /* VFS-210
-            if (getType() == FileType.IMAGINARY)
-            {
-                // File does not exist
-                return false;
-            }
-            */
-
-            try
-            {
-                // Delete the file
-                doDelete();
-
-                // Update cached info
-                handleDelete();
-            }
-            catch (final RuntimeException re)
-            {
-                throw re;
-            }
-            catch (final Exception exc)
-            {
-                throw new FileSystemException("vfs.provider/delete.error", exc, fileName);
-            }
-
-            return true;
+            return content;
         }
     }
 
     /**
-     * Deletes this file.
-     *
-     * @return true if this object has been deleted
-     * @todo This will not fail if this is a non-empty folder.
-     * @throws FileSystemException if an error occurs.
+     * create the filecontentinfo implementation.
+     * @return The FileContentInfoFactory.
      */
-    @Override
-    public boolean delete() throws FileSystemException
+    protected FileContentInfoFactory getFileContentInfoFactory()
     {
-        return delete(Selectors.SELECT_SELF) > 0;
+        return fs.getFileSystemManager().getFileContentInfoFactory();
     }
 
     /**
-     * Deletes this file, and all children matching the {@code selector}.
-     *
-     * @param selector The FileSelector.
-     * @return the number of deleted files.
+     * @return FileOperations interface that provides access to the operations
+     *         API.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public int delete(final FileSelector selector) throws FileSystemException
+    public FileOperations getFileOperations() throws FileSystemException
     {
-        int nuofDeleted = 0;
-
-        /* VFS-210
-        if (getType() == FileType.IMAGINARY)
+        if (operations == null)
         {
-            // File does not exist
-            return nuofDeleted;
+            operations = new DefaultFileOperations(this);
+        }
+
+        return operations;
+    }
+
+    /**
+     * Returns the file system this file belongs to.
+     * @return The FileSystem this file is associated with.
+     */
+    @Override
+    public FileSystem getFileSystem()
+    {
+        return fs;
+    }
+
+    /**
+     * Returns an input stream to use to read the content of the file.
+     * @return The InputStream to access this file's content.
+     * @throws FileSystemException if an error occurs.
+     */
+    public InputStream getInputStream() throws FileSystemException
+    {
+        /* VFS-210
+        if (!getType().hasContent())
+        {
+            throw new FileSystemException("vfs.provider/read-not-file.error", name);
+        }
+        if (!isReadable())
+        {
+            throw new FileSystemException("vfs.provider/read-not-readable.error", name);
         }
         */
 
-        // Locate all the files to delete
-        final ArrayList<FileObject> files = new ArrayList<FileObject>();
-        findFiles(selector, true, files);
-
-        // Delete 'em
-        final int count = files.size();
-        for (int i = 0; i < count; i++)
+        // Get the raw input stream
+        try
         {
-            final AbstractFileObject file = FileObjectUtils.getAbstractFileObject(files.get(i));
-            // file.attach();
-
-            // VFS-210: It seems impossible to me that findFiles will return a list with hidden files/directories
-            // in it, else it would not be hidden. Checking for the file-type seems ok in this case
-            // If the file is a folder, make sure all its children have been deleted
-            if (file.getType().hasChildren() && file.getChildren().length != 0)
-            {
-                // Skip - as the selector forced us not to delete all files
-                continue;
-            }
-
-            // Delete the file
-            if (file.deleteSelf())
-            {
-                nuofDeleted++;
-            }
+            return doGetInputStream();
         }
-
-        return nuofDeleted;
+        catch (final org.apache.commons.vfs2.FileNotFoundException exc)
+        {
+            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
+        }
+        catch (final FileNotFoundException exc)
+        {
+            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
+        }
+        catch (final FileSystemException exc)
+        {
+            throw exc;
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/read.error", fileName, exc);
+        }
     }
 
     /**
-     * Deletes this file and all children. Shorthand for {@code delete(Selectors.SELECT_ALL)}
+     * Returns the name of the file.
+     * @return The FileName.
+     */
+    @Override
+    public FileName getName()
+    {
+        return fileName;
+    }
+
+    /**
+     * Prepares this file for writing.  Makes sure it is either a file,
+     * or its parent folder exists.  Returns an output stream to use to
+     * write the content of the file to.
+     * @return An OutputStream where the new contents of the file can be written.
+     * @throws FileSystemException if an error occurs.
+     */
+    public OutputStream getOutputStream() throws FileSystemException
+    {
+        return getOutputStream(false);
+    }
+
+    /**
+     * Prepares this file for writing.  Makes sure it is either a file,
+     * or its parent folder exists.  Returns an output stream to use to
+     * write the content of the file to.<br>
      *
-     * @return the number of deleted files.
-     * @throws FileSystemException if an error occurs.
-     * @see #delete(FileSelector)
-     * @see Selectors#SELECT_ALL
+     * @param bAppend true when append to the file.<br>
+     *                Note: If the underlaying filesystem does not support appending,
+     *                a FileSystemException is thrown.
+     * @return An OutputStream where the new contents of the file can be written.
+     * @throws FileSystemException if an error occurs; for example:<br>
+     *         bAppend is true, and the unbderlying FileSystem does not support it
      */
-    @Override
-    public int deleteAll() throws FileSystemException
+    public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException
     {
-        return this.delete(Selectors.SELECT_ALL);
-    }
-
-    /**
-     * Creates this file, if it does not exist.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void createFile() throws FileSystemException
-    {
-        synchronized (fs)
+        /* VFS-210
+        if (getType() != FileType.IMAGINARY && !getType().hasContent())
         {
-            try
-            {
-                // VFS-210: We do not want to trunc any existing file, checking for its existence is
-                // still required
-                if (exists() && !isFile())
-                {
-                    throw new FileSystemException("vfs.provider/create-file.error", fileName);
-                }
-
-                if (!exists())
-                {
-                    getOutputStream().close();
-                    endOutput();
-                }
-            }
-            catch (final RuntimeException re)
-            {
-                throw re;
-            }
-            catch (final Exception e)
-            {
-                throw new FileSystemException("vfs.provider/create-file.error", fileName, e);
-            }
+            throw new FileSystemException("vfs.provider/write-not-file.error", name);
         }
-    }
-
-    /**
-     * Creates this folder, if it does not exist.  Also creates any ancestor
-     * files which do not exist.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void createFolder() throws FileSystemException
-    {
-        synchronized (fs)
+        if (!isWriteable())
         {
-            // VFS-210: we create a folder only if it does not already exist. So this check should be safe.
-            if (getType().hasChildren())
-            {
-                // Already exists as correct type
-                return;
-            }
-            if (getType() != FileType.IMAGINARY)
-            {
-                throw new FileSystemException("vfs.provider/create-folder-mismatched-type.error", fileName);
-            }
-            /* VFS-210: checking for writeable is not always possible as the security constraint might
-               be more complex
-            if (!isWriteable())
-            {
-                throw new FileSystemException("vfs.provider/create-folder-read-only.error", name);
-            }
-            */
+            throw new FileSystemException("vfs.provider/write-read-only.error", name);
+        }
+        */
 
-            // Traverse up the heirarchy and make sure everything is a folder
+        if (bAppend && !fs.hasCapability(Capability.APPEND_CONTENT))
+        {
+            throw new FileSystemException("vfs.provider/write-append-not-supported.error", fileName);
+        }
+
+        if (getType() == FileType.IMAGINARY)
+        {
+// Does not exist - make sure parent does
             final FileObject parent = getParent();
             if (parent != null)
             {
                 parent.createFolder();
             }
-
-            try
-            {
-                // Create the folder
-                doCreateFolder();
-
-                // Update cached info
-                handleCreate(FileType.FOLDER);
-            }
-            catch (final RuntimeException re)
-            {
-                throw re;
-            }
-            catch (final Exception exc)
-            {
-                throw new FileSystemException("vfs.provider/create-folder.error", fileName, exc);
-            }
         }
-    }
 
-    /**
-     * Compares two FileObjects (ignores case).
-     * 
-     * @param file
-     *            the object to compare.
-     * @return a negative integer, zero, or a positive integer when this object is less than, equal to, or greater than
-     *         the given object.
-     */
-    @Override
-    public int compareTo(final FileObject file)
-    {
-        if (file == null)
+// Get the raw output stream
+        try
         {
-            return 1;
+            return doGetOutputStream(bAppend);
         }
-        return this.toString().compareToIgnoreCase(file.toString());
+        catch (final RuntimeException re)
+        {
+            throw re;
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/write.error", exc, fileName);
+        }
     }
 
     /**
-     * Copies another file to this file.
-     *
-     * @param file The FileObject to copy.
-     * @param selector The FileSelector.
+     * Returns the parent of the file.
+     * @return the parent FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void copyFrom(final FileObject file, final FileSelector selector)
-        throws FileSystemException
+    public FileObject getParent() throws FileSystemException
     {
-        if (!file.exists())
+        if (this == fs.getRoot())
         {
-            throw new FileSystemException("vfs.provider/copy-missing-file.error", file);
+            if (fs.getParentLayer() == null)
+            {
+                // Root file has no parent
+                return null;
+            }
+            else
+            {
+                // Return the parent of the parent layer
+                return fs.getParentLayer().getParent();
+            }
         }
-        /* we do not alway know if a file is writeable
-        if (!isWriteable())
+
+        synchronized (fs)
         {
-            throw new FileSystemException("vfs.provider/copy-read-only.error", new Object[]{file.getType(),
-            file.getName(), this}, null);
+            // Locate the parent of this file
+            if (parent == null)
+            {
+                parent = fs.resolveFile(fileName.getParent());
+            }
+        }
+        return parent;
+    }
+
+    /**
+     * Returns an input/output stream to use to read and write the content of the file in and
+     * random manner.
+     * @param mode The RandomAccessMode.
+     * @return The RandomAccessContent.
+     * @throws FileSystemException if an error occurs.
+     */
+    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
+    {
+        /* VFS-210
+        if (!getType().hasContent())
+        {
+            throw new FileSystemException("vfs.provider/read-not-file.error", name);
         }
         */
 
-        // Locate the files to copy across
-        final ArrayList<FileObject> files = new ArrayList<FileObject>();
-        file.findFiles(selector, false, files);
-
-        // Copy everything across
-        for (final FileObject srcFile : files)
+        if (mode.requestRead())
         {
-            // Determine the destination file
-            final String relPath = file.getName().getRelativeName(srcFile.getName());
-            final FileObject destFile = resolveFile(relPath, NameScope.DESCENDENT_OR_SELF);
-
-            // Clean up the destination file, if necessary
-            if (destFile.exists() && destFile.getType() != srcFile.getType())
+            if (!fs.hasCapability(Capability.RANDOM_ACCESS_READ))
             {
-                // The destination file exists, and is not of the same type,
-                // so delete it
-                // TODO - add a pluggable policy for deleting and overwriting existing files
-                destFile.deleteAll();
+                throw new FileSystemException("vfs.provider/random-access-read-not-supported.error");
             }
-
-            // Copy across
-            try
+            if (!isReadable())
             {
-                if (srcFile.getType().hasContent())
-                {
-                    FileUtil.copyContent(srcFile, destFile);
-                }
-                else if (srcFile.getType().hasChildren())
-                {
-                    destFile.createFolder();
-                }
-            }
-            catch (final IOException e)
-            {
-                throw new FileSystemException("vfs.provider/copy-file.error", e, srcFile, destFile);
+                throw new FileSystemException("vfs.provider/read-not-readable.error", fileName);
             }
         }
+
+        if (mode.requestWrite())
+        {
+            if (!fs.hasCapability(Capability.RANDOM_ACCESS_WRITE))
+            {
+                throw new FileSystemException("vfs.provider/random-access-write-not-supported.error");
+            }
+            if (!isWriteable())
+            {
+                throw new FileSystemException("vfs.provider/write-read-only.error", fileName);
+            }
+        }
+
+        // Get the raw input stream
+        try
+        {
+            return doGetRandomAccessContent(mode);
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/random-access.error", fileName, exc);
+        }
+    }
+
+    /**
+     * Returns the file's type.
+     * @return The FileType.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public FileType getType() throws FileSystemException
+    {
+        synchronized (fs)
+        {
+            attach();
+
+            // VFS-210: get the type only if requested for
+            try
+            {
+                if (type == null)
+                {
+                    setFileType(doGetType());
+                }
+                if (type == null)
+                {
+                    setFileType(FileType.IMAGINARY);
+                }
+            }
+            catch (final Exception e)
+            {
+                throw new FileSystemException("vfs.provider/get-type.error", e, fileName);
+            }
+
+            return type;
+        }
+    }
+
+    /**
+     * Returns a URL representation of the file.
+     * @return The URL representation of the file.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public URL getURL() throws FileSystemException
+    {
+        try
+        {
+            return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>()
+            {
+                @Override
+                public URL run() throws MalformedURLException
+                {
+                    final StringBuilder buf = new StringBuilder();
+                    final String scheme = UriParser.extractScheme(fileName.getURI(), buf);
+                    return new URL(scheme, "", -1,
+                        buf.toString(), new DefaultURLStreamHandler(fs.getContext(), fs.getFileSystemOptions()));
+                }
+            });
+        }
+        catch (final PrivilegedActionException e)
+        {
+            throw new FileSystemException("vfs.provider/get-url.error", fileName, e.getException());
+        }
+    }
+
+    /**
+     * Called when this file is changed.<br />
+     * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     * @throws Exception if an error occurs.
+     */
+    protected void handleChanged() throws Exception
+    {
+        // Notify the file system
+        fs.fireFileChanged(this);
+    }
+
+    /**
+     * Called when this file is created.  Updates cached info and notifies
+     * the parent and file system.
+     * @param newType The type of the file.
+     * @throws Exception if an error occurs.
+     */
+    protected void handleCreate(final FileType newType) throws Exception
+    {
+        synchronized (fs)
+        {
+            if (attached)
+            {
+                // Fix up state
+                injectType(newType);
+
+                removeChildrenCache();
+                // children = EMPTY_FILE_ARRAY;
+
+                // Notify subclass
+                onChange();
+            }
+
+            // Notify parent that its child list may no longer be valid
+            notifyParent(this.getName(), newType);
+
+            // Notify the file system
+            fs.fireFileCreated(this);
+        }
+    }
+
+    /**
+     * Called when this file is deleted.  Updates cached info and notifies
+     * subclasses, parent and file system.
+     * @throws Exception if an error occurs.
+     */
+    protected void handleDelete() throws Exception
+    {
+        synchronized (fs)
+        {
+            if (attached)
+            {
+                // Fix up state
+                injectType(FileType.IMAGINARY);
+                removeChildrenCache();
+                // children = null;
+
+                // Notify subclass
+                onChange();
+            }
+
+            // Notify parent that its child list may no longer be valid
+            notifyParent(this.getName(), FileType.IMAGINARY);
+
+            // Notify the file system
+            fs.fireFileDeleted(this);
+        }
+    }
+
+    /**
+     * This method is meant to add an object where this object holds a strong reference then.
+     * E.g. a archive-filesystem creates a list of all children and they shouldn't get
+     * garbage collected until the container is garbage collected
+     *
+     * @param strongRef The Object to add.
+     */
+    // TODO should this be a FileObject?
+    public void holdObject(final Object strongRef)
+    {
+        if (objects == null)
+        {
+            objects = new ArrayList<Object>(INITIAL_LIST_SIZE);
+        }
+        objects.add(strongRef);
+    }
+
+    protected void injectType(final FileType fileType)
+    {
+        setFileType(fileType);
+    }
+
+    /**
+     * Check if the internal state is "attached".
+     *
+     * @return true if this is the case
+     */
+    @Override
+    public boolean isAttached()
+    {
+        return attached;
+    }
+
+    /**
+     * Check if the content stream is open.
+     *
+     * @return true if this is the case
+     */
+    @Override
+    public boolean isContentOpen()
+    {
+        if (content == null)
+        {
+            return false;
+        }
+
+        return content.isOpen();
+    }
+
+    /**
+     * Determines if this file is executable.
+     *
+     * @return {@code true} if this file is executable, {@code false} if not.
+     * @throws FileSystemException On error determining if this file exists.
+     */
+    @Override
+    public boolean isExecutable() throws FileSystemException
+    {
+        try
+        {
+            return exists() ? doIsExecutable() : false;
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/check-is-executable.error", fileName, exc);
+        }
+    }
+
+    /**
+     * Checks if this file is a regular file by using its file type.
+     *
+     * @return true if this file is a regular file.
+     * @throws FileSystemException if an error occurs.
+     * @see #getType()
+     * @see FileType#FILE
+     */
+    @Override
+    public boolean isFile() throws FileSystemException
+    {
+        // Use equals instead of == to avoid any class loader worries.
+        return FileType.FILE.equals(this.getType());
+    }
+
+    /**
+     * Checks if this file is a folder by using its file type.
+     *
+     * @return true if this file is a regular file.
+     * @throws FileSystemException if an error occurs.
+     * @see #getType()
+     * @see FileType#FOLDER
+     */
+    @Override
+    public boolean isFolder() throws FileSystemException
+    {
+        // Use equals instead of == to avoid any class loader worries.
+        return FileType.FOLDER.equals(this.getType());
+    }
+
+    /**
+     * Determines if this file can be read.
+     * @return true if the file is a hidden file, false otherwise.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public boolean isHidden() throws FileSystemException
+    {
+        try
+        {
+            return exists() ? doIsHidden() : false;
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/check-is-hidden.error", fileName, exc);
+        }
+    }
+
+    /**
+     * Determines if this file can be read.
+     * @return true if the file can be read, false otherwise.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public boolean isReadable() throws FileSystemException
+    {
+        try
+        {
+            return exists() ? doIsReadable() : false;
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/check-is-readable.error", fileName, exc);
+        }
+    }
+
+    /**
+     * Checks if this fileObject is the same file as {@code destFile} just with a different
+     * name.<br />
+     * E.g. for case insensitive filesystems like windows.
+     * @param destFile The file to compare to.
+     * @return true if the FileObjects are the same.
+     * @throws FileSystemException if an error occurs.
+     */
+    protected boolean isSameFile(final FileObject destFile) throws FileSystemException
+    {
+        attach();
+        return doIsSameFile(destFile);
+    }
+
+    /**
+     * Determines if this file can be written to.
+     * @return true if the file can be written to, false otherwise.
+     * @throws FileSystemException if an error occurs.
+     */
+    @Override
+    public boolean isWriteable() throws FileSystemException
+    {
+        try
+        {
+            if (exists())
+            {
+                return doIsWriteable();
+            }
+            else
+            {
+                final FileObject parent = getParent();
+                if (parent != null)
+                {
+                    return parent.isWriteable();
+                }
+                return true;
+            }
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/check-is-writeable.error", fileName, exc);
+        }
+    }
+
+    /**
+     * Returns an iterator over a set of all FileObject in this file object.
+     *
+     * @return an Iterator.
+     */
+    @Override
+    public Iterator<FileObject> iterator()
+    {
+        try
+        {
+            return listFiles(Selectors.SELECT_ALL).iterator();
+        }
+        catch (final FileSystemException e)
+        {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * Lists the set of matching descendants of this file, in depthwise
+     * order.
+     *
+     * @param selector The FileSelector.
+     * @return list of files or null if the base file (this object) do not exist or the {@code selector} is null
+     * @throws FileSystemException if an error occurs.
+     */
+    public List<FileObject> listFiles(final FileSelector selector) throws FileSystemException
+    {
+        if (!exists() || selector == null)
+        {
+            return null;
+        }
+
+        final ArrayList<FileObject> list = new ArrayList<FileObject>();
+        this.findFiles(selector, true, list);
+        return list;
     }
 
     /**
@@ -1377,510 +1884,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Checks if this fileObject is the same file as {@code destFile} just with a different
-     * name.<br />
-     * E.g. for case insensitive filesystems like windows.
-     * @param destFile The file to compare to.
-     * @return true if the FileObjects are the same.
-     * @throws FileSystemException if an error occurs.
+     * will be called after this file-object closed all its streams.
      */
-    protected boolean isSameFile(final FileObject destFile) throws FileSystemException
+    protected void notifyAllStreamsClosed()
     {
-        attach();
-        return doIsSameFile(destFile);
-    }
-
-    /**
-     * Checks if this fileObject is the same file as {@code destFile} just with a different
-     * name.<br />
-     * E.g. for case insensitive filesystems like windows.
-     * @param destFile The file to compare to.
-     * @return true if the FileObjects are the same.
-     * @throws FileSystemException if an error occurs.
-     */
-    protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException
-    {
-        return false;
-    }
-
-    /**
-     * Queries the object if a simple rename to the filename of {@code newfile}
-     * is possible.
-     *
-     * @param newfile the new filename
-     * @return true if rename is possible
-     */
-    @Override
-    public boolean canRenameTo(final FileObject newfile)
-    {
-        return fs == newfile.getFileSystem();
-    }
-
-    /**
-     * Finds the set of matching descendants of this file, in depthwise
-     * order.
-     *
-     * @param selector The FileSelector.
-     * @return list of files or null if the base file (this object) do not exist
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public FileObject[] findFiles(final FileSelector selector) throws FileSystemException
-    {
-        final List<FileObject> list = this.listFiles(selector);
-        return list == null ? null : list.toArray(new FileObject[list.size()]);
-    }
-
-    /**
-     * Returns the file's content.
-     * @return the FileContent for this FileObject.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public FileContent getContent() throws FileSystemException
-    {
-        synchronized (fs)
-        {
-            attach();
-            if (content == null)
-            {
-                content = doCreateFileContent();
-            }
-            return content;
-        }
-    }
-
-    /**
-     * Create a FileContent implementation.
-     * @return The FileContent.
-     * @throws FileSystemException if an error occurs.
-     * @since 2.0
-     */
-    protected FileContent doCreateFileContent() throws FileSystemException
-    {
-        return new DefaultFileContent(this, getFileContentInfoFactory());
-    }
-
-    /**
-     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void refresh() throws FileSystemException
-    {
-        // Detach from the file
-        try
-        {
-            detach();
-        }
-        catch (final Exception e)
-        {
-            throw new FileSystemException("vfs.provider/resync.error", fileName, e);
-        }
-    }
-
-    /**
-     * Closes this file, and its content.
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void close() throws FileSystemException
-    {
-        FileSystemException exc = null;
-
-        // Close the content
-        if (content != null)
-        {
-            try
-            {
-                content.close();
-                content = null;
-            }
-            catch (final FileSystemException e)
-            {
-                exc = e;
-            }
-        }
-
-        // Detach from the file
-        try
-        {
-            detach();
-        }
-        catch (final Exception e)
-        {
-            exc = new FileSystemException("vfs.provider/close.error", fileName, e);
-        }
-
-        if (exc != null)
-        {
-            throw exc;
-        }
-    }
-
-    /**
-     * Returns an input stream to use to read the content of the file.
-     * @return The InputStream to access this file's content.
-     * @throws FileSystemException if an error occurs.
-     */
-    public InputStream getInputStream() throws FileSystemException
-    {
-        /* VFS-210
-        if (!getType().hasContent())
-        {
-            throw new FileSystemException("vfs.provider/read-not-file.error", name);
-        }
-        if (!isReadable())
-        {
-            throw new FileSystemException("vfs.provider/read-not-readable.error", name);
-        }
-        */
-
-        // Get the raw input stream
-        try
-        {
-            return doGetInputStream();
-        }
-        catch (final org.apache.commons.vfs2.FileNotFoundException exc)
-        {
-            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
-        }
-        catch (final FileNotFoundException exc)
-        {
-            throw new org.apache.commons.vfs2.FileNotFoundException(fileName, exc);
-        }
-        catch (final FileSystemException exc)
-        {
-            throw exc;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/read.error", fileName, exc);
-        }
-    }
-
-    /**
-     * Returns an input/output stream to use to read and write the content of the file in and
-     * random manner.
-     * @param mode The RandomAccessMode.
-     * @return The RandomAccessContent.
-     * @throws FileSystemException if an error occurs.
-     */
-    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
-    {
-        /* VFS-210
-        if (!getType().hasContent())
-        {
-            throw new FileSystemException("vfs.provider/read-not-file.error", name);
-        }
-        */
-
-        if (mode.requestRead())
-        {
-            if (!fs.hasCapability(Capability.RANDOM_ACCESS_READ))
-            {
-                throw new FileSystemException("vfs.provider/random-access-read-not-supported.error");
-            }
-            if (!isReadable())
-            {
-                throw new FileSystemException("vfs.provider/read-not-readable.error", fileName);
-            }
-        }
-
-        if (mode.requestWrite())
-        {
-            if (!fs.hasCapability(Capability.RANDOM_ACCESS_WRITE))
-            {
-                throw new FileSystemException("vfs.provider/random-access-write-not-supported.error");
-            }
-            if (!isWriteable())
-            {
-                throw new FileSystemException("vfs.provider/write-read-only.error", fileName);
-            }
-        }
-
-        // Get the raw input stream
-        try
-        {
-            return doGetRandomAccessContent(mode);
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/random-access.error", fileName, exc);
-        }
-    }
-
-    /**
-     * Prepares this file for writing.  Makes sure it is either a file,
-     * or its parent folder exists.  Returns an output stream to use to
-     * write the content of the file to.
-     * @return An OutputStream where the new contents of the file can be written.
-     * @throws FileSystemException if an error occurs.
-     */
-    public OutputStream getOutputStream() throws FileSystemException
-    {
-        return getOutputStream(false);
-    }
-
-    /**
-     * Prepares this file for writing.  Makes sure it is either a file,
-     * or its parent folder exists.  Returns an output stream to use to
-     * write the content of the file to.<br>
-     *
-     * @param bAppend true when append to the file.<br>
-     *                Note: If the underlaying filesystem does not support appending,
-     *                a FileSystemException is thrown.
-     * @return An OutputStream where the new contents of the file can be written.
-     * @throws FileSystemException if an error occurs; for example:<br>
-     *         bAppend is true, and the unbderlying FileSystem does not support it
-     */
-    public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException
-    {
-        /* VFS-210
-        if (getType() != FileType.IMAGINARY && !getType().hasContent())
-        {
-            throw new FileSystemException("vfs.provider/write-not-file.error", name);
-        }
-        if (!isWriteable())
-        {
-            throw new FileSystemException("vfs.provider/write-read-only.error", name);
-        }
-        */
-
-        if (bAppend && !fs.hasCapability(Capability.APPEND_CONTENT))
-        {
-            throw new FileSystemException("vfs.provider/write-append-not-supported.error", fileName);
-        }
-
-        if (getType() == FileType.IMAGINARY)
-        {
-// Does not exist - make sure parent does
-            final FileObject parent = getParent();
-            if (parent != null)
-            {
-                parent.createFolder();
-            }
-        }
-
-// Get the raw output stream
-        try
-        {
-            return doGetOutputStream(bAppend);
-        }
-        catch (final RuntimeException re)
-        {
-            throw re;
-        }
-        catch (final Exception exc)
-        {
-            throw new FileSystemException("vfs.provider/write.error", exc, fileName);
-        }
-    }
-
-    /**
-     * Detaches this file, invaliating all cached info.  This will force
-     * a call to {@link #doAttach} next time this file is used.
-     * @throws Exception if an error occurs.
-     */
-    private void detach() throws Exception
-    {
-        synchronized (fs)
-        {
-            if (attached)
-            {
-                try
-                {
-                    doDetach();
-                }
-                finally
-                {
-                    attached = false;
-                    setFileType(null);
-                    parent = null;
-
-                    // fs.fileDetached(this);
-
-                    removeChildrenCache();
-                    // children = null;
-                }
-            }
-        }
-    }
-
-    private void removeChildrenCache()
-    {
-        /*
-        if (children != null)
-        {
-            for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
-            {
-                fs.removeFileFromCache(children[iterChildren].getName());
-            }
-
-            children = null;
-        }
-        */
-        children = null;
-    }
-
-    /**
-     * Attaches to the file.
-     * @throws FileSystemException if an error occurs.
-     */
-    private void attach() throws FileSystemException
-    {
-        synchronized (fs)
-        {
-            if (attached)
-            {
-                return;
-            }
-
-            try
-            {
-                // Attach and determine the file type
-                doAttach();
-                attached = true;
-                // now the type could already be injected by doAttach (e.g from parent to child)
-
-                /* VFS-210: determine the type when really asked fore
-                if (type == null)
-                {
-                    setFileType(doGetType());
-                }
-                if (type == null)
-                {
-                    setFileType(FileType.IMAGINARY);
-                }
-                */
-            }
-            catch (final Exception exc)
-            {
-                throw new FileSystemException("vfs.provider/get-type.error", exc, fileName);
-            }
-
-            // fs.fileAttached(this);
-        }
-    }
-
-    /**
-     * Called when the ouput stream for this file is closed.
-     * @throws Exception if an error occurs.
-     */
-    protected void endOutput() throws Exception
-    {
-        if (getType() == FileType.IMAGINARY)
-        {
-            // File was created
-            handleCreate(FileType.FILE);
-        }
-        else
-        {
-            // File has changed
-            onChange();
-        }
-    }
-
-    /**
-     * Called when this file is created.  Updates cached info and notifies
-     * the parent and file system.
-     * @param newType The type of the file.
-     * @throws Exception if an error occurs.
-     */
-    protected void handleCreate(final FileType newType) throws Exception
-    {
-        synchronized (fs)
-        {
-            if (attached)
-            {
-                // Fix up state
-                injectType(newType);
-
-                removeChildrenCache();
-                // children = EMPTY_FILE_ARRAY;
-
-                // Notify subclass
-                onChange();
-            }
-
-            // Notify parent that its child list may no longer be valid
-            notifyParent(this.getName(), newType);
-
-            // Notify the file system
-            fs.fireFileCreated(this);
-        }
-    }
-
-    /**
-     * Called when this file is deleted.  Updates cached info and notifies
-     * subclasses, parent and file system.
-     * @throws Exception if an error occurs.
-     */
-    protected void handleDelete() throws Exception
-    {
-        synchronized (fs)
-        {
-            if (attached)
-            {
-                // Fix up state
-                injectType(FileType.IMAGINARY);
-                removeChildrenCache();
-                // children = null;
-
-                // Notify subclass
-                onChange();
-            }
-
-            // Notify parent that its child list may no longer be valid
-            notifyParent(this.getName(), FileType.IMAGINARY);
-
-            // Notify the file system
-            fs.fireFileDeleted(this);
-        }
-    }
-
-    /**
-     * Called when this file is changed.<br />
-     * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
-     * @throws Exception if an error occurs.
-     */
-    protected void handleChanged() throws Exception
-    {
-        // Notify the file system
-        fs.fireFileChanged(this);
-    }
-
-    /**
-     * Notifies the file that its children have changed.
-     * @param childName The name of the child.
-     * @param newType The type of the child.
-     * @throws Exception if an error occurs.
-     */
-    protected void childrenChanged(final FileName childName, final FileType newType) throws Exception
-    {
-        // TODO - this may be called when not attached
-
-        if (children != null)
-        {
-            if (childName != null && newType != null)
-            {
-                // TODO - figure out if children[] can be replaced by list
-                final ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
-                if (newType.equals(FileType.IMAGINARY))
-                {
-                    list.remove(childName);
-                }
-                else
-                {
-                    list.add(childName);
-                }
-                children = new FileName[list.size()];
-                list.toArray(children);
-            }
-        }
-
-        // removeChildrenCache();
-        onChildrenChanged(childName, newType);
     }
 
     /**
@@ -1909,122 +1916,126 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Traverses the descendants of this file, and builds a list of selected
-     * files.
-     * @param selector The FileSelector.
-     * @param depthwise if true files are added after their descendants, before otherwise.
-     * @param selected A List of the located FileObjects.
+     * Called when the type or content of this file changes.
+     * <p/>
+     * This implementation does nothing.
+     * @throws Exception if an error occurs.
+     */
+    protected void onChange() throws Exception
+    {
+    }
+
+    /**
+     * Called when the children of this file change.  Allows subclasses to
+     * refresh any cached information about the children of this file.
+     * <p/>
+     * This implementation does nothing.
+     * @param child The name of the child that changed.
+     * @param newType The type of the file.
+     * @throws Exception if an error occurs.
+     */
+    protected void onChildrenChanged(final FileName child, final FileType newType) throws Exception
+    {
+    }
+
+    /**
+     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void findFiles(final FileSelector selector,
-                          final boolean depthwise,
-                          final List<FileObject> selected) throws FileSystemException
+    public void refresh() throws FileSystemException
     {
+        // Detach from the file
         try
         {
-            if (exists())
-            {
-                // Traverse starting at this file
-                final DefaultFileSelectorInfo info = new DefaultFileSelectorInfo();
-                info.setBaseFolder(this);
-                info.setDepth(0);
-                info.setFile(this);
-                traverse(info, selector, depthwise, selected);
-            }
+            detach();
         }
         catch (final Exception e)
         {
-            throw new FileSystemException("vfs.provider/find-files.error", fileName, e);
+            throw new FileSystemException("vfs.provider/resync.error", fileName, e);
         }
     }
 
-    /**
-     * Traverses a file.
-     */
-    private static void traverse(final DefaultFileSelectorInfo fileInfo,
-                                 final FileSelector selector,
-                                 final boolean depthwise,
-                                 final List<FileObject> selected)
-        throws Exception
+    private void removeChildrenCache()
     {
-        // Check the file itself
-        final FileObject file = fileInfo.getFile();
-        final int index = selected.size();
-
-        // If the file is a folder, traverse it
-        if (file.getType().hasChildren() && selector.traverseDescendents(fileInfo))
+        /*
+        if (children != null)
         {
-            final int curDepth = fileInfo.getDepth();
-            fileInfo.setDepth(curDepth + 1);
-
-            // Traverse the children
-            final FileObject[] children = file.getChildren();
-            for (final FileObject child : children)
+            for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
             {
-                fileInfo.setFile(child);
-                traverse(fileInfo, selector, depthwise, selected);
+                fs.removeFileFromCache(children[iterChildren].getName());
             }
 
-            fileInfo.setFile(file);
-            fileInfo.setDepth(curDepth);
+            children = null;
         }
+        */
+        children = null;
+    }
 
-        // Add the file if doing depthwise traversal
-        if (selector.includeFile(fileInfo))
-        {
-            if (depthwise)
-            {
-                // Add this file after its descendants
-                selected.add(file);
-            }
-            else
-            {
-                // Add this file before its descendants
-                selected.add(index, file);
-            }
-        }
+    private FileObject resolveFile(final FileName child) throws FileSystemException
+    {
+        return fs.resolveFile(child);
     }
 
     /**
-     * Check if the content stream is open.
+     * Finds a file, relative to this file.
      *
-     * @return true if this is the case
+     * @param path The path of the file to locate.  Can either be a relative
+     *             path, which is resolved relative to this file, or an
+     *             absolute path, which is resolved relative to the file system
+     *             that contains this file.
+     * @return The FileObject.
+     * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean isContentOpen()
+    public FileObject resolveFile(final String path) throws FileSystemException
     {
-        if (content == null)
-        {
-            return false;
-        }
-
-        return content.isOpen();
+        final FileName otherName = fs.getFileSystemManager().resolveName(fileName, path);
+        return fs.resolveFile(otherName);
     }
 
     /**
-     * Check if the internal state is "attached".
-     *
-     * @return true if this is the case
+     * Returns a child by name.
+     * @param name The name of the child to locate.
+     * @param scope the NameScope.
+     * @return The FileObject for the file or null if the child does not exist.
+     * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean isAttached()
+    public FileObject resolveFile(final String name, final NameScope scope)
+        throws FileSystemException
     {
-        return attached;
+        // return fs.resolveFile(this.name.resolveName(name, scope));
+        return fs.resolveFile(fs.getFileSystemManager().resolveName(this.fileName, name, scope));
     }
 
-    /**
-     * create the filecontentinfo implementation.
-     * @return The FileContentInfoFactory.
-     */
-    protected FileContentInfoFactory getFileContentInfoFactory()
+    private FileObject[] resolveFiles(final FileName[] children) throws FileSystemException
     {
-        return fs.getFileSystemManager().getFileContentInfoFactory();
+        if (children == null)
+        {
+            return null;
+        }
+
+        final FileObject[] objects = new FileObject[children.length];
+        for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
+        {
+            objects[iterChildren] = resolveFile(children[iterChildren]);
+        }
+
+        return objects;
     }
 
-    protected void injectType(final FileType fileType)
+    @Override
+    public boolean setExecutable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
-        setFileType(fileType);
+        try
+        {
+            return exists() ? doSetExecutable(readable, ownerOnly) : false;
+        }
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/set-executable.error", fileName, exc);
+        }
     }
 
     private void setFileType(final FileType type)
@@ -2043,53 +2054,42 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         this.type = type;
     }
 
-    /**
-     * This method is meant to add an object where this object holds a strong reference then.
-     * E.g. a archive-filesystem creates a list of all children and they shouldn't get
-     * garbage collected until the container is garbage collected
-     *
-     * @param strongRef The Object to add.
-     */
-    // TODO should this be a FileObject?
-    public void holdObject(final Object strongRef)
+    @Override
+    public boolean setReadable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
-        if (objects == null)
+        try
         {
-            objects = new ArrayList<Object>(INITIAL_LIST_SIZE);
+            return exists() ? doSetReadable(readable, ownerOnly) : false;
         }
-        objects.add(strongRef);
-    }
-
-    /**
-     * will be called after this file-object closed all its streams.
-     */
-    protected void notifyAllStreamsClosed()
-    {
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/set-readable.error", fileName, exc);
+        }
     }
 
     // --- OPERATIONS ---
 
-    /**
-     * @return FileOperations interface that provides access to the operations
-     *         API.
-     * @throws FileSystemException if an error occurs.
-     */
     @Override
-    public FileOperations getFileOperations() throws FileSystemException
+    public boolean setWritable(final boolean readable, final boolean ownerOnly) throws FileSystemException
     {
-        if (operations == null)
+        try
         {
-            operations = new DefaultFileOperations(this);
+            return exists() ? doSetWritable(readable, ownerOnly) : false;
         }
-
-        return operations;
+        catch (final Exception exc)
+        {
+            throw new FileSystemException("vfs.provider/set-writeable.error", fileName, exc);
+        }
     }
 
+    /**
+     * Returns the URI as a String.
+     * 
+     * @return Returns the URI as a String.
+     */
     @Override
-    protected void finalize() throws Throwable
+    public String toString()
     {
-        fs.fileObjectDestroyed(this);
-
-        super.finalize();
+        return fileName.getURI();
     }
 }
