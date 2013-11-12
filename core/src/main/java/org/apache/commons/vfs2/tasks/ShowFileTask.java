@@ -75,7 +75,7 @@ public class ShowFileTask
         try
         {
             final FileObject file = resolveFile(url);
-            log("Details of " + file.getName().getURI());
+            log("Details of " + file.getPublicURIString());
             showFile(file, INDENT);
         }
         catch (final Exception e)

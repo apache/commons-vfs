@@ -76,7 +76,7 @@ public class CopyTask
                                        final FileObject destFile)
         throws FileSystemException
     {
-        log("Copying " + srcFile + " to " + destFile);
+        log("Copying " + srcFile.getPublicURIString() + " to " + destFile.getPublicURIString());
         destFile.copyFrom(srcFile, Selectors.SELECT_SELF);
         if (preserveLastModified
             && srcFile.getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED)

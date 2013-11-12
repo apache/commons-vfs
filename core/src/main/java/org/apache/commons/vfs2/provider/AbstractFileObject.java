@@ -1312,6 +1312,18 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
+     * Returns the receiver as a URI String for public display, like, without a
+     * password.
+     * 
+     * @return A URI String without a password, never {@code null}.
+     */
+    @Override
+    public String getPublicURIString()
+    {
+        return fileName.getFriendlyURI();
+    }
+
+    /**
      * Prepares this file for writing.  Makes sure it is either a file,
      * or its parent folder exists.  Returns an output stream to use to
      * write the content of the file to.

@@ -274,6 +274,14 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     FileObject getParent() throws FileSystemException;
 
     /**
+     * Returns the receiver as a URI String for public display, like, without a
+     * password.
+     * 
+     * @return A URI String without a password, never {@code null}.
+     */
+    String getPublicURIString();
+
+    /**
      * Returns this file's type.
      *
      * @return One of the {@link FileType} constants.  Never returns null.
@@ -416,6 +424,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      */
     boolean setExecutable(boolean executable, boolean ownerOnly) throws FileSystemException;
 
+
     /**
      * Sets the owner's (or everybody's) read permission.
      *
@@ -429,7 +438,6 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
      * @since 2.1
      */
     boolean setReadable(boolean readable, boolean ownerOnly) throws FileSystemException;
-
 
     /**
      * Sets the owner's (or everybody's) write permission.

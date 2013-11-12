@@ -152,6 +152,11 @@ public class DecoratedFileObject implements FileObject
     }
 
     @Override
+    public String getPublicURIString() {
+        return decoratedFileObject.getPublicURIString();
+    }
+
+    @Override
     public FileName getName()
     {
         return decoratedFileObject.getName();

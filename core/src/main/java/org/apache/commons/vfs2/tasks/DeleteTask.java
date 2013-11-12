@@ -95,7 +95,7 @@ public class DeleteTask
             else
             {
                 final FileObject srcFile = resolveFile(file);
-                log("Deleting " + srcFile);
+                log("Deleting " + srcFile.getPublicURIString());
                 srcFile.deleteAll();
             }
         }

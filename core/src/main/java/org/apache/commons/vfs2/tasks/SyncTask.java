@@ -32,7 +32,7 @@ public class SyncTask
     protected void handleMissingSourceFile(final FileObject destFile)
         throws Exception
     {
-        log("deleting " + destFile);
+        log("deleting " + destFile.getPublicURIString());
         //destFile.delete( Selectors.SELECT_SELF );
     }
 

@@ -52,12 +52,12 @@ public class MoveTask
         {
             super.handleOutOfDateFile(srcFile, destFile);
 
-            log("Deleting " + srcFile);
+            log("Deleting " + srcFile.getPublicURIString());
             srcFile.delete(Selectors.SELECT_SELF);
         }
         else
         {
-            log("Rename " + srcFile + " to " + destFile);
+            log("Rename " + srcFile.getPublicURIString() + " to " + destFile.getPublicURIString());
             srcFile.moveTo(destFile);
             if (!isPreserveLastModified()
                 && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
