@@ -269,8 +269,9 @@ public abstract class AbstractFileName implements FileName
     }
 
     /**
-     * returns a "friendly path", this is a path without a password.
-     * @return The "friendly" URI.
+     * Returns the URI without a password.
+     * 
+     * @return Returns the URI without a password.
      */
     @Override
     public String getFriendlyURI()
