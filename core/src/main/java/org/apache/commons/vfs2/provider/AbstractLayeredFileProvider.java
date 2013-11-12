@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.FileSystemOptions;
  */
 public abstract class AbstractLayeredFileProvider
     extends AbstractFileProvider
-    implements FileProvider
 {
     public AbstractLayeredFileProvider()
     {
