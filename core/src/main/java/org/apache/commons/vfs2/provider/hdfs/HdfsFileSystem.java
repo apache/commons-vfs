@@ -86,8 +86,7 @@ public class HdfsFileSystem extends AbstractFileSystem
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#createFile(org.apache
-     *      .commons.vfs2.provider.AbstractFileName)
+     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#createFile(org.apache.commons.vfs2.provider.AbstractFileName)
      */
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception
