@@ -95,7 +95,7 @@ public class HdfsFileSystem extends AbstractFileSystem
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#resolveFile(org.apache .commons.vfs2.FileName)
+     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#resolveFile(org.apache.commons.vfs2.FileName)
      */
     @Override
     public FileObject resolveFile(final FileName name) throws FileSystemException
