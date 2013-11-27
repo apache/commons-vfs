@@ -57,7 +57,7 @@ public class HdfsFileSystem extends AbstractFileSystem
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#addCapabilities(java .util.Collection)
+     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#addCapabilities(Collection)
      */
     @Override
     protected void addCapabilities(final Collection<Capability> capabilities)
