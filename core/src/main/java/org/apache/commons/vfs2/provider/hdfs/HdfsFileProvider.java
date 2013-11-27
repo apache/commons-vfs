@@ -58,8 +58,8 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider#
-     *      doCreateFileSystem(org.apache.commons.vfs2.FileName, org.apache.commons.vfs2.FileSystemOptions)
+     * @see org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider#doCreateFileSystem(org.apache.commons.vfs2.FileName,
+     *      org.apache.commons.vfs2.FileSystemOptions)
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
