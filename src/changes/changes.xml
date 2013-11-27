@@ -59,6 +59,9 @@
       <action issue="VFS-475" dev="ggregory" type="update">
         Update Apache Commons Net to 3.3 from 3.2.
       </action>
+      <action issue="VFS-506" dev="ggregory" type="update">
+        [Tar][Bzip2] Update Apache Commons Compress to 1.6 from 1.5.
+      </action>
       <action issue="VFS-471" dev="ggregory" type="update">
         Update to Apache Commons Compress 1.5.
       </action>

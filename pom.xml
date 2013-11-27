@@ -335,7 +335,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.5</version>
+        <version>1.6</version>
       </dependency>
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
