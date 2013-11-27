@@ -53,6 +53,9 @@
       <action issue="VFS-482" dev="ggregory" type="fix">
         Wrong assertion messages in RAM provider test case.
       </action>
+      <action issue="VFS-507" dev="ggregory" type="update">
+        Update to Apache Commons Collection 4.0 from 3.2.1 and use generics.
+      </action>
       <action issue="VFS-476" dev="ggregory" type="update">
         Update Apache Commons Logging to 1.1.3 from 1.1.2.
       </action>

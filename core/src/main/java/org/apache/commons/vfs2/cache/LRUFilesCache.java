@@ -23,8 +23,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.apache.commons.collections.map.AbstractLinkedMap;
-import org.apache.commons.collections.map.LRUMap;
+import org.apache.commons.collections4.map.AbstractLinkedMap;
+import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileName;
@@ -61,7 +61,7 @@ public class LRUFilesCache extends AbstractFilesCache
     /**
      * The file cache
      */
-    private class MyLRUMap extends LRUMap /* implements Map<FileName, FileObject> */
+    private class MyLRUMap extends LRUMap<FileName, FileObject>
     {
         /**
          * serialVersionUID format is YYYYMMDD for the date of the last binary change.
@@ -78,11 +78,11 @@ public class LRUFilesCache extends AbstractFilesCache
         }
 
         @Override
-        protected boolean removeLRU(final AbstractLinkedMap.LinkEntry linkEntry)
+        protected boolean removeLRU(final AbstractLinkedMap.LinkEntry<FileName, FileObject> linkEntry)
         {
             synchronized (LRUFilesCache.this)
             {
-                final FileObject file = (FileObject) linkEntry.getValue();
+                final FileObject file = linkEntry.getValue();
 
                 // System.err.println(">>> " + size() + " check removeLRU:" + linkEntry.getKey().toString());
 
@@ -223,7 +223,6 @@ public class LRUFilesCache extends AbstractFilesCache
         }
     }
 
-    @SuppressWarnings("unchecked") // (1)
     protected Map<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem)
     {
         Map<FileName, FileObject> files = filesystemCache.get(filesystem);
@@ -234,7 +233,6 @@ public class LRUFilesCache extends AbstractFilesCache
             files = new MyLRUMap(filesystem, lruSize);
             filesystemCache.putIfAbsent(filesystem, files);
         }
-
         return files;
     }
 
