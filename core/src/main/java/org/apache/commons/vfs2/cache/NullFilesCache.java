@@ -56,12 +56,6 @@ public class NullFilesCache extends AbstractFilesCache
     }
 
     @Override
-    public void close()
-    {
-        super.close();
-    }
-
-    @Override
     public void removeFile(final FileSystem filesystem, final FileName name)
     {
     }
