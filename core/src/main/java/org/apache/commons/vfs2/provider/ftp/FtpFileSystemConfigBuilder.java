@@ -61,7 +61,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /** @since 2.1 */
-    protected FtpFileSystemConfigBuilder(String prefix) {
+    protected FtpFileSystemConfigBuilder(final String prefix) {
         super(prefix);
     }
 

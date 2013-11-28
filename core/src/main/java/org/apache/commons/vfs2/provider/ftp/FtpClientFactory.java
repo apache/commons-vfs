@@ -53,7 +53,7 @@ public final class FtpClientFactory
      * @return An FTPClient.
      * @throws FileSystemException if an error occurs while connecting.
      */
-    public static FTPClient createConnection(final String hostname, final int port, char[] username, char[] password,
+    public static FTPClient createConnection(final String hostname, final int port, final char[] username, final char[] password,
                                              final String workingDirectory, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
@@ -62,7 +62,7 @@ public final class FtpClientFactory
     }
 
     public static class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder> {
-        private FtpConnectionFactory(FtpFileSystemConfigBuilder builder)
+        private FtpConnectionFactory(final FtpFileSystemConfigBuilder builder)
         {
             super(builder);
         }
@@ -87,7 +87,7 @@ public final class FtpClientFactory
         protected Log log = LogFactory.getLog(getClass());
         protected B builder;
 
-        protected ConnectionFactory(B builder)
+        protected ConnectionFactory(final B builder)
         {
             this.builder = builder;
         }

@@ -92,7 +92,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
      * @throws FtpException
      * @throws IOException
      */
-    static void setUpClass(boolean implicit) throws FtpException, IOException
+    static void setUpClass(final boolean implicit) throws FtpException, IOException
     {
         if (Server != null)
         {
@@ -148,9 +148,9 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
     }
 
     static final class FtpProviderTestSuite extends ProviderTestSuite { 
-        private boolean implicit;
+        private final boolean implicit;
 
-        public FtpProviderTestSuite(AbstractFtpsProviderTestCase providerConfig) throws Exception
+        public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception
         {
             super(providerConfig);
             this.implicit = providerConfig.isImplicit();

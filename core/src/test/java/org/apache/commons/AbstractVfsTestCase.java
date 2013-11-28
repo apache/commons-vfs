@@ -112,7 +112,7 @@ public abstract class AbstractVfsTestCase
             if (baseDirProp.startsWith("file://")) {
                 try {
                     baseDir = getCanonicalFile(new File(new URI(baseDirProp)));
-                } catch (URISyntaxException e) {
+                } catch (final URISyntaxException e) {
                     baseDir = getCanonicalFile(new File(baseDirProp));
                 }
             } else {

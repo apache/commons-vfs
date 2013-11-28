@@ -50,7 +50,7 @@ public final class FtpsClientFactory
      * @return The FTPSClient.
      * @throws FileSystemException if an error occurs.
      */
-    public static FTPSClient createConnection(final String hostname, final int port, char[] username, char[] password,
+    public static FTPSClient createConnection(final String hostname, final int port, final char[] username, final char[] password,
             final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException
     {
         final FtpsConnectionFactory factory = new FtpsConnectionFactory(FtpsFileSystemConfigBuilder.getInstance());

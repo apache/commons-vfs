@@ -141,7 +141,7 @@ public abstract class AbstractTestSuite
 
     @Override
     public void run(final TestResult result) {
-        Protectable p = new Protectable() {
+        final Protectable p = new Protectable() {
             @Override
             public void protect() throws Exception {
                 setUp();

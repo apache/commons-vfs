@@ -176,7 +176,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *            The FileSystem options.
      * @return the file name encoding
      */
-    public String getFileNameEncoding(FileSystemOptions opts) 
+    public String getFileNameEncoding(final FileSystemOptions opts) 
     {
         return this.getString(opts, ENCODING);
     }
@@ -437,7 +437,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *            The FileSystem options.
      * @param fileNameEncoding
      */
-    public void setFileNameEncoding(FileSystemOptions opts, String fileNameEncoding) 
+    public void setFileNameEncoding(final FileSystemOptions opts, final String fileNameEncoding) 
     {
         this.setParam(opts, ENCODING, fileNameEncoding);
     }

@@ -25,8 +25,8 @@ public class UserAuthenticationDataTestCase
     @Test
     public void testCharacterBasedData()
     {
-        UserAuthenticationData data = new UserAuthenticationData();
-        char[] array = "PMC".toCharArray();
+        final UserAuthenticationData data = new UserAuthenticationData();
+        final char[] array = "PMC".toCharArray();
         data.setData(UserAuthenticationData.USERNAME, array);
         data.setData(UserAuthenticationData.DOMAIN, "Apache".toCharArray());
         assertSame(array, data.getData(UserAuthenticationData.USERNAME));
@@ -38,16 +38,16 @@ public class UserAuthenticationDataTestCase
         data.cleanup();
         assertNull(data.getData(UserAuthenticationData.USERNAME));
         assertNull(data.getData(UserAuthenticationData.DOMAIN));
-        char[] nulls = {0,0,0};
+        final char[] nulls = {0,0,0};
         assertArrayEquals(nulls, array);
     }
 
     @Test
     public void testCustomType()
     {
-        UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT"); 
-        UserAuthenticationData data = new UserAuthenticationData();
-        char[] array = "test".toCharArray();
+        final UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT"); 
+        final UserAuthenticationData data = new UserAuthenticationData();
+        final char[] array = "test".toCharArray();
         data.setData(type, array);
         assertSame(array, data.getData(type));
     }
