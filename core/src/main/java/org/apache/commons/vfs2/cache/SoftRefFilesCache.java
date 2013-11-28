@@ -96,12 +96,9 @@ public class SoftRefFilesCache extends AbstractFilesCache
                     {
                         final FileSystemAndNameKey key = refReverseMap.get(ref);
 
-                        if (key != null)
+                        if (key != null && removeFile(key)) 
                         {
-                            if (removeFile(key))
-                            {
-                                close(key.getFileSystem());
-                            }
+                            close(key.getFileSystem());
                         }
                     }
                     finally
