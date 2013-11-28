@@ -280,7 +280,7 @@ public class DelegatingFileSystemOptionsBuilder
             return false;
         }
 
-        final Object convertedValues = java.lang.reflect.Array.newInstance(type, ctx.values.length);
+        final Object convertedValues = Array.newInstance(type, ctx.values.length);
 
         Constructor<?> valueConstructor;
         try
