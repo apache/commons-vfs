@@ -41,6 +41,8 @@ public class DefaultFileReplicator
 {
     private static final Log log = LogFactory.getLog(DefaultFileReplicator.class);
     private static final int MASK = 0xffff;
+    
+    private static final Random random = new Random();
 
     private static final char[] TMP_RESERVED_CHARS = new char[]
         {
@@ -192,7 +194,7 @@ public class DefaultFileReplicator
             tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
         }
 
-        filecount = new Random().nextInt() & MASK;
+        filecount = random.nextInt() & MASK;
 
         if (!tempDirMessageLogged)
         {
