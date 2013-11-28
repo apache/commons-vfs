@@ -121,7 +121,7 @@ public class HdfsFileSystem extends AbstractFileSystem
             }
         }
 
-        boolean useCache = (null != getContext().getFileSystemManager().getFilesCache());
+        boolean useCache = null != getContext().getFileSystemManager().getFilesCache();
         FileObject file;
         if (useCache)
         {
