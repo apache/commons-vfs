@@ -39,13 +39,6 @@ public abstract class CompressedFileFileSystem
         super(rootName, parentLayer, fileSystemOptions);
     }
 
-    @Override
-    public void init() throws FileSystemException
-    {
-        super.init();
-
-    }
-
     /**
      * Returns the capabilities of this file system.
      */
