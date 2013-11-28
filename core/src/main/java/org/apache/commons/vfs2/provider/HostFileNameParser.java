@@ -44,12 +44,6 @@ public class HostFileNameParser extends AbstractFileNameParser
     }
 
     @Override
-    public boolean encodeCharacter(final char ch)
-    {
-        return super.encodeCharacter(ch);
-    }
-
-    @Override
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
             throws FileSystemException
     {
