@@ -107,11 +107,11 @@ public class HdfsFileSystem extends AbstractFileSystem
             {
                 final String hdfsUri = name.getRootURI();
                 final Configuration conf = new Configuration(true);
-                conf.set(org.apache.hadoop.fs.FileSystem.FS_DEFAULT_NAME_KEY, hdfsUri);
+                conf.set(FileSystem.FS_DEFAULT_NAME_KEY, hdfsUri);
                 this.fs = null;
                 try
                 {
-                    fs = org.apache.hadoop.fs.FileSystem.get(conf);
+                    fs = FileSystem.get(conf);
                 }
                 catch (final IOException e)
                 {
