@@ -26,7 +26,6 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,7 +42,7 @@ public class GetContentInfoFunctionalTest
      *
      * @throws FileSystemException
      *             thrown when the getContentInfo API fails.
-     * @throws MalformedURLException 
+     * @throws MalformedURLException
      *             thrown when the System environment contains an invalid URL for an HTTPS proxy.
      */
     @Test

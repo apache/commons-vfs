@@ -19,7 +19,6 @@ package org.apache.commons.vfs2.provider.http.test;
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.Assert;
 import junit.framework.Test;
 
 import org.apache.commons.vfs2.FileNotFolderException;
@@ -35,6 +34,7 @@ import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.commons.vfs2.util.NHttpServer;
+import org.junit.Assert;
 
 /**
  * Test cases for the HTTP provider.

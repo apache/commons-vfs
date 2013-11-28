@@ -87,8 +87,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
-     * 
-     * @param implicit FTPS connection mode 
+     *
+     * @param implicit FTPS connection mode
      * @throws FtpException
      * @throws IOException
      */
@@ -147,7 +147,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig i
         }
     }
 
-    static final class FtpProviderTestSuite extends ProviderTestSuite { 
+    static final class FtpProviderTestSuite extends ProviderTestSuite {
         private final boolean implicit;
 
         public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception

@@ -16,12 +16,14 @@
  */
 package org.apache.commons.vfs2.auth;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
-
 import org.junit.Test;
 
 public class StaticUserAuthenticatorTestCase

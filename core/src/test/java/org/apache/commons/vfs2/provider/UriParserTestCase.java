@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 
 /**

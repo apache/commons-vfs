@@ -16,16 +16,16 @@
  */
 package org.apache.commons.vfs2.provider.ftps.test;
 
+import junit.framework.Test;
+
 import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.ftps.FtpsMode;
 
-import junit.framework.Test;
-
 /**
  * Tests for FTPS file systems with implicit FTPS connection.
- * 
+ *
  * TODO: Fails for concurrent access.
- * Note, that the implicit mode is not standardized and the protocol may differ between the FTPS servers. 
+ * Note, that the implicit mode is not standardized and the protocol may differ between the FTPS servers.
  * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
  */
 public class FtpsProviderImplicitTestCase extends AbstractFtpsProviderTestCase

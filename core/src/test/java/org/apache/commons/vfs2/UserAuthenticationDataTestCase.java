@@ -16,7 +16,9 @@
  */
 package org.apache.commons.vfs2;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
@@ -34,7 +36,7 @@ public class UserAuthenticationDataTestCase
         data.setData(UserAuthenticationData.DOMAIN, "Apache Commons".toCharArray());
         assertArrayEquals("Apache Commons".toCharArray(), data.getData(UserAuthenticationData.DOMAIN));
         assertNull(data.getData(UserAuthenticationData.PASSWORD));
-        
+
         data.cleanup();
         assertNull(data.getData(UserAuthenticationData.USERNAME));
         assertNull(data.getData(UserAuthenticationData.DOMAIN));
@@ -45,7 +47,7 @@ public class UserAuthenticationDataTestCase
     @Test
     public void testCustomType()
     {
-        final UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT"); 
+        final UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT");
         final UserAuthenticationData data = new UserAuthenticationData();
         final char[] array = "test".toCharArray();
         data.setData(type, array);

@@ -31,7 +31,6 @@ import org.apache.commons.vfs2.impl.DefaultFileReplicator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.FileContentInfoFilenameFactory;
 import org.apache.commons.vfs2.provider.hdfs.HdfsFileAttributes;
-import org.apache.commons.vfs2.provider.hdfs.HdfsFileObject;
 import org.apache.commons.vfs2.provider.hdfs.HdfsFileProvider;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.hadoop.conf.Configuration;
@@ -334,7 +333,7 @@ public class HdfsFileProviderTest
 
         // Create the test file
         final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());        
+        Assert.assertTrue(fo.exists());
         Assert.assertTrue(file.isReadable());
     }
 

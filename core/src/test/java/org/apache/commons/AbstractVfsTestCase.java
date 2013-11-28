@@ -116,7 +116,7 @@ public abstract class AbstractVfsTestCase
                     baseDir = getCanonicalFile(new File(baseDirProp));
                 }
             } else {
-                baseDir = getCanonicalFile(new File(baseDirProp));                
+                baseDir = getCanonicalFile(new File(baseDirProp));
             }
         }
         return baseDir;

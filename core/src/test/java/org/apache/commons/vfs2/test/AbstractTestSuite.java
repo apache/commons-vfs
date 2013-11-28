@@ -24,11 +24,10 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import junit.framework.Protectable;
-import junit.framework.TestResult;
-
 import junit.extensions.TestSetup;
+import junit.framework.Protectable;
 import junit.framework.Test;
+import junit.framework.TestResult;
 import junit.framework.TestSuite;
 
 import org.apache.commons.AbstractVfsTestCase;
@@ -233,7 +232,7 @@ public abstract class AbstractTestSuite
     private void validateThreadSnapshot()
     {
         endThreadSnapshot = createThreadSnapshot();
-    
+
         final Thread[] diffThreadSnapshot = diffThreadSnapshot(startThreadSnapshot, endThreadSnapshot);
         if (diffThreadSnapshot.length > 0)
         {
@@ -293,7 +292,7 @@ public abstract class AbstractTestSuite
             sb.append("#");
             sb.append(iter + 1);
             sb.append(": ");
-            sb.append(thread.getThreadGroup() != null ? 
+            sb.append(thread.getThreadGroup() != null ?
                 thread.getThreadGroup().getName() : "(null)");
             sb.append("\t");
             sb.append(thread.getName());
