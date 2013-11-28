@@ -120,7 +120,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Initialises this component.
+     * Initializes this component.
      * @throws FileSystemException if an error occurs.
      */
     @Override

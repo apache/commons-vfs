@@ -67,7 +67,7 @@ public class DefaultFileReplicator
     }
 
     /**
-     * Initialises this component.
+     * Initializes this component.
      * @throws FileSystemException if an error occurs.
      */
     @Override

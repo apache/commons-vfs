@@ -49,7 +49,7 @@ public abstract class AbstractVfsComponent
     }
 
     /**
-     * Initialises the component.  This implementation does nothing.
+     * Initializes the component.  This implementation does nothing.
      * @throws FileSystemException if an error occurs.
      */
     @Override

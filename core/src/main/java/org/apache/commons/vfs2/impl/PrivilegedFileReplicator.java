@@ -80,7 +80,7 @@ public class PrivilegedFileReplicator
     }
 
     /**
-     * Initialises the component.
+     * Initializes the component.
      * @throws FileSystemException if an error occurs.
      */
     @Override

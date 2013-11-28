@@ -46,7 +46,7 @@ public interface VfsComponent
     void setContext(VfsComponentContext context);
 
     /**
-     * Initialises the component.
+     * Initializes the component.
      * @throws FileSystemException if an error occurs.
      */
     void init() throws FileSystemException;
