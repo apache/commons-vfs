@@ -30,9 +30,6 @@ import org.junit.Test;
 public class FileTypeTest {
 
     private static class Fixture implements Serializable {
-        /**
-         *
-         */
         private static final long serialVersionUID = 1L;
         private final FileType fileType = FileType.FILE;
 
