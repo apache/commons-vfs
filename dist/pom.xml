@@ -37,7 +37,7 @@ limitations under the License.
 
   <profiles>
     <profile>
-      <id>apache-release</id>
+      <id>release</id>
       <dependencies>
         <dependency>
           <groupId>org.apache.commons</groupId>
