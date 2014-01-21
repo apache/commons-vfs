@@ -423,6 +423,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
      * @return true if the file is writable.
      * @throws Exception if an error occurs.
      */
+    @Override
     protected boolean doIsWriteable() throws Exception
     {
         return true;

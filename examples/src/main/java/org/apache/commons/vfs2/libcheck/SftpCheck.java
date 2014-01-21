@@ -47,31 +47,37 @@ public class SftpCheck
         final Session session = jsch.getSession(user, host, 22);
         session.setUserInfo(new UserInfo()
         {
+            @Override
             public String getPassphrase()
             {
                 return null;
             }
 
+            @Override
             public String getPassword()
             {
                 return null;
             }
 
+            @Override
             public boolean promptPassword(final String string)
             {
                 return false;
             }
 
+            @Override
             public boolean promptPassphrase(final String string)
             {
                 return false;
             }
 
+            @Override
             public boolean promptYesNo(final String string)
             {
                 return true;
             }
 
+            @Override
             public void showMessage(final String string)
             {
             }
