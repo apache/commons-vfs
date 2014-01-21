@@ -47,7 +47,7 @@ public class Shell
     {
         try
         {
-            (new Shell()).go();
+            new Shell().go();
         }
         catch (final Exception e)
         {

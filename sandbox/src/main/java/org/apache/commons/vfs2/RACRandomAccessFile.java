@@ -124,7 +124,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
     {
         final byte[] buf = this.singleByteBuf;
         final int count = read(buf, 0, 1);
-        return count < 0 ? -1 : (buf[0] & 0xFF);
+        return count < 0 ? -1 : buf[0] & 0xFF;
     }
 
     @Override
