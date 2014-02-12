@@ -18,20 +18,23 @@ package org.apache.commons.vfs2.test;
 
 import java.io.OutputStream;
 
+import org.junit.Assert;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
-import org.junit.Assert;
 
 /**
- * Additional naming tests for local file system.
+ * Additional file permission tests.
+ *
+ * Used by Local and SFTP File System.
  *
  * @since 2.1
  */
 public class PermissionsTests extends AbstractProviderTestCase
 {
+    public static final String FILENAME = "permission.txt";
 
     /**
      * Returns the capabilities required by the tests of this test case.
@@ -62,11 +65,11 @@ public class PermissionsTests extends AbstractProviderTestCase
 
         } else
         {
-            // Set the executable flag
+            // Set the executable flag for owner
             file.setExecutable(true, true);
             Assert.assertTrue(file.isExecutable());
 
-            // Set the executable flag
+            // Set the executable flag for all
             file.setExecutable(true, false);
             Assert.assertTrue(file.isExecutable());
 
@@ -74,14 +77,6 @@ public class PermissionsTests extends AbstractProviderTestCase
             file.setExecutable(false, true);
             Assert.assertFalse(file.isExecutable());
         }
-    }
-
-    /**
-     * Returns true if the filesystem is a Windows file system
-     */
-    private boolean isWindows()
-    {
-        return SystemUtils.IS_OS_WINDOWS && this.getFileSystem() instanceof LocalFileSystem;
     }
 
 
@@ -92,15 +87,15 @@ public class PermissionsTests extends AbstractProviderTestCase
     {
         final FileObject file = createTestFile();
 
-        // Set the executable flag
+        // Set the write permission for owner
         file.setWritable(true, true);
         Assert.assertTrue(file.isWriteable());
 
-        // Set the executable flag
+        // Set the write permission for all
         file.setWritable(true, false);
         Assert.assertTrue(file.isWriteable());
 
-        // Clear the executable flag
+        // Clear the write permission
         file.setWritable(false, true);
         Assert.assertFalse(file.isWriteable());
     }
@@ -120,18 +115,34 @@ public class PermissionsTests extends AbstractProviderTestCase
         }
         else
         {
-            // Set the executable flag
+            // Set the readable permission for owner
             file.setReadable(true, true);
             Assert.assertTrue(file.isReadable());
 
-            // Set the executable flag
+            // Set the readable permission for all
             file.setReadable(true, false);
             Assert.assertTrue(file.isReadable());
 
-            // Clear the executable flag
+            // Clear the readable permission
             file.setReadable(false, true);
             Assert.assertFalse(file.isReadable());
         }
+    }
+
+
+    /**
+     * Clean up the permission-modified file to not affect other tests.
+     */
+    @Override
+    protected void tearDown()
+        throws Exception
+    {
+        final FileObject scratchFolder = getWriteFolder();
+        final FileObject file = scratchFolder.resolveFile(FILENAME);
+        file.setWritable(true, true);
+        file.delete();
+
+        super.tearDown();
     }
 
 
@@ -146,7 +157,7 @@ public class PermissionsTests extends AbstractProviderTestCase
         scratchFolder.createFolder();
 
         // Create direct child of the test folder
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        final FileObject file = scratchFolder.resolveFile(FILENAME);
         assertTrue(!file.exists());
 
         // Create the source file
@@ -165,4 +176,11 @@ public class PermissionsTests extends AbstractProviderTestCase
     }
 
 
+    /**
+     * Returns true if the filesystem is a LocalFileSystem on Windows
+     */
+    private boolean isWindows()
+    {
+        return SystemUtils.IS_OS_WINDOWS && this.getFileSystem() instanceof LocalFileSystem;
+    }
 }
