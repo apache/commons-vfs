@@ -16,12 +16,17 @@
  */
 package org.apache.commons.vfs2.impl.test;
 
+import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Enumeration;
 
+import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.impl.VFSClassLoader;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
@@ -94,6 +99,56 @@ public class VfsClassLoaderTests
         assertEquals("code.sealed", pack.getName());
         verifyPackage(pack, true);
     }
+
+    /**
+     * Tests retrieving resources (from JAR searchpath)
+     */
+    public void testGetResourcesJARs() throws Exception
+    {
+        final FileSystemManager manager = getManager();
+        final File baseDir = AbstractVfsTestCase.getTestDirectory();
+
+        // make sure the provider config is useable
+        if (baseDir == null || manager == null || !baseDir.isDirectory()) 
+        {
+            return;
+        }
+
+        // build search path without using #getBaseFolder()
+        // because NestedJarTestCase redefines it
+        final FileObject nestedJar;
+        final FileObject testJar;
+        try
+        {
+            nestedJar = manager.resolveFile(baseDir, "nested.jar");
+            testJar = manager.resolveFile(baseDir, "test.jar");
+        }
+        catch (FileSystemException ignored)
+        {
+            return; // this suite cannot handle localFiles
+        }
+
+        final FileObject[] search = new FileObject[] { nestedJar, testJar };
+
+        // test setup needs to know about .jar extension - i.e. NestedJarTestCase
+        if (!manager.canCreateFileSystem(nestedJar)) 
+        {
+            return;
+        }
+
+        // verify test setup
+        assertTrue("nested.jar is required for testing", nestedJar.getType() == FileType.FILE);
+        assertTrue("test.jar is required for testing", testJar.getType() == FileType.FILE);
+
+        final VFSClassLoader loader = new VFSClassLoader(search, getManager());
+        final Enumeration<URL> urls = loader.getResources("META-INF/MANIFEST.MF");
+        final URL url1 = urls.nextElement();
+        final URL url2 = urls.nextElement();
+
+        assertTrue("First resource must refer to nested.jar but was " + url1, url1.toString().endsWith("nested.jar!/META-INF/MANIFEST.MF"));
+        assertTrue("Second resource must refer to test.jar but was " + url2, url2.toString().endsWith("test.jar!/META-INF/MANIFEST.MF"));
+    }
+
 
     /**
      * Verify the package loaded with class loader.
