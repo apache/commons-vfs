@@ -102,6 +102,13 @@
       <url>http://www.garygregory.com</url>
       <timezone>-5</timezone>
     </developer>
+    <developer>
+      <name>Bernd Eckenfels</name>
+      <id>ecki</id>
+      <email>ecki -at- apache.org</email>
+      <url>http://bernd.eckenfels.net</url>
+      <timezone>+1</timezone>
+    </developer>
   </developers>
 
   <contributors>
