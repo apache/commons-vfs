@@ -17,8 +17,10 @@
 package org.apache.commons.vfs2.impl.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collections;
 import java.util.Enumeration;
 
 import org.apache.commons.AbstractVfsTestCase;
@@ -140,7 +142,13 @@ public class VfsClassLoaderTests
         assertTrue("nested.jar is required for testing", nestedJar.getType() == FileType.FILE);
         assertTrue("test.jar is required for testing", testJar.getType() == FileType.FILE);
 
-        final VFSClassLoader loader = new VFSClassLoader(search, getManager());
+        // System class loader (null) might be unpredictable in regards
+        // to returning resources for META-INF/MANIFEST.MF (see VFS-500)
+        // so we use our own which is guaranteed to not return any hit
+        final ClassLoader mockClassloader = new MockClassloader();
+
+        final VFSClassLoader loader = new VFSClassLoader(search, getManager(), mockClassloader);
+
         final Enumeration<URL> urls = loader.getResources("META-INF/MANIFEST.MF");
         final URL url1 = urls.nextElement();
         final URL url2 = urls.nextElement();
@@ -178,4 +186,34 @@ public class VfsClassLoaderTests
         }
     }
 
+
+    /**
+     * Non-Delegating Class Loader.
+     */
+    public static class MockClassloader extends ClassLoader
+    {
+        MockClassloader()
+        {
+            super(null);
+        }
+
+        /**
+         * This method will not return any hit to
+         * VFSClassLoader#testGetResourcesJARs.
+         */
+        @Override
+        public Enumeration<URL> getResources(String name)
+            throws IOException
+        {
+            return Collections.enumeration(Collections.<URL> emptyList());
+        }
+
+        @Override
+        protected Class<?> findClass(String name)
+            throws ClassNotFoundException
+        {
+            fail("Not intended to be used for class loading.");
+            return null;
+        }
+    }
 }
