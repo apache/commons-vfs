@@ -127,15 +127,15 @@
     <contributor>
       <name>Dave Marion</name>
       <email>dlmarion -at- apache.org</email>
-    </contributor>    
+    </contributor>
     <contributor>
       <name>Scott Bjerstedt</name>
       <email>jcottbjer -at- gmail.com</email>
-    </contributor>    
+    </contributor>
     <contributor>
       <name>Jose Juan Montiel</name>
       <email>josejuan.montiel -at- gmail.com</email>
-    </contributor>    
+    </contributor>
   </contributors>
 
   <properties>
@@ -274,7 +274,7 @@
         </configuration>
       </plugin>
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
-      <!-- 
+      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
@@ -282,7 +282,7 @@
       </plugin>
       -->
       <!-- javancss breaks because it cannot parse annotations in methods. -->
-      <!-- 
+      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javancss-maven-plugin</artifactId>
@@ -457,25 +457,25 @@
           </exclusion>
         </exclusions>
       </dependency>
-	  <!-- HDFS dependencies -->
+      <!-- HDFS dependencies -->
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-core</artifactId>
         <version>1.1.2</version>
         <scope>provided</scope>
-      </dependency>    
-	  <dependency>
-		<groupId>org.apache.hadoop</groupId>
-		<artifactId>hadoop-test</artifactId>
-		<version>1.1.2</version>
-		<scope>test</scope>
-	  </dependency>
-	  <dependency>
-		<groupId>javax.ws.rs</groupId>
-		<artifactId>jsr311-api</artifactId>
-		<version>1.1.1</version>
-		<scope>test</scope>
- 	  </dependency>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-test</artifactId>
+        <version>1.1.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>javax.ws.rs</groupId>
+        <artifactId>jsr311-api</artifactId>
+        <version>1.1.1</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -516,7 +516,7 @@
     </site>
   </distributionManagement>
 
-  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent 
+  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent
     and the apache-pom to get the build done and then uses the assembly to package it up. -->
   <profiles>
     <profile>
