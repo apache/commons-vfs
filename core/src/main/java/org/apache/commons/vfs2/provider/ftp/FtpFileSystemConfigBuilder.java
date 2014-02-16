@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.ftp;
 
+import java.net.Proxy;
+
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -37,6 +39,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String FACTORY_KEY = FTPFileEntryParserFactory.class.getName() + ".KEY";
     private static final String FILE_TYPE = _PREFIX + ".FILE_TYPE";
     private static final String PASSIVE_MODE = _PREFIX + ".PASSIVE";
+    private static final String PROXY = _PREFIX + ".PROXY";
 
     private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
     private static final String SERVER_LANGUAGE_CODE = _PREFIX + ".SERVER_LANGUAGE_CODE";
@@ -222,6 +225,18 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return getBoolean(opts, USER_DIR_IS_ROOT, Boolean.TRUE);
     }
+    
+    /**
+     * Gets the Proxy.
+     *
+     * @param opts The FileSystemOptions.
+     * @return the Proxy
+     * @since 2.1
+     */
+    public Proxy getProxy(final FileSystemOptions opts)
+    {
+        return (Proxy) this.getParam(opts, PROXY);
+    }    
 
     /**
      * Sets the timeout for the initial control connection.
@@ -393,6 +408,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot)
     {
         setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
+    }
+   
+    /**
+     * Sets the Proxy.
+     * 
+     * @param opts the FileSystem options.
+     * @param proxy the Proxy
+     * @since 2.1
+     */
+    public void setProxy(final FileSystemOptions opts, Proxy proxy) {
+    	setParam(opts, PROXY, proxy);
     }
 
 }
