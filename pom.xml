@@ -152,6 +152,7 @@
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
+    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
   </properties>
