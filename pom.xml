@@ -141,15 +141,18 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+
     <commons.componentid>vfs</commons.componentid>
     <commons.release.version>2.0</commons.release.version>
     <!--<commons.rc.version>RC1</commons.rc.version> -->
     <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
+
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
   </properties>
 
