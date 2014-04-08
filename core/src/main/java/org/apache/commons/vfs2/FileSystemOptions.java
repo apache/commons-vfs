@@ -20,10 +20,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Container for FileSystemOptions.<br>
- * You have to use *FileSystemConfigBuilder.getInstance() to fill this container<br>
- * * = the filesystem provider short name
- *
+ * Configures file systems individually with these options.
+ * <p>
+ * To configure a file system, you set properties on a {@link FileSystemOptions} object. Most file systems provide a
+ * {@link FileSystemConfigBuilder} with specific options for that file system.
+ * <p>
+ * To use the options, pass them to {@link FileSystemManager#resolveFile(String,FileSystemOptions)}. From there, the
+ * options apply to all files that are resolved relative to that file.
+ * </p>
+ * 
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder
