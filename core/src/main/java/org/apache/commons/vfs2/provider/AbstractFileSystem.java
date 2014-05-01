@@ -459,7 +459,7 @@ public abstract class AbstractFileSystem
     /**
      * Returns the accuracy of the last modification time.
      *
-     * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms
+     * @return ms 0 perfectly accurate, {@literal >0} might be off by this value e.g. sftp 1000ms
      */
     @Override
     public double getLastModTimeAccuracy()
@@ -565,8 +565,10 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Fires a file changed event. <br />
+     * Fires a file changed event.
+     * <p>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     *
      * @param file The FileObject that changed.
      */
     public void fireFileChanged(final FileObject file)
@@ -575,8 +577,9 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * returns true if no file is using this filesystem.
-     * @return true of no file is using this FileSystem.
+     * Returns true if no file is using this filesystem.
+     *
+     * @return true if no file is using this FileSystem.
      */
     public boolean isReleaseable()
     {

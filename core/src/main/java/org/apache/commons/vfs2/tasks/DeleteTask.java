@@ -24,8 +24,8 @@ import org.apache.tools.ant.BuildException;
 
 /**
  * An Ant task that deletes matching files.
- *
- * @todo Allow selector to be specified.
+ * <p>
+ * TOOD - Allow selector to be specified.
  */
 public class DeleteTask
     extends VfsTask

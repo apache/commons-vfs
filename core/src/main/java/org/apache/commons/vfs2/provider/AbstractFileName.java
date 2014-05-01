@@ -270,7 +270,7 @@ public abstract class AbstractFileName implements FileName
 
     /**
      * Returns the URI without a password.
-     * 
+     *
      * @return Returns the URI without a password.
      */
     @Override
@@ -477,15 +477,13 @@ public abstract class AbstractFileName implements FileName
     }
 
     /**
-     * Returns the requested or current type of this name. <br />
+     * Returns the requested or current type of this name.
      * <p>
-     * The "requested" type is the one determined during resolving the name. <br/>
-     * In this case the name is a {@link FileType#FOLDER} if it ends with an "/" else
-     * it will be a {@link FileType#FILE}<br/>
-     * </p>
+     * The "requested" type is the one determined during resolving the name.
+     *  n this case the name is a {@link FileType#FOLDER} if it ends with an "/" else
+     * it will be a {@link FileType#FILE}.
      * <p>
      * Once attached it will be changed to reflect the real type of this resource.
-     * </p>
      *
      * @return {@link FileType#FOLDER} or {@link FileType#FILE}
      */
@@ -496,7 +494,7 @@ public abstract class AbstractFileName implements FileName
     }
 
     /**
-     * sets the type of this file e.g. when it will be attached.
+     * Sets the type of this file e.g. when it will be attached.
      *
      * @param type {@link FileType#FOLDER} or {@link FileType#FILE}
      * @throws FileSystemException if an error occurs.

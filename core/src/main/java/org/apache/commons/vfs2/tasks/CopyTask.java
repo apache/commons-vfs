@@ -23,8 +23,8 @@ import org.apache.commons.vfs2.Selectors;
 
 /**
  * An Ant task that copies matching files.
- *
- * @todo Copy folders that do not contain files
+ * <p>
+ * TODO - Copy folders that do not contain files.
  */
 public class CopyTask
     extends AbstractSyncTask

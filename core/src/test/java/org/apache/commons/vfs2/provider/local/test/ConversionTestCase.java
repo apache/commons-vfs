@@ -33,10 +33,8 @@ import org.junit.Test;
 
 /**
  * Tests conversion from VFS to File.
- * <p/>
+ * <p>
  * VFS-443 Need an easy way to convert from a FileObject to a File.
- *
- * @version $Id$
  */
 public class ConversionTestCase
 {

@@ -128,8 +128,10 @@ public class StandardFileSystemManager
     }
 
     /**
-     * Scans the classpath to find any droped plugin.<br />
-     * The plugin-description has to be in /META-INF/vfs-providers.xml
+     * Scans the classpath to find any droped plugin.
+     * <p>
+     * The plugin-description has to be in {@code /META-INF/vfs-providers.xml}.
+     *
      * @throws FileSystemException if an error occurs.
      */
     protected void configurePlugins() throws FileSystemException

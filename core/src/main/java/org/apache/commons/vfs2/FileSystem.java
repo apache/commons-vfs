@@ -45,12 +45,13 @@ public interface FileSystem
 
     /**
      * Determines if this file system has a particular capability.
+     * <p>
+     * TODO - Move this to another interface, so that set of capabilities can be queried.
      *
      * @param capability The capability to check for.
      * @return true if this filesystem has the requested capability.
      *         Note that not all files in the file system may have the
      *         capability.
-     * @todo Move this to another interface, so that set of capabilities can be queried.
      */
     boolean hasCapability(Capability capability);
 
@@ -64,10 +65,9 @@ public interface FileSystem
 
     /**
      * Gets the value of an attribute of the file system.
-     * <p/>
-     * <p>TODO - change to {@code Map getAttributes()} instead?
-     * <p/>
-     * <p>TODO - define the standard attribute names, and define which attrs
+     * <p>
+     * TODO - change to {@code Map getAttributes()} instead?<br>
+     * TODO - define the standard attribute names, and define which attrs
      * are guaranteed to be present.
      *
      * @param attrName The name of the attribute.
@@ -151,18 +151,19 @@ public interface FileSystem
     /**
      * Creates a temporary local copy of a file and its descendants.  If
      * this file is already a local file, a copy is not made.
-     * <p/>
-     * <p>Note that the local copy may include additonal files, that were
+     * <p>
+     * Note that the local copy may include additonal files, that were
      * not selected by the given selector.
+     * <P>
+     * TODO - Add options to indicate whether the caller is happy to deal with
+     * extra files being present locally (eg if the file has been
+     * replicated previously), or whether the caller expects only
+     * the selected files to be present.
      *
      * @param file     The file to replicate.
      * @param selector The selector to use to select the files to replicate.
      * @return The local copy of this file.
      * @throws FileSystemException If this file does not exist, or on error replicating the file.
-     * @todo Add options to indicate whether the caller is happy to deal with
-     * extra files being present locally (eg if the file has been
-     * replicated previously), or whether the caller expects only
-     * the selected files to be present.
      */
     File replicateFile(FileObject file, FileSelector selector)
         throws FileSystemException;
@@ -182,7 +183,7 @@ public interface FileSystem
     /**
      * Returns the accuracy of the last modification time.
      *
-     * @return ms 0 perfectly accurate, >0 might be off by this value e.g. sftp 1000ms.
+     * @return ms 0 perfectly accurate, {@literal >0} might be off by this value e.g. sftp 1000ms.
      */
     double getLastModTimeAccuracy();
 }

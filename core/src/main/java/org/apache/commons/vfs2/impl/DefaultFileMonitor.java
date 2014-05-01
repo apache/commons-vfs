@@ -30,18 +30,16 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 
 /**
- * A polling {@link FileMonitor} implementation.<br />
- * <br />
- * The DefaultFileMonitor is a Thread based polling file system monitor with a 1
- * second delay.<br />
- * <br />
- * <b>Design:</b>
+ * A polling {@link FileMonitor} implementation.
  * <p>
+ * The DefaultFileMonitor is a Thread based polling file system monitor with a 1
+ * second delay.
+ *
+ * <h2>Design:</h2>
+ *
  * There is a Map of monitors known as FileMonitorAgents. With the thread running,
  * each FileMonitorAgent object is asked to "check" on the file it is
- * responsible for.
- * To do this check, the cache is cleared.
- * </p>
+ * responsible for. To do this check, the cache is cleared.
  * <ul>
  * <li>If the file existed before the refresh and it no longer exists, a delete
  * event is fired.</li>
@@ -49,31 +47,28 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * last modified timestamp to see if that has changed.</li>
  * <li>If it has, fire a change event.</li>
  * </ul>
- * <p>
  * With each file delete, the FileMonitorAgent of the parent is asked to
  * re-build its
  * list of children, so that they can be accurately checked when there are new
- * children.<br/>
+ * children.
+ * <p>
  * New files are detected during each "check" as each file does a check for new
  * children.
  * If new children are found, create events are fired recursively if recursive
- * descent is
- * enabled.
- * </p>
+ * descent is enabled.
  * <p>
  * For performance reasons, added a delay that increases as the number of files
  * monitored
  * increases. The default is a delay of 1 second for every 1000 files processed.
- * </p>
- * <br /><b>Example usage:</b><br /><pre>
+ *
+ * <h2>Example usage:</h2><pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject listendir = fsManager.resolveFile("/home/username/monitored/");
- * <p/>
+ *
  * DefaultFileMonitor fm = new DefaultFileMonitor(new CustomFileListener());
  * fm.setRecursive(true);
  * fm.addFile(listendir);
- * fm.start();
- * </pre>
+ * fm.start();</pre>
  * <i>(where CustomFileListener is a class that implements the FileListener
  * interface.)</i>
  */

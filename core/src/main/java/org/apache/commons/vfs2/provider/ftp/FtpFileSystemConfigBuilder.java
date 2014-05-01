@@ -104,8 +104,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * get the default date format used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * Get the default date format used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     *
      * @param opts The FileSystemOptions
      * @return The default date format.
      */
@@ -157,7 +158,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @return The recent date format.
      */
@@ -167,8 +169,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * get the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * Get the language code used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     *
      * @param opts The FilesystemOptions.
      * @return The language code of the server.
      */
@@ -178,7 +181,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @return The server timezone id.
      */
@@ -188,7 +192,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @return An array of short month names.
      */
@@ -212,7 +217,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
      * <code>Boolean.TRUE</code> if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
      * invoked.
-     * 
+     *
      * @param opts
      *            The FileSystemOptions.
      * @return <code>Boolean.TRUE</code> if VFS treats the user directory as the root directory.
@@ -227,7 +232,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Sets the timeout for the initial control connection.
      * <p>
      * If you set the connectTimeout to {@code null} no connectTimeout will be set.
-     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param connectTimeout the timeout value in milliseconds
@@ -239,7 +243,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
+     * See {@link org.apache.commons.net.ftp.FTP#setControlEncoding} for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @param encoding the encoding to use
      * @since 2.0
@@ -250,8 +255,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the data timeout for the ftp client.<br />
-     * If you set the dataTimeout to {@code null} no dataTimeout will be set on the
+     * Set the data timeout for the ftp client.
+     * <p>
+     * If you set the {@code dataTimeout} to null no dataTimeout will be set on the
      * ftp client.
      *
      * @param opts The FileSystemOptions.
@@ -263,8 +269,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the default date format used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * Set the default date format used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @param defaultDateFormat The default date format.
      */
@@ -274,11 +281,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the FQCN of your FileEntryParser used to parse the directory listing from your server.<br />
-     * <br />
-     * <i>If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using
-     * {@link #setEntryParserFactory}
-     * this is the "key" parameter passed as argument into your custom factory</i>
+     * Set the FQCN of your FileEntryParser used to parse the directory listing from your server.
+     * <p>
+     * If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using
+     * {@link #setEntryParserFactory} this is the "key" parameter passed as argument into your
+     * custom factory.
      *
      * @param opts The FileSystemOptions.
      * @param key The key.
@@ -312,7 +319,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * enter into passive mode.
+     * Enter into passive mode.
      *
      * @param opts The FileSystemOptions.
      * @param passiveMode true if passive mode should be used.
@@ -323,7 +330,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @param recentDateFormat The recent date format.
      */
@@ -333,8 +341,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * set the language code used by the server. see {@link org.apache.commons.net.ftp.FTPClientConfig}
+     * Set the language code used by the server. See {@link org.apache.commons.net.ftp.FTPClientConfig}
      * for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @param serverLanguageCode The servers language code.
      */
@@ -344,7 +353,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @param serverTimeZoneId The server timezone id.
      */
@@ -354,7 +364,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * see {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     * See {@link org.apache.commons.net.ftp.FTPClientConfig} for details and examples.
+     *
      * @param opts The FileSystemOptions.
      * @param shortMonthNames an array of short month name Strings.
      */
@@ -371,8 +382,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Sets the socket timeout for the FTP client.<br />
-     * If you set the socketTimeout to {@code null} no socketTimeout will be set on the
+     * Sets the socket timeout for the FTP client.
+     * <p>
+     * If you set the {@code soTimeout} to null no socket timeout will be set on the
      * ftp client.
      *
      * @param opts The FileSystem options.
@@ -385,7 +397,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * use user directory as root (do not change to fs root).
+     * Use user directory as root (do not change to fs root).
      *
      * @param opts The FileSystemOptions.
      * @param userDirIsRoot true if the user directory should be treated as the root.

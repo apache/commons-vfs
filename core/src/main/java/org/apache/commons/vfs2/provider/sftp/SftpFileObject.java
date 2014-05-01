@@ -46,8 +46,6 @@ import com.jcraft.jsch.SftpException;
 
 /**
  * An SFTP file.
- *
- * @version $Id$
  */
 public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
 {
@@ -231,7 +229,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
 
     /**
      * Sets the last modified time of this file. Is only called if
-     * {@link #doGetType} does not return {@link FileType#IMAGINARY}. <p/>
+     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      *
      * @param modtime
      *            is modification time in milliseconds. SFTP protocol can send

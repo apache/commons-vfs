@@ -23,8 +23,8 @@ import org.apache.commons.vfs2.Selectors;
 
 /**
  * An Ant task that moves matching files.
- *
- * @todo Delete matching folders
+ * <p>
+ * TODO - Delete matching folders.
  */
 public class MoveTask
     extends CopyTask

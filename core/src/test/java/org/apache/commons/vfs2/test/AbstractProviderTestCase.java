@@ -41,7 +41,7 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 /**
  * File system test cases, which verifies the structure and naming
  * functionality.
- * <p/>
+ * <p>
  * Works from a base folder, and assumes a particular structure under
  * that base folder.
  */
@@ -171,8 +171,8 @@ public abstract class AbstractProviderTestCase
      * tests are not run if the provider being tested does not support all
      * the required capabilities.  Return null or an empty array to always
      * run the tests.
-     * <p/>
-     * <p>This implementation returns null.
+     * <p>
+     * This implementation returns null.
      */
     protected Capability[] getRequiredCaps()
     {
@@ -183,9 +183,9 @@ public abstract class AbstractProviderTestCase
      * Runs the test.  This implementation short-circuits the test if the
      * provider being tested does not have the capabilities required by this
      * test.
-     *
-     * @todo Handle negative caps as well - ie, only run a test if the provider does not have certain caps.
-     * @todo Figure out how to remove the test from the TestResult if the test is skipped.
+     * <p>
+     * TODO - Handle negative caps as well - ie, only run a test if the provider does not have certain caps.<br>
+     * TODO - Figure out how to remove the test from the TestResult if the test is skipped.
      */
     @Override
     protected void runTest() throws Throwable

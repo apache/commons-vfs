@@ -81,8 +81,8 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
 {
     /**
      * An OutputStream that writes to a Webdav resource.
-     *
-     * @todo Use piped stream to avoid temporary file
+     * <p>
+     * TODO - Use piped stream to avoid temporary file.
      */
     private class WebdavOutputStream extends MonitorOutputStream
     {
@@ -418,8 +418,9 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     /**
      * Determines if this file can be written to.  Is only called if
      * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
-     * <p/>
+     * <p>
      * This implementation always returns true.
+     *
      * @return true if the file is writable.
      * @throws Exception if an error occurs.
      */
@@ -523,8 +524,6 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     /**
      * Sets an attribute of this file.  Is only called if {@link #doGetType}
      * does not return {@link FileType#IMAGINARY}.
-     * <p/>
-     * This implementation throws an exception.
      */
     @Override
     protected void doSetAttribute(final String attrName, final Object value)

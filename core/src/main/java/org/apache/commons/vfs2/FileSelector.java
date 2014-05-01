@@ -39,8 +39,8 @@ public interface FileSelector
      * Determines whether a folder should be traversed.  If this method returns
      * true, {@link #includeFile} is called for each of the children of
      * the folder, and each of the child folders is recursively traversed.
-     * <p/>
-     * <p>This method is called on a folder before {@link #includeFile}
+     * <p>
+     * This method is called on a folder before {@link #includeFile}
      * is called.
      *
      * @param fileInfo the file or folder to select.

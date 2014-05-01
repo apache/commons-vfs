@@ -145,8 +145,8 @@ public interface FileContent extends Closeable
 
     /**
      * Returns an input stream for reading the file's content.
-     * <p/>
-     * <p>There may only be a single input or output stream open for the
+     * <p>
+     * There may only be a single input or output stream open for the
      * file at any time.
      *
      * @return An input stream to read the file's content from.  The input
@@ -159,12 +159,12 @@ public interface FileContent extends Closeable
 
     /**
      * Returns an output stream for writing the file's content.
-     * <p/>
+     * <p>
      * If the file does not exist, this method creates it, and the parent
      * folder, if necessary.  If the file does exist, it is replaced with
      * whatever is written to the output stream.
-     * <p/>
-     * <p>There may only be a single input or output stream open for the
+     * <p>
+     * There may only be a single input or output stream open for the
      * file at any time.
      *
      * @return An output stream to write the file's content to.  The stream is
@@ -177,13 +177,13 @@ public interface FileContent extends Closeable
 
     /**
      * Returns an stream for reading/writing the file's content.
-     * <p/>
+     * <p>
      * If the file does not exist, and you use one of the write* methods,
      * this method creates it, and the parent folder, if necessary.
      * If the file does exist, parts of the file are replaced with whatever is written
      * at a given position.
-     * <p/>
-     * <p>There may only be a single input or output stream open for the
+     * <p>
+     * There may only be a single input or output stream open for the
      * file at any time.
      *
      * @param mode The mode to use to access the file.
@@ -195,12 +195,12 @@ public interface FileContent extends Closeable
 
     /**
      * Returns an output stream for writing the file's content.
-     * <p/>
+     * <p>
      * If the file does not exist, this method creates it, and the parent
      * folder, if necessary.  If the file does exist, it is replaced with
      * whatever is written to the output stream.
-     * <p/>
-     * <p>There may only be a single input or output stream open for the
+     * <p>
+     * There may only be a single input or output stream open for the
      * file at any time.
      *
      * @param bAppend true if you would like to append to the file.
@@ -217,10 +217,11 @@ public interface FileContent extends Closeable
     /**
      * Closes all resources used by the content, including any open stream.
      * Commits pending changes to the file.
-     * <p/>
-     * <p>This method is a hint to the implementation that it can release
+     * <p>
+     * This method is a hint to the implementation that it can release
      * resources.  This object can continue to be used after calling this
      * method.
+     *
      * @throws FileSystemException if an error occurs closing the file.
      */
     @Override

@@ -21,8 +21,9 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 
 /**
- * Implementation for any url based filesystem.<br />
- * Parses the url into user/password/host/port/path/queryString<br />
+ * Implementation for any url based filesystem.
+ * <p>
+ * Parses the url into user/password/host/port/path/queryString.
  */
 public class URLFileNameParser extends HostFileNameParser
 {

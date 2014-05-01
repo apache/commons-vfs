@@ -204,15 +204,13 @@ public interface FileName extends Comparable<FileName>
     boolean isFile() throws FileSystemException;
 
     /**
-     * Returns the requested or current type of this name. <br />
+     * Returns the requested or current type of this name.
      * <p>
-     * The "requested" type is the one determined during resolving the name. <br/>
+     * The "requested" type is the one determined during resolving the name.
      * In this case the name is a {@link FileType#FOLDER} if it ends with an "/" else
-     * it will be a {@link FileType#FILE}<br/>
-     * </p>
+     * it will be a {@link FileType#FILE}.
      * <p>
      * Once attached it will be changed to reflect the real type of this resource.
-     * </p>
      *
      * @return {@link FileType#FOLDER} or {@link FileType#FILE}
      */
@@ -221,8 +219,7 @@ public interface FileName extends Comparable<FileName>
     /**
      * Returns a "friendly path", this is a path without a password.
      * <p>
-     * This path can not be used to resolve the path again
-     * </p>
+     * This path can not be used to resolve the path again.
      *
      * @return the friendly URI as a String.
      */

@@ -575,7 +575,8 @@ public final class DefaultFileContent implements FileContent
     */
 
     /**
-     * check if a input and/or output stream is open.<br />
+     * Check if a input and/or output stream is open.
+     * <p>
      * This checks only the scope of the current thread.
      *
      * @return true if this is the case
@@ -588,7 +589,7 @@ public final class DefaultFileContent implements FileContent
     }
 
     /**
-     * check if a input and/or output stream is open.<br />
+     * Check if a input and/or output stream is open.
      * This checks all threads.
      *
      * @return true if this is the case

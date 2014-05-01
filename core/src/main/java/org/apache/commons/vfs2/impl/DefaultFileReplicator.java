@@ -41,7 +41,7 @@ public class DefaultFileReplicator
 {
     private static final Log log = LogFactory.getLog(DefaultFileReplicator.class);
     private static final int MASK = 0xffff;
-    
+
     private static final Random random = new Random();
 
     private static final char[] TMP_RESERVED_CHARS = new char[]
@@ -59,7 +59,7 @@ public class DefaultFileReplicator
     }
 
     /**
-     * constructor to set the location of the temporary directory.
+     * Constructor to set the location of the temporary directory.
      *
      * @param tempDir The temporary directory.
      */
@@ -78,6 +78,7 @@ public class DefaultFileReplicator
 
     /**
      * Allocates a new temporary file.
+     *
      * @param baseName the base file name.
      * @return The created File.
      * @throws FileSystemException if an error occurs.
@@ -130,7 +131,8 @@ public class DefaultFileReplicator
     }
 
     /**
-     * create the temporary file
+     * Create the temporary file.
+     *
      * @param parent The file to use as the parent of the file being created.
      * @param name The name of the file to create.
      * @return The File that was created.
@@ -142,7 +144,8 @@ public class DefaultFileReplicator
     }
 
     /**
-     * create the temporary file name
+     * Create the temporary file name.
+     *
      * @param baseName The base to prepend to the file name being created.
      * @return the name of the File.
      */
@@ -158,7 +161,8 @@ public class DefaultFileReplicator
     }
 
     /**
-     * physically deletes the file from the filesystem
+     * Physically deletes the file from the filesystem.
+     *
      * @param file The File to delete.
      */
     protected void deleteFile(final File file)
@@ -182,6 +186,7 @@ public class DefaultFileReplicator
 
     /**
      * Initializes this component.
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -206,8 +211,10 @@ public class DefaultFileReplicator
     }
 
     /**
-     * removes a file from the copies list. Will be used for cleanup. <br/>
-     * Notice: The system awaits that the returning object can be cast to a java.io.File
+     * Removes a file from the copies list. Will be used for cleanup.
+     * <p>
+     * Notice: The system awaits that the returning object can be cast to a {@link java.io.File}.
+     *
      * @return the File that was removed.
      */
     protected Object removeFile()
@@ -219,7 +226,8 @@ public class DefaultFileReplicator
     }
 
     /**
-     * removes a instance from the list of copies
+     * Removes a instance from the list of copies.
+     *
      * @param file The File to remove.
      */
     protected void removeFile(final Object file)
@@ -232,6 +240,7 @@ public class DefaultFileReplicator
 
     /**
      * Creates a local copy of the file, and all its descendants.
+     *
      * @param srcFile The file to copy.
      * @param selector The FileSelector.
      * @return the created File.

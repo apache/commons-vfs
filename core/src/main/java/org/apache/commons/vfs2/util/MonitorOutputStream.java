@@ -127,9 +127,11 @@ public class MonitorOutputStream
     }
 
     /**
-     * check if file is still open. <br />
+     * Check if file is still open.
+     * <p>
      * This is a workaround for an oddity with Java's BufferedOutputStream where you can write to
-     * even if the stream has been closed
+     * even if the stream has been closed.
+     *
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
@@ -142,7 +144,10 @@ public class MonitorOutputStream
     }
 
     /**
-     * Called after this stream is closed.  This implementation does nothing.
+     * Called after this stream is closed.
+     * <p>
+     * This implementation does nothing.
+     *
      * @throws IOException if an error occurs.
      */
     // IOException is needed because subclasses may need to throw it

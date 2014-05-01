@@ -23,8 +23,9 @@ import org.apache.commons.vfs2.util.Cryptor;
 import org.apache.commons.vfs2.util.CryptorFactory;
 
 /**
- * Implementation for any url based filesystem.<br />
- * Parses the url into user/password/host/port/path<br />
+ * Implementation for any url based filesystem.
+ * <p>
+ * Parses the url into user/password/host/port/path.
  * Does not handle a query string (after ?)
  *
  * @see URLFileNameParser URLFileNameParser for the implementation which also handles the query string too
@@ -209,7 +210,7 @@ public class HostFileNameParser extends AbstractFileNameParser
     }
 
     /**
-     * Extracts the port from a URI.  The scheme://userinfo@hostname
+     * Extracts the port from a URI. The {@code scheme://userinfo@hostname}
      * part has been removed.
      *
      * @return The port, or -1 if the URI does not contain a port.

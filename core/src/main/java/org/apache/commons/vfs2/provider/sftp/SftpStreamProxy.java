@@ -54,17 +54,12 @@ public class SftpStreamProxy implements Proxy
 
     /**
      * Command pattern to execute on the proxy host.
-     *
      * <p>
      * When run, the command output should be forwarded to the target host and port, and its input should be forwarded
      * from the target host and port.
-     * </p>
-     *
      * <p>
      * The command will be created for each host/port pair by using {@linkplain String#format(String, Object...)} with
      * two objects: the target host name ({@linkplain String}) and the target port ({@linkplain Integer}).
-     * </p>
-     * <p/>
      * <p>
      * Here are two examples (that can be easily used by using the static members of this class):
      * <ul>
@@ -72,7 +67,6 @@ public class SftpStreamProxy implements Proxy
      * <li><code>/bin/bash -c 'exec 3<>/dev/tcp/%s/%d; cat <&3 & cat >&3; kill $!</code> will use bash built-in TCP
      * stream, which can be useful when there is no netcat available. ({@linkplain #BASH_TCP_COMMAND})</li>
      * </ul>
-     * </p>
      */
     private final String commandFormat;
 

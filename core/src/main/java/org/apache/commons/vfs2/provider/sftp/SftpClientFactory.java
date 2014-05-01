@@ -264,7 +264,8 @@ public final class SftpClientFactory
 
     /**
      * Finds the .ssh directory.
-     * <p>The lookup order is:</p>
+     * <p>
+     * The lookup order is:
      * <ol>
      * <li>The system property {@code vfs.sftp.sshdir} (the override
      * mechanism)</li>
@@ -272,12 +273,10 @@ public final class SftpClientFactory
      * <li>On Windows only: C:\cygwin\home\{user.name}\.ssh</li>
      * <li>The current directory, as a last resort.</li>
      * <ol>
-     * <p/>
-     * Windows Notes:
+     * Windows Notes:<br>
      * The default installation directory for Cygwin is {@code C:\cygwin}.
      * On my set up (Gary here), I have Cygwin in C:\bin\cygwin, not the default.
      * Also, my .ssh directory was created in the {user.home} directory.
-     * </p>
      *
      * @return The .ssh directory
      */

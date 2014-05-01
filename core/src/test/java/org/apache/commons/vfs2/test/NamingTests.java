@@ -23,8 +23,8 @@ import org.apache.commons.vfs2.NameScope;
 
 /**
  * Test cases for file naming.
- *
- * @todo Add tests for all FileName methods
+ * <p>
+ * TODO - Add tests for all FileName methods.
  */
 public class NamingTests
     extends AbstractProviderTestCase

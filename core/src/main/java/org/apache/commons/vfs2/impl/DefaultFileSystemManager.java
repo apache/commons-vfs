@@ -59,8 +59,6 @@ import org.apache.commons.vfs2.provider.VfsComponent;
 
 /**
  * The default file system manager implementation.
- *
- * @version $Id$
  */
 public class DefaultFileSystemManager implements FileSystemManager
 {
@@ -270,13 +268,10 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * <p>
      * Set the cache strategy to use when dealing with file object data. You can
      * set it only once before the FileSystemManager is initialized.
-     * <p />
      * <p>
      * The default is {@link CacheStrategy#ON_RESOLVE}
-     * </p>
      *
      * @param fileCacheStrategy The CacheStrategy to use.
      * @throws FileSystemException
@@ -1009,8 +1004,10 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Closes the given filesystem.<br />
-     * If you use VFS as singleton it is VERY dangerous to call this method
+     * Closes the given filesystem.
+     * <p>
+     * If you use VFS as singleton it is VERY dangerous to call this method.
+     *
      * @param filesystem The FileSystem to close.
      */
     @Override

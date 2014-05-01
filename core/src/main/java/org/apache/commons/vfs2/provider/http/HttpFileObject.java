@@ -42,10 +42,10 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
  * A file object backed by Apache Commons HttpClient.
+ * <p>
+ * TODO - status codes.
  *
  * @param <FS> An {@link HttpFileSystem} subclass
- *
- * @todo status codes
  */
 public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObject<FS>
 {
@@ -117,11 +117,11 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Creates an input stream to read the file content from.  Is only called
      * if {@link #doGetType} returns {@link FileType#FILE}.
-     * <p/>
-     * <p>It is guaranteed that there are no open output streams for this file
+     * <p>
+     * It is guaranteed that there are no open output streams for this file
      * when this method is called.
-     * <p/>
-     * <p>The returned stream does not have to be buffered.
+     * <p>
+     * The returned stream does not have to be buffered.
      */
     @Override
     protected InputStream doGetInputStream() throws Exception
@@ -143,7 +143,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
 
     /**
      * Returns the last modified time of this file.
-     * <p/>
+     * <p>
      * This implementation throws an exception.
      */
     @Override

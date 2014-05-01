@@ -105,8 +105,9 @@ public class WeakRefFileListener implements FileListener
 
     /**
      * Called when a file is changed.
-     * <p/>
+     * <p>
      * This will only happen if you monitor the file using {@link org.apache.commons.vfs2.FileMonitor}.
+     *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */

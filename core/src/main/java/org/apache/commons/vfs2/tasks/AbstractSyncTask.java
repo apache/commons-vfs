@@ -40,13 +40,13 @@ import org.apache.tools.ant.Project;
  * <li>Up-to-date destination file.
  * </ul>
  *
- * @todo Deal with case where dest file maps to a child of one of the source files
- * @todo Deal with case where dest file already exists and is incorrect type (not file, not a folder)
- * @todo Use visitors
- * @todo Add default excludes
- * @todo Allow selector, mapper, filters, etc to be specified.
- * @todo Handle source/dest directories as well
- * @todo Allow selector to be specified for choosing which dest files to sync
+ * TODO - Deal with case where dest file maps to a child of one of the source files.<br>
+ * TODO - Deal with case where dest file already exists and is incorrect type (not file, not a folder).<br>
+ * TODO - Use visitors.<br>
+ * TODO - Add default excludes.<br>
+ * TOOD - Allow selector, mapper, filters, etc to be specified.<br>
+ * TODO - Handle source/dest directories as well.<br>
+ * TODO - Allow selector to be specified for choosing which dest files to sync.
  */
 public abstract class AbstractSyncTask
     extends VfsTask

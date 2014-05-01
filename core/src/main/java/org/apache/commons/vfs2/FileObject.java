@@ -27,52 +27,54 @@ import org.apache.commons.vfs2.operations.FileOperations;
 /**
  * Represents a file, and is used to access the content and
  * structure of the file.
- * <p/>
- * <p>Files are arranged in a hierarchy.  Each hierarchy forms a
+ * <p>
+ * Files are arranged in a hierarchy.  Each hierarchy forms a
  * <i>file system</i>.  A file system represents things like a local OS
  * file system, a windows share, an HTTP server, or the contents of a Zip file.
- * <p/>
- * <p>There are two types of files: <i>Folders</i>, which contain other files,
+ * <p>
+ * There are two types of files: <i>Folders</i>, which contain other files,
  * and <i>normal files</i>, which contain data, or <i>content</i>.  A folder may
  * not have any content, and a normal file cannot contain other files.
- * <p/>
- * <h4>File Naming</h4>
- * <p/>
- * <p>TODO - write this.
- * <p/>
- * <h4>Reading and Writing a File</h4>
- * <p/>
- * <p>Reading and writing a file, and all other operations on the file's
+ *
+ * <h2>File Naming</h2>
+ *
+ * TODO - write this.
+ *
+ * <h2>Reading and Writing a File</h2>
+ *
+ * Reading and writing a file, and all other operations on the file's
  * <i>content</i>, is done using the {@link FileContent} object returned
  * by {@link #getContent}.
- * <p/>
- * <h4>Creating and Deleting a File</h4>
- * <p/>
- * <p>A file is created using either {@link #createFolder}, {@link #createFile},
+
+ * <h2>Creating and Deleting a File</h2>
+ *
+ * A file is created using either {@link #createFolder}, {@link #createFile},
  * or by writing to the file using one of the {@link FileContent} methods.
- * <p/>
- * <p>A file is deleted using {@link #delete}.  Recursive deletion can be
+ * <p>
+ * A file is deleted using {@link #delete}.  Recursive deletion can be
  * done using {@link #delete(FileSelector)}.
- * <p/>
- * <h4>Finding Files</h4>
- * <p/>
- * <p>Other files in the <i>same</i> file system as this file can be found
+ *
+ * <h2>Finding Files</h2>
+ *
+ * Other files in the <i>same</i> file system as this file can be found
  * using:
  * <ul>
- * <li>{@link #findFiles} to find a set of matching descendants in in the same file system.
- * <li>{@link #getChildren} and {@link #getChild} to find the children of this file.
- * <li>{@link #getParent} to find the folder containing this file.
- * <li>{@link #getFileSystem} to find another file in the same file system.
- * <li>{@link #resolveFile} to find another file relative to this file.
+ * <li>{@link #findFiles} to find a set of matching descendants in in the same file system.</li>
+ * <li>{@link #getChildren} and {@link #getChild} to find the children of this file.</li>
+ * <li>{@link #getParent} to find the folder containing this file.</li>
+ * <li>{@link #getFileSystem} to find another file in the same file system.</li>
+ * <li>{@link #resolveFile} to find another file relative to this file.</li>
  * </ul>
- * <p/>
- * <p>To find files in another file system, use a {@link FileSystemManager}.
- * <h4>Iterating Files</h4>
- *<p>You can iterate over a FileObject using the Java "foreach" statement, which provides all descendants of a File
- * Object.</p>
+ * To find files in another file system, use a {@link FileSystemManager}.
  *
- * <h4>Sorting Files</h4>
- *<p>Files may be sorted using {@link Arrays#sort(Object[])} and {@link Collections#sort(List)}.</p>
+ * <h2>Iterating Files</h2>
+ *
+ * You can iterate over a FileObject using the Java "foreach" statement, which provides all descendants of a File
+ * Object.
+ *
+ * <h2>Sorting Files</h2>
+ *
+ * Files may be sorted using {@link Arrays#sort(Object[])} and {@link Collections#sort(List)}.
  *
  * @see FileSystemManager
  * @see FileContent
@@ -276,7 +278,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     /**
      * Returns the receiver as a URI String for public display, like, without a
      * password.
-     * 
+     *
      * @return A URI String without a password, never {@code null}.
      */
     String getPublicURIString();

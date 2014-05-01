@@ -34,9 +34,10 @@ import org.apache.commons.vfs2.provider.URLFileName;
 
 /**
  * A {@link FileObject} implementation backed by a {@link URL}.
- *
- * @todo Implement set lastModified and get/set attribute
- * @todo Implement getOutputStream()
+ * <p>
+ * TODO - Implement set lastModified and get/set attribute
+ * <p>
+ * TODO - Implement getOutputStream().
  */
 public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
 {

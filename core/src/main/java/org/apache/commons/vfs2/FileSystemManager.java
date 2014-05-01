@@ -29,48 +29,38 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
 /**
  * A FileSystemManager manages a set of file systems.  This interface is
  * used to locate a {@link FileObject} by name from one of those file systems.
- * <p/>
- * <p>To locate a {@link FileObject}, use one of the {@code resolveFile()}
- * methods.</p>
- * <p/>
- * <h4><a name="naming">File Naming</a></h4>
- * <p/>
- * <p>A file system manager can recognise several types of file names:
- * <p/>
+ * <p>
+ * To locate a {@link FileObject}, use one of the {@code resolveFile()}
+ * methods.
+ *
+ * <h2><a name="naming">File Naming</a></h2>
+ *
+ * A file system manager can recognise several types of file names:
  * <ul>
- * <p/>
- * <li><p>Absolute URI.  These must start with a scheme, such as
+ * <li>Absolute URI.  These must start with a scheme, such as
  * {@code file:} or {@code ftp:}, followed by a scheme dependent
- * file name.  Some examples:</p>
- * <pre>
- * file:/c:/somefile
- * ftp://somewhere.org/somefile
- * </pre>
- * <p/>
- * <li><p>Absolute local file name.  For example,
+ * file name.  Some examples: {@code file:/c:/somefile} or
+ * {@code ftp://somewhere.org/somefile}.</li>
+ * <li>Absolute local file name.  For example,
  * {@code /home/someuser/a-file} or {@code c:\dir\somefile.html}.
  * Elements in the name can be separated using any of the following
  * characters: {@code /}, {@code \}, or the native file separator
- * character. For example, the following file names are the same:</p>
- * <pre>
- * c:\somedir\somefile.xml
- * c:/somedir/somefile.xml
- * </pre>
- * <p/>
- * <li><p>Relative path.  For example: {@code ../somefile} or
- * {@code somedir/file.txt}.   The file system manager resolves relative
+ * character. For example, the following file names are the same:
+ * {@code c:\somedir\somefile.xml} and {@code c:/somedir/somefile.xml}.</li>
+ * <li>Relative path.  For example: {@code ../somefile} or
+ * {@code somedir/file.txt}. The file system manager resolves relative
  * paths against its <i>base file</i>.  Elements in the relative path can be
  * separated using {@code /}, {@code \}, or file system specific
- * separator characters.  Relative paths may also contain {@code ..} and
- * {@code .} elements.  See {@link FileObject#resolveFile} for more
- * details.</p>
- * <p/>
+ * separator characters. Relative paths may also contain {@code ..} and
+ * {@code .} elements. See {@link FileObject#resolveFile} for more
+ * details.</li>
  * </ul>
  */
 public interface FileSystemManager
 {
     /**
      * Returns the base file used to resolve relative paths.
+     *
      * @return The base FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -103,8 +93,8 @@ public interface FileSystemManager
      * <a href="#naming">above</a>.  That is, the name can be either
      * an absolute URI, an absolute file name, or a relative path to
      * be resolved against {@code baseFile}.
-     * <p/>
-     * <p>Note that the file does not have to exist when this method is called.
+     * <p>
+     * Note that the file does not have to exist when this method is called.
      *
      * @param name     The name of the file.
      * @param baseFile The base file to use to resolve relative paths.
@@ -174,8 +164,10 @@ public interface FileSystemManager
         throws FileSystemException;
 
     /**
-     * Closes the given filesystem.<br />
+     * Closes the given filesystem.
+     * <P>
      * If you use VFS as singleton it is VERY dangerous to call this method.
+     *
      * @param filesystem The FileSystem to close.
      */
     void closeFileSystem(FileSystem filesystem);
@@ -213,6 +205,7 @@ public interface FileSystemManager
     /**
      * Returns a streamhandler factory to enable URL lookup using this
      * FileSystemManager.
+     *
      * @return the URLStreamHandlerFactory.
      */
     URLStreamHandlerFactory getURLStreamHandlerFactory();
@@ -228,18 +221,21 @@ public interface FileSystemManager
 
     /**
      * Get the cache used to cache fileobjects.
+     *
      * @return The FilesCache.
      */
     FilesCache getFilesCache();
 
     /**
      * Get the cache strategy used.
+     *
      * @return the CacheStrategy.
      */
     CacheStrategy getCacheStrategy();
 
     /**
      * Get the file object decorator used.
+     *
      * @return the file object decorator Class.
      */
     Class<?> getFileObjectDecorator();
@@ -247,18 +243,21 @@ public interface FileSystemManager
     /**
      * The constructor associated to the fileObjectDecorator.
      * We cache it here for performance reasons.
+     *
      * @return the Constructor associated with the FileObjectDecorator.
      */
     Constructor<?> getFileObjectDecoratorConst();
 
     /**
      * The class to use to determine the content-type (mime-type).
+     *
      * @return the FileContentInfoFactory.
      */
     FileContentInfoFactory getFileContentInfoFactory();
 
     /**
      * Returns true if this manager has a provider for a particular scheme.
+     *
      * @param scheme The scheme for which a provider should be checked.
      * @return true if a provider for the scheme is available.
      */
@@ -266,6 +265,7 @@ public interface FileSystemManager
 
     /**
      * Get the schemes currently available.
+     *
      * @return An array of available scheme names that are supported.
      */
     String[] getSchemes();
@@ -281,6 +281,7 @@ public interface FileSystemManager
 
     /**
      * Sets the logger to use.
+     *
      * @param log The logger to use.
      */
     void setLogger(final Log log);
@@ -306,9 +307,10 @@ public interface FileSystemManager
     // -- OPERATIONS --
     /**
      * Adds the specified FileOperationProvider for the specified scheme.
+     * <p>
      * Several FileOperationProvider's might be registered for the same scheme.
-     * For example, for "file" scheme we can register SvnWsOperationProvider and
-     * CvsOperationProvider.
+     * For example, for {@code "file"} scheme we can register {@code SvnWsOperationProvider} and
+     * {@code CvsOperationProvider.}
      *
      * @param scheme The scheme assoicated with this provider.
      * @param operationProvider The FileOperationProvider to add.
@@ -329,6 +331,8 @@ public interface FileSystemManager
 
 
     /**
+     * Get Providers for file operations.
+     *
      * @param scheme the scheme for wich we want to get the list af registered providers.
      *
      * @return the registered FileOperationProviders for the specified scheme.
@@ -337,7 +341,7 @@ public interface FileSystemManager
      * @throws FileSystemException if an error occurs.
      */
     FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException;
-    
+
     /**
      * Resolves a URI into a {@link FileObject}.
      *

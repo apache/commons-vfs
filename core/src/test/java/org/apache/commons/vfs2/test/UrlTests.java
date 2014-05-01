@@ -35,8 +35,6 @@ public class UrlTests
      * tests are not run if the provider being tested does not support all
      * the required capabilities.  Return null or an empty array to always
      * run the tests.
-     * <p/>
-     * <p>This implementation returns null.
      */
     @Override
     protected Capability[] getRequiredCaps()

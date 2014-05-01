@@ -29,9 +29,10 @@ public interface LocalFileProvider
 {
     /**
      * Determines if a name is an absolute file name.
+     * <p>
+     * TODO - Move this to a general file name parser interface.
      *
      * @param name The name to test.
-     * @todo Move this to a general file name parser interface.
      * @return true if the name is absolute.
      */
     boolean isAbsoluteLocalName(final String name);

@@ -33,8 +33,8 @@ import org.junit.Assert;
 
 /**
  * Read-only test cases for file providers.
- *
- * @todo Test getLastModified(), getAttribute()
+ * <p>
+ * TODO - Test getLastModified(), getAttribute().
  */
 public class ProviderReadTests extends AbstractProviderTestCase
 {

@@ -29,8 +29,8 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * A file provider.  Each file provider is responsible for handling files for
  * a particular URI scheme.
- * <p/>
- * <p>A file provider may also implement {@link VfsComponent}.
+ * <p>
+ * A file provider may also implement {@link VfsComponent}.
  */
 public interface FileProvider
 {

@@ -27,12 +27,10 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import com.jcraft.jsch.UserInfo;
 
 /**
- * The config BUILDER for various SFTP configuration options.
+ * The config builder for various SFTP configuration options.
  */
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
-
-
     /**
      * Proxy type.
      */
@@ -110,17 +108,17 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Connects to the SFTP server through a remote host reached by SSH.
+     * <p>
      * On this proxy host, a command
      * (e.g. {@linkplain SftpStreamProxy#NETCAT_COMMAND}
      * or {@linkplain SftpStreamProxy#NETCAT_COMMAND}) is run to forward
-     * input/output streams between the target host and the VFS host.</p>
+     * input/output streams between the target host and the VFS host.
      * <p>
      * When used, the proxy username ({@linkplain #setProxyUser}) and
      * hostname ({@linkplain #setProxyHost}) <b>must</b> be set.
      * Optionnaly, the command ({@linkplain #setProxyCommand}),
      * password ({@linkplain #setProxyPassword}) and connection options
      * ({@linkplain #setProxyOptions}) can be set.
-     * </p>
      */
     public static final ProxyType PROXY_STREAM = new ProxyType("stream");
 
@@ -136,7 +134,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String TIMEOUT = _PREFIX + ".TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
     private static final String ENCODING = _PREFIX + ".ENCODING";
-    
+
     /**
      * Gets the singleton builder.
      *
@@ -171,12 +169,12 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets the file name encoding.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @return the file name encoding
      */
-    public String getFileNameEncoding(final FileSystemOptions opts) 
+    public String getFileNameEncoding(final FileSystemOptions opts)
     {
         return this.getString(opts, ENCODING);
     }
@@ -185,8 +183,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Gets the identity files (your private key files).
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
-     * </p>
-     * 
+     *
      * @param opts The FileSystem options.
      * @return the array of identity Files.
      * @see #setIdentities
@@ -276,13 +273,13 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Gets the proxy to use for the SFTP connection. You have to set the ProxyPort too if you would like to have the
-     * proxy really used.
-     * 
+     * Gets the proxy to use for the SFTP connection.
+     *
      * @param opts
      *            The FileSystem options.
      * @return proxyHost
-     * @see #setProxyPort
+     * @see #getProxyPort
+     * @see #setProxyHost
      */
     public String getProxyHost(final FileSystemOptions opts)
     {
@@ -322,13 +319,13 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Gets the proxy-port to use for the SFTP the connection You have to set the ProxyHost too if you would like to
-     * have the proxy really used.
-     * 
+     * Gets the proxy-port to use for the SFTP the connection.
+     *
      * @param opts
      *            The FileSystem options.
      * @return proxyPort: the port number or 0 if it is not set
-     * @see #setProxyHost
+     * @see #setProxyPort
+     * @see #getProxyHost
      */
     public int getProxyPort(final FileSystemOptions opts)
     {
@@ -387,7 +384,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Returns {@link Boolean#TRUE} if VFS should treat the user directory as the root directory. Defaults to
      * <code>Boolean.TRUE</code> if the method {@link #setUserDirIsRoot(FileSystemOptions, boolean)} has not been
      * invoked.
-     * 
+     *
      * @param opts
      *            The FileSystemOptions.
      * @return <code>Boolean.TRUE</code> if VFS treats the user directory as the root directory.
@@ -413,10 +410,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * Configures the compression to use.
      * <p>
      * For example, use {@code "zlib,none"} to enable compression.
-     * </p>
      * <p>
      * See the Jsch documentation for details.
-     * </p>
      *
      * @param opts
      *            The FileSystem options.
@@ -432,12 +427,12 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the file name encoding.
-     * 
+     *
      * @param opts
      *            The FileSystem options.
      * @param fileNameEncoding
      */
-    public void setFileNameEncoding(final FileSystemOptions opts, final String fileNameEncoding) 
+    public void setFileNameEncoding(final FileSystemOptions opts, final String fileNameEncoding)
     {
         this.setParam(opts, ENCODING, fileNameEncoding);
     }
@@ -445,9 +440,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the identity files (your private key files).
      * <p>
-     * We use java.io.File because JSch cannot deal with VFS FileObjects.
-     * </p>
-     * 
+     * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
+     *
      * @param opts The FileSystem options.
      * @param identityFiles An array of identity Files.
      * @throws FileSystemException if an error occurs.
@@ -477,7 +471,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *            An array of identity info.
      * @throws FileSystemException
      *             if an error occurs.
-     * @since 2.1             
+     * @since 2.1
      */
     public void setIdentityInfo(final FileSystemOptions opts, final IdentityInfo... identites) throws FileSystemException
     {
@@ -485,7 +479,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Set the identity repository. This is useful when you want to use e.g. an SSH agent as provided See for example
+     * Set the identity repository.
+     * <p>
+     * This is useful when you want to use e.g. an SSH agent as provided.
      *
      * @param opts
      *            The FileSystem options.
@@ -502,10 +498,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Sets the known_hosts file. e.g. /home/user/.ssh/known_hosts2.
+     * Sets the known_hosts file. e.g. {@code /home/user/.ssh/known_hosts2}.
      * <p>
-     * We use java.io.File because JSch cannot deal with VFS FileObjects.
-     * </p>
+     * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
      *
      * @param opts
      *            The FileSystem options.
@@ -551,7 +546,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the proxy to use for the SFTP connection.
      *
-     * You MUST also set the ProxyPort to use the proxy.
+     * You MUST also set the proxy port to use the proxy.
      *
      * @param opts
      *            The FileSystem options.
@@ -599,8 +594,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the proxy port to use for the SFTP connection.
-     *
-     * You MUST also set the ProxyHost to use the proxy.
+     * <p>
+     * You MUST also set the proxy host to use the proxy.
      *
      * @param opts
      *            The FileSystem options.
@@ -689,8 +684,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         this.setParam(opts, TIMEOUT, timeout);
     }
-    
-    
+
+
     /**
      * Sets the whether to use the user directory as root (do not change to file system root).
      *

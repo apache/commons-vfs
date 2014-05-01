@@ -24,8 +24,8 @@ import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * Responsible for making local replicas of files.
- * <p/>
- * <p>A file replicator may also implement {@link VfsComponent}.
+ * <p>
+ * A file replicator may also implement {@link VfsComponent}.
  */
 public interface FileReplicator
 {

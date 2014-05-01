@@ -275,12 +275,12 @@ public class MimeFileObject
     }
 
     /**
-     * Returns all headers of this part.<br />
-     * The map key is a java.lang.String and the value is a:<br />
+     * Returns all headers of this part.
+     * <p>
+     * The map key is a java.lang.String and the value is a:
      * <ul>
-     * <li>java.lang.Strings for single entries</li>
-     * or a
-     * <li>java.utils.List of java.lang.Strings for entries with multiple values</li>
+     * <li>{@code java.lang.Strings} for single entries or a</li>
+     * <li>{@code java.utils.List<java.lang.Strings>} for entries with multiple values</li>
      * </ul>
      */
     @Override
