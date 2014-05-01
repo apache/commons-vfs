@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.Proxy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -149,6 +150,12 @@ public final class FtpClientFactory
                     if (controlEncoding != null)
                     {
                         client.setControlEncoding(controlEncoding);
+                    }
+
+                    final Proxy proxy = builder.getProxy(fileSystemOptions);
+                    if (proxy != null)
+                    {
+                        client.setProxy(proxy);
                     }
 
                     client.connect(hostname, port);

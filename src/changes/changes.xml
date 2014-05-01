@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-167" dev="ecki" type="update" due-to="Jimmy Praet">
+       [FTP] Allow Proxy support to file system options.
+      </action>
       <action issue="VFS-520" dev="ecki" type="update">
        Make JavaDoc compatible with Java 8 tool.
       </action>
