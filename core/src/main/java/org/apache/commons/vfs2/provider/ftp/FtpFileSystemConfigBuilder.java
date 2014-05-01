@@ -345,6 +345,9 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Sets the Proxy.
+     * <P>
+     * You might need to make sure that {@link #setPassiveMode(FileSystemOptions, boolean) passive mode}
+     * is activated.
      *
      * @param opts the FileSystem options.
      * @param proxy the Proxy
