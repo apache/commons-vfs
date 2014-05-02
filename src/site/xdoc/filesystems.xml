@@ -24,7 +24,8 @@
 
     <body>
         <section name="Supported File Systems">
-            <p>Commons VFS directly supports the following file systems with the listed capabilities:</p>
+            <p>Commons VFS directly supports the following file systems with the listed
+               <a href="apidocs/org/apache/commons/vfs2/Capability.html">capabilities</a>:</p>
           <table>
             <tr>
               <th>File System</th>
@@ -259,7 +260,7 @@
 
             <p>All filenames are treated as URIs. One of the consequences of this is you have to encode the '%'
                 character using <code>%25</code>. <br />
-                Depending on the filesystem additional characters are encoded if needet. This is done automatically, but
+                Depending on the filesystem additional characters are encoded if needed. This is done automatically, but
                 might be reflected in the filename.
                 </p>
 
@@ -447,7 +448,7 @@
             <p>
                 Where
                 <code>compressed-file-uri</code> refers to a file of any
-                supported type. There is no need to add a ! part to the uri if
+                supported type. There is no need to add a <code>!</code> part to the URI if
                 you read the content of the file you always will get the uncompressed
                 version.
             </p>
@@ -682,13 +683,13 @@
             <p>
                 <code>FtpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(options, false);</code>
             </p>
-            
+
         </section>
 
         <section name="CIFS">
 
             <p>
-                Provides access to the files on a CIFS server, such as
+                The CIFS (sandbox) filesystem provides access to a CIFS server, such as
                 a Samba server, or a Windows share.
             </p>
             <p>
@@ -808,7 +809,7 @@
         <section name="mime">
 
             <p>
-                This filesystem can read mails and its attachements like archives.<br />
+                This (sandbox) filesystem can read mails and its attachements like archives.<br />
                 If a part in the parsed mail has no name, a dummy name will be generated.
                 The dummy name is: _body_part_X where X will be replaced by the part number.
             </p>
