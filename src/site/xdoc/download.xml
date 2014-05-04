@@ -53,6 +53,13 @@
                 </tr>
                 <tr>
                     <td>
+                        <a href="http://commons.apache.org/compress/">Commons Compress</a>
+                        Version 1.6
+                    </td>
+                    <td>TAR, Bzip2</td>
+                </tr>
+                <tr>
+                    <td>
                         <a href="http://commons.apache.org/net/">Commons Net</a>
                         Version 2.0 or later.
                     </td>
@@ -115,12 +122,11 @@
                 </li>
             </ul>
             <p>
-                To build Commons VFS, you can use
-                    <a href="http://maven.apache.org">Maven</a>
-                    2.2.1 or later. Use mvn install to build all the core, examples and sandbox. The
-                    jars will then be installed for use by other maven-based builds. The jars can either
-                    be copied from the local maven repository or the target sub-directories for non-Maven
-                    builds.
+                To build Commons VFS, you can use <a href="http://maven.apache.org">Maven</a> 2.2.1 or later.
+                Use <code>mvn -Pinclude-sandbox install</code> to build all the core, examples and sandbox.
+                The jars will then be installed for use by other maven-based builds. The jars can either
+                be copied from the local maven repository or the target sub-directories for non-Maven
+                builds.
             </p>
         </section>
     </body>
