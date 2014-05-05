@@ -266,6 +266,58 @@ public class ProviderReadTests extends AbstractProviderTestCase
     }
 
     /**
+     * Tests can read multiple time end of stream of empty file
+     */
+    public void testReadEmptyMultipleEOF() throws Exception
+    {
+        final FileObject file = getReadFolder().resolveFile("empty.txt");
+        assertTrue(file.exists());
+
+        // Start reading from the file
+        final InputStream instr = file.getContent().getInputStream();
+        try
+        {
+            assertEquals("read() from empty file should return EOF", -1, instr.read());
+
+            for(int i=0;i<5;i++)
+            {
+                assertEquals("multiple read() at EOF should return EOF", -1, instr.read());
+            }
+        }
+        finally
+        {
+            instr.close();
+        }
+    }
+
+    /**
+     * Tests can read multiple time end of stream
+     */
+    public void testReadFileEOFMultiple() throws Exception
+    {
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertTrue(file.exists());
+        assertEquals("Expecting 20 bytes test-data file1.txt", 20, file.getContent().getSize());
+
+        // Start reading from the file
+        final InputStream instr = file.getContent().getInputStream();
+        try
+        {
+            byte[] buf = new byte[25];
+            assertEquals(20, instr.read(buf));
+
+            for(int i=0;i<5;i++)
+            {
+                assertEquals("multiple read(byte[]) at EOF should return EOF", -1, instr.read(buf));
+            }
+        }
+        finally
+        {
+            instr.close();
+        }
+    }
+
+    /**
      * Tests can perform operations on a folder while reading from a different files.
      */
     public void testConcurrentReadFolder() throws Exception
