@@ -35,6 +35,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
 
     private static final int DEFAULT_MAX_CONNECTIONS = 50;
+    
+    private static final int DEFAULT_CONNECTION_TIMEOUT = 0;
+
+    private static final int DEFAULT_SO_TIMEOUT = 0;
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
 
@@ -272,6 +276,54 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setPreemptiveAuth(final FileSystemOptions opts, final boolean preemptiveAuth)
     {
         setParam(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
+    }
+    
+    /**
+     * The connection timeout.
+     * 
+     * @param opts The FileSystem options.
+     * @param connectionTimeout The connection timeout.
+     * @since 2.1
+     */
+    public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout)
+    {
+        setParam(opts, HttpConnectionManagerParams.CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
+    }
+
+    /**
+     * Retrieve the connection timeout.
+     * 
+     * @param opts The FileSystem options.
+     * @return The connection timeout.
+     * @since 2.1
+     */
+    public int getConnectionTimeout(final FileSystemOptions opts)
+    {
+        return getInteger(opts, HttpConnectionManagerParams.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+    }
+
+    /**
+     * The socket timeout.
+     * 
+     * @param opts The FileSystem options.
+     * @param soTimeout socket timeout.
+     * @since 2.1
+     */
+    public void setSoTimeout(final FileSystemOptions opts, final int soTimeout)
+    {
+        setParam(opts, HttpConnectionManagerParams.SO_TIMEOUT, Integer.valueOf(soTimeout));
+    }
+
+    /**
+     * Retrieve the socket timeout.
+     * 
+     * @param opts The FileSystemOptions.
+     * @return The socket timeout.
+     * @since 2.1
+     */
+    public int getSoTimeout(final FileSystemOptions opts)
+    {
+        return getInteger(opts, HttpConnectionManagerParams.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
     }
 
     @Override

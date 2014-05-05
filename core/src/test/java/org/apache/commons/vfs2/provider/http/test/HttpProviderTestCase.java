@@ -201,4 +201,24 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
     }
+
+	/** Ensure VFS-453 options are present. */
+    public void testHttpTimeoutConfig() throws FileSystemException
+    {
+        final FileSystemOptions opts = new FileSystemOptions();
+        final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
+
+        // ensure defaults are 0
+        assertEquals(0, builder.getConnectionTimeout(opts));
+        assertEquals(0, builder.getSoTimeout(opts));
+
+        builder.setConnectionTimeout(opts, 60000);
+        builder.setSoTimeout(opts, 60000);
+
+        // ensure changes are visible
+        assertEquals(60000, builder.getConnectionTimeout(opts));
+        assertEquals(60000, builder.getSoTimeout(opts));
+
+        // TODO: should also check the created HTTPClient
+    }
 }

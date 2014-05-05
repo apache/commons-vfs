@@ -133,6 +133,9 @@ public final class HttpClientFactory
             connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
             connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));
 
+            connectionMgrParams.setConnectionTimeout(builder.getConnectionTimeout(fileSystemOptions));
+            connectionMgrParams.setSoTimeout(builder.getSoTimeout(fileSystemOptions));
+
             client.setHostConfiguration(config);
 
             if (username != null)
