@@ -25,7 +25,8 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 
 /**
- * A {@link org.apache.commons.vfs2.FilesCache} implementation.<br>
+ * A {@link org.apache.commons.vfs2.FilesCache} implementation.
+ * <p>
  * This implementation caches every file for the complete lifetime of the used
  * {@link org.apache.commons.vfs2.FileSystemManager}.
  */

@@ -39,7 +39,6 @@ public abstract class AbstractFileProvider
      * The cached file systems.  This is a mapping from root URI to
      * FileSystem object.
      */
-    // private final Map fileSystems = new HashMap();
     private final Map<FileSystemKey, FileSystem> fileSystems = new TreeMap<FileSystemKey, FileSystem>();
 
     private FileNameParser parser;
@@ -190,6 +189,5 @@ public abstract class AbstractFileProvider
         }
 
         throw new FileSystemException("vfs.provider/filename-parser-missing.error");
-        // return GenericFileName.parseUri(getFileNameParser(), uri, 0);
     }
 }

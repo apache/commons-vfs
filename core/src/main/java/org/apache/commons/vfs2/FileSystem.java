@@ -154,7 +154,7 @@ public interface FileSystem
      * <p>
      * Note that the local copy may include additonal files, that were
      * not selected by the given selector.
-     * <P>
+     * <p>
      * TODO - Add options to indicate whether the caller is happy to deal with
      * extra files being present locally (eg if the file has been
      * replicated previously), or whether the caller expects only

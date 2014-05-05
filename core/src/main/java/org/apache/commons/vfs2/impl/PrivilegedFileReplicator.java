@@ -55,6 +55,7 @@ public class PrivilegedFileReplicator
 
     /**
      * Sets the Logger to use for the component.
+     *
      * @param logger The logger.
      */
     @Override
@@ -68,6 +69,7 @@ public class PrivilegedFileReplicator
 
     /**
      * Sets the context for the replicator.
+     *
      * @param context The component context.
      */
     @Override
@@ -81,6 +83,7 @@ public class PrivilegedFileReplicator
 
     /**
      * Initializes the component.
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -113,6 +116,7 @@ public class PrivilegedFileReplicator
 
     /**
      * Creates a local copy of the file, and all its descendants.
+     *
      * @param srcFile The source FileObject.
      * @param selector The file selector.
      * @return The replicated file.

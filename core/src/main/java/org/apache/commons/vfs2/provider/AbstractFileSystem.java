@@ -70,14 +70,9 @@ public abstract class AbstractFileSystem
      */
     private final String rootURI;
 
-    private FileObject parentLayer;
-    // private FileObject root;
     private final Collection<Capability> caps = new HashSet<Capability>();
 
-    /**
-     * Map from FileName to FileObject.
-     */
-    // private FilesCache files;
+    private FileObject parentLayer;
 
     /**
      * Map from FileName to an ArrayList of listeners for that file.
@@ -106,7 +101,6 @@ public abstract class AbstractFileSystem
                                  final FileObject parentLayer,
                                  final FileSystemOptions fileSystemOptions)
     {
-        // this.parentLayer = parentLayer;
         this.parentLayer = parentLayer;
         this.rootName = rootName;
         this.fileSystemOptions = fileSystemOptions;
@@ -196,20 +190,16 @@ public abstract class AbstractFileSystem
     protected void putFileToCache(final FileObject file)
     {
         getCache().putFile(file);
-        // files.put(file.getName(), file);
     }
 
     private FilesCache getCache()
     {
         FilesCache files;
-        //if (this.files == null)
-        //{
-            files = getContext().getFileSystemManager().getFilesCache();
-            if (files == null)
-            {
-                throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
-            }
-        //}
+        files = getContext().getFileSystemManager().getFilesCache();
+        if (files == null)
+        {
+            throw new RuntimeException(Messages.getString("vfs.provider/files-cache-missing.error"));
+        }
 
         return files;
     }
@@ -220,7 +210,6 @@ public abstract class AbstractFileSystem
     protected FileObject getFileFromCache(final FileName name)
     {
         return getCache().getFile(this, name);
-        // return (FileObject) files.get(name);
     }
 
     /**
@@ -289,13 +278,6 @@ public abstract class AbstractFileSystem
     public FileObject getRoot() throws FileSystemException
     {
         return resolveFile(rootName);
-        /*
-        if (root == null)
-        {
-            root = resolveFile(rootName);
-        }
-        return root;
-        */
     }
 
     /**
@@ -342,7 +324,7 @@ public abstract class AbstractFileSystem
         {
             file = null;
         }
-        // FileObject file = (FileObject) files.get(name);
+
         if (file == null)
         {
             try
@@ -361,7 +343,6 @@ public abstract class AbstractFileSystem
             {
                 putFileToCache(file);
             }
-            // files.put(name, file);
         }
 
         /**
@@ -453,7 +434,6 @@ public abstract class AbstractFileSystem
     public FileSystemManager getFileSystemManager()
     {
         return getContext().getFileSystemManager();
-        // return manager;
     }
 
     /**
@@ -624,19 +604,6 @@ public abstract class AbstractFileSystem
             }
         }
     }
-
-    /*
-    void fileDetached(FileObject fileObject)
-    {
-        useCount--;
-    }
-
-    void fileAttached(FileObject fileObject)
-    {
-        useCount++;
-
-    }
-    */
 
     void fileObjectHanded(final FileObject fileObject)
     {

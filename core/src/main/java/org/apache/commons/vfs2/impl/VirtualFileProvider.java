@@ -31,6 +31,7 @@ public class VirtualFileProvider extends AbstractVfsContainer
 {
     /**
      * Creates a virtual file system, with the supplied file as its root.
+     *
      * @param rootFile The root of the file system.
      * @return A FileObject in the FileSystem.
      * @throws FileSystemException if an error occurs.
@@ -39,8 +40,6 @@ public class VirtualFileProvider extends AbstractVfsContainer
     {
         final AbstractFileName rootName = (AbstractFileName)
             getContext().getFileSystemManager().resolveName(rootFile.getName(), FileName.ROOT_PATH);
-        // final FileName rootName =
-        //    new BasicFileName(rootFile.getName(), FileName.ROOT_PATH);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, rootFile.getFileSystem().getFileSystemOptions());
         addComponent(fs);
         fs.addJunction(FileName.ROOT_PATH, rootFile);
@@ -49,6 +48,7 @@ public class VirtualFileProvider extends AbstractVfsContainer
 
     /**
      * Creates an empty virtual file system.
+     *
      * @param rootUri The root of the file system.
      * @return A FileObject in the FileSystem.
      * @throws FileSystemException if an error occurs.
@@ -57,8 +57,6 @@ public class VirtualFileProvider extends AbstractVfsContainer
     {
         final AbstractFileName rootName =
             new VirtualFileName(rootUri, FileName.ROOT_PATH, FileType.FOLDER);
-        // final FileName rootName =
-        //    new BasicFileName(rootUri, FileName.ROOT_PATH);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         return fs.getRoot();

@@ -39,10 +39,12 @@ import org.apache.commons.vfs2.NameScope;
 
 
 /**
- * A class loader that can load classes and resources from a search path
- * VFS FileObjects referring both to folders and JAR files. Any FileObject
- * of type FileType.FILE is assumed to be a JAR and is opened
- * by creating a layered file system with the "jar" scheme.
+ * A class loader that can load classes and resources from a search path.
+ * <p>
+ * The search path can consist of VFS FileObjects referring both to folders
+ * and JAR files. Any FileObject of type FileType.FILE is assumed to be a JAR and
+ * is opened by creating a layered file system with the "jar" scheme.
+ * <p>
  * TODO - Test this with signed Jars and a SecurityManager.
  *
  * @see FileSystemManager#createFileSystem
@@ -119,6 +121,7 @@ public class VFSClassLoader extends SecureClassLoader
 
     /**
      * Provide access to the file objects this class loader represents.
+     *
      * @return An array of FileObjects.
      * @since 2.0
      */

@@ -41,15 +41,12 @@ import org.apache.commons.vfs2.util.Messages;
  * the java vm. As soon as the vm needs memory - every softly reachable file
  * will be discarded.
  *
- *          2005) $
  * @see SoftReference
  */
 public class SoftRefFilesCache extends AbstractFilesCache
 {
     private static final int TIMEOUT = 1000;
-    /**
-     * The logger to use.
-     */
+
     private final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
     private final ConcurrentMap<FileSystem, Map<FileName, Reference<FileObject>>> fileSystemCache =
@@ -96,7 +93,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
                     {
                         final FileSystemAndNameKey key = refReverseMap.get(ref);
 
-                        if (key != null && removeFile(key)) 
+                        if (key != null && removeFile(key))
                         {
                             close(key.getFileSystem());
                         }

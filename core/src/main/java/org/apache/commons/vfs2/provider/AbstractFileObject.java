@@ -68,7 +68,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * (eg 'this file type does not support listing children', vs 'this is not a folder')
      */
 
-    // private static final FileObject[] EMPTY_FILE_ARRAY = {};
     private static final FileName[] EMPTY_FILE_ARRAY = {};
 
     private static final int INITIAL_LIST_SIZE = 5;
@@ -313,13 +312,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         {
             throw new FileSystemException("vfs.provider/copy-missing-file.error", file);
         }
-        /* we do not alway know if a file is writeable
-        if (!isWriteable())
-        {
-            throw new FileSystemException("vfs.provider/copy-read-only.error", new Object[]{file.getType(),
-            file.getName(), this}, null);
-        }
-        */
 
         // Locate the files to copy across
         final ArrayList<FileObject> files = new ArrayList<FileObject>();
@@ -537,12 +529,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         synchronized (fs)
         {
-            /* Its possible to delete a read-only file if you have write-execute access to the directory
-            if (!isWriteable())
-            {
-                throw new FileSystemException("vfs.provider/delete-read-only.error", name);
-            }
-            */
+            //Its possible to delete a read-only file if you have write-execute access to the directory
 
             /* VFS-210
             if (getType() == FileType.IMAGINARY)
@@ -1113,10 +1100,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         final FileObject[] children = getChildren();
         for (final FileObject element : children)
         {
-            // final FileObject child = children[i];
             final FileName child = element.getName();
             // TODO - use a comparator to compare names
-            // if (child.getName().getBaseName().equals(name))
             if (child.getBaseName().equals(name))
             {
                 return resolveFile(child);
@@ -1208,13 +1193,10 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             else
             {
                 // Create file objects for the children
-                // children = new FileObject[files.length];
                 final FileName[] cache = new FileName[files.length];
                 for (int i = 0; i < files.length; i++)
                 {
                     final String file = files[i];
-                    // children[i] = fs.resolveFile(name.resolveName(file, NameScope.CHILD));
-                    // children[i] = name.resolveName(file, NameScope.CHILD);
                     cache[i] = fs.getFileSystemManager().resolveName(fileName, file, NameScope.CHILD);
                 }
                 // VFS-285: only assign the children filenames after all of them have been
@@ -1586,7 +1568,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 injectType(newType);
 
                 removeChildrenCache();
-                // children = EMPTY_FILE_ARRAY;
 
                 // Notify subclass
                 onChange();
@@ -1614,7 +1595,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // Fix up state
                 injectType(FileType.IMAGINARY);
                 removeChildrenCache();
-                // children = null;
 
                 // Notify subclass
                 onChange();
@@ -1997,17 +1977,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     private void removeChildrenCache()
     {
-        /*
-        if (children != null)
-        {
-            for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
-            {
-                fs.removeFileFromCache(children[iterChildren].getName());
-            }
-
-            children = null;
-        }
-        */
         children = null;
     }
 

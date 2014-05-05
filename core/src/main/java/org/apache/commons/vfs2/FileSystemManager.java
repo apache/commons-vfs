@@ -165,7 +165,7 @@ public interface FileSystemManager
 
     /**
      * Closes the given filesystem.
-     * <P>
+     * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
      *
      * @param filesystem The FileSystem to close.

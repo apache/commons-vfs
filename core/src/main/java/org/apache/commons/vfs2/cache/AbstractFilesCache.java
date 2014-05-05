@@ -19,9 +19,7 @@ package org.apache.commons.vfs2.cache;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.provider.AbstractVfsComponent;
 
-/**
- * Description.
- */
+
 public abstract class AbstractFilesCache extends AbstractVfsComponent implements FilesCache
 {
 }

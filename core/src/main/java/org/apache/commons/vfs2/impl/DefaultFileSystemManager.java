@@ -197,6 +197,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Returns true if this manager has a provider for a particular scheme.
+     *
      * @param scheme The scheme to check.
      * @return true if a provider is configured for this scheme, false otherwise.
      */
@@ -781,8 +782,6 @@ public class DefaultFileSystemManager implements FileSystemManager
             buffer.insert(0, realBase.getPath());
         }
 
-        // // UriParser.canonicalizePath(buffer, 0, name.length());
-
         // Normalise the path
         final FileType fileType = UriParser.normalisePath(buffer);
 
@@ -808,7 +807,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         final FileProvider provider = providers.get(scheme);
         if (provider != null)
         {
-            // todo: extend the filename parser to be able to parse
+            // TODO: extend the filename parser to be able to parse
             // only a pathname and take the missing informations from
             // the base. Then we can get rid of the string operation.
             // // String fullPath = base.getRootURI() +
@@ -826,7 +825,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             }
         }
 
-        // todo: avoid fallback to this point
+        // TODO: avoid fallback to this point
         // this happens if we have a virtual filesystem (no provider for scheme)
         return ((AbstractFileName) realBase).createName(resolvedPath, fileType);
     }

@@ -25,8 +25,8 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileUtil;
 
 /**
- * Helper class for VFSClassLoader. This represents a resource loaded with
- * the classloader.
+ * Helper class for VFSClassLoader.
+ * This represents a resource loaded with the classloader.
  *
  * @see VFSClassLoader
  */

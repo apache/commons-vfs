@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class describes the configuration for a provider.<br>
+ * This class describes the configuration for a provider.
+ * <p>
  * Used by digester in StandardFileSystemManager
  */
 public class ProviderConfiguration

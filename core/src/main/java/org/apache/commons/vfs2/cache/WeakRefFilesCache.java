@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.FileObject;
  * In contrast to the SoftRefFilesCache this implementation might free resources faster
  * as it don't wait until a memory limitation.
  *
- *          2005) $
  * @see java.lang.ref.WeakReference
  */
 public class WeakRefFilesCache extends SoftRefFilesCache

@@ -37,7 +37,8 @@ import org.w3c.dom.NodeList;
 
 /**
  * A {@link org.apache.commons.vfs2.FileSystemManager} that configures itself
- * from an XML (Default: providers.xml) configuration file.<br>
+ * from an XML (Default: providers.xml) configuration file.
+ * <p>
  * Certain providers are only loaded and available if the dependent library is in your
  * classpath. You have to configure your debugging facility to log "debug" messages to see
  * if a provider was skipped due to "unresolved externals".
@@ -53,6 +54,7 @@ public class StandardFileSystemManager
 
     /**
      * Sets the configuration file for this manager.
+     *
      * @param configUri The URI for this manager.
      */
     public void setConfiguration(final String configUri)
@@ -69,6 +71,7 @@ public class StandardFileSystemManager
 
     /**
      * Sets the configuration file for this manager.
+     *
      * @param configUri The URI forthis manager.
      */
     public void setConfiguration(final URL configUri)
@@ -77,8 +80,9 @@ public class StandardFileSystemManager
     }
 
     /**
-     * Sets the ClassLoader to use to load the providers.  Default is to
-     * use the ClassLoader that loaded this class.
+     * Sets the ClassLoader to use to load the providers.
+     * Default is to use the ClassLoader that loaded this class.
+     *
      * @param classLoader The ClassLoader.
      */
     public void setClassLoader(final ClassLoader classLoader)
@@ -87,7 +91,8 @@ public class StandardFileSystemManager
     }
 
     /**
-     * Initializes this manager.  Adds the providers and replicator.
+     * Initializes this manager. Adds the providers and replicator.
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -97,14 +102,6 @@ public class StandardFileSystemManager
         final DefaultFileReplicator replicator = createDefaultFileReplicator();
         setReplicator(new PrivilegedFileReplicator(replicator));
         setTemporaryFileStore(replicator);
-
-        /* replaced by findClassLoader
-        if (classLoader == null)
-        {
-            // Use default classloader
-            classLoader = getClass().getClassLoader();
-        }
-        */
 
         if (configUri == null)
         {
@@ -117,10 +114,7 @@ public class StandardFileSystemManager
             configUri = url;
         }
 
-        // Configure
         configure(configUri);
-
-        // Configure Plugins
         configurePlugins();
 
         // Initialise super-class
@@ -178,6 +172,7 @@ public class StandardFileSystemManager
 
     /**
      * Configures this manager from an XML configuration file.
+     *
      * @param configUri The URI of the configuration.
      * @throws FileSystemException if an error occus.
      */
@@ -216,6 +211,7 @@ public class StandardFileSystemManager
 
     /**
      * Configures this manager from an XML configuration file.
+     *
      * @param configUri The URI of the configuration.
      * @param configStream An InputStream containing the configuration.
      * @throws FileSystemException if an error occurs.
@@ -242,6 +238,7 @@ public class StandardFileSystemManager
 
     /**
      * Configure and create a DocumentBuilder
+     *
      * @return A DocumentBuilder for the configuration.
      * @throws ParserConfigurationException if an error occurs.
      */
@@ -256,6 +253,7 @@ public class StandardFileSystemManager
 
     /**
      * Configures this manager from an parsed XML configuration file
+     *
      * @param config The configuration Element.
      * @throws FileSystemException if an error occurs.
      */
@@ -305,6 +303,7 @@ public class StandardFileSystemManager
 
     /**
      * Adds an extension map.
+     *
      * @param map containing the Elements.
      */
     private void addExtensionMap(final Element map)
@@ -319,6 +318,7 @@ public class StandardFileSystemManager
 
     /**
      * Adds a mime-type map.
+     *
      * @param map containing the Elements.
      */
     private void addMimeTypeMap(final Element map)
@@ -330,6 +330,7 @@ public class StandardFileSystemManager
 
     /**
      * Adds a provider from a provider definition.
+     *
      * @param providerDef the provider definition
      * @param isDefault true if the default should be used.
      * @throws FileSystemException if an error occurs.
