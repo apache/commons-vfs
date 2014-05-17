@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.FileContentInfoFilenameFactory;
 import org.apache.commons.vfs2.provider.hdfs.HdfsFileAttributes;
 import org.apache.commons.vfs2.provider.hdfs.HdfsFileProvider;
+import org.apache.commons.vfs2.util.Os;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -47,8 +48,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster. This will only work on
- * systems that Hadoop supports. This test does not run on Windows because Hadoop does not run on Windows.
+ * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.
+ * <P>
+ * This will only work on systems that Hadoop supports.
  */
 @SuppressWarnings("resource")
 public class HdfsFileProviderTest
@@ -84,32 +86,9 @@ public class HdfsFileProviderTest
         conf = new Configuration();
         conf.set(FileSystem.FS_DEFAULT_NAME_KEY, HDFS_URI);
         conf.set("hadoop.security.token.service.use_ip", "true");
-
-        // MiniDFSCluster will check the permissions on the data directories, but does not do a good job of setting them
-        // properly. We need to get the users umask and set the appropriate Hadoop property so that the data directories
-        // will be created with the correct permissions.
-        try
-        {
-            final Process p = Runtime.getRuntime().exec("/bin/sh -c umask");
-            final BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            final String line = bri.readLine();
-            p.waitFor();
-            // System.out.println("umask response: " + line);
-            final Short umask = Short.parseShort(line.trim(), 8);
-            // Need to set permission to 777 xor umask
-            // leading zero makes java interpret as base 8
-            final int newPermission = 0777 ^ umask;
-            // System.out.println("Umask is: " + String.format("%03o", umask));
-            // System.out.println("Perm is: " + String.format("%03o",
-            // newPermission));
-            conf.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
-        }
-        catch (final Exception e)
-        {
-            throw new RuntimeException("Error getting umask from O/S", e);
-        }
-
         conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 100); // 100K blocksize
+
+        setUmask(conf);
 
         try
         {
@@ -179,6 +158,41 @@ public class HdfsFileProviderTest
         hdfs = cluster.getFileSystem();
     }
 
+    /**
+     * Add {@code dfs.datanode.data.dir.perm} setting if OS needs it.
+     * <P>
+     * MiniDFSCluster will check the permissions on the data directories, but does not do a
+     * good job of setting them properly. We need to get the users umask and set the
+     * appropriate Hadoop property so that the data directories will be created with
+     * the correct permissions.
+     * <P>
+     * Will do nothing on Windows.
+     */
+    public static void setUmask(Configuration conf2)
+    {
+        if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
+        {
+            return;
+        }
+
+        try
+        {
+            final Process p = Runtime.getRuntime().exec("/bin/sh -c umask");
+            final BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            final String line = bri.readLine();
+            p.waitFor();
+            final Short umask = Short.parseShort(line.trim(), 8);
+            // Need to set permission to 777 xor umask
+            // leading zero makes java interpret as base 8
+            final int newPermission = 0777 ^ umask;
+            conf.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
+        }
+        catch (final Exception e)
+        {
+            throw new RuntimeException("Error getting umask from O/S", e);
+        }
+    }
+
     @AfterClass
     public static void tearDown() throws Exception
     {
@@ -245,16 +259,21 @@ public class HdfsFileProviderTest
     @Test
     public void testEquals() throws Exception
     {
-        final FileObject fo = manager.resolveFile(TEST_DIR1);
-        Assert.assertNotNull(fo);
-        Assert.assertFalse(fo.exists());
+        // Create test file (and check parent was created)
+        final FileObject dir = manager.resolveFile(TEST_DIR1);
+        Assert.assertNotNull(dir);
+        Assert.assertFalse(dir.exists());
+        final FileObject file1 = createTestFile(hdfs);
+        Assert.assertTrue(file1.exists());
+        Assert.assertTrue(dir.exists());
 
-        // Create the test file
-        final FileObject file = createTestFile(hdfs);
-        Assert.assertTrue(fo.exists());
-        // Get a handle to the same file
+        // Get a handle to the same file and ensure it is equal
         final FileObject file2 = manager.resolveFile(TEST_FILE1);
-        Assert.assertEquals(file, file2);
+        Assert.assertEquals(file1, file2);
+
+        // Ensure different files on same filesystem are not equal
+        Assert.assertNotEquals(dir, file1);
+        Assert.assertNotEquals(dir, file2);
     }
 
     @Test

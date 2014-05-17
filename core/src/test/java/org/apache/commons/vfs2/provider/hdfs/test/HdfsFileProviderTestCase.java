@@ -16,10 +16,8 @@
  */
 package org.apache.commons.vfs2.provider.hdfs.test;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import junit.framework.Test;
 
@@ -40,8 +38,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
- * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster. This will only work on
- * systems that Hadoop supports. This test does not run on Windows because Hadoop does not run on Windows.
+ * This test class uses the Hadoop MiniDFSCluster class to create an embedded Hadoop cluster.
+ * <P>
+ * This will only work on systems that Hadoop supports.
  */
 public class HdfsFileProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
@@ -99,29 +98,9 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig impleme
             conf = new Configuration();
             conf.set(FileSystem.FS_DEFAULT_NAME_KEY, HDFS_URI);
             conf.set("hadoop.security.token.service.use_ip", "true");
-
-            // MiniDFSCluster will check the permissions on the data directories, but does not do a good job of setting them
-            // properly. We need to get the users umask and set the appropriate Hadoop property so that the data directories
-            // will be created with the correct permissions.
-            try
-            {
-                final Process p = Runtime.getRuntime().exec("/bin/sh -c umask");
-                final BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                final String line = bri.readLine();
-                p.waitFor();
-                // System.out.println("umask response: " + line);
-                final Short umask = Short.parseShort(line.trim(), 8);
-                // Need to set permission to 777 xor umask
-                // leading zero makes java interpret as base 8
-                final int newPermission = 0777 ^ umask;
-                conf.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
-            }
-            catch (final Exception e)
-            {
-                throw new RuntimeException("Error getting umask from O/S", e);
-            }
-
             conf.setLong(DFSConfigKeys.DFS_BLOCK_SIZE_KEY, 1024 * 100); // 100K blocksize
+
+            HdfsFileProviderTest.setUmask(conf);
 
             try
             {

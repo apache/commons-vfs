@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-526" dev="ecki" type="update">
+       [HDFS][Tests] Enable HDFS testing on Windows (remove Maven profile "hdfs")
+      </action>
       <action issue="VFS-453" dev="ecki" type="update" due-to="Jiri Syrovy">
        [HTTP][WEBDAV] Add file system options for connect and socket timeout.
       </action>
