@@ -59,7 +59,7 @@ public class WindowsFileNameParser extends LocalFileNameParser
         for (; startPos < maxlen && name.charAt(startPos) == '/'; startPos++)
         {
         }
-        if (startPos == maxlen && name.length() > startPos && name.charAt(startPos + 1) == '/')
+        if (startPos == maxlen && name.length() > (startPos + 1) && name.charAt(startPos + 1) == '/')
         {
             // Too many '/'
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);

@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-338" dev="ecki" type="fix" due-to="Daniel R.">
+       [Local][Tests] Avoid IndexOutOfBoundsException when validating local file URIs.
+      </action>
       <action issue="VFS-526" dev="ecki" type="update">
        [HDFS][Tests] Enable HDFS testing on Windows (remove Maven profile "hdfs")
       </action>

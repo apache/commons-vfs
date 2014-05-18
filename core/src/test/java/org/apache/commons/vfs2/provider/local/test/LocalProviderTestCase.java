@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.PermissionsTests;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+import org.apache.commons.vfs2.util.Os;
 
 /**
  * Tests for the local file system.
@@ -46,6 +47,11 @@ public class LocalProviderTestCase
         // VFS-325
         testSuite.addTests(UrlTests.class);
         testSuite.addTests(PermissionsTests.class);
+
+        if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
+        {
+            testSuite.addTests(WindowsFileNameTests.class);
+        }
 
         return testSuite;
     }
