@@ -34,6 +34,7 @@ import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.httpclient.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileNotFoundException;
@@ -548,11 +549,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
     }
 
     private boolean isCurrentFile(final String href, final URLFileName fileName) {
-        String name = hrefString(fileName);
-        if (href.endsWith("/") && !name.endsWith("/")) {
-            name += "/";
-        }
-        return href.equals(name) || href.equals(fileName.getPath());
+        return equalFileNames(href, hrefString(fileName)) || equalFileNames(href, fileName.getPath());
     }
 
     private boolean isDirectory(final URLFileName name) throws IOException {
@@ -626,5 +623,24 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
         } catch (final Exception e) {
             return name.getURI();
         }
+    }
+
+
+    private String removeTrailingSlash(final String fileName) {
+        return StringUtils.removeEnd(fileName, "/");
+    }
+
+    /**
+     * Compares 2 given file names for equality.
+     * Prior to the comparison trailing slashes of the file names will be removed.
+     *
+     * @param fileName1 first file name
+     * @param fileName2 second file name
+     * @return true if the file names are equal
+     */
+    private boolean equalFileNames(final String fileName1, final String fileName2) {
+        final String f1 = removeTrailingSlash(fileName1);
+        final String f2 = removeTrailingSlash(fileName2);
+        return f1.equals(f2);
     }
 }
