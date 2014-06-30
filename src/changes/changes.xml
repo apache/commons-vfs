@@ -30,7 +30,7 @@
        [Local][Tests] Avoid IndexOutOfBoundsException when validating local file URIs.
       </action>
       <action issue="VFS-526" dev="ecki" type="update">
-       [HDFS][Tests] Enable HDFS testing on Windows (remove Maven profile "hdfs")
+       [HDFS][Tests] Support HDFS testing on Windows (but keep profile "no-hdfs" enabled on Windows VFS-529).
       </action>
       <action issue="VFS-453" dev="ecki" type="update" due-to="Jiri Syrovy">
        [HTTP][WEBDAV] Add file system options for connect and socket timeout.
