@@ -15,10 +15,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<document>
+<document xmlns="http://maven.apache.org/changes/1.0.0">
   <properties>
-    <title>Changes</title>
-    <author email="rgoers@apache.org">Ralph Goers</author>
+    <title>Apache Commons VFS Changes</title>
+    <author email="dev@commons.apache.org">Apache Commons Developers</author>
   </properties>
 
   <body>
