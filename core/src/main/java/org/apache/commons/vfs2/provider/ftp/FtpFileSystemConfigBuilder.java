@@ -41,11 +41,12 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String PASSIVE_MODE = _PREFIX + ".PASSIVE";
     private static final String PROXY = _PREFIX + ".PROXY";
     private static final String RECENT_DATE_FORMAT = _PREFIX + ".RECENT_DATE_FORMAT";
+    private static final String REMOTE_VERIFICATION = _PREFIX + ".REMOTE_VERIFICATION";
     private static final String SERVER_LANGUAGE_CODE = _PREFIX + ".SERVER_LANGUAGE_CODE";
     private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
-    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT"; 
 
     /**
      * Gets the singleton instance.
@@ -60,7 +61,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private FtpFileSystemConfigBuilder()
     {
         super("ftp.");
-    }
+    } 
 
     /** @since 2.1 */
     protected FtpFileSystemConfigBuilder(final String prefix) {
@@ -180,6 +181,16 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public String getRecentDateFormat(final FileSystemOptions opts)
     {
         return getString(opts, RECENT_DATE_FORMAT);
+    }
+
+    /**
+     * Gets whether to use remote verification.
+     * 
+     * @param opts
+     */
+    public Boolean getRemoteVerification(FileSystemOptions opts)
+    {
+        return getBoolean(opts, REMOTE_VERIFICATION);
     }
 
     /**
@@ -367,6 +378,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public void setRecentDateFormat(final FileSystemOptions opts, final String recentDateFormat)
     {
         setParam(opts, RECENT_DATE_FORMAT, recentDateFormat);
+    }
+
+    /**
+     * Sets whether to use remote verification. 
+     *
+     * @param opts
+     * @param remoteVerification
+     */
+    public void setRemoteVerification(FileSystemOptions opts, boolean remoteVerification)
+    {
+        setParam(opts, REMOTE_VERIFICATION, remoteVerification);
     }
 
     /**

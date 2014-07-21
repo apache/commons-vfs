@@ -137,6 +137,11 @@ public final class FtpClientFactory
                     client.setParserFactory(myFactory);
                 }
 
+                Boolean remoteVerification = builder.getRemoteVerification(fileSystemOptions);
+                if (remoteVerification != null) {
+                    client.setRemoteVerificationEnabled(remoteVerification.booleanValue());
+                }                 
+                
                 try
                 {
                     // Set connect timeout
