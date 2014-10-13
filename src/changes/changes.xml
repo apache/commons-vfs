@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-542" dev="ggregory" type="update">
+       Update Jsch from 0.1.50 to 0.1.51.
+      </action>
       <action issue="VFS-541" dev="ggregory" type="update">
        Update Apache Commons Compress from 1.6 to 1.9.
       </action>
