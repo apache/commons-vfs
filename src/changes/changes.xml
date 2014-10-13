@@ -26,7 +26,16 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
-      <action issue="VFS-532" dev="ggregory" type="add" due-to=" Gareth Daniel Smith">
+      <action issue="VFS-541" dev="ggregory" type="update">
+       Update Apache Commons Compress from 1.6 to 1.9.
+      </action>
+      <action issue="VFS-540" dev="ggregory" type="update">
+       Update Apache Commons Logging from 1.1.3 to 1.2.
+      </action>
+      <action issue="VFS-539" dev="ggregory" type="update">
+       Update Apache Commons Lang from 3.1 to 3.3.2.
+      </action>
+      <action issue="VFS-532" dev="ggregory" type="add" due-to="Gareth Daniel Smith">
        [FTP] Allow configuring remoteVerificationEnabled on FTPClient instances.
       </action>
       <action issue="VFS-338" dev="ecki" type="fix" due-to="Daniel R.">
