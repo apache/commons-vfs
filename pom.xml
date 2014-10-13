@@ -378,6 +378,7 @@
         <artifactId>mail</artifactId>
         <version>1.4.7</version>
       </dependency>
+      <!-- Testing -->
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
