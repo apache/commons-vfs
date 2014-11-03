@@ -21,12 +21,12 @@ limitations under the License.
 
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Commons VFS Distribution</name>
+  <name>Apache Commons VFS Distribution</name>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2-distribution</artifactId>
   <version>2.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <description>VFS is a Virtual File System library - Distribution archives.</description>
+  <description>Apache Commons VFS is a Virtual File System library - Distribution archives.</description>
 
   <parent>
     <groupId>org.apache.commons</groupId>
