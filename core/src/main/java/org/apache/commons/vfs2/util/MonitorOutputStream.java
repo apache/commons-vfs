@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.util;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.vfs2.FileSystemException;
 
@@ -28,7 +29,7 @@ import org.apache.commons.vfs2.FileSystemException;
 public class MonitorOutputStream
     extends BufferedOutputStream
 {
-    private boolean finished;
+    private final AtomicBoolean finished = new AtomicBoolean(false);
 
     public MonitorOutputStream(final OutputStream out)
     {
@@ -37,21 +38,42 @@ public class MonitorOutputStream
 
     /**
      * Closes this output stream.
+     * <p>
+     * This makes sure the buffers are flushed, close the output
+     * stream and it will call {@link #onClose()}
+     * and re-throw last exception from any of the three.
+     * <p>
+     * This does nothing if the stream is closed already.
+     *
      * @throws IOException if an error occurs.
      */
     @Override
     public void close() throws IOException
     {
-        if (finished)
+        // do not use super.close()
+        // on Java 8 it might throw self suppression, see JDK-8042377
+        // in older Java it silently ignores flush() errors
+        if (finished.getAndSet(true))
         {
             return;
         }
 
-        // Close the output stream
         IOException exc = null;
+
+        // flush the buffer and out stream
         try
         {
-            super.close();
+            super.flush();
+        }
+        catch (final IOException ioe)
+        {
+            exc = ioe;
+        }
+
+        // close the out stream without using super.close()
+        try
+        {
+            super.out.close();
         }
         catch (final IOException ioe)
         {
@@ -67,8 +89,6 @@ public class MonitorOutputStream
         {
             exc = ioe;
         }
-
-        finished = true;
 
         if (exc != null)
         {
@@ -132,12 +152,12 @@ public class MonitorOutputStream
      * This is a workaround for an oddity with Java's BufferedOutputStream where you can write to
      * even if the stream has been closed.
      *
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException if already closed.
      * @since 2.0
      */
     protected void assertOpen() throws FileSystemException
     {
-        if (finished)
+        if (finished.get())
         {
             throw new FileSystemException("vfs.provider/closed.error");
         }

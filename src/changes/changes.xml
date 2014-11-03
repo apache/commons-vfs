@@ -26,6 +26,10 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-521" dev="ecki" type="fix">
+       [Ram][Tests] Make RAM provider test pass on Java 8
+       (JDK-8042377, self-suppression not permitted, MonitorOutputStream#close()).
+      </action>
       <action issue="VFS-542" dev="ggregory" type="update">
        Update Jsch from 0.1.50 to 0.1.51.
       </action>
