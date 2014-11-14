@@ -64,4 +64,13 @@ class FileTypeMap
         final String extension = file.getName().getExtension();
         return extensionMap.get(extension);
     }
+
+    /**
+     * Removes all extensions and scheme mappings.
+     */
+    public void clear()
+    {
+        mimeTypeMap.clear();
+        extensionMap.clear();
+    }
 }

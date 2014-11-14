@@ -63,6 +63,38 @@ import org.apache.commons.vfs2.provider.VfsComponent;
 public class DefaultFileSystemManager implements FileSystemManager
 {
     /**
+     * Mapping from URI scheme to FileProvider.
+     */
+    private final Map<String, FileProvider> providers = new HashMap<String, FileProvider>();
+
+    /**
+     * All components used by this manager.
+     */
+    private final ArrayList<Object> components = new ArrayList<Object>();
+
+    /**
+     * The context to pass to providers.
+     */
+    private final DefaultVfsComponentContext context = new DefaultVfsComponentContext(this);
+
+    /**
+     * Operations providers added to this manager.
+     */
+    private final Map<String, List<FileOperationProvider>> operationProviders =
+            new HashMap<String, List<FileOperationProvider>>();
+
+    /**
+     * Mappings of file types.
+     */
+    private final FileTypeMap map = new FileTypeMap();
+
+    /**
+     * The virtual file provider.
+     */
+    private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
+
+
+    /**
      * The provider for local files.
      */
     private LocalFileProvider localFileProvider;
@@ -76,16 +108,6 @@ public class DefaultFileSystemManager implements FileSystemManager
      * The file replicator to use.
      */
     private FileReplicator fileReplicator;
-
-    /**
-     * Mapping from URI scheme to FileProvider.
-     */
-    private final Map<String, FileProvider> providers = new HashMap<String, FileProvider>();
-
-    /**
-     * All components used by this manager.
-     */
-    private final ArrayList<Object> components = new ArrayList<Object>();
 
     /**
      * The base file to use for relative URI.
@@ -106,6 +128,9 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Class which decorates all returned fileObjects
      */
     private Class<?> fileObjectDecorator;
+    /**
+     * Reflection constructor extracted from {@link #fileObjectDecorator}
+     */
     private Constructor<?> fileObjectDecoratorConst;
 
     /**
@@ -114,23 +139,20 @@ public class DefaultFileSystemManager implements FileSystemManager
     private FileContentInfoFactory fileContentInfoFactory;
 
     /**
-     * The logger to use.
+     * The logger to use. Default implementation.
      */
     private Log log = LogFactory.getLog(getClass());
 
     /**
-     * The context to pass to providers.
+     * The temporary file store to use.
      */
-    private final DefaultVfsComponentContext context = new DefaultVfsComponentContext(
-            this);
-
     private TemporaryFileStore tempFileStore;
-    private final FileTypeMap map = new FileTypeMap();
-    private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
+
+    /**
+     * Flag, if manager is initialized (after init() and before close()).
+     */
     private boolean init;
 
-    private final Map<String, List<FileOperationProvider>> operationProviders =
-          new HashMap<String, List<FileOperationProvider>>();
 
     /**
      * Returns the logger used by this manager.
@@ -142,8 +164,12 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Registers a file system provider. The manager takes care of all lifecycle
-     * management. A provider may be registered multiple times.
+     * Registers a file system provider.
+     * <p>
+     * The manager takes care of all lifecycle management.
+     * A provider may be registered multiple times.
+     * The first {@link LocalFileProvider} added will be
+     * remembered for {@link #getLocalFileProvider()}.
      *
      * @param urlScheme
      *            The scheme the provider will handle.
@@ -158,8 +184,12 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Registers a file system provider. The manager takes care of all lifecycle
-     * management. A provider may be registered multiple times.
+     * Registers a file system provider.
+     * <p>
+     * The manager takes care of all lifecycle management.
+     * A provider may be registered multiple times.
+     * The first {@link LocalFileProvider} added will be
+     * remembered for {@link #getLocalFileProvider()}.
      *
      * @param urlSchemes
      *            The schemes the provider will handle.
@@ -170,7 +200,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     public void addProvider(final String[] urlSchemes,
             final FileProvider provider) throws FileSystemException
     {
-        // Warn about duplicate providers
+        // fail duplicate schemes
         for (final String scheme : urlSchemes)
         {
             if (providers.containsKey(scheme))
@@ -254,6 +284,12 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Sets the filesCache implementation used to cache files.
+     * <p>
+     * Can only be set before the FileSystemManager is initialized.
+     * <p>
+     * The manager takes care of the lifecycle. If none is set, a default is picked
+     * in {@link #init()}.
+     *
      * @param filesCache The FilesCache.
      * @throws FileSystemException if an error occurs setting the cache..
      */
@@ -269,8 +305,9 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Set the cache strategy to use when dealing with file object data. You can
-     * set it only once before the FileSystemManager is initialized.
+     * Set the cache strategy to use when dealing with file object data.
+     * <p>
+     * Can only be set before the FileSystemManager is initialized.
      * <p>
      * The default is {@link CacheStrategy#ON_RESOLVE}
      *
@@ -322,6 +359,8 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Set a fileObject decorator to be used for ALL returned file objects.
+     * <p>
+     * Can only be set before the FileSystemManager is initialized.
      *
      * @param fileObjectDecorator must be inherted from {@link DecoratedFileObject} a has to provide a
      * constructor with a single {@link FileObject} as argument
@@ -364,6 +403,9 @@ public class DefaultFileSystemManager implements FileSystemManager
     /**
      * set the fileContentInfoFactory used to determine the infos of a file
      * content.
+     * <p>
+     * Can only be set before the FileSystemManager is initialized.
+     *
      * @param fileContentInfoFactory The FileContentInfoFactory.
      * @throws FileSystemException if an error occurs setting the FileContentInfoFactory.
      */
@@ -379,8 +421,10 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Sets the file replicator to use. The manager takes care of all lifecycle
-     * management.
+     * Sets the file replicator to use.
+     * <p>
+     * The manager takes care of all lifecycle management.
+     *
      * @param replicator The FileReplicator.
      * @throws FileSystemException if an error occurs setting the replicator.
      */
@@ -392,8 +436,10 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Sets the temporary file store to use. The manager takes care of all
-     * lifecycle management.
+     * Sets the temporary file store to use.
+     * <p>
+     * The manager takes care of all lifecycle management.
+     *
      * @param tempFileStore The temporary FileStore.
      * @throws FileSystemException if an error occurs adding the file store.
      */
@@ -406,6 +452,9 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Sets the logger to use.
+     * <p>
+     * This overwrites the default logger for this manager and is not reset in {@link #close()}.
+     *
      * @param log The Logger to use.
      */
     @Override
@@ -416,6 +465,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Initializes a component, if it has not already been initialised.
+     *
      * @param component The component to setup.
      * @throws FileSystemException if an error occurs.
      */
@@ -437,6 +487,7 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Closes a component, if it has not already been closed.
+     *
      * @param component The component to close.
      */
     private void closeComponent(final Object component)
@@ -495,6 +546,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             // filesCache = new DefaultFilesCache();
             filesCache = new SoftRefFilesCache();
         }
+
         if (fileContentInfoFactory == null)
         {
             fileContentInfoFactory = new FileContentInfoFilenameFactory();
@@ -512,8 +564,13 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Closes all files created by this manager, and cleans up any temporary
-     * files. Also closes all providers and the replicator.
+     * Closes the manager.
+     * <p>
+     * This will close all providers (all files), it will also close
+     * all maanged componnets including temporary files, replicators
+     * and cache.
+     * <p>
+     * The manager is in uninitialized state after this method.
      */
     public void close()
     {
@@ -527,19 +584,38 @@ public class DefaultFileSystemManager implements FileSystemManager
         {
             closeComponent(provider);
         }
+        // just to be sure
+        providers.clear();
 
         // Close the other components
+        closeComponent(filesCache);
+
+        // managed lifecycle
         closeComponent(defaultProvider);
         closeComponent(fileReplicator);
         closeComponent(tempFileStore);
 
         components.clear();
-        providers.clear();
-        filesCache.close();
-        localFileProvider = null;
+
         defaultProvider = null;
         fileReplicator = null;
         tempFileStore = null;
+        filesCache = null;
+
+        // reset manager state
+
+        // collections with add()
+        map.clear();
+        operationProviders.clear();
+        // setters and derived state
+        baseFile = null;
+        fileObjectDecorator = null;
+        fileObjectDecoratorConst = null;
+        localFileProvider = null;
+        // setters with init() defaults
+        fileCacheStrategy = null;
+        fileContentInfoFactory = null;
+
         init = false;
     }
 
@@ -623,7 +699,11 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Locates a file by URI.
+     * Resolves a URI, relative to base file.
+     * <p>
+     * Uses the {@linkplain #getLocalFileProvider() local file provider} to
+     * locate the system file.
+     *
      * @param baseFile The base File to use to locate the file.
      * @param uri The URI of the file to locate.
      * @return The FileObject for the located file.
@@ -979,8 +1059,13 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Locates the local file provider.
+     * <p>
+     * The local file provider is the first
+     * {@linkplain #addProvider(String[], FileProvider) provider added}
+     * implementing {@link LocalFileProvider}.
+     *
      * @return The LocalFileProvider.
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException if no local file provider was set.
      */
     private LocalFileProvider getLocalFileProvider() throws FileSystemException
     {

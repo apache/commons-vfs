@@ -37,6 +37,10 @@ public final class VFS
 
     /**
      * Returns the default {@link FileSystemManager} instance.
+     * <p>
+     * Warning, if you close this instance you may affect all current
+     * and future users of this manager singleton.
+     *
      * @return The FileSystemManager.
      * @throws FileSystemException if an error occurs creating the manager.
      */
@@ -119,8 +123,8 @@ public final class VFS
     {
         if (VFS.uriStyle != null && VFS.uriStyle.booleanValue() != uriStyle)
         {
-            throw new IllegalStateException("URI STYLE ALREADY SET TO");
+            throw new IllegalStateException("VFS.uriStyle was already set differently.");
         }
-        VFS.uriStyle = uriStyle ? Boolean.TRUE : Boolean.FALSE;
+        VFS.uriStyle = Boolean.valueOf(uriStyle);
     }
 }
