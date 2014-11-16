@@ -24,8 +24,11 @@
   <body>
     <release version="2.1" date="TBD" description="New features and bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
-<!--     	[Local] Need an easy way to convert from a FileObject to a File. -->
+<!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-545" dev="ecki" type="fix">
+       Make DefaultFilesCache remove reference to filesystem when it is cleared (closed).
+      </action>
       <action issue="VFS-521" dev="ecki" type="fix">
        [Ram][Tests] Make RAM provider test pass on Java 8
        (JDK-8042377, self-suppression not permitted, MonitorOutputStream#close()).

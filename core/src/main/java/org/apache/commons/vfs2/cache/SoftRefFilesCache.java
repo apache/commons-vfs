@@ -336,10 +336,6 @@ public class SoftRefFilesCache extends AbstractFilesCache
         }
     }
 
-    public void touchFile(final FileObject fileObject)
-    {
-    }
-
     private boolean removeFile(final FileSystemAndNameKey key)
     {
         if (log.isDebugEnabled())

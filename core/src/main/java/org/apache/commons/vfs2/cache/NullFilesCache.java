@@ -56,8 +56,4 @@ public class NullFilesCache extends AbstractFilesCache
     public void removeFile(final FileSystem filesystem, final FileName name)
     {
     }
-
-    public void touchFile(final FileObject file)
-    {
-    }
 }

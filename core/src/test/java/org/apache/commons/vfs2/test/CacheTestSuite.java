@@ -18,14 +18,11 @@ package org.apache.commons.vfs2.test;
 
 
 /**
- * The suite of tests for a file system.
+ * The suite of tests for a file cache.
  */
 public class CacheTestSuite
     extends AbstractTestSuite
 {
-    /**
-     * Adds the tests for a file system to this suite.
-     */
     public CacheTestSuite(final ProviderTestConfig providerConfig) throws Exception
     {
         this(providerConfig, "", false);

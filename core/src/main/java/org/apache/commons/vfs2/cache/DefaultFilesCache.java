@@ -25,17 +25,27 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 
 /**
- * A {@link org.apache.commons.vfs2.FilesCache} implementation.
+ * A simple {@link org.apache.commons.vfs2.FilesCache FilesCache} implementation.
  * <p>
- * This implementation caches every file for the complete lifetime of the used
- * {@link org.apache.commons.vfs2.FileSystemManager}.
+ * This implementation caches every file with no expire or limit.
+ * All files and filesystems are hard reachable references. This implementation
+ * holds a list of filesystem specific {@linkplain ConcurrentHashMap ConcurrentHashMaps} in
+ * the main cache map.
+ * <p>
+ * Cached {@linkplain FileObject FileObjects} as well as {@linkplain FileSystem FileSystems}
+ * are only removed when {@link #clear(FileSystem)} is called (i.e. on filesystem close).
+ * When the used {@link org.apache.commons.vfs2.FileSystemManager FileSystemManager} is closed,
+ * it will also {@linkplain #close() close} this cache (which frees all entries).
+ * <p>
+ * Despite its name, this is not the fallback implementation used by
+ * {@link org.apache.commons.vfs2.impl.DefaultFileSystemManager#init() DefaultFileSystemManager#init()}
+ * anymore.
  */
 public class DefaultFilesCache extends AbstractFilesCache
 {
-
-    /** The FileSystem cache */
+    /** The FileSystem cache. Keeps one Map for each FileSystem. */
     private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> filesystemCache =
-          new ConcurrentHashMap<FileSystem, ConcurrentMap<FileName, FileObject>>(10);
+                    new ConcurrentHashMap<FileSystem, ConcurrentMap<FileName, FileObject>>(10);
 
     @Override
     public void putFile(final FileObject file)
@@ -54,23 +64,35 @@ public class DefaultFilesCache extends AbstractFilesCache
     @Override
     public FileObject getFile(final FileSystem filesystem, final FileName name)
     {
-        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
-        return files.get(name);
+        // avoid creating filesystem entry for empty filesystem cache:
+        final Map<FileName, FileObject> files = filesystemCache.get(filesystem);
+        if (files == null)
+        {
+            // cache for filesystem is not known => file is not cached:
+            return null;
+        }
+
+        return files.get(name); // or null
     }
 
     @Override
     public void clear(final FileSystem filesystem)
     {
-        final Map<FileName, FileObject> files = getOrCreateFilesystemCache(filesystem);
-        files.clear();
+        // avoid keeping a reference to the FileSystem (key) object
+        final Map<FileName, FileObject> files = filesystemCache.remove(filesystem);
+        if (files != null)
+        {
+            files.clear(); // help GC
+        }
     }
 
     protected ConcurrentMap<FileName, FileObject> getOrCreateFilesystemCache(final FileSystem filesystem)
     {
         ConcurrentMap<FileName, FileObject> files = filesystemCache.get(filesystem);
-        if (files == null)
+        // we loop to make sure we never return null even when concurrent clean is called
+        while (files == null)
         {
-            filesystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<FileName, FileObject>());
+            filesystemCache.putIfAbsent(filesystem, new ConcurrentHashMap<FileName, FileObject>(200, 0.75f, 8));
             files = filesystemCache.get(filesystem);
         }
 
@@ -88,11 +110,13 @@ public class DefaultFilesCache extends AbstractFilesCache
     @Override
     public void removeFile(final FileSystem filesystem, final FileName name)
     {
-        final Map<?, ?> files = getOrCreateFilesystemCache(filesystem);
-        files.remove(name);
-    }
-
-    public void touchFile(final FileObject file)
-    {
+        // avoid creating filesystem entry for empty filesystem cache:
+        final Map<FileName, FileObject> files = filesystemCache.get(filesystem);
+        if (files != null)
+        {
+            files.remove(name);
+            // This would be too racey:
+            // if (files.empty()) filesystemCache.remove(filessystem);
+        }
     }
 }

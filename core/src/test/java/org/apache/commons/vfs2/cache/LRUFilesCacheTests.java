@@ -17,12 +17,11 @@
 package org.apache.commons.vfs2.cache;
 
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 
 /**
- * NullFilesCache
+ * Tests for {@link LRUFilesCache} used by {@link LRUFilesCacheTestCase}.
  */
-public class LRUFilesCacheTests extends AbstractProviderTestCase
+public class LRUFilesCacheTests extends FilesCacheTestsBase
 {
     public void testFilesCache() throws Exception
     {
@@ -72,5 +71,10 @@ public class LRUFilesCacheTests extends AbstractProviderTestCase
         // check if the cache still holds the right instance
         final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
         assertFalse(dir1 == dir1_2);
+    }
+
+    public void testClass()
+    {
+        assertTrue(getManager().getFilesCache() instanceof LRUFilesCache);
     }
 }

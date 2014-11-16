@@ -16,14 +16,15 @@
  */
 package org.apache.commons.vfs2.cache;
 
+import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.apache.commons.vfs2.FileSystem;
+import org.apache.commons.vfs2.FilesCache;
 
 /**
- * NullFilesCache
- *
+ * Tests for {@link NullFilesCache} used by {@link NullFilesCacheTestCase}.
  */
-public class NullFilesCacheTests extends AbstractProviderTestCase
+public class NullFilesCacheTests extends FilesCacheTestsBase
 {
     public void testFilesCache() throws Exception
     {
@@ -32,6 +33,35 @@ public class NullFilesCacheTests extends AbstractProviderTestCase
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
         final FileObject dir1_2 = scratchFolder.resolveFile("dir1");
 
-        assertFalse(dir1 == dir1_2);
+        assertFalse("Should always be new instance with NullCache", dir1 == dir1_2);
+    }
+
+    @Override
+    public void testBasicCacheOps() throws Exception
+    {
+        // the basic test looks different for a null cache:
+
+        final FilesCache cache = getManager().getFilesCache();
+        final FileObject fo = getWriteFolder().resolveFile("dir1");
+        final FileName fn = fo.getName();
+        final FileSystem fs = fo.getFileSystem();
+
+        cache.clear(fs);
+        assertNull(cache.getFile(fs, fn));
+
+        cache.putFile(fo);
+        assertNull(null, cache.getFile(fs, fn));
+
+        assertFalse(cache.putFileIfAbsent(fo)); // hmmm?
+        assertNull(null, cache.getFile(fs, fn));
+
+        cache.removeFile(fs, fn);
+        assertNull(cache.getFile(fs, fn));
+    }
+
+
+    public void testClass()
+    {
+        assertTrue(getManager().getFilesCache() instanceof NullFilesCache);
     }
 }

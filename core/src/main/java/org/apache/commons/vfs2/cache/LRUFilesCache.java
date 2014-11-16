@@ -254,6 +254,7 @@ public class LRUFilesCache extends AbstractFilesCache
         }
     }
 
+    @Override
     public void touchFile(final FileObject file)
     {
         // this moves the file back on top
