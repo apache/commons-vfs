@@ -36,6 +36,6 @@ public class WeakRefFilesCacheTests extends FilesCacheTestsBase
 
     public void testClass()
     {
-    	assertTrue(getManager().getFilesCache() instanceof WeakRefFilesCache);
+        assertTrue(getManager().getFilesCache() instanceof WeakRefFilesCache);
     }
 }

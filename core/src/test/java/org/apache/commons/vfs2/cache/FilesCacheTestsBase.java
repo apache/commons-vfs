@@ -29,24 +29,24 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
  */
 public class FilesCacheTestsBase extends AbstractProviderTestCase
 {
-	/**
-	 * Will test if the cache is cleared and if it is still useable afterwards.
-	 * It will actually ensure the test is hitting the cache.
-	 */
+    /**
+     * Will test if the cache is cleared and if it is still useable afterwards.
+     * It will actually ensure the test is hitting the cache.
+     */
     public void testClearFiles() throws Exception
     {
-    	FilesCache cache = getManager().getFilesCache();
+        FilesCache cache = getManager().getFilesCache();
 
-    	final FileObject fo1 = getWriteFolder().resolveFile("dir1");
+        final FileObject fo1 = getWriteFolder().resolveFile("dir1");
 
-    	// clean the cache for this file system
-    	cache.clear(fo1.getFileSystem());
-    	// make sure a empty cache clean does not fail
-    	cache.clear(fo1.getFileSystem());
+        // clean the cache for this file system
+        cache.clear(fo1.getFileSystem());
+        // make sure a empty cache clean does not fail
+        cache.clear(fo1.getFileSystem());
 
-    	final FileObject fo2 = getWriteFolder().resolveFile("dir1");
+        final FileObject fo2 = getWriteFolder().resolveFile("dir1");
 
-    	assertFalse("Objects after cache clear should be different", fo1 == fo2);
+        assertFalse("Objects after cache clear should be different", fo1 == fo2);
     }
 
     /**
@@ -55,36 +55,36 @@ public class FilesCacheTestsBase extends AbstractProviderTestCase
      */
     public void testBasicCacheOps() throws Exception
     {
-    	final FilesCache cache = getManager().getFilesCache();
-    	final FileObject fo = getWriteFolder().resolveFile("dir1");
-    	final FileName fn = fo.getName();
-    	final FileSystem fs = fo.getFileSystem();
+        final FilesCache cache = getManager().getFilesCache();
+        final FileObject fo = getWriteFolder().resolveFile("dir1");
+        final FileName fn = fo.getName();
+        final FileSystem fs = fo.getFileSystem();
 
-    	cache.clear(fs);
-    	assertNull(cache.getFile(fs, fn));
+        cache.clear(fs);
+        assertNull(cache.getFile(fs, fn));
 
-    	cache.putFile(fo);
-    	assertSame(fo, cache.getFile(fs, fn));
+        cache.putFile(fo);
+        assertSame(fo, cache.getFile(fs, fn));
 
-    	assertFalse(cache.putFileIfAbsent(fo));
-    	cache.clear(fs);
-    	assertNull(cache.getFile(fs, fn));
-    	assertTrue(cache.putFileIfAbsent(fo));
+        assertFalse(cache.putFileIfAbsent(fo));
+        cache.clear(fs);
+        assertNull(cache.getFile(fs, fn));
+        assertTrue(cache.putFileIfAbsent(fo));
 
-    	cache.removeFile(fs, fn);
-    	assertNull(cache.getFile(fs, fn));
-    	assertTrue(cache.putFileIfAbsent(fo));
+        cache.removeFile(fs, fn);
+        assertNull(cache.getFile(fs, fn));
+        assertTrue(cache.putFileIfAbsent(fo));
     }
 
     /** Helper method, may be used in cache specific tests. */
     protected int getFileHashCode() throws FileSystemException
-	{
-		final FileObject fo = getWriteFolder().resolveFile("file2");
-		if (!fo.exists())
-		{
-			fo.createFile();
-		}
+    {
+        final FileObject fo = getWriteFolder().resolveFile("file2");
+        if (!fo.exists())
+        {
+            fo.createFile();
+        }
 
-		return fo.hashCode();
-	}
+        return fo.hashCode();
+    }
 }

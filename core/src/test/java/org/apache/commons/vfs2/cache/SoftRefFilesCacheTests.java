@@ -36,7 +36,7 @@ public class SoftRefFilesCacheTests extends FilesCacheTestsBase
 
     public void testClass()
     {
-    	assertTrue(getManager().getFilesCache() instanceof SoftRefFilesCache);
+        assertTrue(getManager().getFilesCache() instanceof SoftRefFilesCache);
     }
 
 }
