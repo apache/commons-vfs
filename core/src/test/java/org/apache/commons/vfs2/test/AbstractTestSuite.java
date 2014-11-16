@@ -30,6 +30,8 @@ import junit.framework.Test;
 import junit.framework.TestResult;
 import junit.framework.TestSuite;
 
+import org.apache.commons.io.FileUtils;
+
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
@@ -159,6 +161,7 @@ public abstract class AbstractTestSuite
 
         // Locate the temp directory, and clean it up
         tempDir = AbstractVfsTestCase.getTestDirectory("temp");
+        FileUtils.cleanDirectory(tempDir);
         checkTempDir("Temp dir not empty before test");
 
         // Create the file system manager
