@@ -525,7 +525,7 @@ public final class DefaultFileContent implements FileContent
         }
         finally
         {
-            threadData.set(null);
+            threadData.remove();
         }
     }
 
