@@ -135,7 +135,7 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Close the underlaying link used to access the files.
+     * Close the underlying link used to access the files.
      */
     public void closeCommunicationLink()
     {
