@@ -183,7 +183,9 @@ public interface FileSystem
     /**
      * Returns the accuracy of the last modification time.
      *
-     * @return ms 0 perfectly accurate, {@literal >0} might be off by this value e.g. sftp 1000ms.
+     * @return the accuracy of the last modification time in milliseconds. A
+     *         value of 0 means perfectly accurate, anything {@literal > 0} might be off
+     *         by this value. For example, sftp has an accuracy of 1000 ms.
      */
     double getLastModTimeAccuracy();
 }

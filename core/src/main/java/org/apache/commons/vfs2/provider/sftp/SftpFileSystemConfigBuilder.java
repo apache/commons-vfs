@@ -153,7 +153,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * @param opts
      *            The FileSystem options.
-     * @return The name of the compression algorithm.
+     * @return The names of the compression algorithms, comma-separated.
      * @see #setCompression
      */
     public String getCompression(final FileSystemOptions opts)
@@ -372,7 +372,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * @param opts
      *            The FileSystem options.
-     * @return The timeout value.
+     * @return The timeout value in milliseconds.
      * @see #setTimeout
      */
     public Integer getTimeout(final FileSystemOptions opts)
@@ -407,16 +407,16 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Configures the compression to use.
+     * Configures the compression algorithms to use.
      * <p>
      * For example, use {@code "zlib,none"} to enable compression.
      * <p>
-     * See the Jsch documentation for details.
+     * See the Jsch documentation (in particular the README file) for details.
      *
      * @param opts
      *            The FileSystem options.
      * @param compression
-     *            The compression algorithm name.
+     *            The names of the compression algorithms, comma-separated.
      * @throws FileSystemException
      *             if an error occurs.
      */
@@ -678,7 +678,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts
      *            The FileSystem options.
      * @param timeout
-     *            The timeout.
+     *            The timeout in milliseconds.
      */
     public void setTimeout(final FileSystemOptions opts, final Integer timeout)
     {

@@ -81,7 +81,9 @@ public interface FileSystemManager
      * {@code resolveFile(getBaseFile(), name)}.
      *
      * @param name              The name of the file.
-     * @param fileSystemOptions The FileSystemOptions used for FileSystem creation
+     * @param fileSystemOptions The FileSystemOptions used for FileSystem creation.
+     *                          All files that are later resolved relative to the
+     *                          returned {@code FileObject} share the options.
      * @return The file.  Never returns null.
      * @throws FileSystemException On error parsing the file name.
      */
@@ -96,9 +98,9 @@ public interface FileSystemManager
      * <p>
      * Note that the file does not have to exist when this method is called.
      *
-     * @param name     The name of the file.
      * @param baseFile The base file to use to resolve relative paths.
-     *                 May be null.
+     *                 May be null if the name is an absolute file name.
+     * @param name     The name of the file.
      * @return The file.  Never returns null.
      * @throws FileSystemException On error parsing the file name.
      */
@@ -109,7 +111,7 @@ public interface FileSystemManager
      * for details.
      *
      * @param baseFile The base file to use to resolve relative paths.
-     *                 May be null.
+     *                 Must not be {@code null}, not even if the <i>name</i> is absolute.
      * @param name     The name of the file.
      * @return The file.  Never returns null.
      * @throws FileSystemException On error parsing the file name.
@@ -125,7 +127,7 @@ public interface FileSystemManager
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
      */
-    FileName resolveName(final FileName root, final String name) throws FileSystemException;
+    FileName resolveName(FileName root, String name) throws FileSystemException;
 
     /**
      * Resolves a name, relative to the "root" file name.  Refer to {@link NameScope}
@@ -137,7 +139,7 @@ public interface FileSystemManager
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
      */
-    FileName resolveName(final FileName root, String name, NameScope scope)
+    FileName resolveName(FileName root, String name, NameScope scope)
         throws FileSystemException;
 
     /**
@@ -261,7 +263,7 @@ public interface FileSystemManager
      * @param scheme The scheme for which a provider should be checked.
      * @return true if a provider for the scheme is available.
      */
-    boolean hasProvider(final String scheme);
+    boolean hasProvider(String scheme);
 
     /**
      * Get the schemes currently available.
@@ -277,14 +279,14 @@ public interface FileSystemManager
      * @return A Collection of the various capabilities.
      * @throws FileSystemException if the given scheme is not konwn.
      */
-    Collection<Capability> getProviderCapabilities(final String scheme) throws FileSystemException;
+    Collection<Capability> getProviderCapabilities(String scheme) throws FileSystemException;
 
     /**
      * Sets the logger to use.
      *
      * @param log The logger to use.
      */
-    void setLogger(final Log log);
+    void setLogger(Log log);
 
     /**
      * Get the configuration builder for the given scheme.
@@ -293,7 +295,7 @@ public interface FileSystemManager
      * @return A FileSystemConfigBuilder appropriate for the given scheme.
      * @throws FileSystemException if the given scheme is not konwn.
      */
-    FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException;
+    FileSystemConfigBuilder getFileSystemConfigBuilder(String scheme) throws FileSystemException;
 
     /**
      * Resolve the uri to a filename.
@@ -316,7 +318,7 @@ public interface FileSystemManager
      * @param operationProvider The FileOperationProvider to add.
      * @throws FileSystemException if an error occurs.
      */
-    void addOperationProvider(final String scheme, final FileOperationProvider operationProvider)
+    void addOperationProvider(String scheme, FileOperationProvider operationProvider)
         throws FileSystemException;
 
     /**
@@ -326,7 +328,7 @@ public interface FileSystemManager
      * @param operationProvider The FileOperationProvider to add.
      * @throws FileSystemException if an error occurs.
      */
-    void addOperationProvider(final String[] schemes, final FileOperationProvider operationProvider)
+    void addOperationProvider(String[] schemes, FileOperationProvider operationProvider)
         throws FileSystemException;
 
 
@@ -340,7 +342,7 @@ public interface FileSystemManager
      *
      * @throws FileSystemException if an error occurs.
      */
-    FileOperationProvider[] getOperationProviders(final String scheme) throws FileSystemException;
+    FileOperationProvider[] getOperationProviders(String scheme) throws FileSystemException;
 
     /**
      * Resolves a URI into a {@link FileObject}.

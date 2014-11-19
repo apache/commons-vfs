@@ -98,7 +98,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts The FileSystemOptions.
-     * @return The timeout for opening the data channel as an Integer.
+     * @return The timeout for opening the data channel in milliseconds.
      * @see #setDataTimeout
      */
     public Integer getDataTimeout(final FileSystemOptions opts)
@@ -229,7 +229,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * @param opts The FileSystem options.
-     * @return The timeout value.
+     * @return The timeout value in milliseconds.
      * @see #getDataTimeout
      * @since 2.0
      */
@@ -282,7 +282,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Set the data timeout for the ftp client.
      * <p>
-     * If you set the {@code dataTimeout} to null no dataTimeout will be set on the
+     * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the
      * ftp client.
      *
      * @param opts The FileSystemOptions.
@@ -435,11 +435,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the socket timeout for the FTP client.
      * <p>
-     * If you set the {@code soTimeout} to null no socket timeout will be set on the
+     * If you set the {@code soTimeout} to {@code null}, no socket timeout will be set on the
      * ftp client.
      *
      * @param opts The FileSystem options.
-     * @param soTimeout The timeout value.
+     * @param soTimeout The timeout value in milliseconds.
      * @since 2.0
      */
     public void setSoTimeout(final FileSystemOptions opts, final Integer soTimeout)
