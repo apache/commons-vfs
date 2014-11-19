@@ -240,7 +240,6 @@
           <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
           <enableRulesSummary>false</enableRulesSummary>
           <propertyExpansion>basedir=${basedir}</propertyExpansion>
-          <propertyExpansion>licensedir=${vfs.parent.dir}/checkstyle-header.txt</propertyExpansion>
         </configuration>
       </plugin>
       <plugin>
