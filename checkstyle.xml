@@ -39,14 +39,6 @@
     <!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
     <module name="Translation"/>
 
-    <!-- Checks for Headers                              -->
-    <!-- See http://checkstyle.sourceforge.net/config_header.html#Header -->
-    <module name="Header">
-        <property name="headerFile" value="${licensedir}"/>
-        <property name="fileExtensions" value="java"/>
-        <!--<property name="ignoreLines" value="2"/> -->
-    </module>
-
     <!-- Checks for Tab characters -->
     <!-- See http://checkstyle.sourceforge.net/config_whitespace.html#FileTabCharacter -->
     <module name="FileTabCharacter">
@@ -178,7 +170,6 @@
         <!-- Checks for common coding problems               -->
         <!-- See http://checkstyle.sf.net/config_coding.html -->
         <module name="CovariantEquals"/>
-        <module name="DoubleCheckedLocking"/>
         <module name="EqualsHashCode"/>
         <module name="IllegalInstantiation"/>
         <!-- <module name="InnerAssignment"/> -->
