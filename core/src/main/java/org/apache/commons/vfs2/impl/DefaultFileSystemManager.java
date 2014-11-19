@@ -86,12 +86,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     /**
      * Mappings of file types.
      */
-    private final FileTypeMap map = new FileTypeMap();
-
-    /**
-     * The virtual file provider.
-     */
-    private final VirtualFileProvider vfsProvider = new VirtualFileProvider();
+    private final FileTypeMap typeMap = new FileTypeMap();
 
 
     /**
@@ -147,6 +142,11 @@ public class DefaultFileSystemManager implements FileSystemManager
      * The temporary file store to use.
      */
     private TemporaryFileStore tempFileStore;
+
+    /**
+     * The virtual file provider.
+     */
+    private VirtualFileProvider vfsProvider;
 
     /**
      * Flag, if manager is initialized (after init() and before close()).
@@ -245,7 +245,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      */
     public void addExtensionMap(final String extension, final String scheme)
     {
-        map.addExtension(extension, scheme);
+        typeMap.addExtension(extension, scheme);
     }
 
     /**
@@ -256,7 +256,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      */
     public void addMimeTypeMap(final String mimeType, final String scheme)
     {
-        map.addMimeType(mimeType, scheme);
+        typeMap.addMimeType(mimeType, scheme);
     }
 
     /**
@@ -536,28 +536,36 @@ public class DefaultFileSystemManager implements FileSystemManager
 
     /**
      * Initializes this manager.
+     * <p>
+     * If no value for the following properties was specified, it will
+     * use the following defaults:
+     * <ul>
+     * <li>fileContentInfoFactory = new FileContentInfoFilenameFactory()</li>
+     * <li>filesCache = new SoftRefFilesCache()</li>
+     * <li>fileCacheStrategy = CacheStrategy.ON_RESOLVE</li>
+     * </ul>
      *
      * @throws FileSystemException if an error occurs during initialization.
      */
     public void init() throws FileSystemException
     {
-        if (filesCache == null)
-        {
-            // filesCache = new DefaultFilesCache();
-            filesCache = new SoftRefFilesCache();
-        }
-
         if (fileContentInfoFactory == null)
         {
             fileContentInfoFactory = new FileContentInfoFilenameFactory();
         }
 
+        if (filesCache == null)
+        {
+            // filesCache = new DefaultFilesCache();
+            filesCache = new SoftRefFilesCache();
+        }
         if (fileCacheStrategy == null)
         {
             fileCacheStrategy = CacheStrategy.ON_RESOLVE;
         }
-
         setupComponent(filesCache);
+
+        vfsProvider = new VirtualFileProvider();
         setupComponent(vfsProvider);
 
         init = true;
@@ -567,7 +575,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Closes the manager.
      * <p>
      * This will close all providers (all files), it will also close
-     * all maanged componnets including temporary files, replicators
+     * all managed components including temporary files, replicators
      * and cache.
      * <p>
      * The manager is in uninitialized state after this method.
@@ -588,31 +596,36 @@ public class DefaultFileSystemManager implements FileSystemManager
         providers.clear();
 
         // Close the other components
-        closeComponent(filesCache);
-
-        // managed lifecycle
-        closeComponent(defaultProvider);
+        closeComponent(vfsProvider);
         closeComponent(fileReplicator);
         closeComponent(tempFileStore);
-
-        components.clear();
-
-        defaultProvider = null;
-        fileReplicator = null;
-        tempFileStore = null;
-        filesCache = null;
-
-        // reset manager state
+        closeComponent(filesCache);
+        closeComponent(defaultProvider);
 
         // collections with add()
-        map.clear();
+        typeMap.clear();
         operationProviders.clear();
+
+        // should not happen, but make debugging easier:
+        if (!components.isEmpty())
+        {
+        	log.warn("DefaultFilesystemManager.close: not all components are closed: " + components.toString());
+        }
+        components.clear();
+
+        // managed components
+        vfsProvider = null;
+
         // setters and derived state
+        defaultProvider = null;
         baseFile = null;
         fileObjectDecorator = null;
         fileObjectDecoratorConst = null;
         localFileProvider = null;
+        fileReplicator = null;
+        tempFileStore = null;
         // setters with init() defaults
+        filesCache = null;
         fileCacheStrategy = null;
         fileContentInfoFactory = null;
 
@@ -635,6 +648,7 @@ public class DefaultFileSystemManager implements FileSystemManager
             final AbstractFileProvider provider = (AbstractFileProvider) fileProvider;
             provider.freeUnusedResources();
         }
+        // vfsProvider does not need to free resources
     }
 
     /**
@@ -1007,7 +1021,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     public FileObject createFileSystem(final FileObject file)
             throws FileSystemException
     {
-        final String scheme = map.getScheme(file);
+        final String scheme = typeMap.getScheme(file);
         if (scheme == null)
         {
             throw new FileSystemException(
@@ -1028,7 +1042,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     public boolean canCreateFileSystem(final FileObject file)
             throws FileSystemException
     {
-        return map.getScheme(file) != null;
+        return typeMap.getScheme(file) != null;
     }
 
     /**
@@ -1118,6 +1132,11 @@ public class DefaultFileSystemManager implements FileSystemManager
         if (provider != null)
         {
             ((AbstractFileProvider) provider).closeFileSystem(filesystem);
+        }
+        else if (filesystem instanceof VirtualFileSystem)
+        {
+            // vfsProvider does not implement AbstractFileProvider
+            vfsProvider.closeFileSystem(filesystem);
         }
     }
 

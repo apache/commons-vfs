@@ -18,9 +18,11 @@ package org.apache.commons.vfs2.impl;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
+import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.AbstractVfsContainer;
 
 
@@ -60,5 +62,21 @@ public class VirtualFileProvider extends AbstractVfsContainer
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         return fs.getRoot();
+    }
+
+    /**
+     * Close a VirtualFileSystem by removing it from the
+     * {@code #components} list of this provider.
+     * <p>
+     * This gets called from DefaultFileManager#_closeFileSystem.
+     *
+     * @param filesystem the file system remembered by this provider.
+     */
+    void closeFileSystem(final FileSystem filesystem)
+    {
+        final AbstractFileSystem fs = (AbstractFileSystem) filesystem;
+
+        removeComponent(fs);
+        fs.close();
     }
 }

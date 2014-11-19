@@ -196,4 +196,11 @@ public class VirtualFileSystem extends AbstractFileSystem
         // None
         return null;
     }
+
+    @Override
+    public void close()
+    {
+        super.close();
+        junctions.clear();
+    }
 }
