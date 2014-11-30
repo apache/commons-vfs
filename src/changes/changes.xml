@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-487" dev="ecki" type="fix" due-to="Dave Marion">
+       DefaultFileMonitor detects recreated files.
+      </action>
       <action issue="VFS-523" dev="ecki" type="fix" due-to="Roger Whitcomb">
        [HDFS] Make HdfsFileObject.equal use system hashcode/equals instead of 
        wrongly comparing file path only.

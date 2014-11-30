@@ -356,11 +356,6 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         mainloop:
         while (!monitorThread.isInterrupted() && this.shouldRun)
         {
-            while (!this.deleteStack.empty())
-            {
-                this.removeFile(this.deleteStack.pop());
-            }
-
             // For each entry in the map
             Object[] fileNames;
             synchronized (this.monitorMap)
@@ -405,6 +400,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             while (!this.addStack.empty())
             {
                 this.addFile(this.addStack.pop());
+            }
+
+            while (!this.deleteStack.empty())
+            {
+                this.removeFile(this.deleteStack.pop());
             }
 
             try

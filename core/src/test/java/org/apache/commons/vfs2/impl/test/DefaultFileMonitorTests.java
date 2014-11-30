@@ -66,14 +66,19 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     {
         final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
         final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        // TestFileListener manipulates changeStatus
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
-        writeToFile(testFile);
-        Thread.sleep(300);
-        assertTrue("No event occurred", changeStatus != 0);
-        assertTrue("Incorrect event", changeStatus == 3);
-        monitor.stop();
+        try
+        {
+            writeToFile(testFile);
+            Thread.sleep(300);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event", changeStatus == 3);
+        } finally {
+            monitor.stop();
+        }
     }
 
     public void testFileDeleted() throws Exception
@@ -81,14 +86,19 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         writeToFile(testFile);
         final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toString());
         final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        // TestFileListener manipulates changeStatus
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
-        testFile.delete();
-        Thread.sleep(300);
-        assertTrue("No event occurred", changeStatus != 0);
-        assertTrue("Incorrect event", changeStatus == 2);
-        monitor.stop();
+        try
+        {
+            testFile.delete();
+            Thread.sleep(300);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event", changeStatus == 2);
+        } finally {
+            monitor.stop();
+        }
     }
 
     public void testFileModified() throws Exception
@@ -96,19 +106,24 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
         writeToFile(testFile);
         final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
         final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        // TestFileListener manipulates changeStatus
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
-        // Need a long delay to insure the new timestamp doesn't truncate to be the same as
-        // the current timestammp. Java only guarantees the timestamp will be to 1 second.
-        Thread.sleep(1000);
-        final long value = System.currentTimeMillis();
-        final boolean rc = testFile.setLastModified(value);
-        assertTrue("setLastModified succeeded",rc);
-        Thread.sleep(300);
-        assertTrue("No event occurred", changeStatus != 0);
-        assertTrue("Incorrect event", changeStatus == 1);
-        monitor.stop();
+        try
+        {
+            // Need a long delay to insure the new timestamp doesn't truncate to be the same as
+            // the current timestammp. Java only guarantees the timestamp will be to 1 second.
+            Thread.sleep(1000);
+            final long value = System.currentTimeMillis();
+            final boolean rc = testFile.setLastModified(value);
+            assertTrue("setLastModified succeeded",rc);
+            Thread.sleep(300);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event", changeStatus == 1);
+        } finally {
+            monitor.stop();
+        }
     }
 
 
@@ -116,33 +131,64 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase
     {
         final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toURL().toString());
         final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        // TestFileListener manipulates changeStatus
         monitor.setDelay(100);
         monitor.addFile(fileObj);
         monitor.start();
+        try
+        {
+            writeToFile(testFile);
+            Thread.sleep(300);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+            changeStatus = 0;
+            testFile.delete();
+            Thread.sleep(300);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event " + changeStatus, changeStatus == 2);
+            changeStatus = 0;
+            Thread.sleep(500);
+            monitor.addFile(fileObj);
+            writeToFile(testFile);
+            Thread.sleep(300);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+        } finally {
+            monitor.stop();
+        }
+    }
+
+    public void testChildFileRecreated() throws Exception
+    {
         writeToFile(testFile);
-        Thread.sleep(300);
-        assertTrue("No event occurred", changeStatus != 0);
-        assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
-        changeStatus = 0;
-        testFile.delete();
-        Thread.sleep(300);
-        assertTrue("No event occurred", changeStatus != 0);
-        assertTrue("Incorrect event " + changeStatus, changeStatus == 2);
-        changeStatus = 0;
-        Thread.sleep(500);
+        final FileObject fileObj = fsManager.resolveFile(testDir.toURI().toURL().toString());
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        monitor.setDelay(2000);
         monitor.addFile(fileObj);
-        writeToFile(testFile);
-        Thread.sleep(300);
-        assertTrue("No event occurred", changeStatus != 0);
-        assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
-        monitor.stop();
+        monitor.start();
+        try
+        {
+            changeStatus = 0;
+            Thread.sleep(300);
+            testFile.delete();
+            Thread.sleep(3000);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event " + changeStatus, changeStatus == 2);
+            changeStatus = 0;
+            Thread.sleep(300);
+            writeToFile(testFile);
+            Thread.sleep(3000);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+        } finally {
+            monitor.stop();
+        }
     }
 
     private void writeToFile(final File file) throws Exception
     {
         final FileWriter out = new FileWriter(file);
         out.write("string=value1");
-        out.flush();
         out.close();
     }
 
