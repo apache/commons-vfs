@@ -26,6 +26,10 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-523" dev="ecki" type="fix" due-to="Roger Whitcomb">
+       [HDFS] Make HdfsFileObject.equal use system hashcode/equals instead of 
+       wrongly comparing file path only.
+      </action>
       <action issue="VFS-544" dev="ecki" type="fix">
        [Virtual] Allow virtual file systems and virtual file system provider
        to be closed, to avoid memory leak.

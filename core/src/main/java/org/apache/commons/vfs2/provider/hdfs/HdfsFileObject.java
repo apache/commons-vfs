@@ -35,7 +35,7 @@ import org.apache.hadoop.fs.Path;
 
 /**
  * A VFS representation of an HDFS file.
- * 
+ *
  * @since 2.1
  */
 public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
@@ -47,7 +47,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
 
     /**
      * Constructs a new HDFS FileObject
-     * 
+     *
      * @param name
      *            FileName
      * @param fs
@@ -210,15 +210,6 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileObject#doIsSameFile(org.apache.commons.vfs2.FileObject)
-     */
-    @Override
-    protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doIsWriteable()
      */
     @Override
@@ -296,31 +287,6 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
     }
 
     /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(final Object o)
-    {
-        if (null == o)
-        {
-            return false;
-        }
-        if (o == this)
-        {
-            return true;
-        }
-        if (o instanceof HdfsFileObject)
-        {
-            final HdfsFileObject other = (HdfsFileObject) o;
-            if (other.path.equals(this.path))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#exists()
      * @return boolean true if file exists, false if not
      */
@@ -340,15 +306,6 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
         {
             throw new FileSystemException("Unable to check existance ", e);
         }
-    }
-
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode()
-    {
-        return this.path.getName().toString().hashCode();
     }
 
 }
