@@ -75,7 +75,7 @@ public final class DefaultFileContent implements FileContent
         this.fileContentInfoFactory = fileContentInfoFactory;
     }
 
-    private FileContentThreadData getThreadData()
+    private FileContentThreadData getOrCreateThreadData()
     {
         FileContentThreadData data = this.threadData.get();
         if (data == null)
@@ -412,10 +412,9 @@ public final class DefaultFileContent implements FileContent
 
         final InputStream wrappedInstr = new FileContentInputStream(fileObject, instr);
 
-        this.getThreadData().addInstr(wrappedInstr);
+        getOrCreateThreadData().addInstr(wrappedInstr);
         streamOpened();
 
-        // setState(STATE_OPENED);
         return wrappedInstr;
     }
 
@@ -440,10 +439,10 @@ public final class DefaultFileContent implements FileContent
         final RandomAccessContent rastr = fileObject.getRandomAccessContent(mode);
 
         final FileRandomAccessContent rac = new FileRandomAccessContent(fileObject, rastr);
-        this.getThreadData().addRastr(rac);
+
+        getOrCreateThreadData().addRastr(rac);
         streamOpened();
 
-        // setState(STATE_OPENED);
         return rac;
     }
 
@@ -470,7 +469,8 @@ public final class DefaultFileContent implements FileContent
         /*
         if (getThreadData().getState() != STATE_NONE)
         */
-        if (this.getThreadData().getOutstr() != null)
+        FileContentThreadData streams = getOrCreateThreadData();
+        if (streams.getOutstr() != null)
         {
             throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
         }
@@ -478,12 +478,12 @@ public final class DefaultFileContent implements FileContent
         // Get the raw output stream
         final OutputStream outstr = fileObject.getOutputStream(bAppend);
 
-        // Create wrapper
-        this.getThreadData().setOutstr(new FileContentOutputStream(fileObject, outstr));
+        // Create and set wrapper
+        FileContentOutputStream wrapped = new FileContentOutputStream(fileObject, outstr);
+        streams.setOutstr(wrapped);
         streamOpened();
 
-        // setState(STATE_OPENED);
-        return this.getThreadData().getOutstr();
+        return wrapped;
     }
 
     /**
@@ -494,38 +494,64 @@ public final class DefaultFileContent implements FileContent
     @Override
     public void close() throws FileSystemException
     {
+        FileSystemException caught = null;
         try
         {
+            final FileContentThreadData streams = getOrCreateThreadData();
+
             // Close the input stream
-            while (getThreadData().getInstrsSize() > 0)
+            while (streams.getInstrsSize() > 0)
             {
-                final FileContentInputStream instr = (FileContentInputStream) getThreadData().removeInstr(0);
-                instr.close();
+                final FileContentInputStream instr = (FileContentInputStream) streams.removeInstr(0);
+                try
+                {
+                    instr.close();
+                }
+                catch (final FileSystemException ex)
+                {
+                    caught = ex;
+
+                }
             }
 
             // Close the randomAccess stream
-            while (getThreadData().getRastrsSize() > 0)
+            while (streams.getRastrsSize() > 0)
             {
-                final RandomAccessContent ra = (RandomAccessContent) getThreadData().removeRastr(0);
+                final FileRandomAccessContent ra = (FileRandomAccessContent) streams.removeRastr(0);
                 try
                 {
                     ra.close();
                 }
-                catch (final IOException e)
+                catch (final FileSystemException ex)
                 {
-                    throw new FileSystemException(e);
+                    caught = ex;
                 }
             }
 
             // Close the output stream
-            if (this.getThreadData().getOutstr() != null)
+            final FileContentOutputStream outstr = streams.getOutstr();
+            if (outstr != null)
             {
-                this.getThreadData().closeOutstr();
+                streams.setOutstr(null);
+                try
+                {
+                    outstr.close();
+                }
+                catch (final FileSystemException ex)
+                {
+                    caught = ex;
+                }
             }
         }
         finally
         {
             threadData.remove();
+        }
+
+        // throw last error (out >> rac >> input) after all closes have been tried
+        if (caught != null)
+        {
+            throw caught;
         }
     }
 
@@ -534,14 +560,17 @@ public final class DefaultFileContent implements FileContent
      */
     private void endInput(final FileContentInputStream instr)
     {
-        getThreadData().removeInstr(instr);
-        streamClosed();
-        /*
-        if (!getThreadData().hasStreams())
+        FileContentThreadData streams = threadData.get();
+        if (streams != null)
         {
-            setState(STATE_CLOSED);
+            streams.removeInstr(instr);
         }
-        */
+        if ((streams == null) || !streams.hasStreams())
+        {
+            // remove even when no value is set to remove key
+            threadData.remove();
+        }
+        streamClosed();
     }
 
     /**
@@ -549,9 +578,17 @@ public final class DefaultFileContent implements FileContent
      */
     private void endRandomAccess(final RandomAccessContent rac)
     {
-        getThreadData().removeRastr(rac);
+        FileContentThreadData streams = threadData.get();
+        if (streams != null)
+        {
+            streams.removeRastr(rac);
+        }
+        if ((streams == null) || !streams.hasStreams())
+        {
+            // remove even when no value is set to remove key
+            threadData.remove();
+        }
         streamClosed();
-        // setState(STATE_CLOSED);
     }
 
     /**
@@ -559,20 +596,19 @@ public final class DefaultFileContent implements FileContent
      */
     private void endOutput() throws Exception
     {
+        FileContentThreadData streams = threadData.get();
+        if (streams != null)
+        {
+            streams.setOutstr(null);
+        }
+        if ((streams == null) || !streams.hasStreams())
+        {
+            // remove even when no value is set to remove key
+            threadData.remove();
+        }
         streamClosed();
-
-        this.getThreadData().setOutstr(null);
-        // setState(STATE_CLOSED);
-
         fileObject.endOutput();
     }
-
-    /*
-    private void setState(int state)
-    {
-        getThreadData().setState(state);
-    }
-    */
 
     /**
      * Check if a input and/or output stream is open.
@@ -584,8 +620,15 @@ public final class DefaultFileContent implements FileContent
     @Override
     public boolean isOpen()
     {
-        // return getThreadData().getState() == STATE_OPENED;
-        return getThreadData().hasStreams();
+        FileContentThreadData streams = threadData.get();
+        if (streams != null && streams.hasStreams())
+        {
+            return true;
+        } else {
+            // threadData.get() created empty entry
+            threadData.remove(); 
+            return false;
+        }
     }
 
     /**
@@ -655,18 +698,13 @@ public final class DefaultFileContent implements FileContent
      */
     private final class FileRandomAccessContent extends MonitorRandomAccessContent
     {
-        // avoid gc
-        @SuppressWarnings("unused")
+        // also avoids gc
         private final FileObject file;
-
-        @SuppressWarnings("unused")
-        private final RandomAccessContent content;
 
         FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
         {
             super(content);
             this.file = file;
-            this.content = content;
         }
 
         /**
@@ -682,6 +720,19 @@ public final class DefaultFileContent implements FileContent
             finally
             {
                 endRandomAccess(this);
+            }
+        }
+
+        @Override
+        public void close() throws FileSystemException
+        {
+            try
+            {
+                super.close();
+            }
+            catch (final IOException e)
+            {
+                throw new FileSystemException("vfs.provider/close-rac.error", file, e);
             }
         }
     }
