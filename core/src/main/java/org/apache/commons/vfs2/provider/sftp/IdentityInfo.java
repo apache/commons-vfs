@@ -21,7 +21,7 @@ import java.io.File;
 
 /**
  * Structure for an identity.
- * 
+ *
  * @since 2.1
  */
 public class IdentityInfo
@@ -32,14 +32,11 @@ public class IdentityInfo
 
     /**
      * Constructs an identity info with private key.
-     * 
      * <p>
      * The key is not passphrase protected.
-     * </p>
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
-     * </p>
-     * 
+     *
      * @param privateKey The file with the private key
      * @since 2.1
      */
@@ -50,11 +47,9 @@ public class IdentityInfo
 
     /**
      * Constructs an identity info with private key and its passphrase.
-     * 
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
-     * </p>
-     * 
+     *
      * @param privateKey The file with the private key
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      * @since 2.1
@@ -66,11 +61,9 @@ public class IdentityInfo
 
     /**
      * Constructs an identity info with private and public key and passphrase for the private key.
-     * 
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
-     * </p>
-     * 
+     *
      * @param privateKey The file with the private key
      * @param publicKey The public key part used for connections with exchange of certificates (can be {@code null})
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
@@ -85,7 +78,7 @@ public class IdentityInfo
 
     /**
      * Get the file with the private key.
-     * 
+     *
      * @return the file
      * @since 2.1
      */
@@ -96,7 +89,7 @@ public class IdentityInfo
 
     /**
      * Get the file with the public key.
-     * 
+     *
      * @return the file
      * @since 2.1
      */
@@ -107,7 +100,7 @@ public class IdentityInfo
 
     /**
      * Get the passphrase of the private key.
-     * 
+     *
      * @return the passphrase
      * @since 2.1
      */

@@ -50,14 +50,18 @@ public final class FtpsClientFactory
      * @return The FTPSClient.
      * @throws FileSystemException if an error occurs.
      */
-    public static FTPSClient createConnection(final String hostname, final int port, final char[] username, final char[] password,
-            final String workingDirectory, final FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static FTPSClient createConnection(final String hostname, final int port, final char[] username,
+                                              final char[] password, final String workingDirectory,
+                                              final FileSystemOptions fileSystemOptions)
+        throws FileSystemException
     {
         final FtpsConnectionFactory factory = new FtpsConnectionFactory(FtpsFileSystemConfigBuilder.getInstance());
         return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
     }
 
-    private static final class FtpsConnectionFactory extends FtpClientFactory.ConnectionFactory<FTPSClient, FtpsFileSystemConfigBuilder> {
+    private static final class FtpsConnectionFactory
+        extends FtpClientFactory.ConnectionFactory<FTPSClient, FtpsFileSystemConfigBuilder>
+    {
 
         private FtpsConnectionFactory(final FtpsFileSystemConfigBuilder builder)
         {
@@ -96,12 +100,16 @@ public final class FtpsClientFactory
             throws IOException
         {
             final FtpsDataChannelProtectionLevel level = builder.getDataChannelProtectionLevel(fileSystemOptions);
-            if (level != null) {
+            if (level != null)
+            {
                 // '0' means streaming, that's what we do!
-                try {
+                try
+                {
                     client.execPBSZ(0);
                     client.execPROT(level.name());
-                } catch (final SSLException e) {
+                }
+                catch (final SSLException e)
+                {
                     throw new FileSystemException("vfs.provider.ftps/data-channel.level", e, level.toString());
                 }
             }

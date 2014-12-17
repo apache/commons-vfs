@@ -87,19 +87,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         }
     }
 
-    private static final String _PREFIX = SftpFileSystemConfigBuilder.class.getName();
-
-    private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
-
-    private static final String COMPRESSION = _PREFIX + "COMPRESSION";
-    private static final String HOST_KEY_CHECK_ASK = "ask";
-    private static final String HOST_KEY_CHECK_NO = "no";
-    private static final String HOST_KEY_CHECK_YES = "yes";
-    private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
-    private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
-    private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
-    private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
-
     /** HTTP Proxy. */
     public static final ProxyType PROXY_HTTP = new ProxyType("http");
 
@@ -122,6 +109,17 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public static final ProxyType PROXY_STREAM = new ProxyType("stream");
 
+    private static final String _PREFIX = SftpFileSystemConfigBuilder.class.getName();
+    private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
+    private static final String COMPRESSION = _PREFIX + "COMPRESSION";
+    private static final String HOST_KEY_CHECK_ASK = "ask";
+    private static final String HOST_KEY_CHECK_NO = "no";
+    private static final String HOST_KEY_CHECK_YES = "yes";
+    private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
+    private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
+    private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
+    private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
+
     private static final String PROXY_HOST = _PREFIX + ".PROXY_HOST";
     private static final String PROXY_USER = _PREFIX + ".PROXY_USER";
     private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
@@ -135,6 +133,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
     private static final String ENCODING = _PREFIX + ".ENCODING";
 
+    private SftpFileSystemConfigBuilder()
+    {
+        super("sftp.");
+    }
+
     /**
      * Gets the singleton builder.
      *
@@ -143,11 +146,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public static SftpFileSystemConfigBuilder getInstance()
     {
         return BUILDER;
-    }
-
-    private SftpFileSystemConfigBuilder()
-    {
-        super("sftp.");
     }
 
     /**
@@ -240,7 +238,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return (File) this.getParam(opts, KNOWN_HOSTS);
     }
-
 
     /**
      * Gets authentication order.
@@ -448,7 +445,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @deprecated As of 2.1 use {@link #setIdentityInfo(FileSystemOptions, IdentityInfo...)}
      */
     @Deprecated
-    public void setIdentities(final FileSystemOptions opts, final File... identityFiles) throws FileSystemException
+    public void setIdentities(final FileSystemOptions opts, final File... identityFiles)
+        throws FileSystemException
     {
         IdentityInfo[] info = null;
         if (identityFiles != null)
@@ -473,7 +471,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *             if an error occurs.
      * @since 2.1
      */
-    public void setIdentityInfo(final FileSystemOptions opts, final IdentityInfo... identites) throws FileSystemException
+    public void setIdentityInfo(final FileSystemOptions opts, final IdentityInfo... identites)
+        throws FileSystemException
     {
         this.setParam(opts, IDENTITIES, identites);
     }
@@ -559,7 +558,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
         this.setParam(opts, PROXY_HOST, proxyHost);
     }
 
-
     /**
      * Sets the proxy username to use for the SFTP connection.
      *
@@ -574,8 +572,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         this.setParam(opts, PROXY_OPTIONS, proxyOptions);
     }
-
-
 
     /**
      * Sets the proxy password to use for the SFTP connection.
@@ -663,8 +659,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
             throws FileSystemException
     {
         if (hostKeyChecking == null
-                || (!hostKeyChecking.equals(HOST_KEY_CHECK_ASK) && !hostKeyChecking.equals(HOST_KEY_CHECK_NO) && !hostKeyChecking
-                        .equals(HOST_KEY_CHECK_YES)))
+                || (!hostKeyChecking.equals(HOST_KEY_CHECK_ASK) && !hostKeyChecking.equals(HOST_KEY_CHECK_NO) &&
+                    !hostKeyChecking.equals(HOST_KEY_CHECK_YES)))
         {
             throw new FileSystemException("vfs.provider.sftp/StrictHostKeyChecking-arg.error", hostKeyChecking);
         }
@@ -684,7 +680,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         this.setParam(opts, TIMEOUT, timeout);
     }
-
 
     /**
      * Sets the whether to use the user directory as root (do not change to file system root).

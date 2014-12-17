@@ -37,11 +37,12 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  */
 public class FTPClientWrapper implements FtpClient
 {
-    private final GenericFileName root;
     protected final FileSystemOptions fileSystemOptions;
+    private final GenericFileName root;
     private FTPClient ftpClient;
 
-    protected FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions) throws FileSystemException
+    protected FTPClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions)
+        throws FileSystemException
     {
         this.root = root;
         this.fileSystemOptions = fileSystemOptions;

@@ -25,14 +25,14 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
 
 /**
  * A FTPS file system.
- * 
+ *
  * @since 2.1
  */
 public class FtpsFileSystem extends FtpFileSystem
 {
     /**
      * Create a new FtpsFileSystem.
-     * 
+     *
      * @param rootName The root of the file system.
      * @param ftpClient The FtpClient.
      * @param fileSystemOptions The FileSystemOptions.

@@ -43,12 +43,12 @@ public class SftpStreamProxy implements Proxy
     /**
      * Command format using bash built-in TCP stream.
      */
-    public final static String BASH_TCP_COMMAND = "/bin/bash -c 'exec 3<>/dev/tcp/%s/%d; cat <&3 & cat >&3; kill $!";
+    public static final String BASH_TCP_COMMAND = "/bin/bash -c 'exec 3<>/dev/tcp/%s/%d; cat <&3 & cat >&3; kill $!";
 
     /**
      * Command format using netcat command.
      */
-    public final static String NETCAT_COMMAND = "nc -q 0 %s %d";
+    public static final String NETCAT_COMMAND = "nc -q 0 %s %d";
 
     private ChannelExec channel;
 
@@ -115,8 +115,8 @@ public class SftpStreamProxy implements Proxy
      * @param proxyOptions
      *            Options used when connecting to the proxy
      */
-    public SftpStreamProxy(final String commandFormat, final String proxyUser, final String proxyHost, final int proxyPort,
-            final String proxyPassword, final FileSystemOptions proxyOptions)
+    public SftpStreamProxy(final String commandFormat, final String proxyUser, final String proxyHost,
+                           final int proxyPort, final String proxyPassword, final FileSystemOptions proxyOptions)
     {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
@@ -140,7 +140,9 @@ public class SftpStreamProxy implements Proxy
     }
 
     @Override
-    public void connect(final SocketFactory socketFactory, final String targetHost, final int targetPort, final int timeout) throws Exception
+    public void connect(final SocketFactory socketFactory, final String targetHost,
+                        final int targetPort, final int timeout)
+        throws Exception
     {
         session = SftpClientFactory.createConnection(proxyHost, proxyPort, proxyUser.toCharArray(),
                 proxyPassword.toCharArray(), proxyOptions);

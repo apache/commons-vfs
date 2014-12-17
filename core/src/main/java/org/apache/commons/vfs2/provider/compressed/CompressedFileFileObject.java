@@ -50,7 +50,7 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
         {
             basename = basename.substring(0, pos);
         }
-        children = new String[]{ basename };
+        children = new String[]{basename};
     }
 
     /**

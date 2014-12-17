@@ -31,7 +31,7 @@ public class PosixPermissions
     /**
      * Permission types.
      */
-    static public enum Type
+    public static enum Type
     {
         /**
          * User right readable.
@@ -78,7 +78,7 @@ public class PosixPermissions
          */
         OtherExecutable(00001);
 
-        final private int mask;
+        private final int mask;
 
         /**
          * Initialize with the mask

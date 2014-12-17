@@ -28,7 +28,7 @@ import java.util.TreeMap;
  * To use the options, pass them to {@link FileSystemManager#resolveFile(String,FileSystemOptions)}. From there, the
  * options apply to all files that are resolved relative to that file.
  * </p>
- * 
+ *
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder

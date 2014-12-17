@@ -23,14 +23,14 @@ public interface FileContentInfo
 {
     /**
      * Gets the content encoding.
-     * 
+     *
      * @return The file content encoding.
      */
     String getContentEncoding();
 
     /**
      * Gets the content type.
-     * 
+     *
      * @return The file content type.
      */
     String getContentType();

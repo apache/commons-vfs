@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  */
 public class StaticUserAuthenticator implements UserAuthenticator, Comparable<StaticUserAuthenticator>
 {
-    private final static Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
+    private static final Log LOG = LogFactory.getLog(StaticUserAuthenticator.class);
 
     /** The user name */
     private final String username;
@@ -49,7 +49,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
     public UserAuthenticationData requestAuthentication(final UserAuthenticationData.Type[] types)
     {
         final UserAuthenticationData data = new UserAuthenticationData();
-        for(final UserAuthenticationData.Type type : types)
+        for (final UserAuthenticationData.Type type : types)
         {
             if (type == UserAuthenticationData.DOMAIN)
             {

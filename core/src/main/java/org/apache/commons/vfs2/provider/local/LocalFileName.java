@@ -39,7 +39,7 @@ public class LocalFileName extends AbstractFileName
     //  Since : and / occur before the path, only chars after path are escaped (i.e., # and ?)
     //  ? is a reserved filesystem character for Windows and Unix, so can't be part of a filename.
     //  Therefore only # is a reserved char in a URI as part of the path that can be in the filename.
-    private static final char RESERVED_URI_CHARS[] = {'#'};
+    private static final char[] RESERVED_URI_CHARS = {'#'};
 
 
     private final String rootFile;

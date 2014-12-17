@@ -22,6 +22,7 @@ package org.apache.commons.vfs2.provider.ftps;
  * @see <a href="http://tools.ietf.org/html/rfc2228#section-3">RFC 2228, section 3</a>
  * @since 2.1
  */
-public enum FtpsDataChannelProtectionLevel {
+public enum FtpsDataChannelProtectionLevel
+{
     C, S, E, P
 }

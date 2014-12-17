@@ -37,7 +37,8 @@ public class WindowsFileNameParser extends LocalFileNameParser
     }
 
     @Override
-    protected FileName createFileName(final String scheme, final String rootFile, final String path, final FileType type)
+    protected FileName createFileName(final String scheme, final String rootFile,
+                                      final String path, final FileType type)
     {
         return new WindowsFileName(scheme, rootFile, path, type);
     }

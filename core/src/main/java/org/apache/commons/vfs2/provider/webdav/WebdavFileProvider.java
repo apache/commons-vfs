@@ -23,11 +23,9 @@ import java.util.Collections;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.provider.GenericFileName;
@@ -68,10 +66,14 @@ public class WebdavFileProvider
         setFileNameParser(WebdavFileNameParser.getInstance());
     }
     /**
-     * Creates a {@link FileSystem}.  If you're looking at this method and wondering how to
-     * get a FileSystemOptions object bearing the proxy host and credentials configuration through
-     * to this method so it's used for resolving a {@link FileObject} in the FileSystem, then be sure
-     * to use correct signature of the {@link FileSystemManager} resolveFile method.
+     * Creates a {@link FileSystem}.
+     * <p>
+     * If you're looking at this method and wondering how to get a FileSystemOptions
+     * object bearing the proxy host and credentials configuration through
+     * to this method so it's used for resolving a
+     * {@link org.apache.commons.vfs2.FileObject FileObject} in the FileSystem, then be sure
+     * to use correct signature of the {@link org.apache.commons.vfs2.FileSystemManager FileSystemManager}
+     * resolveFile method.
      * @see org.apache.commons.vfs2.impl.DefaultFileSystemManager#resolveFile(FileObject, String, FileSystemOptions)
      */
     @Override

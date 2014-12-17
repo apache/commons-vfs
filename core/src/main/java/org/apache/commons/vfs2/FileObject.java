@@ -18,8 +18,6 @@ package org.apache.commons.vfs2;
 
 import java.io.Closeable;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.vfs2.operations.FileOperations;
@@ -74,7 +72,8 @@ import org.apache.commons.vfs2.operations.FileOperations;
  *
  * <h2>Sorting Files</h2>
  *
- * Files may be sorted using {@link Arrays#sort(Object[])} and {@link Collections#sort(List)}.
+ * Files may be sorted using {@link java.util.Arrays#sort(Object[]) Arrays.sort()}
+ * and {@link java.util.Collections#sort(List) Collections.sort()}.
  *
  * @see FileSystemManager
  * @see FileContent

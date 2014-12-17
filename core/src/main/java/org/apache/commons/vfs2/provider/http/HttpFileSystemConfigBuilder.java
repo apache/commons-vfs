@@ -35,7 +35,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
 
     private static final int DEFAULT_MAX_CONNECTIONS = 50;
-    
+
     private static final int DEFAULT_CONNECTION_TIMEOUT = 0;
 
     private static final int DEFAULT_SO_TIMEOUT = 0;
@@ -277,10 +277,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         setParam(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.valueOf(preemptiveAuth));
     }
-    
+
     /**
      * The connection timeout.
-     * 
+     *
      * @param opts The FileSystem options.
      * @param connectionTimeout The connection timeout.
      * @since 2.1
@@ -292,7 +292,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Retrieve the connection timeout.
-     * 
+     *
      * @param opts The FileSystem options.
      * @return The connection timeout.
      * @since 2.1
@@ -304,7 +304,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * The socket timeout.
-     * 
+     *
      * @param opts The FileSystem options.
      * @param soTimeout socket timeout.
      * @since 2.1
@@ -316,7 +316,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Retrieve the socket timeout.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return The socket timeout.
      * @since 2.1

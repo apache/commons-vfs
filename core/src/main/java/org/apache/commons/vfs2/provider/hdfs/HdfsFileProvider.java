@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileNameParser;
 
 /**
  * FileProvider for HDFS files.
- * 
+ *
  * @since 2.1
  */
 public class HdfsFileProvider extends AbstractOriginatingFileProvider
@@ -49,7 +49,7 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider
                     Capability.LIST_CHILDREN }));
 
     /**
-     * Constructs a new HdfsFileProvider
+     * Constructs a new HdfsFileProvider.
      */
     public HdfsFileProvider()
     {
@@ -58,8 +58,7 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider#doCreateFileSystem(org.apache.commons.vfs2.FileName,
-     *      org.apache.commons.vfs2.FileSystemOptions)
+     * @see AbstractOriginatingFileProvider#doCreateFileSystem(org.apache.commons.vfs2.FileName, FileSystemOptions)
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)

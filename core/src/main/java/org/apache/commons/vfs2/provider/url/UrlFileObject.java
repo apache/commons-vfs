@@ -25,7 +25,6 @@ import java.net.URLConnection;
 
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.vfs2.FileName;
-import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
@@ -33,7 +32,8 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.URLFileName;
 
 /**
- * A {@link FileObject} implementation backed by a {@link URL}.
+ * A {@link org.apache.commons.vfs2.FileObject FileObject}
+ * implementation backed by a {@link URL}.
  * <p>
  * TODO - Implement set lastModified and get/set attribute
  * <p>

@@ -24,14 +24,11 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 
 import org.apache.commons.vfs2.FileSystemException;
-import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractRandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * Implements {@link RandomAccessContent} for local files.
- *
- * @version $Id$
+ * Implements {@link org.apache.commons.vfs2.RandomAccessContent RandomAccessContent} for local files.
  */
 class LocalFileRandomAccessContent extends AbstractRandomAccessContent
 {

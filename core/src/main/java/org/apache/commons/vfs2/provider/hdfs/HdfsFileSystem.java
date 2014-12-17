@@ -37,7 +37,7 @@ import org.apache.hadoop.fs.Path;
 
 /**
  * A VFS FileSystem that interacts with HDFS.
- * 
+ *
  * @since 2.1
  */
 public class HdfsFileSystem extends AbstractFileSystem
@@ -47,7 +47,7 @@ public class HdfsFileSystem extends AbstractFileSystem
     private FileSystem fs;
 
     /**
-     * 
+     * Construct file system.
      * @param rootName
      * @param fileSystemOptions
      */
@@ -86,7 +86,7 @@ public class HdfsFileSystem extends AbstractFileSystem
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#createFile(org.apache.commons.vfs2.provider.AbstractFileName)
+     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#createFile(AbstractFileName)
      */
     @Override
     protected FileObject createFile(final AbstractFileName name) throws Exception

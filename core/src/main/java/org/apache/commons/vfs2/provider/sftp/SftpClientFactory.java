@@ -63,8 +63,9 @@ public final class SftpClientFactory
      * @return A Session.
      * @throws FileSystemException if an error occurs.
      */
-    public static Session createConnection(final String hostname, final int port, final char[] username, final char[] password,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException
+    public static Session createConnection(final String hostname, final int port, final char[] username,
+                                           final char[] password, final FileSystemOptions fileSystemOptions)
+        throws FileSystemException
     {
         final JSch jsch = new JSch();
 
@@ -172,7 +173,8 @@ public final class SftpClientFactory
         return session;
     }
 
-    private static void addIdentities(final JSch jsch, final File sshDir, final IdentityInfo[] identities) throws FileSystemException
+    private static void addIdentities(final JSch jsch, final File sshDir, final IdentityInfo[] identities)
+        throws FileSystemException
     {
         if (identities != null)
         {
@@ -192,7 +194,8 @@ public final class SftpClientFactory
         }
     }
 
-    private static void addIndentity(final JSch jsch, final IdentityInfo info) throws FileSystemException
+    private static void addIndentity(final JSch jsch, final IdentityInfo info)
+        throws FileSystemException
     {
         try
         {
@@ -206,7 +209,8 @@ public final class SftpClientFactory
         }
     }
 
-    private static void setKnownHosts(final JSch jsch, final File sshDir, File knownHostsFile) throws FileSystemException
+    private static void setKnownHosts(final JSch jsch, final File sshDir, File knownHostsFile)
+        throws FileSystemException
     {
         try
         {
@@ -231,8 +235,9 @@ public final class SftpClientFactory
 
     }
 
-    private static Proxy createStreamProxy(final String proxyHost, final int proxyPort, final FileSystemOptions fileSystemOptions,
-            final SftpFileSystemConfigBuilder builder)
+    private static Proxy createStreamProxy(final String proxyHost, final int proxyPort,
+                                           final FileSystemOptions fileSystemOptions,
+                                           final SftpFileSystemConfigBuilder builder)
     {
         Proxy proxy;
         // Use a stream proxy, i.e. it will use a remote host as a proxy

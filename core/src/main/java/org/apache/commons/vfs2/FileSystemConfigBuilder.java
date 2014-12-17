@@ -227,7 +227,8 @@ public abstract class FileSystemConfigBuilder
     }
 
     /** @since 2.1 */
-    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions opts, final String name, final E defaultValue)
+    protected <E extends Enum<E>> E getEnum(final Class<E> enumClass, final FileSystemOptions opts,
+                                            final String name, final E defaultValue)
     {
         @SuppressWarnings("unchecked")
         E value = (E) getParam(opts, name);

@@ -46,7 +46,18 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final String SERVER_TIME_ZONE_ID = _PREFIX + ".SERVER_TIME_ZONE_ID";
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
-    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT"; 
+    private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+
+    private FtpFileSystemConfigBuilder()
+    {
+        super("ftp.");
+    }
+
+    /** @since 2.1 */
+    protected FtpFileSystemConfigBuilder(final String prefix)
+    {
+        super(prefix);
+    }
 
     /**
      * Gets the singleton instance.
@@ -56,16 +67,6 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     public static FtpFileSystemConfigBuilder getInstance()
     {
         return BUILDER;
-    }
-
-    private FtpFileSystemConfigBuilder()
-    {
-        super("ftp.");
-    } 
-
-    /** @since 2.1 */
-    protected FtpFileSystemConfigBuilder(final String prefix) {
-        super(prefix);
     }
 
     @Override
@@ -185,7 +186,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     /**
      * Gets whether to use remote verification.
-     * 
+     *
      * @param opts
      */
     public Boolean getRemoteVerification(FileSystemOptions opts)
@@ -381,7 +382,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Sets whether to use remote verification. 
+     * Sets whether to use remote verification.
      *
      * @param opts
      * @param remoteVerification

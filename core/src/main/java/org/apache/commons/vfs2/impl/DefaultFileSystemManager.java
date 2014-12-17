@@ -609,7 +609,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         // should not happen, but make debugging easier:
         if (!components.isEmpty())
         {
-        	log.warn("DefaultFilesystemManager.close: not all components are closed: " + components.toString());
+            log.warn("DefaultFilesystemManager.close: not all components are closed: " + components.toString());
         }
         components.clear();
 

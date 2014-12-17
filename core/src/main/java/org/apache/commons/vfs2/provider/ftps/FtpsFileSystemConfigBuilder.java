@@ -60,7 +60,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * <p>Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with
      * implicit mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache
      * FTP/SSHD.</p>
-     *  
+     *
      * @param opts The FileSystemOptions.
      * @param ftpsMode The mode to establish a FTPS connection.
      * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
@@ -157,7 +157,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
 
     /**
      * Gets the KeyManager used to provide a client-side certificate if the FTPS server requests it.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return the key manager instance or {@code null}
      * @see org.apache.commons.net.ftp.FTPSClient#setKeyManager(KeyManager)
@@ -170,7 +170,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
 
     /**
      * Sets the KeyManager used to provide a client-side certificate if the FTPS server requests it.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @param keyManager The key manager instance.
      * @see org.apache.commons.net.ftp.FTPSClient#setKeyManager(KeyManager)
@@ -187,7 +187,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * If the params do not contain the key for the trust manager, it will return a trust manger that simply checks this
      * certificate for validity.
      * </p>
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return the trust manager instance or {@code null}
      * @see org.apache.commons.net.ftp.FTPSClient#setTrustManager(TrustManager)
@@ -199,7 +199,8 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
         if (hasParam(opts, TRUST_MANAGER))
         {
             trustManager = (TrustManager)getParam(opts, TRUST_MANAGER);
-        } else
+        }
+        else
         {
             trustManager = TrustManagerUtils.getValidateServerCertificateTrustManager();
         }
@@ -208,7 +209,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
 
     /**
      * Sets the TrustManager that validates the FTPS server's certificate.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @param trustManager The trust manager instance.
      * @see org.apache.commons.net.ftp.FTPSClient#setTrustManager(TrustManager)

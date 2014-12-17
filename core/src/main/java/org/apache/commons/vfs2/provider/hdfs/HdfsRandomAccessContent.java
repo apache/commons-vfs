@@ -28,7 +28,7 @@ import org.apache.hadoop.fs.Path;
 /**
  * Provides random access to content in an HdfsFileObject. Currently this only supports read operations. All write
  * operations throw an {@link UnsupportedOperationException}.
- * 
+ *
  * @since 2.1
  */
 public class HdfsRandomAccessContent extends AbstractRandomAccessContent
@@ -38,13 +38,11 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
     private final Path path;
 
     /**
-     * 
-     * @param path
-     *            A Hadoop Path
-     * @param fs
-     *            A Hadoop FileSystem
-     * @throws IOException
-     *             when the path cannot be processed.
+     * Create random access content.
+     *
+     * @param path A Hadoop Path
+     * @param fs A Hadoop FileSystem
+     * @throws IOException when the path cannot be processed.
      */
     public HdfsRandomAccessContent(final Path path, final FileSystem fs) throws IOException
     {

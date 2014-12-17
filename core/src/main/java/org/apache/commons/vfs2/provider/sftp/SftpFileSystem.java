@@ -130,14 +130,18 @@ public class SftpFileSystem
             final String fileNameEncoding = SftpFileSystemConfigBuilder.getInstance().getFileNameEncoding(
                     getFileSystemOptions());
 
-            if (fileNameEncoding != null) {
-                try {
+            if (fileNameEncoding != null)
+            {
+                try
+                {
                     channel.setFilenameEncoding(fileNameEncoding);
-                } catch (final SftpException e) {
+                }
+                catch (final SftpException e)
+                {
                     throw new FileSystemException("vfs.provider.sftp/filename-encoding.error", fileNameEncoding);
                 }
             }
-			return channel;
+            return channel;
         }
         catch (final JSchException e)
         {

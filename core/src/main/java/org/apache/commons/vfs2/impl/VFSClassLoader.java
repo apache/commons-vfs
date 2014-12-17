@@ -382,12 +382,15 @@ public class VFSClassLoader extends SecureClassLoader
      * @throws FileSystemException
      */
     @Override
-    protected Enumeration<URL> findResources(final String name) throws IOException {
+    protected Enumeration<URL> findResources(final String name) throws IOException
+    {
         final List<URL> result = new ArrayList<URL>(2);
 
-        for (FileObject baseFile : resources) {
+        for (FileObject baseFile : resources)
+        {
             final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
-            if (file.exists()) {
+            if (file.exists())
+            {
                 result.add(new Resource(name, baseFile, file).getURL());
             }
         }

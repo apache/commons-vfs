@@ -54,7 +54,8 @@ public final class FtpClientFactory
      * @return An FTPClient.
      * @throws FileSystemException if an error occurs while connecting.
      */
-    public static FTPClient createConnection(final String hostname, final int port, final char[] username, final char[] password,
+    public static FTPClient createConnection(final String hostname, final int port,
+                                             final char[] username, final char[] password,
                                              final String workingDirectory, final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
@@ -62,7 +63,8 @@ public final class FtpClientFactory
         return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
     }
 
-    public static class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder> {
+    public static class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder>
+    {
         private FtpConnectionFactory(final FtpFileSystemConfigBuilder builder)
         {
             super(builder);
@@ -81,7 +83,8 @@ public final class FtpClientFactory
         }
     }
 
-    public static abstract class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder> {
+    public abstract static class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder>
+    {
         private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
         private static final int BUFSZ = 40;
 
@@ -111,14 +114,17 @@ public final class FtpClientFactory
             {
                 final C client = createClient(fileSystemOptions);
 
-                if (log.isDebugEnabled()) {
-                    final Writer writer = new StringWriter(1024){
+                if (log.isDebugEnabled())
+                {
+                    final Writer writer = new StringWriter(1024)
+                    {
                         @Override
                         public void flush()
                         {
                             final StringBuffer buffer = getBuffer();
                             String message = buffer.toString();
-                            if (message.toUpperCase().startsWith("PASS ") && message.length() > 5) {
+                            if (message.toUpperCase().startsWith("PASS ") && message.length() > 5)
+                            {
                                 message = "PASS ***";
                             }
                             log.debug(message);
@@ -138,10 +144,11 @@ public final class FtpClientFactory
                 }
 
                 Boolean remoteVerification = builder.getRemoteVerification(fileSystemOptions);
-                if (remoteVerification != null) {
+                if (remoteVerification != null)
+                {
                     client.setRemoteVerificationEnabled(remoteVerification.booleanValue());
-                }                 
-                
+                }
+
                 try
                 {
                     // Set connect timeout
@@ -213,7 +220,8 @@ public final class FtpClientFactory
                     {
                         if (!client.changeWorkingDirectory(workingDirectory))
                         {
-                            throw new FileSystemException("vfs.provider.ftp/change-work-directory.error", workingDirectory);
+                            throw new FileSystemException("vfs.provider.ftp/change-work-directory.error",
+                                                          workingDirectory);
                         }
                     }
 

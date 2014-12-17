@@ -64,7 +64,8 @@ public class GenericFileNameParser
      * so its of no value for the LocalFileName instance
      */
     @Override
-    protected FileName createFileName(final String scheme, final String rootFile, final String path, final FileType type)
+    protected FileName createFileName(final String scheme, final String rootFile,
+                                      final String path, final FileType type)
     {
         return new LocalFileName(scheme, "", path, type);
     }

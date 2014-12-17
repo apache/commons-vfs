@@ -624,9 +624,11 @@ public final class DefaultFileContent implements FileContent
         if (streams != null && streams.hasStreams())
         {
             return true;
-        } else {
+        }
+        else
+        {
             // threadData.get() created empty entry
-            threadData.remove(); 
+            threadData.remove();
             return false;
         }
     }

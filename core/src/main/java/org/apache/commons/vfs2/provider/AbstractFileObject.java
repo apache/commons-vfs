@@ -72,6 +72,41 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     private static final int INITIAL_LIST_SIZE = 5;
 
+    private final AbstractFileName fileName;
+    private final AFS fs;
+
+    private FileContent content;
+    // Cached info
+    private boolean attached;
+    private FileType type;
+
+    private FileObject parent;
+    // Changed to hold only the name of the children and let the object
+    // go into the global files cache
+    // private FileObject[] children;
+    private FileName[] children;
+
+    private List<Object> objects;
+
+    /**
+     * FileServices instance.
+     */
+    private FileOperations operations;
+
+    /**
+     *
+     * @param name the file name - muse be an instance of {@link AbstractFileName}
+     * @param fs the file system
+     * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
+     */
+    protected AbstractFileObject(final AbstractFileName name,
+                                 final AFS fs)
+    {
+        this.fileName = name;
+        this.fs = fs;
+        fs.fileObjectHanded(this);
+    }
+
     /**
      * Traverses a file.
      */
@@ -117,41 +152,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 selected.add(index, file);
             }
         }
-    }
-    private final AbstractFileName fileName;
-
-    private final AFS fs;
-
-    private FileContent content;
-    // Cached info
-    private boolean attached;
-    private FileType type;
-
-    private FileObject parent;
-    // Changed to hold only the name of the children and let the object
-    // go into the global files cache
-    // private FileObject[] children;
-    private FileName[] children;
-
-    private List<Object> objects;
-
-    /**
-     * FileServices instance.
-     */
-    private FileOperations operations;
-
-    /**
-     *
-     * @param name the file name - muse be an instance of {@link AbstractFileName}
-     * @param fs the file system
-     * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
-     */
-    protected AbstractFileObject(final AbstractFileName name,
-                                 final AFS fs)
-    {
-        this.fileName = name;
-        this.fs = fs;
-        fs.fileObjectHanded(this);
     }
 
     /**

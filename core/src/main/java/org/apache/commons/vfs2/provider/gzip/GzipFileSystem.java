@@ -31,7 +31,8 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
  */
 public class GzipFileSystem extends CompressedFileFileSystem
 {
-    protected GzipFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
+    protected GzipFileSystem(final FileName rootName, final FileObject parentLayer,
+                             final FileSystemOptions fileSystemOptions)
     {
         super(rootName, parentLayer, fileSystemOptions);
     }

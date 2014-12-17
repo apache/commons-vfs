@@ -16,14 +16,13 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 
 /**
- * Implements the {@link DataOutput} part of the {@link RandomAccessContent} interface and throws
+ * Implements the {@link java.io.DataOutput} part of the {@link RandomAccessContent} interface and throws
  * {@link UnsupportedOperationException} when one of these methods are called. For read-only random access
  * implementations.
  */

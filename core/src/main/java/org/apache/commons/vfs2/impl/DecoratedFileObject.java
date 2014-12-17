@@ -152,7 +152,8 @@ public class DecoratedFileObject implements FileObject
     }
 
     @Override
-    public String getPublicURIString() {
+    public String getPublicURIString()
+    {
         return decoratedFileObject.getPublicURIString();
     }
 

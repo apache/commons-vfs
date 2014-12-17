@@ -60,8 +60,8 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Defaults to {@link Integer#MAX_VALUE}
-     * 
+     * Defaults to {@link Integer#MAX_VALUE}.
+     *
      * @param opts The FileSystem options.
      * @return The maximum size of the file.
      * @see #setMaxSize(FileSystemOptions, long)
@@ -73,8 +73,8 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     }
 
     /**
-     * Defaults to {@link Integer#MAX_VALUE}
-     * 
+     * Defaults to {@link Integer#MAX_VALUE}.
+     *
      * @param opts The FileSystem options.
      * @return The maximum size of the file. The next major version will change the return type to a long.
      * @see #setMaxSize(FileSystemOptions, int)

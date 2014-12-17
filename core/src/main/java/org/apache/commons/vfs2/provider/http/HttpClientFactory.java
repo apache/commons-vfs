@@ -41,8 +41,9 @@ public final class HttpClientFactory
     {
     }
 
-    public static HttpClient createConnection(final String scheme, final String hostname, final int port, final String username,
-                                              final String password, final FileSystemOptions fileSystemOptions)
+    public static HttpClient createConnection(final String scheme, final String hostname, final int port,
+                                              final String username, final String password,
+                                              final FileSystemOptions fileSystemOptions)
             throws FileSystemException
     {
         return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port,
