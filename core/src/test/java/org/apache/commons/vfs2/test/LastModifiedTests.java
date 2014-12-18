@@ -36,7 +36,7 @@ public class LastModifiedTests extends AbstractProviderTestCase
         }
         if (!(Math.abs(expected - actual) <= delta))
         {
-            Assert.fail(String.format("%s expected=%d, actual=%d, delta=%d", new Long(expected), new Long(actual)));
+            Assert.fail(String.format("%s expected=%d, actual=%d, delta=%d", message, Long.valueOf(expected), Long.valueOf(actual), Long.valueOf(delta)));
         }
     }
 
