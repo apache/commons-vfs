@@ -748,7 +748,7 @@ public class DefaultFileSystemManager implements FileSystemManager
     }
 
     /**
-     * Resolves a URI, realtive to a base file with specified FileSystem
+     * Resolves a URI, relative to a base file with specified FileSystem
      * configuration.
      * @param baseFile The base file.
      * @param uri The file name. May be a fully qualified or relative path or a url.
