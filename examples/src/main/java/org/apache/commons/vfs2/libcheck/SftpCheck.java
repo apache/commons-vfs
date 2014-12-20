@@ -28,8 +28,13 @@ import com.jcraft.jsch.UserInfo;
 /**
  * Basic check for SFTP.
  */
-public class SftpCheck
+public final class SftpCheck
 {
+    private SftpCheck()
+    {
+        /* main class not instantiated. */
+    }
+
     public static void main(final String[] args) throws Exception
     {
         if (args.length != 4)

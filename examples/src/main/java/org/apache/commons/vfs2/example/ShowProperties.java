@@ -26,12 +26,18 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.VFS;
 
 /**
- * A simple that prints the properties of the file passed as first parameter.
+ * Example which prints all properties of the file passed as first parameter.
  */
-
-
-public class ShowProperties
+public final class ShowProperties
 {
+    /** Maximum number of children to show. */
+    private static final int SHOW_MAX = 5;
+
+    private ShowProperties()
+    {
+        /* main class not instantiated. */
+    }
+
     public static void main(final String[] args)
     {
         if (args.length == 0)
@@ -75,7 +81,7 @@ public class ShowProperties
                         for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
                         {
                             System.out.println("#" + iterChildren + ": " + children[iterChildren].getName());
-                            if (iterChildren > 5)
+                            if (iterChildren > SHOW_MAX)
                             {
                                 break;
                             }
@@ -96,5 +102,6 @@ public class ShowProperties
             }
         }
     }
+
 }
 

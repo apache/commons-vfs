@@ -20,10 +20,15 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.VFS;
 
 /**
- * Simply changed the last modification time of the given file.
+ * Example to change the last modification time of the given file.
  */
-public class ChangeLastModificationTime
+public final class ChangeLastModificationTime
 {
+    private ChangeLastModificationTime()
+    {
+        /* main class not instantiated. */
+    }
+
     public static void main(final String[] args) throws Exception
     {
         if (args.length == 0)
@@ -38,4 +43,5 @@ public class ChangeLastModificationTime
         fo.getContent().setLastModifiedTime(setTo);
         System.err.println("after set: " + fo.getContent().getLastModifiedTime());
     }
+
 }

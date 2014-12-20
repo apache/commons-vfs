@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.libcheck;
 
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -25,8 +26,13 @@ import org.apache.commons.net.ftp.FTPReply;
 /**
  * Basic check for FTP.
  */
-public class FtpCheck
+public final class FtpCheck
 {
+    private FtpCheck()
+    {
+        /* main class not instantiated. */
+    }
+
     public static void main(final String[] args) throws Exception
     {
         if (args.length < 3)
@@ -60,16 +66,13 @@ public class FtpCheck
         {
             throw new IllegalStateException(client.getReplyString());
         }
-        os.write("test".getBytes());
+        os.write("test".getBytes(Charset.defaultCharset()));
         os.close();
         client.completePendingCommand();
 
-        if (dir != null)
+        if (dir != null && !client.changeWorkingDirectory(dir))
         {
-            if (!client.changeWorkingDirectory(dir))
-            {
-                throw new IllegalArgumentException("change dir to '" + dir + "' failed");
-            }
+            throw new IllegalArgumentException("change dir to '" + dir + "' failed");
         }
 
         System.err.println("System: " + client.getSystemType());

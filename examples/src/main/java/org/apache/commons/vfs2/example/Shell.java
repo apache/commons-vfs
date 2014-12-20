@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.example;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,12 +37,18 @@ import org.apache.commons.vfs2.VFS;
 /**
  * A simple command-line shell for performing file operations.
  */
-public class Shell
+public final class Shell
 {
-    private static final String SVN_ID = "$Id$";
     private final FileSystemManager mgr;
     private FileObject cwd;
     private final BufferedReader reader;
+
+    private Shell() throws FileSystemException
+    {
+        mgr = VFS.getManager();
+        cwd = mgr.resolveFile(System.getProperty("user.dir"));
+        reader = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
+    }
 
     public static void main(final String[] args)
     {
@@ -57,16 +64,9 @@ public class Shell
         System.exit(0);
     }
 
-    private Shell() throws FileSystemException
-    {
-        mgr = VFS.getManager();
-        cwd = mgr.resolveFile(System.getProperty("user.dir"));
-        reader = new BufferedReader(new InputStreamReader(System.in));
-    }
-
     private void go() throws Exception
     {
-        System.out.println("VFS Shell [" + SVN_ID + "]");
+        System.out.println("VFS Shell");
         while (true)
         {
             final String[] cmd = nextCommand();
