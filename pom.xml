@@ -227,11 +227,41 @@
           <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${commons.rat.version}</version>
+        <!-- Should agree with config in reporting section -->
+        <configuration>
+          <excludes combine.children="append">
+            <!--  trivial test data text files -->
+            <exclude>src/test/resources/test-data/**/*.txt</exclude>
+            <exclude>src/test/resources/test-data/test.mf</exclude>
+            <!--  implicite exclude does not work if sandbox profile is not activated -->
+            <exclude>sandbox/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
   <reporting>
     <plugins>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>${commons.rat.version}</version>
+        <!-- Should agree with config in build section -->
+        <configuration>
+          <excludes combine.children="append">
+            <!--  trivial test data text files -->
+            <exclude>src/test/resources/test-data/**/*.txt</exclude>
+            <exclude>src/test/resources/test-data/test.mf</exclude>
+            <!--  implicite exclude does not work if sandbox profile is not activated -->
+            <exclude>sandbox/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
