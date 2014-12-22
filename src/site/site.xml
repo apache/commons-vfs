@@ -40,10 +40,9 @@
       <item name="Mailing Lists"           href="/mail-lists.html"/>
       <item name="Issue Tracking"          href="/issue-tracking.html"/>
       <item name="Source Repository"       href="/source-repository.html"/>
-      <item name="To Do List"              href="/todo.html"/>
     </menu>
 
-    <menu name="Components">
+    <menu name="VFS&#xA0;Components">
       <item name="Core" href="commons-vfs2/index.html"/>
       <item name="Examples" href="commons-vfs2-examples/index.html"/>
       <item name="Sandbox" href="commons-vfs2-sandbox/index.html"/>
