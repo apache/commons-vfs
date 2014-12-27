@@ -21,6 +21,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Allows passwords to be encrypted and decrypted.
+ * <p>
+ * Warning: This uses AES128 with a fixed encryption key.
+ * This is only an obfuscation no cryptographic secure protection.
+ *
  * @since 2.0
  */
 public class DefaultCryptor implements Cryptor
@@ -39,6 +43,10 @@ public class DefaultCryptor implements Cryptor
 
     /**
      * Encrypt the plain text password.
+     * <p>
+     * Warning: This uses AES128 with a fixed encryption key.
+     * This is only an obfuscation no cryptographic secure protection.
+     *
      * @param plainKey The password.
      * @return The encrypted password String.
      * @throws Exception If an error occurs.
@@ -79,6 +87,7 @@ public class DefaultCryptor implements Cryptor
         return new String(plainText).substring(0, ptLength);
     }
 
+    /** Hex-encode bytes. */
     private String encode(final byte[] bytes)
     {
         final StringBuilder builder = new StringBuilder();
@@ -91,6 +100,7 @@ public class DefaultCryptor implements Cryptor
         return builder.toString();
     }
 
+    /** Decodes Hey-Bytes. */
     private byte[] decode(final String str)
     {
         final int length = str.length() / 2;
