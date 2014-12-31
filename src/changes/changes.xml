@@ -36,7 +36,7 @@
        DefaultFileMonitor detects recreated files.
       </action>
       <action issue="VFS-523" dev="ecki" type="fix" due-to="Roger Whitcomb">
-       [HDFS] Make HdfsFileObject.equal use system hashcode/equals instead of 
+       [HDFS] Make HdfsFileObject.equal use system hashcode/equals instead of
        wrongly comparing file path only.
       </action>
       <action issue="VFS-544" dev="ecki" type="fix">
@@ -180,19 +180,19 @@
         AbstractFileObject.getChildren() may corrupt its internal state if a filename
         can not be resolved.
       </action>
-      <action issue="VFS-450" dev="ggregory" type="fix" due-to="dlmarion">
+      <action issue="VFS-450" dev="ggregory" type="fix" due-to="Dave Marion">
         [HDFS] HDFSFileSystem.resolveFile() does not honor CacheStrategy.ON_RESOLVE.
       </action>
-      <action issue="VFS-442" dev="ggregory" type="add" due-to="dlmarion">
+      <action issue="VFS-442" dev="ggregory" type="add" due-to="Dave Marion">
         [HDFS] Add an HDFS FileSystem Provider.
       </action>
       <action issue="VFS-448" dev="ggregory" type="fix">
         commons-vfs 2.0 JAR has flawed OSGi MANIFEST.MF.
       </action>
-      <action issue="VFS-447" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-447" dev="ggregory" type="add">
         [FTP/FTPS] Update Apache Commons Net to 3.2 from 3.1.
       </action>
-      <action issue="VFS-445" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-445" dev="ggregory" type="add">
         Add FileSystemManager.resolveFile(URI) and resolveFile(URL).
       </action>
       <action issue="VFS-440" dev="ggregory" type="add" due-to="bpiwowar">
@@ -207,22 +207,22 @@
       <action issue="VFS-435" dev="ggregory" type="fix" due-to="george scott">
         FileSystemConfigBuilder does not use prefix for some system property lookups.
       </action>
-      <action issue="VFS-434" dev="ggregory" type="fix" due-to="ggregory">
+      <action issue="VFS-434" dev="ggregory" type="fix">
         FileSystemException should reuse IOException's chained exception.
       </action>
-      <action issue="VFS-433" dev="ggregory" type="fix" due-to="ggregory">
+      <action issue="VFS-433" dev="ggregory" type="fix">
         [WebDAV] Message "vfs.provider.webdav/propfind.error" is not defined.
       </action>
       <action issue="VFS-430" dev="ggregory" type="fix" due-to="antonin.stefanutti">
         The SoftRefFilesCache class logs clear text password.
       </action>
-      <action issue="VFS-432" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-432" dev="ggregory" type="add">
         [HTTP][WebDAV] Allow HTTP follow redirect.
       </action>
-      <action issue="VFS-431" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-431" dev="ggregory" type="add">
         FileSystemOption does not implement toString().
       </action>
-      <action issue="VFS-429" dev="ggregory" type="fix" due-to="ggregory">
+      <action issue="VFS-429" dev="ggregory" type="fix">
         Remove extra FileSystem ivar in AbstractFileObject subclasses with generics.
       </action>
       <action issue="VFS-427" dev="ggregory" type="fix" due-to="awelynant">
@@ -237,13 +237,13 @@
       <action issue="VFS-456" dev="joehni" type="update">
         Use org.bouncycastel:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.
       </action>
-      <action issue="VFS-415" dev="ggregory" type="update" due-to="ggregory">
+      <action issue="VFS-415" dev="ggregory" type="update">
         Update VFS requirement to Java 1.6.
       </action>
       <action issue="VFS-426" dev="ggregory" type="add" due-to="daniel.bergholm">
         HTTP URL query string not part of cache key.
       </action>
-      <action issue="VFS-425" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-425" dev="ggregory" type="add">
         Add API FileObject.isExecutable().
       </action>
       <action issue="VFS-421" dev="ggregory" type="add" due-to="bpiwowar">
@@ -258,10 +258,10 @@
       <action issue="VFS-406" dev="ggregory" type="fix" due-to="mp1">
         [RAM] resize throws ArrayOOBE when shrinking in size.
       </action>
-      <action issue="VFS-321" dev="ggregory" type="update" due-to="sebb@apache.org">
+      <action issue="VFS-321" dev="ggregory" type="update" due-to="sebb">
         AbstractFileObject sometimes uses getFileSystem() and sometimes references "fs" field directly.
       </action>
-      <action issue="VFS-327" dev="ggregory" type="update" due-to="sebb@apache.org">
+      <action issue="VFS-327" dev="ggregory" type="update" due-to="sebb">
         UriParser.canonicalizePath possible NPE for filenameParser.
       </action>
       <action issue="VFS-353" dev="ggregory" type="fix" due-to="bergander">
@@ -297,22 +297,22 @@
       <action issue="VFS-313" dev="ggregory" type="add" due-to="bdavis@saintandreas.org">
         [FTP] Configuration does not include option for setting socket timeout.
       </action>
-      <action issue="VFS-414" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-414" dev="ggregory" type="add">
         [FTP] Add config API to set the file type.
       </action>
-      <action issue="VFS-182" dev="ggregory" type="add" due-to="ggregory">
+      <action issue="VFS-182" dev="ggregory" type="add">
         [FTP] Usage of FTP with heterogeneous FTP server (possibility of using Ascii file type).
       </action>
-      <action issue="VFS-395" dev="ggregory" type="update" due-to="ggregory">
+      <action issue="VFS-395" dev="ggregory" type="update">
         [POM] Remove maven-scm-* dependencies.
       </action>
-      <action issue="VFS-411" dev="ggregory" type="update" due-to="ggregory">
+      <action issue="VFS-411" dev="ggregory" type="update">
         [SFTP] Update Jsch to version 0.1.47 from 0.1.46.
       </action>
       <action issue="VFS-410" dev="ggregory" type="fix" due-to="mstockhammer">
         [SFTP] SftpFileObject getInputStream(long) reads the whole file into memory.
       </action>
-      <action issue="VFS-409" dev="ggregory" type="update" due-to="ggregory">
+      <action issue="VFS-409" dev="ggregory" type="update">
         Update Apache Commons Compress to 1.4 from 1.3.
       </action>
       <action issue="VFS-407" dev="ggregory" type="fix" due-to="mp1">
@@ -445,7 +445,7 @@
         AbstractFileName is not immutable as it should be. equals(), hashcode() and compareTo() have been modified
         to return the same results regardless of whether the FileType is changed.
       </action>
-      <action issue="VFS-334" dev="sebb" type="fix" due-to="sebb">
+      <action issue="VFS-334" dev="sebb" type="fix">
         DefaultFileSystemConfigBuilder.getConfigClass() returns DefaultFileSystemConfigBuilder.class which is not a FileSystem
       </action>
       <action dev="rgoers" type="fix" issue="VFS-305" due-to="Tom">
@@ -463,7 +463,7 @@
        <action dev="rgoers" type="fix" issue="VFS-324" due-to="sebb">
         Clear the cache in RamFileSystem and the children in RamFileData.
       </action>
-      <action dev="sebb" type="fix" issue="VFS-319" due-to="sebb">
+      <action dev="sebb" type="fix" issue="VFS-319">
         Typo in FtpsFileSystemConfigBuilder.setFtpsType
       </action>
       <action dev="rgoers" type="fix" issue="VFS-227" due-to="Sergey Vladimirov">
