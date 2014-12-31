@@ -24,9 +24,8 @@
     <body>
         <section name="Download">
             <p>
-                The latest release of Commons VFS can be found
-                <a href="download_vfs.cgi">here</a>
-                .
+                The latest release (binaries and source) of Commons VFS can be found
+                <a href="download_vfs.cgi">here</a>.
             </p>
             <p>
                 You will also need to download the jars used by Commons VFS.
@@ -102,31 +101,50 @@
                 </tr>
             </table>
         </section>
-        <section name="Building Commons VFS">
+        <section name="Obtaining Commons VFS source">
             <p>
                 To obtain the Commons VFS source, you can either:
             </p>
             <ul>
                 <li>
-                    Check the source out of SVN using:
+                    The primary source repository for the Apache Commons VFS project is the 
+                    <em>Subversion</em> repository. You can use the following command to check out
+                    the latest source version:
                     <br/>
-                    HEAD:
-                    <code>svn co http://svn.apache.org/repos/asf/commons/proper/vfs/trunk vfs</code>
+                    <code>svn co http://svn.apache.org/repos/asf/commons/proper/vfs/trunk commons-vfs</code><br/>
                     <br/>
                     For a certain version please look at
                     <a href="http://svn.apache.org/repos/asf/commons/proper/vfs/tags">
                         http://svn.apache.org/repos/asf/commons/proper/vfs/tags</a>
                 </li>
-                   <li>
+                <li>
+                    If you prefer <em>Git</em>, you can get the sources from the Apache Git mirror:<br/>
+                    <br/>
+                    <code>git clone git://git.apache.org/commons-vfs.git commons-vfs</code><br/>
+                    <br/>
+                    There is also a guideline for <a href="https://github.com/apache/commons-vfs/blob/trunk/CONTRIBUTING.md">contributing via GitHub</a>.
+                </li>
+                <li>
                     Obtain the source from the latest release distribution. See the <a href="download_vfs.cgi">downloads</a> page.
                 </li>
             </ul>
+        </section>
+        <section name="Building Commons VFS">
             <p>
-                To build Commons VFS, you can use <a href="http://maven.apache.org">Maven</a> 2.2.1 or later.
-                Use <code>mvn -Pinclude-sandbox install</code> to build all the core, examples and sandbox.
-                The jars will then be installed for use by other maven-based builds. The jars can either
-                be copied from the local maven repository or the target sub-directories for non-Maven
-                builds.
+                To build Commons VFS, you can use <a href="http://maven.apache.org">Maven</a> 3.0.5 or later.
+                You need to use Java 6 or later (tested with Java 6 - 8).
+            </p><p>
+                Use <code>mvn clean verify</code> to locally build and test the <code>core</code> and 
+                <code>examples</code> modules. This will build the core JAR files in
+                <code>commons-vfs/core/target/commons-vfs2-&lt;version>.jar</code>.
+            </p><p>
+                If you want to build the additional sandbox file systems as well, use
+                <code>mvn -P include-sandbox clean veriy</code>. This will also create the sandbox
+                components in <code>commons-vfs/sandbox/target/commons-vfs2-sandbox-&lt;version>.jar</code>.
+            </p><p>
+                With the following command you can run the simple <code>Shell</code> example:<br/>
+                <br/>
+                <code>java -cp core/target/commons-vfs2-2.0.jar:examples/target/commons-vfs2-examples-2.0.jat</code>
             </p>
         </section>
     </body>

@@ -31,10 +31,19 @@ limitations under the License.
  | 2) Set the following properties in the component's pom:              |
  |    - commons.componentid (required, alphabetic, lower case)          |
  |    - commons.release.version (required)                              |
+ |    - commons.release.name    (required)                              |
  |    - commons.binary.suffix (optional)                                |
  |      (defaults to "-bin", set to "" for pre-maven2 releases)         |
+ |    - commons.release.desc    (optional)                              |
+ |                                                                      |
+ |    - commons.release.2/3.version       (conditional)                 |
+ |    - commons.release.2/3.name          (conditional)                 |
+ |    - commons.release.2/3.binary.suffix (optional)                    |
+ |    - commons.release.2/3.desc          (optional)                    |
  |                                                                      |
  | 3) Example Properties                                                |
+ |    (commons.release.name inherited by parent:                        |
+ |     ${project.artifactId}-${commons.release.version}                 |
  |                                                                      |
  |  <properties>                                                        |
  |    <commons.componentid>math</commons.componentid>                   |
@@ -45,18 +54,18 @@ limitations under the License.
 -->
 <document>
   <properties>
-    <title>Download Commons VFS</title>
-    <author email="dev@commons.apache.org">Commons Documentation Team</author>
+    <title>Download Apache Commons VFS</title>
+    <author email="dev@commons.apache.org">Apache Commons Documentation Team</author>
   </properties>
   <body>
-    <section name="Download Commons VFS">
+    <section name="Download Apache Commons VFS">
     <subsection name="Using a Mirror">
       <p>
         We recommend you use a mirror to download our release
-        builds, but you <strong>must</strong> verify the integrity of
-        the downloaded files using signatures downloaded from our main 
+        builds, but you <strong>must</strong> <a href="https://www.apache.org/info/verification.html">verify the integrity</a> of
+        the downloaded files using signatures downloaded from our main
         distribution directories. Recent releases (48 hours) may not yet
-        be available from the mirrors.
+        be available from all the mirrors.
       </p>
 
       <p>
@@ -71,7 +80,7 @@ limitations under the License.
 
       <form action="[location]" method="get" id="SelectMirror">
         <p>
-          Other mirrors: 
+          Other mirrors:
           <select name="Preferred">
           [if-any http]
             [for http]<option value="[http]">[http]</option>[end]
@@ -88,25 +97,60 @@ limitations under the License.
       </form>
 
       <p>
-        The <a href="http://www.apache.org/dist/commons/KEYS">KEYS</a>
-        link links to the code signing keys used to sign the product.
-        The <code>PGP</code> link downloads the OpenPGP compatible signature from our main site. 
-        The <code>MD5</code> link downloads the checksum from the main site.
+        It is essential that you
+        <a href="https://www.apache.org/info/verification.html">verify the integrity</a>
+        of downloaded files, preferably using the <code>PGP</code> signature (<code>*.asc</code> files);
+        failing that using the <code>MD5</code> hash (<code>*.md5</code> checksum files).
+      </p>
+      <p>
+        The <a href="https://www.apache.org/dist/commons/KEYS">KEYS</a>
+        file contains the public PGP keys used by Apache Commons developers
+        to sign releases.
       </p>
     </subsection>
     </section>
-    <section name="Commons VFS 2.0 ">
+    <section name="Apache Commons VFS 2.1 (requires Java 1.6+)">
+      <subsection name="Binaries">
+        <table>
+          <tr>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.1.tar.gz">commons-vfs-2.1.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.1.tar.gz.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.1.tar.gz.asc">pgp</a></td>
+          </tr>
+          <tr>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.1.zip">commons-vfs-2.1.zip</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.1.zip.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.1.zip.asc">pgp</a></td>
+          </tr>
+        </table>
+      </subsection>
+      <subsection name="Source">
+        <table>
+          <tr>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.1-src.tar.gz">commons-vfs-2.1-src.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.1-src.tar.gz.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.1-src.tar.gz.asc">pgp</a></td>
+          </tr>
+          <tr>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.1-src.zip">commons-vfs-2.1-src.zip</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.1-src.zip.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.1-src.zip.asc">pgp</a></td>
+          </tr>
+        </table>
+      </subsection>
+    </section>
+    <section name="Apache Commons VFS 2.0 (requires Java 1.5+)">
       <subsection name="Binaries">
         <table>
           <tr>
               <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.0.tar.gz">commons-vfs-2.0.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.tar.gz.asc">pgp</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.tar.gz.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
               <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.0.zip">commons-vfs-2.0.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.zip.asc">pgp</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.zip.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.0.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
@@ -114,13 +158,13 @@ limitations under the License.
         <table>
           <tr>
               <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.0-src.tar.gz">commons-vfs-2.0-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.tar.gz.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.tar.gz.asc">pgp</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.tar.gz.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
               <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.0-src.zip">commons-vfs-2.0-src.zip</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.zip.md5">md5</a></td>
-              <td><a href="http://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.zip.asc">pgp</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.zip.md5">md5</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.0-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
@@ -131,7 +175,7 @@ limitations under the License.
         </p>
         <ul>
           <li class="download"><a href="[preferred]/commons/vfs/">browse download area</a></li>
-          <li><a href="http://archive.apache.org/dist/commons/vfs/">archives...</a></li>
+          <li><a href="https://archive.apache.org/dist/commons/vfs/">archives...</a></li>
         </ul>
     </section>
   </body>
