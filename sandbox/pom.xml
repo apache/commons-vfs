@@ -78,6 +78,9 @@
   <build>
     <resources>
       <resource>
+        <directory>${project.basedir}/src/main/resources</directory>
+      </resource>
+      <resource>
         <directory>${vfs.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
