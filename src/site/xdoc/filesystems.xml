@@ -780,9 +780,7 @@
         <section name="ram">
 
             <p>
-                A filesystem which stores all the data in memory.
-                You can configure the max size and a predicate (FileSelector). The predicate will be used to check if
-                it is allowed to add a given file.
+                A filesystem which stores all the data in memory (one byte array for each file content).
             </p>
 
             <p>
@@ -793,6 +791,13 @@
                 <code>ram://[
                     <i>path</i>]
                 </code>
+            </p>
+
+            <p>
+                <b>File System Options</b>
+                <ul>
+                   <li><b>maxsize</b> Maximum filesystem size (total bytes of all file contents).</li>
+                </ul>
             </p>
 
             <p>
