@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>34</version>
+    <version>36</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -145,6 +145,7 @@
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
 
+    <!-- bare ID without major version or commons- prefix -->
     <commons.componentid>vfs</commons.componentid>
     <commons.release.version>2.0</commons.release.version>
     <!--<commons.rc.version>RC1</commons.rc.version> -->
@@ -152,9 +153,15 @@
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
+    <commons.release.desc>(requires Java 1.6+)</commons.release.desc>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
+
+    <commons.release.2.version>2.0</commons.release.2.version>
+    <commons.release.2.name>commons-vfs-2.0</commons.release.2.name>
+    <commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc>
+    <commons.release.2.binary.suffix></commons.release.2.binary.suffix>
   </properties>
 
   <build>
@@ -167,16 +174,6 @@
         </includes>
       </resource>
     </resources>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.13</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
 
     <plugins>
       <plugin>
@@ -218,14 +215,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-build-plugin</artifactId>
-        <!-- version inherited from commons-parent -->
-        <configuration>
-          <commons.release.name>commons-${commons.componentid}-${commons.release.version}</commons.release.name>
-        </configuration>
+        <version>2.13</version>
       </plugin>
       <plugin>
         <groupId>org.apache.rat</groupId>
@@ -257,11 +247,12 @@
             <!--  trivial test data text files -->
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
-            <!--  implicite exclude does not work if sandbox profile is not activated -->
+            <!--  implicit exclude does not work if sandbox profile is not activated -->
             <exclude>sandbox/**</exclude>
           </excludes>
         </configuration>
       </plugin>
+      <!-- Keep in sync with build config above -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -293,7 +284,8 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.5.5</version>
+        <!-- commons-parent defines version 2.5.x or 3.x depending on JDK active. -->
+        <version>${commons.findbugs.version}</version>
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
@@ -303,9 +295,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.2</version>
+        <version>3.3</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
+          <aggregate>true</aggregate>
         </configuration>
       </plugin>
       <!-- cobertura breaks because it cannot parse annotations in methods. -->
@@ -313,7 +306,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.5.1</version>
+        <version>${commons.cobertura.version}</version>
       </plugin>
       -->
       <!-- javancss breaks because it cannot parse annotations in methods. -->
@@ -521,40 +514,11 @@
     </dependencies>
   </dependencyManagement>
 
-  <repositories>
-    <repository>
-      <id>apache.snapshots.https</id>
-      <name>Apache Snapshot Repository</name>
-      <url>https://repository.apache.org/content/repositories/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>apache.snapshots</id>
-      <name>Apache Snapshot Repository</name>
-      <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
-
   <distributionManagement>
-    <repository>
-      <id>apache.releases.https</id>
-      <name>Apache Release Distribution Repository</name>
-      <url>https://repository.apache.org/service/local/staging/deploy/maven2</url>
-    </repository>
-    <snapshotRepository>
-      <id>apache.snapshots.https</id>
-      <name>Apache Development Snapshot Repository</name>
-      <url>https://repository.apache.org/content/repositories/snapshots</url>
-    </snapshotRepository>
     <site>
-      <id>apache.website</id>
+      <id>commons.site</id>
       <name>Apache Commons Site</name>
-      <url>${commons.deployment.protocol}://people.apache.org/www/commons.apache.org/${commons.componentid}</url>
+      <url>scm:svn:${commons.scmPubUrl}</url>
     </site>
   </distributionManagement>
 
@@ -566,37 +530,6 @@
       <modules>
         <module>sandbox</module>
       </modules>
-    </profile>
-    <profile>
-      <id>relnotes</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-changes-plugin</artifactId>
-            <version>2.11</version>
-            <configuration>
-              <template>announcement.vm</template>
-              <templateDirectory>src/changes</templateDirectory>
-              <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
-              <outputDirectory>.</outputDirectory>
-              <announcementFile>RELEASE-NOTES.txt</announcementFile>
-              <announceParameters>
-                <releaseVersion>${commons.release.version}</releaseVersion>
-              </announceParameters>
-            </configuration>
-            <executions>
-              <execution>
-                <id>create-release-notes</id>
-                <phase>generate-resources</phase>
-                <goals>
-                  <goal>announcement-generate</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <profile>
       <id>release</id>
