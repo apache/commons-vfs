@@ -62,7 +62,7 @@
 
             <subsection name="Starting VFS Shell on Linux/Unix">
                 <source><![CDATA[
-REP=~/.m2/repositroy
+REP=~/.m2/repository
 LIB=$REP/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
 LIB=$LIB:$REP/commons-net/commons-net/2.2/commons-net-2.2.jar
 # LIB=$LIB:$REP/org/apache/commons/commons-collections4/4.0/commons-collection-4.0.jar
