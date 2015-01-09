@@ -51,11 +51,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.jdom</groupId>
-      <artifactId>jdom</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
       <optional>true</optional>
@@ -68,7 +63,6 @@
   </dependencies>
 
   <properties>
-    <commons.componentid>vfs-examples</commons.componentid>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
   </properties>
 
