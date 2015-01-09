@@ -57,34 +57,38 @@
                 <a href="../commons-vfs2/dependencies.html">dependencies</a> manually. (The commons-collection4
                 dependency is not needed for the VFS Shell as it does not use <code>LRUFilesCache</code>.) Because
                 of licensing restrictions the sandbox component must be
-                <a href="../commons-vfs2-sandbox/index.html">build locally</a> and then installed into the repository.
+                <a href="../commons-vfs2-sandbox/index.html">built locally</a> and then installed into the repository.
             </p>
-        </section>
 
-        <section name="VFS Shell (Linux)">
-<pre>REP=~/.m2/repositroy
+            <subsection name="Starting VFS Shell on Linux/Unix">
+                <source><![CDATA[
+REP=~/.m2/repositroy
 LIB=$REP/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
 LIB=$LIB:$REP/commons-net/commons-net/2.2/commons-net-2.2.jar
 # LIB=$LIB:$REP/org/apache/commons/commons-collections4/4.0/commons-collection-4.0.jar
-LIB=$LIB:$REP/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar:%REP%/commons-codec/commons-codec/1.2/commons-codec-1.2.jar
+LIB=$LIB:$REP/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar:$REP/commons-codec/commons-codec/1.2/commons-codec-1.2.jar
 LIB=$LIB:$REP/com/jcraft/jsch/0.1.51/jsch-0.1.51.jar
-# LIBS=$LIB:$REP/org/apache/commons/commons-vfs2-sandbox/2.1/commons-vfs2-sandbox-2.1.jar:$REP/jcifs/jcifs/0.8.3/jcifs-0.8.3.jar
+# LIB=$LIB:$REP/org/apache/commons/commons-vfs2-sandbox/2.1/commons-vfs2-sandbox-2.1.jar:$REP/jcifs/jcifs/0.8.3/jcifs-0.8.3.jar
 LIB=$LIB:$REP/org/apache/commons/commons-vfs2-examples/2.1/commons-vfs2-examples-2.1.jar
 LIB=$LIB:$REP/org/apache/commons/commons-vfs2/2.1/commons-vfs2-2.1.jar
-java -cp $LIB org.apache.commons.vfs2.example.Shell</pre>
-        </section>
+java -cp $LIB org.apache.commons.vfs2.example.Shell
+]]></source>
+            </subsection>
 
-        <section name="VFS Shell (Windows)">
-<pre>set REP=%USERPROFILE\.m2\repository
+            <subsection name="Starting VFS Shell on Windows">
+                <source><![CDATA[
+set REP=%USERPROFILE%\.m2\repository
 set LIB=%REP%\commons-logging\commons-logging\1.2\commons-logging-1.2.jar
 set LIB=%LIB%;%REP%\commons-net\commons-net\2.2\commons-net-2.2.jar
 rem # set LIB=%LIB%;%REP%\org\apache\commons\commons-collections4\4.0\commons-collection-4.0.jar
 set LIB=%LIB%;%REP%\commons-httpclient\commons-httpclient\3.1\commons-httpclient-3.1.jar;%REP%\commons-codec\commons-codec\1.2\commons-codec-1.2.jar
 set LIB=%LIB%;%REP%\com\jcraft\jsch\0.1.51\jsch-0.1.51.jar
-rem # set LIBS=%LIB%:%REP%\org\apache\commons\commons-vfs2-sandbox\2.1\commons-vfs2-sandbox-2.1.jar:$REP\jcifs\jcifs\0.8.3\jcifs-0.8.3.jar
-set LIB=%LIB%:%REP%\org\apache\commons\commons-vfs2-examples\2.1\commons-vfs2-examples-2.1.jar
-set LIB=%LIB%:%REP%\org\apache\commons\commons-vfs2\2.1\commons-vfs2-2.1.jar
-java -cp %LIB% org.apache.commons.vfs2.example.Shell</pre>
+rem # set LIB=%LIB%;%REP%\org\apache\commons\commons-vfs2-sandbox\2.1\commons-vfs2-sandbox-2.1.jar;%REP%\jcifs\jcifs\0.8.3\jcifs-0.8.3.jar
+set LIB=%LIB%;%REP%\org\apache\commons\commons-vfs2-examples\2.1\commons-vfs2-examples-2.1.jar
+set LIB=%LIB%;%REP%\org\apache\commons\commons-vfs2\2.1\commons-vfs2-2.1.jar
+java -cp %LIB% org.apache.commons.vfs2.example.Shell
+]]></source>
+            </subsection>
         </section>
 
     </body>

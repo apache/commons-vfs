@@ -15,7 +15,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<project name="Commons&#xA0;VFS">
+<project name="Apache&#xA0;Commons&#xA0;VFS">
 
   <bannerRight>
     <name>Commons&#xA0;VFS</name>
@@ -42,7 +42,7 @@
       <item name="Source Repository"       href="/source-repository.html"/>
     </menu>
 
-    <menu name="VFS Components" inherit="top">
+    <menu name="VFS Modules" inherit="top">
       <item name="Core" href="commons-vfs2/index.html"/>
       <item name="Examples" href="commons-vfs2-examples/index.html"/>
       <item name="Sandbox" href="commons-vfs2-sandbox/index.html"/>
