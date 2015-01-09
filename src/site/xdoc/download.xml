@@ -74,8 +74,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jackrabbit.apache.org">Apache Jackrabbit WebDAV</a>
-                        Version 1.6.5 or later
+                        <a href="http://jackrabbit.apache.org/jackrabbit-webdav-library.html">Apache Jackrabbit WebDAV Library</a>
+                        Version 1.6.5.<br/>
+                        Requires <a href="http://jackrabbit.apache.org/jackrabbit-jcr-commons.html">Jackrabbit JCR Commons</a>
+                        Version 1.6.5 and <a href="http://www.slf4j.org">SLF4J</a>
+                        Version 1.5.3 (Api and Impl)<
                     </td>
                     <td>WebDAV</td>
                 </tr>
