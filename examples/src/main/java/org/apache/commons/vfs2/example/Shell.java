@@ -160,11 +160,12 @@ public final class Shell
         }
         else
         {
-            System.out.println("Default manager: \"" + mgr.getClass().getName() + "\" version " + getVersion(mgr.getClass()));
+            System.out.println("Default manager: \"" + mgr.getClass().getName() + "\" " +
+                                   "version " + getVersion(mgr.getClass()));
             String[] schemes = mgr.getSchemes();
             List<String> virtual = new ArrayList<String>();
             List<String> physical = new ArrayList<String>();
-            for(int i=0; i<schemes.length; i++)
+            for (int i = 0; i < schemes.length; i++)
             {
                 Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
                 if (caps != null)
@@ -172,7 +173,9 @@ public final class Shell
                     if (caps.contains(Capability.VIRTUAL))
                     {
                         virtual.add(schemes[i]);
-                    } else {
+                    }
+                    else
+                    {
                         physical.add(schemes[i]);
                     }
                 }
@@ -190,7 +193,7 @@ public final class Shell
 
     private void info(String scheme) throws Exception
     {
-         System.out.println("Provider Info for scheme \""+ scheme +"\":");
+         System.out.println("Provider Info for scheme \"" + scheme + "\":");
          Collection<Capability> caps;
          caps = mgr.getProviderCapabilities(scheme);
          if (caps != null && !caps.isEmpty())
