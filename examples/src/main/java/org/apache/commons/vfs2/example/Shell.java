@@ -17,14 +17,18 @@
 package org.apache.commons.vfs2.example;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -33,9 +37,14 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.operations.FileOperationProvider;
 
 /**
  * A simple command-line shell for performing file operations.
+ * <p>
+ * See
+ * <a href="https://wiki.apache.org/commons/VfsExampleShell">Commons VFS Shell Examples</a>
+ * in Apache Commons Wiki.
  */
 public final class Shell
 {
@@ -43,10 +52,10 @@ public final class Shell
     private FileObject cwd;
     private final BufferedReader reader;
 
-    private Shell() throws FileSystemException
+    private Shell() throws IOException
     {
         mgr = VFS.getManager();
-        cwd = mgr.resolveFile(System.getProperty("user.dir"));
+        cwd = mgr.toFileObject(new File(System.getProperty("user.dir")));
         reader = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
     }
 
@@ -66,7 +75,7 @@ public final class Shell
 
     private void go() throws Exception
     {
-        System.out.println("VFS Shell");
+        System.out.println("VFS Shell " + getVersion(Shell.class));
         while (true)
         {
             final String[] cmd = nextCommand();
@@ -113,7 +122,7 @@ public final class Shell
         {
             cp(cmd);
         }
-        else if (cmdName.equalsIgnoreCase("help"))
+        else if (cmdName.equalsIgnoreCase("help") || cmdName.equals("?"))
         {
             help();
         }
@@ -133,10 +142,66 @@ public final class Shell
         {
             touch(cmd);
         }
+        else if (cmdName.equalsIgnoreCase("info"))
+        {
+            info(cmd);
+        }
         else
         {
-            System.err.println("Unknown command \"" + cmdName + "\".");
+            System.err.println("Unknown command \"" + cmdName + "\" (Try 'help').");
         }
+    }
+
+    private void info(String[] cmd) throws Exception
+    {
+        if (cmd.length > 1)
+        {
+            info(cmd[1]);
+        }
+        else
+        {
+            System.out.println("Default manager: \"" + mgr.getClass().getName() + "\" version " + getVersion(mgr.getClass()));
+            String[] schemes = mgr.getSchemes();
+            List<String> virtual = new ArrayList<String>();
+            List<String> physical = new ArrayList<String>();
+            for(int i=0; i<schemes.length; i++)
+            {
+                Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
+                if (caps != null)
+                {
+                    if (caps.contains(Capability.VIRTUAL))
+                    {
+                        virtual.add(schemes[i]);
+                    } else {
+                        physical.add(schemes[i]);
+                    }
+                }
+            }
+            if (!physical.isEmpty())
+            {
+                System.out.println("  Provider Schemes: " + physical);
+            }
+            if (!virtual.isEmpty())
+            {
+                System.out.println("   Virtual Schemes: " + virtual);
+            }
+         }
+    }
+
+    private void info(String scheme) throws Exception
+    {
+         System.out.println("Provider Info for scheme \""+ scheme +"\":");
+         Collection<Capability> caps;
+         caps = mgr.getProviderCapabilities(scheme);
+         if (caps != null && !caps.isEmpty())
+         {
+             System.out.println("  capabilities: " + caps);
+         }
+         FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
+         if (ops != null && ops.length > 0)
+         {
+             System.out.println("  operations: " + ops);
+         }
     }
 
     /**
@@ -149,12 +214,12 @@ public final class Shell
         System.out.println("cd [folder]        Changes current folder.");
         System.out.println("cp <src> <dest>    Copies a file or folder.");
         System.out.println("help               Shows this message.");
+        System.out.println("info [scheme]      Displays information about providers.");
         System.out.println("ls [-R] [path]     Lists contents of a file or folder.");
         System.out.println("pwd                Displays current folder.");
         System.out.println("rm <path>          Deletes a file or folder.");
         System.out.println("touch <path>       Sets the last-modified time of a file.");
-        System.out.println("exit       Exits this program.");
-        System.out.println("quit       Exits this program.");
+        System.out.println("exit, quit         Exits this program.");
     }
 
     /**
@@ -354,5 +419,17 @@ public final class Shell
             cmd.add(tokens.nextToken());
         }
         return cmd.toArray(new String[cmd.size()]);
+    }
+
+    private static String getVersion(Class<?> cls)
+    {
+        try
+        {
+            return cls.getPackage().getImplementationVersion();
+        }
+        catch (Exception ignored)
+        {
+            return "N/A";
+        }
     }
 }

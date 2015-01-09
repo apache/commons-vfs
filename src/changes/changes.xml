@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action dev="ecki" type="add">
+       [example] make VFS Shell print version and implement new 'info' command.
+      </action>
       <action issue="VFS-552" dev="ecki" type="fix">
        [sandbox] include vfs-providers.xml in JAR for dynamic registration of mime and smb providers.
       </action>
