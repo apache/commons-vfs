@@ -25,7 +25,7 @@
 
   <body>
 
-    <menu name="Commons&#xA0;VFS">
+    <menu name="Commons&#xA0;VFS" inherit="top">
       <item name="Overview"                href="/index.html"/>
       <item name="Download and Build"      href="/download.html"/>
       <item name="Using the API"           href="/api.html"/>
@@ -35,14 +35,14 @@
       <item name="Wiki"                    href="http://wiki.apache.org/commons/VFS"/>
     </menu>
 
-    <menu name="Development">
+    <menu name="VFS Development" inherit="top">
       <item name="Testing"                 href="/testing.html"/>
       <item name="Mailing Lists"           href="/mail-lists.html"/>
       <item name="Issue Tracking"          href="/issue-tracking.html"/>
       <item name="Source Repository"       href="/source-repository.html"/>
     </menu>
 
-    <menu name="VFS&#xA0;Components">
+    <menu name="VFS Components" inherit="top">
       <item name="Core" href="commons-vfs2/index.html"/>
       <item name="Examples" href="commons-vfs2-examples/index.html"/>
       <item name="Sandbox" href="commons-vfs2-sandbox/index.html"/>

@@ -39,42 +39,43 @@
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/logging/">Commons Logging</a>
-                        Version 1.1.1 or later.
+                        Version 1.2.
                     </td>
                     <td>All</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/collections/">Commons Collections</a>
-                        Version 3.1
+                        Version 4.0 or later
                     </td>
                     <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/compress/">Commons Compress</a>
-                        Version 1.6
+                        Version 1.9 or later
                     </td>
                     <td>TAR, Bzip2</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/net/">Commons Net</a>
-                        Version 2.0 or later.
+                        Version 3.3 or later.
                     </td>
                     <td>FTP</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a>
-                        Version 3.0.
+                        Version 3.1.<br/>
+                        Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a> Version 1.2
                     </td>
                     <td>WebDAV, HTTP, URI Utils</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jackrabbit.apache.org">Apache Jackrabbit</a>
-                        Version 1.5.2 or later
+                        <a href="http://jackrabbit.apache.org">Apache Jackrabbit WebDAV</a>
+                        Version 1.6.5 or later
                     </td>
                     <td>WebDAV</td>
                 </tr>
@@ -88,14 +89,14 @@
                 <tr>
                     <td>
                         <a href="http://www.jcraft.com/jsch/">JSch</a>
-                        Version 0.1.42 or later.
+                        Version 0.1.51 or later.
                     </td>
                     <td>SFTP</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://java.sun.com/products/javamail/">javamail</a>
-                        Version 1.4
+                        Version 1.4.7.
                     </td>
                     <td>mime (VFS sandbox)</td>
                 </tr>
@@ -139,12 +140,11 @@
                 <code>commons-vfs/core/target/commons-vfs2-&lt;version>.jar</code>.
             </p><p>
                 If you want to build the additional sandbox file systems as well, use
-                <code>mvn -P include-sandbox clean veriy</code>. This will also create the sandbox
+                <code>mvn -Pinclude-sandbox clean verify</code>. This will also create the sandbox
                 components in <code>commons-vfs/sandbox/target/commons-vfs2-sandbox-&lt;version>.jar</code>.
             </p><p>
-                With the following command you can run the simple <code>Shell</code> example:<br/>
-                <br/>
-                <code>java -cp core/target/commons-vfs2-2.0.jar:examples/target/commons-vfs2-examples-2.0.jat</code>
+                See the <a href="commons-vfs2-example/index.html">commons-vfs2-example</a> Module on how 
+                to use VFS Example Shell to verify the result.
             </p>
         </section>
     </body>

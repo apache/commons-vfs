@@ -19,7 +19,7 @@
 <document>
     <properties>
         <title>Commons Virtual File System</title>
-        <author email="jstrachan@apache.org">James Strachan</author>
+        <author email="dev@commons.apache.org">Apache Commons Developers</author>
     </properties>
 
     <body>
@@ -45,7 +45,7 @@
                 <li>
                     Caching of file information. Caches information in-JVM,
                     and optionally can cache remote file information on the
-                    local file system.
+                    local file system (replicator).
                 </li>
                 <li>Event delivery.</li>
                 <li>
@@ -66,15 +66,26 @@
 
         <section name="Requirements">
            <p>
-            Commons VFS 2.0 requires Java 5. Many of the file systems require that optional components be present
+            Apache Commons VFS 2.1 requires Java 6. Many of the file systems require that optional components be present
             in order for the protocol to be enabled. See the <a href="download.html">download and build</a> page for
             information on the optional dependencies.
+          </p>
+          <p>
+           Apache Commons VFS 2.0 can be used in a Java 5 runtime.
           </p>
         </section>
 
         <section name="News">
           <p>
-            Commons VFS 2.0 is now available. Support for FTPS and WebDav have been added in addition to many bugs
+            Apache Commons VFS 2.1 is a bugfix release to VFS 2.0. IF you meet the requirements you should be able 
+            to replace 2.0 with 2.1 without the need for changes to API consumers. VFS 2.1 has introduced some now 
+            methods for provider interfaces (like <code>FileObject</code>). If you implement a VFS provider and use the
+            corresponding <code>Abstract*</code> or <code>Default*</code> classes, there should be no need to modify
+            the code or recompile the provider.
+            See the <a href="https://archive.apache.org/dist/commons/vfs/RELEASE_NOTES.txt">Release Notes</a> and the
+            <a href="commons-vfs2/clirr-report.html">Clirr Report</a> for details.
+          </p><p>
+            Apache Commons VFS 2.0 adds support for FTPS and WebDav have been added in addition to many bugs
             being fixed. Version 2.0 is not binary compatible with version 1.0. To insure that both 1.0 and 2.0 can
             coexist version 2.0 has had its Maven groupId changed to org.apache.commons, its Maven artifact changed
             to commons-vfs2, and the package names are now org.apache.commons.vfs2. The API changes are fairly minor
