@@ -170,7 +170,9 @@ public final class Shell
                 Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
                 if (caps != null)
                 {
-                    if (caps.contains(Capability.VIRTUAL))
+                    if (caps.contains(Capability.VIRTUAL)  ||
+                            caps.contains(Capability.COMPRESS) ||
+                            caps.contains(Capability.DISPATCHER))
                     {
                         virtual.add(schemes[i]);
                     }
