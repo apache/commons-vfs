@@ -36,28 +36,30 @@ public class SmbFileProvider
     extends AbstractOriginatingFileProvider
     implements FileProvider
 {
-    protected final static Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.CREATE,
-        Capability.DELETE,
-        Capability.RENAME,
-        Capability.GET_TYPE,
-        Capability.GET_LAST_MODIFIED,
-        Capability.SET_LAST_MODIFIED_FILE,
-        Capability.SET_LAST_MODIFIED_FOLDER,
-        Capability.LIST_CHILDREN,
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.WRITE_CONTENT,
-        Capability.APPEND_CONTENT,
-        Capability.RANDOM_ACCESS_READ,
-        Capability.RANDOM_ACCESS_WRITE
-    }));
-
-    public final static UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
+    /** Authentication data supported by this provider. */
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
         {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD, UserAuthenticationData.DOMAIN
         };
+
+    static final Collection<Capability> capabilities =
+        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+            {
+                Capability.CREATE,
+                Capability.DELETE,
+                Capability.RENAME,
+                Capability.GET_TYPE,
+                Capability.GET_LAST_MODIFIED,
+                Capability.SET_LAST_MODIFIED_FILE,
+                Capability.SET_LAST_MODIFIED_FOLDER,
+                Capability.LIST_CHILDREN,
+                Capability.READ_CONTENT,
+                Capability.URI,
+                Capability.WRITE_CONTENT,
+                Capability.APPEND_CONTENT,
+                Capability.RANDOM_ACCESS_READ,
+                Capability.RANDOM_ACCESS_WRITE
+            }));
 
     public SmbFileProvider()
     {

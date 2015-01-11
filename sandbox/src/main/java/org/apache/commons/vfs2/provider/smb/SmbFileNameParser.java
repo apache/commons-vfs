@@ -29,11 +29,12 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
  */
 public class SmbFileNameParser extends URLFileNameParser
 {
-    private final static SmbFileNameParser INSTANCE = new SmbFileNameParser();
+    private static final SmbFileNameParser INSTANCE = new SmbFileNameParser();
+    private static final int SMB_PORT = 139;
 
     public SmbFileNameParser()
     {
-        super(139);
+        super(SMB_PORT);
     }
 
     public static FileNameParser getInstance()
@@ -42,7 +43,8 @@ public class SmbFileNameParser extends URLFileNameParser
     }
 
     @Override
-    public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename) throws FileSystemException
+    public FileName parseUri(final VfsComponentContext context, final FileName base,
+                             final String filename) throws FileSystemException
     {
         final StringBuilder name = new StringBuilder();
 

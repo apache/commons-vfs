@@ -87,6 +87,9 @@ public class SmbFileName extends GenericFileName
 
     /**
      * Factory method for creating name instances.
+     *
+     * @param path path of file.
+     * @param type file or directory
      * @return new SmbFileName object, never null.
      */
     @Override

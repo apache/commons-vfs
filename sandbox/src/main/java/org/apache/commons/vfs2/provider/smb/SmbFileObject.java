@@ -75,7 +75,8 @@ public class SmbFileObject
         file = null;
     }
 
-    private SmbFile createSmbFile(final FileName fileName) throws MalformedURLException, SmbException, FileSystemException
+    private SmbFile createSmbFile(final FileName fileName)
+        throws MalformedURLException, SmbException, FileSystemException
     {
         final SmbFileName smbFileName = (SmbFileName) fileName;
 
@@ -86,7 +87,9 @@ public class SmbFileObject
         NtlmPasswordAuthentication auth;
         try
         {
-            authData = UserAuthenticatorUtils.authenticate(getFileSystem().getFileSystemOptions(), SmbFileProvider.AUTHENTICATOR_TYPES);
+            authData = UserAuthenticatorUtils.authenticate(
+                           getFileSystem().getFileSystemOptions(),
+                           SmbFileProvider.AUTHENTICATOR_TYPES);
 
             auth = new NtlmPasswordAuthentication(
                 UserAuthenticatorUtils.toString(
@@ -256,7 +259,8 @@ public class SmbFileObject
     }
 
     @Override
-    protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
+    {
         file.setLastModified(modtime);
         return true;
     }

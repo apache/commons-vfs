@@ -71,13 +71,13 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
                 }
 
                 @Override
-                public int read(final byte b[]) throws IOException
+                public int read(final byte[] b) throws IOException
                 {
                     return raf.read(b);
                 }
 
                 @Override
-                public int read(final byte b[], final int off, final int len) throws IOException
+                public int read(final byte[] b, final int off, final int len) throws IOException
                 {
                     return raf.read(b, off, len);
                 }
@@ -149,12 +149,12 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
         return raf.readFloat();
     }
 
-    public void readFully(final byte b[]) throws IOException
+    public void readFully(final byte[] b) throws IOException
     {
         raf.readFully(b);
     }
 
-    public void readFully(final byte b[], final int off, final int len) throws IOException
+    public void readFully(final byte[] b, final int off, final int len) throws IOException
     {
         raf.readFully(b, off, len);
     }
@@ -194,7 +194,8 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
         raf.seek(pos);
     }
 
-    public void setLength(final long newLength) throws IOException {
+    public void setLength(final long newLength) throws IOException
+    {
         raf.setLength(newLength);
     }
 
@@ -204,13 +205,13 @@ class SmbFileRandomAccessContent extends AbstractRandomAccessContent
     }
 
     @Override
-    public void write(final byte b[]) throws IOException
+    public void write(final byte[] b) throws IOException
     {
         raf.write(b);
     }
 
     @Override
-    public void write(final byte b[], final int off, final int len) throws IOException
+    public void write(final byte[] b, final int off, final int len) throws IOException
     {
         raf.write(b, off, len);
     }
