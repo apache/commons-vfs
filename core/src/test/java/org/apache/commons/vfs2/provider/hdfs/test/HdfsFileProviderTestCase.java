@@ -22,6 +22,7 @@ import java.io.IOException;
 import junit.framework.Test;
 
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
@@ -92,7 +93,10 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig impleme
             Logger.getRootLogger().setLevel(Level.OFF);
 
             // Put the MiniDFSCluster directory in the target directory
-            System.setProperty("test.build.data", "target/build/test2/data");
+            File data = new File("target/test/hdfstestcasedata").getAbsoluteFile();
+            data.mkdirs();
+            System.setProperty("test.build.data", data.toString());
+            FileUtils.cleanDirectory(data);
 
             // Setup HDFS
             conf = new Configuration();
