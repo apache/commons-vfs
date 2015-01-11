@@ -75,7 +75,6 @@ public class HdfsFileProviderTest
     private static FileSystem hdfs;
 
     protected static Configuration conf;
-    protected static DefaultFileSystemManager vfs;
     protected static MiniDFSCluster cluster;
 
     @BeforeClass
@@ -134,7 +133,7 @@ public class HdfsFileProviderTest
             // Need to set permission to 777 xor umask
             // leading zero makes java interpret as base 8
             final int newPermission = 0777 ^ umask;
-            conf.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
+            conf2.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
         }
         catch (final Exception e)
         {
