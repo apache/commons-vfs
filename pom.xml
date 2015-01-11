@@ -487,26 +487,12 @@
         <artifactId>hadoop-common</artifactId>
         <version>2.6.0</version>
         <scope>provided</scope>
-          <!--  exclude uneeded dependency to avoid dragging in broken glassfish repo -->
-          <exclusions>
-              <exclusion>
-                  <artifactId>jersey-server</artifactId>
-                  <groupId>com.sun.jersey</groupId>
-              </exclusion>
-          </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-hdfs</artifactId>
         <version>2.6.0</version>
         <scope>provided</scope>
-          <!--  exclude uneeded dependency to avoid dragging in broken glassfish repo -->
-          <exclusions>
-              <exclusion>
-                  <artifactId>jersey-server</artifactId>
-                  <groupId>com.sun.jersey</groupId>
-              </exclusion>
-          </exclusions>
       </dependency>
       <!-- HDFS test dependencies -->
       <dependency>
@@ -515,13 +501,6 @@
         <version>2.6.0</version>
         <type>test-jar</type>
         <scope>test</scope>
-          <!--  exclude uneeded dependency to avoid dragging in broken glassfish repo -->
-          <exclusions>
-              <exclusion>
-                  <artifactId>jersey-server</artifactId>
-                  <groupId>com.sun.jersey</groupId>
-              </exclusion>
-          </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
@@ -529,13 +508,6 @@
         <version>2.6.0</version>
         <type>test-jar</type>
         <scope>test</scope>
-          <!--  exclude uneeded dependency to avoid dragging in broken glassfish repo -->
-          <exclusions>
-              <exclusion>
-                  <artifactId>jersey-server</artifactId>
-                  <groupId>com.sun.jersey</groupId>
-              </exclusion>
-          </exclusions>
       </dependency>
       <dependency>
         <groupId>javax.ws.rs</groupId>
