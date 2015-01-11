@@ -1,0 +1,44 @@
+Apache Commons VFS
+Copyright 2002-2015 The Apache Software Foundation
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
+
+
+W A R N I N G
+
+The Apache Commons VFS Sandbox module is not officially released by the Apache Commons project.
+If you chose to compile it manually with `mvn -Pinclude-sandbox verify` it will require the following
+additional dependencies with licenses not approved for redistribution:
+
+ +- jcifs:jcifs:jar:0.8.3:compile
+ +- javax.mail:mail:jar:1.4.7:compile
+    \- javax.activation:activation:jar:1.1:compile
+
+Although we do not ship or require those artifacts by default
+here is the license information for your convinience:
+
+The Java CIFS Client Library
+ (http://jcifs.samba.org/)
+ Copyright The JCIFS Project
+ GNU LESSER GENERAL PUBLIC LICENSE, Version 2.1, February 1999
+ 
+The JavaMail Library
+ (http://www.oracle.com/technetwork/java/javamail/index.html)
+ Copyright Oracle and contributors
+ JavaMail uses several licenses:
+    - Most of the JavaMail source code is licensed under the CDDL license
+    and the GPLv2 with Classpath Exception license;
+    see the license information at the top of each source file.
+    - The source code for the demo programs is licensed under the BSD license;
+    again, the license is in each source file.
+    - The binary jar files published to the Maven repository are licensed under the
+    same CDDL and GPLv2+CE licenses as the corresponding source code;
+    see the file META-INF/LICENSE.txt in each jar file.
+    - The JavaMail API specification is licensed under the standard JCP Specification
+    License.  
+
+JavaBeans Activation Framework
+ (http://www.oracle.com/technetwork/java/javase/index-jsp-136939.html)
+ Copyright Oracle and contributors
+ Oracle Binary Code License Agreement for Java SE
