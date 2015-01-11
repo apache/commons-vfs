@@ -13,21 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2;
+package org.apache.commons.vfs2.util;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
- * Encapsulates a {@link RandomAccessContent} instance, allowing it to be used
+ * (Sandbox) Encapsulates a {@link RandomAccessContent} instance, allowing it to be used
  * as a {@link RandomAccessFile} instance.
  */
 public class RACRandomAccessFile extends RandomAccessFile implements RandomAccessContent
 {
+    private final byte[] singleByteBuf = new byte[1];
+
     private RandomAccessContent rac;
-    protected final byte[] singleByteBuf = new byte[1];
+
+    public RACRandomAccessFile(final RandomAccessContent rac) throws IOException
+    {
+        this(createTempFile());
+        this.rac = rac;
+    }
+
+    private RACRandomAccessFile(final File tempFile) throws IOException
+    {
+        super(tempFile, "r");
+        deleteTempFile(tempFile);
+    }
 
     private static File createTempFile() throws IOException
     {
@@ -46,20 +60,8 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         }
         finally
         {
-            tempFile.delete();
+            /* ignored = */ tempFile.delete();
         }
-    }
-
-    public RACRandomAccessFile(final RandomAccessContent rac) throws IOException
-    {
-        this(createTempFile());
-        this.rac = rac;
-    }
-
-    private RACRandomAccessFile(final File tempFile) throws IOException
-    {
-        super(tempFile, "r");
-        deleteTempFile(tempFile);
     }
 
     @Override
@@ -86,9 +88,6 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         return this.rac.length();
     }
 
-    /* (non-Javadoc)
-         * @see org.ecc.base.io.FilterRandomAccessFile#setLength(long)
-         */
     @Override
     public void setLength(final long newLength) throws IOException
     {
@@ -106,19 +105,12 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         this.rac.close();
     }
 
-
-    /**
-     * @see java.io.RandomAccessFile#read(byte[])
-     */
     @Override
     public final int read(final byte[] b) throws IOException
     {
         return read(b, 0, b.length);
     }
 
-    /**
-     * @see java.io.RandomAccessFile#read()
-     */
     @Override
     public final int read() throws IOException
     {
@@ -134,9 +126,6 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         return len;
     }
 
-    /**
-     * @see java.io.RandomAccessFile#write(int)
-     */
     @Override
     public final void write(final int b) throws IOException
     {
@@ -145,18 +134,12 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         write(buf, 0, 1);
     }
 
-    /**
-     * @see java.io.RandomAccessFile#write(byte[])
-     */
     @Override
     public final void write(final byte[] b) throws IOException
     {
         write(b, 0, b.length);
     }
 
-    /**
-     * @see java.io.RandomAccessFile#write(byte[],int,int)
-     */
     @Override
     public void write(final byte[] b, final int off, final int len) throws IOException
     {

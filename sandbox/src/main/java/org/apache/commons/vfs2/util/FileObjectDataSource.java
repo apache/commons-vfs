@@ -26,7 +26,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * Provide access to a FileObject as DataSource
+ * (Sandbox) Provide access to a FileObject as JAF DataSource.
  */
 public class FileObjectDataSource implements DataSource
 {

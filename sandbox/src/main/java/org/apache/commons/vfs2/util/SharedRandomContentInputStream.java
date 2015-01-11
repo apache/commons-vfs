@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
- * A wrapper to an FileObject to get a {@link javax.mail.internet.SharedInputStream}
+ * (Sandbox) A wrapper to an FileObject to get a {@link javax.mail.internet.SharedInputStream}.
  */
 public class SharedRandomContentInputStream extends BufferedInputStream implements SharedInputStream
 {
@@ -42,7 +42,10 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     private long pos;
     private long resetCount;
 
-    private SharedRandomContentInputStream(final Set<SharedRandomContentInputStream> createdStreams, final FileObject fo, final long fileStart, final long fileEnd, final InputStream is) throws FileSystemException
+    private SharedRandomContentInputStream(final Set<SharedRandomContentInputStream> createdStreams,
+                                           final FileObject fo, final long fileStart, final long fileEnd,
+                                           final InputStream is)
+        throws FileSystemException
     {
         super(is);
 
@@ -56,7 +59,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         this.fileEnd = fileEnd;
         this.createdStreams = createdStreams;
 
-        synchronized(createdStreams)
+        synchronized (createdStreams)
         {
             createdStreams.add(this);
         }
@@ -82,7 +85,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
     @Override
-    public synchronized int read(final byte b[], final int off, int len) throws IOException
+    public synchronized int read(final byte[] b, final int off, int len) throws IOException
     {
         if (checkEnd())
         {
@@ -96,8 +99,8 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         }
 
         final int nread = super.read(b, off, len);
-        pos+=nread;
-        resetCount+=nread;
+        pos += nread;
+        resetCount += nread;
         return nread;
     }
 
@@ -116,8 +119,8 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         }
 
         final long nskip = super.skip(n);
-        pos+=nskip;
-        resetCount+=nskip;
+        pos += nskip;
+        resetCount += nskip;
         return nskip;
     }
 
@@ -157,7 +160,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 
     protected long calcFilePosition(final long nadd)
     {
-        return getFilePosition()+nadd;
+        return getFilePosition() + nadd;
     }
 
     @Override
@@ -171,8 +174,8 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     public synchronized void reset() throws IOException
     {
         super.reset();
-        pos-=resetCount;
-        resetCount=0;
+        pos -= resetCount;
+        resetCount = 0;
     }
 
     public long getPosition()
@@ -186,7 +189,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     {
         super.close();
 
-        synchronized(createdStreams)
+        synchronized (createdStreams)
         {
             createdStreams.remove(this);
         }
@@ -196,8 +199,8 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     {
         try
         {
-            final long newFileStart = this.fileStart+start;
-            final long newFileEnd = end<0?this.fileEnd:this.fileStart+end;
+            final long newFileStart = this.fileStart + start;
+            final long newFileEnd = end < 0 ? this.fileEnd : this.fileStart + end;
 
             final RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
             rac.seek(newFileStart);
@@ -216,11 +219,12 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
 
     public void closeAll() throws IOException
     {
-        synchronized(createdStreams)
+        synchronized (createdStreams)
         {
             final SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
             createdStreams.toArray(streams);
-            for (final SharedRandomContentInputStream stream : streams) {
+            for (final SharedRandomContentInputStream stream : streams)
+            {
                 stream.close();
             }
         }
