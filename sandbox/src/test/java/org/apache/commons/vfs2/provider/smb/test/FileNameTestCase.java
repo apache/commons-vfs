@@ -29,6 +29,7 @@ public class FileNameTestCase
 {
     /**
      * Tests parsing a URI into its parts.
+     * @throws Exception in case of error
      */
     public void testParseUri() throws Exception
     {
@@ -112,6 +113,7 @@ public class FileNameTestCase
 
     /**
      * Tests error handling in URI parser.
+     * @throws Exception in case of error
      */
     public void testBadlyFormedUri() throws Exception
     {
@@ -141,7 +143,7 @@ public class FileNameTestCase
     }
 
     /**
-     * Tests that parsing a URI fails with the expected error.
+     * Assert that parsing a URI fails with the expected error.
      */
     private void testBadlyFormedUri(final String uri, final String errorMsg)
     {
