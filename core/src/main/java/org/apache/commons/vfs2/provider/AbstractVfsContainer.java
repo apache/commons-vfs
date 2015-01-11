@@ -32,9 +32,12 @@ public abstract class AbstractVfsContainer
     private final ArrayList<Object> components = new ArrayList<Object>();
 
     /**
-     * Adds a sub-component to this component.  If the sub-component implements
-     * {@link VfsComponent}, it is initialised.  All sub-components are closed
-     * when this component is closed.
+     * Adds a sub-component to this component.
+     * <p>
+     * If the sub-component implements {@link VfsComponent}, it is initialised.
+     * All sub-components are closed when this component is closed.
+     * @param component the component to add.
+     * @throws FileSystemException if any error occurs.
      */
     protected void addComponent(final Object component)
         throws FileSystemException
@@ -57,6 +60,8 @@ public abstract class AbstractVfsContainer
 
     /**
      * Removes a sub-component from this component.
+     *
+     * @param component the component to remove.
      */
     protected void removeComponent(final Object component)
     {

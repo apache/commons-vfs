@@ -53,7 +53,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
         super("ftp.");
     }
 
-    /** @since 2.1 */
+    /**
+     * Create new config builder with specified prefix string.
+     * @param prefix prefix string to use for parameters of this config builder.
+     * @since 2.1
+     */
     protected FtpFileSystemConfigBuilder(final String prefix)
     {
         super(prefix);
@@ -187,7 +191,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Gets whether to use remote verification.
      *
-     * @param opts
+     * @param opts The FileSystemOptions.
+     * @return True if remote verification should be done.
      */
     public Boolean getRemoteVerification(FileSystemOptions opts)
     {
@@ -384,8 +389,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets whether to use remote verification.
      *
-     * @param opts
-     * @param remoteVerification
+     * @param opts The FileSystemOptions.
+     * @param remoteVerification True if verification should be done.
      */
     public void setRemoteVerification(FileSystemOptions opts, boolean remoteVerification)
     {

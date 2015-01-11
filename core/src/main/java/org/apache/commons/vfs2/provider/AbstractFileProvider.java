@@ -89,8 +89,12 @@ public abstract class AbstractFileProvider
     }
 
     /**
-     * Adds a file system to those cached by this provider.  The file system
-     * may implement {@link VfsComponent}, in which case it is initialised.
+     * Adds a file system to those cached by this provider.
+     * <p>
+     * The file system may implement {@link VfsComponent}, in which case it is initialised.
+     * @param key The root file of the file system, part of the cache key.
+     * @param fs the file system to add.
+     * @throws FileSystemException if any error occurs.
      */
     protected void addFileSystem(final Comparable<?> key, final FileSystem fs)
         throws FileSystemException
@@ -108,9 +112,11 @@ public abstract class AbstractFileProvider
     }
 
     /**
-     * Locates a cached file system
+     * Locates a cached file system.
      *
-     * @return The provider, or null if it is not cached.
+     * @param key The root file of the file system, part of the cache key.
+     * @param fileSystemProps file system options the file system instance must have.
+     * @return The file system instance, or null if it is not cached.
      */
     protected FileSystem findFileSystem(final Comparable<?> key, final FileSystemOptions fileSystemProps)
     {

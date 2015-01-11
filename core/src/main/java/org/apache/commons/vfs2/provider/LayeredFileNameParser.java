@@ -85,6 +85,10 @@ public class LayeredFileNameParser extends AbstractFileNameParser
 
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
+     *
+     * @param uri string builder which gets modified.
+     * @return the extracted root name.
+     * @throws FileSystemException if error occurs.
      */
     protected String extractRootName(final StringBuilder uri)
         throws FileSystemException

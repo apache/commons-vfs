@@ -33,7 +33,8 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
     }
 
     /**
-     * The schemes to use for resolve
+     * The schemes known.
+     * @return Array of supported schemes.
      */
     protected abstract String[] getSchemes();
 

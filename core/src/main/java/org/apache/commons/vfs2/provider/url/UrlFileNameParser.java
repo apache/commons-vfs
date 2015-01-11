@@ -66,11 +66,16 @@ public class UrlFileNameParser extends AbstractFileNameParser
     }
 
     /**
-     * Guess is the given filename is a url with host or not. VFS treats such urls differently.
+     * Guess if the given file name is an URL with host or not.
      * <p>
-     * A filename is url-based if the base is a {@code URLFileName} or there are only 2 slashes
+     * VFS treats such URLs differently.
+     * <p>
+     * A file name is URL-based if the base is a {@code URLFileName} or there are only 2 slashes
      * after the scheme.
      * e.g: {@code http://host/path}, {@code file:/path/to/file}, {@code file:///path/to/file}.
+     * @param base The filename is relative to this base.
+     * @param filename The filename.
+     * @return true if filename contains two slashes or base was URLFileName.
      */
     protected boolean isUrlBased(final FileName base, final String filename)
     {
@@ -79,8 +84,7 @@ public class UrlFileNameParser extends AbstractFileNameParser
             return true;
         }
 
-        final int nuofSlash = countSlashes(filename);
-        return nuofSlash == 2;
+        return countSlashes(filename) == 2;
     }
 
     /**

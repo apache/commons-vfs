@@ -364,8 +364,7 @@ public class VFSClassLoader extends SecureClassLoader
         }
         catch (final Exception mue)
         {
-            // Ignore
-            // TODO - report?
+            /* Ignored. TODO: report? */
         }
 
         return null;
@@ -374,12 +373,13 @@ public class VFSClassLoader extends SecureClassLoader
     /**
      * Returns an Enumeration of all the resources in the search path
      * with the specified name.
-     *
+     * <p>
      * Gets called from {@link ClassLoader#getResources(String)} after
      * parent class loader was questioned.
+     *
      * @param name The resources to find.
      * @return An Enumeration of the resources associated with the name.
-     * @throws FileSystemException
+     * @throws FileSystemException if an error occurs.
      */
     @Override
     protected Enumeration<URL> findResources(final String name) throws IOException

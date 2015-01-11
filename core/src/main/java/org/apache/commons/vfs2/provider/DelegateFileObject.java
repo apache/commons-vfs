@@ -440,7 +440,12 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
         }
     }
 
-    /** @since 2.0 */
+    /**
+     * Return file content info.
+     * @return the file content info of the delegee.
+     * @throws Exception Any thrown Exception is wrapped in FileSystemException.
+     * @since 2.0
+     */
     protected FileContentInfo doGetContentInfo() throws Exception
     {
         return file.getContent().getContentInfo();
@@ -448,6 +453,9 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Renames the file.
+     *
+     * @param newFile the new location/name.
+     * @throws Exception Any thrown Exception is wrapped in FileSystemException.
      * @since 2.0
      */
     @Override

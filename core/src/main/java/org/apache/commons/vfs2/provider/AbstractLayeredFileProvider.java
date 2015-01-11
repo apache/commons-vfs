@@ -91,12 +91,15 @@ public abstract class AbstractLayeredFileProvider
     }
 
     /**
-     * Creates a layered file system.  This method is called if the file system
-     * is not cached.  The file system may implement {@link VfsComponent}.
+     * Creates a layered file system.
+     * <p>
+     * This method is called if the file system is not cached.
      *
      * @param scheme The URI scheme.
      * @param file   The file to create the file system on top of.
-     * @return The file system.
+     * @param fileSystemOptions options for new and underlying file systems.
+     * @return The file system, never null. Might implement {@link VfsComponent}.
+     * @throws FileSystemException if the file system cannot be created.
      */
     protected abstract FileSystem doCreateFileSystem(final String scheme,
                                                      final FileObject file,

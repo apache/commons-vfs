@@ -51,6 +51,11 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
 
     /**
      * Pops the root prefix off a URI, which has had the scheme removed.
+     *
+     * @param name the URI to modify.
+     * @param uri the whole URI for error reporting.
+     * @return the root prefix extracted.
+     * @throws FileSystemException if an error occurs.
      */
     protected abstract String extractRootPrefix(final String uri,
                                                 final StringBuilder name)

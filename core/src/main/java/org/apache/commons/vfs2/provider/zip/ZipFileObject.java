@@ -53,6 +53,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
 
     /**
      * Sets the details for this file object.
+     * @param entry ZIP information related to this file.
      */
     protected void setZipEntry(final ZipEntry entry)
     {

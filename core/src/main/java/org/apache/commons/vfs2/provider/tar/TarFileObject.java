@@ -72,7 +72,8 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
     }
 
     /**
-     * Attaches a child
+     * Attaches a child.
+     * @param childName Name of child to remember.
      */
     protected void attachChild(final FileName childName)
     {

@@ -425,9 +425,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the file name encoding.
      *
-     * @param opts
-     *            The FileSystem options.
-     * @param fileNameEncoding
+     * @param opts The FileSystem options.
+     * @param fileNameEncoding The name of the encoding to use for file names.
      */
     public void setFileNameEncoding(final FileSystemOptions opts, final String fileNameEncoding)
     {

@@ -242,6 +242,9 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     /**
      * Prepares a HttpMethod object.
      *
+     * @param method The object which gets prepared to access the file object.
+     * @throws FileSystemException if an error occurs.
+     * @throws URIException if path cannot be represented.
      * @since 2.0 (was package)
      */
     protected void setupMethod(final HttpMethod method) throws FileSystemException, URIException

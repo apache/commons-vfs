@@ -413,9 +413,16 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Handles an out-of-date file (a file where the destination file
-     * either doesn't exist, or is older than the source file).
+     * Handles an out-of-date file.
+     * <p>
+     * This is a file where the destination file
+     * either doesn't exist, or is older than the source file.
+     * <p>
      * This implementation does nothing.
+     *
+     * @param srcFile The source file.
+     * @param destFile The destination file.
+     * @throws Exception Implementation can throw any Exception.
      */
     protected void handleOutOfDateFile(final FileObject srcFile,
                                        final FileObject destFile)
@@ -424,8 +431,16 @@ public abstract class AbstractSyncTask
     }
 
     /**
-     * Handles an up-to-date file (where the destination file exists and is
-     * newer than the source file).  This implementation does nothing.
+     * Handles an up-to-date file.
+     * <p>
+     * This is where the destination file exists and is
+     * newer than the source file.
+     * <p>
+     * This implementation does nothing.
+     *
+     * @param srcFile The source file.
+     * @param destFile The destination file.
+     * @throws Exception Implementation can throw any Exception.
      */
     protected void handleUpToDateFile(final FileObject srcFile,
                                       final FileObject destFile)
@@ -435,7 +450,11 @@ public abstract class AbstractSyncTask
 
     /**
      * Handles a destination for which there is no corresponding source file.
+     * <p>
      * This implementation does nothing.
+     *
+     * @param destFile The existing destination file.
+     * @throws Exception Implementation can throw any Exception.
      */
     protected void handleMissingSourceFile(final FileObject destFile)
         throws Exception
@@ -444,7 +463,11 @@ public abstract class AbstractSyncTask
 
     /**
      * Check if this task cares about destination files with a missing source
-     * file.  This implementation returns false.
+     * file.
+     * <p>
+     * This implementation returns false.
+     *
+     * @return True if missing file is detected.
      */
     protected boolean detectMissingSourceFiles()
     {

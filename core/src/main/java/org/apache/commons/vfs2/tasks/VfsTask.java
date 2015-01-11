@@ -39,6 +39,8 @@ public class VfsTask
      * Resolves a URI to a file, relative to the project's base directory.
      *
      * @param uri The URI to resolve.
+     * @return resolved file object.
+     * @throws FileSystemException If an error occurred.
      */
     protected FileObject resolveFile(final String uri)
         throws FileSystemException

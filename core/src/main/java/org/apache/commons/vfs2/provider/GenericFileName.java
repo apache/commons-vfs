@@ -142,7 +142,12 @@ public class GenericFileName extends AbstractFileName
     }
 
     /**
-     * append the user credentials
+     * Append the user credentials.
+     * <p>
+     * If anything was added, it will be '@' terminated.
+     *
+     * @param buffer the string buffer to modify.
+     * @param addPassword flag if password should be added or replaced with placeholder (false).
      */
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword)
     {

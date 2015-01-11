@@ -91,6 +91,7 @@ public class SftpFileSystem
     /**
      * Returns an SFTP channel to the server.
      *
+     * @return new or reused channel, never null.
      * @throws FileSystemException if a session cannot be created.
      * @throws IOException if an I/O error is detected.
      */
@@ -193,6 +194,8 @@ public class SftpFileSystem
 
     /**
      * Returns a channel to the pool.
+     *
+     * @param channel the used channel.
      */
     protected void putChannel(final ChannelSftp channel)
     {

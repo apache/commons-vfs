@@ -146,20 +146,27 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * Close the underlaying link used to access the files
+     * Close the underlying link used to access the files
      */
     protected void doCloseCommunicationLink()
     {
     }
 
     /**
-     * Creates a file object.  This method is called only if the requested
-     * file is not cached.
+     * Creates a file object.
+     * <p>
+     * This method is called only if the requested file is not cached.
+     *
+     * @param name name referencing the new file.
+     * @return new created FileObject.
+     * @throws Exception might throw an Exception, which is then wrapped in FileSystemException.
      */
     protected abstract FileObject createFile(final AbstractFileName name) throws Exception;
 
     /**
      * Adds the capabilities of this file system.
+     *
+     * @param caps collections of Capabilities, can be immutable.
      */
     protected abstract void addCapabilities(Collection<Capability> caps);
 
@@ -186,6 +193,7 @@ public abstract class AbstractFileSystem
 
     /**
      * Adds a file object to the cache.
+     * @param file the file to add.
      */
     protected void putFileToCache(final FileObject file)
     {
@@ -206,6 +214,8 @@ public abstract class AbstractFileSystem
 
     /**
      * Returns a cached file.
+     * @param name name to search for.
+     * @return file object or null if not found.
      */
     protected FileObject getFileFromCache(final FileName name)
     {
@@ -213,7 +223,8 @@ public abstract class AbstractFileSystem
     }
 
     /**
-     * remove a cached file.
+     * Remove a cached file.
+     * @param name The file name to remove.
      */
     protected void removeFileFromCache(final FileName name)
     {
@@ -449,6 +460,11 @@ public abstract class AbstractFileSystem
 
     /**
      * Creates a temporary local copy of a file and its descendants.
+     *
+     * @param file the start of the tree.
+     * @param selector selection what to do with childs.
+     * @return replicated root file.
+     * @throws Exception any Exception is wrapped as FileSystemException.
      */
     protected File doReplicateFile(final FileObject file,
                                    final FileSelector selector)

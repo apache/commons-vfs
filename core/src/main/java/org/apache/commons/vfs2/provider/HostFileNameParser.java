@@ -77,6 +77,8 @@ public class HostFileNameParser extends AbstractFileNameParser
      *
      * @param uri  The absolute URI to parse.
      * @param name Used to return the remainder of the URI.
+     * @return Authority extracted host authority, never null.
+     * @throws FileSystemException if authority cannot be extracted.
      */
     protected Authority extractToPath(final String uri,
                                       final StringBuilder name)
@@ -154,8 +156,10 @@ public class HostFileNameParser extends AbstractFileNameParser
     }
 
     /**
-     * Extracts the user info from a URI.  The scheme:// part has been removed
-     * already.
+     * Extracts the user info from a URI.
+     *
+     * @param name string buffer with the "scheme://" part has been removed already. Will be modified.
+     * @return the user information up to the '@' or null.
      */
     protected String extractUserInfo(final StringBuilder name)
     {
@@ -182,8 +186,10 @@ public class HostFileNameParser extends AbstractFileNameParser
     }
 
     /**
-     * Extracts the hostname from a URI.  The scheme://userinfo@ part has
-     * been removed.
+     * Extracts the hostname from a URI.
+     *
+     * @param name string buffer with the "scheme://[userinfo@]" part has been removed already. Will be modified.
+     * @return the host name  or null.
      */
     protected String extractHostName(final StringBuilder name)
     {
@@ -210,10 +216,13 @@ public class HostFileNameParser extends AbstractFileNameParser
     }
 
     /**
-     * Extracts the port from a URI. The {@code scheme://userinfo@hostname}
-     * part has been removed.
-     *
+     * Extracts the port from a URI.
+     * @param name string buffer with the "scheme://[userinfo@]hostname" part has been removed already.
+     *     Will be modified.
+     * @param uri full URI for error reporting.
      * @return The port, or -1 if the URI does not contain a port.
+     * @throws FileSystemException if URI is malformed.
+     * @throws NumberFormatException if port number cannot be parsed.
      */
     protected int extractPort(final StringBuilder name, final String uri) throws FileSystemException
     {
@@ -244,7 +253,7 @@ public class HostFileNameParser extends AbstractFileNameParser
     }
 
     /**
-     * Parsed authority info (scheme, hostname, userinfo, port)
+     * Parsed authority info (scheme, hostname, username/password, port).
      */
     protected static class Authority
     {
@@ -254,61 +263,101 @@ public class HostFileNameParser extends AbstractFileNameParser
         private String password;
         private int port;
 
-        /** @since 2.0 */
+        /**
+         * Get the connection schema.
+         * @return the connection scheme.
+         * @since 2.0
+         */
         public String getScheme()
         {
             return scheme;
         }
 
-        /** @since 2.0 */
+        /**
+         * Set the connection schema.
+         * @param scheme the connection scheme.
+         * @since 2.0
+         */
         public void setScheme(final String scheme)
         {
             this.scheme = scheme;
         }
 
-        /** @since 2.0 */
+        /**
+         * Get the host name.
+         * @return the host name.
+         * @since 2.0
+         */
         public String getHostName()
         {
             return hostName;
         }
 
-        /** @since 2.0 */
+        /**
+         * Set the host name.
+         * @param hostName the host name.
+         * @since 2.0
+         */
         public void setHostName(final String hostName)
         {
             this.hostName = hostName;
         }
 
-        /** @since 2.0 */
+        /**
+         * Get the user name.
+         * @return the user name or null.
+         * @since 2.0
+         */
         public String getUserName()
         {
             return userName;
         }
 
-        /** @since 2.0 */
+        /**
+         * Set the user name.
+         * @param userName the user name.
+         * @since 2.0
+         */
         public void setUserName(final String userName)
         {
             this.userName = userName;
         }
 
-        /** @since 2.0 */
+        /**
+         * Get the user password.
+         * @return the password or null.
+         * @since 2.0
+         */
         public String getPassword()
         {
             return password;
         }
 
-        /** @since 2.0 */
+        /**
+         * Set the user password.
+         * @param password the user password.
+         * @since 2.0
+         */
         public void setPassword(final String password)
         {
             this.password = password;
         }
 
-        /** @since 2.0 */
+        /**
+         * Get the port.
+         * @return the port or -1.
+         * @since 2.0
+         */
         public int getPort()
         {
             return port;
         }
 
-        /** @since 2.0 */
+        /**
+         * Set the connection port.
+         * @param port the port number or -1.
+         * @since 2.0
+         */
         public void setPort(final int port)
         {
             this.port = port;

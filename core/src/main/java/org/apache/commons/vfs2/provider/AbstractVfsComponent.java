@@ -67,6 +67,7 @@ public abstract class AbstractVfsComponent
 
     /**
      * Returns the logger for this file system to use.
+     * @return logger for this file system
      */
     protected final Log getLogger()
     {
@@ -75,6 +76,7 @@ public abstract class AbstractVfsComponent
 
     /**
      * Returns the context for this provider.
+     * @return provider context
      */
     protected final VfsComponentContext getContext()
     {

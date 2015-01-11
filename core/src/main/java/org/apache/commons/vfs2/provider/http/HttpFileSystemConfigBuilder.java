@@ -44,7 +44,11 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
-    /** @since 2.0 */
+    /**
+     * Create new config builder.
+     * @param prefix String for properties of this file system.
+     * @since 2.0
+     */
     protected HttpFileSystemConfigBuilder(final String prefix)
     {
         super(prefix);

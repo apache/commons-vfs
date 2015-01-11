@@ -855,12 +855,16 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     protected abstract String[] doListChildren() throws Exception;
 
     /**
-     * Lists the children of this file.  Is only called if {@link #doGetType}
-     * returns {@link FileType#FOLDER}.  The return value of this method
-     * is cached, so the implementation can be expensive.<br>
+     * Lists the children of this file.
+     * <p>
+     * Is only called if {@link #doGetType} returns {@link FileType#FOLDER}.
+     * <p>
+     * The return value of this method is cached, so the implementation can be expensive.<br>
      * Other than {@code doListChildren} you could return FileObject's to e.g. reinitialize the
-     * type of the file.<br>
+     * type of the file.
+     * <p>
      * (Introduced for Webdav: "permission denied on resource" during getType())
+     *
      * @return The children of this FileObject.
      * @throws Exception if an error occurs.
      */
@@ -870,8 +874,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Removes an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
+     * Removes an attribute of this file.
+     * <p>
+     * Is only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p>
      * This implementation throws an exception.
      *
@@ -885,7 +890,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Renames the file.  Is only called when:
+     * Renames the file.
+     * <p>
+     * Is only called when:
      * <ul>
      * <li>{@link #doIsWriteable} returns true.</li>
      * </ul>
@@ -901,8 +908,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Sets an attribute of this file.  Is only called if {@link #doGetType}
-     * does not return {@link FileType#IMAGINARY}.
+     * Sets an attribute of this file.
+     * <p>
+     * Is only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p>
      * This implementation throws an exception.
      *
@@ -916,30 +924,34 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
+     * Make the file executable.
+     * <p>
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <p>
+     * This implementation returns false.
      *
-     * @param writable
-     *            True to allow access, false to disallow
-     * @param ownerOnly
-     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
-     * @return true if the operation succeeded
+     * @param executable True to allow access, false to disallow.
+     * @param ownerOnly If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @return true if the operation succeeded.
+     * @throws Exception Any Exception thrown is wrapped in FileSystemException.
      * @see #setExecutable(boolean, boolean)
      * @since 2.1
      */
-    protected boolean doSetExecutable(final boolean writable, final boolean ownerOnly) throws Exception
+    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception
     {
         return false;
     }
 
     /**
-     * Sets the last modified time of this file.  Is only called if
-     * {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * Sets the last modified time of this file.
+     * <p>
+     * Is only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      * <p>
      * This implementation throws an exception.
      *
      * @param modtime The last modification time.
      * @return true if the time was set.
-     * @throws Exception if an error occurs.
+     * @throws Exception Any Exception thrown is wrapped in FileSystemException.
      */
     protected boolean doSetLastModifiedTime(final long modtime) throws Exception
     {
@@ -947,13 +959,18 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
+     * Make the file or folder readable.
+     * <p>
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
+     * <p>
+     * This implementation returns false.
      *
      * @param readable
      *            True to allow access, false to disallow
      * @param ownerOnly
      *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
+     * @throws Exception Any Exception thrown is wrapped in FileSystemException.
      * @see #setReadable(boolean, boolean)
      * @since 2.1
      */
@@ -963,13 +980,14 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
+     * Make the file or folder writeable.
+     * <p>
      * Only called if {@link #doGetType} does not return {@link FileType#IMAGINARY}.
      *
-     * @param writable
-     *            True to allow access, false to disallow
-     * @param ownerOnly
-     *            If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
+     * @param writable True to allow access, false to disallow
+     * @param ownerOnly If {@code true}, the permission applies only to the owner; otherwise, it applies to everybody.
      * @return true if the operation succeeded
+     * @throws Exception Any Exception thrown is wrapped in FileSystemException.
      * @see #setWritable(boolean, boolean)
      * @since 2.1
      */

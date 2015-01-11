@@ -121,6 +121,9 @@ public class FtpFileSystem extends AbstractFileSystem
     }
 
     /**
+     * Get the wrapper to access this file system.
+     * @return new instance.
+     * @throws FileSystemException if any error occurs.
      * @since 2.1
      */
     protected FTPClientWrapper createWrapper() throws FileSystemException
