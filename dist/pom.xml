@@ -18,7 +18,6 @@ limitations under the License.
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
 
   <name>Apache Commons VFS Distribution</name>
@@ -34,6 +33,12 @@ limitations under the License.
     <version>2.1-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
+
+  <properties>
+    <!--  dist module contains no code and no checkstyle config -->
+    <checkstyle.skip>true</checkstyle.skip>
+    <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+  </properties>
 
   <profiles>
     <profile>
@@ -89,6 +94,7 @@ limitations under the License.
           <classifier>javadoc</classifier>
         </dependency>
       </dependencies>
+
       <build>
         <plugins>
           <plugin>
