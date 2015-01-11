@@ -18,7 +18,7 @@
 
     <properties>
         <title>Download</title>
-        <author email="adammurdoch@apache.org">Adam Murdoch</author>
+        <author email="dev@commons.apache.org">Apache Commons Developers</author>
     </properties>
 
     <body>
@@ -28,8 +28,8 @@
                 <a href="download_vfs.cgi">here</a>.
             </p>
             <p>
-                You will also need to download the jars used by Commons VFS.
-                These are listed below:
+                You will also need to download the <a href="commons-vfs2/dependencies.html">dependencies</a> (jars) used by Apache Commons VFS.
+                You can download the jars from the list below; with Apache Maven dependency resolution is automatic.
             </p>
             <table>
                 <tr>
@@ -46,21 +46,21 @@
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/collections/">Commons Collections</a>
-                        Version 4.0 or later
+                        Version 4.0.
                     </td>
                     <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/compress/">Commons Compress</a>
-                        Version 1.9 or later
+                        Version 1.9.
                     </td>
                     <td>TAR, Bzip2</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/net/">Commons Net</a>
-                        Version 3.3 or later.
+                        Version 3.3.
                     </td>
                     <td>FTP</td>
                 </tr>
@@ -68,7 +68,7 @@
                     <td>
                         <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a>
                         Version 3.1.<br/>
-                        Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a> Version 1.2
+                        Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a> Version 1.2.
                     </td>
                     <td>WebDAV, HTTP, URI Utils</td>
                 </tr>
@@ -78,16 +78,9 @@
                         Version 1.6.5.<br/>
                         Requires <a href="http://jackrabbit.apache.org/jackrabbit-jcr-commons.html">Jackrabbit JCR Commons</a>
                         Version 1.6.5 and <a href="http://www.slf4j.org">SLF4J</a>
-                        Version 1.5.3 (Api and Impl)<
+                        Version 1.5.3 (Api and Impl).
                     </td>
                     <td>WebDAV</td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="http://jcifs.samba.org/">jCIFS</a>
-                        Version 0.8.3 or later.
-                    </td>
-                    <td>CIFS (VFS sandbox)</td>
                 </tr>
                 <tr>
                     <td>
@@ -95,6 +88,23 @@
                         Version 0.1.51 or later.
                     </td>
                     <td>SFTP</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop Common</a>
+                        Version 2.6.0.<br/>
+                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop HDFS Common</a>
+                        Version 2.6.0<br/>
+                        This requires a number of dependencies, use <code>$HADOOP_HOME/bin/hadoop classpath</code> command.
+                    </td>
+                    <td>hdfs</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://jcifs.samba.org/">jCIFS</a>
+                        Version 0.8.3 or later.
+                    </td>
+                    <td>CIFS (VFS sandbox)</td>
                 </tr>
                 <tr>
                     <td>
