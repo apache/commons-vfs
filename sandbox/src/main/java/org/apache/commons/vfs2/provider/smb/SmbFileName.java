@@ -50,6 +50,7 @@ public class SmbFileName extends GenericFileName
 
     /**
      * Returns the share name.
+     * @return share name
      */
     public String getShare()
     {
@@ -68,7 +69,9 @@ public class SmbFileName extends GenericFileName
     }
 
     /**
-     * put domain before username if both are set
+     * Put {@code domain} before @{code username} if both are set.
+     * <p>
+     * Uses super method to add password or password placeholder.
      */
     @Override
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword)
@@ -84,6 +87,7 @@ public class SmbFileName extends GenericFileName
 
     /**
      * Factory method for creating name instances.
+     * @return new SmbFileName object, never null.
      */
     @Override
     public FileName createName(final String path, final FileType type)
@@ -101,7 +105,10 @@ public class SmbFileName extends GenericFileName
     }
 
     /**
-     * Construct the path suitable for SmbFile when used with NtlmPasswordAuthentication
+     * Construct the path suitable for SmbFile when used with NtlmPasswordAuthentication.
+     *
+     * @return caches and return URI with no username/password, never null
+     * @throws FileSystemException if any of the invoked methods throw
      */
     public String getUriWithoutAuth() throws FileSystemException
     {
@@ -127,7 +134,8 @@ public class SmbFileName extends GenericFileName
     }
 
     /**
-     * returns the domain name
+     * Returns the domain name.
+     * @return domain name
      */
     public String getDomain()
     {
