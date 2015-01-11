@@ -39,18 +39,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A map which tries to allow access to the various aspects of the mail
+ * A map which tries to allow access to the various aspects of the mail.
  */
 public class MimeAttributesMap implements Map<String, Object>
 {
+    private static final String OBJECT_PREFIX = "obj.";
+
     private final Log log = LogFactory.getLog(MimeAttributesMap.class);
-
-    private final static String OBJECT_PREFIX = "obj.";
-
     private final Part part;
+    private final Map<String, Method> mimeMessageGetters = new TreeMap<String, Method>();
+
     private Map<String, Object> backingMap;
 
-    private final Map<String, Method> mimeMessageGetters = new TreeMap<String, Method>();
 
     public MimeAttributesMap(final Part part)
     {
@@ -61,7 +61,8 @@ public class MimeAttributesMap implements Map<String, Object>
 
     private void addMimeMessageMethod(final Method[] methods)
     {
-        for (final Method method : methods) {
+        for (final Method method : methods)
+        {
             if (!Modifier.isPublic(method.getModifiers()))
             {
                 continue;

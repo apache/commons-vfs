@@ -91,7 +91,7 @@ public class MimeFileObject
             if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
             {
                 final int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
-                if (partNumber < 0 || partNumber+1 > multipart.getCount())
+                if (partNumber < 0 || partNumber + 1 > multipart.getCount())
                 {
                     // non existent
                     return null;
@@ -100,7 +100,7 @@ public class MimeFileObject
                 return multipart.getBodyPart(partNumber);
             }
 
-            for (int i = 0; i<multipart.getCount(); i++)
+            for (int i = 0; i < multipart.getCount(); i++)
             {
                 final Part childPart = multipart.getBodyPart(i);
                 if (partName.equals(childPart.getFileName()))
@@ -165,7 +165,7 @@ public class MimeFileObject
             {
                 final Multipart multipart = (Multipart) container;
 
-                for (int i = 0; i<multipart.getCount(); i++)
+                for (int i = 0; i < multipart.getCount(); i++)
                 {
                     final Part part = multipart.getBodyPart(i);
 
@@ -175,9 +175,9 @@ public class MimeFileObject
                         filename = MimeFileSystem.NULL_BP_NAME + i;
                     }
 
-                    final MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getFileSystem().resolveFile(
-                        getFileSystem().getFileSystemManager().resolveName(
-                            getName(),
+                    final MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(
+                        getFileSystem().resolveFile(
+                            getFileSystem().getFileSystemManager().resolveName(getName(),
                             filename,
                             NameScope.CHILD)));
                     fo.setPart(part);

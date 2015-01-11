@@ -38,15 +38,16 @@ public class MimeFileProvider
     extends AbstractLayeredFileProvider
     implements FileProvider
 {
-    protected final static Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.GET_TYPE,
-        Capability.GET_LAST_MODIFIED,
-        Capability.LIST_CHILDREN,
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.ATTRIBUTES
-    }));
+    static final Collection<Capability> capabilities =
+        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
+            {
+                Capability.GET_TYPE,
+                Capability.GET_LAST_MODIFIED,
+                Capability.LIST_CHILDREN,
+                Capability.READ_CONTENT,
+                Capability.URI,
+                Capability.ATTRIBUTES
+            }));
 
     public MimeFileProvider()
     {
@@ -57,7 +58,8 @@ public class MimeFileProvider
      * Creates the filesystem.
      */
     @Override
-    protected FileSystem doCreateFileSystem(final String scheme, final FileObject file, final FileSystemOptions fileSystemOptions)
+    protected FileSystem doCreateFileSystem(final String scheme, final FileObject file,
+                                            final FileSystemOptions fileSystemOptions)
         throws FileSystemException
     {
         final FileName name =

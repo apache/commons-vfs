@@ -41,15 +41,16 @@ import org.apache.commons.vfs2.util.SharedRandomContentInputStream;
 public class MimeFileSystem
     extends AbstractFileSystem
 {
-    private final Log log = LogFactory.getLog(MimeFileSystem.class);
+    static final String NULL_BP_NAME = "_body_part_";
+    static final String CONTENT_NAME = "_content";
+    static final String PREAMBLE_CHARSET = "UTF-8";
 
-    public final static String NULL_BP_NAME = "_body_part_";
-    public final static String CONTENT_NAME = "_content";
-    public final static String PREAMBLE_CHARSET = "UTF-8";
+    private final Log log = LogFactory.getLog(MimeFileSystem.class);
 
     private InputStream mimeStream = null;
 
-    protected MimeFileSystem(final FileName rootName, final FileObject parentLayer, final FileSystemOptions fileSystemOptions)
+    protected MimeFileSystem(final FileName rootName, final FileObject parentLayer,
+                             final FileSystemOptions fileSystemOptions)
     {
         super(rootName, parentLayer, fileSystemOptions);
     }

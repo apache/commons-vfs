@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
 
 /**
- * get access to the content info stuff for mime objects
+ * Get access to the content info stuff for mime objects.
  */
 public class MimeFileContentInfoFactory implements FileContentInfoFactory
 {
