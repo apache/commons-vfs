@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.apache.commons.vfs2.CacheStrategy;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -115,6 +116,29 @@ public class ProviderRenameTests
 
         // Make sure we can move the new file to another file on the same file system
         moveFile(scratchFolder, file, content);
+    }
+
+    /**
+     * Tests moving a file to empty folder.
+     * <P>
+     * This fails with VFS-558, but only with a CacheStrategy.ON_CALL.
+     */
+    public void testRenameFileIntoEmptyFolder() throws Exception
+    {
+        final FileObject scratchFolder = createScratchFolder();
+
+        // Create direct child of the test folder
+        final FileObject file = scratchFolder.resolveFile("file1.txt");
+        assertTrue(!file.exists());
+
+        final String content = createTestFile(file);
+
+        final FileObject destFolder = scratchFolder.resolveFile("empty-target-folder");
+        destFolder.createFolder();
+        assertTrue("new destination must be folder", destFolder.getType().hasChildren());
+        assertTrue("new destination must be emty", destFolder.getChildren().length == 0);
+
+        moveFile(destFolder, file, content);
     }
 
     /**

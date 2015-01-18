@@ -217,23 +217,20 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         // TODO - this may be called when not attached
 
-        if (children != null)
+        if (children != null && childName != null && newType != null)
         {
-            if (childName != null && newType != null)
+            // TODO - figure out if children[] can be replaced by list
+            final ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
+            if (newType.equals(FileType.IMAGINARY))
             {
-                // TODO - figure out if children[] can be replaced by list
-                final ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
-                if (newType.equals(FileType.IMAGINARY))
-                {
-                    list.remove(childName);
-                }
-                else
-                {
-                    list.add(childName);
-                }
-                children = new FileName[list.size()];
-                list.toArray(children);
+                list.remove(childName);
             }
+            else
+            {
+                list.add(childName);
+            }
+            children = new FileName[list.size()];
+            list.toArray(children);
         }
 
         // removeChildrenCache();
@@ -1419,7 +1416,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject getParent() throws FileSystemException
     {
-        if (this == fs.getRoot())
+        if (this.compareTo(fs.getRoot()) == 0) // equals is not implements :-/
         {
             if (fs.getParentLayer() == null)
             {
@@ -1438,10 +1435,15 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             // Locate the parent of this file
             if (parent == null)
             {
-                parent = fs.resolveFile(fileName.getParent());
+                FileName name = fileName.getParent();
+                if (name == null)
+                {
+                    return null;
+                }
+                parent = fs.resolveFile(name);
             }
+            return parent;
         }
-        return parent;
     }
 
     /**
@@ -1879,10 +1881,12 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             try
             {
                 attach();
+                // remeber type to avoid attach
+                FileType srcType = getType();
+
                 doRename(destFile);
 
-                FileObjectUtils.getAbstractFileObject(destFile).handleCreate(getType());
-
+                FileObjectUtils.getAbstractFileObject(destFile).handleCreate(srcType);
                 destFile.close(); // now the destFile is no longer imaginary. force reattach.
 
                 handleDelete(); // fire delete-events. This file-object (src) is like deleted.
