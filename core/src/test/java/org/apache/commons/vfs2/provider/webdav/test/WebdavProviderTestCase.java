@@ -73,11 +73,13 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
 
     private static boolean DEBUG = Boolean.getBoolean("WebdavProviderTestCase.Debug");
 
-    public static File createTempDirectory() throws IOException
+    static File createTempDirectory() throws IOException
     {
-        final File tempFile;
+        // create base folder
+        final File base = new File("./target/test").getCanonicalFile();
+        base.mkdirs();
 
-        tempFile = File.createTempFile("WebdavProviderTestCase_", Long.toString(System.nanoTime()));
+        final File tempFile = File.createTempFile("WebdavProviderTestCase_", ".tmp", base);
 
         if (!tempFile.delete())
         {
@@ -88,6 +90,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         {
             throw new IOException("Could not create temp directory: " + tempFile.getAbsolutePath());
         }
+
+        if (DEBUG)
+            System.out.println("Working in " + tempFile);
 
         return tempFile;
     }
@@ -306,6 +311,13 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         JrMain.shutdown();
         // WARN logged because one thread is still there, so clean up explicitly.
         MultiThreadedHttpConnectionManager.shutdownAll();
+
+        if (DEBUG)
+        {
+            message("Skipping cleanup of " + RepoDirectory);
+            return;
+        }
+
         // Remove repo dir
         try
         {

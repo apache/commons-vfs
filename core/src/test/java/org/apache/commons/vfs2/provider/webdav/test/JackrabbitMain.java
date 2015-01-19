@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Enumeration;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
@@ -30,10 +32,14 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.servlet.jackrabbit.JackrabbitRepositoryServlet;
 import org.apache.jackrabbit.standalone.Main;
+import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.apache.log4j.Priority;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.NCSARequestLog;
 import org.mortbay.jetty.Server;
@@ -71,6 +77,10 @@ class JackrabbitMain
     private final Connector connector = new SocketConnector();
 
     private final Server server = new Server();
+
+    private FileAppender jackrabbitAppender;
+    private FileAppender jettyAppender;
+
 
     public JackrabbitMain(final String[] args) throws ParseException
     {
@@ -133,22 +143,16 @@ class JackrabbitMain
         final Layout layout = new PatternLayout("%d{dd.MM.yyyy HH:mm:ss} *%-5p* %c{1}: %m%n");
 
         final Logger jackrabbitLog = Logger.getRootLogger();
-        jackrabbitLog.addAppender(new FileAppender(layout, new File(log, "jackrabbit.log").getPath()));
+        jackrabbitAppender = new FileAppender(layout, new File(log, "jackrabbit.log").getPath());
+        jackrabbitAppender.setThreshold(Level.ALL);
+        jackrabbitLog.addAppender(jackrabbitAppender);
 
         final Logger jettyLog = Logger.getLogger("org.mortbay.log");
-        jettyLog.addAppender(new FileAppender(layout, new File(log, "jetty.log").getPath()));
+        jettyAppender = new FileAppender(layout, new File(log, "jetty.log").getPath());
+        jettyAppender.setThreshold(Level.ALL);
+        jettyLog.addAppender(jettyAppender);
         jettyLog.setAdditivity(false);
 
-        // if (command.hasOption("debug"))
-        // {
-        // jackrabbitLog.setLevel(Level.DEBUG);
-        // jettyLog.setLevel(Level.DEBUG);
-        // } else
-        // {
-        // jackrabbitLog.setLevel(Level.INFO);
-        // jettyLog.setLevel(Level.INFO);
-        // }
-        //
         System.setProperty("derby.stream.error.file", new File(log, "derby.log").getPath());
     }
 
@@ -175,18 +179,34 @@ class JackrabbitMain
     {
         webapp.setContextPath("/");
         webapp.setWar(file.getPath());
+        webapp.setClassLoader(JackrabbitMain.class.getClassLoader());
+        // we use a modified web.xml which has some servlets remove (which produce random empty directories)
+        URL res = getResource("/jcrweb.xml");
+        if (res != null)
+            webapp.setDescriptor(res.toString());
         webapp.setExtractWAR(false);
         webapp.setTempDirectory(tmp);
 
         final ServletHolder servlet = new ServletHolder(JackrabbitRepositoryServlet.class);
         servlet.setInitOrder(1);
-        servlet.setInitParameter("repository.home", repository.getPath());
+        servlet.setInitParameter("repository.home", repository.getAbsolutePath());
         final String conf = command.getOptionValue("conf");
         if (conf != null)
         {
             servlet.setInitParameter("repository.config", conf);
         }
         webapp.addServlet(servlet, "/repository.properties");
+    }
+
+    /** Try to load a resource with various classloaders. */
+    private URL getResource(String name)
+    {
+        URL res = Thread.currentThread().getContextClassLoader().getResource(name);
+        if (res == null)
+        {
+            res = getClass().getResource(name);
+        }
+        return res; // might be null
     }
 
     public void run() throws Exception
@@ -218,7 +238,7 @@ class JackrabbitMain
             message("Welcome to Apache Jackrabbit!");
             message("-------------------------------");
 
-            final File repository = new File(command.getOptionValue("repo", "jackrabbit"));
+            final File repository = new File(command.getOptionValue("repo", "target/test/jackrabbit"));
             message("Using repository directory " + repository);
             repository.mkdirs();
             final File tmp = new File(repository, "tmp");
@@ -234,6 +254,7 @@ class JackrabbitMain
             accessLog.setHandler(webapp);
             prepareAccessLog(log);
             server.setHandler(accessLog);
+
             prepareConnector();
             server.addConnector(connector);
             prepareShutdown();
@@ -259,7 +280,12 @@ class JackrabbitMain
     public void shutdown() throws Exception, InterruptedException
     {
         message("Shutting down the server...");
+        server.setGracefulShutdown(5);
         server.stop();
+        Logger.getRootLogger().removeAppender(jackrabbitAppender);
+        Logger.getLogger("org.mortbay.log").removeAppender(jettyAppender);
+        jackrabbitAppender.close();
+        jettyAppender.close();
         server.join();
         message("-------------------------------");
         message("Goodbye from Apache Jackrabbit!");

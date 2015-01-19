@@ -26,9 +26,14 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-557" dev="ecki" type="fix">
+       [webdav][test] Create WebDav test directory in target/test. Avoid creating core/jackrabbit/tmp.
+       Logfiles of Jackrabbit are preserved when -DWebdavProviderTestCase.Debug=true is specified.
+      </action>
       <action issue="VFS-558" dev="ecki" type="fix">
        Make moveTo() and getParent() work with CacheStrategy.ON_CALL.
        In case of FTP Provider it would lead otherwise to an UnsupportedOperationException.
+      </action>
       <action dev="ecki" type="fix">
        [sandbox] RACRandomAccessFile is now in org.apache.commons.vfs2.util package (so sandbox has only one overlapping package).
       </action>
