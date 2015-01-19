@@ -139,29 +139,30 @@
   </contributors>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <commons.encoding>UTF-8</commons.encoding>
 
     <maven.compiler.source>1.6</maven.compiler.source>
     <maven.compiler.target>1.6</maven.compiler.target>
 
     <!-- bare ID without major version or commons- prefix -->
     <commons.componentid>vfs</commons.componentid>
-    <commons.release.version>2.0</commons.release.version>
-    <!--<commons.rc.version>RC1</commons.rc.version> -->
     <commons.binary.suffix />
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
-    <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
-    <commons.release.desc>(requires Java 1.6+)</commons.release.desc>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
 
-    <vfs.parent.dir>${basedir}</vfs.parent.dir>
+    <commons.release.version>2.1</commons.release.version>
+    <!--<commons.rc.version>RC1</commons.rc.version> -->
+    <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
+    <commons.release.desc>(requires Java 1.6+)</commons.release.desc>
 
     <commons.release.2.version>2.0</commons.release.2.version>
     <commons.release.2.name>commons-vfs-2.0</commons.release.2.name>
     <commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc>
     <commons.release.2.binary.suffix></commons.release.2.binary.suffix>
+
+    <vfs.parent.dir>${basedir}</vfs.parent.dir>
+    <version.checkstyle>2.13</version.checkstyle>
   </properties>
 
   <build>
@@ -215,7 +216,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.13</version>
+        <version>${version.checkstyle}</version>
+        <!-- Keep build/reporting in sync -->
+        <configuration>
+          <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
+          <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
+          <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
+          <enableRulesSummary>false</enableRulesSummary>
+          <propertyExpansion>basedir=${basedir}</propertyExpansion>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.rat</groupId>
@@ -252,11 +261,11 @@
           </excludes>
         </configuration>
       </plugin>
-      <!-- Keep in sync with build config above -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.13</version>
+        <version>${version.checkstyle}</version>
+        <!-- Keep build/reporting in sync -->
         <configuration>
           <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
           <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
@@ -289,7 +298,7 @@
         <configuration>
           <threshold>Normal</threshold>
           <effort>Default</effort>
-          <excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
+          <excludeFilterFile>${vfs.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
       </plugin>
       <plugin>
