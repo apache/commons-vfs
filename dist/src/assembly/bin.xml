@@ -21,21 +21,14 @@ limitations under the License.
         <format>zip</format>
     </formats>
     <includeSiteDirectory>false</includeSiteDirectory>
-    <moduleSets>
-        <moduleSet>
-            <useAllReactorProjects>true</useAllReactorProjects>
-        </moduleSet>
-    </moduleSets>
+  
     <dependencySets>
         <dependencySet>
             <includes>
-                <include>org.apache.commons:commons-vfs2*</include>
+                <include>org.apache.commons:commons-vfs2</include>
+                <include>org.apache.commons:commons-vfs2-examples</include>
             </includes>
-            <excludes>
-                <exclude>org.apache.commons:commons-vfs2-distribution</exclude>
-            </excludes>
-            <outputDirectory></outputDirectory>
-            <unpack>false</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
         </dependencySet>
     </dependencySets>
 
@@ -45,14 +38,9 @@ limitations under the License.
             <includes>
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>
+                <include>RELEASE-NOTES.txt</include>
             </includes>
         </fileSet>
     </fileSets>
-    <files>
-         <file>
-            <source>../RELEASE-NOTES.txt</source>
-            <outputDirectory>.</outputDirectory>
-            <destName>RELEASE-NOTES.txt</destName>
-        </file>
-    </files>
-</assembly>
+
+	</assembly>

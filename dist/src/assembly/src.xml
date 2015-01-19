@@ -28,7 +28,6 @@
     <!-- main project directory structure -->
     <fileSet>
       <directory>..</directory>
-      <outputDirectory>/</outputDirectory>
       <useDefaultExcludes>true</useDefaultExcludes>
       <excludes>
         <exclude>**/sandbox/**</exclude>
@@ -68,11 +67,6 @@
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?pom\.xml\.releaseBackup]</exclude>
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/)(.*/)?release\.properties]</exclude>
       </excludes>
-    </fileSet>
-    <!-- license, readme, etc. calculated at build time -->
-    <fileSet>
-      <directory>${project.build.directory}/maven-shared-archive-resources/META-INF</directory>
-      <outputDirectory>/</outputDirectory>
     </fileSet>
   </fileSets>
 </assembly>
