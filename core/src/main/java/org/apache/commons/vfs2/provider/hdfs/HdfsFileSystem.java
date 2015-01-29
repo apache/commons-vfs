@@ -109,6 +109,11 @@ public class HdfsFileSystem extends AbstractFileSystem
                 final String hdfsUri = name.getRootURI();
                 final Configuration conf = new Configuration(true);
                 conf.set(FileSystem.FS_DEFAULT_NAME_KEY, hdfsUri);
+                String configName = HdfsFileSystemConfigBuilder.getInstance().getConfigName(getFileSystemOptions());
+                if (configName != null) {
+                    log.debug("Adding alternate configuration file: " + configName);
+                    conf.addResource(configName);
+                }
                 this.fs = null;
                 try
                 {
@@ -147,7 +152,7 @@ public class HdfsFileSystem extends AbstractFileSystem
             file = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
             if (useCache)
             {
-            this.putFileToCache(file);
+                this.putFileToCache(file);
             }
         }
         /**

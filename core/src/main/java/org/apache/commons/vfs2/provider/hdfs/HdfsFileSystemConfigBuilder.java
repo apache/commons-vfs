@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.hdfs;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
+import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
  * Configuration settings for the HdfsFileSystem.
@@ -27,6 +28,10 @@ import org.apache.commons.vfs2.FileSystemConfigBuilder;
 public class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private static final HdfsFileSystemConfigBuilder BUILDER = new HdfsFileSystemConfigBuilder();
+
+    private HdfsFileSystemConfigBuilder() {
+        super("hdfs.");
+    }
 
     /**
      * @return HdfsFileSystemConfigBuilder instance
@@ -44,5 +49,19 @@ public class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return HdfsFileSystem.class;
     }
+
+    private static final String CONFIG_NAME = "config.name";
+
+    public String getConfigName(final FileSystemOptions opts) {
+        return this.getString(opts, CONFIG_NAME);
+    }
+
+    /**
+     * Sets the name of an alternate configuration file to be loaded after the defaults.
+     */
+    public void setConfigName(final FileSystemOptions opts, final String name) {
+        this.setParam(opts, CONFIG_NAME, name);
+    }
+
 
 }
