@@ -135,12 +135,10 @@ public class JarURLConnectionImpl
         {
             return (int) content.getSize();
         }
-        catch (final FileSystemException fse)
+        catch (final FileSystemException ignored)
         {
-            // Ignore the error.
+            return -1;
         }
-
-        return -1;
     }
 
 }

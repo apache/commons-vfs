@@ -269,7 +269,6 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
                     {
                         os.write(i);
                     }
-                    os.flush();
                     os.close();
                 }
                 finally
@@ -278,10 +277,11 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable
                     {
                         is.close();
                     }
-                    catch (final IOException e)
+                    catch (final IOException ignored)
                     {
-                        // ignore on close exception
+                        /* ignore on close exception. */
                     }
+                    // TODO: close os
                 }
             }
             catch (final IOException e)

@@ -27,11 +27,17 @@ import java.util.TreeMap;
  * <p>
  * To use the options, pass them to {@link FileSystemManager#resolveFile(String,FileSystemOptions)}. From there, the
  * options apply to all files that are resolved relative to that file.
- * </p>
  *
- * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.hdfs.HdfsFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.webdav.WebdavFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.ram.RamFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
+ *
  */
 public final class FileSystemOptions implements Cloneable
 {

@@ -28,11 +28,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public abstract class AbstractRandomAccessContent implements RandomAccessContent
 {
-    private final RandomAccessMode mode;
-
     protected AbstractRandomAccessContent(final RandomAccessMode mode)
     {
-        this.mode = mode;
     }
 
     /**

@@ -482,13 +482,10 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
             final LsEntry stat = iterator.next();
 
             String name = stat.getFilename();
-            if (VFS.isUriStyle())
+            if (VFS.isUriStyle() && stat.getAttrs().isDir()
+                    && name.charAt(name.length() - 1) != '/')
             {
-                if (stat.getAttrs().isDir()
-                        && name.charAt(name.length() - 1) != '/')
-                {
-                    name = name + "/";
-                }
+                name = name + "/";
             }
 
             if (name.equals(".") || name.equals("..") || name.equals("./")

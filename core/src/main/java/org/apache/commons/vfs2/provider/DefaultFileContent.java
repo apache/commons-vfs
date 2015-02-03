@@ -565,7 +565,7 @@ public final class DefaultFileContent implements FileContent
         {
             streams.removeInstr(instr);
         }
-        if ((streams == null) || !streams.hasStreams())
+        if (streams == null || !streams.hasStreams())
         {
             // remove even when no value is set to remove key
             threadData.remove();
@@ -583,7 +583,7 @@ public final class DefaultFileContent implements FileContent
         {
             streams.removeRastr(rac);
         }
-        if ((streams == null) || !streams.hasStreams())
+        if (streams == null || !streams.hasStreams())
         {
             // remove even when no value is set to remove key
             threadData.remove();
@@ -601,7 +601,7 @@ public final class DefaultFileContent implements FileContent
         {
             streams.setOutstr(null);
         }
-        if ((streams == null) || !streams.hasStreams())
+        if (streams == null || !streams.hasStreams())
         {
             // remove even when no value is set to remove key
             threadData.remove();

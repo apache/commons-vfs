@@ -59,6 +59,7 @@ public final class FtpsClientFactory
         return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
     }
 
+    /** Connection Factory for FTPS case. */
     private static final class FtpsConnectionFactory
         extends FtpClientFactory.ConnectionFactory<FTPSClient, FtpsFileSystemConfigBuilder>
     {

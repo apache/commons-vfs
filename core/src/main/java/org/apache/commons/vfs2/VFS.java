@@ -69,29 +69,15 @@ public final class VFS
             final Class<?> mgrClass = Class.forName(managerClassName);
             final FileSystemManager mgr = (FileSystemManager) mgrClass.newInstance();
 
-            /*
-            try
-            {
-                // Set the logger
-                final Method setLogMethod = mgrClass.getMethod("setLogger", new Class[]{Log.class});
-                final Log logger = LogFactory.getLog(VFS.class);
-                setLogMethod.invoke(mgr, new Object[]{logger});
-            }
-            catch (final NoSuchMethodException e)
-            {
-                // Ignore; don't set the logger
-            }
-            */
-
             try
             {
                 // Initialize
                 final Method initMethod = mgrClass.getMethod("init", (Class[]) null);
                 initMethod.invoke(mgr, (Object[]) null);
             }
-            catch (final NoSuchMethodException e)
+            catch (final NoSuchMethodException ignored)
             {
-                // Ignore; don't initialize
+                /* Ignore; don't initialize. */
             }
 
             return mgr;

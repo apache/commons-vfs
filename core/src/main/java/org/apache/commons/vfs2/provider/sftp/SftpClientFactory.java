@@ -317,6 +317,7 @@ public final class SftpClientFactory
         return new File("");
     }
 
+    /** Interface JSchLogger with JCL. */
     private static class JSchLogger implements Logger
     {
         @Override

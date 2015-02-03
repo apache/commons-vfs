@@ -96,15 +96,15 @@ public class CombinedResources extends ResourceBundle
                 {
                     properties.load(resource.openConnection().getInputStream());
                 }
-                catch (final IOException e)
+                catch (final IOException ignored)
                 {
-                    // ignore
+                    /* Ignored. */
                 }
             }
         }
-        catch (final IOException e)
+        catch (final IOException ignored)
         {
-            // ignore
+            /* Ignored. */
         }
     }
 

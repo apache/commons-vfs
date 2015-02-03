@@ -36,7 +36,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileNameParser;
  */
 public class HdfsFileProvider extends AbstractOriginatingFileProvider
 {
-    protected static final Collection<Capability> CAPABILITIES = Collections.unmodifiableCollection(Arrays
+    static final Collection<Capability> CAPABILITIES = Collections.unmodifiableCollection(Arrays
             .asList(new Capability[]
             {
                     Capability.GET_TYPE,
@@ -58,7 +58,10 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider
     }
 
     /**
-     * @see AbstractOriginatingFileProvider#doCreateFileSystem(org.apache.commons.vfs2.FileName, FileSystemOptions)
+     * Create a new HdfsFileSystem instance.
+     * @param rootName Name of the root file.
+     * @param fileSystemOptions Configuration options for this instance.
+     * @throws FileSystemException if error occurred.
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
@@ -68,7 +71,8 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.FileProvider#getCapabilities()
+     * Get Capabilities of HdfsFileSystem.
+     * @return The capabilities (unmodifiable).
      */
     @Override
     public Collection<Capability> getCapabilities()
@@ -77,6 +81,8 @@ public class HdfsFileProvider extends AbstractOriginatingFileProvider
     }
 
     /**
+     * Return config builder.
+     * @return A config builder for HdfsFileSystems.
      * @see org.apache.commons.vfs2.provider.AbstractFileProvider#getConfigBuilder()
      */
     @Override

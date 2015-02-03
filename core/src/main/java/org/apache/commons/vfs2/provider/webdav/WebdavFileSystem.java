@@ -44,6 +44,7 @@ public class WebdavFileSystem extends HttpFileSystem
     @Override
     protected HttpClient getClient()
     {
+        // make accessible
         return super.getClient();
     }
 

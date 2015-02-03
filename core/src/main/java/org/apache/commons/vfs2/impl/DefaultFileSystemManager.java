@@ -910,13 +910,10 @@ public class DefaultFileSystemManager implements FileSystemManager
             return provider.parseUri(realBase, fullPath);
         }
 
-        if (scheme != null)
+        // An unknown scheme - hand it to the default provider - if possible
+        if (scheme != null && defaultProvider != null)
         {
-            // An unknown scheme - hand it to the default provider - if possible
-            if (defaultProvider != null)
-            {
-                return defaultProvider.parseUri(realBase, fullPath);
-            }
+            return defaultProvider.parseUri(realBase, fullPath);
         }
 
         // TODO: avoid fallback to this point

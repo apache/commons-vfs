@@ -215,6 +215,7 @@ public class JarFileSystem extends ZipFileSystem
     @Override
     protected ZipFile getZipFile() throws FileSystemException
     {
+        // make accessible
         return super.getZipFile();
     }
 

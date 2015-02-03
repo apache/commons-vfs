@@ -361,13 +361,12 @@ public class VFSClassLoader extends SecureClassLoader
             {
                 return res.getURL();
             }
+            return null;
         }
-        catch (final Exception mue)
+        catch (final Exception ignored)
         {
-            /* Ignored. TODO: report? */
+            return null; // TODO: report?
         }
-
-        return null;
     }
 
     /**

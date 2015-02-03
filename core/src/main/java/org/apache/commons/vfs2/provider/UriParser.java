@@ -183,13 +183,9 @@ public final class UriParser
         }
 
         // Remove trailing separator
-        if (!VFS.isUriStyle())
+        if (!VFS.isUriStyle() && maxlen > 1 && path.charAt(maxlen - 1) == SEPARATOR_CHAR)
         {
-            if (maxlen > 0 && path.charAt(maxlen - 1) == SEPARATOR_CHAR
-                    && maxlen > 1)
-            {
-                path.delete(maxlen - 1, maxlen);
-            }
+            path.delete(maxlen - 1, maxlen);
         }
 
         return fileType;
@@ -397,8 +393,8 @@ public final class UriParser
             {
                 // Encode
                 final char[] digits =
-                    {Character.forDigit(((ch >> BITS_IN_HALF_BYTE) & LOW_MASK), HEX_BASE),
-                     Character.forDigit((ch & LOW_MASK), HEX_BASE)};
+                    {Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
+                     Character.forDigit(ch                        & LOW_MASK, HEX_BASE)};
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;
@@ -509,8 +505,8 @@ public final class UriParser
             {
                 // Encode
                 final char[] digits =
-                    {Character.forDigit(((ch >> BITS_IN_HALF_BYTE) & LOW_MASK), HEX_BASE),
-                     Character.forDigit((ch & LOW_MASK), HEX_BASE) };
+                    {Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
+                     Character.forDigit(ch                        & LOW_MASK, HEX_BASE)};
                 buffer.setCharAt(index, '%');
                 buffer.insert(index + 1, digits);
                 index += 2;

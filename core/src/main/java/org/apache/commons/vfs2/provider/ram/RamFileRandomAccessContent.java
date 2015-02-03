@@ -62,11 +62,6 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     private final byte[] buffer1 = new byte[1];
 
     /**
-     * Mode
-     */
-    private final RandomAccessMode mode;
-
-    /**
      * File
      */
     private final RamFileObject file;
@@ -82,7 +77,6 @@ public class RamFileRandomAccessContent implements RandomAccessContent
         super();
         this.buf = file.getData().getContent();
         this.file = file;
-        this.mode = mode;
 
         rafis = new InputStream()
         {
@@ -306,7 +300,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
     @Override
     public boolean readBoolean() throws IOException
     {
-        return (this.readUnsignedByte() != 0);
+        return this.readUnsignedByte() != 0;
     }
 
     /*

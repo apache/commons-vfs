@@ -68,12 +68,10 @@ public final class DefaultURLConnection
         {
             return content.getLastModifiedTime();
         }
-        catch (final FileSystemException fse)
+        catch (final FileSystemException ignored)
         {
-            // Ignore the exception
+            return -1; // TODO: report?
         }
-
-        return -1;
     }
 
     @Override
@@ -85,10 +83,8 @@ public final class DefaultURLConnection
         }
         catch (final FileSystemException fse)
         {
-            // Ignore the exception
+            return -1; // TODO: report?
         }
-
-        return -1;
     }
 
     @Override

@@ -376,18 +376,15 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     agent.check();
                 }
 
-                if (getChecksPerRun() > 0)
+                if (getChecksPerRun() > 0 && (iterFileNames + 1) % getChecksPerRun() == 0)
                 {
-                    if (((iterFileNames + 1) % getChecksPerRun()) == 0)
+                    try
                     {
-                        try
-                        {
-                            Thread.sleep(getDelay());
-                        }
-                        catch (final InterruptedException e)
-                        {
-                            // Woke up.
-                        }
+                        Thread.sleep(getDelay());
+                    }
+                    catch (final InterruptedException e)
+                    {
+                        // Woke up.
                     }
                 }
 
@@ -528,19 +525,14 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
             try
             {
-
-                if (this.fm.isRecursive())
+                if (this.fm.isRecursive() && child.getType().hasChildren())
                 {
-                    if (child.getType().hasChildren())
+                    final FileObject[] newChildren = child.getChildren();
+                    for (final FileObject element : newChildren)
                     {
-                        final FileObject[] newChildren = child.getChildren();
-                        for (final FileObject element : newChildren)
-                        {
-                            fireAllCreate(element);
-                        }
+                        fireAllCreate(element);
                     }
                 }
-
             }
             catch (final FileSystemException fse)
             {
