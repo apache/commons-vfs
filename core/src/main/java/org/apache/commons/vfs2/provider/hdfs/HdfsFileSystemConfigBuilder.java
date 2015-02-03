@@ -25,11 +25,13 @@ import org.apache.commons.vfs2.FileSystemOptions;
  *
  * @since 2.1
  */
-public class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
+public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     private static final HdfsFileSystemConfigBuilder BUILDER = new HdfsFileSystemConfigBuilder();
+    private static final String KEY_CONFIG_NAME = "configName";
 
-    private HdfsFileSystemConfigBuilder() {
+    private HdfsFileSystemConfigBuilder()
+    {
         super("hdfs.");
     }
 
@@ -50,18 +52,35 @@ public class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
         return HdfsFileSystem.class;
     }
 
-    private static final String CONFIG_NAME = "config.name";
-
-    public String getConfigName(final FileSystemOptions opts) {
-        return this.getString(opts, CONFIG_NAME);
+    /**
+     * Get name of alternate configuration file.
+     *
+     * @return resource name of alternate configuration file or null.
+     * @param opts The FileSystemOptions.
+     * @see #setConfigName(FileSystemOptions, String)
+     */
+    public String getConfigName(final FileSystemOptions opts)
+    {
+        return this.getString(opts, KEY_CONFIG_NAME);
     }
 
     /**
-     * Sets the name of an alternate configuration file to be loaded after the defaults.
+     * Sets the name of configuration file to be loaded after the defaults.
+     * <p>
+     * Specifies the name of a config file to override any specific HDFS settings.
+     * The property will be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(String)}
+     * after the URL was set as the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * <p>
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname}
+     * property in order to access HDFS files stored in an AWS installation (from outside their
+     * firewall). There are other possible uses too.
+     *
+     * @param opts The FileSystemOptions to modify.
+     * @param name resource name of additional configuration file or null.
      */
-    public void setConfigName(final FileSystemOptions opts, final String name) {
-        this.setParam(opts, CONFIG_NAME, name);
+    public void setConfigName(final FileSystemOptions opts, final String name)
+    {
+        this.setParam(opts, KEY_CONFIG_NAME, name);
     }
-
 
 }

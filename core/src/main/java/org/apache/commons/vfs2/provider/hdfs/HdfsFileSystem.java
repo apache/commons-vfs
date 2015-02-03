@@ -96,25 +96,29 @@ public class HdfsFileSystem extends AbstractFileSystem
     }
 
     /**
-     * @see org.apache.commons.vfs2.provider.AbstractFileSystem#resolveFile(org.apache.commons.vfs2.FileName)
+     * Resolve FileName into FileObject.
+     * @param name The name of a file on the HdfsFileSystem.
+     * @return resolved FileObject.
+     * @throws FileSystemException if an error occurred.
      */
     @Override
     public FileObject resolveFile(final FileName name) throws FileSystemException
     {
-
         synchronized (this)
         {
-            if (null == this.fs)
+            if (this.fs == null)
             {
                 final String hdfsUri = name.getRootURI();
+                final String configName = HdfsFileSystemConfigBuilder.getInstance().getConfigName(getFileSystemOptions());
+
                 final Configuration conf = new Configuration(true);
                 conf.set(FileSystem.FS_DEFAULT_NAME_KEY, hdfsUri);
-                String configName = HdfsFileSystemConfigBuilder.getInstance().getConfigName(getFileSystemOptions());
-                if (configName != null) {
-                    log.debug("Adding alternate configuration file: " + configName);
+                if (configName != null)
+                {
+                    log.debug("Adding HDFS configuration file: " + configName);
                     conf.addResource(configName);
                 }
-                this.fs = null;
+
                 try
                 {
                     fs = FileSystem.get(conf);
