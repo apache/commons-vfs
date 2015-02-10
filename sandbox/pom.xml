@@ -59,14 +59,22 @@
       <artifactId>mail</artifactId>
       <optional>true</optional>
     </dependency>
+
     <dependency>
        <groupId>org.apache.commons</groupId>
        <artifactId>commons-vfs2</artifactId>
        <type>test-jar</type>
-     </dependency>
+       <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
