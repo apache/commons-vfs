@@ -16,272 +16,155 @@
 -->
 <document>
     <properties>
-        <title>Running the Tests</title>
-        <author email="rgoers@apache.org">Ralph Goers</author>
+        <title>Testing</title>
+        <author email="dev@commons.apache.org">Apache Commons Developers</author>
     </properties>
 
     <body>
-        <section name="Running the tests">
+        <section name="VFS Test Suite">
             <p>
-                This page details how to setup the tests for the various providers and then
-                run them with Maven 2.
+              Apache Commons VFS comes with a suite of (nearly 2000) tests (in <code>core/src/test</code>). The JUnit framework
+              is used, and executed at build time via the Maven
+              <a href="http://maven.apache.org/surefire/maven-surefire-plugin/">Surefire plugin</a> by the <code>mvn test</code> goal.
+              It you plan to contribute a patch for a bug or feature, make sure to also provide a test
+              which can reproduce the bug or exercise the new feature. Also run the whole test suite against the patched code.
             </p>
             <p>
-                The tests were run on Mac OS/X 10.5. The tests requiring a remote repository
-                were pointed to a second machine running Kubuntu 7.10 and the various servers
-                that can be installed from the system administration tool. The only exception
-                to this is that the WebDAV and Http support was testing using Day CRX 1.4 as
-                the server.
+              The <a href="http://junit.org">JUnit</a> tests will execute unit, compile but also integration tests to test the API and the implementation.
+              The local file provider is tested in a directory of the local file system. Virtual providers (compression and archive)
+              and resource access is based on this test directory as well. For testing the other providers some test servers are started.
+              The following table described the details (for versions have a look in the
+              <a href="commons-vfs2/dependencies.html#test">dependency report</a>):
+            </p>
+<table><tr><th>Provider</th><th>Tested Against</th><th>External</th></tr>
+<tr><td>ftp</td><td><a href="http://mina.apache.org/ftpserver-project/">Apache FtpServer</a></td><td>-Pftp -Dtest.ftp.uri=ftp://test:test@localhost:123</td></tr>
+<tr><td>ftps</td><td><a href="http://mina.apache.org/ftpserver-project/">Apache FtpServer</a></td><td>-Pftps -Dtest.ftps.uri=ftps://test:test@localhost:123</td></tr>
+<tr><td>hdfs</td><td>Apache Hadoop HDFS (<a href="https://wiki.apache.org/hadoop/HowToDevelopUnitTests">MiniDFSCluster</a>)</td><td>-P!no-test-hdfs (see below)</td></tr>
+<tr><td>http</td><td>NHttpServer (local adaption of org.apache.http.examples.nio.NHttpServer)</td><td>-Phttp -Dtest.http.uri=http://localhost:123</td></tr>
+<tr><td>https</td><td>(not tested)</td><td>N/A</td></tr>
+<tr><td>jar</td><td>Local File Provider</td><td>N/A</td></tr>
+<tr><td>local</td><td>Local File system</td><td>N/A</td></tr>
+<tr><td>ram</td><td>In Memory test</td><td>N/A</td></tr>
+<tr><td>res</td><td>Local File Provider / JAR Provider</td><td>N/A</td></tr>
+<tr><td>sftp</td><td><a href="http://mina.apache.org/sshd-project/index.html">Apache SSHD</a></td><td>-Psftp -Dtest.sftp.uri=sftp://testtest@localhost:123</td></tr>
+<tr><td>tmp</td><td>Local File system</td><td>N/A</td></tr>
+<tr><td>url</td><td>NHttpServer (local adaption of org.apache.http.examples.nio.NHttpServer)<br/>Local File system</td><td>-Phttp -Dtest.http.uri=http://localhost:128</td></tr>
+<tr><td>webdav</td><td><a href="http://jackrabbit.apache.org/standalone-server.html">Apache Jackrabbit Standalone Server</a></td><td>-Pwebdav -Dtest.webdav.uri=webdav://admin@localhost:123/repository/default</td></tr>
+<!-- <tr><td>webdavs</td><td>Apache Jackrabbit Standalone</td><td>-Pwebdav -Dtest.webdav.uri=webdav://admin@localhost:123/repository/default</td></tr> -->
+<tr><td>zip</td><td>Local File Provider</td><td>N/A</td></tr>
+<tr><td>smb (sandbox)</td><td>(not tested)</td><td>-Psmb -Dtest.smb.uri=smb://DOMAIN\User:Pass@host/C$/commons-vfs2/core/target/test-classes/test-data</td></tr>
+</table>
+            <p>
+              Some tests are operating-system specific. Some Windows File Name tests are only run on Windows
+              and the HDFS test is skipped in case of Windows (because it requires additional binaries). It is therefore
+              a good idea to run the tests at least on Windows and Linux/Unix before release. The <code>smb</code> provider 
+              from the sandbox is not tested unless you specify a <code>-Dtest.smb.uri</code> and the <code>-Psmb</code> profile.
+            </p>
+        </section>
+        <section name="Running HDFS tests on Windows">
+            <p>
+              The HDFS integration tests use the HDFS MiniCluster. This does not work on Windows without special preparation:
+              you need to build and provide the (2.6.0) native binary (<code>winutils.exe</code>) and library (<code>hadoop.dll</code>) for the
+              MiniCluster used in the test cases. Both files are not part of the Hadoop Commons 2.6.0
+              distribution (<a href="https://issues.apache.org/jira/browse/HADOOP-10051">HADOOP-10051</a>). After you built 
+              a compatible version, put them on your Windows <code>PATH</code> and then run the tests
+              by disabling the <code>no-test-hdfs</code> profile, or by requesting explicitly the excluded tests:
+            </p>
+            <source><![CDATA[
+> set VFS=C:\commons-vfs2-project\core
+> cd %VFS%\core
+> mkdir bin\
+> copy \temp\winutils.exe \temp\hadoop.dll bin\
+> set HADOOP_HOME=%VFS%\core
+> set PATH=%VFS%\core\bin;%PATH%
+> winutils.exe systeminfo
+8518668288,8520572928,4102033408,4544245760,8,1600000,6042074
+> mvn -P!no-test-hdfs clean test     # runs all test and HDFS tests
+> mvn clean test -Dtest=org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTest,org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTestCase
+...
+Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.006 sec - in org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTest
+Tests run: 77, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.728 sec - in org.apache.commons.vfs2.provider.hdfs.test.HdfsFileProviderTestCase]]></source>
+        </section>
+
+        <section name="Running SMB tests against Windows">
+            <p>
+              The SMB provider from the sandbox project cannot be tested automatically. You need to prepare a CIFS/SMB server
+              to test it manually. If you develop on Windows, the following procedure uses the Windows File Sharing and does
+              not require to prepare the data directory (as you can directly point to your workspace):
+            </p>
+            <source><![CDATA[
+> set VFS=C:\commons-vfs2-project
+> cd %VFS%
+> mvn clean install -Pinclude-sandbox -DskipTests  # prepares test data and parent
+> cd %VFS%\sandbox
+> mvn test -Psmb -Dtest.smb.url=smb//Domain\User:Pass@yourhost/C$/commons-vfs2-project/core/target/test-classes/test-data
+...
+Tests run: 82, Failures: 0, Errors: 1, Skipped: 0]]></source>
+            <p>
+              Note: there is a known test failure in this case, see
+              <a href="https://issues.apache.org/jira/browse/VFS-562">VFS-562</a> on the JIRA bug tracker if you want
+              to help.
+            </p>
+        </section>
+
+        <section name="Running tests with external servers">
+            <p>
+              In order to test VFS for compatibility with other implementations (or in case of SMB to
+              test it manually) some of the integration tests can be configured to connect to custom URL.
+              This generally involves preparing the server, selecting a profile and specifying the URL in
+              a system property (see table above).
             </p>
 
-            <subsection name="Getting Started">
+            <subsection name="Preparing external Servers">
                 <p>
-                    First, from the root directory of the project, run <code>mvn install</code>.
-                    This will compile all the source and test source and then run all the tests
-                    for providers that use the local file system.
-                </p>
-            </subsection>
-
-            <subsection name="Setting up the remote server">
-                <p>
-                    Each remote service needs to have the test data placed within it's "repository".
-                    After running the maven build, the test data can be found in
-                    core/target/test-data. Each service may require a userid and password to be
-                    created. For example, to run the ftp test on a Linux system a user should be
-                    created and the test data placed within that user's home directory. See the
-                    following sections for details on each service.
+                  If you want to run the tests against external servers, run <code>mvn install</code>.
+                  This will compile all the source and test source and then run all the tests
+                  for providers that use the local file system.
+                  After running the maven build, the test data can be found in
+                  <code>core/target/test-classes/test-data/</code>.
                 </p>
                 <p>
-                    Each repository should contain the following list of files for the tests to
-                    complete successfully.
+                  Each repository/server should contain the following list of files for the tests to
+                  complete successfully.
                 </p>
                 <source><![CDATA[
-write-tests
-read-tests
-read-tests/file1.txt
-read-tests/dir1
+code/sealed/AnotherClass.class
+code/ClassToLoad.class
+largefile.tar.gz
+nested.jar
+nested.tar
+nested.tbz2
+nested.tgz
+nested.zip
 read-tests/dir1/file1.txt
 read-tests/dir1/file2.txt
 read-tests/dir1/file3.txt
-read-tests/dir1/subdir1
 read-tests/dir1/subdir1/file1.txt
 read-tests/dir1/subdir1/file2.txt
 read-tests/dir1/subdir1/file3.txt
-read-tests/dir1/subdir2
 read-tests/dir1/subdir2/file1.txt
 read-tests/dir1/subdir2/file2.txt
 read-tests/dir1/subdir2/file3.txt
-read-tests/dir1/subdir3
 read-tests/dir1/subdir3/file1.txt
 read-tests/dir1/subdir3/file2.txt
 read-tests/dir1/subdir3/file3.txt
 read-tests/empty.txt
+read-tests/file1.txt
+read-tests/file space.txt
 read-tests/file%.txt
-code
-code/sealed
-code/sealed/AnotherClass.class
-code/ClassToLoad.class]]></source>
-            </subsection>
-
-            <subsection name="Apache 2 Webserver">
+test-hash-#test.txt
+test.jar
+test.mf
+test.policy
+test.tar
+test.tbz2
+test.tgz
+test.zip
+write-tests/]]></source>
                 <p>
-                    Create a user on the system
-                </p>
-                <ol>
-                    <li>Create a user 'vfsusr' with password 'vfs/%\te:st' and home directory '/home/vfsusr'
-                        <br/>
-                        <source><![CDATA[
-useradd -p vfsusr -m vfsusr]]></source>
-                    </li>
-                    <li>In vfsuser's home directory create the directories
-                        <ol>
-                            <li>vfstest</li>
-                            <li>vfstest/write-tests</li>
-                        </ol>
-                    </li>
-                    <li>Copy the test data into the vfstest directory</li>
-                    <li>Create a symbolic link at '/vfstest' to /home/vfsuser/vfstest<br />
-                        <source><![CDATA[
-ln -s /vfstest /home/vfsusr/vfstest]]></source>
-                    </li>
-                    <li>Create a file named '/etc/apache2/conf.d/vfstest.conf' with this content<br />
-                        <source><![CDATA[
-#
-# VFSTEST
-#
-Alias /vfstest /vfstest/
-
-DAVLockDB /var/lib/apache2/dav.lockDB
-DAVMinTimeout 600
-
-<Directory /vfstest>
-    Options None
-    AllowOverride None
-    Order allow,deny
-    Allow from all
-</Directory>
-
-<Location />
-        DAV On
-        Options Indexes MultiViews
-        AllowOverride None
-
-        AuthType Basic
-        AuthName vfstest_zone
-        AuthUserFile /etc/apache2/passwd
-        <Limit PUT POST DELETE PROPFIND PROPPATCH MKCOL COPY MOVE LOCK UNLOCK>
-                Require user vfsusr
-        </Limit>
-</Location>]]></source>
-                    </li>
-                    <li>change the permission on
-                        <source><![CDATA[
-chown vfsusr.users /var/lib/apache2
-                        ]]></source>
-                    </li>
-                    <li>Activate the WebDAV module by adding 'dav' and 'dav_fs' to the list of modules in '/etc/sysconfig/apache2'. e.g <br/>
-                        <source><![CDATA[
-APACHE_MODULES="access actions alias auth auth_dbm autoindex cgi dir env expires include log_config
-mime negotiation setenvif ssl suexec userdir php4 php5 dav dav_fs"]]></source>
-                    </li>
-                    <li>Setup the webserver to use user-id 'vfsusr' and group 'users'. This can be done by changing the file '/etc/apache2/uid.conf'<br />
-                        <source><![CDATA[
-User vfsusr
-Group users]]></source>
-                    </li>
-                    <li>Create the VFS user to access the Webdav resource<br />
-                        <source><![CDATA[
-htpasswd2 -cmb /etc/apache2/passwd  vfsusr 'vfstest']]></source>
-                    </li>
-                    <li>Add the following to profiles section of settings.xml in the Maven home
-                        directory. Modify the urls to match your setup.
-                        <source><![CDATA[
-   <profile>
-      <id>http</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <test.http.uri>http://vfsusr:vfstest@192.168.10.133:80/vfstest/test-data</test.http.uri>
-      </properties>
-    </profile>
-    <profile>
-      <id>webdav</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <test.webdav.uri>webdav://vfsusr:vfstest@192.168.10.133:80/vfstest/test-data</test.webdav.uri>
-      </properties>
-    </profile>]]></source>
-                    </li>
-                </ol>
-            </subsection>
-
-            <subsection name="Day CRX or Apache Jackrabbit">
-                <ol>
-                    <li>Use Windows Explorer, Mac Finder or a similar tool to connect to the
-                        repository.</li>
-                    <li>Create a vfstest directory</li>
-                    <li>Drag the test-data from Explorer/Finder window to the repository window to
-                        copy the files to the vfstest directory in the repository</li>
-                    <li>Add the following to profiles section of settings.xml in the Maven home
-                        directory. Modify the urls to match your setup.
-                        <source><![CDATA[
-   <profile>
-      <id>http</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <test.http.uri>http://admin:admin@192.168.10.133:7402/vfstest/test-data</test.http.uri>
-      </properties>
-    </profile>
-    <profile>
-      <id>webdav</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <test.webdav.uri>webdav://admin:admin@192.168.10.133:7402/vfstest/test-data</test.webdav.uri>
-      </properties>
-    </profile>]]></source>
-                    </li>
-                </ol>
-            </subsection>
-
-            <subsection name="Samba 3">
-                <ol>
-                    <li>Create a share 'vfsusr'<br />
-                        <source><![CDATA[
-[vfsusr]
-   comment = VFS Test Directory
-   path = /home/vfsusr
-   guest ok = yes
-   writable = yes]]></source>
-                    </li>
-                    <li>Setup a 'vfsusr' with password 'vfstest'<br />
-                        <source><![CDATA[
-smbpasswd -a vfsusr]]></source>
-                    </li>
-                </ol>
-            </subsection>
-
-            <subsection name="ssh">
-                <ol>
-                    <li>In '/etc/ssh/sshd_config' ensure<br />
-                        <source><![CDATA[
-PasswordAuthentication yes]]></source>
-                    </li>
-                </ol>
-            </subsection>
-
-            <subsection name="vsftp">
-                <ol>
-                    <li>Create a user 'vfsusr' with password 'vfstest' and home directory '/home/vfsusr'
-                        <br/>
-                        <source><![CDATA[
-useradd -p vfsusr -m vfsusr]]></source>
-                    </li>
-                    <li>In vfsuser's home directory create the directories
-                        <ol>
-                            <li>vfstest</li>
-                            <li>vfstest/write-tests</li>
-                        </ol>
-                    </li>
-                    <li>Copy the test data into the vfstest directory</li>
-                    <li>Ensure the server is not disabled in the xinetd configuration<br />
-                        Set <source>disable=no</source> in '/etc/xinetd.d/vsftpd'
-                    </li>
-
-                    <li>Setup the server config: '/etc/vsftpd.conf'<br/>
-                        <source><![CDATA[
-write_enable=YES
-local_enable=YES]]></source>
-
-                    <li>Add the following to profiles section of settings.xml in the Maven home
-                        directory. Modify the urls to match your setup.
-                        <source><![CDATA[
-    <profile>
-      <id>ftp</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <test.ftp.uri>ftp://admin:admin@192.168.10.133/vfstest/test-data</test.ftp.uri>
-      </properties>
-    </profile>]]></source>
-                    </li>        </li>
-
-                </ol>
-            </subsection>
-
-            <subsection name="Running tests">
-                <p>
-                    Running tests simply requires that the appropriate profile be activated. For
-                    example, to run just the webdav test do
-                    <code>mvn -P webdav test -Dtest=WebdavProviderTestCase</code>. Multipe tests
-                    can be run by doing <code>mvn -P webdav -P http test</code>.
+                  The Apache Commons Wiki contains a list of configuration examples for external servers.
+                  Please consider contributing if you have set up a specific scenario:
+                  <a href="https://wiki.apache.org/commons/VfsTestServers">https://wiki.apache.org/commons/VfsTestServers</a>.
                 </p>
             </subsection>
         </section>

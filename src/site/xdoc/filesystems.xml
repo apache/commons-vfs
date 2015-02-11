@@ -18,8 +18,7 @@
 
     <properties>
         <title>Supported File Systems</title>
-        <author email="adammurdoch@apache.org">Adam Murdoch</author>
-        <author email="imario@apache.org">Mario Ivankovits</author>
+        <author email="dev@commons.apache.org">Apache Commons Developers</author>
     </properties>
 
     <body>
@@ -466,7 +465,11 @@
 
         <section name="HDFS">
 
-            <p>Provides access to files in an Apache Hadoop File System (HDFS). This implementation inherits all of the restrictions of the Hadoop implementation. For example, the tests are disabled on Windows platforms as it is only supported when using Cygwin and Windows is not supported by Hadoop in production environments.</p>
+            <p>
+              Provides (read-only) access to files in an Apache Hadoop File System (HDFS).
+              On Windows the <a href="testing.html">integration test</a> is disabled by default, as it
+              requires binaries.
+            </p>
 
             <p>
                 <b>URI Format</b>
