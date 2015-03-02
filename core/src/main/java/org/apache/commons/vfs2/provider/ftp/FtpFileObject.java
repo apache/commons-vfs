@@ -52,8 +52,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP =
         Collections.unmodifiableMap(new TreeMap<String, FTPFile>());
     private static final FTPFile UNKNOWN = new FTPFile();
+    private static final Log log = LogFactory.getLog(FtpFileObject.class);
 
-    private final Log log = LogFactory.getLog(FtpFileObject.class);
     private final String relPath;
 
     // Cached info

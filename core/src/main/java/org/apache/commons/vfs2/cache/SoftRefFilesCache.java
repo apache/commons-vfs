@@ -47,7 +47,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 {
     private static final int TIMEOUT = 1000;
 
-    private final Log log = LogFactory.getLog(SoftRefFilesCache.class);
+    private static final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
     private final ConcurrentMap<FileSystem, Map<FileName, Reference<FileObject>>> fileSystemCache =
           new ConcurrentHashMap<FileSystem, Map<FileName, Reference<FileObject>>>();

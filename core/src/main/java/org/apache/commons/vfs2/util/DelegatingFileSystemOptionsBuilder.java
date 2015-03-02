@@ -50,13 +50,10 @@ public class DelegatingFileSystemOptionsBuilder
 {
     @SuppressWarnings("unchecked") //  OK, it is a String
     private static final Class<String>[] STRING_PARAM = new Class[]{String.class};
-
     private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<String, Class<?>>();
-
-    private final Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
+    private static final Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
 
     private final FileSystemManager manager;
-
     private final Map<String, Map<String, List<Method>>> beanMethods = new TreeMap<String, Map<String, List<Method>>>();
 
     static

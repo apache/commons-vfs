@@ -63,7 +63,8 @@ public final class FtpClientFactory
         return factory.createConnection(hostname, port, username, password, workingDirectory, fileSystemOptions);
     }
 
-    public static class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder>
+    /** Connection Factory, used to configure the FTPClient. */
+    public static final class FtpConnectionFactory extends ConnectionFactory<FTPClient, FtpFileSystemConfigBuilder>
     {
         private FtpConnectionFactory(final FtpFileSystemConfigBuilder builder)
         {
@@ -83,12 +84,13 @@ public final class FtpClientFactory
         }
     }
 
+    /** Abstract Factory, used to configure different FTPClients. */
     public abstract static class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder>
     {
         private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
         private static final int BUFSZ = 40;
+        private final Log log = LogFactory.getLog(getClass());
 
-        protected Log log = LogFactory.getLog(getClass());
         protected B builder;
 
         protected ConnectionFactory(final B builder)
@@ -210,10 +212,6 @@ public final class FtpClientFactory
                     {
                         client.setSoTimeout(socketTimeout.intValue());
                     }
-
-                    // Change to root by default
-                    // All file operations a relative to the filesystem-root
-                    // String root = getRoot().getName().getPath();
 
                     final Boolean userDirIsRoot = builder.getUserDirIsRoot(fileSystemOptions);
                     if (workingDirectory != null && (userDirIsRoot == null || !userDirIsRoot.booleanValue()))

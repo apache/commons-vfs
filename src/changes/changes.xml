@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-564" dev="ecki" type="fix" due-to="Dmitry Konstantinov">
+        Make some loggers static.
+      </action>
       <action issue="VFS-555" dev="rwhitcomb" type="add">
         [hdfs] Add the ability to specify an HDFS configuration file with HdfsFileSystemConfigBuilder.
       </action>

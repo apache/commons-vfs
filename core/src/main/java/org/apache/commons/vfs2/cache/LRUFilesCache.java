@@ -45,7 +45,7 @@ public class LRUFilesCache extends AbstractFilesCache
     private static final int DEFAULT_LRU_SIZE = 100;
 
     /** The logger to use. */
-    private final Log log = LogFactory.getLog(LRUFilesCache.class);
+    private static final Log log = LogFactory.getLog(LRUFilesCache.class);
 
     /** The FileSystem cache */
     private final ConcurrentMap<FileSystem, Map<FileName, FileObject>> filesystemCache =
