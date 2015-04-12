@@ -84,43 +84,43 @@ public class SmbFileObject
 
         UserAuthenticationData authData = null;
         SmbFile file;
-        NtlmPasswordAuthentication auth;
         try
         {
             authData = UserAuthenticatorUtils.authenticate(
                            getFileSystem().getFileSystemOptions(),
                            SmbFileProvider.AUTHENTICATOR_TYPES);
 
-            auth = new NtlmPasswordAuthentication(
-                UserAuthenticatorUtils.toString(
-                    UserAuthenticatorUtils.getData(
-                        authData,
-                        UserAuthenticationData.DOMAIN,
-                        UserAuthenticatorUtils.toChar(smbFileName.getDomain()))),
-                UserAuthenticatorUtils.toString(
-                    UserAuthenticatorUtils.getData(
-                        authData,
-                        UserAuthenticationData.USERNAME,
-                        UserAuthenticatorUtils.toChar(smbFileName.getUserName()))),
-                UserAuthenticatorUtils.toString(
-                    UserAuthenticatorUtils.getData(
-                        authData,
-                        UserAuthenticationData.PASSWORD,
-                        UserAuthenticatorUtils.toChar(smbFileName.getPassword()))));
+            NtlmPasswordAuthentication auth = null;
+            if (authData != null)
+            {
+                auth = new NtlmPasswordAuthentication(
+                    UserAuthenticatorUtils.toString(
+                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.DOMAIN,
+                            UserAuthenticatorUtils.toChar(smbFileName.getDomain()))),
+                    UserAuthenticatorUtils.toString(
+                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                            UserAuthenticatorUtils.toChar(smbFileName.getUserName()))),
+                    UserAuthenticatorUtils.toString(
+                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                            UserAuthenticatorUtils.toChar(smbFileName.getPassword()))));
+            }
 
+            // if auth == null SmbFile uses default credentials
+            // ("jcifs.smb.client.domain", "?"), ("jcifs.smb.client.username", "GUEST"),
+            // ("jcifs.smb.client.password", BLANK);
+            // ANONYMOUS=("","","")
             file = new SmbFile(path, auth);
+
+            if (file.isDirectory() && !file.toString().endsWith("/"))
+            {
+                file = new SmbFile(path + "/", auth);
+            }
+            return file;
         }
         finally
         {
-            UserAuthenticatorUtils.cleanup(authData);
+            UserAuthenticatorUtils.cleanup(authData); // might be null
         }
-
-        if (file.isDirectory() && !file.toString().endsWith("/"))
-        {
-            file = new SmbFile(path + "/", auth);
-        }
-
-        return file;
     }
 
     /**

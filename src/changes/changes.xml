@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-236" dev="ecki" type="fix" due-to="Matt Casters">
+        [smb] Allow SMB to be used with no authentication.
+      </action>
       <action issue="VFS-564" dev="ecki" type="fix" due-to="Dmitry Konstantinov">
         Make some loggers static.
       </action>
