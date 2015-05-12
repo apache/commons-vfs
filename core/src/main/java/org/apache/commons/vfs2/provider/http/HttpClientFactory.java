@@ -146,8 +146,6 @@ public final class HttpClientFactory
                 final AuthScope scope = new AuthScope(hostname, AuthScope.ANY_PORT);
                 client.getState().setCredentials(scope, creds);
             }
-
-            client.executeMethod(new HeadMethod());
         }
         catch (final Exception exc)
         {
