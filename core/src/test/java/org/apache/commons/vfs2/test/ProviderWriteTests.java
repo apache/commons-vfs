@@ -671,7 +671,7 @@ public class ProviderWriteTests
         {
             assertTrue("Unexpected create event", events.size() > 0);
             assertSame("Expecting a create event", CREATE, events.remove(0));
-            assertSame(file, event.getFile());
+            assertEquals(file, event.getFile());
             try
             {
                 assertTrue(file.exists());
@@ -690,7 +690,7 @@ public class ProviderWriteTests
         {
             assertTrue("Unexpected delete event", events.size() > 0);
             assertSame("Expecting a delete event", DELETE, events.remove(0));
-            assertSame(file, event.getFile());
+            assertEquals(file, event.getFile());
             try
             {
                 assertTrue(!file.exists());
@@ -706,7 +706,7 @@ public class ProviderWriteTests
         {
             assertTrue("Unexpected changed event", events.size() > 0);
             assertSame("Expecting a changed event", CHANGED, events.remove(0));
-            assertSame(file, event.getFile());
+            assertEquals(file, event.getFile());
             try
             {
                 assertTrue(!file.exists());
