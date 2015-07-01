@@ -163,6 +163,8 @@
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
     <version.checkstyle>2.13</version.checkstyle>
+    <!-- make sure bundle plugin has dependency informations for 'optional' -->
+    <commons.osgi.excludeDependencies />
   </properties>
 
   <build>
