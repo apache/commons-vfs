@@ -26,6 +26,10 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-490" dev="ecki" type="fix">
+        [hdfs] Make OSGi package imports for hdfs resolution=optional.
+        Removed all scopes from dependency management.
+      </action>
       <action issue="VFS-560" dev="ecki" type="fix">
         [http] avoid initial HEAD request to root of HttpFileSystem as it might be wrong context.
       </action>
