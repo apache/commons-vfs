@@ -121,7 +121,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @param opts The FileSystemOptions.
      * @return The file type.
      * @see #setFtpsType
-     * @deprecated As of 2.1, use {@link #getFtpsType(FileSystemOptions)}
+     * @deprecated As of 2.1, use {@link #getFtpsMode(FileSystemOptions)}
      */
     @Deprecated
     public String getFtpsType(final FileSystemOptions opts)
