@@ -73,6 +73,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         }
     }
     private final String urlCharset;
+    private final String userAgent;
     private final boolean followRedirect;
 
     private HeadMethod method;
@@ -88,6 +89,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         super(name, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
+        userAgent = builder.getUserAgent(fileSystemOptions);
         followRedirect = builder.getFollowRedirect(fileSystemOptions);
     }
 
@@ -221,6 +223,11 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         return followRedirect;
     }
 
+    protected String getUserAgent()
+    {
+        return userAgent;
+    }
+
     HeadMethod getHeadMethod() throws IOException
     {
         if (method != null)
@@ -253,7 +260,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
         final String pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
         method.setPath(pathEncoded);
         method.setFollowRedirects(this.getFollowRedirect());
-        method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
+        method.setRequestHeader("User-Agent", this.getUserAgent());
     }
 
     /*

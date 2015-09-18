@@ -30,6 +30,8 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
 {
     protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
+    protected static final String KEY_USER_AGENT = "userAgent";
+
     private static final HttpFileSystemConfigBuilder BUILDER = new HttpFileSystemConfigBuilder();
 
     private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
@@ -41,6 +43,8 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     private static final int DEFAULT_SO_TIMEOUT = 0;
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
+
+    private static final String DEFAULT_USER_AGENT = "Jakarta-Commons-VFS";
 
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
@@ -329,6 +333,28 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         return getInteger(opts, HttpConnectionManagerParams.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
     }
+
+    /**
+     * Assign the user agent to attach to the outgoing http methods
+     *
+     * @param userAgent User Agent String
+     */
+    public void setUserAgent(final FileSystemOptions opts, final String userAgent)
+    {
+        setParam(opts, "userAgent", userAgent);
+    }
+
+    /**
+     * Return the user agent string
+     *
+     * @return User provided User-Agent string, otherwise default of: Jakarta-Commons-VFS
+     */
+    public String getUserAgent(final FileSystemOptions opts)
+    {
+        final String userAgent = (String) getParam(opts, KEY_USER_AGENT);
+        return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
+    }
+
 
     @Override
     protected Class<? extends FileSystem> getConfigClass()

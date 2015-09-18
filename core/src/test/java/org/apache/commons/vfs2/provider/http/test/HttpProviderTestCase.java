@@ -217,13 +217,16 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
         // ensure defaults are 0
         assertEquals(0, builder.getConnectionTimeout(opts));
         assertEquals(0, builder.getSoTimeout(opts));
+        assertEquals("Jakarta-Commons-VFS", builder.getUserAgent(opts));
 
         builder.setConnectionTimeout(opts, 60000);
         builder.setSoTimeout(opts, 60000);
+        builder.setUserAgent(opts, "foo/bar");
 
         // ensure changes are visible
         assertEquals(60000, builder.getConnectionTimeout(opts));
         assertEquals(60000, builder.getSoTimeout(opts));
+        assertEquals("foo/bar", builder.getUserAgent(opts));
 
         // TODO: should also check the created HTTPClient
     }
