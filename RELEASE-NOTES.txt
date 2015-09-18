@@ -1,54 +1,182 @@
+              Apache Commons VFS 2.1
+                  RELEASE NOTES
 
-              Apache Commons VFS 2.0 RELEASE NOTES
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.1
 
-The Commons VFS team is pleased to announce the commons-vfs2 2.0 release!
+Apache Commons VFS is a Virtual File System library.
 
-Apache Commons VFS 2.0 requires a minimum of Java 5 to build and run and is not binary or source compatible with
-Commons VFS 1.0. The package names have been changed from org.apache.commons.vfs to org.apache.commons.vfs2 and the
-Maven groupId and artifactId have been changed to org.apache.commons and commons-vfs2 respectively.
-
-Backwards incompatible update of Commons VFS to Java 5
+New features and bug fix release.
 
 Changes in this version include:
 
 New features:
-o VFS-244:  Rename HttpRandomAccesContent to HttpRandomAccessContent. 
+o VFS-198:  [http] Make user agent configurable. Thanks to Andrew Franklin, Simon Legner.
+o VFS-555:  [hdfs] Add the ability to specify an HDFS configuration file with HdfsFileSystemConfigBuilder.
+o           [example] make VFS Shell print version and implement new 'info' command.
+o VFS-532:  [FTP] Allow configuring remoteVerificationEnabled on FTPClient instances. Thanks to Gareth Daniel Smith.
+o VFS-468:  [FTPS] Add option for KeyManager (and TrustManager) to support FTPS servers that ask for the client certificate for authentication.
+o VFS-412:  [FTPS] Add support for command to set the DataChannelProtectionLevel. Thanks to Jose Juan Montiel.
+o VFS-442:  [HDFS] Add an HDFS FileSystem Provider. Thanks to Dave Marion.
+o VFS-447:  [FTP/FTPS] Update Apache Commons Net to 3.2 from 3.1.
+o VFS-445:  Add FileSystemManager.resolveFile(URI) and resolveFile(URL).
+o VFS-440:  [SFTP] Stream (e.g. netcat) proxy for Sftp file system (aka ProxyCommand). Thanks to bpiwowar.
+o VFS-432:  [HTTP][WebDAV] Allow HTTP follow redirect.
+o VFS-431:  FileSystemOption does not implement toString().
+o VFS-405:  Get/set the file permissions. Thanks to dwaszak.
+o VFS-426:  HTTP URL query string not part of cache key. Thanks to daniel.bergholm.
+o VFS-425:  Add API FileObject.isExecutable().
+o VFS-421:  [SFTP] Configure a custom Identity Repository. Thanks to bpiwowar.
+o VFS-417:  [RAM][Local] Add and implement new API: RandomAccessContent.setLength(long).
+o VFS-400:  Add a FileSelector based on regular expressions.
+o VFS-254:  Let FileObject and FileContent extend java.io.Closeable. Thanks to mzawirski.
+o VFS-252:  [SMB] SmbFileObject does not support setLastModifiedTime while jcifs supports it.
+o VFS-313:  [FTP] Configuration does not include option for setting socket timeout. Thanks to bdavis@saintandreas.org.
+o VFS-414:  [FTP] Add config API to set the file type.
+o VFS-182:  [FTP] Usage of FTP with heterogeneous FTP server (possibility of using Ascii file type).
+o VFS-381:  Iterate over a FileObject using the Java "foreach" statement, to provide all descendents of a FileObject.
+o VFS-373:  Add FileContent write APIs.
+o VFS-372:  Add constructors FileDepthSelector() and FileDepthSelector(int).
+o VFS-371:  Add FileObject API deleteAll().
+o VFS-370:  Add a FileExtensionSelector class.
+o VFS-367:  Add APIs FileObject isFile(), FileObject isFolder(), and FileName isFile().
 
 Fixed Bugs:
-o VFS-348:  Update the version of commons-net. Thanks to Stefan Bodewig. 
-o VFS-230:  Documented FileSystem capabilities on the web site. 
-o VFS-337:  AbstractFileObject and classes that extend from it use AbstractFileName in the constructor and in
-        the createFile method. 
-o VFS-245:  AbstractFileName is not immutable as it should be. equals(), hashcode() and compareTo() have been modified
-        to return the same results regardless of whether the FileType is changed. 
-o VFS-334:  DefaultFileSystemConfigBuilder.getConfigClass() returns DefaultFileSystemConfigBuilder.class which is not a FileSystem Thanks to sebb. 
-o VFS-305:  Add encoding option to FTP provider. Thanks to Tom. 
-o VFS-315:  Fix potential NullPointerException if the DavProperty is null or contains null values. Thanks to David Hausladen. 
-o VFS-316:  Add option for preemptive authentication for HTTP based protocols. Thanks to David Hausladen. 
-o VFS-322:  Allow tar files that contain files over 2GB in size. Thanks to Curtis Boyden. 
-o VFS-324:  Clear the cache in RamFileSystem and the children in RamFileData. Thanks to sebb. 
-o VFS-319:  Typo in FtpsFileSystemConfigBuilder.setFtpsType Thanks to sebb. 
-o VFS-227:  InputStream and RandomAccessContent memory leak in FileContentThreadData Thanks to Sergey Vladimirov. 
-o VFS-259:  Http and Webdav FIleContentInfoFactory: undress to AbstractFileObject before casting Thanks to Marek Zawirski. 
-o VFS-261:  WebDAV upload corrupts binary files Thanks to Simon Olofsson. 
-o VFS-276:  add ProviderTestConfig.getDefaultFileSystemManager() method Thanks to Vince Bonfanti. 
-o VFS-282:  SftpFileProvider and SftpFileSystemConfigBuilder can't change ssh authentication methods Thanks to Alexey. 
-o VFS-269:  HttpFileObject: unsupported content over 2GB length Thanks to Marek Zawirski. 
-o VFS-287:  LocalFileName objects are not released from AbstractFileSystem.listenerMap when all listeners are removed. Thanks to Mircea-Eugen Ionica. 
-o VFS-216:  The FTP Configuration includes an option to set a timeout for the data connection, but not for the socket
-        timeout. This is a problem, as idle sockets can cause your download to hang forever and never timeout. Thanks to Reetu Mutti. 
-o VFS-289:  FTP connection is not released If exception is thrown out of FtpFileObject.doGetOutputStream(). Thanks to Kirill Safonov. 
-o VFS-286:  SftpFileObject.doListChildrenResolved() changes the working dir before doing ChannelSftp.ls() call.
-        If ls() throws an exception, the current directory is not reset. All the subsequent operations that rely on the
-        current dir will fail trying to change into nonexistent directory. Thanks to Kirill Safonov. 
+o VFS-202:  [http] Allow URLs responding with 405 to HEAD requests. Thanks to Sergey Vladimirov, Simon Legner.
+o VFS-490:  [hdfs] Make OSGi package imports for hdfs resolution=optional.
+            Removed all scopes from dependency management.
+o VFS-560:  [http] avoid initial HEAD request to root of HttpFileSystem as it might be wrong context.
+o VFS-236:  [smb] Allow SMB to be used with no authentication. Thanks to Matt Casters.
+o VFS-564:  Make some loggers static. Thanks to Dmitry Konstantinov.
+o VFS-557:  [webdav][test] Create WebDav test directory in target/test. Avoid creating core/jackrabbit/tmp.
+            Logfiles of Jackrabbit are preserved when -DWebdavProviderTestCase.Debug=true is specified.
+o VFS-558:  Make moveTo() and getParent() work with CacheStrategy.ON_CALL.
+            In case of FTP Provider it would lead otherwise to an UnsupportedOperationException.
+o           [sandbox] RACRandomAccessFile is now in org.apache.commons.vfs2.util package (so sandbox has only one overlapping package).
+o VFS-552:  [sandbox] include vfs-providers.xml in JAR for dynamic registration of mime and smb providers.
+o VFS-551:  Javadoc: make it clear that DefaultCryptor is only an obfuscation function. Thanks to David Camilo Espitia Manrique.
+o VFS-309:  DefaultFileContent will remove thread data whenever possible to avoid leaks.
+o VFS-487:  DefaultFileMonitor detects recreated files. Thanks to Dave Marion.
+o VFS-523:  [HDFS] Make HdfsFileObject.equal use system hashcode/equals instead of
+            wrongly comparing file path only. Thanks to Roger Whitcomb.
+o VFS-544:  [Virtual] Allow virtual file systems and virtual file system provider
+            to be closed, to avoid memory leak.
+o VFS-142:  Use ThreadLocal.remove() to clean out FileContentThreadData objects. Thanks to Ryan Boettcher.
+o VFS-545:  Make DefaultFilesCache remove reference to filesystem when it is cleared (closed).
+o VFS-521:  [Ram][Tests] Make RAM provider test pass on Java 8
+            (JDK-8042377, self-suppression not permitted, MonitorOutputStream#close()).
+o VFS-338:  [Local][Tests] Avoid IndexOutOfBoundsException when validating local file URIs. Thanks to Daniel R..
+o VFS-489:  [tests] ProviderWriteTests#testListener does not fail cleanly. Thanks to Bernd Eckenfels.
+o VFS-486:  DefaultFileMonitor sleeps for twice the specified delay when checkPerRun > 0. Thanks to Sam Haldane.
+o VFS-482:  Wrong assertion messages in RAM provider test case.
+o VFS-460:  Dependency to commons-compress set as optional.
+o VFS-464:  StaticUserAuthenticator should return only requested authentication data.
+o VFS-461:  [FTP/FTPS] ConfigBuilder does not consider system properties for the value of SoTimeout and Encoding.
+o VFS-458:  [FTPS] Provider missed functionality and bug fixes already available for the FTP provider.
+o VFS-452:  [HTTP] HttpFileObject read/write attributes should reflect underlying FileSystem capabilities. Thanks to Jean-Marc Borer.
+o VFS-285:  AbstractFileObject.getChildren() may corrupt its internal state if a filename
+            can not be resolved. Thanks to Kirill Safonov.
+o VFS-450:  [HDFS] HDFSFileSystem.resolveFile() does not honor CacheStrategy.ON_RESOLVE. Thanks to Dave Marion.
+o VFS-448:  commons-vfs 2.0 JAR has flawed OSGi MANIFEST.MF.
+o VFS-439:  StaticUserAuthenticator usage example wrong. Thanks to pensecit.
+o VFS-437:  [FTP] StackOverFlowError getting the type of a directory with a symbolic link to a parent directory with the same name. Thanks to denniszhu, danttran, jpowang.
+o VFS-435:  FileSystemConfigBuilder does not use prefix for some system property lookups. Thanks to george scott.
+o VFS-434:  FileSystemException should reuse IOException's chained exception.
+o VFS-433:  [WebDAV] Message "vfs.provider.webdav/propfind.error" is not defined.
+o VFS-430:  The SoftRefFilesCache class logs clear text password. Thanks to antonin.stefanutti.
+o VFS-429:  Remove extra FileSystem ivar in AbstractFileObject subclasses with generics.
+o VFS-427:  [HTTP] NPE on HttpFileObject.getContent().getContentInfo(). Thanks to awelynant.
+o VFS-406:  [RAM] resize throws ArrayOOBE when shrinking in size. Thanks to mp1.
+o VFS-353:  [FTP] Client should call logout before disconnecting. Thanks to bergander.
+o VFS-408:  CompressedFileFileObject Exception thrown when container file has no extension. Thanks to anilm2@yahoo.com.
+o VFS-258:  [SFTP][RAM] Unsafe casting to AbstractFileObject subclasses in doRename(). Thanks to mzawirski.
+o VFS-413:  [FTP] No support for FTP servers with non Latin-1 control encoding. Thanks to polivenok.
+o VFS-200:  [SFTP] Failure when files are very large.
+o VFS-296:  [FTP] FTP socket timeout setting doesn't work if connect hangs. Thanks to andreasp.
+o VFS-410:  [SFTP] SftpFileObject getInputStream(long) reads the whole file into memory. Thanks to mstockhammer.
+o VFS-407:  [RAM] Reading a RAM FileSystem file fails because it never returns EOF -1. Thanks to mp1.
+o VFS-382:  SFTP getChildren() does not fail when called on a file.
+o VFS-380:  FTP connect.error message used instead of SFTP connect.error message.
+o VFS-378:  Tar error message are missing from resource file.
+o VFS-374:  Incorrect lazy initialization of static field org.apache.commons.vfs2.util.Messages.resources in org.apache.commons.vfs2.util.Messages.findMessage(String)Add FileContent write APIs.
+o VFS-355:  The read method of RamFileRandomAccessContent's input stream does not return -1 at eof. Thanks to Miroslav Pokorny.
+o VFS-356:  Throw an IOException if an attempt is made to seek to a position before the start of the file.
+o VFS-359:  Don't delete a RamFileObject if it is open. Thanks to Miroslav Pokorny.
+o VFS-352:  ZipFileSystem now uses an internal Map as a cache for all the files in the zip archive.
+o VFS-351:  Chain the SftpException in the FileSystemException. Thanks to John Backstrand.
+o VFS-325:  Allow # character in file names. Thanks to Larry Reeve.
+o VFS-335:  Use atomic variables in MonitorInputStream.
+o VFS-364:  Check the href in the response for just a path in addition to a full uri.
 
 Changes:
-o VFS-263:  WebdavFileObject does not implement doSetAttribute() Thanks to Ingo Maas. 
+o VFS-530:  [hdfs] Use stable Apache Hadoop 2.6 dependencies. Thanks to Dave Marion.
+o VFS-542:  Update Jsch from 0.1.50 to 0.1.51.
+o VFS-541:  Update Apache Commons Compress from 1.6 to 1.9.
+o VFS-540:  Update Apache Commons Logging from 1.1.3 to 1.2.
+o VFS-539:  Update Apache Commons Lang from 3.1 to 3.3.2.
+o VFS-526:  [HDFS][Tests] Support HDFS testing on Windows (but keep profile "no-hdfs" enabled on Windows VFS-529).
+o VFS-453:  [HTTP][WEBDAV] Add file system options for connect and socket timeout. Thanks to Jiri Syrovy.
+o VFS-167:  [FTP] Allow Proxy support to file system options. Thanks to Jimmy Praet.
+o VFS-520:  Make JavaDoc compatible with Java 8 tool.
+o VFS-518:  Documentation of FileSystemOptions should be more helpful. Thanks to Roland Illig.
+o VFS-500:  VFSClassLoader.findResources missing. Thanks to Bernd Eckenfels.
+o VFS-514:  [tests] PermissionsTests leaves unclean test directory. Thanks to Bernd Eckenfels.
+o VFS-501:  Hide passwords from log/console output. Thanks to Yves Schumann.
+o VFS-496:  Resource translation issues. Thanks to Bernd Eckenfels.
+o VFS-494:  [SFTP] No support for SFTP servers with non Latin-1 file name encoding. Thanks to Allen Xudong Cheng.
+o VFS-368:  [SFTP] Documentation implies that "userDirIsRoot" defaults to true. Thanks to Brendan Long.
+o VFS-265:  [FTP] Set user dir as root dir by default. Thanks to Scott Bjerstedt.
+o VFS-484:  [SFTP] Update Jsch to 0.1.50 from 0.1.49.
+o VFS-507:  Update to Apache Commons Collection 4.0 from 3.2.1 and use generics.
+o VFS-476:  Update Apache Commons Logging to 1.1.3 from 1.1.2.
+o VFS-475:  Update Apache Commons Net to 3.3 from 3.2.
+o VFS-506:  [Tar][Bzip2] Update Apache Commons Compress to 1.6 from 1.5.
+o VFS-471:  Update to Apache Commons Compress 1.5.
+o VFS-283:  [SFTP] SFTP provider did not support passphrase-protected keys nor the exchange of a public key with
+            a requesting SFTP server. To support such triples (private key/passphrase/public key) instead of private
+            keys only, a new structure EntityInfo has been created. SftpFileSystemConfigBuilder has now the new
+            getter and setter methods getIdentityInfo and setIdentity info which replace the now deprecated methods
+            getIdentities and setIdentities.
+o VFS-463:  FileSytemConfigBuilder supports system properties for the value of enum-based configuration entries.
+o VFS-462:  [FTPS] Deprecate FtpsFileSystemConfigBuilder.setFtpsType and FtpsFileSystemConfigBuilder.getFtpsType
+            in favor of FtpsFileSystemConfigBuilder.setFtpsMode and FtpsFileSystemConfigBuilder.getFtpsMode which
+            use new enum FtpsMode instead.
+o VFS-459:  [FTP/FTPS] Sent commands and the received answer is logged at debug level.
+o VFS-457:  Update test dependencies: sshd-core version 0.7.0 to 0.8.0; mina-core 2.0.4 to 2.0.7; junit 4.11 to 4.12; slf4j-* 1.5.5 to 1.5.11
+o VFS-456:  Use org.bouncycastel:bcprov-jdk16 instead of org.bouncycastle:bcprof-jdk15on since Java 1.6 is required.
+o VFS-415:  Update VFS requirement to Java 1.6.
+o VFS-418:  Update to Apache Commons Compress 1.4.1.
+o VFS-321:  AbstractFileObject sometimes uses getFileSystem() and sometimes references "fs" field directly. Thanks to sebb.
+o VFS-327:  UriParser.canonicalizePath possible NPE for filenameParser. Thanks to sebb.
+o VFS-416:  [SFTP] Update Jsch to version 0.1.49 from 0.1.47.
+o VFS-395:  [POM] Remove maven-scm-* dependencies.
+o VFS-411:  [SFTP] Update Jsch to version 0.1.47 from 0.1.46.
+o VFS-409:  Update Apache Commons Compress to 1.4 from 1.3.
+o VFS-404:  [FTP][FTPS] Update Apache Commons Net to 3.1 from 3.0.1.
+o VFS-402:  [WebDAV] Update Apache Jackrabbit 1.5.2 to 1.6.5.
+o VFS-401:  Update JSch to 0.1.46 from 0.1.45 for the SFTP provider.
+o VFS-392:  Build tests WebDAV file system with an embedded WebDAV server (Apache Jackrabbit).
+o VFS-391:  Build tests URL HTTP file system with an embedded HTTP server (Apache HttpComponent Core).
+o VFS-390:  Use variable argument list in org.apache.commons.vfs2.util.Messages instead of Object[].
+o VFS-389:  Use variable argument lists in FileSystemException instead of Object[]s.
+o VFS-388:  Build tests SFTP file system with an embedded SFTP server (Apache MINA).
+o VFS-387:  Build tests FTP file system with an embedded FTP server (Apache MINA).
+o VFS-386:  Build tests HTTP file system with an embedded HTTP server (Apache HttpComponent Core).
+o VFS-385:  Add HTTP status code to HTTP file provider exception messages when available.
+o VFS-384:  Update Apache Commons Net to 3.0.1 from 2.2 for FTP and SFTP providers.
+o VFS-383:  Update JSch to 0.1.45 from 0.1.42 for the SFTP provider.
+o VFS-379:  Replace custom BZIP2 code with Apache Commons Compress 1.3.
+o VFS-377:  Replace custom TAR code with Apache Commons Compress 1.3.
+o VFS-375:  Upgrade to Apache Commons Compress 1.3 from 1.2.
+o VFS-366:  Can't sort a List of FileObject's, FileObject to implement Comparable<FileObject>.
+o VFS-341:  Enable logging of JSch using the Commons Logging Log object in SftpClientFactory. Thanks to Rajika Kumarasiri.
+o VFS-361:  Upgrade commons collections version to 3.2.1.
 
+Removed:
+o VFS-469:  Remove unused dependency to javax.jcr:jcr.
 
-For complete information on Commons VFS, including instructions on how to submit bug reports,
-patches, or suggestions for improvement, see the Apache Commons VFS website:
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
-http://commons.apache.org/vfs/
+For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
-
+http://commons.apache.org/proper/commons-vfs/
