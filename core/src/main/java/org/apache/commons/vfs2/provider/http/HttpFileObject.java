@@ -173,7 +173,8 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     {
         // Use the HEAD method to probe the file.
         final int status = this.getHeadMethod().getStatusCode();
-        if (status == HttpURLConnection.HTTP_OK)
+        if (status == HttpURLConnection.HTTP_OK
+            || status == HttpURLConnection.HTTP_BAD_METHOD /* method is bad, but resource exist */)
         {
             return FileType.FILE;
         }
