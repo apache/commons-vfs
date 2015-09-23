@@ -22,10 +22,13 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.apache.commons.vfs2.test.CacheTestSuite;
 
 /**
- * NullFilesCache
- *
+ * Base class for different FilesCache tests.
+ * <p>
+ * Make sure {@link CacheTestSuite} is configured
+ * with correct FilesCache.
  */
 public class FilesCacheTestsBase extends AbstractProviderTestCase
 {
