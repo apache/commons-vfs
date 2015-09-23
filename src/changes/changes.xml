@@ -26,6 +26,10 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-577" dev="ecki" type="fix">
+        Ensure FileOpertionProviders are closed. Adds some testcases.
+        The error code for missing operations exceptions corrected: vfs.operation/operation-not-supported.error
+     </action>
       <action issue="VFS-279" dev="ecki" type="fix" due-to="Didier Earith, Simon Legner">
         [local] Avoid ClassCastException when replicating local files while OnCall caching is active.
       </action>

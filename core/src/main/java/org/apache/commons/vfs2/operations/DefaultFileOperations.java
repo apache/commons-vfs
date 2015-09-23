@@ -96,7 +96,7 @@ public class DefaultFileOperations implements FileOperations
         if (providers == null)
         {
             throw new FileSystemException(
-                    "vfs.provider/operation-not-supported.error", operationClass);
+                    "vfs.operation/operation-not-supported.error", operationClass);
         }
 
         FileOperation resultOperation = null;
@@ -114,7 +114,7 @@ public class DefaultFileOperations implements FileOperations
         if (resultOperation == null)
         {
             throw new FileSystemException(
-                    "vfs.provider/operation-not-supported.error", operationClass);
+                    "vfs.operation/operation-not-supported.error", operationClass);
         }
 
         return resultOperation;

@@ -575,8 +575,8 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Closes the manager.
      * <p>
      * This will close all providers (all files), it will also close
-     * all managed components including temporary files, replicators
-     * and cache.
+     * all managed components including temporary files, replicator,
+     * file cache and file operations.
      * <p>
      * The manager is in uninitialized state after this method.
      */
@@ -587,12 +587,16 @@ public class DefaultFileSystemManager implements FileSystemManager
             return;
         }
 
-        // Close the providers.
-        for (final Object provider : providers.values())
+        // make sure all discovered components in
+        // org.apache.commons.vfs2.impl.StandardFileSystemManager.configure(Element)
+        // are closed here
+
+        // Close the file system providers.
+        for (final FileProvider provider : providers.values())
         {
             closeComponent(provider);
         }
-        // just to be sure
+        // unregister all
         providers.clear();
 
         // Close the other components
@@ -602,9 +606,19 @@ public class DefaultFileSystemManager implements FileSystemManager
         closeComponent(filesCache);
         closeComponent(defaultProvider);
 
+        // FileOperations are components, too
+        for (final List<FileOperationProvider> opproviders : operationProviders.values())
+        {
+            for (final FileOperationProvider p : opproviders)
+            {
+                closeComponent(p);
+            }
+        }
+        // unregister all
+        operationProviders.clear();
+
         // collections with add()
         typeMap.clear();
-        operationProviders.clear();
 
         // should not happen, but make debugging easier:
         if (!components.isEmpty())
