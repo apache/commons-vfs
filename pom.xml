@@ -451,7 +451,7 @@
         <artifactId>jcl-over-slf4j</artifactId>
         <version>1.5.11</version>
       </dependency>
-      <!-- Test SFTP with Apache SHHd Server (MINA) -->
+      <!-- Test SFTP with Apache SSHd Server (MINA) -->
       <dependency>
         <groupId>org.apache.sshd</groupId>
         <artifactId>sshd-core</artifactId>
