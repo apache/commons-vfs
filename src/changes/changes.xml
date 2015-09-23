@@ -26,7 +26,10 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
-      <action issue="VFS-577" dev="ecki" type="fix">
+      <action issue="VFS-572" dev="ecki" type="fix" due-to="Sandra Parsick">
+        [sftp] better documentation for knownhosts file option.
+     </action>
+      <action issue="VFS-574" dev="ecki" type="fix">
         Ensure FileOpertionProviders are closed. Adds some testcases.
         The error code for missing operations exceptions corrected: vfs.operation/operation-not-supported.error
      </action>
