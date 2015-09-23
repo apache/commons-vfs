@@ -502,14 +502,14 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder
      *
      * @param opts
      *            The FileSystem options.
-     * @param sshdir
-     *            The known hosts directory.
+     * @param knownHosts
+     *            The known hosts file.
      * @throws FileSystemException
      *             if an error occurs.
      */
-    public void setKnownHosts(final FileSystemOptions opts, final File sshdir) throws FileSystemException
+    public void setKnownHosts(final FileSystemOptions opts, final File knownHosts) throws FileSystemException
     {
-        this.setParam(opts, KNOWN_HOSTS, sshdir);
+        this.setParam(opts, KNOWN_HOSTS, knownHosts);
     }
 
     /**
