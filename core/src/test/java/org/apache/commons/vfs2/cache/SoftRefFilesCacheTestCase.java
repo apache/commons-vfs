@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.test.CacheTestSuite;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 
 /**
- * Tests the {@link SoftRefFilesCache}.
+ * Tests the {@link SoftRefFilesCache} using {@link SoftRefFilesCacheTests}.
  */
 public class SoftRefFilesCacheTestCase
     extends AbstractProviderTestConfig

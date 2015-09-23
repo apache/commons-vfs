@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.test.CacheTestSuite;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 
 /**
- * Tests the NullFilesCache
+ * Tests the {@link DefaultFilesCache} using {@link DefaultFilesCacheTests}.
  */
 public class DefaultFilesCacheTestCase
     extends AbstractProviderTestConfig

@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.test.CacheTestSuite;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 
 /**
- * Tests the {@link WeakRefFilesCache}.
+ * Tests the {@link WeakRefFilesCache} using {@link WeakRefFilesCacheTests}.
  */
 public class WeakRefFilesCacheTestCase
     extends AbstractProviderTestConfig
