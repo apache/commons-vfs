@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -83,8 +84,7 @@ public final class Os
         System.getProperty("os.arch").toLowerCase(Locale.US);
     private static final String OS_VERSION =
         System.getProperty("os.version").toLowerCase(Locale.US);
-    private static final String PATH_SEP =
-        System.getProperty("path.separator");
+    private static final String PATH_SEP = File.pathSeparator;
     private static final OsFamily OS_FAMILY;
     private static final OsFamily[] OS_ALL_FAMILIES;
 

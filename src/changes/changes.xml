@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-549" dev="ecki" type="fix">
+        Use File.seperator instead of getProperty("file.separator").
+     </action>
       <action issue="VFS-567" dev="ecki" type="fix" due-to="Antonio Petrelli">
         [ftp] Ignore exceptions while QUIT/disconnect.
      </action>
