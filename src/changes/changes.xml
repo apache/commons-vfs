@@ -26,8 +26,11 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-279" dev="ecki" type="fix" due-to="Didier Earith, Simon Legner">
+        [local] Avoid ClassCastException when replicating local files while OnCall caching is active.
+      </action>
       <action issue="VFS-297" dev="joehni" type="fix" due-to="Kirill Safonov, Jimmy Praet">
-        [core/sftp] VSF fails to reuse FileSystem instances if FileSystemOptions contain
+        [sftp] VSF fails to reuse FileSystem instances if FileSystemOptions contain
         an array as value. Reported for SFTP using identities.
       </action>
       <action issue="VFS-198" dev="ecki" type="add" due-to="Andrew Franklin, Simon Legner">

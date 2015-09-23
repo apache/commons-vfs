@@ -28,6 +28,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * A local file system.
@@ -72,7 +73,7 @@ public class LocalFileSystem
                                    final FileSelector selector)
         throws Exception
     {
-        final LocalFile localFile = (LocalFile) fileObject;
+        final LocalFile localFile = (LocalFile) FileObjectUtils.getAbstractFileObject(fileObject);
         final File file = localFile.getLocalFile();
         final SecurityManager sm = System.getSecurityManager();
         if (sm != null)

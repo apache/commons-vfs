@@ -26,6 +26,8 @@ import org.apache.commons.vfs2.FileSelectInfo;
 import org.apache.commons.vfs2.FileSelector;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.provider.AbstractFileObject;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.junit.Assert;
 
 /**
@@ -88,7 +90,7 @@ public class VerifyingFileSelector
         throws FileSystemException
     {
         // Check that the given file is a folder
-        final FileObject folder = fileInfo.getFile();
+        final FileObject folder = FileObjectUtils.getAbstractFileObject(fileInfo.getFile());
         assertSame(FileType.FOLDER, folder.getType());
         assertTrue(folder.isFolder());
 
@@ -101,7 +103,8 @@ public class VerifyingFileSelector
         }
         else
         {
-            assertSame(currentFolder, folder.getParent());
+            AbstractFileObject parent = FileObjectUtils.getAbstractFileObject(folder.getParent());
+            assertSame(currentFolder, parent);
 
             // Locate the info for the child, and make sure it is folder
             currentFolderInfo = getChild(baseName);
