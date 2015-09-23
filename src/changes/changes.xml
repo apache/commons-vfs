@@ -121,6 +121,9 @@
       <action issue="VFS-542" dev="ggregory" type="update">
        Update Jsch from 0.1.50 to 0.1.51.
       </action>
+      <action issue="VFS-578" dev="ggregory" type="update">
+       Update Apache Commons Compress from 1.9 to 1.10.
+      </action>
       <action issue="VFS-541" dev="ggregory" type="update">
        Update Apache Commons Compress from 1.6 to 1.9.
       </action>
