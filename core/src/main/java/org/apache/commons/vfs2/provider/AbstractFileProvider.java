@@ -35,11 +35,16 @@ public abstract class AbstractFileProvider
     extends AbstractVfsContainer
     implements FileProvider
 {
+    private static final AbstractFileSystem[] EMPTY_ABSTRACTFILESYSTEMS = new AbstractFileSystem[0];
+
     /**
-     * The cached file systems.  This is a mapping from root URI to
-     * FileSystem object.
+     * The cached file systems.
+     * <p>
+     * This is a mapping from {@link FileSystemKey} (root URI and options)
+     * to {@link FileSystem}.
      */
-    private final Map<FileSystemKey, FileSystem> fileSystems = new TreeMap<FileSystemKey, FileSystem>();
+    private final Map<FileSystemKey, FileSystem> fileSystems
+            = new TreeMap<FileSystemKey, FileSystem>(); // @GuardedBy("self")
 
     private FileNameParser parser;
 
@@ -64,7 +69,7 @@ public abstract class AbstractFileProvider
     @Override
     public void close()
     {
-        synchronized (this)
+        synchronized (fileSystems)
         {
             fileSystems.clear();
         }
@@ -99,13 +104,13 @@ public abstract class AbstractFileProvider
     protected void addFileSystem(final Comparable<?> key, final FileSystem fs)
         throws FileSystemException
     {
-        // Add to the cache
+        // Add to the container and initialize
         addComponent(fs);
 
         final FileSystemKey treeKey = new FileSystemKey(key, fs.getFileSystemOptions());
         ((AbstractFileSystem) fs).setCacheKey(treeKey);
 
-        synchronized (this)
+        synchronized (fileSystems)
         {
             fileSystems.put(treeKey, fs);
         }
@@ -122,7 +127,7 @@ public abstract class AbstractFileProvider
     {
         final FileSystemKey treeKey = new FileSystemKey(key, fileSystemProps);
 
-        synchronized (this)
+        synchronized (fileSystems)
         {
             return fileSystems.get(treeKey);
         }
@@ -143,14 +148,16 @@ public abstract class AbstractFileProvider
      */
     public void freeUnusedResources()
     {
-        Object[] item;
-        synchronized (this)
+        AbstractFileSystem[] abstractFileSystems;
+        synchronized (fileSystems)
         {
-            item = fileSystems.values().toArray();
+            // create snapshot under lock
+            abstractFileSystems = fileSystems.values().toArray(EMPTY_ABSTRACTFILESYSTEMS);
         }
-        for (final Object element : item)
+
+        // process snapshot outside lock
+        for (final AbstractFileSystem fs : abstractFileSystems)
         {
-            final AbstractFileSystem fs = (AbstractFileSystem) element;
             if (fs.isReleaseable())
             {
                 fs.closeCommunicationLink();
@@ -166,11 +173,12 @@ public abstract class AbstractFileProvider
     {
         final AbstractFileSystem fs = (AbstractFileSystem) filesystem;
 
-        synchronized (this)
+        final FileSystemKey key = fs.getCacheKey();
+        if (key != null)
         {
-            if (fs.getCacheKey() != null)
+            synchronized (fileSystems)
             {
-                fileSystems.remove(fs.getCacheKey());
+                fileSystems.remove(key);
             }
         }
 

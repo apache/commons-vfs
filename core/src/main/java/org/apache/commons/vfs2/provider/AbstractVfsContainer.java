@@ -29,7 +29,8 @@ public abstract class AbstractVfsContainer
     /**
      * The components contained by this component.
      */
-    private final ArrayList<Object> components = new ArrayList<Object>();
+    private final ArrayList<Object> components
+            = new ArrayList<Object>(); // @GuardedBy("self")
 
     /**
      * Adds a sub-component to this component.
@@ -42,20 +43,23 @@ public abstract class AbstractVfsContainer
     protected void addComponent(final Object component)
         throws FileSystemException
     {
-        if (!components.contains(component))
+        synchronized (components)
         {
-            // Initialise
-            if (component instanceof VfsComponent)
+            if (!components.contains(component))
             {
-                final VfsComponent vfsComponent = (VfsComponent) component;
-                vfsComponent.setLogger(getLogger());
-                vfsComponent.setContext(getContext());
-                vfsComponent.init();
-            }
+                // Initialise
+                if (component instanceof VfsComponent)
+                {
+                    final VfsComponent vfsComponent = (VfsComponent) component;
+                    vfsComponent.setLogger(getLogger());
+                    vfsComponent.setContext(getContext());
+                    vfsComponent.init();
+                }
 
-            // Keep track of component, to close it later
-            components.add(component);
-        }
+                // Keep track of component, to close it later
+                components.add(component);
+            }
+        } // synchronized
     }
 
     /**
@@ -65,7 +69,11 @@ public abstract class AbstractVfsContainer
      */
     protected void removeComponent(final Object component)
     {
-        components.remove(component);
+        synchronized (components)
+        {
+            // multiple instances should not happen
+            components.remove(component);
+        }
     }
 
     /**
@@ -74,17 +82,21 @@ public abstract class AbstractVfsContainer
     @Override
     public void close()
     {
-        // Close all components
-        final int count = components.size();
-        for (int i = 0; i < count; i++)
+        final Object[] toclose;
+        synchronized (components)
         {
-            final Object component = components.get(i);
+            toclose = components.toArray();
+            components.clear();
+        }
+  
+        // Close all components
+        for (Object component : toclose)
+        {
             if (component instanceof VfsComponent)
             {
                 final VfsComponent vfsComponent = (VfsComponent) component;
                 vfsComponent.close();
             }
         }
-        components.clear();
     }
 }
