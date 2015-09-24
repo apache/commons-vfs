@@ -32,7 +32,7 @@ public class JunctionTests
 {
     private FileObject getBaseDir() throws FileSystemException
     {
-        final File file = AbstractVfsTestCase.getTestDirectory();
+        final File file = AbstractVfsTestCase.getTestDirectoryFile();
         assertTrue(file.exists());
         return getManager().toFileObject(file);
     }

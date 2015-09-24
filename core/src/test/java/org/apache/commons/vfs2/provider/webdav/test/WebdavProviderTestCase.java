@@ -241,7 +241,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         RepoDirectory = createTempDirectory();
         message("Created temp directory " + RepoDirectory);
         // Populate repo
-        importFiles(RepoDirectory, new File(getTestDirectoryString()));
+        importFiles(RepoDirectory, new File(getTestDirectory()));
         dump(RepoDirectory);
         // Start server with temp repo
         startJackrabbit(RepoDirectory);

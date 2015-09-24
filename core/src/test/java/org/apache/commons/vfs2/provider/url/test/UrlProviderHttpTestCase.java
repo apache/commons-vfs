@@ -60,7 +60,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
     private static void setUpClass() throws Exception
     {
         Server = new NHttpServer();
-        if (!Server.run(SocketPort, new File(getTestDirectoryString()), 5000))
+        if (!Server.run(SocketPort, new File(getTestDirectory()), 5000))
         {
             throw new IllegalStateException("The embedded HTTP server has not completed startup, increase wait time");
         }

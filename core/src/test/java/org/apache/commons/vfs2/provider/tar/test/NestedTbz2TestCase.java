@@ -61,7 +61,7 @@ public class NestedTbz2TestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         // Locate the base Tar file
-        final String tarFilePath = AbstractVfsTestCase.getTestResourceFile("nested.tbz2").getAbsolutePath();
+        final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tbz2").getAbsolutePath();
         final String uri = "tbz2:file:" + tarFilePath + "!/test.tbz2";
         final FileObject tarFile = manager.resolveFile(uri);
 

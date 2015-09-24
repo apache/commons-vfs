@@ -36,7 +36,7 @@ public class JarProviderTestCase extends AbstractProviderTestConfig implements P
 {
     static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception
     {
-        final File jarFile = AbstractVfsTestCase.getTestResourceFile(name);
+        final File jarFile = AbstractVfsTestCase.getTestResource(name);
         final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }

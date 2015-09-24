@@ -40,7 +40,7 @@ public class FileSystemManagerFactoryTestCase
         final FileSystemManager manager = VFS.getManager();
 
         // Lookup a test jar file
-        final File jarFile = getTestResourceFile("test.jar");
+        final File jarFile = getTestResource("test.jar");
         // File
         final FileObject file = manager.toFileObject(jarFile);
         check(manager, file);

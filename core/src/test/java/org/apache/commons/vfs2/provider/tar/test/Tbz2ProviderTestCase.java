@@ -60,7 +60,7 @@ public class Tbz2ProviderTestCase
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
-        final File tarFile = AbstractVfsTestCase.getTestResourceFile("test.tbz2");
+        final File tarFile = AbstractVfsTestCase.getTestResource("test.tbz2");
         final String uri = "tbz2:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
     }

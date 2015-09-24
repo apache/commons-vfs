@@ -62,7 +62,7 @@ public class NestedJarTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         // Locate the Jar file
-        final File outerFile = AbstractVfsTestCase.getTestResourceFile("nested.jar");
+        final File outerFile = AbstractVfsTestCase.getTestResource("nested.jar");
         final String uri = "jar:file:" + outerFile.getAbsolutePath() + "!/test.jar";
         final FileObject jarFile = manager.resolveFile(uri);
 

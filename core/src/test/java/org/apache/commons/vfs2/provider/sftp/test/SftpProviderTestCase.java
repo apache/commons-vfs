@@ -109,7 +109,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
             {
                 return null;
             }
-            return new TestFileSystemView(AbstractVfsTestCase.getTestDirectoryString(), userName);
+            return new TestFileSystemView(AbstractVfsTestCase.getTestDirectory(), userName);
         }
     }
 

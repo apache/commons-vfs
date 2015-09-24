@@ -108,7 +108,7 @@ public class VfsClassLoaderTests
     public void testGetResourcesJARs() throws Exception
     {
         final FileSystemManager manager = getManager();
-        final File baseDir = AbstractVfsTestCase.getTestDirectory();
+        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
 
         // make sure the provider config is useable
         if (baseDir == null || manager == null || !baseDir.isDirectory()) 

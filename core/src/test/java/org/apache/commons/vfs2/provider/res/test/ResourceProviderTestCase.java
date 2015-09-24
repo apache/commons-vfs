@@ -58,7 +58,7 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig
     public FileObject getBaseTestFolder(final FileSystemManager manager)
         throws Exception
     {
-        final String baseDir = AbstractVfsTestCase.getResourceTestDirectoryString();
+        final String baseDir = AbstractVfsTestCase.getResourceTestDirectory();
         return manager.resolveFile("res:" + baseDir);
     }
 }

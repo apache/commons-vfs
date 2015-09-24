@@ -103,7 +103,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         final BaseUser user = (BaseUser) userManager.getUserByName("test");
         // Pickup the home dir value at runtime even though we have it set in the user prop file
         // The user prop file requires the "homedirectory" to be set
-        user.setHomeDirectory(getTestDirectoryString());
+        user.setHomeDirectory(getTestDirectory());
         serverFactory.setUserManager(userManager);
         final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener

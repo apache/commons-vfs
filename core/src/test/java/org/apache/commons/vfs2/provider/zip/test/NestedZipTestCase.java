@@ -61,7 +61,7 @@ public class NestedZipTestCase
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
         // Locate the base Zip file
-        final String zipFilePath = AbstractVfsTestCase.getTestResourceFile("nested.zip").getAbsolutePath();
+        final String zipFilePath = AbstractVfsTestCase.getTestResource("nested.zip").getAbsolutePath();
         final String uri = "zip:file:" + zipFilePath + "!/test.zip";
         final FileObject zipFile = manager.resolveFile(uri);
 

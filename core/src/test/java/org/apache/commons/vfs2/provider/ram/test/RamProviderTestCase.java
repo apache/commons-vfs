@@ -85,7 +85,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig implements
             // Import the test tree
             final FileObject fo = manager.resolveFile("ram:/");
             final RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
-            fs.importTree(getTestDirectory());
+            fs.importTree(getTestDirectoryFile());
             fo.close();
 
             inited=true;
