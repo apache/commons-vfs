@@ -412,11 +412,23 @@
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-common</artifactId>
         <version>2.6.0</version>
+        <exclusions>
+          <exclusion>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-hdfs</artifactId>
         <version>2.6.0</version>
+        <exclusions>
+          <exclusion>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <!-- Testing -->
@@ -439,11 +451,6 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.5.11</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
         <version>1.5.11</version>
       </dependency>
       <dependency>
@@ -485,9 +492,9 @@
         <version>1.6.5</version>
         <exclusions>
           <exclusion>
-            <!-- Exclude Derby due to a sealing violation -->
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derby</artifactId>
+            <!-- provides everything inlined. -->
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -497,6 +504,13 @@
         <artifactId>hadoop-common</artifactId>
         <version>2.6.0</version>
         <type>test-jar</type>
+        <exclusions>
+          <exclusion>
+            <!-- jackrabbit-standalone provides one, too -->
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
