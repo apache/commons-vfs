@@ -127,6 +127,12 @@ public final class FileSystemOptions implements Cloneable
             result = HASH * result + name.hashCode();
             return result;
         }
+
+        @Override
+        public String toString()
+        {
+            return fileSystemClass.getName()+"."+name;
+        }
     }
 
     void setOption(final Class<? extends FileSystem> fileSystemClass, final String name, final Object value)
@@ -171,13 +177,13 @@ public final class FileSystemOptions implements Cloneable
         }
 
         // ensure proper sequence of options
-        final SortedMap<FileSystemOptionKey, Object> myOptions = 
-              options instanceof SortedMap 
-            ? (SortedMap<FileSystemOptionKey, Object>)options 
+        final SortedMap<FileSystemOptionKey, Object> myOptions =
+              options instanceof SortedMap
+            ? (SortedMap<FileSystemOptionKey, Object>)options
             : new TreeMap<FileSystemOptionKey, Object>(options);
-        final SortedMap<FileSystemOptionKey, Object> theirOptions = 
-              other.options instanceof SortedMap 
-            ? (SortedMap<FileSystemOptionKey, Object>)other.options 
+        final SortedMap<FileSystemOptionKey, Object> theirOptions =
+              other.options instanceof SortedMap
+            ? (SortedMap<FileSystemOptionKey, Object>)other.options
             : new TreeMap<FileSystemOptionKey, Object>(other.options);
         final Iterator<FileSystemOptionKey> optKeysIter = myOptions.keySet().iterator();
         final Iterator<FileSystemOptionKey> otherKeysIter = theirOptions.keySet().iterator();
@@ -203,7 +209,7 @@ public final class FileSystemOptions implements Cloneable
         // TODO: compare Entry by Entry ??
         return 0;
     }
-    
+
     @Override
     public int hashCode()
     {
@@ -212,9 +218,9 @@ public final class FileSystemOptions implements Cloneable
         if (options == null) {
             result = prime * result;
         } else {
-            final SortedMap<FileSystemOptionKey, Object> myOptions = 
-                options instanceof SortedMap 
-              ? (SortedMap<FileSystemOptionKey, Object>)options 
+            final SortedMap<FileSystemOptionKey, Object> myOptions =
+                options instanceof SortedMap
+              ? (SortedMap<FileSystemOptionKey, Object>)options
               : new TreeMap<FileSystemOptionKey, Object>(options);
             result = prime * result + myOptions.keySet().hashCode();
             result = prime * result + Arrays.deepHashCode(myOptions.values().toArray(new Object[options.size()]));
@@ -237,7 +243,7 @@ public final class FileSystemOptions implements Cloneable
         FileSystemOptions other = (FileSystemOptions)obj;
         return compareTo(other) == 0;
     }
-    
+
 
     /**
      * {@inheritDoc}
