@@ -23,6 +23,7 @@ import java.net.URLConnection;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
  * URL test cases for providers.
@@ -85,6 +86,25 @@ public class UrlTests
 
         urlCon = file.getURL().openConnection();
         assertSameURLContent("", urlCon);
+    }
+
+    /**
+     * Tests content.
+     */
+    public void testURLContentProvider() throws Exception
+    {
+        // Test non-empty file
+        FileObject file = getReadFolder().resolveFile("file1.txt");
+        assertTrue(file.exists());
+
+        String uri = file.getURL().toExternalForm();
+        FileSystemOptions options = getReadFolder().getFileSystem().getFileSystemOptions();
+
+        FileObject f1 = getManager().resolveFile(uri, options);
+        FileObject f2 = getManager().resolveFile(uri, options);
+
+        assertEquals("Two files resolved by URI must be equals on " + uri,  f1, f2);
+        assertSame("Resolving two times should not produce new filesystem on " + uri, f1.getFileSystem(), f2.getFileSystem());
     }
 
     /**

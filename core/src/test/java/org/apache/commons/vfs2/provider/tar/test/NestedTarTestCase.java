@@ -20,7 +20,11 @@ import junit.framework.Test;
 
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemManager;
+import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.auth.StaticUserAuthenticator;
+import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.tar.TarFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
@@ -60,12 +64,16 @@ public class NestedTarTestCase
     @Override
     public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
     {
+        // We test with non-empty FS options to make sure they are propagated
+        final FileSystemOptions opts = new FileSystemOptions();
+        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, new StaticUserAuthenticator("domain",  null,  null));
+
         // Locate the base Tar file
         final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tar").getAbsolutePath();
-        final String uri = "tar:file:" + tarFilePath + "!/test.tar";
-        final FileObject tarFile = manager.resolveFile(uri);
 
         // Now build the nested file system
+        final String uri = "tar:file:" + tarFilePath + "!/test.tar";
+        final FileObject tarFile = manager.resolveFile(uri, opts);
         final FileObject nestedFS = manager.createFileSystem(tarFile);
         return nestedFS.resolveFile("/");
     }
