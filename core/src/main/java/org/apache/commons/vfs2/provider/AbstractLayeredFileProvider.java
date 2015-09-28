@@ -80,7 +80,7 @@ public abstract class AbstractLayeredFileProvider
     {
         // Check if cached
         final FileName rootName = file.getName();
-        FileSystem fs = findFileSystem(rootName, fileSystemOptions); // TODO
+        FileSystem fs = findFileSystem(rootName, fileSystemOptions);
         if (fs == null)
         {
             // Create the file system
