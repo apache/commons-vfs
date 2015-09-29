@@ -60,6 +60,12 @@ class FileTypeMap
             return mimeTypeMap.get(mimeType);
         }
 
+        // do not match directories like .../directory.jar/
+        if (!file.isFile())
+        {
+            return null;
+        }
+
         // Check the file's extension for a match
         final String extension = file.getName().getExtension();
         return extensionMap.get(extension);
