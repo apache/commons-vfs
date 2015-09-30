@@ -15,6 +15,8 @@
 ##   See the License for the specific language governing permissions and
 ##   limitations under the License.
 
+set -e
+
 PRG="$0"
 
 while [ -h "$PRG" ]; do
@@ -30,9 +32,9 @@ done
 # Get standard environment variables
 PRGDIR=`dirname "$PRG"`
 
-cd $PRGDIR/../..
+cd $PRGDIR/../../..
 
-if [ ! -d target/test-data/read-tests ]
+if [ ! -d target/test-classes/test-data/read-tests ]
 then
 	echo "Please run maven to have the environment setup correctly"
 	exit 1
@@ -53,8 +55,13 @@ then
 	echo "cant execute zip?"
 	exit 1
 fi
+if [ ! -x "`type -p bzip2`" ]
+then
+        echo "cant execute bzip2?"
+        exit 1
+fi
 
-cd target/test-data
+cd target/test-classes/test-data
 
 rm -f test.jar test.tar test.tbz2 test.tgz test.zip
 rm -f nested.jar nested.tar nested.tbz2 nested.tgz nested.zip
@@ -91,5 +98,8 @@ zip nested.zip test.zip
 
 for i in test.jar test.tar test.tbz2 test.tgz test.zip nested.jar nested.tar nested.tbz2 nested.tgz nested.zip
 do
-	cp $i ../../src/test-data/$i
+	cp $i ../../../src/test/resources/test-data/$i
 done
+
+echo Done.
+
