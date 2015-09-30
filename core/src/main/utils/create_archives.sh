@@ -62,6 +62,7 @@ then
 fi
 
 cd target/test-classes/test-data
+mkdir read-tests/emptydir
 
 rm -f test.jar test.tar test.tbz2 test.tgz test.zip
 rm -f nested.jar nested.tar nested.tbz2 nested.tgz nested.zip

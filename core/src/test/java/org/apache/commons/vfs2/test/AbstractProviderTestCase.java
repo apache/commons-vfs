@@ -373,6 +373,11 @@ public abstract class AbstractProviderTestCase
         subdir3.addFile("file2.txt", TEST_FILE_CONTENT);
         subdir3.addFile("file3.txt", TEST_FILE_CONTENT);
 
+        final FileInfo subdir4 = dir.addFolder("subdir4.jar");
+        subdir4.addFile("file1.txt", TEST_FILE_CONTENT);
+        subdir4.addFile("file2.txt", TEST_FILE_CONTENT);
+        subdir4.addFile("file3.txt", TEST_FILE_CONTENT);
+
         return base;
     }
 
