@@ -48,7 +48,10 @@ class FileTypeMap
     }
 
     /**
-     * Finds the provider to use to create a filesystem from a given file.
+     * Find the scheme for the provider of a layered file system.
+     * <p>
+     * This will check the FileContentInfo or file extension.
+     * @return Scheme supporting the file type or null (if unknonw).
      */
     public String getScheme(final FileObject file) throws FileSystemException
     {
@@ -60,7 +63,11 @@ class FileTypeMap
             return mimeTypeMap.get(mimeType);
         }
 
-        // Check the file's extension for a match
+        // no specific mime-type - if it is a file also check the extension
+        if (!file.isFile())
+        {
+            return null; // VFS-490 folders don't use extensions for mime-type
+        }
         final String extension = file.getName().getExtension();
         return extensionMap.get(extension);
     }

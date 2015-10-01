@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-490" dev="ecki" type="fix">
+        [vfsclassloader] Do not open folders with .jar extension. Adds tests.
+     </action>
       <action issue="VFS-582" dev="ecki" type="fix">
         [tests] revert rename of getTestDirectoryFile to make test classes more compatible for external providers.
      </action>

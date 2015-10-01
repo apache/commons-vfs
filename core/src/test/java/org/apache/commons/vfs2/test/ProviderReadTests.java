@@ -363,4 +363,34 @@ public class ProviderReadTests extends AbstractProviderTestCase
             assertEquals(expected, actual);
         }
     }
+
+    /**
+     * Tests that we can traverse a folder that has JAR name.
+     */
+    public void testDotJarFolderName() throws Exception
+    {
+        final FileObject folder = getReadFolderDir1().resolveFile("subdir4.jar");
+        Assert.assertTrue(folder.exists());
+        final FileObject file = folder.resolveFile("file1.txt");
+        Assert.assertTrue(file.exists());
+    }
+
+    /**
+     * Tests that a folder can't be layered.
+     */
+    public void testDotJarFolderNameLayer() throws Exception
+    {
+        final FileObject folder = getReadFolderDir1().resolveFile("subdir4.jar");
+        Assert.assertTrue("subdir4.jar/ must exist as folder, check test setup.", folder.isFolder());
+        Assert.assertFalse("subdir4.jar/ must not be layerable", getManager().canCreateFileSystem(folder));
+        try
+        {
+            FileObject ignored = getManager().createFileSystem(folder);
+            fail("Should not be able to create a layered filesystem on a directory. " + ignored);
+        }
+        catch (final FileSystemException e)
+        {
+            assertSame("Creation of layered filesystem should fail" + e, "vfs.impl/no-provider-for-file.error", e.getCode());
+        }
+    }
 }

@@ -103,38 +103,36 @@ public class VfsClassLoaderTests
     }
 
     /**
-     * Tests retrieving resources (from JAR searchpath)
+     * Tests retrieving resources (from JAR searchpath).
+     * <p>
+     * This is run for all providers, but only when a local
+     * provider is present and jar extension is registered
+     * it will actually carry out all tests.
      */
     public void testGetResourcesJARs() throws Exception
     {
         final FileSystemManager manager = getManager();
-        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
-
-        // make sure the provider config is useable
-        if (baseDir == null || manager == null || !baseDir.isDirectory()) 
+        try
         {
+            // hasProvider("file") cannot be used as it triggers default provider URL
+            manager.toFileObject(new File("."));
+        }
+        catch (FileSystemException e)
+        {
+            System.out.println("VfsClassLoaderTestCase has no local file provider, skipping.");
             return;
         }
 
         // build search path without using #getBaseFolder()
         // because NestedJarTestCase redefines it
-        final FileObject nestedJar;
-        final FileObject testJar;
-        try
-        {
-            nestedJar = manager.resolveFile(baseDir, "nested.jar");
-            testJar = manager.resolveFile(baseDir, "test.jar");
-        }
-        catch (FileSystemException ignored)
-        {
-            return; // this suite cannot handle localFiles
-        }
-
-        final FileObject[] search = new FileObject[] { nestedJar, testJar };
+        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+        final FileObject nestedJar = manager.resolveFile(baseDir, "nested.jar");
+        final FileObject testJar = manager.resolveFile(baseDir, "test.jar");
 
         // test setup needs to know about .jar extension - i.e. NestedJarTestCase
-        if (!manager.canCreateFileSystem(nestedJar)) 
+        if (!manager.canCreateFileSystem(nestedJar))
         {
+            System.out.println("VfsClassLoaderTestCase has no .jar provider, skipping.");
             return;
         }
 
@@ -146,7 +144,7 @@ public class VfsClassLoaderTests
         // to returning resources for META-INF/MANIFEST.MF (see VFS-500)
         // so we use our own which is guaranteed to not return any hit
         final ClassLoader mockClassloader = new MockClassloader();
-
+        final FileObject[] search = new FileObject[] { nestedJar, testJar };
         final VFSClassLoader loader = new VFSClassLoader(search, getManager(), mockClassloader);
 
         final Enumeration<URL> urls = loader.getResources("META-INF/MANIFEST.MF");
@@ -155,6 +153,44 @@ public class VfsClassLoaderTests
 
         assertTrue("First resource must refer to nested.jar but was " + url1, url1.toString().endsWith("nested.jar!/META-INF/MANIFEST.MF"));
         assertTrue("Second resource must refer to test.jar but was " + url2, url2.toString().endsWith("test.jar!/META-INF/MANIFEST.MF"));
+    }
+
+    /**
+     * Tests retrieving resources (from local directory with .jar extension).
+     * <p>
+     * This test is repeatet with various provider configurations but works on local files, only.
+     */
+    public void testGetResourcesNoLayerLocal() throws Exception
+    {
+        final FileSystemManager manager = getManager();
+        try
+        {
+            // hasProvider("file") cannot be used as it triggers default provider URL
+            manager.toFileObject(new File("."));
+        }
+        catch (FileSystemException e)
+        {
+            System.out.println("TestCase has no local file provider, skipping.");
+            return;
+        }
+        final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
+
+        // setup test folder
+        final FileObject dir = manager.resolveFile(baseDir, "read-tests/dir1/subdir4.jar");
+        System.out.println("vfsclassloadertests: " + dir);
+        assertTrue("subdir4.jar/ is required for testing " + dir, dir.getType() == FileType.FOLDER);
+        assertFalse(manager.canCreateFileSystem(dir));
+
+        // prepare classloader
+        final FileObject[] search = new FileObject[] { dir };
+        final ClassLoader mockClassloader = new MockClassloader();
+        final VFSClassLoader loader = new VFSClassLoader(search, getManager(), mockClassloader);
+
+        // verify resource loading
+        final Enumeration<URL> urls = loader.getResources("file1.txt");
+        final URL url1 = urls.nextElement();
+        assertFalse("Only one hit expected", urls.hasMoreElements());
+        assertTrue("not pointing to resource " + url1, url1.toString().endsWith("subdir4.jar/file1.txt"));
     }
 
 
