@@ -26,6 +26,9 @@
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
+      <action issue="VFS-424" dev="ecki" type="fix">
+        Fix StandardFileSystemManager class loading so it works in a OSGi environment.
+     </action>
       <action issue="VFS-490" dev="ecki" type="fix">
         [vfsclassloader] Do not open folders with .jar extension. Adds tests.
      </action>

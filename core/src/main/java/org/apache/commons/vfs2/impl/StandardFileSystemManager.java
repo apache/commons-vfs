@@ -130,12 +130,10 @@ public class StandardFileSystemManager
      */
     protected void configurePlugins() throws FileSystemException
     {
-        final ClassLoader cl = findClassLoader();
-
         Enumeration<URL> enumResources;
         try
         {
-            enumResources = cl.getResources(PLUGIN_CONFIG_RESOURCE);
+            enumResources = loadResources(PLUGIN_CONFIG_RESOURCE);
         }
         catch (final IOException e)
         {
@@ -407,7 +405,7 @@ public class StandardFileSystemManager
     {
         try
         {
-            findClassLoader().loadClass(className);
+            loadClass(className);
             return true;
         }
         catch (final ClassNotFoundException e)
@@ -480,12 +478,44 @@ public class StandardFileSystemManager
     {
         try
         {
-            final Class<?> clazz = findClassLoader().loadClass(className);
+            Class<?> clazz = loadClass(className);
             return clazz.newInstance();
         }
         catch (final Exception e)
         {
             throw new FileSystemException("vfs.impl/create-provider.error", className, e);
         }
+    }
+
+    /**
+     * Load a class from different class loaders.
+     * @throws ClassNotFoundException if last {@code loadClass} failed.
+     * @see #findClassLoader()
+     */
+    private Class< ? > loadClass(String className) throws ClassNotFoundException
+    {
+        try
+        {
+            return findClassLoader().loadClass(className);
+        }
+        catch (final ClassNotFoundException e)
+        {
+            return getClass().getClassLoader().loadClass(className);
+        }
+    }
+
+    /**
+     * Resolve resources from different class loaders.
+     * @throws IOException if {@code getResource} failed.
+     * @see #findClassLoader()
+     */
+    private Enumeration<URL> loadResources(String name) throws IOException
+    {
+        Enumeration<URL> res = findClassLoader().getResources(name);
+        if (res == null || !res.hasMoreElements())
+        {
+            res = getClass().getClassLoader().getResources(name);
+        }
+        return res;
     }
 }
