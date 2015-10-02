@@ -119,7 +119,7 @@ public class VfsClassLoaderTests
         }
         catch (FileSystemException e)
         {
-            System.out.println("VfsClassLoaderTestCase has no local file provider, skipping.");
+            System.out.println("VfsClassLoaderTests no local file provider, skipping.");
             return;
         }
 
@@ -132,7 +132,7 @@ public class VfsClassLoaderTests
         // test setup needs to know about .jar extension - i.e. NestedJarTestCase
         if (!manager.canCreateFileSystem(nestedJar))
         {
-            System.out.println("VfsClassLoaderTestCase has no .jar provider, skipping.");
+            System.out.println("VfsClassLoaderTests no layered .jar provider, skipping.");
             return;
         }
 
@@ -158,7 +158,7 @@ public class VfsClassLoaderTests
     /**
      * Tests retrieving resources (from local directory with .jar extension).
      * <p>
-     * This test is repeatet with various provider configurations but works on local files, only.
+     * This test is repeated with various provider configurations but works on local files, only.
      */
     public void testGetResourcesNoLayerLocal() throws Exception
     {
@@ -170,14 +170,13 @@ public class VfsClassLoaderTests
         }
         catch (FileSystemException e)
         {
-            System.out.println("TestCase has no local file provider, skipping.");
+            System.out.println("VfsClassLoaderTests no local file provider, skipping.");
             return;
         }
         final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
 
         // setup test folder
         final FileObject dir = manager.resolveFile(baseDir, "read-tests/dir1/subdir4.jar");
-        System.out.println("vfsclassloadertests: " + dir);
         assertTrue("subdir4.jar/ is required for testing " + dir, dir.getType() == FileType.FOLDER);
         assertFalse(manager.canCreateFileSystem(dir));
 
