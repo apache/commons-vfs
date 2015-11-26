@@ -35,15 +35,20 @@
         <location rdf:resource="http://svn.apache.org/repos/asf/commons/proper/vfs"/>
       </SVNRepository>
     </repository>
-    <!--
     <release>
       <Version>
-        <name>??</name>
-        <created>yyyy-mm-dd</created>
-        <revision>??</revision>
+        <name>commons-vfs</name>
+        <created>2011-08-24</created>
+        <revision>2.0</revision>
       </Version>
     </release>
-    -->
+    <release>
+      <Version>
+        <name>commons-vfs</name>
+        <created>2006-12-30</created>
+        <revision>1.0</revision>
+      </Version>
+    </release>
     <mailing-list rdf:resource="http://commons.apache.org/mail-lists.html"/>
   </Project>
 </rdf:RDF>
