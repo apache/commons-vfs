@@ -412,7 +412,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             }
             */
 
-            // Traverse up the heirarchy and make sure everything is a folder
+            // Traverse up the hierarchy and make sure everything is a folder
             final FileObject parent = getParent();
             if (parent != null)
             {
@@ -558,7 +558,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Detaches this file, invaliating all cached info.  This will force
+     * Detaches this file, invalidating all cached info.  This will force
      * a call to {@link #doAttach} next time this file is used.
      * @throws Exception if an error occurs.
      */
@@ -994,7 +994,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * Called when the ouput stream for this file is closed.
+     * Called when the output stream for this file is closed.
      * @throws Exception if an error occurs.
      */
     protected void endOutput() throws Exception
@@ -1359,11 +1359,11 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * write the content of the file to.<br>
      *
      * @param bAppend true when append to the file.<br>
-     *                Note: If the underlaying filesystem does not support appending,
+     *                Note: If the underlying filesystem does not support appending,
      *                a FileSystemException is thrown.
      * @return An OutputStream where the new contents of the file can be written.
      * @throws FileSystemException if an error occurs; for example:<br>
-     *         bAppend is true, and the unbderlying FileSystem does not support it
+     *         bAppend is true, and the underlying FileSystem does not support it
      */
     public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException
     {
@@ -1881,7 +1881,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             try
             {
                 attach();
-                // remeber type to avoid attach
+                // remember type to avoid attach
                 FileType srcType = getType();
 
                 doRename(destFile);
@@ -1980,7 +1980,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * This will prepare the fileObject to get resynchronized with the underlaying filesystem if required.
+     * This will prepare the fileObject to get resynchronized with the underlying filesystem if required.
      * @throws FileSystemException if an error occurs.
      */
     @Override
