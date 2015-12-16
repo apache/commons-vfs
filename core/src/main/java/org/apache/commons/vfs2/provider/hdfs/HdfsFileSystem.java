@@ -16,8 +16,10 @@
  */
 package org.apache.commons.vfs2.provider.hdfs;
 
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Collection;
 
@@ -110,14 +112,51 @@ public class HdfsFileSystem extends AbstractFileSystem
             {
                 final String hdfsUri = name.getRootURI();
                 final HdfsFileSystemConfigBuilder builder = HdfsFileSystemConfigBuilder.getInstance();
-                final String configName = builder.getConfigName(getFileSystemOptions());
+                final FileSystemOptions options = getFileSystemOptions();
+                final String[] configNames = builder.getConfigNames(options);
+                final Path[] configPaths = builder.getConfigPaths(options);
+                final URL[] configURLs = builder.getConfigURLs(options);
+                final InputStream configStream = builder.getConfigInputStream(options);
+                final Configuration configConfiguration = builder.getConfigConfiguration(options);
 
                 final Configuration conf = new Configuration(true);
                 conf.set(FileSystem.FS_DEFAULT_NAME_KEY, hdfsUri);
-                if (configName != null)
+
+                // Load any alternate configuration parameters that may have been specified
+                // no matter where they might come from
+                if (configNames != null)
                 {
-                    log.debug("Adding HDFS configuration file: " + configName);
-                    conf.addResource(configName);
+                    for (String configName : configNames)
+                    {
+                        log.debug("Adding HDFS configuration resource: " + configName);
+                        conf.addResource(configName);
+                    }
+                }
+                if (configPaths != null)
+                {
+                    for (Path path : configPaths)
+                    {
+                        log.debug("Adding HDFS configuration path: " + path);
+                        conf.addResource(path);
+                    }
+                }
+                if (configURLs != null)
+                {
+                    for (URL url : configURLs)
+                    {
+                        log.debug("Adding HDFS configuration URL: " + url);
+                        conf.addResource(url);
+                    }
+                }
+                if (configStream != null)
+                {
+                    log.debug("Adding HDFS configuration stream");
+                    conf.addResource(configStream);
+                }
+                if (configConfiguration != null)
+                {
+                    log.debug("Adding HDFS configuration object");
+                    conf.addResource(configConfiguration);
                 }
 
                 try
