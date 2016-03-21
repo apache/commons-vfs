@@ -317,42 +317,46 @@ public abstract class AbstractFileSystem
         return resolveFile(name, true);
     }
 
-    private synchronized FileObject resolveFile(final FileName name, final boolean useCache) throws FileSystemException
+    private FileObject resolveFile(final FileName name, final boolean useCache) throws FileSystemException
     {
-        if (!rootName.getRootURI().equals(name.getRootURI()))
-        {
-            throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error",
-                    name, rootName, name.getRootURI());
-        }
-
-        // imario@apache.org ==> use getFileFromCache
         FileObject file;
-        if (useCache)
-        {
-            file = getFileFromCache(name);
-        }
-        else
-        {
-            file = null;
-        }
 
-        if (file == null)
+        synchronized (this)
         {
-            try
+            if (!rootName.getRootURI().equals(name.getRootURI()))
             {
-                file = createFile((AbstractFileName) name);
-            }
-            catch (final Exception e)
-            {
-                throw new FileSystemException("vfs.provider/resolve-file.error", name, e);
+                throw new FileSystemException("vfs.provider/mismatched-fs-for-name.error",
+                        name, rootName, name.getRootURI());
             }
 
-            file = decorateFileObject(file);
-
-            // imario@apache.org ==> use putFileToCache
+            // imario@apache.org ==> use getFileFromCache
             if (useCache)
             {
-                putFileToCache(file);
+                file = getFileFromCache(name);
+            }
+            else
+            {
+                file = null;
+            }
+
+            if (file == null)
+            {
+                try
+                {
+                    file = createFile((AbstractFileName) name);
+                }
+                catch (final Exception e)
+                {
+                    throw new FileSystemException("vfs.provider/resolve-file.error", name, e);
+                }
+
+                file = decorateFileObject(file);
+
+                // imario@apache.org ==> use putFileToCache
+                if (useCache)
+                {
+                    putFileToCache(file);
+                }
             }
         }
 
@@ -361,6 +365,8 @@ public abstract class AbstractFileSystem
          */
         if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE))
         {
+            // The AbstractFileObject implementation of this method synchronizes on the underlying filesystem.
+            // Pulling the refresh() call out from the synchronized block prevents possible deadlock.
             file.refresh();
         }
         return file;
