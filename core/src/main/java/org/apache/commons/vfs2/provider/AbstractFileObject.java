@@ -564,28 +564,24 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     private void detach() throws Exception
     {
-        // no need to enter synchronized block if already detached.
-        if (attached)
+        synchronized (fs)
         {
-            synchronized (fs)
+            if (attached)
             {
-                if (attached)
+                try
                 {
-                    try
-                    {
-                        doDetach();
-                    }
-                    finally
-                    {
-                        attached = false;
-                        setFileType(null);
-                        parent = null;
+                    doDetach();
+                }
+                finally
+                {
+                    attached = false;
+                    setFileType(null);
+                    parent = null;
 
-                        // fs.fileDetached(this);
+                    // fs.fileDetached(this);
 
-                        removeChildrenCache();
-                        // children = null;
-                    }
+                    removeChildrenCache();
+                    // children = null;
                 }
             }
         }
