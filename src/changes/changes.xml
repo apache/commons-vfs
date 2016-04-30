@@ -127,6 +127,9 @@
        [Ram][Tests] Make RAM provider test pass on Java 8
        (JDK-8042377, self-suppression not permitted, MonitorOutputStream#close()).
       </action>
+      <action issue="VFS-601" dev="ggregory" type="update">
+       Update Apache Commons Net from 3.3 to 3.4.
+      </action>
       <action issue="VFS-579" dev="ggregory" type="update">
        Update Jsch from 0.1.51 to 0.1.53.
       </action>
