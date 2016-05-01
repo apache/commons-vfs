@@ -24,12 +24,18 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
+import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * the gzip file.
  */
 public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem>
 {
+    @Deprecated
+    protected GzipFileObject(final AbstractFileName name, final FileObject container, final CompressedFileFileSystem fs) {
+        super(name, container, cast(fs));
+    }
+
     protected GzipFileObject(final AbstractFileName name, final FileObject container, final GzipFileSystem fs)
     {
         super(name, container, fs);
@@ -47,5 +53,12 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem>
     {
         final OutputStream os = getContainer().getContent().getOutputStream(false);
         return new GZIPOutputStream(os);
+    }
+
+    private static GzipFileSystem cast(CompressedFileFileSystem fs) {
+        if (fs instanceof GzipFileSystem) {
+            return (GzipFileSystem) fs;
+        }
+        throw new IllegalArgumentException("GzipFileObject expects an instance of GzipFileSystem");
     }
 }

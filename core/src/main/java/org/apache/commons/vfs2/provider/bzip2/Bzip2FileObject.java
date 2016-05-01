@@ -25,12 +25,19 @@ import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.compressed.CompressedFileFileObject;
+import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 
 /**
  * the bzip2 file.
  */
 public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
 {
+    @Deprecated
+    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final CompressedFileFileSystem fs)
+    {
+        super(name, container, cast(fs));
+    }
+
     protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs)
     {
         super(name, container, fs);
@@ -54,5 +61,12 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
     {
         final OutputStream os = getContainer().getContent().getOutputStream(false);
         return new BZip2CompressorOutputStream(os);
+    }
+
+    private static Bzip2FileSystem cast(CompressedFileFileSystem fs) {
+        if (fs instanceof Bzip2FileSystem) {
+            return (Bzip2FileSystem) fs;
+        }
+        throw new IllegalArgumentException("Bzip2FileObject requires a Bzip2FileSystem implementation");
     }
 }
