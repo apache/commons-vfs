@@ -1,0 +1,292 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+   
+         http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+    <properties>
+        <title>Ant Tasks</title>
+        <author email="adammurdoch@apache.org">Adam Murdoch</author>
+    </properties>
+
+    <body>
+        <section name="Ant Tasks">
+            <p>
+                Commons VFS includes several Ant tasks that can be used
+                to create, delete, copy and move files of any supported type.
+                The tasks are:
+            </p>
+            <ul>
+                <li>
+                    <a href="#V-Copy">
+                        <code>&lt;v-copy&gt;</code>
+                    </a>
+                    .
+                    Copies a set of source folders and files to a destination
+                    folder.
+                </li>
+                <li>
+                    <a href="#V-Delete">
+                        <code>&lt;v-delete&gt;</code>
+                    </a>
+                    .
+                    Deletes a file or folder.
+                </li>
+                <li>
+                    <a href="#V-Mkdir">
+                        <code>&lt;v-mkdir&gt;</code>
+                    </a>
+                    .
+                    Creates a folder.
+                </li>
+                <li>
+                    <a href="#V-Move">
+                        <code>&lt;v-move&gt;</code>
+                    </a>
+                    .
+                    Moves a set of source folders and files to a destination
+                    folder.
+                </li>
+                <li>
+                    <a href="#V-Sync">
+                        <code>&lt;v-sync&gt;</code>
+                    </a>
+                    .
+                    Synchronises a destination folder with a set of source
+                    folder and files.
+                </li>
+            </ul>
+            <p>
+                All file name attributes support relative and absolute local
+                file names, and
+                <a href="filesystems.html">absolute URI</a>
+                .
+                File names are interpreted relative to the Ant project's base
+                directory.
+            </p>
+
+            <subsection name="Using the Tasks">
+                <p>
+                    To use the Ant tasks, copy commons-vfs.jar and its
+                    dependencies into the
+                    <code>$ANT_HOME/lib</code>
+                    directory,
+                    and use the following in your Ant scipt to define the tasks:
+                </p>
+
+                <source><![CDATA[
+<taskdef resource="org/apache/commons/vfs2/tasks/tasks.properties"/>
+                    ]]></source>
+
+                <p>
+                    Alternatively, you can provide an explicit classpath when
+                    you define the tasks:
+                </p>
+
+                <source><![CDATA[
+<taskdef resource="org/apache/commons/vfs2/tasks/tasks.properties">
+    <classpath> ... </classpath>
+</taskdef>
+                    ]]></source>
+
+                <p>
+                    You can also use antlib:
+                    <br/>
+                    <b>Notice: VFS tasks registered that way do not have te "v-" prefix.</b>
+                    If you migrate to antlib simply replace "v-" by e.g. "vfs:" or whatever
+                    namespace you use.
+                </p>
+
+                <source><![CDATA[
+<project ... xmlns:vfs="antlib:org.apache.commons.vfs2.tasks">
+    <target name="dosomething">
+        <vfs:copy .../>
+    </target>
+</project>
+                    ]]></source>
+
+            </subsection>
+        </section>
+
+        <section name="V-Copy">
+            <p>Copies a set of files to a destination folder. Does not copy
+                source files where the destination file exists and is newer than
+                the source file. The copy task takes the following attributes:</p>
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>destdir</td>
+                    <td>The destination folder. This folder is created if it
+                        does not exist.</td>
+                    <td rowspan="2">One only</td>
+                </tr>
+                <tr>
+                    <td>destfile</td>
+                    <td>The destination file. Can only be used if there is a
+                        single source file.</td>
+                </tr>
+                <tr>
+                    <td>srcdir</td>
+                    <td>The source folder. If used the includes and desdir
+                        attributes should be specified.</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>includes</td>
+                    <td>A comma or space separated list of files. The files
+                        are resolved in combination with the specified
+                        srcdir attribute.</td>
+                    <td>Only if srcdir is specified.</td>
+                </tr>
+                <tr>
+                    <td>overwrite</td>
+                    <td>Always copy files, ignoring the last-modified time of
+                        the destination file.</td>
+                    <td>No, default is
+                        <code>false</code>
+                        .
+                    </td>
+                </tr>
+                <tr>
+                    <td>preservelastmodified</td>
+                    <td>Set the last-modified time of destination files to
+                        the same value as the source files. May not be supported
+                        by the destination file system.</td>
+                    <td>No, default is
+                        <code>true</code>
+                        .
+                    </td>
+                </tr>
+                <tr>
+                    <td>srcdirisbase</td>
+                    <td>Set whether the source directory should be used as base directory.
+                        If set to true, the subdirectories of the specified directories will be copied as well.</td>
+                    <td>No, default is
+                        <code>false</code>
+                        .
+                    </td>
+                </tr>
+                <tr>
+                    <td>src</td>
+                    <td>A source file or folder to copy. Copies all descendents
+                        of a folder.</td>
+                    <td>No</td>
+                </tr>
+            </table>
+
+            <subsection name="Nested Elements">
+                <p>
+                    <b>
+                        <code>&lt;src&gt;</code>
+                    </b>
+                </p>
+
+                <p>Defines a source file or folder to copy. It takes the
+                    following attributes:</p>
+
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Required</th>
+                    </tr>
+                    <tr>
+                        <td>file</td>
+                        <td>The source file.</td>
+                        <td>Yes</td>
+                    </tr>
+                </table>
+            </subsection>
+
+        </section>
+
+        <section name="V-Move">
+            <p>Moves a set of files to a destination folder. Has the same
+                attributes and elements as the copy task and following attributes:</p>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>tryRename</td>
+                    <td>The destination folder. This folder is created if it
+                        does not exist.</td>
+                    <td>No, default is
+                        <code>false</code>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section name="V-Sync">
+            <p>Synchronises a destination folder with a set of source files.
+                Has the same attributes and elements as the copy task.</p>
+        </section>
+
+        <section name="V-Delete">
+            <p>Deletes a file or folder. It takes the following attributes:</p>
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>file</td>
+                    <td>The file or folder to delete. All descendents of
+                        the folder are deleted.</td>
+                    <td rowspan="2">One only</td>
+                </tr>
+                <tr>
+                    <td>srcdir</td>
+                    <td>The source folder. If used the includes attribute
+                        should be specified.</td>
+                </tr>
+                <tr>
+                    <td>includes</td>
+                    <td>A comma or space separated list of files. The files
+                        are resolved in combination with the specified
+                        srcdir attribute.</td>
+                    <td>Only if srcdir is specified.</td>
+                </tr>
+            </table>
+        </section>
+
+        <section name="V-Mkdir">
+            <p>Creates a folder. It takes the following attributes:</p>
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </tr>
+                <tr>
+                    <td>dir</td>
+                    <td>The folder create.</td>
+                    <td>Yes</td>
+                </tr>
+            </table>
+
+        </section>
+    </body>
+</document>

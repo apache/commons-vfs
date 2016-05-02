@@ -1,0 +1,1 @@
+Test file for VFS-325: Bad handling of hashs (#) in file names when walking a file tree using findFiles().

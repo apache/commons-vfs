@@ -1,0 +1,166 @@
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+
+    <properties>
+        <title>Download</title>
+        <author email="dev@commons.apache.org">Apache Commons Developers</author>
+    </properties>
+
+    <body>
+        <section name="Download">
+            <p>
+                The latest release (binaries and source) of Commons VFS can be found
+                <a href="download_vfs.cgi">here</a>.
+            </p>
+            <p>
+                You will also need to download the <a href="commons-vfs2/dependencies.html">dependencies</a> (jars) used by Apache Commons VFS.
+                You can download the jars from the list below; with Apache Maven dependency resolution is automatic.
+            </p>
+            <table>
+                <tr>
+                    <th>Dependency</th>
+                    <th>Required For</th>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/logging/">Commons Logging</a>
+                        Version 1.2.
+                    </td>
+                    <td>All</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/collections/">Commons Collections</a>
+                        Version 4.0.
+                    </td>
+                    <td>LRU Cache (optional)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/compress/">Commons Compress</a>
+                        Version 1.9.
+                    </td>
+                    <td>TAR, Bzip2</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/net/">Commons Net</a>
+                        Version 3.3.
+                    </td>
+                    <td>FTP</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a>
+                        Version 3.1.<br/>
+                        Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a> Version 1.2.
+                    </td>
+                    <td>WebDAV, HTTP, URI Utils</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://jackrabbit.apache.org/jackrabbit-webdav-library.html">Apache Jackrabbit WebDAV Library</a>
+                        Version 1.6.5.<br/>
+                        Requires <a href="http://jackrabbit.apache.org/jackrabbit-jcr-commons.html">Jackrabbit JCR Commons</a>
+                        Version 1.6.5 and <a href="http://www.slf4j.org">SLF4J</a>
+                        Version 1.5.3 (Api and Impl).
+                    </td>
+                    <td>WebDAV</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://www.jcraft.com/jsch/">JSch</a>
+                        Version 0.1.51.
+                    </td>
+                    <td>SFTP</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop Common</a>
+                        Version 2.6.0.<br/>
+                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop HDFS Common</a>
+                        Version 2.6.0<br/>
+                        This requires a number of dependencies, use <code>$HADOOP_HOME/bin/hadoop classpath</code> command.
+                    </td>
+                    <td>hdfs</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://jcifs.samba.org/">jCIFS</a>
+                        Version 0.8.3.
+                    </td>
+                    <td>CIFS (VFS sandbox)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="http://java.sun.com/products/javamail/">javamail</a>
+                        Version 1.4.7.
+                    </td>
+                    <td>mime (VFS sandbox)</td>
+                </tr>
+            </table>
+        </section>
+        <section name="Obtaining Commons VFS source">
+            <p>
+                To obtain the Commons VFS source, you can either:
+            </p>
+            <ul>
+                <li>
+                    The primary source repository for the Apache Commons VFS project is the 
+                    <em>Subversion</em> repository. You can use the following command to check out
+                    the latest source version:
+                    <br/>
+                    <code>svn co http://svn.apache.org/repos/asf/commons/proper/vfs/trunk commons-vfs</code><br/>
+                    <br/>
+                    For a certain version please look at
+                    <a href="http://svn.apache.org/repos/asf/commons/proper/vfs/tags">
+                        http://svn.apache.org/repos/asf/commons/proper/vfs/tags</a>
+                </li>
+                <li>
+                    If you prefer <em>Git</em>, you can get the sources from the Apache Git mirror:<br/>
+                    <br/>
+                    <code>git clone git://git.apache.org/commons-vfs.git commons-vfs</code><br/>
+                    <br/>
+                    There is also a guideline for <a href="https://github.com/apache/commons-vfs/blob/trunk/CONTRIBUTING.md">contributing via GitHub</a>.
+                </li>
+                <li>
+                    Obtain the source from the latest release distribution. See the <a href="download_vfs.cgi">downloads</a> page.
+                </li>
+            </ul>
+        </section>
+        <section name="Building Commons VFS">
+            <p>
+                To build Commons VFS, you can use <a href="http://maven.apache.org">Maven</a> 3.0.5 or later.
+                You need to use Java 6 or later (tested with Java 6 - 8). Production builds are done with the
+                <code>-Pjava-1.6</code> profile from Commons Parent (which will compile and test with a JDK
+                from the JAVA_1_6_HOME environment variable).
+            </p><p>
+                Use <code>mvn clean verify</code> to locally build and test the <code>core</code> and 
+                <code>examples</code> modules. This will build the core JAR files in
+                <code>commons-vfs/core/target/commons-vfs2-&lt;version>.jar</code>.
+            </p><p>
+                If you want to build the additional sandbox file systems as well, use
+                <code>mvn -Pinclude-sandbox clean verify</code>. This will also create the sandbox
+                components in <code>commons-vfs/sandbox/target/commons-vfs2-sandbox-&lt;version>.jar</code>.
+            </p><p>
+                See the <a href="commons-vfs2-example/index.html">commons-vfs2-example</a> Module on how 
+                to use VFS Example Shell to verify the result.
+            </p>
+        </section>
+    </body>
+</document>
