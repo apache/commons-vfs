@@ -41,6 +41,18 @@ o VFS-370:  Add a FileExtensionSelector class.
 o VFS-367:  Add APIs FileObject isFile(), FileObject isFolder(), and FileName isFile().
 
 Fixed Bugs:
+o VFS-424:  Fix StandardFileSystemManager class loading so it works in a OSGi environment.
+o VFS-490:  [vfsclassloader] Do not open folders with .jar extension. Adds tests.
+o VFS-582:  [tests] revert rename of getTestDirectoryFile to make test classes more compatible for external providers.
+o VFS-480:  Make startup of SoftRefsFileCache cleaner thread work and less racy to avoid leaks.
+o VFS-549:  Use File.seperator instead of getProperty("file.separator").
+o VFS-567:  [ftp] Ignore exceptions while QUIT/disconnect. Thanks to Antonio Petrelli.
+o VFS-572:  [sftp] better documentation for knownhosts file option. Thanks to Sandra Parsick.
+o VFS-574:  Ensure FileOpertionProviders are closed. Adds some testcases.
+            The error code for missing operations exceptions corrected: vfs.operation/operation-not-supported.error
+o VFS-279:  [local] Avoid ClassCastException when replicating local files while OnCall caching is active. Thanks to Didier Earith, Simon Legner.
+o VFS-297:  [sftp] VSF fails to reuse FileSystem instances if FileSystemOptions contain
+            an array as value. Reported for SFTP using identities. Thanks to Kirill Safonov, Jimmy Praet.
 o VFS-202:  [http] Allow URLs responding with 405 to HEAD requests. Thanks to Sergey Vladimirov, Simon Legner.
 o VFS-490:  [hdfs] Make OSGi package imports for hdfs resolution=optional.
             Removed all scopes from dependency management.
@@ -109,7 +121,11 @@ o VFS-364:  Check the href in the response for just a path in addition to a full
 
 Changes:
 o VFS-530:  [hdfs] Use stable Apache Hadoop 2.6 dependencies. Thanks to Dave Marion.
+o VFS-601:  Update Apache Commons Net from 3.3 to 3.4.
+o VFS-602:  Update Apache Commons IO from 2.4 to 2.5.
+o VFS-579:  Update Jsch from 0.1.51 to 0.1.53.
 o VFS-542:  Update Jsch from 0.1.50 to 0.1.51.
+o VFS-578:  Update Apache Commons Compress from 1.9 to 1.10.
 o VFS-541:  Update Apache Commons Compress from 1.6 to 1.9.
 o VFS-540:  Update Apache Commons Logging from 1.1.3 to 1.2.
 o VFS-539:  Update Apache Commons Lang from 3.1 to 3.3.2.
@@ -126,7 +142,7 @@ o VFS-494:  [SFTP] No support for SFTP servers with non Latin-1 file name encodi
 o VFS-368:  [SFTP] Documentation implies that "userDirIsRoot" defaults to true. Thanks to Brendan Long.
 o VFS-265:  [FTP] Set user dir as root dir by default. Thanks to Scott Bjerstedt.
 o VFS-484:  [SFTP] Update Jsch to 0.1.50 from 0.1.49.
-o VFS-507:  Update to Apache Commons Collection 4.0 from 3.2.1 and use generics.
+o VFS-507:  Update to Apache Commons Collection 4.1 from 3.2.1 and use generics.
 o VFS-476:  Update Apache Commons Logging to 1.1.3 from 1.1.2.
 o VFS-475:  Update Apache Commons Net to 3.3 from 3.2.
 o VFS-506:  [Tar][Bzip2] Update Apache Commons Compress to 1.6 from 1.5.
