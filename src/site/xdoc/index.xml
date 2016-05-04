@@ -81,8 +81,8 @@
             to replace 2.0 with 2.1 without the need for changes to API consumers. VFS 2.1 has introduced some now 
             methods for provider interfaces (like <code>FileObject</code>). If you implement a VFS provider and use the
             corresponding <code>Abstract*</code> or <code>Default*</code> classes, there should be no need to modify
-            the code or recompile the provider.
-            See the <a href="https://archive.apache.org/dist/commons/vfs/RELEASE_NOTES.txt">Release Notes</a> and the
+            the code or recompile the provider. The TarFileProvider is one known exception to compatibility with 2.0.
+            See the <a href="https://dist.apache.org/repos/dist/dev/commons/vfs/RELEASE-NOTES.txt">Release Notes</a> and the
             <a href="commons-vfs2/clirr-report.html">Clirr Report</a> for details. VFS 2.1 adds a new read-only provider
             for the Apache Hadoop (HDFS) File system.
           </p><p>

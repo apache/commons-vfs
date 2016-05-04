@@ -190,6 +190,11 @@ o VFS-361:  Upgrade commons collections version to 3.2.1.
 Removed:
 o VFS-469:  Remove unused dependency to javax.jcr:jcr.
 
+Please note that release 2.1 is not completely binary compatible with the previous 2.0 release. This
+is primarily due to the upgrade of Apache Commons Compress to 1.6 and is limited to the TarFileProvider
+and related classes. All other errors reported in the Clirr report should be binary compatible as
+they consist of method additions.
+
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
 For complete information on Apache Commons VFS, including instructions on how to submit bug reports,
