@@ -164,6 +164,10 @@
     <version.checkstyle>2.13</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
+    <!-- Newer versions of clirr throw an NPE buildling the site -->
+    <commons.clirr.version>2.6</commons.clirr.version>
+    <!-- Avoid warnings about being unable to find jars during site buildling -->
+    <dependency.locations.enabled>false</dependency.locations.enabled>
   </properties>
 
   <build>
