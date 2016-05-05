@@ -141,6 +141,16 @@
       <artifactId>hadoop-common</artifactId>
       <type>test-jar</type>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+         <!-- VFS-606 - tools.jar not available in Java 9
+              This exclusion can be removed after upgrading Hadoop
+              to 2.7.1 or later  
+          -->
+          <groupId>jdk.tools</groupId>
+          <artifactId>jdk.tools</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.hadoop</groupId>
