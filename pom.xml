@@ -168,6 +168,7 @@
     <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site buildling -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
+    <hadoop.version>2.6.0</hadoop.version>
   </properties>
 
   <build>
@@ -414,7 +415,7 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-common</artifactId>
-        <version>2.6.0</version>
+        <version>${hadoop.version}</version>
         <exclusions>
           <exclusion>
             <groupId>*</groupId>
@@ -425,7 +426,7 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-hdfs</artifactId>
-        <version>2.6.0</version>
+        <version>${hadoop.version}</version>
         <exclusions>
           <exclusion>
             <groupId>*</groupId>
@@ -505,7 +506,7 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-common</artifactId>
-        <version>2.6.0</version>
+        <version>${hadoop.version}</version>
         <type>test-jar</type>
         <exclusions>
           <exclusion>
@@ -518,7 +519,7 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-hdfs</artifactId>
-        <version>2.6.0</version>
+        <version>${hadoop.version}</version>
         <type>test-jar</type>
       </dependency>
       <dependency>
