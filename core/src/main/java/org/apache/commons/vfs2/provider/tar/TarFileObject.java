@@ -31,13 +31,8 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  */
 public class TarFileObject extends AbstractFileObject<TarFileSystem>
 {
-    /**
-     * The TarArchiveEntry.
-     * 
-     * @deprecated Consider this field private. Might be made private in the next major version
-     */
-    @Deprecated
-    protected TarArchiveEntry entry;
+    /** The TarArchiveEntry */
+    private TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<String>();
     private FileType type;
 
@@ -56,8 +51,10 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
 
     /**
      * Sets the details for this file object.
+     * 
+     * Consider this method package private. TODO Might be made package private in the next major version. 
      */
-    void setTarEntry(final TarArchiveEntry entry)
+    protected void setTarEntry(final TarArchiveEntry entry)
     {
         if (this.entry != null)
         {
