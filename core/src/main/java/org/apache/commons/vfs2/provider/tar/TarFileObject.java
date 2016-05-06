@@ -31,8 +31,13 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  */
 public class TarFileObject extends AbstractFileObject<TarFileSystem>
 {
-    /** The TarArchiveEntry */
-    private TarArchiveEntry entry;
+    /**
+     * The TarArchiveEntry.
+     * 
+     * @deprecated Consider this field private. Might be made private in the next major version
+     */
+    @Deprecated
+    protected TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<String>();
     private FileType type;
 
