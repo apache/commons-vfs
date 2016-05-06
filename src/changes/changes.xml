@@ -53,6 +53,9 @@ The <action> type attribute can be add,update,fix,remove.
      <action issue="VFS-607" dev="ggregory" type="update">
         Update Apache Commons Compress from 1.10 to 1.11.
      </action>
+     <action issue="VFS-608" dev="ggregory" type="update">
+        Update Apache Commons Net from 3.4 to 3.5.
+     </action>
 <!-- END Might need to be moved to the next version -->
      <action issue="VFS-424" dev="ecki" type="fix">
         Fix StandardFileSystemManager class loading so it works in a OSGi environment.
