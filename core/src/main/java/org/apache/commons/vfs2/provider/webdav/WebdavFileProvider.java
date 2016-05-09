@@ -52,7 +52,17 @@ public class WebdavFileProvider
         {
             UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
         };
-   
+
+    /**
+     * Gets the proper physical URL scheme on logical WebDAV scheme. 'https' on 'webdavs', 'http' otherwise.
+     * @param name The FileName.
+     * @return proper physical URL scheme on logical WebDAV scheme. 'https' on 'webdavs', 'http' otherwise
+     */
+    static String getURLScheme(final GenericFileName name)
+    {
+        return "webdavs".equals(name.getScheme()) ? "https" : "http";
+    }
+
     /** The capabilities of the WebDAV provider */
     protected static final Collection<Capability> capabilities =
             Collections.unmodifiableCollection(Arrays.asList(new Capability[]
@@ -104,7 +114,7 @@ public class WebdavFileProvider
 
             httpClient = HttpClientFactory.createConnection(
                 WebdavFileSystemConfigBuilder.getInstance(),
-                "http",
+                getURLScheme(rootName),
                 rootName.getHostName(),
                 rootName.getPort(),
                 UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
