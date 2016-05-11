@@ -45,7 +45,40 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.1" date="TBD" description="New features and bug fix release.">    
+    <release version="2.1" date="TBD" description="New features and bug fix release.
+
+
+
+Please note that the Clirr report shows several errors.
+
+These may affect source compatibility.
+
+However they should not affect binary compatibility, as explained below.
+
+
+
+FileContent, FileName, FileObject, FileSystemManager, RandomAccessContent:
+
+The above interfaces have been updated to add new methods.
+
+This does not affect binary compatibility; for details please see:
+
+https://docs.oracle.com/javase/specs/jls/se7/html/jls-13.html#jls-13.5.3-100
+
+The above changes may affect source compatibility.
+
+
+Changes to method parameters and return types in TarFileObject and TarFileSystem
+
+The original parameter/return types were the following:
+
+org.apache.commons.vfs2.provider.tar.TarEntry
+
+org.apache.commons.vfs2.provider.tar.TarInputStream
+
+The above were package protected, so any methods using them did not form part of the public API.
+
+Therefore source and binary compatibility is not affected.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
