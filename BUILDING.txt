@@ -1,0 +1,42 @@
+Building Apache Commons VFS
+  
+To build Apache Commons VFS, you need a JDK implementation version 1.6 or greater, and Apache Maven.
+
+To perform the license release audit, a.k.a. "RAT check", run.
+
+mvn apache-rat:check
+
+To perform a Clirr check on, run
+
+mvn clirr:check -pl core
+
+To build the site with Java 6, make sure you give Maven enough memory using 
+MAVEN_OPTS with options appropriate for your JVM. Alternatively, you can 
+build with Java 8 and not deal with MAVEN_OPTS.
+
+To build the site, from a command line, run:
+
+mvn clean install
+mvn site
+
+On Windows, use a local staging directory, for example:
+
+mvn site:stage-deploy -DstagingSiteURL=file:///%HOME%/vfs
+
+On UNIX, use a local staging directory, for example:
+
+mvn site:stage-deploy -DstagingSiteURL=file:///$HOME/vfs
+
+To test, run:
+
+mvn test
+
+Then, to test OSGi, you must first create the jars:
+
+mvn install -DskipTests
+mvn package -DskipTests
+
+Next, you can run the tests as usual, which will pick up the jar files to use as OSGi bundles from the various target 
+directories:
+
+mvn test
