@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-// COPIED FROM JACKRABBIT 2.4.0
+// COPIED FROM JACKRABBIT 2.4.0 (No additional NOTICE required, see VFS-611)
 
 package org.apache.commons.vfs2.provider.webdav.test;
 
