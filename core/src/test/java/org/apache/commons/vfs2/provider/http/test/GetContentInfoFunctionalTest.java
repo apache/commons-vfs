@@ -39,10 +39,10 @@ public class GetContentInfoFunctionalTest
      *             thrown when the getContentInfo API fails.
      */
     @Test
-    public void testGoogle() throws FileSystemException
+    public void testGetContentInfo() throws FileSystemException
     {
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http://www.google.com/images/logos/ps_logo2.png");
+        final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt");
         final FileContent content = fo.getContent();
         Assert.assertNotNull(content);
         // Used to NPE before fix:

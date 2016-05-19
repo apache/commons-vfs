@@ -46,7 +46,7 @@ public class GetContentInfoFunctionalTest
      *             thrown when the System environment contains an invalid URL for an HTTPS proxy.
      */
     @Test
-    public void testGoogle() throws FileSystemException, MalformedURLException
+    public void testGetContentInfo() throws FileSystemException, MalformedURLException
     {
         String httpsProxyHost = null;
         int httpsProxyPort = -1;
@@ -69,7 +69,7 @@ public class GetContentInfoFunctionalTest
         }
 
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("https://www.google.com/images/logos/ps_logo2.png", opts);
+        final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt", opts);
         final FileContent content = fo.getContent();
         Assert.assertNotNull(content);
         // Used to NPE before fix:
