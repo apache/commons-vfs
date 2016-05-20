@@ -155,10 +155,12 @@
     <commons.release.desc>(requires Java 1.6+)</commons.release.desc>
     <commons.binary.suffix /> <!-- TODO delete? -->
 
+<!--
     <commons.release.2.version>2.0</commons.release.2.version>
     <commons.release.2.name>commons-vfs-2.0</commons.release.2.name>
     <commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc>
     <commons.release.2.binary.suffix />
+-->
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
     <version.checkstyle>2.13</version.checkstyle>
