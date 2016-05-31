@@ -44,17 +44,17 @@ public abstract class AbstractFileName implements FileName
     public AbstractFileName(final String scheme, final String absPath, final FileType type)
     {
         this.rootUri = null;
-        this.scheme = scheme;
+        this.scheme = scheme.intern();
         this.type = type;
         if (absPath != null && absPath.length() > 0)
         {
             if (absPath.length() > 1 && absPath.endsWith("/"))
             {
-                this.absPath = absPath.substring(0, absPath.length() - 1);
+                this.absPath = absPath.substring(0, absPath.length() - 1).intern();
             }
             else
             {
-                this.absPath = absPath;
+                this.absPath = absPath.intern();
             }
         }
         else
@@ -137,11 +137,11 @@ public abstract class AbstractFileName implements FileName
             final int idx = getPath().lastIndexOf(SEPARATOR_CHAR);
             if (idx == -1)
             {
-                baseName = getPath();
+                baseName = getPath().intern();
             }
             else
             {
-                baseName = getPath().substring(idx + 1);
+                baseName = getPath().substring(idx + 1).intern();
             }
         }
 
@@ -178,7 +178,7 @@ public abstract class AbstractFileName implements FileName
     {
         if (decodedAbsPath == null)
         {
-            decodedAbsPath = UriParser.decode(getPath());
+            decodedAbsPath = UriParser.decode(getPath()).intern();
         }
 
         return decodedAbsPath;
@@ -245,7 +245,7 @@ public abstract class AbstractFileName implements FileName
     {
         if (uri == null)
         {
-            uri = createURI();
+            uri = createURI().intern();
         }
         return uri;
     }
@@ -408,7 +408,7 @@ public abstract class AbstractFileName implements FileName
             if (pos < 1 || pos == baseName.length() - 1)
             {
                 // No extension
-                extension = "";
+                extension = "".intern();
             }
             else
             {

@@ -21,6 +21,7 @@ import java.security.cert.Certificate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -37,6 +38,17 @@ import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 public class JarFileObject extends ZipFileObject
 {
     private final JarFileSystem fs;
+
+    private static final ConcurrentHashMap<Attributes, Attributes> ATTRIBUTES_INTERN =
+        new ConcurrentHashMap<Attributes, Attributes>();
+    private static final Attributes EMPTY_ATTRIBUTES = new Attributes(1);
+
+    private static Attributes cached(Attributes attributes) {
+        if (attributes == null) return null;
+        Attributes got = ATTRIBUTES_INTERN.putIfAbsent(attributes, attributes);
+        if (got != null) return got;
+        else return attributes;
+    }
 
     private Attributes attributes;
 
@@ -73,6 +85,8 @@ public class JarFileObject extends ZipFileObject
 
     /**
      * Returns the attributes of this file.
+     *
+     * Must not be modified.
      */
     Attributes getAttributes() throws IOException
     {
@@ -80,19 +94,19 @@ public class JarFileObject extends ZipFileObject
         {
             if (entry == null)
             {
-                attributes = new Attributes(1);
+                attributes = EMPTY_ATTRIBUTES;
             }
             else
             {
                 attributes = ((JarEntry) entry).getAttributes();
                 if (attributes == null)
                 {
-                    attributes = new Attributes(1);
+                    attributes = EMPTY_ATTRIBUTES;
                 }
             }
         }
 
-        return attributes;
+        return cached(attributes);
     }
 
     /**

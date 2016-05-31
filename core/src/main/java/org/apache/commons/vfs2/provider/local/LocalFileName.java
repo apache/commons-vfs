@@ -50,7 +50,7 @@ public class LocalFileName extends AbstractFileName
                             final FileType type)
     {
         super(scheme, path, type);
-        this.rootFile = rootFile;
+        this.rootFile = rootFile.intern();
     }
 
     /**
