@@ -103,7 +103,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      *
      * @param newLength
      *            The desired content length
-     * @exception IOException
+     * @throws IOException
      *                If an I/O error occurs
      * @since 2.1
      */
