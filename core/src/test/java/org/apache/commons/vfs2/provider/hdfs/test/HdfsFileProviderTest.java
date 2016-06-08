@@ -178,7 +178,7 @@ public class HdfsFileProviderTest
         return f;
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testCanRenameTo() throws Exception
     {
         final FileObject fo = createTestFile(hdfs);
