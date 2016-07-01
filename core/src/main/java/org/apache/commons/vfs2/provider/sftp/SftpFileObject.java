@@ -127,10 +127,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
         {
             return FileType.FOLDER;
         }
-        else
-        {
-            return FileType.FILE;
-        }
+        return FileType.FILE;
     }
 
     /**
