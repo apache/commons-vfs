@@ -49,7 +49,7 @@ public class LRUFilesCache extends AbstractFilesCache
 
     /** The FileSystem cache */
     private final ConcurrentMap<FileSystem, Map<FileName, FileObject>> filesystemCache =
-          new ConcurrentHashMap<FileSystem, Map<FileName, FileObject>>(10);
+          new ConcurrentHashMap<>(10);
 
     /** The size of the cache */
     private final int lruSize;

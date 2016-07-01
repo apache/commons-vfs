@@ -49,7 +49,7 @@ public class CustomRamProviderTest
 {
     private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[]{ 1, 2, 3 };
 
-    private final List<Closeable> closeables = new ArrayList<Closeable>();
+    private final List<Closeable> closeables = new ArrayList<>();
 
     FileSystemOptions defaultRamFso = new FileSystemOptions();
 

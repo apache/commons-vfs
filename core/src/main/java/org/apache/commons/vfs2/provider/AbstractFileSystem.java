@@ -70,14 +70,14 @@ public abstract class AbstractFileSystem
      */
     private final String rootURI;
 
-    private final Collection<Capability> caps = new HashSet<Capability>();
+    private final Collection<Capability> caps = new HashSet<>();
 
     private FileObject parentLayer;
 
     /**
      * Map from FileName to an ArrayList of listeners for that file.
      */
-    private final Map<FileName, ArrayList<FileListener>> listenerMap = new HashMap<FileName, ArrayList<FileListener>>();
+    private final Map<FileName, ArrayList<FileListener>> listenerMap = new HashMap<>();
 
     /**
      * FileSystemOptions used for configuration
@@ -512,7 +512,7 @@ public abstract class AbstractFileSystem
             ArrayList<FileListener> listeners = listenerMap.get(file.getName());
             if (listeners == null)
             {
-                listeners = new ArrayList<FileListener>();
+                listeners = new ArrayList<>();
                 listenerMap.put(file.getName(), listeners);
             }
             listeners.add(listener);

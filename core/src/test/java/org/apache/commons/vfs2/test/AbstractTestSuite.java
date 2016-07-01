@@ -340,7 +340,7 @@ public abstract class AbstractTestSuite
 
     private Thread[] diffThreadSnapshot(final Thread[] startThreadSnapshot, final Thread[] endThreadSnapshot)
     {
-        final List<Thread> diff = new ArrayList<Thread>(10);
+        final List<Thread> diff = new ArrayList<>(10);
 
         nextEnd: for (int iterEnd = 0; iterEnd < endThreadSnapshot.length; iterEnd++)
         {

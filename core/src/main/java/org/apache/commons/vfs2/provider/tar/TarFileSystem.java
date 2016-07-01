@@ -81,7 +81,7 @@ public class TarFileSystem extends AbstractFileSystem
         // Build the index
         try
         {
-            final List<TarFileObject> strongRef = new ArrayList<TarFileObject>(DEFAULT_INDEX_SIZE);
+            final List<TarFileObject> strongRef = new ArrayList<>(DEFAULT_INDEX_SIZE);
             TarArchiveEntry entry;
             while ((entry = getTarFile().getNextTarEntry()) != null)
             {

@@ -526,7 +526,7 @@ public class ProviderWriteTests
     public void testListChildren() throws Exception
     {
         final FileObject folder = createScratchFolder();
-        final HashSet<String> names = new HashSet<String>();
+        final HashSet<String> names = new HashSet<>();
 
         // Make sure the folder is empty
         assertEquals(0, folder.getChildren().length);
@@ -653,7 +653,7 @@ public class ProviderWriteTests
     private static class TestListener implements FileListener
     {
         private final FileObject file;
-        private final ArrayList<Object> events = new ArrayList<Object>();
+        private final ArrayList<Object> events = new ArrayList<>();
         private static final Object CREATE = "create";
         private static final Object DELETE = "delete";
         private static final Object CHANGED = "changed";

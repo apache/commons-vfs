@@ -33,7 +33,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
 {
     /** The ZipEntry. */
     protected ZipEntry entry;
-    private final HashSet<String> children = new HashSet<String>();
+    private final HashSet<String> children = new HashSet<>();
     // protected final ZipFile file;
 
     private FileType type;

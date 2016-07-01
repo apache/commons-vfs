@@ -39,7 +39,7 @@ import org.apache.commons.vfs2.provider.DelegateFileObject;
  */
 public class VirtualFileSystem extends AbstractFileSystem
 {
-    private final Map<FileName, FileObject> junctions = new HashMap<FileName, FileObject>();
+    private final Map<FileName, FileObject> junctions = new HashMap<>();
 
     public VirtualFileSystem(final AbstractFileName rootName, final FileSystemOptions fileSystemOptions)
     {

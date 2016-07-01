@@ -49,7 +49,7 @@ public class DefaultFileReplicator
             '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
         };
 
-    private final ArrayList<Object> copies = new ArrayList<Object>();
+    private final ArrayList<Object> copies = new ArrayList<>();
     private long filecount;
     private File tempDir;
     private boolean tempDirMessageLogged;

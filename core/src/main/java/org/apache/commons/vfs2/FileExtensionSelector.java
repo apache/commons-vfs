@@ -39,7 +39,7 @@ public class FileExtensionSelector implements FileSelector
     /**
      * The extensions to select.
      */
-    private final Set<String> extensions = new HashSet<String>();
+    private final Set<String> extensions = new HashSet<>();
 
     /**
      * Creates a new selector for the given extensions.

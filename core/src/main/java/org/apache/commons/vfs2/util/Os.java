@@ -286,10 +286,10 @@ public final class Os
     private static OsFamily[] determineAllFamilies()
     {
         // Determine all families the current OS belongs to
-        final Set<OsFamily> allFamilies = new HashSet<OsFamily>();
+        final Set<OsFamily> allFamilies = new HashSet<>();
         if (OS_FAMILY != null)
         {
-            final List<OsFamily> queue = new ArrayList<OsFamily>();
+            final List<OsFamily> queue = new ArrayList<>();
             queue.add(OS_FAMILY);
             while (queue.size() > 0)
             {

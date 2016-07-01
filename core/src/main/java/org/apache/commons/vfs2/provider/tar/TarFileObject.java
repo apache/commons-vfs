@@ -33,7 +33,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
 {
     /** The TarArchiveEntry */
     private TarArchiveEntry entry;
-    private final HashSet<String> children = new HashSet<String>();
+    private final HashSet<String> children = new HashSet<>();
     private FileType type;
 
     protected TarFileObject(final AbstractFileName name,

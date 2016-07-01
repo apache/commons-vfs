@@ -115,7 +115,7 @@ public class PatternFileSelectorTest
         Assert.assertTrue(foArray.length > 0);
         final String regExPrefix = ".*\\.";
         // gather file extensions.
-        final Set<String> extensionSet = new HashSet<String>();
+        final Set<String> extensionSet = new HashSet<>();
         for (final FileObject fo : foArray)
         {
             extensionSet.add(regExPrefix + fo.getName().getExtension());

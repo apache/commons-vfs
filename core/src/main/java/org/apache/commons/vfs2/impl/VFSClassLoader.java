@@ -51,7 +51,7 @@ import org.apache.commons.vfs2.NameScope;
  */
 public class VFSClassLoader extends SecureClassLoader
 {
-    private final ArrayList<FileObject> resources = new ArrayList<FileObject>();
+    private final ArrayList<FileObject> resources = new ArrayList<>();
 
     /**
      * Constructors a new VFSClassLoader for the given file.
@@ -383,7 +383,7 @@ public class VFSClassLoader extends SecureClassLoader
     @Override
     protected Enumeration<URL> findResources(final String name) throws IOException
     {
-        final List<URL> result = new ArrayList<URL>(2);
+        final List<URL> result = new ArrayList<>(2);
 
         for (FileObject baseFile : resources)
         {

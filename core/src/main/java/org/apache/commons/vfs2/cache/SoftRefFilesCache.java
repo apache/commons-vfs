@@ -50,10 +50,10 @@ public class SoftRefFilesCache extends AbstractFilesCache
     private static final Log log = LogFactory.getLog(SoftRefFilesCache.class);
 
     private final ConcurrentMap<FileSystem, Map<FileName, Reference<FileObject>>> fileSystemCache =
-          new ConcurrentHashMap<FileSystem, Map<FileName, Reference<FileObject>>>();
+          new ConcurrentHashMap<>();
     private final Map<Reference<FileObject>, FileSystemAndNameKey> refReverseMap =
-          new HashMap<Reference<FileObject>, FileSystemAndNameKey>(100);
-    private final ReferenceQueue<FileObject> refQueue = new ReferenceQueue<FileObject>();
+          new HashMap<>(100);
+    private final ReferenceQueue<FileObject> refQueue = new ReferenceQueue<>();
 
     private volatile SoftRefReleaseThread softRefReleaseThread = null; // @GuardedBy("lock")
 
@@ -226,7 +226,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
 
     protected Reference<FileObject> createReference(final FileObject file, final ReferenceQueue<FileObject> refqueue)
     {
-        return new SoftReference<FileObject>(file, refqueue);
+        return new SoftReference<>(file, refqueue);
     }
 
     @Override
@@ -379,7 +379,7 @@ public class SoftRefFilesCache extends AbstractFilesCache
             {
                 break;
             }
-            files = new HashMap<FileName, Reference<FileObject>>();
+            files = new HashMap<>();
         } while (fileSystemCache.putIfAbsent(fileSystem, files) == null);
 
         return files;

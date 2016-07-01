@@ -242,7 +242,7 @@ public class PosixPermissions
      */
     public int makeExecutable(final boolean executable, final boolean ownerOnly)
     {
-        final EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
+        final EnumMap<Type, Boolean> map = new EnumMap<>(Type.class);
         map.put(Type.UserExecutable, executable);
         if (!ownerOnly)
         {
@@ -263,7 +263,7 @@ public class PosixPermissions
      */
     public Integer makeReadable(final boolean readable, final boolean ownerOnly)
     {
-        final EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
+        final EnumMap<Type, Boolean> map = new EnumMap<>(Type.class);
         map.put(Type.UserReadable, readable);
         if (!ownerOnly)
         {
@@ -284,7 +284,7 @@ public class PosixPermissions
      */
     public Integer makeWritable(final boolean writable, final boolean ownerOnly)
     {
-        final EnumMap<Type, Boolean> map = new EnumMap<Type, Boolean>(Type.class);
+        final EnumMap<Type, Boolean> map = new EnumMap<>(Type.class);
         map.put(Type.UserWritable, writable);
         if (!ownerOnly)
         {

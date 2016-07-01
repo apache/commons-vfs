@@ -53,7 +53,7 @@ public class ZipFileSystem extends AbstractFileSystem
     /**
      * Cache doesn't need to be synchronized since it is read-only.
      */
-    private final Map<FileName, FileObject> cache = new HashMap<FileName, FileObject>();
+    private final Map<FileName, FileObject> cache = new HashMap<>();
 
   public ZipFileSystem(final AbstractFileName rootName,
                          final FileObject parentLayer,
@@ -84,7 +84,7 @@ public class ZipFileSystem extends AbstractFileSystem
         try
         {
             // Build the index
-            final List<ZipFileObject> strongRef = new ArrayList<ZipFileObject>(getZipFile().size());
+            final List<ZipFileObject> strongRef = new ArrayList<>(getZipFile().size());
             final Enumeration<? extends ZipEntry> entries = getZipFile().entries();
             while (entries.hasMoreElements())
             {

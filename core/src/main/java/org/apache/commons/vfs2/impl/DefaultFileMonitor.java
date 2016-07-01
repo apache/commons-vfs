@@ -83,7 +83,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * Map from FileName to FileObject being monitored.
      */
-    private final Map<FileName, FileMonitorAgent> monitorMap = new HashMap<FileName, FileMonitorAgent>();
+    private final Map<FileName, FileMonitorAgent> monitorMap = new HashMap<>();
 
     /**
      * The low priority thread used for checking the files being monitored.
@@ -93,12 +93,12 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * File objects to be removed from the monitor map.
      */
-    private final Stack<FileObject> deleteStack = new Stack<FileObject>();
+    private final Stack<FileObject> deleteStack = new Stack<>();
 
     /**
      * File objects to be added to the monitor map.
      */
-    private final Stack<FileObject> addStack = new Stack<FileObject>();
+    private final Stack<FileObject> addStack = new Stack<>();
 
     /**
      * A flag used to determine if the monitor thread should be running.
@@ -466,7 +466,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
             {
                 if (this.file.getType().hasChildren())
                 {
-                    this.children = new HashMap<FileName, Object>();
+                    this.children = new HashMap<>();
                     final FileObject[] childrenList = this.file.getChildren();
                     for (final FileObject element : childrenList)
                     {
@@ -554,8 +554,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                     if (this.children != null)
                     {
                         // See which new children are not listed in the current children map.
-                        final Map<FileName, Object> newChildrenMap = new HashMap<FileName, Object>();
-                        final Stack<FileObject> missingChildren = new Stack<FileObject>();
+                        final Map<FileName, Object> newChildrenMap = new HashMap<>();
+                        final Stack<FileObject> missingChildren = new Stack<>();
 
                         for (int i = 0; i < newChildren.length; i++)
                         {
@@ -588,7 +588,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         // First set of children - Break out the cigars
                         if (newChildren.length > 0)
                         {
-                            this.children = new HashMap<FileName, Object>();
+                            this.children = new HashMap<>();
                         }
                         for (final FileObject element : newChildren)
                         {

@@ -102,7 +102,7 @@ public class JarFileObject extends ZipFileObject
     protected Map<String, Object> doGetAttributes()
         throws Exception
     {
-        final Map<String, Object> attrs = new HashMap<String, Object>();
+        final Map<String, Object> attrs = new HashMap<>();
 
         // Add the file system's attributes first
         final JarFileSystem fs = (JarFileSystem) getFileSystem();

@@ -228,7 +228,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
         {
             Server.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(tmpDir + "/key.ser"));
         }
-        final List<NamedFactory<Command>> list = new ArrayList<NamedFactory<Command>>(1);
+        final List<NamedFactory<Command>> list = new ArrayList<>(1);
         list.add(new NamedFactory<Command>()
         {
 
@@ -657,7 +657,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig
 
     private static class MySftpSubsystem extends SftpSubsystem
     {
-        TreeMap<String, Integer> permissions = new TreeMap<String, Integer>();
+        TreeMap<String, Integer> permissions = new TreeMap<>();
         private int _version;
 
         @Override

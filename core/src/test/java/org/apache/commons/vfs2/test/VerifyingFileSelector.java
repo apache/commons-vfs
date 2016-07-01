@@ -39,17 +39,17 @@ public class VerifyingFileSelector
     implements FileSelector
 {
     private final FileInfo rootFile;
-    private final List<FileObject> files = new ArrayList<FileObject>();
+    private final List<FileObject> files = new ArrayList<>();
 
     private FileInfo currentFolderInfo;
     private FileObject currentFolder;
     private Set<String> children;
-    private final List<Set<String>> stack = new ArrayList<Set<String>>();
+    private final List<Set<String>> stack = new ArrayList<>();
 
     public VerifyingFileSelector(final FileInfo fileInfo)
     {
         this.rootFile = fileInfo;
-        children = new HashSet<String>();
+        children = new HashSet<>();
         children.add(rootFile.baseName);
     }
 
@@ -113,7 +113,7 @@ public class VerifyingFileSelector
 
         // Push the folder
         stack.add(0, children);
-        children = new HashSet<String>(currentFolderInfo.children.keySet());
+        children = new HashSet<>(currentFolderInfo.children.keySet());
         currentFolder = folder;
 
         return true;

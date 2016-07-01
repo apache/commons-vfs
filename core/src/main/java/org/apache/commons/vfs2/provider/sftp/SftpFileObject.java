@@ -474,7 +474,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
         }
 
         // Extract the child names
-        final ArrayList<FileObject> children = new ArrayList<FileObject>();
+        final ArrayList<FileObject> children = new ArrayList<>();
         for (@SuppressWarnings("unchecked") // OK because ChannelSftp.ls() is documented to return Vector<LsEntry>
         final
             Iterator<LsEntry> iterator = (Iterator<LsEntry>) vector.iterator(); iterator.hasNext();)

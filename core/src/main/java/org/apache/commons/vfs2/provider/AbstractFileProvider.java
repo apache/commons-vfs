@@ -44,7 +44,7 @@ public abstract class AbstractFileProvider
      * to {@link FileSystem}.
      */
     private final Map<FileSystemKey, FileSystem> fileSystems
-            = new TreeMap<FileSystemKey, FileSystem>(); // @GuardedBy("self")
+            = new TreeMap<>(); // @GuardedBy("self")
 
     private FileNameParser parser;
 
