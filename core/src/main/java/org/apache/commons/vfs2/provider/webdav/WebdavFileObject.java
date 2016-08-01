@@ -232,7 +232,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
         private void setUserName(final URLFileName fileName, final String urlStr)
                 throws IOException
         {
-            final List<DefaultDavProperty> list = new ArrayList<DefaultDavProperty>();
+            final List<DefaultDavProperty> list = new ArrayList<>();
             String name = builder.getCreatorName(getFileSystem().getFileSystemOptions());
             final String userName = fileName.getUserName();
             if (name == null)
@@ -311,7 +311,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
     @Override
     protected Map<String, Object> doGetAttributes() throws Exception
     {
-        final Map<String, Object> attributes = new HashMap<String, Object>();
+        final Map<String, Object> attributes = new HashMap<>();
         try
         {
             final URLFileName fileName = (URLFileName) getName();
@@ -459,7 +459,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
                         DavConstants.DEPTH_1);
 
                 execute(method);
-                final List<WebdavFileObject> vfs = new ArrayList<WebdavFileObject>();
+                final List<WebdavFileObject> vfs = new ArrayList<>();
                 if (method.succeeded())
                 {
                     final MultiStatusResponse[] responses =

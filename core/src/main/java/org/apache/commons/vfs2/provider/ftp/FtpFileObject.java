@@ -140,7 +140,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
             }
             else
             {
-                children = new TreeMap<String, FTPFile>();
+                children = new TreeMap<>();
 
                 // Remove '.' and '..' elements
                 for (int i = 0; i < tmpChildren.length; i++)

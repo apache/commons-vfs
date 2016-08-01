@@ -419,7 +419,7 @@ public class StandardFileSystemManager
      */
     private String[] getRequiredClasses(final Element providerDef)
     {
-        final ArrayList<String> classes = new ArrayList<String>();
+        final ArrayList<String> classes = new ArrayList<>();
         final NodeList deps = providerDef.getElementsByTagName("if-available");
         final int count = deps.getLength();
         for (int i = 0; i < count; i++)
@@ -439,7 +439,7 @@ public class StandardFileSystemManager
      */
     private String[] getRequiredSchemes(final Element providerDef)
     {
-        final ArrayList<String> schemes = new ArrayList<String>();
+        final ArrayList<String> schemes = new ArrayList<>();
         final NodeList deps = providerDef.getElementsByTagName("if-available");
         final int count = deps.getLength();
         for (int i = 0; i < count; i++)
@@ -459,7 +459,7 @@ public class StandardFileSystemManager
      */
     private String[] getSchemas(final Element provider)
     {
-        final ArrayList<String> schemas = new ArrayList<String>();
+        final ArrayList<String> schemas = new ArrayList<>();
         final NodeList schemaElements = provider.getElementsByTagName("scheme");
         final int count = schemaElements.getLength();
         for (int i = 0; i < count; i++)

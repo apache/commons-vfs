@@ -38,7 +38,7 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * Collection of operations that are available for that scheme.
      */
     private final Collection<Class<? extends FileOperation>> operations =
-        new ArrayList<Class<? extends FileOperation>>();
+        new ArrayList<>();
 
     /**
      * Gather available operations for the specified FileObject and put them into

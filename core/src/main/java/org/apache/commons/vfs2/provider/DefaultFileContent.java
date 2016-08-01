@@ -61,7 +61,7 @@ public final class DefaultFileContent implements FileContent
     private FileContentInfo fileContentInfo;
     private final FileContentInfoFactory fileContentInfoFactory;
 
-    private final ThreadLocal<FileContentThreadData> threadData = new ThreadLocal<FileContentThreadData>();
+    private final ThreadLocal<FileContentThreadData> threadData = new ThreadLocal<>();
     private boolean resetAttributes;
 
     /**

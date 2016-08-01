@@ -103,7 +103,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
         }
         else
         {
-            final Map<String, Object> attrs = new HashMap<String, Object>();
+            final Map<String, Object> attrs = new HashMap<>();
             attrs.put(HdfsFileAttributes.LAST_ACCESS_TIME.toString(), this.stat.getAccessTime());
             attrs.put(HdfsFileAttributes.BLOCK_SIZE.toString(), this.stat.getBlockSize());
             attrs.put(HdfsFileAttributes.GROUP.toString(), this.stat.getGroup());

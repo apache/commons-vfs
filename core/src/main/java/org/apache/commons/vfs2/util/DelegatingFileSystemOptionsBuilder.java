@@ -50,11 +50,11 @@ public class DelegatingFileSystemOptionsBuilder
 {
     @SuppressWarnings("unchecked") //  OK, it is a String
     private static final Class<String>[] STRING_PARAM = new Class[]{String.class};
-    private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<String, Class<?>>();
+    private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<>();
     private static final Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
 
     private final FileSystemManager manager;
-    private final Map<String, Map<String, List<Method>>> beanMethods = new TreeMap<String, Map<String, List<Method>>>();
+    private final Map<String, Map<String, List<Method>>> beanMethods = new TreeMap<>();
 
     static
     {
@@ -438,7 +438,7 @@ public class DelegatingFileSystemOptionsBuilder
             throw new FileSystemException("vfs.provider/no-config-builder.error", scheme);
         }
 
-        final Map<String, List<Method>> schemeMethods = new TreeMap<String, List<Method>>();
+        final Map<String, List<Method>> schemeMethods = new TreeMap<>();
 
         final Method[] methods = fscb.getClass().getMethods();
         for (final Method method : methods)
@@ -460,7 +460,7 @@ public class DelegatingFileSystemOptionsBuilder
             List<Method> configSetter = schemeMethods.get(key);
             if (configSetter == null)
             {
-                configSetter = new ArrayList<Method>(2);
+                configSetter = new ArrayList<>(2);
                 schemeMethods.put(key, configSetter);
             }
             configSetter.add(method);

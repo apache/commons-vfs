@@ -102,7 +102,7 @@ public class UserAuthenticationData
     public static final Type DOMAIN = new Type("domain");
 
     /** The authentication data. */
-    private final Map<Type, char[]> authenticationData = new TreeMap<Type, char[]>();
+    private final Map<Type, char[]> authenticationData = new TreeMap<>();
 
     /**
      * Creates a new uninitialized instance.

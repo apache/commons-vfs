@@ -28,8 +28,8 @@ import org.apache.commons.vfs2.FileSystemException;
  */
 class FileTypeMap
 {
-    private final Map<String, String> mimeTypeMap = new HashMap<String, String>();
-    private final Map<String, String> extensionMap = new HashMap<String, String>();
+    private final Map<String, String> mimeTypeMap = new HashMap<>();
+    private final Map<String, String> extensionMap = new HashMap<>();
 
     /**
      * Adds a MIME type mapping.

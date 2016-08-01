@@ -65,12 +65,12 @@ public class DefaultFileSystemManager implements FileSystemManager
     /**
      * Mapping from URI scheme to FileProvider.
      */
-    private final Map<String, FileProvider> providers = new HashMap<String, FileProvider>();
+    private final Map<String, FileProvider> providers = new HashMap<>();
 
     /**
      * All components used by this manager.
      */
-    private final ArrayList<Object> components = new ArrayList<Object>();
+    private final ArrayList<Object> components = new ArrayList<>();
 
     /**
      * The context to pass to providers.
@@ -81,7 +81,7 @@ public class DefaultFileSystemManager implements FileSystemManager
      * Operations providers added to this manager.
      */
     private final Map<String, List<FileOperationProvider>> operationProviders =
-            new HashMap<String, List<FileOperationProvider>>();
+            new HashMap<>();
 
     /**
      * Mappings of file types.
@@ -1259,7 +1259,7 @@ public class DefaultFileSystemManager implements FileSystemManager
         {
             if (!operationProviders.containsKey(scheme))
             {
-                final List<FileOperationProvider> providers = new ArrayList<FileOperationProvider>();
+                final List<FileOperationProvider> providers = new ArrayList<>();
                 operationProviders.put(scheme, providers);
             }
 

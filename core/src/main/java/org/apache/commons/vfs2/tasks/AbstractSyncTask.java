@@ -51,7 +51,7 @@ import org.apache.tools.ant.Project;
 public abstract class AbstractSyncTask
     extends VfsTask
 {
-    private final ArrayList<SourceInfo> srcFiles = new ArrayList<SourceInfo>();
+    private final ArrayList<SourceInfo> srcFiles = new ArrayList<>();
     private String destFileUrl;
     private String destDirUrl;
     private String srcDirUrl;
@@ -251,7 +251,7 @@ public abstract class AbstractSyncTask
         {
             srcDirName = resolveFile(srcDirUrl).getName();
         }
-        final ArrayList<FileObject> srcs = new ArrayList<FileObject>();
+        final ArrayList<FileObject> srcs = new ArrayList<>();
         for (int i = 0; i < srcFiles.size(); i++)
         {
             // Locate the source file, and make sure it exists
@@ -271,7 +271,7 @@ public abstract class AbstractSyncTask
         }
 
         // Scan the source files
-        final Set<FileObject> destFiles = new HashSet<FileObject>();
+        final Set<FileObject> destFiles = new HashSet<>();
         for (int i = 0; i < srcs.size(); i++)
         {
             final FileObject rootFile = srcs.get(i);

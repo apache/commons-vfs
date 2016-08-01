@@ -45,7 +45,7 @@ import org.apache.commons.vfs2.util.WeakRefFileListener;
 public class DelegateFileObject<AFS extends AbstractFileSystem> extends AbstractFileObject<AFS> implements FileListener
 {
     private FileObject file;
-    private final Set<String> children = new HashSet<String>();
+    private final Set<String> children = new HashSet<>();
     private boolean ignoreEvent;
 
     public DelegateFileObject(final AbstractFileName name,

@@ -220,7 +220,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         if (children != null && childName != null && newType != null)
         {
             // TODO - figure out if children[] can be replaced by list
-            final ArrayList<FileName> list = new ArrayList<FileName>(Arrays.asList(children));
+            final ArrayList<FileName> list = new ArrayList<>(Arrays.asList(children));
             if (newType.equals(FileType.IMAGINARY))
             {
                 list.remove(childName);
@@ -311,7 +311,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
 
         // Locate the files to copy across
-        final ArrayList<FileObject> files = new ArrayList<FileObject>();
+        final ArrayList<FileObject> files = new ArrayList<>();
         file.findFiles(selector, false, files);
 
         // Copy everything across
@@ -473,7 +473,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         */
 
         // Locate all the files to delete
-        final ArrayList<FileObject> files = new ArrayList<FileObject>();
+        final ArrayList<FileObject> files = new ArrayList<>();
         findFiles(selector, true, files);
 
         // Delete 'em
@@ -1640,7 +1640,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     {
         if (objects == null)
         {
-            objects = new ArrayList<Object>(INITIAL_LIST_SIZE);
+            objects = new ArrayList<>(INITIAL_LIST_SIZE);
         }
         objects.add(strongRef);
     }
@@ -1839,7 +1839,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             return null;
         }
 
-        final ArrayList<FileObject> list = new ArrayList<FileObject>();
+        final ArrayList<FileObject> list = new ArrayList<>();
         this.findFiles(selector, true, list);
         return list;
     }

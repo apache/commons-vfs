@@ -75,10 +75,10 @@ public class ProviderReadTests extends AbstractProviderTestCase
     protected void assertSameStructure(final FileObject folder, final FileInfo expected) throws Exception
     {
         // Setup the structure
-        final List<FileInfo> queueExpected = new ArrayList<FileInfo>();
+        final List<FileInfo> queueExpected = new ArrayList<>();
         queueExpected.add(expected);
 
-        final List<FileObject> queueActual = new ArrayList<FileObject>();
+        final List<FileObject> queueActual = new ArrayList<>();
         queueActual.add(folder);
 
         while (queueActual.size() > 0)

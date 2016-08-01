@@ -45,7 +45,7 @@ public class DefaultFilesCache extends AbstractFilesCache
 {
     /** The FileSystem cache. Keeps one Map for each FileSystem. */
     private final ConcurrentMap<FileSystem, ConcurrentMap<FileName, FileObject>> filesystemCache =
-                    new ConcurrentHashMap<FileSystem, ConcurrentMap<FileName, FileObject>>(10);
+                    new ConcurrentHashMap<>(10);
 
     @Override
     public void putFile(final FileObject file)

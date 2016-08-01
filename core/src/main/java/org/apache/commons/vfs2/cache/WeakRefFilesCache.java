@@ -35,6 +35,6 @@ public class WeakRefFilesCache extends SoftRefFilesCache
     @Override
     protected Reference<FileObject> createReference(final FileObject file, final ReferenceQueue<FileObject> refqueue)
     {
-        return new WeakReference<FileObject>(file, refqueue);
+        return new WeakReference<>(file, refqueue);
     }
 }

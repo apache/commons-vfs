@@ -65,7 +65,7 @@ public class DefaultFileOperations implements FileOperations
             return null;
         }
 
-        final List<Class<? extends FileOperation>> operations = new ArrayList<Class<? extends FileOperation>>();
+        final List<Class<? extends FileOperation>> operations = new ArrayList<>();
 
         for (final FileOperationProvider provider : providers)
         {

@@ -30,7 +30,7 @@ public final class Messages
     /**
      * Map from message code to MessageFormat object for the message.
      */
-    private static ConcurrentMap<String, MessageFormat> messageMap = new ConcurrentHashMap<String, MessageFormat>();
+    private static ConcurrentMap<String, MessageFormat> messageMap = new ConcurrentHashMap<>();
     private static final ResourceBundle RESOURCES = new CombinedResources("org.apache.commons.vfs2.Resources");
 
     private Messages()

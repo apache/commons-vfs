@@ -27,8 +27,8 @@ import java.util.List;
 public class ProviderConfiguration
 {
     private String className;
-    private final List<String> schemes = new ArrayList<String>(10);
-    private final List<String> dependenies = new ArrayList<String>(10);
+    private final List<String> schemes = new ArrayList<>(10);
+    private final List<String> dependenies = new ArrayList<>(10);
 
     public ProviderConfiguration()
     {

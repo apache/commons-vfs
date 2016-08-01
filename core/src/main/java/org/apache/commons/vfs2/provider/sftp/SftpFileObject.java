@@ -127,10 +127,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
         {
             return FileType.FOLDER;
         }
-        else
-        {
-            return FileType.FILE;
-        }
+        return FileType.FILE;
     }
 
     /**
@@ -324,9 +321,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
             }
         }
         final boolean isOwner = checkIds ?  attrs.getUId() == getAbstractFileSystem().getUId() : false;
-        final PosixPermissions permissions = new PosixPermissions(attrs.getPermissions(), isOwner, isInGroup);
-
-        return permissions;
+        return new PosixPermissions(attrs.getPermissions(), isOwner, isInGroup);
     }
 
     @Override
@@ -474,7 +469,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem>
         }
 
         // Extract the child names
-        final ArrayList<FileObject> children = new ArrayList<FileObject>();
+        final ArrayList<FileObject> children = new ArrayList<>();
         for (@SuppressWarnings("unchecked") // OK because ChannelSftp.ls() is documented to return Vector<LsEntry>
         final
             Iterator<LsEntry> iterator = (Iterator<LsEntry>) vector.iterator(); iterator.hasNext();)

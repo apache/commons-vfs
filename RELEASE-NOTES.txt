@@ -7,6 +7,22 @@ Apache Commons VFS is a Virtual File System library.
 
 New features and bug fix release.
 
+Please note that the Clirr report shows several errors.
+These may affect source compatibility.
+However they should not affect binary compatibility, as explained below.
+
+FileContent, FileName, FileObject, FileSystemManager, RandomAccessContent:
+The above interfaces have been updated to add new methods.
+This does not affect binary compatibility; for details please see:
+https://docs.oracle.com/javase/specs/jls/se7/html/jls-13.html#jls-13.5.3-100
+The above changes may affect source compatibility.
+ Changes to method parameters and return types in TarFileObject and TarFileSystem
+The original parameter/return types were the following:
+org.apache.commons.vfs2.provider.tar.TarEntry
+org.apache.commons.vfs2.provider.tar.TarInputStream
+The above were package protected, so any methods using them did not form part of the public API.
+Therefore source and binary compatibility is not affected.
+
 Changes in this version include:
 
 New features:
@@ -120,6 +136,8 @@ o VFS-335:  Use atomic variables in MonitorInputStream.
 o VFS-364:  Check the href in the response for just a path in addition to a full uri.
 
 Changes:
+o VFS-607:  Update Apache Commons Compress from 1.10 to 1.11.
+o VFS-608:  Update Apache Commons Net from 3.4 to 3.5.
 o VFS-530:  [hdfs] Use stable Apache Hadoop 2.6 dependencies. Thanks to Dave Marion.
 o VFS-601:  Update Apache Commons Net from 3.3 to 3.4.
 o VFS-602:  Update Apache Commons IO from 2.4 to 2.5.
@@ -189,11 +207,6 @@ o VFS-361:  Upgrade commons collections version to 3.2.1.
 
 Removed:
 o VFS-469:  Remove unused dependency to javax.jcr:jcr.
-
-Please note that release 2.1 is not completely binary compatible with the previous 2.0 release. This
-is primarily due to the upgrade of Apache Commons Compress to 1.6 and is limited to the TarFileProvider
-and related classes. All other errors reported in the Clirr report should be binary compatible as
-they consist of method additions.
 
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 

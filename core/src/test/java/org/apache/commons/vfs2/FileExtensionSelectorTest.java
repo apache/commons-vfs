@@ -101,7 +101,7 @@ public class FileExtensionSelectorTest
         final FileObject[] foArray = BaseFolder.findFiles(Selectors.SELECT_FILES);
         Assert.assertTrue(foArray.length > 0);
         // gather file extensions.
-        final Set<String> extensionSet = new HashSet<String>();
+        final Set<String> extensionSet = new HashSet<>();
         for (final FileObject fo : foArray)
         {
             extensionSet.add(fo.getName().getExtension());
@@ -153,7 +153,7 @@ public class FileExtensionSelectorTest
         final FileObject[] foArray = BaseFolder.findFiles(Selectors.SELECT_FILES);
         Assert.assertTrue(foArray.length > 0);
         // gather file extensions.
-        final Set<String> extensionSet = new HashSet<String>();
+        final Set<String> extensionSet = new HashSet<>();
         for (final FileObject fo : foArray)
         {
             extensionSet.add(fo.getName().getExtension());

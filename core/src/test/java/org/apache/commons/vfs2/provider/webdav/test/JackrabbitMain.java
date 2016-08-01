@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+// Adapted from JackRabbit (No additional NOTICE required, see VFS-611)
+
 package org.apache.commons.vfs2.provider.webdav.test;
 
 import java.io.File;

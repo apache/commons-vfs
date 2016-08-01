@@ -318,18 +318,18 @@ public class SftpFileSystem
 
         channel.setCommand(command);
         channel.setInputStream(null);
-        final InputStreamReader stream = new InputStreamReader(channel.getInputStream());
-        channel.setErrStream(System.err, true);
-        channel.connect();
-
-        // Read the stream
-        final char[] buffer = new char[EXEC_BUFFER_SIZE];
-        int read;
-        while ((read = stream.read(buffer, 0, buffer.length)) >= 0)
+        try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream())) 
         {
-            output.append(buffer, 0, read);
+            channel.setErrStream(System.err, true);
+            channel.connect();
+
+            // Read the stream
+            final char[] buffer = new char[EXEC_BUFFER_SIZE];
+            int read;
+            while ((read = stream.read(buffer, 0, buffer.length)) >= 0) {
+                output.append(buffer, 0, read);
+            }
         }
-        stream.close();
 
         // Wait until the command finishes (should not be long since we read the output stream)
         while (!channel.isClosed())
