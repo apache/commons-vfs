@@ -113,4 +113,14 @@ public final class VFS
         }
         VFS.uriStyle = Boolean.valueOf(uriStyle);
     }
+
+    /**
+     * Sets the file system manager
+     * 
+     * @param manager the file system manager
+     * @since 2.2
+     */
+    public static void setManager(FileSystemManager manager) {
+        VFS.instance = manager;
+    }
 }
