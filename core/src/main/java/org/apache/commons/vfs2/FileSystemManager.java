@@ -205,7 +205,7 @@ public interface FileSystemManager
     FileObject createVirtualFileSystem(FileObject rootFile) throws FileSystemException;
 
     /**
-     * Returns a streamhandler factory to enable URL lookup using this
+     * Returns a stream handler factory to enable URL lookup using this
      * FileSystemManager.
      *
      * @return the URLStreamHandlerFactory.
