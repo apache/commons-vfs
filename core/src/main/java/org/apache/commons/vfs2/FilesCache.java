@@ -42,7 +42,7 @@ public interface FilesCache
      *
      * @param filesystem The FileSystem.
      * @param name the name
-     * @return the fileobject or null if file is not cached
+     * @return the file object or null if file is not cached
      */
     FileObject getFile(final FileSystem filesystem, final FileName name);
 
