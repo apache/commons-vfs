@@ -222,7 +222,7 @@ public interface FileSystemManager
     boolean canCreateFileSystem(FileObject file) throws FileSystemException;
 
     /**
-     * Get the cache used to cache fileobjects.
+     * Get the cache used to cache file objects.
      *
      * @return The FilesCache.
      */
