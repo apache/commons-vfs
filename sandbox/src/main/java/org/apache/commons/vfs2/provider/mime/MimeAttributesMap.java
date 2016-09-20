@@ -47,7 +47,7 @@ public class MimeAttributesMap implements Map<String, Object>
 
     private final Log log = LogFactory.getLog(MimeAttributesMap.class);
     private final Part part;
-    private final Map<String, Method> mimeMessageGetters = new TreeMap<String, Method>();
+    private final Map<String, Method> mimeMessageGetters = new TreeMap<>();
 
     private Map<String, Object> backingMap;
 
@@ -96,7 +96,7 @@ public class MimeAttributesMap implements Map<String, Object>
     private Map<String, Object> createMap()
     {
         // Object is either a String, or a List of Strings
-        final Map<String, Object> ret = new TreeMap<String, Object>();
+        final Map<String, Object> ret = new TreeMap<>();
 
         Enumeration<Header> headers;
         try
@@ -125,7 +125,7 @@ public class MimeAttributesMap implements Map<String, Object>
             }
             else if (values instanceof String)
             {
-                final ArrayList<String> newValues = new ArrayList<String>();
+                final ArrayList<String> newValues = new ArrayList<>();
                 newValues.add((String) values);
                 newValues.add(header.getValue());
                 ret.put(headerName, newValues);

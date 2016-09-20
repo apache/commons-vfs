@@ -157,7 +157,7 @@ public class MimeFileObject
             return null;
         }
 
-        final List<MimeFileObject> vfs = new ArrayList<MimeFileObject>();
+        final List<MimeFileObject> vfs = new ArrayList<>();
         if (isMultipart())
         {
             final Object container = part.getContent();
