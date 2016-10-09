@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.local;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -48,14 +47,7 @@ class LocalFileRandomAccessContent extends AbstractRandomAccessContent
                 @Override
                 public int read() throws IOException
                 {
-                    try
-                    {
-                        return raf.readByte();
-                    }
-                    catch (final EOFException e)
-                    {
-                        return -1;
-                    }
+                    return raf.read();
                 }
 
                 @Override
