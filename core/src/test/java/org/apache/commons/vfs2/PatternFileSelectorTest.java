@@ -139,4 +139,8 @@ public class PatternFileSelectorTest
         }
     }
 
+    static FileObject getBaseFolder() {
+        return BaseFolder;
+    }
+
 }
