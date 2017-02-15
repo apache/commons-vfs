@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.FilesCache;
 /**
  * Tests for {@link NullFilesCache} used by {@link NullFilesCacheTestCase}.
  */
-public class NullFilesCacheTests extends FilesCacheTestsBase
+public class NullFilesCacheTests extends AbstractFilesCacheTestsBase
 {
     public void testFilesCache() throws Exception
     {

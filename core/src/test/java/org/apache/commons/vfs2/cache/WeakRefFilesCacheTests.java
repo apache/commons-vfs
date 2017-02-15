@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link WeakRefFilesCache} used by {@link WeakRefFilesCacheTestCase}.
  */
-public class WeakRefFilesCacheTests extends FilesCacheTestsBase
+public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase
 {
     public void testFilesCache() throws Exception
     {

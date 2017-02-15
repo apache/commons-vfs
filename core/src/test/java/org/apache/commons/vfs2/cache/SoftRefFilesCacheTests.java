@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link SoftRefFilesCache} used by {@link SoftRefFilesCacheTestCase}.
  */
-public class SoftRefFilesCacheTests extends FilesCacheTestsBase
+public class SoftRefFilesCacheTests extends AbstractFilesCacheTestsBase
 {
     public void testFilesCache() throws Exception
     {

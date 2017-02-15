@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link DefaultFilesCache} used by {@link DefaultFilesCacheTestCase}.
  */
-public class DefaultFilesCacheTests extends FilesCacheTestsBase
+public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase
 {
     public void testFilesCache() throws Exception
     {

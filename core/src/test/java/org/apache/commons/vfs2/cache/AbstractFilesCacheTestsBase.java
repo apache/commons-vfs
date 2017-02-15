@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.test.CacheTestSuite;
  * Make sure {@link CacheTestSuite} is configured
  * with correct FilesCache.
  */
-public abstract class FilesCacheTestsBase extends AbstractProviderTestCase
+public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCase
 {
     /**
      * Will test if the cache is cleared and if it is still useable afterwards.

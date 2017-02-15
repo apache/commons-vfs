@@ -21,7 +21,7 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link LRUFilesCache} used by {@link LRUFilesCacheTestCase}.
  */
-public class LRUFilesCacheTests extends FilesCacheTestsBase
+public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase
 {
     public void testFilesCache() throws Exception
     {
