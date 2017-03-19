@@ -35,7 +35,7 @@ public class MultipleConnectionTestCase
     @BeforeClass
     public static void setUpClass() throws FtpException, IOException
     {
-        FtpProviderTestCase.setUpClass();
+        FtpProviderTestCase.setUpClass(FtpProviderTestCase.getTestDirectory(), null);
     }
 
     @AfterClass

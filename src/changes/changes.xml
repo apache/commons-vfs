@@ -65,6 +65,9 @@ The <action> type attribute can be add,update,fix,remove.
      <action issue="VFS-621" dev="ggregory" type="update">
         Add API VFS.setManager(FileSystemManager).
      </action>
+     <action issue="VFS-620" dev="ggregory" type="fix" due-to="stevezhuang">
+        FileObject.moveTo(FileObject) API doesn't work well for a Linux FTP.
+     </action>
    </release>  
     <release version="2.1" date="2016-05-19" description="New features and bug fix release.
 

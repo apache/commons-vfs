@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.FtpServer;
 import org.apache.ftpserver.FtpServerFactory;
+import org.apache.ftpserver.ftplet.FileSystemFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 import org.apache.ftpserver.ftplet.UserManager;
 import org.apache.ftpserver.listener.ListenerFactory;
@@ -83,11 +84,12 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
-     *
+     * @param rootDirectory the local FTP server rootDirectory
+     * @param fileSystemFactory optional local FTP server FileSystemFactory
      * @throws FtpException
      * @throws IOException
      */
-    static void setUpClass() throws FtpException, IOException
+    static void setUpClass(String rootDirectory, FileSystemFactory fileSystemFactory) throws FtpException, IOException
     {
         if (Server != null)
         {
@@ -103,8 +105,12 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         final BaseUser user = (BaseUser) userManager.getUserByName("test");
         // Pickup the home dir value at runtime even though we have it set in the user prop file
         // The user prop file requires the "homedirectory" to be set
-        user.setHomeDirectory(getTestDirectory());
+        user.setHomeDirectory(rootDirectory);
+        userManager.save(user);
         serverFactory.setUserManager(userManager);
+        if (fileSystemFactory != null) {
+            serverFactory.setFileSystem(fileSystemFactory);
+        }
         final ListenerFactory factory = new ListenerFactory();
         // set the port of the listener
         factory.setPort(SocketPort);
@@ -122,14 +128,22 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
      */
     public static Test suite() throws Exception
     {
-        return new ProviderTestSuite(new FtpProviderTestCase())
+        return suite(new FtpProviderTestCase());
+    }
+
+    /**
+     * Creates the test suite for subclasses of the ftp file system.
+     */
+    protected static Test suite(final FtpProviderTestCase testCase) throws Exception
+    {
+        return new ProviderTestSuite(testCase)
         {
             @Override
             protected void setUp() throws Exception
             {
                 if (getSystemTestUriOverride() == null)
                 {
-                    setUpClass();
+                    setUpClass(testCase.getFtpRootDir(), testCase.getFtpFileSystem());
                 }
                 super.setUp();
             }
@@ -176,12 +190,37 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
         }
         final FileSystemOptions opts = new FileSystemOptions();
         final FtpFileSystemConfigBuilder builder = FtpFileSystemConfigBuilder.getInstance();
+        builder.setUserDirIsRoot(opts, getUserDirIsRoot());
         builder.setPassiveMode(opts, true);
         // FtpFileType.BINARY is the default
         builder.setFileType(opts, FtpFileType.BINARY);
         builder.setConnectTimeout(opts, 10000);
         builder.setControlEncoding(opts, "UTF-8");
         return manager.resolveFile(uri, opts);
+    }
+
+    /**
+     * Gets the setting for UserDirIsRoot.
+     */
+    protected boolean getUserDirIsRoot()
+    {
+        return false;
+    }
+
+    /**
+     * Gets option file system factory for local FTP server.
+     */
+    protected FileSystemFactory getFtpFileSystem() throws IOException {
+        // use default
+        return null;
+    }
+
+    /**
+     * Gets the root of the local FTP Server file system.
+     */
+    protected String getFtpRootDir()
+    {
+        return getTestDirectory();
     }
 
     /**
