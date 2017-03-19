@@ -65,6 +65,9 @@ The <action> type attribute can be add,update,fix,remove.
      <action issue="VFS-631" dev="ggregory" type="update">
         Update from Apache Commons Net 3.5 to 3.6.
      </action>
+     <action issue="VFS-632" dev="ggregory" type="update">
+        Update from JCraft jsch for SFTP/SSH from 0.1.53 to 0.1.54.
+     </action>
      <action issue="VFS-621" dev="ggregory" type="update">
         Add API VFS.setManager(FileSystemManager).
      </action>
