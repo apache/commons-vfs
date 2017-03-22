@@ -145,7 +145,7 @@ public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>
     void createFolder() throws FileSystemException;
 
     /**
-     * Deletes this file.  Does nothing if this file does not exist of if it is a
+     * Deletes this file.  Does nothing if this file does not exist or if it is a
      * folder that has children.  Does not delete any descendants of this file,
      * use {@link #delete(FileSelector)} or {@link #deleteAll()} for that.
      *
