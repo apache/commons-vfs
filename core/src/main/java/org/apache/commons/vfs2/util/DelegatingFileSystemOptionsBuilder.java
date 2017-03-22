@@ -140,6 +140,38 @@ public class DelegatingFileSystemOptionsBuilder
     }
 
     /**
+     * Set a single object value.
+     *
+     * @param fso    FileSystemOptions
+     * @param scheme scheme
+     * @param name   name
+     * @param value  value
+     * @throws FileSystemException if an error occurs.
+     */
+    public void setConfigObject(final FileSystemOptions fso, final String scheme, final String name,
+                                final Object value) throws FileSystemException
+    {
+        setConfigObjects(fso, scheme, name, new Object[]{value});
+    }
+
+    /**
+     * Set an array of object value.
+     *
+     * @param fso    FileSystemOptions
+     * @param scheme scheme
+     * @param name   name
+     * @param values values
+     * @throws FileSystemException if an error occurs.
+     */
+    public void setConfigObjects(final FileSystemOptions fso, final String scheme, final String name,
+                                 final Object[] values) throws FileSystemException
+    {
+        final Context ctx = new Context(fso, scheme, name, values);
+
+        setValues(ctx);
+    }
+
+    /**
      * Set a single class value.<br>
      * The class has to implement a no-args constructor, else the instantiation might fail.
      *
