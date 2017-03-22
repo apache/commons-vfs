@@ -205,7 +205,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     // Test no longer passing 2016/04/28
     public void ignoreTestHttp405() throws FileSystemException
     {
-        final FileObject f = VFS.getManager().resolveFile("http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
+        final FileObject f = VFS.getManager().resolveFile("http://www.w3schools.com/xml/tempconvert.asmx?WSDL");
         assert f.getContent().getSize() > 0;
     }
 
