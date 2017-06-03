@@ -144,7 +144,8 @@
     <maven.compiler.target>1.7</maven.compiler.target>
 
     <!-- bare ID without major version or commons- prefix -->
-    <commons.componentid>vfs</commons.componentid>
+    <commons.componentid>vfs2</commons.componentid>
+    <commons.module.name>org.apache.commons.vfs2</commons.module.name>
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
