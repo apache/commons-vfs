@@ -1371,16 +1371,27 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         synchronized (fileSystem) {
             attach();
 
-            // VFS-210: get the type only if requested for
-            try {
-                if (type == null) {
-                    setFileType(doGetType());
-                }
-                if (type == null) {
-                    setFileType(FileType.IMAGINARY);
-                }
-            } catch (final Exception e) {
-                throw new FileSystemException("vfs.provider/get-type.error", e, fileName);
+            if (type != null)
+                return type;
+        }
+
+        // VFS-210: get the type only if requested for
+
+        FileType newType;
+
+        try {
+            // do expensive I/O without holding the lock
+            newType = doGetType();
+        } catch (final Exception e) {
+            throw new FileSystemException("vfs.provider/get-type.error", e, fileName);
+        }
+
+        synchronized (fileSystem) {
+            if (type == null) {
+                setFileType(newType);
+            }
+            if (type == null) {
+                setFileType(FileType.IMAGINARY);
             }
 
             return type;
