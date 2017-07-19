@@ -62,6 +62,9 @@ The <action> type attribute can be add,update,fix,remove.
      <action issue="VFS-629" dev="ggregory" type="update">
         Update Apache Commons Compress from 1.12 to 1.13.
      </action>
+     <action issue="VFS-639" dev="ggregory" type="update">
+        Update Apache Commons Compress from 1.13 to 1.14.
+     </action>
      <action issue="VFS-631" dev="ggregory" type="update">
         Update from Apache Commons Net 3.5 to 3.6.
      </action>
