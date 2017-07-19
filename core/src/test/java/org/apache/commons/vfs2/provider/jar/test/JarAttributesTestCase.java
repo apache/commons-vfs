@@ -30,19 +30,16 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class JarAttributesTestCase
-{
-    private void printAttributes(final Map<String, Object> attributes)
-    {
-        for (final Map.Entry<String, Object> e : attributes.entrySet())
-        {
+public class JarAttributesTestCase {
+    
+    private void printAttributes(final Map<String, Object> attributes) {
+        for (final Map.Entry<String, Object> e : attributes.entrySet()) {
             System.out.println("Key: " + e.getKey() + ", Value: " + e.getValue());
         }
     }
 
     @Test
-    public void testAttributes() throws Exception
-    {
+    public void testAttributes() throws Exception {
         final FileObject file = JarProviderTestCase.getTestJar(VFS.getManager(), "test.jar");
 
         final Map<String, Object> attributes = file.getContent().getAttributes();
@@ -52,8 +49,7 @@ public class JarAttributesTestCase
     }
 
     @Test
-    public void testNestedAttributes() throws Exception
-    {
+    public void testNestedAttributes() throws Exception {
         final FileObject nested = JarProviderTestCase.getTestJar(VFS.getManager(), "nested.jar");
         final FileObject file = nested.resolveFile("test.jar");
 
