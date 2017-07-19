@@ -30,7 +30,7 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class JarAttributesTestCase extends TestCase
+public class JarAttributesTestCase
 {
     private void printAttributes(final Map<String, Object> attributes)
     {
