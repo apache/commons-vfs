@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
 
 /**
- * A file system provider for Zip files.  Provides read-only file systems.
+ * A file system provider for ZIP files.  Provides read-only file systems.
  */
 public class ZipFileProvider extends AbstractLayeredFileProvider implements FileProvider
 {

@@ -41,7 +41,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.UriParser;
 
 /**
- * A read-only file system for Zip/Jar files.
+ * A read-only file system for ZIP and JAR files.
  */
 public class ZipFileSystem extends AbstractFileSystem
 {
