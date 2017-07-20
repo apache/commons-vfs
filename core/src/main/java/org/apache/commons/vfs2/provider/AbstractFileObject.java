@@ -1435,7 +1435,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             // Locate the parent of this file
             if (parent == null)
             {
-                FileName name = fileName.getParent();
+                final FileName name = fileName.getParent();
                 if (name == null)
                 {
                     return null;
@@ -1882,7 +1882,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             {
                 attach();
                 // remember type to avoid attach
-                FileType srcType = getType();
+                final FileType srcType = getType();
 
                 doRename(destFile);
 

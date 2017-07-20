@@ -117,7 +117,7 @@ public class FTPClientWrapper implements FtpClient
         {
             getFtpClient().quit();
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             LOG.debug("I/O exception while trying to quit, probably it's a timed out connection, ignoring.", e);
         }
@@ -127,7 +127,7 @@ public class FTPClientWrapper implements FtpClient
             {
                 getFtpClient().disconnect();
             }
-            catch (IOException e)
+            catch (final IOException e)
             {
                 LOG.warn("I/O exception while trying to disconnect, probably it's a closed connection, ignoring.", e);
             }

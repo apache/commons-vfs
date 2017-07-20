@@ -117,7 +117,7 @@ public class VfsClassLoaderTests
             // hasProvider("file") cannot be used as it triggers default provider URL
             manager.toFileObject(new File("."));
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             System.out.println("VfsClassLoaderTests no local file provider, skipping.");
             return;
@@ -168,7 +168,7 @@ public class VfsClassLoaderTests
             // hasProvider("file") cannot be used as it triggers default provider URL
             manager.toFileObject(new File("."));
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             System.out.println("VfsClassLoaderTests no local file provider, skipping.");
             return;
@@ -237,14 +237,14 @@ public class VfsClassLoaderTests
          * VFSClassLoader#testGetResourcesJARs.
          */
         @Override
-        public Enumeration<URL> getResources(String name)
+        public Enumeration<URL> getResources(final String name)
             throws IOException
         {
             return Collections.enumeration(Collections.<URL> emptyList());
         }
 
         @Override
-        protected Class<?> findClass(String name)
+        protected Class<?> findClass(final String name)
             throws ClassNotFoundException
         {
             fail("Not intended to be used for class loading.");

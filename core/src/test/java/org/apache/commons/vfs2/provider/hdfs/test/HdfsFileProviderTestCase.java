@@ -93,7 +93,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig impleme
             Logger.getRootLogger().setLevel(Level.OFF);
 
             // Put the MiniDFSCluster directory in the target directory
-            File data = new File("target/test/hdfstestcasedata").getAbsoluteFile();
+            final File data = new File("target/test/hdfstestcasedata").getAbsoluteFile();
             data.mkdirs();
             System.setProperty("test.build.data", data.toString());
             FileUtils.cleanDirectory(data);

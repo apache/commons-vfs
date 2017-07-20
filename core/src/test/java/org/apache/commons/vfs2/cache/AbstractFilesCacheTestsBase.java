@@ -38,7 +38,7 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
      */
     public void testClearFiles() throws Exception
     {
-        FilesCache cache = getManager().getFilesCache();
+        final FilesCache cache = getManager().getFilesCache();
 
         final FileObject fo1 = getWriteFolder().resolveFile("dir1");
 

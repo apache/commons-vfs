@@ -60,7 +60,7 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem>
         return new GZIPOutputStream(os);
     }
 
-    private static GzipFileSystem cast(CompressedFileFileSystem fs) {
+    private static GzipFileSystem cast(final CompressedFileFileSystem fs) {
         if (fs instanceof GzipFileSystem) {
             return (GzipFileSystem) fs;
         }

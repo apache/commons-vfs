@@ -89,7 +89,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig implements P
      * @throws FtpException
      * @throws IOException
      */
-    static void setUpClass(String rootDirectory, FileSystemFactory fileSystemFactory) throws FtpException, IOException
+    static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory) throws FtpException, IOException
     {
         if (Server != null)
         {

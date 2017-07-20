@@ -303,7 +303,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
         final InputStream instr = file.getContent().getInputStream();
         try
         {
-            byte[] buf = new byte[25];
+            final byte[] buf = new byte[25];
             assertEquals(20, instr.read(buf));
 
             for(int i=0;i<5;i++)
@@ -385,7 +385,7 @@ public class ProviderReadTests extends AbstractProviderTestCase
         Assert.assertFalse("subdir4.jar/ must not be layerable", getManager().canCreateFileSystem(folder));
         try
         {
-            FileObject ignored = getManager().createFileSystem(folder);
+            final FileObject ignored = getManager().createFileSystem(folder);
             fail("Should not be able to create a layered filesystem on a directory. " + ignored);
         }
         catch (final FileSystemException e)

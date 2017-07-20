@@ -45,14 +45,14 @@ public class BasicOperationsTestCase
         implements VfsComponent
     {
         @Override
-        public void setLogger(Log logger)
+        public void setLogger(final Log logger)
         {
             assertNotNull("setLogger", logger);
             ops |= 1;
         }
 
         @Override
-        public void setContext(VfsComponentContext context)
+        public void setContext(final VfsComponentContext context)
         {
             assertNotNull("setContext", context);
             ops |= 2;
@@ -87,8 +87,8 @@ public class BasicOperationsTestCase
         int ops = 0; // bit array to record invocations (poor mans mock)
 
         @Override
-        public void collectOperations(Collection<Class< ? extends FileOperation>> operationsList,
-                                      FileObject file)
+        public void collectOperations(final Collection<Class< ? extends FileOperation>> operationsList,
+                                      final FileObject file)
                                           throws FileSystemException
         {
             assertNotNull("collect operationsList", operationsList);
@@ -97,7 +97,7 @@ public class BasicOperationsTestCase
         }
 
         @Override
-        public FileOperation getOperation(FileObject file, Class< ? extends FileOperation> operationClass)
+        public FileOperation getOperation(final FileObject file, final Class< ? extends FileOperation> operationClass)
             throws FileSystemException
         {
             assertNotNull("file object", file);
@@ -118,7 +118,7 @@ public class BasicOperationsTestCase
     public void setUp() throws FileSystemException
     {
         manager = new DefaultFileSystemManager();
-        FileProvider fp = new DefaultLocalFileProvider();
+        final FileProvider fp = new DefaultLocalFileProvider();
         manager.addProvider("file", fp);
         manager.init();
     }
@@ -150,7 +150,7 @@ public class BasicOperationsTestCase
     {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
-        FileOperationProvider[] ops = manager.getOperationProviders("file");
+        final FileOperationProvider[] ops = manager.getOperationProviders("file");
         assertSame("exactly one provider registered", 1, ops.length);
         assertSame(myop, ops[0]);
         assertEquals(0, myop.ops); // collect not invoked
@@ -165,12 +165,12 @@ public class BasicOperationsTestCase
     {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
-        FileObject fo = manager.toFileObject(new File("."));
+        final FileObject fo = manager.toFileObject(new File("."));
 
-        FileOperations ops = fo.getFileOperations();
+        final FileOperations ops = fo.getFileOperations();
         assertNotNull(ops);
 
-        Class< ? extends FileOperation>[] oparray = ops.getOperations();
+        final Class< ? extends FileOperation>[] oparray = ops.getOperations();
         assertSame("no ops should be found", 0, oparray.length);
         assertSame(16, myop.ops); // collect
     }
@@ -184,17 +184,17 @@ public class BasicOperationsTestCase
     {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
-        FileObject fo = manager.toFileObject(new File("."));
+        final FileObject fo = manager.toFileObject(new File("."));
 
-        FileOperations ops = fo.getFileOperations();
+        final FileOperations ops = fo.getFileOperations();
         assertNotNull(ops);
 
         try
         {
-            FileOperation logop = ops.getOperation(VcsLog.class);
+            final FileOperation logop = ops.getOperation(VcsLog.class);
             fail("Must throw but returned " + logop);
         }
-        catch (FileSystemException e)
+        catch (final FileSystemException e)
         {
             assertEquals("vfs.operation/operation-not-supported.error", e.getCode());
         }

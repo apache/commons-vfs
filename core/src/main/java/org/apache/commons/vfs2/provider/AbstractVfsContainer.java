@@ -90,7 +90,7 @@ public abstract class AbstractVfsContainer
         }
   
         // Close all components
-        for (Object component : toclose)
+        for (final Object component : toclose)
         {
             if (component instanceof VfsComponent)
             {

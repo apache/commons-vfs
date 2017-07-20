@@ -469,7 +469,7 @@ public final class DefaultFileContent implements FileContent
         /*
         if (getThreadData().getState() != STATE_NONE)
         */
-        FileContentThreadData streams = getOrCreateThreadData();
+        final FileContentThreadData streams = getOrCreateThreadData();
         if (streams.getOutstr() != null)
         {
             throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
@@ -479,7 +479,7 @@ public final class DefaultFileContent implements FileContent
         final OutputStream outstr = fileObject.getOutputStream(bAppend);
 
         // Create and set wrapper
-        FileContentOutputStream wrapped = new FileContentOutputStream(fileObject, outstr);
+        final FileContentOutputStream wrapped = new FileContentOutputStream(fileObject, outstr);
         streams.setOutstr(wrapped);
         streamOpened();
 
@@ -560,7 +560,7 @@ public final class DefaultFileContent implements FileContent
      */
     private void endInput(final FileContentInputStream instr)
     {
-        FileContentThreadData streams = threadData.get();
+        final FileContentThreadData streams = threadData.get();
         if (streams != null)
         {
             streams.removeInstr(instr);
@@ -578,7 +578,7 @@ public final class DefaultFileContent implements FileContent
      */
     private void endRandomAccess(final RandomAccessContent rac)
     {
-        FileContentThreadData streams = threadData.get();
+        final FileContentThreadData streams = threadData.get();
         if (streams != null)
         {
             streams.removeRastr(rac);
@@ -596,7 +596,7 @@ public final class DefaultFileContent implements FileContent
      */
     private void endOutput() throws Exception
     {
-        FileContentThreadData streams = threadData.get();
+        final FileContentThreadData streams = threadData.get();
         if (streams != null)
         {
             streams.setOutstr(null);
@@ -620,7 +620,7 @@ public final class DefaultFileContent implements FileContent
     @Override
     public boolean isOpen()
     {
-        FileContentThreadData streams = threadData.get();
+        final FileContentThreadData streams = threadData.get();
         if (streams != null && streams.hasStreams())
         {
             return true;

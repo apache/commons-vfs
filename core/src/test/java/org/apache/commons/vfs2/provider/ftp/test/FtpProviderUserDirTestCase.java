@@ -66,7 +66,7 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase
         FileUtils.copyDirectory(testDir, initialDir, new FileFilter()
         {
             @Override
-            public boolean accept(File pathname)
+            public boolean accept(final File pathname)
             {
                 return !pathname.getPath().contains(rootDir.getName());
             }
@@ -75,9 +75,9 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase
         return new NativeFileSystemFactory()
         {
             @Override
-            public FileSystemView createFileSystemView(User user) throws FtpException
+            public FileSystemView createFileSystemView(final User user) throws FtpException
             {
-                FileSystemView fsView = super.createFileSystemView(user);
+                final FileSystemView fsView = super.createFileSystemView(user);
                 fsView.changeWorkingDirectory("home/test");
                 return fsView;
             }

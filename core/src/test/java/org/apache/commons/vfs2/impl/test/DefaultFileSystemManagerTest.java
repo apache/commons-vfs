@@ -40,7 +40,7 @@ public class DefaultFileSystemManagerTest
     @Test(expected = NullPointerException.class)
     public void testResolveFileAbsoluteThrows() throws FileSystemException
     {
-        String absolute = new File("/").getAbsoluteFile().toURI().toString();
+        final String absolute = new File("/").getAbsoluteFile().toURI().toString();
         VFS.getManager().resolveFile((File) null, absolute);
     }
 
@@ -53,7 +53,7 @@ public class DefaultFileSystemManagerTest
     @Test
     public void testResolveFileObjectNullAbsolute() throws FileSystemException
     {
-        String absolute = new File("/").getAbsoluteFile().toURI().toString();
+        final String absolute = new File("/").getAbsoluteFile().toURI().toString();
         VFS.getManager().resolveFile((FileObject) null, absolute);
     }
 }

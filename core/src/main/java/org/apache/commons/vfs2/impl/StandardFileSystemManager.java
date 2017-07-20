@@ -478,7 +478,7 @@ public class StandardFileSystemManager
     {
         try
         {
-            Class<?> clazz = loadClass(className);
+            final Class<?> clazz = loadClass(className);
             return clazz.newInstance();
         }
         catch (final Exception e)
@@ -492,7 +492,7 @@ public class StandardFileSystemManager
      * @throws ClassNotFoundException if last {@code loadClass} failed.
      * @see #findClassLoader()
      */
-    private Class< ? > loadClass(String className) throws ClassNotFoundException
+    private Class< ? > loadClass(final String className) throws ClassNotFoundException
     {
         try
         {
@@ -509,7 +509,7 @@ public class StandardFileSystemManager
      * @throws IOException if {@code getResource} failed.
      * @see #findClassLoader()
      */
-    private Enumeration<URL> loadResources(String name) throws IOException
+    private Enumeration<URL> loadResources(final String name) throws IOException
     {
         Enumeration<URL> res = findClassLoader().getResources(name);
         if (res == null || !res.hasMoreElements())

@@ -70,7 +70,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public String[] getConfigNames(final FileSystemOptions opts)
     {
-        String names = this.getString(opts, KEY_CONFIG_NAMES);
+        final String names = this.getString(opts, KEY_CONFIG_NAMES);
         return names == null || names.isEmpty() ? null : names.split(",");
     }
 
@@ -104,7 +104,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
         }
         else
         {
-            String previousNames = this.getString(opts, KEY_CONFIG_NAMES);
+            final String previousNames = this.getString(opts, KEY_CONFIG_NAMES);
             if (previousNames == null || previousNames.isEmpty())
             {
                 this.setParam(opts, KEY_CONFIG_NAMES, name);
@@ -125,13 +125,13 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public Path[] getConfigPaths(final FileSystemOptions opts)
     {
-        String pathNames = this.getString(opts, KEY_CONFIG_PATHS);
+        final String pathNames = this.getString(opts, KEY_CONFIG_PATHS);
         if (pathNames == null || pathNames.isEmpty())
         {
             return null;
         }
-        String[] paths = pathNames.split(",");
-        Path[] realPaths = new Path[paths.length];
+        final String[] paths = pathNames.split(",");
+        final Path[] realPaths = new Path[paths.length];
         for (int i = 0; i < paths.length; i++)
         {
             realPaths[i] = new Path(paths[i]);
@@ -165,7 +165,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
         }
         else
         {
-            String previousPathNames = this.getString(opts, KEY_CONFIG_PATHS);
+            final String previousPathNames = this.getString(opts, KEY_CONFIG_PATHS);
             if (previousPathNames == null || previousPathNames.isEmpty())
             {
                 this.setParam(opts, KEY_CONFIG_PATHS, path.toString());
@@ -188,20 +188,20 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
     {
         try
         {
-            String urlNames = this.getString(opts, KEY_CONFIG_URLS);
+            final String urlNames = this.getString(opts, KEY_CONFIG_URLS);
             if (urlNames == null || urlNames.isEmpty())
             {
                 return null;
             }
-            String[] urls = urlNames.split(",");
-            URL[] realURLs = new URL[urls.length];
+            final String[] urls = urlNames.split(",");
+            final URL[] realURLs = new URL[urls.length];
             for (int i = 0; i < urls.length; i++)
             {
                 realURLs[i] = new URL(urls[i]);
             }
             return realURLs;
         }
-        catch (MalformedURLException mue)
+        catch (final MalformedURLException mue)
         {
             // This should never happen because we save it in the proper form
         }
@@ -234,7 +234,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
         }
         else
         {
-            String previousURLNames = this.getString(opts, KEY_CONFIG_URLS);
+            final String previousURLNames = this.getString(opts, KEY_CONFIG_URLS);
             if (previousURLNames == null || previousURLNames.isEmpty())
             {
                 this.setParam(opts, KEY_CONFIG_URLS, url.toString());

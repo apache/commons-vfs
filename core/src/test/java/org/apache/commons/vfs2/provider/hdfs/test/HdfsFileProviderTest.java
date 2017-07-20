@@ -78,7 +78,7 @@ public class HdfsFileProviderTest
         Logger.getRootLogger().setLevel(Level.ERROR);
 
         // Put the MiniDFSCluster directory in the target directory
-        File data = new File("target/test/hdfstestdata").getAbsoluteFile();
+        final File data = new File("target/test/hdfstestdata").getAbsoluteFile();
         data.mkdirs();
         System.setProperty("test.build.data", data.toString());
         FileUtils.cleanDirectory(data);
@@ -111,7 +111,7 @@ public class HdfsFileProviderTest
      * <P>
      * Will do nothing on Windows.
      */
-    public static void setUmask(Configuration conf2)
+    public static void setUmask(final Configuration conf2)
     {
         if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
         {

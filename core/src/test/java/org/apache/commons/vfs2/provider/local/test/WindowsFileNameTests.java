@@ -33,11 +33,11 @@ public class WindowsFileNameTests
     public void testWindowsRoots() throws Exception
     {
         // valid URI forms of the filesystem root
-        String[] tests = new String[] { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
+        final String[] tests = new String[] { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
 
-        for(String name : tests)
+        for(final String name : tests)
         {
-            FileName fn = getManager().resolveFile(name).getName();
+            final FileName fn = getManager().resolveFile(name).getName();
 
             // the following tests work for Windows file names only
             assertSame(WindowsFileName.class, fn.getClass());
@@ -58,16 +58,16 @@ public class WindowsFileNameTests
 
     public void testWindowsWrongRoots() throws Exception
     {
-        String[] tests = new String[] { "file:///C:", "file://C:", "file:/C:", "file:C:" };
+        final String[] tests = new String[] { "file:///C:", "file://C:", "file:/C:", "file:C:" };
 
-        for(String name : tests)
+        for(final String name : tests)
         {
             try
             {
-                FileName fn = getManager().resolveFile(name).getName();
+                final FileName fn = getManager().resolveFile(name).getName();
                 fail("should not accept root " + name);
             }
-            catch (FileSystemException ex)
+            catch (final FileSystemException ex)
             {
                 assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode());
                 assertTrue(ex.toString().indexOf(name) >= 0);
@@ -80,7 +80,7 @@ public class WindowsFileNameTests
         try
         {
             final String FILE = "file://///";
-            FileObject fo = getManager().resolveFile(FILE);
+            final FileObject fo = getManager().resolveFile(FILE);
             fail("Windows File Parser should not allow " + FILE + " " + fo);
         }
         catch(FileSystemException ex)
@@ -97,7 +97,7 @@ public class WindowsFileNameTests
         try
         {
             final String FILE = "file://////";
-            FileObject fo = getManager().resolveFile(FILE);
+            final FileObject fo = getManager().resolveFile(FILE);
             fail("Windows File Parser should not allow " + FILE + " " + fo);
         }
         catch(FileSystemException ex)

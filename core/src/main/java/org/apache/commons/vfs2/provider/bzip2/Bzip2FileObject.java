@@ -68,7 +68,7 @@ public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
         return new BZip2CompressorOutputStream(os);
     }
 
-    private static Bzip2FileSystem cast(CompressedFileFileSystem fs) {
+    private static Bzip2FileSystem cast(final CompressedFileFileSystem fs) {
         if (fs instanceof Bzip2FileSystem) {
             return (Bzip2FileSystem) fs;
         }

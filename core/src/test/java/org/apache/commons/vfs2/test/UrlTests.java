@@ -94,14 +94,14 @@ public class UrlTests
     public void testURLContentProvider() throws Exception
     {
         // Test non-empty file
-        FileObject file = getReadFolder().resolveFile("file1.txt");
+        final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
 
-        String uri = file.getURL().toExternalForm();
-        FileSystemOptions options = getReadFolder().getFileSystem().getFileSystemOptions();
+        final String uri = file.getURL().toExternalForm();
+        final FileSystemOptions options = getReadFolder().getFileSystem().getFileSystemOptions();
 
-        FileObject f1 = getManager().resolveFile(uri, options);
-        FileObject f2 = getManager().resolveFile(uri, options);
+        final FileObject f1 = getManager().resolveFile(uri, options);
+        final FileObject f2 = getManager().resolveFile(uri, options);
 
         assertEquals("Two files resolved by URI must be equals on " + uri,  f1, f2);
         assertSame("Resolving two times should not produce new filesystem on " + uri, f1.getFileSystem(), f2.getFileSystem());

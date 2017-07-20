@@ -103,7 +103,7 @@ public class VerifyingFileSelector
         }
         else
         {
-            AbstractFileObject parent = FileObjectUtils.getAbstractFileObject(folder.getParent());
+            final AbstractFileObject parent = FileObjectUtils.getAbstractFileObject(folder.getParent());
             assertSame(currentFolder, parent);
 
             // Locate the info for the child, and make sure it is folder

@@ -126,7 +126,7 @@ public class HdfsFileSystem extends AbstractFileSystem
                 // no matter where they might come from
                 if (configNames != null)
                 {
-                    for (String configName : configNames)
+                    for (final String configName : configNames)
                     {
                         log.debug("Adding HDFS configuration resource: " + configName);
                         conf.addResource(configName);
@@ -134,7 +134,7 @@ public class HdfsFileSystem extends AbstractFileSystem
                 }
                 if (configPaths != null)
                 {
-                    for (Path path : configPaths)
+                    for (final Path path : configPaths)
                     {
                         log.debug("Adding HDFS configuration path: " + path);
                         conf.addResource(path);
@@ -142,7 +142,7 @@ public class HdfsFileSystem extends AbstractFileSystem
                 }
                 if (configURLs != null)
                 {
-                    for (URL url : configURLs)
+                    for (final URL url : configURLs)
                     {
                         log.debug("Adding HDFS configuration URL: " + url);
                         conf.addResource(url);

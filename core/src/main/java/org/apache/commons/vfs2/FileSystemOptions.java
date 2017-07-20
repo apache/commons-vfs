@@ -188,13 +188,13 @@ public final class FileSystemOptions implements Cloneable
         final Iterator<FileSystemOptionKey> optKeysIter = myOptions.keySet().iterator();
         final Iterator<FileSystemOptionKey> otherKeysIter = theirOptions.keySet().iterator();
         while(optKeysIter.hasNext()) {
-            int comp = optKeysIter.next().compareTo(otherKeysIter.next());
+            final int comp = optKeysIter.next().compareTo(otherKeysIter.next());
             if (comp != 0) {
                 return comp;
             }
         }
 
-        Object[] array = new Object[propsSz];
+        final Object[] array = new Object[propsSz];
         final int hash = Arrays.deepHashCode(myOptions.values().toArray(array));
         final int hashFk = Arrays.deepHashCode(theirOptions.values().toArray(array));
         if (hash < hashFk)
@@ -229,7 +229,7 @@ public final class FileSystemOptions implements Cloneable
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
         if (this == obj) {
             return true;
@@ -240,7 +240,7 @@ public final class FileSystemOptions implements Cloneable
         if (getClass() != obj.getClass()) {
             return false;
         }
-        FileSystemOptions other = (FileSystemOptions)obj;
+        final FileSystemOptions other = (FileSystemOptions)obj;
         return compareTo(other) == 0;
     }
 

@@ -385,7 +385,7 @@ public class VFSClassLoader extends SecureClassLoader
     {
         final List<URL> result = new ArrayList<>(2);
 
-        for (FileObject baseFile : resources)
+        for (final FileObject baseFile : resources)
         {
             final FileObject file = baseFile.resolveFile(name, NameScope.DESCENDENT_OR_SELF);
             if (file.exists())

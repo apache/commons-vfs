@@ -194,7 +194,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return True if remote verification should be done.
      */
-    public Boolean getRemoteVerification(FileSystemOptions opts)
+    public Boolean getRemoteVerification(final FileSystemOptions opts)
     {
         return getBoolean(opts, REMOTE_VERIFICATION);
     }
@@ -370,7 +370,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param proxy the Proxy
      * @since 2.1
      */
-    public void setProxy(final FileSystemOptions opts, Proxy proxy)
+    public void setProxy(final FileSystemOptions opts, final Proxy proxy)
     {
         setParam(opts, PROXY, proxy);
     }
@@ -392,7 +392,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @param remoteVerification True if verification should be done.
      */
-    public void setRemoteVerification(FileSystemOptions opts, boolean remoteVerification)
+    public void setRemoteVerification(final FileSystemOptions opts, final boolean remoteVerification)
     {
         setParam(opts, REMOTE_VERIFICATION, remoteVerification);
     }

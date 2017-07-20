@@ -178,7 +178,7 @@ class JackrabbitMain
         webapp.setWar(file.getPath());
         webapp.setClassLoader(JackrabbitMain.class.getClassLoader());
         // we use a modified web.xml which has some servlets remove (which produce random empty directories)
-        URL res = getResource("/jcrweb.xml");
+        final URL res = getResource("/jcrweb.xml");
         if (res != null) {
             webapp.setDescriptor(res.toString());
         }
@@ -197,7 +197,7 @@ class JackrabbitMain
     }
 
     /** Try to load a resource with various classloaders. */
-    private URL getResource(String name)
+    private URL getResource(final String name)
     {
         URL res = Thread.currentThread().getContextClassLoader().getResource(name);
         if (res == null)

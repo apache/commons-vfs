@@ -33,8 +33,8 @@ public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase
         assertSame(dir1, dir1_2);
 
         // now the same test, unreferenced (compare only hashCode)
-        int hc1 = getFileHashCode();
-        int hc2 = getFileHashCode();
+        final int hc1 = getFileHashCode();
+        final int hc2 = getFileHashCode();
         assertEquals("Hashcode of file changed, so most likely new instance", hc1, hc2);
     }
 }
