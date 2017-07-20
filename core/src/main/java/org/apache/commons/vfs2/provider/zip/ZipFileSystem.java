@@ -138,9 +138,7 @@ public class ZipFileSystem extends AbstractFileSystem
     {
         if (zipFile == null && this.file.exists())
         {
-            final ZipFile zipFile = createZipFile(this.file);
-
-            this.zipFile = zipFile;
+            this.zipFile = createZipFile(this.file);
         }
 
         return zipFile;
