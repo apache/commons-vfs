@@ -20,11 +20,9 @@ package org.apache.commons.vfs2.util;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class FreeSocketPortUtil
-{
+public class FreeSocketPortUtil {
 
-    public static void main(final String[] args) throws IOException
-    {
+    public static void main(final String[] args) throws IOException {
         System.out.println(FreeSocketPortUtil.findFreeLocalPort());
     }
 
@@ -34,15 +32,9 @@ public class FreeSocketPortUtil
      * @return a free local socket port.
      * @throws IOException
      */
-    public static int findFreeLocalPort() throws IOException
-    {
-        final ServerSocket server = new ServerSocket(0);
-        try
-        {
+    public static int findFreeLocalPort() throws IOException {
+        try (final ServerSocket server = new ServerSocket(0)) {
             return server.getLocalPort();
-        } finally
-        {
-            server.close();
         }
     }
 }
