@@ -153,7 +153,7 @@
     <commons.release.version>2.2</commons.release.version>
     <!--<commons.rc.version>RC1</commons.rc.version> -->
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
-    <commons.release.desc>(requires Java 1.6+)</commons.release.desc>
+    <commons.release.desc>(requires Java 1.7+)</commons.release.desc>
     <commons.binary.suffix /> <!-- TODO delete? -->
 
 <!--
