@@ -179,8 +179,9 @@ class JackrabbitMain
         webapp.setClassLoader(JackrabbitMain.class.getClassLoader());
         // we use a modified web.xml which has some servlets remove (which produce random empty directories)
         URL res = getResource("/jcrweb.xml");
-        if (res != null)
+        if (res != null) {
             webapp.setDescriptor(res.toString());
+        }
         webapp.setExtractWAR(false);
         webapp.setTempDirectory(tmp);
 

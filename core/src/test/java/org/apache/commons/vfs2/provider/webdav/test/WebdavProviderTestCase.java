@@ -91,8 +91,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
             throw new IOException("Could not create temp directory: " + tempFile.getAbsolutePath());
         }
 
-        if (DEBUG)
+        if (DEBUG) {
             System.out.println("Working in " + tempFile);
+        }
 
         return tempFile;
     }
