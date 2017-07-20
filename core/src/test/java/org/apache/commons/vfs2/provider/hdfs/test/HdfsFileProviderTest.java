@@ -23,15 +23,10 @@ import java.io.InputStreamReader;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.vfs2.CacheStrategy;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
-import org.apache.commons.vfs2.cache.DefaultFilesCache;
-import org.apache.commons.vfs2.cache.SoftRefFilesCache;
-import org.apache.commons.vfs2.impl.DefaultFileReplicator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
-import org.apache.commons.vfs2.impl.FileContentInfoFilenameFactory;
 import org.apache.commons.vfs2.provider.hdfs.HdfsFileAttributes;
 import org.apache.commons.vfs2.provider.hdfs.HdfsFileProvider;
 import org.apache.commons.vfs2.util.Os;
