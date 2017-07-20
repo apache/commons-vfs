@@ -168,4 +168,14 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
 
         return getAbstractFileSystem().getZipFile().getInputStream(entry);
     }
+
+    @Override
+    protected void doAttach() throws Exception {
+        getAbstractFileSystem().getZipFile();
+    }
+
+    @Override
+    protected void doDetach() throws Exception {
+        getAbstractFileSystem().close();
+    }
 }
