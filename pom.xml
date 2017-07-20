@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>40</version>
+    <version>42</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -47,9 +47,9 @@
   </issueManagement>
 
   <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.1</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.1</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/vfs/tags/commons-vfs2-project-2.1</url>
+    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.2</connection>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.2</developerConnection>
+    <url>http://svn.apache.org/viewvc/commons/proper/vfs/tags/commons-vfs2-project-2.2</url>
   </scm>
 
   <developers>
@@ -150,7 +150,7 @@
     <commons.jira.pid>12310495</commons.jira.pid>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
 
-    <commons.release.version>2.1</commons.release.version>
+    <commons.release.version>2.2</commons.release.version>
     <!--<commons.rc.version>RC1</commons.rc.version> -->
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
     <commons.release.desc>(requires Java 1.6+)</commons.release.desc>
