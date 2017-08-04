@@ -43,18 +43,21 @@
 Apache Commons VFS
 ===================
 
+[![Build Status](https://travis-ci.org/apache/commons-vfs.svg?branch=trunk)](https://travis-ci.org/apache/commons-vfs)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/)
+
 Apache Commons VFS is a Virtual File System library.
 
 Documentation
 -------------
 
-More information can be found on the [homepage](http://commons.apache.org/proper/commons-vfs).
-The [JavaDoc](http://commons.apache.org/proper/commons-vfs/apidocs/index.html) can be browsed.
+More information can be found on the [Apache Commons VFS homepage](https://commons.apache.org/proper/commons-vfs2).
+The [JavaDoc](https://commons.apache.org/proper/commons-vfs/apidocs/index.html) can be browsed.
 Questions related to the usage of Apache Commons VFS should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
 -----------------------------------
-You can download source and binaries from our [download page](http://commons.apache.org/proper/commons-vfs/download.html).
+You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-vfs2/download_vfs2.cgi).
 
 Alternatively you can pull it from the central Maven repositories:
 
@@ -62,37 +65,39 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2</artifactId>
-  <version>2.0</version>
+  <version>2.1</version>
 </dependency>
 ```
 
 Contributing
 ------------
 
-We accept PRs via github. The [developer mailing list][ml] is the main channel of communication for contributors.
+We accept Pull Requests via GitHub. The [developer mailing list][ml] is the main channel of communication for contributors.
 There are some guidelines which will make applying PRs easier for us:
 + No tabs! Please use spaces for indentation.
 + Respect the code style.
 + Create minimal diffs - disable on save actions like reformat source code or organize imports. If you feel the source code should be reformatted create a separate PR for this change.
 + Provide JUnit tests for your changes and make sure your changes don't break any existing tests by running ```mvn clean test```.
 
-If you plan to contribute on a regular basis, please consider filing a [contributor license agreement](http://www.apache.org/licenses/#clas).
-You can learn more about contributing via GitHub in our [contribution guidelines](https://github.com/apache/commons-vfs/blob/trunk/CONTRIBUTING.md).
+If you plan to contribute on a regular basis, please consider filing a [contributor license agreement](https://www.apache.org/licenses/#clas).
+You can learn more about contributing via GitHub in our [contribution guidelines](CONTRIBUTING.md).
 
 License
 -------
-Code is under the [Apache Licence v2](http://www.apache.org/licenses/LICENSE-2.0.txt).
+This code is under the [Apache Licence v2](https://www.apache.org/licenses/LICENSE-2.0).
+
+See the `NOTICE.txt` file for required notices and attributions.
 
 Donations
 ---------
-You like Apache Commons VFS? Then [donate back to the ASF](http://www.apache.org/foundation/contributing.html) to support the development.
+You like Apache Commons VFS? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support the development.
 
 Additional Resources
 --------------------
 
-+ [Apache Commons Homepage](http://commons.apache.org/)
-+ [Apache Bugtracker (JIRA)](https://issues.apache.org/jira/)
++ [Apache Commons Homepage](https://commons.apache.org/)
++ [Apache Issue Tracker (JIRA)](https://issues.apache.org/jira/browse/VFS)
 + [Apache Commons Twitter Account](https://twitter.com/ApacheCommons)
-+ #apachecommons IRC channel on freenode.org
++ `#apache-commons` IRC channel on `irc.freenode.org`
 
-[ml]:http://commons.apache.org/proper/commons-vfs/mail-lists.html
+[ml]:https://commons.apache.org/mail-lists.html
