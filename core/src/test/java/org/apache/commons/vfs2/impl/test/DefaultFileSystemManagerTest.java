@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.impl.test;
 
 import java.io.File;
 
+import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.VFS;
@@ -55,5 +56,17 @@ public class DefaultFileSystemManagerTest
     {
         final String absolute = new File("/").getAbsoluteFile().toURI().toString();
         VFS.getManager().resolveFile((FileObject) null, absolute);
+    }
+
+    /**
+     * If the base name is {@code null}, the file system manager should fail
+     * throwing a FileSystemException.
+     *
+     * @see VFS-189
+     */
+    @Test(expected = FileSystemException.class)
+    public void testResolveFileNameNull() throws FileSystemException
+    {
+        VFS.getManager().resolveName((FileName) null, "../");
     }
 }
