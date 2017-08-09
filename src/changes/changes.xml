@@ -50,6 +50,9 @@ The <action> type attribute can be add,update,fix,remove.
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+     <action issue="VFS-189" dev="kinow" type="fix">
+        Possible NPE in DefaultFileSystemManager.
+     </action>
      <action issue="VFS-628" dev="ggregory" type="add">
         Add a file inverter FileSelector: InvertIncludeFileSelector.
      </action>
