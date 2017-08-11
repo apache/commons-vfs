@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -60,13 +59,9 @@ public class FileLockTestCase {
 
     @Before
     public void setup() throws IOException {
-        //
-        // We copy the normal test zip to a second, nominally temporary, file so that we can try to delete it with
-        // impunity. Since the test fails, the file will be left behind, so it should probably be created in a temporary
-        // directory somewhere.
-        //
         final File zipFile = new File("src/test/resources/test-data/test.zip");
-        newZipFile = new File(AbstractVfsTestCase.getTestDirectory(), "test2.zip");
+        newZipFile = File.createTempFile("FileLockTestCase", "zip");
+        newZipFile.deleteOnExit();
         FileUtils.copyFile(zipFile, newZipFile);
         uri = "zip:file:" + newZipFile.getAbsolutePath() + "!/read-tests/file1.txt";
         manager = VFS.getManager();
