@@ -227,7 +227,7 @@ public class SmbFileObject
         }
         catch (final SmbException e)
         {
-            if (e.getErrorCode() == SmbException.ERRbadfile)
+            if (e.getNtStatus() == SmbException.NT_STATUS_NO_SUCH_FILE)
             {
                 throw new org.apache.commons.vfs2.FileNotFoundException(getName());
             }
