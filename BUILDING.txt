@@ -8,7 +8,7 @@ mvn apache-rat:check
 
 To perform a Clirr check, run:
 
-mvn clirr:check -pl core
+mvn clirr:check -pl commons-vfs2
 
 To build the site with Java 6, make sure you give Maven enough memory using 
 MAVEN_OPTS with options appropriate for your JVM. Alternatively, you can 
