@@ -35,9 +35,9 @@
   <inceptionYear>2002</inceptionYear>
 
   <modules>
-    <module>core</module>
-    <module>examples</module>
-    <module>dist</module>
+    <module>commons-vfs2</module>
+    <module>commons-vfs2-examples</module>
+    <module>commons-vfs2-distribution</module>
   </modules>
 
   <issueManagement>
