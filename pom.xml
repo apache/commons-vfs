@@ -25,7 +25,6 @@
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2-project</artifactId>
   <name>Apache Commons VFS</name>
   <description>Apache Commons VFS is a Virtual File System library.</description>
