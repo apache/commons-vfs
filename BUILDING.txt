@@ -1,6 +1,6 @@
 Building Apache Commons VFS
   
-To build Apache Commons VFS, you need a JDK implementation version 1.6 or greater, and Apache Maven.
+To build Apache Commons VFS, you need a JDK implementation version 1.7 or greater, and Apache Maven 3.
 
 To perform the license release audit, a.k.a. "RAT check", run:
 
