@@ -18,21 +18,20 @@ package org.apache.commons.vfs2.provider.jar.test;
 
 import java.io.File;
 
-import junit.framework.Test;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.jar.JarFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Tests for the Jar file system.
  */
-public class JarProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
+public class JarProviderTestCase extends AbstractProviderTestConfig
 {
     static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception
     {
