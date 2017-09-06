@@ -73,7 +73,7 @@ public class FileLockTestCase {
     @Before
     public void setup() throws IOException {
         final File zipFile = new File("src/test/resources/test-data/test.zip");
-        newZipFile = File.createTempFile("FileLockTestCase", "zip");
+        newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
         newZipFile.deleteOnExit();
         FileUtils.copyFile(zipFile, newZipFile);
         zipFileUri = "zip:file:" + newZipFile.getAbsolutePath() + "!/read-tests/file1.txt";
