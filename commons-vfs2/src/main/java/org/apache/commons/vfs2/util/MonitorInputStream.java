@@ -29,7 +29,7 @@ public class MonitorInputStream
     extends BufferedInputStream
 {
     private final AtomicBoolean finished = new AtomicBoolean(false);
-    private final AtomicLong count = new AtomicLong(0);
+    private final AtomicLong atomicCount = new AtomicLong(0);
 
     public MonitorInputStream(final InputStream in)
     {
@@ -70,7 +70,7 @@ public class MonitorInputStream
         final int ch = super.read();
         if (ch != -1)
         {
-            count.incrementAndGet();
+            atomicCount.incrementAndGet();
             return ch;
         }
 
@@ -99,7 +99,7 @@ public class MonitorInputStream
         final int nread = super.read(buffer, offset, length);
         if (nread != -1)
         {
-            count.addAndGet(nread);
+            atomicCount.addAndGet(nread);
             return nread;
         }
 
@@ -164,6 +164,6 @@ public class MonitorInputStream
      */
     public long getCount()
     {
-        return count.get();
+        return atomicCount.get();
     }
 }
