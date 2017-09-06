@@ -203,8 +203,8 @@ public class DefaultFileReplicator
 
         if (!tempDirMessageLogged)
         {
-            final String message = Messages.getString("vfs.impl/temp-dir.info", tempDir);
-            VfsLog.info(getLogger(), log, message);
+            final String message = Messages.getString("vfs.impl/temp-dir.debug", tempDir);
+            VfsLog.debug(getLogger(), log, message);
 
             tempDirMessageLogged = true;
         }
