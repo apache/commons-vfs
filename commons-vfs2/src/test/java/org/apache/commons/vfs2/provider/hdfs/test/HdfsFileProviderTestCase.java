@@ -43,7 +43,7 @@ import org.apache.log4j.Logger;
  * <P>
  * This will only work on systems that Hadoop supports.
  */
-public class HdfsFileProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
+public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
 {
     public static class HdfsProviderTestSuite extends ProviderTestSuite
     {
