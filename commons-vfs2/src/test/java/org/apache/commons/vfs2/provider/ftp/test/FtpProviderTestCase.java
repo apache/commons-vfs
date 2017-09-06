@@ -19,8 +19,6 @@ package org.apache.commons.vfs2.provider.ftp.test;
 import java.io.IOException;
 import java.net.URL;
 
-import junit.framework.Test;
-
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -29,7 +27,6 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
 import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.provider.ftp.FtpFileType;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.FtpServer;
@@ -42,10 +39,12 @@ import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
 import org.apache.ftpserver.usermanager.impl.BaseUser;
 import org.junit.Assert;
 
+import junit.framework.Test;
+
 /**
  * Tests for FTP file systems.
  */
-public class FtpProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
+public class FtpProviderTestCase extends AbstractProviderTestConfig
 {
     private static int SocketPort;
 
