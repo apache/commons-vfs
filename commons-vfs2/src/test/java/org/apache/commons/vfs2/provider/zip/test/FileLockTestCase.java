@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -53,9 +54,19 @@ public class FileLockTestCase {
         }
     }
 
-    public void resolveAndOpenCloseInputStream() throws IOException, FileSystemException {
+    private void resolveAndOpenCloseInputStream() throws IOException, FileSystemException {
         try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             zipFileObject.getContent().getInputStream().close();
+        }
+    }
+
+    private void resolveAndOpenReadCloseInputStream() throws IOException, FileSystemException {
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
+            try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
+                String string = IOUtils.toString(inputStream, "UTF-8");
+                Assert.assertNotNull(string);
+                Assert.assertTrue(string.length() > 0);
+            }
         }
     }
 
@@ -94,13 +105,13 @@ public class FileLockTestCase {
     }
 
     @Test
-    public void testContent() throws Exception {
+    public void testResolveAndOpenCloseContent() throws Exception {
         resolveAndOpenCloseContent();
         assertDelete();
     }
 
     @Test
-    public void testContent3() throws Exception {
+    public void testResolveAndOpenCloseContent3() throws Exception {
         resolveAndOpenCloseContent();
         resolveAndOpenCloseContent();
         resolveAndOpenCloseContent();
@@ -115,13 +126,13 @@ public class FileLockTestCase {
      * @throws IOException
      */
     @Test
-    public void testInputStream() throws Exception {
+    public void testResolveAndOpenCloseInputStream() throws Exception {
         resolveAndOpenCloseInputStream();
         assertDelete();
     }
 
     @Test
-    public void testInputStream3() throws Exception {
+    public void testResolveAndOpenCloseInputStream3() throws Exception {
         resolveAndOpenCloseInputStream();
         resolveAndOpenCloseInputStream();
         resolveAndOpenCloseInputStream();
