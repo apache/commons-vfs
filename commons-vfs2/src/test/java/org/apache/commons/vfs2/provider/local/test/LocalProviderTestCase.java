@@ -18,23 +18,21 @@ package org.apache.commons.vfs2.provider.local.test;
 
 import java.io.File;
 
-import junit.framework.Test;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.PermissionsTests;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.Os;
+
+import junit.framework.Test;
 
 /**
  * Tests for the local file system.
  */
 public class LocalProviderTestCase
     extends AbstractProviderTestConfig
-    implements ProviderTestConfig
 {
     /**
      * Creates the test suite for the local file system.
