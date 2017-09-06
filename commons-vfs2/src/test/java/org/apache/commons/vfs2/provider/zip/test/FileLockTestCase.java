@@ -40,7 +40,7 @@ public class FileLockTestCase {
     private FileSystemManager manager;
     private File newZipFile;
 
-    private String uri;
+    private String zipFileUri;
 
     private void assertDelete() {
         // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
@@ -48,13 +48,13 @@ public class FileLockTestCase {
     }
 
     private void resolveAndOpenCloseContent() throws FileSystemException {
-        try (final FileObject zipFileObject = manager.resolveFile(uri)) {
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             zipFileObject.getContent().close();
         }
     }
 
     public void resolveAndOpenCloseInputStream() throws IOException, FileSystemException {
-        try (final FileObject zipFileObject = manager.resolveFile(uri)) {
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             zipFileObject.getContent().getInputStream().close();
         }
     }
@@ -65,13 +65,13 @@ public class FileLockTestCase {
         newZipFile = File.createTempFile("FileLockTestCase", "zip");
         newZipFile.deleteOnExit();
         FileUtils.copyFile(zipFile, newZipFile);
-        uri = "zip:file:" + newZipFile.getAbsolutePath() + "!/read-tests/file1.txt";
+        zipFileUri = "zip:file:" + newZipFile.getAbsolutePath() + "!/read-tests/file1.txt";
         manager = VFS.getManager();
     }
 
     @Test
     public void testCannotDeleteWhileStreaming() throws Exception {
-        try (final FileObject zipFileObject = manager.resolveFile(uri)) {
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
                     // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
@@ -85,7 +85,7 @@ public class FileLockTestCase {
     @Test
     public void testCannotDeleteWhileStreaming2() throws Exception {
         Assume.assumeTrue(Os.isFamily(Os.OS_FAMILY_WINDOWS));
-        try (final FileObject zipFileObject = manager.resolveFile(uri)) {
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 // We do not use newZipFile in the Assert message to avoid touching it before calling delete().
                 Assert.assertFalse("Could not delete file", newZipFile.delete());
@@ -131,8 +131,8 @@ public class FileLockTestCase {
 
     @Test
     public void testNestedInputStreams() throws Exception {
-        try (final FileObject zipFileObject = manager.resolveFile(uri)) {
-            try (final FileObject zipFileObject2 = manager.resolveFile(uri)) {
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
+            try (final FileObject zipFileObject2 = manager.resolveFile(zipFileUri)) {
                 zipFileObject2.getContent().getInputStream().close();
             }
             zipFileObject.getContent().getInputStream().close();
