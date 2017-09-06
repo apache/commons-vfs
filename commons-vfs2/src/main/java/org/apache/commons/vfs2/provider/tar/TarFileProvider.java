@@ -29,13 +29,12 @@ import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
-import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
 
 /**
  * A file system provider for Tar files.  Provides read-only file systems.
  */
-public class TarFileProvider extends AbstractLayeredFileProvider implements FileProvider
+public class TarFileProvider extends AbstractLayeredFileProvider
 {
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities =

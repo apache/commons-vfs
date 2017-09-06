@@ -26,7 +26,6 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
-import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
 
 /**
@@ -35,7 +34,6 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
  */
 public abstract class CompressedFileFileProvider
     extends AbstractLayeredFileProvider
-    implements FileProvider
 {
     public CompressedFileFileProvider()
     {

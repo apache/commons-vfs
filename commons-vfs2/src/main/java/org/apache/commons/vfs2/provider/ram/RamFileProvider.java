@@ -26,13 +26,11 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
-import org.apache.commons.vfs2.provider.FileProvider;
 
 /**
  * RAM File Provider.
  */
-public class RamFileProvider extends AbstractOriginatingFileProvider implements
-        FileProvider
+public class RamFileProvider extends AbstractOriginatingFileProvider
 {
     /** The provider's capabilities. */
     public static final Collection<Capability> capabilities = Collections

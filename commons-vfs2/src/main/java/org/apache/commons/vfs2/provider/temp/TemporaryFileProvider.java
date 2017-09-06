@@ -26,7 +26,6 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.provider.AbstractFileProvider;
-import org.apache.commons.vfs2.provider.FileProvider;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.apache.commons.vfs2.provider.local.LocalFileSystem;
@@ -36,7 +35,7 @@ import org.apache.commons.vfs2.provider.local.LocalFileSystem;
  */
 public class TemporaryFileProvider
     extends AbstractFileProvider
-    implements FileProvider, Comparable<Object>
+    implements Comparable<Object>
 {
     private File rootFile;
 
