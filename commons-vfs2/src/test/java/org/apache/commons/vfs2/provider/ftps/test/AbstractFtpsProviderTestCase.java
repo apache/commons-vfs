@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.ftps.FtpsFileProvider;
 import org.apache.commons.vfs2.provider.ftps.FtpsFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
 import org.apache.ftpserver.FtpServer;
@@ -44,7 +43,7 @@ import org.junit.Assert;
 /**
  * Abstract tests for FTP file systems.
  */
-abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
+abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
 {
     private static int SocketPort;
 
