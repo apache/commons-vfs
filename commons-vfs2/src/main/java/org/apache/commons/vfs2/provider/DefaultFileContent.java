@@ -65,7 +65,7 @@ public final class DefaultFileContent implements FileContent
     private boolean resetAttributes;
 
     /**
-     * open streams counter for this file
+     * Counts open streams for this file.
      */
     private int openStreams;
 
