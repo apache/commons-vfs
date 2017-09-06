@@ -111,6 +111,20 @@ public class FileLockTestCase {
     }
 
     @Test
+    public void testResolveAndOpenReadCloseInputStream() throws Exception {
+        resolveAndOpenReadCloseInputStream();
+        assertDelete();
+    }
+
+    @Test
+    public void testResolveAndOpenReadCloseInputStream3() throws Exception {
+        resolveAndOpenReadCloseInputStream();
+        resolveAndOpenReadCloseInputStream();
+        resolveAndOpenReadCloseInputStream();
+        assertDelete();
+    }
+
+    @Test
     public void testResolveAndOpenCloseContent3() throws Exception {
         resolveAndOpenCloseContent();
         resolveAndOpenCloseContent();
@@ -141,7 +155,7 @@ public class FileLockTestCase {
     }
 
     @Test
-    public void testNestedInputStreams() throws Exception {
+    public void testResolveOpenCloseNestedInputStreams() throws Exception {
         try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (final FileObject zipFileObject2 = manager.resolveFile(zipFileUri)) {
                 zipFileObject2.getContent().getInputStream().close();
