@@ -111,11 +111,11 @@ public abstract class AbstractFileName implements FileName
 
     /**
      * Factory method for creating name instances.
-     * @param absPath The absolute path.
-     * @param type The FileType.
+     * @param absolutePath The absolute path.
+     * @param fileType The FileType.
      * @return The FileName.
      */
-    public abstract FileName createName(String absPath, FileType type);
+    public abstract FileName createName(String absolutePath, FileType fileType);
 
     /**
      * Builds the root URI for this file name.  Note that the root URI must not
