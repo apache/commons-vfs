@@ -65,7 +65,7 @@ public class FileLockTestCase {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
                 String string = IOUtils.toString(inputStream, "UTF-8");
                 Assert.assertNotNull(string);
-                Assert.assertTrue(string.length() > 0);
+                Assert.assertEquals("This is a test file.", string);
             }
         }
     }
