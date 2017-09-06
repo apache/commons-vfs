@@ -18,23 +18,21 @@ package org.apache.commons.vfs2.provider.temp.test;
 
 import java.io.File;
 
-import junit.framework.Test;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.temp.TemporaryFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Test cases for the tmp: file provider.
  */
 public class TemporaryProviderTestCase
     extends AbstractProviderTestConfig
-    implements ProviderTestConfig
 {
     /**
      * Creates the test suite for the tmp file system.

@@ -16,23 +16,21 @@
  */
 package org.apache.commons.vfs2.provider.zip.test;
 
-import junit.framework.Test;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.zip.ZipFileProvider;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Tests for the Zip file system, using a zip file nested inside another zip file.
  */
 public class NestedZipTestCase
     extends AbstractProviderTestConfig
-    implements ProviderTestConfig
 {
     /**
      * Creates the test suite for nested zip files.

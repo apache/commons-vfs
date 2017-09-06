@@ -17,8 +17,6 @@
 package org.apache.commons.vfs2.provider.ram.test;
 
 
-import junit.framework.Test;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
@@ -28,14 +26,14 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 import org.apache.commons.vfs2.provider.ram.RamFileProvider;
 import org.apache.commons.vfs2.provider.ram.RamFileSystem;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
+
+import junit.framework.Test;
 
 /**
  * Tests for the RAM file system.
  */
-public class RamProviderTestCase extends AbstractProviderTestConfig implements
-        ProviderTestConfig
+public class RamProviderTestCase extends AbstractProviderTestConfig
 {
     private boolean inited = false;
 
