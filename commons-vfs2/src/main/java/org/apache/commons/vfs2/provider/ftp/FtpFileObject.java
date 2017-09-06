@@ -570,10 +570,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
                 }
                 return linkDest.getContent().getSize();
             }
-            else
-            {
-                return this.fileInfo.getSize();
-            }
+            return this.fileInfo.getSize();
         }
     }
 
@@ -597,10 +594,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem>
                 }
                 return linkDest.getContent().getLastModifiedTime();
             }
-            else
-            {
-                return getTimestamp();
-            }
+            return getTimestamp();
         }
     }
 

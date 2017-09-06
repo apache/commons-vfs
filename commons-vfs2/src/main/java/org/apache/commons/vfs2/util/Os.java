@@ -212,10 +212,7 @@ public final class Os
 
             return isFamily && isName && isArch && isVersion;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -316,10 +313,7 @@ public final class Os
             {
                 return OS_FAMILY_WINNT;
             }
-            else
-            {
-                return OS_FAMILY_WIN9X;
-            }
+            return OS_FAMILY_WIN9X;
         }
         else if (OS_NAME.indexOf("os/2") > -1)
         {
@@ -335,10 +329,7 @@ public final class Os
             {
                 return OS_FAMILY_OSX;
             }
-            else
-            {
-                return OS_FAMILY_MAC;
-            }
+            return OS_FAMILY_MAC;
         }
         else if (PATH_SEP.equals(":"))
         {

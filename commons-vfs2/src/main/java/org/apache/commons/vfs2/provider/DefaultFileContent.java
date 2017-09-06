@@ -381,10 +381,7 @@ public final class DefaultFileContent implements FileContent
             {
                 return certs;
             }
-            else
-            {
-                return new Certificate[0];
-            }
+            return new Certificate[0];
         }
         catch (final Exception e)
         {
@@ -625,12 +622,9 @@ public final class DefaultFileContent implements FileContent
         {
             return true;
         }
-        else
-        {
-            // threadData.get() created empty entry
-            threadData.remove();
-            return false;
-        }
+        // threadData.get() created empty entry
+        threadData.remove();
+        return false;
     }
 
     /**

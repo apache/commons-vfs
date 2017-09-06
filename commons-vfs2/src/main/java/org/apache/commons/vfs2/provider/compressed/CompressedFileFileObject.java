@@ -75,10 +75,7 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
         {
             return FileType.FOLDER;
         }
-        else
-        {
-            return FileType.FILE;
-        }
+        return FileType.FILE;
     }
 
     /**

@@ -101,18 +101,15 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
         {
             return super.doGetAttributes();
         }
-        else
-        {
-            final Map<String, Object> attrs = new HashMap<>();
-            attrs.put(HdfsFileAttributes.LAST_ACCESS_TIME.toString(), this.stat.getAccessTime());
-            attrs.put(HdfsFileAttributes.BLOCK_SIZE.toString(), this.stat.getBlockSize());
-            attrs.put(HdfsFileAttributes.GROUP.toString(), this.stat.getGroup());
-            attrs.put(HdfsFileAttributes.OWNER.toString(), this.stat.getOwner());
-            attrs.put(HdfsFileAttributes.PERMISSIONS.toString(), this.stat.getPermission().toString());
-            attrs.put(HdfsFileAttributes.LENGTH.toString(), this.stat.getLen());
-            attrs.put(HdfsFileAttributes.MODIFICATION_TIME.toString(), this.stat.getModificationTime());
-            return attrs;
-        }
+        final Map<String, Object> attrs = new HashMap<>();
+        attrs.put(HdfsFileAttributes.LAST_ACCESS_TIME.toString(), this.stat.getAccessTime());
+        attrs.put(HdfsFileAttributes.BLOCK_SIZE.toString(), this.stat.getBlockSize());
+        attrs.put(HdfsFileAttributes.GROUP.toString(), this.stat.getGroup());
+        attrs.put(HdfsFileAttributes.OWNER.toString(), this.stat.getOwner());
+        attrs.put(HdfsFileAttributes.PERMISSIONS.toString(), this.stat.getPermission().toString());
+        attrs.put(HdfsFileAttributes.LENGTH.toString(), this.stat.getLen());
+        attrs.put(HdfsFileAttributes.MODIFICATION_TIME.toString(), this.stat.getModificationTime());
+        return attrs;
     }
 
     /**
@@ -143,10 +140,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
         {
             return this.stat.getModificationTime();
         }
-        else
-        {
-            return -1;
-        }
+        return -1;
     }
 
     /**
@@ -180,10 +174,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
             {
                 return FileType.FOLDER;
             }
-            else
-            {
-                return FileType.FILE;
-            }
+            return FileType.FILE;
         }
         catch (final FileNotFoundException fnfe)
         {

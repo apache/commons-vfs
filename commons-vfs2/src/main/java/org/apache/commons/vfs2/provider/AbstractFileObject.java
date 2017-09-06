@@ -1423,11 +1423,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 // Root file has no parent
                 return null;
             }
-            else
-            {
-                // Return the parent of the parent layer
-                return fs.getParentLayer().getParent();
-            }
+            // Return the parent of the parent layer
+            return fs.getParentLayer().getParent();
         }
 
         synchronized (fs)
@@ -1790,15 +1787,12 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             {
                 return doIsWriteable();
             }
-            else
+            final FileObject parent = getParent();
+            if (parent != null)
             {
-                final FileObject parent = getParent();
-                if (parent != null)
-                {
-                    return parent.isWriteable();
-                }
-                return true;
+                return parent.isWriteable();
             }
+            return true;
         }
         catch (final Exception exc)
         {

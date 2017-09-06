@@ -250,10 +250,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent
         {
             return buf[filePointer++] & 0xFF;
         }
-        else
-        {
-            throw new EOFException();
-        }
+        throw new EOFException();
     }
 
     /*

@@ -86,10 +86,7 @@ public class URLFileName extends GenericFileName
             {
                 return URIUtil.encodePath(getPathDecoded(), charset);
             }
-            else
-            {
-                return URIUtil.encodePath(getPathDecoded());
-            }
+            return URIUtil.encodePath(getPathDecoded());
         }
 
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);

@@ -153,10 +153,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
         {
             return file.isReadable();
         }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     /**
@@ -169,10 +166,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
         {
             return file.isWriteable();
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -185,10 +179,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
         {
             return file.isExecutable();
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -201,10 +192,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
         {
             return file.isHidden();
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -234,10 +222,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
             }
             return childNames;
         }
-        else
-        {
-            return children.toArray(new String[children.size()]);
-        }
+        return children.toArray(new String[children.size()]);
     }
 
     /**

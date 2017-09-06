@@ -719,10 +719,7 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem>
             {
                 return node.getLocalName().equals(DavConstants.XML_COLLECTION);
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         catch (final FileNotFoundException fse)
         {
