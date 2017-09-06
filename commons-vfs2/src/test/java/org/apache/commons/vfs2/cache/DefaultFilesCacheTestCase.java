@@ -18,22 +18,20 @@ package org.apache.commons.vfs2.cache;
 
 import java.io.File;
 
-import junit.framework.Test;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.CacheTestSuite;
-import org.apache.commons.vfs2.test.ProviderTestConfig;
+
+import junit.framework.Test;
 
 /**
  * Tests the {@link DefaultFilesCache} using {@link DefaultFilesCacheTests}.
  */
 public class DefaultFilesCacheTestCase
     extends AbstractProviderTestConfig
-    implements ProviderTestConfig
 {
     public static Test suite() throws Exception
     {
