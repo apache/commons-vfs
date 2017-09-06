@@ -63,10 +63,7 @@ public abstract class AbstractVfsTestCase
         {
             return "";
         }
-        else
-        {
-            return name.substring(0, name.lastIndexOf("."));
-        }
+        return name.substring(0, name.lastIndexOf("."));
     }
 
     /**

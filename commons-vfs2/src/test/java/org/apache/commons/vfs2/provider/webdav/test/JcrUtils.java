@@ -95,10 +95,8 @@ class JcrUtils
         if (parent.hasNode(name))
         {
             return parent.getNode(name);
-        } else
-        {
-            return parent.addNode(name, type);
         }
+        return parent.addNode(name, type);
     }
 
     /**

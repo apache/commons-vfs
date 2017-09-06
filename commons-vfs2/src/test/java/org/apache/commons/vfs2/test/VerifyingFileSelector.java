@@ -129,12 +129,9 @@ public class VerifyingFileSelector
             assertEquals(rootFile.baseName, baseName);
             return rootFile;
         }
-        else
-        {
-            final FileInfo child = currentFolderInfo.children.get(baseName);
-            assertNotNull("Could not locate child " + baseName, child);
-            return child;
-        }
+        final FileInfo child = currentFolderInfo.children.get(baseName);
+        assertNotNull("Could not locate child " + baseName, child);
+        return child;
     }
 
     /**
