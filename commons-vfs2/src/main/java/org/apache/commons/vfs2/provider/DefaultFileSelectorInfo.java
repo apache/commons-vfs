@@ -23,6 +23,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * A default {@link FileSelectInfo} implementation.
  */
 final class DefaultFileSelectorInfo implements FileSelectInfo {
+    
     private FileObject baseFolder;
     private FileObject file;
     private int depth;
