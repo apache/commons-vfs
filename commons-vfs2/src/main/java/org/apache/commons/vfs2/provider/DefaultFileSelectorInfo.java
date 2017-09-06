@@ -22,43 +22,35 @@ import org.apache.commons.vfs2.FileSelectInfo;
 /**
  * A default {@link FileSelectInfo} implementation.
  */
-final class DefaultFileSelectorInfo
-    implements FileSelectInfo
-{
+final class DefaultFileSelectorInfo implements FileSelectInfo {
     private FileObject baseFolder;
     private FileObject file;
     private int depth;
 
     @Override
-    public FileObject getBaseFolder()
-    {
+    public FileObject getBaseFolder() {
         return baseFolder;
     }
 
-    public void setBaseFolder(final FileObject baseFolder)
-    {
+    public void setBaseFolder(final FileObject baseFolder) {
         this.baseFolder = baseFolder;
     }
 
     @Override
-    public FileObject getFile()
-    {
+    public FileObject getFile() {
         return file;
     }
 
-    public void setFile(final FileObject file)
-    {
+    public void setFile(final FileObject file) {
         this.file = file;
     }
 
     @Override
-    public int getDepth()
-    {
+    public int getDepth() {
         return depth;
     }
 
-    public void setDepth(final int depth)
-    {
+    public void setDepth(final int depth) {
         this.depth = depth;
     }
 }
