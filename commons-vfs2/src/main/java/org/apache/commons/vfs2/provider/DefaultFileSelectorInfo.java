@@ -54,4 +54,9 @@ final class DefaultFileSelectorInfo implements FileSelectInfo {
     public void setDepth(final int depth) {
         this.depth = depth;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " [baseFolder=" + baseFolder + ", file=" + file + ", depth=" + depth + "]";
+    }
 }
