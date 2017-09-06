@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.http;
 
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+import org.apache.commons.httpclient.params.HttpConnectionParams;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemOptions;
@@ -295,7 +296,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout)
     {
-        setParam(opts, HttpConnectionManagerParams.CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
+        setParam(opts, HttpConnectionParams.CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
     }
 
     /**
@@ -307,7 +308,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public int getConnectionTimeout(final FileSystemOptions opts)
     {
-        return getInteger(opts, HttpConnectionManagerParams.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+        return getInteger(opts, HttpConnectionParams.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
     }
 
     /**
@@ -319,7 +320,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public void setSoTimeout(final FileSystemOptions opts, final int soTimeout)
     {
-        setParam(opts, HttpConnectionManagerParams.SO_TIMEOUT, Integer.valueOf(soTimeout));
+        setParam(opts, HttpConnectionParams.SO_TIMEOUT, Integer.valueOf(soTimeout));
     }
 
     /**
@@ -331,7 +332,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder
      */
     public int getSoTimeout(final FileSystemOptions opts)
     {
-        return getInteger(opts, HttpConnectionManagerParams.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
+        return getInteger(opts, HttpConnectionParams.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
     }
 
     /**
