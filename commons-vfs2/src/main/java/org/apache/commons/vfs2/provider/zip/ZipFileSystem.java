@@ -227,6 +227,11 @@ public class ZipFileSystem extends AbstractFileSystem
         cache.remove(name);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + " for " + file;
+    }
+
     /**
      * will be called after all file-objects closed their streams.
     protected void notifyAllStreamsClosed()
