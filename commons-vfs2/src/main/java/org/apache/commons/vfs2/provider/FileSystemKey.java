@@ -21,8 +21,8 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * Used to identify a filesystem
  */
-class FileSystemKey implements Comparable<FileSystemKey>
-{
+class FileSystemKey implements Comparable<FileSystemKey> {
+    
     private static final FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
 
     private final Comparable<?> key;
@@ -31,31 +31,26 @@ class FileSystemKey implements Comparable<FileSystemKey>
     /**
      * Create the FS key.
      *
-     * @param key must implement Comparable, and must be self-comparable
-     * @param fileSystemOptions the required options
+     * @param key
+     *            must implement Comparable, and must be self-comparable
+     * @param fileSystemOptions
+     *            the required options
      */
-    FileSystemKey(final Comparable<?> key, final FileSystemOptions fileSystemOptions)
-    {
+    FileSystemKey(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
         this.key = key;
-        if (fileSystemOptions != null)
-        {
+        if (fileSystemOptions != null) {
             this.fileSystemOptions = fileSystemOptions;
-        }
-        else
-        {
+        } else {
             this.fileSystemOptions = EMPTY_OPTIONS;
         }
     }
 
     @Override
-    public int compareTo(final FileSystemKey o)
-    {
+    public int compareTo(final FileSystemKey o) {
         @SuppressWarnings("unchecked") // Keys must implement comparable, and be comparable to themselves
-        final
-        Comparable<Comparable<?>> comparable = (Comparable<Comparable<?>>) key;
+        final Comparable<Comparable<?>> comparable = (Comparable<Comparable<?>>) key;
         final int ret = comparable.compareTo(o.key);
-        if (ret != 0)
-        {
+        if (ret != 0) {
             // other filesystem
             return ret;
         }
