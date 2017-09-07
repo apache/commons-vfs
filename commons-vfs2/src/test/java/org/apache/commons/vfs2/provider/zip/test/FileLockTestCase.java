@@ -63,11 +63,15 @@ public class FileLockTestCase {
     private void resolveAndOpenReadCloseInputStream() throws IOException, FileSystemException {
         try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
             try (InputStream inputStream = zipFileObject.getContent().getInputStream()) {
-                String string = IOUtils.toString(inputStream, "UTF-8");
-                Assert.assertNotNull(string);
-                Assert.assertEquals("This is a test file.", string);
+                readAndAssert(inputStream);
             }
         }
+    }
+
+    private void readAndAssert(InputStream inputStream) throws IOException {
+        String string = IOUtils.toString(inputStream, "UTF-8");
+        Assert.assertNotNull(string);
+        Assert.assertEquals("This is a test file.", string);
     }
 
     @Before
@@ -161,6 +165,23 @@ public class FileLockTestCase {
                 zipFileObject2.getContent().getInputStream().close();
             }
             zipFileObject.getContent().getInputStream().close();
+        }
+        assertDelete();
+    }
+
+    @Test
+    public void testReadClosedFileObject() throws Exception {
+        final FileObject zipFileObjectRef;
+        try (final FileObject zipFileObject = manager.resolveFile(zipFileUri)) {
+            zipFileObjectRef = zipFileObject;
+            try (final InputStream inputStream = zipFileObject.getContent().getInputStream()) {
+                readAndAssert(inputStream);
+            }
+        }
+        try (final InputStream inputStream = zipFileObjectRef.getContent().getInputStream()) {
+            readAndAssert(inputStream);
+        } finally {
+            zipFileObjectRef.close();
         }
         assertDelete();
     }
