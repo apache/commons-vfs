@@ -69,7 +69,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
      * <p>
      * TODO: Shouldn't this method have package-only visibility? Cannot change this without breaking binary
      * compatibility.
-     *
+     * </p>
      * @param childName
      *            The name of the child.
      */
