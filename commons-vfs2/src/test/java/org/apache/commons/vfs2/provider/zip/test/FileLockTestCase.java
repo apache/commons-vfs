@@ -138,10 +138,10 @@ public class FileLockTestCase {
     }
 
     /**
-     * This test checks whether we can modify an underlying zip file after we have performed IO operations on files
-     * within it, but although we no longer have any FileObjects explicitely open.
+     * This test checks whether we can modify an underlying Zip file after we have performed IO operations on files
+     * within it, but although we no longer have any FileObjects explicitly open.
      * 
-     * @throws IOException
+     * @throws Exception
      */
     @Test
     public void testResolveAndOpenCloseInputStream() throws Exception {
