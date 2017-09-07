@@ -29,43 +29,35 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 /**
  * A file in a ZIP file system.
  */
-public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
-{
+public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
     /** The ZipEntry. */
     protected ZipEntry entry;
     private final HashSet<String> children = new HashSet<>();
     private FileType type;
 
-    protected ZipFileObject(final AbstractFileName name,
-                            final ZipEntry entry,
-                            final ZipFileSystem fs,
-                            final boolean zipExists) throws FileSystemException
-    {
+    protected ZipFileObject(final AbstractFileName name, final ZipEntry entry, final ZipFileSystem fs,
+            final boolean zipExists) throws FileSystemException {
         super(name, fs);
         setZipEntry(entry);
-        if (!zipExists)
-        {
+        if (!zipExists) {
             type = FileType.IMAGINARY;
         }
     }
 
     /**
      * Sets the details for this file object.
-     * @param entry ZIP information related to this file.
+     * 
+     * @param entry
+     *            ZIP information related to this file.
      */
-    protected void setZipEntry(final ZipEntry entry)
-    {
-        if (this.entry != null)
-        {
+    protected void setZipEntry(final ZipEntry entry) {
+        if (this.entry != null) {
             return;
         }
 
-        if (entry == null || entry.isDirectory())
-        {
+        if (entry == null || entry.isDirectory()) {
             type = FileType.FOLDER;
-        }
-        else
-        {
+        } else {
             type = FileType.FILE;
         }
 
@@ -75,13 +67,13 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
     /**
      * Attaches a child.
      * <p>
-     * TODO: Shouldn't this method have package-only visibility?
-     * Cannot change this without breaking binary compatibility.
+     * TODO: Shouldn't this method have package-only visibility? Cannot change this without breaking binary
+     * compatibility.
      *
-     * @param childName The name of the child.
+     * @param childName
+     *            The name of the child.
      */
-    public void attachChild(final FileName childName)
-    {
+    public void attachChild(final FileName childName) {
         children.add(childName.getBaseName());
     }
 
@@ -89,11 +81,11 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
      * Determines if this file can be written to.
      *
      * @return {@code true} if this file is writeable, {@code false} if not.
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException
+     *             if an error occurs.
      */
     @Override
-    public boolean isWriteable() throws FileSystemException
-    {
+    public boolean isWriteable() throws FileSystemException {
         return false;
     }
 
@@ -101,8 +93,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
      * Returns the file's type.
      */
     @Override
-    protected FileType doGetType()
-    {
+    protected FileType doGetType() {
         return type;
     }
 
@@ -110,17 +101,12 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
      * Lists the children of the file.
      */
     @Override
-    protected String[] doListChildren()
-    {
-        try
-        {
-            if (!getType().hasChildren())
-            {
+    protected String[] doListChildren() {
+        try {
+            if (!getType().hasChildren()) {
                 return null;
             }
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             // should not happen as the type has already been cached.
             throw new RuntimeException(e);
         }
@@ -129,12 +115,11 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
     }
 
     /**
-     * Returns the size of the file content (in bytes).  Is only called if
-     * {@link #doGetType} returns {@link FileType#FILE}.
+     * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}.
      */
     @Override
-    protected long doGetContentSize()
-    {
+    protected long doGetContentSize() {
         return entry.getSize();
     }
 
@@ -142,25 +127,21 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem>
      * Returns the last modified time of this file.
      */
     @Override
-    protected long doGetLastModifiedTime() throws Exception
-    {
+    protected long doGetLastModifiedTime() throws Exception {
         return entry.getTime();
     }
 
     /**
-     * Creates an input stream to read the file content from.  Is only called
-     * if  {@link #doGetType} returns {@link FileType#FILE}.  The input stream
-     * returned by this method is guaranteed to be closed before this
-     * method is called again.
+     * Creates an input stream to read the file content from. Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}. The input stream returned by this method is guaranteed to be closed before this method is
+     * called again.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         // VFS-210: zip allows to gather an input stream even from a directory and will
         // return -1 on the first read. getType should not be expensive and keeps the tests
         // running
-        if (!getType().hasContent())
-        {
+        if (!getType().hasContent()) {
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
         }
 
