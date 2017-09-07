@@ -80,7 +80,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
     /**
      * Determines if this file can be written to.
      *
-     * @return {@code true} if this file is writeable, {@code false} if not.
+     * @return {@code true} if this file is writable, {@code false} if not.
      * @throws FileSystemException
      *             if an error occurs.
      */
