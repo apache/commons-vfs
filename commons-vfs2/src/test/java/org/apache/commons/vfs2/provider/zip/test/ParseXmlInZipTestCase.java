@@ -49,8 +49,8 @@ public class ParseXmlInZipTestCase {
         return newZipFile;
     }
 
-    private DocumentBuilder newDocumentBuilder(final FileObject sourceFile, final String pathToXsdInZip)
-            throws IOException {
+    private DocumentBuilder newDocumentBuilder(final FileObject containerFile, final FileObject sourceFile,
+            final String pathToXsdInZip) throws IOException {
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         final boolean validate = pathToXsdInZip != null;
         documentBuilderFactory.setValidating(validate);
@@ -59,7 +59,7 @@ public class ParseXmlInZipTestCase {
             documentBuilderFactory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaLanguage",
                     "http://www.w3.org/2001/XMLSchema");
             @SuppressWarnings("resource")
-            final FileObject schema = sourceFile.resolveFile(pathToXsdInZip);
+            final FileObject schema = containerFile.resolveFile(pathToXsdInZip);
             if (schema.exists()) {
                 documentBuilderFactory.setAttribute("http://java.sun.com/xml/jaxp/properties/schemaSource",
                         schema.getContent().getInputStream());
@@ -71,11 +71,11 @@ public class ParseXmlInZipTestCase {
         DocumentBuilder documentBuilder = null;
         try {
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            documentBuilder.setEntityResolver(new TestEntityResolver(sourceFile));
+            documentBuilder.setEntityResolver(new TestEntityResolver(containerFile, sourceFile));
         } catch (final ParserConfigurationException e) {
             throw new IOException("Cannot read Java Connector configuration: " + e, e);
         }
-        documentBuilder.setErrorHandler(new TestErrorHandler(sourceFile.toString()));
+        documentBuilder.setErrorHandler(new TestErrorHandler(containerFile + " - " + sourceFile));
         return documentBuilder;
     }
 
@@ -86,7 +86,7 @@ public class ParseXmlInZipTestCase {
         final FileSystemManager manager = VFS.getManager();
         try (final FileObject zipFileObject = manager.resolveFile(xmlFilePath)) {
             try (final InputStream inputStream = zipFileObject.getContent().getInputStream()) {
-                final Document document = newDocumentBuilder(zipFileObject, null).parse(inputStream);
+                final Document document = newDocumentBuilder(zipFileObject, zipFileObject, null).parse(inputStream);
                 Assert.assertNotNull(document);
             }
         }
@@ -135,7 +135,8 @@ public class ParseXmlInZipTestCase {
         try (final FileObject zipFileObject = manager.resolveFile(zipFilePath)) {
             try (final FileObject xmlFileObject = zipFileObject.resolveFile(path)) {
                 try (final InputStream inputStream = xmlFileObject.getContent().getInputStream()) {
-                    final Document document = newDocumentBuilder(zipFileObject, xsdPathInZip).parse(inputStream);
+                    final Document document = newDocumentBuilder(zipFileObject, xmlFileObject, xsdPathInZip)
+                            .parse(inputStream);
                     Assert.assertNotNull(document);
                 }
             }

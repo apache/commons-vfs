@@ -14,21 +14,24 @@ import org.xml.sax.SAXException;
  */
 public class TestEntityResolver implements EntityResolver {
 
+    private final FileObject containerFile;
     private final FileObject sourceFile;
 
-    public TestEntityResolver(final FileObject sourceFile) {
+    public TestEntityResolver(final FileObject containerFile, FileObject sourceFile) {
+        this.containerFile = containerFile;
         this.sourceFile = sourceFile;
     }
 
     @Override
     public InputSource resolveEntity(final String publicId, final String systemId) throws SAXException, IOException {
-        System.out.println("resolving publicId=" + publicId + ", systemId=" + systemId);
+        // System.out.println("resolving publicId=" + publicId + ", systemId=" + systemId);
         final String fileName = new File(URI.create(systemId).getPath()).getName();
-        if (/*fileName.equals("person.xsd") || */fileName.equals("name.xsd") || fileName.equals("address.xsd")) {
+        if (/* fileName.equals("person.xsd") || */fileName.equals("name.xsd") || fileName.equals("address.xsd")) {
             final String path = "/read-xml-tests/" + fileName;
             final FileObject xsdFileObject = sourceFile.resolveFile(path);
             if (!xsdFileObject.exists()) {
-                throw new IllegalStateException("Schema " + path + " not found in file " + sourceFile);
+                throw new IllegalStateException(
+                        "Schema " + path + " not found in file " + containerFile + " parsing " + sourceFile);
             }
             return new InputSource(xsdFileObject.getContent().getInputStream());
         }
