@@ -24,12 +24,60 @@ import java.io.InputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ZipFileObjectTestCase {
+
+    private static final String NESTED_FILE_1 = "/read-xml-tests/file1.xml";
+    private static final String NESTED_FILE_2 = "/read-xml-tests/file2.xml";
+
+    private void assertDelete(final File fileObject) {
+        Assert.assertTrue("Could not delete file", fileObject.delete());
+    }
+
+    private File createTempFile() throws IOException {
+        final File zipFile = new File("src/test/resources/test-data/read-xml-tests.zip");
+        final File newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
+        newZipFile.deleteOnExit();
+        FileUtils.copyFile(zipFile, newZipFile);
+        return newZipFile;
+    }
+
+    private void getInputStreamAndAssert(final FileObject fileObject, final String expectedId)
+            throws FileSystemException, IOException {
+        readAndAssert(fileObject.getContent().getInputStream(), expectedId);
+    }
+
+    private void readAndAssert(final InputStream inputStream, final String expectedId) throws IOException {
+        final String string = IOUtils.toString(inputStream, "UTF-8");
+        Assert.assertNotNull(string);
+        Assert.assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator() + "<Root" + expectedId
+                + ">foo" + expectedId + "</Root" + expectedId + ">" + System.lineSeparator(), string);
+    }
+
+    /**
+     * Tests that when we read a file inside a file Zip and leave it open, we can still delete the Zip after we clean up
+     * the Zip file.
+     * 
+     * @throws IOException
+     */
+    @Test
+    @Ignore("Should this be made to work?")
+    public void testLeaveNestedFileOpen() throws IOException {
+        final File newZipFile = createTempFile();
+        final FileSystemManager manager = VFS.getManager();
+        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+            @SuppressWarnings({ "resource" })
+            final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
+            getInputStreamAndAssert(zipFileObject1, "1");
+        }
+        assertDelete(newZipFile);
+    }
 
     /**
      * Tests that we can read more than one file within a Zip file, especially after closing each FileObject.
@@ -38,34 +86,93 @@ public class ZipFileObjectTestCase {
      */
     @Test
     public void testReadingFilesInZipFile() throws IOException {
-        final File zipFile = new File("src/test/resources/test-data/read-xml-tests.zip");
-        final File newZipFile = File.createTempFile(getClass().getSimpleName(), ".zip");
-        newZipFile.deleteOnExit();
-        FileUtils.copyFile(zipFile, newZipFile);
+        final File newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
         try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
-            try (final FileObject zipFileObject1 = zipFileObject.resolveFile("/read-xml-tests/file1.xml")) {
+            try (final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1)) {
                 try (final InputStream inputStream = zipFileObject1.getContent().getInputStream()) {
                     readAndAssert(inputStream, "1");
                 }
             }
-            try (final FileObject zipFileObject2 = zipFileObject.resolveFile("/read-xml-tests/file2.xml")) {
-                try (final InputStream inputStream = zipFileObject2.getContent().getInputStream()) {
-                    readAndAssert(inputStream, "2");
-                }
-            }
+            resolveReadAssert(zipFileObject, NESTED_FILE_2);
         }
         assertDelete(newZipFile);
     }
 
-    private void assertDelete(final File fileObject) {
-        Assert.assertTrue("Could not delete file", fileObject.delete());
+    private void resolveReadAssert(final FileObject zipFileObject, final String path)
+            throws IOException, FileSystemException {
+        try (final FileObject zipFileObject2 = zipFileObject.resolveFile(path)) {
+            try (final InputStream inputStream = zipFileObject2.getContent().getInputStream()) {
+                readAndAssert(inputStream, "2");
+            }
+        }
     }
 
-    private void readAndAssert(final InputStream inputStream, final String expectedId) throws IOException {
-        final String string = IOUtils.toString(inputStream, "UTF-8");
-        Assert.assertNotNull(string);
-        Assert.assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator() + "<Root" + expectedId
-                + ">foo" + expectedId + "</Root" + expectedId + ">" + System.lineSeparator(), string);
+    /**
+     * Tests that we can get a stream from one file in a zip file, then close another file from the same zip, then
+     * process the initial input stream.
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testReadingOneAfterClosingAnotherFile() throws IOException {
+        final File newZipFile = createTempFile();
+        final FileSystemManager manager = VFS.getManager();
+        final FileObject zipFileObject1;
+        final InputStream inputStream1;
+        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+            // leave resources open
+            zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
+            inputStream1 = zipFileObject1.getContent().getInputStream();
+        }
+        // The zip file is "closed", but we read from the stream now.
+        readAndAssert(inputStream1, "1");
+        // clean up
+        zipFileObject1.close();
+        assertDelete(newZipFile);
+    }
+
+    /**
+     * Tests that we can get a stream from one file in a zip file, then close another file from the same zip, then
+     * process the initial input stream.
+     * 
+     * @throws IOException
+     */
+    @Test
+    @Ignore("Trying to duplicate what I seeing using JAXP")
+    public void testReadingOneAfterClosingAnotherStream() throws IOException {
+        final File newZipFile = createTempFile();
+        final FileSystemManager manager = VFS.getManager();
+        final FileObject zipFileObject1;
+        final InputStream inputStream1;
+        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+            // leave resources open
+            zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
+            inputStream1 = zipFileObject1.getContent().getInputStream();
+            resolveReadAssert(zipFileObject, NESTED_FILE_2);
+        }
+        // The zip file is "closed", but we read from the stream now.
+        readAndAssert(inputStream1, "1");
+        // clean up
+        zipFileObject1.close();
+        assertDelete(newZipFile);
+    }
+
+    /**
+     * Tests that we can resolve a file in a Zip file, then close the container zip, which should still let us delete
+     * the Zip file.
+     * 
+     * @throws IOException
+     */
+    @Test
+    public void testResolveNestedFileWithoutCleanup() throws IOException {
+        final File newZipFile = createTempFile();
+        final FileSystemManager manager = VFS.getManager();
+        try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
+            @SuppressWarnings({ "unused", "resource" })
+            // We resolve a nested file and do nothing else.
+            final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
+        }
+        assertDelete(newZipFile);
     }
 }

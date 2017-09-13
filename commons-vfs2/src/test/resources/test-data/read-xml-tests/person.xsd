@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+  xmlns="https://www.apache.org/vfs/example/person"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:name="https://www.apache.org/vfs/example/name"
+  xmlns:address="https://www.apache.org/vfs/example/address"
+  targetNamespace="https://www.apache.org/vfs/example/person"
+  elementFormDefault="qualified">
+
+  <xs:import
+    namespace="https://www.apache.org/vfs/example/name"
+    schemaLocation="name.xsd" />
+  <xs:import
+    namespace="https://www.apache.org/vfs/example/address"
+    schemaLocation="address.xsd" />
+
+  <xs:element
+    name="person"
+    type="personType" />
+
+  <xs:complexType name="personType">
+    <xs:sequence>
+      <xs:element
+        name="name"
+        type="name:nameType" />
+      <xs:element
+        name="address"
+        type="address:addressType" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema> 

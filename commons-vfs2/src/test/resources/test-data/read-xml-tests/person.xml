@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<person:person
+  xmlns:person="https://www.apache.org/vfs/example/person"
+  xmlns:name="https://www.apache.org/vfs/example/name"
+  xmlns:addr="https://www.apache.org/vfs/example/address"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://www.apache.org/vfs/example/person person.xsd">
+
+  <person:name>
+    <name:first>John</name:first>
+    <name:middle>Q.</name:middle>
+    <name:last>Public</name:last>
+  </person:name>
+
+  <person:address>
+    <addr:street>123 Main St.</addr:street>
+    <addr:city>Ridgway</addr:city>
+    <addr:state>CO</addr:state>
+    <addr:zip>81432</addr:zip>
+  </person:address>
+
+</person:person>

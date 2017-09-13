@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<name
+  xmlns="https://www.apache.org/vfs/example/name"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://www.apache.org/xml/name.xsd">
+  <first>John</first>
+  <middle>Q.</middle>
+  <last>Public</last>
+</name>
