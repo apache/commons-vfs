@@ -70,6 +70,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
      * TODO: Shouldn't this method have package-only visibility? Cannot change this without breaking binary
      * compatibility.
      * </p>
+     * 
      * @param childName
      *            The name of the child.
      */
@@ -155,8 +156,6 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
 
     @Override
     protected void doDetach() throws Exception {
-        // This seems too aggressive since the AbstractFileSystem's ZipFile object will be recreated on-demand (possibly
-        // a lot).
         getAbstractFileSystem().close();
     }
 }
