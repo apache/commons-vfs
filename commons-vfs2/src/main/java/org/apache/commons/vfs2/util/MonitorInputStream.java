@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class MonitorInputStream
     extends BufferedInputStream
 {
+    private static final int EOF_CHAR = -1;
     private final AtomicBoolean finished = new AtomicBoolean(false);
     private final AtomicLong atomicCount = new AtomicLong(0);
 
@@ -64,11 +65,11 @@ public class MonitorInputStream
     {
         if (finished.get())
         {
-            return -1;
+            return EOF_CHAR;
         }
 
         final int ch = super.read();
-        if (ch != -1)
+        if (ch != EOF_CHAR)
         {
             atomicCount.incrementAndGet();
             return ch;
@@ -76,7 +77,7 @@ public class MonitorInputStream
 
         // End-of-stream
         close();
-        return -1;
+        return EOF_CHAR;
     }
 
     /**
@@ -93,11 +94,11 @@ public class MonitorInputStream
     {
         if (finished.get())
         {
-            return -1;
+            return EOF_CHAR;
         }
 
         final int nread = super.read(buffer, offset, length);
-        if (nread != -1)
+        if (nread != EOF_CHAR)
         {
             atomicCount.addAndGet(nread);
             return nread;
@@ -105,7 +106,7 @@ public class MonitorInputStream
 
         // End-of-stream
         close();
-        return -1;
+        return EOF_CHAR;
     }
 
     /**
