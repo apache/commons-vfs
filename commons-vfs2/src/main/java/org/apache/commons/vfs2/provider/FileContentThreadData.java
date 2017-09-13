@@ -29,9 +29,9 @@ class FileContentThreadData
 {
     // private int state = DefaultFileContent.STATE_CLOSED;
 
-    private final ArrayList<InputStream> instrs = new ArrayList<>();
-    private final ArrayList<RandomAccessContent> rastrs = new ArrayList<>();
-    private DefaultFileContent.FileContentOutputStream outstr;
+    private final ArrayList<InputStream> inputStreamList = new ArrayList<>();
+    private final ArrayList<RandomAccessContent> randomAccessContentList = new ArrayList<>();
+    private DefaultFileContent.FileContentOutputStream outputStream;
 
     FileContentThreadData()
     {
@@ -49,64 +49,64 @@ class FileContentThreadData
     }
     */
 
-    void addInstr(final InputStream is)
+    void addInstr(final InputStream inputStream)
     {
-        this.instrs.add(is);
+        this.inputStreamList.add(inputStream);
     }
 
-    void setOutstr(final DefaultFileContent.FileContentOutputStream os)
+    void setOutstr(final DefaultFileContent.FileContentOutputStream outputStream)
     {
-        this.outstr = os;
+        this.outputStream = outputStream;
     }
 
     DefaultFileContent.FileContentOutputStream getOutstr()
     {
-        return this.outstr;
+        return this.outputStream;
     }
 
-    void addRastr(final RandomAccessContent ras)
+    void addRastr(final RandomAccessContent randomAccessContent)
     {
-        this.rastrs.add(ras);
+        this.randomAccessContentList.add(randomAccessContent);
     }
 
     int getInstrsSize()
     {
-        return this.instrs.size();
+        return this.inputStreamList.size();
     }
 
     public Object removeInstr(final int pos)
     {
-        return this.instrs.remove(pos);
+        return this.inputStreamList.remove(pos);
     }
 
-    public void removeInstr(final InputStream instr)
+    public void removeInstr(final InputStream inputStream)
     {
-        this.instrs.remove(instr);
+        this.inputStreamList.remove(inputStream);
     }
 
     public Object removeRastr(final int pos)
     {
-        return this.rastrs.remove(pos);
+        return this.randomAccessContentList.remove(pos);
     }
 
-    public void removeRastr(final RandomAccessContent ras)
+    public void removeRastr(final RandomAccessContent randomAccessContent)
     {
-        this.rastrs.remove(ras);
+        this.randomAccessContentList.remove(randomAccessContent);
     }
 
     public boolean hasStreams()
     {
-        return instrs.size() > 0 || outstr != null || rastrs.size() > 0;
+        return inputStreamList.size() > 0 || outputStream != null || randomAccessContentList.size() > 0;
     }
 
     public void closeOutstr() throws FileSystemException
     {
-        outstr.close();
-        outstr = null;
+        outputStream.close();
+        outputStream = null;
     }
 
     int getRastrsSize()
     {
-        return rastrs.size();
+        return randomAccessContentList.size();
     }
 }
