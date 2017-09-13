@@ -1243,7 +1243,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     /**
-     * create the filecontentinfo implementation.
+     * Creates the FileContentInfo factory.
      * @return The FileContentInfoFactory.
      */
     protected FileContentInfoFactory getFileContentInfoFactory()
