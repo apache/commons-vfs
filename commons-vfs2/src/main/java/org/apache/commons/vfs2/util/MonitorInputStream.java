@@ -39,7 +39,7 @@ public class MonitorInputStream
 
 
     /**
-     * Returns 0 if the stream is at eof, else the underlaying inputStream will be queried.
+     * Returns 0 if the stream is at EOF, else the underlying inputStream will be queried.
      * @return The number of bytes that are available.
      * @throws IOException if an error occurs.
      * @since 2.0
@@ -160,7 +160,7 @@ public class MonitorInputStream
     }
 
     /**
-     * Get the nuber of bytes read by this input stream.
+     * Get the number of bytes read by this input stream.
      * @return The number of bytes read by this input stream.
      */
     public long getCount()
