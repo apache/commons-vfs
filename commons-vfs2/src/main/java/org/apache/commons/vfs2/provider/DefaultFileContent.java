@@ -405,14 +405,14 @@ public final class DefaultFileContent implements FileContent
         */
 
         // Get the raw input stream
-        final InputStream instr = fileObject.getInputStream();
+        final InputStream inputStream = fileObject.getInputStream();
 
-        final InputStream wrappedInstr = new FileContentInputStream(fileObject, instr);
+        final InputStream wrappedInputStream = new FileContentInputStream(fileObject, inputStream);
 
-        getOrCreateThreadData().addInstr(wrappedInstr);
+        getOrCreateThreadData().addInstr(wrappedInputStream);
         streamOpened();
 
-        return wrappedInstr;
+        return wrappedInputStream;
     }
 
     /**
