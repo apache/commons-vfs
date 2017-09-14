@@ -20,7 +20,7 @@ import java.util.Objects;
 
 /**
  * Inverts file inclusion of a delegate FileSelector, folder traversal is delegated.
- * 
+ *
  * @since 2.2
  */
 public class InvertIncludeFileSelector implements FileSelector {

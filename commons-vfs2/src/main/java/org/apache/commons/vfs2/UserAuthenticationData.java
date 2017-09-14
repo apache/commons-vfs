@@ -103,7 +103,7 @@ public class UserAuthenticationData {
 
     /**
      * Sets a data to this collection.
-     * 
+     *
      * @param type The Type to add
      * @param data The data associated with the Type
      */
@@ -113,7 +113,7 @@ public class UserAuthenticationData {
 
     /**
      * Gets a data from the collection.
-     * 
+     *
      * @param type The Type to retrieve.
      * @return a character array containing the data associated with the type.
      */

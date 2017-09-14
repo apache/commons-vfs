@@ -59,7 +59,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
 
     /**
      * Determines if a name is an absolute file name.
-     * 
+     *
      * @param name The file name.
      * @return true if the name is absolute, false otherwise.
      */
@@ -70,7 +70,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
 
     /**
      * Finds a local file, from its local name.
-     * 
+     *
      * @param name The name of the file to locate.
      * @return the located FileObject.
      * @throws FileSystemException if an error occurs.
@@ -87,7 +87,7 @@ public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider im
 
     /**
      * Finds a local file.
-     * 
+     *
      * @param file The File to locate.
      * @return the located FileObject.
      * @throws FileSystemException if an error occurs.

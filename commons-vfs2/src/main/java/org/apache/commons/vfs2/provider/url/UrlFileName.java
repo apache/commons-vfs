@@ -25,7 +25,7 @@ import org.apache.commons.vfs2.provider.URLFileName;
 public class UrlFileName extends URLFileName {
     /**
      * The constructor.
-     * 
+     *
      * @param scheme The scheme to use.
      * @param hostName The host name.
      * @param port The port.

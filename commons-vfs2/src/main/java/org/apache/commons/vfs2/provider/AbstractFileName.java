@@ -88,7 +88,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the URI of the file.
-     * 
+     *
      * @return the FileName as a URI.
      */
     @Override
@@ -98,7 +98,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Factory method for creating name instances.
-     * 
+     *
      * @param absolutePath The absolute path.
      * @param fileType The FileType.
      * @return The FileName.
@@ -107,7 +107,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Builds the root URI for this file name. Note that the root URI must not end with a separator character.
-     * 
+     *
      * @param buffer A StringBuilder to use to construct the URI.
      * @param addPassword true if the password should be added, false otherwise.
      */
@@ -115,7 +115,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the base name of the file.
-     * 
+     *
      * @return The base name of the file.
      */
     @Override
@@ -134,7 +134,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the absolute path of the file, relative to the root of the file system that the file belongs to.
-     * 
+     *
      * @return The path String.
      */
     @Override
@@ -151,7 +151,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the decoded path.
-     * 
+     *
      * @return The decoded path String.
      * @throws FileSystemException If an error occurs.
      */
@@ -166,7 +166,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the name of the parent of the file.
-     * 
+     *
      * @return the FileName of the parent.
      */
     @Override
@@ -187,7 +187,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * find the root of the filesystem.
-     * 
+     *
      * @return The root FileName.
      */
     @Override
@@ -202,7 +202,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the URI scheme of this file.
-     * 
+     *
      * @return The protocol used to access the file.
      */
     @Override
@@ -212,7 +212,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the absolute URI of the file.
-     * 
+     *
      * @return The absolute URI of the file.
      */
     @Override
@@ -229,7 +229,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Create a path that does not use the FileType since that field is not immutable.
-     * 
+     *
      * @return The key.
      */
     private String getKey() {
@@ -258,7 +258,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Converts a file name to a relative name, relative to this file name.
-     * 
+     *
      * @param name The FileName.
      * @return The relative path to the file.
      * @throws FileSystemException if an error occurs.
@@ -313,7 +313,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the root URI of the file system this file belongs to.
-     * 
+     *
      * @return The URI of the root.
      */
     @Override
@@ -329,7 +329,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the depth of this file name, within its file system.
-     * 
+     *
      * @return The depth of the file name.
      */
     @Override
@@ -347,7 +347,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Returns the extension of this file name.
-     * 
+     *
      * @return The file extension.
      */
     @Override
@@ -372,7 +372,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Determines if another file name is an ancestor of this file name.
-     * 
+     *
      * @param ancestor The FileName to check.
      * @return true if the FileName is an ancestor, false otherwise.
      */
@@ -386,7 +386,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Determines if another file name is a descendent of this file name.
-     * 
+     *
      * @param descendent The FileName to check.
      * @return true if the FileName is a descendent, false otherwise.
      */
@@ -397,7 +397,7 @@ public abstract class AbstractFileName implements FileName {
 
     /**
      * Determines if another file name is a descendent of this file name.
-     * 
+     *
      * @param descendent The FileName to check.
      * @param scope The NameScope.
      * @return true if the FileName is a descendent, false otherwise.

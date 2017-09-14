@@ -496,7 +496,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
 
     /**
      * Creates a pipe thread that connects an input to an output
-     * 
+     *
      * @param name The name of the thread (for debugging purposes)
      * @param in The input stream
      * @param out The output stream

@@ -51,7 +51,7 @@ public final class UriParser {
 
     /**
      * Extracts the first element of a path.
-     * 
+     *
      * @param name StringBuilder containing the path.
      * @return The first element of the path.
      */
@@ -171,7 +171,7 @@ public final class UriParser {
 
     /**
      * Normalises the separators in a name.
-     * 
+     *
      * @param name The StringBuilder containing the name
      * @return true if the StringBuilder was modified.
      */
@@ -249,7 +249,7 @@ public final class UriParser {
 
     /**
      * Removes %nn encodings from a string.
-     * 
+     *
      * @param encodedStr The encoded String.
      * @return The decoded String.
      * @throws FileSystemException if an error occurs.
@@ -268,7 +268,7 @@ public final class UriParser {
 
     /**
      * Removes %nn encodings from a string.
-     * 
+     *
      * @param buffer StringBuilder containing the string to decode.
      * @param offset The position in the string to start decoding.
      * @param length The number of characters to decode.
@@ -306,7 +306,7 @@ public final class UriParser {
 
     /**
      * Encodes and appends a string to a StringBuilder.
-     * 
+     *
      * @param buffer The StringBuilder to append to.
      * @param unencodedValue The String to encode and append.
      * @param reserved characters to encode.
@@ -319,7 +319,7 @@ public final class UriParser {
 
     /**
      * Encodes a set of reserved characters in a StringBuilder, using the URI %nn encoding. Always encodes % characters.
-     * 
+     *
      * @param buffer The StringBuilder to append to.
      * @param offset The position in the buffer to start encoding at.
      * @param length The number of characters to encode.
@@ -351,7 +351,7 @@ public final class UriParser {
 
     /**
      * Removes %nn encodings from a string.
-     * 
+     *
      * @param decodedStr The decoded String.
      * @return The encoded String.
      */
@@ -361,7 +361,7 @@ public final class UriParser {
 
     /**
      * Converts "special" characters to their %nn value.
-     * 
+     *
      * @param decodedStr The decoded String.
      * @param reserved Characters to encode.
      * @return The encoded String
@@ -377,7 +377,7 @@ public final class UriParser {
 
     /**
      * Encode an array of Strings.
-     * 
+     *
      * @param strings The array of Strings to encode.
      * @return An array of encoded Strings.
      */
@@ -393,7 +393,7 @@ public final class UriParser {
 
     /**
      * Decodes the String.
-     * 
+     *
      * @param uri The String to decode.
      * @throws FileSystemException if an error occurs.
      */
@@ -448,7 +448,7 @@ public final class UriParser {
 
     /**
      * Extract the query String from the URI.
-     * 
+     *
      * @param name StringBuilder containing the URI.
      * @return The query string, if any. null otherwise.
      */

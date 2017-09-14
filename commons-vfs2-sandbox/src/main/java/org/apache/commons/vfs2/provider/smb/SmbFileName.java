@@ -40,7 +40,7 @@ public class SmbFileName extends GenericFileName {
 
     /**
      * Returns the share name.
-     * 
+     *
      * @return share name
      */
     public String getShare() {
@@ -112,7 +112,7 @@ public class SmbFileName extends GenericFileName {
 
     /**
      * Returns the domain name.
-     * 
+     *
      * @return domain name
      */
     public String getDomain() {

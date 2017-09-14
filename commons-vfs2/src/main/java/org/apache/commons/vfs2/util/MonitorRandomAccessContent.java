@@ -43,7 +43,7 @@ public class MonitorRandomAccessContent implements RandomAccessContent {
 
     /**
      * Closes this content.
-     * 
+     *
      * @throws IOException if an error occurs.
      */
     @Override

@@ -18,7 +18,7 @@ package org.apache.commons.vfs2;
 
 /**
  * delivers a file-not-found exception.
- * 
+ *
  * @since 2.0
  */
 public class FileNotFoundException extends FileSystemException {

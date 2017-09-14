@@ -42,7 +42,7 @@ public class WeakRefFileListener implements FileListener {
 
     /**
      * This will install the {@code listener} at the given {@code file}.
-     * 
+     *
      * @param file The FileObject to listen on.
      * @param listener The FileListener
      */
@@ -55,7 +55,7 @@ public class WeakRefFileListener implements FileListener {
     /**
      * returns the wrapped listener. If it is gone, the WeakRefFileListener wrapper will remove itself from the list of
      * listeners.
-     * 
+     *
      * @return The FileListener.
      * @throws Exception if an error occurs.
      */
@@ -70,7 +70,7 @@ public class WeakRefFileListener implements FileListener {
 
     /**
      * Called when a file is created.
-     * 
+     *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */
@@ -85,7 +85,7 @@ public class WeakRefFileListener implements FileListener {
 
     /**
      * Called when a file is deleted.
-     * 
+     *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */

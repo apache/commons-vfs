@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
 public abstract class LocalFileNameParser extends AbstractFileNameParser {
     /**
      * Determines if a name is an absolute file name.
-     * 
+     *
      * @param name The file name.
      * @return true if the name is absolute, false otherwise.
      */

@@ -143,7 +143,7 @@ public class FileSystemException extends IOException {
 
     /**
      * Retrieves message from bundle.
-     * 
+     *
      * @return The exception message.
      */
     @Override

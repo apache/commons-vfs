@@ -42,7 +42,7 @@ public class WebdavFileProvider extends HttpFileProvider {
 
     /**
      * The authenticator types used by the WebDAV provider.
-     * 
+     *
      * @deprecated Might be removed in the next major version.
      */
     @Deprecated
@@ -69,7 +69,7 @@ public class WebdavFileProvider extends HttpFileProvider {
      * credentials configuration through to this method so it's used for resolving a
      * {@link org.apache.commons.vfs2.FileObject FileObject} in the FileSystem, then be sure to use correct signature of
      * the {@link org.apache.commons.vfs2.FileSystemManager FileSystemManager} resolveFile method.
-     * 
+     *
      * @see org.apache.commons.vfs2.impl.DefaultFileSystemManager#resolveFile(FileObject, String, FileSystemOptions)
      */
     @Override

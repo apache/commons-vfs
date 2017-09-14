@@ -57,7 +57,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
 
     /**
      * Locates a file from its parsed URI.
-     * 
+     *
      * @param name The file name.
      * @param fileSystemOptions FileSystem options.
      * @return A FileObject associated with the file.
@@ -77,7 +77,7 @@ public abstract class AbstractOriginatingFileProvider extends AbstractFileProvid
 
     /**
      * Returns the FileSystem associated with the specified root.
-     * 
+     *
      * @param rootName The root path.
      * @param fileSystemOptions The FileSystem options.
      * @return The FileSystem.

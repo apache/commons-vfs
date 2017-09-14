@@ -43,7 +43,7 @@ public class DeleteTask extends VfsTask {
 
     /**
      * Sets the source directory.
-     * 
+     *
      * @param srcDir The source directory.
      */
     public void setSrcDir(final String srcDir) {
@@ -52,7 +52,7 @@ public class DeleteTask extends VfsTask {
 
     /**
      * Sets the files to include.
-     * 
+     *
      * @param filesList The list of files.
      */
     public void setIncludes(final String filesList) {
@@ -61,7 +61,7 @@ public class DeleteTask extends VfsTask {
 
     /**
      * Executes this task.
-     * 
+     *
      * @throws BuildException if an error occurs.
      */
     @Override

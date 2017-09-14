@@ -37,7 +37,7 @@ public interface LocalFileProvider extends FileProvider {
 
     /**
      * Finds a local file, from its local name.
-     * 
+     *
      * @param name The name of the file to locate.
      * @return The FileObject for the file.
      * @throws FileSystemException if an error occurs.
@@ -46,7 +46,7 @@ public interface LocalFileProvider extends FileProvider {
 
     /**
      * Converts from java.io.File to FileObject.
-     * 
+     *
      * @param file The File for the file.
      * @return The FileObject for the file.
      * @throws FileSystemException if an error occurs.

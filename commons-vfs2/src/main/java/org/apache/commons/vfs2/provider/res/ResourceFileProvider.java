@@ -46,7 +46,7 @@ public class ResourceFileProvider extends AbstractFileProvider {
 
     /**
      * Locates a file object, by absolute URI.
-     * 
+     *
      * @param baseFile The base file.
      * @param uri The URI of the file to locate.
      * @param fileSystemOptions The FileSystem options.

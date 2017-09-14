@@ -27,7 +27,7 @@ import org.apache.commons.vfs2.provider.smb.SmbFileNameParser;
 public class FileNameTestCase extends AbstractVfsTestCase {
     /**
      * Tests parsing a URI into its parts.
-     * 
+     *
      * @throws Exception in case of error
      */
     public void testParseUri() throws Exception {
@@ -112,7 +112,7 @@ public class FileNameTestCase extends AbstractVfsTestCase {
 
     /**
      * Tests error handling in URI parser.
-     * 
+     *
      * @throws Exception in case of error
      */
     public void testBadlyFormedUri() throws Exception {

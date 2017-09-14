@@ -35,7 +35,7 @@ public final class OsFamily {
 
     /**
      * Returns the name of this family.
-     * 
+     *
      * @return The name of this family.
      */
     public String getName() {
@@ -44,7 +44,7 @@ public final class OsFamily {
 
     /**
      * Returns the OS families that this family belongs to.
-     * 
+     *
      * @return an array of OSFamily objects that this family belongs to.
      */
     public OsFamily[] getFamilies() {

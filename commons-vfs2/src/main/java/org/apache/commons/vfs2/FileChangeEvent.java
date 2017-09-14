@@ -31,7 +31,7 @@ public class FileChangeEvent {
 
     /**
      * Returns the file that changed.
-     * 
+     *
      * @return The FileObject that was changed.
      */
     public FileObject getFile() {

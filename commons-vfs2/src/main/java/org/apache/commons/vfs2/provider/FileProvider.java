@@ -57,7 +57,7 @@ public interface FileProvider {
 
     /**
      * Gets the configbuilder useable to collect the needed fileSystemOptions.
-     * 
+     *
      * @return a FileSystemConfigBuilder for the particular file system.
      */
     FileSystemConfigBuilder getConfigBuilder();
@@ -65,14 +65,14 @@ public interface FileProvider {
     /**
      * Get the filesystem capabilities.<br>
      * These are the same as on the filesystem, but available before the first filesystem was instanciated.
-     * 
+     *
      * @return a Collection of the file systems Capabilities.
      */
     Collection<Capability> getCapabilities();
 
     /**
      * Parse the URI into a FileName.
-     * 
+     *
      * @param root The base FileName.
      * @param uri The file to be accessed.
      * @return A FileName representing the target file.

@@ -49,7 +49,7 @@ public class LocalFileName extends AbstractFileName {
 
     /**
      * Returns the root file for this file.
-     * 
+     *
      * @return The root file name.
      */
     public String getRootFile() {
@@ -58,7 +58,7 @@ public class LocalFileName extends AbstractFileName {
 
     /**
      * Factory method for creating name instances.
-     * 
+     *
      * @param path The file path.
      * @param type The file type.
      * @return The FileName.
@@ -70,7 +70,7 @@ public class LocalFileName extends AbstractFileName {
 
     /**
      * Returns the absolute URI of the file.
-     * 
+     *
      * @return The absolute URI of the file.
      */
     @Override
@@ -94,7 +94,7 @@ public class LocalFileName extends AbstractFileName {
 
     /**
      * returns a "friendly path", this is a path without a password.
-     * 
+     *
      * @return The "friendly" URI.
      */
     @Override
@@ -118,7 +118,7 @@ public class LocalFileName extends AbstractFileName {
 
     /**
      * Returns the decoded URI of the file.
-     * 
+     *
      * @return the FileName as a URI.
      */
     @Override

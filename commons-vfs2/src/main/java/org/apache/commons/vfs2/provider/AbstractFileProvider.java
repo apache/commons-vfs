@@ -68,7 +68,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
 
     /**
      * Creates a layered file system. This method throws a 'not supported' exception.
-     * 
+     *
      * @param scheme The protocol to use to access the file.
      * @param file a FileObject.
      * @param properties Options to the file system.
@@ -86,7 +86,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
      * Adds a file system to those cached by this provider.
      * <p>
      * The file system may implement {@link VfsComponent}, in which case it is initialised.
-     * 
+     *
      * @param key The root file of the file system, part of the cache key.
      * @param fs the file system to add.
      * @throws FileSystemException if any error occurs.
@@ -120,7 +120,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
 
     /**
      * Returns the FileSystemConfigBuidler.
-     * 
+     *
      * @return the FileSystemConfigBuilder.
      */
     @Override
@@ -148,7 +148,7 @@ public abstract class AbstractFileProvider extends AbstractVfsContainer implemen
 
     /**
      * Close the FileSystem.
-     * 
+     *
      * @param filesystem The FileSystem to close.
      */
     public void closeFileSystem(final FileSystem filesystem) {

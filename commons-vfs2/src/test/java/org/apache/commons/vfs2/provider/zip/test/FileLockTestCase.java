@@ -140,7 +140,7 @@ public class FileLockTestCase {
     /**
      * This test checks whether we can modify an underlying Zip file after we have performed IO operations on files
      * within it, but although we no longer have any FileObjects explicitly open.
-     * 
+     *
      * @throws Exception
      */
     @Test

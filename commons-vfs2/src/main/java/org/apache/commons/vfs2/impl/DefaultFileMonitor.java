@@ -54,7 +54,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * delay of 1 second for every 1000 files processed.
  *
  * <h2>Example usage:</h2>
- * 
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject listendir = fsManager.resolveFile("/home/username/monitored/");
@@ -64,7 +64,7 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
  * fm.addFile(listendir);
  * fm.start();
  * </pre>
- * 
+ *
  * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  */
 public class DefaultFileMonitor implements Runnable, FileMonitor {
@@ -125,7 +125,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Access method to get the recursive setting when adding files for monitoring.
-     * 
+     *
      * @return true if monitoring is enabled for children.
      */
     public boolean isRecursive() {
@@ -134,7 +134,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Access method to set the recursive setting when adding files for monitoring.
-     * 
+     *
      * @param newRecursive true if monitoring should be enabled for children.
      */
     public void setRecursive(final boolean newRecursive) {
@@ -143,7 +143,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Access method to get the current FileListener object notified when there are changes with the files added.
-     * 
+     *
      * @return The FileListener.
      */
     FileListener getFileListener() {
@@ -152,7 +152,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Adds a file to be monitored.
-     * 
+     *
      * @param file The FileObject to monitor.
      */
     @Override
@@ -174,7 +174,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Adds a file to be monitored.
-     * 
+     *
      * @param file The FileObject to add.
      */
     private void doAddFile(final FileObject file) {
@@ -205,7 +205,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Removes a file from being monitored.
-     * 
+     *
      * @param file The FileObject to remove from monitoring.
      */
     @Override
@@ -234,7 +234,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Queues a file for removal from being monitored.
-     * 
+     *
      * @param file The FileObject to be removed from being monitored.
      */
     protected void queueRemoveFile(final FileObject file) {
@@ -243,7 +243,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Get the delay between runs.
-     * 
+     *
      * @return The delay period.
      */
     public long getDelay() {
@@ -252,7 +252,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Set the delay between runs.
-     * 
+     *
      * @param delay The delay period.
      */
     public void setDelay(final long delay) {
@@ -265,7 +265,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * get the number of files to check per run.
-     * 
+     *
      * @return The number of files to check per iteration.
      */
     public int getChecksPerRun() {
@@ -283,7 +283,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
 
     /**
      * Queues a file for addition to be monitored.
-     * 
+     *
      * @param file The FileObject to add.
      */
     protected void queueAddFile(final FileObject file) {
@@ -423,7 +423,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
         /**
          * Recursively fires create events for all children if recursive descent is enabled. Otherwise the create event
          * is only fired for the initial FileObject.
-         * 
+         *
          * @param child The child to add.
          */
         private void fireAllCreate(final FileObject child) {

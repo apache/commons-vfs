@@ -18,7 +18,7 @@ package org.apache.commons.vfs2.util;
 
 /**
  * Allows passwords to be encrypted and decrypted.
- * 
+ *
  * @since 2.0
  */
 public final class EncryptUtil {

@@ -96,7 +96,7 @@ public class BasicOperationsTestCase {
 
     /**
      * JUnit Fixture: Prepare a simple FSM.
-     * 
+     *
      * @throws FileSystemException for runtime problems
      */
     @Before
@@ -109,7 +109,7 @@ public class BasicOperationsTestCase {
 
     /**
      * Ensure FileOperationProviders which are VfsComponents are set up and teared down.
-     * 
+     *
      * @throws FileSystemException for runtime problems
      */
     @Test
@@ -126,7 +126,7 @@ public class BasicOperationsTestCase {
 
     /**
      * Ensure you can use FileOperationProvider which is not a VfsComponnt.
-     * 
+     *
      * @throws FileSystemException for runtime problems
      */
     @Test
@@ -141,7 +141,7 @@ public class BasicOperationsTestCase {
 
     /**
      * Ensures getOperations calls collect and allows empty response.
-     * 
+     *
      * @throws FileSystemException for runtime problems
      */
     @Test
@@ -160,7 +160,7 @@ public class BasicOperationsTestCase {
 
     /**
      * Ensure proper response for not found FileOperation.
-     * 
+     *
      * @throws FileSystemException for runtime problems
      */
     @Test
@@ -183,7 +183,7 @@ public class BasicOperationsTestCase {
 
     /**
      * JUnit Fixture: Tear Down the FSM.
-     * 
+     *
      * @throws FileSystemException for runtime problems
      */
     @After

@@ -34,7 +34,7 @@ public class FileTypeSelector implements FileSelector {
 
     /**
      * Determines if a file or folder should be selected.
-     * 
+     *
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be selected.
      * @throws FileSystemException if an error occurs
@@ -46,7 +46,7 @@ public class FileTypeSelector implements FileSelector {
 
     /**
      * Determines whether a folder should be traversed.
-     * 
+     *
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be traversed.
      */

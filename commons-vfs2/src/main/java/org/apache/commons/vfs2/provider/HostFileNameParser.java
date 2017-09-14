@@ -179,7 +179,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
     /**
      * Extracts the port from a URI.
-     * 
+     *
      * @param name string buffer with the "scheme://[userinfo@]hostname" part has been removed already. Will be
      *            modified.
      * @param uri full URI for error reporting.
@@ -222,7 +222,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Get the connection schema.
-         * 
+         *
          * @return the connection scheme.
          * @since 2.0
          */
@@ -232,7 +232,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Set the connection schema.
-         * 
+         *
          * @param scheme the connection scheme.
          * @since 2.0
          */
@@ -242,7 +242,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Get the host name.
-         * 
+         *
          * @return the host name.
          * @since 2.0
          */
@@ -252,7 +252,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Set the host name.
-         * 
+         *
          * @param hostName the host name.
          * @since 2.0
          */
@@ -262,7 +262,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Get the user name.
-         * 
+         *
          * @return the user name or null.
          * @since 2.0
          */
@@ -272,7 +272,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Set the user name.
-         * 
+         *
          * @param userName the user name.
          * @since 2.0
          */
@@ -282,7 +282,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Get the user password.
-         * 
+         *
          * @return the password or null.
          * @since 2.0
          */
@@ -292,7 +292,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Set the user password.
-         * 
+         *
          * @param password the user password.
          * @since 2.0
          */
@@ -302,7 +302,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Get the port.
-         * 
+         *
          * @return the port or -1.
          * @since 2.0
          */
@@ -312,7 +312,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         /**
          * Set the connection port.
-         * 
+         *
          * @param port the port number or -1.
          * @since 2.0
          */

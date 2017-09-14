@@ -38,7 +38,7 @@ public final class FtpsClientFactory {
 
     /**
      * Creates a new connection to the server.
-     * 
+     *
      * @param hostname The host name.
      * @param port The port.
      * @param username The user name for authentication.

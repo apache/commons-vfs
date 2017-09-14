@@ -55,7 +55,7 @@ public final class FileUtil {
 
     /**
      * Writes the content of a file to an OutputStream.
-     * 
+     *
      * @param file The FileObject to write.
      * @param output The OutputStream to write to.
      * @throws IOException if an error occurs writing the file.
@@ -67,7 +67,7 @@ public final class FileUtil {
 
     /**
      * Copies the content from a source file to a destination file.
-     * 
+     *
      * @param srcFile The source FileObject.
      * @param destFile The target FileObject
      * @throws IOException If an error occurs copying the file.

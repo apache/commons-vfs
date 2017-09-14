@@ -39,7 +39,7 @@ import org.apache.commons.vfs2.operations.FileOperations;
  *
  * Reading and writing a file, and all other operations on the file's <i>content</i>, is done using the
  * {@link FileContent} object returned by {@link #getContent}.
- * 
+ *
  * <h2>Creating and Deleting a File</h2>
  *
  * A file is created using either {@link #createFolder}, {@link #createFile}, or by writing to the file using one of the

@@ -61,7 +61,7 @@ public enum NameScope {
 
     /**
      * Returns the name of the scope.
-     * 
+     *
      * @return The name of the scope.
      */
     @Override
@@ -71,7 +71,7 @@ public enum NameScope {
 
     /**
      * Returns the name of the scope.
-     * 
+     *
      * @return The name of the scope.
      */
     public String getName() {

@@ -36,7 +36,7 @@ public class ShowFileTask extends VfsTask {
 
     /**
      * The URL of the file to display.
-     * 
+     *
      * @param url The url of the file.
      */
     public void setFile(final String url) {
@@ -45,7 +45,7 @@ public class ShowFileTask extends VfsTask {
 
     /**
      * Shows the content. Assumes the content is text, encoded using the platform's default encoding.
-     * 
+     *
      * @param showContent true if the content should be shown.
      */
     public void setShowContent(final boolean showContent) {
@@ -54,7 +54,7 @@ public class ShowFileTask extends VfsTask {
 
     /**
      * Recursively shows the descendants of the file.
-     * 
+     *
      * @param recursive true if descendants should be shown.
      */
     public void setRecursive(final boolean recursive) {
@@ -63,7 +63,7 @@ public class ShowFileTask extends VfsTask {
 
     /**
      * Executes the task.
-     * 
+     *
      * @throws BuildException if any exception is thrown.
      */
     @Override

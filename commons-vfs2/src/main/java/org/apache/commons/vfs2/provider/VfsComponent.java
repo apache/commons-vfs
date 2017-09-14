@@ -46,7 +46,7 @@ public interface VfsComponent {
 
     /**
      * Initializes the component.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     void init() throws FileSystemException;

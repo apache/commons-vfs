@@ -53,7 +53,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Create new config builder with specified prefix string.
-     * 
+     *
      * @param prefix prefix string to use for parameters of this config builder.
      * @since 2.1
      */

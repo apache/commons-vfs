@@ -96,7 +96,7 @@ public final class Os {
 
     /**
      * Determines if the OS on which Ant is executing matches the given OS version.
-     * 
+     *
      * @param version The version to check.
      * @return true if the version matches.
      */
@@ -106,7 +106,7 @@ public final class Os {
 
     /**
      * Determines if the OS on which Ant is executing matches the given OS architecture.
-     * 
+     *
      * @param arch The architecture to check.
      * @return true if the architecture mataches.
      */
@@ -116,7 +116,7 @@ public final class Os {
 
     /**
      * Determines if the OS on which Ant is executing matches the given OS family.
-     * 
+     *
      * @param family The family to check.
      * @return true if the family matches.
      */
@@ -126,7 +126,7 @@ public final class Os {
 
     /**
      * Determines if the OS on which Ant is executing matches the given OS family.
-     * 
+     *
      * @param family The family to check.
      * @return true if the family matches.
      */

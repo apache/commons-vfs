@@ -59,7 +59,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Get access to the delegated file.
-     * 
+     *
      * @return The FileObject.
      * @since 2.0
      */
@@ -69,7 +69,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Adds a child to this file.
-     * 
+     *
      * @param baseName The base FileName.
      * @param type The FileType.
      * @throws Exception if an error occurs.
@@ -84,7 +84,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Attaches or detaches the target file.
-     * 
+     *
      * @param file The FileObject.
      * @throws Exception if an error occurs.
      */
@@ -100,7 +100,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Checks whether the file's type has changed, and fires the appropriate events.
-     * 
+     *
      * @param oldType The old FileType.
      * @throws Exception if an error occurs.
      */
@@ -265,7 +265,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Sets the last-modified time of this file.
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -292,7 +292,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Called when a file is created.
-     * 
+     *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */
@@ -308,7 +308,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Called when a file is deleted.
-     * 
+     *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.
      */
@@ -342,7 +342,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Close the delegated file.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -356,7 +356,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Refresh file information.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
@@ -370,7 +370,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Return file content info.
-     * 
+     *
      * @return the file content info of the delegee.
      * @throws Exception Any thrown Exception is wrapped in FileSystemException.
      * @since 2.0
@@ -393,7 +393,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Removes an attribute of this file.
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -403,7 +403,7 @@ public class DelegateFileObject<AFS extends AbstractFileSystem> extends Abstract
 
     /**
      * Creates access to the file for random i/o.
-     * 
+     *
      * @since 2.0
      */
     @Override

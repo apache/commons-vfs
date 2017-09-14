@@ -413,7 +413,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
 
     /**
      * Load a class from different class loaders.
-     * 
+     *
      * @throws ClassNotFoundException if last {@code loadClass} failed.
      * @see #findClassLoader()
      */
@@ -427,7 +427,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
 
     /**
      * Resolve resources from different class loaders.
-     * 
+     *
      * @throws IOException if {@code getResource} failed.
      * @see #findClassLoader()
      */

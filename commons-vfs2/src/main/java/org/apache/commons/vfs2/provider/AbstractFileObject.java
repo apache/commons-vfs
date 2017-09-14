@@ -142,7 +142,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Attaches to the file.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     private void attach() throws FileSystemException {
@@ -182,7 +182,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Notifies the file that its children have changed.
-     * 
+     *
      * @param childName The name of the child.
      * @param newType The type of the child.
      * @throws Exception if an error occurs.
@@ -208,7 +208,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Closes this file, and its content.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -298,7 +298,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Creates this file, if it does not exist.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -325,7 +325,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Creates this folder, if it does not exist. Also creates any ancestor files which do not exist.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -466,7 +466,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Detaches this file, invalidating all cached info. This will force a call to {@link #doAttach} next time this file
      * is used.
-     * 
+     *
      * @throws Exception if an error occurs.
      */
     private void detach() throws Exception {
@@ -503,7 +503,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Create a FileContent implementation.
-     * 
+     *
      * @return The FileContent.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
@@ -534,7 +534,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * <li>This file has no children, if a folder.</li>
      * </ul>
      * This implementation throws an exception.
-     * 
+     *
      * @throws Exception if an error occurs.
      */
     protected void doDelete() throws Exception {
@@ -583,7 +583,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
      * {@link FileType#FILE}.
-     * 
+     *
      * @return The size of the file in bytes.
      * @throws Exception if an error occurs.
      */
@@ -652,7 +652,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Determines the type of this file. Must not return null. The return value of this method is cached, so the
      * implementation can be expensive.
-     * 
+     *
      * @return the type of the file.
      * @throws Exception if an error occurs.
      */
@@ -865,7 +865,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Called when the output stream for this file is closed.
-     * 
+     *
      * @throws Exception if an error occurs.
      */
     protected void endOutput() throws Exception {
@@ -880,7 +880,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Determines if the file exists.
-     * 
+     *
      * @return true if the file exists, false otherwise,
      * @throws FileSystemException if an error occurs.
      */
@@ -924,7 +924,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Traverses the descendants of this file, and builds a list of selected files.
-     * 
+     *
      * @param selector The FileSelector.
      * @param depthwise if true files are added after their descendants, before otherwise.
      * @param selected A List of the located FileObjects.
@@ -949,7 +949,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns the file system this file belongs to.
-     * 
+     *
      * @return The FileSystem this file is associated with.
      */
     protected AFS getAbstractFileSystem() {
@@ -958,7 +958,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns a child of this file.
-     * 
+     *
      * @param name The name of the child to locate.
      * @return The FileObject for the file or null if the child does not exist.
      * @throws FileSystemException if an error occurs.
@@ -979,7 +979,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns the children of the file.
-     * 
+     *
      * @return an array of FileObjects, one per child.
      * @throws FileSystemException if an error occurs.
      */
@@ -1055,7 +1055,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns the file's content.
-     * 
+     *
      * @return the FileContent for this FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -1072,7 +1072,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Creates the FileContentInfo factory.
-     * 
+     *
      * @return The FileContentInfoFactory.
      */
     protected FileContentInfoFactory getFileContentInfoFactory() {
@@ -1094,7 +1094,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns the file system this file belongs to.
-     * 
+     *
      * @return The FileSystem this file is associated with.
      */
     @Override
@@ -1104,7 +1104,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns an input stream to use to read the content of the file.
-     * 
+     *
      * @return The InputStream to access this file's content.
      * @throws FileSystemException if an error occurs.
      */
@@ -1151,7 +1151,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      * Prepares this file for writing. Makes sure it is either a file, or its parent folder exists. Returns an output
      * stream to use to write the content of the file to.
-     * 
+     *
      * @return An OutputStream where the new contents of the file can be written.
      * @throws FileSystemException if an error occurs.
      */
@@ -1200,7 +1200,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns the parent of the file.
-     * 
+     *
      * @return the parent FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -1231,7 +1231,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns an input/output stream to use to read and write the content of the file in and random manner.
-     * 
+     *
      * @param mode The RandomAccessMode.
      * @return The RandomAccessContent.
      * @throws FileSystemException if an error occurs.
@@ -1270,7 +1270,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns the file's type.
-     * 
+     *
      * @return The FileType.
      * @throws FileSystemException if an error occurs.
      */
@@ -1297,7 +1297,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns a URL representation of the file.
-     * 
+     *
      * @return The URL representation of the file.
      * @throws FileSystemException if an error occurs.
      */
@@ -1358,7 +1358,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Called when this file is deleted. Updates cached info and notifies subclasses, parent and file system.
-     * 
+     *
      * @throws Exception if an error occurs.
      */
     protected void handleDelete() throws Exception {
@@ -1467,7 +1467,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Determines if this file can be read.
-     * 
+     *
      * @return true if the file is a hidden file, false otherwise.
      * @throws FileSystemException if an error occurs.
      */
@@ -1482,7 +1482,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Determines if this file can be read.
-     * 
+     *
      * @return true if the file can be read, false otherwise.
      * @throws FileSystemException if an error occurs.
      */
@@ -1510,7 +1510,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Determines if this file can be written to.
-     * 
+     *
      * @return true if the file can be written to, false otherwise.
      * @throws FileSystemException if an error occurs.
      */
@@ -1563,7 +1563,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Moves (rename) the file to another one.
-     * 
+     *
      * @param destFile The target FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -1629,7 +1629,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Notify the parent of a change to its children, when a child is created or deleted.
-     * 
+     *
      * @param childName The name of the child.
      * @param newType The type of the child.
      * @throws Exception if an error occurs.
@@ -1673,7 +1673,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * This will prepare the fileObject to get resynchronized with the underlying filesystem if required.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -1710,7 +1710,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     /**
      * Returns a child by name.
-     * 
+     *
      * @param name The name of the child to locate.
      * @param scope the NameScope.
      * @return The FileObject for the file or null if the child does not exist.

@@ -89,7 +89,7 @@ public class URLFileName extends GenericFileName {
 
     /**
      * Create a FileName.
-     * 
+     *
      * @param absPath The absolute path.
      * @param type The FileType.
      * @return The FileName
@@ -121,7 +121,7 @@ public class URLFileName extends GenericFileName {
 
     /**
      * Encode a URI.
-     * 
+     *
      * @param charset The character set.
      * @return The encoded URI
      * @throws FileSystemException if some other exception occurs.

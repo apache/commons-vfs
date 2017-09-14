@@ -214,7 +214,7 @@ public class VFSClassLoader extends SecureClassLoader {
 
     /**
      * Calls super.getPermissions both for the code source and also adds the permissions granted to the parent layers.
-     * 
+     *
      * @param cs the CodeSource.
      * @return The PermissionCollections.
      */
@@ -250,7 +250,7 @@ public class VFSClassLoader extends SecureClassLoader {
 
     /**
      * Copies the permissions from src to dest.
-     * 
+     *
      * @param src The source PermissionCollection.
      * @param dest The destination PermissionCollection.
      */
@@ -277,7 +277,7 @@ public class VFSClassLoader extends SecureClassLoader {
 
     /**
      * Finds the resource with the specified name from the search path. This returns null if the resource is not found.
-     * 
+     *
      * @param name The resource name.
      * @return The URL that matches the resource.
      */
@@ -319,7 +319,7 @@ public class VFSClassLoader extends SecureClassLoader {
 
     /**
      * Searches through the search path of for the first class or resource with specified name.
-     * 
+     *
      * @param name The resource to load.
      * @return The Resource.
      * @throws FileSystemException if an error occurs.

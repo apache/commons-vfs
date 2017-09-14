@@ -30,7 +30,7 @@ public final class FileObjectUtils {
 
     /**
      * Get access to the base object even if decorated.
-     * 
+     *
      * @param fileObject The FileObject.
      * @return The decorated FileObject or null.
      * @throws FileSystemException if an error occurs.
@@ -53,7 +53,7 @@ public final class FileObjectUtils {
 
     /**
      * Check if the given FileObject is instance of given class argument.
-     * 
+     *
      * @param fileObject The FileObject.
      * @param wantedClass The Class to check.
      * @return true if fileObject is an instance of the specified Class.

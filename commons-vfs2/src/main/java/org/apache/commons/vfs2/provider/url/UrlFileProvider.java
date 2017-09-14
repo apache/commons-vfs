@@ -46,7 +46,7 @@ public class UrlFileProvider extends AbstractFileProvider {
 
     /**
      * Locates a file object, by absolute URI.
-     * 
+     *
      * @param baseFile The base FileObject.
      * @param uri The uri of the file to locate.
      * @param fileSystemOptions The FileSystemOptions

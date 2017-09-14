@@ -33,7 +33,7 @@ public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
 
     /**
      * Locates a file object, by absolute URI.
-     * 
+     *
      * @param baseFile The base FileObject.
      * @param uri The name of the file to locate.
      * @param fileSystemOptions The FileSystemOptions.
@@ -61,7 +61,7 @@ public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
 
     /**
      * Creates a layered file system.
-     * 
+     *
      * @param scheme The protocol to use.
      * @param file a FileObject.
      * @param fileSystemOptions Options to access the FileSystem.

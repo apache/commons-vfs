@@ -58,7 +58,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets the destination file.
-     * 
+     *
      * @param destFile The destination file name.
      */
     public void setDestFile(final String destFile) {
@@ -67,7 +67,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets the destination directory.
-     * 
+     *
      * @param destDir The destination directory.
      */
     public void setDestDir(final String destDir) {
@@ -76,7 +76,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets the source file.
-     * 
+     *
      * @param srcFile The source file name.
      */
     public void setSrc(final String srcFile) {
@@ -87,7 +87,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets the source directory.
-     * 
+     *
      * @param srcDir The source directory.
      */
     public void setSrcDir(final String srcDir) {
@@ -96,7 +96,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets whether the source directory should be consider as the base directory.
-     * 
+     *
      * @param srcDirIsBase true if the source directory is the base directory.
      */
     public void setSrcDirIsBase(final boolean srcDirIsBase) {
@@ -105,7 +105,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets whether we should fail if there was an error or not.
-     * 
+     *
      * @param failonerror true if the operation should fail if there is an error.
      */
     public void setFailonerror(final boolean failonerror) {
@@ -114,7 +114,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets whether we should fail if there was an error or not.
-     * 
+     *
      * @return true if the operation should fail if there was an error.
      */
     public boolean isFailonerror() {
@@ -123,7 +123,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Sets the files to includes.
-     * 
+     *
      * @param filesList The list of files to include.
      */
     public void setIncludes(final String filesList) {
@@ -132,7 +132,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Adds a nested &lt;src&gt; element.
-     * 
+     *
      * @param srcInfo A nested source element.
      * @throws BuildException if the SourceInfo doesn't reference a file.
      */
@@ -146,7 +146,7 @@ public abstract class AbstractSyncTask extends VfsTask {
 
     /**
      * Executes this task.
-     * 
+     *
      * @throws BuildException if an error occurs.
      */
     @Override

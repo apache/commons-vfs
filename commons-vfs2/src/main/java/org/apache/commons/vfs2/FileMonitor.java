@@ -22,14 +22,14 @@ package org.apache.commons.vfs2;
 public interface FileMonitor {
     /**
      * Adds a file to be monitored.
-     * 
+     *
      * @param file The FileObject to monitor.
      */
     void addFile(final FileObject file);
 
     /**
      * Removes a file from being monitored.
-     * 
+     *
      * @param file The FileObject to stop monitoring.
      */
     void removeFile(final FileObject file);

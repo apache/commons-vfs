@@ -63,7 +63,7 @@ public class ZipFileObjectTestCase {
     /**
      * Tests that when we read a file inside a file Zip and leave it open, we can still delete the Zip after we clean up
      * the Zip file.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -81,7 +81,7 @@ public class ZipFileObjectTestCase {
 
     /**
      * Tests that we can read more than one file within a Zip file, especially after closing each FileObject.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -111,7 +111,7 @@ public class ZipFileObjectTestCase {
     /**
      * Tests that we can get a stream from one file in a zip file, then close another file from the same zip, then
      * process the initial input stream.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -135,7 +135,7 @@ public class ZipFileObjectTestCase {
     /**
      * Tests that we can get a stream from one file in a zip file, then close another file from the same zip, then
      * process the initial input stream.
-     * 
+     *
      * @throws IOException
      */
     @Test
@@ -161,7 +161,7 @@ public class ZipFileObjectTestCase {
     /**
      * Tests that we can resolve a file in a Zip file, then close the container zip, which should still let us delete
      * the Zip file.
-     * 
+     *
      * @throws IOException
      */
     @Test

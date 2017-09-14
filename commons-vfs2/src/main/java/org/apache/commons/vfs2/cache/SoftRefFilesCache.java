@@ -232,7 +232,7 @@ public class SoftRefFilesCache extends AbstractFilesCache {
 
     /**
      * Called while the lock is held
-     * 
+     *
      * @param fileSystem The file system to close.
      */
     private void close(final FileSystem fileSystem) {

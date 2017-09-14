@@ -68,7 +68,7 @@ public class DefaultCryptor implements Cryptor {
 
     /**
      * Decrypts the password.
-     * 
+     *
      * @param encryptedKey the encrypted password.
      * @return The plain text password.
      * @throws Exception If an error occurs.

@@ -49,7 +49,7 @@ public final class VFS {
 
     /**
      * Creates a file system manager instance.
-     * 
+     *
      * @param managerClassName The specific manager impelmentation class name.
      * @return The FileSystemManager.
      * @throws FileSystemException if an error occurs creating the manager.
@@ -92,7 +92,7 @@ public final class VFS {
 
     /**
      * Sets the file system manager
-     * 
+     *
      * @param manager the file system manager
      * @since 2.2
      */

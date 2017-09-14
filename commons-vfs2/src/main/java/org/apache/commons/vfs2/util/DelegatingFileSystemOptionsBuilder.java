@@ -38,7 +38,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * This class use reflection to set a configuration value using the fileSystemConfigBuilder associated the a scheme.<br>
  * <br>
  * Example:<br>
- * 
+ *
  * <pre>
  * FileSystemOptions fso = new FileSystemOptions();
  * DelegatingFileSystemOptionsBuilder delegate = new DelegatingFileSystemOptionsBuilder(VFS.getManager());

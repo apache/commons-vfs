@@ -30,7 +30,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
 
     /**
      * Return the Parser.
-     * 
+     *
      * @return The Parser.
      */
     public static LayeredFileNameParser getInstance() {
@@ -39,7 +39,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
 
     /**
      * Determines if a character should be encoded.
-     * 
+     *
      * @param ch The character to check.
      * @return true if the character should be encoded.
      */
@@ -50,7 +50,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
 
     /**
      * Parse the base and name into a FileName.
-     * 
+     *
      * @param context The component context.
      * @param base The base FileName.
      * @param filename The target file name.

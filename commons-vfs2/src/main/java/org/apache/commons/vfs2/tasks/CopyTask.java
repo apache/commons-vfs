@@ -32,7 +32,7 @@ public class CopyTask extends AbstractSyncTask {
 
     /**
      * Enable/disable overwriting of up-to-date files.
-     * 
+     *
      * @param overwrite true if the file should be overwritten.
      */
     public void setOverwrite(final boolean overwrite) {
@@ -41,7 +41,7 @@ public class CopyTask extends AbstractSyncTask {
 
     /**
      * Enable/disable preserving last modified time of copied files.
-     * 
+     *
      * @param preserveLastModified true if the last modified time should be preserved.
      */
     public void setPreserveLastModified(final boolean preserveLastModified) {
@@ -64,7 +64,7 @@ public class CopyTask extends AbstractSyncTask {
 
     /**
      * Handles an out-of-date file.
-     * 
+     *
      * @param srcFile The source FileObject.
      * @param destFile The destination FileObject.
      */
@@ -81,7 +81,7 @@ public class CopyTask extends AbstractSyncTask {
 
     /**
      * Handles an up-to-date file.
-     * 
+     *
      * @param srcFile The source FileObject.
      * @param destFile The destination FileObject.
      */

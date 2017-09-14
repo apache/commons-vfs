@@ -31,7 +31,7 @@ public class MoveTask extends CopyTask {
 
     /**
      * Enable/disable move/rename of file (if possible).
-     * 
+     *
      * @param tryRename true if the file should be renamed.
      */
     public void setTryRename(final boolean tryRename) {

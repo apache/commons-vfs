@@ -102,7 +102,7 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
 
     /**
      * Initializes the component.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override

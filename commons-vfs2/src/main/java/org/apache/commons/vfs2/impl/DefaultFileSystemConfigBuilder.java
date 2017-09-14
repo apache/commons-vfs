@@ -40,7 +40,7 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Sets the user authenticator to get authentication informations.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @param userAuthenticator The UserAuthenticator.
      * @throws FileSystemException if an error occurs setting the UserAuthenticator.

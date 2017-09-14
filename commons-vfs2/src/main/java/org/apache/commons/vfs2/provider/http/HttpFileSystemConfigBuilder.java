@@ -50,7 +50,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Create new config builder.
-     * 
+     *
      * @param prefix String for properties of this file system.
      * @since 2.0
      */
@@ -141,7 +141,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Set the proxy authenticator where the system should get the credentials from.
-     * 
+     *
      * @param opts The FileSystem options.
      * @param authenticator The UserAuthenticator.
      */
@@ -151,7 +151,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Get the proxy authenticator where the system should get the credentials from.
-     * 
+     *
      * @param opts The FileSystem options.
      * @return The UserAuthenticator.
      */
@@ -161,7 +161,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * The cookies to add to the request.
-     * 
+     *
      * @param opts The FileSystem options.
      * @param cookies An array of Cookies.
      */
@@ -183,7 +183,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * The cookies to add to the request.
-     * 
+     *
      * @param opts The FileSystem options.
      * @return the Cookie array.
      */
@@ -205,7 +205,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * The maximum number of connections allowed.
-     * 
+     *
      * @param opts The FileSystem options.
      * @param maxTotalConnections The maximum number of connections.
      * @since 2.0
@@ -216,7 +216,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Retrieve the maximum number of connections allowed.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed.
      * @since 2.0
@@ -227,7 +227,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * The maximum number of connections allowed to any host.
-     * 
+     *
      * @param opts The FileSystem options.
      * @param maxHostConnections The maximum number of connections to a host.
      * @since 2.0
@@ -238,7 +238,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Retrieve the maximum number of connections allowed per host.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed per host.
      * @since 2.0
@@ -249,7 +249,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Determines if the FileSystemOptions indicate that preemptive authentication is requested.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @return true if preemptiveAuth is requested.
      * @since 2.0
@@ -262,7 +262,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the given value for preemptive HTTP authentication (using BASIC) on the given FileSystemOptions object.
      * Defaults to false if not set. It may be appropriate to set to true in cases when the resulting chattiness of the
      * conversation outweighs any architectural desire to use a stronger authentication scheme than basic/preemptive.
-     * 
+     *
      * @param opts The FileSystemOptions.
      * @param preemptiveAuth the desired setting; true=enabled and false=disabled.
      */

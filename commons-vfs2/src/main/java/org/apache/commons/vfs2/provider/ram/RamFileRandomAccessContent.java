@@ -413,7 +413,7 @@ public class RamFileRandomAccessContent implements RandomAccessContent {
 
     /**
      * Build a short from first 2 bytes of the array.
-     * 
+     *
      * @param b The byte[] to convert.
      * @return A short.
      */

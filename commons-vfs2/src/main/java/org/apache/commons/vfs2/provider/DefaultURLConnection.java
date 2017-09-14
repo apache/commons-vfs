@@ -91,7 +91,7 @@ public final class DefaultURLConnection extends URLConnection {
      * public String getHeaderField(String name) { try { if
      * (content.getFile().getFileSystem().hasCapability(Capability.ATTRIBUTES)) { String value = (String)
      * content.getAttribute(name); if (value != null) { return value; } }
-     * 
+     *
      * return null; } catch (FileSystemException e) { throw new RuntimeException(e); } }
      */
 }

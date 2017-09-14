@@ -231,11 +231,11 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
 
     /*
      * protected Map doGetAttributes() throws Exception { TreeMap map = new TreeMap();
-     * 
+     *
      * Header contentType = method.getResponseHeader("content-type"); if (contentType != null) { HeaderElement[] element
      * = contentType.getValues(); if (element != null && element.length > 0) { map.put("content-type",
      * element[0].getName()); } }
-     * 
+     *
      * map.put("content-encoding", method.getResponseCharSet()); return map; }
      */
 }

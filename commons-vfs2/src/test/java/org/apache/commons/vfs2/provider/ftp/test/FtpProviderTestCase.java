@@ -78,7 +78,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig {
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
-     * 
+     *
      * @param rootDirectory the local FTP server rootDirectory
      * @param fileSystemFactory optional local FTP server FileSystemFactory
      * @throws FtpException

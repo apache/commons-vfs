@@ -36,7 +36,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
     /**
      * Returns 0 if the stream is at EOF, else the underlying inputStream will be queried.
-     * 
+     *
      * @return The number of bytes that are available.
      * @throws IOException if an error occurs.
      * @since 2.0
@@ -52,7 +52,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
     /**
      * Reads a character.
-     * 
+     *
      * @return The character that was read as an integer.
      * @throws IOException if an error occurs.
      */
@@ -75,7 +75,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
     /**
      * Reads bytes from this input stream.
-     * 
+     *
      * @param buffer A byte array in which to place the characters read.
      * @param offset The offset at which to start reading.
      * @param length The maximum number of bytes to read.
@@ -101,7 +101,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
     /**
      * Closes this input stream and releases any system resources associated with the stream.
-     * 
+     *
      * @throws IOException if an error occurs.
      */
     @Override
@@ -133,7 +133,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
     /**
      * Called after the stream has been closed. This implementation does nothing.
-     * 
+     *
      * @throws IOException if an error occurs.
      */
     protected void onClose() throws IOException {
@@ -141,7 +141,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
     /**
      * Get the number of bytes read by this input stream.
-     * 
+     *
      * @return The number of bytes read by this input stream.
      */
     public long getCount() {

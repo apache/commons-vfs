@@ -47,7 +47,7 @@ public class WebdavFileSystem extends HttpFileSystem {
 
     /**
      * Returns the capabilities of this file system.
-     * 
+     *
      * @param caps The Capabilities to add.
      */
     @Override
@@ -57,7 +57,7 @@ public class WebdavFileSystem extends HttpFileSystem {
 
     /**
      * Creates a file object. This method is called only if the requested file is not cached.
-     * 
+     *
      * @param name the FileName.
      * @return The created FileObject.
      */
@@ -69,7 +69,7 @@ public class WebdavFileSystem extends HttpFileSystem {
 
     /**
      * Return a URLStreamHandler.
-     * 
+     *
      * @return The URLStreamHandler.
      */
     public URLStreamHandler getURLStreamHandler() {

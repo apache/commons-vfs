@@ -40,7 +40,7 @@ public class FileFilterSelector extends FileDepthSelector {
 
     /**
      * Determines if a file or folder should be selected.
-     * 
+     *
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be included, false otherwise.
      */
@@ -55,7 +55,7 @@ public class FileFilterSelector extends FileDepthSelector {
 
     /**
      * Determines whether the file should be selected.
-     * 
+     *
      * @param fileInfo The file selection information.
      * @return true if the file should be selected, false otherwise.
      */

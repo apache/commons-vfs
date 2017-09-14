@@ -287,11 +287,11 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     /*
      * imario@apache.org leave this to some sort of LockManager public void testConcurrentReadWrite() throws Exception {
      * final FileObject scratchFolder = createScratchFolder();
-     * 
+     *
      * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
-     * 
+     *
      * // Start reading from the file final InputStream instr = file.getContent().getInputStream();
-     * 
+     *
      * try { // Try to write to the file file.getContent().getOutputStream(); fail(); } catch (final FileSystemException
      * e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); } finally {
      * instr.close(); } }
@@ -303,17 +303,17 @@ public class ProviderWriteTests extends AbstractProviderTestCase {
     /*
      * imario@apache.org leave this to some sort of LockManager public void testConcurrentWrite() throws Exception {
      * final FileObject scratchFolder = createScratchFolder();
-     * 
+     *
      * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
-     * 
+     *
      * // Start writing to the file final OutputStream outstr = file.getContent().getOutputStream(); final String
      * testContent = "some content"; try { // Write some content to the first stream
      * outstr.write(testContent.getBytes());
-     * 
+     *
      * // Try to open another output stream file.getContent().getOutputStream(); fail(); } catch (final
      * FileSystemException e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); }
      * finally { outstr.close(); }
-     * 
+     *
      * // Make sure that the content written to the first stream is actually applied assertSameContent(testContent,
      * file); }
      */

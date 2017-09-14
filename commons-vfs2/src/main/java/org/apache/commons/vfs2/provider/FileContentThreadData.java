@@ -37,7 +37,7 @@ class FileContentThreadData {
 
     /*
      * int getState() { return state; }
-     * 
+     *
      * void setState(int state) { this.state = state; }
      */
 

@@ -48,7 +48,7 @@ class FileTypeMap {
      * Find the scheme for the provider of a layered file system.
      * <p>
      * This will check the FileContentInfo or file extension.
-     * 
+     *
      * @return Scheme supporting the file type or null (if unknonw).
      */
     public String getScheme(final FileObject file) throws FileSystemException {

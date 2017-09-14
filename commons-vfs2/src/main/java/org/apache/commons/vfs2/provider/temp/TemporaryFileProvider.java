@@ -39,7 +39,7 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
     /*
      * private final static FileName tmpFileName = new AbstractFileName("tmp", "/") { protected FileName
      * createName(String absPath) { return null; }
-     * 
+     *
      * protected void appendRootUri(StringBuffer buffer) { } };
      */
 
@@ -69,7 +69,7 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
 
     /**
      * Locates a file object, by absolute URI.
-     * 
+     *
      * @param baseFile The base FileObject.
      * @param uri The URI of the file to be located.
      * @param properties FileSystemOptions to use to locate or create the file.

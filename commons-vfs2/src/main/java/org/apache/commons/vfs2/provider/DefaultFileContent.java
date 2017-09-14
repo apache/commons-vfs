@@ -101,7 +101,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns the file that this is the content of.
-     * 
+     *
      * @return the FileObject.
      */
     @Override
@@ -111,7 +111,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns the size of the content (in bytes).
-     * 
+     *
      * @return The size of the content (in bytes).
      * @throws FileSystemException if an error occurs.
      */
@@ -136,7 +136,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns the last-modified timestamp.
-     * 
+     *
      * @return The last modified timestamp.
      * @throws FileSystemException if an error occurs.
      */
@@ -158,7 +158,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Sets the last-modified timestamp.
-     * 
+     *
      * @param modTime The last modified timestamp.
      * @throws FileSystemException if an error occurs.
      */
@@ -182,7 +182,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Checks if an attribute exists.
-     * 
+     *
      * @param attrName The name of the attribute to check.
      * @return true if the attribute is associated with the file.
      * @throws FileSystemException if an error occurs.
@@ -199,7 +199,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns a read-only map of this file's attributes.
-     * 
+     *
      * @return a Map of the file's attributes.
      * @throws FileSystemException if an error occurs.
      */
@@ -224,7 +224,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Used internally to flag situations where the file attributes should be reretrieved.
-     * 
+     *
      * @since 2.0
      */
     public void resetAttributes() {
@@ -233,7 +233,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Lists the attributes of this file.
-     * 
+     *
      * @return An array of attribute names.
      * @throws FileSystemException if an error occurs.
      */
@@ -246,7 +246,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Gets the value of an attribute.
-     * 
+     *
      * @param attrName The attribute name.
      * @return The value of the attribute or null.
      * @throws FileSystemException if an error occurs.
@@ -259,7 +259,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Sets the value of an attribute.
-     * 
+     *
      * @param attrName The name of the attribute to add.
      * @param value The value of the attribute.
      * @throws FileSystemException if an error occurs.
@@ -282,7 +282,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Removes an attribute.
-     * 
+     *
      * @param attrName The name of the attribute to remove.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
@@ -306,7 +306,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns the certificates used to sign this file.
-     * 
+     *
      * @return An array of Certificates.
      * @throws FileSystemException if an error occurs.
      */
@@ -333,7 +333,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns an input stream for reading the content.
-     * 
+     *
      * @return The InputStream
      * @throws FileSystemException if an error occurs.
      */
@@ -357,7 +357,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns an input/output stream to use to read and write the content of the file in an random manner.
-     * 
+     *
      * @param mode The RandomAccessMode.
      * @return A RandomAccessContent object to access the file.
      * @throws FileSystemException if an error occurs.
@@ -382,7 +382,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns an output stream for writing the content.
-     * 
+     *
      * @return The OutputStream for the file.
      * @throws FileSystemException if an error occurs.
      */
@@ -393,7 +393,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Returns an output stream for writing the content in append mode.
-     * 
+     *
      * @param bAppend true if the data written should be appended.
      * @return The OutputStream for the file.
      * @throws FileSystemException if an error occurs.
@@ -421,7 +421,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * Closes all resources used by the content, including all streams, readers and writers.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -660,7 +660,7 @@ public final class DefaultFileContent implements FileContent {
 
     /**
      * get the content info. e.g. content-type, content-encoding
-     * 
+     *
      * @return The FileContentInfo.
      * @throws FileSystemException if an error occurs.
      */

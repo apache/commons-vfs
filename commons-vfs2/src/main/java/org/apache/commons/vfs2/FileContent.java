@@ -43,7 +43,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 public interface FileContent extends Closeable {
     /**
      * Returns the file which this is the content of.
-     * 
+     *
      * @return The FileObject this is the content of.
      */
     FileObject getFile();
@@ -85,7 +85,7 @@ public interface FileContent extends Closeable {
 
     /**
      * Returns a read-only map of this file's attributes.
-     * 
+     *
      * @return The attribute Map.
      * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
@@ -207,7 +207,7 @@ public interface FileContent extends Closeable {
 
     /**
      * get the content info. e.g. type, encoding, ...
-     * 
+     *
      * @return the FileContentInfo
      * @throws FileSystemException if an error occurs.
      */
@@ -215,7 +215,7 @@ public interface FileContent extends Closeable {
 
     /**
      * check if this file has open streams.
-     * 
+     *
      * @return true if the file is open, false otherwise.
      */
     boolean isOpen();

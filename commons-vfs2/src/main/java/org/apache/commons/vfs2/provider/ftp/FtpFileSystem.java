@@ -79,7 +79,7 @@ public class FtpFileSystem extends AbstractFileSystem {
 
     /**
      * Cleans up the connection to the server.
-     * 
+     *
      * @param client The FtpClient.
      */
     private void closeConnection(final FtpClient client) {
@@ -96,7 +96,7 @@ public class FtpFileSystem extends AbstractFileSystem {
 
     /**
      * Creates an FTP client to use.
-     * 
+     *
      * @return An FTPCleint.
      * @throws FileSystemException if an error occurs.
      */
@@ -112,7 +112,7 @@ public class FtpFileSystem extends AbstractFileSystem {
 
     /**
      * Get the wrapper to access this file system.
-     * 
+     *
      * @return new instance.
      * @throws FileSystemException if any error occurs.
      * @since 2.1
@@ -123,7 +123,7 @@ public class FtpFileSystem extends AbstractFileSystem {
 
     /**
      * Returns an FTP client after use.
-     * 
+     *
      * @param client The FTPClient.
      */
     public void putClient(final FtpClient client) {

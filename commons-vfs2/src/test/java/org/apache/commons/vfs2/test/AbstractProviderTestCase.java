@@ -86,7 +86,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
 
     /**
      * creates a new uninitialized file system manager
-     * 
+     *
      * @throws Exception
      */
     protected DefaultFileSystemManager createManager() throws Exception {
@@ -141,7 +141,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
 
     /**
      * Sets the write test folder.
-     * 
+     *
      * @param folder
      */
     protected void setWriteFolder(final FileObject folder) {
@@ -275,7 +275,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
 
     /**
      * Builds the expected structure of the read tests folder.
-     * 
+     *
      * @throws FileSystemException (possibly)
      */
     protected FileInfo buildExpectedStructure() throws FileSystemException {

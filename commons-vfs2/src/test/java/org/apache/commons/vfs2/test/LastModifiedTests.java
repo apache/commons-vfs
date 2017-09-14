@@ -51,7 +51,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
 
     /**
      * Tests FileSystem#getLastModTimeAccuracy for sane values.
-     * 
+     *
      * @throws FileSystemException if error occurred
      */
     public void testGetAccurary() throws FileSystemException {
@@ -65,7 +65,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
 
     /**
      * Tests getting the last modified time of a folder.
-     * 
+     *
      * @throws FileSystemException if error occurred
      */
     public void testGetLastModifiedFolder() throws FileSystemException {
@@ -75,7 +75,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
 
     /**
      * Tests getting the last modified time of a file.
-     * 
+     *
      * @throws FileSystemException if error occurred
      */
     public void testGetLastModifiedFile() throws FileSystemException {
@@ -85,7 +85,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
 
     /**
      * Tests setting the last modified time of a folder.
-     * 
+     *
      * @throws FileSystemException if error occurred
      */
     public void testSetLastModifiedFolder() throws FileSystemException {
@@ -104,7 +104,7 @@ public class LastModifiedTests extends AbstractProviderTestCase {
 
     /**
      * Tests setting the last modified time of file.
-     * 
+     *
      * @throws FileSystemException if error occurred
      */
     public void testSetLastModifiedFile() throws FileSystemException {

@@ -24,7 +24,7 @@ import java.io.File;
 public interface FileSystem {
     /**
      * Returns the root file of this file system.
-     * 
+     *
      * @return The root FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -32,14 +32,14 @@ public interface FileSystem {
 
     /**
      * Returns the name of the root file of this file system. The root name always contains a path String of "/".
-     * 
+     *
      * @return the root FileName.
      */
     FileName getRootName();
 
     /**
      * The root URI passed as a file system option or obtained from the rootName.
-     * 
+     *
      * @return The root URI.
      */
     String getRootURI();
@@ -159,14 +159,14 @@ public interface FileSystem {
 
     /**
      * Returns the FileSystemOptions used to instantiate this filesystem.
-     * 
+     *
      * @return The FileSystemOptions.
      */
     FileSystemOptions getFileSystemOptions();
 
     /**
      * Returns a reference to the FileSytemManager.
-     * 
+     *
      * @return The FileSystemManager.
      */
     FileSystemManager getFileSystemManager();

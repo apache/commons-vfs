@@ -152,7 +152,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Returns the logger used by this manager.
-     * 
+     *
      * @return the Logger.
      */
     protected Log getLogger() {
@@ -238,7 +238,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     /**
      * Sets the default provider. This is the provider that will handle URI with unknown schemes. The manager takes care
      * of all lifecycle management.
-     * 
+     *
      * @param provider The FileProvider.
      * @throws FileSystemException if an error occurs setting the provider.
      */
@@ -249,7 +249,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Returns the filesCache implementation used to cache files.
-     * 
+     *
      * @return The FilesCache.
      */
     @Override
@@ -295,7 +295,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Get the cache strategy used.
-     * 
+     *
      * @return The CacheStrategy.
      */
     @Override
@@ -305,7 +305,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Get the file object decorator used.
-     * 
+     *
      * @return The decorator.
      */
     @Override
@@ -315,7 +315,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * The constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
-     * 
+     *
      * @return The decorator's Constructor.
      */
     @Override
@@ -351,7 +351,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * get the fileContentInfoFactory used to determine the infos of a file content.
-     * 
+     *
      * @return The FileContentInfoFactory.
      */
     @Override
@@ -591,7 +591,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Sets the base file to use when resolving relative URI.
-     * 
+     *
      * @param baseFile The new base FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -601,7 +601,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Sets the base file to use when resolving relative URI.
-     * 
+     *
      * @param baseFile The new base FileObject.
      * @throws FileSystemException if an error occurs.
      */
@@ -611,7 +611,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Returns the base file used to resolve relative URI.
-     * 
+     *
      * @return The FileObject that represents the base file.
      * @throws FileSystemException if an error occurs.
      */
@@ -622,7 +622,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Locates a file by URI.
-     * 
+     *
      * @param uri The URI of the file to locate.
      * @return The FileObject for the located file.
      * @throws FileSystemException if the file cannot be located or an error occurs.
@@ -634,7 +634,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Locate a file by URI, use the FileSystemOptions for file-system creation.
-     * 
+     *
      * @param uri The URI of the file to locate.
      * @param fileSystemOptions The options for the FileSystem.
      * @return The FileObject for the located file.
@@ -666,7 +666,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Resolves a URI, relative to a base file.
-     * 
+     *
      * @param baseFile The base FileOjbect to use to locate the file.
      * @param uri The URI of the file to locate.
      * @return The FileObject for the located file.
@@ -679,7 +679,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Resolves a URI, relative to a base file with specified FileSystem configuration.
-     * 
+     *
      * @param baseFile The base file.
      * @param uri The file name. May be a fully qualified or relative path or a url.
      * @param fileSystemOptions Options to pass to the file system.
@@ -738,7 +738,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * Resolves a name, relative to the file. If the supplied name is an absolute path, then it is resolved relative to
      * the root of the file system that the file belongs to. If a relative name is supplied, then it is resolved
      * relative to this file name.
-     * 
+     *
      * @param root The base FileName.
      * @param path The path to the file relative to the base FileName or an absolute path.
      * @return The constructed FileName.
@@ -826,7 +826,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Resolve the uri to a filename.
-     * 
+     *
      * @param uri The URI to resolve.
      * @return The FileName of the file.
      * @throws FileSystemException if an error occurs.
@@ -874,7 +874,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Converts a local file into a {@link FileObject}.
-     * 
+     *
      * @param file The input File.
      * @return the create FileObject
      * @throws FileSystemException if an error occurs creating the file.
@@ -886,7 +886,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Creates a layered file system.
-     * 
+     *
      * @param scheme The scheme to use.
      * @param file The FileObject.
      * @return The layered FileObject.
@@ -903,7 +903,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Creates a layered file system.
-     * 
+     *
      * @param file The FileObject to use.
      * @return The layered FileObject.
      * @throws FileSystemException if an error occurs.
@@ -932,7 +932,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Creates a virtual file system.
-     * 
+     *
      * @param rootFile The FileObject to use.
      * @return The FileObject in the VirtualFileSystem.
      * @throws FileSystemException if an error occurs creating the file.
@@ -944,7 +944,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Creates an empty virtual file system.
-     * 
+     *
      * @param rootUri The URI to use as the root of the FileSystem.
      * @return A FileObject in the virtual FileSystem.
      * @throws FileSystemException if an error occurs.
@@ -972,7 +972,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Get the URLStreamHandlerFactory.
-     * 
+     *
      * @return The URLStreamHandlerFactory.
      */
     @Override
@@ -1032,7 +1032,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Get the schemes currently available.
-     * 
+     *
      * @return The array of scheme names.
      */
     @Override
@@ -1061,7 +1061,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
     /**
      * Get the configuration builder for the given scheme.
-     * 
+     *
      * @param scheme The scheme to locate.
      * @return The FileSystemConfigBuilder for the scheme.
      * @throws FileSystemException if the given scheme is not konwn

@@ -113,10 +113,10 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
      * public synchronized int available() throws IOException { long realFileEnd = fileEnd; if (realFileEnd < 0) {
      * realFileEnd = fo.getContent().getSize(); } if (realFileEnd < 0) { // we cant determine if there is really
      * something available return 8192; }
-     * 
+     *
      * long available = realFileEnd - (fileStart + pos); if (available > Integer.MAX_VALUE) { return Integer.MAX_VALUE;
      * }
-     * 
+     *
      * return (int) available; }
      */
 

@@ -32,7 +32,7 @@ public class LayeredFileName extends AbstractFileName {
 
     /**
      * Returns the URI of the outer file.
-     * 
+     *
      * @return The FileName.
      */
     public FileName getOuterName() {
@@ -41,7 +41,7 @@ public class LayeredFileName extends AbstractFileName {
 
     /**
      * Create a FileName.
-     * 
+     *
      * @param path The file URI.
      * @param type The FileType.
      * @return The FileName.

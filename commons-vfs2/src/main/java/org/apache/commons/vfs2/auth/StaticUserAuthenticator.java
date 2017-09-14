@@ -66,7 +66,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -82,7 +82,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -117,7 +117,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -150,7 +150,7 @@ public class StaticUserAuthenticator implements UserAuthenticator, Comparable<St
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @since 2.0
      */
     @Override

@@ -32,14 +32,14 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
 
     /**
      * The schemes known.
-     * 
+     *
      * @return Array of supported schemes.
      */
     protected abstract String[] getSchemes();
 
     /**
      * Locates a file object, by absolute URI.
-     * 
+     *
      * @param baseFile The base FileObject.
      * @param uri The file to find.
      * @param fileSystemOptions The options for the FileSystem.

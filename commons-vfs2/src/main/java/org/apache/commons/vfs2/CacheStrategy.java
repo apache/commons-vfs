@@ -47,7 +47,7 @@ public enum CacheStrategy {
 
     /**
      * Returns the name of the scope.
-     * 
+     *
      * @return the name of the scope.
      */
     @Override
@@ -57,7 +57,7 @@ public enum CacheStrategy {
 
     /**
      * Returns the name of the scope.
-     * 
+     *
      * @return the name of the scope.
      */
     public String getName() {

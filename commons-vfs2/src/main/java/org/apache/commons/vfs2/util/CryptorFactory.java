@@ -18,7 +18,7 @@ package org.apache.commons.vfs2.util;
 
 /**
  * Factory to create an instance of a Cryptor.
- * 
+ *
  * @since 2.0
  */
 public final class CryptorFactory {
@@ -38,7 +38,7 @@ public final class CryptorFactory {
 
     /**
      * Allows the Cryptor class to be set programmatically.
-     * 
+     *
      * @param cryptor The Cryptor.
      */
     public static synchronized void setCryptor(final Cryptor cryptor) {
@@ -48,7 +48,7 @@ public final class CryptorFactory {
     /**
      * Return the Cryptor. If one has not been previously set, create it. The Cryptor class can be set by setting the
      * "org.apache.commons.vfs2.cryptor" System property to the name of the Cryptor class.
-     * 
+     *
      * @return The Cryptor.
      */
     public static synchronized Cryptor getCryptor() {

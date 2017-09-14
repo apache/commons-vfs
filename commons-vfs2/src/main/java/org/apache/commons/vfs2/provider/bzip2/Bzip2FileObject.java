@@ -33,7 +33,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
     /**
      * Deprecated since 2.1.
-     * 
+     *
      * @deprecated Use {@link #Bzip2FileObject(AbstractFileName, FileObject, Bzip2FileSystem)} instead.
      */
     @Deprecated

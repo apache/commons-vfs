@@ -61,7 +61,7 @@ public enum FileType {
 
     /**
      * Returns the name of this type.
-     * 
+     *
      * @return The name of this type.
      */
     @Override
@@ -71,7 +71,7 @@ public enum FileType {
 
     /**
      * Returns the name of this type.
-     * 
+     *
      * @return The name of the type.
      */
     public String getName() {
@@ -80,7 +80,7 @@ public enum FileType {
 
     /**
      * Returns true if files of this type may contain other files.
-     * 
+     *
      * @return true if files can contain other files.
      */
     public boolean hasChildren() {
@@ -89,7 +89,7 @@ public enum FileType {
 
     /**
      * Returns true if files of this type may have data content.
-     * 
+     *
      * @return true if files can have content.
      */
     public boolean hasContent() {
@@ -98,7 +98,7 @@ public enum FileType {
 
     /**
      * Returns true if files of this type may have attributes.
-     * 
+     *
      * @return true if files can have attributes
      */
     public boolean hasAttributes() {

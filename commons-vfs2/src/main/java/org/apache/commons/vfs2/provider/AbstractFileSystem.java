@@ -107,7 +107,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Initializes this component.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -160,7 +160,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Returns the name of the root of this file system.
-     * 
+     *
      * @return the root FileName.
      */
     @Override
@@ -170,7 +170,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Returns the root URI specified for this file System.
-     * 
+     *
      * @return The root URI used in this file system.
      * @since 2.0
      */
@@ -181,7 +181,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Adds a file object to the cache.
-     * 
+     *
      * @param file the file to add.
      */
     protected void putFileToCache(final FileObject file) {
@@ -200,7 +200,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Returns a cached file.
-     * 
+     *
      * @param name name to search for.
      * @return file object or null if not found.
      */
@@ -210,7 +210,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Remove a cached file.
-     * 
+     *
      * @param name The file name to remove.
      */
     protected void removeFileFromCache(final FileName name) {
@@ -219,7 +219,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Determines if this file system has a particular capability.
-     * 
+     *
      * @param capability the Capability to check for.
      * @return true if the FileSystem has the Capability, false otherwise.
      */
@@ -230,7 +230,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Retrieves the attribute with the specified name. The default implementation simply throws an exception.
-     * 
+     *
      * @param attrName The name of the attribute.
      * @return the Object associated with the attribute or null if no object is.
      * @throws FileSystemException if an error occurs.
@@ -242,7 +242,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Sets the attribute with the specified name. The default implementation simply throws an exception.
-     * 
+     *
      * @param attrName the attribute name.
      * @param value The object to associate with the attribute.
      * @throws FileSystemException if an error occurs.
@@ -254,7 +254,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Returns the parent layer if this is a layered file system.
-     * 
+     *
      * @return The FileObject for the parent layer.
      * @throws FileSystemException if an error occurs.
      */
@@ -265,7 +265,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Returns the root file of this file system.
-     * 
+     *
      * @return The root FileObject of the FileSystem
      * @throws FileSystemException if an error occurs.
      */
@@ -276,7 +276,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Finds a file in this file system.
-     * 
+     *
      * @param nameStr The name of the file to resolve.
      * @return The located FileObject or null if none could be located.
      * @throws FileSystemException if an error occurs.
@@ -290,7 +290,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Finds a file in this file system.
-     * 
+     *
      * @param name The name of the file to locate.
      * @return The located FileObject or null if none could be located.
      * @throws FileSystemException if an error occurs.
@@ -365,7 +365,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Creates a temporary local copy of a file and its descendants.
-     * 
+     *
      * @param file The FileObject to replicate.
      * @param selector The FileSelector.
      * @return The replicated File.
@@ -386,7 +386,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Return the FileSystemOptions used to instantiate this filesystem.
-     * 
+     *
      * @return the FileSystemOptions.
      */
     @Override
@@ -396,7 +396,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Return the FileSystemManager used to instantiate this filesystem.
-     * 
+     *
      * @return the FileSystemManager.
      */
     @Override
@@ -428,7 +428,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Adds a junction to this file system.
-     * 
+     *
      * @param junctionPoint The junction point.
      * @param targetFile The target to add.
      * @throws FileSystemException if an error occurs.
@@ -440,7 +440,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Removes a junction from this file system.
-     * 
+     *
      * @param junctionPoint The junction point.
      * @throws FileSystemException if an error occurs
      */
@@ -451,7 +451,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Adds a listener on a file in this file system.
-     * 
+     *
      * @param file The FileObject to be monitored.
      * @param listener The FileListener
      */
@@ -469,7 +469,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Removes a listener from a file in this file system.
-     * 
+     *
      * @param file The FileObject to be monitored.
      * @param listener The FileListener
      */
@@ -488,7 +488,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Fires a file create event.
-     * 
+     *
      * @param file The FileObject that was created.
      */
     public void fireFileCreated(final FileObject file) {
@@ -497,7 +497,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * Fires a file delete event.
-     * 
+     *
      * @param file The FileObject that was deleted.
      */
     public void fireFileDeleted(final FileObject file) {
@@ -597,7 +597,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
 
     /**
      * check if this filesystem has open streams.
-     * 
+     *
      * @return true if the FileSystem has open streams.
      */
     public boolean isOpen() {

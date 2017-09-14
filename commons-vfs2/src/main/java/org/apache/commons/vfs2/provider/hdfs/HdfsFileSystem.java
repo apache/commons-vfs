@@ -90,7 +90,7 @@ public class HdfsFileSystem extends AbstractFileSystem {
 
     /**
      * Resolve FileName into FileObject.
-     * 
+     *
      * @param name The name of a file on the HdfsFileSystem.
      * @return resolved FileObject.
      * @throws FileSystemException if an error occurred.

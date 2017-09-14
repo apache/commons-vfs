@@ -46,7 +46,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
 
     /**
      * Sets the details for this file object.
-     * 
+     *
      * @param entry ZIP information related to this file.
      */
     protected void setZipEntry(final ZipEntry entry) {
@@ -69,7 +69,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
      * TODO: Shouldn't this method have package-only visibility? Cannot change this without breaking binary
      * compatibility.
      * </p>
-     * 
+     *
      * @param childName The name of the child.
      */
     public void attachChild(final FileName childName) {

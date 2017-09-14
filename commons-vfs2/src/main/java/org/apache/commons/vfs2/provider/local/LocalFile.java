@@ -199,7 +199,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
 
     /**
      * Sets the last modified time of this file.
-     * 
+     *
      * @since 2.0
      */
     @Override
@@ -256,7 +256,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
 
     /**
      * Returns the URI of the file.
-     * 
+     *
      * @return The URI of the file.
      */
     @Override

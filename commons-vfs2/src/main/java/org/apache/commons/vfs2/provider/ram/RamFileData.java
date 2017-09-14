@@ -63,7 +63,7 @@ class RamFileData implements Serializable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param name The file name.
      */
     public RamFileData(final FileName name) {

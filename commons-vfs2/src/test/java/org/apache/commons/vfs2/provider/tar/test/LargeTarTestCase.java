@@ -87,7 +87,7 @@ public class LargeTarTestCase {
      * public void testFileCheck() throws Exception { String[] expectedFiles = { "plugins.tsv", "languages.tsv",
      * "browser_type.tsv", "timezones.tsv", "color_depth.tsv", "resolution.tsv", "connection_type.tsv",
      * "search_engines.tsv", "javascript_version.tsv", "operating_systems.tsv", "country.tsv", "browser.tsv" };
-     * 
+     *
      * fileCheck(expectedFiles, "tar:file://c:/temp/data/data/data-small.tar"); }
      */
 

@@ -24,7 +24,7 @@ package org.apache.commons.vfs2;
 public interface UserAuthenticator {
     /**
      * Queries the given type from the user.
-     * 
+     *
      * @param types An array containing the user's credentials
      * @return The UserAuthenticationData.
      */

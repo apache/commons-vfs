@@ -147,7 +147,7 @@ public enum Capability {
     /**
      * Provides directories which allows you to read its content through
      * {@link org.apache.commons.vfs2.FileContent#getInputStream()}.
-     * 
+     *
      * @since 2.0
      */
     DIRECTORY_READ_CONTENT;

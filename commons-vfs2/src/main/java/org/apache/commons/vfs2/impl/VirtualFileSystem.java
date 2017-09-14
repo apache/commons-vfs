@@ -87,7 +87,7 @@ public class VirtualFileSystem extends AbstractFileSystem {
 
     /**
      * Adds a junction to this file system.
-     * 
+     *
      * @param junctionPoint The location of the junction.
      * @param targetFile The target file to base the junction on.
      * @throws FileSystemException if an error occurs.
@@ -137,7 +137,7 @@ public class VirtualFileSystem extends AbstractFileSystem {
 
     /**
      * Removes a junction from this file system.
-     * 
+     *
      * @param junctionPoint The junction to remove.
      * @throws FileSystemException if an error occurs.
      */
@@ -152,7 +152,7 @@ public class VirtualFileSystem extends AbstractFileSystem {
 
     /**
      * Locates the junction point for the junction containing the given file.
-     * 
+     *
      * @param name The FileName.
      * @return the FileName where the junction occurs.
      */

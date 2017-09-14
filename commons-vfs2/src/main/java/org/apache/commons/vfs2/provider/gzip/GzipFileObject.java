@@ -32,7 +32,7 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
     /**
      * Deprecated since 2.1.
-     * 
+     *
      * @deprecated Use {@link #GzipFileObject(AbstractFileName, FileObject, GzipFileSystem)} instead.
      */
     @Deprecated

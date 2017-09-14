@@ -45,7 +45,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
 
     /**
      * The user name to be associated with changes to the file.
-     * 
+     *
      * @param opts The FileSystem options
      * @param creatorName The creator name to be associated with the file.
      */
@@ -55,7 +55,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
 
     /**
      * Return the user name to be associated with changes to the file.
-     * 
+     *
      * @param opts The FileSystem options
      * @return The creatorName.
      */
@@ -78,7 +78,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
 
     /**
      * Whether to use versioning.
-     * 
+     *
      * @param opts The FileSystem options.
      * @param versioning true if versioning should be enabled.
      */
@@ -88,7 +88,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
 
     /**
      * The cookies to add to the request.
-     * 
+     *
      * @param opts The FileSystem options.
      * @return true if versioning is enabled.
      */

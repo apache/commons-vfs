@@ -48,7 +48,7 @@ public class GenericFileName extends AbstractFileName {
 
     /**
      * Returns the user name part of this name.
-     * 
+     *
      * @return The user name.
      */
     public String getUserName() {
@@ -57,7 +57,7 @@ public class GenericFileName extends AbstractFileName {
 
     /**
      * Returns the password part of this name.
-     * 
+     *
      * @return The password.
      */
     public String getPassword() {
@@ -66,7 +66,7 @@ public class GenericFileName extends AbstractFileName {
 
     /**
      * Returns the host name part of this name.
-     * 
+     *
      * @return The host name.
      */
     public String getHostName() {
@@ -75,7 +75,7 @@ public class GenericFileName extends AbstractFileName {
 
     /**
      * Returns the port part of this name.
-     * 
+     *
      * @return The port number.
      */
     public int getPort() {
@@ -84,7 +84,7 @@ public class GenericFileName extends AbstractFileName {
 
     /**
      * Returns the default port for this file name.
-     * 
+     *
      * @return The default port number.
      */
     public int getDefaultPort() {
@@ -93,7 +93,7 @@ public class GenericFileName extends AbstractFileName {
 
     /**
      * Create a FileName.
-     * 
+     *
      * @param absPath The absolute path.
      * @param type The FileType.
      * @return The created FileName.

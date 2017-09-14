@@ -28,7 +28,7 @@ public abstract class AbstractVfsComponent implements VfsComponent {
 
     /**
      * Sets the Logger to use for the component.
-     * 
+     *
      * @param log The Log to use.
      */
     @Override
@@ -38,7 +38,7 @@ public abstract class AbstractVfsComponent implements VfsComponent {
 
     /**
      * Sets the context for this file system provider.
-     * 
+     *
      * @param context The VfsComponentContext.
      */
     @Override
@@ -48,7 +48,7 @@ public abstract class AbstractVfsComponent implements VfsComponent {
 
     /**
      * Initializes the component. This implementation does nothing.
-     * 
+     *
      * @throws FileSystemException if an error occurs.
      */
     @Override
@@ -64,7 +64,7 @@ public abstract class AbstractVfsComponent implements VfsComponent {
 
     /**
      * Returns the logger for this file system to use.
-     * 
+     *
      * @return logger for this file system
      */
     protected final Log getLogger() {
@@ -73,7 +73,7 @@ public abstract class AbstractVfsComponent implements VfsComponent {
 
     /**
      * Returns the context for this provider.
-     * 
+     *
      * @return provider context
      */
     protected final VfsComponentContext getContext() {

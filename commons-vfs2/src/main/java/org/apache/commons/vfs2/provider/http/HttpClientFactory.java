@@ -47,7 +47,7 @@ public final class HttpClientFactory {
 
     /**
      * Creates a new connection to the server.
-     * 
+     *
      * @param builder The HttpFileSystemConfigBuilder.
      * @param scheme The protocol.
      * @param hostname The hostname.
