@@ -163,7 +163,7 @@
 -->
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <version.checkstyle>2.13</version.checkstyle>
+    <version.checkstyle>2.17</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <!-- Newer versions of clirr throw an NPE building the site -->
