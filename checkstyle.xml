@@ -160,7 +160,7 @@
           <property name="tokens" value="LITERAL_CATCH"/>
         </module>
         <module name="LeftCurly">
-            <property name="option" value="nl"/>
+            <property name="option" value="eol"/>
         </module>
         <module name="NeedBraces"/>
         <module name="RightCurly">
