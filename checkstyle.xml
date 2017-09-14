@@ -164,7 +164,7 @@
     </module>
     <module name="NeedBraces" />
     <module name="RightCurly">
-      <property name="option" value="alone" />
+      <property name="option" value="same" />
     </module>
 
     <!-- Checks for common coding problems -->
