@@ -28,38 +28,29 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * URL test cases for providers.
  */
-public class UrlTests
-    extends AbstractProviderTestCase
-{
+public class UrlTests extends AbstractProviderTestCase {
     /**
-     * Returns the capabilities required by the tests of this test case.  The
-     * tests are not run if the provider being tested does not support all
-     * the required capabilities.  Return null or an empty array to always
-     * run the tests.
+     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
+     * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]{Capability.URI};
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.URI };
     }
 
     /**
      * Tests url.
      */
-    public void testURL() throws Exception
-    {
+    public void testURL() throws Exception {
         final FileObject file = getReadFolder().resolveFile("some-dir/");
         final URL url = file.getURL();
 
         assertEquals(file.getName().getURI(), url.toExternalForm());
 
         final URL parentURL;
-        try
-        {
+        try {
             parentURL = new URL(url, "..");
-        }
-        catch (final MalformedURLException e)
-        {
+        } catch (final MalformedURLException e) {
             throw e;
         }
         assertEquals(file.getParent().getURL(), parentURL);
@@ -71,8 +62,7 @@ public class UrlTests
     /**
      * Tests content.
      */
-    public void testURLContent() throws Exception
-    {
+    public void testURLContent() throws Exception {
         // Test non-empty file
         FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
@@ -91,8 +81,7 @@ public class UrlTests
     /**
      * Tests content.
      */
-    public void testURLContentProvider() throws Exception
-    {
+    public void testURLContentProvider() throws Exception {
         // Test non-empty file
         final FileObject file = getReadFolder().resolveFile("file1.txt");
         assertTrue(file.exists());
@@ -103,27 +92,24 @@ public class UrlTests
         final FileObject f1 = getManager().resolveFile(uri, options);
         final FileObject f2 = getManager().resolveFile(uri, options);
 
-        assertEquals("Two files resolved by URI must be equals on " + uri,  f1, f2);
-        assertSame("Resolving two times should not produce new filesystem on " + uri, f1.getFileSystem(), f2.getFileSystem());
+        assertEquals("Two files resolved by URI must be equals on " + uri, f1, f2);
+        assertSame("Resolving two times should not produce new filesystem on " + uri, f1.getFileSystem(),
+                f2.getFileSystem());
     }
 
     /**
      * Tests that unknown files have no content.
      */
-    public void testUnknownURL() throws Exception
-    {
+    public void testUnknownURL() throws Exception {
         // Try getting the content of an unknown file
         final FileObject unknownFile = getReadFolder().resolveFile("unknown-file");
         assertFalse(unknownFile.exists());
 
         final URLConnection connection = unknownFile.getURL().openConnection();
-        try
-        {
+        try {
             connection.getInputStream();
             fail();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             assertSameMessage("vfs.provider/read-not-file.error", unknownFile, e);
         }
         assertEquals(-1, connection.getContentLength());

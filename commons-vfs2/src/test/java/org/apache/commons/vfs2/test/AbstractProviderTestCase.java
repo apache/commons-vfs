@@ -39,15 +39,11 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 
 /**
- * File system test cases, which verifies the structure and naming
- * functionality.
+ * File system test cases, which verifies the structure and naming functionality.
  * <p>
- * Works from a base folder, and assumes a particular structure under
- * that base folder.
+ * Works from a base folder, and assumes a particular structure under that base folder.
  */
-public abstract class AbstractProviderTestCase
-    extends AbstractVfsTestCase
-{
+public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
     private FileObject baseFolder;
     private FileObject readFolder;
     private FileObject writeFolder;
@@ -65,20 +61,15 @@ public abstract class AbstractProviderTestCase
     /**
      * Sets the test method.
      */
-    public void setMethod(final Method method)
-    {
+    public void setMethod(final Method method) {
         this.method = method;
     }
 
     /**
      * Configures this test.
      */
-    public void setConfig(final DefaultFileSystemManager manager,
-                          final ProviderTestConfig providerConfig,
-                          final FileObject baseFolder,
-                          final FileObject readFolder,
-                          final FileObject writeFolder)
-    {
+    public void setConfig(final DefaultFileSystemManager manager, final ProviderTestConfig providerConfig,
+            final FileObject baseFolder, final FileObject readFolder, final FileObject writeFolder) {
         this.manager = manager;
         this.providerConfig = providerConfig;
         this.baseFolder = baseFolder;
@@ -89,149 +80,124 @@ public abstract class AbstractProviderTestCase
     /**
      * Returns the file system manager used by this test.
      */
-    protected DefaultFileSystemManager getManager()
-    {
+    protected DefaultFileSystemManager getManager() {
         return manager;
     }
 
     /**
      * creates a new uninitialized file system manager
+     * 
      * @throws Exception
      */
-    protected DefaultFileSystemManager createManager() throws Exception
-    {
+    protected DefaultFileSystemManager createManager() throws Exception {
         final DefaultFileSystemManager fs = getProviderConfig().getDefaultFileSystemManager();
         fs.setFilesCache(getProviderConfig().getFilesCache());
         getProviderConfig().prepare(fs);
-        if (!fs.hasProvider("file"))
-        {
+        if (!fs.hasProvider("file")) {
             fs.addProvider("file", new DefaultLocalFileProvider());
         }
         return fs;
     }
 
     /**
-     * some provider config do some post-initialization in getBaseTestFolder.
-     * This is a hack to allow access to this code for {@code createManager}
+     * some provider config do some post-initialization in getBaseTestFolder. This is a hack to allow access to this
+     * code for {@code createManager}
      */
-    public FileObject getBaseTestFolder(final FileSystemManager fs) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager fs) throws Exception {
         return providerConfig.getBaseTestFolder(fs);
     }
 
-    protected FileSystem getFileSystem()
-    {
+    protected FileSystem getFileSystem() {
         return getReadFolder().getFileSystem();
     }
 
     /**
-     * Returns the base test folder.  This is the parent of both the read
-     * test and write test folders.
+     * Returns the base test folder. This is the parent of both the read test and write test folders.
      */
-    public FileObject getBaseFolder()
-    {
+    public FileObject getBaseFolder() {
         return baseFolder;
     }
 
     /**
      * get the provider configuration
      */
-    public ProviderTestConfig getProviderConfig()
-    {
+    public ProviderTestConfig getProviderConfig() {
         return providerConfig;
     }
 
     /**
      * Returns the read test folder.
      */
-    protected FileObject getReadFolder()
-    {
+    protected FileObject getReadFolder() {
         return readFolder;
     }
 
     /**
      * Returns the write test folder.
      */
-    protected FileObject getWriteFolder()
-    {
+    protected FileObject getWriteFolder() {
         return writeFolder;
     }
 
     /**
      * Sets the write test folder.
+     * 
      * @param folder
      */
-    protected void setWriteFolder(final FileObject folder)
-    {
+    protected void setWriteFolder(final FileObject folder) {
         writeFolder = folder;
     }
 
     /**
-     * Returns the capabilities required by the tests of this test case.  The
-     * tests are not run if the provider being tested does not support all
-     * the required capabilities.  Return null or an empty array to always
-     * run the tests.
+     * Returns the capabilities required by the tests of this test case. The tests are not run if the provider being
+     * tested does not support all the required capabilities. Return null or an empty array to always run the tests.
      * <p>
      * This implementation returns null.
      */
-    protected Capability[] getRequiredCaps()
-    {
+    protected Capability[] getRequiredCaps() {
         return null;
     }
 
     /**
-     * Runs the test.  This implementation short-circuits the test if the
-     * provider being tested does not have the capabilities required by this
-     * test.
+     * Runs the test. This implementation short-circuits the test if the provider being tested does not have the
+     * capabilities required by this test.
      * <p>
      * TODO - Handle negative caps as well - ie, only run a test if the provider does not have certain caps.<br>
      * TODO - Figure out how to remove the test from the TestResult if the test is skipped.
      */
     @Override
-    protected void runTest() throws Throwable
-    {
+    protected void runTest() throws Throwable {
         // Check the capabilities
         final Capability[] caps = getRequiredCaps();
-        if (caps != null)
-        {
-            for (final Capability cap2 : caps)
-            {
+        if (caps != null) {
+            for (final Capability cap2 : caps) {
                 final Capability cap = cap2;
                 final FileSystem fs = readFolder.getFileSystem();
-                if (!fs.hasCapability(cap))
-                {
-//                    String name = fs.getClass().getName();
-//                    int index = name.lastIndexOf('.');
-//                    String fsName = (index > 0) ? name.substring(index + 1) : name;
-//                    System.out.println("skipping " + getName() + " because " +
-//                        fsName + " does not have capability " + cap);
+                if (!fs.hasCapability(cap)) {
+                    // String name = fs.getClass().getName();
+                    // int index = name.lastIndexOf('.');
+                    // String fsName = (index > 0) ? name.substring(index + 1) : name;
+                    // System.out.println("skipping " + getName() + " because " +
+                    // fsName + " does not have capability " + cap);
                     return;
                 }
             }
         }
 
         // Provider has all the capabilities - execute the test
-        if (method != null)
-        {
-            try
-            {
+        if (method != null) {
+            try {
                 method.invoke(this, (Object[]) null);
-            }
-            catch (final InvocationTargetException e)
-            {
+            } catch (final InvocationTargetException e) {
                 throw e.getTargetException();
             }
-        }
-        else
-        {
+        } else {
             super.runTest();
         }
 
-        if (((AbstractFileSystem) readFolder.getFileSystem()).isOpen())
-        {
+        if (((AbstractFileSystem) readFolder.getFileSystem()).isOpen()) {
             String name = "unknown";
-            if (method != null)
-            {
+            if (method != null) {
                 name = method.getName();
             }
 
@@ -240,15 +206,11 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
-     * Asserts that the content of a file is the same as expected. Checks the
-     * length reported by getContentLength() is correct, then reads the content
-     * as a byte stream and compares the result with the expected content.
-     * Assumes files are encoded using UTF-8.
+     * Asserts that the content of a file is the same as expected. Checks the length reported by getContentLength() is
+     * correct, then reads the content as a byte stream and compares the result with the expected content. Assumes files
+     * are encoded using UTF-8.
      */
-    protected void assertSameURLContent(final String expected,
-                                        final URLConnection connection)
-        throws Exception
-    {
+    protected void assertSameURLContent(final String expected, final URLConnection connection) throws Exception {
         // Get file content as a binary stream
         final byte[] expectedBin = expected.getBytes("utf-8");
 
@@ -258,19 +220,15 @@ public abstract class AbstractProviderTestCase
         // Read content into byte array
         final InputStream instr = connection.getInputStream();
         final ByteArrayOutputStream outstr;
-        try
-        {
+        try {
             outstr = new ByteArrayOutputStream();
             final byte[] buffer = new byte[256];
             int nread = 0;
-            while (nread >= 0)
-            {
+            while (nread >= 0) {
                 outstr.write(buffer, 0, nread);
                 nread = instr.read(buffer);
             }
-        }
-        finally
-        {
+        } finally {
             instr.close();
         }
 
@@ -279,15 +237,11 @@ public abstract class AbstractProviderTestCase
     }
 
     /**
-     * Asserts that the content of a file is the same as expected. Checks the
-     * length reported by getSize() is correct, then reads the content as
-     * a byte stream and compares the result with the expected content.
-     * Assumes files are encoded using UTF-8.
+     * Asserts that the content of a file is the same as expected. Checks the length reported by getSize() is correct,
+     * then reads the content as a byte stream and compares the result with the expected content. Assumes files are
+     * encoded using UTF-8.
      */
-    protected void assertSameContent(final String expected,
-                                     final FileObject file)
-        throws Exception
-    {
+    protected void assertSameContent(final String expected, final FileObject file) throws Exception {
         // Check the file exists, and is a file
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());
@@ -303,19 +257,15 @@ public abstract class AbstractProviderTestCase
         // Read content into byte array
         final InputStream instr = content.getInputStream();
         final ByteArrayOutputStream outstr;
-        try
-        {
+        try {
             outstr = new ByteArrayOutputStream(expectedBin.length);
             final byte[] buffer = new byte[256];
             int nread = 0;
-            while (nread >= 0)
-            {
+            while (nread >= 0) {
                 outstr.write(buffer, 0, nread);
                 nread = instr.read(buffer);
             }
-        }
-        finally
-        {
+        } finally {
             instr.close();
         }
 
@@ -325,10 +275,10 @@ public abstract class AbstractProviderTestCase
 
     /**
      * Builds the expected structure of the read tests folder.
+     * 
      * @throws FileSystemException (possibly)
      */
-    protected FileInfo buildExpectedStructure() throws FileSystemException
-    {
+    protected FileInfo buildExpectedStructure() throws FileSystemException {
         // Build the expected structure
         final FileInfo base = new FileInfo(getReadFolder().getName().getBaseName(), FileType.FOLDER);
         base.addFile("file1.txt", FILE1_CONTENT);
@@ -339,17 +289,16 @@ public abstract class AbstractProviderTestCase
         // as we do not know if the current file provider we need to
         // ask it to normalize the name
         // todo: move this into the FileInfo class to do it generally?
-        /* webdav-bug?: didnt manage to get the "?" correctly through webdavlib
-        FileSystemManager fsm = getReadFolder().getFileSystem().getFileSystemManager();
-        FileName fn = fsm.resolveName(getReadFolder().getName(), "file%3ftest.txt");
-        String baseName = fn.getBaseName();
-        base.addFile(baseName, FILE1_CONTENT);
-        */
+        /*
+         * webdav-bug?: didnt manage to get the "?" correctly through webdavlib FileSystemManager fsm =
+         * getReadFolder().getFileSystem().getFileSystemManager(); FileName fn =
+         * fsm.resolveName(getReadFolder().getName(), "file%3ftest.txt"); String baseName = fn.getBaseName();
+         * base.addFile(baseName, FILE1_CONTENT);
+         */
         base.addFile("file space.txt", FILE1_CONTENT);
 
         base.addFile("empty.txt", "");
-        if (addEmptyDir)
-        {
+        if (addEmptyDir) {
             base.addFolder("emptydir");
         }
 
@@ -381,25 +330,20 @@ public abstract class AbstractProviderTestCase
         return base;
     }
 
-    protected void addEmptyDir(final boolean addEmptyDir)
-    {
+    protected void addEmptyDir(final boolean addEmptyDir) {
         this.addEmptyDir = addEmptyDir;
     }
 
-    protected static Test notConfigured(final Class<?> testClass)
-    {
+    protected static Test notConfigured(final Class<?> testClass) {
         return warning(testClass + " is not configured for tests, skipping");
     }
 
-    private static Test warning(final String message)
-    {
-        return new TestCase("warning")
-        {
+    private static Test warning(final String message) {
+        return new TestCase("warning") {
             @Override
-            protected void runTest()
-            {
-                  System.out.println(message);
-               }
-           };
-       }
+            protected void runTest() {
+                System.out.println(message);
+            }
+        };
+    }
 }

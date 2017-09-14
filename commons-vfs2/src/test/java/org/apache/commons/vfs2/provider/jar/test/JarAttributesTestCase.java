@@ -29,7 +29,7 @@ import org.junit.Test;
  * @version $Id$
  */
 public class JarAttributesTestCase {
-    
+
     private void printAttributes(final Map<String, Object> attributes) {
         for (final Map.Entry<String, Object> e : attributes.entrySet()) {
             System.out.println("Key: " + e.getKey() + ", Value: " + e.getValue());

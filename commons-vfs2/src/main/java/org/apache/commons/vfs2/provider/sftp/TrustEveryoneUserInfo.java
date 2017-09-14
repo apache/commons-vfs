@@ -24,39 +24,33 @@ import com.jcraft.jsch.UserInfo;
 /**
  * Helper class to trust a new host.
  */
-public class TrustEveryoneUserInfo implements UserInfo
-{
+public class TrustEveryoneUserInfo implements UserInfo {
     private static final Log log = LogFactory.getLog(TrustEveryoneUserInfo.class);
 
     @Override
-    public String getPassphrase()
-    {
+    public String getPassphrase() {
         return null;
     }
 
     @Override
-    public String getPassword()
-    {
+    public String getPassword() {
         return null;
     }
 
     @Override
-    public boolean promptPassword(final String s)
-    {
+    public boolean promptPassword(final String s) {
         log.info(s + " - Answer: False");
         return false;
     }
 
     @Override
-    public boolean promptPassphrase(final String s)
-    {
+    public boolean promptPassphrase(final String s) {
         log.info(s + " - Answer: False");
         return false;
     }
 
     @Override
-    public boolean promptYesNo(final String s)
-    {
+    public boolean promptYesNo(final String s) {
         log.debug(s + " - Answer: Yes");
 
         // trust
@@ -64,8 +58,7 @@ public class TrustEveryoneUserInfo implements UserInfo
     }
 
     @Override
-    public void showMessage(final String s)
-    {
+    public void showMessage(final String s) {
         log.debug(s);
     }
 }

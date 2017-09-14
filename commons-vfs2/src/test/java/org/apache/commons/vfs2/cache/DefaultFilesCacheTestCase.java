@@ -30,25 +30,20 @@ import junit.framework.Test;
 /**
  * Tests the {@link DefaultFilesCache} using {@link DefaultFilesCacheTests}.
  */
-public class DefaultFilesCacheTestCase
-    extends AbstractProviderTestConfig
-{
-    public static Test suite() throws Exception
-    {
+public class DefaultFilesCacheTestCase extends AbstractProviderTestConfig {
+    public static Test suite() throws Exception {
         final CacheTestSuite suite = new CacheTestSuite(new DefaultFilesCacheTestCase());
         suite.addTests(DefaultFilesCacheTests.class);
         return suite;
     }
 
     @Override
-    public FilesCache getFilesCache()
-    {
+    public FilesCache getFilesCache() {
         return new DefaultFilesCache();
     }
 
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File testDir = AbstractVfsTestCase.getTestDirectoryFile();
         return manager.toFileObject(testDir);
     }

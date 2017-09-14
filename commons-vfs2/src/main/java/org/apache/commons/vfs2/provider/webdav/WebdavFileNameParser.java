@@ -21,19 +21,17 @@ import org.apache.commons.vfs2.provider.http.HttpFileNameParser;
 
 /**
  * Implementation for http. set default port to 80
+ * 
  * @since 2.0
  */
-public class WebdavFileNameParser extends HttpFileNameParser
-{
+public class WebdavFileNameParser extends HttpFileNameParser {
     private static final WebdavFileNameParser INSTANCE = new WebdavFileNameParser();
 
-    public WebdavFileNameParser()
-    {
+    public WebdavFileNameParser() {
         super();
     }
 
-    public static FileNameParser getInstance()
-    {
+    public static FileNameParser getInstance() {
         return INSTANCE;
     }
 }

@@ -19,198 +19,165 @@ package org.apache.commons.vfs2;
 import org.apache.commons.logging.Log;
 
 /**
- * This class is to keep the old logging behaviour (for ant-task) and to be able to
- * correctly use commons-logging.<br>
+ * This class is to keep the old logging behaviour (for ant-task) and to be able to correctly use commons-logging.<br>
  * I hope i could remove it sometimes.
  */
-public final class VfsLog
-{
+public final class VfsLog {
     // static utility class
-    private VfsLog()
-    {
+    private VfsLog() {
     }
 
     /**
      * warning.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void warn(final Log vfslog, final Log commonslog, final String message, final Throwable t)
-    {
-        if (vfslog != null)
-        {
+    public static void warn(final Log vfslog, final Log commonslog, final String message, final Throwable t) {
+        if (vfslog != null) {
             vfslog.warn(message, t);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.warn(message, t);
         }
     }
 
     /**
      * warning.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void warn(final Log vfslog, final Log commonslog, final String message)
-    {
-        if (vfslog != null)
-        {
+    public static void warn(final Log vfslog, final Log commonslog, final String message) {
+        if (vfslog != null) {
             vfslog.warn(message);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.warn(message);
         }
     }
 
     /**
      * debug.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void debug(final Log vfslog, final Log commonslog, final String message)
-    {
-        if (vfslog != null)
-        {
+    public static void debug(final Log vfslog, final Log commonslog, final String message) {
+        if (vfslog != null) {
             vfslog.debug(message);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.debug(message);
         }
     }
 
     /**
      * debug.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void debug(final Log vfslog, final Log commonslog, final String message, final Throwable t)
-    {
-        if (vfslog != null)
-        {
+    public static void debug(final Log vfslog, final Log commonslog, final String message, final Throwable t) {
+        if (vfslog != null) {
             vfslog.debug(message, t);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.debug(message, t);
         }
     }
 
     /**
      * info.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void info(final Log vfslog, final Log commonslog, final String message, final Throwable t)
-    {
-        if (vfslog != null)
-        {
+    public static void info(final Log vfslog, final Log commonslog, final String message, final Throwable t) {
+        if (vfslog != null) {
             vfslog.info(message, t);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.info(message, t);
         }
     }
 
     /**
      * info.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void info(final Log vfslog, final Log commonslog, final String message)
-    {
-        if (vfslog != null)
-        {
+    public static void info(final Log vfslog, final Log commonslog, final String message) {
+        if (vfslog != null) {
             vfslog.info(message);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.info(message);
         }
     }
 
     /**
      * error.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void error(final Log vfslog, final Log commonslog, final String message, final Throwable t)
-    {
-        if (vfslog != null)
-        {
+    public static void error(final Log vfslog, final Log commonslog, final String message, final Throwable t) {
+        if (vfslog != null) {
             vfslog.error(message, t);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.error(message, t);
         }
     }
 
     /**
      * error.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void error(final Log vfslog, final Log commonslog, final String message)
-    {
-        if (vfslog != null)
-        {
+    public static void error(final Log vfslog, final Log commonslog, final String message) {
+        if (vfslog != null) {
             vfslog.error(message);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.error(message);
         }
     }
 
     /**
      * fatal.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      * @param t The exception, if any.
      */
-    public static void fatal(final Log vfslog, final Log commonslog, final String message, final Throwable t)
-    {
-        if (vfslog != null)
-        {
+    public static void fatal(final Log vfslog, final Log commonslog, final String message, final Throwable t) {
+        if (vfslog != null) {
             vfslog.fatal(message, t);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.fatal(message, t);
         }
     }
 
     /**
      * fatal.
+     * 
      * @param vfslog The base component Logger to use.
      * @param commonslog The class specific Logger
      * @param message The message to log.
      */
-    public static void fatal(final Log vfslog, final Log commonslog, final String message)
-    {
-        if (vfslog != null)
-        {
+    public static void fatal(final Log vfslog, final Log commonslog, final String message) {
+        if (vfslog != null) {
             vfslog.fatal(message);
-        }
-        else if (commonslog != null)
-        {
+        } else if (commonslog != null) {
             commonslog.fatal(message);
         }
     }

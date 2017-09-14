@@ -31,8 +31,7 @@ import org.apache.hadoop.fs.Path;
  *
  * @since 2.1
  */
-public class HdfsRandomAccessContent extends AbstractRandomAccessContent
-{
+public class HdfsRandomAccessContent extends AbstractRandomAccessContent {
     private final FSDataInputStream fis;
     private final FileSystem fs;
     private final Path path;
@@ -44,8 +43,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @param fs A Hadoop FileSystem
      * @throws IOException when the path cannot be processed.
      */
-    public HdfsRandomAccessContent(final Path path, final FileSystem fs) throws IOException
-    {
+    public HdfsRandomAccessContent(final Path path, final FileSystem fs) throws IOException {
         super(RandomAccessMode.READ);
         this.fs = fs;
         this.path = path;
@@ -56,8 +54,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see org.apache.commons.vfs2.RandomAccessContent#close()
      */
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         this.fis.close();
     }
 
@@ -65,8 +62,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see org.apache.commons.vfs2.RandomAccessContent#getFilePointer()
      */
     @Override
-    public long getFilePointer() throws IOException
-    {
+    public long getFilePointer() throws IOException {
         return this.fis.getPos();
     }
 
@@ -74,8 +70,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see org.apache.commons.vfs2.RandomAccessContent#getInputStream()
      */
     @Override
-    public InputStream getInputStream() throws IOException
-    {
+    public InputStream getInputStream() throws IOException {
         return this.fis;
     }
 
@@ -83,8 +78,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see org.apache.commons.vfs2.RandomAccessContent#length()
      */
     @Override
-    public long length() throws IOException
-    {
+    public long length() throws IOException {
         return this.fs.getFileStatus(this.path).getLen();
     }
 
@@ -92,8 +86,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readBoolean()
      */
     @Override
-    public boolean readBoolean() throws IOException
-    {
+    public boolean readBoolean() throws IOException {
         return this.fis.readBoolean();
     }
 
@@ -101,8 +94,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readByte()
      */
     @Override
-    public byte readByte() throws IOException
-    {
+    public byte readByte() throws IOException {
         return this.fis.readByte();
     }
 
@@ -110,8 +102,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readChar()
      */
     @Override
-    public char readChar() throws IOException
-    {
+    public char readChar() throws IOException {
         return this.fis.readChar();
     }
 
@@ -119,8 +110,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readDouble()
      */
     @Override
-    public double readDouble() throws IOException
-    {
+    public double readDouble() throws IOException {
         return this.fis.readDouble();
     }
 
@@ -128,8 +118,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readFloat()
      */
     @Override
-    public float readFloat() throws IOException
-    {
+    public float readFloat() throws IOException {
         return this.fis.readFloat();
     }
 
@@ -137,8 +126,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readFully(byte[])
      */
     @Override
-    public void readFully(final byte[] b) throws IOException
-    {
+    public void readFully(final byte[] b) throws IOException {
         throw new UnsupportedOperationException();
     }
 
@@ -146,8 +134,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readFully(byte[], int, int)
      */
     @Override
-    public void readFully(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void readFully(final byte[] b, final int off, final int len) throws IOException {
         throw new UnsupportedOperationException();
     }
 
@@ -155,8 +142,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readInt()
      */
     @Override
-    public int readInt() throws IOException
-    {
+    public int readInt() throws IOException {
         return this.fis.readInt();
     }
 
@@ -165,8 +151,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      */
     @Override
     @SuppressWarnings("deprecation")
-    public String readLine() throws IOException
-    {
+    public String readLine() throws IOException {
         return this.fis.readLine();
     }
 
@@ -174,8 +159,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readLong()
      */
     @Override
-    public long readLong() throws IOException
-    {
+    public long readLong() throws IOException {
         return this.fis.readLong();
     }
 
@@ -183,8 +167,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readShort()
      */
     @Override
-    public short readShort() throws IOException
-    {
+    public short readShort() throws IOException {
         return this.fis.readShort();
     }
 
@@ -192,8 +175,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readUnsignedByte()
      */
     @Override
-    public int readUnsignedByte() throws IOException
-    {
+    public int readUnsignedByte() throws IOException {
         return this.fis.readUnsignedByte();
     }
 
@@ -201,8 +183,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readUnsignedShort()
      */
     @Override
-    public int readUnsignedShort() throws IOException
-    {
+    public int readUnsignedShort() throws IOException {
         return this.fis.readUnsignedShort();
     }
 
@@ -210,8 +191,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#readUTF()
      */
     @Override
-    public String readUTF() throws IOException
-    {
+    public String readUTF() throws IOException {
         return this.fis.readUTF();
     }
 
@@ -219,8 +199,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see org.apache.commons.vfs2.RandomAccessContent#seek(long)
      */
     @Override
-    public void seek(final long pos) throws IOException
-    {
+    public void seek(final long pos) throws IOException {
         this.fis.seek(pos);
     }
 
@@ -228,8 +207,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see org.apache.commons.vfs2.RandomAccessContent#setLength(long)
      */
     @Override
-    public void setLength(final long newLength) throws IOException
-    {
+    public void setLength(final long newLength) throws IOException {
         throw new UnsupportedOperationException();
     }
 
@@ -237,8 +215,7 @@ public class HdfsRandomAccessContent extends AbstractRandomAccessContent
      * @see java.io.DataInput#skipBytes(int)
      */
     @Override
-    public int skipBytes(final int n) throws IOException
-    {
+    public int skipBytes(final int n) throws IOException {
         throw new UnsupportedOperationException();
     }
 

@@ -24,10 +24,8 @@ import org.apache.commons.vfs2.FilesCache;
 /**
  * Tests for {@link NullFilesCache} used by {@link NullFilesCacheTestCase}.
  */
-public class NullFilesCacheTests extends AbstractFilesCacheTestsBase
-{
-    public void testFilesCache() throws Exception
-    {
+public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
+    public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
@@ -37,8 +35,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase
     }
 
     @Override
-    public void testBasicCacheOps() throws Exception
-    {
+    public void testBasicCacheOps() throws Exception {
         // the basic test looks different for a null cache:
 
         final FilesCache cache = getManager().getFilesCache();
@@ -59,9 +56,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase
         assertNull(cache.getFile(fs, fn));
     }
 
-
-    public void testClass()
-    {
+    public void testClass() {
         assertTrue(getManager().getFilesCache() instanceof NullFilesCache);
     }
 }

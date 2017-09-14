@@ -19,8 +19,7 @@ package org.apache.commons.vfs2;
 /**
  * Listens for changes to a file.
  */
-public interface FileListener
-{
+public interface FileListener {
     /**
      * Called when a file is created.
      *

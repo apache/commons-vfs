@@ -34,20 +34,16 @@ import org.junit.Test;
  *
  * @since 2.1
  */
-public class GetContentInfoFunctionalTest
-{
+public class GetContentInfoFunctionalTest {
 
     /**
      * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
      *
-     * @throws FileSystemException
-     *             thrown when the getContentInfo API fails.
-     * @throws MalformedURLException
-     *             thrown when the System environment contains an invalid URL for an HTTPS proxy.
+     * @throws FileSystemException thrown when the getContentInfo API fails.
+     * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
      */
     @Test
-    public void testGetContentInfo() throws FileSystemException, MalformedURLException
-    {
+    public void testGetContentInfo() throws FileSystemException, MalformedURLException {
         String httpsProxyHost = null;
         int httpsProxyPort = -1;
         final String httpsProxy = System.getenv("https_proxy");

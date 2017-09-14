@@ -24,8 +24,7 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * OutputStream to a RamFile.
  */
-public class RamFileOutputStream extends OutputStream
-{
+public class RamFileOutputStream extends OutputStream {
 
     /**
      * File.
@@ -45,8 +44,7 @@ public class RamFileOutputStream extends OutputStream
     /**
      * @param file The base file.
      */
-    public RamFileOutputStream(final RamFileObject file)
-    {
+    public RamFileOutputStream(final RamFileObject file) {
         super();
         this.file = file;
     }
@@ -57,18 +55,14 @@ public class RamFileOutputStream extends OutputStream
      * @see java.io.DataOutput#write(byte[], int, int)
      */
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         final RamFileData data = this.file.getData();
         final int size = data.size();
         final int newSize = size + len;
         // Store the Exception in order to notify the client again on close()
-        try
-        {
+        try {
             this.file.resize(newSize);
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             this.exception = e;
             throw e;
         }
@@ -81,37 +75,29 @@ public class RamFileOutputStream extends OutputStream
      * @see java.io.DataOutput#write(int)
      */
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         buffer1[0] = (byte) b;
         this.write(buffer1);
     }
 
     @Override
-    public void flush() throws IOException
-    {
+    public void flush() throws IOException {
     }
 
     @Override
-    public void close() throws IOException
-    {
-        if (closed)
-        {
+    public void close() throws IOException {
+        if (closed) {
             return;
         }
         // Notify on close that there was an IOException while writing
-        if (exception != null)
-        {
+        if (exception != null) {
             throw exception;
         }
-        try
-        {
+        try {
             this.closed = true;
             // Close the
             this.file.endOutput();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException(e);
         }
     }

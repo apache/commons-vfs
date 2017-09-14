@@ -29,14 +29,10 @@ import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
 
 /**
- * A file system provider for compressed files.  Provides read-only file
- * systems.
+ * A file system provider for compressed files. Provides read-only file systems.
  */
-public abstract class CompressedFileFileProvider
-    extends AbstractLayeredFileProvider
-{
-    public CompressedFileFileProvider()
-    {
+public abstract class CompressedFileFileProvider extends AbstractLayeredFileProvider {
+    public CompressedFileFileProvider() {
         super();
     }
 
@@ -46,35 +42,25 @@ public abstract class CompressedFileFileProvider
      * @param uri The URI to parse.
      */
     /*
-    public FileName parseUri(final String uri)
-        throws FileSystemException
-    {
-        return ZipFileName.parseUri(uri);
-    }
-    */
+     * public FileName parseUri(final String uri) throws FileSystemException { return ZipFileName.parseUri(uri); }
+     */
 
     /**
-     * Creates a layered file system.  This method is called if the file system
-     * is not cached.
+     * Creates a layered file system. This method is called if the file system is not cached.
      *
      * @param scheme The URI scheme.
-     * @param file   The file to create the file system on top of.
+     * @param file The file to create the file system on top of.
      * @return The file system.
      */
     @Override
-    protected FileSystem doCreateFileSystem(final String scheme,
-                                            final FileObject file,
-                                            final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
-        final FileName name =
-            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
+    protected FileSystem doCreateFileSystem(final String scheme, final FileObject file,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final FileName name = new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return createFileSystem(name, file, fileSystemOptions);
     }
 
     protected abstract FileSystem createFileSystem(final FileName name, final FileObject file,
-                                                   final FileSystemOptions fileSystemOptions)
-        throws FileSystemException;
+            final FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     @Override
     public abstract Collection<Capability> getCapabilities();

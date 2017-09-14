@@ -33,49 +33,34 @@ import org.apache.commons.vfs2.provider.local.LocalFileSystem;
 /**
  * A provider for temporary files.
  */
-public class TemporaryFileProvider
-    extends AbstractFileProvider
-    implements Comparable<Object>
-{
+public class TemporaryFileProvider extends AbstractFileProvider implements Comparable<Object> {
     private File rootFile;
 
     /*
-    private final static FileName tmpFileName = new AbstractFileName("tmp", "/")
-    {
-        protected FileName createName(String absPath)
-        {
-            return null;
-        }
+     * private final static FileName tmpFileName = new AbstractFileName("tmp", "/") { protected FileName
+     * createName(String absPath) { return null; }
+     * 
+     * protected void appendRootUri(StringBuffer buffer) { } };
+     */
 
-        protected void appendRootUri(StringBuffer buffer)
-        {
-        }
-    };
-*/
-
-    public TemporaryFileProvider(final File rootFile)
-    {
+    public TemporaryFileProvider(final File rootFile) {
         this();
 
         this.rootFile = rootFile;
     }
 
-    public TemporaryFileProvider()
-    {
+    public TemporaryFileProvider() {
         super();
     }
 
     @Override
-    public int compareTo(final Object o)
-    {
+    public int compareTo(final Object o) {
         final int h1 = hashCode();
         final int h2 = o.hashCode();
-        if (h1 < h2)
-        {
+        if (h1 < h2) {
             return -1;
         }
-        if (h1 > h2)
-        {
+        if (h1 > h2) {
             return 1;
         }
 
@@ -84,6 +69,7 @@ public class TemporaryFileProvider
 
     /**
      * Locates a file object, by absolute URI.
+     * 
      * @param baseFile The base FileObject.
      * @param uri The URI of the file to be located.
      * @param properties FileSystemOptions to use to locate or create the file.
@@ -92,9 +78,7 @@ public class TemporaryFileProvider
      */
     @Override
     public synchronized FileObject findFile(final FileObject baseFile, final String uri,
-                                            final FileSystemOptions properties)
-        throws FileSystemException
-    {
+            final FileSystemOptions properties) throws FileSystemException {
         // Parse the name
         final StringBuilder buffer = new StringBuilder(uri);
         final String scheme = UriParser.extractScheme(uri, buffer);
@@ -105,16 +89,13 @@ public class TemporaryFileProvider
         // Create the temp file system if it does not exist
         // FileSystem filesystem = findFileSystem( this, (Properties) null);
         FileSystem filesystem = findFileSystem(this, properties);
-        if (filesystem == null)
-        {
-            if (rootFile == null)
-            {
+        if (filesystem == null) {
+            if (rootFile == null) {
                 rootFile = getContext().getTemporaryFileStore().allocateFile("tempfs");
             }
-            final FileName rootName =
-                getContext().parseURI(scheme + ":" + FileName.ROOT_PATH);
+            final FileName rootName = getContext().parseURI(scheme + ":" + FileName.ROOT_PATH);
             // final FileName rootName =
-            //    new LocalFileName(scheme, scheme + ":", FileName.ROOT_PATH);
+            // new LocalFileName(scheme, scheme + ":", FileName.ROOT_PATH);
             filesystem = new LocalFileSystem(rootName, rootFile.getAbsolutePath(), properties);
             addFileSystem(this, filesystem);
         }
@@ -124,8 +105,7 @@ public class TemporaryFileProvider
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return DefaultLocalFileProvider.capabilities;
     }
 }

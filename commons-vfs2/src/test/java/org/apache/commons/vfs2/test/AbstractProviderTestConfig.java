@@ -23,9 +23,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 /**
  * A partial {@link org.apache.commons.vfs2.test.ProviderTestConfig} implementation.
  */
-public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase
-    implements ProviderTestConfig
-{
+public abstract class AbstractProviderTestConfig extends AbstractProviderTestCase implements ProviderTestConfig {
     private FilesCache cache = null;
 
     /**
@@ -37,19 +35,15 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Prepares the file system manager. This implementation does nothing.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
     }
 
     @Override
-    public FilesCache getFilesCache()
-    {
-        if (cache == null)
-        {
+    public FilesCache getFilesCache() {
+        if (cache == null) {
             // cache = new DefaultFilesCache();
             cache = new SoftRefFilesCache();
         }
@@ -58,8 +52,7 @@ public abstract class AbstractProviderTestConfig extends AbstractProviderTestCas
     }
 
     @Override
-    public boolean isFileSystemRootAccessible()
-    {
+    public boolean isFileSystemRootAccessible() {
         return true;
     }
 

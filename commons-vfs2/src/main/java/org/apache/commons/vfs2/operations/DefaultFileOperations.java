@@ -27,8 +27,7 @@ import org.apache.commons.vfs2.FileSystemManager;
  *
  * @since 0.1
  */
-public class DefaultFileOperations implements FileOperations
-{
+public class DefaultFileOperations implements FileOperations {
     /**
      */
     private final FileSystemManager fsmanager;
@@ -41,8 +40,7 @@ public class DefaultFileOperations implements FileOperations
      *
      * @param file The file.
      */
-    public DefaultFileOperations(final FileObject file)
-    {
+    public DefaultFileOperations(final FileObject file) {
         fileObject = file;
 
         fsmanager = file.getFileSystem().getFileSystemManager();
@@ -53,29 +51,24 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException If an error occurs.
      */
     @Override
-    public Class<? extends FileOperation>[] getOperations() throws FileSystemException
-    {
+    public Class<? extends FileOperation>[] getOperations() throws FileSystemException {
 
         final String scheme = fileObject.getURL().getProtocol();
-        final FileOperationProvider[] providers = fsmanager
-                .getOperationProviders(scheme);
+        final FileOperationProvider[] providers = fsmanager.getOperationProviders(scheme);
 
-        if (providers == null)
-        {
+        if (providers == null) {
             return null;
         }
 
         final List<Class<? extends FileOperation>> operations = new ArrayList<>();
 
-        for (final FileOperationProvider provider : providers)
-        {
+        for (final FileOperationProvider provider : providers) {
             provider.collectOperations(operations, fileObject);
         }
 
         @SuppressWarnings("unchecked")
-        final
-        Class<? extends FileOperation>[] array =
-            (Class<? extends FileOperation>[]) operations.toArray(new Class<?>[] {});
+        final Class<? extends FileOperation>[] array = (Class<? extends FileOperation>[]) operations
+                .toArray(new Class<?>[] {});
         return array;
     }
 
@@ -85,36 +78,27 @@ public class DefaultFileOperations implements FileOperations
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileOperation getOperation(final Class<? extends FileOperation> operationClass)
-            throws FileSystemException
-    {
+    public FileOperation getOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException {
 
         final String scheme = fileObject.getURL().getProtocol();
-        final FileOperationProvider[] providers = fsmanager
-                .getOperationProviders(scheme);
+        final FileOperationProvider[] providers = fsmanager.getOperationProviders(scheme);
 
-        if (providers == null)
-        {
-            throw new FileSystemException(
-                    "vfs.operation/operation-not-supported.error", operationClass);
+        if (providers == null) {
+            throw new FileSystemException("vfs.operation/operation-not-supported.error", operationClass);
         }
 
         FileOperation resultOperation = null;
 
-        for (final FileOperationProvider provider : providers)
-        {
+        for (final FileOperationProvider provider : providers) {
             resultOperation = provider.getOperation(fileObject, operationClass);
 
-            if (resultOperation != null)
-            {
+            if (resultOperation != null) {
                 break;
             }
         }
 
-        if (resultOperation == null)
-        {
-            throw new FileSystemException(
-                    "vfs.operation/operation-not-supported.error", operationClass);
+        if (resultOperation == null) {
+            throw new FileSystemException("vfs.operation/operation-not-supported.error", operationClass);
         }
 
         return resultOperation;
@@ -122,24 +106,19 @@ public class DefaultFileOperations implements FileOperations
 
     /**
      * @param operationClass the operation's class.
-     * @return true if the operation of specified class is supported for current
-     *         FileObject and false otherwise.
+     * @return true if the operation of specified class is supported for current FileObject and false otherwise.
      *
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean hasOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException
-    {
+    public boolean hasOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException {
         final Class<? extends FileOperation>[] operations = getOperations();
-        if (operations == null)
-        {
+        if (operations == null) {
             return false;
         }
 
-        for (final Class<? extends FileOperation> operation : operations)
-        {
-            if (operationClass.isAssignableFrom(operation))
-            {
+        for (final Class<? extends FileOperation> operation : operations) {
+            if (operationClass.isAssignableFrom(operation)) {
                 return true;
             }
         }

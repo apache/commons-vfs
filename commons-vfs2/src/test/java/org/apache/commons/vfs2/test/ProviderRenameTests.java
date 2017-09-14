@@ -28,32 +28,20 @@ import org.apache.commons.vfs2.Selectors;
 /**
  * File system test that check that a file system can be renamed.
  */
-public class ProviderRenameTests
-    extends AbstractProviderTestCase
-{
+public class ProviderRenameTests extends AbstractProviderTestCase {
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.CREATE,
-            Capability.DELETE,
-            Capability.GET_TYPE,
-            Capability.LIST_CHILDREN,
-            Capability.READ_CONTENT,
-            Capability.WRITE_CONTENT,
-            Capability.RENAME
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+                Capability.READ_CONTENT, Capability.WRITE_CONTENT, Capability.RENAME };
     }
 
     /**
      * Sets up a scratch folder for the test to use.
      */
-    protected FileObject createScratchFolder() throws Exception
-    {
+    protected FileObject createScratchFolder() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
@@ -64,8 +52,7 @@ public class ProviderRenameTests
     }
 
     private void moveFile(final FileObject scratchFolder, final FileObject file, final String content)
-            throws FileSystemException, Exception
-    {
+            throws FileSystemException, Exception {
         final FileObject fileMove = scratchFolder.resolveFile("file1move.txt");
         assertTrue(!fileMove.exists());
 
@@ -81,19 +68,15 @@ public class ProviderRenameTests
         assertTrue(fileMove.delete());
     }
 
-    private String createTestFile(final FileObject file) throws FileSystemException, IOException,
-            UnsupportedEncodingException, Exception
-    {
+    private String createTestFile(final FileObject file)
+            throws FileSystemException, IOException, UnsupportedEncodingException, Exception {
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
 
         final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
+        try {
             os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os.close();
         }
         assertSameContent(content, file);
@@ -103,8 +86,7 @@ public class ProviderRenameTests
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
-    public void testRenameFile() throws Exception
-    {
+    public void testRenameFile() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -122,8 +104,7 @@ public class ProviderRenameTests
      * <P>
      * This fails with VFS-558, but only with a CacheStrategy.ON_CALL.
      */
-    public void testRenameFileIntoEmptyFolder() throws Exception
-    {
+    public void testRenameFileIntoEmptyFolder() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -145,8 +126,7 @@ public class ProviderRenameTests
      *
      * See [VFS-298] FTP: Exception is thrown when renaming a file.
      */
-    public void testRenameFileAndLeaveFolderEmpty() throws Exception
-    {
+    public void testRenameFileAndLeaveFolderEmpty() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
         final FileObject folder = scratchFolder.resolveFile("folder");
         folder.createFolder();

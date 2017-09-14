@@ -25,14 +25,12 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
  *
  * @since 2.0
  */
-public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder
-{
+public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBuilder {
     private static final WebdavFileSystemConfigBuilder BUILDER = new WebdavFileSystemConfigBuilder();
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = false;
 
-    private WebdavFileSystemConfigBuilder()
-    {
+    private WebdavFileSystemConfigBuilder() {
         super("webdav.");
     }
 
@@ -41,63 +39,60 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      *
      * @return the singleton builder.
      */
-    public static HttpFileSystemConfigBuilder getInstance()
-    {
+    public static HttpFileSystemConfigBuilder getInstance() {
         return BUILDER;
     }
 
     /**
      * The user name to be associated with changes to the file.
+     * 
      * @param opts The FileSystem options
      * @param creatorName The creator name to be associated with the file.
      */
-    public void setCreatorName(final FileSystemOptions opts, final String creatorName)
-    {
+    public void setCreatorName(final FileSystemOptions opts, final String creatorName) {
         setParam(opts, "creatorName", creatorName);
     }
 
     /**
      * Return the user name to be associated with changes to the file.
+     * 
      * @param opts The FileSystem options
      * @return The creatorName.
      */
-    public String getCreatorName(final FileSystemOptions opts)
-    {
+    public String getCreatorName(final FileSystemOptions opts) {
         return getString(opts, "creatorName");
     }
 
     /**
      * Gets whether to follow redirects for the connection.
      *
-     * @param opts
-     *            The FileSystem options.
+     * @param opts The FileSystem options.
      * @return {@code true} to follow redirects, {@code false} not to.
      * @see #setFollowRedirect
      * @since 2.1
      */
     @Override
-    public boolean getFollowRedirect(final FileSystemOptions opts)
-    {
+    public boolean getFollowRedirect(final FileSystemOptions opts) {
         return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
     }
 
     /**
      * Whether to use versioning.
+     * 
      * @param opts The FileSystem options.
      * @param versioning true if versioning should be enabled.
      */
-    public void setVersioning(final FileSystemOptions opts, final boolean versioning)
-    {
+    public void setVersioning(final FileSystemOptions opts, final boolean versioning) {
         setParam(opts, "versioning", Boolean.valueOf(versioning));
     }
 
     /**
      * The cookies to add to the request.
+     * 
      * @param opts The FileSystem options.
      * @return true if versioning is enabled.
      */
-    public boolean isVersioning(final FileSystemOptions opts)
-    {
+    public boolean isVersioning(final FileSystemOptions opts) {
         return getBoolean(opts, "versioning", false);
     }
 
@@ -105,8 +100,7 @@ public final class WebdavFileSystemConfigBuilder extends HttpFileSystemConfigBui
      * @return The Webdav FileSystem Class object.
      */
     @Override
-    protected Class<? extends FileSystem> getConfigClass()
-    {
+    protected Class<? extends FileSystem> getConfigClass() {
         return WebdavFileSystem.class;
     }
 }

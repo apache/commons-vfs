@@ -22,19 +22,16 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 /**
  * Implementation for https. set default port to 443.
  */
-public class HttpsFileNameParser extends URLFileNameParser
-{
+public class HttpsFileNameParser extends URLFileNameParser {
     private static final int DEFAULT_PORT = 443;
 
     private static final HttpsFileNameParser INSTANCE = new HttpsFileNameParser();
 
-    public HttpsFileNameParser()
-    {
+    public HttpsFileNameParser() {
         super(DEFAULT_PORT);
     }
 
-    public static FileNameParser getInstance()
-    {
+    public static FileNameParser getInstance() {
         return INSTANCE;
     }
 }

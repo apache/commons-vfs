@@ -17,14 +17,14 @@
 package org.apache.commons.vfs2;
 
 /**
- * The user authenticator is used to query credentials from the user. Since a UserAuthenticator
- * is provided with the {@link FileSystemOptions} to a {@link FileSystem} it should also implement
- * reasonable equals and hashCode functions if the FileSystem should be shared.
+ * The user authenticator is used to query credentials from the user. Since a UserAuthenticator is provided with the
+ * {@link FileSystemOptions} to a {@link FileSystem} it should also implement reasonable equals and hashCode functions
+ * if the FileSystem should be shared.
  */
-public interface UserAuthenticator
-{
+public interface UserAuthenticator {
     /**
      * Queries the given type from the user.
+     * 
      * @param types An array containing the user's credentials
      * @return The UserAuthenticationData.
      */

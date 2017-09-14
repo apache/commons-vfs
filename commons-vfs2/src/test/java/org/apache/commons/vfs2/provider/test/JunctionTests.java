@@ -27,11 +27,8 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 /**
  * Additional junction test cases.
  */
-public class JunctionTests
-    extends AbstractProviderTestCase
-{
-    private FileObject getBaseDir() throws FileSystemException
-    {
+public class JunctionTests extends AbstractProviderTestCase {
+    private FileObject getBaseDir() throws FileSystemException {
         final File file = AbstractVfsTestCase.getTestDirectoryFile();
         assertTrue(file.exists());
         return getManager().toFileObject(file);
@@ -40,31 +37,24 @@ public class JunctionTests
     /**
      * Checks nested junctions are not supported.
      */
-    public void testNestedJunction() throws Exception
-    {
+    public void testNestedJunction() throws Exception {
         final FileSystem fs = getManager().createVirtualFileSystem("vfs:").getFileSystem();
         final FileObject baseDir = getBaseDir();
         fs.addJunction("/a", baseDir);
 
         // Nested
-        try
-        {
+        try {
             fs.addJunction("/a/b", baseDir);
             fail();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a/b", e);
         }
 
         // At same point
-        try
-        {
+        try {
             fs.addJunction("/a", baseDir);
             fail();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             assertSameMessage("vfs.impl/nested-junction.error", "vfs:/a", e);
         }
     }
@@ -72,8 +62,7 @@ public class JunctionTests
     /**
      * Checks ancestors are created when a junction is created.
      */
-    public void testAncestors() throws Exception
-    {
+    public void testAncestors() throws Exception {
         final FileSystem fs = getManager().createVirtualFileSystem("vfs://").getFileSystem();
         final FileObject baseDir = getBaseDir();
 

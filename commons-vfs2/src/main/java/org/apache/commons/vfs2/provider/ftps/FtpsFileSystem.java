@@ -22,14 +22,12 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.provider.ftp.FtpClient;
 import org.apache.commons.vfs2.provider.ftp.FtpFileSystem;
 
-
 /**
  * A FTPS file system.
  *
  * @since 2.1
  */
-public class FtpsFileSystem extends FtpFileSystem
-{
+public class FtpsFileSystem extends FtpFileSystem {
     /**
      * Create a new FtpsFileSystem.
      *
@@ -38,15 +36,13 @@ public class FtpsFileSystem extends FtpFileSystem
      * @param fileSystemOptions The FileSystemOptions.
      * @since 2.1
      */
-    public FtpsFileSystem(
-        final GenericFileName rootName, final FtpClient ftpClient, final FileSystemOptions fileSystemOptions)
-    {
+    public FtpsFileSystem(final GenericFileName rootName, final FtpClient ftpClient,
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, ftpClient, fileSystemOptions);
     }
 
     @Override
-    protected FtpsClientWrapper createWrapper() throws FileSystemException
-    {
+    protected FtpsClientWrapper createWrapper() throws FileSystemException {
         return new FtpsClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
     }
 }

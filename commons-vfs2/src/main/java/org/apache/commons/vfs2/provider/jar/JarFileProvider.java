@@ -33,56 +33,40 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
 import org.apache.commons.vfs2.provider.zip.ZipFileProvider;
 
 /**
- * A file system provider for Jar files.  Provides read-only file
- * systems.  This provides access to Jar specific features like Signing and
- * Manifest Attributes.
+ * A file system provider for Jar files. Provides read-only file systems. This provides access to Jar specific features
+ * like Signing and Manifest Attributes.
  */
-public class JarFileProvider extends ZipFileProvider
-{
+public class JarFileProvider extends ZipFileProvider {
     static final Collection<Capability> capabilities;
 
-    static
-    {
+    static {
         final Collection<Capability> combined = new ArrayList<>();
         combined.addAll(ZipFileProvider.capabilities);
-        combined.addAll(Arrays.asList(new Capability[]
-            {
-                Capability.ATTRIBUTES,
-                Capability.FS_ATTRIBUTES,
-                Capability.SIGNING,
-                Capability.MANIFEST_ATTRIBUTES,
-                Capability.VIRTUAL
-            }));
+        combined.addAll(Arrays.asList(new Capability[] { Capability.ATTRIBUTES, Capability.FS_ATTRIBUTES,
+                Capability.SIGNING, Capability.MANIFEST_ATTRIBUTES, Capability.VIRTUAL }));
         capabilities = Collections.unmodifiableCollection(combined);
     }
 
-    public JarFileProvider()
-    {
+    public JarFileProvider() {
         super();
     }
 
     /**
-     * Creates a layered file system.  This method is called if the file system
-     * is not cached.
+     * Creates a layered file system. This method is called if the file system is not cached.
      *
      * @param scheme The URI scheme.
-     * @param file   The file to create the file system on top of.
+     * @param file The file to create the file system on top of.
      * @return The file system.
      */
     @Override
-    protected FileSystem doCreateFileSystem(final String scheme,
-                                            final FileObject file,
-                                            final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
-        final AbstractFileName name =
-            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
+    protected FileSystem doCreateFileSystem(final String scheme, final FileObject file,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final AbstractFileName name = new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return new JarFileSystem(name, file, fileSystemOptions);
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

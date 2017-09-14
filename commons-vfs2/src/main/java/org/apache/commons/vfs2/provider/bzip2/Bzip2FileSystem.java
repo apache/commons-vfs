@@ -29,23 +29,19 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 /**
  * Filesytem to handle compressed files using the bzip2 method.
  */
-public class Bzip2FileSystem extends CompressedFileFileSystem
-{
+public class Bzip2FileSystem extends CompressedFileFileSystem {
     protected Bzip2FileSystem(final FileName rootName, final FileObject parentLayer,
-                              final FileSystemOptions fileSystemOptions)
-    {
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, parentLayer, fileSystemOptions);
     }
 
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
-    {
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         return new Bzip2FileObject(name, getParentLayer(), this);
     }
 
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(Bzip2FileProvider.capabilities);
     }
 }

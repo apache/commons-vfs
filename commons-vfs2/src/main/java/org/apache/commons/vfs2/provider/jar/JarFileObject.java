@@ -34,26 +34,19 @@ import org.apache.commons.vfs2.provider.zip.ZipFileObject;
 /**
  * A file in a Jar file system.
  */
-public class JarFileObject extends ZipFileObject
-{
+public class JarFileObject extends ZipFileObject {
     private final JarFileSystem fs;
 
     private Attributes attributes;
 
-    protected JarFileObject(final AbstractFileName name,
-                            final ZipEntry entry,
-                            final JarFileSystem fs,
-                            final boolean zipExists) throws FileSystemException
-    {
+    protected JarFileObject(final AbstractFileName name, final ZipEntry entry, final JarFileSystem fs,
+            final boolean zipExists) throws FileSystemException {
         super(name, entry, fs, zipExists);
         this.fs = fs;
 
-        try
-        {
+        try {
             getAttributes(); // early get the attributes as the zip file might be closed
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new FileSystemException(e);
         }
     }
@@ -61,10 +54,8 @@ public class JarFileObject extends ZipFileObject
     /**
      * Returns the Jar manifest.
      */
-    Manifest getManifest() throws IOException
-    {
-        if (fs.getZipFile() == null)
-        {
+    Manifest getManifest() throws IOException {
+        if (fs.getZipFile() == null) {
             return null;
         }
 
@@ -74,19 +65,13 @@ public class JarFileObject extends ZipFileObject
     /**
      * Returns the attributes of this file.
      */
-    Attributes getAttributes() throws IOException
-    {
-        if (attributes == null)
-        {
-            if (entry == null)
-            {
+    Attributes getAttributes() throws IOException {
+        if (attributes == null) {
+            if (entry == null) {
                 attributes = new Attributes(1);
-            }
-            else
-            {
+            } else {
                 attributes = ((JarEntry) entry).getAttributes();
-                if (attributes == null)
-                {
+                if (attributes == null) {
                     attributes = new Attributes(1);
                 }
             }
@@ -99,9 +84,7 @@ public class JarFileObject extends ZipFileObject
      * Returns the value of an attribute.
      */
     @Override
-    protected Map<String, Object> doGetAttributes()
-        throws Exception
-    {
+    protected Map<String, Object> doGetAttributes() throws Exception {
         final Map<String, Object> attrs = new HashMap<>();
 
         // Add the file system's attributes first
@@ -117,10 +100,8 @@ public class JarFileObject extends ZipFileObject
     /**
      * Adds the source attributes to the destination map.
      */
-    private void addAll(final Attributes src, final Map<String, Object> dest)
-    {
-        for (final Entry<Object, Object> entry : src.entrySet())
-        {
+    private void addAll(final Attributes src, final Map<String, Object> dest) {
+        for (final Entry<Object, Object> entry : src.entrySet()) {
             // final String name = entry.getKey().toString().toLowerCase();
             final String name = entry.getKey().toString();
             dest.put(name, entry.getValue());
@@ -131,10 +112,8 @@ public class JarFileObject extends ZipFileObject
      * Return the certificates of this JarEntry.
      */
     @Override
-    protected Certificate[] doGetCertificates()
-    {
-        if (entry == null)
-        {
+    protected Certificate[] doGetCertificates() {
+        if (entry == null) {
             return null;
         }
 

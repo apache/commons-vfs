@@ -22,19 +22,16 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 /**
  * Implementation for http. set default port to 80
  */
-public class HttpFileNameParser extends URLFileNameParser
-{
+public class HttpFileNameParser extends URLFileNameParser {
     private static final int DEFAULT_PORT = 80;
 
     private static final HttpFileNameParser INSTANCE = new HttpFileNameParser();
 
-    public HttpFileNameParser()
-    {
+    public HttpFileNameParser() {
         super(DEFAULT_PORT);
     }
 
-    public static FileNameParser getInstance()
-    {
+    public static FileNameParser getInstance() {
         return INSTANCE;
     }
 }

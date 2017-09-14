@@ -29,13 +29,9 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 /**
  * A read-only file system for compressed files.
  */
-public abstract class CompressedFileFileSystem
-    extends AbstractFileSystem
-{
-    protected CompressedFileFileSystem(final FileName rootName,
-                                       final FileObject parentLayer,
-                                       final FileSystemOptions fileSystemOptions)
-    {
+public abstract class CompressedFileFileSystem extends AbstractFileSystem {
+    protected CompressedFileFileSystem(final FileName rootName, final FileObject parentLayer,
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, parentLayer, fileSystemOptions);
     }
 

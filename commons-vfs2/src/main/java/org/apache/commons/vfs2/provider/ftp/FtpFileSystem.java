@@ -34,14 +34,13 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 /**
  * An FTP file system.
  */
-public class FtpFileSystem extends AbstractFileSystem
-{
+public class FtpFileSystem extends AbstractFileSystem {
     private static final Log LOG = LogFactory.getLog(FtpFileSystem.class);
 
-//    private final String hostname;
-//    private final int port;
-//    private final String username;
-//    private final String password;
+    // private final String hostname;
+    // private final int port;
+    // private final String username;
+    // private final String password;
 
     // An idle client
     private final AtomicReference<FtpClient> idleClient = new AtomicReference<>();
@@ -51,10 +50,9 @@ public class FtpFileSystem extends AbstractFileSystem
      * @param ftpClient The FtpClient.
      * @param fileSystemOptions The FileSystemOptions.
      * @since 2.0 (was protected)
-     * */
+     */
     public FtpFileSystem(final GenericFileName rootName, final FtpClient ftpClient,
-                         final FileSystemOptions fileSystemOptions)
-    {
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         // hostname = rootName.getHostName();
         // port = rootName.getPort();
@@ -63,12 +61,10 @@ public class FtpFileSystem extends AbstractFileSystem
     }
 
     @Override
-    protected void doCloseCommunicationLink()
-    {
+    protected void doCloseCommunicationLink() {
         final FtpClient idle = idleClient.getAndSet(null);
         // Clean up the connection
-        if (idle != null)
-        {
+        if (idle != null) {
             closeConnection(idle);
         }
     }
@@ -77,27 +73,22 @@ public class FtpFileSystem extends AbstractFileSystem
      * Adds the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(FtpFileProvider.capabilities);
     }
 
     /**
      * Cleans up the connection to the server.
+     * 
      * @param client The FtpClient.
      */
-    private void closeConnection(final FtpClient client)
-    {
-        try
-        {
+    private void closeConnection(final FtpClient client) {
+        try {
             // Clean up
-            if (client.isConnected())
-            {
+            if (client.isConnected()) {
                 client.disconnect();
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             // getLogger().warn("vfs.provider.ftp/close-connection.error", e);
             VfsLog.warn(getLogger(), LOG, "vfs.provider.ftp/close-connection.error", e);
         }
@@ -105,15 +96,14 @@ public class FtpFileSystem extends AbstractFileSystem
 
     /**
      * Creates an FTP client to use.
+     * 
      * @return An FTPCleint.
      * @throws FileSystemException if an error occurs.
      */
-    public FtpClient getClient() throws FileSystemException
-    {
+    public FtpClient getClient() throws FileSystemException {
         FtpClient client = idleClient.getAndSet(null);
 
-        if (client == null || !client.isConnected())
-        {
+        if (client == null || !client.isConnected()) {
             client = createWrapper();
         }
 
@@ -122,37 +112,33 @@ public class FtpFileSystem extends AbstractFileSystem
 
     /**
      * Get the wrapper to access this file system.
+     * 
      * @return new instance.
      * @throws FileSystemException if any error occurs.
      * @since 2.1
      */
-    protected FTPClientWrapper createWrapper() throws FileSystemException
-    {
+    protected FTPClientWrapper createWrapper() throws FileSystemException {
         return new FTPClientWrapper((GenericFileName) getRoot().getName(), getFileSystemOptions());
     }
 
     /**
      * Returns an FTP client after use.
+     * 
      * @param client The FTPClient.
      */
-    public void putClient(final FtpClient client)
-    {
+    public void putClient(final FtpClient client) {
         // Save client for reuse if none is idle.
-        if (!idleClient.compareAndSet(null, client))
-        {
+        if (!idleClient.compareAndSet(null, client)) {
             // An idle client is already present so close the connection.
             closeConnection(client);
         }
     }
 
-
     /**
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name)
-        throws FileSystemException
-    {
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         return new FtpFileObject(name, this, getRootName());
     }
 }

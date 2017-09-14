@@ -26,14 +26,11 @@ import org.apache.commons.vfs2.NameScope;
  * <p>
  * TODO - Add tests for all FileName methods.
  */
-public class NamingTests
-    extends AbstractProviderTestCase
-{
+public class NamingTests extends AbstractProviderTestCase {
     /**
      * Tests resolution of relative file names via the FS manager
      */
-    public void testRelativeURI() throws Exception
-    {
+    public void testRelativeURI() throws Exception {
         // Build base dir
         getManager().setBaseFile(getReadFolder());
 
@@ -60,8 +57,7 @@ public class NamingTests
     /**
      * Tests encoding of relative URI.
      */
-    public void testRelativeUriEncoding() throws Exception
-    {
+    public void testRelativeUriEncoding() throws Exception {
         // Build base dir
         getManager().setBaseFile(getReadFolder());
         final String path = getReadFolder().getName().getPath();
@@ -93,33 +89,24 @@ public class NamingTests
         assertEquals(path + "/dir/child", file.getName().getPathDecoded());
 
         // §6 Use "%" literal
-        try
-        {
+        try {
             getManager().resolveFile("%");
             fail();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
         }
 
         // §7 Not enough digits in encoded char
-        try
-        {
+        try {
             getManager().resolveFile("%5");
             fail();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
         }
 
         // §8 Invalid digit in encoded char
-        try
-        {
+        try {
             getManager().resolveFile("%q");
             fail();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
         }
 
         // free basefile
@@ -129,8 +116,7 @@ public class NamingTests
     /**
      * Tests the root file name.
      */
-    public void testRootFileName() throws Exception
-    {
+    public void testRootFileName() throws Exception {
         // Locate the root file
         final FileName rootName = getReadFolder().getFileSystem().getRoot().getName();
 
@@ -147,8 +133,7 @@ public class NamingTests
     /**
      * Tests child file names.
      */
-    public void testChildName() throws Exception
-    {
+    public void testChildName() throws Exception {
         final FileName baseName = getReadFolder().getName();
         final String basePath = baseName.getPath();
         final FileName name = getManager().resolveName(baseName, "some-child", NameScope.CHILD);
@@ -175,10 +160,7 @@ public class NamingTests
     /**
      * Name resolution tests that are common for CHILD or DESCENDENT scope.
      */
-    private void checkDescendentNames(final FileName name,
-                                      final NameScope scope)
-        throws Exception
-    {
+    private void checkDescendentNames(final FileName name, final NameScope scope) throws Exception {
         // Make some assumptions about the name
         assertTrue(!name.getPath().equals("/"));
         assertTrue(!name.getPath().endsWith("/a"));
@@ -211,15 +193,10 @@ public class NamingTests
     }
 
     /**
-     * Checks that a relative name resolves to the expected absolute path.
-     * Tests both forward and back slashes.
+     * Checks that a relative name resolves to the expected absolute path. Tests both forward and back slashes.
      */
-    private void assertSameName(final String expectedPath,
-                                final FileName baseName,
-                                final String relName,
-                                final NameScope scope)
-        throws Exception
-    {
+    private void assertSameName(final String expectedPath, final FileName baseName, final String relName,
+            final NameScope scope) throws Exception {
         // Try the supplied name
         FileName name = getManager().resolveName(baseName, relName, scope);
         assertEquals(expectedPath, name.getPath());
@@ -238,21 +215,17 @@ public class NamingTests
     }
 
     /**
-     * Checks that a relative name resolves to the expected absolute path.
-     * Tests both forward and back slashes.
+     * Checks that a relative name resolves to the expected absolute path. Tests both forward and back slashes.
      */
-    private void assertSameName(final String expectedPath,
-                                final FileName baseName,
-                                final String relName) throws Exception
-    {
+    private void assertSameName(final String expectedPath, final FileName baseName, final String relName)
+            throws Exception {
         assertSameName(expectedPath, baseName, relName, NameScope.FILE_SYSTEM);
     }
 
     /**
      * Tests relative name resolution, relative to the base folder.
      */
-    public void testNameResolution() throws Exception
-    {
+    public void testNameResolution() throws Exception {
         final FileName baseName = getReadFolder().getName();
         final String parentPath = baseName.getParent().getPath();
         final String path = baseName.getPath();
@@ -312,9 +285,7 @@ public class NamingTests
     /**
      * Tests descendent name resolution.
      */
-    public void testDescendentName()
-        throws Exception
-    {
+    public void testDescendentName() throws Exception {
         final FileName baseName = getReadFolder().getName();
 
         // Test direct child
@@ -337,8 +308,7 @@ public class NamingTests
     /**
      * Tests resolution of absolute names.
      */
-    public void testAbsoluteNames() throws Exception
-    {
+    public void testAbsoluteNames() throws Exception {
         // Test against the base folder
         FileName name = getReadFolder().getName();
         checkAbsoluteNames(name);
@@ -355,8 +325,7 @@ public class NamingTests
     /**
      * Tests resolution of absolute names.
      */
-    private void checkAbsoluteNames(final FileName name) throws Exception
-    {
+    private void checkAbsoluteNames(final FileName name) throws Exception {
         // Root
         assertSameName("/", name, "/");
         assertSameName("/", name, "//");
@@ -375,20 +344,13 @@ public class NamingTests
     }
 
     /**
-     * Asserts that a particular relative name is invalid for a particular
-     * scope.
+     * Asserts that a particular relative name is invalid for a particular scope.
      */
-    private void assertBadName(final FileName name,
-                               final String relName,
-                               final NameScope scope)
-    {
-        try
-        {
+    private void assertBadName(final FileName name, final String relName, final NameScope scope) {
+        try {
             getManager().resolveName(name, relName, scope);
             fail("expected failure");
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             // TODO - should check error message
         }
     }
@@ -396,8 +358,7 @@ public class NamingTests
     /**
      * Tests conversion from absolute to relative names.
      */
-    public void testAbsoluteNameConvert() throws Exception
-    {
+    public void testAbsoluteNameConvert() throws Exception {
         final FileName baseName = getReadFolder().getName();
 
         String path = "/test1/test2";
@@ -446,10 +407,7 @@ public class NamingTests
     /**
      * Checks that a file name converts to an expected relative path
      */
-    private void testRelName(final FileName baseName,
-                             final String relPath)
-        throws Exception
-    {
+    private void testRelName(final FileName baseName, final String relPath) throws Exception {
         final FileName expectedName = getManager().resolveName(baseName, relPath);
 
         // Convert to relative path, and check

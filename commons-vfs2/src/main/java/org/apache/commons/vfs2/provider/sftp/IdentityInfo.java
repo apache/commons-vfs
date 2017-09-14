@@ -18,14 +18,12 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
 
-
 /**
  * Structure for an identity.
  *
  * @since 2.1
  */
-public class IdentityInfo
-{
+public class IdentityInfo {
     private final File privateKey;
     private final File publicKey;
     private final byte[] passPhrase;
@@ -40,8 +38,7 @@ public class IdentityInfo
      * @param privateKey The file with the private key
      * @since 2.1
      */
-    public IdentityInfo(final File privateKey)
-    {
+    public IdentityInfo(final File privateKey) {
         this(privateKey, null, null);
     }
 
@@ -54,8 +51,7 @@ public class IdentityInfo
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      * @since 2.1
      */
-    public IdentityInfo(final File privateKey, final byte[] passPhrase)
-    {
+    public IdentityInfo(final File privateKey, final byte[] passPhrase) {
         this(privateKey, null, passPhrase);
     }
 
@@ -69,8 +65,7 @@ public class IdentityInfo
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      * @since 2.1
      */
-    public IdentityInfo(final File privateKey, final File publicKey, final byte[] passPhrase)
-    {
+    public IdentityInfo(final File privateKey, final File publicKey, final byte[] passPhrase) {
         this.privateKey = privateKey;
         this.publicKey = publicKey;
         this.passPhrase = passPhrase;
@@ -82,8 +77,7 @@ public class IdentityInfo
      * @return the file
      * @since 2.1
      */
-    public File getPrivateKey()
-    {
+    public File getPrivateKey() {
         return privateKey;
     }
 
@@ -93,8 +87,7 @@ public class IdentityInfo
      * @return the file
      * @since 2.1
      */
-    public File getPublicKey()
-    {
+    public File getPublicKey() {
         return publicKey;
     }
 
@@ -104,8 +97,7 @@ public class IdentityInfo
      * @return the passphrase
      * @since 2.1
      */
-    public byte[] getPassPhrase()
-    {
+    public byte[] getPassPhrase() {
         return passPhrase;
     }
 }

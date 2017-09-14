@@ -28,31 +28,25 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
  *
  * @version $Revision$
  */
-public class UrlTests
-    extends AbstractProviderTestCase
-{
+public class UrlTests extends AbstractProviderTestCase {
     /**
      * Tests FindFiles with a filename that has a hash sign in it.
      */
-    public void testHashFindFiles() throws Exception
-    {
+    public void testHashFindFiles() throws Exception {
         final FileSystemManager fsManager = VFS.getManager();
 
         final FileObject[] foList = getBaseFolder().findFiles(Selectors.SELECT_FILES);
 
         boolean hashFileFound = false;
-        for (final FileObject fo : foList)
-        {
-            if (fo.getURL().toString().contains("test-hash"))
-            {
+        for (final FileObject fo : foList) {
+            if (fo.getURL().toString().contains("test-hash")) {
                 hashFileFound = true;
 
                 assertEquals(fo.toString(), UriParser.decode(fo.getURL().toString()));
             }
         }
 
-        if (!hashFileFound)
-        {
+        if (!hashFileFound) {
             fail("Test hash file containing 'test-hash' not found");
         }
     }
@@ -60,8 +54,7 @@ public class UrlTests
     /**
      * Tests resolution of an absolute file name.
      */
-    public void testHashURL() throws Exception
-    {
+    public void testHashURL() throws Exception {
         final FileObject file = getReadFolder().resolveFile("test-hash-#test.txt");
 
         assertEquals(file.toString(), UriParser.decode(file.getURL().toString()));

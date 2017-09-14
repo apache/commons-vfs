@@ -33,15 +33,10 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 /**
  * A local file system.
  */
-public class LocalFileSystem
-    extends AbstractFileSystem
-{
+public class LocalFileSystem extends AbstractFileSystem {
     private final String rootFile;
 
-    public LocalFileSystem(final FileName rootName,
-                           final String rootFile,
-                           final FileSystemOptions opts)
-    {
+    public LocalFileSystem(final FileName rootName, final String rootFile, final FileSystemOptions opts) {
         super(rootName, null, opts);
         this.rootFile = rootFile;
     }
@@ -50,8 +45,7 @@ public class LocalFileSystem
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
-    {
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         // Create the file
         return new LocalFile(this, rootFile, name);
     }
@@ -60,8 +54,7 @@ public class LocalFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(DefaultLocalFileProvider.capabilities);
     }
 
@@ -69,15 +62,11 @@ public class LocalFileSystem
      * Creates a temporary local copy of a file and its descendants.
      */
     @Override
-    protected File doReplicateFile(final FileObject fileObject,
-                                   final FileSelector selector)
-        throws Exception
-    {
+    protected File doReplicateFile(final FileObject fileObject, final FileSelector selector) throws Exception {
         final LocalFile localFile = (LocalFile) FileObjectUtils.getAbstractFileObject(fileObject);
         final File file = localFile.getLocalFile();
         final SecurityManager sm = System.getSecurityManager();
-        if (sm != null)
-        {
+        if (sm != null) {
             final FilePermission requiredPerm = new FilePermission(file.getAbsolutePath(), "read");
             sm.checkPermission(requiredPerm);
         }

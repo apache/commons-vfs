@@ -26,8 +26,7 @@ import java.util.ResourceBundle;
 /**
  * @since 2.0
  */
-public class CombinedResources extends ResourceBundle
-{
+public class CombinedResources extends ResourceBundle {
     // locale.getLanguage()
     // locale.getCountry()
     // locale.getVariant()
@@ -36,15 +35,12 @@ public class CombinedResources extends ResourceBundle
     private boolean inited;
     private final Properties properties = new Properties();
 
-    public CombinedResources(final String resourceName)
-    {
+    public CombinedResources(final String resourceName) {
         this.resourceName = resourceName;
     }
 
-    protected void init()
-    {
-        if (inited)
-        {
+    protected void init() {
+        if (inited) {
             return;
         }
 
@@ -54,23 +50,18 @@ public class CombinedResources extends ResourceBundle
         inited = true;
     }
 
-    protected void loadResources(final Locale locale)
-    {
-        if (locale == null)
-        {
+    protected void loadResources(final Locale locale) {
+        if (locale == null) {
             return;
         }
-        final String[] parts = new String[]{locale.getLanguage(), locale.getCountry(), locale.getVariant()};
+        final String[] parts = new String[] { locale.getLanguage(), locale.getCountry(), locale.getVariant() };
         final StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 3; i++)
-        {
+        for (int i = 0; i < 3; i++) {
             sb.append(getResourceName());
-            for (int j = 0; j < i; j++)
-            {
+            for (int j = 0; j < i; j++) {
                 sb.append('_').append(parts[j]);
             }
-            if (parts[i].length() != 0)
-            {
+            if (parts[i].length() != 0) {
                 sb.append('_').append(parts[i]);
                 loadResources(sb.toString());
             }
@@ -78,58 +69,44 @@ public class CombinedResources extends ResourceBundle
         }
     }
 
-    protected void loadResources(String resourceName)
-    {
+    protected void loadResources(String resourceName) {
         ClassLoader loader = getClass().getClassLoader();
-        if (loader == null)
-        {
+        if (loader == null) {
             loader = ClassLoader.getSystemClassLoader();
         }
         resourceName = resourceName.replace('.', '/') + ".properties";
-        try
-        {
+        try {
             final Enumeration<URL> resources = loader.getResources(resourceName);
-            while (resources.hasMoreElements())
-            {
+            while (resources.hasMoreElements()) {
                 final URL resource = resources.nextElement();
-                try
-                {
+                try {
                     properties.load(resource.openConnection().getInputStream());
-                }
-                catch (final IOException ignored)
-                {
+                } catch (final IOException ignored) {
                     /* Ignored. */
                 }
             }
-        }
-        catch (final IOException ignored)
-        {
+        } catch (final IOException ignored) {
             /* Ignored. */
         }
     }
 
-    public String getResourceName()
-    {
+    public String getResourceName() {
         return resourceName;
     }
 
     @Override
-    public Enumeration<String> getKeys()
-    {
-        if (!inited)
-        {
+    public Enumeration<String> getKeys() {
+        if (!inited) {
             init();
         }
-        return new Enumeration<String>()
-        {
+        return new Enumeration<String>() {
             @Override
-            public boolean hasMoreElements()
-            {
+            public boolean hasMoreElements() {
                 return properties.keys().hasMoreElements();
             }
+
             @Override
-            public String nextElement()
-            {
+            public String nextElement() {
                 // We know that our properties will only ever contain Strings
                 return (String) properties.keys().nextElement();
             }
@@ -138,10 +115,8 @@ public class CombinedResources extends ResourceBundle
     }
 
     @Override
-    protected Object handleGetObject(final String key)
-    {
-        if (!inited)
-        {
+    protected Object handleGetObject(final String key) {
+        if (!inited) {
             init();
         }
         return properties.get(key);

@@ -18,22 +18,20 @@ package org.apache.commons.vfs2;
 
 /**
  * Delivers a file-not-folder exception which happens when trying to issue {@link FileObject#getChildren()} on a file.
+ * 
  * @since 2.0
  */
-public class FileNotFolderException extends FileSystemException
-{
+public class FileNotFolderException extends FileSystemException {
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
     private static final long serialVersionUID = 20101208L;
 
-    public FileNotFolderException(final Object info0)
-    {
+    public FileNotFolderException(final Object info0) {
         super("vfs.provider/list-children-not-folder.error", info0);
     }
 
-    public FileNotFolderException(final Object info0, final Throwable throwable)
-    {
+    public FileNotFolderException(final Object info0, final Throwable throwable) {
         super("vfs.provider/list-children-not-folder.error", info0, throwable);
     }
 }

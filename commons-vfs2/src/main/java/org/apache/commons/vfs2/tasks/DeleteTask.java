@@ -27,9 +27,7 @@ import org.apache.tools.ant.BuildException;
  * <p>
  * TOOD - Allow selector to be specified.
  */
-public class DeleteTask
-    extends VfsTask
-{
+public class DeleteTask extends VfsTask {
     private String file;
     private String srcDirUrl;
     private String filesList;
@@ -39,68 +37,58 @@ public class DeleteTask
      *
      * @param file The name of the file.
      */
-    public void setFile(final String file)
-    {
+    public void setFile(final String file) {
         this.file = file;
     }
 
     /**
      * Sets the source directory.
+     * 
      * @param srcDir The source directory.
      */
-    public void setSrcDir(final String srcDir)
-    {
+    public void setSrcDir(final String srcDir) {
         this.srcDirUrl = srcDir;
     }
 
     /**
      * Sets the files to include.
+     * 
      * @param filesList The list of files.
      */
-    public void setIncludes(final String filesList)
-    {
+    public void setIncludes(final String filesList) {
         this.filesList = filesList;
     }
 
     /**
      * Executes this task.
+     * 
      * @throws BuildException if an error occurs.
      */
     @Override
-    public void execute() throws BuildException
-    {
-        if ((file == null && srcDirUrl == null) || (srcDirUrl != null && filesList == null))
-        {
+    public void execute() throws BuildException {
+        if ((file == null && srcDirUrl == null) || (srcDirUrl != null && filesList == null)) {
             final String message = Messages.getString("vfs.tasks/delete.no-source-files.error");
             throw new BuildException(message);
         }
 
-        try
-        {
-            if (srcDirUrl != null && filesList != null)
-            {
+        try {
+            if (srcDirUrl != null && filesList != null) {
                 log("Deleting " + filesList + " in the directory " + srcDirUrl);
-                if (!srcDirUrl.endsWith("/"))
-                {
+                if (!srcDirUrl.endsWith("/")) {
                     srcDirUrl += "/";
                 }
                 final StringTokenizer tok = new StringTokenizer(filesList, ", \t\n\r\f", false);
-                while (tok.hasMoreTokens())
-                {
+                while (tok.hasMoreTokens()) {
                     final String nextFile = tok.nextToken();
                     final FileObject srcFile = resolveFile(srcDirUrl + nextFile);
                     srcFile.deleteAll();
                 }
-            }
-            else
-            {
+            } else {
                 final FileObject srcFile = resolveFile(file);
                 log("Deleting " + srcFile.getPublicURIString());
                 srcFile.deleteAll();
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new BuildException(e);
         }
     }

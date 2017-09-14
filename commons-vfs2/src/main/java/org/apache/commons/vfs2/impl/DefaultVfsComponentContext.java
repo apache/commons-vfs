@@ -27,17 +27,13 @@ import org.apache.commons.vfs2.provider.FileReplicator;
 import org.apache.commons.vfs2.provider.TemporaryFileStore;
 import org.apache.commons.vfs2.provider.VfsComponentContext;
 
-
 /**
  * The default context implementation.
  */
-final class DefaultVfsComponentContext
-    implements VfsComponentContext
-{
+final class DefaultVfsComponentContext implements VfsComponentContext {
     private final DefaultFileSystemManager manager;
 
-    public DefaultVfsComponentContext(final DefaultFileSystemManager manager)
-    {
+    public DefaultVfsComponentContext(final DefaultFileSystemManager manager) {
         this.manager = manager;
     }
 
@@ -46,9 +42,7 @@ final class DefaultVfsComponentContext
      */
     @Override
     public FileObject resolveFile(final FileObject baseFile, final String name,
-                                  final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         return manager.resolveFile(baseFile, name, fileSystemOptions);
     }
 
@@ -57,14 +51,12 @@ final class DefaultVfsComponentContext
      */
     @Override
     public FileObject resolveFile(final String name, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         return manager.resolveFile(name, fileSystemOptions);
     }
 
     @Override
-    public FileName parseURI(final String uri) throws FileSystemException
-    {
+    public FileName parseURI(final String uri) throws FileSystemException {
         return manager.resolveURI(uri);
     }
 
@@ -72,9 +64,7 @@ final class DefaultVfsComponentContext
      * Returns a {@link FileObject} for a local file.
      */
     @Override
-    public FileObject toFileObject(final File file)
-        throws FileSystemException
-    {
+    public FileObject toFileObject(final File file) throws FileSystemException {
         return manager.toFileObject(file);
     }
 
@@ -82,8 +72,7 @@ final class DefaultVfsComponentContext
      * Locates a file replicator for the provider to use.
      */
     @Override
-    public FileReplicator getReplicator() throws FileSystemException
-    {
+    public FileReplicator getReplicator() throws FileSystemException {
         return manager.getReplicator();
     }
 
@@ -91,8 +80,7 @@ final class DefaultVfsComponentContext
      * Locates a temporary file store for the provider to use.
      */
     @Override
-    public TemporaryFileStore getTemporaryFileStore() throws FileSystemException
-    {
+    public TemporaryFileStore getTemporaryFileStore() throws FileSystemException {
         return manager.getTemporaryFileStore();
     }
 
@@ -102,8 +90,7 @@ final class DefaultVfsComponentContext
      * @return the filesystem manager
      */
     @Override
-    public FileSystemManager getFileSystemManager()
-    {
+    public FileSystemManager getFileSystemManager() {
         return manager;
     }
 }

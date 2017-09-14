@@ -52,8 +52,7 @@ import org.apache.log4j.Logger;
  * Test cases for the WebDAV provider.
  *
  */
-public class WebdavProviderTestCase extends AbstractProviderTestConfig
-{
+public class WebdavProviderTestCase extends AbstractProviderTestConfig {
     private static final char[] PASSWORD = new char[0];
 
     private static final String USER_ID = "admin";
@@ -73,21 +72,18 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
 
     private static boolean DEBUG = Boolean.getBoolean("WebdavProviderTestCase.Debug");
 
-    static File createTempDirectory() throws IOException
-    {
+    static File createTempDirectory() throws IOException {
         // create base folder
         final File base = new File("./target/test").getCanonicalFile();
         base.mkdirs();
 
         final File tempFile = File.createTempFile("WebdavProviderTestCase_", ".tmp", base);
 
-        if (!tempFile.delete())
-        {
+        if (!tempFile.delete()) {
             throw new IOException("Could not delete temp file: " + tempFile.getAbsolutePath());
         }
 
-        if (!tempFile.mkdir())
-        {
+        if (!tempFile.mkdir()) {
             throw new IOException("Could not create temp directory: " + tempFile.getAbsolutePath());
         }
 
@@ -98,52 +94,42 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         return tempFile;
     }
 
-    private static void dump(final File repoDirectory) throws Exception
-    {
+    private static void dump(final File repoDirectory) throws Exception {
         final TransientRepository repository = getTransientRepository(repoDirectory);
-        try
-        {
+        try {
             final Session session = getSession(repository);
             message("Root node dump:");
             dump(session.getRootNode());
             session.logout();
-        } finally
-        {
+        } finally {
             repository.shutdown();
         }
     }
 
     /** Recursively outputs the contents of the given node. */
-    private static void dump(final Node node) throws RepositoryException
-    {
+    private static void dump(final Node node) throws RepositoryException {
         // First output the node path
         message(node.getPath());
         // Skip the virtual (and large!) jcr:system subtree
-        if (node.getName().equals("jcr:system"))
-        {
+        if (node.getName().equals("jcr:system")) {
             return;
         }
 
-        if (node.getName().equals("jcr:content"))
-        {
+        if (node.getName().equals("jcr:content")) {
             return;
         }
 
         // Then output the properties
         final PropertyIterator properties = node.getProperties();
-        while (properties.hasNext())
-        {
+        while (properties.hasNext()) {
             final Property property = properties.nextProperty();
-            if (property.getDefinition().isMultiple())
-            {
+            if (property.getDefinition().isMultiple()) {
                 // A multi-valued property, print all values
                 final Value[] values = property.getValues();
-                for (final Value value : values)
-                {
+                for (final Value value : values) {
                     message(property.getPath() + " = " + value.getString());
                 }
-            } else
-            {
+            } else {
                 // A single-valued property
                 message(property.getPath() + " = " + property.getString());
             }
@@ -151,63 +137,50 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
 
         // Finally output all the child nodes recursively
         final NodeIterator nodes = node.getNodes();
-        while (nodes.hasNext())
-        {
+        while (nodes.hasNext()) {
             dump(nodes.nextNode());
         }
     }
 
-    private static Session getSession(final TransientRepository repository) throws RepositoryException
-    {
+    private static Session getSession(final TransientRepository repository) throws RepositoryException {
         return repository.login(new SimpleCredentials(USER_ID, PASSWORD));
     }
 
-    private static String getSystemTestUriOverride()
-    {
+    private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
-    private static TransientRepository getTransientRepository(final File repoDirectory) throws IOException
-    {
+    private static TransientRepository getTransientRepository(final File repoDirectory) throws IOException {
         // Jackrabbit 1.6:
         // TransientRepository repository = new TransientRepository(repoDirectory);
         // Jackrabbit 1.5.2:
         return new TransientRepository(new File(repoDirectory, "repository.xml").toString(), repoDirectory.toString());
     }
 
-    private static void importFiles(final File repoDirectory, final File sourceDir) throws Exception
-    {
+    private static void importFiles(final File repoDirectory, final File sourceDir) throws Exception {
         final TransientRepository repository = getTransientRepository(repoDirectory);
-        try
-        {
+        try {
             final Session session = getSession(repository);
             importFiles(session.getRootNode(), sourceDir);
             session.save();
             session.logout();
-        } finally
-        {
+        } finally {
             repository.shutdown();
         }
     }
 
-    private static void importFiles(final Node parent, final File sourceDir) throws RepositoryException, IOException
-    {
+    private static void importFiles(final Node parent, final File sourceDir) throws RepositoryException, IOException {
         final File[] files = sourceDir.listFiles();
-        for (final File file : files)
-        {
-            if (file.isFile())
-            {
+        for (final File file : files) {
+            if (file.isFile()) {
                 final InputStream data = new FileInputStream(file);
-                try
-                {
+                try {
                     message("Importing file " + file);
                     JcrUtils.putFile(parent, file.getName(), "application/octet-stream", data);
-                } finally
-                {
+                } finally {
                     data.close();
                 }
-            } else if (file.isDirectory())
-            {
+            } else if (file.isDirectory()) {
                 message("Importing folder " + file);
                 final Node folder = JcrUtils.getOrAddFolder(parent, file.getName());
                 importFiles(folder, file);
@@ -215,18 +188,14 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
         }
     }
 
-    private static void message(final IOException e)
-    {
-        if (DEBUG)
-        {
+    private static void message(final IOException e) {
+        if (DEBUG) {
             e.printStackTrace();
         }
     }
 
-    private static void message(final String string)
-    {
-        if (DEBUG)
-        {
+    private static void message(final String string) {
+        if (DEBUG) {
             System.out.println(string);
         }
     }
@@ -236,8 +205,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
      *
      * @throws Exception
      */
-    private static void setUpClass() throws Exception
-    {
+    private static void setUpClass() throws Exception {
         // Create temp dir for repo
         RepoDirectory = createTempDirectory();
         message("Created temp directory " + RepoDirectory);
@@ -255,39 +223,32 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
      * @param repoDirectory
      * @throws Exception
      */
-    private static void startJackrabbit(final File repoDirectory) throws Exception
-    {
+    private static void startJackrabbit(final File repoDirectory) throws Exception {
         boolean quiet = false;
-        if (!DEBUG)
-        {
+        if (!DEBUG) {
             Logger.getLogger("org.apache.jackrabbit").setLevel(Level.WARN);
             Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.ERROR);
             Logger.getLogger("org.apache.commons.vfs2").setLevel(Level.WARN);
             Logger.getLogger("org.mortbay").setLevel(Level.WARN);
             quiet = true;
         }
-        JrMain = new JackrabbitMain(new String[]
-        { "--port", Integer.toString(SocketPort), "--repo", repoDirectory.toString(), quiet ? "--quiet" : "" });
+        JrMain = new JackrabbitMain(new String[] { "--port", Integer.toString(SocketPort), "--repo",
+                repoDirectory.toString(), quiet ? "--quiet" : "" });
         JrMain.run();
     }
 
-    public static Test suite() throws Exception
-    {
-        return new ProviderTestSuite(new WebdavProviderTestCase())
-        {
+    public static Test suite() throws Exception {
+        return new ProviderTestSuite(new WebdavProviderTestCase()) {
             @Override
-            protected void setUp() throws Exception
-            {
-                if (getSystemTestUriOverride() == null)
-                {
+            protected void setUp() throws Exception {
+                if (getSystemTestUriOverride() == null) {
                     setUpClass();
                 }
                 super.setUp();
             }
 
             @Override
-            protected void tearDown() throws Exception
-            {
+            protected void tearDown() throws Exception {
                 tearDownClass();
                 super.tearDown();
             }
@@ -295,48 +256,37 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
     }
 
     /**
-     * Tears down resources for this test case.
-     * <ol>
-     * <li>Shuts down the embedded Jackrabbit</li>
-     * <li>Extra clean up for org.apache.commons.httpclient.MultiThreadedHttpConnectionManager</li>
-     * <li>Remove temporary repository directory.</li>
-     * </ol>
-     * Stops the embedded Apache WebDAV Server.
+     * Tears down resources for this test case. <ol> <li>Shuts down the embedded Jackrabbit</li> <li>Extra clean up for
+     * org.apache.commons.httpclient.MultiThreadedHttpConnectionManager</li> <li>Remove temporary repository
+     * directory.</li> </ol> Stops the embedded Apache WebDAV Server.
      *
-     * @throws Exception
-     * @throws
+     * @throws Exception @throws
      */
-    private static void tearDownClass() throws Exception
-    {
+    private static void tearDownClass() throws Exception {
         // Main JR shutdown
         JrMain.shutdown();
         // WARN logged because one thread is still there, so clean up explicitly.
         MultiThreadedHttpConnectionManager.shutdownAll();
 
-        if (DEBUG)
-        {
+        if (DEBUG) {
             message("Skipping cleanup of " + RepoDirectory);
             return;
         }
 
         // Remove repo dir
-        try
-        {
+        try {
             message("Deleting temp directory " + RepoDirectory);
             FileUtils.deleteDirectory(RepoDirectory);
-        } catch (final IOException e)
-        {
+        } catch (final IOException e) {
             message(e);
-            if (RepoDirectory.exists())
-            {
+            if (RepoDirectory.exists()) {
                 message("Directory will be deleted on VM exit " + RepoDirectory);
                 RepoDirectory.deleteOnExit();
             }
         }
     }
 
-    public WebdavProviderTestCase() throws IOException
-    {
+    public WebdavProviderTestCase() throws IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         message("FreeSocketPortUtil.findFreeLocalPort() = " + SocketPort);
         // Use %40 for @ in a URL
@@ -348,11 +298,9 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
-        if (uri == null)
-        {
+        if (uri == null) {
             uri = ConnectionUri;
         }
         final WebdavFileSystemConfigBuilder builder = (WebdavFileSystemConfigBuilder) manager
@@ -363,8 +311,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
     }
 
     @Override
-    public boolean isFileSystemRootAccessible()
-    {
+    public boolean isFileSystemRootAccessible() {
         return false;
     }
 
@@ -372,8 +319,7 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("webdav", new WebdavFileProvider());
         manager.addProvider("tmp", new TemporaryFileProvider());
     }

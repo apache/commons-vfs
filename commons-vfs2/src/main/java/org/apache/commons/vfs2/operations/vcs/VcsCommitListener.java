@@ -20,8 +20,7 @@ package org.apache.commons.vfs2.operations.vcs;
  *
  * @since 0.1
  */
-public interface VcsCommitListener
-{
+public interface VcsCommitListener {
     /**
      *
      * @param path The path.

@@ -32,49 +32,35 @@ import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
 
 /**
- * A file system provider for Tar files.  Provides read-only file systems.
+ * A file system provider for Tar files. Provides read-only file systems.
  */
-public class TarFileProvider extends AbstractLayeredFileProvider
-{
+public class TarFileProvider extends AbstractLayeredFileProvider {
     /** The provider's capabilities */
-    protected static final Collection<Capability> capabilities =
-        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-        {
-            Capability.GET_LAST_MODIFIED,
-            Capability.GET_TYPE,
-            Capability.LIST_CHILDREN,
-            Capability.READ_CONTENT,
-            Capability.URI,
-            Capability.VIRTUAL
-        }));
+    protected static final Collection<Capability> capabilities = Collections
+            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.GET_LAST_MODIFIED, Capability.GET_TYPE,
+                    Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI, Capability.VIRTUAL }));
 
-    public TarFileProvider()
-    {
+    public TarFileProvider() {
         super();
     }
 
     /**
-     * Creates a layered file system.  This method is called if the file system
-     * is not cached.
+     * Creates a layered file system. This method is called if the file system is not cached.
      *
      * @param scheme The URI scheme.
-     * @param file   The file to create the file system on top of.
+     * @param file The file to create the file system on top of.
      * @return The file system.
      */
     @Override
-    protected FileSystem doCreateFileSystem(final String scheme,
-                                            final FileObject file,
-                                            final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
-        final AbstractFileName rootName =
-            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
+    protected FileSystem doCreateFileSystem(final String scheme, final FileObject file,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final AbstractFileName rootName = new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH,
+                FileType.FOLDER);
         return new TarFileSystem(rootName, file, fileSystemOptions);
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

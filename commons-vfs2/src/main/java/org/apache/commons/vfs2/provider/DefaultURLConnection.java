@@ -28,111 +28,70 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * A default URL connection that will work for most file systems.
  */
-public final class DefaultURLConnection
-    extends URLConnection
-{
+public final class DefaultURLConnection extends URLConnection {
     private final FileContent content;
 
-    public DefaultURLConnection(final URL url,
-                                final FileContent content)
-    {
+    public DefaultURLConnection(final URL url, final FileContent content) {
         super(url);
         this.content = content;
     }
 
     @Override
-    public void connect()
-    {
+    public void connect() {
         connected = true;
     }
 
     @Override
-    public InputStream getInputStream()
-        throws IOException
-    {
+    public InputStream getInputStream() throws IOException {
         return content.getInputStream();
     }
 
     @Override
-    public OutputStream getOutputStream()
-        throws IOException
-    {
+    public OutputStream getOutputStream() throws IOException {
         return content.getOutputStream();
     }
 
-
     @Override
-    public long getLastModified()
-    {
-        try
-        {
+    public long getLastModified() {
+        try {
             return content.getLastModifiedTime();
-        }
-        catch (final FileSystemException ignored)
-        {
+        } catch (final FileSystemException ignored) {
             return -1; // TODO: report?
         }
     }
 
     @Override
-    public int getContentLength()
-    {
-        try
-        {
+    public int getContentLength() {
+        try {
             return (int) content.getSize();
-        }
-        catch (final FileSystemException fse)
-        {
+        } catch (final FileSystemException fse) {
             return -1; // TODO: report?
         }
     }
 
     @Override
-    public String getContentType()
-    {
-        try
-        {
+    public String getContentType() {
+        try {
             return content.getContentInfo().getContentType();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
-    public String getContentEncoding()
-    {
-        try
-        {
+    public String getContentEncoding() {
+        try {
             return content.getContentInfo().getContentEncoding();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     /*
-    public String getHeaderField(String name)
-    {
-        try
-        {
-            if (content.getFile().getFileSystem().hasCapability(Capability.ATTRIBUTES))
-            {
-                String value = (String) content.getAttribute(name);
-                if (value != null)
-                {
-                    return value;
-                }
-            }
-
-            return null;
-        }
-        catch (FileSystemException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-    */
+     * public String getHeaderField(String name) { try { if
+     * (content.getFile().getFileSystem().hasCapability(Capability.ATTRIBUTES)) { String value = (String)
+     * content.getAttribute(name); if (value != null) { return value; } }
+     * 
+     * return null; } catch (FileSystemException e) { throw new RuntimeException(e); } }
+     */
 }

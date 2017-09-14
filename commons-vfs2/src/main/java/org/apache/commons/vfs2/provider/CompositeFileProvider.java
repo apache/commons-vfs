@@ -23,23 +23,23 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * Description.
  */
-public abstract class CompositeFileProvider extends AbstractFileProvider
-{
+public abstract class CompositeFileProvider extends AbstractFileProvider {
     private static final int INITIAL_BUFSZ = 80;
 
-    public CompositeFileProvider()
-    {
+    public CompositeFileProvider() {
         super();
     }
 
     /**
      * The schemes known.
+     * 
      * @return Array of supported schemes.
      */
     protected abstract String[] getSchemes();
 
     /**
      * Locates a file object, by absolute URI.
+     * 
      * @param baseFile The base FileObject.
      * @param uri The file to find.
      * @param fileSystemOptions The options for the FileSystem.
@@ -47,18 +47,14 @@ public abstract class CompositeFileProvider extends AbstractFileProvider
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject findFile(final FileObject baseFile,
-                               final String uri,
-                               final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
         final StringBuilder buf = new StringBuilder(INITIAL_BUFSZ);
 
         UriParser.extractScheme(uri, buf);
 
         final String[] schemes = getSchemes();
-        for (final String scheme : schemes)
-        {
+        for (final String scheme : schemes) {
             buf.insert(0, ":");
             buf.insert(0, scheme);
         }

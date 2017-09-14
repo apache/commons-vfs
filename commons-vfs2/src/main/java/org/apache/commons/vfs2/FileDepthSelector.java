@@ -19,8 +19,7 @@ package org.apache.commons.vfs2;
 /**
  * A {@link FileSelector} that selects all files in a particular depth range.
  */
-public class FileDepthSelector implements FileSelector
-{
+public class FileDepthSelector implements FileSelector {
     /**
      * The minimum depth
      */
@@ -34,13 +33,10 @@ public class FileDepthSelector implements FileSelector
     /**
      * Creates a selector with the given minimum and maximum depths.
      *
-     * @param minDepth
-     *            minimum depth
-     * @param maxDepth
-     *            maximum depth
+     * @param minDepth minimum depth
+     * @param maxDepth maximum depth
      */
-    public FileDepthSelector(final int minDepth, final int maxDepth)
-    {
+    public FileDepthSelector(final int minDepth, final int maxDepth) {
         this.minDepth = minDepth;
         this.maxDepth = maxDepth;
     }
@@ -48,12 +44,10 @@ public class FileDepthSelector implements FileSelector
     /**
      * Creates a selector with the same minimum and maximum depths.
      *
-     * @param minMaxDepth
-     *            minimum and maximum depth
+     * @param minMaxDepth minimum and maximum depth
      * @since 2.1
      */
-    public FileDepthSelector(final int minMaxDepth)
-    {
+    public FileDepthSelector(final int minMaxDepth) {
         this(minMaxDepth, minMaxDepth);
     }
 
@@ -62,21 +56,18 @@ public class FileDepthSelector implements FileSelector
      *
      * @since 2.1
      */
-    public FileDepthSelector()
-    {
+    public FileDepthSelector() {
         this(0, 0);
     }
 
     /**
      * Determines if a file or folder should be selected.
      *
-     * @param fileInfo
-     *            The file selection information
+     * @param fileInfo The file selection information
      * @return true if the file or folder should be included, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo)
-    {
+    public boolean includeFile(final FileSelectInfo fileInfo) {
         final int depth = fileInfo.getDepth();
         return minDepth <= depth && depth <= maxDepth;
     }
@@ -84,13 +75,11 @@ public class FileDepthSelector implements FileSelector
     /**
      * Determines whether a folder should be traversed.
      *
-     * @param fileInfo
-     *            The file selection information
+     * @param fileInfo The file selection information
      * @return true if the file or folder should be traversed, false otherwise.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo)
-    {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
         return fileInfo.getDepth() < maxDepth;
     }
 }

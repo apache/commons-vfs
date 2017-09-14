@@ -25,88 +25,68 @@ import org.apache.commons.vfs2.RandomAccessContent;
 /**
  * Holds the data which needs to be local to the current thread
  */
-class FileContentThreadData
-{
+class FileContentThreadData {
     // private int state = DefaultFileContent.STATE_CLOSED;
 
     private final ArrayList<InputStream> inputStreamList = new ArrayList<>();
     private final ArrayList<RandomAccessContent> randomAccessContentList = new ArrayList<>();
     private DefaultFileContent.FileContentOutputStream outputStream;
 
-    FileContentThreadData()
-    {
+    FileContentThreadData() {
     }
 
     /*
-    int getState()
-    {
-        return state;
-    }
+     * int getState() { return state; }
+     * 
+     * void setState(int state) { this.state = state; }
+     */
 
-    void setState(int state)
-    {
-        this.state = state;
-    }
-    */
-
-    void addInstr(final InputStream inputStream)
-    {
+    void addInstr(final InputStream inputStream) {
         this.inputStreamList.add(inputStream);
     }
 
-    void setOutstr(final DefaultFileContent.FileContentOutputStream outputStream)
-    {
+    void setOutstr(final DefaultFileContent.FileContentOutputStream outputStream) {
         this.outputStream = outputStream;
     }
 
-    DefaultFileContent.FileContentOutputStream getOutstr()
-    {
+    DefaultFileContent.FileContentOutputStream getOutstr() {
         return this.outputStream;
     }
 
-    void addRastr(final RandomAccessContent randomAccessContent)
-    {
+    void addRastr(final RandomAccessContent randomAccessContent) {
         this.randomAccessContentList.add(randomAccessContent);
     }
 
-    int getInstrsSize()
-    {
+    int getInstrsSize() {
         return this.inputStreamList.size();
     }
 
-    public Object removeInstr(final int pos)
-    {
+    public Object removeInstr(final int pos) {
         return this.inputStreamList.remove(pos);
     }
 
-    public void removeInstr(final InputStream inputStream)
-    {
+    public void removeInstr(final InputStream inputStream) {
         this.inputStreamList.remove(inputStream);
     }
 
-    public Object removeRastr(final int pos)
-    {
+    public Object removeRastr(final int pos) {
         return this.randomAccessContentList.remove(pos);
     }
 
-    public void removeRastr(final RandomAccessContent randomAccessContent)
-    {
+    public void removeRastr(final RandomAccessContent randomAccessContent) {
         this.randomAccessContentList.remove(randomAccessContent);
     }
 
-    public boolean hasStreams()
-    {
+    public boolean hasStreams() {
         return inputStreamList.size() > 0 || outputStream != null || randomAccessContentList.size() > 0;
     }
 
-    public void closeOutstr() throws FileSystemException
-    {
+    public void closeOutstr() throws FileSystemException {
         outputStream.close();
         outputStream = null;
     }
 
-    int getRastrsSize()
-    {
+    int getRastrsSize() {
         return randomAccessContentList.size();
     }
 }

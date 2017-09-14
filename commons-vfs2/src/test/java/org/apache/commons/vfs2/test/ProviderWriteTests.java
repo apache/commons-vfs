@@ -35,12 +35,9 @@ import org.junit.Assert;
 /**
  * File system test that check that a file system can be modified.
  */
-public class ProviderWriteTests
-    extends AbstractProviderTestCase
-{
+public class ProviderWriteTests extends AbstractProviderTestCase {
 
-    protected FileObject getReadFolderDir1() throws FileSystemException
-    {
+    protected FileObject getReadFolderDir1() throws FileSystemException {
         return getReadFolder().resolveFile("dir1");
     }
 
@@ -48,24 +45,15 @@ public class ProviderWriteTests
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.CREATE,
-            Capability.DELETE,
-            Capability.GET_TYPE,
-            Capability.LIST_CHILDREN,
-            Capability.READ_CONTENT,
-            Capability.WRITE_CONTENT
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+                Capability.READ_CONTENT, Capability.WRITE_CONTENT };
     }
 
     /**
      * Sets up a scratch folder for the test to use.
      */
-    protected FileObject createScratchFolder() throws Exception
-    {
+    protected FileObject createScratchFolder() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
@@ -78,8 +66,7 @@ public class ProviderWriteTests
     /**
      * Tests folder creation.
      */
-    public void testFolderCreate() throws Exception
-    {
+    public void testFolderCreate() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -112,8 +99,7 @@ public class ProviderWriteTests
     /**
      * Tests file creation
      */
-    public void testFileCreate() throws Exception
-    {
+    public void testFileCreate() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -166,8 +152,7 @@ public class ProviderWriteTests
     /**
      * Tests file/folder creation with mismatched types.
      */
-    public void testFileCreateMismatched() throws Exception
-    {
+    public void testFileCreateMismatched() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create a test file and folder
@@ -182,42 +167,32 @@ public class ProviderWriteTests
         assertTrue(folder.isFolder());
 
         // Attempt to create a file that already exists as a folder
-        try
-        {
+        try {
             folder.createFile();
             fail();
-        }
-        catch (final FileSystemException exc)
-        {
+        } catch (final FileSystemException exc) {
         }
 
         // Attempt to create a folder that already exists as a file
-        try
-        {
+        try {
             file.createFolder();
             fail();
-        }
-        catch (final FileSystemException exc)
-        {
+        } catch (final FileSystemException exc) {
         }
 
         // Attempt to create a folder as a child of a file
         final FileObject folder2 = file.resolveFile("some-child");
-        try
-        {
+        try {
             folder2.createFolder();
             fail();
-        }
-        catch (final FileSystemException exc)
-        {
+        } catch (final FileSystemException exc) {
         }
     }
 
     /**
      * Tests deletion
      */
-    public void testDelete() throws Exception
-    {
+    public void testDelete() throws Exception {
         // Set-up the test structure
         final FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();
@@ -263,8 +238,7 @@ public class ProviderWriteTests
     /**
      * Tests deletion
      */
-    public void testDeleteAllDescendents() throws Exception
-    {
+    public void testDeleteAllDescendents() throws Exception {
         // Set-up the test structure
         final FileObject folder = createScratchFolder();
         folder.resolveFile("file1.txt").createFile();
@@ -310,79 +284,44 @@ public class ProviderWriteTests
     /**
      * Tests concurrent read and write on the same file fails.
      */
-    /* imario@apache.org leave this to some sort of LockManager
-    public void testConcurrentReadWrite() throws Exception
-    {
-        final FileObject scratchFolder = createScratchFolder();
-
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        file.createFile();
-
-        // Start reading from the file
-        final InputStream instr = file.getContent().getInputStream();
-
-        try
-        {
-            // Try to write to the file
-            file.getContent().getOutputStream();
-            fail();
-        }
-        catch (final FileSystemException e)
-        {
-            // Check error message
-            assertSameMessage("vfs.provider/write-in-use.error", file, e);
-        }
-        finally
-        {
-            instr.close();
-        }
-    }
-    */
+    /*
+     * imario@apache.org leave this to some sort of LockManager public void testConcurrentReadWrite() throws Exception {
+     * final FileObject scratchFolder = createScratchFolder();
+     * 
+     * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
+     * 
+     * // Start reading from the file final InputStream instr = file.getContent().getInputStream();
+     * 
+     * try { // Try to write to the file file.getContent().getOutputStream(); fail(); } catch (final FileSystemException
+     * e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); } finally {
+     * instr.close(); } }
+     */
 
     /**
      * Tests concurrent writes on the same file fails.
      */
-    /* imario@apache.org leave this to some sort of LockManager
-    public void testConcurrentWrite() throws Exception
-    {
-        final FileObject scratchFolder = createScratchFolder();
-
-        final FileObject file = scratchFolder.resolveFile("file1.txt");
-        file.createFile();
-
-        // Start writing to the file
-        final OutputStream outstr = file.getContent().getOutputStream();
-        final String testContent = "some content";
-        try
-        {
-            // Write some content to the first stream
-            outstr.write(testContent.getBytes());
-
-            // Try to open another output stream
-            file.getContent().getOutputStream();
-            fail();
-        }
-        catch (final FileSystemException e)
-        {
-            // Check error message
-            assertSameMessage("vfs.provider/write-in-use.error", file, e);
-        }
-        finally
-        {
-            outstr.close();
-        }
-
-        // Make sure that the content written to the first stream is actually applied
-        assertSameContent(testContent, file);
-    }
-    */
+    /*
+     * imario@apache.org leave this to some sort of LockManager public void testConcurrentWrite() throws Exception {
+     * final FileObject scratchFolder = createScratchFolder();
+     * 
+     * final FileObject file = scratchFolder.resolveFile("file1.txt"); file.createFile();
+     * 
+     * // Start writing to the file final OutputStream outstr = file.getContent().getOutputStream(); final String
+     * testContent = "some content"; try { // Write some content to the first stream
+     * outstr.write(testContent.getBytes());
+     * 
+     * // Try to open another output stream file.getContent().getOutputStream(); fail(); } catch (final
+     * FileSystemException e) { // Check error message assertSameMessage("vfs.provider/write-in-use.error", file, e); }
+     * finally { outstr.close(); }
+     * 
+     * // Make sure that the content written to the first stream is actually applied assertSameContent(testContent,
+     * file); }
+     */
 
     /**
-     * Tests file copy to and from the same filesystem type.  This was a problem
-     * w/ FTP.
+     * Tests file copy to and from the same filesystem type. This was a problem w/ FTP.
      */
-    public void testCopySameFileSystem() throws Exception
-    {
+    public void testCopySameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -392,12 +331,9 @@ public class ProviderWriteTests
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
+        try {
             os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os.close();
         }
 
@@ -414,8 +350,7 @@ public class ProviderWriteTests
     /**
      * Tests overwriting a file on the same file system.
      */
-    public void testCopyFromOverwriteSameFileSystem() throws Exception
-    {
+    public void testCopyFromOverwriteSameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -425,12 +360,9 @@ public class ProviderWriteTests
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
+        try {
             os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os.close();
         }
 
@@ -453,8 +385,7 @@ public class ProviderWriteTests
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
-    public void testCreateDeleteCreateSameFileSystem() throws Exception
-    {
+    public void testCreateDeleteCreateSameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -464,12 +395,9 @@ public class ProviderWriteTests
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
+        try {
             os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os.close();
         }
 
@@ -496,8 +424,7 @@ public class ProviderWriteTests
     /**
      * Tests that test read folder is not hidden.
      */
-    public void testFolderIsHidden() throws Exception
-    {
+    public void testFolderIsHidden() throws Exception {
         final FileObject folder = getReadFolderDir1();
         Assert.assertFalse(folder.isHidden());
     }
@@ -505,8 +432,7 @@ public class ProviderWriteTests
     /**
      * Tests that test read folder is readable.
      */
-    public void testFolderIsReadable() throws Exception
-    {
+    public void testFolderIsReadable() throws Exception {
         final FileObject folder = getReadFolderDir1();
         Assert.assertTrue(folder.isReadable());
     }
@@ -514,8 +440,7 @@ public class ProviderWriteTests
     /**
      * Tests that test folder iswritable.
      */
-    public void testFolderIsWritable() throws Exception
-    {
+    public void testFolderIsWritable() throws Exception {
         final FileObject folder = getWriteFolder().resolveFile("dir1");
         Assert.assertTrue(folder.isWriteable());
     }
@@ -523,8 +448,7 @@ public class ProviderWriteTests
     /**
      * Test that children are handled correctly by create and delete.
      */
-    public void testListChildren() throws Exception
-    {
+    public void testListChildren() throws Exception {
         final FileObject folder = createScratchFolder();
         final HashSet<String> names = new HashSet<>();
 
@@ -571,8 +495,7 @@ public class ProviderWriteTests
     /**
      * Check listeners are notified of changes.
      */
-    public void testListener() throws Exception
-    {
+    public void testListener() throws Exception {
         final FileObject baseFile = createScratchFolder();
 
         final FileObject child = baseFile.resolveFile("newfile.txt");
@@ -581,8 +504,7 @@ public class ProviderWriteTests
         final FileSystem fs = baseFile.getFileSystem();
         final TestListener listener = new TestListener(child);
         fs.addListener(child, listener);
-        try
-        {
+        try {
             // Create as a folder
             listener.addCreateEvent();
             child.createFolder();
@@ -626,23 +548,20 @@ public class ProviderWriteTests
             child.copyFrom(otherChild, Selectors.SELECT_SELF);
             listener.assertFinished();
 
+        } finally {
+            fs.removeListener(child, listener);
         }
-        finally
-        {
-            fs.removeListener(child, listener);}
     }
 
     /**
      * Ensures the names of a set of files match an expected set.
      */
-    private void assertSameFileSet(final Set<String> names, final FileObject[] files)
-    {
+    private void assertSameFileSet(final Set<String> names, final FileObject[] files) {
         // Make sure the sets are the same length
         assertEquals(names.size(), files.length);
 
         // Check for unexpected names
-        for (final FileObject file : files)
-        {
+        for (final FileObject file : files) {
             assertTrue(names.contains(file.getName().getBaseName()));
         }
     }
@@ -650,16 +569,14 @@ public class ProviderWriteTests
     /**
      * A test listener.
      */
-    private static class TestListener implements FileListener
-    {
+    private static class TestListener implements FileListener {
         private final FileObject file;
         private final ArrayList<Object> events = new ArrayList<>();
         private static final Object CREATE = "create";
         private static final Object DELETE = "delete";
         private static final Object CHANGED = "changed";
 
-        public TestListener(final FileObject file)
-        {
+        public TestListener(final FileObject file) {
             this.file = file;
         }
 
@@ -667,17 +584,13 @@ public class ProviderWriteTests
          * Called when a file is created.
          */
         @Override
-        public void fileCreated(final FileChangeEvent event)
-        {
+        public void fileCreated(final FileChangeEvent event) {
             assertTrue("Unexpected create event", events.size() > 0);
             assertSame("Expecting a create event", CREATE, events.remove(0));
             assertEquals(file, event.getFile());
-            try
-            {
+            try {
                 assertTrue(file.exists());
-            }
-            catch (final FileSystemException e)
-            {
+            } catch (final FileSystemException e) {
                 fail();
             }
         }
@@ -686,49 +599,38 @@ public class ProviderWriteTests
          * Called when a file is deleted.
          */
         @Override
-        public void fileDeleted(final FileChangeEvent event)
-        {
+        public void fileDeleted(final FileChangeEvent event) {
             assertTrue("Unexpected delete event", events.size() > 0);
             assertSame("Expecting a delete event", DELETE, events.remove(0));
             assertEquals(file, event.getFile());
-            try
-            {
+            try {
                 assertTrue(!file.exists());
-            }
-            catch (final FileSystemException e)
-            {
+            } catch (final FileSystemException e) {
                 fail();
             }
         }
 
         @Override
-        public void fileChanged(final FileChangeEvent event) throws Exception
-        {
+        public void fileChanged(final FileChangeEvent event) throws Exception {
             assertTrue("Unexpected changed event", events.size() > 0);
             assertSame("Expecting a changed event", CHANGED, events.remove(0));
             assertEquals(file, event.getFile());
-            try
-            {
+            try {
                 assertTrue(!file.exists());
-            }
-            catch (final FileSystemException e)
-            {
+            } catch (final FileSystemException e) {
                 fail();
             }
         }
 
-        public void addCreateEvent()
-        {
+        public void addCreateEvent() {
             events.add(CREATE);
         }
 
-        public void addDeleteEvent()
-        {
+        public void addDeleteEvent() {
             events.add(DELETE);
         }
 
-        public void assertFinished()
-        {
+        public void assertFinished() {
             assertEquals("Missing event", 0, events.size());
         }
     }
@@ -736,8 +638,7 @@ public class ProviderWriteTests
     /**
      * Tests file write to and from the same filesystem type
      */
-    public void testWriteSameFileSystem() throws Exception
-    {
+    public void testWriteSameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -747,12 +648,9 @@ public class ProviderWriteTests
         // Create the source file
         final String expectedString = "Here is some sample content for the file.  Blah Blah Blah.";
         final OutputStream expectedOutputStream = fileSource.getContent().getOutputStream();
-        try
-        {
+        try {
             expectedOutputStream.write(expectedString.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             expectedOutputStream.close();
         }
 
@@ -790,8 +688,7 @@ public class ProviderWriteTests
     /**
      * Tests overwriting a file on the same file system.
      */
-    public void testOverwriteSameFileSystem() throws Exception
-    {
+    public void testOverwriteSameFileSystem() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -801,12 +698,9 @@ public class ProviderWriteTests
         // Create the source file
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
         final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
+        try {
             os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os.close();
         }
 
@@ -836,8 +730,7 @@ public class ProviderWriteTests
         OutputStream outputStream = fileCopy.getContent().getOutputStream();
         try {
             file.getContent().write(outputStream);
-        }
-        finally {
+        } finally {
             outputStream.close();
         }
         assertSameContent(content, fileCopy);
@@ -847,11 +740,10 @@ public class ProviderWriteTests
         outputStream = fileCopy.getContent().getOutputStream();
         try {
             file.getContent().write(outputStream, 1234);
-        }
-        finally {
+        } finally {
             outputStream.close();
         }
         assertSameContent(content, fileCopy);
-   }
+    }
 
 }

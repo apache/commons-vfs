@@ -26,107 +26,89 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * {@link UnsupportedOperationException} when one of these methods are called. For read-only random access
  * implementations.
  */
-public abstract class AbstractRandomAccessContent implements RandomAccessContent
-{
-    protected AbstractRandomAccessContent(final RandomAccessMode mode)
-    {
+public abstract class AbstractRandomAccessContent implements RandomAccessContent {
+    protected AbstractRandomAccessContent(final RandomAccessMode mode) {
     }
 
     /**
      * @deprecated see {@link java.io.DataInputStream#readLine()} This method will be removed when it is removed from
      *             the DataInput interface this class implements (which will probably never happen).
      * @return The line as a String.
-     * @throws IOException
-     *             if an error occurs.
+     * @throws IOException if an error occurs.
      */
     @Override
     @Deprecated
-    public String readLine() throws IOException
-    {
+    public String readLine() throws IOException {
         throw new UnsupportedOperationException("deprecated");
     }
 
     @Override
-    public void write(final byte[] b) throws IOException
-    {
+    public void write(final byte[] b) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void write(final int b) throws IOException
-    {
+    public void write(final int b) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeBoolean(final boolean v) throws IOException
-    {
+    public void writeBoolean(final boolean v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeByte(final int v) throws IOException
-    {
+    public void writeByte(final int v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeBytes(final String s) throws IOException
-    {
+    public void writeBytes(final String s) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeChar(final int v) throws IOException
-    {
+    public void writeChar(final int v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeChars(final String s) throws IOException
-    {
+    public void writeChars(final String s) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeDouble(final double v) throws IOException
-    {
+    public void writeDouble(final double v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeFloat(final float v) throws IOException
-    {
+    public void writeFloat(final float v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeInt(final int v) throws IOException
-    {
+    public void writeInt(final int v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeLong(final long v) throws IOException
-    {
+    public void writeLong(final long v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeShort(final int v) throws IOException
-    {
+    public void writeShort(final int v) throws IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void writeUTF(final String str) throws IOException
-    {
+    public void writeUTF(final String str) throws IOException {
         throw new UnsupportedOperationException();
     }
 }

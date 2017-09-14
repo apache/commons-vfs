@@ -38,14 +38,11 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * The content of a file.
  */
-public final class DefaultFileContent implements FileContent
-{
+public final class DefaultFileContent implements FileContent {
     /*
-    static final int STATE_NONE = 0;
-    static final int STATE_READING = 1;
-    static final int STATE_WRITING = 2;
-    static final int STATE_RANDOM_ACCESS = 3;
-    */
+     * static final int STATE_NONE = 0; static final int STATE_READING = 1; static final int STATE_WRITING = 2; static
+     * final int STATE_RANDOM_ACCESS = 3;
+     */
 
     static final int STATE_CLOSED = 0;
     static final int STATE_OPENED = 1;
@@ -69,41 +66,32 @@ public final class DefaultFileContent implements FileContent
      */
     private int openStreams;
 
-    public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory)
-    {
+    public DefaultFileContent(final AbstractFileObject file, final FileContentInfoFactory fileContentInfoFactory) {
         this.fileObject = file;
         this.fileContentInfoFactory = fileContentInfoFactory;
     }
 
-    private FileContentThreadData getOrCreateThreadData()
-    {
+    private FileContentThreadData getOrCreateThreadData() {
         FileContentThreadData data = this.threadData.get();
-        if (data == null)
-        {
+        if (data == null) {
             data = new FileContentThreadData();
             this.threadData.set(data);
         }
         return data;
     }
 
-    void streamOpened()
-    {
-        synchronized (this)
-        {
+    void streamOpened() {
+        synchronized (this) {
             openStreams++;
         }
         ((AbstractFileSystem) fileObject.getFileSystem()).streamOpened();
     }
 
-    void streamClosed()
-    {
-        synchronized (this)
-        {
-            if (openStreams > 0)
-            {
+    void streamClosed() {
+        synchronized (this) {
+            if (openStreams > 0) {
                 openStreams--;
-                if (openStreams < 1)
-                {
+                if (openStreams < 1) {
                     fileObject.notifyAllStreamsClosed();
                 }
             }
@@ -113,116 +101,96 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns the file that this is the content of.
+     * 
      * @return the FileObject.
      */
     @Override
-    public FileObject getFile()
-    {
+    public FileObject getFile() {
         return fileObject;
     }
 
     /**
      * Returns the size of the content (in bytes).
+     * 
      * @return The size of the content (in bytes).
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public long getSize() throws FileSystemException
-    {
+    public long getSize() throws FileSystemException {
         // Do some checking
-        if (!fileObject.getType().hasContent())
-        {
+        if (!fileObject.getType().hasContent()) {
             throw new FileSystemException("vfs.provider/get-size-not-file.error", fileObject);
         }
         /*
-        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
-        {
-            throw new FileSystemException("vfs.provider/get-size-write.error", file);
-        }
-        */
+         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
+         * new FileSystemException("vfs.provider/get-size-write.error", file); }
+         */
 
-        try
-        {
+        try {
             // Get the size
             return fileObject.doGetContentSize();
-        }
-        catch (final Exception exc)
-        {
+        } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider/get-size.error", exc, fileObject);
         }
     }
 
     /**
      * Returns the last-modified timestamp.
+     * 
      * @return The last modified timestamp.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public long getLastModifiedTime() throws FileSystemException
-    {
+    public long getLastModifiedTime() throws FileSystemException {
         /*
-        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
-        {
-            throw new FileSystemException("vfs.provider/get-last-modified-writing.error", file);
-        }
-        */
-        if (!fileObject.getType().hasAttributes())
-        {
+         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
+         * new FileSystemException("vfs.provider/get-last-modified-writing.error", file); }
+         */
+        if (!fileObject.getType().hasAttributes()) {
             throw new FileSystemException("vfs.provider/get-last-modified-no-exist.error", fileObject);
         }
-        try
-        {
+        try {
             return fileObject.doGetLastModifiedTime();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException("vfs.provider/get-last-modified.error", fileObject, e);
         }
     }
 
     /**
      * Sets the last-modified timestamp.
+     * 
      * @param modTime The last modified timestamp.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void setLastModifiedTime(final long modTime) throws FileSystemException
-    {
+    public void setLastModifiedTime(final long modTime) throws FileSystemException {
         /*
-        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
-        {
-            throw new FileSystemException("vfs.provider/set-last-modified-writing.error", file);
-        }
-        */
-        if (!fileObject.getType().hasAttributes())
-        {
+         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
+         * new FileSystemException("vfs.provider/set-last-modified-writing.error", file); }
+         */
+        if (!fileObject.getType().hasAttributes()) {
             throw new FileSystemException("vfs.provider/set-last-modified-no-exist.error", fileObject);
         }
-        try
-        {
-            if (!fileObject.doSetLastModifiedTime(modTime))
-            {
+        try {
+            if (!fileObject.doSetLastModifiedTime(modTime)) {
                 throw new FileSystemException("vfs.provider/set-last-modified.error", fileObject);
             }
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException("vfs.provider/set-last-modified.error", fileObject, e);
         }
     }
 
     /**
      * Checks if an attribute exists.
+     * 
      * @param attrName The name of the attribute to check.
      * @return true if the attribute is associated with the file.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
     @Override
-    public boolean hasAttribute(final String attrName) throws FileSystemException
-    {
-        if (!fileObject.getType().hasAttributes())
-        {
+    public boolean hasAttribute(final String attrName) throws FileSystemException {
+        if (!fileObject.getType().hasAttributes()) {
             throw new FileSystemException("vfs.provider/exists-attributes-no-exist.error", fileObject);
         }
         getAttributes();
@@ -231,29 +199,23 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns a read-only map of this file's attributes.
+     * 
      * @return a Map of the file's attributes.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public Map<String, Object> getAttributes() throws FileSystemException
-    {
-        if (!fileObject.getType().hasAttributes())
-        {
+    public Map<String, Object> getAttributes() throws FileSystemException {
+        if (!fileObject.getType().hasAttributes()) {
             throw new FileSystemException("vfs.provider/get-attributes-no-exist.error", fileObject);
         }
-        if (resetAttributes || roAttrs == null)
-        {
-            try
-            {
-                synchronized (this)
-                {
+        if (resetAttributes || roAttrs == null) {
+            try {
+                synchronized (this) {
                     attrs = fileObject.doGetAttributes();
                     roAttrs = Collections.unmodifiableMap(attrs);
                     resetAttributes = false;
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 throw new FileSystemException("vfs.provider/get-attributes.error", fileObject, e);
             }
         }
@@ -261,23 +223,22 @@ public final class DefaultFileContent implements FileContent
     }
 
     /**
-     * Used internally to flag situations where the file attributes should be
-     * reretrieved.
+     * Used internally to flag situations where the file attributes should be reretrieved.
+     * 
      * @since 2.0
      */
-    public void resetAttributes()
-    {
+    public void resetAttributes() {
         resetAttributes = true;
     }
 
     /**
      * Lists the attributes of this file.
+     * 
      * @return An array of attribute names.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public String[] getAttributeNames() throws FileSystemException
-    {
+    public String[] getAttributeNames() throws FileSystemException {
         getAttributes();
         final Set<String> names = attrs.keySet();
         return names.toArray(new String[names.size()]);
@@ -285,124 +246,103 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Gets the value of an attribute.
+     * 
      * @param attrName The attribute name.
      * @return The value of the attribute or null.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public Object getAttribute(final String attrName)
-        throws FileSystemException
-    {
+    public Object getAttribute(final String attrName) throws FileSystemException {
         getAttributes();
         return attrs.get(attrName);
     }
 
     /**
      * Sets the value of an attribute.
+     * 
      * @param attrName The name of the attribute to add.
      * @param value The value of the attribute.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void setAttribute(final String attrName, final Object value)
-        throws FileSystemException
-    {
-        if (!fileObject.getType().hasAttributes())
-        {
+    public void setAttribute(final String attrName, final Object value) throws FileSystemException {
+        if (!fileObject.getType().hasAttributes()) {
             throw new FileSystemException("vfs.provider/set-attribute-no-exist.error", attrName, fileObject);
         }
-        try
-        {
+        try {
             fileObject.doSetAttribute(attrName, value);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException("vfs.provider/set-attribute.error", e, attrName, fileObject);
         }
 
-        if (attrs != null)
-        {
+        if (attrs != null) {
             attrs.put(attrName, value);
         }
     }
 
     /**
      * Removes an attribute.
+     * 
      * @param attrName The name of the attribute to remove.
      * @throws FileSystemException if an error occurs.
      * @since 2.0
      */
     @Override
-    public void removeAttribute(final String attrName) throws FileSystemException
-    {
-        if (!fileObject.getType().hasAttributes())
-        {
+    public void removeAttribute(final String attrName) throws FileSystemException {
+        if (!fileObject.getType().hasAttributes()) {
             throw new FileSystemException("vfs.provider/remove-attribute-no-exist.error", fileObject);
         }
 
-        try
-        {
+        try {
             fileObject.doRemoveAttribute(attrName);
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException("vfs.provider/remove-attribute.error", e, attrName, fileObject);
         }
 
-        if (attrs != null)
-        {
+        if (attrs != null) {
             attrs.remove(attrName);
         }
     }
 
     /**
      * Returns the certificates used to sign this file.
+     * 
      * @return An array of Certificates.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public Certificate[] getCertificates() throws FileSystemException
-    {
-        if (!fileObject.exists())
-        {
+    public Certificate[] getCertificates() throws FileSystemException {
+        if (!fileObject.exists()) {
             throw new FileSystemException("vfs.provider/get-certificates-no-exist.error", fileObject);
         }
         /*
-        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
-        {
-            throw new FileSystemException("vfs.provider/get-certificates-writing.error", file);
-        }
-        */
+         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
+         * new FileSystemException("vfs.provider/get-certificates-writing.error", file); }
+         */
 
-        try
-        {
+        try {
             final Certificate[] certs = fileObject.doGetCertificates();
-            if (certs != null)
-            {
+            if (certs != null) {
                 return certs;
             }
             return new Certificate[0];
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException("vfs.provider/get-certificates.error", fileObject, e);
         }
     }
 
     /**
      * Returns an input stream for reading the content.
+     * 
      * @return The InputStream
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public InputStream getInputStream() throws FileSystemException
-    {
+    public InputStream getInputStream() throws FileSystemException {
         /*
-        if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS)
-        {
-            throw new FileSystemException("vfs.provider/read-in-use.error", file);
-        }
-        */
+         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
+         * new FileSystemException("vfs.provider/read-in-use.error", file); }
+         */
 
         // Get the raw input stream
         final InputStream inputStream = fileObject.getInputStream();
@@ -416,21 +356,18 @@ public final class DefaultFileContent implements FileContent
     }
 
     /**
-     * Returns an input/output stream to use to read and write the content of the file in an
-     * random manner.
+     * Returns an input/output stream to use to read and write the content of the file in an random manner.
+     * 
      * @param mode The RandomAccessMode.
      * @return A RandomAccessContent object to access the file.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException
-    {
+    public RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException {
         /*
-        if (getThreadData().getState() != STATE_NONE)
-        {
-            throw new FileSystemException("vfs.provider/read-in-use.error", file);
-        }
-        */
+         * if (getThreadData().getState() != STATE_NONE) { throw new
+         * FileSystemException("vfs.provider/read-in-use.error", file); }
+         */
 
         // Get the content
         final RandomAccessContent rastr = fileObject.getRandomAccessContent(mode);
@@ -445,30 +382,29 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * Returns an output stream for writing the content.
+     * 
      * @return The OutputStream for the file.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public OutputStream getOutputStream() throws FileSystemException
-    {
+    public OutputStream getOutputStream() throws FileSystemException {
         return getOutputStream(false);
     }
 
     /**
      * Returns an output stream for writing the content in append mode.
+     * 
      * @param bAppend true if the data written should be appended.
      * @return The OutputStream for the file.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException
-    {
+    public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException {
         /*
-        if (getThreadData().getState() != STATE_NONE)
-        */
+         * if (getThreadData().getState() != STATE_NONE)
+         */
         final FileContentThreadData streams = getOrCreateThreadData();
-        if (streams.getOutstr() != null)
-        {
+        if (streams.getOutstr() != null) {
             throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
         }
 
@@ -484,70 +420,53 @@ public final class DefaultFileContent implements FileContent
     }
 
     /**
-     * Closes all resources used by the content, including all streams, readers
-     * and writers.
+     * Closes all resources used by the content, including all streams, readers and writers.
+     * 
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void close() throws FileSystemException
-    {
+    public void close() throws FileSystemException {
         FileSystemException caught = null;
-        try
-        {
+        try {
             final FileContentThreadData streams = getOrCreateThreadData();
 
             // Close the input stream
-            while (streams.getInstrsSize() > 0)
-            {
+            while (streams.getInstrsSize() > 0) {
                 final FileContentInputStream instr = (FileContentInputStream) streams.removeInstr(0);
-                try
-                {
+                try {
                     instr.close();
-                }
-                catch (final FileSystemException ex)
-                {
+                } catch (final FileSystemException ex) {
                     caught = ex;
 
                 }
             }
 
             // Close the randomAccess stream
-            while (streams.getRastrsSize() > 0)
-            {
+            while (streams.getRastrsSize() > 0) {
                 final FileRandomAccessContent ra = (FileRandomAccessContent) streams.removeRastr(0);
-                try
-                {
+                try {
                     ra.close();
-                }
-                catch (final FileSystemException ex)
-                {
+                } catch (final FileSystemException ex) {
                     caught = ex;
                 }
             }
 
             // Close the output stream
             final FileContentOutputStream outstr = streams.getOutstr();
-            if (outstr != null)
-            {
+            if (outstr != null) {
                 streams.setOutstr(null);
-                try
-                {
+                try {
                     outstr.close();
-                }
-                catch (final FileSystemException ex)
-                {
+                } catch (final FileSystemException ex) {
                     caught = ex;
                 }
             }
-        }
-        finally
-        {
+        } finally {
             threadData.remove();
         }
 
         // throw last error (out >> rac >> input) after all closes have been tried
-        if (caught != null)
-        {
+        if (caught != null) {
             throw caught;
         }
     }
@@ -555,15 +474,12 @@ public final class DefaultFileContent implements FileContent
     /**
      * Handles the end of input stream.
      */
-    private void endInput(final FileContentInputStream instr)
-    {
+    private void endInput(final FileContentInputStream instr) {
         final FileContentThreadData streams = threadData.get();
-        if (streams != null)
-        {
+        if (streams != null) {
             streams.removeInstr(instr);
         }
-        if (streams == null || !streams.hasStreams())
-        {
+        if (streams == null || !streams.hasStreams()) {
             // remove even when no value is set to remove key
             threadData.remove();
         }
@@ -573,15 +489,12 @@ public final class DefaultFileContent implements FileContent
     /**
      * Handles the end of random access.
      */
-    private void endRandomAccess(final RandomAccessContent rac)
-    {
+    private void endRandomAccess(final RandomAccessContent rac) {
         final FileContentThreadData streams = threadData.get();
-        if (streams != null)
-        {
+        if (streams != null) {
             streams.removeRastr(rac);
         }
-        if (streams == null || !streams.hasStreams())
-        {
+        if (streams == null || !streams.hasStreams()) {
             // remove even when no value is set to remove key
             threadData.remove();
         }
@@ -591,15 +504,12 @@ public final class DefaultFileContent implements FileContent
     /**
      * Handles the end of output stream.
      */
-    private void endOutput() throws Exception
-    {
+    private void endOutput() throws Exception {
         final FileContentThreadData streams = threadData.get();
-        if (streams != null)
-        {
+        if (streams != null) {
             streams.setOutstr(null);
         }
-        if (streams == null || !streams.hasStreams())
-        {
+        if (streams == null || !streams.hasStreams()) {
             // remove even when no value is set to remove key
             threadData.remove();
         }
@@ -615,11 +525,9 @@ public final class DefaultFileContent implements FileContent
      * @return true if this is the case
      */
     @Override
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         final FileContentThreadData streams = threadData.get();
-        if (streams != null && streams.hasStreams())
-        {
+        if (streams != null && streams.hasStreams()) {
             return true;
         }
         // threadData.get() created empty entry
@@ -628,30 +536,24 @@ public final class DefaultFileContent implements FileContent
     }
 
     /**
-     * Check if a input and/or output stream is open.
-     * This checks all threads.
+     * Check if a input and/or output stream is open. This checks all threads.
      *
      * @return true if this is the case
      */
-    public boolean isOpenGlobal()
-    {
-        synchronized (this)
-        {
+    public boolean isOpenGlobal() {
+        synchronized (this) {
             return openStreams > 0;
         }
     }
 
     /**
-     * An input stream for reading content.  Provides buffering, and
-     * end-of-stream monitoring.
+     * An input stream for reading content. Provides buffering, and end-of-stream monitoring.
      */
-    private final class FileContentInputStream extends MonitorInputStream
-    {
+    private final class FileContentInputStream extends MonitorInputStream {
         // avoid gc
         private final FileObject file;
 
-        FileContentInputStream(final FileObject file, final InputStream instr)
-        {
+        FileContentInputStream(final FileObject file, final InputStream instr) {
             super(instr);
             this.file = file;
         }
@@ -660,14 +562,10 @@ public final class DefaultFileContent implements FileContent
          * Closes this input stream.
          */
         @Override
-        public void close() throws FileSystemException
-        {
-            try
-            {
+        public void close() throws FileSystemException {
+            try {
                 super.close();
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 throw new FileSystemException("vfs.provider/close-instr.error", file, e);
             }
         }
@@ -676,14 +574,10 @@ public final class DefaultFileContent implements FileContent
          * Called after the stream has been closed.
          */
         @Override
-        protected void onClose() throws IOException
-        {
-            try
-            {
+        protected void onClose() throws IOException {
+            try {
                 super.onClose();
-            }
-            finally
-            {
+            } finally {
                 endInput(this);
             }
         }
@@ -692,13 +586,11 @@ public final class DefaultFileContent implements FileContent
     /**
      * An input/output stream for reading/writing content on random positions
      */
-    private final class FileRandomAccessContent extends MonitorRandomAccessContent
-    {
+    private final class FileRandomAccessContent extends MonitorRandomAccessContent {
         // also avoids gc
         private final FileObject file;
 
-        FileRandomAccessContent(final FileObject file, final RandomAccessContent content)
-        {
+        FileRandomAccessContent(final FileObject file, final RandomAccessContent content) {
             super(content);
             this.file = file;
         }
@@ -707,27 +599,19 @@ public final class DefaultFileContent implements FileContent
          * Called after the stream has been closed.
          */
         @Override
-        protected void onClose() throws IOException
-        {
-            try
-            {
+        protected void onClose() throws IOException {
+            try {
                 super.onClose();
-            }
-            finally
-            {
+            } finally {
                 endRandomAccess(this);
             }
         }
 
         @Override
-        public void close() throws FileSystemException
-        {
-            try
-            {
+        public void close() throws FileSystemException {
+            try {
                 super.close();
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 throw new FileSystemException("vfs.provider/close-rac.error", file, e);
             }
         }
@@ -736,13 +620,11 @@ public final class DefaultFileContent implements FileContent
     /**
      * An output stream for writing content.
      */
-    final class FileContentOutputStream extends MonitorOutputStream
-    {
+    final class FileContentOutputStream extends MonitorOutputStream {
         // avoid gc
         private final FileObject file;
 
-        FileContentOutputStream(final FileObject file, final OutputStream outstr)
-        {
+        FileContentOutputStream(final FileObject file, final OutputStream outstr) {
             super(outstr);
             this.file = file;
         }
@@ -751,14 +633,10 @@ public final class DefaultFileContent implements FileContent
          * Closes this output stream.
          */
         @Override
-        public void close() throws FileSystemException
-        {
-            try
-            {
+        public void close() throws FileSystemException {
+            try {
                 super.close();
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
             }
         }
@@ -767,20 +645,13 @@ public final class DefaultFileContent implements FileContent
          * Called after this stream is closed.
          */
         @Override
-        protected void onClose() throws IOException
-        {
-            try
-            {
+        protected void onClose() throws IOException {
+            try {
                 super.onClose();
-            }
-            finally
-            {
-                try
-                {
+            } finally {
+                try {
                     endOutput();
-                }
-                catch (final Exception e)
-                {
+                } catch (final Exception e) {
                     throw new FileSystemException("vfs.provider/close-outstr.error", file, e);
                 }
             }
@@ -789,14 +660,13 @@ public final class DefaultFileContent implements FileContent
 
     /**
      * get the content info. e.g. content-type, content-encoding
+     * 
      * @return The FileContentInfo.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileContentInfo getContentInfo() throws FileSystemException
-    {
-        if (fileContentInfo == null)
-        {
+    public FileContentInfo getContentInfo() throws FileSystemException {
+        if (fileContentInfo == null) {
             fileContentInfo = fileContentInfoFactory.create(this);
         }
 
@@ -806,23 +676,17 @@ public final class DefaultFileContent implements FileContent
     /**
      * Writes this content to another FileContent.
      *
-     * @param fileContent
-     *            The target FileContent.
+     * @param fileContent The target FileContent.
      * @return the total number of bytes written
-     * @throws IOException
-     *             if an error occurs writing the content.
+     * @throws IOException if an error occurs writing the content.
      * @since 2.1
      */
     @Override
-    public long write(final FileContent fileContent) throws IOException
-    {
+    public long write(final FileContent fileContent) throws IOException {
         final OutputStream output = fileContent.getOutputStream();
-        try
-        {
+        try {
             return this.write(output);
-        }
-        finally
-        {
+        } finally {
             output.close();
         }
     }
@@ -830,65 +694,51 @@ public final class DefaultFileContent implements FileContent
     /**
      * Writes this content to another FileObject.
      *
-     * @param file
-     *            The target FileObject.
+     * @param file The target FileObject.
      * @return the total number of bytes written
-     * @throws IOException
-     *             if an error occurs writing the content.
+     * @throws IOException if an error occurs writing the content.
      * @since 2.1
      */
     @Override
-    public long write(final FileObject file) throws IOException
-    {
+    public long write(final FileObject file) throws IOException {
         return write(file.getContent());
     }
 
     /**
      * Writes this content to an OutputStream.
      *
-     * @param output
-     *            The target OutputStream.
+     * @param output The target OutputStream.
      * @return the total number of bytes written
-     * @throws IOException
-     *             if an error occurs writing the content.
+     * @throws IOException if an error occurs writing the content.
      * @since 2.1
      */
     @Override
-    public long write(final OutputStream output) throws IOException
-    {
+    public long write(final OutputStream output) throws IOException {
         return write(output, WRITE_BUFFER_SIZE);
     }
 
     /**
      * Writes this content to an OutputStream.
      *
-     * @param output
-     *            The target OutputStream.
-     * @param bufferSize
-     *            The buffer size to write data chunks.
+     * @param output The target OutputStream.
+     * @param bufferSize The buffer size to write data chunks.
      * @return the total number of bytes written
-     * @throws IOException
-     *             if an error occurs writing the file.
+     * @throws IOException if an error occurs writing the file.
      * @since 2.1
      */
     @Override
-    public long write(final OutputStream output, final int bufferSize) throws IOException
-    {
+    public long write(final OutputStream output, final int bufferSize) throws IOException {
         final InputStream input = this.getInputStream();
         long count = 0;
-        try
-        {
+        try {
             // This read/write code from Apache Commons IO
             final byte[] buffer = new byte[bufferSize];
             int n = 0;
-            while (-1 != (n = input.read(buffer)))
-            {
+            while (-1 != (n = input.read(buffer))) {
                 output.write(buffer, 0, n);
                 count += n;
             }
-        }
-        finally
-        {
+        } finally {
             input.close();
         }
         return count;

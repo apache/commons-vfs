@@ -32,42 +32,33 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.URLFileName;
 
 /**
- * A {@link org.apache.commons.vfs2.FileObject FileObject}
- * implementation backed by a {@link URL}.
+ * A {@link org.apache.commons.vfs2.FileObject FileObject} implementation backed by a {@link URL}.
  * <p>
  * TODO - Implement set lastModified and get/set attribute
  * <p>
  * TODO - Implement getOutputStream().
  */
-public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
-{
+public class UrlFileObject extends AbstractFileObject<UrlFileSystem> {
     private URL url;
 
-    protected UrlFileObject(final UrlFileSystem fs,
-                            final AbstractFileName fileName)
-    {
+    protected UrlFileObject(final UrlFileSystem fs, final AbstractFileName fileName) {
         super(fileName, fs);
     }
 
     /**
-     * Attaches this file object to its file resource.  This method is called
-     * before any of the doBlah() or onBlah() methods.  Sub-classes can use
-     * this method to perform lazy initialisation.
+     * Attaches this file object to its file resource. This method is called before any of the doBlah() or onBlah()
+     * methods. Sub-classes can use this method to perform lazy initialisation.
      */
     @Override
-    protected void doAttach() throws Exception
-    {
-        if (url == null)
-        {
+    protected void doAttach() throws Exception {
+        if (url == null) {
             // url = new URL(getName().getURI());
             url = createURL(getName());
         }
     }
 
-    protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException
-    {
-        if (name instanceof URLFileName)
-        {
+    protected URL createURL(final FileName name) throws MalformedURLException, FileSystemException, URIException {
+        if (name instanceof URLFileName) {
             final URLFileName urlName = (URLFileName) getName();
 
             // TODO: charset
@@ -80,34 +71,25 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
      * Determines the type of the file.
      */
     @Override
-    protected FileType doGetType() throws Exception
-    {
-        try
-        {
+    protected FileType doGetType() throws Exception {
+        try {
             // Attempt to connect & check status
             final URLConnection conn = url.openConnection();
             final InputStream in = conn.getInputStream();
-            try
-            {
-                if (conn instanceof HttpURLConnection)
-                {
+            try {
+                if (conn instanceof HttpURLConnection) {
                     final int status = ((HttpURLConnection) conn).getResponseCode();
                     // 200 is good, maybe add more later...
-                    if (HttpURLConnection.HTTP_OK != status)
-                    {
+                    if (HttpURLConnection.HTTP_OK != status) {
                         return FileType.IMAGINARY;
                     }
                 }
 
                 return FileType.FILE;
-            }
-            finally
-            {
+            } finally {
                 in.close();
             }
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             return FileType.IMAGINARY;
         }
     }
@@ -116,16 +98,12 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
      * Returns the size of the file content (in bytes).
      */
     @Override
-    protected long doGetContentSize() throws Exception
-    {
+    protected long doGetContentSize() throws Exception {
         final URLConnection conn = url.openConnection();
         final InputStream in = conn.getInputStream();
-        try
-        {
+        try {
             return conn.getContentLength();
-        }
-        finally
-        {
+        } finally {
             in.close();
         }
     }
@@ -134,17 +112,12 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
      * Returns the last modified time of this file.
      */
     @Override
-    protected long doGetLastModifiedTime()
-        throws Exception
-    {
+    protected long doGetLastModifiedTime() throws Exception {
         final URLConnection conn = url.openConnection();
         final InputStream in = conn.getInputStream();
-        try
-        {
+        try {
             return conn.getLastModified();
-        }
-        finally
-        {
+        } finally {
             in.close();
         }
     }
@@ -153,8 +126,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
      * Lists the children of the file.
      */
     @Override
-    protected String[] doListChildren() throws Exception
-    {
+    protected String[] doListChildren() throws Exception {
         throw new FileSystemException("Not implemented.");
     }
 
@@ -162,8 +134,7 @@ public class UrlFileObject extends AbstractFileObject<UrlFileSystem>
      * Creates an input stream to read the file content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         return url.openStream();
     }
 }

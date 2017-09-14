@@ -21,10 +21,8 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link WeakRefFilesCache} used by {@link WeakRefFilesCacheTestCase}.
  */
-public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase
-{
-    public void testFilesCache() throws Exception
-    {
+public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase {
+    public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
@@ -34,8 +32,7 @@ public class WeakRefFilesCacheTests extends AbstractFilesCacheTestsBase
         assertSame(dir1, dir1_2);
     }
 
-    public void testClass()
-    {
+    public void testClass() {
         assertTrue(getManager().getFilesCache() instanceof WeakRefFilesCache);
     }
 }

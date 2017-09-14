@@ -30,25 +30,22 @@ import org.apache.hadoop.fs.Path;
  *
  * @since 2.1
  */
-public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
-{
+public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final HdfsFileSystemConfigBuilder BUILDER = new HdfsFileSystemConfigBuilder();
-    private static final String KEY_CONFIG_NAMES  = "configNames";
-    private static final String KEY_CONFIG_PATHS  = "configPaths";
-    private static final String KEY_CONFIG_URLS   = "configURLs";
+    private static final String KEY_CONFIG_NAMES = "configNames";
+    private static final String KEY_CONFIG_PATHS = "configPaths";
+    private static final String KEY_CONFIG_URLS = "configURLs";
     private static final String KEY_CONFIG_STREAM = "configStream";
-    private static final String KEY_CONFIG_CONF   = "configConf";
+    private static final String KEY_CONFIG_CONF = "configConf";
 
-    private HdfsFileSystemConfigBuilder()
-    {
+    private HdfsFileSystemConfigBuilder() {
         super("hdfs.");
     }
 
     /**
      * @return HdfsFileSystemConfigBuilder instance
      */
-    public static HdfsFileSystemConfigBuilder getInstance()
-    {
+    public static HdfsFileSystemConfigBuilder getInstance() {
         return BUILDER;
     }
 
@@ -56,8 +53,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return HDFSFileSystem
      */
     @Override
-    protected Class<? extends FileSystem> getConfigClass()
-    {
+    protected Class<? extends FileSystem> getConfigClass() {
         return HdfsFileSystem.class;
     }
 
@@ -68,8 +64,7 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @see #setConfigName(FileSystemOptions, String)
      */
-    public String[] getConfigNames(final FileSystemOptions opts)
-    {
+    public String[] getConfigNames(final FileSystemOptions opts) {
         final String names = this.getString(opts, KEY_CONFIG_NAMES);
         return names == null || names.isEmpty() ? null : names.split(",");
     }
@@ -77,40 +72,32 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the name of configuration resource to be loaded after the defaults.
      * <p>
-     * Specifies the name of a config resource to override any specific HDFS settings.
-     * The property will be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(String)}
-     * after the URL was set as the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * Specifies the name of a config resource to override any specific HDFS settings. The property will be passed on to
+     * {@code org.apache.hadoop.conf.Configuration#addResource(String)} after the URL was set as the default name with:
+     * {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
      * <p>
-     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname}
-     * property in order to access HDFS files stored in an AWS installation (from outside their
-     * firewall). There are other possible uses too.
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
+     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
+     * too.
      * <p>
-     * This method may be called multiple times and all the specified resources will be loaded
-     * in the order they were specified.
+     * This method may be called multiple times and all the specified resources will be loaded in the order they were
+     * specified.
      * <p>
-     * Note also, that if a list of names is provided, separated by commas ({@code ","}), that
-     * this will work the same as calling this method a number of times with just one name each.
+     * Note also, that if a list of names is provided, separated by commas ({@code ","}), that this will work the same
+     * as calling this method a number of times with just one name each.
      *
      * @param opts The FileSystemOptions to modify.
-     * @param name resource name of additional configuration or {@code null} to unset all the
-     * values set so far.
+     * @param name resource name of additional configuration or {@code null} to unset all the values set so far.
      * @see #getConfigNames
      */
-    public void setConfigName(final FileSystemOptions opts, final String name)
-    {
-        if (name == null || name.isEmpty())
-        {
+    public void setConfigName(final FileSystemOptions opts, final String name) {
+        if (name == null || name.isEmpty()) {
             this.setParam(opts, KEY_CONFIG_NAMES, null);
-        }
-        else
-        {
+        } else {
             final String previousNames = this.getString(opts, KEY_CONFIG_NAMES);
-            if (previousNames == null || previousNames.isEmpty())
-            {
+            if (previousNames == null || previousNames.isEmpty()) {
                 this.setParam(opts, KEY_CONFIG_NAMES, name);
-            }
-            else
-            {
+            } else {
                 this.setParam(opts, KEY_CONFIG_NAMES, previousNames + "," + name);
             }
         }
@@ -123,17 +110,14 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @see #setConfigPath(FileSystemOptions, Path)
      */
-    public Path[] getConfigPaths(final FileSystemOptions opts)
-    {
+    public Path[] getConfigPaths(final FileSystemOptions opts) {
         final String pathNames = this.getString(opts, KEY_CONFIG_PATHS);
-        if (pathNames == null || pathNames.isEmpty())
-        {
+        if (pathNames == null || pathNames.isEmpty()) {
             return null;
         }
         final String[] paths = pathNames.split(",");
         final Path[] realPaths = new Path[paths.length];
-        for (int i = 0; i < paths.length; i++)
-        {
+        for (int i = 0; i < paths.length; i++) {
             realPaths[i] = new Path(paths[i]);
         }
         return realPaths;
@@ -142,36 +126,29 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the full path of configuration file to be loaded after the defaults.
      * <p>
-     * Specifies the path of a local file system config file to override any specific HDFS settings.
-     * The property will be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Path)}
-     * after the URL was set as the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * Specifies the path of a local file system config file to override any specific HDFS settings. The property will
+     * be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Path)} after the URL was set as the
+     * default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
      * <p>
-     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname}
-     * property in order to access HDFS files stored in an AWS installation (from outside their
-     * firewall). There are other possible uses too.
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
+     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
+     * too.
      * <p>
-     * This method may be called multiple times and all the specified resources will be loaded
-     * in the order they were specified.
+     * This method may be called multiple times and all the specified resources will be loaded in the order they were
+     * specified.
      *
      * @param opts The FileSystemOptions to modify.
-     * @param path full path of additional configuration file (local file system) or {@code null}
-     * to unset all the path values set so far.
+     * @param path full path of additional configuration file (local file system) or {@code null} to unset all the path
+     *            values set so far.
      */
-    public void setConfigPath(final FileSystemOptions opts, final Path path)
-    {
-        if (path == null)
-        {
+    public void setConfigPath(final FileSystemOptions opts, final Path path) {
+        if (path == null) {
             this.setParam(opts, KEY_CONFIG_PATHS, null);
-        }
-        else
-        {
+        } else {
             final String previousPathNames = this.getString(opts, KEY_CONFIG_PATHS);
-            if (previousPathNames == null || previousPathNames.isEmpty())
-            {
+            if (previousPathNames == null || previousPathNames.isEmpty()) {
                 this.setParam(opts, KEY_CONFIG_PATHS, path.toString());
-            }
-            else
-            {
+            } else {
                 this.setParam(opts, KEY_CONFIG_PATHS, previousPathNames + "," + path.toString());
             }
         }
@@ -184,25 +161,19 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @see #setConfigURL(FileSystemOptions, URL)
      */
-    public URL[] getConfigURLs(final FileSystemOptions opts)
-    {
-        try
-        {
+    public URL[] getConfigURLs(final FileSystemOptions opts) {
+        try {
             final String urlNames = this.getString(opts, KEY_CONFIG_URLS);
-            if (urlNames == null || urlNames.isEmpty())
-            {
+            if (urlNames == null || urlNames.isEmpty()) {
                 return null;
             }
             final String[] urls = urlNames.split(",");
             final URL[] realURLs = new URL[urls.length];
-            for (int i = 0; i < urls.length; i++)
-            {
+            for (int i = 0; i < urls.length; i++) {
                 realURLs[i] = new URL(urls[i]);
             }
             return realURLs;
-        }
-        catch (final MalformedURLException mue)
-        {
+        } catch (final MalformedURLException mue) {
             // This should never happen because we save it in the proper form
         }
         return null;
@@ -211,36 +182,28 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Sets the URL of configuration file to be loaded after the defaults.
      * <p>
-     * Specifies the URL of a config file to override any specific HDFS settings.
-     * The property will be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(URL)}
-     * after the URL was set as the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * Specifies the URL of a config file to override any specific HDFS settings. The property will be passed on to
+     * {@code org.apache.hadoop.conf.Configuration#addResource(URL)} after the URL was set as the default name with:
+     * {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
      * <p>
-     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname}
-     * property in order to access HDFS files stored in an AWS installation (from outside their
-     * firewall). There are other possible uses too.
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
+     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
+     * too.
      * <p>
-     * This method may be called multiple times and all the specified resources will be loaded
-     * in the order they were specified.
+     * This method may be called multiple times and all the specified resources will be loaded in the order they were
+     * specified.
      *
      * @param opts The FileSystemOptions to modify.
-     * @param url URL of additional configuration file or {@code null} to unset all the URL
-     * values set so far.
+     * @param url URL of additional configuration file or {@code null} to unset all the URL values set so far.
      */
-    public void setConfigURL(final FileSystemOptions opts, final URL url)
-    {
-        if (url == null)
-        {
+    public void setConfigURL(final FileSystemOptions opts, final URL url) {
+        if (url == null) {
             this.setParam(opts, KEY_CONFIG_URLS, null);
-        }
-        else
-        {
+        } else {
             final String previousURLNames = this.getString(opts, KEY_CONFIG_URLS);
-            if (previousURLNames == null || previousURLNames.isEmpty())
-            {
+            if (previousURLNames == null || previousURLNames.isEmpty()) {
                 this.setParam(opts, KEY_CONFIG_URLS, url.toString());
-            }
-            else
-            {
+            } else {
                 this.setParam(opts, KEY_CONFIG_URLS, previousURLNames + "," + url.toString());
             }
         }
@@ -253,28 +216,26 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @see #setConfigInputStream(FileSystemOptions, InputStream)
      */
-    public InputStream getConfigInputStream(final FileSystemOptions opts)
-    {
-        return (InputStream)this.getParam(opts, KEY_CONFIG_STREAM);
+    public InputStream getConfigInputStream(final FileSystemOptions opts) {
+        return (InputStream) this.getParam(opts, KEY_CONFIG_STREAM);
     }
 
     /**
      * Sets the input stream of configuration file to be loaded after the defaults.
      * <p>
-     * Specifies an input stream connected to a config file to override any specific HDFS settings.
-     * The property will be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(InputStream)}
-     * after the URL was set as the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * Specifies an input stream connected to a config file to override any specific HDFS settings. The property will be
+     * passed on to {@code org.apache.hadoop.conf.Configuration#addResource(InputStream)} after the URL was set as the
+     * default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
      * <p>
-     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname}
-     * property in order to access HDFS files stored in an AWS installation (from outside their
-     * firewall). There are other possible uses too.
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
+     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
+     * too.
      *
      * @param opts The FileSystemOptions to modify.
-     * @param inputStream input stream of additional configuration file or {@code null} to unset
-     * the configuration input stream previously set up.
+     * @param inputStream input stream of additional configuration file or {@code null} to unset the configuration input
+     *            stream previously set up.
      */
-    public void setConfigInputStream(final FileSystemOptions opts, final InputStream inputStream)
-    {
+    public void setConfigInputStream(final FileSystemOptions opts, final InputStream inputStream) {
         this.setParam(opts, KEY_CONFIG_STREAM, inputStream);
     }
 
@@ -285,28 +246,26 @@ public final class HdfsFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @see #setConfigConfiguration(FileSystemOptions, Configuration)
      */
-    public Configuration getConfigConfiguration(final FileSystemOptions opts)
-    {
-        return (Configuration)this.getParam(opts, KEY_CONFIG_CONF);
+    public Configuration getConfigConfiguration(final FileSystemOptions opts) {
+        return (Configuration) this.getParam(opts, KEY_CONFIG_CONF);
     }
 
     /**
      * Sets the configuration object to be loaded after the defaults.
      * <p>
-     * Specifies an already initialized configuration object to override any specific HDFS settings.
-     * The property will be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Configuration)}
-     * after the URL was set as the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
+     * Specifies an already initialized configuration object to override any specific HDFS settings. The property will
+     * be passed on to {@code org.apache.hadoop.conf.Configuration#addResource(Configuration)} after the URL was set as
+     * the default name with: {@code Configuration#set(FileSystem.FS_DEFAULT_NAME_KEY, url)}.
      * <p>
-     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname}
-     * property in order to access HDFS files stored in an AWS installation (from outside their
-     * firewall). There are other possible uses too.
+     * One use for this is to set a different value for the {@code dfs.client.use.datanode.hostname} property in order
+     * to access HDFS files stored in an AWS installation (from outside their firewall). There are other possible uses
+     * too.
      *
      * @param opts The FileSystemOptions to modify.
-     * @param configuration additional configuration object or {@code null} to unset any configuration
-     * object previously set.
+     * @param configuration additional configuration object or {@code null} to unset any configuration object previously
+     *            set.
      */
-    public void setConfigConfiguration(final FileSystemOptions opts, final Configuration configuration)
-    {
+    public void setConfigConfiguration(final FileSystemOptions opts, final Configuration configuration) {
         this.setParam(opts, KEY_CONFIG_CONF, configuration);
     }
 

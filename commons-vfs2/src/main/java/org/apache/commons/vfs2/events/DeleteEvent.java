@@ -22,16 +22,13 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * File deletion event.
  */
-public class DeleteEvent extends AbstractFileChangeEvent
-{
-    public DeleteEvent(final FileObject file)
-    {
+public class DeleteEvent extends AbstractFileChangeEvent {
+    public DeleteEvent(final FileObject file) {
         super(file);
     }
 
     @Override
-    public void notify(final FileListener listener) throws Exception
-    {
+    public void notify(final FileListener listener) throws Exception {
         listener.fileDeleted(this);
     }
 }

@@ -19,8 +19,7 @@ package org.apache.commons.vfs2;
 /**
  * Informs on the content of a file with content type and encoding.
  */
-public interface FileContentInfo
-{
+public interface FileContentInfo {
     /**
      * Gets the content encoding.
      *

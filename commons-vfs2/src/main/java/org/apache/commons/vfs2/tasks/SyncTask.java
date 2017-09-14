@@ -19,30 +19,23 @@ package org.apache.commons.vfs2.tasks;
 import org.apache.commons.vfs2.FileObject;
 
 /**
- * A task that synchronises the destination folder to look exactly like
- * the source folder (or folders).
+ * A task that synchronises the destination folder to look exactly like the source folder (or folders).
  */
-public class SyncTask
-    extends CopyTask
-{
+public class SyncTask extends CopyTask {
     /**
      * Handles a destination for which there is no corresponding source file.
      */
     @Override
-    protected void handleMissingSourceFile(final FileObject destFile)
-        throws Exception
-    {
+    protected void handleMissingSourceFile(final FileObject destFile) throws Exception {
         log("deleting " + destFile.getPublicURIString());
-        //destFile.delete( Selectors.SELECT_SELF );
+        // destFile.delete( Selectors.SELECT_SELF );
     }
 
     /**
-     * Check if this task cares about destination files with a missing source
-     * file.
+     * Check if this task cares about destination files with a missing source file.
      */
     @Override
-    protected boolean detectMissingSourceFiles()
-    {
+    protected boolean detectMissingSourceFiles() {
         return true;
     }
 }

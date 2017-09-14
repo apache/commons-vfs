@@ -22,8 +22,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * @since 0.1
  */
-public interface VcsLogEntryHandler
-{
+public interface VcsLogEntryHandler {
     /**
      *
      * @param entry The log entry.

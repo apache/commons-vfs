@@ -26,8 +26,7 @@ import org.junit.Test;
  *
  * @since 2.1
  */
-public class FileTypeSelectorTest
-{
+public class FileTypeSelectorTest {
     private static FileObject BaseFolder;
 
     /**
@@ -36,8 +35,7 @@ public class FileTypeSelectorTest
      * @throws Exception
      */
     @BeforeClass
-    public static void setUpClass() throws Exception
-    {
+    public static void setUpClass() throws Exception {
         BaseFolder = VFS.getManager().resolveFile("ram://" + FileTypeSelectorTest.class.getName());
         BaseFolder.resolveFile("root1.html").createFile();
         BaseFolder.resolveFile("root2.html").createFile();
@@ -55,17 +53,14 @@ public class FileTypeSelectorTest
      * @throws Exception
      */
     @AfterClass
-    public static void tearDownClass() throws Exception
-    {
-        if (BaseFolder != null)
-        {
+    public static void tearDownClass() throws Exception {
+        if (BaseFolder != null) {
             BaseFolder.deleteAll();
         }
     }
 
     @Test
-    public void testFileOrFolders() throws Exception
-    {
+    public void testFileOrFolders() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FILE_OR_FOLDER);
         final FileObject[] foList = BaseFolder.findFiles(selector);
         // Why 0?
@@ -73,16 +68,14 @@ public class FileTypeSelectorTest
     }
 
     @Test
-    public void testFiles() throws Exception
-    {
+    public void testFiles() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FILE);
         final FileObject[] foList = BaseFolder.findFiles(selector);
         Assert.assertEquals(5, foList.length);
     }
 
     @Test
-    public void testFolders() throws Exception
-    {
+    public void testFolders() throws Exception {
         final FileSelector selector = new FileTypeSelector(FileType.FOLDER);
         final FileObject[] foList = BaseFolder.findFiles(selector);
         Assert.assertEquals(8, foList.length);

@@ -23,8 +23,7 @@ import java.util.regex.Pattern;
  *
  * @since 2.1
  */
-public class PatternFileSelector implements FileSelector
-{
+public class PatternFileSelector implements FileSelector {
 
     /**
      * The extensions to select.
@@ -34,70 +33,58 @@ public class PatternFileSelector implements FileSelector
     /**
      * Creates a new selector for the given pattern.
      *
-     * @param pattern
-     *            The regular expressed used by this selector.
+     * @param pattern The regular expressed used by this selector.
      */
-    public PatternFileSelector(final Pattern pattern)
-    {
+    public PatternFileSelector(final Pattern pattern) {
         this.pattern = pattern;
     }
 
     /**
      * Creates a new selector for the given pattern.
      *
-     * @param regex
-     *            The regular expressed used by this selector.
+     * @param regex The regular expressed used by this selector.
      */
-    public PatternFileSelector(final String regex)
-    {
+    public PatternFileSelector(final String regex) {
         this(Pattern.compile(regex));
     }
 
     /**
      * Creates a new selector for the given Pattern and flags.
      *
-     * @param regex
-     *            The expression to be compiled
+     * @param regex The expression to be compiled
      *
-     * @param flags
-     *            Match flags, a bit mask.
+     * @param flags Match flags, a bit mask.
      *
      * @see Pattern#compile(String, int)
      */
-    public PatternFileSelector(final String regex, final int flags)
-    {
+    public PatternFileSelector(final String regex, final int flags) {
         this(Pattern.compile(regex, flags));
     }
 
     /**
      * Determines if a file or folder should be selected.
      *
-     * @param fileInfo
-     *            The file selection information.
+     * @param fileInfo The file selection information.
      * @return true if the file should be selected, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo)
-    {
+    public boolean includeFile(final FileSelectInfo fileInfo) {
         return this.pattern.matcher(fileInfo.getFile().getName().getPath()).matches();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.pattern.toString();
     }
 
     /**
      * Determines whether a folder should be traversed.
      *
-     * @param fileInfo
-     *            The file selection information.
+     * @param fileInfo The file selection information.
      * @return true if descendants should be traversed, false otherwise.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo)
-    {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
         return true;
     }
 }

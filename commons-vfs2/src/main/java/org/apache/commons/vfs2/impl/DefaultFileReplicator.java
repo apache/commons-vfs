@@ -35,27 +35,21 @@ import org.apache.commons.vfs2.util.Messages;
 /**
  * A simple file replicator and temporary file store.
  */
-public class DefaultFileReplicator
-    extends AbstractVfsComponent
-    implements FileReplicator, TemporaryFileStore
-{
+public class DefaultFileReplicator extends AbstractVfsComponent implements FileReplicator, TemporaryFileStore {
     private static final Log log = LogFactory.getLog(DefaultFileReplicator.class);
     private static final int MASK = 0xffff;
 
     private static final Random random = new Random();
 
-    private static final char[] TMP_RESERVED_CHARS = new char[]
-        {
-            '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';', ':', '<', '>', '|'
-        };
+    private static final char[] TMP_RESERVED_CHARS = new char[] { '?', '/', '\\', ' ', '&', '"', '\'', '*', '#', ';',
+            ':', '<', '>', '|' };
 
     private final ArrayList<Object> copies = new ArrayList<>();
     private long filecount;
     private File tempDir;
     private boolean tempDirMessageLogged;
 
-    public DefaultFileReplicator()
-    {
+    public DefaultFileReplicator() {
     }
 
     /**
@@ -63,15 +57,12 @@ public class DefaultFileReplicator
      *
      * @param tempDir The temporary directory.
      */
-    public DefaultFileReplicator(final File tempDir)
-    {
+    public DefaultFileReplicator(final File tempDir) {
         this.tempDir = tempDir;
     }
 
-    protected void addFile(final Object file)
-    {
-        synchronized (copies)
-        {
+    protected void addFile(final Object file) {
+        synchronized (copies) {
             copies.add(file);
         }
     }
@@ -84,12 +75,10 @@ public class DefaultFileReplicator
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public File allocateFile(final String baseName) throws FileSystemException
-    {
+    public File allocateFile(final String baseName) throws FileSystemException {
         // Create a unique-ish file name
         final String basename = createFilename(baseName);
-        synchronized (this)
-        {
+        synchronized (this) {
             filecount++;
         }
 
@@ -100,28 +89,23 @@ public class DefaultFileReplicator
      * Closes the replicator, deleting all temporary files.
      */
     @Override
-    public void close()
-    {
+    public void close() {
         // Delete the temporary files
-        synchronized (copies)
-        {
-            while (copies.size() > 0)
-            {
+        synchronized (copies) {
+            while (copies.size() > 0) {
                 final File file = (File) removeFile();
                 deleteFile(file);
             }
         }
 
         // Clean up the temp directory, if it is empty
-        if (tempDir != null && tempDir.exists() && tempDir.list().length == 0)
-        {
+        if (tempDir != null && tempDir.exists() && tempDir.list().length == 0) {
             tempDir.delete();
             tempDir = null;
         }
     }
 
-    protected File createAndAddFile(final File parent, final String basename) throws FileSystemException
-    {
+    protected File createAndAddFile(final File parent, final String basename) throws FileSystemException {
         final File file = createFile(tempDir, basename);
 
         // Keep track to delete later
@@ -138,8 +122,7 @@ public class DefaultFileReplicator
      * @return The File that was created.
      * @throws FileSystemException if an error occurs creating the file.
      */
-    protected File createFile(final File parent, final String name) throws FileSystemException
-    {
+    protected File createFile(final File parent, final String name) throws FileSystemException {
         return new File(parent, UriParser.decode(name));
     }
 
@@ -149,8 +132,7 @@ public class DefaultFileReplicator
      * @param baseName The base to prepend to the file name being created.
      * @return the name of the File.
      */
-    protected String createFilename(final String baseName)
-    {
+    protected String createFilename(final String baseName) {
         // BUG29007
         // return baseName + "_" + getFilecount() + ".tmp";
 
@@ -165,22 +147,17 @@ public class DefaultFileReplicator
      *
      * @param file The File to delete.
      */
-    protected void deleteFile(final File file)
-    {
-        try
-        {
+    protected void deleteFile(final File file) {
+        try {
             final FileObject fileObject = getContext().toFileObject(file);
             fileObject.deleteAll();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             final String message = Messages.getString("vfs.impl/delete-temp.warn", file.getName());
             VfsLog.warn(getLogger(), log, message, e);
         }
     }
 
-    protected long getFilecount()
-    {
+    protected long getFilecount() {
         return filecount;
     }
 
@@ -190,10 +167,8 @@ public class DefaultFileReplicator
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void init() throws FileSystemException
-    {
-        if (tempDir == null)
-        {
+    public void init() throws FileSystemException {
+        if (tempDir == null) {
             final String baseTmpDir = System.getProperty("java.io.tmpdir");
 
             tempDir = new File(baseTmpDir, "vfs_cache").getAbsoluteFile();
@@ -201,8 +176,7 @@ public class DefaultFileReplicator
 
         filecount = random.nextInt() & MASK;
 
-        if (!tempDirMessageLogged)
-        {
+        if (!tempDirMessageLogged) {
             final String message = Messages.getString("vfs.impl/temp-dir.debug", tempDir);
             VfsLog.debug(getLogger(), log, message);
 
@@ -217,10 +191,8 @@ public class DefaultFileReplicator
      *
      * @return the File that was removed.
      */
-    protected Object removeFile()
-    {
-        synchronized (copies)
-        {
+    protected Object removeFile() {
+        synchronized (copies) {
             return copies.remove(0);
         }
     }
@@ -230,10 +202,8 @@ public class DefaultFileReplicator
      *
      * @param file The File to remove.
      */
-    protected void removeFile(final Object file)
-    {
-        synchronized (copies)
-        {
+    protected void removeFile(final Object file) {
+        synchronized (copies) {
             copies.remove(file);
         }
     }
@@ -247,10 +217,7 @@ public class DefaultFileReplicator
      * @throws FileSystemException if an error occurs copying the file.
      */
     @Override
-    public File replicateFile(final FileObject srcFile,
-                              final FileSelector selector)
-        throws FileSystemException
-    {
+    public File replicateFile(final FileObject srcFile, final FileSelector selector) throws FileSystemException {
         final String basename = srcFile.getName().getBaseName();
         final File file = allocateFile(basename);
 

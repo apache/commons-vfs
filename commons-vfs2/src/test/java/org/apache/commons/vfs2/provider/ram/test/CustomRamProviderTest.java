@@ -45,9 +45,8 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class CustomRamProviderTest
-{
-    private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[]{ 1, 2, 3 };
+public class CustomRamProviderTest {
+    private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[] { 1, 2, 3 };
 
     private final List<Closeable> closeables = new ArrayList<>();
 
@@ -62,21 +61,18 @@ public class CustomRamProviderTest
     /**
      * Closes the given {@link Closeable} during the tearDown phase.
      */
-    private <C extends Closeable> C closeOnTearDown(final C closeable)
-    {
+    private <C extends Closeable> C closeOnTearDown(final C closeable) {
         this.closeables.add(closeable);
         return closeable;
     }
 
-    private InputStream createEmptyFile() throws FileSystemException, IOException
-    {
+    private InputStream createEmptyFile() throws FileSystemException, IOException {
         final FileObject root = manager.resolveFile("ram://file");
         root.createFile();
         return this.closeOnTearDown(root.getContent().getInputStream());
     }
 
-    private InputStream createNonEmptyFile() throws FileSystemException, IOException
-    {
+    private InputStream createNonEmptyFile() throws FileSystemException, IOException {
         final FileObject root = manager.resolveFile("ram://file");
         root.createFile();
 
@@ -92,8 +88,7 @@ public class CustomRamProviderTest
     }
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         manager = new DefaultFileSystemManager();
         manager.addProvider("ram", new RamFileProvider());
         manager.init();
@@ -104,15 +99,11 @@ public class CustomRamProviderTest
     }
 
     @After
-    public void tearDown() throws Exception
-    {
-        for (final Closeable closeable : this.closeables)
-        {
-            try
-            {
+    public void tearDown() throws Exception {
+        for (final Closeable closeable : this.closeables) {
+            try {
                 closeable.close();
-            } catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 // ignore
             }
         }
@@ -120,15 +111,13 @@ public class CustomRamProviderTest
     }
 
     @Test
-    public void testReadEmptyFileByteByByte() throws FileSystemException, IOException
-    {
+    public void testReadEmptyFileByteByByte() throws FileSystemException, IOException {
         final InputStream input = this.createEmptyFile();
         assertEquals("Empty file didnt return EOF -1", -1, input.read());
     }
 
     @Test
-    public void testReadEmptyFileIntoBuffer() throws FileSystemException, IOException
-    {
+    public void testReadEmptyFileIntoBuffer() throws FileSystemException, IOException {
         final InputStream input = this.createEmptyFile();
 
         final byte[] buffer = new byte[100];
@@ -137,8 +126,7 @@ public class CustomRamProviderTest
     }
 
     @Test
-    public void testReadEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException
-    {
+    public void testReadEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException {
         final InputStream input = this.createEmptyFile();
         final byte[] buffer = new byte[100];
         assertEquals("Empty file didnt return when filling buffer", -1, input.read(buffer, 10, 90));
@@ -146,8 +134,7 @@ public class CustomRamProviderTest
     }
 
     @Test
-    public void testReadNonEmptyFileByteByByte() throws FileSystemException, IOException
-    {
+    public void testReadNonEmptyFileByteByByte() throws FileSystemException, IOException {
         final InputStream input = this.createNonEmptyFile();
 
         assertEquals("Read 1st byte failed", 1, input.read());
@@ -157,8 +144,7 @@ public class CustomRamProviderTest
     }
 
     @Test
-    public void testReadNonEmptyFileIntoBuffer() throws FileSystemException, IOException
-    {
+    public void testReadNonEmptyFileIntoBuffer() throws FileSystemException, IOException {
         final InputStream input = this.createNonEmptyFile();
 
         final byte[] buffer = new byte[100];
@@ -176,8 +162,7 @@ public class CustomRamProviderTest
     }
 
     @Test
-    public void testReadNonEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException
-    {
+    public void testReadNonEmptyFileIntoBufferWithOffsetAndLength() throws FileSystemException, IOException {
         final InputStream input = this.createNonEmptyFile();
 
         final byte[] buffer = new byte[100];
@@ -202,25 +187,21 @@ public class CustomRamProviderTest
      * @throws FileSystemException
      */
     @Test
-    public void testRootFolderExists() throws FileSystemException
-    {
+    public void testRootFolderExists() throws FileSystemException {
         final FileObject root = manager.resolveFile("ram:///", defaultRamFso);
         assertTrue(root.getType().hasChildren());
 
-        try
-        {
+        try {
             root.delete();
             fail();
-        } catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             // Expected
         }
 
     }
 
     @Test
-    public void testFSOptions() throws Exception
-    {
+    public void testFSOptions() throws Exception {
         // Default FS
         final FileObject fo1 = manager.resolveFile("ram:/");
         final FileObject fo2 = manager.resolveFile("ram:/");
@@ -233,8 +214,10 @@ public class CustomRamProviderTest
         // Small FS
         final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
         final FileObject fo4 = manager.resolveFile("ram:/", smallSizedFso);
-        assertTrue("Both files should exist in the same FileSystem instance.", fo3.getFileSystem() == fo4.getFileSystem());
-        assertTrue("Both files should exist in different FileSystem instance.", fo1.getFileSystem() != fo3.getFileSystem());
+        assertTrue("Both files should exist in the same FileSystem instance.",
+                fo3.getFileSystem() == fo4.getFileSystem());
+        assertTrue("Both files should exist in different FileSystem instance.",
+                fo1.getFileSystem() != fo3.getFileSystem());
 
         fsOptions = fo3.getFileSystem().getFileSystemOptions();
         maxFilesystemSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(fsOptions);
@@ -242,29 +225,24 @@ public class CustomRamProviderTest
     }
 
     @Test
-    public void testSmallFS() throws Exception
-    {
+    public void testSmallFS() throws Exception {
         // Small FS
         final FileObject fo3 = manager.resolveFile("ram:/fo3", smallSizedFso);
         fo3.createFile();
-        try
-        {
+        try {
             final OutputStream os = fo3.getContent().getOutputStream();
             os.write(new byte[10]);
             os.close();
-        } catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             fail("Test should be able to save such a small file");
         }
 
-        try
-        {
+        try {
             final OutputStream os = fo3.getContent().getOutputStream();
             os.write(new byte[11]);
             os.close();
             fail("It shouldn't save such a big file");
-        } catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             // Expected
         }
 

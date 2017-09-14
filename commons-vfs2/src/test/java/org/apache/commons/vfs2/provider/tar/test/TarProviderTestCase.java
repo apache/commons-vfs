@@ -31,14 +31,11 @@ import junit.framework.Test;
 /**
  * Tests for the Tar file system.
  */
-public class TarProviderTestCase
-    extends AbstractProviderTestConfig
-{
+public class TarProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for the tar file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new TarProviderTestCase(), true);
     }
 
@@ -46,8 +43,7 @@ public class TarProviderTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("tar", new TarFileProvider());
         manager.addMimeTypeMap("application/x-tar", "tar");
     }
@@ -56,8 +52,7 @@ public class TarProviderTestCase
      * Returns the base folder for read tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tar");
         final String uri = "tar:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);

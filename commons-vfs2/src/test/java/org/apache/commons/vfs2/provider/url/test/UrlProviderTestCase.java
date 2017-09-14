@@ -31,21 +31,16 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 /**
  * Test cases for the generic provider.
  */
-public class UrlProviderTestCase
-    extends AbstractProviderTestConfig
-{
-    public static Test suite() throws Exception
-    {
+public class UrlProviderTestCase extends AbstractProviderTestConfig {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new UrlProviderTestCase());
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Prepares the file system manager. This implementation does nothing.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("file", new UrlFileProvider());
     }
 
@@ -53,9 +48,7 @@ public class UrlProviderTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager)
-        throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
         return manager.resolveFile(baseDir.toURI().toURL().toExternalForm());
     }

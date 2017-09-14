@@ -27,16 +27,14 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * Implements FTP stream-based random access.
  */
-class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
-{
+class FtpRandomAccessContent extends AbstractRandomAccessStreamContent {
     protected long filePointer;
 
     private final FtpFileObject fileObject;
     private DataInputStream dis;
     private FtpFileObject.FtpInputStream mis;
 
-    FtpRandomAccessContent(final FtpFileObject fileObject, final RandomAccessMode mode)
-    {
+    FtpRandomAccessContent(final FtpFileObject fileObject, final RandomAccessMode mode) {
         super(mode);
 
         this.fileObject = fileObject;
@@ -44,27 +42,21 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    public long getFilePointer() throws IOException
-    {
+    public long getFilePointer() throws IOException {
         return filePointer;
     }
 
     @Override
-    public void seek(final long pos) throws IOException
-    {
-        if (pos == filePointer)
-        {
+    public void seek(final long pos) throws IOException {
+        if (pos == filePointer) {
             // no change
             return;
         }
 
-        if (pos < 0)
-        {
-            throw new FileSystemException("vfs.provider/random-access-invalid-position.error",
-                    Long.valueOf(pos));
+        if (pos < 0) {
+            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
         }
-        if (dis != null)
-        {
+        if (dis != null) {
             close();
         }
 
@@ -72,53 +64,43 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    protected DataInputStream getDataInputStream() throws IOException
-    {
-        if (dis != null)
-        {
+    protected DataInputStream getDataInputStream() throws IOException {
+        if (dis != null) {
             return dis;
         }
 
         // FtpClient client = fileSystem.getClient();
         mis = fileObject.getInputStream(filePointer);
-        dis = new DataInputStream(new FilterInputStream(mis)
-        {
+        dis = new DataInputStream(new FilterInputStream(mis) {
             @Override
-            public int read() throws IOException
-            {
+            public int read() throws IOException {
                 final int ret = super.read();
-                if (ret > -1)
-                {
+                if (ret > -1) {
                     filePointer++;
                 }
                 return ret;
             }
 
             @Override
-            public int read(final byte[] b) throws IOException
-            {
+            public int read(final byte[] b) throws IOException {
                 final int ret = super.read(b);
-                if (ret > -1)
-                {
+                if (ret > -1) {
                     filePointer += ret;
                 }
                 return ret;
             }
 
             @Override
-            public int read(final byte[] b, final int off, final int len) throws IOException
-            {
+            public int read(final byte[] b, final int off, final int len) throws IOException {
                 final int ret = super.read(b, off, len);
-                if (ret > -1)
-                {
+                if (ret > -1) {
                     filePointer += ret;
                 }
                 return ret;
             }
 
             @Override
-            public void close() throws IOException
-            {
+            public void close() throws IOException {
                 FtpRandomAccessContent.this.close();
             }
         });
@@ -126,12 +108,9 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
         return dis;
     }
 
-
     @Override
-    public void close() throws IOException
-    {
-        if (dis != null)
-        {
+    public void close() throws IOException {
+        if (dis != null) {
             mis.abort();
 
             // this is to avoid recursive close
@@ -143,8 +122,7 @@ class FtpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    public long length() throws IOException
-    {
+    public long length() throws IOException {
         return fileObject.getContent().getSize();
     }
 }

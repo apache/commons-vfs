@@ -19,28 +19,25 @@ package org.apache.commons.vfs2;
 /**
  * Several standard file selectors.
  */
-public final class Selectors
-{
+public final class Selectors {
     /**
      * A {@link FileSelector} that selects only the base file/folder.
      */
     public static final FileSelector SELECT_SELF = new FileDepthSelector();
 
     /**
-     * A {@link FileSelector} that selects the base file/folder and its
-     * direct children.
+     * A {@link FileSelector} that selects the base file/folder and its direct children.
      */
     public static final FileSelector SELECT_SELF_AND_CHILDREN = new FileDepthSelector(0, 1);
 
     /**
-     * A {@link FileSelector} that selects only the direct children
-     * of the base folder.
+     * A {@link FileSelector} that selects only the direct children of the base folder.
      */
     public static final FileSelector SELECT_CHILDREN = new FileDepthSelector(1);
 
     /**
-     * A {@link FileSelector} that selects all the descendants of the
-     * base folder, but does not select the base folder itself.
+     * A {@link FileSelector} that selects all the descendants of the base folder, but does not select the base folder
+     * itself.
      */
     public static final FileSelector EXCLUDE_SELF = new FileDepthSelector(1, Integer.MAX_VALUE);
 
@@ -55,15 +52,13 @@ public final class Selectors
     public static final FileSelector SELECT_FOLDERS = new FileTypeSelector(FileType.FOLDER);
 
     /**
-     * A {@link FileSelector} that selects the base file/folder, plus all
-     * its descendants.
+     * A {@link FileSelector} that selects the base file/folder, plus all its descendants.
      */
     public static final FileSelector SELECT_ALL = new AllFileSelector();
 
     /**
      * Prevent the class from being instantiated.
      */
-    private Selectors()
-    {
+    private Selectors() {
     }
 }

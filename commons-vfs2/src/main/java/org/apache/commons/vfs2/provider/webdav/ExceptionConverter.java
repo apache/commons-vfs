@@ -27,60 +27,45 @@ import org.w3c.dom.Element;
 
 /**
  * {@code ExceptionConverter} converts WebDAV exceptions into FileSystemExceptions.
+ * 
  * @since 2.0
  */
-public final class ExceptionConverter
-{
+public final class ExceptionConverter {
     // avoid instanciation
-    private ExceptionConverter()
-    {
+    private ExceptionConverter() {
     }
 
-    public static FileSystemException generate(final DavException davExc) throws FileSystemException
-    {
+    public static FileSystemException generate(final DavException davExc) throws FileSystemException {
         return generate(davExc, null);
     }
 
     public static FileSystemException generate(final DavException davExc, final DavMethod method)
-            throws FileSystemException
-    {
+            throws FileSystemException {
         String msg = davExc.getMessage();
-        if (davExc.hasErrorCondition())
-        {
-            try
-            {
+        if (davExc.hasErrorCondition()) {
+            try {
                 final Element error = davExc.toXml(DomUtil.BUILDER_FACTORY.newDocumentBuilder().newDocument());
-                if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE))
-                {
-                    if (DomUtil.hasChildElement(error, "exception", null))
-                    {
+                if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE)) {
+                    if (DomUtil.hasChildElement(error, "exception", null)) {
                         final Element exc = DomUtil.getChildElement(error, "exception", null);
-                        if (DomUtil.hasChildElement(exc, "message", null))
-                        {
+                        if (DomUtil.hasChildElement(exc, "message", null)) {
                             msg = DomUtil.getChildText(exc, "message", null);
                         }
-                        if (DomUtil.hasChildElement(exc, "class", null))
-                        {
+                        if (DomUtil.hasChildElement(exc, "class", null)) {
                             final Class<?> cl = Class.forName(DomUtil.getChildText(exc, "class", null));
-                            final Constructor<?> excConstr = cl.getConstructor(new Class[]{String.class});
-                            if (excConstr != null)
-                            {
-                                final Object o = excConstr.newInstance(new Object[]{msg});
-                                if (o instanceof FileSystemException)
-                                {
+                            final Constructor<?> excConstr = cl.getConstructor(new Class[] { String.class });
+                            if (excConstr != null) {
+                                final Object o = excConstr.newInstance(new Object[] { msg });
+                                if (o instanceof FileSystemException) {
                                     return (FileSystemException) o;
-                                }
-                                else if (o instanceof Exception)
-                                {
+                                } else if (o instanceof Exception) {
                                     return new FileSystemException(msg, (Exception) o);
                                 }
                             }
                         }
                     }
                 }
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 throw new FileSystemException(e);
             }
         }

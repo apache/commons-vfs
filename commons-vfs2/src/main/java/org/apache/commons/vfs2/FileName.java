@@ -17,13 +17,11 @@
 package org.apache.commons.vfs2;
 
 /**
- * Represents a file name.  File names are immutable, and work correctly as
- * keys in hash tables.
+ * Represents a file name. File names are immutable, and work correctly as keys in hash tables.
  *
  * @see FileObject
  */
-public interface FileName extends Comparable<FileName>
-{
+public interface FileName extends Comparable<FileName> {
     /**
      * The separator character used in file paths.
      */
@@ -40,44 +38,40 @@ public interface FileName extends Comparable<FileName>
     String ROOT_PATH = "/";
 
     /**
-     * Returns the base name of this file.  The base name is the last element
-     * of the file name.  For example the base name of
-     * {@code /somefolder/somefile} is {@code somefile}.
+     * Returns the base name of this file. The base name is the last element of the file name. For example the base name
+     * of {@code /somefolder/somefile} is {@code somefile}.
      * <p>
      * The root file of a file system has an empty base name.
      * </p>
      *
-     * @return The base name.  Never returns null.
+     * @return The base name. Never returns null.
      */
     String getBaseName();
 
     /**
-     * Returns the absolute path of this file, within its file system.  This
-     * path is normalized, so that {@code .} and {@code ..} elements
-     * have been removed.  Also, the path only contains {@code /} as its
-     * separator character.  The path always starts with {@code /}
+     * Returns the absolute path of this file, within its file system. This path is normalized, so that {@code .} and
+     * {@code ..} elements have been removed. Also, the path only contains {@code /} as its separator character. The
+     * path always starts with {@code /}
      * <p>
      * The root of a file system has {@code /} as its absolute path.
      * </p>
      *
-     * @return The path.  Never returns null.
+     * @return The path. Never returns null.
      */
     String getPath();
 
     /**
-     * Returns the absolute path of this file, within its file system.  This
-     * path is normalized, so that {@code .} and {@code ..} elements
-     * have been removed.  Also, the path only contains {@code /} as its
-     * separator character.  The path always starts with {@code /}
+     * Returns the absolute path of this file, within its file system. This path is normalized, so that {@code .} and
+     * {@code ..} elements have been removed. Also, the path only contains {@code /} as its separator character. The
+     * path always starts with {@code /}
      * <p>
      * The root of a file system has {@code /} as its absolute path.
      * </p>
      * <p>
-     * In contrast to {@link #getPath()} the path is decoded i.e. all %nn stuff
-     * replaced by its character.
+     * In contrast to {@link #getPath()} the path is decoded i.e. all %nn stuff replaced by its character.
      * </p>
      *
-     * @return The path.  Never returns null.
+     * @return The path. Never returns null.
      * @throws FileSystemException if the path is not correctly encoded
      */
     String getPathDecoded() throws FileSystemException;
@@ -85,15 +79,13 @@ public interface FileName extends Comparable<FileName>
     /**
      * Returns the extension of this file name.
      *
-     * @return The extension.  Returns an empty string if the name has no
-     *         extension.
+     * @return The extension. Returns an empty string if the name has no extension.
      */
     String getExtension();
 
     /**
-     * Returns the depth of this file name, within its file system.  The depth
-     * of the root of a file system is 0.  The depth of any other file is
-     * 1 + the depth of its parent.
+     * Returns the depth of this file name, within its file system. The depth of the root of a file system is 0. The
+     * depth of any other file is 1 + the depth of its parent.
      *
      * @return The depth of this file name.
      */
@@ -128,16 +120,14 @@ public interface FileName extends Comparable<FileName>
     FileName getRoot();
 
     /**
-     * Returns the file name of the parent of this file.  The root of a
-     * file system has no parent.
+     * Returns the file name of the parent of this file. The root of a file system has no parent.
      *
-     * @return A {@link FileName} object representing the parent name.  Returns
-     *         null for the root of a file system.
+     * @return A {@link FileName} object representing the parent name. Returns null for the root of a file system.
      */
     FileName getParent();
 
     /**
-     * Resolves a name, relative to this file name.  Equivalent to calling
+     * Resolves a name, relative to this file name. Equivalent to calling
      * {@code resolveName( path, NameScope.FILE_SYSTEM )}.
      *
      * @param name The name to resolve.
@@ -147,16 +137,16 @@ public interface FileName extends Comparable<FileName>
     // FileName resolveName(String name) throws FileSystemException;
 
     /**
-     * Resolves a name, relative to this file name.  Refer to {@link NameScope}
-     * for a description of how names are resolved.
+     * Resolves a name, relative to this file name. Refer to {@link NameScope} for a description of how names are
+     * resolved.
      *
-     * @param name  The name to resolve.
+     * @param name The name to resolve.
      * @param scope The scope to use when resolving the name.
      * @return A {@link FileName} object representing the resolved file name.
      * @throws FileSystemException If the name is invalid.
      */
     // FileName resolveName(String name, NameScope scope)
-    //     throws FileSystemException;
+    // throws FileSystemException;
 
     /**
      * Converts a file name to a relative name, relative to this file name.
@@ -206,9 +196,8 @@ public interface FileName extends Comparable<FileName>
     /**
      * Returns the requested or current type of this name.
      * <p>
-     * The "requested" type is the one determined during resolving the name.
-     * In this case the name is a {@link FileType#FOLDER} if it ends with an "/" else
-     * it will be a {@link FileType#FILE}.
+     * The "requested" type is the one determined during resolving the name. In this case the name is a
+     * {@link FileType#FOLDER} if it ends with an "/" else it will be a {@link FileType#FILE}.
      * <p>
      * Once attached it will be changed to reflect the real type of this resource.
      *

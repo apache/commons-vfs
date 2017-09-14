@@ -30,27 +30,23 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * Such a file only has one child (the compressed filename with stripped last extension)
  * </p>
  *
- * @param <FS>
- *            A CompressedFileFileSystem
+ * @param <FS> A CompressedFileFileSystem
  */
-public abstract class CompressedFileFileObject<FS extends CompressedFileFileSystem> extends AbstractFileObject<FS>
-{
+public abstract class CompressedFileFileObject<FS extends CompressedFileFileSystem> extends AbstractFileObject<FS> {
     private final FileObject container;
     private final String[] children;
 
-    protected CompressedFileFileObject(final AbstractFileName name, final FileObject container, final FS fs)
-    {
+    protected CompressedFileFileObject(final AbstractFileName name, final FileObject container, final FS fs) {
         super(name, fs);
         this.container = container;
 
         // todo, add getBaseName(String) to FileName
         String basename = container.getName().getBaseName();
         final int pos = basename.lastIndexOf('.');
-        if (pos > 0)
-        {
+        if (pos > 0) {
             basename = basename.substring(0, pos);
         }
-        children = new String[]{basename};
+        children = new String[] { basename };
     }
 
     /**
@@ -60,8 +56,7 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean isWriteable() throws FileSystemException
-    {
+    public boolean isWriteable() throws FileSystemException {
         return getFileSystem().hasCapability(Capability.WRITE_CONTENT);
     }
 
@@ -69,10 +64,8 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
      * Returns the file's type.
      */
     @Override
-    protected FileType doGetType() throws FileSystemException
-    {
-        if (getName().getPath().endsWith("/"))
-        {
+    protected FileType doGetType() throws FileSystemException {
+        if (getName().getPath().endsWith("/")) {
             return FileType.FOLDER;
         }
         return FileType.FILE;
@@ -82,18 +75,16 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
      * Lists the children of the file.
      */
     @Override
-    protected String[] doListChildren()
-    {
+    protected String[] doListChildren() {
         return children;
     }
 
     /**
-     * Returns the size of the file content (in bytes).  Is only called if
-     * {@link #doGetType} returns {@link FileType#FILE}.
+     * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}.
      */
     @Override
-    protected long doGetContentSize()
-    {
+    protected long doGetContentSize() {
         return -1;
     }
 
@@ -101,19 +92,16 @@ public abstract class CompressedFileFileObject<FS extends CompressedFileFileSyst
      * Returns the last modified time of this file.
      */
     @Override
-    protected long doGetLastModifiedTime() throws Exception
-    {
+    protected long doGetLastModifiedTime() throws Exception {
         return container.getContent().getLastModifiedTime();
     }
 
-    protected FileObject getContainer()
-    {
+    protected FileObject getContainer() {
         return container;
     }
 
     @Override
-    public void createFile() throws FileSystemException
-    {
+    public void createFile() throws FileSystemException {
         container.createFile();
         injectType(FileType.FILE);
     }

@@ -22,10 +22,10 @@ import org.apache.commons.vfs2.provider.URLFileName;
 /**
  * A URL FileName.
  */
-public class UrlFileName extends URLFileName
-{
+public class UrlFileName extends URLFileName {
     /**
      * The constructor.
+     * 
      * @param scheme The scheme to use.
      * @param hostName The host name.
      * @param port The port.
@@ -37,17 +37,14 @@ public class UrlFileName extends URLFileName
      * @param queryString Parameters to use when locating or creating the file name.
      */
     public UrlFileName(final String scheme, final String hostName, final int port, final int defaultPort,
-                       final String userName, final String password, final String path, final FileType type,
-                       final String queryString)
-    {
+            final String userName, final String password, final String path, final FileType type,
+            final String queryString) {
         super(scheme, hostName, port, defaultPort, userName, password, path, type, queryString);
     }
 
     @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
-    {
-        if (getHostName() != null && !"".equals(getHostName()))
-        {
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
+        if (getHostName() != null && !"".equals(getHostName())) {
             super.appendRootUri(buffer, addPassword);
             return;
         }

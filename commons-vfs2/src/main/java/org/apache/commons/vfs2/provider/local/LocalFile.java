@@ -36,8 +36,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * A file object implementation which uses direct file access.
  */
-public class LocalFile extends AbstractFileObject<LocalFileSystem>
-{
+public class LocalFile extends AbstractFileObject<LocalFileSystem> {
     private final String rootFile;
 
     private File file;
@@ -50,10 +49,8 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * @param name the file name on this file system.
      * @throws FileSystemException if an error occurs.
      */
-    protected LocalFile(final LocalFileSystem fileSystem,
-                        final String rootFile,
-                        final AbstractFileName name) throws FileSystemException
-    {
+    protected LocalFile(final LocalFileSystem fileSystem, final String rootFile, final AbstractFileName name)
+            throws FileSystemException {
         super(name, fileSystem);
         this.rootFile = rootFile;
     }
@@ -63,8 +60,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      *
      * @return the local file that this file object represents.
      */
-    protected File getLocalFile()
-    {
+    protected File getLocalFile() {
         return file;
     }
 
@@ -72,10 +68,8 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Attaches this file object to its file resource.
      */
     @Override
-    protected void doAttach() throws Exception
-    {
-        if (file == null)
-        {
+    protected void doAttach() throws Exception {
+        if (file == null) {
             // Remove the "file:///"
             // LocalFileName localFileName = (LocalFileName) getName();
             final String fileName = rootFile + getName().getPathDecoded();
@@ -88,24 +82,21 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Returns the file's type.
      */
     @Override
-    protected FileType doGetType() throws Exception
-    {
+    protected FileType doGetType() throws Exception {
         // JDK BUG: 6192331
         // if (!file.exists())
-        if (!file.exists() && file.length() < 1)
-        {
+        if (!file.exists() && file.length() < 1) {
             return FileType.IMAGINARY;
         }
 
-        if (file.isDirectory())
-        {
+        if (file.isDirectory()) {
             return FileType.FOLDER;
         }
 
         // In doubt, treat an existing file as file
         // if (file.isFile())
         // {
-            return FileType.FILE;
+        return FileType.FILE;
         // }
 
         // throw new FileSystemException("vfs.provider.local/get-type.error", file);
@@ -115,8 +106,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Returns the children of the file.
      */
     @Override
-    protected String[] doListChildren() throws Exception
-    {
+    protected String[] doListChildren() throws Exception {
         return UriParser.encode(file.list());
     }
 
@@ -124,10 +114,8 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Deletes this file, and all children.
      */
     @Override
-    protected void doDelete() throws Exception
-    {
-        if (!file.delete())
-        {
+    protected void doDelete() throws Exception {
+        if (!file.delete()) {
             throw new FileSystemException("vfs.provider.local/delete-file.error", file);
         }
     }
@@ -136,14 +124,11 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * rename this file
      */
     @Override
-    protected void doRename(final FileObject newFile) throws Exception
-    {
+    protected void doRename(final FileObject newFile) throws Exception {
         final LocalFile newLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(newFile);
 
-        if (!file.renameTo(newLocalFile.getLocalFile()))
-        {
-            throw new FileSystemException("vfs.provider.local/rename-file.error",
-                file.toString(), newFile.toString());
+        if (!file.renameTo(newLocalFile.getLocalFile())) {
+            throw new FileSystemException("vfs.provider.local/rename-file.error", file.toString(), newFile.toString());
         }
     }
 
@@ -151,10 +136,8 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Creates this folder.
      */
     @Override
-    protected void doCreateFolder() throws Exception
-    {
-        if (!file.mkdirs())
-        {
+    protected void doCreateFolder() throws Exception {
+        if (!file.mkdirs()) {
             throw new FileSystemException("vfs.provider.local/create-folder.error", file);
         }
     }
@@ -163,14 +146,12 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Determines if this file can be written to.
      */
     @Override
-    protected boolean doIsWriteable() throws FileSystemException
-    {
+    protected boolean doIsWriteable() throws FileSystemException {
         return file.canWrite();
     }
 
     @Override
-    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception
-    {
+    protected boolean doSetWritable(final boolean writable, final boolean ownerOnly) throws Exception {
         return file.setWritable(writable, ownerOnly);
     }
 
@@ -178,8 +159,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Determines if this file is hidden.
      */
     @Override
-    protected boolean doIsExecutable()
-    {
+    protected boolean doIsExecutable() {
         return file.canExecute();
     }
 
@@ -187,8 +167,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Determines if this file is hidden.
      */
     @Override
-    protected boolean doIsHidden()
-    {
+    protected boolean doIsHidden() {
         return file.isHidden();
     }
 
@@ -196,20 +175,17 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Determines if this file can be read.
      */
     @Override
-    protected boolean doIsReadable() throws FileSystemException
-    {
+    protected boolean doIsReadable() throws FileSystemException {
         return file.canRead();
     }
 
     @Override
-    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception
-    {
+    protected boolean doSetReadable(final boolean readable, final boolean ownerOnly) throws Exception {
         return file.setReadable(readable, ownerOnly);
     }
 
     @Override
-    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception
-    {
+    protected boolean doSetExecutable(final boolean executable, final boolean ownerOnly) throws Exception {
         return file.setExecutable(executable, ownerOnly);
     }
 
@@ -217,18 +193,17 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Gets the last modified time of this file.
      */
     @Override
-    protected long doGetLastModifiedTime() throws FileSystemException
-    {
+    protected long doGetLastModifiedTime() throws FileSystemException {
         return file.lastModified();
     }
 
     /**
      * Sets the last modified time of this file.
+     * 
      * @since 2.0
      */
     @Override
-    protected boolean doSetLastModifiedTime(final long modtime) throws FileSystemException
-    {
+    protected boolean doSetLastModifiedTime(final long modtime) throws FileSystemException {
         return file.setLastModified(modtime);
     }
 
@@ -236,8 +211,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Creates an input stream to read the content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         return new FileInputStream(file);
     }
 
@@ -245,9 +219,7 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend)
-        throws Exception
-    {
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         return new FileOutputStream(file.getPath(), bAppend);
     }
 
@@ -255,56 +227,45 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem>
      * Returns the size of the file content (in bytes).
      */
     @Override
-    protected long doGetContentSize() throws Exception
-    {
+    protected long doGetContentSize() throws Exception {
         return file.length();
     }
 
     @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
-    {
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
         return new LocalFileRandomAccessContent(file, mode);
     }
 
     @Override
-    protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException
-    {
-        if (!FileObjectUtils.isInstanceOf(destFile, LocalFile.class))
-        {
+    protected boolean doIsSameFile(final FileObject destFile) throws FileSystemException {
+        if (!FileObjectUtils.isInstanceOf(destFile, LocalFile.class)) {
             return false;
         }
 
         final LocalFile destLocalFile = (LocalFile) FileObjectUtils.getAbstractFileObject(destFile);
-        if (!exists() || !destLocalFile.exists())
-        {
+        if (!exists() || !destLocalFile.exists()) {
             return false;
         }
 
-        try
-        {
+        try {
             return file.getCanonicalPath().equals(destLocalFile.file.getCanonicalPath());
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new FileSystemException(e);
         }
     }
 
     /**
      * Returns the URI of the file.
+     * 
      * @return The URI of the file.
      */
     @Override
-    public String toString()
-    {
-        try
-        {
+    public String toString() {
+        try {
             // VFS-325: URI may contain percent-encoded values as part of filename, so decode
             // those characters before returning
             return UriParser.decode(getName().getURI());
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             return getName().getURI();
         }
     }

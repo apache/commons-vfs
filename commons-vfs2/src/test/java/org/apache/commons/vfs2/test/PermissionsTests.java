@@ -32,39 +32,29 @@ import org.apache.commons.vfs2.provider.local.LocalFileSystem;
  *
  * @since 2.1
  */
-public class PermissionsTests extends AbstractProviderTestCase
-{
+public class PermissionsTests extends AbstractProviderTestCase {
     public static final String FILENAME = "permission.txt";
 
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-                {
-                        Capability.CREATE,
-                        Capability.DELETE,
-                        Capability.READ_CONTENT,
-                        Capability.WRITE_CONTENT,
-                };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.READ_CONTENT,
+                Capability.WRITE_CONTENT, };
     }
 
     /**
      * Tests for the execution permission.
      */
-    public void testExecutable() throws Exception
-    {
+    public void testExecutable() throws Exception {
         final FileObject file = createTestFile();
 
         // On Windows, all files are executable
-        if (isWindows())
-        {
+        if (isWindows()) {
             Assert.assertTrue(file.isExecutable());
 
-        } else
-        {
+        } else {
             // Set the executable flag for owner
             file.setExecutable(true, true);
             Assert.assertTrue(file.isExecutable());
@@ -79,12 +69,10 @@ public class PermissionsTests extends AbstractProviderTestCase
         }
     }
 
-
     /**
      * Tests for the writeable permission
      */
-    public void testWriteable() throws Exception
-    {
+    public void testWriteable() throws Exception {
         final FileObject file = createTestFile();
 
         // Set the write permission for owner
@@ -100,21 +88,16 @@ public class PermissionsTests extends AbstractProviderTestCase
         Assert.assertFalse(file.isWriteable());
     }
 
-
     /**
      * Tests for the readable permission
      */
-    public void testReadable() throws Exception
-    {
+    public void testReadable() throws Exception {
         final FileObject file = createTestFile();
 
-        if (isWindows())
-        {
+        if (isWindows()) {
             // On Windows, all owned files are readable
             Assert.assertTrue(file.isReadable());
-        }
-        else
-        {
+        } else {
             // Set the readable permission for owner
             file.setReadable(true, true);
             Assert.assertTrue(file.isReadable());
@@ -129,14 +112,11 @@ public class PermissionsTests extends AbstractProviderTestCase
         }
     }
 
-
     /**
      * Clean up the permission-modified file to not affect other tests.
      */
     @Override
-    protected void tearDown()
-        throws Exception
-    {
+    protected void tearDown() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
         final FileObject file = scratchFolder.resolveFile(FILENAME);
         file.setWritable(true, true);
@@ -145,9 +125,7 @@ public class PermissionsTests extends AbstractProviderTestCase
         super.tearDown();
     }
 
-
-    private FileObject createTestFile() throws Exception
-    {
+    private FileObject createTestFile() throws Exception {
         // Get the scratch folder
         final FileObject scratchFolder = getWriteFolder();
         assertNotNull(scratchFolder);
@@ -164,23 +142,18 @@ public class PermissionsTests extends AbstractProviderTestCase
         final String content = "Here is some sample content for the file.  Blah Blah Blah.";
 
         final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
+        try {
             os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os.close();
         }
         return file;
     }
 
-
     /**
      * Returns true if the filesystem is a LocalFileSystem on Windows
      */
-    private boolean isWindows()
-    {
+    private boolean isWindows() {
         return SystemUtils.IS_OS_WINDOWS && this.getFileSystem() instanceof LocalFileSystem;
     }
 }

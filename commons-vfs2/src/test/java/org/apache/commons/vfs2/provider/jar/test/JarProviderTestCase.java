@@ -31,10 +31,8 @@ import junit.framework.Test;
 /**
  * Tests for the Jar file system.
  */
-public class JarProviderTestCase extends AbstractProviderTestConfig
-{
-    static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception
-    {
+public class JarProviderTestCase extends AbstractProviderTestConfig {
+    static FileObject getTestJar(final FileSystemManager manager, final String name) throws Exception {
         final File jarFile = AbstractVfsTestCase.getTestResource(name);
         final String uri = "jar:file:" + jarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);
@@ -43,8 +41,7 @@ public class JarProviderTestCase extends AbstractProviderTestConfig
     /**
      * Creates the test suite for the jar file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new JarProviderTestCase(), true);
     }
 
@@ -52,8 +49,7 @@ public class JarProviderTestCase extends AbstractProviderTestConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return JarProviderTestCase.getTestJar(manager, "test.jar");
     }
 
@@ -61,8 +57,7 @@ public class JarProviderTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("jar", new JarFileProvider());
     }
 }

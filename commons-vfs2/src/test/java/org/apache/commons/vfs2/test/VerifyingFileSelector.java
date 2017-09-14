@@ -31,13 +31,9 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.junit.Assert;
 
 /**
- * A file selector that asserts that all files are visited, in the correct
- * order.
+ * A file selector that asserts that all files are visited, in the correct order.
  */
-public class VerifyingFileSelector
-    extends Assert
-    implements FileSelector
-{
+public class VerifyingFileSelector extends Assert implements FileSelector {
     private final FileInfo rootFile;
     private final List<FileObject> files = new ArrayList<>();
 
@@ -46,8 +42,7 @@ public class VerifyingFileSelector
     private Set<String> children;
     private final List<Set<String>> stack = new ArrayList<>();
 
-    public VerifyingFileSelector(final FileInfo fileInfo)
-    {
+    public VerifyingFileSelector(final FileInfo fileInfo) {
         this.rootFile = fileInfo;
         children = new HashSet<>();
         children.add(rootFile.baseName);
@@ -57,12 +52,9 @@ public class VerifyingFileSelector
      * Determines if a file or folder should be selected.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo)
-        throws FileSystemException
-    {
+    public boolean includeFile(final FileSelectInfo fileInfo) throws FileSystemException {
         final FileObject file = fileInfo.getFile();
-        if (file == currentFolder)
-        {
+        if (file == currentFolder) {
             // Pop current folder
             assertEquals(0, children.size());
             currentFolder = currentFolder.getParent();
@@ -86,9 +78,7 @@ public class VerifyingFileSelector
      * Determines whether a folder should be traversed.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo)
-        throws FileSystemException
-    {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) throws FileSystemException {
         // Check that the given file is a folder
         final FileObject folder = FileObjectUtils.getAbstractFileObject(fileInfo.getFile());
         assertSame(FileType.FOLDER, folder.getType());
@@ -96,13 +86,10 @@ public class VerifyingFileSelector
 
         // Locate the info for the folder
         final String baseName = folder.getName().getBaseName();
-        if (currentFolder == null)
-        {
+        if (currentFolder == null) {
             assertEquals(rootFile.baseName, baseName);
             currentFolderInfo = rootFile;
-        }
-        else
-        {
+        } else {
             final AbstractFileObject parent = FileObjectUtils.getAbstractFileObject(folder.getParent());
             assertSame(currentFolder, parent);
 
@@ -122,10 +109,8 @@ public class VerifyingFileSelector
     /**
      * Finds a child of the current folder.
      */
-    private FileInfo getChild(final String baseName)
-    {
-        if (currentFolderInfo == null)
-        {
+    private FileInfo getChild(final String baseName) {
+        if (currentFolderInfo == null) {
             assertEquals(rootFile.baseName, baseName);
             return rootFile;
         }
@@ -139,8 +124,7 @@ public class VerifyingFileSelector
      *
      * @return The files in the order they where visited.
      */
-    public List<FileObject> finish()
-    {
+    public List<FileObject> finish() {
         assertEquals(0, children.size());
         return files;
     }

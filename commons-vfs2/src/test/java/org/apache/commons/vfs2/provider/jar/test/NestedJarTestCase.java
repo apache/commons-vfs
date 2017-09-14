@@ -31,14 +31,11 @@ import junit.framework.Test;
 /**
  * Tests for the Zip file system.
  */
-public class NestedJarTestCase
-    extends AbstractProviderTestConfig
-{
+public class NestedJarTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for nested jar files.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new NestedJarTestCase(), true);
     }
 
@@ -46,9 +43,7 @@ public class NestedJarTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("jar", new JarFileProvider());
         manager.addExtensionMap("jar", "jar");
     }
@@ -57,8 +52,7 @@ public class NestedJarTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         // Locate the Jar file
         final File outerFile = AbstractVfsTestCase.getTestResource("nested.jar");
         final String uri = "jar:file:" + outerFile.getAbsolutePath() + "!/test.jar";

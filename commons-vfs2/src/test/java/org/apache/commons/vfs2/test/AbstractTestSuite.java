@@ -43,9 +43,7 @@ import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
 /**
  * The suite of tests for a file system.
  */
-public abstract class AbstractTestSuite
-    extends TestSetup
-{
+public abstract class AbstractTestSuite extends TestSetup {
     private final ProviderTestConfig providerConfig;
     private final String prefix;
     private TestSuite testSuite;
@@ -63,71 +61,56 @@ public abstract class AbstractTestSuite
     /**
      * Adds the tests for a file system to this suite.
      */
-    public AbstractTestSuite(final ProviderTestConfig providerConfig) throws Exception
-    {
+    public AbstractTestSuite(final ProviderTestConfig providerConfig) throws Exception {
         this(providerConfig, "", false, false);
     }
 
-    protected AbstractTestSuite(final ProviderTestConfig providerConfig,
-                                final String prefix,
-                                final boolean nested) throws Exception
-    {
+    protected AbstractTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested)
+            throws Exception {
         this(providerConfig, prefix, nested, false);
     }
 
-
-    protected AbstractTestSuite(final ProviderTestConfig providerConfig,
-                                final String prefix,
-                                final boolean nested,
-                                final boolean addEmptyDir)
-        throws Exception
-    {
+    protected AbstractTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
+            final boolean addEmptyDir) throws Exception {
         super(new TestSuite());
         testSuite = (TestSuite) fTest;
         this.providerConfig = providerConfig;
         this.prefix = prefix;
         this.addEmptyDir = addEmptyDir;
         addBaseTests();
-        if (!nested)
-        {
+        if (!nested) {
             // Add nested tests
             // TODO - move nested jar and zip tests here
             // TODO - enable this again
-            //testSuite.addTest( new ProviderTestSuite( new JunctionProviderConfig( providerConfig ), "junction.", true ));
+            // testSuite.addTest( new ProviderTestSuite( new JunctionProviderConfig( providerConfig ), "junction.", true
+            // ));
         }
     }
 
     /**
      * Adds base tests - excludes the nested test cases.
      */
-    protected void addBaseTests() throws Exception
-    {
+    protected void addBaseTests() throws Exception {
     }
 
     /**
-     * Adds the tests from a class to this suite.  The supplied class must be
-     * a subclass of {@link AbstractProviderTestCase} and have a public a
-     * no-args constructor.  This method creates an instance of the supplied
-     * class for each public 'testNnnn' method provided by the class.
+     * Adds the tests from a class to this suite. The supplied class must be a subclass of
+     * {@link AbstractProviderTestCase} and have a public a no-args constructor. This method creates an instance of the
+     * supplied class for each public 'testNnnn' method provided by the class.
      */
-    public void addTests(final Class<?> testClass) throws Exception
-    {
+    public void addTests(final Class<?> testClass) throws Exception {
         // Verify the class
-        if (!AbstractProviderTestCase.class.isAssignableFrom(testClass))
-        {
-            throw new Exception("Test class " + testClass.getName() + " is not assignable to " + AbstractProviderTestCase.class.getName());
+        if (!AbstractProviderTestCase.class.isAssignableFrom(testClass)) {
+            throw new Exception("Test class " + testClass.getName() + " is not assignable to "
+                    + AbstractProviderTestCase.class.getName());
         }
 
         // Locate the test methods
         final Method[] methods = testClass.getMethods();
-        for (final Method method2 : methods)
-        {
+        for (final Method method2 : methods) {
             final Method method = method2;
-            if (!method.getName().startsWith("test")
-                || Modifier.isStatic(method.getModifiers())
-                || method.getReturnType() != Void.TYPE
-                || method.getParameterTypes().length != 0)
-            {
+            if (!method.getName().startsWith("test") || Modifier.isStatic(method.getModifiers())
+                    || method.getReturnType() != Void.TYPE || method.getParameterTypes().length != 0) {
                 continue;
             }
 
@@ -155,8 +138,7 @@ public abstract class AbstractTestSuite
     }
 
     @Override
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         startThreadSnapshot = createThreadSnapshot();
 
         // Locate the temp directory, and clean it up
@@ -174,8 +156,7 @@ public abstract class AbstractTestSuite
 
         providerConfig.prepare(manager);
 
-        if (!manager.hasProvider("file"))
-        {
+        if (!manager.hasProvider("file")) {
             manager.addProvider("file", new DefaultLocalFileProvider());
         }
 
@@ -192,11 +173,9 @@ public abstract class AbstractTestSuite
 
         // Configure the tests
         final Enumeration<Test> tests = testSuite.tests();
-        while (tests.hasMoreElements())
-        {
+        while (tests.hasMoreElements()) {
             final Test test = tests.nextElement();
-            if (test instanceof AbstractProviderTestCase)
-            {
+            if (test instanceof AbstractProviderTestCase) {
                 final AbstractProviderTestCase providerTestCase = (AbstractProviderTestCase) test;
                 providerTestCase.setConfig(manager, providerConfig, baseFolder, readFolder, writeFolder);
             }
@@ -204,8 +183,7 @@ public abstract class AbstractTestSuite
     }
 
     @Override
-    protected void tearDown() throws Exception
-    {
+    protected void tearDown() throws Exception {
         readFolder.close();
         writeFolder.close();
         baseFolder.close();
@@ -232,25 +210,16 @@ public abstract class AbstractTestSuite
         checkTempDir("Temp dir not empty after test");
     }
 
-    private void validateThreadSnapshot()
-    {
+    private void validateThreadSnapshot() {
         endThreadSnapshot = createThreadSnapshot();
 
         final Thread[] diffThreadSnapshot = diffThreadSnapshot(startThreadSnapshot, endThreadSnapshot);
-        if (diffThreadSnapshot.length > 0)
-        {
+        if (diffThreadSnapshot.length > 0) {
             final String message = dumpThreadSnapshot(diffThreadSnapshot);
             /*
-            if (providerConfig.checkCleanThreadState())
-            {
-                // close the manager to do a "not thread safe" release of all resources
-                // and allow the vm to shutdown
-                manager.close();
-                fail(message);
-            }
-            else
-            {
-            */
+             * if (providerConfig.checkCleanThreadState()) { // close the manager to do a "not thread safe" release of
+             * all resources // and allow the vm to shutdown manager.close(); fail(message); } else {
+             */
             System.out.println(message);
             // }
         }
@@ -260,74 +229,56 @@ public abstract class AbstractTestSuite
     /**
      * Asserts that the temp dir is empty or gone.
      */
-    private void checkTempDir(final String assertMsg)
-    {
-        if (tempDir.exists())
-        {
-            assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")", tempDir.isDirectory() && tempDir.list().length == 0);
+    private void checkTempDir(final String assertMsg) {
+        if (tempDir.exists()) {
+            assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")",
+                    tempDir.isDirectory() && tempDir.list().length == 0);
         }
     }
 
-    private String dumpThreadSnapshot(final Thread[] threadSnapshot)
-    {
+    private String dumpThreadSnapshot(final Thread[] threadSnapshot) {
         final StringBuffer sb = new StringBuffer(256);
         sb.append("created threads still running:\n");
 
         Field threadTargetField = null;
-        try
-        {
+        try {
             threadTargetField = Thread.class.getDeclaredField("target");
             threadTargetField.setAccessible(true);
-        }
-        catch (final NoSuchFieldException e)
-        {
+        } catch (final NoSuchFieldException e) {
             // ignored
         }
 
-        for (int iter = 0; iter < threadSnapshot.length; iter++)
-        {
+        for (int iter = 0; iter < threadSnapshot.length; iter++) {
             final Thread thread = threadSnapshot[iter];
-            if (thread == null || !thread.isAlive())
-            {
+            if (thread == null || !thread.isAlive()) {
                 continue;
             }
 
             sb.append("#");
             sb.append(iter + 1);
             sb.append(": ");
-            sb.append(thread.getThreadGroup() != null ?
-                thread.getThreadGroup().getName() : "(null)");
+            sb.append(thread.getThreadGroup() != null ? thread.getThreadGroup().getName() : "(null)");
             sb.append("\t");
             sb.append(thread.getName());
             sb.append("\t");
             sb.append(thread.getState());
             sb.append("\t");
-            if (thread.isDaemon())
-            {
+            if (thread.isDaemon()) {
                 sb.append("daemon");
-            }
-            else
-            {
+            } else {
                 sb.append("not_a_daemon");
             }
 
-            if (threadTargetField != null)
-            {
+            if (threadTargetField != null) {
                 sb.append("\t");
-                try
-                {
+                try {
                     final Object threadTarget = threadTargetField.get(thread);
-                    if (threadTarget != null)
-                    {
+                    if (threadTarget != null) {
                         sb.append(threadTarget.getClass());
-                    }
-                    else
-                    {
+                    } else {
                         sb.append("null");
                     }
-                }
-                catch (final IllegalAccessException e)
-                {
+                } catch (final IllegalAccessException e) {
                     sb.append("unknown class");
                 }
             }
@@ -338,16 +289,12 @@ public abstract class AbstractTestSuite
         return sb.toString();
     }
 
-    private Thread[] diffThreadSnapshot(final Thread[] startThreadSnapshot, final Thread[] endThreadSnapshot)
-    {
+    private Thread[] diffThreadSnapshot(final Thread[] startThreadSnapshot, final Thread[] endThreadSnapshot) {
         final List<Thread> diff = new ArrayList<>(10);
 
-        nextEnd: for (int iterEnd = 0; iterEnd < endThreadSnapshot.length; iterEnd++)
-        {
-            for (int iterStart = 0; iterStart < startThreadSnapshot.length; iterStart++)
-            {
-                if (startThreadSnapshot[iterStart] == endThreadSnapshot[iterEnd])
-                {
+        nextEnd: for (int iterEnd = 0; iterEnd < endThreadSnapshot.length; iterEnd++) {
+            for (int iterStart = 0; iterStart < startThreadSnapshot.length; iterStart++) {
+                if (startThreadSnapshot[iterStart] == endThreadSnapshot[iterEnd]) {
                     continue nextEnd;
                 }
             }
@@ -360,11 +307,9 @@ public abstract class AbstractTestSuite
         return ret;
     }
 
-    private Thread[] createThreadSnapshot()
-    {
+    private Thread[] createThreadSnapshot() {
         ThreadGroup tg = Thread.currentThread().getThreadGroup();
-        while (tg.getParent() != null)
-        {
+        while (tg.getParent() != null) {
             tg = tg.getParent();
         }
 

@@ -34,23 +34,20 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 /**
  * Create a HttpClient instance.
  */
-public final class HttpClientFactory
-{
-    private HttpClientFactory()
-    {
+public final class HttpClientFactory {
+    private HttpClientFactory() {
     }
 
     public static HttpClient createConnection(final String scheme, final String hostname, final int port,
-                                              final String username, final String password,
-                                              final FileSystemOptions fileSystemOptions)
-            throws FileSystemException
-    {
-        return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port,
-            username, password, fileSystemOptions);
+            final String username, final String password, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        return createConnection(HttpFileSystemConfigBuilder.getInstance(), scheme, hostname, port, username, password,
+                fileSystemOptions);
     }
 
     /**
      * Creates a new connection to the server.
+     * 
      * @param builder The HttpFileSystemConfigBuilder.
      * @param scheme The protocol.
      * @param hostname The hostname.
@@ -63,13 +60,10 @@ public final class HttpClientFactory
      * @since 2.0
      */
     public static HttpClient createConnection(final HttpFileSystemConfigBuilder builder, final String scheme,
-                                              final String hostname, final int port, final String username,
-                                              final String password, final FileSystemOptions fileSystemOptions)
-            throws FileSystemException
-    {
+            final String hostname, final int port, final String username, final String password,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         HttpClient client;
-        try
-        {
+        try {
             final HttpConnectionManager mgr = new MultiThreadedHttpConnectionManager();
             final HttpConnectionManagerParams connectionMgrParams = mgr.getParams();
 
@@ -78,41 +72,32 @@ public final class HttpClientFactory
             final HostConfiguration config = new HostConfiguration();
             config.setHost(hostname, port, scheme);
 
-            if (fileSystemOptions != null)
-            {
+            if (fileSystemOptions != null) {
                 final String proxyHost = builder.getProxyHost(fileSystemOptions);
                 final int proxyPort = builder.getProxyPort(fileSystemOptions);
 
-                if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0)
-                {
+                if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0) {
                     config.setProxy(proxyHost, proxyPort);
                 }
 
                 final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
-                if (proxyAuth != null)
-                {
+                if (proxyAuth != null) {
                     final UserAuthenticationData authData = UserAuthenticatorUtils.authenticate(proxyAuth,
-                        new UserAuthenticationData.Type[]
-                        {
-                            UserAuthenticationData.USERNAME,
-                            UserAuthenticationData.PASSWORD
-                        });
+                            new UserAuthenticationData.Type[] { UserAuthenticationData.USERNAME,
+                                    UserAuthenticationData.PASSWORD });
 
-                    if (authData != null)
-                    {
-                        final UsernamePasswordCredentials proxyCreds =
-                            new UsernamePasswordCredentials(
+                    if (authData != null) {
+                        final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
                                 UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                                    UserAuthenticationData.USERNAME, null)),
+                                        UserAuthenticationData.USERNAME, null)),
                                 UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                                    UserAuthenticationData.PASSWORD, null)));
+                                        UserAuthenticationData.PASSWORD, null)));
 
                         final AuthScope scope = new AuthScope(proxyHost, AuthScope.ANY_PORT);
                         client.getState().setProxyCredentials(scope, proxyCreds);
                     }
 
-                    if (builder.isPreemptiveAuth(fileSystemOptions))
-                    {
+                    if (builder.isPreemptiveAuth(fileSystemOptions)) {
                         final HttpClientParams httpClientParams = new HttpClientParams();
                         httpClientParams.setAuthenticationPreemptive(true);
                         client.setParams(httpClientParams);
@@ -120,15 +105,14 @@ public final class HttpClientFactory
                 }
 
                 final Cookie[] cookies = builder.getCookies(fileSystemOptions);
-                if (cookies != null)
-                {
+                if (cookies != null) {
                     client.getState().addCookies(cookies);
                 }
             }
             /**
-             * ConnectionManager set methods must be called after the host & port and proxy host & port
-             * are set in the HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams
-             * tries to locate the host configuration.
+             * ConnectionManager set methods must be called after the host & port and proxy host & port are set in the
+             * HostConfiguration. They are all used as part of the key when HttpConnectionManagerParams tries to locate
+             * the host configuration.
              */
             connectionMgrParams.setMaxConnectionsPerHost(config, builder.getMaxConnectionsPerHost(fileSystemOptions));
             connectionMgrParams.setMaxTotalConnections(builder.getMaxTotalConnections(fileSystemOptions));
@@ -138,16 +122,12 @@ public final class HttpClientFactory
 
             client.setHostConfiguration(config);
 
-            if (username != null)
-            {
-                final UsernamePasswordCredentials creds =
-                    new UsernamePasswordCredentials(username, password);
+            if (username != null) {
+                final UsernamePasswordCredentials creds = new UsernamePasswordCredentials(username, password);
                 final AuthScope scope = new AuthScope(hostname, AuthScope.ANY_PORT);
                 client.getState().setCredentials(scope, creds);
             }
-        }
-        catch (final Exception exc)
-        {
+        } catch (final Exception exc) {
             throw new FileSystemException("vfs.provider.http/connect.error", exc, hostname);
         }
 

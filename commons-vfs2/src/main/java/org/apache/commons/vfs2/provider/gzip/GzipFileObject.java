@@ -29,33 +29,30 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 /**
  * the gzip file.
  */
-public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem>
-{
+public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
     /**
-     * Deprecated since 2.1. 
+     * Deprecated since 2.1.
      * 
      * @deprecated Use {@link #GzipFileObject(AbstractFileName, FileObject, GzipFileSystem)} instead.
      */
     @Deprecated
-    protected GzipFileObject(final AbstractFileName name, final FileObject container, final CompressedFileFileSystem fs) {
+    protected GzipFileObject(final AbstractFileName name, final FileObject container,
+            final CompressedFileFileSystem fs) {
         super(name, container, cast(fs));
     }
 
-    protected GzipFileObject(final AbstractFileName name, final FileObject container, final GzipFileSystem fs)
-    {
+    protected GzipFileObject(final AbstractFileName name, final FileObject container, final GzipFileSystem fs) {
         super(name, container, fs);
     }
 
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         final InputStream is = getContainer().getContent().getInputStream();
         return new GZIPInputStream(is);
     }
 
     @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
-    {
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         final OutputStream os = getContainer().getContent().getOutputStream(false);
         return new GZIPOutputStream(os);
     }

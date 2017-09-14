@@ -43,42 +43,31 @@ import org.apache.log4j.Logger;
  * <P>
  * This will only work on systems that Hadoop supports.
  */
-public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
-{
-    public static class HdfsProviderTestSuite extends ProviderTestSuite
-    {
+public class HdfsFileProviderTestCase extends AbstractProviderTestConfig {
+    public static class HdfsProviderTestSuite extends ProviderTestSuite {
 
         // Turn off the MiniDFSCluster logging
-        static
-        {
+        static {
             System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
         }
 
-        public HdfsProviderTestSuite(final ProviderTestConfig providerConfig, final boolean addEmptyDir) throws Exception
-        {
+        public HdfsProviderTestSuite(final ProviderTestConfig providerConfig, final boolean addEmptyDir)
+                throws Exception {
             super(providerConfig, addEmptyDir);
         }
 
         @SuppressWarnings("deprecation")
-        private void copyTestResources(final File directory, final Path parent) throws Exception
-        {
-            for (final File file : directory.listFiles())
-            {
-                if (file.isFile())
-                {
+        private void copyTestResources(final File directory, final Path parent) throws Exception {
+            for (final File file : directory.listFiles()) {
+                if (file.isFile()) {
                     final Path src = new Path(file.getAbsolutePath());
                     final Path dst = new Path(parent, file.getName());
                     hdfs.copyFromLocalFile(src, dst);
-                }
-                else if (file.isDirectory())
-                {
+                } else if (file.isDirectory()) {
                     final Path dir = new Path(parent, file.getName());
-                    if (hdfs.mkdirs(dir))
-                    {
+                    if (hdfs.mkdirs(dir)) {
                         copyTestResources(file, dir);
-                    }
-                    else
-                    {
+                    } else {
                         fail("Unable to make directory: " + dir);
                     }
                 }
@@ -88,8 +77,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
 
         @SuppressWarnings("deprecation")
         @Override
-        protected void setUp() throws Exception
-        {
+        protected void setUp() throws Exception {
             Logger.getRootLogger().setLevel(Level.OFF);
 
             // Put the MiniDFSCluster directory in the target directory
@@ -106,13 +94,10 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
 
             HdfsFileProviderTest.setUmask(conf);
 
-            try
-            {
+            try {
                 cluster = new MiniDFSCluster(PORT, conf, 1, true, true, true, null, null, null, null);
                 cluster.waitActive();
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 throw new RuntimeException("Error setting up mini cluster", e);
             }
             hdfs = cluster.getFileSystem();
@@ -127,15 +112,14 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
         }
 
         @Override
-        protected void tearDown() throws Exception
-        {
+        protected void tearDown() throws Exception {
             super.tearDown();
-            if (null != hdfs)
-            {
+            if (null != hdfs) {
                 hdfs.close();
             }
         }
     }
+
     private static final int PORT = 8720;
     private static final String HDFS_URI = "hdfs://localhost:" + PORT;
     private static FileSystem hdfs;
@@ -146,8 +130,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
     /**
      * Creates the test suite for the zip file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new HdfsProviderTestSuite(new HdfsFileProviderTestCase(), false);
     }
 
@@ -155,8 +138,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
      * Returns the base folder for read tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final String uri = HDFS_URI + "/test-data";
         return manager.resolveFile(uri);
     }
@@ -165,8 +147,7 @@ public class HdfsFileProviderTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("hdfs", new HdfsFileProvider());
     }
 

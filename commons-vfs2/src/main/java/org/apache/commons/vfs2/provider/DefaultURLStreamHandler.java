@@ -28,55 +28,38 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * A default URL stream handler that will work for most file systems.
  */
-public class DefaultURLStreamHandler
-    extends URLStreamHandler
-{
+public class DefaultURLStreamHandler extends URLStreamHandler {
     private final VfsComponentContext context;
     private final FileSystemOptions fileSystemOptions;
 
-    public DefaultURLStreamHandler(final VfsComponentContext context)
-    {
+    public DefaultURLStreamHandler(final VfsComponentContext context) {
         this(context, null);
     }
 
-    public DefaultURLStreamHandler(final VfsComponentContext context, final FileSystemOptions fileSystemOptions)
-    {
+    public DefaultURLStreamHandler(final VfsComponentContext context, final FileSystemOptions fileSystemOptions) {
         this.context = context;
         this.fileSystemOptions = fileSystemOptions;
     }
 
     @Override
-    protected URLConnection openConnection(final URL url)
-        throws IOException
-    {
+    protected URLConnection openConnection(final URL url) throws IOException {
         final FileObject entry = context.resolveFile(url.toExternalForm(), fileSystemOptions);
         return new DefaultURLConnection(url, entry.getContent());
     }
 
     @Override
-    protected void parseURL(final URL u,
-                            final String spec,
-                            final int start,
-                            final int limit)
-    {
-        try
-        {
+    protected void parseURL(final URL u, final String spec, final int start, final int limit) {
+        try {
             final FileObject old = context.resolveFile(u.toExternalForm(), fileSystemOptions);
 
             FileObject newURL;
-            if (start > 0 && spec.charAt(start - 1) == ':')
-            {
+            if (start > 0 && spec.charAt(start - 1) == ':') {
                 newURL = context.resolveFile(old, spec, fileSystemOptions);
-            }
-            else
-            {
-                if (old.isFile() && old.getParent() != null)
-                {
+            } else {
+                if (old.isFile() && old.getParent() != null) {
                     // for files we have to resolve relative
                     newURL = old.getParent().resolveFile(spec);
-                }
-                else
-                {
+                } else {
                     newURL = old.resolveFile(spec);
                 }
             }
@@ -86,17 +69,14 @@ public class DefaultURLStreamHandler
             final String protocolPart = UriParser.extractScheme(url, filePart);
 
             setURL(u, protocolPart, "", -1, null, null, filePart.toString(), null, null);
-        }
-        catch (final FileSystemException fse)
-        {
+        } catch (final FileSystemException fse) {
             // This is rethrown to MalformedURLException in URL anyway
             throw new RuntimeException(fse.getMessage());
         }
     }
 
     @Override
-    protected String toExternalForm(final URL u)
-    {
+    protected String toExternalForm(final URL u) {
         return u.getProtocol() + ":" + u.getFile();
     }
 }

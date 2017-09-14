@@ -36,13 +36,11 @@ import org.junit.Test;
  * <p>
  * VFS-443 Need an easy way to convert from a FileObject to a File.
  */
-public class ConversionTestCase
-{
+public class ConversionTestCase {
 
     @Test
     @Ignore
-    public void testFileNameWithSpaces() throws URISyntaxException, IOException
-    {
+    public void testFileNameWithSpaces() throws URISyntaxException, IOException {
         final File file = new File("target", "a name.txt");
         final String fileURL = file.toURI().toURL().toExternalForm();
         assertEquals(file.getAbsoluteFile(), new File(file.toURI().getPath()));
@@ -55,14 +53,12 @@ public class ConversionTestCase
 
     @Test
     @Ignore
-    public void testFileNameWithCharacters() throws URISyntaxException, IOException
-    {
+    public void testFileNameWithCharacters() throws URISyntaxException, IOException {
         final File file = new File("target", "+# %&.txt");
         final String fileURL = file.toURI().toURL().toExternalForm();
         assertEquals(file.getAbsoluteFile(), new File(file.toURI().getPath()));
         assertEquals(file.getAbsoluteFile(), new File(new URL(fileURL).toURI().getPath()));
-        try
-        {
+        try {
             new FileOutputStream(file).close();
             assertTrue(file.exists());
 
@@ -70,9 +66,7 @@ public class ConversionTestCase
             final FileObject fo = manager.resolveFile(fileURL);
             assertTrue(fo.exists());
             assertEquals(file.getAbsoluteFile(), new File(new URL(fo.getURL().toExternalForm()).toURI().getPath()));
-        }
-        finally
-        {
+        } finally {
             file.delete();
         }
     }

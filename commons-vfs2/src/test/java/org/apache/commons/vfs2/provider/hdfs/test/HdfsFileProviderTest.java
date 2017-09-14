@@ -50,12 +50,10 @@ import org.junit.Test;
  * This will only work on systems that Hadoop supports.
  */
 @SuppressWarnings("resource")
-public class HdfsFileProviderTest
-{
+public class HdfsFileProviderTest {
 
     // Turn off the MiniDFSCluster logging
-    static
-    {
+    static {
         System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
     }
 
@@ -73,8 +71,7 @@ public class HdfsFileProviderTest
     protected static MiniDFSCluster cluster;
 
     @BeforeClass
-    public static void setUp() throws Exception
-    {
+    public static void setUp() throws Exception {
         Logger.getRootLogger().setLevel(Level.ERROR);
 
         // Put the MiniDFSCluster directory in the target directory
@@ -104,22 +101,18 @@ public class HdfsFileProviderTest
     /**
      * Add {@code dfs.datanode.data.dir.perm} setting if OS needs it.
      * <P>
-     * MiniDFSCluster will check the permissions on the data directories, but does not do a
-     * good job of setting them properly. We need to get the users umask and set the
-     * appropriate Hadoop property so that the data directories will be created with
-     * the correct permissions.
+     * MiniDFSCluster will check the permissions on the data directories, but does not do a good job of setting them
+     * properly. We need to get the users umask and set the appropriate Hadoop property so that the data directories
+     * will be created with the correct permissions.
      * <P>
      * Will do nothing on Windows.
      */
-    public static void setUmask(final Configuration conf2)
-    {
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
-        {
+    public static void setUmask(final Configuration conf2) {
+        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
             return;
         }
 
-        try
-        {
+        try {
             final Process p = Runtime.getRuntime().exec("/bin/sh -c umask");
             final BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
             final String line = bri.readLine();
@@ -129,34 +122,27 @@ public class HdfsFileProviderTest
             // leading zero makes java interpret as base 8
             final int newPermission = 0777 ^ umask;
             conf2.set("dfs.datanode.data.dir.perm", String.format("%03o", newPermission));
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new RuntimeException("Error getting umask from O/S", e);
         }
     }
 
     @AfterClass
-    public static void tearDown() throws Exception
-    {
-        if (null != hdfs)
-        {
+    public static void tearDown() throws Exception {
+        if (null != hdfs) {
             hdfs.close();
         }
         manager.close();
     }
 
     @After
-    public void after() throws Exception
-    {
-        if (null != hdfs)
-        {
+    public void after() throws Exception {
+        if (null != hdfs) {
             hdfs.delete(DIR1_PATH, true);
         }
     }
 
-    private FileObject createTestFile(final FileSystem hdfs) throws IOException
-    {
+    private FileObject createTestFile(final FileSystem hdfs) throws IOException {
         // Create the directory
         hdfs.mkdirs(DIR1_PATH);
         final FileObject dir = manager.resolveFile(TEST_DIR1);
@@ -174,16 +160,14 @@ public class HdfsFileProviderTest
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testCanRenameTo() throws Exception
-    {
+    public void testCanRenameTo() throws Exception {
         final FileObject fo = createTestFile(hdfs);
         Assert.assertNotNull(fo);
         fo.canRenameTo(fo);
     }
 
     @Test
-    public void testDoListChildren() throws Exception
-    {
+    public void testDoListChildren() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -200,8 +184,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testEquals() throws Exception
-    {
+    public void testEquals() throws Exception {
         // Create test file (and check parent was created)
         final FileObject dir = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(dir);
@@ -220,8 +203,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testGetAttributes() throws Exception
-    {
+    public void testGetAttributes() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -240,8 +222,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testGetContentSize() throws Exception
-    {
+    public void testGetContentSize() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -253,8 +234,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testGetInputStream() throws Exception
-    {
+    public void testGetInputStream() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -266,16 +246,14 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testInit() throws Exception
-    {
+    public void testInit() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_FILE1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
     }
 
     @Test
-    public void testIsHidden() throws Exception
-    {
+    public void testIsHidden() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -287,8 +265,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testIsReadable() throws Exception
-    {
+    public void testIsReadable() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -300,8 +277,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testIsWritable() throws Exception
-    {
+    public void testIsWritable() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -313,8 +289,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testLastModificationTime() throws Exception
-    {
+    public void testLastModificationTime() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -326,8 +301,7 @@ public class HdfsFileProviderTest
     }
 
     @Test(expected = FileSystemException.class)
-    public void testRandomAccessContent() throws Exception
-    {
+    public void testRandomAccessContent() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());
@@ -339,8 +313,7 @@ public class HdfsFileProviderTest
     }
 
     @Test
-    public void testRandomAccessContent2() throws Exception
-    {
+    public void testRandomAccessContent2() throws Exception {
         final FileObject fo = manager.resolveFile(TEST_DIR1);
         Assert.assertNotNull(fo);
         Assert.assertFalse(fo.exists());

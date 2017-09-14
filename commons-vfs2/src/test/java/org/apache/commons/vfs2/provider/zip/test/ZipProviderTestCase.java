@@ -31,14 +31,11 @@ import junit.framework.Test;
 /**
  * Tests for the Zip file system.
  */
-public class ZipProviderTestCase
-    extends AbstractProviderTestConfig
-{
+public class ZipProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for the zip file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new ZipProviderTestCase(), true);
     }
 
@@ -46,8 +43,7 @@ public class ZipProviderTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("zip", new ZipFileProvider());
         manager.addExtensionMap("zip", "zip");
         manager.addMimeTypeMap("application/zip", "zip");
@@ -57,8 +53,7 @@ public class ZipProviderTestCase
      * Returns the base folder for read tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);

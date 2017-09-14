@@ -32,17 +32,14 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.DelegateFileObject;
 
 /**
- * A logical file system, made up of set of junctions, or links, to files from
- * other file systems.
+ * A logical file system, made up of set of junctions, or links, to files from other file systems.
  * <p>
  * TODO - Handle nested junctions.
  */
-public class VirtualFileSystem extends AbstractFileSystem
-{
+public class VirtualFileSystem extends AbstractFileSystem {
     private final Map<FileName, FileObject> junctions = new HashMap<>();
 
-    public VirtualFileSystem(final AbstractFileName rootName, final FileSystemOptions fileSystemOptions)
-    {
+    public VirtualFileSystem(final AbstractFileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
     }
 
@@ -50,8 +47,7 @@ public class VirtualFileSystem extends AbstractFileSystem
      * Adds the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         // TODO - this isn't really true
         caps.add(Capability.ATTRIBUTES);
         caps.add(Capability.CREATE);
@@ -69,24 +65,19 @@ public class VirtualFileSystem extends AbstractFileSystem
     }
 
     /**
-     * Creates a file object.  This method is called only if the requested
-     * file is not cached.
+     * Creates a file object. This method is called only if the requested file is not cached.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws Exception
-    {
+    protected FileObject createFile(final AbstractFileName name) throws Exception {
         // Find the file that the name points to
         final FileName junctionPoint = getJunctionForFile(name);
         final FileObject file;
-        if (junctionPoint != null)
-        {
+        if (junctionPoint != null) {
             // Resolve the real file
             final FileObject junctionFile = junctions.get(junctionPoint);
             final String relName = junctionPoint.getRelativeName(name);
             file = junctionFile.resolveFile(relName, NameScope.DESCENDENT_OR_SELF);
-        }
-        else
-        {
+        } else {
             file = null;
         }
 
@@ -96,50 +87,41 @@ public class VirtualFileSystem extends AbstractFileSystem
 
     /**
      * Adds a junction to this file system.
+     * 
      * @param junctionPoint The location of the junction.
      * @param targetFile The target file to base the junction on.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void addJunction(final String junctionPoint,
-                            final FileObject targetFile)
-        throws FileSystemException
-    {
+    public void addJunction(final String junctionPoint, final FileObject targetFile) throws FileSystemException {
         final FileName junctionName = getFileSystemManager().resolveName(getRootName(), junctionPoint);
 
         // Check for nested junction - these are not supported yet
-        if (getJunctionForFile(junctionName) != null)
-        {
+        if (getJunctionForFile(junctionName) != null) {
             throw new FileSystemException("vfs.impl/nested-junction.error", junctionName);
         }
 
-        try
-        {
+        try {
             // Add to junction table
             junctions.put(junctionName, targetFile);
 
             // Attach to file
             final DelegateFileObject junctionFile = (DelegateFileObject) getFileFromCache(junctionName);
-            if (junctionFile != null)
-            {
+            if (junctionFile != null) {
                 junctionFile.setFile(targetFile);
             }
 
             // Create ancestors of junction point
             FileName childName = junctionName;
             boolean done = false;
-            for (AbstractFileName parentName = (AbstractFileName) childName.getParent();
-                 !done && parentName != null;
-                 childName = parentName, parentName = (AbstractFileName) parentName.getParent())
-            {
+            for (AbstractFileName parentName = (AbstractFileName) childName.getParent(); !done
+                    && parentName != null; childName = parentName, parentName = (AbstractFileName) parentName
+                            .getParent()) {
                 DelegateFileObject file = (DelegateFileObject) getFileFromCache(parentName);
-                if (file == null)
-                {
+                if (file == null) {
                     file = new DelegateFileObject(parentName, this, null);
                     putFileToCache(file);
-                }
-                else
-                {
+                } else {
                     done = file.exists();
                 }
 
@@ -148,22 +130,19 @@ public class VirtualFileSystem extends AbstractFileSystem
             }
 
             // TODO - attach all cached children of the junction point to their real file
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException("vfs.impl/create-junction.error", junctionName, e);
         }
     }
 
     /**
      * Removes a junction from this file system.
+     * 
      * @param junctionPoint The junction to remove.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void removeJunction(final String junctionPoint)
-        throws FileSystemException
-    {
+    public void removeJunction(final String junctionPoint) throws FileSystemException {
         final FileName junctionName = getFileSystemManager().resolveName(getRootName(), junctionPoint);
         junctions.remove(junctionName);
 
@@ -173,22 +152,19 @@ public class VirtualFileSystem extends AbstractFileSystem
 
     /**
      * Locates the junction point for the junction containing the given file.
+     * 
      * @param name The FileName.
      * @return the FileName where the junction occurs.
      */
-    private FileName getJunctionForFile(final FileName name)
-    {
-        if (junctions.containsKey(name))
-        {
+    private FileName getJunctionForFile(final FileName name) {
+        if (junctions.containsKey(name)) {
             // The name points to the junction point directly
             return name;
         }
 
         // Find matching junction
-        for (final FileName junctionPoint : junctions.keySet())
-        {
-            if (junctionPoint.isDescendent(name))
-            {
+        for (final FileName junctionPoint : junctions.keySet()) {
+            if (junctionPoint.isDescendent(name)) {
                 return junctionPoint;
             }
         }
@@ -198,8 +174,7 @@ public class VirtualFileSystem extends AbstractFileSystem
     }
 
     @Override
-    public void close()
-    {
+    public void close() {
         super.close();
         junctions.clear();
     }

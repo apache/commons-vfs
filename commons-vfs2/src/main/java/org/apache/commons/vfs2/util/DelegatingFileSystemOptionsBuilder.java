@@ -35,9 +35,10 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * This class use reflection to set a configuration value using the fileSystemConfigBuilder
- * associated the a scheme.<br><br>
+ * This class use reflection to set a configuration value using the fileSystemConfigBuilder associated the a scheme.<br>
+ * <br>
  * Example:<br>
+ * 
  * <pre>
  * FileSystemOptions fso = new FileSystemOptions();
  * DelegatingFileSystemOptionsBuilder delegate = new DelegatingFileSystemOptionsBuilder(VFS.getManager());
@@ -46,18 +47,16 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * delegate.setConfigClass(fso, "sftp", "userinfo", TrustEveryoneUserInfo.class);
  * </pre>
  */
-public class DelegatingFileSystemOptionsBuilder
-{
-    @SuppressWarnings("unchecked") //  OK, it is a String
-    private static final Class<String>[] STRING_PARAM = new Class[]{String.class};
+public class DelegatingFileSystemOptionsBuilder {
+    @SuppressWarnings("unchecked") // OK, it is a String
+    private static final Class<String>[] STRING_PARAM = new Class[] { String.class };
     private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<>();
     private static final Log log = LogFactory.getLog(DelegatingFileSystemOptionsBuilder.class);
 
     private final FileSystemManager manager;
     private final Map<String, Map<String, List<Method>>> beanMethods = new TreeMap<>();
 
-    static
-    {
+    static {
         PRIMATIVE_TO_OBJECT.put(Void.TYPE.getName(), Void.class);
         PRIMATIVE_TO_OBJECT.put(Boolean.TYPE.getName(), Boolean.class);
         PRIMATIVE_TO_OBJECT.put(Byte.TYPE.getName(), Byte.class);
@@ -72,8 +71,7 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * Context.
      */
-    private static final class Context
-    {
+    private static final class Context {
         private final FileSystemOptions fso;
         private final String scheme;
         private final String name;
@@ -82,8 +80,7 @@ public class DelegatingFileSystemOptionsBuilder
         private List<Method> configSetters;
         private FileSystemConfigBuilder fileSystemConfigBuilder;
 
-        private Context(final FileSystemOptions fso, final String scheme, final String name, final Object[] values)
-        {
+        private Context(final FileSystemOptions fso, final String scheme, final String name, final Object[] values) {
             this.fso = fso;
             this.scheme = scheme;
             this.name = name;
@@ -97,43 +94,39 @@ public class DelegatingFileSystemOptionsBuilder
      *
      * @param manager the manager to use to get the fileSystemConfigBuilder assocated to a scheme
      */
-    public DelegatingFileSystemOptionsBuilder(final FileSystemManager manager)
-    {
+    public DelegatingFileSystemOptionsBuilder(final FileSystemManager manager) {
         this.manager = manager;
     }
 
-    protected FileSystemManager getManager()
-    {
+    protected FileSystemManager getManager() {
         return manager;
     }
 
     /**
      * Set a single string value.
      *
-     * @param fso    FileSystemOptions
+     * @param fso FileSystemOptions
      * @param scheme scheme
-     * @param name   name
-     * @param value  value
+     * @param name name
+     * @param value value
      * @throws FileSystemException if an error occurs.
      */
-    public void setConfigString(final FileSystemOptions fso, final String scheme, final String name,
-                                final String value) throws FileSystemException
-    {
-        setConfigStrings(fso, scheme, name, new String[]{value});
+    public void setConfigString(final FileSystemOptions fso, final String scheme, final String name, final String value)
+            throws FileSystemException {
+        setConfigStrings(fso, scheme, name, new String[] { value });
     }
 
     /**
      * Set an array of string value.
      *
-     * @param fso    FileSystemOptions
+     * @param fso FileSystemOptions
      * @param scheme scheme
-     * @param name   name
+     * @param name name
      * @param values values
      * @throws FileSystemException if an error occurs.
      */
     public void setConfigStrings(final FileSystemOptions fso, final String scheme, final String name,
-                                 final String[] values) throws FileSystemException
-    {
+            final String[] values) throws FileSystemException {
         final Context ctx = new Context(fso, scheme, name, values);
 
         setValues(ctx);
@@ -143,40 +136,35 @@ public class DelegatingFileSystemOptionsBuilder
      * Set a single class value.<br>
      * The class has to implement a no-args constructor, else the instantiation might fail.
      *
-     * @param fso       FileSystemOptions
-     * @param scheme    scheme
-     * @param name      name
+     * @param fso FileSystemOptions
+     * @param scheme scheme
+     * @param name name
      * @param className className
      * @throws FileSystemException if an error occurs.
      * @throws IllegalAccessException if a class canoot be accessed.
      * @throws InstantiationException if a class cannot be instantiated.
      */
     public void setConfigClass(final FileSystemOptions fso, final String scheme, final String name,
-                               final Class<?> className)
-            throws FileSystemException, IllegalAccessException, InstantiationException
-    {
-        setConfigClasses(fso, scheme, name, new Class[]{className});
+            final Class<?> className) throws FileSystemException, IllegalAccessException, InstantiationException {
+        setConfigClasses(fso, scheme, name, new Class[] { className });
     }
 
     /**
      * Set an array of class values.<br>
      * The class has to implement a no-args constructor, else the instantiation might fail.
      *
-     * @param fso        FileSystemOptions
-     * @param scheme     scheme
-     * @param name       name
+     * @param fso FileSystemOptions
+     * @param scheme scheme
+     * @param name name
      * @param classNames classNames
      * @throws FileSystemException if an error occurs.
      * @throws IllegalAccessException if a class canoot be accessed.
      * @throws InstantiationException if a class cannot be instantiated.
      */
     public void setConfigClasses(final FileSystemOptions fso, final String scheme, final String name,
-                                 final Class<?>[] classNames)
-            throws FileSystemException, IllegalAccessException, InstantiationException
-    {
+            final Class<?>[] classNames) throws FileSystemException, IllegalAccessException, InstantiationException {
         final Object[] values = new Object[classNames.length];
-        for (int iterClassNames = 0; iterClassNames < values.length; iterClassNames++)
-        {
+        for (int iterClassNames = 0; iterClassNames < values.length; iterClassNames++) {
             values[iterClassNames] = classNames[iterClassNames].newInstance();
         }
 
@@ -188,14 +176,10 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * sets the values using the informations of the given context.<br>
      */
-    private void setValues(final Context ctx) throws FileSystemException
-    {
+    private void setValues(final Context ctx) throws FileSystemException {
         // find all setter methods suitable for the given "name"
-        if (!fillConfigSetters(ctx))
-        {
-            throw new FileSystemException("vfs.provider/config-key-invalid.error",
-                ctx.scheme,
-                ctx.name);
+        if (!fillConfigSetters(ctx)) {
+            throw new FileSystemException("vfs.provider/config-key-invalid.error", ctx.scheme, ctx.name);
         }
 
         // get the fileSystemConfigBuilder
@@ -203,57 +187,43 @@ public class DelegatingFileSystemOptionsBuilder
 
         // try to find a setter which could accept the value
         final Iterator<Method> iterConfigSetters = ctx.configSetters.iterator();
-        while (iterConfigSetters.hasNext())
-        {
+        while (iterConfigSetters.hasNext()) {
             final Method configSetter = iterConfigSetters.next();
-            if (convertValuesAndInvoke(configSetter, ctx))
-            {
+            if (convertValuesAndInvoke(configSetter, ctx)) {
                 return;
             }
         }
 
-        throw new FileSystemException("vfs.provider/config-value-invalid.error",
-            ctx.scheme,
-            ctx.name,
-            ctx.values);
+        throw new FileSystemException("vfs.provider/config-value-invalid.error", ctx.scheme, ctx.name, ctx.values);
     }
 
     /**
      * tries to convert the value and pass it to the given method
      */
-    private boolean convertValuesAndInvoke(final Method configSetter, final Context ctx) throws FileSystemException
-    {
+    private boolean convertValuesAndInvoke(final Method configSetter, final Context ctx) throws FileSystemException {
         final Class<?>[] parameters = configSetter.getParameterTypes();
-        if (parameters.length < 2)
-        {
+        if (parameters.length < 2) {
             return false;
         }
-        if (!parameters[0].isAssignableFrom(FileSystemOptions.class))
-        {
+        if (!parameters[0].isAssignableFrom(FileSystemOptions.class)) {
             return false;
         }
 
         final Class<?> valueParameter = parameters[1];
         Class<?> type;
-        if (valueParameter.isArray())
-        {
+        if (valueParameter.isArray()) {
             type = valueParameter.getComponentType();
-        }
-        else
-        {
-            if (ctx.values.length > 1)
-            {
+        } else {
+            if (ctx.values.length > 1) {
                 return false;
             }
 
             type = valueParameter;
         }
 
-        if (type.isPrimitive())
-        {
+        if (type.isPrimitive()) {
             final Class<?> objectType = PRIMATIVE_TO_OBJECT.get(type.getName());
-            if (objectType == null)
-            {
+            if (objectType == null) {
                 log.warn(Messages.getString("vfs.provider/config-unexpected-primitive.error", type.getName()));
                 return false;
             }
@@ -261,53 +231,36 @@ public class DelegatingFileSystemOptionsBuilder
         }
 
         final Class<? extends Object> valueClass = ctx.values[0].getClass();
-        if (type.isAssignableFrom(valueClass))
-        {
+        if (type.isAssignableFrom(valueClass)) {
             // can set value directly
             invokeSetter(valueParameter, ctx, configSetter, ctx.values);
             return true;
         }
-        if (valueClass != String.class)
-        {
-            log.warn(Messages.getString("vfs.provider/config-unexpected-value-class.error",
-                valueClass.getName(),
-                ctx.scheme,
-                ctx.name
-            ));
+        if (valueClass != String.class) {
+            log.warn(Messages.getString("vfs.provider/config-unexpected-value-class.error", valueClass.getName(),
+                    ctx.scheme, ctx.name));
             return false;
         }
 
         final Object convertedValues = Array.newInstance(type, ctx.values.length);
 
         Constructor<?> valueConstructor;
-        try
-        {
+        try {
             valueConstructor = type.getConstructor(STRING_PARAM);
-        }
-        catch (final NoSuchMethodException e)
-        {
+        } catch (final NoSuchMethodException e) {
             valueConstructor = null;
         }
-        if (valueConstructor != null)
-        {
+        if (valueConstructor != null) {
             // can convert using constructor
-            for (int iterValues = 0; iterValues < ctx.values.length; iterValues++)
-            {
-                try
-                {
+            for (int iterValues = 0; iterValues < ctx.values.length; iterValues++) {
+                try {
                     Array.set(convertedValues, iterValues,
-                            valueConstructor.newInstance(new Object[]{ctx.values[iterValues]}));
-                }
-                catch (final InstantiationException e)
-                {
+                            valueConstructor.newInstance(new Object[] { ctx.values[iterValues] }));
+                } catch (final InstantiationException e) {
                     throw new FileSystemException(e);
-                }
-                catch (final IllegalAccessException e)
-                {
+                } catch (final IllegalAccessException e) {
                     throw new FileSystemException(e);
-                }
-                catch (final InvocationTargetException e)
-                {
+                } catch (final InvocationTargetException e) {
                     throw new FileSystemException(e);
                 }
             }
@@ -317,35 +270,24 @@ public class DelegatingFileSystemOptionsBuilder
         }
 
         Method valueFactory;
-        try
-        {
+        try {
             valueFactory = type.getMethod("valueOf", STRING_PARAM);
-            if (!Modifier.isStatic(valueFactory.getModifiers()))
-            {
+            if (!Modifier.isStatic(valueFactory.getModifiers())) {
                 valueFactory = null;
             }
-        }
-        catch (final NoSuchMethodException e)
-        {
+        } catch (final NoSuchMethodException e) {
             valueFactory = null;
         }
 
-        if (valueFactory != null)
-        {
+        if (valueFactory != null) {
             // can convert using factory method (valueOf)
-            for (int iterValues = 0; iterValues < ctx.values.length; iterValues++)
-            {
-                try
-                {
+            for (int iterValues = 0; iterValues < ctx.values.length; iterValues++) {
+                try {
                     Array.set(convertedValues, iterValues,
-                            valueFactory.invoke(null, new Object[]{ctx.values[iterValues]}));
-                }
-                catch (final IllegalAccessException e)
-                {
+                            valueFactory.invoke(null, new Object[] { ctx.values[iterValues] }));
+                } catch (final IllegalAccessException e) {
                     throw new FileSystemException(e);
-                }
-                catch (final InvocationTargetException e)
-                {
+                } catch (final InvocationTargetException e) {
                     throw new FileSystemException(e);
                 }
             }
@@ -361,36 +303,18 @@ public class DelegatingFileSystemOptionsBuilder
      * invokes the method with the converted values
      */
     private void invokeSetter(final Class<?> valueParameter, final Context ctx, final Method configSetter,
-                              final Object values)
-        throws FileSystemException
-    {
+            final Object values) throws FileSystemException {
         Object[] args;
-        if (valueParameter.isArray())
-        {
-            args = new Object[]
-            {
-                ctx.fso,
-                values
-            };
+        if (valueParameter.isArray()) {
+            args = new Object[] { ctx.fso, values };
+        } else {
+            args = new Object[] { ctx.fso, Array.get(values, 0) };
         }
-        else
-        {
-            args = new Object[]
-            {
-                ctx.fso,
-                Array.get(values, 0)
-            };
-        }
-        try
-        {
+        try {
             configSetter.invoke(ctx.fileSystemConfigBuilder, args);
-        }
-        catch (final IllegalAccessException e)
-        {
+        } catch (final IllegalAccessException e) {
             throw new FileSystemException(e);
-        }
-        catch (final InvocationTargetException e)
-        {
+        } catch (final InvocationTargetException e) {
             throw new FileSystemException(e);
         }
     }
@@ -398,13 +322,10 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * fills all available set*() methods for the context-scheme into the context.
      */
-    private boolean fillConfigSetters(final Context ctx)
-        throws FileSystemException
-    {
+    private boolean fillConfigSetters(final Context ctx) throws FileSystemException {
         final Map<String, List<Method>> schemeMethods = getSchemeMethods(ctx.scheme);
         final List<Method> configSetters = schemeMethods.get(ctx.name.toLowerCase());
-        if (configSetters == null)
-        {
+        if (configSetters == null) {
             return false;
         }
 
@@ -415,11 +336,9 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * get (cached) list of set*() methods for the given scheme
      */
-    private Map<String, List<Method>> getSchemeMethods(final String scheme) throws FileSystemException
-    {
+    private Map<String, List<Method>> getSchemeMethods(final String scheme) throws FileSystemException {
         Map<String, List<Method>> schemeMethods = beanMethods.get(scheme);
-        if (schemeMethods == null)
-        {
+        if (schemeMethods == null) {
             schemeMethods = createSchemeMethods(scheme);
             beanMethods.put(scheme, schemeMethods);
         }
@@ -430,27 +349,22 @@ public class DelegatingFileSystemOptionsBuilder
     /**
      * create the list of all set*() methods for the given scheme
      */
-    private Map<String, List<Method>> createSchemeMethods(final String scheme) throws FileSystemException
-    {
+    private Map<String, List<Method>> createSchemeMethods(final String scheme) throws FileSystemException {
         final FileSystemConfigBuilder fscb = getManager().getFileSystemConfigBuilder(scheme);
-        if (fscb == null)
-        {
+        if (fscb == null) {
             throw new FileSystemException("vfs.provider/no-config-builder.error", scheme);
         }
 
         final Map<String, List<Method>> schemeMethods = new TreeMap<>();
 
         final Method[] methods = fscb.getClass().getMethods();
-        for (final Method method : methods)
-        {
-            if (!Modifier.isPublic(method.getModifiers()))
-            {
+        for (final Method method : methods) {
+            if (!Modifier.isPublic(method.getModifiers())) {
                 continue;
             }
 
             final String methodName = method.getName();
-            if (!methodName.startsWith("set"))
-            {
+            if (!methodName.startsWith("set")) {
                 // not a setter
                 continue;
             }
@@ -458,8 +372,7 @@ public class DelegatingFileSystemOptionsBuilder
             final String key = methodName.substring(3).toLowerCase();
 
             List<Method> configSetter = schemeMethods.get(key);
-            if (configSetter == null)
-            {
+            if (configSetter == null) {
                 configSetter = new ArrayList<>(2);
                 schemeMethods.put(key, configSetter);
             }

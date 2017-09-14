@@ -23,74 +23,55 @@ import java.util.Iterator;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 
-
 /**
  *
  * @since 0.1
  */
-public abstract class AbstractFileOperationProvider implements FileOperationProvider
-{
+public abstract class AbstractFileOperationProvider implements FileOperationProvider {
 
     /**
-     * Available operations. Operations could be registered for different schemes.
-     * Some operations can work only for "file" scheme, other - for "svnhttp(s)",
-     * "svn", "svnssh", but not for "file", etc. The Map has scheme as a key and
-     * Collection of operations that are available for that scheme.
+     * Available operations. Operations could be registered for different schemes. Some operations can work only for
+     * "file" scheme, other - for "svnhttp(s)", "svn", "svnssh", but not for "file", etc. The Map has scheme as a key
+     * and Collection of operations that are available for that scheme.
      */
-    private final Collection<Class<? extends FileOperation>> operations =
-        new ArrayList<>();
+    private final Collection<Class<? extends FileOperation>> operations = new ArrayList<>();
 
     /**
-     * Gather available operations for the specified FileObject and put them into
-     * specified operationsList.
+     * Gather available operations for the specified FileObject and put them into specified operationsList.
      *
-     * @param operationsList
-     *            the list of available operations for the specified FileObject.
-     *            The operationList contains classes of available operations, e.g.
-     *            Class objects.
-     * @param file
-     *            the FileObject for which we want to get the list of available
-     *            operations.
+     * @param operationsList the list of available operations for the specified FileObject. The operationList contains
+     *            classes of available operations, e.g. Class objects.
+     * @param file the FileObject for which we want to get the list of available operations.
      * @throws FileSystemException if list of operations cannot be retrieved.
      */
     @Override
     public final void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
-            final FileObject file) throws FileSystemException
-    {
+            final FileObject file) throws FileSystemException {
         doCollectOperations(operations, operationsList, file);
     }
 
     /**
-     * Gather available operations for the specified FileObject and put them into
-     * specified operationsList.
+     * Gather available operations for the specified FileObject and put them into specified operationsList.
      *
-     * @param availableOperations
-     *            the list of available operations for the specified FileObject.
-     * @param resultList
-     *            List to be filled with applicable operations.
-     * @param file
-     *            the FileObject for which we want to get the list of available
-     *            operations.
+     * @param availableOperations the list of available operations for the specified FileObject.
+     * @param resultList List to be filled with applicable operations.
+     * @param file the FileObject for which we want to get the list of available operations.
      * @throws FileSystemException if list of operations cannot be retrieved.
      * @see #collectOperations(Collection operationsList, FileObject file)
      */
-    protected abstract void doCollectOperations(
-            final Collection<Class<? extends FileOperation>> availableOperations,
-            final Collection<Class<? extends FileOperation>> resultList,
-            final FileObject file) throws FileSystemException;
+    protected abstract void doCollectOperations(final Collection<Class<? extends FileOperation>> availableOperations,
+            final Collection<Class<? extends FileOperation>> resultList, final FileObject file)
+            throws FileSystemException;
 
     /**
-     * @param file
-     *            the FileObject for which we need a operation.
-     * @param operationClass
-     *            the Class which instance we are needed.
+     * @param file the FileObject for which we need a operation.
+     * @param operationClass the Class which instance we are needed.
      * @return the required operation instance.
      * @throws FileSystemException if operation cannot be retrieved.
      */
     @Override
     public final FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
-            throws FileSystemException
-    {
+            throws FileSystemException {
         final Class<? extends FileOperation> implementation = lookupOperation(operationClass);
 
         final FileOperation operationInstance = instantiateOperation(file, implementation);
@@ -117,29 +98,24 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * @throws FileSystemException if operationClass is not a known FileOperation interface.
      */
     protected final Class<? extends FileOperation> lookupOperation(final Class<? extends FileOperation> operationClass)
-            throws FileSystemException
-    {
+            throws FileSystemException {
         // check validity of passed class
-        if (!FileOperation.class.isAssignableFrom(operationClass))
-        {
+        if (!FileOperation.class.isAssignableFrom(operationClass)) {
             throw new FileSystemException("vfs.operation/wrong-type.error", operationClass);
         }
 
         // find appropriate class
         Class<? extends FileOperation> foundClass = null;
         final Iterator<Class<? extends FileOperation>> iterator = operations.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             final Class<? extends FileOperation> operation = iterator.next();
-            if (operationClass.isAssignableFrom(operation))
-            {
+            if (operationClass.isAssignableFrom(operation)) {
                 foundClass = operation;
                 break;
             }
         }
 
-        if (foundClass == null)
-        {
+        if (foundClass == null) {
             throw new FileSystemException("vfs.operation/not-found.error", operationClass);
         }
 
@@ -152,12 +128,9 @@ public abstract class AbstractFileOperationProvider implements FileOperationProv
      * @param operationClass a class implementing FileOperation.
      * @throws FileSystemException if instances of the class cannot be assigned to FileOperation.
      */
-    protected final void addOperation(final Class<? extends FileOperation> operationClass)
-            throws FileSystemException
-    {
+    protected final void addOperation(final Class<? extends FileOperation> operationClass) throws FileSystemException {
         // check validity of passed class
-        if (!FileOperation.class.isAssignableFrom(operationClass))
-        {
+        if (!FileOperation.class.isAssignableFrom(operationClass)) {
             throw new FileSystemException("vfs.operation/cant-register.error", operationClass);
         }
 

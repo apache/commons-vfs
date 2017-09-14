@@ -38,8 +38,7 @@ import org.apache.hadoop.fs.Path;
  *
  * @since 2.1
  */
-public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
-{
+public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem> {
     private final HdfsFileSystem fs;
     private final FileSystem hdfs;
     private final Path path;
@@ -48,17 +47,13 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
     /**
      * Constructs a new HDFS FileObject
      *
-     * @param name
-     *            FileName
-     * @param fs
-     *            HdfsFileSystem instance
-     * @param hdfs
-     *            Hadoop FileSystem instance
-     * @param p
-     *            Path to the file in HDFS
+     * @param name FileName
+     * @param fs HdfsFileSystem instance
+     * @param hdfs Hadoop FileSystem instance
+     * @param p Path to the file in HDFS
      */
-    protected HdfsFileObject(final AbstractFileName name, final HdfsFileSystem fs, final FileSystem hdfs, final Path p)
-    {
+    protected HdfsFileObject(final AbstractFileName name, final HdfsFileSystem fs, final FileSystem hdfs,
+            final Path p) {
         super(name, fs);
         this.fs = fs;
         this.hdfs = hdfs;
@@ -69,8 +64,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#canRenameTo(org.apache.commons.vfs2.FileObject)
      */
     @Override
-    public boolean canRenameTo(final FileObject newfile)
-    {
+    public boolean canRenameTo(final FileObject newfile) {
         throw new UnsupportedOperationException();
     }
 
@@ -78,14 +72,10 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doAttach()
      */
     @Override
-    protected void doAttach() throws Exception
-    {
-        try
-        {
+    protected void doAttach() throws Exception {
+        try {
             this.stat = this.hdfs.getFileStatus(this.path);
-        }
-        catch (final FileNotFoundException e)
-        {
+        } catch (final FileNotFoundException e) {
             this.stat = null;
             return;
         }
@@ -95,10 +85,8 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetAttributes()
      */
     @Override
-    protected Map<String, Object> doGetAttributes() throws Exception
-    {
-        if (null == this.stat)
-        {
+    protected Map<String, Object> doGetAttributes() throws Exception {
+        if (null == this.stat) {
             return super.doGetAttributes();
         }
         final Map<String, Object> attrs = new HashMap<>();
@@ -116,8 +104,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetContentSize()
      */
     @Override
-    protected long doGetContentSize() throws Exception
-    {
+    protected long doGetContentSize() throws Exception {
         return stat.getLen();
     }
 
@@ -125,8 +112,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetInputStream()
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         return this.hdfs.open(this.path);
     }
 
@@ -134,10 +120,8 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
      */
     @Override
-    protected long doGetLastModifiedTime() throws Exception
-    {
-        if (null != this.stat)
-        {
+    protected long doGetLastModifiedTime() throws Exception {
+        if (null != this.stat) {
             return this.stat.getModificationTime();
         }
         return -1;
@@ -148,10 +132,8 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      *      (org.apache.commons.vfs2.util.RandomAccessMode)
      */
     @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
-    {
-        if (mode.equals(RandomAccessMode.READWRITE))
-        {
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
+        if (mode.equals(RandomAccessMode.READWRITE)) {
             throw new UnsupportedOperationException();
         }
         return new HdfsRandomAccessContent(this.path, this.hdfs);
@@ -161,23 +143,17 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetType()
      */
     @Override
-    protected FileType doGetType() throws Exception
-    {
-        try
-        {
+    protected FileType doGetType() throws Exception {
+        try {
             doAttach();
-            if (null == stat)
-            {
+            if (null == stat) {
                 return FileType.IMAGINARY;
             }
-            if (stat.isDir())
-            {
+            if (stat.isDir()) {
                 return FileType.FOLDER;
             }
             return FileType.FILE;
-        }
-        catch (final FileNotFoundException fnfe)
-        {
+        } catch (final FileNotFoundException fnfe) {
             return FileType.IMAGINARY;
         }
     }
@@ -186,8 +162,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doIsHidden()
      */
     @Override
-    protected boolean doIsHidden() throws Exception
-    {
+    protected boolean doIsHidden() throws Exception {
         return false;
     }
 
@@ -195,8 +170,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doIsReadable()
      */
     @Override
-    protected boolean doIsReadable() throws Exception
-    {
+    protected boolean doIsReadable() throws Exception {
         return true;
     }
 
@@ -204,8 +178,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doIsWriteable()
      */
     @Override
-    protected boolean doIsWriteable() throws Exception
-    {
+    protected boolean doIsWriteable() throws Exception {
         return false;
     }
 
@@ -213,18 +186,15 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doListChildren()
      */
     @Override
-    protected String[] doListChildren() throws Exception
-    {
-        if (this.doGetType() != FileType.FOLDER)
-        {
+    protected String[] doListChildren() throws Exception {
+        if (this.doGetType() != FileType.FOLDER) {
             throw new FileNotFolderException(this);
         }
 
         final FileStatus[] files = this.hdfs.listStatus(this.path);
         final String[] children = new String[files.length];
         int i = 0;
-        for (final FileStatus status : files)
-        {
+        for (final FileStatus status : files) {
             children[i++] = status.getPath().getName();
         }
         return children;
@@ -234,16 +204,13 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doListChildrenResolved()
      */
     @Override
-    protected FileObject[] doListChildrenResolved() throws Exception
-    {
-        if (this.doGetType() != FileType.FOLDER)
-        {
+    protected FileObject[] doListChildrenResolved() throws Exception {
+        if (this.doGetType() != FileType.FOLDER) {
             return null;
         }
         final String[] children = doListChildren();
         final FileObject[] fo = new FileObject[children.length];
-        for (int i = 0; i < children.length; i++)
-        {
+        for (int i = 0; i < children.length; i++) {
             final Path p = new Path(this.path, children[i]);
             fo[i] = this.fs.resolveFile(p.toUri().toString());
         }
@@ -254,8 +221,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRemoveAttribute(java.lang.String)
      */
     @Override
-    protected void doRemoveAttribute(final String attrName) throws Exception
-    {
+    protected void doRemoveAttribute(final String attrName) throws Exception {
         throw new UnsupportedOperationException();
     }
 
@@ -263,8 +229,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetAttribute(java.lang.String, java.lang.Object)
      */
     @Override
-    protected void doSetAttribute(final String attrName, final Object value) throws Exception
-    {
+    protected void doSetAttribute(final String attrName, final Object value) throws Exception {
         throw new UnsupportedOperationException();
     }
 
@@ -272,8 +237,7 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doSetLastModifiedTime(long)
      */
     @Override
-    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
-    {
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         throw new UnsupportedOperationException();
     }
 
@@ -282,19 +246,13 @@ public class HdfsFileObject extends AbstractFileObject<HdfsFileSystem>
      * @return boolean true if file exists, false if not
      */
     @Override
-    public boolean exists() throws FileSystemException
-    {
-        try
-        {
+    public boolean exists() throws FileSystemException {
+        try {
             doAttach();
             return this.stat != null;
-        }
-        catch (final FileNotFoundException fne)
-        {
+        } catch (final FileNotFoundException fne) {
             return false;
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             throw new FileSystemException("Unable to check existance ", e);
         }
     }

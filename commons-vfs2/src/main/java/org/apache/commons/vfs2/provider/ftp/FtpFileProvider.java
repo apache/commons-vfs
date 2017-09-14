@@ -33,9 +33,7 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 /**
  * A provider for FTP file systems.
  */
-public class FtpFileProvider
-    extends AbstractOriginatingFileProvider
-{
+public class FtpFileProvider extends AbstractOriginatingFileProvider {
     /**
      * File Entry Parser.
      */
@@ -44,31 +42,18 @@ public class FtpFileProvider
     /**
      * Authenticator types.
      */
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-        {
-            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-        };
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
-    static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.CREATE,
-        Capability.DELETE,
-        Capability.RENAME,
-        Capability.GET_TYPE,
-        Capability.LIST_CHILDREN,
-        Capability.READ_CONTENT,
-        Capability.GET_LAST_MODIFIED,
-        Capability.URI,
-        Capability.WRITE_CONTENT,
-        Capability.APPEND_CONTENT,
-        Capability.RANDOM_ACCESS_READ,
-    }));
+    static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays
+            .asList(new Capability[] { Capability.CREATE, Capability.DELETE, Capability.RENAME, Capability.GET_TYPE,
+                    Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.GET_LAST_MODIFIED, Capability.URI,
+                    Capability.WRITE_CONTENT, Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ, }));
 
     /**
      * Constructs a new provider.
      */
-    public FtpFileProvider()
-    {
+    public FtpFileProvider() {
         super();
         setFileNameParser(FtpFileNameParser.getInstance());
     }
@@ -78,33 +63,26 @@ public class FtpFileProvider
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
         final FTPClientWrapper ftpClient = new FTPClientWrapper(rootName, fileSystemOptions);
         /*
-        FTPClient ftpClient = FtpClientFactory.createConnection(rootName.getHostName(),
-            rootName.getPort(),
-            rootName.getUserName(),
-            rootName.getPassword(),
-            rootName.getPath(),
-            fileSystemOptions);
-        */
+         * FTPClient ftpClient = FtpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
+         * rootName.getUserName(), rootName.getPassword(), rootName.getPath(), fileSystemOptions);
+         */
 
         return new FtpFileSystem(rootName, ftpClient, fileSystemOptions);
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder()
-    {
+    public FileSystemConfigBuilder getConfigBuilder() {
         return FtpFileSystemConfigBuilder.getInstance();
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

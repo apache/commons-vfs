@@ -25,34 +25,22 @@ import java.net.URLStreamHandler;
 /**
  * A proxy for URLs that are supported by the standard stream handler factory.
  */
-class URLStreamHandlerProxy
-    extends URLStreamHandler
-{
+class URLStreamHandlerProxy extends URLStreamHandler {
     @Override
-    protected URLConnection openConnection(final URL url)
-        throws IOException
-    {
+    protected URLConnection openConnection(final URL url) throws IOException {
         final URL proxyURL = new URL(url.toExternalForm());
         return proxyURL.openConnection();
     }
 
     @Override
-    protected void parseURL(final URL u,
-                            final String spec,
-                            final int start,
-                            final int limit)
-    {
-        try
-        {
+    protected void parseURL(final URL u, final String spec, final int start, final int limit) {
+        try {
             final URL url = new URL(u, spec);
-            setURL(u, url.getProtocol(), url.getHost(),
-                url.getPort(), url.getAuthority(), url.getUserInfo(),
-                url.getFile(), url.getQuery(), url.getRef());
-        }
-        catch (final MalformedURLException mue)
-        {
-            //We retrow this as a simple runtime exception.
-            //It is retrown in URL as a MalformedURLException anyway.
+            setURL(u, url.getProtocol(), url.getHost(), url.getPort(), url.getAuthority(), url.getUserInfo(),
+                    url.getFile(), url.getQuery(), url.getRef());
+        } catch (final MalformedURLException mue) {
+            // We retrow this as a simple runtime exception.
+            // It is retrown in URL as a MalformedURLException anyway.
             throw new RuntimeException(mue.getMessage());
         }
     }

@@ -29,23 +29,19 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 /**
  * Filesytem to handle compressed files using the gzip method.
  */
-public class GzipFileSystem extends CompressedFileFileSystem
-{
+public class GzipFileSystem extends CompressedFileFileSystem {
     protected GzipFileSystem(final FileName rootName, final FileObject parentLayer,
-                             final FileSystemOptions fileSystemOptions)
-    {
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, parentLayer, fileSystemOptions);
     }
 
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
-    {
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         return new GzipFileObject(name, getParentLayer(), this);
     }
 
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(GzipFileProvider.capabilities);
     }
 }

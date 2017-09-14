@@ -31,31 +31,24 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 /**
  * Creates FileContentInfo instances for HTTP.
  */
-public class HttpFileContentInfoFactory implements FileContentInfoFactory
-{
+public class HttpFileContentInfoFactory implements FileContentInfoFactory {
     @Override
-    public FileContentInfo create(final FileContent fileContent) throws FileSystemException
-    {
+    public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
         final HttpFileObject httpFile = (HttpFileObject) FileObjectUtils.getAbstractFileObject(fileContent.getFile());
 
         String contentType = null;
         String contentEncoding = null;
 
         HeadMethod headMethod;
-        try
-        {
+        try {
             headMethod = httpFile.getHeadMethod();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new FileSystemException(e);
         }
         final Header header = headMethod.getResponseHeader("content-type");
-        if (header != null)
-        {
+        if (header != null) {
             final HeaderElement[] element = header.getElements();
-            if (element != null && element.length > 0)
-            {
+            if (element != null && element.length > 0) {
                 contentType = element[0].getName();
             }
         }

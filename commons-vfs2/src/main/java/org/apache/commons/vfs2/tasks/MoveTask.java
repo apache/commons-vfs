@@ -26,17 +26,15 @@ import org.apache.commons.vfs2.Selectors;
  * <p>
  * TODO - Delete matching folders.
  */
-public class MoveTask
-    extends CopyTask
-{
+public class MoveTask extends CopyTask {
     private boolean tryRename;
 
     /**
      * Enable/disable move/rename of file (if possible).
+     * 
      * @param tryRename true if the file should be renamed.
      */
-    public void setTryRename(final boolean tryRename)
-    {
+    public void setTryRename(final boolean tryRename) {
         this.tryRename = tryRename;
     }
 
@@ -44,24 +42,17 @@ public class MoveTask
      * Handles a single source file.
      */
     @Override
-    protected void handleOutOfDateFile(final FileObject srcFile,
-                                       final FileObject destFile)
-        throws FileSystemException
-    {
-        if (!tryRename || !srcFile.canRenameTo(destFile))
-        {
+    protected void handleOutOfDateFile(final FileObject srcFile, final FileObject destFile) throws FileSystemException {
+        if (!tryRename || !srcFile.canRenameTo(destFile)) {
             super.handleOutOfDateFile(srcFile, destFile);
 
             log("Deleting " + srcFile.getPublicURIString());
             srcFile.delete(Selectors.SELECT_SELF);
-        }
-        else
-        {
+        } else {
             log("Rename " + srcFile.getPublicURIString() + " to " + destFile.getPublicURIString());
             srcFile.moveTo(destFile);
             if (!isPreserveLastModified()
-                && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
-            {
+                    && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) {
                 destFile.getContent().setLastModifiedTime(System.currentTimeMillis());
             }
         }

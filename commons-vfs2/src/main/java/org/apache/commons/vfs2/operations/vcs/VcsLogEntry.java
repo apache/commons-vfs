@@ -22,8 +22,7 @@ import java.util.Calendar;
  *
  * @since 0.1
  */
-public class VcsLogEntry
-{
+public class VcsLogEntry {
     /**
      */
     private final String author;
@@ -56,9 +55,8 @@ public class VcsLogEntry
      * @param date The date.
      * @param path The path.
      */
-    public VcsLogEntry(final String author, final long revision,
-            final String message, final Calendar date, final String path)
-    {
+    public VcsLogEntry(final String author, final long revision, final String message, final Calendar date,
+            final String path) {
         this.author = author;
         this.revision = revision;
         this.message = message;
@@ -70,8 +68,7 @@ public class VcsLogEntry
      *
      * @return The author.
      */
-    public String getAuthor()
-    {
+    public String getAuthor() {
         return author;
     }
 
@@ -79,8 +76,7 @@ public class VcsLogEntry
      *
      * @return The revision.
      */
-    public long getRevision()
-    {
+    public long getRevision() {
         return revision;
     }
 
@@ -88,8 +84,7 @@ public class VcsLogEntry
      *
      * @return The message.
      */
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
@@ -97,8 +92,7 @@ public class VcsLogEntry
      *
      * @return The date.
      */
-    public Calendar getDate()
-    {
+    public Calendar getDate() {
         return date;
     }
 
@@ -106,8 +100,7 @@ public class VcsLogEntry
      *
      * @return The path.
      */
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 }

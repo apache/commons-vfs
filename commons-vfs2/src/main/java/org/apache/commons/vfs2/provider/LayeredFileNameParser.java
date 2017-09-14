@@ -25,32 +25,32 @@ import org.apache.commons.vfs2.FileType;
  * <p>
  * Additionally encodes the '!' character.
  */
-public class LayeredFileNameParser extends AbstractFileNameParser
-{
+public class LayeredFileNameParser extends AbstractFileNameParser {
     private static final LayeredFileNameParser INSTANCE = new LayeredFileNameParser();
 
     /**
      * Return the Parser.
+     * 
      * @return The Parser.
      */
-    public static LayeredFileNameParser getInstance()
-    {
+    public static LayeredFileNameParser getInstance() {
         return INSTANCE;
     }
 
     /**
      * Determines if a character should be encoded.
+     * 
      * @param ch The character to check.
      * @return true if the character should be encoded.
      */
     @Override
-    public boolean encodeCharacter(final char ch)
-    {
+    public boolean encodeCharacter(final char ch) {
         return super.encodeCharacter(ch) || ch == '!';
     }
 
     /**
      * Parse the base and name into a FileName.
+     * 
      * @param context The component context.
      * @param base The base FileName.
      * @param filename The target file name.
@@ -59,8 +59,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
      */
     @Override
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
-            throws FileSystemException
-    {
+            throws FileSystemException {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
@@ -69,8 +68,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser
         // Extract the Layered file URI
         final String rootUriName = extractRootName(name);
         FileName rootUri = null;
-        if (rootUriName != null)
-        {
+        if (rootUriName != null) {
             rootUri = context.parseURI(rootUriName);
         }
 
@@ -90,18 +88,14 @@ public class LayeredFileNameParser extends AbstractFileNameParser
      * @return the extracted root name.
      * @throws FileSystemException if error occurs.
      */
-    protected String extractRootName(final StringBuilder uri)
-        throws FileSystemException
-    {
+    protected String extractRootName(final StringBuilder uri) throws FileSystemException {
         // Looking for <name>!<abspath> (staring at the end)
         final int maxlen = uri.length();
         int pos = maxlen - 1;
-        for (; pos > 0 && uri.charAt(pos) != '!'; pos--)
-        {
+        for (; pos > 0 && uri.charAt(pos) != '!'; pos--) {
         }
 
-        if (pos == 0 && uri.charAt(pos) != '!')
-        {
+        if (pos == 0 && uri.charAt(pos) != '!') {
             // not ! found, so take the whole path a root
             // e.g. zip:/my/zip/file.zip
             pos = maxlen;
@@ -109,12 +103,9 @@ public class LayeredFileNameParser extends AbstractFileNameParser
 
         // Extract the name
         final String prefix = uri.substring(0, pos);
-        if (pos < maxlen)
-        {
+        if (pos < maxlen) {
             uri.delete(0, pos + 1);
-        }
-        else
-        {
+        } else {
             uri.setLength(0);
         }
 

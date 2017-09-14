@@ -24,8 +24,7 @@ import org.apache.commons.vfs2.FileSystem;
  * <p>
  * It compares the fileSystem (by hashCode) and the filename.
  */
-class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey>
-{
+class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey> {
     /** The FileSystem */
     private final FileSystem fileSystem;
 
@@ -35,8 +34,7 @@ class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey>
     /** hashcode to identify this object */
     private final int fileSystemId;
 
-    FileSystemAndNameKey(final FileSystem fileSystem, final FileName fileName)
-    {
+    FileSystemAndNameKey(final FileSystem fileSystem, final FileName fileName) {
         this.fileSystem = fileSystem;
         this.fileSystemId = System.identityHashCode(fileSystem);
 
@@ -44,27 +42,22 @@ class FileSystemAndNameKey implements Comparable<FileSystemAndNameKey>
     }
 
     @Override
-    public int compareTo(final FileSystemAndNameKey other)
-    {
-        if (fileSystemId < other.fileSystemId)
-        {
+    public int compareTo(final FileSystemAndNameKey other) {
+        if (fileSystemId < other.fileSystemId) {
             return -1;
         }
-        if (fileSystemId > other.fileSystemId)
-        {
+        if (fileSystemId > other.fileSystemId) {
             return 1;
         }
 
         return fileName.compareTo(other.fileName);
     }
 
-    FileSystem getFileSystem()
-    {
+    FileSystem getFileSystem() {
         return fileSystem;
     }
 
-    FileName getFileName()
-    {
+    FileName getFileName() {
         return fileName;
     }
 }

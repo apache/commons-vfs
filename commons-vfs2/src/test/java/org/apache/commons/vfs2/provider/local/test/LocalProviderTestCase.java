@@ -31,14 +31,11 @@ import junit.framework.Test;
 /**
  * Tests for the local file system.
  */
-public class LocalProviderTestCase
-    extends AbstractProviderTestConfig
-{
+public class LocalProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for the local file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         final ProviderTestSuite testSuite = new ProviderTestSuite(new LocalProviderTestCase());
 
         testSuite.addTests(FileNameTests.class);
@@ -46,8 +43,7 @@ public class LocalProviderTestCase
         testSuite.addTests(UrlTests.class);
         testSuite.addTests(PermissionsTests.class);
 
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
-        {
+        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
             testSuite.addTests(WindowsFileNameTests.class);
         }
 
@@ -58,8 +54,7 @@ public class LocalProviderTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File testDir = AbstractVfsTestCase.getTestDirectoryFile();
         return manager.toFileObject(testDir);
     }

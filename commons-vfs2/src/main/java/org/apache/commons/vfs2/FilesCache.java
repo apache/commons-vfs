@@ -16,12 +16,10 @@
  */
 package org.apache.commons.vfs2;
 
-
 /**
  * The fileCache interface. Implementations of this interface are expected to be thread safe.
  */
-public interface FilesCache
-{
+public interface FilesCache {
     /**
      * Adds a FileObject to the cache.
      *
@@ -62,13 +60,12 @@ public interface FilesCache
      * Removes a file from cache.
      *
      * @param filesystem filesystem
-     * @param name       filename
+     * @param name filename
      */
     void removeFile(final FileSystem filesystem, final FileName name);
 
     /**
-     * If the cache uses timestamps it could use this method to handle
-     * updates of them.
+     * If the cache uses timestamps it could use this method to handle updates of them.
      *
      * @param file filename
      */

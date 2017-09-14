@@ -21,7 +21,6 @@ import java.io.IOException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpMethodRetryHandler;
 
-
 /**
  * A retry handler which will retry a failed webdav method one time.
  * <p>
@@ -29,22 +28,18 @@ import org.apache.commons.httpclient.HttpMethodRetryHandler;
  *
  * @since 2.0
  */
-public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler
-{
+public final class WebdavMethodRetryHandler implements HttpMethodRetryHandler {
     private static final WebdavMethodRetryHandler INSTANCE = new WebdavMethodRetryHandler();
 
-    private WebdavMethodRetryHandler()
-    {
+    private WebdavMethodRetryHandler() {
     }
 
-    public static WebdavMethodRetryHandler getInstance()
-    {
+    public static WebdavMethodRetryHandler getInstance() {
         return INSTANCE;
     }
 
     @Override
-    public boolean retryMethod(final HttpMethod method, final IOException exception, final int executionCount)
-    {
+    public boolean retryMethod(final HttpMethod method, final IOException exception, final int executionCount) {
         return executionCount < 2;
     }
 }

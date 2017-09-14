@@ -25,13 +25,11 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileUtil;
 
 /**
- * Helper class for VFSClassLoader.
- * This represents a resource loaded with the classloader.
+ * Helper class for VFSClassLoader. This represents a resource loaded with the classloader.
  *
  * @see VFSClassLoader
  */
-class Resource
-{
+class Resource {
     private final FileObject root;
     private final FileObject resource;
     private final FileObject packageFolder;
@@ -40,24 +38,17 @@ class Resource
     /**
      * Creates a new instance.
      *
-     * @param root     The code source FileObject.
+     * @param root The code source FileObject.
      * @param resource The resource of the FileObject.
      */
-    public Resource(final String name,
-                    final FileObject root,
-                    final FileObject resource)
-        throws FileSystemException
-    {
+    public Resource(final String name, final FileObject root, final FileObject resource) throws FileSystemException {
         this.root = root;
         this.resource = resource;
         packageFolder = resource.getParent();
         final int pos = name.lastIndexOf('/');
-        if (pos == -1)
-        {
+        if (pos == -1) {
             packageName = null;
-        }
-        else
-        {
+        } else {
             packageName = name.substring(0, pos).replace('/', '.');
         }
     }
@@ -65,56 +56,49 @@ class Resource
     /**
      * Returns the URL of the resource.
      */
-    public URL getURL() throws FileSystemException
-    {
+    public URL getURL() throws FileSystemException {
         return resource.getURL();
     }
 
     /**
      * Returns the name of the package containing the resource.
      */
-    public String getPackageName()
-    {
+    public String getPackageName() {
         return packageName;
     }
 
     /**
      * Returns an attribute of the package containing the resource.
      */
-    public String getPackageAttribute(final Attributes.Name attrName) throws FileSystemException
-    {
+    public String getPackageAttribute(final Attributes.Name attrName) throws FileSystemException {
         return (String) packageFolder.getContent().getAttribute(attrName.toString());
     }
 
     /**
      * Returns the folder for the package containing the resource.
      */
-    public FileObject getPackageFolder()
-    {
+    public FileObject getPackageFolder() {
         return packageFolder;
     }
 
     /**
      * Returns the FileObject of the resource.
      */
-    public FileObject getFileObject()
-    {
+    public FileObject getFileObject() {
         return resource;
     }
 
     /**
      * Returns the code source as an URL.
      */
-    public URL getCodeSourceURL() throws FileSystemException
-    {
+    public URL getCodeSourceURL() throws FileSystemException {
         return root.getURL();
     }
 
     /**
      * Returns the data for this resource as a byte array.
      */
-    public byte[] getBytes() throws IOException
-    {
+    public byte[] getBytes() throws IOException {
         return FileUtil.getContent(resource);
     }
 }

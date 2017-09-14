@@ -31,15 +31,13 @@ import org.junit.Test;
  * @version $Id$
  * @since 2.1
  */
-public class HttpFilesCacheTestCase extends TestCase
-{
+public class HttpFilesCacheTestCase extends TestCase {
 
     /**
      * Tests https://issues.apache.org/jira/browse/VFS-426
      */
     @Test
-    public void testQueryStringUrls() throws FileSystemException
-    {
+    public void testQueryStringUrls() throws FileSystemException {
         final String noQueryStringUrl = "http://commons.apache.org/vfs";
         final String queryStringUrl = "http://commons.apache.org/vfs?query=string";
         final String queryStringUrl2 = "http://commons.apache.org/vfs?query=string&more=stuff";

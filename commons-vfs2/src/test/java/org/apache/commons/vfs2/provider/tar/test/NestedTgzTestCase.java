@@ -29,14 +29,11 @@ import junit.framework.Test;
 /**
  * Tests for the Tar file system, using a tar file nested inside another tar file.
  */
-public class NestedTgzTestCase
-    extends AbstractProviderTestConfig
-{
+public class NestedTgzTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for nested tar files.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new NestedTgzTestCase(), true);
     }
 
@@ -44,9 +41,7 @@ public class NestedTgzTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("tgz", new TarFileProvider());
         manager.addExtensionMap("tgz", "tgz");
         manager.addProvider("tar", new TarFileProvider());
@@ -56,8 +51,7 @@ public class NestedTgzTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         // Locate the base Tar file
         final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tgz").getAbsolutePath();
         final String uri = "tgz:file:" + tarFilePath + "!/test.tgz";

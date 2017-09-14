@@ -27,17 +27,14 @@ import org.apache.commons.vfs2.test.CacheTestSuite;
 /**
  * Base class for different FilesCache tests.
  * <p>
- * Make sure {@link CacheTestSuite} is configured
- * with correct FilesCache.
+ * Make sure {@link CacheTestSuite} is configured with correct FilesCache.
  */
-public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCase
-{
+public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCase {
     /**
-     * Will test if the cache is cleared and if it is still useable afterwards.
-     * It will actually ensure the test is hitting the cache.
+     * Will test if the cache is cleared and if it is still useable afterwards. It will actually ensure the test is
+     * hitting the cache.
      */
-    public void testClearFiles() throws Exception
-    {
+    public void testClearFiles() throws Exception {
         final FilesCache cache = getManager().getFilesCache();
 
         final FileObject fo1 = getWriteFolder().resolveFile("dir1");
@@ -53,11 +50,9 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
     }
 
     /**
-     * Basic Cache operations, work for all caches
-     * (besides {@link NullFilesCache#testBasicCacheOps() NullFilesCache}).
+     * Basic Cache operations, work for all caches (besides {@link NullFilesCache#testBasicCacheOps() NullFilesCache}).
      */
-    public void testBasicCacheOps() throws Exception
-    {
+    public void testBasicCacheOps() throws Exception {
         final FilesCache cache = getManager().getFilesCache();
         final FileObject fo = getWriteFolder().resolveFile("dir1");
         final FileName fn = fo.getName();
@@ -80,11 +75,9 @@ public abstract class AbstractFilesCacheTestsBase extends AbstractProviderTestCa
     }
 
     /** Helper method, may be used in cache specific tests. */
-    protected int getFileHashCode() throws FileSystemException
-    {
+    protected int getFileHashCode() throws FileSystemException {
         final FileObject fo = getWriteFolder().resolveFile("file2");
-        if (!fo.exists())
-        {
+        if (!fo.exists()) {
             fo.createFile();
         }
 

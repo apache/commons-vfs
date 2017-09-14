@@ -28,8 +28,7 @@ import org.apache.commons.vfs2.FileType;
 /**
  * RAM File Object Data.
  */
-class RamFileData implements Serializable
-{
+class RamFileData implements Serializable {
     static final byte[] EMPTY = new byte[0];
 
     /**
@@ -64,15 +63,14 @@ class RamFileData implements Serializable
 
     /**
      * Constructor.
+     * 
      * @param name The file name.
      */
-    public RamFileData(final FileName name)
-    {
+    public RamFileData(final FileName name) {
         super();
         this.children = Collections.synchronizedCollection(new ArrayList<RamFileData>());
         this.clear();
-        if (name == null)
-        {
+        if (name == null) {
             throw new IllegalArgumentException("name can not be null");
         }
         this.name = name;
@@ -81,16 +79,14 @@ class RamFileData implements Serializable
     /**
      * @return Returns the buffer.
      */
-    byte[] getContent()
-    {
+    byte[] getContent() {
         return content;
     }
 
     /**
      * @param content The buffer.
      */
-    void setContent(final byte[] content)
-    {
+    void setContent(final byte[] content) {
         updateLastModified();
         this.content = content;
     }
@@ -98,41 +94,34 @@ class RamFileData implements Serializable
     /**
      * @return Returns the lastModified.
      */
-    long getLastModified()
-    {
+    long getLastModified() {
         return lastModified;
     }
 
     /**
-     * @param lastModified
-     *            The lastModified to set.
+     * @param lastModified The lastModified to set.
      */
-    void setLastModified(final long lastModified)
-    {
+    void setLastModified(final long lastModified) {
         this.lastModified = lastModified;
     }
 
     /**
      * @return Returns the type.
      */
-    FileType getType()
-    {
+    FileType getType() {
         return type;
     }
 
     /**
-     * @param type
-     *            The type to set.
+     * @param type The type to set.
      */
-    void setType(final FileType type)
-    {
+    void setType(final FileType type) {
         this.type = type;
     }
 
     /**
      */
-    void clear()
-    {
+    void clear() {
         this.content = EMPTY;
         updateLastModified();
         this.type = FileType.IMAGINARY;
@@ -140,16 +129,14 @@ class RamFileData implements Serializable
         this.name = null;
     }
 
-    void updateLastModified()
-    {
+    void updateLastModified() {
         this.lastModified = System.currentTimeMillis();
     }
 
     /**
      * @return Returns the name.
      */
-    FileName getName()
-    {
+    FileName getName() {
         return name;
     }
 
@@ -159,8 +146,7 @@ class RamFileData implements Serializable
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.name.toString();
     }
 
@@ -170,21 +156,16 @@ class RamFileData implements Serializable
      * @param data The file data.
      * @throws FileSystemException if an error occurs.
      */
-    void addChild(final RamFileData data) throws FileSystemException
-    {
-        if (!this.getType().hasChildren())
-        {
-            throw new FileSystemException(
-                    "A child can only be added in a folder");
+    void addChild(final RamFileData data) throws FileSystemException {
+        if (!this.getType().hasChildren()) {
+            throw new FileSystemException("A child can only be added in a folder");
         }
 
-        if (data == null)
-        {
+        if (data == null) {
             throw new FileSystemException("No child can be null");
         }
 
-        if (this.children.contains(data))
-        {
+        if (this.children.contains(data)) {
             throw new FileSystemException("Child already exists. " + data);
         }
 
@@ -198,15 +179,11 @@ class RamFileData implements Serializable
      * @param data The file data.
      * @throws FileSystemException if an error occurs.
      */
-    void removeChild(final RamFileData data) throws FileSystemException
-    {
-        if (!this.getType().hasChildren())
-        {
-            throw new FileSystemException(
-                    "A child can only be removed from a folder");
+    void removeChild(final RamFileData data) throws FileSystemException {
+        if (!this.getType().hasChildren()) {
+            throw new FileSystemException("A child can only be removed from a folder");
         }
-        if (!this.children.contains(data))
-        {
+        if (!this.children.contains(data)) {
             throw new FileSystemException("Child not found. " + data);
         }
         this.children.remove(data);
@@ -216,10 +193,8 @@ class RamFileData implements Serializable
     /**
      * @return Returns the children.
      */
-    Collection<RamFileData> getChildren()
-    {
-        if (name == null)
-        {
+    Collection<RamFileData> getChildren() {
+        if (name == null) {
             throw new IllegalStateException("Data is clear");
         }
         return children;
@@ -231,14 +206,11 @@ class RamFileData implements Serializable
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(final Object o) {
+        if (this == o) {
             return true;
         }
-        if (!(o instanceof RamFileData))
-        {
+        if (!(o instanceof RamFileData)) {
             return false;
         }
         final RamFileData data = (RamFileData) o;
@@ -251,21 +223,18 @@ class RamFileData implements Serializable
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return this.getName().hashCode();
     }
 
-    boolean hasChildren(final RamFileData data)
-    {
+    boolean hasChildren(final RamFileData data) {
         return this.children.contains(data);
     }
 
     /**
      * @return Returns the size of the buffer
      */
-    int size()
-    {
+    int size() {
         return content.length;
     }
 
@@ -274,13 +243,11 @@ class RamFileData implements Serializable
      *
      * @param newSize The new buffer size.
      */
-    void resize(final long newSize)
-    {
+    void resize(final long newSize) {
         // A future implementation may allow longs/multiple buffer/and so on
-        if (newSize > Integer.MAX_VALUE)
-        {
-            throw new IllegalArgumentException(String.format("newSize(%d) > Integer.MAX_VALUE(%d)", newSize,
-                    Integer.MAX_VALUE));
+        if (newSize > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException(
+                    String.format("newSize(%d) > Integer.MAX_VALUE(%d)", newSize, Integer.MAX_VALUE));
         }
         final int resize = (int) newSize;
         final int size = this.size();

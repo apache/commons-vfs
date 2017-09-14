@@ -35,27 +35,19 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 /**
  * VfsClassLoader test cases.
  */
-public class VfsClassLoaderTests
-    extends AbstractProviderTestCase
-{
+public class VfsClassLoaderTests extends AbstractProviderTestCase {
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.READ_CONTENT,
-            Capability.URI
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.READ_CONTENT, Capability.URI };
     }
 
     /**
      * Creates the classloader to use when testing.
      */
-    private VFSClassLoader createClassLoader() throws FileSystemException
-    {
+    private VFSClassLoader createClassLoader() throws FileSystemException {
         final FileObject file = getBaseFolder();
         return new VFSClassLoader(file, getManager());
     }
@@ -63,8 +55,7 @@ public class VfsClassLoaderTests
     /**
      * Tests loading a class.
      */
-    public void testLoadClass() throws Exception
-    {
+    public void testLoadClass() throws Exception {
         final VFSClassLoader loader = createClassLoader();
 
         final Class<?> testClass = loader.loadClass("code.ClassToLoad");
@@ -79,8 +70,7 @@ public class VfsClassLoaderTests
     /**
      * Tests loading a resource.
      */
-    public void testLoadResource() throws Exception
-    {
+    public void testLoadResource() throws Exception {
         final VFSClassLoader loader = createClassLoader();
 
         final URL resource = loader.getResource("read-tests/file1.txt");
@@ -93,8 +83,7 @@ public class VfsClassLoaderTests
     /**
      * Tests package sealing.
      */
-    public void testSealing() throws Exception
-    {
+    public void testSealing() throws Exception {
         final VFSClassLoader loader = createClassLoader();
         final Class<?> testClass = loader.loadClass("code.sealed.AnotherClass");
         final Package pack = testClass.getPackage();
@@ -105,20 +94,15 @@ public class VfsClassLoaderTests
     /**
      * Tests retrieving resources (from JAR searchpath).
      * <p>
-     * This is run for all providers, but only when a local
-     * provider is present and jar extension is registered
-     * it will actually carry out all tests.
+     * This is run for all providers, but only when a local provider is present and jar extension is registered it will
+     * actually carry out all tests.
      */
-    public void testGetResourcesJARs() throws Exception
-    {
+    public void testGetResourcesJARs() throws Exception {
         final FileSystemManager manager = getManager();
-        try
-        {
+        try {
             // hasProvider("file") cannot be used as it triggers default provider URL
             manager.toFileObject(new File("."));
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             System.out.println("VfsClassLoaderTests no local file provider, skipping.");
             return;
         }
@@ -130,8 +114,7 @@ public class VfsClassLoaderTests
         final FileObject testJar = manager.resolveFile(baseDir, "test.jar");
 
         // test setup needs to know about .jar extension - i.e. NestedJarTestCase
-        if (!manager.canCreateFileSystem(nestedJar))
-        {
+        if (!manager.canCreateFileSystem(nestedJar)) {
             System.out.println("VfsClassLoaderTests no layered .jar provider, skipping.");
             return;
         }
@@ -151,8 +134,10 @@ public class VfsClassLoaderTests
         final URL url1 = urls.nextElement();
         final URL url2 = urls.nextElement();
 
-        assertTrue("First resource must refer to nested.jar but was " + url1, url1.toString().endsWith("nested.jar!/META-INF/MANIFEST.MF"));
-        assertTrue("Second resource must refer to test.jar but was " + url2, url2.toString().endsWith("test.jar!/META-INF/MANIFEST.MF"));
+        assertTrue("First resource must refer to nested.jar but was " + url1,
+                url1.toString().endsWith("nested.jar!/META-INF/MANIFEST.MF"));
+        assertTrue("Second resource must refer to test.jar but was " + url2,
+                url2.toString().endsWith("test.jar!/META-INF/MANIFEST.MF"));
     }
 
     /**
@@ -160,16 +145,12 @@ public class VfsClassLoaderTests
      * <p>
      * This test is repeated with various provider configurations but works on local files, only.
      */
-    public void testGetResourcesNoLayerLocal() throws Exception
-    {
+    public void testGetResourcesNoLayerLocal() throws Exception {
         final FileSystemManager manager = getManager();
-        try
-        {
+        try {
             // hasProvider("file") cannot be used as it triggers default provider URL
             manager.toFileObject(new File("."));
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             System.out.println("VfsClassLoaderTests no local file provider, skipping.");
             return;
         }
@@ -192,15 +173,11 @@ public class VfsClassLoaderTests
         assertTrue("not pointing to resource " + url1, url1.toString().endsWith("subdir4.jar/file1.txt"));
     }
 
-
     /**
      * Verify the package loaded with class loader.
      */
-    private void verifyPackage(final Package pack,
-                               final boolean sealed)
-    {
-        if (getBaseFolder().getFileSystem().hasCapability(Capability.MANIFEST_ATTRIBUTES))
-        {
+    private void verifyPackage(final Package pack, final boolean sealed) {
+        if (getBaseFolder().getFileSystem().hasCapability(Capability.MANIFEST_ATTRIBUTES)) {
             assertEquals("ImplTitle", pack.getImplementationTitle());
             assertEquals("ImplVendor", pack.getImplementationVendor());
             assertEquals("1.1", pack.getImplementationVersion());
@@ -208,9 +185,7 @@ public class VfsClassLoaderTests
             assertEquals("SpecVendor", pack.getSpecificationVendor());
             assertEquals("1.0", pack.getSpecificationVersion());
             assertEquals(sealed, pack.isSealed());
-        }
-        else
-        {
+        } else {
             assertNull(pack.getImplementationTitle());
             assertNull(pack.getImplementationVendor());
             assertNull(pack.getImplementationVersion());
@@ -221,32 +196,24 @@ public class VfsClassLoaderTests
         }
     }
 
-
     /**
      * Non-Delegating Class Loader.
      */
-    public static class MockClassloader extends ClassLoader
-    {
-        MockClassloader()
-        {
+    public static class MockClassloader extends ClassLoader {
+        MockClassloader() {
             super(null);
         }
 
         /**
-         * This method will not return any hit to
-         * VFSClassLoader#testGetResourcesJARs.
+         * This method will not return any hit to VFSClassLoader#testGetResourcesJARs.
          */
         @Override
-        public Enumeration<URL> getResources(final String name)
-            throws IOException
-        {
-            return Collections.enumeration(Collections.<URL> emptyList());
+        public Enumeration<URL> getResources(final String name) throws IOException {
+            return Collections.enumeration(Collections.<URL>emptyList());
         }
 
         @Override
-        protected Class<?> findClass(final String name)
-            throws ClassNotFoundException
-        {
+        protected Class<?> findClass(final String name) throws ClassNotFoundException {
             fail("Not intended to be used for class loading.");
             return null;
         }

@@ -27,27 +27,21 @@ import org.apache.commons.vfs2.Selectors;
 /**
  * File system test that do some delete operations.
  */
-public class ProviderDeleteTests
-    extends AbstractProviderTestCase
-{
-    private class FileNameSelector implements FileSelector
-    {
+public class ProviderDeleteTests extends AbstractProviderTestCase {
+    private class FileNameSelector implements FileSelector {
         final String basename;
 
-        private FileNameSelector(final String basename)
-        {
+        private FileNameSelector(final String basename) {
             this.basename = basename;
         }
 
         @Override
-        public boolean includeFile(final FileSelectInfo fileInfo) throws Exception
-        {
+        public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
             return this.basename.equals(fileInfo.getFile().getName().getBaseName());
         }
 
         @Override
-        public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception
-        {
+        public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
             return true;
         }
     }
@@ -56,22 +50,15 @@ public class ProviderDeleteTests
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.CREATE,
-            Capability.DELETE,
-            Capability.GET_TYPE,
-            Capability.LIST_CHILDREN,
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE,
+                Capability.LIST_CHILDREN, };
     }
 
     /**
      * Sets up a scratch folder for the test to use.
      */
-    protected FileObject createScratchFolder() throws Exception
-    {
+    protected FileObject createScratchFolder() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
@@ -93,8 +80,7 @@ public class ProviderDeleteTests
     /**
      * deletes the complete structure
      */
-    public void testDeleteFiles() throws Exception
-    {
+    public void testDeleteFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         assertEquals(scratchFolder.delete(Selectors.EXCLUDE_SELF), 4);
@@ -103,8 +89,7 @@ public class ProviderDeleteTests
     /**
      * deletes a single file
      */
-    public void testDeleteFile() throws Exception
-    {
+    public void testDeleteFile() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         final FileObject file = scratchFolder.resolveFile("dir1/a.txt");
@@ -115,8 +100,7 @@ public class ProviderDeleteTests
     /**
      * Deletes a non existent file
      */
-    public void testDeleteNonExistantFile() throws Exception
-    {
+    public void testDeleteNonExistantFile() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         final FileObject file = scratchFolder.resolveFile("dir1/aa.txt");
@@ -127,8 +111,7 @@ public class ProviderDeleteTests
     /**
      * deletes files
      */
-    public void testDeleteAllFiles() throws Exception
-    {
+    public void testDeleteAllFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         assertEquals(scratchFolder.delete(new FileTypeSelector(FileType.FILE)), 2);
@@ -137,8 +120,7 @@ public class ProviderDeleteTests
     /**
      * deletes a.txt
      */
-    public void testDeleteOneFiles() throws Exception
-    {
+    public void testDeleteOneFiles() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         assertEquals(scratchFolder.delete(new FileNameSelector("a.txt")), 1);

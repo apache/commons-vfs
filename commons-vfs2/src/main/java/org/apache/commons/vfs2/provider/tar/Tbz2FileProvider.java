@@ -22,33 +22,25 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.provider.CompositeFileProvider;
 
 /**
- * A file system provider for Tar files.  Provides read-only file systems.
+ * A file system provider for Tar files. Provides read-only file systems.
  */
-public class Tbz2FileProvider extends CompositeFileProvider
-{
+public class Tbz2FileProvider extends CompositeFileProvider {
     /** The provider's capabilities */
     protected static final Collection<Capability> capabilities = TarFileProvider.capabilities;
 
-    private static final String[] SCHEMES = new String[]
-    {
-        "bz2",
-        "tar"
-    };
+    private static final String[] SCHEMES = new String[] { "bz2", "tar" };
 
-    public Tbz2FileProvider()
-    {
+    public Tbz2FileProvider() {
         super();
     }
 
     @Override
-    protected String[] getSchemes()
-    {
+    protected String[] getSchemes() {
         return SCHEMES;
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

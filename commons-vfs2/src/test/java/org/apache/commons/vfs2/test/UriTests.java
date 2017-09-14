@@ -23,23 +23,19 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Absolute URI test cases.
  */
-public class UriTests
-    extends AbstractProviderTestCase
-{
+public class UriTests extends AbstractProviderTestCase {
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]{Capability.URI};
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.URI };
     }
 
     /**
      * Tests resolution of absolute URI.
      */
-    public void testAbsoluteURI() throws Exception
-    {
+    public void testAbsoluteURI() throws Exception {
         final FileObject readFolder = getReadFolder();
 
         // Try fetching base folder again by its URI

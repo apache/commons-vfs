@@ -22,11 +22,9 @@ import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
-public class UserAuthenticationDataTestCase
-{
+public class UserAuthenticationDataTestCase {
     @Test
-    public void testCharacterBasedData()
-    {
+    public void testCharacterBasedData() {
         final UserAuthenticationData data = new UserAuthenticationData();
         final char[] array = "PMC".toCharArray();
         data.setData(UserAuthenticationData.USERNAME, array);
@@ -40,13 +38,12 @@ public class UserAuthenticationDataTestCase
         data.cleanup();
         assertNull(data.getData(UserAuthenticationData.USERNAME));
         assertNull(data.getData(UserAuthenticationData.DOMAIN));
-        final char[] nulls = {0,0,0};
+        final char[] nulls = { 0, 0, 0 };
         assertArrayEquals(nulls, array);
     }
 
     @Test
-    public void testCustomType()
-    {
+    public void testCustomType() {
         final UserAuthenticationData.Type type = new UserAuthenticationData.Type("JUNIT");
         final UserAuthenticationData data = new UserAuthenticationData();
         final char[] array = "test".toCharArray();

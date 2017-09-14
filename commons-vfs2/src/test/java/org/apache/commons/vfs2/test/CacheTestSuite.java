@@ -16,23 +16,16 @@
  */
 package org.apache.commons.vfs2.test;
 
-
 /**
  * The suite of tests for a file cache.
  */
-public class CacheTestSuite
-    extends AbstractTestSuite
-{
-    public CacheTestSuite(final ProviderTestConfig providerConfig) throws Exception
-    {
+public class CacheTestSuite extends AbstractTestSuite {
+    public CacheTestSuite(final ProviderTestConfig providerConfig) throws Exception {
         this(providerConfig, "", false);
     }
 
-    protected CacheTestSuite(final ProviderTestConfig providerConfig,
-                             final String prefix,
-                             final boolean nested)
-        throws Exception
-    {
+    protected CacheTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested)
+            throws Exception {
         super(providerConfig, prefix, nested);
     }
 }

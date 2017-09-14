@@ -30,25 +30,20 @@ import junit.framework.Test;
 /**
  * Tests the {@link LRUFilesCache} using {@link LRUFilesCacheTestss}.
  */
-public class LRUFilesCacheTestCase
-    extends AbstractProviderTestConfig
-{
-    public static Test suite() throws Exception
-    {
+public class LRUFilesCacheTestCase extends AbstractProviderTestConfig {
+    public static Test suite() throws Exception {
         final CacheTestSuite suite = new CacheTestSuite(new LRUFilesCacheTestCase());
         suite.addTests(LRUFilesCacheTests.class);
         return suite;
     }
 
     @Override
-    public FilesCache getFilesCache()
-    {
+    public FilesCache getFilesCache() {
         return new LRUFilesCache(5);
     }
 
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File testDir = AbstractVfsTestCase.getTestDirectoryFile();
         return manager.toFileObject(testDir);
     }

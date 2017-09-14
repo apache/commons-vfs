@@ -26,8 +26,7 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * What VFS expects from an ftp client to provide.
  */
-public interface FtpClient
-{
+public interface FtpClient {
     boolean isConnected() throws FileSystemException;
 
     void disconnect() throws IOException;

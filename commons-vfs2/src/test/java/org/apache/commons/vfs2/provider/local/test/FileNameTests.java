@@ -24,14 +24,11 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
 /**
  * Additional naming tests for local file system.
  */
-public class FileNameTests
-    extends AbstractProviderTestCase
-{
+public class FileNameTests extends AbstractProviderTestCase {
     /**
      * Tests resolution of an absolute file name.
      */
-    public void testAbsoluteFileName() throws Exception
-    {
+    public void testAbsoluteFileName() throws Exception {
         // Locate file by absolute file name
         final String fileName = new File("testdir").getAbsolutePath();
         final FileObject absFile = getManager().resolveFile(fileName);

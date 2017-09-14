@@ -19,44 +19,39 @@ package org.apache.commons.vfs2;
 /**
  * A {@link FileSelector} that selects files of a particular type.
  */
-public class FileTypeSelector
-    implements FileSelector
-{
+public class FileTypeSelector implements FileSelector {
     /** The FileType */
     private final FileType type;
 
     /**
      * Creates a new selector for the given file type.
      *
-     * @param type
-     *            The file type to select
+     * @param type The file type to select
      */
-    public FileTypeSelector(final FileType type)
-    {
+    public FileTypeSelector(final FileType type) {
         this.type = type;
     }
 
     /**
      * Determines if a file or folder should be selected.
+     * 
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be selected.
      * @throws FileSystemException if an error occurs
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo)
-        throws FileSystemException
-    {
+    public boolean includeFile(final FileSelectInfo fileInfo) throws FileSystemException {
         return fileInfo.getFile().getType() == type;
     }
 
     /**
      * Determines whether a folder should be traversed.
+     * 
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be traversed.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo)
-    {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
         return true;
     }
 }

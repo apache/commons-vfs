@@ -26,23 +26,16 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * @since 0.1
  */
-public interface FileOperationProvider
-{
+public interface FileOperationProvider {
 
     /**
-     * Gather available operations for the specified FileObject and put them into
-     * specified operationsList.
+     * Gather available operations for the specified FileObject and put them into specified operationsList.
      *
-     * @param operationsList
-     *            the list of available operations for the specified FileObject.
-     *            The operationList contains classes of available operations, e.g.
-     *            Class objects.
-     * @param file
-     *            the FileObject for which we want to get the list of available
-     *            operations.
+     * @param operationsList the list of available operations for the specified FileObject. The operationList contains
+     *            classes of available operations, e.g. Class objects.
+     * @param file the FileObject for which we want to get the list of available operations.
      *
-     * @throws FileSystemException
-     *             if list of operations cannot be retrieved.
+     * @throws FileSystemException if list of operations cannot be retrieved.
      */
     void collectOperations(final Collection<Class<? extends FileOperation>> operationsList, final FileObject file)
             throws FileSystemException;
@@ -50,14 +43,11 @@ public interface FileOperationProvider
     /**
      * Get implementation for a given FileObject and FileOperation interface.
      *
-     * @param file
-     *            the FileObject for which we need a operation.
-     * @param operationClass
-     *            the Class which instance we are needed.
+     * @param file the FileObject for which we need a operation.
+     * @param operationClass the Class which instance we are needed.
      * @return the required operation instance.
      *
-     * @throws FileSystemException
-     *             if operation cannot be retrieved.
+     * @throws FileSystemException if operation cannot be retrieved.
      */
     FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
             throws FileSystemException;

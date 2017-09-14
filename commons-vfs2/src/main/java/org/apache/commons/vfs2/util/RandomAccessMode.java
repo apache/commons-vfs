@@ -19,8 +19,7 @@ package org.apache.commons.vfs2.util;
 /**
  * An enumerated type representing the modes of a random access content.
  */
-public enum RandomAccessMode
-{
+public enum RandomAccessMode {
     /**
      * read.
      */
@@ -31,42 +30,33 @@ public enum RandomAccessMode
      */
     READWRITE(true, true);
 
-
     private final boolean read;
     private final boolean write;
 
-    private RandomAccessMode(final boolean read, final boolean write)
-    {
+    private RandomAccessMode(final boolean read, final boolean write) {
         this.read = read;
         this.write = write;
     }
 
-    public boolean requestRead()
-    {
+    public boolean requestRead() {
         return read;
     }
 
-    public boolean requestWrite()
-    {
+    public boolean requestWrite() {
         return write;
     }
 
     /**
      * @return The mode String.
      * @since 2.0
-     * */
-    public String getModeString()
-    {
-        if (requestRead())
-        {
-            if (requestWrite())
-            {
+     */
+    public String getModeString() {
+        if (requestRead()) {
+            if (requestWrite()) {
                 return "rw"; // NON-NLS
             }
             return "r"; // NON-NLS
-        }
-        else if (requestWrite())
-        {
+        } else if (requestWrite()) {
             return "w"; // NON-NLS
         }
 

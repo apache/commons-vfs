@@ -31,55 +31,49 @@ public class FileSystemOptionsTest {
         final JUnitConfigBuilder builder = JUnitConfigBuilder.getInstance();
         final FileSystemOptions expected = new FileSystemOptions();
         builder.setId(expected, "Test");
-        
+
         final FileSystemOptions actual = new FileSystemOptions();
         builder.setId(actual, "Test");
-        
+
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(0, actual.compareTo(expected));
         Assert.assertEquals(expected.hashCode(), actual.hashCode());
 
-        builder.setNames(expected, new String[]{"A", "B", "C"});
-        
+        builder.setNames(expected, new String[] { "A", "B", "C" });
+
         Assert.assertNotEquals(expected, actual);
         Assert.assertEquals(-1, actual.compareTo(expected));
         Assert.assertNotEquals(expected.hashCode(), actual.hashCode());
 
-        builder.setNames(actual, new String[]{"A", "B", "C"});
-        
+        builder.setNames(actual, new String[] { "A", "B", "C" });
+
         Assert.assertEquals(expected, actual);
         Assert.assertEquals(0, actual.compareTo(expected));
         Assert.assertEquals(expected.hashCode(), actual.hashCode());
     }
-    
-    public static class JUnitConfigBuilder extends FileSystemConfigBuilder
-    {
+
+    public static class JUnitConfigBuilder extends FileSystemConfigBuilder {
         private static final JUnitConfigBuilder BUILDER = new JUnitConfigBuilder();
 
-        public static JUnitConfigBuilder getInstance()
-        {
+        public static JUnitConfigBuilder getInstance() {
             return BUILDER;
         }
 
-        public void setId(final FileSystemOptions opts, final String id)
-        {
+        public void setId(final FileSystemOptions opts, final String id) {
             setParam(opts, "id", id);
         }
 
-        public void setNames(final FileSystemOptions opts, final String[] names)
-        {
+        public void setNames(final FileSystemOptions opts, final String[] names) {
             setParam(opts, "names", names);
         }
 
         @Override
-        protected Class<? extends FileSystem> getConfigClass()
-        {
+        protected Class<? extends FileSystem> getConfigClass() {
             return JUnitFS.class;
         }
 
-        private abstract static class JUnitFS implements FileSystem
-        {
+        private abstract static class JUnitFS implements FileSystem {
         }
     }
-   
+
 }

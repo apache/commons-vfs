@@ -25,32 +25,20 @@ import org.apache.commons.vfs2.Selectors;
 /**
  * File system test that check that a file system can be modified.
  */
-public class ProviderWriteAppendTests
-    extends AbstractProviderTestCase
-{
+public class ProviderWriteAppendTests extends AbstractProviderTestCase {
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.CREATE,
-            Capability.DELETE,
-            Capability.GET_TYPE,
-            Capability.LIST_CHILDREN,
-            Capability.READ_CONTENT,
-            Capability.WRITE_CONTENT,
-            Capability.APPEND_CONTENT
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.CREATE, Capability.DELETE, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+                Capability.READ_CONTENT, Capability.WRITE_CONTENT, Capability.APPEND_CONTENT };
     }
 
     /**
      * Sets up a scratch folder for the test to use.
      */
-    protected FileObject createScratchFolder() throws Exception
-    {
+    protected FileObject createScratchFolder() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
@@ -63,8 +51,7 @@ public class ProviderWriteAppendTests
     /**
      * Tests create-delete-create-a-file sequence on the same file system.
      */
-    public void testAppendContent() throws Exception
-    {
+    public void testAppendContent() throws Exception {
         final FileObject scratchFolder = createScratchFolder();
 
         // Create direct child of the test folder
@@ -76,24 +63,18 @@ public class ProviderWriteAppendTests
         final String contentAppend = content + content;
 
         final OutputStream os = file.getContent().getOutputStream();
-        try
-        {
+        try {
             os.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os.close();
         }
         assertSameContent(content, file);
 
         // Append to the new file
         final OutputStream os2 = file.getContent().getOutputStream(true);
-        try
-        {
+        try {
             os2.write(content.getBytes("utf-8"));
-        }
-        finally
-        {
+        } finally {
             os2.close();
         }
         assertSameContent(contentAppend, file);

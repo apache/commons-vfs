@@ -22,10 +22,10 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * Provides methods to parse a filename into a {@link org.apache.commons.vfs2.FileName}.
  */
-public interface FileNameParser
-{
+public interface FileNameParser {
     /**
      * Check if a character needs encoding (%nn).
+     * 
      * @param ch the character
      * @return true if character should be encoded
      */
@@ -33,6 +33,7 @@ public interface FileNameParser
 
     /**
      * parses a String into a filename.
+     * 
      * @param context The component context.
      * @param base The base FileName.
      * @param uri The target file name.

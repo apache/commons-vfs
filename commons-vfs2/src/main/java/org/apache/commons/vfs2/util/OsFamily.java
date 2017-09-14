@@ -19,38 +19,35 @@ package org.apache.commons.vfs2.util;
 /**
  * An enumerated type, which represents an OS family.
  */
-public final class OsFamily
-{
+public final class OsFamily {
     private final String name;
     private final OsFamily[] families;
 
-    OsFamily(final String name)
-    {
+    OsFamily(final String name) {
         this.name = name;
         families = new OsFamily[0];
     }
 
-    OsFamily(final String name, final OsFamily[] families)
-    {
+    OsFamily(final String name, final OsFamily[] families) {
         this.name = name;
         this.families = families;
     }
 
     /**
      * Returns the name of this family.
+     * 
      * @return The name of this family.
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /**
      * Returns the OS families that this family belongs to.
+     * 
      * @return an array of OSFamily objects that this family belongs to.
      */
-    public OsFamily[] getFamilies()
-    {
+    public OsFamily[] getFamilies() {
         return families;
     }
 }

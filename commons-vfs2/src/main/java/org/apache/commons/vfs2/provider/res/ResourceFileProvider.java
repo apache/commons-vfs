@@ -33,24 +33,20 @@ import org.apache.commons.vfs2.provider.UriParser;
 /**
  * The Resource provider.
  */
-public class ResourceFileProvider extends AbstractFileProvider
-{
+public class ResourceFileProvider extends AbstractFileProvider {
     /** The provider's capabilities */
-    protected static final Collection<Capability> capabilities =
-        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.DISPATCHER
-    }));
+    protected static final Collection<Capability> capabilities = Collections
+            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.DISPATCHER }));
 
     private static final int BUFFER_SIZE = 80;
 
-    public ResourceFileProvider()
-    {
+    public ResourceFileProvider() {
         super();
     }
 
     /**
      * Locates a file object, by absolute URI.
+     * 
      * @param baseFile The base file.
      * @param uri The URI of the file to locate.
      * @param fileSystemOptions The FileSystem options.
@@ -58,24 +54,19 @@ public class ResourceFileProvider extends AbstractFileProvider
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject findFile(final FileObject baseFile,
-                               final String uri,
-                               final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
         final StringBuilder buf = new StringBuilder(BUFFER_SIZE);
         UriParser.extractScheme(uri, buf);
         final String resourceName = buf.toString();
 
         ClassLoader cl = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
-        if (cl == null)
-        {
+        if (cl == null) {
             cl = getClass().getClassLoader();
         }
         final URL url = cl.getResource(resourceName);
 
-        if (url == null)
-        {
+        if (url == null) {
             throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri);
         }
 
@@ -83,20 +74,17 @@ public class ResourceFileProvider extends AbstractFileProvider
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder()
-    {
+    public FileSystemConfigBuilder getConfigBuilder() {
         return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
     }
 
     @Override
-    public void closeFileSystem(final FileSystem filesystem)
-    {
+    public void closeFileSystem(final FileSystem filesystem) {
         // no filesystem created here - so nothing to do
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

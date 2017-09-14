@@ -19,28 +19,26 @@ package org.apache.commons.vfs2;
 /**
  * A {@link FileSelector} that selects everything.
  */
-public class AllFileSelector
-    implements FileSelector
-{
+public class AllFileSelector implements FileSelector {
     /**
      * Determines if a file or folder should be selected.
+     * 
      * @param fileInfo The file selection information.
      * @return true if the file should be selected, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo)
-    {
+    public boolean includeFile(final FileSelectInfo fileInfo) {
         return true;
     }
 
     /**
      * Determines whether a folder should be traversed.
+     * 
      * @param fileInfo The file selection information.
      * @return true if descendants should be traversed, false otherwise.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo)
-    {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
         return true;
     }
 }

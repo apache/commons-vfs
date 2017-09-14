@@ -22,43 +22,37 @@ import org.apache.commons.vfs2.FileType;
 /**
  * A file name for layered files.
  */
-public class LayeredFileName extends AbstractFileName
-{
+public class LayeredFileName extends AbstractFileName {
     private final FileName outerUri;
 
-    public LayeredFileName(final String scheme,
-                           final FileName outerUri,
-                           final String path,
-                           final FileType type)
-    {
+    public LayeredFileName(final String scheme, final FileName outerUri, final String path, final FileType type) {
         super(scheme, path, type);
         this.outerUri = outerUri;
     }
 
     /**
      * Returns the URI of the outer file.
+     * 
      * @return The FileName.
      */
-    public FileName getOuterName()
-    {
+    public FileName getOuterName() {
         return outerUri;
     }
 
     /**
      * Create a FileName.
+     * 
      * @param path The file URI.
      * @param type The FileType.
      * @return The FileName.
      */
     @Override
-    public FileName createName(final String path, final FileType type)
-    {
+    public FileName createName(final String path, final FileType type) {
         return new LayeredFileName(getScheme(), getOuterName(), path, type);
     }
 
     @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
-    {
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
         buffer.append(getScheme());
         buffer.append(":");
         buffer.append(getOuterName().getURI());

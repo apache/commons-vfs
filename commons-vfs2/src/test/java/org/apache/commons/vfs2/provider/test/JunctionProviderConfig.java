@@ -24,16 +24,12 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.test.ProviderTestConfig;
 
 /**
- * A provider config that wraps another provider, to run the tests via
- * junctions.
+ * A provider config that wraps another provider, to run the tests via junctions.
  */
-public class JunctionProviderConfig
-    implements ProviderTestConfig
-{
+public class JunctionProviderConfig implements ProviderTestConfig {
     private final ProviderTestConfig config;
 
-    public JunctionProviderConfig(final ProviderTestConfig config)
-    {
+    public JunctionProviderConfig(final ProviderTestConfig config) {
         this.config = config;
     }
 
@@ -46,8 +42,7 @@ public class JunctionProviderConfig
     }
 
     @Override
-    public FilesCache getFilesCache()
-    {
+    public FilesCache getFilesCache() {
         return config.getFilesCache();
     }
 
@@ -55,8 +50,7 @@ public class JunctionProviderConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         config.prepare(manager);
     }
 
@@ -64,8 +58,7 @@ public class JunctionProviderConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final FileObject baseFolder = config.getBaseTestFolder(manager);
 
         // Create an empty file system, then link in the base folder
@@ -77,8 +70,7 @@ public class JunctionProviderConfig
     }
 
     @Override
-    public boolean isFileSystemRootAccessible()
-    {
+    public boolean isFileSystemRootAccessible() {
         return true;
     }
 }

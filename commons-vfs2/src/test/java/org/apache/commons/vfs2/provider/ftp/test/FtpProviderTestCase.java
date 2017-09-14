@@ -44,8 +44,7 @@ import junit.framework.Test;
 /**
  * Tests for FTP file systems.
  */
-public class FtpProviderTestCase extends AbstractProviderTestConfig
-{
+public class FtpProviderTestCase extends AbstractProviderTestConfig {
     private static int SocketPort;
 
     /**
@@ -59,23 +58,19 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
 
     private static final String USER_PROPS_RES = "org.apache.ftpserver/users.properties";
 
-    static String getConnectionUri()
-    {
+    static String getConnectionUri() {
         return ConnectionUri;
     }
 
-    static int getSocketPort()
-    {
+    static int getSocketPort() {
         return SocketPort;
     }
 
-    private static String getSystemTestUriOverride()
-    {
+    private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
-    static void init() throws IOException
-    {
+    static void init() throws IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         // Use %40 for @ in a URL
         ConnectionUri = "ftp://test:test@localhost:" + SocketPort;
@@ -83,15 +78,15 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
 
     /**
      * Creates and starts an embedded Apache FTP Server (MINA).
+     * 
      * @param rootDirectory the local FTP server rootDirectory
      * @param fileSystemFactory optional local FTP server FileSystemFactory
      * @throws FtpException
      * @throws IOException
      */
-    static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory) throws FtpException, IOException
-    {
-        if (Server != null)
-        {
+    static void setUpClass(final String rootDirectory, final FileSystemFactory fileSystemFactory)
+            throws FtpException, IOException {
+        if (Server != null) {
             return;
         }
         init();
@@ -125,31 +120,25 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
     /**
      * Creates the test suite for the ftp file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return suite(new FtpProviderTestCase());
     }
 
     /**
      * Creates the test suite for subclasses of the ftp file system.
      */
-    protected static Test suite(final FtpProviderTestCase testCase) throws Exception
-    {
-        return new ProviderTestSuite(testCase)
-        {
+    protected static Test suite(final FtpProviderTestCase testCase) throws Exception {
+        return new ProviderTestSuite(testCase) {
             @Override
-            protected void setUp() throws Exception
-            {
-                if (getSystemTestUriOverride() == null)
-                {
+            protected void setUp() throws Exception {
+                if (getSystemTestUriOverride() == null) {
                     setUpClass(testCase.getFtpRootDir(), testCase.getFtpFileSystem());
                 }
                 super.setUp();
             }
 
             @Override
-            protected void tearDown() throws Exception
-            {
+            protected void tearDown() throws Exception {
                 try {
                     // This will report running threads of the FTP server.
                     // However, shutting down the FTP server first will always
@@ -166,10 +155,8 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
     /**
      * Stops the embedded Apache FTP Server (MINA).
      */
-    static void tearDownClass()
-    {
-        if (Server != null)
-        {
+    static void tearDownClass() {
+        if (Server != null) {
             Server.stop();
             Server = null;
         }
@@ -180,11 +167,9 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
      * TEST_URI.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
-        if (uri == null)
-        {
+        if (uri == null) {
             uri = ConnectionUri;
         }
         final FileSystemOptions opts = new FileSystemOptions();
@@ -201,8 +186,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
     /**
      * Gets the setting for UserDirIsRoot.
      */
-    protected boolean getUserDirIsRoot()
-    {
+    protected boolean getUserDirIsRoot() {
         return false;
     }
 
@@ -217,8 +201,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
     /**
      * Gets the root of the local FTP Server file system.
      */
-    protected String getFtpRootDir()
-    {
+    protected String getFtpRootDir() {
         return getTestDirectory();
     }
 
@@ -226,8 +209,7 @@ public class FtpProviderTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("ftp", new FtpFileProvider());
     }
 }

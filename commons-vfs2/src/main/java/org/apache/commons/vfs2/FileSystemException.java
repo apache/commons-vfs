@@ -25,9 +25,7 @@ import org.apache.commons.vfs2.util.Messages;
 /**
  * Thrown for file system errors.
  */
-public class FileSystemException
-    extends IOException
-{
+public class FileSystemException extends IOException {
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
@@ -49,34 +47,29 @@ public class FileSystemException
      *
      * @param code the error code of the message.
      */
-    public FileSystemException(final String code)
-    {
+    public FileSystemException(final String code) {
         this(code, null, (Object[]) null);
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code  the error code of the message.
+     * @param code the error code of the message.
      * @param info0 one context information.
      */
-    public FileSystemException(final String code, final Object info0)
-    {
-        this(code, null, new Object[]{info0});
+    public FileSystemException(final String code, final Object info0) {
+        this(code, null, new Object[] { info0 });
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code      the error code of the message.
-     * @param info0     one context information.
+     * @param code the error code of the message.
+     * @param info0 one context information.
      * @param throwable the cause.
      */
-    public FileSystemException(final String code,
-                               final Object info0,
-                               final Throwable throwable)
-    {
-        this(code, throwable, new Object[]{info0});
+    public FileSystemException(final String code, final Object info0, final Throwable throwable) {
+        this(code, throwable, new Object[] { info0 });
     }
 
     /**
@@ -85,8 +78,7 @@ public class FileSystemException
      * @param code the error code of the message.
      * @param info array of complementary info (context).
      */
-    public FileSystemException(final String code, final Object... info)
-    {
+    public FileSystemException(final String code, final Object... info) {
         this(code, null, info);
     }
 
@@ -96,54 +88,42 @@ public class FileSystemException
      * @param code the error code of the message.
      * @param throwable the original cause
      */
-    public FileSystemException(final String code, final Throwable throwable)
-    {
+    public FileSystemException(final String code, final Throwable throwable) {
         this(code, throwable, (Object[]) null);
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code      the error code of the message.
-     * @param info      array of complementary info (context).
+     * @param code the error code of the message.
+     * @param info array of complementary info (context).
      * @param throwable the cause.
      * @deprecated Use instead {@link #FileSystemException(String, Throwable, Object[])}. Will be removed in 3.0.
      */
     @Deprecated
-    public FileSystemException(final String code,
-                               final Object[] info,
-                               final Throwable throwable)
-    {
+    public FileSystemException(final String code, final Object[] info, final Throwable throwable) {
         this(code, throwable, info);
     }
 
     /**
      * Constructs exception with the specified detail message.
      *
-     * @param code      the error code of the message.
-     * @param info      array of complementary info (context).
+     * @param code the error code of the message.
+     * @param info array of complementary info (context).
      * @param throwable the cause.
      */
-    public FileSystemException(final String code,
-                               final Throwable throwable,
-                               final Object... info)
-    {
+    public FileSystemException(final String code, final Throwable throwable, final Object... info) {
         super(code, throwable);
 
-        if (info == null)
-        {
+        if (info == null) {
             this.info = new String[0];
-        }
-        else
-        {
+        } else {
             this.info = new String[info.length];
-            for (int i = 0; i < info.length; i++)
-            {
+            for (int i = 0; i < info.length; i++) {
                 String value = String.valueOf(info[i]);
                 // mask passwords (VFS-169)
                 final Matcher urlMatcher = URL_PATTERN.matcher(value);
-                if (urlMatcher.find())
-                {
+                if (urlMatcher.find()) {
                     final Matcher pwdMatcher = PASSWORD_PATTERN.matcher(value);
                     value = pwdMatcher.replaceFirst(":***@");
                 }
@@ -157,40 +137,35 @@ public class FileSystemException
      *
      * @param throwable the root cause to wrap.
      */
-    public FileSystemException(final Throwable throwable)
-    {
+    public FileSystemException(final Throwable throwable) {
         this(throwable.getMessage(), throwable, (Object[]) null);
     }
 
     /**
      * Retrieves message from bundle.
+     * 
      * @return The exception message.
      */
     @Override
-    public String getMessage()
-    {
+    public String getMessage() {
         return Messages.getString(super.getMessage(), (Object[]) getInfo());
     }
 
     /**
-     * Retrieves error code of the exception.
-     * Could be used as key for internationalization.
+     * Retrieves error code of the exception. Could be used as key for internationalization.
      *
      * @return the code.
      */
-    public String getCode()
-    {
+    public String getCode() {
         return super.getMessage();
     }
 
     /**
-     * Retrieves array of complementary info (context).
-     * Could be used as parameter for internationalization.
+     * Retrieves array of complementary info (context). Could be used as parameter for internationalization.
      *
      * @return the context info.
      */
-    public String[] getInfo()
-    {
+    public String[] getInfo() {
         return info;
     }
 }

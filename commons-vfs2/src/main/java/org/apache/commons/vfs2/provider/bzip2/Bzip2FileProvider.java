@@ -31,37 +31,24 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileProvider;
 /**
  * Provides access to the content of bzip2 compressed files.
  */
-public class Bzip2FileProvider extends CompressedFileFileProvider
-{
+public class Bzip2FileProvider extends CompressedFileFileProvider {
     /** The provider's capabilities */
-    protected static final Collection<Capability> capabilities =
-            Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-                    {
-                            Capability.GET_LAST_MODIFIED,
-                            Capability.GET_TYPE,
-                            Capability.LIST_CHILDREN,
-                            Capability.READ_CONTENT,
-                            Capability.WRITE_CONTENT,
-                            Capability.URI,
-                            Capability.COMPRESS
-                    }));
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays
+            .asList(new Capability[] { Capability.GET_LAST_MODIFIED, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+                    Capability.READ_CONTENT, Capability.WRITE_CONTENT, Capability.URI, Capability.COMPRESS }));
 
-    public Bzip2FileProvider()
-    {
+    public Bzip2FileProvider() {
         super();
     }
 
     @Override
     protected FileSystem createFileSystem(final FileName name, final FileObject file,
-                                          final FileSystemOptions fileSystemOptions)
-            throws FileSystemException
-    {
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         return new Bzip2FileSystem(name, file, fileSystemOptions);
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

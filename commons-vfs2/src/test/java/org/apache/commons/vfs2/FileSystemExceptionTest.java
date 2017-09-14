@@ -20,44 +20,39 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-
 /**
  * Tests the {@link FileSystemException}.
  */
 public class FileSystemExceptionTest {
     /**
-     * Tests a {@link FileSystemException} containing info with a URL containing a complete
-     * basic authentication.
+     * Tests a {@link FileSystemException} containing info with a URL containing a complete basic authentication.
      */
     @Test
     public void testMasksPasswordOfUrlsWithBasicAuthentication() {
-        final FileSystemException fse = new FileSystemException(
-            "vfs.provider/rename.error",
-            "file://test.bin", "http://foo:bar@junit.org/test.bin");
+        final FileSystemException fse = new FileSystemException("vfs.provider/rename.error", "file://test.bin",
+                "http://foo:bar@junit.org/test.bin");
 
         assertEquals("file://test.bin", fse.getInfo()[0]);
         assertEquals("http://foo:***@junit.org/test.bin", fse.getInfo()[1]);
     }
 
     /**
-     * Tests a {@link FileSystemException} containing info with a URL containing only the user
-     * information.
+     * Tests a {@link FileSystemException} containing info with a URL containing only the user information.
      */
     @Test
     public void testDoesNotModifyUrlsWithoutPassword() {
-        final FileSystemException fse = new FileSystemException(
-            "vfs.provider/delete.error", "http://foo@junit.org/test.bin");
+        final FileSystemException fse = new FileSystemException("vfs.provider/delete.error",
+                "http://foo@junit.org/test.bin");
         assertEquals("http://foo@junit.org/test.bin", fse.getInfo()[0]);
     }
 
     /**
-     * Tests a {@link FileSystemException} containing info with a nested URL containing a
-     * complete basic authentication.
+     * Tests a {@link FileSystemException} containing info with a nested URL containing a complete basic authentication.
      */
     @Test
     public void testProperDetectionOfUrl() {
-        final FileSystemException fse = new FileSystemException(
-            "vfs.provider/delete.error", "zip:http://foo:bar@junit.org/test.bin");
+        final FileSystemException fse = new FileSystemException("vfs.provider/delete.error",
+                "zip:http://foo:bar@junit.org/test.bin");
         assertEquals("zip:http://foo:***@junit.org/test.bin", fse.getInfo()[0]);
     }
 

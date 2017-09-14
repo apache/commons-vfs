@@ -22,16 +22,13 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * File changed event.
  */
-public class ChangedEvent extends AbstractFileChangeEvent
-{
-    public ChangedEvent(final FileObject file)
-    {
+public class ChangedEvent extends AbstractFileChangeEvent {
+    public ChangedEvent(final FileObject file) {
         super(file);
     }
 
     @Override
-    public void notify(final FileListener listener) throws Exception
-    {
+    public void notify(final FileListener listener) throws Exception {
         listener.fileChanged(this);
     }
 }

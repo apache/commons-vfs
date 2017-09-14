@@ -32,48 +32,42 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 /**
  * A polling {@link FileMonitor} implementation.
  * <p>
- * The DefaultFileMonitor is a Thread based polling file system monitor with a 1
- * second delay.
+ * The DefaultFileMonitor is a Thread based polling file system monitor with a 1 second delay.
  *
  * <h2>Design:</h2>
  *
- * There is a Map of monitors known as FileMonitorAgents. With the thread running,
- * each FileMonitorAgent object is asked to "check" on the file it is
- * responsible for. To do this check, the cache is cleared.
+ * There is a Map of monitors known as FileMonitorAgents. With the thread running, each FileMonitorAgent object is asked
+ * to "check" on the file it is responsible for. To do this check, the cache is cleared.
  * <ul>
- * <li>If the file existed before the refresh and it no longer exists, a delete
- * event is fired.</li>
- * <li>If the file existed before the refresh and it still exists, check the
- * last modified timestamp to see if that has changed.</li>
+ * <li>If the file existed before the refresh and it no longer exists, a delete event is fired.</li>
+ * <li>If the file existed before the refresh and it still exists, check the last modified timestamp to see if that has
+ * changed.</li>
  * <li>If it has, fire a change event.</li>
  * </ul>
- * With each file delete, the FileMonitorAgent of the parent is asked to
- * re-build its
- * list of children, so that they can be accurately checked when there are new
- * children.
+ * With each file delete, the FileMonitorAgent of the parent is asked to re-build its list of children, so that they can
+ * be accurately checked when there are new children.
  * <p>
- * New files are detected during each "check" as each file does a check for new
- * children.
- * If new children are found, create events are fired recursively if recursive
- * descent is enabled.
+ * New files are detected during each "check" as each file does a check for new children. If new children are found,
+ * create events are fired recursively if recursive descent is enabled.
  * <p>
- * For performance reasons, added a delay that increases as the number of files
- * monitored
- * increases. The default is a delay of 1 second for every 1000 files processed.
+ * For performance reasons, added a delay that increases as the number of files monitored increases. The default is a
+ * delay of 1 second for every 1000 files processed.
  *
- * <h2>Example usage:</h2><pre>
+ * <h2>Example usage:</h2>
+ * 
+ * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject listendir = fsManager.resolveFile("/home/username/monitored/");
  *
  * DefaultFileMonitor fm = new DefaultFileMonitor(new CustomFileListener());
  * fm.setRecursive(true);
  * fm.addFile(listendir);
- * fm.start();</pre>
- * <i>(where CustomFileListener is a class that implements the FileListener
- * interface.)</i>
+ * fm.start();
+ * </pre>
+ * 
+ * <i>(where CustomFileListener is a class that implements the FileListener interface.)</i>
  */
-public class DefaultFileMonitor implements Runnable, FileMonitor
-{
+public class DefaultFileMonitor implements Runnable, FileMonitor {
     private static final Log LOG = LogFactory.getLog(DefaultFileMonitor.class);
 
     private static final long DEFAULT_DELAY = 1000;
@@ -125,99 +119,83 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      */
     private final FileListener listener;
 
-    public DefaultFileMonitor(final FileListener listener)
-    {
+    public DefaultFileMonitor(final FileListener listener) {
         this.listener = listener;
     }
 
     /**
      * Access method to get the recursive setting when adding files for monitoring.
+     * 
      * @return true if monitoring is enabled for children.
      */
-    public boolean isRecursive()
-    {
+    public boolean isRecursive() {
         return this.recursive;
     }
 
     /**
      * Access method to set the recursive setting when adding files for monitoring.
+     * 
      * @param newRecursive true if monitoring should be enabled for children.
      */
-    public void setRecursive(final boolean newRecursive)
-    {
+    public void setRecursive(final boolean newRecursive) {
         this.recursive = newRecursive;
     }
 
     /**
-     * Access method to get the current FileListener object notified when there
-     * are changes with the files added.
+     * Access method to get the current FileListener object notified when there are changes with the files added.
+     * 
      * @return The FileListener.
      */
-    FileListener getFileListener()
-    {
+    FileListener getFileListener() {
         return this.listener;
     }
 
     /**
      * Adds a file to be monitored.
+     * 
      * @param file The FileObject to monitor.
      */
     @Override
-    public void addFile(final FileObject file)
-    {
+    public void addFile(final FileObject file) {
         doAddFile(file);
-        try
-        {
+        try {
             // add all direct children too
-            if (file.getType().hasChildren())
-            {
+            if (file.getType().hasChildren()) {
                 // Traverse the children
                 final FileObject[] children = file.getChildren();
-                for (final FileObject element : children)
-                {
+                for (final FileObject element : children) {
                     doAddFile(element);
                 }
             }
-        }
-        catch (final FileSystemException fse)
-        {
+        } catch (final FileSystemException fse) {
             LOG.error(fse.getLocalizedMessage(), fse);
         }
     }
 
     /**
      * Adds a file to be monitored.
+     * 
      * @param file The FileObject to add.
      */
-    private void doAddFile(final FileObject file)
-    {
-        synchronized (this.monitorMap)
-        {
-            if (this.monitorMap.get(file.getName()) == null)
-            {
-                this.monitorMap.put(file.getName(), new FileMonitorAgent(this,
-                    file));
+    private void doAddFile(final FileObject file) {
+        synchronized (this.monitorMap) {
+            if (this.monitorMap.get(file.getName()) == null) {
+                this.monitorMap.put(file.getName(), new FileMonitorAgent(this, file));
 
-                try
-                {
-                    if (this.listener != null)
-                    {
+                try {
+                    if (this.listener != null) {
                         file.getFileSystem().addListener(file, this.listener);
                     }
 
-                    if (file.getType().hasChildren() && this.recursive)
-                    {
+                    if (file.getType().hasChildren() && this.recursive) {
                         // Traverse the children
                         final FileObject[] children = file.getChildren();
-                        for (final FileObject element : children)
-                        {
+                        for (final FileObject element : children) {
                             this.addFile(element); // Add depth first
                         }
                     }
 
-                }
-                catch (final FileSystemException fse)
-                {
+                } catch (final FileSystemException fse) {
                     LOG.error(fse.getLocalizedMessage(), fse);
                 }
 
@@ -227,34 +205,26 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Removes a file from being monitored.
+     * 
      * @param file The FileObject to remove from monitoring.
      */
     @Override
-    public void removeFile(final FileObject file)
-    {
-        synchronized (this.monitorMap)
-        {
+    public void removeFile(final FileObject file) {
+        synchronized (this.monitorMap) {
             final FileName fn = file.getName();
-            if (this.monitorMap.get(fn) != null)
-            {
+            if (this.monitorMap.get(fn) != null) {
                 FileObject parent;
-                try
-                {
+                try {
                     parent = file.getParent();
-                }
-                catch (final FileSystemException fse)
-                {
+                } catch (final FileSystemException fse) {
                     parent = null;
                 }
 
                 this.monitorMap.remove(fn);
 
-                if (parent != null)
-                { // Not the root
-                    final FileMonitorAgent parentAgent =
-                        this.monitorMap.get(parent.getName());
-                    if (parentAgent != null)
-                    {
+                if (parent != null) { // Not the root
+                    final FileMonitorAgent parentAgent = this.monitorMap.get(parent.getName());
+                    if (parentAgent != null) {
                         parentAgent.resetChildrenList();
                     }
                 }
@@ -264,74 +234,67 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
 
     /**
      * Queues a file for removal from being monitored.
+     * 
      * @param file The FileObject to be removed from being monitored.
      */
-    protected void queueRemoveFile(final FileObject file)
-    {
+    protected void queueRemoveFile(final FileObject file) {
         this.deleteStack.push(file);
     }
 
     /**
      * Get the delay between runs.
+     * 
      * @return The delay period.
      */
-    public long getDelay()
-    {
+    public long getDelay() {
         return delay;
     }
 
     /**
      * Set the delay between runs.
+     * 
      * @param delay The delay period.
      */
-    public void setDelay(final long delay)
-    {
-        if (delay > 0)
-        {
+    public void setDelay(final long delay) {
+        if (delay > 0) {
             this.delay = delay;
-        }
-        else
-        {
+        } else {
             this.delay = DEFAULT_DELAY;
         }
     }
 
     /**
      * get the number of files to check per run.
+     * 
      * @return The number of files to check per iteration.
      */
-    public int getChecksPerRun()
-    {
+    public int getChecksPerRun() {
         return checksPerRun;
     }
 
     /**
-     * set the number of files to check per run.
-     * a additional delay will be added if there are more files to check
+     * set the number of files to check per run. a additional delay will be added if there are more files to check
      *
      * @param checksPerRun a value less than 1 will disable this feature
      */
-    public void setChecksPerRun(final int checksPerRun)
-    {
+    public void setChecksPerRun(final int checksPerRun) {
         this.checksPerRun = checksPerRun;
     }
 
     /**
      * Queues a file for addition to be monitored.
+     * 
      * @param file The FileObject to add.
      */
-    protected void queueAddFile(final FileObject file)
-    {
+    protected void queueAddFile(final FileObject file) {
         this.addStack.push(file);
     }
 
     /**
      * Starts monitoring the files that have been added.
      */
-    public void start()
-    {
-        if (this.monitorThread == null)
-        {
+    public void start() {
+        if (this.monitorThread == null) {
             this.monitorThread = new Thread(this);
             this.monitorThread.setDaemon(true);
             this.monitorThread.setPriority(Thread.MIN_PRIORITY);
@@ -342,8 +305,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * Stops monitoring the files that have been added.
      */
-    public void stop()
-    {
+    public void stop() {
         this.shouldRun = false;
     }
 
@@ -351,65 +313,47 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
      * Asks the agent for each file being monitored to check its file for changes.
      */
     @Override
-    public void run()
-    {
-        mainloop:
-        while (!monitorThread.isInterrupted() && this.shouldRun)
-        {
+    public void run() {
+        mainloop: while (!monitorThread.isInterrupted() && this.shouldRun) {
             // For each entry in the map
             Object[] fileNames;
-            synchronized (this.monitorMap)
-            {
+            synchronized (this.monitorMap) {
                 fileNames = this.monitorMap.keySet().toArray();
             }
-            for (int iterFileNames = 0; iterFileNames < fileNames.length;
-                 iterFileNames++)
-            {
+            for (int iterFileNames = 0; iterFileNames < fileNames.length; iterFileNames++) {
                 final FileName fileName = (FileName) fileNames[iterFileNames];
                 FileMonitorAgent agent;
-                synchronized (this.monitorMap)
-                {
+                synchronized (this.monitorMap) {
                     agent = this.monitorMap.get(fileName);
                 }
-                if (agent != null)
-                {
+                if (agent != null) {
                     agent.check();
                 }
 
-                if (getChecksPerRun() > 0 && (iterFileNames + 1) % getChecksPerRun() == 0)
-                {
-                    try
-                    {
+                if (getChecksPerRun() > 0 && (iterFileNames + 1) % getChecksPerRun() == 0) {
+                    try {
                         Thread.sleep(getDelay());
-                    }
-                    catch (final InterruptedException e)
-                    {
+                    } catch (final InterruptedException e) {
                         // Woke up.
                     }
                 }
 
-                if (monitorThread.isInterrupted() || !this.shouldRun)
-                {
+                if (monitorThread.isInterrupted() || !this.shouldRun) {
                     continue mainloop;
                 }
             }
 
-            while (!this.addStack.empty())
-            {
+            while (!this.addStack.empty()) {
                 this.addFile(this.addStack.pop());
             }
 
-            while (!this.deleteStack.empty())
-            {
+            while (!this.deleteStack.empty()) {
                 this.removeFile(this.deleteStack.pop());
             }
 
-            try
-            {
+            try {
                 Thread.sleep(getDelay());
-            }
-            catch (final InterruptedException e)
-            {
+            } catch (final InterruptedException e) {
                 continue;
             }
         }
@@ -420,8 +364,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
     /**
      * File monitor agent.
      */
-    private static final class FileMonitorAgent
-    {
+    private static final class FileMonitorAgent {
         private final FileObject file;
         private final DefaultFileMonitor fm;
 
@@ -429,142 +372,103 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
         private long timestamp;
         private Map<FileName, Object> children;
 
-        private FileMonitorAgent(final DefaultFileMonitor fm, final FileObject file)
-        {
+        private FileMonitorAgent(final DefaultFileMonitor fm, final FileObject file) {
             this.fm = fm;
             this.file = file;
 
             this.refresh();
             this.resetChildrenList();
 
-            try
-            {
+            try {
                 this.exists = this.file.exists();
-            }
-            catch (final FileSystemException fse)
-            {
+            } catch (final FileSystemException fse) {
                 this.exists = false;
                 this.timestamp = -1;
             }
 
-            if (this.exists)
-            {
-                try
-                {
+            if (this.exists) {
+                try {
                     this.timestamp = this.file.getContent().getLastModifiedTime();
-                }
-                catch (final FileSystemException fse)
-                {
+                } catch (final FileSystemException fse) {
                     this.timestamp = -1;
                 }
             }
         }
 
-        private void resetChildrenList()
-        {
-            try
-            {
-                if (this.file.getType().hasChildren())
-                {
+        private void resetChildrenList() {
+            try {
+                if (this.file.getType().hasChildren()) {
                     this.children = new HashMap<>();
                     final FileObject[] childrenList = this.file.getChildren();
-                    for (final FileObject element : childrenList)
-                    {
-                        this.children.put(element.getName(), new
-                            Object()); // null?
+                    for (final FileObject element : childrenList) {
+                        this.children.put(element.getName(), new Object()); // null?
                     }
                 }
-            }
-            catch (final FileSystemException fse)
-            {
+            } catch (final FileSystemException fse) {
                 this.children = null;
             }
         }
 
-
         /**
          * Clear the cache and re-request the file object
          */
-        private void refresh()
-        {
-            try
-            {
+        private void refresh() {
+            try {
                 this.file.refresh();
-            }
-            catch (final FileSystemException fse)
-            {
+            } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
         }
 
-
         /**
-         * Recursively fires create events for all children if recursive descent is
-         * enabled. Otherwise the create event is only fired for the initial
-         * FileObject.
+         * Recursively fires create events for all children if recursive descent is enabled. Otherwise the create event
+         * is only fired for the initial FileObject.
+         * 
          * @param child The child to add.
          */
-        private void fireAllCreate(final FileObject child)
-        {
+        private void fireAllCreate(final FileObject child) {
             // Add listener so that it can be triggered
-            if (this.fm.getFileListener() != null)
-            {
+            if (this.fm.getFileListener() != null) {
                 child.getFileSystem().addListener(child, this.fm.getFileListener());
             }
 
             ((AbstractFileSystem) child.getFileSystem()).fireFileCreated(child);
 
             // Remove it because a listener is added in the queueAddFile
-            if (this.fm.getFileListener() != null)
-            {
-                child.getFileSystem().removeListener(child,
-                    this.fm.getFileListener());
+            if (this.fm.getFileListener() != null) {
+                child.getFileSystem().removeListener(child, this.fm.getFileListener());
             }
 
             this.fm.queueAddFile(child); // Add
 
-            try
-            {
-                if (this.fm.isRecursive() && child.getType().hasChildren())
-                {
+            try {
+                if (this.fm.isRecursive() && child.getType().hasChildren()) {
                     final FileObject[] newChildren = child.getChildren();
-                    for (final FileObject element : newChildren)
-                    {
+                    for (final FileObject element : newChildren) {
                         fireAllCreate(element);
                     }
                 }
-            }
-            catch (final FileSystemException fse)
-            {
+            } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
         }
 
         /**
-         * Only checks for new children. If children are removed, they'll
-         * eventually be checked.
+         * Only checks for new children. If children are removed, they'll eventually be checked.
          */
-        private void checkForNewChildren()
-        {
-            try
-            {
-                if (this.file.getType().hasChildren())
-                {
+        private void checkForNewChildren() {
+            try {
+                if (this.file.getType().hasChildren()) {
                     final FileObject[] newChildren = this.file.getChildren();
-                    if (this.children != null)
-                    {
+                    if (this.children != null) {
                         // See which new children are not listed in the current children map.
                         final Map<FileName, Object> newChildrenMap = new HashMap<>();
                         final Stack<FileObject> missingChildren = new Stack<>();
 
-                        for (int i = 0; i < newChildren.length; i++)
-                        {
-                            newChildrenMap.put(newChildren[i].getName(), new
-                                Object()); // null ?
+                        for (int i = 0; i < newChildren.length; i++) {
+                            newChildrenMap.put(newChildren[i].getName(), new Object()); // null ?
                             // If the child's not there
-                            if
-                                (!this.children.containsKey(newChildren[i].getName()))
-                            {
+                            if (!this.children.containsKey(newChildren[i].getName())) {
                                 missingChildren.push(newChildren[i]);
                             }
                         }
@@ -572,103 +476,77 @@ public class DefaultFileMonitor implements Runnable, FileMonitor
                         this.children = newChildrenMap;
 
                         // If there were missing children
-                        if (!missingChildren.empty())
-                        {
+                        if (!missingChildren.empty()) {
 
-                            while (!missingChildren.empty())
-                            {
+                            while (!missingChildren.empty()) {
                                 final FileObject child = missingChildren.pop();
                                 this.fireAllCreate(child);
                             }
                         }
 
-                    }
-                    else
-                    {
+                    } else {
                         // First set of children - Break out the cigars
-                        if (newChildren.length > 0)
-                        {
+                        if (newChildren.length > 0) {
                             this.children = new HashMap<>();
                         }
-                        for (final FileObject element : newChildren)
-                        {
-                            this.children.put(element.getName(), new
-                                Object()); // null?
+                        for (final FileObject element : newChildren) {
+                            this.children.put(element.getName(), new Object()); // null?
                             this.fireAllCreate(element);
                         }
                     }
                 }
-            }
-            catch (final FileSystemException fse)
-            {
+            } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
         }
 
-        private void check()
-        {
+        private void check() {
             this.refresh();
 
-            try
-            {
+            try {
                 // If the file existed and now doesn't
-                if (this.exists && !this.file.exists())
-                {
+                if (this.exists && !this.file.exists()) {
                     this.exists = this.file.exists();
                     this.timestamp = -1;
 
                     // Fire delete event
 
-                    ((AbstractFileSystem)
-                        this.file.getFileSystem()).fireFileDeleted(this.file);
+                    ((AbstractFileSystem) this.file.getFileSystem()).fireFileDeleted(this.file);
 
                     // Remove listener in case file is re-created. Don't want to fire twice.
-                    if (this.fm.getFileListener() != null)
-                    {
-                        this.file.getFileSystem().removeListener(this.file,
-                            this.fm.getFileListener());
+                    if (this.fm.getFileListener() != null) {
+                        this.file.getFileSystem().removeListener(this.file, this.fm.getFileListener());
                     }
 
                     // Remove from map
                     this.fm.queueRemoveFile(this.file);
-                }
-                else if (this.exists && this.file.exists())
-                {
+                } else if (this.exists && this.file.exists()) {
 
                     // Check the timestamp to see if it has been modified
-                    if (this.timestamp != this.file.getContent().getLastModifiedTime())
-                    {
+                    if (this.timestamp != this.file.getContent().getLastModifiedTime()) {
                         this.timestamp = this.file.getContent().getLastModifiedTime();
                         // Fire change event
 
                         // Don't fire if it's a folder because new file children
                         // and deleted files in a folder have their own event triggered.
-                        if (!this.file.getType().hasChildren())
-                        {
-                            ((AbstractFileSystem)
-                                this.file.getFileSystem()).fireFileChanged(this.file);
+                        if (!this.file.getType().hasChildren()) {
+                            ((AbstractFileSystem) this.file.getFileSystem()).fireFileChanged(this.file);
                         }
                     }
 
-                }
-                else if (!this.exists && this.file.exists())
-                {
+                } else if (!this.exists && this.file.exists()) {
                     this.exists = this.file.exists();
                     this.timestamp = this.file.getContent().getLastModifiedTime();
                     // Don't fire if it's a folder because new file children
                     // and deleted files in a folder have their own event triggered.
-                    if (!this.file.getType().hasChildren())
-                    {
-                        ((AbstractFileSystem)
-                                this.file.getFileSystem()).fireFileCreated(this.file);
+                    if (!this.file.getType().hasChildren()) {
+                        ((AbstractFileSystem) this.file.getFileSystem()).fireFileCreated(this.file);
                     }
                 }
 
                 this.checkForNewChildren();
 
-            }
-            catch (final FileSystemException fse)
-            {
+            } catch (final FileSystemException fse) {
                 LOG.error(fse.getLocalizedMessage(), fse);
             }
         }

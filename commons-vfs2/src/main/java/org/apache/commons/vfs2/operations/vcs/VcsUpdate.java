@@ -22,8 +22,7 @@ import org.apache.commons.vfs2.operations.FileOperation;
  *
  * @since 0.1
  */
-public interface VcsUpdate extends FileOperation
-{
+public interface VcsUpdate extends FileOperation {
     /**
      *
      * @param revision The revision number.

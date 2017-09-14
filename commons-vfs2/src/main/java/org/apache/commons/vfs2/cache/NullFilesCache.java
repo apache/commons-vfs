@@ -25,35 +25,29 @@ import org.apache.commons.vfs2.FileSystem;
  * <p>
  * This implementation never ever caches a single file.
  * <p>
- * <b>Notice</b>: if you use resolveFile(uri) multiple times with the same path, the system will always
- * create a new instance. Changes on one instance of this file are not seen by the others.
+ * <b>Notice</b>: if you use resolveFile(uri) multiple times with the same path, the system will always create a new
+ * instance. Changes on one instance of this file are not seen by the others.
  */
-public class NullFilesCache extends AbstractFilesCache
-{
+public class NullFilesCache extends AbstractFilesCache {
     @Override
-    public void putFile(final FileObject file)
-    {
+    public void putFile(final FileObject file) {
     }
 
     @Override
-    public boolean putFileIfAbsent(final FileObject file)
-    {
+    public boolean putFileIfAbsent(final FileObject file) {
         return false;
     }
 
     @Override
-    public FileObject getFile(final FileSystem filesystem, final FileName name)
-    {
+    public FileObject getFile(final FileSystem filesystem, final FileName name) {
         return null;
     }
 
     @Override
-    public void clear(final FileSystem filesystem)
-    {
+    public void clear(final FileSystem filesystem) {
     }
 
     @Override
-    public void removeFile(final FileSystem filesystem, final FileName name)
-    {
+    public void removeFile(final FileSystem filesystem, final FileName name) {
     }
 }

@@ -26,27 +26,24 @@ import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.UserAuthenticator;
 import org.junit.Test;
 
-public class StaticUserAuthenticatorTestCase
-{
+public class StaticUserAuthenticatorTestCase {
     @Test
-    public void testAuthenticationRequest()
-    {
+    public void testAuthenticationRequest() {
         final UserAuthenticator userAuthenticator = new StaticUserAuthenticator("DOMAIN", "USER", "PWD");
-        UserAuthenticationData authenticationData =
-            userAuthenticator.requestAuthentication(ArrayUtils.toArray(UserAuthenticationData.DOMAIN));
+        UserAuthenticationData authenticationData = userAuthenticator
+                .requestAuthentication(ArrayUtils.toArray(UserAuthenticationData.DOMAIN));
         assertArrayEquals("DOMAIN".toCharArray(), authenticationData.getData(UserAuthenticationData.DOMAIN));
         assertNull(authenticationData.getData(UserAuthenticationData.USERNAME));
         assertNull(authenticationData.getData(UserAuthenticationData.PASSWORD));
         authenticationData = userAuthenticator.requestAuthentication(
-            ArrayUtils.toArray(UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD));
+                ArrayUtils.toArray(UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD));
         assertNull(authenticationData.getData(UserAuthenticationData.DOMAIN));
         assertArrayEquals("USER".toCharArray(), authenticationData.getData(UserAuthenticationData.USERNAME));
         assertArrayEquals("PWD".toCharArray(), authenticationData.getData(UserAuthenticationData.PASSWORD));
     }
 
     @Test
-    public void testEquality()
-    {
+    public void testEquality() {
         final UserAuthenticator userAuthenticator = new StaticUserAuthenticator("DOMAIN", "USER", "PWD");
         assertEquals(new StaticUserAuthenticator("DOMAIN", "USER", "PWD"), userAuthenticator);
         assertNotEquals(new StaticUserAuthenticator("DOMAIN", "USER", null), userAuthenticator);

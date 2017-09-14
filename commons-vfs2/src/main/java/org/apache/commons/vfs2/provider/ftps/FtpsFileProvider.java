@@ -27,15 +27,13 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileProvider;
 /**
  * A provider for FTP file systems.
  *
- * NOTE: Most of the heavy lifting for FTPS is done by the org.apache.commons.vfs2.provider.ftp package since
- * they both use commons-net package
+ * NOTE: Most of the heavy lifting for FTPS is done by the org.apache.commons.vfs2.provider.ftp package since they both
+ * use commons-net package
  *
  * @since 2.0
  */
-public class FtpsFileProvider extends FtpFileProvider
-{
-    public FtpsFileProvider()
-    {
+public class FtpsFileProvider extends FtpFileProvider {
+    public FtpsFileProvider() {
         super();
     }
 
@@ -44,8 +42,7 @@ public class FtpsFileProvider extends FtpFileProvider
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
@@ -55,8 +52,7 @@ public class FtpsFileProvider extends FtpFileProvider
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder()
-    {
+    public FileSystemConfigBuilder getConfigBuilder() {
         return FtpsFileSystemConfigBuilder.getInstance();
     }
 }

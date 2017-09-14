@@ -26,32 +26,23 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  *
  * @version $Id$
  */
-public class ProviderRandomReadTests
-    extends AbstractProviderTestCase
-{
+public class ProviderRandomReadTests extends AbstractProviderTestCase {
     private static final String TEST_DATA = "This is a test file.";
 
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.GET_TYPE,
-            Capability.RANDOM_ACCESS_READ
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.GET_TYPE, Capability.RANDOM_ACCESS_READ };
     }
 
     /**
      * Read a file
      */
-    public void testRandomRead() throws Exception
-    {
+    public void testRandomRead() throws Exception {
         FileObject file = null;
-        try
-        {
+        try {
             file = getReadFolder().resolveFile("file1.txt");
             final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READ);
 
@@ -89,11 +80,8 @@ public class ProviderRandomReadTests
             c = ra.readByte();
             assertEquals(c, TEST_DATA.charAt(11));
             assertEquals("fp", ra.getFilePointer(), 12);
-        }
-        finally
-        {
-            if (file != null)
-            {
+        } finally {
+            if (file != null) {
                 file.close();
             }
         }

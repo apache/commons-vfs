@@ -23,9 +23,7 @@ import org.apache.commons.vfs2.FileType;
 /**
  * A general-purpose file name parser.
  */
-public class GenericFileNameParser
-    extends LocalFileNameParser
-{
+public class GenericFileNameParser extends LocalFileNameParser {
     private static final GenericFileNameParser INSTANCE = new GenericFileNameParser();
 
     /**
@@ -33,8 +31,7 @@ public class GenericFileNameParser
      *
      * @return the parser
      */
-    public static GenericFileNameParser getInstance()
-    {
+    public static GenericFileNameParser getInstance() {
         return INSTANCE;
     }
 
@@ -42,15 +39,11 @@ public class GenericFileNameParser
      * Pops the root prefix off a URI, which has had the scheme removed.
      */
     @Override
-    protected String extractRootPrefix(final String uri,
-                                       final StringBuilder name)
-        throws FileSystemException
-    {
-        // TODO - this class isn't generic at all.  Need to fix this
+    protected String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException {
+        // TODO - this class isn't generic at all. Need to fix this
 
         // Looking for <sep>
-        if (name.length() == 0 || name.charAt(0) != '/')
-        {
+        if (name.length() == 0 || name.charAt(0) != '/') {
             throw new FileSystemException("vfs.provider.local/not-absolute-file-name.error", uri);
         }
 
@@ -59,14 +52,12 @@ public class GenericFileNameParser
     }
 
     /*
-     * ... this is why whe need this:
-     * here the rootFilename can only be "/" (see above) put this "/" is also in the pathname
-     * so its of no value for the LocalFileName instance
+     * ... this is why whe need this: here the rootFilename can only be "/" (see above) put this "/" is also in the
+     * pathname so its of no value for the LocalFileName instance
      */
     @Override
-    protected FileName createFileName(final String scheme, final String rootFile,
-                                      final String path, final FileType type)
-    {
+    protected FileName createFileName(final String scheme, final String rootFile, final String path,
+            final FileType type) {
         return new LocalFileName(scheme, "", path, type);
     }
 }

@@ -24,14 +24,11 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 /**
  * Some GenericFileName test cases.
  */
-public class GenericFileNameTestCase
-    extends AbstractVfsTestCase
-{
+public class GenericFileNameTestCase extends AbstractVfsTestCase {
     /**
      * Tests parsing a URI into its parts.
      */
-    public void testParseUri() throws Exception
-    {
+    public void testParseUri() throws Exception {
         final URLFileNameParser urlParser = new URLFileNameParser(21);
         // Simple name
         GenericFileName name = (GenericFileName) urlParser.parseUri(null, null, "ftp://hostname/file");
@@ -104,8 +101,7 @@ public class GenericFileNameTestCase
     /**
      * Tests error handling in URI parser.
      */
-    public void testBadlyFormedUri() throws Exception
-    {
+    public void testBadlyFormedUri() throws Exception {
         // Does not start with ftp://
         testBadlyFormedUri("ftp:", "vfs.provider/missing-double-slashes.error");
         testBadlyFormedUri("ftp:/", "vfs.provider/missing-double-slashes.error");
@@ -129,15 +125,11 @@ public class GenericFileNameTestCase
     /**
      * Tests that parsing a URI fails with the expected error.
      */
-    private void testBadlyFormedUri(final String uri, final String errorMsg)
-    {
-        try
-        {
+    private void testBadlyFormedUri(final String uri, final String errorMsg) {
+        try {
             new URLFileNameParser(80).parseUri(null, null, uri);
             fail();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             assertSameMessage(errorMsg, uri, e);
         }
     }

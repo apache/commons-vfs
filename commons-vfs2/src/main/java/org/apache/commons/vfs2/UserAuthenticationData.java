@@ -23,13 +23,11 @@ import java.util.TreeMap;
 /**
  * Contains various authentication data.
  */
-public class UserAuthenticationData
-{
+public class UserAuthenticationData {
     /**
      * Represents a user authentication item.
      */
-    public static class Type implements Comparable<Type>
-    {
+    public static class Type implements Comparable<Type> {
         /** The type name */
         private final String type;
 
@@ -38,27 +36,22 @@ public class UserAuthenticationData
          *
          * @param type the type
          */
-        public Type(final String type)
-        {
+        public Type(final String type) {
             this.type = type;
         }
 
         @Override
-        public boolean equals(final Object o)
-        {
-            if (this == o)
-            {
+        public boolean equals(final Object o) {
+            if (this == o) {
                 return true;
             }
-            if (o == null || getClass() != o.getClass())
-            {
+            if (o == null || getClass() != o.getClass()) {
                 return false;
             }
 
             final Type type1 = (Type) o;
 
-            if (type != null ? !type.equals(type1.type) : type1.type != null)
-            {
+            if (type != null ? !type.equals(type1.type) : type1.type != null) {
                 return false;
             }
 
@@ -66,28 +59,25 @@ public class UserAuthenticationData
         }
 
         @Override
-        public int compareTo(final Type o)
-        {
+        public int compareTo(final Type o) {
             return type.compareTo(o.type);
         }
 
         /**
          * @return The hash code.
          * @since 2.0
-         * */
+         */
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return type != null ? type.hashCode() : 0;
         }
 
         /**
          * @return The type.
          * @since 2.0
-         * */
+         */
         @Override
-        public String toString()
-        {
+        public String toString() {
             return type;
         }
     }
@@ -107,48 +97,43 @@ public class UserAuthenticationData
     /**
      * Creates a new uninitialized instance.
      */
-    public UserAuthenticationData()
-    {
+    public UserAuthenticationData() {
         // do nothing
     }
 
     /**
      * Sets a data to this collection.
+     * 
      * @param type The Type to add
      * @param data The data associated with the Type
      */
-    public void setData(final Type type, final char[] data)
-    {
+    public void setData(final Type type, final char[] data) {
         authenticationData.put(type, data);
     }
 
     /**
      * Gets a data from the collection.
+     * 
      * @param type The Type to retrieve.
      * @return a character array containing the data associated with the type.
      */
-    public char[] getData(final Type type)
-    {
+    public char[] getData(final Type type) {
         return authenticationData.get(type);
     }
 
     /**
      * Deletes all data stored within this authenticator.
      */
-    public void cleanup()
-    {
+    public void cleanup() {
         // step 1: nullify character buffers
         final Iterator<char[]> iterAuthenticationData = authenticationData.values().iterator();
-        while (iterAuthenticationData.hasNext())
-        {
+        while (iterAuthenticationData.hasNext()) {
             final char[] data = iterAuthenticationData.next();
-            if (data == null || data.length < 0)
-            {
+            if (data == null || data.length < 0) {
                 continue;
             }
 
-            for (int i = 0; i < data.length; i++)
-            {
+            for (int i = 0; i < data.length; i++) {
                 data[i] = 0;
             }
         }

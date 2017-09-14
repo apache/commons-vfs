@@ -24,9 +24,7 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * A file provider which handles local files.
  */
-public interface LocalFileProvider
-    extends FileProvider
-{
+public interface LocalFileProvider extends FileProvider {
     /**
      * Determines if a name is an absolute file name.
      * <p>
@@ -39,19 +37,19 @@ public interface LocalFileProvider
 
     /**
      * Finds a local file, from its local name.
+     * 
      * @param name The name of the file to locate.
      * @return The FileObject for the file.
      * @throws FileSystemException if an error occurs.
      */
-    FileObject findLocalFile(final String name)
-        throws FileSystemException;
+    FileObject findLocalFile(final String name) throws FileSystemException;
 
     /**
      * Converts from java.io.File to FileObject.
+     * 
      * @param file The File for the file.
      * @return The FileObject for the file.
      * @throws FileSystemException if an error occurs.
      */
-    FileObject findLocalFile(final File file)
-        throws FileSystemException;
+    FileObject findLocalFile(final File file) throws FileSystemException;
 }

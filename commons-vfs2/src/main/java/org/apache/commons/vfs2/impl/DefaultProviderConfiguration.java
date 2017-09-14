@@ -16,15 +16,12 @@
  */
 package org.apache.commons.vfs2.impl;
 
-
 /**
  * Same as {@link ProviderConfiguration} but for the default provider.
  */
-public class DefaultProviderConfiguration extends ProviderConfiguration
-{
+public class DefaultProviderConfiguration extends ProviderConfiguration {
     @Override
-    public boolean isDefault()
-    {
+    public boolean isDefault() {
         return true;
     }
 }

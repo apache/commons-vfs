@@ -23,15 +23,11 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * A {@link FileProvider} that handles physical files, such as the files in a
- * local fs, or on an FTP server.  An originating file system cannot be
- * layered on top of another file system.
+ * A {@link FileProvider} that handles physical files, such as the files in a local fs, or on an FTP server. An
+ * originating file system cannot be layered on top of another file system.
  */
-public abstract class AbstractOriginatingFileProvider
-    extends AbstractFileProvider
-{
-    public AbstractOriginatingFileProvider()
-    {
+public abstract class AbstractOriginatingFileProvider extends AbstractFileProvider {
+    public AbstractOriginatingFileProvider() {
         super();
     }
 
@@ -45,18 +41,13 @@ public abstract class AbstractOriginatingFileProvider
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject findFile(final FileObject baseFile,
-                               final String uri,
-                               final FileSystemOptions fileSystemOptions) throws FileSystemException
-    {
+    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
         // Parse the URI
         final FileName name;
-        try
-        {
+        try {
             name = parseUri(baseFile != null ? baseFile.getName() : null, uri);
-        }
-        catch (final FileSystemException exc)
-        {
+        } catch (final FileSystemException exc) {
             throw new FileSystemException("vfs.provider/invalid-absolute-uri.error", uri, exc);
         }
 
@@ -66,14 +57,14 @@ public abstract class AbstractOriginatingFileProvider
 
     /**
      * Locates a file from its parsed URI.
+     * 
      * @param name The file name.
      * @param fileSystemOptions FileSystem options.
      * @return A FileObject associated with the file.
      * @throws FileSystemException if an error occurs.
      */
     protected FileObject findFile(final FileName name, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         // Check in the cache for the file system
         final FileName rootName = getContext().getFileSystemManager().resolveName(name, FileName.ROOT_PATH);
 
@@ -86,6 +77,7 @@ public abstract class AbstractOriginatingFileProvider
 
     /**
      * Returns the FileSystem associated with the specified root.
+     * 
      * @param rootName The root path.
      * @param fileSystemOptions The FileSystem options.
      * @return The FileSystem.
@@ -93,11 +85,9 @@ public abstract class AbstractOriginatingFileProvider
      * @since 2.0
      */
     protected synchronized FileSystem getFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         FileSystem fs = findFileSystem(rootName, fileSystemOptions);
-        if (fs == null)
-        {
+        if (fs == null) {
             // Need to create the file system, and cache it
             fs = doCreateFileSystem(rootName, fileSystemOptions);
             addFileSystem(rootName, fs);
@@ -105,11 +95,8 @@ public abstract class AbstractOriginatingFileProvider
         return fs;
     }
 
-
-
     /**
-     * Creates a {@link FileSystem}.  If the returned FileSystem implements
-     * {@link VfsComponent}, it will be initialised.
+     * Creates a {@link FileSystem}. If the returned FileSystem implements {@link VfsComponent}, it will be initialised.
      *
      * @param rootName The name of the root file of the file system to create.
      * @param fileSystemOptions The FileSystem options.
@@ -117,5 +104,5 @@ public abstract class AbstractOriginatingFileProvider
      * @throws FileSystemException if an error occurs.
      */
     protected abstract FileSystem doCreateFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException;
+            throws FileSystemException;
 }

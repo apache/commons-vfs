@@ -26,25 +26,21 @@ import org.apache.commons.vfs2.provider.VfsComponentContext;
 /**
  * A name parser.
  */
-public abstract class LocalFileNameParser extends AbstractFileNameParser
-{
+public abstract class LocalFileNameParser extends AbstractFileNameParser {
     /**
      * Determines if a name is an absolute file name.
+     * 
      * @param name The file name.
      * @return true if the name is absolute, false otherwise.
      */
-    public boolean isAbsoluteName(final String name)
-    {
+    public boolean isAbsoluteName(final String name) {
         // TODO - this is yucky
         final StringBuilder b = new StringBuilder(name);
-        try
-        {
+        try {
             UriParser.fixSeparators(b);
             extractRootPrefix(name, b);
             return true;
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             return false;
         }
     }
@@ -57,21 +53,16 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
      * @return the root prefix extracted.
      * @throws FileSystemException if an error occurs.
      */
-    protected abstract String extractRootPrefix(final String uri,
-                                                final StringBuilder name)
-        throws FileSystemException;
-
+    protected abstract String extractRootPrefix(final String uri, final StringBuilder name) throws FileSystemException;
 
     @Override
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
         String scheme = UriParser.extractScheme(uri, name);
-        if (scheme == null)
-        {
+        if (scheme == null) {
             scheme = "file";
         }
 
@@ -88,13 +79,9 @@ public abstract class LocalFileNameParser extends AbstractFileNameParser
 
         final String path = name.toString();
 
-        return createFileName(
-            scheme,
-            rootFile,
-            path,
-            fileType);
+        return createFileName(scheme, rootFile, path, fileType);
     }
 
     protected abstract FileName createFileName(String scheme, final String rootFile, final String path,
-                                               final FileType type);
+            final FileType type);
 }

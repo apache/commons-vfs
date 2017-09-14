@@ -30,40 +30,35 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileSystem;
 /**
  * the bzip2 file.
  */
-public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem>
-{
+public class Bzip2FileObject extends CompressedFileFileObject<Bzip2FileSystem> {
     /**
-     * Deprecated since 2.1. 
+     * Deprecated since 2.1.
      * 
      * @deprecated Use {@link #Bzip2FileObject(AbstractFileName, FileObject, Bzip2FileSystem)} instead.
      */
     @Deprecated
-    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final CompressedFileFileSystem fs)
-    {
+    protected Bzip2FileObject(final AbstractFileName name, final FileObject container,
+            final CompressedFileFileSystem fs) {
         super(name, container, cast(fs));
     }
 
-    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs)
-    {
+    protected Bzip2FileObject(final AbstractFileName name, final FileObject container, final Bzip2FileSystem fs) {
         super(name, container, fs);
     }
 
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         // check file
         final InputStream is = getContainer().getContent().getInputStream();
         return wrapInputStream(getName().getURI(), is);
     }
 
-    public static InputStream wrapInputStream(final String name, final InputStream is) throws IOException
-    {
+    public static InputStream wrapInputStream(final String name, final InputStream is) throws IOException {
         return new BZip2CompressorInputStream(is);
     }
 
     @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
-    {
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         final OutputStream os = getContainer().getContent().getOutputStream(false);
         return new BZip2CompressorOutputStream(os);
     }

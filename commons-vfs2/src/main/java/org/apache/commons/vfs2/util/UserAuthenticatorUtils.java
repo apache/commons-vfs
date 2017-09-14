@@ -24,15 +24,13 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
 /**
  * Helps with authentication.
  */
-public final class UserAuthenticatorUtils
-{
-    private UserAuthenticatorUtils()
-    {
+public final class UserAuthenticatorUtils {
+    private UserAuthenticatorUtils() {
     }
 
     /**
-     * Gets data of given type from the UserAuthenticationData or null if there is no data or data
-     * of this type available.
+     * Gets data of given type from the UserAuthenticationData or null if there is no data or data of this type
+     * available.
      *
      * @param data The UserAuthenticationData.
      * @param type The type of the element to retrieve.
@@ -40,15 +38,12 @@ public final class UserAuthenticatorUtils
      * @return The data of the given type as a character array or null if the data is not available.
      */
     public static char[] getData(final UserAuthenticationData data, final UserAuthenticationData.Type type,
-                                 final char[] overriddenValue)
-    {
-        if (overriddenValue != null)
-        {
+            final char[] overriddenValue) {
+        if (overriddenValue != null) {
             return overriddenValue;
         }
 
-        if (data == null)
-        {
+        if (data == null) {
             return null;
         }
 
@@ -63,8 +58,7 @@ public final class UserAuthenticatorUtils
      * @return A UserAuthenticationData object containing the data requested.
      */
     public static UserAuthenticationData authenticate(final FileSystemOptions opts,
-                                                      final UserAuthenticationData.Type[] authenticatorTypes)
-    {
+            final UserAuthenticationData.Type[] authenticatorTypes) {
         final UserAuthenticator auth = DefaultFileSystemConfigBuilder.getInstance().getUserAuthenticator(opts);
         return authenticate(auth, authenticatorTypes);
     }
@@ -77,10 +71,8 @@ public final class UserAuthenticatorUtils
      * @return A UserAuthenticationData object containing the data requested.
      */
     public static UserAuthenticationData authenticate(final UserAuthenticator auth,
-                                                      final UserAuthenticationData.Type[] authenticatorTypes)
-    {
-        if (auth == null)
-        {
+            final UserAuthenticationData.Type[] authenticatorTypes) {
+        if (auth == null) {
             return null;
         }
 
@@ -93,10 +85,8 @@ public final class UserAuthenticatorUtils
      * @param string The String to convert.
      * @return The character array.
      */
-    public static char[] toChar(final String string)
-    {
-        if (string == null)
-        {
+    public static char[] toChar(final String string) {
+        if (string == null) {
             return null;
         }
 
@@ -108,10 +98,8 @@ public final class UserAuthenticatorUtils
      *
      * @param authData The UserAuthenticationDAta.
      */
-    public static void cleanup(final UserAuthenticationData authData)
-    {
-        if (authData == null)
-        {
+    public static void cleanup(final UserAuthenticationData authData) {
+        if (authData == null) {
             return;
         }
 
@@ -124,10 +112,8 @@ public final class UserAuthenticatorUtils
      * @param data A character array containing the data to convert to a String.
      * @return The String.
      */
-    public static String toString(final char[] data)
-    {
-        if (data == null)
-        {
+    public static String toString(final char[] data) {
+        if (data == null) {
             return null;
         }
 

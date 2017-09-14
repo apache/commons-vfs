@@ -25,16 +25,14 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * Formats messages.
  */
-public final class Messages
-{
+public final class Messages {
     /**
      * Map from message code to MessageFormat object for the message.
      */
     private static ConcurrentMap<String, MessageFormat> messageMap = new ConcurrentHashMap<>();
     private static final ResourceBundle RESOURCES = new CombinedResources("org.apache.commons.vfs2.Resources");
 
-    private Messages()
-    {
+    private Messages() {
     }
 
     /**
@@ -43,49 +41,40 @@ public final class Messages
      * @param code The message code.
      * @return The formatted message.
      */
-    public static String getString(final String code)
-    {
+    public static String getString(final String code) {
         return getString(code, new Object[0]);
     }
 
     /**
      * Formats a message.
      *
-     * @param code
-     *            The message code.
-     * @param param
-     *            The message parameter.
+     * @param code The message code.
+     * @param param The message parameter.
      * @return The formatted message.
      * @deprecated Will be removed in 3.0 in favor of {@link #getString(String, Object[])} When removed, calls to this
      *             method will automatically recompile to {@link #getString(String, Object[])}
      */
     @Deprecated
-    public static String getString(final String code, final Object param)
-    {
-        return getString(code, new Object[]{param});
+    public static String getString(final String code, final Object param) {
+        return getString(code, new Object[] { param });
     }
 
     /**
      * Formats a message.
      *
-     * @param code   The message code.
+     * @param code The message code.
      * @param params The message parameters.
      * @return The formatted message.
      */
-    public static String getString(final String code, final Object... params)
-    {
-        try
-        {
-            if (code == null)
-            {
+    public static String getString(final String code, final Object... params) {
+        try {
+            if (code == null) {
                 return null;
             }
 
             final MessageFormat msg = findMessage(code);
             return msg.format(params);
-        }
-        catch (final MissingResourceException mre)
-        {
+        } catch (final MissingResourceException mre) {
             return "Unknown message with code \"" + code + "\".";
         }
     }
@@ -93,13 +82,10 @@ public final class Messages
     /**
      * Locates a message by its code.
      */
-    private static MessageFormat findMessage(final String code)
-        throws MissingResourceException
-    {
+    private static MessageFormat findMessage(final String code) throws MissingResourceException {
         // Check if the message is cached
         MessageFormat msg = messageMap.get(code);
-        if (msg != null)
-        {
+        if (msg != null) {
             return msg;
         }
 

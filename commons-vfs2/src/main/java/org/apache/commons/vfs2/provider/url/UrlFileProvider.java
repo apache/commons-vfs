@@ -34,26 +34,19 @@ import org.apache.commons.vfs2.provider.AbstractFileProvider;
 /**
  * A file provider backed by Java's URL API.
  */
-public class UrlFileProvider
-    extends AbstractFileProvider
-{
+public class UrlFileProvider extends AbstractFileProvider {
     /** The provider's capabilities */
-    protected static final Collection<Capability> capabilities =
-        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.GET_LAST_MODIFIED
-    }));
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
+            Arrays.asList(new Capability[] { Capability.READ_CONTENT, Capability.URI, Capability.GET_LAST_MODIFIED }));
 
-    public UrlFileProvider()
-    {
+    public UrlFileProvider() {
         super();
         setFileNameParser(new UrlFileNameParser());
     }
 
     /**
      * Locates a file object, by absolute URI.
+     * 
      * @param baseFile The base FileObject.
      * @param uri The uri of the file to locate.
      * @param fileSystemOptions The FileSystemOptions
@@ -61,45 +54,35 @@ public class UrlFileProvider
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public synchronized FileObject findFile(final FileObject baseFile,
-                                            final String uri,
-                                            final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
-        try
-        {
+    public synchronized FileObject findFile(final FileObject baseFile, final String uri,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        try {
             final URL url = new URL(uri);
 
             final URL rootUrl = new URL(url, "/");
             final String key = this.getClass().getName() + rootUrl.toString();
             FileSystem fs = findFileSystem(key, fileSystemOptions);
-            if (fs == null)
-            {
+            if (fs == null) {
                 final String extForm = rootUrl.toExternalForm();
-                final FileName rootName =
-                    getContext().parseURI(extForm);
+                final FileName rootName = getContext().parseURI(extForm);
                 // final FileName rootName =
-                //    new BasicFileName(rootUrl, FileName.ROOT_PATH);
+                // new BasicFileName(rootUrl, FileName.ROOT_PATH);
                 fs = new UrlFileSystem(rootName, fileSystemOptions);
                 addFileSystem(key, fs);
             }
             return fs.resolveFile(url.getPath());
-        }
-        catch (final MalformedURLException e)
-        {
+        } catch (final MalformedURLException e) {
             throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri, e);
         }
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder()
-    {
+    public FileSystemConfigBuilder getConfigBuilder() {
         return org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder.getInstance();
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

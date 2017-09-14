@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * Used to identify a filesystem
  */
 class FileSystemKey implements Comparable<FileSystemKey> {
-    
+
     private static final FileSystemOptions EMPTY_OPTIONS = new FileSystemOptions();
 
     private final Comparable<?> key;
@@ -31,10 +31,8 @@ class FileSystemKey implements Comparable<FileSystemKey> {
     /**
      * Create the FS key.
      *
-     * @param key
-     *            must implement Comparable, and must be self-comparable
-     * @param fileSystemOptions
-     *            the required options
+     * @param key must implement Comparable, and must be self-comparable
+     * @param fileSystemOptions the required options
      */
     FileSystemKey(final Comparable<?> key, final FileSystemOptions fileSystemOptions) {
         this.key = key;

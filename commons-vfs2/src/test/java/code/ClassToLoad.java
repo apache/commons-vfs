@@ -19,13 +19,11 @@ package code;
 /**
  * The test class for the VFS classloader.
  */
-public class ClassToLoad
-{
+public class ClassToLoad {
     private final String m_message = "**PRIVATE**";
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return m_message;
     }
 }

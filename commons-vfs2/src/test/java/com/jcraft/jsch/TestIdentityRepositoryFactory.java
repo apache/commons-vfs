@@ -21,16 +21,14 @@ import org.apache.commons.vfs2.provider.sftp.IdentityRepositoryFactory;
 /**
  * Simple JSch identity repository factory (that just returns the default factory).
  *
- * This class is packaged in {@code com.jcraft.jsch} because {@code com.jcraft.jsch.LocalIdentityRepository} is
- * declared with default scope.
+ * This class is packaged in {@code com.jcraft.jsch} because {@code com.jcraft.jsch.LocalIdentityRepository} is declared
+ * with default scope.
  *
  * @version $Id$
  */
-public class TestIdentityRepositoryFactory implements IdentityRepositoryFactory
-{
+public class TestIdentityRepositoryFactory implements IdentityRepositoryFactory {
     @Override
-    public IdentityRepository create(final JSch jsch)
-    {
+    public IdentityRepository create(final JSch jsch) {
         return new LocalIdentityRepository(jsch);
     }
 }

@@ -29,18 +29,15 @@ import org.junit.Test;
  *
  * @since 2.1
  */
-public class GetContentInfoFunctionalTest
-{
+public class GetContentInfoFunctionalTest {
 
     /**
      * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
      *
-     * @throws FileSystemException
-     *             thrown when the getContentInfo API fails.
+     * @throws FileSystemException thrown when the getContentInfo API fails.
      */
     @Test
-    public void testGetContentInfo() throws FileSystemException
-    {
+    public void testGetContentInfo() throws FileSystemException {
         final FileSystemManager fsManager = VFS.getManager();
         final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt");
         final FileContent content = fo.getContent();

@@ -27,31 +27,22 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  *
  * @version $Id$
  */
-public class ProviderRandomReadWriteTests
-    extends AbstractProviderTestCase
-{
+public class ProviderRandomReadWriteTests extends AbstractProviderTestCase {
     private static final String TEST_DATA = "This is a test file.";
 
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.GET_TYPE,
-            Capability.CREATE,
-            Capability.RANDOM_ACCESS_READ,
-            Capability.RANDOM_ACCESS_WRITE
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.GET_TYPE, Capability.CREATE, Capability.RANDOM_ACCESS_READ,
+                Capability.RANDOM_ACCESS_WRITE };
     }
 
     /**
      * Sets up a scratch folder for the test to use.
      */
-    protected FileObject createScratchFolder() throws Exception
-    {
+    protected FileObject createScratchFolder() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         // Make sure the test folder is empty
@@ -64,11 +55,9 @@ public class ProviderRandomReadWriteTests
     /**
      * Writes a file
      */
-    public void testRandomWrite() throws Exception
-    {
+    public void testRandomWrite() throws Exception {
         FileObject file = null;
-        try
-        {
+        try {
             file = createScratchFolder().resolveFile("random_write.txt");
             file.createFile();
             final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE);
@@ -102,11 +91,8 @@ public class ProviderRandomReadWriteTests
             ra.seek(10);
             assertEquals(ra.readByte(), TEST_DATA.charAt(10));
             assertEquals(ra.readByte(), TEST_DATA.charAt(11));
-        }
-        finally
-        {
-            if (file != null)
-            {
+        } finally {
+            if (file != null) {
                 file.close();
             }
         }

@@ -21,34 +21,23 @@ import org.apache.commons.vfs2.impl.test.VfsClassLoaderTests;
 /**
  * The suite of tests for a file system.
  */
-public class ProviderTestSuite
-    extends AbstractTestSuite
-{
+public class ProviderTestSuite extends AbstractTestSuite {
     /**
      * Adds the tests for a file system to this suite.
      */
-    public ProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception
-    {
+    public ProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception {
         this(providerConfig, "", false, false);
     }
 
     /**
      * Adds the tests for a file system to this suite. Provider has an empty directory.
      */
-    public ProviderTestSuite(final ProviderTestConfig providerConfig,
-                             final boolean addEmptyDir) throws Exception
-    {
+    public ProviderTestSuite(final ProviderTestConfig providerConfig, final boolean addEmptyDir) throws Exception {
         this(providerConfig, "", false, addEmptyDir);
     }
 
-
-
-    protected ProviderTestSuite(final ProviderTestConfig providerConfig,
-                                final String prefix,
-                                final boolean nested,
-                                final boolean addEmptyDir)
-        throws Exception
-    {
+    protected ProviderTestSuite(final ProviderTestConfig providerConfig, final String prefix, final boolean nested,
+            final boolean addEmptyDir) throws Exception {
         super(providerConfig, prefix, nested, addEmptyDir);
     }
 
@@ -56,8 +45,7 @@ public class ProviderTestSuite
      * Adds base tests - excludes the nested test cases.
      */
     @Override
-    protected void addBaseTests() throws Exception
-    {
+    protected void addBaseTests() throws Exception {
         addTests(ProviderCacheStrategyTests.class);
         addTests(UriTests.class);
         addTests(NamingTests.class);

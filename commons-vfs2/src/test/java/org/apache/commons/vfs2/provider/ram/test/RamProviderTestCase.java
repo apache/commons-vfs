@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.ram.test;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileObject;
@@ -33,8 +32,7 @@ import junit.framework.Test;
 /**
  * Tests for the RAM file system.
  */
-public class RamProviderTestCase extends AbstractProviderTestConfig
-{
+public class RamProviderTestCase extends AbstractProviderTestConfig {
     private boolean inited = false;
 
     /** logger */
@@ -43,8 +41,7 @@ public class RamProviderTestCase extends AbstractProviderTestConfig
     /**
      * Creates the test suite for the ram file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new RamProviderTestCase());
     }
 
@@ -56,16 +53,11 @@ public class RamProviderTestCase extends AbstractProviderTestConfig
      * @throws Exception
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-            throws Exception
-    {
-        try
-        {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
+        try {
             manager.addProvider("ram", new RamFileProvider());
             manager.addProvider("file", new DefaultLocalFileProvider());
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             log.error(e);
             throw e;
         }
@@ -75,18 +67,15 @@ public class RamProviderTestCase extends AbstractProviderTestConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager)
-            throws Exception
-    {
-        if (!inited)
-        {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
+        if (!inited) {
             // Import the test tree
             final FileObject fo = manager.resolveFile("ram:/");
             final RamFileSystem fs = (RamFileSystem) fo.getFileSystem();
             fs.importTree(getTestDirectoryFile());
             fo.close();
 
-            inited=true;
+            inited = true;
         }
 
         final String uri = "ram:/";

@@ -26,13 +26,10 @@ import org.apache.tools.ant.SubBuildListener;
 import org.apache.tools.ant.Task;
 
 /**
- * Base class for the VFS Ant tasks.  Takes care of creating a FileSystemManager,
- * and for cleaning it up at the end of the build.  Also provides some
- * utility methods.
+ * Base class for the VFS Ant tasks. Takes care of creating a FileSystemManager, and for cleaning it up at the end of
+ * the build. Also provides some utility methods.
  */
-public class VfsTask
-    extends Task
-{
+public class VfsTask extends Task {
     private static StandardFileSystemManager manager;
 
     /**
@@ -42,11 +39,8 @@ public class VfsTask
      * @return resolved file object.
      * @throws FileSystemException If an error occurred.
      */
-    protected FileObject resolveFile(final String uri)
-        throws FileSystemException
-    {
-        if (manager == null)
-        {
+    protected FileObject resolveFile(final String uri) throws FileSystemException {
+        if (manager == null) {
             final StandardFileSystemManager mngr = new StandardFileSystemManager();
             mngr.setLogger(new AntLogger());
             mngr.init();
@@ -59,10 +53,8 @@ public class VfsTask
     /**
      * Close the manager
      */
-    protected void closeManager()
-    {
-        if (manager != null)
-        {
+    protected void closeManager() {
+        if (manager != null) {
             manager.close();
             manager = null;
         }
@@ -71,166 +63,135 @@ public class VfsTask
     /**
      * Closes the VFS manager when the project finishes.
      */
-    private class CloseListener
-        implements SubBuildListener
-    {
+    private class CloseListener implements SubBuildListener {
         @Override
-        public void subBuildStarted(final BuildEvent buildEvent)
-        {
+        public void subBuildStarted(final BuildEvent buildEvent) {
         }
 
         @Override
-        public void subBuildFinished(final BuildEvent buildEvent)
-        {
+        public void subBuildFinished(final BuildEvent buildEvent) {
             closeManager();
         }
 
         @Override
-        public void buildFinished(final BuildEvent event)
-        {
+        public void buildFinished(final BuildEvent event) {
             closeManager();
         }
 
         @Override
-        public void buildStarted(final BuildEvent event)
-        {
+        public void buildStarted(final BuildEvent event) {
         }
 
         @Override
-        public void messageLogged(final BuildEvent event)
-        {
+        public void messageLogged(final BuildEvent event) {
         }
 
         @Override
-        public void targetFinished(final BuildEvent event)
-        {
+        public void targetFinished(final BuildEvent event) {
         }
 
         @Override
-        public void targetStarted(final BuildEvent event)
-        {
+        public void targetStarted(final BuildEvent event) {
         }
 
         @Override
-        public void taskFinished(final BuildEvent event)
-        {
+        public void taskFinished(final BuildEvent event) {
         }
 
         @Override
-        public void taskStarted(final BuildEvent event)
-        {
+        public void taskStarted(final BuildEvent event) {
         }
     }
 
     /**
      * A commons-logging wrapper for Ant logging.
      */
-    private class AntLogger
-        implements Log
-    {
+    private class AntLogger implements Log {
         @Override
-        public void debug(final Object o)
-        {
+        public void debug(final Object o) {
             log(String.valueOf(o), Project.MSG_DEBUG);
         }
 
         @Override
-        public void debug(final Object o, final Throwable throwable)
-        {
+        public void debug(final Object o, final Throwable throwable) {
             debug(o);
         }
 
         @Override
-        public void error(final Object o)
-        {
+        public void error(final Object o) {
             log(String.valueOf(o), Project.MSG_ERR);
         }
 
         @Override
-        public void error(final Object o, final Throwable throwable)
-        {
+        public void error(final Object o, final Throwable throwable) {
             error(o);
         }
 
         @Override
-        public void fatal(final Object o)
-        {
+        public void fatal(final Object o) {
             log(String.valueOf(o), Project.MSG_ERR);
         }
 
         @Override
-        public void fatal(final Object o, final Throwable throwable)
-        {
+        public void fatal(final Object o, final Throwable throwable) {
             fatal(o);
         }
 
         @Override
-        public void info(final Object o)
-        {
+        public void info(final Object o) {
             log(String.valueOf(o), Project.MSG_INFO);
         }
 
         @Override
-        public void info(final Object o, final Throwable throwable)
-        {
+        public void info(final Object o, final Throwable throwable) {
             info(o);
         }
 
         @Override
-        public void trace(final Object o)
-        {
+        public void trace(final Object o) {
         }
 
         @Override
-        public void trace(final Object o, final Throwable throwable)
-        {
+        public void trace(final Object o, final Throwable throwable) {
         }
 
         @Override
-        public void warn(final Object o)
-        {
+        public void warn(final Object o) {
             log(String.valueOf(o), Project.MSG_WARN);
         }
 
         @Override
-        public void warn(final Object o, final Throwable throwable)
-        {
+        public void warn(final Object o, final Throwable throwable) {
             warn(o);
         }
 
         @Override
-        public boolean isDebugEnabled()
-        {
+        public boolean isDebugEnabled() {
             return true;
         }
 
         @Override
-        public boolean isErrorEnabled()
-        {
+        public boolean isErrorEnabled() {
             return true;
         }
 
         @Override
-        public boolean isFatalEnabled()
-        {
+        public boolean isFatalEnabled() {
             return true;
         }
 
         @Override
-        public boolean isInfoEnabled()
-        {
+        public boolean isInfoEnabled() {
             return true;
         }
 
         @Override
-        public boolean isTraceEnabled()
-        {
+        public boolean isTraceEnabled() {
             return false;
         }
 
         @Override
-        public boolean isWarnEnabled()
-        {
+        public boolean isWarnEnabled() {
             return true;
         }
     }

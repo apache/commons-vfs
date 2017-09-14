@@ -33,50 +33,46 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystem;
  *
  * @since 2.0
  */
-public class WebdavFileSystem extends HttpFileSystem
-{
+public class WebdavFileSystem extends HttpFileSystem {
     protected WebdavFileSystem(final GenericFileName rootName, final HttpClient client,
-                               final FileSystemOptions fileSystemOptions)
-    {
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, client, fileSystemOptions);
     }
 
     @Override
-    protected HttpClient getClient()
-    {
+    protected HttpClient getClient() {
         // make accessible
         return super.getClient();
     }
 
     /**
      * Returns the capabilities of this file system.
+     * 
      * @param caps The Capabilities to add.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(WebdavFileProvider.capabilities);
     }
 
     /**
-     * Creates a file object.  This method is called only if the requested
-     * file is not cached.
+     * Creates a file object. This method is called only if the requested file is not cached.
+     * 
      * @param name the FileName.
      * @return The created FileObject.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name)
-    {
+    protected FileObject createFile(final AbstractFileName name) {
 
         return new WebdavFileObject(name, this);
     }
 
     /**
      * Return a URLStreamHandler.
+     * 
      * @return The URLStreamHandler.
      */
-    public URLStreamHandler getURLStreamHandler()
-    {
+    public URLStreamHandler getURLStreamHandler() {
         return new DefaultURLStreamHandler(getContext(), getFileSystemOptions());
     }
 }

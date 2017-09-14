@@ -23,18 +23,15 @@ import org.junit.Test;
  *
  * @version $Id$
  */
-public class UriParserTestCase
-{
+public class UriParserTestCase {
 
     @Test
-    public void testColonInFileName()
-    {
+    public void testColonInFileName() {
         Assert.assertEquals(null, UriParser.extractScheme("some/path/some:file"));
     }
 
     @Test
-    public void testNormalScheme()
-    {
+    public void testNormalScheme() {
         Assert.assertEquals("ftp", UriParser.extractScheme("ftp://user:pass@host/some/path/some:file"));
     }
 

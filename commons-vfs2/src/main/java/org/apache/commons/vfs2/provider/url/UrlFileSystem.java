@@ -28,11 +28,8 @@ import org.apache.commons.vfs2.provider.AbstractFileSystem;
 /**
  * A File system backed by Java's URL API.
  */
-public class UrlFileSystem
-    extends AbstractFileSystem
-{
-    protected UrlFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
-    {
+public class UrlFileSystem extends AbstractFileSystem {
+    protected UrlFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
     }
 
@@ -40,8 +37,7 @@ public class UrlFileSystem
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name)
-    {
+    protected FileObject createFile(final AbstractFileName name) {
         return new UrlFileObject(this, name);
     }
 
@@ -49,8 +45,7 @@ public class UrlFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(UrlFileProvider.capabilities);
     }
 }

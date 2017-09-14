@@ -20,35 +20,14 @@ package org.apache.commons.vfs2.operations.vcs;
  *
  * @since 0.1
  */
-public enum VcsStatus
-{
-    UNKNOWN(-1),
-    NOT_MODIFIED(0),
-    ADDED(1),
-    CONFLICTED(2),
-    DELETED(3),
-    MERGED(4),
-    IGNORED(5),
-    MODIFIED(6),
-    REPLACED(7),
-    UNVERSIONED(8),
-    MISSING(9),
-    OBSTRUCTED(10),
-    REVERTED(11),
-    RESOLVED(12),
-    COPIED(13),
-    MOVED(14),
-    RESTORED(15),
-    UPDATED(16),
-    EXTERNAL(18),
-    CORRUPTED(19),
-    NOT_REVERTED(20);
+public enum VcsStatus {
+    UNKNOWN(-1), NOT_MODIFIED(0), ADDED(1), CONFLICTED(2), DELETED(3), MERGED(4), IGNORED(5), MODIFIED(6), REPLACED(
+            7), UNVERSIONED(8), MISSING(9), OBSTRUCTED(10), REVERTED(11), RESOLVED(12), COPIED(
+                    13), MOVED(14), RESTORED(15), UPDATED(16), EXTERNAL(18), CORRUPTED(19), NOT_REVERTED(20);
 
     private int status;
 
-
-    private VcsStatus(final int status)
-    {
+    private VcsStatus(final int status) {
         this.status = status;
     }
 
@@ -56,8 +35,7 @@ public enum VcsStatus
      *
      * @return the status of FileObject
      */
-    public int getStatus()
-    {
+    public int getStatus() {
         return status;
     }
 }

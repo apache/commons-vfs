@@ -30,8 +30,7 @@ import org.junit.Test;
  *
  * @since 2.1
  */
-public class PatternFileSelectorTest
-{
+public class PatternFileSelectorTest {
     private static FileObject BaseFolder;
 
     /**
@@ -49,8 +48,7 @@ public class PatternFileSelectorTest
      * @throws Exception
      */
     @BeforeClass
-    public static void setUpClass() throws Exception
-    {
+    public static void setUpClass() throws Exception {
         BaseFolder = VFS.getManager().resolveFile("ram://" + PatternFileSelectorTest.class.getName());
         BaseFolder.deleteAll();
         BaseFolder.createFolder();
@@ -71,10 +69,8 @@ public class PatternFileSelectorTest
      * @throws Exception
      */
     @AfterClass
-    public static void tearDownClass() throws Exception
-    {
-        if (BaseFolder != null)
-        {
+    public static void tearDownClass() throws Exception {
+        if (BaseFolder != null) {
             BaseFolder.deleteAll();
         }
     }
@@ -85,8 +81,7 @@ public class PatternFileSelectorTest
      * @throws Exception
      */
     @Test(expected = NullPointerException.class)
-    public void testNullString() throws Exception
-    {
+    public void testNullString() throws Exception {
         // Yep, this will blow up.
         new PatternFileSelector((String) null);
     }
@@ -97,8 +92,7 @@ public class PatternFileSelectorTest
      * @throws Exception
      */
     @Test
-    public void testMatchAll() throws Exception
-    {
+    public void testMatchAll() throws Exception {
         final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector(".*"));
         Assert.assertEquals(EntryCount, list.length);
     }
@@ -109,30 +103,26 @@ public class PatternFileSelectorTest
      * @throws Exception
      */
     @Test
-    public void testFileExtensions() throws Exception
-    {
+    public void testFileExtensions() throws Exception {
         final FileObject[] foArray = BaseFolder.findFiles(Selectors.SELECT_FILES);
         Assert.assertTrue(foArray.length > 0);
         final String regExPrefix = ".*\\.";
         // gather file extensions.
         final Set<String> extensionSet = new HashSet<>();
-        for (final FileObject fo : foArray)
-        {
+        for (final FileObject fo : foArray) {
             extensionSet.add(regExPrefix + fo.getName().getExtension());
         }
         final String message = String.format("Extensions: %s; files: %s", extensionSet.toString(),
                 Arrays.asList(foArray).toString());
         Assert.assertEquals(message, ExtensionCount, extensionSet.size());
         // check each extension
-        for (final String extension : extensionSet)
-        {
+        for (final String extension : extensionSet) {
             final FileSelector selector = new PatternFileSelector(extension);
             final FileObject[] list = BaseFolder.findFiles(selector);
             Assert.assertEquals(FilesPerExtensionCount, list.length);
         }
         // check each file against itself
-        for (final FileObject fo : foArray)
-        {
+        for (final FileObject fo : foArray) {
             final FileSelector selector = new PatternFileSelector(regExPrefix + fo.getName().getExtension());
             final FileObject[] list = BaseFolder.findFiles(selector);
             Assert.assertEquals(FilesPerExtensionCount, list.length);

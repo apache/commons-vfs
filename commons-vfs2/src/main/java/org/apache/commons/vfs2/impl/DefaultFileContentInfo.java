@@ -21,26 +21,22 @@ import org.apache.commons.vfs2.FileContentInfo;
 /**
  * The default file content information.
  */
-public class DefaultFileContentInfo implements FileContentInfo
-{
+public class DefaultFileContentInfo implements FileContentInfo {
     private final String contentType;
     private final String contentEncoding;
 
-    public DefaultFileContentInfo(final String contentType, final String contentEncoding)
-    {
+    public DefaultFileContentInfo(final String contentType, final String contentEncoding) {
         this.contentType = contentType;
         this.contentEncoding = contentEncoding;
     }
 
     @Override
-    public String getContentType()
-    {
+    public String getContentType() {
         return contentType;
     }
 
     @Override
-    public String getContentEncoding()
-    {
+    public String getContentEncoding() {
         return contentEncoding;
     }
 }

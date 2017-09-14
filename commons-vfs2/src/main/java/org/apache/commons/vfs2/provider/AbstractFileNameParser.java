@@ -19,11 +19,9 @@ package org.apache.commons.vfs2.provider;
 /**
  * Provides methods to parse a filename into a {@link org.apache.commons.vfs2.FileName}.
  */
-public abstract class AbstractFileNameParser implements FileNameParser
-{
+public abstract class AbstractFileNameParser implements FileNameParser {
     @Override
-    public boolean encodeCharacter(final char ch)
-    {
+    public boolean encodeCharacter(final char ch) {
         return ch == '%';
     }
 }

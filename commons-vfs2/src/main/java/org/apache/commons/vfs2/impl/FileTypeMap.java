@@ -26,24 +26,21 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * A helper class that determines the provider to use for a file.
  */
-class FileTypeMap
-{
+class FileTypeMap {
     private final Map<String, String> mimeTypeMap = new HashMap<>();
     private final Map<String, String> extensionMap = new HashMap<>();
 
     /**
      * Adds a MIME type mapping.
      */
-    public void addMimeType(final String mimeType, final String scheme)
-    {
+    public void addMimeType(final String mimeType, final String scheme) {
         mimeTypeMap.put(mimeType, scheme);
     }
 
     /**
      * Adds a filename extension mapping.
      */
-    public void addExtension(final String extension, final String scheme)
-    {
+    public void addExtension(final String extension, final String scheme) {
         extensionMap.put(extension, scheme);
     }
 
@@ -51,21 +48,19 @@ class FileTypeMap
      * Find the scheme for the provider of a layered file system.
      * <p>
      * This will check the FileContentInfo or file extension.
+     * 
      * @return Scheme supporting the file type or null (if unknonw).
      */
-    public String getScheme(final FileObject file) throws FileSystemException
-    {
+    public String getScheme(final FileObject file) throws FileSystemException {
         // Check the file's mime type for a match
         final FileContent content = file.getContent();
         final String mimeType = content.getContentInfo().getContentType();
-        if (mimeType != null)
-        {
+        if (mimeType != null) {
             return mimeTypeMap.get(mimeType);
         }
 
         // no specific mime-type - if it is a file also check the extension
-        if (!file.isFile())
-        {
+        if (!file.isFile()) {
             return null; // VFS-490 folders don't use extensions for mime-type
         }
         final String extension = file.getName().getExtension();
@@ -75,8 +70,7 @@ class FileTypeMap
     /**
      * Removes all extensions and scheme mappings.
      */
-    public void clear()
-    {
+    public void clear() {
         mimeTypeMap.clear();
         extensionMap.clear();
     }

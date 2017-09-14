@@ -25,18 +25,16 @@ import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * Allows VFS components to access the services they need, such as the file
- * replicator.  A VFS component is supplied with a context as part of its
- * initialisation.
+ * Allows VFS components to access the services they need, such as the file replicator. A VFS component is supplied with
+ * a context as part of its initialisation.
  *
  * @see VfsComponent#setContext
  */
-public interface VfsComponentContext
-{
+public interface VfsComponentContext {
     /**
-     * Locate a file by name.  See
-     * {@link FileSystemManager#resolveFile(FileObject, String)} for a
-     * description of how this works.
+     * Locate a file by name. See {@link FileSystemManager#resolveFile(FileObject, String)} for a description of how
+     * this works.
+     * 
      * @param baseFile The base FileObject.
      * @param name The name of the file to locate.
      * @param fileSystemOptions The FileSystemOptions.
@@ -44,22 +42,21 @@ public interface VfsComponentContext
      * @throws FileSystemException if an error occurs.
      */
     FileObject resolveFile(FileObject baseFile, String name, FileSystemOptions fileSystemOptions)
-        throws FileSystemException;
+            throws FileSystemException;
 
     /**
-     * Locate a file by name.  See
-     * {@link FileSystemManager#resolveFile( String)} for a
-     * description of how this works.
+     * Locate a file by name. See {@link FileSystemManager#resolveFile( String)} for a description of how this works.
+     * 
      * @param name The name of the file to locate.
      * @param fileSystemOptions The FileSystemOptions.
      * @return The FileObject for the located file.
      * @throws FileSystemException if an error occurs.
      */
-    FileObject resolveFile(String name, FileSystemOptions fileSystemOptions)
-        throws FileSystemException;
+    FileObject resolveFile(String name, FileSystemOptions fileSystemOptions) throws FileSystemException;
 
     /**
      * Parse a URI into a FileName.
+     * 
      * @param uri The URI String.
      * @return The FileName.
      * @throws FileSystemException if an error occurs.
@@ -68,6 +65,7 @@ public interface VfsComponentContext
 
     /**
      * Locates a file replicator for the provider to use.
+     * 
      * @return The FileReplicator.
      * @throws FileSystemException if an error occurs.
      */
@@ -75,6 +73,7 @@ public interface VfsComponentContext
 
     /**
      * Locates a temporary file store for the provider to use.
+     * 
      * @return The TemporaryFileStore.
      * @throws FileSystemException if an error occurs.
      */
@@ -82,6 +81,7 @@ public interface VfsComponentContext
 
     /**
      * Returns a {@link FileObject} for a local file.
+     * 
      * @param file The File to convert to a FileObject.
      * @return the FileObject.
      * @throws FileSystemException if an error occurs.

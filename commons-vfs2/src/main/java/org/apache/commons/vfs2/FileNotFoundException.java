@@ -18,22 +18,20 @@ package org.apache.commons.vfs2;
 
 /**
  * delivers a file-not-found exception.
+ * 
  * @since 2.0
  */
-public class FileNotFoundException extends FileSystemException
-{
+public class FileNotFoundException extends FileSystemException {
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
     private static final long serialVersionUID = 20101208L;
 
-    public FileNotFoundException(final Object info0)
-    {
+    public FileNotFoundException(final Object info0) {
         super("vfs.provider/read-not-file.error", info0);
     }
 
-    public FileNotFoundException(final Object info0, final Throwable throwable)
-    {
+    public FileNotFoundException(final Object info0, final Throwable throwable) {
         super("vfs.provider/read-not-file.error", info0, throwable);
     }
 }

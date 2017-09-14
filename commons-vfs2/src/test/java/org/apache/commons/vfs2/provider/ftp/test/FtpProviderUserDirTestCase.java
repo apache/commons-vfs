@@ -31,13 +31,11 @@ import java.io.IOException;
 /**
  * Tests for FTP file systems (with homeDirIsRoot=true).
  */
-public class FtpProviderUserDirTestCase extends FtpProviderTestCase
-{
+public class FtpProviderUserDirTestCase extends FtpProviderTestCase {
     /**
      * Creates the test suite for the ftp file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return suite(new FtpProviderUserDirTestCase());
     }
 
@@ -45,8 +43,7 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase
      * Prepares the file system manager.
      */
     @Override
-    protected boolean getUserDirIsRoot()
-    {
+    protected boolean getUserDirIsRoot() {
         return true;
     }
 
@@ -56,27 +53,23 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase
     @Override
     protected FileSystemFactory getFtpFileSystem() throws IOException {
         // simulate a non-root home directory by copying test directory to it
-        final File testDir =  new File(getTestDirectory());
+        final File testDir = new File(getTestDirectory());
         final File rootDir = new File(testDir, "homeDirIsRoot");
         final File homesDir = new File(rootDir, "home");
         final File initialDir = new File(homesDir, "test");
         FileUtils.deleteDirectory(rootDir);
-        //noinspection ResultOfMethodCallIgnored
+        // noinspection ResultOfMethodCallIgnored
         rootDir.mkdir();
-        FileUtils.copyDirectory(testDir, initialDir, new FileFilter()
-        {
+        FileUtils.copyDirectory(testDir, initialDir, new FileFilter() {
             @Override
-            public boolean accept(final File pathname)
-            {
+            public boolean accept(final File pathname) {
                 return !pathname.getPath().contains(rootDir.getName());
             }
         });
 
-        return new NativeFileSystemFactory()
-        {
+        return new NativeFileSystemFactory() {
             @Override
-            public FileSystemView createFileSystemView(final User user) throws FtpException
-            {
+            public FileSystemView createFileSystemView(final User user) throws FtpException {
                 final FileSystemView fsView = super.createFileSystemView(user);
                 fsView.changeWorkingDirectory("home/test");
                 return fsView;
@@ -88,10 +81,8 @@ public class FtpProviderUserDirTestCase extends FtpProviderTestCase
      * Gets the root of the local FTP Server file system.
      */
     @Override
-    protected String getFtpRootDir()
-    {
+    protected String getFtpRootDir() {
         return new File(getTestDirectory(), "homeDirIsRoot").getPath();
     }
-
 
 }

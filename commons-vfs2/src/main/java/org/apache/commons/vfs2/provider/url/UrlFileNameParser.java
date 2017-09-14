@@ -29,36 +29,32 @@ import org.apache.commons.vfs2.provider.local.GenericFileNameParser;
  * <p>
  * Composite of URLFilenameParser and GenericFilenameParser
  */
-public class UrlFileNameParser extends AbstractFileNameParser
-{
+public class UrlFileNameParser extends AbstractFileNameParser {
     private final URLFileNameParser url = new URLFileNameParser(80);
     private final GenericFileNameParser generic = new GenericFileNameParser();
 
-    public UrlFileNameParser()
-    {
+    public UrlFileNameParser() {
         super();
     }
 
     @Override
-    public boolean encodeCharacter(final char ch)
-    {
+    public boolean encodeCharacter(final char ch) {
         return super.encodeCharacter(ch) || ch == '?';
     }
 
-  /**
-   * Parse a URI.
-   * @param context The component context.
-   * @param base The base FileName.
-   * @param uri The target file name.
-   * @return The FileName.
-   * @throws FileSystemException if an error occurs
-   */
+    /**
+     * Parse a URI.
+     * 
+     * @param context The component context.
+     * @param base The base FileName.
+     * @param uri The target file name.
+     * @return The FileName.
+     * @throws FileSystemException if an error occurs
+     */
     @Override
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String uri)
-        throws FileSystemException
-    {
-        if (isUrlBased(base, uri))
-        {
+            throws FileSystemException {
+        if (isUrlBased(base, uri)) {
             return url.parseUri(context, base, uri);
         }
 
@@ -70,17 +66,15 @@ public class UrlFileNameParser extends AbstractFileNameParser
      * <p>
      * VFS treats such URLs differently.
      * <p>
-     * A file name is URL-based if the base is a {@code URLFileName} or there are only 2 slashes
-     * after the scheme.
-     * e.g: {@code http://host/path}, {@code file:/path/to/file}, {@code file:///path/to/file}.
+     * A file name is URL-based if the base is a {@code URLFileName} or there are only 2 slashes after the scheme. e.g:
+     * {@code http://host/path}, {@code file:/path/to/file}, {@code file:///path/to/file}.
+     * 
      * @param base The filename is relative to this base.
      * @param filename The filename.
      * @return true if filename contains two slashes or base was URLFileName.
      */
-    protected boolean isUrlBased(final FileName base, final String filename)
-    {
-        if (base instanceof URLFileName)
-        {
+    protected boolean isUrlBased(final FileName base, final String filename) {
+        if (base instanceof URLFileName) {
             return true;
         }
 
@@ -93,33 +87,23 @@ public class UrlFileNameParser extends AbstractFileNameParser
      * @param filename The file name.
      * @return number of slashes
      */
-    protected int countSlashes(final String filename)
-    {
+    protected int countSlashes(final String filename) {
         int state = 0;
         int nuofSlash = 0;
-        for (int pos = 0; pos < filename.length(); pos++)
-        {
+        for (int pos = 0; pos < filename.length(); pos++) {
             final char c = filename.charAt(pos);
-            if (state == 0)
-            {
-                if (c >= 'a' && c <= 'z')
-                {
+            if (state == 0) {
+                if (c >= 'a' && c <= 'z') {
                     continue;
                 }
-                if (c == ':')
-                {
+                if (c == ':') {
                     state++;
                     continue;
                 }
-            }
-            else if (state == 1)
-            {
-                if (c == '/')
-                {
+            } else if (state == 1) {
+                if (c == '/') {
                     nuofSlash++;
-                }
-                else
-                {
+                } else {
                     return nuofSlash;
                 }
             }

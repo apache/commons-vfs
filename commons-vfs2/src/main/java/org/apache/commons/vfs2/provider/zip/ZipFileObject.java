@@ -47,8 +47,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
     /**
      * Sets the details for this file object.
      * 
-     * @param entry
-     *            ZIP information related to this file.
+     * @param entry ZIP information related to this file.
      */
     protected void setZipEntry(final ZipEntry entry) {
         if (this.entry != null) {
@@ -71,8 +70,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
      * compatibility.
      * </p>
      * 
-     * @param childName
-     *            The name of the child.
+     * @param childName The name of the child.
      */
     public void attachChild(final FileName childName) {
         children.add(childName.getBaseName());
@@ -82,8 +80,7 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
      * Determines if this file can be written to.
      *
      * @return {@code true} if this file is writable, {@code false} if not.
-     * @throws FileSystemException
-     *             if an error occurs.
+     * @throws FileSystemException if an error occurs.
      */
     @Override
     public boolean isWriteable() throws FileSystemException {

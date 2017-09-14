@@ -43,8 +43,7 @@ import org.apache.commons.vfs2.provider.UriParser;
 /**
  * A read-only file system for ZIP and JAR files.
  */
-public class ZipFileSystem extends AbstractFileSystem
-{
+public class ZipFileSystem extends AbstractFileSystem {
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
     private final File file;
@@ -55,19 +54,15 @@ public class ZipFileSystem extends AbstractFileSystem
      */
     private final Map<FileName, FileObject> cache = new HashMap<>();
 
-  public ZipFileSystem(final AbstractFileName rootName,
-                         final FileObject parentLayer,
-                         final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+    public ZipFileSystem(final AbstractFileName rootName, final FileObject parentLayer,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         super(rootName, parentLayer, fileSystemOptions);
 
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
 
         // Open the Zip file
-        if (!file.exists())
-        {
+        if (!file.exists()) {
             // Don't need to do anything
             zipFile = null;
             return;
@@ -77,25 +72,21 @@ public class ZipFileSystem extends AbstractFileSystem
     }
 
     @Override
-    public void init() throws FileSystemException
-    {
+    public void init() throws FileSystemException {
         super.init();
 
-        try
-        {
+        try {
             // Build the index
             final List<ZipFileObject> strongRef = new ArrayList<>(getZipFile().size());
             final Enumeration<? extends ZipEntry> entries = getZipFile().entries();
-            while (entries.hasMoreElements())
-            {
+            while (entries.hasMoreElements()) {
                 final ZipEntry entry = entries.nextElement();
                 final AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
-                    UriParser.encode(entry.getName()));
+                        UriParser.encode(entry.getName()));
 
                 // Create the file
                 ZipFileObject fileObj;
-                if (entry.isDirectory() && getFileFromCache(name) != null)
-                {
+                if (entry.isDirectory() && getFileFromCache(name) != null) {
                     fileObj = (ZipFileObject) getFileFromCache(name);
                     fileObj.setZipEntry(entry);
                     continue;
@@ -109,14 +100,12 @@ public class ZipFileSystem extends AbstractFileSystem
                 // Make sure all ancestors exist
                 // TODO - create these on demand
                 ZipFileObject parent;
-                for (AbstractFileName parentName = (AbstractFileName) name.getParent();
-                     parentName != null;
-                     fileObj = parent, parentName = (AbstractFileName) parentName.getParent())
-                {
+                for (AbstractFileName parentName = (AbstractFileName) name
+                        .getParent(); parentName != null; fileObj = parent, parentName = (AbstractFileName) parentName
+                                .getParent()) {
                     // Locate the parent
                     parent = (ZipFileObject) getFileFromCache(parentName);
-                    if (parent == null)
-                    {
+                    if (parent == null) {
                         parent = createZipFileObject(parentName, null);
                         putFileToCache(parent);
                         strongRef.add(parent);
@@ -127,55 +116,41 @@ public class ZipFileSystem extends AbstractFileSystem
                     parent.attachChild(fileObj.getName());
                 }
             }
-        }
-        finally
-        {
+        } finally {
             closeCommunicationLink();
         }
     }
 
-    protected ZipFile getZipFile() throws FileSystemException
-    {
-        if (zipFile == null && this.file.exists())
-        {
+    protected ZipFile getZipFile() throws FileSystemException {
+        if (zipFile == null && this.file.exists()) {
             this.zipFile = createZipFile(this.file);
         }
 
         return zipFile;
     }
 
-    protected ZipFileObject createZipFileObject(final AbstractFileName name,
-                                                final ZipEntry entry) throws FileSystemException
-    {
+    protected ZipFileObject createZipFileObject(final AbstractFileName name, final ZipEntry entry)
+            throws FileSystemException {
         return new ZipFileObject(name, entry, this, true);
     }
 
-    protected ZipFile createZipFile(final File file) throws FileSystemException
-    {
-        try
-        {
+    protected ZipFile createZipFile(final File file) throws FileSystemException {
+        try {
             return new ZipFile(file);
-        }
-        catch (final IOException ioe)
-        {
+        } catch (final IOException ioe) {
             throw new FileSystemException("vfs.provider.zip/open-zip-file.error", file, ioe);
         }
     }
 
     @Override
-    protected void doCloseCommunicationLink()
-    {
+    protected void doCloseCommunicationLink() {
         // Release the zip file
-        try
-        {
-            if (zipFile != null)
-            {
+        try {
+            if (zipFile != null) {
                 zipFile.close();
                 zipFile = null;
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             // getLogger().warn("vfs.provider.zip/close-zip-file.error :" + file, e);
             VfsLog.warn(getLogger(), LOG, "vfs.provider.zip/close-zip-file.error :" + file, e);
         }
@@ -185,8 +160,7 @@ public class ZipFileSystem extends AbstractFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(ZipFileProvider.capabilities);
     }
 
@@ -194,8 +168,7 @@ public class ZipFileSystem extends AbstractFileSystem
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
-    {
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         // This is only called for files which do not exist in the Zip file
         return new ZipFileObject(name, null, this, false);
     }
@@ -204,8 +177,7 @@ public class ZipFileSystem extends AbstractFileSystem
      * Adds a file object to the cache.
      */
     @Override
-    protected void putFileToCache(final FileObject file)
-    {
+    protected void putFileToCache(final FileObject file) {
         cache.put(file.getName(), file);
     }
 
@@ -213,8 +185,7 @@ public class ZipFileSystem extends AbstractFileSystem
      * Returns a cached file.
      */
     @Override
-    protected FileObject getFileFromCache(final FileName name)
-    {
+    protected FileObject getFileFromCache(final FileName name) {
         return cache.get(name);
     }
 
@@ -222,8 +193,7 @@ public class ZipFileSystem extends AbstractFileSystem
      * remove a cached file.
      */
     @Override
-    protected void removeFileFromCache(final FileName name)
-    {
+    protected void removeFileFromCache(final FileName name) {
         cache.remove(name);
     }
 
@@ -233,10 +203,7 @@ public class ZipFileSystem extends AbstractFileSystem
     }
 
     /**
-     * will be called after all file-objects closed their streams.
-    protected void notifyAllStreamsClosed()
-    {
-        closeCommunicationLink();
-    }
+     * will be called after all file-objects closed their streams. protected void notifyAllStreamsClosed() {
+     * closeCommunicationLink(); }
      */
 }

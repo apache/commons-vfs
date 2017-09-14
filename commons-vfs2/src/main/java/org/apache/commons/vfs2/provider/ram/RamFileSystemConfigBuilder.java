@@ -23,8 +23,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
 /**
  * Config Builder for the RAM filesystem.
  */
-public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
-{
+public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /** max size key. */
     private static final String MAX_SIZE_KEY = "maxsize";
@@ -35,8 +34,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
     /**
      * Constructor
      */
-    private RamFileSystemConfigBuilder()
-    {
+    private RamFileSystemConfigBuilder() {
         super("ram.");
     }
 
@@ -45,8 +43,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      *
      * @return the singleton builder.
      */
-    public static RamFileSystemConfigBuilder getInstance()
-    {
+    public static RamFileSystemConfigBuilder getInstance() {
         return SINGLETON;
     }
 
@@ -54,8 +51,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * {@inheritDoc}
      */
     @Override
-    protected Class<? extends FileSystem> getConfigClass()
-    {
+    protected Class<? extends FileSystem> getConfigClass() {
         return RamFileSystem.class;
     }
 
@@ -67,8 +63,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @see #setMaxSize(FileSystemOptions, long)
      * @since 2.1
      */
-    public long getLongMaxSize(final FileSystemOptions opts)
-    {
+    public long getLongMaxSize(final FileSystemOptions opts) {
         return getLong(opts, MAX_SIZE_KEY, Long.MAX_VALUE);
     }
 
@@ -79,8 +74,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @return The maximum size of the file. The next major version will change the return type to a long.
      * @see #setMaxSize(FileSystemOptions, int)
      */
-    public int getMaxSize(final FileSystemOptions opts)
-    {
+    public int getMaxSize(final FileSystemOptions opts) {
         return getLong(opts, MAX_SIZE_KEY, Long.valueOf(Integer.MAX_VALUE)).intValue();
     }
 
@@ -92,8 +86,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @deprecated Use {@link #setMaxSize(FileSystemOptions, long)}
      */
     @Deprecated
-    public void setMaxSize(final FileSystemOptions opts, final int sizeInBytes)
-    {
+    public void setMaxSize(final FileSystemOptions opts, final int sizeInBytes) {
         setParam(opts, MAX_SIZE_KEY, Long.valueOf(sizeInBytes));
     }
 
@@ -103,8 +96,7 @@ public final class RamFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystem options.
      * @param sizeInBytes The maximum file size.
      */
-    public void setMaxSize(final FileSystemOptions opts, final long sizeInBytes)
-    {
+    public void setMaxSize(final FileSystemOptions opts, final long sizeInBytes) {
         setParam(opts, MAX_SIZE_KEY, Long.valueOf(sizeInBytes));
     }
 

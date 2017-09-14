@@ -28,32 +28,22 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 /**
  * Test the cache stragey
  */
-public class ProviderCacheStrategyTests
-    extends AbstractProviderTestCase
-{
+public class ProviderCacheStrategyTests extends AbstractProviderTestCase {
     /**
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-            Capability.CREATE,
-            Capability.GET_TYPE,
-            Capability.LIST_CHILDREN,
-        };
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.CREATE, Capability.GET_TYPE, Capability.LIST_CHILDREN, };
     }
 
     /**
      * Test the manual cache strategy
      */
-    public void testManualCache() throws Exception
-    {
+    public void testManualCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
-        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
-            scratchFolder.getFileSystem() instanceof VirtualFileSystem)
-        {
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
+                || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
             // cant check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
@@ -83,12 +73,10 @@ public class ProviderCacheStrategyTests
     /**
      * Test the on_resolve strategy
      */
-    public void testOnResolveCache() throws Exception
-    {
+    public void testOnResolveCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
-        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
-            scratchFolder.getFileSystem() instanceof VirtualFileSystem)
-        {
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
+                || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
             // cant check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
@@ -118,12 +106,10 @@ public class ProviderCacheStrategyTests
     /**
      * Test the on_call strategy
      */
-    public void testOnCallCache() throws Exception
-    {
+    public void testOnCallCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
-        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class) ||
-            scratchFolder.getFileSystem() instanceof VirtualFileSystem)
-        {
+        if (FileObjectUtils.isInstanceOf(getBaseFolder(), RamFileObject.class)
+                || scratchFolder.getFileSystem() instanceof VirtualFileSystem) {
             // cant check ram filesystem as every manager holds its own ram filesystem data
             return;
         }
@@ -146,23 +132,17 @@ public class ProviderCacheStrategyTests
         assertContains(fos, "file1.txt");
     }
 
-    public void assertContainsNot(final FileObject[] fos, final String string)
-    {
-        for (final FileObject fo : fos)
-        {
-            if (string.equals(fo.getName().getBaseName()))
-            {
+    public void assertContainsNot(final FileObject[] fos, final String string) {
+        for (final FileObject fo : fos) {
+            if (string.equals(fo.getName().getBaseName())) {
                 fail(string + " should not be seen");
             }
         }
     }
 
-    public void assertContains(final FileObject[] fos, final String string)
-    {
-        for (final FileObject fo : fos)
-        {
-            if (string.equals(fo.getName().getBaseName()))
-            {
+    public void assertContains(final FileObject[] fos, final String string) {
+        for (final FileObject fo : fos) {
+            if (string.equals(fo.getName().getBaseName())) {
                 return;
             }
         }

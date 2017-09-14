@@ -22,8 +22,7 @@ import org.apache.commons.vfs2.provider.URLFileNameParser;
 /**
  * Implementation for SFTP. Sets the default port to 22.
  */
-public class SftpFileNameParser extends URLFileNameParser
-{
+public class SftpFileNameParser extends URLFileNameParser {
     private static final int DEFAULT_PORT = 22;
 
     private static final SftpFileNameParser INSTANCE = new SftpFileNameParser();
@@ -31,8 +30,7 @@ public class SftpFileNameParser extends URLFileNameParser
     /**
      * Creates a new instance with a the default port 22.
      */
-    public SftpFileNameParser()
-    {
+    public SftpFileNameParser() {
         super(DEFAULT_PORT);
     }
 
@@ -41,8 +39,7 @@ public class SftpFileNameParser extends URLFileNameParser
      *
      * @return the singleton instance.
      */
-    public static FileNameParser getInstance()
-    {
+    public static FileNameParser getInstance() {
         return INSTANCE;
     }
 }

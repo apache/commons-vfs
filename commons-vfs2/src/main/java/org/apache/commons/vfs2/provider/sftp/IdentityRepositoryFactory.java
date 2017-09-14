@@ -24,13 +24,11 @@ import com.jcraft.jsch.JSch;
  *
  * @version $Id$
  */
-public interface IdentityRepositoryFactory
-{
+public interface IdentityRepositoryFactory {
     /**
      * Creates an Identity repository for a given JSch instance.
      *
-     * @param jsch
-     *            JSch context
+     * @param jsch JSch context
      * @return a new IdentityRepository
      */
     IdentityRepository create(JSch jsch);

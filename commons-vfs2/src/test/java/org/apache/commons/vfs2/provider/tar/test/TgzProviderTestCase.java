@@ -31,14 +31,11 @@ import junit.framework.Test;
 /**
  * Tests for the Tar file system.
  */
-public class TgzProviderTestCase
-    extends AbstractProviderTestConfig
-{
+public class TgzProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for the tar file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new TgzProviderTestCase(), true);
     }
 
@@ -46,8 +43,7 @@ public class TgzProviderTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         // manager.addProvider("tgz", new TgzFileProvider());
         manager.addProvider("tgz", new TarFileProvider());
         manager.addProvider("tar", new TarFileProvider());
@@ -57,8 +53,7 @@ public class TgzProviderTestCase
      * Returns the base folder for read tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File tarFile = AbstractVfsTestCase.getTestResource("test.tgz");
         final String uri = "tgz:file:" + tarFile.getAbsolutePath() + "!/";
         return manager.resolveFile(uri);

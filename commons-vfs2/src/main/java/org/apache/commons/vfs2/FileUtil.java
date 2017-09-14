@@ -23,11 +23,9 @@ import java.io.OutputStream;
 /**
  * Utility methods for dealing with FileObjects.
  */
-public final class FileUtil
-{
+public final class FileUtil {
 
-    private FileUtil()
-    {
+    private FileUtil() {
     }
 
     /**
@@ -37,24 +35,18 @@ public final class FileUtil
      * @return The content as a byte array.
      * @throws IOException if the file content cannot be accessed.
      */
-    public static byte[] getContent(final FileObject file)
-        throws IOException
-    {
+    public static byte[] getContent(final FileObject file) throws IOException {
         final FileContent content = file.getContent();
         final int size = (int) content.getSize();
         final byte[] buf = new byte[size];
 
         final InputStream in = content.getInputStream();
-        try
-        {
+        try {
             int read = 0;
-            for (int pos = 0; pos < size && read >= 0; pos += read)
-            {
+            for (int pos = 0; pos < size && read >= 0; pos += read) {
                 read = in.read(buf, pos, size - pos);
             }
-        }
-        finally
-        {
+        } finally {
             in.close();
         }
 
@@ -63,30 +55,26 @@ public final class FileUtil
 
     /**
      * Writes the content of a file to an OutputStream.
+     * 
      * @param file The FileObject to write.
      * @param output The OutputStream to write to.
      * @throws IOException if an error occurs writing the file.
      * @see FileContent#write(OutputStream)
      */
-    public static void writeContent(final FileObject file,
-                                    final OutputStream output)
-        throws IOException
-    {
+    public static void writeContent(final FileObject file, final OutputStream output) throws IOException {
         file.getContent().write(output);
     }
 
     /**
      * Copies the content from a source file to a destination file.
+     * 
      * @param srcFile The source FileObject.
      * @param destFile The target FileObject
      * @throws IOException If an error occurs copying the file.
      * @see FileContent#write(FileContent)
      * @see FileContent#write(FileObject)
      */
-    public static void copyContent(final FileObject srcFile,
-                                   final FileObject destFile)
-        throws IOException
-    {
+    public static void copyContent(final FileObject srcFile, final FileObject destFile) throws IOException {
         srcFile.getContent().write(destFile);
     }
 

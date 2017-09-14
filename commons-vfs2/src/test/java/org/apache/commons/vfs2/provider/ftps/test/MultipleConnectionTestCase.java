@@ -28,58 +28,47 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MultipleConnectionTestCase
-{
+public class MultipleConnectionTestCase {
 
     @BeforeClass
-    public static void setUpClass() throws FtpException, IOException
-    {
+    public static void setUpClass() throws FtpException, IOException {
         AbstractFtpsProviderTestCase.setUpClass(true);
     }
 
     @AfterClass
-    public static void tearDownClass()
-    {
+    public static void tearDownClass() {
         AbstractFtpsProviderTestCase.tearDownClass();
     }
 
-    private FTPSClient init(final FTPSClient client)
-    {
+    private FTPSClient init(final FTPSClient client) {
         client.enterLocalPassiveMode();
         return client;
     }
 
-    private FileObject resolveRoot() throws FileSystemException
-    {
+    private FileObject resolveRoot() throws FileSystemException {
         return VFS.getManager().resolveFile(AbstractFtpsProviderTestCase.getConnectionUri(),
                 new FtpsProviderImplicitTestCase().getFileSystemOptions());
     }
 
     @Test
-    public void testConnectRoot() throws IOException
-    {
+    public void testConnectRoot() throws IOException {
         resolveRoot();
         resolveRoot();
     }
 
     @Test
-    public void testUnderlyingConnect() throws SocketException, IOException
-    {
+    public void testUnderlyingConnect() throws SocketException, IOException {
         final FTPSClient client1 = this.init(new FTPSClient(true));
         final FTPSClient client2 = this.init(new FTPSClient(true));
-        try
-        {
+        try {
             final String hostname = "localhost";
             client1.connect(hostname, AbstractFtpsProviderTestCase.getSocketPort());
             client2.connect(hostname, AbstractFtpsProviderTestCase.getSocketPort());
-        } finally
-        {
-            if (client1 != null)
-            {
+        } finally {
+            if (client1 != null) {
                 client1.disconnect();
             }
-            if (client2 != null)
-            {
+            if (client2 != null) {
                 client2.disconnect();
             }
         }

@@ -22,16 +22,13 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * File creation event.
  */
-public class CreateEvent extends AbstractFileChangeEvent
-{
-    public CreateEvent(final FileObject file)
-    {
+public class CreateEvent extends AbstractFileChangeEvent {
+    public CreateEvent(final FileObject file) {
         super(file);
     }
 
     @Override
-    public void notify(final FileListener listener) throws Exception
-    {
+    public void notify(final FileListener listener) throws Exception {
         listener.fileCreated(this);
     }
 }

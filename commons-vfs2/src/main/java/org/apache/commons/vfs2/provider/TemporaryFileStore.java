@@ -23,11 +23,9 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * Manages a repository of temporary local files.
  */
-public interface TemporaryFileStore
-{
+public interface TemporaryFileStore {
     /**
-     * Allocates a new temporary file.  The file (and all its descendants)
-     * will be deleted when this store is closed.
+     * Allocates a new temporary file. The file (and all its descendants) will be deleted when this store is closed.
      *
      * @param basename The name of the file.
      * @return The temporary file.

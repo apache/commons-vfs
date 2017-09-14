@@ -25,23 +25,19 @@ import org.apache.commons.vfs2.FileType;
  * <p>
  * Parses the url into user/password/host/port/path/queryString.
  */
-public class URLFileNameParser extends HostFileNameParser
-{
-    public URLFileNameParser(final int defaultPort)
-    {
+public class URLFileNameParser extends HostFileNameParser {
+    public URLFileNameParser(final int defaultPort) {
         super(defaultPort);
     }
 
     @Override
-    public boolean encodeCharacter(final char ch)
-    {
+    public boolean encodeCharacter(final char ch) {
         return super.encodeCharacter(ch) || ch == '?';
     }
 
     @Override
     public FileName parseUri(final VfsComponentContext context, final FileName base, final String filename)
-            throws FileSystemException
-    {
+            throws FileSystemException {
         // FTP URI are generic URI (as per RFC 2396)
         final StringBuilder name = new StringBuilder();
 
@@ -57,15 +53,7 @@ public class URLFileNameParser extends HostFileNameParser
         final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return new URLFileName(
-            auth.getScheme(),
-            auth.getHostName(),
-            auth.getPort(),
-            getDefaultPort(),
-            auth.getUserName(),
-            auth.getPassword(),
-            path,
-            fileType,
-            queryString);
+        return new URLFileName(auth.getScheme(), auth.getHostName(), auth.getPort(), getDefaultPort(),
+                auth.getUserName(), auth.getPassword(), path, fileType, queryString);
     }
 }

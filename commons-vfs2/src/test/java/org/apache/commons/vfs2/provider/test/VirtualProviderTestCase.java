@@ -29,11 +29,8 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 /**
  * Test cases for the virtual file system provider.
  */
-public class VirtualProviderTestCase
-    extends AbstractProviderTestConfig
-{
-    public static Test suite() throws Exception
-    {
+public class VirtualProviderTestCase extends AbstractProviderTestConfig {
+    public static Test suite() throws Exception {
         final ProviderTestSuite testSuite = new ProviderTestSuite(new VirtualProviderTestCase());
         testSuite.addTests(JunctionTests.class);
         return testSuite;
@@ -43,8 +40,7 @@ public class VirtualProviderTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
         final FileObject baseFile = manager.toFileObject(baseDir);
         return manager.createVirtualFileSystem(baseFile);

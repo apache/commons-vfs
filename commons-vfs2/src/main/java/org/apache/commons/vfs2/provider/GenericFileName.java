@@ -94,10 +94,8 @@ public class GenericFileName extends AbstractFileName {
     /**
      * Create a FileName.
      * 
-     * @param absPath
-     *            The absolute path.
-     * @param type
-     *            The FileType.
+     * @param absPath The absolute path.
+     * @param type The FileType.
      * @return The created FileName.
      */
     @Override
@@ -125,10 +123,8 @@ public class GenericFileName extends AbstractFileName {
      * <p>
      * If anything was added, it will be '@' terminated.
      *
-     * @param buffer
-     *            the string buffer to modify.
-     * @param addPassword
-     *            flag if password should be added or replaced with placeholder (false).
+     * @param buffer the string buffer to modify.
+     * @param addPassword flag if password should be added or replaced with placeholder (false).
      */
     protected void appendCredentials(final StringBuilder buffer, final boolean addPassword) {
         if (userName != null && userName.length() != 0) {

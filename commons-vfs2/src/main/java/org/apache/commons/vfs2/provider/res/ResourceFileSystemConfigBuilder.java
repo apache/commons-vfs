@@ -24,12 +24,10 @@ import org.apache.commons.vfs2.provider.url.UrlFileSystem;
 /**
  * The config BUILDER for various ftp configuration options.
  */
-public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder
-{
+public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final ResourceFileSystemConfigBuilder BUILDER = new ResourceFileSystemConfigBuilder();
 
-    private ResourceFileSystemConfigBuilder()
-    {
+    private ResourceFileSystemConfigBuilder() {
         super("resource.");
     }
 
@@ -38,25 +36,20 @@ public final class ResourceFileSystemConfigBuilder extends FileSystemConfigBuild
      *
      * @return the singleton builder.
      */
-    public static ResourceFileSystemConfigBuilder getInstance()
-    {
+    public static ResourceFileSystemConfigBuilder getInstance() {
         return BUILDER;
     }
 
-
-    public void setClassLoader(final FileSystemOptions opts, final ClassLoader classLoader)
-    {
+    public void setClassLoader(final FileSystemOptions opts, final ClassLoader classLoader) {
         setParam(opts, ClassLoader.class.getName(), classLoader);
     }
 
-    public ClassLoader getClassLoader(final FileSystemOptions opts)
-    {
+    public ClassLoader getClassLoader(final FileSystemOptions opts) {
         return (ClassLoader) getParam(opts, ClassLoader.class.getName());
     }
 
     @Override
-    protected Class<? extends FileSystem> getConfigClass()
-    {
+    protected Class<? extends FileSystem> getConfigClass() {
         return UrlFileSystem.class;
     }
 }

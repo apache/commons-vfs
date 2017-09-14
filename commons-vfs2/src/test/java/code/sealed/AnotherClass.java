@@ -19,6 +19,5 @@ package code.sealed;
 /**
  * A test class for the ClassLoader tests.
  */
-public class AnotherClass
-{
+public class AnotherClass {
 }

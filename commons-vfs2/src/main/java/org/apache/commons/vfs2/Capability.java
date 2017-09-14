@@ -19,8 +19,7 @@ package org.apache.commons.vfs2;
 /**
  * An enumerated type representing the capabilities of files and file systems.
  */
-public enum Capability
-{
+public enum Capability {
     /**
      * File content can be read.
      */
@@ -107,8 +106,7 @@ public enum Capability
     LIST_CHILDREN,
 
     /**
-     * URI are supported.  Files without this capability use URI that do not
-     * globally and uniquely identify the file.
+     * URI are supported. Files without this capability use URI that do not globally and uniquely identify the file.
      */
     URI,
 
@@ -123,16 +121,16 @@ public enum Capability
     JUNCTIONS,
 
     /**
-     * The set of attributes defined by the Jar manifest specification are
-     * supported.  The attributes aren't necessarily stored in a manifest file.
+     * The set of attributes defined by the Jar manifest specification are supported. The attributes aren't necessarily
+     * stored in a manifest file.
      */
     MANIFEST_ATTRIBUTES,
 
     /**
-     * The provider itself do not provide a filesystem. It simply resolves a full name
-     * and dispatches the request back to the filesystemmanager.<br>
-     * A provider with this capability cant tell much about the capabilities about the
-     * finally used filesystem in advance.
+     * The provider itself do not provide a filesystem. It simply resolves a full name and dispatches the request back
+     * to the filesystemmanager.<br>
+     * A provider with this capability cant tell much about the capabilities about the finally used filesystem in
+     * advance.
      */
     DISPATCHER,
 
@@ -149,6 +147,7 @@ public enum Capability
     /**
      * Provides directories which allows you to read its content through
      * {@link org.apache.commons.vfs2.FileContent#getInputStream()}.
+     * 
      * @since 2.0
      */
     DIRECTORY_READ_CONTENT;

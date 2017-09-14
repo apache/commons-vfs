@@ -20,8 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.vfs2.FileSystemException;
 
 /**
- * This interface is used to manage the lifecycle of all VFS components.
- * This includes all implementations of the following interfaces:
+ * This interface is used to manage the lifecycle of all VFS components. This includes all implementations of the
+ * following interfaces:
  * <ul>
  * <li>{@link FileProvider}
  * <li>{@link org.apache.commons.vfs2.FileSystem}
@@ -29,8 +29,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <li>{@link TemporaryFileStore}
  * </ul>
  */
-public interface VfsComponent
-{
+public interface VfsComponent {
     /**
      * Sets the Logger to use for the component.
      *
@@ -47,6 +46,7 @@ public interface VfsComponent
 
     /**
      * Initializes the component.
+     * 
      * @throws FileSystemException if an error occurs.
      */
     void init() throws FileSystemException;

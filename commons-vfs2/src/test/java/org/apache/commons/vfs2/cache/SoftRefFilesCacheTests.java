@@ -21,10 +21,8 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link SoftRefFilesCache} used by {@link SoftRefFilesCacheTestCase}.
  */
-public class SoftRefFilesCacheTests extends AbstractFilesCacheTestsBase
-{
-    public void testFilesCache() throws Exception
-    {
+public class SoftRefFilesCacheTests extends AbstractFilesCacheTestsBase {
+    public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         final FileObject dir1 = scratchFolder.resolveFile("dir1");
@@ -34,8 +32,7 @@ public class SoftRefFilesCacheTests extends AbstractFilesCacheTestsBase
         assertSame(dir1, dir1_2);
     }
 
-    public void testClass()
-    {
+    public void testClass() {
         assertTrue(getManager().getFilesCache() instanceof SoftRefFilesCache);
     }
 

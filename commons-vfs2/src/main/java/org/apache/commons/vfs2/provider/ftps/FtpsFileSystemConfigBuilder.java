@@ -28,8 +28,7 @@ import org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder;
  *
  * @since 2.0
  */
-public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilder
-{
+public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilder {
     private static final String _PREFIX = FtpsFileSystemConfigBuilder.class.getName();
 
     private static final FtpsFileSystemConfigBuilder BUILDER = new FtpsFileSystemConfigBuilder();
@@ -39,8 +38,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     private static final String KEY_MANAGER = _PREFIX + ".KEY_MANAGER";
     private static final String TRUST_MANAGER = _PREFIX + ".TRUST_MANAGER";
 
-    private FtpsFileSystemConfigBuilder()
-    {
+    private FtpsFileSystemConfigBuilder() {
         super("ftps.");
     }
 
@@ -49,25 +47,25 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      *
      * @return the singleton builder.
      */
-    public static FtpsFileSystemConfigBuilder getInstance()
-    {
+    public static FtpsFileSystemConfigBuilder getInstance() {
         return BUILDER;
     }
 
     /**
      * Set FTPS mode, either "implicit" or "explicit".
      *
-     * <p>Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with
+     * <p>
+     * Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with
      * implicit mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache
-     * FTP/SSHD.</p>
+     * FTP/SSHD.
+     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param ftpsMode The mode to establish a FTPS connection.
      * @see <a href="http://en.wikipedia.org/wiki/FTPS#Implicit">Wikipedia: FTPS/Implicit</a>
      * @since 2.1
      */
-    public void setFtpsMode(final FileSystemOptions opts, final FtpsMode ftpsMode)
-    {
+    public void setFtpsMode(final FileSystemOptions opts, final FtpsMode ftpsMode) {
         setParam(opts, FTPS_MODE, ftpsMode);
     }
 
@@ -78,8 +76,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @return The file type.
      * @see #setFtpsType
      */
-    public FtpsMode getFtpsMode(final FileSystemOptions opts)
-    {
+    public FtpsMode getFtpsMode(final FileSystemOptions opts) {
         return getEnum(FtpsMode.class, opts, FTPS_MODE, FtpsMode.EXPLICIT);
     }
 
@@ -97,19 +94,14 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @deprecated As of 2.1, use {@link #setFtpsMode(FileSystemOptions, FtpsMode)}
      */
     @Deprecated
-    public void setFtpsType(final FileSystemOptions opts, final String ftpsType)
-    {
+    public void setFtpsType(final FileSystemOptions opts, final String ftpsType) {
         final FtpsMode mode;
-        if (ftpsType != null)
-        {
+        if (ftpsType != null) {
             mode = FtpsMode.valueOf(ftpsType.toUpperCase());
-            if (mode == null)
-            {
+            if (mode == null) {
                 throw new IllegalArgumentException("Not a proper FTPS mode: " + ftpsType);
             }
-        }
-        else
-        {
+        } else {
             mode = null;
         }
         setFtpsMode(opts, mode);
@@ -124,8 +116,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @deprecated As of 2.1, use {@link #getFtpsMode(FileSystemOptions)}
      */
     @Deprecated
-    public String getFtpsType(final FileSystemOptions opts)
-    {
+    public String getFtpsType(final FileSystemOptions opts) {
         return getFtpsMode(opts).name().toLowerCase();
     }
 
@@ -137,8 +128,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @see org.apache.commons.net.ftp.FTPSClient#execPROT(String)
      * @since 2.1
      */
-    public FtpsDataChannelProtectionLevel getDataChannelProtectionLevel(final FileSystemOptions opts)
-    {
+    public FtpsDataChannelProtectionLevel getDataChannelProtectionLevel(final FileSystemOptions opts) {
         return getEnum(FtpsDataChannelProtectionLevel.class, opts, PROT);
     }
 
@@ -150,8 +140,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @see org.apache.commons.net.ftp.FTPSClient#execPROT(String)
      * @since 2.1
      */
-    public void setDataChannelProtectionLevel(final FileSystemOptions opts, final FtpsDataChannelProtectionLevel prot)
-    {
+    public void setDataChannelProtectionLevel(final FileSystemOptions opts, final FtpsDataChannelProtectionLevel prot) {
         setParam(opts, PROT, prot);
     }
 
@@ -163,8 +152,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @see org.apache.commons.net.ftp.FTPSClient#setKeyManager(KeyManager)
      * @since 2.1
      */
-    public KeyManager getKeyManager(final FileSystemOptions opts)
-    {
+    public KeyManager getKeyManager(final FileSystemOptions opts) {
         return (KeyManager) getParam(opts, KEY_MANAGER);
     }
 
@@ -176,8 +164,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @see org.apache.commons.net.ftp.FTPSClient#setKeyManager(KeyManager)
      * @since 2.1
      */
-    public void setKeyManager(final FileSystemOptions opts, final KeyManager keyManager)
-    {
+    public void setKeyManager(final FileSystemOptions opts, final KeyManager keyManager) {
         setParam(opts, KEY_MANAGER, keyManager);
     }
 
@@ -193,15 +180,11 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @see org.apache.commons.net.ftp.FTPSClient#setTrustManager(TrustManager)
      * @since 2.1
      */
-    public TrustManager getTrustManager(final FileSystemOptions opts)
-    {
+    public TrustManager getTrustManager(final FileSystemOptions opts) {
         final TrustManager trustManager;
-        if (hasParam(opts, TRUST_MANAGER))
-        {
+        if (hasParam(opts, TRUST_MANAGER)) {
             trustManager = (TrustManager) getParam(opts, TRUST_MANAGER);
-        }
-        else
-        {
+        } else {
             trustManager = TrustManagerUtils.getValidateServerCertificateTrustManager();
         }
         return trustManager;
@@ -215,8 +198,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
      * @see org.apache.commons.net.ftp.FTPSClient#setTrustManager(TrustManager)
      * @since 2.1
      */
-    public void setTrustManager(final FileSystemOptions opts, final TrustManager trustManager)
-    {
+    public void setTrustManager(final FileSystemOptions opts, final TrustManager trustManager) {
         setParam(opts, TRUST_MANAGER, trustManager);
     }
 }

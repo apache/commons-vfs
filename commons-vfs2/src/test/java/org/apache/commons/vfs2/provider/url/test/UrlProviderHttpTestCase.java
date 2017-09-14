@@ -34,8 +34,7 @@ import org.apache.commons.vfs2.util.NHttpServer;
  * Test cases for HTTP with the default provider.
  *
  */
-public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
-{
+public class UrlProviderHttpTestCase extends AbstractProviderTestConfig {
     private static NHttpServer Server;
 
     private static int SocketPort;
@@ -47,8 +46,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
      */
     private static String ConnectionUri;
 
-    private static String getSystemTestUriOverride()
-    {
+    private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
@@ -57,32 +55,25 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
      *
      * @throws Exception
      */
-    private static void setUpClass() throws Exception
-    {
+    private static void setUpClass() throws Exception {
         Server = new NHttpServer();
-        if (!Server.run(SocketPort, new File(getTestDirectory()), 5000))
-        {
+        if (!Server.run(SocketPort, new File(getTestDirectory()), 5000)) {
             throw new IllegalStateException("The embedded HTTP server has not completed startup, increase wait time");
         }
     }
 
-    public static Test suite() throws Exception
-    {
-        return new ProviderTestSuite(new UrlProviderHttpTestCase())
-        {
+    public static Test suite() throws Exception {
+        return new ProviderTestSuite(new UrlProviderHttpTestCase()) {
             @Override
-            protected void setUp() throws Exception
-            {
-                if (getSystemTestUriOverride() == null)
-                {
+            protected void setUp() throws Exception {
+                if (getSystemTestUriOverride() == null) {
                     setUpClass();
                 }
                 super.setUp();
             }
 
             @Override
-            protected void tearDown() throws Exception
-            {
+            protected void tearDown() throws Exception {
                 tearDownClass();
                 super.tearDown();
             }
@@ -94,16 +85,13 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
      *
      * @throws IOException
      */
-    private static void tearDownClass() throws IOException
-    {
-        if (Server != null)
-        {
+    private static void tearDownClass() throws IOException {
+        if (Server != null) {
             Server.stop();
         }
     }
 
-    public UrlProviderHttpTestCase() throws IOException
-    {
+    public UrlProviderHttpTestCase() throws IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         // Use %40 for @ in a URL
         ConnectionUri = "http://localhost:" + SocketPort;
@@ -113,11 +101,9 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
-        if (uri == null)
-        {
+        if (uri == null) {
             uri = ConnectionUri;
         }
         return manager.resolveFile(uri);
@@ -127,8 +113,7 @@ public class UrlProviderHttpTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("http", new UrlFileProvider());
     }
 }

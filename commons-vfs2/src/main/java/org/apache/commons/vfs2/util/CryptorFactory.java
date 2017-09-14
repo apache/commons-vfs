@@ -18,10 +18,10 @@ package org.apache.commons.vfs2.util;
 
 /**
  * Factory to create an instance of a Cryptor.
+ * 
  * @since 2.0
  */
-public final class CryptorFactory
-{
+public final class CryptorFactory {
     /**
      * The System property name to identify the Cryptor class to be used.
      */
@@ -32,44 +32,37 @@ public final class CryptorFactory
     /**
      * Prevent instantiation of the class.
      */
-    private CryptorFactory()
-    {
+    private CryptorFactory() {
 
     }
 
     /**
      * Allows the Cryptor class to be set programmatically.
+     * 
      * @param cryptor The Cryptor.
      */
-    public static synchronized void setCryptor(final Cryptor cryptor)
-    {
+    public static synchronized void setCryptor(final Cryptor cryptor) {
         instance = cryptor;
     }
 
     /**
-     * Return the Cryptor. If one has not been previously set, create it. The Cryptor class
-     * can be set by setting the "org.apache.commons.vfs2.cryptor" System property to the
-     * name of the Cryptor class.
+     * Return the Cryptor. If one has not been previously set, create it. The Cryptor class can be set by setting the
+     * "org.apache.commons.vfs2.cryptor" System property to the name of the Cryptor class.
+     * 
      * @return The Cryptor.
      */
-    public static synchronized Cryptor getCryptor()
-    {
-        if (instance != null)
-        {
+    public static synchronized Cryptor getCryptor() {
+        if (instance != null) {
             return instance;
         }
 
         final String cryptorClass = System.getProperty(CRYPTOR_CLASS);
-        if (cryptorClass != null)
-        {
-            try
-            {
+        if (cryptorClass != null) {
+            try {
                 final Class<?> clazz = Class.forName(cryptorClass);
                 instance = (Cryptor) clazz.newInstance();
                 return instance;
-            }
-            catch (final Exception ex)
-            {
+            } catch (final Exception ex) {
                 throw new RuntimeException("Unable to create Cryptor " + cryptorClass, ex);
             }
         }

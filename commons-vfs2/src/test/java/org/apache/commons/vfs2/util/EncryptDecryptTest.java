@@ -22,12 +22,10 @@ import org.junit.Test;
 
 /**
  */
-public class EncryptDecryptTest
-{
+public class EncryptDecryptTest {
 
     @Test
-    public void testEncryptDecrypt() throws Exception
-    {
+    public void testEncryptDecrypt() throws Exception {
         final String source = "Qryp2!t&tpR59";
         final String expected = "914589F049CE3E8E3BB1A41BEAE12A9C";
 

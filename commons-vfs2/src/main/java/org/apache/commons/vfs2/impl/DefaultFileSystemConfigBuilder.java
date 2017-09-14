@@ -25,8 +25,7 @@ import org.apache.commons.vfs2.UserAuthenticator;
 /**
  * Default options usable for all file systems.
  */
-public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
-{
+public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /** The default FileSystemConfigBuilder */
     private static final DefaultFileSystemConfigBuilder BUILDER = new DefaultFileSystemConfigBuilder();
 
@@ -35,20 +34,19 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
      *
      * @return the singleton builder.
      */
-    public static DefaultFileSystemConfigBuilder getInstance()
-    {
+    public static DefaultFileSystemConfigBuilder getInstance() {
         return BUILDER;
     }
 
     /**
      * Sets the user authenticator to get authentication informations.
+     * 
      * @param opts The FileSystemOptions.
      * @param userAuthenticator The UserAuthenticator.
      * @throws FileSystemException if an error occurs setting the UserAuthenticator.
      */
     public void setUserAuthenticator(final FileSystemOptions opts, final UserAuthenticator userAuthenticator)
-            throws FileSystemException
-    {
+            throws FileSystemException {
         setParam(opts, "userAuthenticator", userAuthenticator);
     }
 
@@ -57,21 +55,18 @@ public class DefaultFileSystemConfigBuilder extends FileSystemConfigBuilder
      * @param opts The FileSystemOptions.
      * @return The UserAuthenticator.
      */
-    public UserAuthenticator getUserAuthenticator(final FileSystemOptions opts)
-    {
+    public UserAuthenticator getUserAuthenticator(final FileSystemOptions opts) {
         return (UserAuthenticator) getParam(opts, "userAuthenticator");
     }
 
     /**
      * Dummy class that implements FileSystem.
      */
-    abstract static class DefaultFileSystem implements FileSystem
-    {
+    abstract static class DefaultFileSystem implements FileSystem {
     }
 
     @Override
-    protected Class<? extends FileSystem> getConfigClass()
-    {
+    protected Class<? extends FileSystem> getConfigClass() {
         return DefaultFileSystem.class;
     }
 }

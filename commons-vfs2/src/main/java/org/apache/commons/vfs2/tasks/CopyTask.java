@@ -26,62 +26,54 @@ import org.apache.commons.vfs2.Selectors;
  * <p>
  * TODO - Copy folders that do not contain files.
  */
-public class CopyTask
-    extends AbstractSyncTask
-{
+public class CopyTask extends AbstractSyncTask {
     private boolean overwrite;
     private boolean preserveLastModified = true;
 
     /**
      * Enable/disable overwriting of up-to-date files.
+     * 
      * @param overwrite true if the file should be overwritten.
      */
-    public void setOverwrite(final boolean overwrite)
-    {
+    public void setOverwrite(final boolean overwrite) {
         this.overwrite = overwrite;
     }
 
     /**
      * Enable/disable preserving last modified time of copied files.
+     * 
      * @param preserveLastModified true if the last modified time should be preserved.
      */
-    public void setPreserveLastModified(final boolean preserveLastModified)
-    {
+    public void setPreserveLastModified(final boolean preserveLastModified) {
         this.preserveLastModified = preserveLastModified;
     }
 
     /**
      * @return the current value of overwrite
      */
-    public boolean isOverwrite()
-    {
+    public boolean isOverwrite() {
         return overwrite;
     }
 
     /**
      * @return the current value of preserveLastModified
      */
-    public boolean isPreserveLastModified()
-    {
+    public boolean isPreserveLastModified() {
         return preserveLastModified;
     }
 
     /**
      * Handles an out-of-date file.
+     * 
      * @param srcFile The source FileObject.
      * @param destFile The destination FileObject.
      */
     @Override
-    protected void handleOutOfDateFile(final FileObject srcFile,
-                                       final FileObject destFile)
-        throws FileSystemException
-    {
+    protected void handleOutOfDateFile(final FileObject srcFile, final FileObject destFile) throws FileSystemException {
         log("Copying " + srcFile.getPublicURIString() + " to " + destFile.getPublicURIString());
         destFile.copyFrom(srcFile, Selectors.SELECT_SELF);
-        if (preserveLastModified
-            && srcFile.getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED)
-            && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE))
-        {
+        if (preserveLastModified && srcFile.getFileSystem().hasCapability(Capability.GET_LAST_MODIFIED)
+                && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)) {
             final long lastModTime = srcFile.getContent().getLastModifiedTime();
             destFile.getContent().setLastModifiedTime(lastModTime);
         }
@@ -89,16 +81,13 @@ public class CopyTask
 
     /**
      * Handles an up-to-date file.
+     * 
      * @param srcFile The source FileObject.
      * @param destFile The destination FileObject.
      */
     @Override
-    protected void handleUpToDateFile(final FileObject srcFile,
-                                      final FileObject destFile)
-        throws FileSystemException
-    {
-        if (overwrite)
-        {
+    protected void handleUpToDateFile(final FileObject srcFile, final FileObject destFile) throws FileSystemException {
+        if (overwrite) {
             // Copy the file anyway
             handleOutOfDateFile(srcFile, destFile);
         }

@@ -23,34 +23,30 @@ import org.apache.commons.vfs2.util.Messages;
  * <p>
  * This is to mimic the {@link java.io.FileFilter} interface.
  */
-public class FileFilterSelector extends FileDepthSelector
-{
+public class FileFilterSelector extends FileDepthSelector {
     /**
      * The FileFilter.
      */
     private final FileFilter fileFilter;
 
-    public FileFilterSelector()
-    {
+    public FileFilterSelector() {
         this(null);
     }
 
-    public FileFilterSelector(final FileFilter fileFilter)
-    {
+    public FileFilterSelector(final FileFilter fileFilter) {
         super(1, 1);
         this.fileFilter = fileFilter;
     }
 
     /**
      * Determines if a file or folder should be selected.
+     * 
      * @param fileInfo The file selection information.
      * @return true if the file or folder should be included, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo)
-    {
-        if (!super.includeFile(fileInfo))
-        {
+    public boolean includeFile(final FileSelectInfo fileInfo) {
+        if (!super.includeFile(fileInfo)) {
             return false;
         }
 
@@ -59,13 +55,12 @@ public class FileFilterSelector extends FileDepthSelector
 
     /**
      * Determines whether the file should be selected.
+     * 
      * @param fileInfo The file selection information.
      * @return true if the file should be selected, false otherwise.
      */
-    public boolean accept(final FileSelectInfo fileInfo)
-    {
-        if (fileFilter != null)
-        {
+    public boolean accept(final FileSelectInfo fileInfo) {
+        if (fileFilter != null) {
             return fileFilter.accept(fileInfo);
         }
 

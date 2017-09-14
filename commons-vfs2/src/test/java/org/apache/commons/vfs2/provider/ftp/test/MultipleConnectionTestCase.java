@@ -29,51 +29,41 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class MultipleConnectionTestCase
-{
+public class MultipleConnectionTestCase {
 
     @BeforeClass
-    public static void setUpClass() throws FtpException, IOException
-    {
+    public static void setUpClass() throws FtpException, IOException {
         FtpProviderTestCase.setUpClass(FtpProviderTestCase.getTestDirectory(), null);
     }
 
     @AfterClass
-    public static void tearDownClass() throws MalformedURLException, FtpException
-    {
+    public static void tearDownClass() throws MalformedURLException, FtpException {
         FtpProviderTestCase.tearDownClass();
     }
 
-    private FileObject resolveRoot() throws FileSystemException
-    {
+    private FileObject resolveRoot() throws FileSystemException {
         return VFS.getManager().resolveFile(FtpProviderTestCase.getConnectionUri());
     }
 
     @Test
-    public void testConnectRoot() throws SocketException, IOException
-    {
+    public void testConnectRoot() throws SocketException, IOException {
         resolveRoot();
         resolveRoot();
     }
 
     @Test
-    public void testUnderlyingConnect() throws SocketException, IOException
-    {
+    public void testUnderlyingConnect() throws SocketException, IOException {
         final FTPClient client1 = new FTPClient();
         final FTPClient client2 = new FTPClient();
-        try
-        {
+        try {
             final String hostname = "localhost";
             client1.connect(hostname, FtpProviderTestCase.getSocketPort());
             client2.connect(hostname, FtpProviderTestCase.getSocketPort());
-        } finally
-        {
-            if (client1 != null)
-            {
+        } finally {
+            if (client1 != null) {
                 client1.disconnect();
             }
-            if (client2 != null)
-            {
+            if (client2 != null) {
                 client2.disconnect();
             }
         }

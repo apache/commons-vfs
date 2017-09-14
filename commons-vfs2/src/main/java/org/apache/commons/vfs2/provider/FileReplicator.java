@@ -27,16 +27,14 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * A file replicator may also implement {@link VfsComponent}.
  */
-public interface FileReplicator
-{
+public interface FileReplicator {
     /**
      * Creates a local copy of the file, and all its descendants.
      *
-     * @param srcFile  The file to copy.
+     * @param srcFile The file to copy.
      * @param selector Selects the files to copy.
      * @return The local copy of the source file.
      * @throws FileSystemException If the source files does not exist, or on error copying.
      */
-    File replicateFile(FileObject srcFile, FileSelector selector)
-        throws FileSystemException;
+    File replicateFile(FileObject srcFile, FileSelector selector) throws FileSystemException;
 }

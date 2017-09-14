@@ -37,69 +37,53 @@ import org.junit.Test;
 /**
  * Basic Tests for the FileOperations and FileOperationsProvider API.
  */
-public class BasicOperationsTestCase
-{
+public class BasicOperationsTestCase {
     /** This FileOperationsProvider is a VfsComponent and records invocations. */
-    static class MyFileOperationProviderComp
-        extends MyFileOprationProviderBase
-        implements VfsComponent
-    {
+    static class MyFileOperationProviderComp extends MyFileOprationProviderBase implements VfsComponent {
         @Override
-        public void setLogger(final Log logger)
-        {
+        public void setLogger(final Log logger) {
             assertNotNull("setLogger", logger);
             ops |= 1;
         }
 
         @Override
-        public void setContext(final VfsComponentContext context)
-        {
+        public void setContext(final VfsComponentContext context) {
             assertNotNull("setContext", context);
             ops |= 2;
         }
 
         @Override
-        public void init()
-            throws FileSystemException
-        {
+        public void init() throws FileSystemException {
             ops |= 4;
         }
 
         @Override
-        public void close()
-        {
+        public void close() {
             ops |= 8;
         }
     }
 
     /** This FileOperationsProvider is no VfsComponent. */
-    static class MyFileOperationProviderNoncomp
-        extends MyFileOprationProviderBase
-    {
+    static class MyFileOperationProviderNoncomp extends MyFileOprationProviderBase {
     }
 
     /**
-     * Base class for different Test Providers. This is also a compile test
-     * to ensure interface stability.
+     * Base class for different Test Providers. This is also a compile test to ensure interface stability.
      */
-    static class MyFileOprationProviderBase implements FileOperationProvider
-    {
+    static class MyFileOprationProviderBase implements FileOperationProvider {
         int ops = 0; // bit array to record invocations (poor mans mock)
 
         @Override
-        public void collectOperations(final Collection<Class< ? extends FileOperation>> operationsList,
-                                      final FileObject file)
-                                          throws FileSystemException
-        {
+        public void collectOperations(final Collection<Class<? extends FileOperation>> operationsList,
+                final FileObject file) throws FileSystemException {
             assertNotNull("collect operationsList", operationsList);
             assertNotNull("collect file", file);
             ops |= 16;
         }
 
         @Override
-        public FileOperation getOperation(final FileObject file, final Class< ? extends FileOperation> operationClass)
-            throws FileSystemException
-        {
+        public FileOperation getOperation(final FileObject file, final Class<? extends FileOperation> operationClass)
+                throws FileSystemException {
             assertNotNull("file object", file);
             assertNotNull("operationclass", operationClass);
             ops |= 32;
@@ -112,11 +96,11 @@ public class BasicOperationsTestCase
 
     /**
      * JUnit Fixture: Prepare a simple FSM.
+     * 
      * @throws FileSystemException for runtime problems
      */
     @Before
-    public void setUp() throws FileSystemException
-    {
+    public void setUp() throws FileSystemException {
         manager = new DefaultFileSystemManager();
         final FileProvider fp = new DefaultLocalFileProvider();
         manager.addProvider("file", fp);
@@ -124,30 +108,29 @@ public class BasicOperationsTestCase
     }
 
     /**
-     * Ensure FileOperationProviders which are VfsComponents are
-     * set up and teared down.
+     * Ensure FileOperationProviders which are VfsComponents are set up and teared down.
+     * 
      * @throws FileSystemException for runtime problems
      */
     @Test
-    public void testLifecycleComp() throws FileSystemException
-    {
+    public void testLifecycleComp() throws FileSystemException {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderComp();
-        assertEquals(0,  myop.ops);
+        assertEquals(0, myop.ops);
         manager.addOperationProvider("file", myop);
         assertEquals(7, myop.ops);
         manager.close();
         assertEquals("close() not called", 15, myop.ops); // VFS-577
 
-        //fixture will close again
-   }
+        // fixture will close again
+    }
 
     /**
      * Ensure you can use FileOperationProvider which is not a VfsComponnt.
+     * 
      * @throws FileSystemException for runtime problems
      */
     @Test
-    public void testLifecycleNoncomp() throws FileSystemException
-    {
+    public void testLifecycleNoncomp() throws FileSystemException {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
         final FileOperationProvider[] ops = manager.getOperationProviders("file");
@@ -158,11 +141,11 @@ public class BasicOperationsTestCase
 
     /**
      * Ensures getOperations calls collect and allows empty response.
+     * 
      * @throws FileSystemException for runtime problems
      */
     @Test
-    public void testNotFoundAny() throws FileSystemException
-    {
+    public void testNotFoundAny() throws FileSystemException {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
         final FileObject fo = manager.toFileObject(new File("."));
@@ -170,18 +153,18 @@ public class BasicOperationsTestCase
         final FileOperations ops = fo.getFileOperations();
         assertNotNull(ops);
 
-        final Class< ? extends FileOperation>[] oparray = ops.getOperations();
+        final Class<? extends FileOperation>[] oparray = ops.getOperations();
         assertSame("no ops should be found", 0, oparray.length);
         assertSame(16, myop.ops); // collect
     }
 
     /**
      * Ensure proper response for not found FileOperation.
+     * 
      * @throws FileSystemException for runtime problems
      */
     @Test
-    public void testNotFoundOperation() throws FileSystemException
-    {
+    public void testNotFoundOperation() throws FileSystemException {
         final MyFileOprationProviderBase myop = new MyFileOperationProviderNoncomp();
         manager.addOperationProvider("file", myop);
         final FileObject fo = manager.toFileObject(new File("."));
@@ -189,13 +172,10 @@ public class BasicOperationsTestCase
         final FileOperations ops = fo.getFileOperations();
         assertNotNull(ops);
 
-        try
-        {
+        try {
             final FileOperation logop = ops.getOperation(VcsLog.class);
             fail("Must throw but returned " + logop);
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             assertEquals("vfs.operation/operation-not-supported.error", e.getCode());
         }
         assertSame(32, myop.ops); // getOperation was called
@@ -203,13 +183,12 @@ public class BasicOperationsTestCase
 
     /**
      * JUnit Fixture: Tear Down the FSM.
+     * 
      * @throws FileSystemException for runtime problems
      */
     @After
-    public void tearDown() throws FileSystemException
-    {
-        if (manager != null)
-        {
+    public void tearDown() throws FileSystemException {
+        if (manager != null) {
             manager.close();
             manager = null;
         }

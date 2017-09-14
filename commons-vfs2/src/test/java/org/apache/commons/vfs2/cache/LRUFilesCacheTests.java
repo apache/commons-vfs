@@ -21,10 +21,8 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link LRUFilesCache} used by {@link LRUFilesCacheTestCase}.
  */
-public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase
-{
-    public void testFilesCache() throws Exception
-    {
+public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase {
+    public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         // releaseable
@@ -36,33 +34,27 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase
 
         // releaseable
         @SuppressWarnings("unused")
-        final
-        FileObject dir3 = scratchFolder.resolveFile("dir3");
+        final FileObject dir3 = scratchFolder.resolveFile("dir3");
 
         // releaseable
         @SuppressWarnings("unused")
-        final
-        FileObject dir4 = scratchFolder.resolveFile("dir4");
+        final FileObject dir4 = scratchFolder.resolveFile("dir4");
 
         // releaseable
         @SuppressWarnings("unused")
-        final
-        FileObject dir5 = scratchFolder.resolveFile("dir5");
+        final FileObject dir5 = scratchFolder.resolveFile("dir5");
 
         // releaseable
         @SuppressWarnings("unused")
-        final
-        FileObject dir6 = scratchFolder.resolveFile("dir6");
+        final FileObject dir6 = scratchFolder.resolveFile("dir6");
 
         // releaseable
         @SuppressWarnings("unused")
-        final
-        FileObject dir7 = scratchFolder.resolveFile("dir7");
+        final FileObject dir7 = scratchFolder.resolveFile("dir7");
 
         // releaseable
         @SuppressWarnings("unused")
-        final
-        FileObject dir8 = scratchFolder.resolveFile("dir8");
+        final FileObject dir8 = scratchFolder.resolveFile("dir8");
 
         // check if the cache still holds the right instance
         final FileObject dir2_2 = scratchFolder.resolveFile("dir2");
@@ -73,8 +65,7 @@ public class LRUFilesCacheTests extends AbstractFilesCacheTestsBase
         assertFalse(dir1 == dir1_2);
     }
 
-    public void testClass()
-    {
+    public void testClass() {
         assertTrue(getManager().getFilesCache() instanceof LRUFilesCache);
     }
 }

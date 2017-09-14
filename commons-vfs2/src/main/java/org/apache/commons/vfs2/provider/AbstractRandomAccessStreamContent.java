@@ -25,108 +25,90 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * Implements the part usable for all stream-based random access.
  */
-public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAccessContent
-{
-    protected AbstractRandomAccessStreamContent(final RandomAccessMode mode)
-    {
+public abstract class AbstractRandomAccessStreamContent extends AbstractRandomAccessContent {
+    protected AbstractRandomAccessStreamContent(final RandomAccessMode mode) {
         super(mode);
     }
 
     protected abstract DataInputStream getDataInputStream() throws IOException;
 
     @Override
-    public byte readByte() throws IOException
-    {
+    public byte readByte() throws IOException {
         return getDataInputStream().readByte();
     }
 
     @Override
-    public char readChar() throws IOException
-    {
+    public char readChar() throws IOException {
         return getDataInputStream().readChar();
     }
 
     @Override
-    public double readDouble() throws IOException
-    {
+    public double readDouble() throws IOException {
         return getDataInputStream().readDouble();
     }
 
     @Override
-    public float readFloat() throws IOException
-    {
+    public float readFloat() throws IOException {
         return getDataInputStream().readFloat();
     }
 
     @Override
-    public int readInt() throws IOException
-    {
+    public int readInt() throws IOException {
         return getDataInputStream().readInt();
     }
 
     @Override
-    public int readUnsignedByte() throws IOException
-    {
+    public int readUnsignedByte() throws IOException {
         return getDataInputStream().readUnsignedByte();
     }
 
     @Override
-    public int readUnsignedShort() throws IOException
-    {
+    public int readUnsignedShort() throws IOException {
         return getDataInputStream().readUnsignedShort();
     }
 
     @Override
-    public long readLong() throws IOException
-    {
+    public long readLong() throws IOException {
         return getDataInputStream().readLong();
     }
 
     @Override
-    public short readShort() throws IOException
-    {
+    public short readShort() throws IOException {
         return getDataInputStream().readShort();
     }
 
     @Override
-    public boolean readBoolean() throws IOException
-    {
+    public boolean readBoolean() throws IOException {
         return getDataInputStream().readBoolean();
     }
 
     @Override
-    public int skipBytes(final int n) throws IOException
-    {
+    public int skipBytes(final int n) throws IOException {
         return getDataInputStream().skipBytes(n);
     }
 
     @Override
-    public void readFully(final byte[] b) throws IOException
-    {
+    public void readFully(final byte[] b) throws IOException {
         getDataInputStream().readFully(b);
     }
 
     @Override
-    public void readFully(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void readFully(final byte[] b, final int off, final int len) throws IOException {
         getDataInputStream().readFully(b, off, len);
     }
 
     @Override
-    public String readUTF() throws IOException
-    {
+    public String readUTF() throws IOException {
         return getDataInputStream().readUTF();
     }
 
     @Override
-    public InputStream getInputStream() throws IOException
-    {
+    public InputStream getInputStream() throws IOException {
         return getDataInputStream();
     }
 
     @Override
-    public void setLength(final long newLength) throws IOException
-    {
+    public void setLength(final long newLength) throws IOException {
         throw new UnsupportedOperationException();
     }
 }

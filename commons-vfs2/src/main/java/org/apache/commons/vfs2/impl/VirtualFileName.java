@@ -23,22 +23,18 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 /**
  * A simple Filename to hold the scheme for to be created virtual filesytsem.
  */
-public class VirtualFileName extends AbstractFileName
-{
-    public VirtualFileName(final String scheme, final String absPath, final FileType type)
-    {
+public class VirtualFileName extends AbstractFileName {
+    public VirtualFileName(final String scheme, final String absPath, final FileType type) {
         super(scheme, absPath, type);
     }
 
     @Override
-    public FileName createName(final String absPath, final FileType type)
-    {
+    public FileName createName(final String absPath, final FileType type) {
         return new VirtualFileName(getScheme(), absPath, type);
     }
 
     @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
-    {
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
         buffer.append(getScheme());
     }
 }

@@ -22,25 +22,20 @@ import org.apache.commons.vfs2.FileType;
 /**
  * A local file URI.
  */
-public class WindowsFileName extends LocalFileName
-{
-    protected WindowsFileName(final String scheme,
-                              final String rootFile,
-                              final String path,
-                              final FileType type)
-    {
+public class WindowsFileName extends LocalFileName {
+    protected WindowsFileName(final String scheme, final String rootFile, final String path, final FileType type) {
         super(scheme, rootFile, path, type);
     }
 
     /**
      * Factory method for creating name instances.
+     * 
      * @param path The file path.
      * @param type The file type.
      * @return The FileName.
      */
     @Override
-    public FileName createName(final String path, final FileType type)
-    {
+    public FileName createName(final String path, final FileType type) {
         return new WindowsFileName(getScheme(), getRootFile(), path, type);
     }
 
@@ -48,12 +43,10 @@ public class WindowsFileName extends LocalFileName
      * Builds the root URI for this file name.
      */
     @Override
-    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword)
-    {
+    protected void appendRootUri(final StringBuilder buffer, final boolean addPassword) {
         buffer.append(getScheme());
         buffer.append("://");
-        if (getRootFile() != null && !getRootFile().startsWith("/"))
-        {
+        if (getRootFile() != null && !getRootFile().startsWith("/")) {
             // next is drive-letter (else unc name)
             buffer.append("/");
         }

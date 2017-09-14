@@ -27,16 +27,12 @@ import org.apache.commons.vfs2.test.AbstractProviderTestCase;
  * <p>
  * Only executed on Windows O/S.
  */
-public class WindowsFileNameTests
-    extends AbstractProviderTestCase
-{
-    public void testWindowsRoots() throws Exception
-    {
+public class WindowsFileNameTests extends AbstractProviderTestCase {
+    public void testWindowsRoots() throws Exception {
         // valid URI forms of the filesystem root
         final String[] tests = new String[] { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
 
-        for(final String name : tests)
-        {
+        for (final String name : tests) {
             final FileName fn = getManager().resolveFile(name).getName();
 
             // the following tests work for Windows file names only
@@ -56,54 +52,41 @@ public class WindowsFileNameTests
         }
     }
 
-    public void testWindowsWrongRoots() throws Exception
-    {
+    public void testWindowsWrongRoots() throws Exception {
         final String[] tests = new String[] { "file:///C:", "file://C:", "file:/C:", "file:C:" };
 
-        for(final String name : tests)
-        {
-            try
-            {
+        for (final String name : tests) {
+            try {
                 final FileName fn = getManager().resolveFile(name).getName();
                 fail("should not accept root " + name);
-            }
-            catch (final FileSystemException ex)
-            {
+            } catch (final FileSystemException ex) {
                 assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode());
                 assertTrue(ex.toString().indexOf(name) >= 0);
             }
         }
     }
 
-    public void testWindowsFilenameUNCStartError() throws Exception
-    {
-        try
-        {
+    public void testWindowsFilenameUNCStartError() throws Exception {
+        try {
             final String FILE = "file://///";
             final FileObject fo = getManager().resolveFile(FILE);
             fail("Windows File Parser should not allow " + FILE + " " + fo);
-        }
-        catch(FileSystemException ex)
-        {
+        } catch (FileSystemException ex) {
             assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
-            ex = (FileSystemException)ex.getCause();
+            ex = (FileSystemException) ex.getCause();
             assertEquals("Exception code", "vfs.provider.local/missing-share-name.error", ex.getCode());
         }
     }
 
-    public void testWindowsFilenameParserError() throws Exception
-    {
+    public void testWindowsFilenameParserError() throws Exception {
         // check VFS-338 with 2+4 slashes we want a dedicated error
-        try
-        {
+        try {
             final String FILE = "file://////";
             final FileObject fo = getManager().resolveFile(FILE);
             fail("Windows File Parser should not allow " + FILE + " " + fo);
-        }
-        catch(FileSystemException ex)
-        {
+        } catch (FileSystemException ex) {
             assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
-            ex = (FileSystemException)ex.getCause();
+            ex = (FileSystemException) ex.getCause();
             assertEquals("Exception code", "vfs.provider.local/not-absolute-file-name.error", ex.getCode());
         }
     }

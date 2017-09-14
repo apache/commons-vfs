@@ -35,69 +35,48 @@ import org.apache.commons.vfs2.util.Os;
 /**
  * A file system provider, which uses direct file access.
  */
-public class DefaultLocalFileProvider
-    extends AbstractOriginatingFileProvider
-    implements LocalFileProvider
-{
+public class DefaultLocalFileProvider extends AbstractOriginatingFileProvider implements LocalFileProvider {
     /** The provider's capabilities. */
-    public static final Collection<Capability> capabilities =
-        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.CREATE,
-        Capability.DELETE,
-        Capability.RENAME,
-        Capability.GET_TYPE,
-        Capability.GET_LAST_MODIFIED,
-        Capability.SET_LAST_MODIFIED_FILE,
-        Capability.SET_LAST_MODIFIED_FOLDER,
-        Capability.LIST_CHILDREN,
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.WRITE_CONTENT,
-        Capability.APPEND_CONTENT,
-        Capability.RANDOM_ACCESS_READ,
-        Capability.RANDOM_ACCESS_SET_LENGTH,
-        Capability.RANDOM_ACCESS_WRITE
-    }));
+    public static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
+            Arrays.asList(new Capability[] { Capability.CREATE, Capability.DELETE, Capability.RENAME,
+                    Capability.GET_TYPE, Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE,
+                    Capability.SET_LAST_MODIFIED_FOLDER, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
+                    Capability.URI, Capability.WRITE_CONTENT, Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ,
+                    Capability.RANDOM_ACCESS_SET_LENGTH, Capability.RANDOM_ACCESS_WRITE }));
 
     /**
      * Constructs a new provider.
      */
-    public DefaultLocalFileProvider()
-    {
+    public DefaultLocalFileProvider() {
         super();
 
-        if (Os.isFamily(Os.OS_FAMILY_WINDOWS))
-        {
+        if (Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
             setFileNameParser(new WindowsFileNameParser());
-        }
-        else
-        {
+        } else {
             setFileNameParser(new GenericFileNameParser());
         }
     }
 
     /**
      * Determines if a name is an absolute file name.
+     * 
      * @param name The file name.
      * @return true if the name is absolute, false otherwise.
      */
     @Override
-    public boolean isAbsoluteLocalName(final String name)
-    {
+    public boolean isAbsoluteLocalName(final String name) {
         return ((LocalFileNameParser) getFileNameParser()).isAbsoluteName(name);
     }
 
     /**
      * Finds a local file, from its local name.
+     * 
      * @param name The name of the file to locate.
      * @return the located FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject findLocalFile(final String name)
-        throws FileSystemException
-    {
+    public FileObject findLocalFile(final String name) throws FileSystemException {
         final String scheme = "file:";
         final StringBuilder uri = new StringBuilder(name.length() + scheme.length());
         uri.append(scheme);
@@ -108,14 +87,13 @@ public class DefaultLocalFileProvider
 
     /**
      * Finds a local file.
+     * 
      * @param file The File to locate.
      * @return the located FileObject.
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject findLocalFile(final File file)
-        throws FileSystemException
-    {
+    public FileObject findLocalFile(final File file) throws FileSystemException {
         return findLocalFile(UriParser.encode(file.getAbsolutePath()));
         // return findLocalFile(file.getAbsolutePath());
     }
@@ -125,16 +103,14 @@ public class DefaultLocalFileProvider
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         // Create the file system
         final LocalFileName rootName = (LocalFileName) name;
         return new LocalFileSystem(rootName, rootName.getRootFile(), fileSystemOptions);
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

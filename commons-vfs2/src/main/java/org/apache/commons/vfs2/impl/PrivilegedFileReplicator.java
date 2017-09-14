@@ -31,24 +31,17 @@ import org.apache.commons.vfs2.provider.VfsComponent;
 import org.apache.commons.vfs2.provider.VfsComponentContext;
 
 /**
- * A file replicator that wraps another file replicator, performing
- * the replication as a privileged action.
+ * A file replicator that wraps another file replicator, performing the replication as a privileged action.
  */
-public class PrivilegedFileReplicator
-    implements FileReplicator, VfsComponent
-{
+public class PrivilegedFileReplicator implements FileReplicator, VfsComponent {
     private final FileReplicator replicator;
     private final VfsComponent replicatorComponent;
 
-    public PrivilegedFileReplicator(final FileReplicator replicator)
-    {
+    public PrivilegedFileReplicator(final FileReplicator replicator) {
         this.replicator = replicator;
-        if (replicator instanceof VfsComponent)
-        {
+        if (replicator instanceof VfsComponent) {
             replicatorComponent = (VfsComponent) replicator;
-        }
-        else
-        {
+        } else {
             replicatorComponent = null;
         }
     }
@@ -59,10 +52,8 @@ public class PrivilegedFileReplicator
      * @param logger The logger.
      */
     @Override
-    public void setLogger(final Log logger)
-    {
-        if (replicatorComponent != null)
-        {
+    public void setLogger(final Log logger) {
+        if (replicatorComponent != null) {
             replicatorComponent.setLogger(logger);
         }
     }
@@ -73,10 +64,8 @@ public class PrivilegedFileReplicator
      * @param context The component context.
      */
     @Override
-    public void setContext(final VfsComponentContext context)
-    {
-        if (replicatorComponent != null)
-        {
+    public void setContext(final VfsComponentContext context) {
+        if (replicatorComponent != null) {
             replicatorComponent.setContext(context);
         }
     }
@@ -87,16 +76,11 @@ public class PrivilegedFileReplicator
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public void init() throws FileSystemException
-    {
-        if (replicatorComponent != null)
-        {
-            try
-            {
+    public void init() throws FileSystemException {
+        if (replicatorComponent != null) {
+            try {
                 AccessController.doPrivileged(new InitAction());
-            }
-            catch (final PrivilegedActionException e)
-            {
+            } catch (final PrivilegedActionException e) {
                 throw new FileSystemException("vfs.impl/init-replicator.error", e);
             }
         }
@@ -106,10 +90,8 @@ public class PrivilegedFileReplicator
      * Closes the replicator.
      */
     @Override
-    public void close()
-    {
-        if (replicatorComponent != null)
-        {
+    public void close() {
+        if (replicatorComponent != null) {
             AccessController.doPrivileged(new CloseAction());
         }
     }
@@ -123,16 +105,11 @@ public class PrivilegedFileReplicator
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public File replicateFile(final FileObject srcFile, final FileSelector selector)
-        throws FileSystemException
-    {
-        try
-        {
+    public File replicateFile(final FileObject srcFile, final FileSelector selector) throws FileSystemException {
+        try {
             final ReplicateAction action = new ReplicateAction(srcFile, selector);
             return AccessController.doPrivileged(action);
-        }
-        catch (final PrivilegedActionException e)
-        {
+        } catch (final PrivilegedActionException e) {
             throw new FileSystemException("vfs.impl/replicate-file.error", e, srcFile.getName());
         }
     }
@@ -140,14 +117,12 @@ public class PrivilegedFileReplicator
     /**
      * An action that initialises the wrapped replicator.
      */
-    private class InitAction implements PrivilegedExceptionAction<Object>
-    {
+    private class InitAction implements PrivilegedExceptionAction<Object> {
         /**
          * Performs the action.
          */
         @Override
-        public Object run() throws Exception
-        {
+        public Object run() throws Exception {
             replicatorComponent.init();
             return null;
         }
@@ -156,26 +131,23 @@ public class PrivilegedFileReplicator
     /**
      * An action that replicates a file using the wrapped replicator.
      */
-    private class ReplicateAction implements PrivilegedExceptionAction<File>
-    {
+    private class ReplicateAction implements PrivilegedExceptionAction<File> {
         private final FileObject srcFile;
         private final FileSelector selector;
 
-        public ReplicateAction(final FileObject srcFile,
-                               final FileSelector selector)
-        {
+        public ReplicateAction(final FileObject srcFile, final FileSelector selector) {
             this.srcFile = srcFile;
             this.selector = selector;
         }
 
         /**
          * Performs the action.
+         * 
          * @throws Exception if an error occurs.
          */
         @Override
-        public File run() throws Exception
-        {
-            // TODO - Do not pass the selector through.  It is untrusted
+        public File run() throws Exception {
+            // TODO - Do not pass the selector through. It is untrusted
             // TODO - Need to determine which files can be read
             return replicator.replicateFile(srcFile, selector);
         }
@@ -184,14 +156,12 @@ public class PrivilegedFileReplicator
     /**
      * An action that closes the wrapped replicator.
      */
-    private class CloseAction implements PrivilegedAction<Object>
-    {
+    private class CloseAction implements PrivilegedAction<Object> {
         /**
          * Performs the action.
          */
         @Override
-        public Object run()
-        {
+        public Object run() {
             replicatorComponent.close();
             return null;
         }

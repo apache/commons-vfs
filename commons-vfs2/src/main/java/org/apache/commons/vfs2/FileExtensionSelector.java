@@ -33,8 +33,7 @@ import java.util.Set;
  *
  * @since 2.1
  */
-public class FileExtensionSelector implements FileSelector
-{
+public class FileExtensionSelector implements FileSelector {
 
     /**
      * The extensions to select.
@@ -44,13 +43,10 @@ public class FileExtensionSelector implements FileSelector
     /**
      * Creates a new selector for the given extensions.
      *
-     * @param extensions
-     *            The extensions to be included by this selector.
+     * @param extensions The extensions to be included by this selector.
      */
-    public FileExtensionSelector(final Collection<String> extensions)
-    {
-        if (extensions != null)
-        {
+    public FileExtensionSelector(final Collection<String> extensions) {
+        if (extensions != null) {
             this.extensions.addAll(extensions);
         }
     }
@@ -58,13 +54,10 @@ public class FileExtensionSelector implements FileSelector
     /**
      * Creates a new selector for the given extensions.
      *
-     * @param extensions
-     *            The extensions to be included by this selector.
+     * @param extensions The extensions to be included by this selector.
      */
-    public FileExtensionSelector(final String... extensions)
-    {
-        if (extensions != null)
-        {
+    public FileExtensionSelector(final String... extensions) {
+        if (extensions != null) {
             this.extensions.addAll(Arrays.asList(extensions));
         }
     }
@@ -72,21 +65,16 @@ public class FileExtensionSelector implements FileSelector
     /**
      * Determines if a file or folder should be selected.
      *
-     * @param fileInfo
-     *            The file selection information.
+     * @param fileInfo The file selection information.
      * @return true if the file should be selected, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo)
-    {
-        if (this.extensions == null)
-        {
+    public boolean includeFile(final FileSelectInfo fileInfo) {
+        if (this.extensions == null) {
             return false;
         }
-        for (final String extension : this.extensions)
-        {
-            if (fileInfo.getFile().getName().getExtension().equalsIgnoreCase(extension))
-            {
+        for (final String extension : this.extensions) {
+            if (fileInfo.getFile().getName().getExtension().equalsIgnoreCase(extension)) {
                 return true;
             }
         }
@@ -96,13 +84,11 @@ public class FileExtensionSelector implements FileSelector
     /**
      * Determines whether a folder should be traversed.
      *
-     * @param fileInfo
-     *            The file selection information.
+     * @param fileInfo The file selection information.
      * @return true if descendants should be traversed, fase otherwise.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo)
-    {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
         return true;
     }
 }

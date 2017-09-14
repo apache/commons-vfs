@@ -21,32 +21,26 @@ package org.apache.commons.vfs2;
  *
  * @see Selectors
  */
-public interface FileSelector
-{
+public interface FileSelector {
     /**
-     * Determines if a file or folder should be selected.  This method is
-     * called in depthwise order (that is, it is called for the children
-     * of a folder before it is called for the folder itself).
+     * Determines if a file or folder should be selected. This method is called in depthwise order (that is, it is
+     * called for the children of a folder before it is called for the folder itself).
      *
      * @param fileInfo the file or folder to select.
      * @return true if the file should be selected.
      * @throws Exception if an error occurs.
      */
-    boolean includeFile(FileSelectInfo fileInfo)
-        throws Exception;
+    boolean includeFile(FileSelectInfo fileInfo) throws Exception;
 
     /**
-     * Determines whether a folder should be traversed.  If this method returns
-     * true, {@link #includeFile} is called for each of the children of
-     * the folder, and each of the child folders is recursively traversed.
+     * Determines whether a folder should be traversed. If this method returns true, {@link #includeFile} is called for
+     * each of the children of the folder, and each of the child folders is recursively traversed.
      * <p>
-     * This method is called on a folder before {@link #includeFile}
-     * is called.
+     * This method is called on a folder before {@link #includeFile} is called.
      *
      * @param fileInfo the file or folder to select.
      * @return true if the folder should be traversed.
      * @throws Exception if an error occurs.
      */
-    boolean traverseDescendents(FileSelectInfo fileInfo)
-        throws Exception;
+    boolean traverseDescendents(FileSelectInfo fileInfo) throws Exception;
 }

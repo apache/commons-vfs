@@ -36,33 +36,24 @@ import org.apache.commons.vfs2.test.UrlTests;
 /**
  * The suite of tests for a file system.
  */
-public class WebdavProviderTestSuite extends ProviderTestSuite
-{
+public class WebdavProviderTestSuite extends ProviderTestSuite {
     /**
      * Adds the tests for a file system to this suite.
      */
-    public WebdavProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception
-    {
+    public WebdavProviderTestSuite(final ProviderTestConfig providerConfig) throws Exception {
         this(providerConfig, "", false, false);
     }
 
     /**
      * Adds the tests for a file system to this suite. Provider has an empty directory.
      */
-    public WebdavProviderTestSuite(final ProviderTestConfig providerConfig,
-                             final boolean addEmptyDir) throws Exception
-    {
+    public WebdavProviderTestSuite(final ProviderTestConfig providerConfig, final boolean addEmptyDir)
+            throws Exception {
         this(providerConfig, "", false, addEmptyDir);
     }
 
-
-
-    protected WebdavProviderTestSuite(final ProviderTestConfig providerConfig,
-                                final String prefix,
-                                final boolean nested,
-                                final boolean addEmptyDir)
-        throws Exception
-    {
+    protected WebdavProviderTestSuite(final ProviderTestConfig providerConfig, final String prefix,
+            final boolean nested, final boolean addEmptyDir) throws Exception {
         super(providerConfig, prefix, nested, addEmptyDir);
     }
 
@@ -70,8 +61,7 @@ public class WebdavProviderTestSuite extends ProviderTestSuite
      * Adds base tests - excludes the nested test cases.
      */
     @Override
-    protected void addBaseTests() throws Exception
-    {
+    protected void addBaseTests() throws Exception {
         addTests(ProviderCacheStrategyTests.class);
         addTests(UriTests.class);
         addTests(NamingTests.class);
@@ -87,6 +77,6 @@ public class WebdavProviderTestSuite extends ProviderTestSuite
         addTests(UrlTests.class);
         addTests(UrlStructureTests.class);
         // The class loader test requires the classes be uploaded to the webdav repo.
-        //addTests(VfsClassLoaderTests.class);
+        // addTests(VfsClassLoaderTests.class);
     }
 }

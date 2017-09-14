@@ -19,16 +19,13 @@ package org.apache.commons.vfs2;
 /**
  * Creates {@link FileContentInfo} instances to determine the content-info for given file contents.
  */
-public interface FileContentInfoFactory
-{
+public interface FileContentInfoFactory {
     /**
      * Creates a FileContentInfo for a the given FileContent.
      *
-     * @param fileContent
-     *            Use this FileContent to create a matching FileContentInfo
+     * @param fileContent Use this FileContent to create a matching FileContentInfo
      * @return a FileContentInfo for the given FileContent.
-     * @throws FileSystemException
-     *             when a problem occurs creating the FileContentInfo.
+     * @throws FileSystemException when a problem occurs creating the FileContentInfo.
      */
     FileContentInfo create(FileContent fileContent) throws FileSystemException;
 }

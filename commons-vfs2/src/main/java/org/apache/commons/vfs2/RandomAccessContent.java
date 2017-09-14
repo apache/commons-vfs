@@ -24,8 +24,7 @@ import java.io.InputStream;
 /**
  * Provides random access over content.
  */
-public interface RandomAccessContent extends DataOutput, DataInput
-{
+public interface RandomAccessContent extends DataOutput, DataInput {
     /**
      * Closes this random access file stream and releases any system resources associated with the stream.
      * <p>
@@ -35,8 +34,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * If this file has an associated channel then the channel is closed as well.
      * <p>
      *
-     * @throws IOException
-     *             if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     void close() throws IOException;
 
@@ -44,8 +42,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * Returns the current offset in this file.
      *
      * @return the offset from the beginning of the file, in bytes, at which the next read or write occurs.
-     * @throws IOException
-     *             if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     long getFilePointer() throws IOException;
 
@@ -56,8 +53,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * </p>
      *
      * @return the InputStream.
-     * @throws IOException
-     *             if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     InputStream getInputStream() throws IOException;
 
@@ -65,8 +61,7 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * Returns the length of this file.
      *
      * @return the length of this file, measured in bytes.
-     * @throws IOException
-     *             if an I/O error occurs.
+     * @throws IOException if an I/O error occurs.
      */
     long length() throws IOException;
 
@@ -82,11 +77,9 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * {@link #seek(long)}</b>
      * </p>
      *
-     * @param pos
-     *            the offset position, measured in bytes from the beginning of the file, at which to set the file
+     * @param pos the offset position, measured in bytes from the beginning of the file, at which to set the file
      *            pointer.
-     * @throws IOException
-     *             if {@code pos} is less than {@code 0} or if an I/O error occurs.
+     * @throws IOException if {@code pos} is less than {@code 0} or if an I/O error occurs.
      */
     void seek(long pos) throws IOException;
 
@@ -101,10 +94,8 @@ public interface RandomAccessContent extends DataOutput, DataInput
      * If the the {@code newLength} argument is greater than {@link #length()}, the content grows with undefined data.
      * </p>
      *
-     * @param newLength
-     *            The desired content length
-     * @throws IOException
-     *                If an I/O error occurs
+     * @param newLength The desired content length
+     * @throws IOException If an I/O error occurs
      * @since 2.1
      */
     void setLength(long newLength) throws IOException;

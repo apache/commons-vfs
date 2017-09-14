@@ -23,33 +23,26 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * A {@link VfsComponent} that contains a set of sub-components.
  */
-public abstract class AbstractVfsContainer
-    extends AbstractVfsComponent
-{
+public abstract class AbstractVfsContainer extends AbstractVfsComponent {
     /**
      * The components contained by this component.
      */
-    private final ArrayList<Object> components
-            = new ArrayList<>(); // @GuardedBy("self")
+    private final ArrayList<Object> components = new ArrayList<>(); // @GuardedBy("self")
 
     /**
      * Adds a sub-component to this component.
      * <p>
-     * If the sub-component implements {@link VfsComponent}, it is initialised.
-     * All sub-components are closed when this component is closed.
+     * If the sub-component implements {@link VfsComponent}, it is initialised. All sub-components are closed when this
+     * component is closed.
+     * 
      * @param component the component to add.
      * @throws FileSystemException if any error occurs.
      */
-    protected void addComponent(final Object component)
-        throws FileSystemException
-    {
-        synchronized (components)
-        {
-            if (!components.contains(component))
-            {
+    protected void addComponent(final Object component) throws FileSystemException {
+        synchronized (components) {
+            if (!components.contains(component)) {
                 // Initialise
-                if (component instanceof VfsComponent)
-                {
+                if (component instanceof VfsComponent) {
                     final VfsComponent vfsComponent = (VfsComponent) component;
                     vfsComponent.setLogger(getLogger());
                     vfsComponent.setContext(getContext());
@@ -67,10 +60,8 @@ public abstract class AbstractVfsContainer
      *
      * @param component the component to remove.
      */
-    protected void removeComponent(final Object component)
-    {
-        synchronized (components)
-        {
+    protected void removeComponent(final Object component) {
+        synchronized (components) {
             // multiple instances should not happen
             components.remove(component);
         }
@@ -80,20 +71,16 @@ public abstract class AbstractVfsContainer
      * Closes the sub-components of this component.
      */
     @Override
-    public void close()
-    {
+    public void close() {
         final Object[] toclose;
-        synchronized (components)
-        {
+        synchronized (components) {
             toclose = components.toArray();
             components.clear();
         }
-  
+
         // Close all components
-        for (final Object component : toclose)
-        {
-            if (component instanceof VfsComponent)
-            {
+        for (final Object component : toclose) {
+            if (component instanceof VfsComponent) {
                 final VfsComponent vfsComponent = (VfsComponent) component;
                 vfsComponent.close();
             }

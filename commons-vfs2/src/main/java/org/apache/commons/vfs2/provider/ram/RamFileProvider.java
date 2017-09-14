@@ -30,34 +30,19 @@ import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 /**
  * RAM File Provider.
  */
-public class RamFileProvider extends AbstractOriginatingFileProvider
-{
+public class RamFileProvider extends AbstractOriginatingFileProvider {
     /** The provider's capabilities. */
-    public static final Collection<Capability> capabilities = Collections
-            .unmodifiableCollection(Arrays.asList(new Capability[]
-            {
-                    Capability.CREATE,
-                    Capability.DELETE,
-                    Capability.RENAME,
-                    Capability.GET_TYPE,
-                    Capability.GET_LAST_MODIFIED,
-                    Capability.SET_LAST_MODIFIED_FILE,
-                    Capability.SET_LAST_MODIFIED_FOLDER,
-                    Capability.LIST_CHILDREN,
-                    Capability.READ_CONTENT,
-                    Capability.URI,
-                    Capability.WRITE_CONTENT,
-                    Capability.APPEND_CONTENT,
-                    Capability.RANDOM_ACCESS_READ,
-                    Capability.RANDOM_ACCESS_SET_LENGTH,
-                    Capability.RANDOM_ACCESS_WRITE
-            }));
+    public static final Collection<Capability> capabilities = Collections.unmodifiableCollection(
+            Arrays.asList(new Capability[] { Capability.CREATE, Capability.DELETE, Capability.RENAME,
+                    Capability.GET_TYPE, Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE,
+                    Capability.SET_LAST_MODIFIED_FOLDER, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
+                    Capability.URI, Capability.WRITE_CONTENT, Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ,
+                    Capability.RANDOM_ACCESS_SET_LENGTH, Capability.RANDOM_ACCESS_WRITE }));
 
     /**
      * Constructs a new provider.
      */
-    public RamFileProvider()
-    {
+    public RamFileProvider() {
         super();
     }
 
@@ -65,12 +50,11 @@ public class RamFileProvider extends AbstractOriginatingFileProvider
      * (non-Javadoc)
      *
      * @see org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider#doCreateFileSystem(
-     *      org.apache.commons.vfs2.FileName, org.apache.commons.vfs2.FileSystemOptions)
+     * org.apache.commons.vfs2.FileName, org.apache.commons.vfs2.FileSystemOptions)
      */
     @Override
-    protected FileSystem doCreateFileSystem(final FileName name,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException
-    {
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
         return new RamFileSystem(name, fileSystemOptions);
     }
 
@@ -80,8 +64,7 @@ public class RamFileProvider extends AbstractOriginatingFileProvider
      * @see org.apache.commons.vfs2.provider.FileProvider#getCapabilities()
      */
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

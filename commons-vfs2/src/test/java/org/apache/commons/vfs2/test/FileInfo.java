@@ -24,38 +24,33 @@ import org.apache.commons.vfs2.FileType;
 /**
  * Info about a file.
  */
-class FileInfo
-{
+class FileInfo {
     String baseName;
     FileType type;
     String content;
     Map<String, FileInfo> children = new HashMap<>();
     FileInfo parent;
 
-    public FileInfo(final String name, final FileType type)
-    {
+    public FileInfo(final String name, final FileType type) {
         baseName = name;
         this.type = type;
         this.content = null;
     }
 
-    public FileInfo(final String name, final FileType type, final String content)
-    {
+    public FileInfo(final String name, final FileType type, final String content) {
         baseName = name;
         this.type = type;
         this.content = content;
     }
 
-    public FileInfo getParent()
-    {
+    public FileInfo getParent() {
         return parent;
     }
 
     /**
      * Adds a child.
      */
-    public void addChild(final FileInfo child)
-    {
+    public void addChild(final FileInfo child) {
         children.put(child.baseName, child);
         child.parent = this;
     }
@@ -63,8 +58,7 @@ class FileInfo
     /**
      * Adds a child file.
      */
-    public FileInfo addFile(final String baseName, final String content)
-    {
+    public FileInfo addFile(final String baseName, final String content) {
         final FileInfo child = new FileInfo(baseName, FileType.FILE, content);
         addChild(child);
         return child;
@@ -73,8 +67,7 @@ class FileInfo
     /**
      * Adds a child folder.
      */
-    public FileInfo addFolder(final String baseName)
-    {
+    public FileInfo addFolder(final String baseName) {
         final FileInfo child = new FileInfo(baseName, FileType.FOLDER, null);
         addChild(child);
         return child;

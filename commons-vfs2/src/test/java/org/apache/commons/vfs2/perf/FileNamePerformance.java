@@ -22,16 +22,13 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 
-public class FileNamePerformance
-{
+public class FileNamePerformance {
     private final static int NUOF_RESOLVES = 100000;
 
-    public static void main(final String[] args) throws FileSystemException
-    {
+    public static void main(final String[] args) throws FileSystemException {
         final FileSystemManager mgr = VFS.getManager();
 
-        final FileObject root = mgr
-                .resolveFile("smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr");
+        final FileObject root = mgr.resolveFile("smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr");
         final FileName rootName = root.getName();
 
         testNames(mgr, rootName);
@@ -41,62 +38,50 @@ public class FileNamePerformance
         testFiles(mgr);
     }
 
-    private static void testFiles(final FileSystemManager mgr) throws FileSystemException
-    {
-        for (int i = 0; i < 10; i++)
-        {
+    private static void testFiles(final FileSystemManager mgr) throws FileSystemException {
+        for (int i = 0; i < 10; i++) {
             // warmup jvm
-            mgr.resolveFile("smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/many/path/elements/with%25esc/any%25where/to/file.txt");
+            mgr.resolveFile(
+                    "smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
 
         final long start = System.currentTimeMillis();
-        for (int i = 0; i < NUOF_RESOLVES; i++)
-        {
-            mgr.resolveFile("smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/many/path/elements/with%25esc/any%25where/to/file.txt");
+        for (int i = 0; i < NUOF_RESOLVES; i++) {
+            mgr.resolveFile(
+                    "smb://HOME\\vfsusr:vfs%2f%25\\te:st@10.0.1.54/vfsusr/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
         final long end = System.currentTimeMillis();
 
-        System.err.println("time to resolve " + NUOF_RESOLVES + " files: "
-                + (end - start) + "ms");
+        System.err.println("time to resolve " + NUOF_RESOLVES + " files: " + (end - start) + "ms");
     }
 
-    private static void testChildren(final FileObject root) throws FileSystemException
-    {
-        for (int i = 0; i < 10; i++)
-        {
+    private static void testChildren(final FileObject root) throws FileSystemException {
+        for (int i = 0; i < 10; i++) {
             // warmup jvm
             root.resolveFile("/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
 
         final long start = System.currentTimeMillis();
-        for (int i = 0; i < NUOF_RESOLVES; i++)
-        {
+        for (int i = 0; i < NUOF_RESOLVES; i++) {
             root.resolveFile("/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
         final long end = System.currentTimeMillis();
 
-        System.err.println("time to resolve " + NUOF_RESOLVES + " children: "
-                + (end - start) + "ms");
+        System.err.println("time to resolve " + NUOF_RESOLVES + " children: " + (end - start) + "ms");
     }
 
-    private static void testNames(final FileSystemManager mgr, final FileName rootName) throws FileSystemException
-    {
-        for (int i = 0; i < 10; i++)
-        {
+    private static void testNames(final FileSystemManager mgr, final FileName rootName) throws FileSystemException {
+        for (int i = 0; i < 10; i++) {
             // warmup jvm
-            mgr.resolveName(rootName,
-                    "/many/path/elements/with%25esc/any%25where/to/file.txt");
+            mgr.resolveName(rootName, "/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
 
         final long start = System.currentTimeMillis();
-        for (int i = 0; i < NUOF_RESOLVES; i++)
-        {
-            mgr.resolveName(rootName,
-                    "/many/path/elements/with%25esc/any%25where/to/file.txt");
+        for (int i = 0; i < NUOF_RESOLVES; i++) {
+            mgr.resolveName(rootName, "/many/path/elements/with%25esc/any%25where/to/file.txt");
         }
         final long end = System.currentTimeMillis();
 
-        System.err.println("time to resolve " + NUOF_RESOLVES + " names: "
-                + (end - start) + "ms");
+        System.err.println("time to resolve " + NUOF_RESOLVES + " names: " + (end - start) + "ms");
     }
 }

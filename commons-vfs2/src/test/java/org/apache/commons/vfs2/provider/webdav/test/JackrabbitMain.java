@@ -52,14 +52,12 @@ import org.mortbay.jetty.webapp.WebAppContext;
  *
  * @since 2.1
  */
-class JackrabbitMain
-{
+class JackrabbitMain {
 
     /**
      * @param args
      */
-    public static void main(final String[] args) throws Exception
-    {
+    public static void main(final String[] args) throws Exception {
         new JackrabbitMain(args).run();
     }
 
@@ -78,9 +76,7 @@ class JackrabbitMain
     private FileAppender jackrabbitAppender;
     private FileAppender jettyAppender;
 
-
-    public JackrabbitMain(final String[] args) throws ParseException
-    {
+    public JackrabbitMain(final String[] args) throws ParseException {
         options.addOption("?", "help", false, "print this message");
         options.addOption("n", "notice", false, "print copyright notices");
         options.addOption("l", "license", false, "print license information");
@@ -97,46 +93,37 @@ class JackrabbitMain
         command = new GnuParser().parse(options, args);
     }
 
-    private void copyToOutput(final String resource) throws IOException
-    {
+    private void copyToOutput(final String resource) throws IOException {
         final InputStream stream = JackrabbitMain.class.getResourceAsStream(resource);
-        try
-        {
+        try {
             IOUtils.copy(stream, System.out);
-        } finally
-        {
+        } finally {
             stream.close();
         }
     }
 
-    private void message(final String message)
-    {
-        if (!command.hasOption("quiet"))
-        {
+    private void message(final String message) {
+        if (!command.hasOption("quiet")) {
             System.out.println(message);
         }
     }
 
-    private void prepareAccessLog(final File log)
-    {
+    private void prepareAccessLog(final File log) {
         final NCSARequestLog ncsa = new NCSARequestLog(new File(log, "access.log.yyyy_mm_dd").getPath());
         ncsa.setFilenameDateFormat("yyyy-MM-dd");
         accessLog.setRequestLog(ncsa);
     }
 
-    private void prepareConnector()
-    {
+    private void prepareConnector() {
         final String port = command.getOptionValue("port", "8080");
         connector.setPort(Integer.parseInt(port));
         final String host = command.getOptionValue("host");
-        if (host != null)
-        {
+        if (host != null) {
             connector.setHost(host);
         }
     }
 
-    private void prepareServerLog(final File log) throws IOException
-    {
+    private void prepareServerLog(final File log) throws IOException {
         final Layout layout = new PatternLayout("%d{dd.MM.yyyy HH:mm:ss} *%-5p* %c{1}: %m%n");
 
         final Logger jackrabbitLog = Logger.getRootLogger();
@@ -153,18 +140,13 @@ class JackrabbitMain
         System.setProperty("derby.stream.error.file", new File(log, "derby.log").getPath());
     }
 
-    private void prepareShutdown()
-    {
-        Runtime.getRuntime().addShutdownHook(new Thread()
-        {
+    private void prepareShutdown() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
-            public void run()
-            {
-                try
-                {
+            public void run() {
+                try {
                     shutdown();
-                } catch (final Exception e)
-                {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -172,8 +154,7 @@ class JackrabbitMain
         });
     }
 
-    private void prepareWebapp(final File file, final File repository, final File tmp)
-    {
+    private void prepareWebapp(final File file, final File repository, final File tmp) {
         webapp.setContextPath("/");
         webapp.setWar(file.getPath());
         webapp.setClassLoader(JackrabbitMain.class.getClassLoader());
@@ -189,50 +170,40 @@ class JackrabbitMain
         servlet.setInitOrder(1);
         servlet.setInitParameter("repository.home", repository.getAbsolutePath());
         final String conf = command.getOptionValue("conf");
-        if (conf != null)
-        {
+        if (conf != null) {
             servlet.setInitParameter("repository.config", conf);
         }
         webapp.addServlet(servlet, "/repository.properties");
     }
 
     /** Try to load a resource with various classloaders. */
-    private URL getResource(final String name)
-    {
+    private URL getResource(final String name) {
         URL res = Thread.currentThread().getContextClassLoader().getResource(name);
-        if (res == null)
-        {
+        if (res == null) {
             res = getClass().getResource(name);
         }
         return res; // might be null
     }
 
-    public void run() throws Exception
-    {
+    public void run() throws Exception {
         String defaultFile = "jackrabbit-standalone.jar";
         final URL location = Main.class.getProtectionDomain().getCodeSource().getLocation();
-        if (location != null && "file".equals(location.getProtocol()))
-        {
+        if (location != null && "file".equals(location.getProtocol())) {
             final File file = new File(location.getPath());
-            if (file.isFile())
-            {
+            if (file.isFile()) {
                 defaultFile = location.getPath();
             }
         }
         final File file = new File(command.getOptionValue("file", defaultFile));
 
-        if (command.hasOption("help"))
-        {
+        if (command.hasOption("help")) {
             final HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("java -jar " + file.getName(), options, true);
-        } else if (command.hasOption("notice"))
-        {
+        } else if (command.hasOption("notice")) {
             copyToOutput("/META-INF/NOTICE.txt");
-        } else if (command.hasOption("license"))
-        {
+        } else if (command.hasOption("license")) {
             copyToOutput("/META-INF/LICENSE.txt");
-        } else
-        {
+        } else {
             message("Welcome to Apache Jackrabbit!");
             message("-------------------------------");
 
@@ -257,26 +228,22 @@ class JackrabbitMain
             server.addConnector(connector);
             prepareShutdown();
 
-            try
-            {
+            try {
                 server.start();
 
                 String host = connector.getHost();
-                if (host == null)
-                {
+                if (host == null) {
                     host = "localhost";
                 }
                 message("Apache Jackrabbit is now running at " + "http://" + host + ":" + connector.getPort() + "/");
-            } catch (final Throwable t)
-            {
+            } catch (final Throwable t) {
                 System.err.println("Unable to start the server: " + t.getMessage());
                 System.exit(1);
             }
         }
     }
 
-    public void shutdown() throws Exception, InterruptedException
-    {
+    public void shutdown() throws Exception, InterruptedException {
         message("Shutting down the server...");
         server.setGracefulShutdown(5);
         server.stop();

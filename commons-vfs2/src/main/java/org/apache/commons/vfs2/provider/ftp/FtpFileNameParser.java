@@ -22,19 +22,16 @@ import org.apache.commons.vfs2.provider.HostFileNameParser;
 /**
  * Implementation for ftp. set default port to 21
  */
-public class FtpFileNameParser extends HostFileNameParser
-{
+public class FtpFileNameParser extends HostFileNameParser {
     private static final FtpFileNameParser INSTANCE = new FtpFileNameParser();
 
     private static final int PORT = 21;
 
-    public FtpFileNameParser()
-    {
+    public FtpFileNameParser() {
         super(PORT);
     }
 
-    public static FileNameParser getInstance()
-    {
+    public static FileNameParser getInstance() {
         return INSTANCE;
     }
 }

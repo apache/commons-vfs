@@ -30,15 +30,13 @@ import org.junit.Assert;
  *
  * @version $Id$
  */
-public class ProviderRandomSetLengthTests extends AbstractProviderTestCase
-{
+public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
     private static final String TEST_DATA = "This is a test file.";
 
     /**
      * Sets up a scratch folder for the test to use.
      */
-    protected FileObject createScratchFolder() throws Exception
-    {
+    protected FileObject createScratchFolder() throws Exception {
         final FileObject scratchFolder = this.getWriteFolder();
 
         // Make sure the test folder is empty
@@ -52,24 +50,17 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase
      * Returns the capabilities required by the tests of this test case.
      */
     @Override
-    protected Capability[] getRequiredCaps()
-    {
-        return new Capability[]
-        {
-                Capability.GET_TYPE,
-                Capability.RANDOM_ACCESS_READ,
-                Capability.RANDOM_ACCESS_WRITE,
+    protected Capability[] getRequiredCaps() {
+        return new Capability[] { Capability.GET_TYPE, Capability.RANDOM_ACCESS_READ, Capability.RANDOM_ACCESS_WRITE,
                 Capability.RANDOM_ACCESS_SET_LENGTH };
     }
 
     /**
      * Writes a file
      */
-    public void testRandomSetLength() throws Exception
-    {
+    public void testRandomSetLength() throws Exception {
         FileObject file = null;
-        try
-        {
+        try {
             file = this.createScratchFolder().resolveFile("random_write.txt");
             file.createFile();
             final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE);
@@ -85,12 +76,10 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase
             ra.seek(0);
             Assert.assertEquals(ra.readByte(), TEST_DATA.charAt(0));
 
-            try
-            {
+            try {
                 ra.readByte();
                 Assert.fail("Expected " + Exception.class.getName());
-            } catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 // Expected
             }
 
@@ -101,10 +90,8 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase
             ra.seek(1);
             ra.readByte();
 
-        } finally
-        {
-            if (file != null)
-            {
+        } finally {
+            if (file != null) {
                 file.close();
             }
         }

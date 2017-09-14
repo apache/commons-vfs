@@ -35,31 +35,20 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 /**
  * An HTTP provider that uses commons-httpclient.
  */
-public class HttpFileProvider
-    extends AbstractOriginatingFileProvider
-{
+public class HttpFileProvider extends AbstractOriginatingFileProvider {
     /** Authenticator information. */
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-        {
-            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-        };
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
-    static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.GET_TYPE,
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.GET_LAST_MODIFIED,
-        Capability.ATTRIBUTES,
-        Capability.RANDOM_ACCESS_READ,
-        Capability.DIRECTORY_READ_CONTENT,
-    }));
+    static final Collection<Capability> capabilities = Collections
+            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.GET_TYPE, Capability.READ_CONTENT,
+                    Capability.URI, Capability.GET_LAST_MODIFIED, Capability.ATTRIBUTES, Capability.RANDOM_ACCESS_READ,
+                    Capability.DIRECTORY_READ_CONTENT, }));
 
     /**
      * Constructs a new provider.
      */
-    public HttpFileProvider()
-    {
+    public HttpFileProvider() {
         super();
         setFileNameParser(HttpFileNameParser.getInstance());
     }
@@ -69,29 +58,23 @@ public class HttpFileProvider
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
         UserAuthenticationData authData = null;
         HttpClient httpClient;
-        try
-        {
+        try {
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
-            httpClient = HttpClientFactory.createConnection(
-                rootName.getScheme(),
-                rootName.getHostName(),
-                rootName.getPort(),
-                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                    UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
-                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                    UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
-                fileSystemOptions);
-        }
-        finally
-        {
+            httpClient = HttpClientFactory.createConnection(rootName.getScheme(), rootName.getHostName(),
+                    rootName.getPort(),
+                    UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                            UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
+                    UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                            UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
+                    fileSystemOptions);
+        } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
 
@@ -99,14 +82,12 @@ public class HttpFileProvider
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder()
-    {
+    public FileSystemConfigBuilder getConfigBuilder() {
         return HttpFileSystemConfigBuilder.getInstance();
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

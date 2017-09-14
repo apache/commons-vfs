@@ -28,14 +28,11 @@ import org.apache.commons.vfs2.VFS;
 /**
  * Test cases for the VFS factory.
  */
-public class FileSystemManagerFactoryTestCase
-    extends AbstractVfsTestCase
-{
+public class FileSystemManagerFactoryTestCase extends AbstractVfsTestCase {
     /**
      * Sanity test.
      */
-    public void testDefaultInstance() throws Exception
-    {
+    public void testDefaultInstance() throws Exception {
         // Locate the default manager
         final FileSystemManager manager = VFS.getManager();
 
@@ -52,8 +49,7 @@ public class FileSystemManagerFactoryTestCase
         check(manager, file3);
     }
 
-    private void check(final FileSystemManager manager, FileObject file) throws FileSystemException
-    {
+    private void check(final FileSystemManager manager, FileObject file) throws FileSystemException {
         assertNotNull(file);
         assertTrue(file.exists());
         assertSame(FileType.FILE, file.getType());

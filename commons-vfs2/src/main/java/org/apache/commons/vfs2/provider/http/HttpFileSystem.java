@@ -31,14 +31,11 @@ import org.apache.commons.vfs2.provider.GenericFileName;
 /**
  * An HTTP file system.
  */
-public class HttpFileSystem
-    extends AbstractFileSystem
-{
+public class HttpFileSystem extends AbstractFileSystem {
     private final HttpClient client;
 
     protected HttpFileSystem(final GenericFileName rootName, final HttpClient client,
-                             final FileSystemOptions fileSystemOptions)
-    {
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.client = client;
     }
@@ -47,38 +44,30 @@ public class HttpFileSystem
      * Adds the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(HttpFileProvider.capabilities);
     }
 
-    protected HttpClient getClient()
-    {
+    protected HttpClient getClient() {
         return client;
     }
 
     /** @since 2.0 */
     @Override
-    public void closeCommunicationLink()
-    {
-        if (getClient() != null)
-        {
+    public void closeCommunicationLink() {
+        if (getClient() != null) {
             final HttpConnectionManager mgr = getClient().getHttpConnectionManager();
-            if (mgr instanceof MultiThreadedHttpConnectionManager)
-            {
+            if (mgr instanceof MultiThreadedHttpConnectionManager) {
                 ((MultiThreadedHttpConnectionManager) mgr).shutdown();
             }
         }
     }
 
     /**
-     * Creates a file object.  This method is called only if the requested
-     * file is not cached.
+     * Creates a file object. This method is called only if the requested file is not cached.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name)
-        throws Exception
-    {
+    protected FileObject createFile(final AbstractFileName name) throws Exception {
         return new HttpFileObject(name, this);
     }
 }

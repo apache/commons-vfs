@@ -35,27 +35,22 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * A RAM File contains a single RAM FileData instance, it provides methods to access the data by implementing FileObject
  * interface.
  */
-public class RamFileObject extends AbstractFileObject<RamFileSystem>
-{
+public class RamFileObject extends AbstractFileObject<RamFileSystem> {
     /**
      * RAM File Object Data.
      */
     private RamFileData data;
 
     /**
-     * @param name
-     *            The name of the file.
-     * @param fs
-     *            The FileSystem.
+     * @param name The name of the file.
+     * @param fs The FileSystem.
      */
-    protected RamFileObject(final AbstractFileName name, final RamFileSystem fs)
-    {
+    protected RamFileObject(final AbstractFileName name, final RamFileSystem fs) {
         super(name, fs);
         this.getAbstractFileSystem().attach(this);
     }
 
-    private void save() throws FileSystemException
-    {
+    private void save() throws FileSystemException {
         this.getAbstractFileSystem().save(this);
     }
 
@@ -65,8 +60,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetType()
      */
     @Override
-    protected FileType doGetType() throws Exception
-    {
+    protected FileType doGetType() throws Exception {
         return data.getType();
     }
 
@@ -76,8 +70,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doListChildren()
      */
     @Override
-    protected String[] doListChildren() throws Exception
-    {
+    protected String[] doListChildren() throws Exception {
         return this.getAbstractFileSystem().listChildren(this.getName());
     }
 
@@ -87,8 +80,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetContentSize()
      */
     @Override
-    protected long doGetContentSize() throws Exception
-    {
+    protected long doGetContentSize() throws Exception {
         return this.size();
     }
 
@@ -98,11 +90,9 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetInputStream()
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         // VFS-210: ram allows to gather an input stream even from a directory. So we need to check the type anyway.
-        if (!getType().hasContent())
-        {
+        if (!getType().hasContent()) {
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
         }
 
@@ -115,10 +105,8 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetOutputStream(boolean)
      */
     @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
-    {
-        if (!bAppend)
-        {
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
+        if (!bAppend) {
             this.data.setContent(RamFileData.EMPTY);
         }
         return new RamFileOutputStream(this);
@@ -130,11 +118,9 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doDelete()
      */
     @Override
-    protected void doDelete() throws Exception
-    {
+    protected void doDelete() throws Exception {
 
-        if (this.isContentOpen())
-        {
+        if (this.isContentOpen()) {
             throw new FileSystemException(this.getName() + " cannot be deleted while the file is openg");
         }
         getAbstractFileSystem().delete(this);
@@ -146,8 +132,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doGetLastModifiedTime()
      */
     @Override
-    protected long doGetLastModifiedTime() throws Exception
-    {
+    protected long doGetLastModifiedTime() throws Exception {
         return data.getLastModified();
     }
 
@@ -158,8 +143,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      */
     /** @since 2.0 */
     @Override
-    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
-    {
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         data.setLastModified(modtime);
         return true;
     }
@@ -170,8 +154,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doCreateFolder()
      */
     @Override
-    protected void doCreateFolder() throws Exception
-    {
+    protected void doCreateFolder() throws Exception {
         this.injectType(FileType.FOLDER);
         this.save();
     }
@@ -182,8 +165,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doRename(org.apache.commons.vfs2.FileObject)
      */
     @Override
-    protected void doRename(final FileObject newFile) throws Exception
-    {
+    protected void doRename(final FileObject newFile) throws Exception {
         final RamFileObject newRamFileObject = (RamFileObject) FileObjectUtils.getAbstractFileObject(newFile);
         getAbstractFileSystem().rename(this, newRamFileObject);
     }
@@ -195,8 +177,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * org.apache.commons.vfs2.util.RandomAccessMode)
      */
     @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
-    {
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
         return new RamFileRandomAccessContent(this, mode);
     }
 
@@ -206,25 +187,21 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#doAttach()
      */
     @Override
-    protected void doAttach() throws Exception
-    {
+    protected void doAttach() throws Exception {
         this.getAbstractFileSystem().attach(this);
     }
 
     /**
      * @return Returns the data.
      */
-    RamFileData getData()
-    {
+    RamFileData getData() {
         return data;
     }
 
     /**
-     * @param data
-     *            The data to set.
+     * @param data The data to set.
      */
-    void setData(final RamFileData data)
-    {
+    void setData(final RamFileData data) {
         this.data = data;
     }
 
@@ -234,8 +211,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#injectType(org.apache.commons.vfs2.FileType)
      */
     @Override
-    protected void injectType(final FileType fileType)
-    {
+    protected void injectType(final FileType fileType) {
         this.data.setType(fileType);
         super.injectType(fileType);
     }
@@ -246,8 +222,7 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
      * @see org.apache.commons.vfs2.provider.AbstractFileObject#endOutput()
      */
     @Override
-    protected void endOutput() throws Exception
-    {
+    protected void endOutput() throws Exception {
         super.endOutput();
         this.save();
     }
@@ -255,25 +230,20 @@ public class RamFileObject extends AbstractFileObject<RamFileSystem>
     /**
      * @return Returns the size of the {@link RamFileData}.
      */
-    int size()
-    {
+    int size() {
         return data == null ? 0 : data.size();
     }
 
     /**
      * @param newSize
-     * @throws IOException
-     *             if the new size exceeds the limit
+     * @throws IOException if the new size exceeds the limit
      */
-    synchronized void resize(final long newSize) throws IOException
-    {
+    synchronized void resize(final long newSize) throws IOException {
         final RamFileSystem afs = getAbstractFileSystem();
         final FileSystemOptions afsOptions = afs.getFileSystemOptions();
-        if (afsOptions != null)
-        {
+        if (afsOptions != null) {
             final long maxSize = RamFileSystemConfigBuilder.getInstance().getLongMaxSize(afsOptions);
-            if (afs.size() + newSize - this.size() > maxSize)
-            {
+            if (afs.size() + newSize - this.size() > maxSize) {
                 throw new IOException("FileSystem capacity (" + maxSize + ") exceeded.");
             }
         }

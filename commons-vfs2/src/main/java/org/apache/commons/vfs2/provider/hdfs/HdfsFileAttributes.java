@@ -21,8 +21,7 @@ package org.apache.commons.vfs2.provider.hdfs;
  *
  * @since 2.1
  */
-public enum HdfsFileAttributes
-{
+public enum HdfsFileAttributes {
     /**
      * Last access time.
      */

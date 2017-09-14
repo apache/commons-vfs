@@ -40,8 +40,7 @@ import org.junit.Assert;
  * Test cases for the HTTP provider.
  *
  */
-public class HttpProviderTestCase extends AbstractProviderTestConfig
-{
+public class HttpProviderTestCase extends AbstractProviderTestConfig {
     private static NHttpServer Server;
 
     private static int SocketPort;
@@ -53,8 +52,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
      */
     private static String ConnectionUri;
 
-    private static String getSystemTestUriOverride()
-    {
+    private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
@@ -63,11 +61,9 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
      *
      * @throws Exception
      */
-    private static void setUpClass() throws Exception
-    {
+    private static void setUpClass() throws Exception {
         Server = new NHttpServer();
-        if (!Server.run(SocketPort, new File(getTestDirectory()), 5000))
-        {
+        if (!Server.run(SocketPort, new File(getTestDirectory()), 5000)) {
             throw new IllegalStateException("The embedded HTTP server has not completed startup, increase wait time");
         }
     }
@@ -76,36 +72,29 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
      * Creates a new test suite.
      *
      * @return a new test suite.
-     * @throws Exception
-     *             Thrown when the suite cannot be constructed.
+     * @throws Exception Thrown when the suite cannot be constructed.
      */
-    public static Test suite() throws Exception
-    {
-        return new ProviderTestSuite(new HttpProviderTestCase())
-        {
+    public static Test suite() throws Exception {
+        return new ProviderTestSuite(new HttpProviderTestCase()) {
             /**
              * Adds base tests - excludes the nested test cases.
              */
             @Override
-            protected void addBaseTests() throws Exception
-            {
+            protected void addBaseTests() throws Exception {
                 super.addBaseTests();
                 addTests(HttpProviderTestCase.class);
             }
 
             @Override
-            protected void setUp() throws Exception
-            {
-                if (getSystemTestUriOverride() == null)
-                {
+            protected void setUp() throws Exception {
+                if (getSystemTestUriOverride() == null) {
                     setUpClass();
                 }
                 super.setUp();
             }
 
             @Override
-            protected void tearDown() throws Exception
-            {
+            protected void tearDown() throws Exception {
                 tearDownClass();
                 super.tearDown();
             }
@@ -117,10 +106,8 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
      *
      * @throws IOException
      */
-    private static void tearDownClass() throws IOException
-    {
-        if (Server != null)
-        {
+    private static void tearDownClass() throws IOException {
+        if (Server != null) {
             Server.stop();
         }
     }
@@ -128,18 +115,15 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
     /**
      * Builds a new test case.
      *
-     * @throws IOException
-     *             Thrown if a free local socket port cannot be found.
+     * @throws IOException Thrown if a free local socket port cannot be found.
      */
-    public HttpProviderTestCase() throws IOException
-    {
+    public HttpProviderTestCase() throws IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         // Use %40 for @ in a URL
         ConnectionUri = "http://localhost:" + SocketPort;
     }
 
-    private void checkReadTestsFolder(final FileObject file) throws FileSystemException
-    {
+    private void checkReadTestsFolder(final FileObject file) throws FileSystemException {
         Assert.assertNotNull(file.getChildren());
         Assert.assertTrue(file.getChildren().length > 0);
     }
@@ -148,11 +132,9 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
-        if (uri == null)
-        {
+        if (uri == null) {
             uri = ConnectionUri;
         }
         return manager.resolveFile(uri);
@@ -162,56 +144,47 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("http", new HttpFileProvider());
     }
 
-    private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException
-    {
+    private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
         VFS.getManager().getFilesCache().close();
         final FileSystemOptions opts = new FileSystemOptions();
         HttpFileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
         final FileObject file = VFS.getManager().resolveFile(uri, opts);
-        try
-        {
+        try {
             checkReadTestsFolder(file);
-        } catch (final FileNotFolderException e)
-        {
+        } catch (final FileNotFolderException e) {
             // Expected: VFS HTTP does not support listing children yet.
         }
     }
 
-    public void testResloveFolderSlashNoRedirectOff() throws FileSystemException
-    {
+    public void testResloveFolderSlashNoRedirectOff() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests", false);
     }
 
-    public void testResloveFolderSlashNoRedirectOn() throws FileSystemException
-    {
+    public void testResloveFolderSlashNoRedirectOn() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests", true);
     }
 
-    public void testResloveFolderSlashYesRedirectOff() throws FileSystemException
-    {
+    public void testResloveFolderSlashYesRedirectOff() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", false);
     }
 
-    public void testResloveFolderSlashYesRedirectOn() throws FileSystemException
-    {
+    public void testResloveFolderSlashYesRedirectOn() throws FileSystemException {
         testResloveFolderSlash(ConnectionUri + "/read-tests/", true);
     }
 
     // Test no longer passing 2016/04/28
-    public void ignoreTestHttp405() throws FileSystemException
-    {
-        final FileObject f = VFS.getManager().resolveFile("http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
+    public void ignoreTestHttp405() throws FileSystemException {
+        final FileObject f = VFS.getManager()
+                .resolveFile("http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
         assert f.getContent().getSize() > 0;
     }
 
-	/** Ensure VFS-453 options are present. */
-    public void testHttpTimeoutConfig() throws FileSystemException
-    {
+    /** Ensure VFS-453 options are present. */
+    public void testHttpTimeoutConfig() throws FileSystemException {
         final FileSystemOptions opts = new FileSystemOptions();
         final HttpFileSystemConfigBuilder builder = HttpFileSystemConfigBuilder.getInstance();
 

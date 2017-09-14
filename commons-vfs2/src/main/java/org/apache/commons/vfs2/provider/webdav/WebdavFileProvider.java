@@ -38,83 +38,60 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
  *
  * @since 2.0
  */
-public class WebdavFileProvider
-    extends HttpFileProvider
-{
-    
+public class WebdavFileProvider extends HttpFileProvider {
+
     /**
      * The authenticator types used by the WebDAV provider.
      * 
      * @deprecated Might be removed in the next major version.
      */
     @Deprecated
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[]
-        {
-            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD
-        };
-   
-    /** The capabilities of the WebDAV provider */
-    protected static final Collection<Capability> capabilities =
-            Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.CREATE,
-        Capability.DELETE,
-        Capability.RENAME,
-        Capability.GET_TYPE,
-        Capability.LIST_CHILDREN,
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.WRITE_CONTENT,
-        Capability.GET_LAST_MODIFIED,
-        Capability.ATTRIBUTES,
-        Capability.RANDOM_ACCESS_READ,
-        Capability.DIRECTORY_READ_CONTENT,
-    }));
+    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
+            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
 
-    public WebdavFileProvider()
-    {
+    /** The capabilities of the WebDAV provider */
+    protected static final Collection<Capability> capabilities = Collections
+            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.CREATE, Capability.DELETE,
+                    Capability.RENAME, Capability.GET_TYPE, Capability.LIST_CHILDREN, Capability.READ_CONTENT,
+                    Capability.URI, Capability.WRITE_CONTENT, Capability.GET_LAST_MODIFIED, Capability.ATTRIBUTES,
+                    Capability.RANDOM_ACCESS_READ, Capability.DIRECTORY_READ_CONTENT, }));
+
+    public WebdavFileProvider() {
         super();
 
         setFileNameParser(WebdavFileNameParser.getInstance());
     }
+
     /**
      * Creates a {@link FileSystem}.
      * <p>
-     * If you're looking at this method and wondering how to get a FileSystemOptions
-     * object bearing the proxy host and credentials configuration through
-     * to this method so it's used for resolving a
-     * {@link org.apache.commons.vfs2.FileObject FileObject} in the FileSystem, then be sure
-     * to use correct signature of the {@link org.apache.commons.vfs2.FileSystemManager FileSystemManager}
-     * resolveFile method.
+     * If you're looking at this method and wondering how to get a FileSystemOptions object bearing the proxy host and
+     * credentials configuration through to this method so it's used for resolving a
+     * {@link org.apache.commons.vfs2.FileObject FileObject} in the FileSystem, then be sure to use correct signature of
+     * the {@link org.apache.commons.vfs2.FileSystemManager FileSystemManager} resolveFile method.
+     * 
      * @see org.apache.commons.vfs2.impl.DefaultFileSystemManager#resolveFile(FileObject, String, FileSystemOptions)
      */
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+            throws FileSystemException {
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
         final FileSystemOptions fsOpts = fileSystemOptions == null ? new FileSystemOptions() : fileSystemOptions;
 
         UserAuthenticationData authData = null;
         HttpClient httpClient;
-        try
-        {
+        try {
             authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
 
-            httpClient = HttpClientFactory.createConnection(
-                WebdavFileSystemConfigBuilder.getInstance(),
-                "http",
-                rootName.getHostName(),
-                rootName.getPort(),
-                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                        UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
-                UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
-                        UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
-                fsOpts);
-        }
-        finally
-        {
+            httpClient = HttpClientFactory.createConnection(WebdavFileSystemConfigBuilder.getInstance(), "http",
+                    rootName.getHostName(), rootName.getPort(),
+                    UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                            UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),
+                    UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                            UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()))),
+                    fsOpts);
+        } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
 
@@ -122,15 +99,12 @@ public class WebdavFileProvider
     }
 
     @Override
-    public FileSystemConfigBuilder getConfigBuilder()
-    {
+    public FileSystemConfigBuilder getConfigBuilder() {
         return WebdavFileSystemConfigBuilder.getInstance();
     }
 
-
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

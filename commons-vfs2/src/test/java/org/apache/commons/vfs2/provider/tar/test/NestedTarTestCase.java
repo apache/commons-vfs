@@ -32,14 +32,11 @@ import junit.framework.Test;
 /**
  * Tests for the Tar file system, using a tar file nested inside another tar file.
  */
-public class NestedTarTestCase
-    extends AbstractProviderTestConfig
-{
+public class NestedTarTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for nested tar files.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new NestedTarTestCase(), true);
     }
 
@@ -47,9 +44,7 @@ public class NestedTarTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("tar", new TarFileProvider());
         manager.addExtensionMap("tar", "tar");
         manager.addMimeTypeMap("application/x-tar", "tar");
@@ -59,11 +54,11 @@ public class NestedTarTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         // We test with non-empty FS options to make sure they are propagated
         final FileSystemOptions opts = new FileSystemOptions();
-        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, new StaticUserAuthenticator("domain",  null,  null));
+        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts,
+                new StaticUserAuthenticator("domain", null, null));
 
         // Locate the base Tar file
         final String tarFilePath = AbstractVfsTestCase.getTestResource("nested.tar").getAbsolutePath();

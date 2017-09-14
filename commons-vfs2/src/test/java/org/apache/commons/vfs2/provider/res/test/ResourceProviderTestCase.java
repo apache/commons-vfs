@@ -32,20 +32,16 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 /**
  * Test cases for the resource provider.
  */
-public class ResourceProviderTestCase extends AbstractProviderTestConfig
-{
-    public static Test suite() throws Exception
-    {
+public class ResourceProviderTestCase extends AbstractProviderTestConfig {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new ResourceProviderTestCase());
     }
 
     /**
-     * Prepares the file system manager.  This implementation does nothing.
+     * Prepares the file system manager. This implementation does nothing.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("res", new ResourceFileProvider());
         manager.addProvider("file", new UrlFileProvider());
         manager.addProvider("jar", new JarFileProvider());
@@ -55,9 +51,7 @@ public class ResourceProviderTestCase extends AbstractProviderTestConfig
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager)
-        throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final String baseDir = AbstractVfsTestCase.getResourceTestDirectory();
         return manager.resolveFile("res:" + baseDir);
     }

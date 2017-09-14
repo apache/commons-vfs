@@ -25,17 +25,14 @@ import org.apache.commons.vfs2.provider.ftps.FtpsMode;
 /**
  * Tests for FTPS file systems with explicit FTPS connection.
  */
-public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase
-{
+public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase {
     @Override
-    protected boolean isImplicit()
-    {
+    protected boolean isImplicit() {
         return false;
     }
 
     @Override
-    protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
-    {
+    protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
         super.setupOptions(builder);
         builder.setDataChannelProtectionLevel(fileSystemOptions, FtpsDataChannelProtectionLevel.P);
         builder.setFtpsMode(fileSystemOptions, FtpsMode.EXPLICIT);
@@ -44,8 +41,7 @@ public class FtpsProviderExplicitTestCase extends AbstractFtpsProviderTestCase
     /**
      * Creates the test suite for the ftps file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new FtpProviderTestSuite(new FtpsProviderExplicitTestCase());
     }
 }

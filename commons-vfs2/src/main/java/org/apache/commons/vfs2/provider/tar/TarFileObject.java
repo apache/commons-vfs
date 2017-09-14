@@ -29,22 +29,17 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 /**
  * A file in a Tar file system.
  */
-public class TarFileObject extends AbstractFileObject<TarFileSystem>
-{
+public class TarFileObject extends AbstractFileObject<TarFileSystem> {
     /** The TarArchiveEntry */
     private TarArchiveEntry entry;
     private final HashSet<String> children = new HashSet<>();
     private FileType type;
 
-    protected TarFileObject(final AbstractFileName name,
-                            final TarArchiveEntry entry,
-                            final TarFileSystem fs,
-                            final boolean tarExists) throws FileSystemException
-    {
+    protected TarFileObject(final AbstractFileName name, final TarArchiveEntry entry, final TarFileSystem fs,
+            final boolean tarExists) throws FileSystemException {
         super(name, fs);
         setTarEntry(entry);
-        if (!tarExists)
-        {
+        if (!tarExists) {
             type = FileType.IMAGINARY;
         }
     }
@@ -52,21 +47,16 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
     /**
      * Sets the details for this file object.
      * 
-     * Consider this method package private. TODO Might be made package private in the next major version. 
+     * Consider this method package private. TODO Might be made package private in the next major version.
      */
-    protected void setTarEntry(final TarArchiveEntry entry)
-    {
-        if (this.entry != null)
-        {
+    protected void setTarEntry(final TarArchiveEntry entry) {
+        if (this.entry != null) {
             return;
         }
 
-        if (entry == null || entry.isDirectory())
-        {
+        if (entry == null || entry.isDirectory()) {
             type = FileType.FOLDER;
-        }
-        else
-        {
+        } else {
             type = FileType.FILE;
         }
 
@@ -75,10 +65,10 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
 
     /**
      * Attaches a child.
+     * 
      * @param childName Name of child to remember.
      */
-    protected void attachChild(final FileName childName)
-    {
+    protected void attachChild(final FileName childName) {
         children.add(childName.getBaseName());
     }
 
@@ -89,8 +79,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public boolean isWriteable() throws FileSystemException
-    {
+    public boolean isWriteable() throws FileSystemException {
         return false;
     }
 
@@ -98,8 +87,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
      * Returns the file's type.
      */
     @Override
-    protected FileType doGetType()
-    {
+    protected FileType doGetType() {
         return type;
     }
 
@@ -107,17 +95,12 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
      * Lists the children of the file.
      */
     @Override
-    protected String[] doListChildren()
-    {
-        try
-        {
-            if (!getType().hasChildren())
-            {
+    protected String[] doListChildren() {
+        try {
+            if (!getType().hasChildren()) {
                 return null;
             }
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             // should not happen as the type has already been cached.
             throw new RuntimeException(e);
         }
@@ -126,14 +109,12 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
     }
 
     /**
-     * Returns the size of the file content (in bytes).  Is only called if
-     * {@link #doGetType} returns {@link FileType#FILE}.
+     * Returns the size of the file content (in bytes). Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}.
      */
     @Override
-    protected long doGetContentSize()
-    {
-        if (entry == null)
-        {
+    protected long doGetContentSize() {
+        if (entry == null) {
             return 0;
         }
 
@@ -144,10 +125,8 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
      * Returns the last modified time of this file.
      */
     @Override
-    protected long doGetLastModifiedTime() throws Exception
-    {
-        if (entry == null)
-        {
+    protected long doGetLastModifiedTime() throws Exception {
+        if (entry == null) {
             return 0;
         }
 
@@ -155,19 +134,16 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem>
     }
 
     /**
-     * Creates an input stream to read the file content from.  Is only called
-     * if  {@link #doGetType} returns {@link FileType#FILE}.  The input stream
-     * returned by this method is guaranteed to be closed before this
-     * method is called again.
+     * Creates an input stream to read the file content from. Is only called if {@link #doGetType} returns
+     * {@link FileType#FILE}. The input stream returned by this method is guaranteed to be closed before this method is
+     * called again.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
+    protected InputStream doGetInputStream() throws Exception {
         // VFS-210: zip allows to gather an input stream even from a directory and will
         // return -1 on the first read. getType should not be expensive and keeps the tests
         // running
-        if (!getType().hasContent())
-        {
+        if (!getType().hasContent()) {
             throw new FileSystemException("vfs.provider/read-not-file.error", getName());
         }
 

@@ -42,8 +42,7 @@ import org.apache.hadoop.fs.Path;
  *
  * @since 2.1
  */
-public class HdfsFileSystem extends AbstractFileSystem
-{
+public class HdfsFileSystem extends AbstractFileSystem {
     private static final Log log = LogFactory.getLog(HdfsFileSystem.class);
 
     private FileSystem fs;
@@ -54,8 +53,7 @@ public class HdfsFileSystem extends AbstractFileSystem
      * @param rootName Name of the root directory of this file system.
      * @param fileSystemOptions options for this file system instance.
      */
-    protected HdfsFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions)
-    {
+    protected HdfsFileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
     }
 
@@ -63,8 +61,7 @@ public class HdfsFileSystem extends AbstractFileSystem
      * @see org.apache.commons.vfs2.provider.AbstractFileSystem#addCapabilities(Collection)
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> capabilities)
-    {
+    protected void addCapabilities(final Collection<Capability> capabilities) {
         capabilities.addAll(HdfsFileProvider.CAPABILITIES);
     }
 
@@ -72,17 +69,12 @@ public class HdfsFileSystem extends AbstractFileSystem
      * @see org.apache.commons.vfs2.provider.AbstractFileSystem#close()
      */
     @Override
-    public void close()
-    {
-        try
-        {
-            if (null != fs)
-            {
+    public void close() {
+        try {
+            if (null != fs) {
                 fs.close();
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new RuntimeException("Error closing HDFS client", e);
         }
         super.close();
@@ -92,24 +84,21 @@ public class HdfsFileSystem extends AbstractFileSystem
      * @see org.apache.commons.vfs2.provider.AbstractFileSystem#createFile(AbstractFileName)
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws Exception
-    {
+    protected FileObject createFile(final AbstractFileName name) throws Exception {
         throw new FileSystemException("Operation not supported");
     }
 
     /**
      * Resolve FileName into FileObject.
+     * 
      * @param name The name of a file on the HdfsFileSystem.
      * @return resolved FileObject.
      * @throws FileSystemException if an error occurred.
      */
     @Override
-    public FileObject resolveFile(final FileName name) throws FileSystemException
-    {
-        synchronized (this)
-        {
-            if (this.fs == null)
-            {
+    public FileObject resolveFile(final FileName name) throws FileSystemException {
+        synchronized (this) {
+            if (this.fs == null) {
                 final String hdfsUri = name.getRootURI();
                 final HdfsFileSystemConfigBuilder builder = HdfsFileSystemConfigBuilder.getInstance();
                 final FileSystemOptions options = getFileSystemOptions();
@@ -124,47 +113,36 @@ public class HdfsFileSystem extends AbstractFileSystem
 
                 // Load any alternate configuration parameters that may have been specified
                 // no matter where they might come from
-                if (configNames != null)
-                {
-                    for (final String configName : configNames)
-                    {
+                if (configNames != null) {
+                    for (final String configName : configNames) {
                         log.debug("Adding HDFS configuration resource: " + configName);
                         conf.addResource(configName);
                     }
                 }
-                if (configPaths != null)
-                {
-                    for (final Path path : configPaths)
-                    {
+                if (configPaths != null) {
+                    for (final Path path : configPaths) {
                         log.debug("Adding HDFS configuration path: " + path);
                         conf.addResource(path);
                     }
                 }
-                if (configURLs != null)
-                {
-                    for (final URL url : configURLs)
-                    {
+                if (configURLs != null) {
+                    for (final URL url : configURLs) {
                         log.debug("Adding HDFS configuration URL: " + url);
                         conf.addResource(url);
                     }
                 }
-                if (configStream != null)
-                {
+                if (configStream != null) {
                     log.debug("Adding HDFS configuration stream");
                     conf.addResource(configStream);
                 }
-                if (configConfiguration != null)
-                {
+                if (configConfiguration != null) {
                     log.debug("Adding HDFS configuration object");
                     conf.addResource(configConfiguration);
                 }
 
-                try
-                {
+                try {
                     fs = FileSystem.get(conf);
-                }
-                catch (final IOException e)
-                {
+                } catch (final IOException e) {
                     log.error("Error connecting to filesystem " + hdfsUri, e);
                     throw new FileSystemException("Error connecting to filesystem " + hdfsUri, e);
                 }
@@ -173,37 +151,28 @@ public class HdfsFileSystem extends AbstractFileSystem
 
         final boolean useCache = null != getContext().getFileSystemManager().getFilesCache();
         FileObject file;
-        if (useCache)
-        {
+        if (useCache) {
             file = this.getFileFromCache(name);
-        }
-        else
-        {
+        } else {
             file = null;
         }
-        if (null == file)
-        {
+        if (null == file) {
             String path = null;
-            try
-            {
+            try {
                 path = URLDecoder.decode(name.getPath(), "UTF-8");
-            }
-            catch (final UnsupportedEncodingException e)
-            {
+            } catch (final UnsupportedEncodingException e) {
                 path = name.getPath();
             }
             final Path filePath = new Path(path);
             file = new HdfsFileObject((AbstractFileName) name, this, fs, filePath);
-            if (useCache)
-            {
+            if (useCache) {
                 this.putFileToCache(file);
             }
         }
         /**
          * resync the file information if requested
          */
-        if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE))
-        {
+        if (getFileSystemManager().getCacheStrategy().equals(CacheStrategy.ON_RESOLVE)) {
             file.refresh();
         }
         return file;

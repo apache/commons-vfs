@@ -20,14 +20,11 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FilesCache;
 import org.apache.commons.vfs2.provider.AbstractVfsComponent;
 
-
 /**
  * Abstract base class for FilesCache implementations.
  */
-public abstract class AbstractFilesCache extends AbstractVfsComponent implements FilesCache
-{
+public abstract class AbstractFilesCache extends AbstractVfsComponent implements FilesCache {
     // @Override - commented in FilesCache interface
-    public void touchFile(final FileObject file)
-    {
+    public void touchFile(final FileObject file) {
     }
 }

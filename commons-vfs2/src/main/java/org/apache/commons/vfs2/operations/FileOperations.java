@@ -25,8 +25,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *
  * @since 0.1
  */
-public interface FileOperations
-{
+public interface FileOperations {
     /**
      * @return all operations associated with the fileObject
      * @throws FileSystemException if an error occurs.

@@ -22,8 +22,7 @@ import org.apache.commons.vfs2.operations.FileOperation;
  *
  * @since 0.1
  */
-public interface VcsCommit extends FileOperation
-{
+public interface VcsCommit extends FileOperation {
 
     /**
      *

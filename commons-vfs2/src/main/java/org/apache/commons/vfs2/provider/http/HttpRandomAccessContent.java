@@ -30,8 +30,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * RandomAccess content using HTTP.
  */
-class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
-{
+class HttpRandomAccessContent extends AbstractRandomAccessStreamContent {
     protected long filePointer = 0;
 
     private final HttpFileObject fileObject;
@@ -40,8 +39,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
     private DataInputStream dis = null;
     private MonitorInputStream mis = null;
 
-    HttpRandomAccessContent(final HttpFileObject fileObject, final RandomAccessMode mode)
-    {
+    HttpRandomAccessContent(final HttpFileObject fileObject, final RandomAccessMode mode) {
         super(mode);
 
         this.fileObject = fileObject;
@@ -49,27 +47,21 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    public long getFilePointer() throws IOException
-    {
+    public long getFilePointer() throws IOException {
         return filePointer;
     }
 
     @Override
-    public void seek(final long pos) throws IOException
-    {
-        if (pos == filePointer)
-        {
+    public void seek(final long pos) throws IOException {
+        if (pos == filePointer) {
             // no change
             return;
         }
 
-        if (pos < 0)
-        {
-            throw new FileSystemException("vfs.provider/random-access-invalid-position.error",
-                    Long.valueOf(pos));
+        if (pos < 0) {
+            throw new FileSystemException("vfs.provider/random-access-invalid-position.error", Long.valueOf(pos));
         }
-        if (dis != null)
-        {
+        if (dis != null) {
             close();
         }
 
@@ -77,10 +69,8 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    protected DataInputStream getDataInputStream() throws IOException
-    {
-        if (dis != null)
-        {
+    protected DataInputStream getDataInputStream() throws IOException {
+        if (dis != null) {
             return dis;
         }
 
@@ -88,57 +78,43 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         fileObject.setupMethod(getMethod);
         getMethod.setRequestHeader("Range", "bytes=" + filePointer + "-");
         final int status = fileSystem.getClient().executeMethod(getMethod);
-        if (status != HttpURLConnection.HTTP_PARTIAL && status != HttpURLConnection.HTTP_OK)
-        {
-            throw new FileSystemException("vfs.provider.http/get-range.error",
-                fileObject.getName(),
-                Long.valueOf(filePointer),
-                Integer.valueOf(status));
+        if (status != HttpURLConnection.HTTP_PARTIAL && status != HttpURLConnection.HTTP_OK) {
+            throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
+                    Long.valueOf(filePointer), Integer.valueOf(status));
         }
 
         mis = new HttpFileObject.HttpInputStream(getMethod);
         // If the range request was ignored
-        if (status == HttpURLConnection.HTTP_OK)
-        {
+        if (status == HttpURLConnection.HTTP_OK) {
             final long skipped = mis.skip(filePointer);
-            if (skipped != filePointer)
-            {
-                throw new FileSystemException("vfs.provider.http/get-range.error",
-                    fileObject.getName(),
-                    Long.valueOf(filePointer),
-                    Integer.valueOf(status));
+            if (skipped != filePointer) {
+                throw new FileSystemException("vfs.provider.http/get-range.error", fileObject.getName(),
+                        Long.valueOf(filePointer), Integer.valueOf(status));
             }
         }
-        dis = new DataInputStream(new FilterInputStream(mis)
-        {
+        dis = new DataInputStream(new FilterInputStream(mis) {
             @Override
-            public int read() throws IOException
-            {
+            public int read() throws IOException {
                 final int ret = super.read();
-                if (ret > -1)
-                {
+                if (ret > -1) {
                     filePointer++;
                 }
                 return ret;
             }
 
             @Override
-            public int read(final byte[] b) throws IOException
-            {
+            public int read(final byte[] b) throws IOException {
                 final int ret = super.read(b);
-                if (ret > -1)
-                {
+                if (ret > -1) {
                     filePointer += ret;
                 }
                 return ret;
             }
 
             @Override
-            public int read(final byte[] b, final int off, final int len) throws IOException
-            {
+            public int read(final byte[] b, final int off, final int len) throws IOException {
                 final int ret = super.read(b, off, len);
-                if (ret > -1)
-                {
+                if (ret > -1) {
                     filePointer += ret;
                 }
                 return ret;
@@ -148,12 +124,9 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
         return dis;
     }
 
-
     @Override
-    public void close() throws IOException
-    {
-        if (dis != null)
-        {
+    public void close() throws IOException {
+        if (dis != null) {
             dis.close();
             dis = null;
             mis = null;
@@ -161,8 +134,7 @@ class HttpRandomAccessContent extends AbstractRandomAccessStreamContent
     }
 
     @Override
-    public long length() throws IOException
-    {
+    public long length() throws IOException {
         return fileObject.getContent().getSize();
     }
 }

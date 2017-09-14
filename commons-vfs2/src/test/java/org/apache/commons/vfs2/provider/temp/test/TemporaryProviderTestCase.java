@@ -31,14 +31,11 @@ import junit.framework.Test;
 /**
  * Test cases for the tmp: file provider.
  */
-public class TemporaryProviderTestCase
-    extends AbstractProviderTestConfig
-{
+public class TemporaryProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for the tmp file system.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new TemporaryProviderTestCase());
     }
 
@@ -46,9 +43,7 @@ public class TemporaryProviderTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         final File baseDir = AbstractVfsTestCase.getTestDirectoryFile();
         manager.addProvider("tmp", new TemporaryFileProvider(baseDir));
     }
@@ -57,8 +52,7 @@ public class TemporaryProviderTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         return manager.resolveFile("tmp:/");
     }
 }

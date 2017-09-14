@@ -43,8 +43,7 @@ import org.junit.Assert;
 /**
  * Abstract tests for FTP file systems.
  */
-abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
-{
+abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig {
     private static int SocketPort;
 
     /**
@@ -62,23 +61,19 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
 
     private static final String SERVER_JKS_RES = "org.apache.ftpsserver/ftpserver.jks";
 
-    static String getConnectionUri()
-    {
+    static String getConnectionUri() {
         return ConnectionUri;
     }
 
-    static int getSocketPort()
-    {
+    static int getSocketPort() {
         return SocketPort;
     }
 
-    static String getSystemTestUriOverride()
-    {
+    static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
     }
 
-    static void init() throws IOException
-    {
+    static void init() throws IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         // Use %40 for @ in a URL
         ConnectionUri = "ftps://test:test@localhost:" + SocketPort;
@@ -91,10 +86,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
      * @throws FtpException
      * @throws IOException
      */
-    static void setUpClass(final boolean implicit) throws FtpException, IOException
-    {
-        if (Server != null)
-        {
+    static void setUpClass(final boolean implicit) throws FtpException, IOException {
+        if (Server != null) {
             return;
         }
         init();
@@ -137,10 +130,8 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
     /**
      * Stops the embedded Apache FTP Server (MINA).
      */
-    static void tearDownClass()
-    {
-        if (Server != null)
-        {
+    static void tearDownClass() {
+        if (Server != null) {
             Server.stop();
             Server = null;
         }
@@ -149,25 +140,21 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
     static final class FtpProviderTestSuite extends ProviderTestSuite {
         private final boolean implicit;
 
-        public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception
-        {
+        public FtpProviderTestSuite(final AbstractFtpsProviderTestCase providerConfig) throws Exception {
             super(providerConfig);
             this.implicit = providerConfig.isImplicit();
         }
 
         @Override
-        protected void setUp() throws Exception
-        {
-            if (getSystemTestUriOverride() == null)
-            {
+        protected void setUp() throws Exception {
+            if (getSystemTestUriOverride() == null) {
                 setUpClass(implicit);
             }
             super.setUp();
         }
 
         @Override
-        protected void tearDown() throws Exception
-        {
+        protected void tearDown() throws Exception {
             try {
                 // This will report running threads of the FTP server.
                 // However, shutting down the FTP server first will always
@@ -187,28 +174,23 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
      * TEST_URI.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         String uri = getSystemTestUriOverride();
-        if (uri == null)
-        {
+        if (uri == null) {
             uri = ConnectionUri;
         }
         return manager.resolveFile(uri, getFileSystemOptions());
     }
 
-    protected FileSystemOptions getFileSystemOptions()
-    {
-        if (fileSystemOptions == null)
-        {
+    protected FileSystemOptions getFileSystemOptions() {
+        if (fileSystemOptions == null) {
             fileSystemOptions = new FileSystemOptions();
             setupOptions(FtpsFileSystemConfigBuilder.getInstance());
         }
         return fileSystemOptions;
     }
 
-    protected void setupOptions(final FtpsFileSystemConfigBuilder builder)
-    {
+    protected void setupOptions(final FtpsFileSystemConfigBuilder builder) {
         builder.setConnectTimeout(fileSystemOptions, Integer.valueOf(1000));
         builder.setDataTimeout(fileSystemOptions, Integer.valueOf(2000));
     }
@@ -217,8 +199,7 @@ abstract class AbstractFtpsProviderTestCase extends AbstractProviderTestConfig
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager) throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("ftps", new FtpsFileProvider());
     }
 }

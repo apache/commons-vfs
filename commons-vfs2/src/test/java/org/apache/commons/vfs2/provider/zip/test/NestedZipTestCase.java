@@ -29,14 +29,11 @@ import junit.framework.Test;
 /**
  * Tests for the Zip file system, using a zip file nested inside another zip file.
  */
-public class NestedZipTestCase
-    extends AbstractProviderTestConfig
-{
+public class NestedZipTestCase extends AbstractProviderTestConfig {
     /**
      * Creates the test suite for nested zip files.
      */
-    public static Test suite() throws Exception
-    {
+    public static Test suite() throws Exception {
         return new ProviderTestSuite(new NestedZipTestCase(), true);
     }
 
@@ -44,9 +41,7 @@ public class NestedZipTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("zip", new ZipFileProvider());
         manager.addExtensionMap("zip", "zip");
         manager.addMimeTypeMap("application/zip", "zip");
@@ -56,8 +51,7 @@ public class NestedZipTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         // Locate the base Zip file
         final String zipFilePath = AbstractVfsTestCase.getTestResource("nested.zip").getAbsolutePath();
         final String uri = "zip:file:" + zipFilePath + "!/test.zip";

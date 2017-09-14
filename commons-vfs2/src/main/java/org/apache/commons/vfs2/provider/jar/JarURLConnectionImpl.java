@@ -34,9 +34,7 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * A default URL connection that will work for most file systems.
  */
-public class JarURLConnectionImpl
-    extends JarURLConnection
-{
+public class JarURLConnectionImpl extends JarURLConnection {
     // This is because JarURLConnection SUCKS
     private static final String HACK_URL = "jar:http://somehost/somejar.jar!/";
 
@@ -46,9 +44,8 @@ public class JarURLConnectionImpl
     private final String entryName;
 
     public JarURLConnectionImpl(final JarFileObject file, final FileContent content)
-        throws MalformedURLException, FileSystemException
-    {
-        //This is because JarURLConnection SUCKS!!
+            throws MalformedURLException, FileSystemException {
+        // This is because JarURLConnection SUCKS!!
         super(new URL(HACK_URL));
 
         this.url = file.getURL();
@@ -58,85 +55,61 @@ public class JarURLConnectionImpl
         this.file = file;
     }
 
-
     @Override
-    public URL getJarFileURL()
-    {
+    public URL getJarFileURL() {
         return parentURL;
     }
 
-
     @Override
-    public String getEntryName()
-    {
+    public String getEntryName() {
         return entryName;
     }
 
-
     @Override
-    public JarFile getJarFile() throws IOException
-    {
+    public JarFile getJarFile() throws IOException {
         throw new FileSystemException("vfs.provider.jar/jar-file-no-access.error");
     }
 
-
     @Override
-    public Manifest getManifest() throws IOException
-    {
+    public Manifest getManifest() throws IOException {
         return file.getManifest();
     }
 
-
     @Override
-    public JarEntry getJarEntry() throws IOException
-    {
+    public JarEntry getJarEntry() throws IOException {
         throw new FileSystemException("vfs.provider.jar/jar-entry-no-access.error");
     }
 
-
     @Override
-    public Attributes getAttributes() throws IOException
-    {
+    public Attributes getAttributes() throws IOException {
         return file.getAttributes();
     }
 
-
     @Override
-    public Certificate[] getCertificates()
-    {
+    public Certificate[] getCertificates() {
         return file.doGetCertificates();
     }
 
-
     @Override
-    public void connect()
-    {
+    public void connect() {
         connected = true;
     }
 
     @Override
-    public InputStream getInputStream()
-        throws IOException
-    {
+    public InputStream getInputStream() throws IOException {
         return content.getInputStream();
     }
 
     @Override
-    public OutputStream getOutputStream()
-        throws IOException
-    {
+    public OutputStream getOutputStream() throws IOException {
         return content.getOutputStream();
     }
 
     @Override
-    public int getContentLength()
-    {
-        try
-        {
+    public int getContentLength() {
+        try {
             return (int) content.getSize();
-        }
-        catch (final FileSystemException ignored)
-        {
+        } catch (final FileSystemException ignored) {
             return -1;
         }
     }

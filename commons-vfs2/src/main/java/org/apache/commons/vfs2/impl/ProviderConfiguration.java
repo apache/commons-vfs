@@ -24,48 +24,39 @@ import java.util.List;
  * <p>
  * Used by digester in StandardFileSystemManager
  */
-public class ProviderConfiguration
-{
+public class ProviderConfiguration {
     private String className;
     private final List<String> schemes = new ArrayList<>(10);
     private final List<String> dependenies = new ArrayList<>(10);
 
-    public ProviderConfiguration()
-    {
+    public ProviderConfiguration() {
     }
 
-    public String getClassName()
-    {
+    public String getClassName() {
         return className;
     }
 
-    public void setClassName(final String className)
-    {
+    public void setClassName(final String className) {
         this.className = className;
     }
 
-    public void setScheme(final String scheme)
-    {
+    public void setScheme(final String scheme) {
         schemes.add(scheme);
     }
 
-    public List<String> getSchemes()
-    {
+    public List<String> getSchemes() {
         return schemes;
     }
 
-    public void setDependency(final String dependency)
-    {
+    public void setDependency(final String dependency) {
         dependenies.add(dependency);
     }
 
-    public List<String> getDependencies()
-    {
+    public List<String> getDependencies() {
         return dependenies;
     }
 
-    public boolean isDefault()
-    {
+    public boolean isDefault() {
         return false;
     }
 }

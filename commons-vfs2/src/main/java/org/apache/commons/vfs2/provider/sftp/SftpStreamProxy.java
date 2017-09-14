@@ -38,8 +38,7 @@ import com.jcraft.jsch.SocketFactory;
  *
  * @since 2.1
  */
-public class SftpStreamProxy implements Proxy
-{
+public class SftpStreamProxy implements Proxy {
     /**
      * Command format using bash built-in TCP stream.
      */
@@ -100,24 +99,17 @@ public class SftpStreamProxy implements Proxy
     /**
      * Creates a stream proxy.
      *
-     * @param commandFormat
-     *            A format string that will be used to create the command to execute on the proxy host using
+     * @param commandFormat A format string that will be used to create the command to execute on the proxy host using
      *            {@linkplain String#format(String, Object...)}. Two parameters are given to the format command, the
      *            target host name (String) and port (Integer).
-     * @param proxyUser
-     *            The proxy user
-     * @param proxyPassword
-     *            The proxy password
-     * @param proxyHost
-     *            The proxy host
-     * @param proxyPort
-     *            The port to connect to on the proxy
-     * @param proxyOptions
-     *            Options used when connecting to the proxy
+     * @param proxyUser The proxy user
+     * @param proxyPassword The proxy password
+     * @param proxyHost The proxy host
+     * @param proxyPort The port to connect to on the proxy
+     * @param proxyOptions Options used when connecting to the proxy
      */
     public SftpStreamProxy(final String commandFormat, final String proxyUser, final String proxyHost,
-                           final int proxyPort, final String proxyPassword, final FileSystemOptions proxyOptions)
-    {
+            final int proxyPort, final String proxyPassword, final FileSystemOptions proxyOptions) {
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
         this.proxyUser = proxyUser;
@@ -127,23 +119,18 @@ public class SftpStreamProxy implements Proxy
     }
 
     @Override
-    public void close()
-    {
-        if (channel != null)
-        {
+    public void close() {
+        if (channel != null) {
             channel.disconnect();
         }
-        if (session != null)
-        {
+        if (session != null) {
             session.disconnect();
         }
     }
 
     @Override
-    public void connect(final SocketFactory socketFactory, final String targetHost,
-                        final int targetPort, final int timeout)
-        throws Exception
-    {
+    public void connect(final SocketFactory socketFactory, final String targetHost, final int targetPort,
+            final int timeout) throws Exception {
         session = SftpClientFactory.createConnection(proxyHost, proxyPort, proxyUser.toCharArray(),
                 proxyPassword.toCharArray(), proxyOptions);
         channel = (ChannelExec) session.openChannel("exec");
@@ -152,34 +139,25 @@ public class SftpStreamProxy implements Proxy
     }
 
     @Override
-    public InputStream getInputStream()
-    {
-        try
-        {
+    public InputStream getInputStream() {
+        try {
             return channel.getInputStream();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new IllegalStateException("IOException getting the SSH proxy input stream", e);
         }
     }
 
     @Override
-    public OutputStream getOutputStream()
-    {
-        try
-        {
+    public OutputStream getOutputStream() {
+        try {
             return channel.getOutputStream();
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new IllegalStateException("IOException getting the SSH proxy output stream", e);
         }
     }
 
     @Override
-    public Socket getSocket()
-    {
+    public Socket getSocket() {
         return null;
     }
 }

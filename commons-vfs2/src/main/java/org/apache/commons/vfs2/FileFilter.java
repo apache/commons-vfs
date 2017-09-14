@@ -19,8 +19,7 @@ package org.apache.commons.vfs2;
 /**
  * This interface is used to select files when traversing the direct children of the base.
  */
-public interface FileFilter
-{
+public interface FileFilter {
     /**
      * Determines if a file or folder should be selected.
      *

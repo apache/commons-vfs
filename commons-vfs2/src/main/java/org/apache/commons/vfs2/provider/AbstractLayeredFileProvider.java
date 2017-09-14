@@ -23,20 +23,17 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 
 /**
- * A {@link FileProvider} that is layered on top of another, such as the
- * contents of a zip or tar file.
+ * A {@link FileProvider} that is layered on top of another, such as the contents of a zip or tar file.
  */
-public abstract class AbstractLayeredFileProvider
-    extends AbstractFileProvider
-{
-    public AbstractLayeredFileProvider()
-    {
+public abstract class AbstractLayeredFileProvider extends AbstractFileProvider {
+    public AbstractLayeredFileProvider() {
         super();
         setFileNameParser(LayeredFileNameParser.getInstance());
     }
 
     /**
      * Locates a file object, by absolute URI.
+     * 
      * @param baseFile The base FileObject.
      * @param uri The name of the file to locate.
      * @param fileSystemOptions The FileSystemOptions.
@@ -44,10 +41,8 @@ public abstract class AbstractLayeredFileProvider
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public FileObject findFile(final FileObject baseFile,
-                               final String uri,
-                               final FileSystemOptions fileSystemOptions) throws FileSystemException
-    {
+    public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
         // Split the URI up into its parts
         final LayeredFileName name = (LayeredFileName) parseUri(baseFile != null ? baseFile.getName() : null, uri);
 
@@ -66,6 +61,7 @@ public abstract class AbstractLayeredFileProvider
 
     /**
      * Creates a layered file system.
+     * 
      * @param scheme The protocol to use.
      * @param file a FileObject.
      * @param fileSystemOptions Options to access the FileSystem.
@@ -73,16 +69,12 @@ public abstract class AbstractLayeredFileProvider
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public synchronized FileObject createFileSystem(final String scheme,
-                                                    final FileObject file,
-                                                    final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+    public synchronized FileObject createFileSystem(final String scheme, final FileObject file,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         // Check if cached
         final FileName rootName = file.getName();
         FileSystem fs = findFileSystem(rootName, fileSystemOptions);
-        if (fs == null)
-        {
+        if (fs == null) {
             // Create the file system
             fs = doCreateFileSystem(scheme, file, fileSystemOptions);
             addFileSystem(rootName, fs);
@@ -96,14 +88,12 @@ public abstract class AbstractLayeredFileProvider
      * This method is called if the file system is not cached.
      *
      * @param scheme The URI scheme.
-     * @param file   The file to create the file system on top of.
+     * @param file The file to create the file system on top of.
      * @param fileSystemOptions options for new and underlying file systems.
      * @return The file system, never null. Might implement {@link VfsComponent}.
      * @throws FileSystemException if the file system cannot be created.
      */
-    protected abstract FileSystem doCreateFileSystem(final String scheme,
-                                                     final FileObject file,
-                                                     final FileSystemOptions fileSystemOptions)
-        throws FileSystemException;
+    protected abstract FileSystem doCreateFileSystem(final String scheme, final FileObject file,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException;
 
 }

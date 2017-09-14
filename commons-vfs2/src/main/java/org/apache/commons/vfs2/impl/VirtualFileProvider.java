@@ -25,12 +25,10 @@ import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.AbstractVfsContainer;
 
-
 /**
  * A virtual filesystem provider.
  */
-public class VirtualFileProvider extends AbstractVfsContainer
-{
+public class VirtualFileProvider extends AbstractVfsContainer {
     /**
      * Creates a virtual file system, with the supplied file as its root.
      *
@@ -38,10 +36,9 @@ public class VirtualFileProvider extends AbstractVfsContainer
      * @return A FileObject in the FileSystem.
      * @throws FileSystemException if an error occurs.
      */
-    public FileObject createFileSystem(final FileObject rootFile) throws FileSystemException
-    {
-        final AbstractFileName rootName = (AbstractFileName)
-            getContext().getFileSystemManager().resolveName(rootFile.getName(), FileName.ROOT_PATH);
+    public FileObject createFileSystem(final FileObject rootFile) throws FileSystemException {
+        final AbstractFileName rootName = (AbstractFileName) getContext().getFileSystemManager()
+                .resolveName(rootFile.getName(), FileName.ROOT_PATH);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, rootFile.getFileSystem().getFileSystemOptions());
         addComponent(fs);
         fs.addJunction(FileName.ROOT_PATH, rootFile);
@@ -55,25 +52,21 @@ public class VirtualFileProvider extends AbstractVfsContainer
      * @return A FileObject in the FileSystem.
      * @throws FileSystemException if an error occurs.
      */
-    public FileObject createFileSystem(final String rootUri) throws FileSystemException
-    {
-        final AbstractFileName rootName =
-            new VirtualFileName(rootUri, FileName.ROOT_PATH, FileType.FOLDER);
+    public FileObject createFileSystem(final String rootUri) throws FileSystemException {
+        final AbstractFileName rootName = new VirtualFileName(rootUri, FileName.ROOT_PATH, FileType.FOLDER);
         final VirtualFileSystem fs = new VirtualFileSystem(rootName, null);
         addComponent(fs);
         return fs.getRoot();
     }
 
     /**
-     * Close a VirtualFileSystem by removing it from the
-     * {@code #components} list of this provider.
+     * Close a VirtualFileSystem by removing it from the {@code #components} list of this provider.
      * <p>
      * This gets called from DefaultFileManager#_closeFileSystem.
      *
      * @param filesystem the file system remembered by this provider.
      */
-    void closeFileSystem(final FileSystem filesystem)
-    {
+    void closeFileSystem(final FileSystem filesystem) {
         final AbstractFileSystem fs = (AbstractFileSystem) filesystem;
 
         removeComponent(fs);

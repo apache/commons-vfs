@@ -31,39 +31,26 @@ import org.apache.commons.vfs2.provider.compressed.CompressedFileFileProvider;
 /**
  * Provides access to the content of gzip compressed files.
  */
-public class GzipFileProvider extends CompressedFileFileProvider
-{
+public class GzipFileProvider extends CompressedFileFileProvider {
     /**
      * Capabilities.
      */
-    protected static final Collection<Capability> capabilities =
-        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-    {
-        Capability.GET_LAST_MODIFIED,
-        Capability.GET_TYPE,
-        Capability.LIST_CHILDREN,
-        Capability.WRITE_CONTENT,
-        Capability.READ_CONTENT,
-        Capability.URI,
-        Capability.COMPRESS
-    }));
+    protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays
+            .asList(new Capability[] { Capability.GET_LAST_MODIFIED, Capability.GET_TYPE, Capability.LIST_CHILDREN,
+                    Capability.WRITE_CONTENT, Capability.READ_CONTENT, Capability.URI, Capability.COMPRESS }));
 
-    public GzipFileProvider()
-    {
+    public GzipFileProvider() {
         super();
     }
 
     @Override
     protected FileSystem createFileSystem(final FileName name, final FileObject file,
-                                          final FileSystemOptions fileSystemOptions)
-            throws FileSystemException
-    {
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         return new GzipFileSystem(name, file, fileSystemOptions);
     }
 
     @Override
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

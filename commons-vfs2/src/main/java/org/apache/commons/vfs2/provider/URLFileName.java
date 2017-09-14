@@ -25,22 +25,14 @@ import org.apache.commons.vfs2.FileType;
 /**
  * A file name that represents URL.
  */
-public class URLFileName extends GenericFileName
-{
+public class URLFileName extends GenericFileName {
     private static final int BUFFER_SIZE = 250;
 
     private final String queryString;
 
-    public URLFileName(final String scheme,
-                       final String hostName,
-                       final int port,
-                       final int defaultPort,
-                       final String userName,
-                       final String password,
-                       final String path,
-                       final FileType type,
-                       final String queryString)
-    {
+    public URLFileName(final String scheme, final String hostName, final int port, final int defaultPort,
+            final String userName, final String password, final String path, final FileType type,
+            final String queryString) {
         super(scheme, hostName, port, defaultPort, userName, password, path, type);
         this.queryString = queryString;
     }
@@ -50,8 +42,7 @@ public class URLFileName extends GenericFileName
      *
      * @return the query string part of the filename
      */
-    public String getQueryString()
-    {
+    public String getQueryString() {
         return queryString;
     }
 
@@ -60,8 +51,7 @@ public class URLFileName extends GenericFileName
      *
      * @return the path and its query string
      */
-    public String getPathQuery()
-    {
+    public String getPathQuery() {
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         sb.append(getPath());
         sb.append("?");
@@ -78,24 +68,18 @@ public class URLFileName extends GenericFileName
      * @throws URIException If an error occurs encoding the URI.
      * @throws FileSystemException If some other error occurs.
      */
-    public String getPathQueryEncoded(final String charset) throws URIException, FileSystemException
-    {
-        if (getQueryString() == null)
-        {
-            if (charset != null)
-            {
+    public String getPathQueryEncoded(final String charset) throws URIException, FileSystemException {
+        if (getQueryString() == null) {
+            if (charset != null) {
                 return URIUtil.encodePath(getPathDecoded(), charset);
             }
             return URIUtil.encodePath(getPathDecoded());
         }
 
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-        if (charset != null)
-        {
+        if (charset != null) {
             sb.append(URIUtil.encodePath(getPathDecoded(), charset));
-        }
-        else
-        {
+        } else {
             sb.append(URIUtil.encodePath(getPathDecoded()));
         }
         sb.append("?");
@@ -105,22 +89,15 @@ public class URLFileName extends GenericFileName
 
     /**
      * Create a FileName.
+     * 
      * @param absPath The absolute path.
      * @param type The FileType.
      * @return The FileName
      */
     @Override
-    public FileName createName(final String absPath, final FileType type)
-    {
-        return new URLFileName(getScheme(),
-            getHostName(),
-            getPort(),
-            getDefaultPort(),
-            getUserName(),
-            getPassword(),
-            absPath,
-            type,
-            getQueryString());
+    public FileName createName(final String absPath, final FileType type) {
+        return new URLFileName(getScheme(), getHostName(), getPort(), getDefaultPort(), getUserName(), getPassword(),
+                absPath, type, getQueryString());
     }
 
     /**
@@ -129,10 +106,8 @@ public class URLFileName extends GenericFileName
      * @return the uri
      */
     @Override
-    protected String createURI()
-    {
-        if (getQueryString() != null)
-        {
+    protected String createURI() {
+        if (getQueryString() != null) {
             final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
             sb.append(super.createURI());
             sb.append("?");
@@ -146,13 +121,13 @@ public class URLFileName extends GenericFileName
 
     /**
      * Encode a URI.
+     * 
      * @param charset The character set.
      * @return The encoded URI
      * @throws FileSystemException if some other exception occurs.
      * @throws URIException if an exception occurs encoding the URI.
      */
-    public String getURIEncoded(final String charset) throws FileSystemException, URIException
-    {
+    public String getURIEncoded(final String charset) throws FileSystemException, URIException {
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));

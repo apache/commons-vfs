@@ -21,10 +21,8 @@ import org.apache.commons.vfs2.FileObject;
 /**
  * Tests for {@link DefaultFilesCache} used by {@link DefaultFilesCacheTestCase}.
  */
-public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase
-{
-    public void testFilesCache() throws Exception
-    {
+public class DefaultFilesCacheTests extends AbstractFilesCacheTestsBase {
+    public void testFilesCache() throws Exception {
         final FileObject scratchFolder = getWriteFolder();
 
         final FileObject dir1 = scratchFolder.resolveFile("dir1");

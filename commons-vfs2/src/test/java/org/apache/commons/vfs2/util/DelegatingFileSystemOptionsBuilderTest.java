@@ -37,37 +37,27 @@ import org.junit.Test;
 /**
  * Some tests for the DelegatingFileSystemOptionsBuilder
  */
-public class DelegatingFileSystemOptionsBuilderTest
-{
+public class DelegatingFileSystemOptionsBuilderTest {
     private StandardFileSystemManager fsm = null;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
 
         // get a full blown, fully functional manager
         fsm = new StandardFileSystemManager();
         fsm.init();
     }
 
-
     @After
-    public void tearDown() throws Exception
-    {
-        if (fsm != null)
-        {
+    public void tearDown() throws Exception {
+        if (fsm != null) {
             fsm.close();
         }
     }
 
     @Test
-    public void testDelegatingGood() throws Throwable
-    {
-        final String[] identityPaths = new String[]
-        {
-            "/file1",
-            "/file2",
-        };
+    public void testDelegatingGood() throws Throwable {
+        final String[] identityPaths = new String[] { "/file1", "/file2", };
 
         final FileSystemOptions opts = new FileSystemOptions();
         final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
@@ -79,57 +69,46 @@ public class DelegatingFileSystemOptionsBuilderTest
 
         assertEquals("http.proxyHost", HttpFileSystemConfigBuilder.getInstance().getProxyHost(opts), "proxy");
         assertEquals("http.proxyPort", HttpFileSystemConfigBuilder.getInstance().getProxyPort(opts), 8080);
-        assertEquals("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(), TrustEveryoneUserInfo.class);
+        assertEquals("sftp.userInfo", SftpFileSystemConfigBuilder.getInstance().getUserInfo(opts).getClass(),
+                TrustEveryoneUserInfo.class);
 
         final File identities[] = SftpFileSystemConfigBuilder.getInstance().getIdentities(opts);
         assertNotNull("sftp.identities", identities);
         assertEquals("sftp.identities size", identities.length, identityPaths.length);
-        for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++)
-        {
-            assertEquals("sftp.identities #" + iterIdentities,
-                identities[iterIdentities].getAbsolutePath(),
-                new File(identityPaths[iterIdentities]).getAbsolutePath());
+        for (int iterIdentities = 0; iterIdentities < identities.length; iterIdentities++) {
+            assertEquals("sftp.identities #" + iterIdentities, identities[iterIdentities].getAbsolutePath(),
+                    new File(identityPaths[iterIdentities]).getAbsolutePath());
         }
     }
 
     @Test
-    public void testDelegatingBad() throws Throwable
-    {
+    public void testDelegatingBad() throws Throwable {
         final FileSystemOptions opts = new FileSystemOptions();
         final DelegatingFileSystemOptionsBuilder delgate = new DelegatingFileSystemOptionsBuilder(fsm);
 
-        try
-        {
+        try {
             delgate.setConfigString(opts, "http", "proxyPort", "wrong_port");
             fail();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             assertEquals(e.getCause().getClass(), InvocationTargetException.class);
-            assertEquals(((InvocationTargetException) e.getCause()).getTargetException().getClass(), NumberFormatException.class);
+            assertEquals(((InvocationTargetException) e.getCause()).getTargetException().getClass(),
+                    NumberFormatException.class);
         }
 
-        try
-        {
+        try {
             delgate.setConfigClass(opts, "sftp", "userinfo", String.class);
             fail();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             assertEquals(e.getCode(), "vfs.provider/config-value-invalid.error");
         }
     }
 
-    private static String[] schemes = new String[]
-    {
-        "webdav", "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz", "jar", "tmp", "ram"
-    };
+    private static String[] schemes = new String[] { "webdav", "http", "ftp", "file", "zip", "tar", "tgz", "bz2", "gz",
+            "jar", "tmp", "ram" };
 
     @Test
-    public void testConfiguration() throws Exception
-    {
-        for (final String scheme : schemes)
-        {
+    public void testConfiguration() throws Exception {
+        for (final String scheme : schemes) {
             assertTrue("Missing " + scheme + " provider", fsm.hasProvider(scheme));
         }
     }

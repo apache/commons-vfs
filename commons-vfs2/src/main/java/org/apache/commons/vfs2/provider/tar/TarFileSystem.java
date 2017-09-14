@@ -43,8 +43,7 @@ import org.apache.commons.vfs2.provider.bzip2.Bzip2FileObject;
 /**
  * A read-only file system for Tar files.
  */
-public class TarFileSystem extends AbstractFileSystem
-{
+public class TarFileSystem extends AbstractFileSystem {
     private static final int DEFAULT_INDEX_SIZE = 100;
 
     private static final Log LOG = LogFactory.getLog(TarFileSystem.class);
@@ -52,19 +51,15 @@ public class TarFileSystem extends AbstractFileSystem
     private final File file;
     private TarArchiveInputStream tarFile;
 
-    protected TarFileSystem(final AbstractFileName rootName,
-                            final FileObject parentLayer,
-                            final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
+    protected TarFileSystem(final AbstractFileName rootName, final FileObject parentLayer,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
         super(rootName, parentLayer, fileSystemOptions);
 
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
 
         // Open the Tar file
-        if (!file.exists())
-        {
+        if (!file.exists()) {
             // Don't need to do anything
             tarFile = null;
             return;
@@ -74,24 +69,20 @@ public class TarFileSystem extends AbstractFileSystem
     }
 
     @Override
-    public void init() throws FileSystemException
-    {
+    public void init() throws FileSystemException {
         super.init();
 
         // Build the index
-        try
-        {
+        try {
             final List<TarFileObject> strongRef = new ArrayList<>(DEFAULT_INDEX_SIZE);
             TarArchiveEntry entry;
-            while ((entry = getTarFile().getNextTarEntry()) != null)
-            {
+            while ((entry = getTarFile().getNextTarEntry()) != null) {
                 final AbstractFileName name = (AbstractFileName) getFileSystemManager().resolveName(getRootName(),
-                    UriParser.encode(entry.getName()));
+                        UriParser.encode(entry.getName()));
 
                 // Create the file
                 TarFileObject fileObj;
-                if (entry.isDirectory() && getFileFromCache(name) != null)
-                {
+                if (entry.isDirectory() && getFileFromCache(name) != null) {
                     fileObj = (TarFileObject) getFileFromCache(name);
                     fileObj.setTarEntry(entry);
                     continue;
@@ -105,14 +96,12 @@ public class TarFileSystem extends AbstractFileSystem
                 // Make sure all ancestors exist
                 // TODO - create these on demand
                 TarFileObject parent = null;
-                for (AbstractFileName parentName = (AbstractFileName) name.getParent();
-                     parentName != null;
-                     fileObj = parent, parentName = (AbstractFileName) parentName.getParent())
-                {
+                for (AbstractFileName parentName = (AbstractFileName) name
+                        .getParent(); parentName != null; fileObj = parent, parentName = (AbstractFileName) parentName
+                                .getParent()) {
                     // Locate the parent
                     parent = (TarFileObject) getFileFromCache(parentName);
-                    if (parent == null)
-                    {
+                    if (parent == null) {
                         parent = createTarFileObject(parentName, null);
                         putFileToCache(parent);
                         strongRef.add(parent);
@@ -123,54 +112,38 @@ public class TarFileSystem extends AbstractFileSystem
                     parent.attachChild(fileObj.getName());
                 }
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new FileSystemException(e);
-        }
-        finally
-        {
+        } finally {
             closeCommunicationLink();
         }
     }
 
-    public InputStream getInputStream(final TarArchiveEntry entry) throws FileSystemException
-    {
+    public InputStream getInputStream(final TarArchiveEntry entry) throws FileSystemException {
         resetTarFile();
-        try
-        {
-            while (!tarFile.getNextEntry().equals(entry))
-            {
+        try {
+            while (!tarFile.getNextEntry().equals(entry)) {
             }
             return tarFile;
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             throw new FileSystemException(e);
         }
     }
 
-    protected void resetTarFile() throws FileSystemException
-    {
+    protected void resetTarFile() throws FileSystemException {
         // Reading specific entries requires skipping through the tar file from the beginning
         // Not especially elegant, but we don't have the ability to seek to specific positions
         // with an input stream.
-        if (this.file.exists())
-        {
+        if (this.file.exists()) {
             recreateTarFile();
         }
     }
 
-    private void recreateTarFile() throws FileSystemException
-    {
-        if (this.tarFile != null)
-        {
-            try
-            {
+    private void recreateTarFile() throws FileSystemException {
+        if (this.tarFile != null) {
+            try {
                 this.tarFile.close();
-            }
-            catch (final IOException e)
-            {
+            } catch (final IOException e) {
                 throw new FileSystemException("vfs.provider.tar/close-tar-file.error", file, e);
             }
             tarFile = null;
@@ -179,57 +152,42 @@ public class TarFileSystem extends AbstractFileSystem
         this.tarFile = tarFile;
     }
 
-    protected TarArchiveInputStream getTarFile() throws FileSystemException
-    {
-        if (tarFile == null && this.file.exists())
-        {
+    protected TarArchiveInputStream getTarFile() throws FileSystemException {
+        if (tarFile == null && this.file.exists()) {
             recreateTarFile();
         }
 
         return tarFile;
     }
 
-    protected TarFileObject createTarFileObject(final AbstractFileName name,
-                                                final TarArchiveEntry entry) throws FileSystemException
-    {
+    protected TarFileObject createTarFileObject(final AbstractFileName name, final TarArchiveEntry entry)
+            throws FileSystemException {
         return new TarFileObject(name, entry, this, true);
     }
 
-    protected TarArchiveInputStream createTarFile(final File file) throws FileSystemException
-    {
-        try
-        {
-            if ("tgz".equalsIgnoreCase(getRootName().getScheme()))
-            {
+    protected TarArchiveInputStream createTarFile(final File file) throws FileSystemException {
+        try {
+            if ("tgz".equalsIgnoreCase(getRootName().getScheme())) {
                 return new TarArchiveInputStream(new GZIPInputStream(new FileInputStream(file)));
-            }
-            else if ("tbz2".equalsIgnoreCase(getRootName().getScheme()))
-            {
-                return new TarArchiveInputStream(Bzip2FileObject.wrapInputStream(file.getAbsolutePath(),
-                    new FileInputStream(file)));
+            } else if ("tbz2".equalsIgnoreCase(getRootName().getScheme())) {
+                return new TarArchiveInputStream(
+                        Bzip2FileObject.wrapInputStream(file.getAbsolutePath(), new FileInputStream(file)));
             }
             return new TarArchiveInputStream(new FileInputStream(file));
-        }
-        catch (final IOException ioe)
-        {
+        } catch (final IOException ioe) {
             throw new FileSystemException("vfs.provider.tar/open-tar-file.error", file, ioe);
         }
     }
 
     @Override
-    protected void doCloseCommunicationLink()
-    {
+    protected void doCloseCommunicationLink() {
         // Release the tar file
-        try
-        {
-            if (tarFile != null)
-            {
+        try {
+            if (tarFile != null) {
                 tarFile.close();
                 tarFile = null;
             }
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             // getLogger().warn("vfs.provider.tar/close-tar-file.error :" + file, e);
             VfsLog.warn(getLogger(), LOG, "vfs.provider.tar/close-tar-file.error :" + file, e);
         }
@@ -239,8 +197,7 @@ public class TarFileSystem extends AbstractFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(TarFileProvider.capabilities);
     }
 
@@ -248,17 +205,13 @@ public class TarFileSystem extends AbstractFileSystem
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
-    {
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         // This is only called for files which do not exist in the Tar file
         return new TarFileObject(name, null, this, false);
     }
 
     /**
-     * will be called after all file-objects closed their streams.
-    protected void notifyAllStreamsClosed()
-    {
-        closeCommunicationLink();
-    }
+     * will be called after all file-objects closed their streams. protected void notifyAllStreamsClosed() {
+     * closeCommunicationLink(); }
      */
 }
