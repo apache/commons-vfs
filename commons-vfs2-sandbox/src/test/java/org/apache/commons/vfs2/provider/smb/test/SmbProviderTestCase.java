@@ -29,19 +29,13 @@ import org.apache.commons.vfs2.test.ProviderTestSuite;
 /**
  * Tests for the SMB file system.
  */
-public class SmbProviderTestCase
-    extends AbstractProviderTestConfig
-    implements ProviderTestConfig
-{
+public class SmbProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig {
     private static final String TEST_URI = "test.smb.uri";
-    public static Test suite() throws Exception
-    {
-        if (System.getProperty(TEST_URI) != null)
-        {
+
+    public static Test suite() throws Exception {
+        if (System.getProperty(TEST_URI) != null) {
             return new ProviderTestSuite(new SmbProviderTestCase());
-        }
-        else
-        {
+        } else {
             return notConfigured(SmbProviderTestCase.class);
         }
     }
@@ -50,9 +44,7 @@ public class SmbProviderTestCase
      * Prepares the file system manager.
      */
     @Override
-    public void prepare(final DefaultFileSystemManager manager)
-        throws Exception
-    {
+    public void prepare(final DefaultFileSystemManager manager) throws Exception {
         manager.addProvider("smb", new SmbFileProvider());
     }
 
@@ -60,8 +52,7 @@ public class SmbProviderTestCase
      * Returns the base folder for tests.
      */
     @Override
-    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception
-    {
+    public FileObject getBaseTestFolder(final FileSystemManager manager) throws Exception {
         final String uri = System.getProperty(TEST_URI);
         return manager.resolveFile(uri);
     }

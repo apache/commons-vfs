@@ -29,21 +29,17 @@ import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
 /**
  * Get access to the content info stuff for mime objects.
  */
-public class MimeFileContentInfoFactory implements FileContentInfoFactory
-{
-    public FileContentInfo create(final FileContent fileContent) throws FileSystemException
-    {
+public class MimeFileContentInfoFactory implements FileContentInfoFactory {
+    public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
         final MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
         final Part part = mimeFile.getPart();
 
         String contentTypeString = null;
         String charset = null;
 
-        try
-        {
+        try {
             // special handling for multipart
-            if (mimeFile.isMultipart())
-            {
+            if (mimeFile.isMultipart()) {
                 // get the original content type, but ...
                 contentTypeString = part.getContentType();
 
@@ -51,44 +47,32 @@ public class MimeFileContentInfoFactory implements FileContentInfoFactory
                 // the preamble will be delivered in UTF-8 - fixed
                 charset = MimeFileSystem.PREAMBLE_CHARSET;
             }
-        }
-        catch (final MessagingException e)
-        {
+        } catch (final MessagingException e) {
             throw new FileSystemException(e);
         }
 
-        if (contentTypeString == null)
-        {
+        if (contentTypeString == null) {
             // normal message ... get the content type
-            try
-            {
+            try {
                 contentTypeString = part.getContentType();
-            }
-            catch (final MessagingException e)
-            {
+            } catch (final MessagingException e) {
                 throw new FileSystemException(e);
             }
         }
 
         ContentType contentType;
-        try
-        {
+        try {
             contentType = new ContentType(contentTypeString);
-        }
-        catch (final MessagingException e)
-        {
+        } catch (final MessagingException e) {
             throw new FileSystemException(e);
         }
 
-        if (charset == null)
-        {
+        if (charset == null) {
             // charset might already be set by the multipart message stuff, else
             // extract it from the contentType now
             charset = contentType.getParameter("charset"); // NON-NLS
         }
 
-        return new DefaultFileContentInfo(
-            contentType.getBaseType(),
-            charset);
+        return new DefaultFileContentInfo(contentType.getBaseType(), charset);
     }
 }

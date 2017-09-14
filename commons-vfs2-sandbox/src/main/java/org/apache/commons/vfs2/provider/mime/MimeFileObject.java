@@ -44,30 +44,23 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 /**
  * A part of a MIME message.
  */
-public class MimeFileObject
-    extends AbstractFileObject<MimeFileSystem>
-    implements FileObject
-{
+public class MimeFileObject extends AbstractFileObject<MimeFileSystem> implements FileObject {
     private Part part;
     private Map<String, Object> attributeMap;
 
-    protected MimeFileObject(final AbstractFileName name,
-                            final Part part,
-                            final MimeFileSystem fileSystem) throws FileSystemException
-    {
+    protected MimeFileObject(final AbstractFileName name, final Part part, final MimeFileSystem fileSystem)
+            throws FileSystemException {
         super(name, fileSystem);
         setPart(part);
     }
+
     /**
      * Attaches this file object to its file resource.
      */
     @Override
-    protected void doAttach() throws Exception
-    {
-        if (part == null)
-        {
-            if (!getName().equals(getFileSystem().getRootName()))
-            {
+    protected void doAttach() throws Exception {
+        if (part == null) {
+            if (!getName().equals(getFileSystem().getRootName())) {
                 final MimeFileObject foParent = (MimeFileObject) FileObjectUtils.getAbstractFileObject(getParent());
                 setPart(foParent.findPart(getName().getBaseName()));
                 return;
@@ -77,22 +70,17 @@ public class MimeFileObject
         }
     }
 
-    private Part findPart(final String partName) throws Exception
-    {
-        if (getType() == FileType.IMAGINARY)
-        {
+    private Part findPart(final String partName) throws Exception {
+        if (getType() == FileType.IMAGINARY) {
             // not existent
             return null;
         }
 
-        if (isMultipart())
-        {
-            final Multipart multipart = (Multipart)  part.getContent();
-            if (partName.startsWith(MimeFileSystem.NULL_BP_NAME))
-            {
+        if (isMultipart()) {
+            final Multipart multipart = (Multipart) part.getContent();
+            if (partName.startsWith(MimeFileSystem.NULL_BP_NAME)) {
                 final int partNumber = Integer.parseInt(partName.substring(MimeFileSystem.NULL_BP_NAME.length()), 10);
-                if (partNumber < 0 || partNumber + 1 > multipart.getCount())
-                {
+                if (partNumber < 0 || partNumber + 1 > multipart.getCount()) {
                     // non existent
                     return null;
                 }
@@ -100,11 +88,9 @@ public class MimeFileObject
                 return multipart.getBodyPart(partNumber);
             }
 
-            for (int i = 0; i < multipart.getCount(); i++)
-            {
+            for (int i = 0; i < multipart.getCount(); i++) {
                 final Part childPart = multipart.getBodyPart(i);
-                if (partName.equals(childPart.getFileName()))
-                {
+                if (partName.equals(childPart.getFileName())) {
                     return childPart;
                 }
             }
@@ -114,24 +100,19 @@ public class MimeFileObject
     }
 
     @Override
-    protected void doDetach() throws Exception
-    {
+    protected void doDetach() throws Exception {
     }
 
     /**
-     * Determines the type of the file, returns null if the file does not
-     * exist.
+     * Determines the type of the file, returns null if the file does not exist.
      */
     @Override
-    protected FileType doGetType() throws Exception
-    {
-        if (part == null)
-        {
+    protected FileType doGetType() throws Exception {
+        if (part == null) {
             return FileType.IMAGINARY;
         }
 
-        if (isMultipart())
-        {
+        if (isMultipart()) {
             // we cant have children ...
             return FileType.FILE_OR_FOLDER;
         }
@@ -140,46 +121,37 @@ public class MimeFileObject
     }
 
     @Override
-    protected String[] doListChildren() throws Exception
-    {
+    protected String[] doListChildren() throws Exception {
         return null;
     }
 
     /**
-     * Lists the children of the file.  Is only called if {@link #doGetType}
-     * returns {@link org.apache.commons.vfs2.FileType#FOLDER}.
+     * Lists the children of the file. Is only called if {@link #doGetType} returns
+     * {@link org.apache.commons.vfs2.FileType#FOLDER}.
      */
     @Override
-    protected FileObject[] doListChildrenResolved() throws Exception
-    {
-        if (part == null)
-        {
+    protected FileObject[] doListChildrenResolved() throws Exception {
+        if (part == null) {
             return null;
         }
 
         final List<MimeFileObject> vfs = new ArrayList<>();
-        if (isMultipart())
-        {
+        if (isMultipart()) {
             final Object container = part.getContent();
-            if (container instanceof Multipart)
-            {
+            if (container instanceof Multipart) {
                 final Multipart multipart = (Multipart) container;
 
-                for (int i = 0; i < multipart.getCount(); i++)
-                {
+                for (int i = 0; i < multipart.getCount(); i++) {
                     final Part part = multipart.getBodyPart(i);
 
                     String filename = UriParser.encode(part.getFileName());
-                    if (filename == null)
-                    {
+                    if (filename == null) {
                         filename = MimeFileSystem.NULL_BP_NAME + i;
                     }
 
-                    final MimeFileObject fo = (MimeFileObject) FileObjectUtils.getAbstractFileObject(
-                        getFileSystem().resolveFile(
-                            getFileSystem().getFileSystemManager().resolveName(getName(),
-                            filename,
-                            NameScope.CHILD)));
+                    final MimeFileObject fo = (MimeFileObject) FileObjectUtils
+                            .getAbstractFileObject(getFileSystem().resolveFile(getFileSystem().getFileSystemManager()
+                                    .resolveName(getName(), filename, NameScope.CHILD)));
                     fo.setPart(part);
                     vfs.add(fo);
                 }
@@ -189,8 +161,7 @@ public class MimeFileObject
         return vfs.toArray(new MimeFileObject[vfs.size()]);
     }
 
-    private void setPart(final Part part)
-    {
+    private void setPart(final Part part) {
         this.part = part;
         this.attributeMap = null;
     }
@@ -199,8 +170,7 @@ public class MimeFileObject
      * Returns the size of the file content (in bytes).
      */
     @Override
-    protected long doGetContentSize() throws Exception
-    {
+    protected long doGetContentSize() throws Exception {
         return part.getSize();
     }
 
@@ -208,29 +178,22 @@ public class MimeFileObject
      * Returns the last modified time of this file.
      */
     @Override
-    protected long doGetLastModifiedTime()
-        throws Exception
-    {
+    protected long doGetLastModifiedTime() throws Exception {
         final Message mm = getMessage();
-        if (mm == null)
-        {
+        if (mm == null) {
             return -1;
         }
-        if (mm.getSentDate() != null)
-        {
+        if (mm.getSentDate() != null) {
             return mm.getSentDate().getTime();
         }
-        if (mm.getReceivedDate() != null)
-        {
+        if (mm.getReceivedDate() != null) {
             mm.getReceivedDate();
         }
         return 0;
     }
 
-    private Message getMessage() throws FileSystemException
-    {
-        if (part instanceof Message)
-        {
+    private Message getMessage() throws FileSystemException {
+        if (part instanceof Message) {
             return (Message) part;
         }
 
@@ -241,16 +204,13 @@ public class MimeFileObject
      * Creates an input stream to read the file content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
-        if (isMultipart())
-        {
+    protected InputStream doGetInputStream() throws Exception {
+        if (isMultipart()) {
             // deliver the preamble as the only content
 
             final String preamble = ((MimeMultipart) part.getContent()).getPreamble();
-            if (preamble == null)
-            {
-                return new ByteArrayInputStream(new byte[]{});
+            if (preamble == null) {
+                return new ByteArrayInputStream(new byte[] {});
             }
             return new ByteArrayInputStream(preamble.getBytes(MimeFileSystem.PREAMBLE_CHARSET));
         }
@@ -258,19 +218,16 @@ public class MimeFileObject
         return part.getInputStream();
     }
 
-    boolean isMultipart() throws MessagingException
-    {
+    boolean isMultipart() throws MessagingException {
         return part.getContentType() != null && part.getContentType().startsWith("multipart/");
     }
 
     @Override
-    protected FileContentInfoFactory getFileContentInfoFactory()
-    {
+    protected FileContentInfoFactory getFileContentInfoFactory() {
         return new MimeFileContentInfoFactory();
     }
 
-    protected Part getPart()
-    {
+    protected Part getPart() {
         return part;
     }
 
@@ -284,16 +241,11 @@ public class MimeFileObject
      * </ul>
      */
     @Override
-    protected Map<String, Object> doGetAttributes() throws Exception
-    {
-        if (attributeMap == null)
-        {
-            if (part != null)
-            {
+    protected Map<String, Object> doGetAttributes() throws Exception {
+        if (attributeMap == null) {
+            if (part != null) {
                 attributeMap = new MimeAttributesMap(part);
-            }
-            else
-            {
+            } else {
                 attributeMap = Collections.emptyMap();
             }
         }
@@ -302,8 +254,7 @@ public class MimeFileObject
     }
 
     @SuppressWarnings("unchecked") // Javadoc says Part returns Header
-    protected Enumeration<Header> getAllHeaders() throws MessagingException
-    {
+    protected Enumeration<Header> getAllHeaders() throws MessagingException {
         return part.getAllHeaders();
     }
 }

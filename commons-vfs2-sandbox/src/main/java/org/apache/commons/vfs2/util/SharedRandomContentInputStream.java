@@ -32,8 +32,7 @@ import org.apache.commons.vfs2.RandomAccessContent;
 /**
  * (Sandbox) A wrapper to an FileObject to get a {@link javax.mail.internet.SharedInputStream}.
  */
-public class SharedRandomContentInputStream extends BufferedInputStream implements SharedInputStream
-{
+public class SharedRandomContentInputStream extends BufferedInputStream implements SharedInputStream {
     private final Set<SharedRandomContentInputStream> createdStreams;
     private final FileObject fo;
     private final long fileStart;
@@ -43,14 +42,11 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     private long resetCount;
 
     private SharedRandomContentInputStream(final Set<SharedRandomContentInputStream> createdStreams,
-                                           final FileObject fo, final long fileStart, final long fileEnd,
-                                           final InputStream is)
-        throws FileSystemException
-    {
+            final FileObject fo, final long fileStart, final long fileEnd, final InputStream is)
+            throws FileSystemException {
         super(is);
 
-        if (!fo.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
-        {
+        if (!fo.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ)) {
             throw new FileSystemException("vfs.util/missing-capability.error", Capability.RANDOM_ACCESS_READ);
         }
 
@@ -59,23 +55,18 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         this.fileEnd = fileEnd;
         this.createdStreams = createdStreams;
 
-        synchronized (createdStreams)
-        {
+        synchronized (createdStreams) {
             createdStreams.add(this);
         }
     }
 
-    public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException
-    {
+    public SharedRandomContentInputStream(final FileObject fo) throws FileSystemException {
         this(new HashSet<SharedRandomContentInputStream>(), fo, 0, -1, fo.getContent().getInputStream());
     }
 
-
     @Override
-    public synchronized int read() throws IOException
-    {
-        if (checkEnd())
-        {
+    public synchronized int read() throws IOException {
+        if (checkEnd()) {
             return -1;
         }
         final int r = super.read();
@@ -85,15 +76,12 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
     @Override
-    public synchronized int read(final byte[] b, final int off, int len) throws IOException
-    {
-        if (checkEnd())
-        {
+    public synchronized int read(final byte[] b, final int off, int len) throws IOException {
+        if (checkEnd()) {
             return -1;
         }
 
-        if (fileEnd > -1 && calcFilePosition(len) > fileEnd)
-        {
+        if (fileEnd > -1 && calcFilePosition(len) > fileEnd) {
             // we can not read past our end
             len = (int) (fileEnd - getFilePosition());
         }
@@ -105,15 +93,12 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
     @Override
-    public synchronized long skip(long n) throws IOException
-    {
-        if (checkEnd())
-        {
+    public synchronized long skip(long n) throws IOException {
+        if (checkEnd()) {
             return -1;
         }
 
-        if (fileEnd > -1 && calcFilePosition(n) > fileEnd)
-        {
+        if (fileEnd > -1 && calcFilePosition(n) > fileEnd) {
             // we can not skip past our end
             n = fileEnd - getFilePosition();
         }
@@ -125,106 +110,73 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
     }
 
     /*
-    public synchronized int available() throws IOException
-    {
-        long realFileEnd = fileEnd;
-        if (realFileEnd < 0)
-        {
-            realFileEnd = fo.getContent().getSize();
-        }
-        if (realFileEnd < 0)
-        {
-            // we cant determine if there is really something available
-            return 8192;
-        }
+     * public synchronized int available() throws IOException { long realFileEnd = fileEnd; if (realFileEnd < 0) {
+     * realFileEnd = fo.getContent().getSize(); } if (realFileEnd < 0) { // we cant determine if there is really
+     * something available return 8192; }
+     * 
+     * long available = realFileEnd - (fileStart + pos); if (available > Integer.MAX_VALUE) { return Integer.MAX_VALUE;
+     * }
+     * 
+     * return (int) available; }
+     */
 
-        long available = realFileEnd - (fileStart + pos);
-        if (available > Integer.MAX_VALUE)
-        {
-            return Integer.MAX_VALUE;
-        }
-
-        return (int) available;
-    }
-    */
-
-    private boolean checkEnd()
-    {
+    private boolean checkEnd() {
         return fileEnd > -1 && (getFilePosition() >= fileEnd);
     }
 
-    protected long getFilePosition()
-    {
+    protected long getFilePosition() {
         return fileStart + pos;
     }
 
-    protected long calcFilePosition(final long nadd)
-    {
+    protected long calcFilePosition(final long nadd) {
         return getFilePosition() + nadd;
     }
 
     @Override
-    public synchronized void mark(final int readlimit)
-    {
+    public synchronized void mark(final int readlimit) {
         super.mark(readlimit);
         resetCount = 0;
     }
 
     @Override
-    public synchronized void reset() throws IOException
-    {
+    public synchronized void reset() throws IOException {
         super.reset();
         pos -= resetCount;
         resetCount = 0;
     }
 
-    public long getPosition()
-    {
+    public long getPosition() {
         return pos;
     }
 
-
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         super.close();
 
-        synchronized (createdStreams)
-        {
+        synchronized (createdStreams) {
             createdStreams.remove(this);
         }
     }
 
-    public InputStream newStream(final long start, final long end)
-    {
-        try
-        {
+    public InputStream newStream(final long start, final long end) {
+        try {
             final long newFileStart = this.fileStart + start;
             final long newFileEnd = end < 0 ? this.fileEnd : this.fileStart + end;
 
             final RandomAccessContent rac = fo.getContent().getRandomAccessContent(RandomAccessMode.READ);
             rac.seek(newFileStart);
-            return new SharedRandomContentInputStream(
-                createdStreams,
-                fo,
-                newFileStart,
-                newFileEnd,
-                rac.getInputStream());
-        }
-        catch (final IOException e)
-        {
+            return new SharedRandomContentInputStream(createdStreams, fo, newFileStart, newFileEnd,
+                    rac.getInputStream());
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void closeAll() throws IOException
-    {
-        synchronized (createdStreams)
-        {
+    public void closeAll() throws IOException {
+        synchronized (createdStreams) {
             final SharedRandomContentInputStream[] streams = new SharedRandomContentInputStream[createdStreams.size()];
             createdStreams.toArray(streams);
-            for (final SharedRandomContentInputStream stream : streams)
-            {
+            for (final SharedRandomContentInputStream stream : streams) {
                 stream.close();
             }
         }

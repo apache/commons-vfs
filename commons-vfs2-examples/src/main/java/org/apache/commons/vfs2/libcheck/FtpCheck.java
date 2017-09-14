@@ -26,67 +26,54 @@ import org.apache.commons.net.ftp.FTPReply;
 /**
  * Basic check for FTP.
  */
-public final class FtpCheck
-{
-    private FtpCheck()
-    {
+public final class FtpCheck {
+    private FtpCheck() {
         /* main class not instantiated. */
     }
 
-    public static void main(final String[] args) throws Exception
-    {
-        if (args.length < 3)
-        {
+    public static void main(final String[] args) throws Exception {
+        if (args.length < 3) {
             throw new IllegalArgumentException("Usage: FtpCheck user pass host dir");
         }
         final String user = args[0];
         final String pass = args[1];
         final String host = args[2];
         String dir = null;
-        if (args.length == 4)
-        {
+        if (args.length == 4) {
             dir = args[3];
         }
 
         final FTPClient client = new FTPClient();
         client.connect(host);
         final int reply = client.getReplyCode();
-        if (!FTPReply.isPositiveCompletion(reply))
-        {
+        if (!FTPReply.isPositiveCompletion(reply)) {
             throw new IllegalArgumentException("cant connect: " + reply);
         }
-        if (!client.login(user, pass))
-        {
+        if (!client.login(user, pass)) {
             throw new IllegalArgumentException("login failed");
         }
         client.enterLocalPassiveMode();
 
         final OutputStream os = client.storeFileStream(dir + "/test.txt");
-        if (os == null)
-        {
+        if (os == null) {
             throw new IllegalStateException(client.getReplyString());
         }
         os.write("test".getBytes(Charset.defaultCharset()));
         os.close();
         client.completePendingCommand();
 
-        if (dir != null && !client.changeWorkingDirectory(dir))
-        {
+        if (dir != null && !client.changeWorkingDirectory(dir)) {
             throw new IllegalArgumentException("change dir to '" + dir + "' failed");
         }
 
         System.err.println("System: " + client.getSystemType());
 
         final FTPFile[] files = client.listFiles();
-        for (int i = 0; i < files.length; i++)
-        {
+        for (int i = 0; i < files.length; i++) {
             final FTPFile file = files[i];
-            if (file == null)
-            {
+            if (file == null) {
                 System.err.println("#" + i + ": " + null);
-            }
-            else
-            {
+            } else {
                 System.err.println("#" + i + ": " + file.getRawListing());
                 System.err.println("#" + i + ": " + file.toString());
                 System.err.println("\t name:" + file.getName() + " type:" + file.getType());

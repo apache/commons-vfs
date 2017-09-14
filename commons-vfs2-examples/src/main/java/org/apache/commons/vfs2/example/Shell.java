@@ -42,62 +42,46 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
 /**
  * A simple command-line shell for performing file operations.
  * <p>
- * See
- * <a href="https://wiki.apache.org/commons/VfsExampleShell">Commons VFS Shell Examples</a>
- * in Apache Commons Wiki.
+ * See <a href="https://wiki.apache.org/commons/VfsExampleShell">Commons VFS Shell Examples</a> in Apache Commons Wiki.
  */
-public final class Shell
-{
+public final class Shell {
     private final FileSystemManager mgr;
     private FileObject cwd;
     private final BufferedReader reader;
 
-    private Shell() throws IOException
-    {
+    private Shell() throws IOException {
         mgr = VFS.getManager();
         cwd = mgr.toFileObject(new File(System.getProperty("user.dir")));
         reader = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
     }
 
-    public static void main(final String[] args)
-    {
-        try
-        {
+    public static void main(final String[] args) {
+        try {
             new Shell().go();
-        }
-        catch (final Exception e)
-        {
+        } catch (final Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
         System.exit(0);
     }
 
-    private void go() throws Exception
-    {
+    private void go() throws Exception {
         System.out.println("VFS Shell " + getVersion(Shell.class));
-        while (true)
-        {
+        while (true) {
             final String[] cmd = nextCommand();
-            if (cmd == null)
-            {
+            if (cmd == null) {
                 return;
             }
-            if (cmd.length == 0)
-            {
+            if (cmd.length == 0) {
                 continue;
             }
             final String cmdName = cmd[0];
-            if (cmdName.equalsIgnoreCase("exit") || cmdName.equalsIgnoreCase("quit"))
-            {
+            if (cmdName.equalsIgnoreCase("exit") || cmdName.equalsIgnoreCase("quit")) {
                 return;
             }
-            try
-            {
+            try {
                 handleCommand(cmd);
-            }
-            catch (final Exception e)
-            {
+            } catch (final Exception e) {
                 System.err.println("Command failed:");
                 e.printStackTrace(System.err);
             }
@@ -107,113 +91,77 @@ public final class Shell
     /**
      * Handles a command.
      */
-    private void handleCommand(final String[] cmd) throws Exception
-    {
+    private void handleCommand(final String[] cmd) throws Exception {
         final String cmdName = cmd[0];
-        if (cmdName.equalsIgnoreCase("cat"))
-        {
+        if (cmdName.equalsIgnoreCase("cat")) {
             cat(cmd);
-        }
-        else if (cmdName.equalsIgnoreCase("cd"))
-        {
+        } else if (cmdName.equalsIgnoreCase("cd")) {
             cd(cmd);
-        }
-        else if (cmdName.equalsIgnoreCase("cp"))
-        {
+        } else if (cmdName.equalsIgnoreCase("cp")) {
             cp(cmd);
-        }
-        else if (cmdName.equalsIgnoreCase("help") || cmdName.equals("?"))
-        {
+        } else if (cmdName.equalsIgnoreCase("help") || cmdName.equals("?")) {
             help();
-        }
-        else if (cmdName.equalsIgnoreCase("ls"))
-        {
+        } else if (cmdName.equalsIgnoreCase("ls")) {
             ls(cmd);
-        }
-        else if (cmdName.equalsIgnoreCase("pwd"))
-        {
+        } else if (cmdName.equalsIgnoreCase("pwd")) {
             pwd();
-        }
-        else if (cmdName.equalsIgnoreCase("rm"))
-        {
+        } else if (cmdName.equalsIgnoreCase("rm")) {
             rm(cmd);
-        }
-        else if (cmdName.equalsIgnoreCase("touch"))
-        {
+        } else if (cmdName.equalsIgnoreCase("touch")) {
             touch(cmd);
-        }
-        else if (cmdName.equalsIgnoreCase("info"))
-        {
+        } else if (cmdName.equalsIgnoreCase("info")) {
             info(cmd);
-        }
-        else
-        {
+        } else {
             System.err.println("Unknown command \"" + cmdName + "\" (Try 'help').");
         }
     }
 
-    private void info(String[] cmd) throws Exception
-    {
-        if (cmd.length > 1)
-        {
+    private void info(String[] cmd) throws Exception {
+        if (cmd.length > 1) {
             info(cmd[1]);
-        }
-        else
-        {
-            System.out.println("Default manager: \"" + mgr.getClass().getName() + "\" " +
-                                   "version " + getVersion(mgr.getClass()));
+        } else {
+            System.out.println(
+                    "Default manager: \"" + mgr.getClass().getName() + "\" " + "version " + getVersion(mgr.getClass()));
             String[] schemes = mgr.getSchemes();
             List<String> virtual = new ArrayList<>();
             List<String> physical = new ArrayList<>();
-            for (int i = 0; i < schemes.length; i++)
-            {
+            for (int i = 0; i < schemes.length; i++) {
                 Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
-                if (caps != null)
-                {
-                    if (caps.contains(Capability.VIRTUAL)  ||
-                            caps.contains(Capability.COMPRESS) ||
-                            caps.contains(Capability.DISPATCHER))
-                    {
+                if (caps != null) {
+                    if (caps.contains(Capability.VIRTUAL) || caps.contains(Capability.COMPRESS)
+                            || caps.contains(Capability.DISPATCHER)) {
                         virtual.add(schemes[i]);
-                    }
-                    else
-                    {
+                    } else {
                         physical.add(schemes[i]);
                     }
                 }
             }
-            if (!physical.isEmpty())
-            {
+            if (!physical.isEmpty()) {
                 System.out.println("  Provider Schemes: " + physical);
             }
-            if (!virtual.isEmpty())
-            {
+            if (!virtual.isEmpty()) {
                 System.out.println("   Virtual Schemes: " + virtual);
             }
-         }
+        }
     }
 
-    private void info(String scheme) throws Exception
-    {
-         System.out.println("Provider Info for scheme \"" + scheme + "\":");
-         Collection<Capability> caps;
-         caps = mgr.getProviderCapabilities(scheme);
-         if (caps != null && !caps.isEmpty())
-         {
-             System.out.println("  capabilities: " + caps);
-         }
-         FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
-         if (ops != null && ops.length > 0)
-         {
-             System.out.println("  operations: " + ops);
-         }
+    private void info(String scheme) throws Exception {
+        System.out.println("Provider Info for scheme \"" + scheme + "\":");
+        Collection<Capability> caps;
+        caps = mgr.getProviderCapabilities(scheme);
+        if (caps != null && !caps.isEmpty()) {
+            System.out.println("  capabilities: " + caps);
+        }
+        FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
+        if (ops != null && ops.length > 0) {
+            System.out.println("  operations: " + ops);
+        }
     }
 
     /**
      * Does a 'help' command.
      */
-    private void help()
-    {
+    private void help() {
         System.out.println("Commands:");
         System.out.println("cat <file>         Displays the contents of a file.");
         System.out.println("cd [folder]        Changes current folder.");
@@ -230,10 +178,8 @@ public final class Shell
     /**
      * Does an 'rm' command.
      */
-    private void rm(final String[] cmd) throws Exception
-    {
-        if (cmd.length < 2)
-        {
+    private void rm(final String[] cmd) throws Exception {
+        if (cmd.length < 2) {
             throw new Exception("USAGE: rm <path>");
         }
 
@@ -244,17 +190,14 @@ public final class Shell
     /**
      * Does a 'cp' command.
      */
-    private void cp(final String[] cmd) throws Exception
-    {
-        if (cmd.length < 3)
-        {
+    private void cp(final String[] cmd) throws Exception {
+        if (cmd.length < 3) {
             throw new Exception("USAGE: cp <src> <dest>");
         }
 
         final FileObject src = mgr.resolveFile(cwd, cmd[1]);
         FileObject dest = mgr.resolveFile(cwd, cmd[2]);
-        if (dest.exists() && dest.getType() == FileType.FOLDER)
-        {
+        if (dest.exists() && dest.getType() == FileType.FOLDER) {
             dest = dest.resolveFile(src.getName().getBaseName());
         }
 
@@ -264,10 +207,8 @@ public final class Shell
     /**
      * Does a 'cat' command.
      */
-    private void cat(final String[] cmd) throws Exception
-    {
-        if (cmd.length < 2)
-        {
+    private void cat(final String[] cmd) throws Exception {
+        if (cmd.length < 2) {
             throw new Exception("USAGE: cat <path>");
         }
 
@@ -282,35 +223,26 @@ public final class Shell
     /**
      * Does a 'pwd' command.
      */
-    private void pwd()
-    {
+    private void pwd() {
         System.out.println("Current folder is " + cwd.getName());
     }
 
     /**
-     * Does a 'cd' command.
-     * If the taget directory does not exist, a message is printed to <code>System.err</code>.
+     * Does a 'cd' command. If the taget directory does not exist, a message is printed to <code>System.err</code>.
      */
-    private void cd(final String[] cmd) throws Exception
-    {
+    private void cd(final String[] cmd) throws Exception {
         final String path;
-        if (cmd.length > 1)
-        {
+        if (cmd.length > 1) {
             path = cmd[1];
-        }
-        else
-        {
+        } else {
             path = System.getProperty("user.home");
         }
 
         // Locate and validate the folder
         final FileObject tmp = mgr.resolveFile(cwd, path);
-        if (tmp.exists())
-        {
+        if (tmp.exists()) {
             cwd = tmp;
-        }
-        else
-        {
+        } else {
             System.out.println("Folder does not exist: " + tmp.getName());
         }
         System.out.println("Current folder is " + cwd.getName());
@@ -319,38 +251,28 @@ public final class Shell
     /**
      * Does an 'ls' command.
      */
-    private void ls(final String[] cmd) throws FileSystemException
-    {
+    private void ls(final String[] cmd) throws FileSystemException {
         int pos = 1;
         final boolean recursive;
-        if (cmd.length > pos && cmd[pos].equals("-R"))
-        {
+        if (cmd.length > pos && cmd[pos].equals("-R")) {
             recursive = true;
             pos++;
-        }
-        else
-        {
+        } else {
             recursive = false;
         }
 
         final FileObject file;
-        if (cmd.length > pos)
-        {
+        if (cmd.length > pos) {
             file = mgr.resolveFile(cwd, cmd[pos]);
-        }
-        else
-        {
+        } else {
             file = cwd;
         }
 
-        if (file.getType() == FileType.FOLDER)
-        {
+        if (file.getType() == FileType.FOLDER) {
             // List the contents
             System.out.println("Contents of " + file.getName());
             listChildren(file, recursive, "");
-        }
-        else
-        {
+        } else {
             // Stat the file
             System.out.println(file.getName());
             final FileContent content = file.getContent();
@@ -364,15 +286,12 @@ public final class Shell
     /**
      * Does a 'touch' command.
      */
-    private void touch(final String[] cmd) throws Exception
-    {
-        if (cmd.length < 2)
-        {
+    private void touch(final String[] cmd) throws Exception {
+        if (cmd.length < 2) {
             throw new Exception("USAGE: touch <path>");
         }
         final FileObject file = mgr.resolveFile(cwd, cmd[1]);
-        if (!file.exists())
-        {
+        if (!file.exists()) {
             file.createFile();
         }
         file.getContent().setLastModifiedTime(System.currentTimeMillis());
@@ -381,26 +300,18 @@ public final class Shell
     /**
      * Lists the children of a folder.
      */
-    private void listChildren(final FileObject dir,
-                              final boolean recursive,
-                              final String prefix)
-        throws FileSystemException
-    {
+    private void listChildren(final FileObject dir, final boolean recursive, final String prefix)
+            throws FileSystemException {
         final FileObject[] children = dir.getChildren();
-        for (final FileObject child : children)
-        {
+        for (final FileObject child : children) {
             System.out.print(prefix);
             System.out.print(child.getName().getBaseName());
-            if (child.getType() == FileType.FOLDER)
-            {
+            if (child.getType() == FileType.FOLDER) {
                 System.out.println("/");
-                if (recursive)
-                {
+                if (recursive) {
                     listChildren(child, recursive, prefix + "    ");
                 }
-            }
-            else
-            {
+            } else {
                 System.out.println();
             }
         }
@@ -409,31 +320,24 @@ public final class Shell
     /**
      * Returns the next command, split into tokens.
      */
-    private String[] nextCommand() throws IOException
-    {
+    private String[] nextCommand() throws IOException {
         System.out.print("> ");
         final String line = reader.readLine();
-        if (line == null)
-        {
+        if (line == null) {
             return null;
         }
         final ArrayList<String> cmd = new ArrayList<>();
         final StringTokenizer tokens = new StringTokenizer(line);
-        while (tokens.hasMoreTokens())
-        {
+        while (tokens.hasMoreTokens()) {
             cmd.add(tokens.nextToken());
         }
         return cmd.toArray(new String[cmd.size()]);
     }
 
-    private static String getVersion(Class<?> cls)
-    {
-        try
-        {
+    private static String getVersion(Class<?> cls) {
+        try {
             return cls.getPackage().getImplementationVersion();
-        }
-        catch (Exception ignored)
-        {
+        } catch (Exception ignored) {
             return "N/A";
         }
     }

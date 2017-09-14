@@ -24,17 +24,16 @@ import org.apache.commons.vfs2.provider.smb.SmbFileNameParser;
 /**
  * Some additional SMB file name test cases.
  */
-public class FileNameTestCase
-    extends AbstractVfsTestCase
-{
+public class FileNameTestCase extends AbstractVfsTestCase {
     /**
      * Tests parsing a URI into its parts.
+     * 
      * @throws Exception in case of error
      */
-    public void testParseUri() throws Exception
-    {
+    public void testParseUri() throws Exception {
         // Simple name
-        SmbFileName name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null, "smb://hostname/share/file");
+        SmbFileName name = (SmbFileName) SmbFileNameParser.getInstance().parseUri(null, null,
+                "smb://hostname/share/file");
         assertEquals("smb", name.getScheme());
         assertNull(name.getUserName());
         assertNull(name.getPassword());
@@ -113,10 +112,10 @@ public class FileNameTestCase
 
     /**
      * Tests error handling in URI parser.
+     * 
      * @throws Exception in case of error
      */
-    public void testBadlyFormedUri() throws Exception
-    {
+    public void testBadlyFormedUri() throws Exception {
         // Does not start with smb://
         testBadlyFormedUri("smb:", "vfs.provider/missing-double-slashes.error");
         testBadlyFormedUri("smb:/", "vfs.provider/missing-double-slashes.error");
@@ -145,15 +144,11 @@ public class FileNameTestCase
     /**
      * Assert that parsing a URI fails with the expected error.
      */
-    private void testBadlyFormedUri(final String uri, final String errorMsg)
-    {
-        try
-        {
+    private void testBadlyFormedUri(final String uri, final String errorMsg) {
+        try {
             SmbFileNameParser.getInstance().parseUri(null, null, uri);
             fail();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             assertSameMessage(errorMsg, uri, e);
         }
     }

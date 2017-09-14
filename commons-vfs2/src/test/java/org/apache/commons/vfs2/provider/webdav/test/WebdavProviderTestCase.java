@@ -256,9 +256,13 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
     }
 
     /**
-     * Tears down resources for this test case. <ol> <li>Shuts down the embedded Jackrabbit</li> <li>Extra clean up for
-     * org.apache.commons.httpclient.MultiThreadedHttpConnectionManager</li> <li>Remove temporary repository
-     * directory.</li> </ol> Stops the embedded Apache WebDAV Server.
+     * Tears down resources for this test case.
+     * <ol>
+     * <li>Shuts down the embedded Jackrabbit</li>
+     * <li>Extra clean up for org.apache.commons.httpclient.MultiThreadedHttpConnectionManager</li>
+     * <li>Remove temporary repository directory.</li>
+     * </ol>
+     * Stops the embedded Apache WebDAV Server.
      *
      * @throws Exception @throws
      */

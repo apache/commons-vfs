@@ -41,8 +41,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * A map which tries to allow access to the various aspects of the mail.
  */
-public class MimeAttributesMap implements Map<String, Object>
-{
+public class MimeAttributesMap implements Map<String, Object> {
     private static final String OBJECT_PREFIX = "obj.";
 
     private final Log log = LogFactory.getLog(MimeAttributesMap.class);
@@ -51,155 +50,113 @@ public class MimeAttributesMap implements Map<String, Object>
 
     private Map<String, Object> backingMap;
 
-
-    public MimeAttributesMap(final Part part)
-    {
+    public MimeAttributesMap(final Part part) {
         this.part = part;
         addMimeMessageMethod(part.getClass().getMethods());
         addMimeMessageMethod(part.getClass().getDeclaredMethods());
     }
 
-    private void addMimeMessageMethod(final Method[] methods)
-    {
-        for (final Method method : methods)
-        {
-            if (!Modifier.isPublic(method.getModifiers()))
-            {
+    private void addMimeMessageMethod(final Method[] methods) {
+        for (final Method method : methods) {
+            if (!Modifier.isPublic(method.getModifiers())) {
                 continue;
             }
-            if (method.getParameterTypes().length > 0)
-            {
+            if (method.getParameterTypes().length > 0) {
                 continue;
             }
 
-            if (method.getName().startsWith("get"))
-            {
+            if (method.getName().startsWith("get")) {
                 mimeMessageGetters.put(method.getName().substring(3), method);
-            }
-            else if (method.getName().startsWith("is"))
-            {
+            } else if (method.getName().startsWith("is")) {
                 mimeMessageGetters.put(method.getName().substring(2), method);
             }
         }
     }
 
-    private Map<String, Object> getMap()
-    {
-        if (backingMap == null)
-        {
+    private Map<String, Object> getMap() {
+        if (backingMap == null) {
             backingMap = createMap();
         }
 
         return backingMap;
     }
 
-    private Map<String, Object> createMap()
-    {
+    private Map<String, Object> createMap() {
         // Object is either a String, or a List of Strings
         final Map<String, Object> ret = new TreeMap<>();
 
         Enumeration<Header> headers;
-        try
-        {
+        try {
             @SuppressWarnings("unchecked") // Javadoc say Part returns Header
-            final
-            Enumeration<Header> allHeaders = part.getAllHeaders();
+            final Enumeration<Header> allHeaders = part.getAllHeaders();
             headers = allHeaders;
-        }
-        catch (final MessagingException e)
-        {
+        } catch (final MessagingException e) {
             throw new RuntimeException(e);
         }
 
         // add all headers
-        while (headers.hasMoreElements())
-        {
+        while (headers.hasMoreElements()) {
             final Header header = headers.nextElement();
             final String headerName = header.getName();
 
             final Object values = ret.get(headerName);
 
-            if (values == null)
-            {
+            if (values == null) {
                 ret.put(headerName, header.getValue());
-            }
-            else if (values instanceof String)
-            {
+            } else if (values instanceof String) {
                 final ArrayList<String> newValues = new ArrayList<>();
                 newValues.add((String) values);
                 newValues.add(header.getValue());
                 ret.put(headerName, newValues);
-            }
-            else if (values instanceof List)
-            {
+            } else if (values instanceof List) {
                 @SuppressWarnings("unchecked") // we only add Strings to the Lists
-                final
-                List<String> list = (List<String>) values;
+                final List<String> list = (List<String>) values;
                 list.add(header.getValue());
             }
         }
 
         // add all simple get/is results (with obj. prefix)
         final Iterator<Entry<String, Method>> iterEntries = mimeMessageGetters.entrySet().iterator();
-        while (iterEntries.hasNext())
-        {
+        while (iterEntries.hasNext()) {
             final Map.Entry<String, Method> entry = iterEntries.next();
             final String name = entry.getKey();
             final Method method = entry.getValue();
 
-            try
-            {
+            try {
                 final Object value = method.invoke(part);
                 ret.put(OBJECT_PREFIX + name, value);
-            }
-            catch (final IllegalAccessException e)
-            {
+            } catch (final IllegalAccessException e) {
                 log.debug(e.getLocalizedMessage(), e);
-            }
-            catch (final InvocationTargetException e)
-            {
+            } catch (final InvocationTargetException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
         }
 
         // add extended fields (with obj. prefix too)
-        if (part instanceof MimeMessage)
-        {
+        if (part instanceof MimeMessage) {
             final MimeMessage message = (MimeMessage) part;
-            try
-            {
+            try {
                 final Address[] address = message.getRecipients(MimeMessage.RecipientType.BCC);
                 ret.put(OBJECT_PREFIX + "Recipients.BCC", address);
-            }
-            catch (final MessagingException e)
-            {
+            } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
-            try
-            {
+            try {
                 final Address[] address = message.getRecipients(MimeMessage.RecipientType.CC);
                 ret.put(OBJECT_PREFIX + "Recipients.CC", address);
-            }
-            catch (final MessagingException e)
-            {
+            } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
-            try
-            {
+            try {
                 final Address[] address = message.getRecipients(MimeMessage.RecipientType.TO);
                 ret.put(OBJECT_PREFIX + "Recipients.TO", address);
-            }
-            catch (final MessagingException e)
-            {
+            } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
-            try
-            {
+            try {
                 final Address[] address = message.getRecipients(MimeMessage.RecipientType.NEWSGROUPS);
                 ret.put(OBJECT_PREFIX + "Recipients.NEWSGROUPS", address);
-            }
-            catch (final MessagingException e)
-            {
+            } catch (final MessagingException e) {
                 log.debug(e.getLocalizedMessage(), e);
             }
         }
@@ -207,63 +164,51 @@ public class MimeAttributesMap implements Map<String, Object>
         return ret;
     }
 
-    public int size()
-    {
+    public int size() {
         return getMap().size();
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return getMap().size() < 1;
     }
 
-    public boolean containsKey(final Object key)
-    {
+    public boolean containsKey(final Object key) {
         return getMap().containsKey(key);
     }
 
-    public boolean containsValue(final Object value)
-    {
+    public boolean containsValue(final Object value) {
         return getMap().containsValue(value);
     }
 
-    public Object get(final Object key)
-    {
+    public Object get(final Object key) {
         return getMap().get(key);
     }
 
-    public Object put(final String key, final Object value)
-    {
+    public Object put(final String key, final Object value) {
         throw new UnsupportedOperationException();
     }
 
-    public Object remove(final Object key)
-    {
+    public Object remove(final Object key) {
         throw new UnsupportedOperationException();
     }
 
-    public void putAll(final Map<? extends String, ? extends Object> t)
-    {
+    public void putAll(final Map<? extends String, ? extends Object> t) {
         throw new UnsupportedOperationException();
     }
 
-    public void clear()
-    {
+    public void clear() {
         throw new UnsupportedOperationException();
     }
 
-    public Set<String> keySet()
-    {
+    public Set<String> keySet() {
         return Collections.unmodifiableSet(getMap().keySet());
     }
 
-    public Collection<Object> values()
-    {
+    public Collection<Object> values() {
         return Collections.unmodifiableCollection(getMap().values());
     }
 
-    public Set<Entry<String, Object>> entrySet()
-    {
+    public Set<Entry<String, Object>> entrySet() {
         return Collections.unmodifiableSet(getMap().entrySet());
     }
 }

@@ -28,39 +28,30 @@ import org.apache.commons.vfs2.FileSystemException;
 /**
  * (Sandbox) Provide access to a FileObject as JAF DataSource.
  */
-public class FileObjectDataSource implements DataSource
-{
+public class FileObjectDataSource implements DataSource {
     private final FileObject fo;
 
-    public FileObjectDataSource(final FileObject fo)
-    {
+    public FileObjectDataSource(final FileObject fo) {
         this.fo = fo;
     }
 
-    public InputStream getInputStream() throws IOException
-    {
+    public InputStream getInputStream() throws IOException {
         return fo.getContent().getInputStream();
     }
 
-    public OutputStream getOutputStream() throws IOException
-    {
+    public OutputStream getOutputStream() throws IOException {
         return fo.getContent().getOutputStream();
     }
 
-    public String getContentType()
-    {
-        try
-        {
+    public String getContentType() {
+        try {
             return fo.getContent().getContentInfo().getContentType();
-        }
-        catch (final FileSystemException e)
-        {
+        } catch (final FileSystemException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String getName()
-    {
+    public String getName() {
         return fo.getName().getBaseName();
     }
 }

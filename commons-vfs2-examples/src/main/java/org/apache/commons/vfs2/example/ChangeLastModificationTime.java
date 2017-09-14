@@ -22,17 +22,13 @@ import org.apache.commons.vfs2.VFS;
 /**
  * Example to change the last modification time of the given file.
  */
-public final class ChangeLastModificationTime
-{
-    private ChangeLastModificationTime()
-    {
+public final class ChangeLastModificationTime {
+    private ChangeLastModificationTime() {
         /* main class not instantiated. */
     }
 
-    public static void main(final String[] args) throws Exception
-    {
-        if (args.length == 0)
-        {
+    public static void main(final String[] args) throws Exception {
+        if (args.length == 0) {
             System.err.println("Please pass the name of a file as parameter.");
             return;
         }

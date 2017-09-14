@@ -34,23 +34,12 @@ import org.apache.commons.vfs2.provider.LayeredFileName;
 /**
  * A provider for MIME Message.
  */
-public class MimeFileProvider
-    extends AbstractLayeredFileProvider
-    implements FileProvider
-{
-    static final Collection<Capability> capabilities =
-        Collections.unmodifiableCollection(Arrays.asList(new Capability[]
-            {
-                Capability.GET_TYPE,
-                Capability.GET_LAST_MODIFIED,
-                Capability.LIST_CHILDREN,
-                Capability.READ_CONTENT,
-                Capability.URI,
-                Capability.ATTRIBUTES
-            }));
+public class MimeFileProvider extends AbstractLayeredFileProvider implements FileProvider {
+    static final Collection<Capability> capabilities = Collections
+            .unmodifiableCollection(Arrays.asList(new Capability[] { Capability.GET_TYPE, Capability.GET_LAST_MODIFIED,
+                    Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI, Capability.ATTRIBUTES }));
 
-    public MimeFileProvider()
-    {
+    public MimeFileProvider() {
         super();
     }
 
@@ -59,16 +48,12 @@ public class MimeFileProvider
      */
     @Override
     protected FileSystem doCreateFileSystem(final String scheme, final FileObject file,
-                                            final FileSystemOptions fileSystemOptions)
-        throws FileSystemException
-    {
-        final FileName name =
-            new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        final FileName name = new LayeredFileName(scheme, file.getName(), FileName.ROOT_PATH, FileType.FOLDER);
         return new MimeFileSystem(name, file, fileSystemOptions);
     }
 
-    public Collection<Capability> getCapabilities()
-    {
+    public Collection<Capability> getCapabilities() {
         return capabilities;
     }
 }

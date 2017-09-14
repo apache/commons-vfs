@@ -28,28 +28,22 @@ import org.apache.commons.vfs2.VFS;
 /**
  * Example which prints all properties of the file passed as first parameter.
  */
-public final class ShowProperties
-{
+public final class ShowProperties {
     /** Maximum number of children to show. */
     private static final int SHOW_MAX = 5;
 
-    private ShowProperties()
-    {
+    private ShowProperties() {
         /* main class not instantiated. */
     }
 
-    public static void main(final String[] args)
-    {
-        if (args.length == 0)
-        {
+    public static void main(final String[] args) {
+        if (args.length == 0) {
             System.err.println("Please pass the name of a file as parameter.");
             System.err.println("e.g. java org.apache.commons.vfs2.example.ShowProperties LICENSE.txt");
             return;
         }
-        for (final String arg : args)
-        {
-            try
-            {
+        for (final String arg : args) {
+            try {
                 final FileSystemManager mgr = VFS.getManager();
                 System.out.println();
                 System.out.println("Parsing: " + arg);
@@ -68,40 +62,29 @@ public final class ShowProperties
                 System.out.println("Readable: " + file.isReadable());
                 System.out.println("Writeable: " + file.isWriteable());
                 System.out.println("Root path: " + file.getFileSystem().getRoot().getName().getPath());
-                if (file.exists())
-                {
-                    if (file.getType().equals(FileType.FILE))
-                    {
+                if (file.exists()) {
+                    if (file.getType().equals(FileType.FILE)) {
                         System.out.println("Size: " + file.getContent().getSize() + " bytes");
-                    }
-                    else if (file.getType().equals(FileType.FOLDER) && file.isReadable())
-                    {
+                    } else if (file.getType().equals(FileType.FOLDER) && file.isReadable()) {
                         final FileObject[] children = file.getChildren();
                         System.out.println("Directory with " + children.length + " files");
-                        for (int iterChildren = 0; iterChildren < children.length; iterChildren++)
-                        {
+                        for (int iterChildren = 0; iterChildren < children.length; iterChildren++) {
                             System.out.println("#" + iterChildren + ": " + children[iterChildren].getName());
-                            if (iterChildren > SHOW_MAX)
-                            {
+                            if (iterChildren > SHOW_MAX) {
                                 break;
                             }
                         }
                     }
-                    System.out.println("Last modified: " + DateFormat.getInstance().format(
-                            new Date(file.getContent().getLastModifiedTime())));
-                }
-                else
-                {
+                    System.out.println("Last modified: "
+                            + DateFormat.getInstance().format(new Date(file.getContent().getLastModifiedTime())));
+                } else {
                     System.out.println("The file does not exist");
                 }
                 file.close();
-            }
-            catch (final FileSystemException ex)
-            {
+            } catch (final FileSystemException ex) {
                 ex.printStackTrace();
             }
         }
     }
 
 }
-

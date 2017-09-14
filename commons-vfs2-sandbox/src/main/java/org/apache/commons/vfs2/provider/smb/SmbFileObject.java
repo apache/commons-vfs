@@ -42,15 +42,11 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 /**
  * A file in an SMB file system.
  */
-public class SmbFileObject
-    extends AbstractFileObject<SmbFileSystem>
-{
+public class SmbFileObject extends AbstractFileObject<SmbFileSystem> {
     // private final String fileName;
     private SmbFile file;
 
-    protected SmbFileObject(final AbstractFileName name,
-                            final SmbFileSystem fileSystem) throws FileSystemException
-    {
+    protected SmbFileObject(final AbstractFileName name, final SmbFileSystem fileSystem) throws FileSystemException {
         super(name, fileSystem);
         // this.fileName = UriParser.decode(name.getURI());
     }
@@ -59,50 +55,42 @@ public class SmbFileObject
      * Attaches this file object to its file resource.
      */
     @Override
-    protected void doAttach() throws Exception
-    {
+    protected void doAttach() throws Exception {
         // Defer creation of the SmbFile to here
-        if (file == null)
-        {
+        if (file == null) {
             file = createSmbFile(getName());
         }
     }
 
     @Override
-    protected void doDetach() throws Exception
-    {
+    protected void doDetach() throws Exception {
         // file closed through content-streams
         file = null;
     }
 
     private SmbFile createSmbFile(final FileName fileName)
-        throws MalformedURLException, SmbException, FileSystemException
-    {
+            throws MalformedURLException, SmbException, FileSystemException {
         final SmbFileName smbFileName = (SmbFileName) fileName;
 
         final String path = smbFileName.getUriWithoutAuth();
 
         UserAuthenticationData authData = null;
         SmbFile file;
-        try
-        {
-            authData = UserAuthenticatorUtils.authenticate(
-                           getFileSystem().getFileSystemOptions(),
-                           SmbFileProvider.AUTHENTICATOR_TYPES);
+        try {
+            authData = UserAuthenticatorUtils.authenticate(getFileSystem().getFileSystemOptions(),
+                    SmbFileProvider.AUTHENTICATOR_TYPES);
 
             NtlmPasswordAuthentication auth = null;
-            if (authData != null)
-            {
+            if (authData != null) {
                 auth = new NtlmPasswordAuthentication(
-                    UserAuthenticatorUtils.toString(
-                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.DOMAIN,
-                            UserAuthenticatorUtils.toChar(smbFileName.getDomain()))),
-                    UserAuthenticatorUtils.toString(
-                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                            UserAuthenticatorUtils.toChar(smbFileName.getUserName()))),
-                    UserAuthenticatorUtils.toString(
-                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                            UserAuthenticatorUtils.toChar(smbFileName.getPassword()))));
+                        UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
+                                UserAuthenticationData.DOMAIN, UserAuthenticatorUtils.toChar(smbFileName.getDomain()))),
+                        UserAuthenticatorUtils
+                                .toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                                        UserAuthenticatorUtils.toChar(smbFileName.getUserName()))),
+                        UserAuthenticatorUtils
+                                .toString(UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                                        UserAuthenticatorUtils.toChar(smbFileName.getPassword()))));
             }
 
             // if auth == null SmbFile uses default credentials
@@ -111,35 +99,25 @@ public class SmbFileObject
             // ANONYMOUS=("","","")
             file = new SmbFile(path, auth);
 
-            if (file.isDirectory() && !file.toString().endsWith("/"))
-            {
+            if (file.isDirectory() && !file.toString().endsWith("/")) {
                 file = new SmbFile(path + "/", auth);
             }
             return file;
-        }
-        finally
-        {
+        } finally {
             UserAuthenticatorUtils.cleanup(authData); // might be null
         }
     }
 
     /**
-     * Determines the type of the file, returns null if the file does not
-     * exist.
+     * Determines the type of the file, returns null if the file does not exist.
      */
     @Override
-    protected FileType doGetType() throws Exception
-    {
-        if (!file.exists())
-        {
+    protected FileType doGetType() throws Exception {
+        if (!file.exists()) {
             return FileType.IMAGINARY;
-        }
-        else if (file.isDirectory())
-        {
+        } else if (file.isDirectory()) {
             return FileType.FOLDER;
-        }
-        else if (file.isFile())
-        {
+        } else if (file.isFile()) {
             return FileType.FILE;
         }
 
@@ -147,15 +125,12 @@ public class SmbFileObject
     }
 
     /**
-     * Lists the children of the file.  Is only called if {@link #doGetType}
-     * returns {@link FileType#FOLDER}.
+     * Lists the children of the file. Is only called if {@link #doGetType} returns {@link FileType#FOLDER}.
      */
     @Override
-    protected String[] doListChildren() throws Exception
-    {
+    protected String[] doListChildren() throws Exception {
         // VFS-210: do not try to get listing for anything else than directories
-        if (!file.isDirectory())
-        {
+        if (!file.isDirectory()) {
             return null;
         }
 
@@ -166,8 +141,7 @@ public class SmbFileObject
      * Determines if this file is hidden.
      */
     @Override
-    protected boolean doIsHidden() throws Exception
-    {
+    protected boolean doIsHidden() throws Exception {
         return file.isHidden();
     }
 
@@ -175,14 +149,12 @@ public class SmbFileObject
      * Deletes the file.
      */
     @Override
-    protected void doDelete() throws Exception
-    {
+    protected void doDelete() throws Exception {
         file.delete();
     }
 
     @Override
-    protected void doRename(final FileObject newfile) throws Exception
-    {
+    protected void doRename(final FileObject newfile) throws Exception {
         file.renameTo(createSmbFile(newfile.getName()));
     }
 
@@ -190,8 +162,7 @@ public class SmbFileObject
      * Creates this file as a folder.
      */
     @Override
-    protected void doCreateFolder() throws Exception
-    {
+    protected void doCreateFolder() throws Exception {
         file.mkdir();
         file = createSmbFile(getName());
     }
@@ -200,8 +171,7 @@ public class SmbFileObject
      * Returns the size of the file content (in bytes).
      */
     @Override
-    protected long doGetContentSize() throws Exception
-    {
+    protected long doGetContentSize() throws Exception {
         return file.length();
     }
 
@@ -209,9 +179,7 @@ public class SmbFileObject
      * Returns the last modified time of this file.
      */
     @Override
-    protected long doGetLastModifiedTime()
-        throws Exception
-    {
+    protected long doGetLastModifiedTime() throws Exception {
         return file.getLastModified();
     }
 
@@ -219,20 +187,13 @@ public class SmbFileObject
      * Creates an input stream to read the file content from.
      */
     @Override
-    protected InputStream doGetInputStream() throws Exception
-    {
-        try
-        {
+    protected InputStream doGetInputStream() throws Exception {
+        try {
             return new SmbFileInputStream(file);
-        }
-        catch (final SmbException e)
-        {
-            if (e.getNtStatus() == SmbException.NT_STATUS_NO_SUCH_FILE)
-            {
+        } catch (final SmbException e) {
+            if (e.getNtStatus() == SmbException.NT_STATUS_NO_SUCH_FILE) {
                 throw new org.apache.commons.vfs2.FileNotFoundException(getName());
-            }
-            else if (file.isDirectory())
-            {
+            } else if (file.isDirectory()) {
                 throw new FileTypeHasNoContentException(getName());
             }
 
@@ -244,8 +205,7 @@ public class SmbFileObject
      * Creates an output stream to write the file content to.
      */
     @Override
-    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception
-    {
+    protected OutputStream doGetOutputStream(final boolean bAppend) throws Exception {
         return new SmbFileOutputStream(file, bAppend);
     }
 
@@ -253,14 +213,12 @@ public class SmbFileObject
      * random access
      */
     @Override
-    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception
-    {
+    protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
         return new SmbFileRandomAccessContent(file, mode);
     }
 
     @Override
-    protected boolean doSetLastModifiedTime(final long modtime) throws Exception
-    {
+    protected boolean doSetLastModifiedTime(final long modtime) throws Exception {
         file.setLastModified(modtime);
         return true;
     }

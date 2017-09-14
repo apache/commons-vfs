@@ -28,17 +28,13 @@ import com.jcraft.jsch.UserInfo;
 /**
  * Basic check for SFTP.
  */
-public final class SftpCheck
-{
-    private SftpCheck()
-    {
+public final class SftpCheck {
+    private SftpCheck() {
         /* main class not instantiated. */
     }
 
-    public static void main(final String[] args) throws Exception
-    {
-        if (args.length != 4)
-        {
+    public static void main(final String[] args) throws Exception {
+        if (args.length != 4) {
             throw new IllegalArgumentException("Usage: SftpCheck user pass host dir");
         }
         final String user = args[0];
@@ -50,41 +46,34 @@ public final class SftpCheck
         props.setProperty("StrictHostKeyChecking", "false");
         final JSch jsch = new JSch();
         final Session session = jsch.getSession(user, host, 22);
-        session.setUserInfo(new UserInfo()
-        {
+        session.setUserInfo(new UserInfo() {
             @Override
-            public String getPassphrase()
-            {
+            public String getPassphrase() {
                 return null;
             }
 
             @Override
-            public String getPassword()
-            {
+            public String getPassword() {
                 return null;
             }
 
             @Override
-            public boolean promptPassword(final String string)
-            {
+            public boolean promptPassword(final String string) {
                 return false;
             }
 
             @Override
-            public boolean promptPassphrase(final String string)
-            {
+            public boolean promptPassphrase(final String string) {
                 return false;
             }
 
             @Override
-            public boolean promptYesNo(final String string)
-            {
+            public boolean promptYesNo(final String string) {
                 return true;
             }
 
             @Override
-            public void showMessage(final String string)
-            {
+            public void showMessage(final String string) {
             }
         });
         session.setPassword(pass);
@@ -93,8 +82,7 @@ public final class SftpCheck
         chan.connect();
         final Vector<?> list = chan.ls(dir);
         final Iterator<?> iterList = list.iterator();
-        while (iterList.hasNext())
-        {
+        while (iterList.hasNext()) {
             System.err.println(iterList.next());
         }
         System.err.println("done");

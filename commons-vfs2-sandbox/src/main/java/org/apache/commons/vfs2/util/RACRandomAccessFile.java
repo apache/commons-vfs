@@ -22,127 +22,104 @@ import java.io.RandomAccessFile;
 import org.apache.commons.vfs2.RandomAccessContent;
 
 /**
- * (Sandbox) Encapsulates a {@link RandomAccessContent} instance, allowing it to be used
- * as a {@link RandomAccessFile} instance.
+ * (Sandbox) Encapsulates a {@link RandomAccessContent} instance, allowing it to be used as a {@link RandomAccessFile}
+ * instance.
  */
-public class RACRandomAccessFile extends RandomAccessFile implements RandomAccessContent
-{
+public class RACRandomAccessFile extends RandomAccessFile implements RandomAccessContent {
     private final byte[] singleByteBuf = new byte[1];
 
     private RandomAccessContent rac;
 
-    public RACRandomAccessFile(final RandomAccessContent rac) throws IOException
-    {
+    public RACRandomAccessFile(final RandomAccessContent rac) throws IOException {
         this(createTempFile());
         this.rac = rac;
     }
 
-    private RACRandomAccessFile(final File tempFile) throws IOException
-    {
+    private RACRandomAccessFile(final File tempFile) throws IOException {
         super(tempFile, "r");
         deleteTempFile(tempFile);
     }
 
-    private static File createTempFile() throws IOException
-    {
+    private static File createTempFile() throws IOException {
         return File.createTempFile("fraf", "");
     }
 
-    private void deleteTempFile(final File tempFile)
-    {
-        try
-        {
+    private void deleteTempFile(final File tempFile) {
+        try {
             super.close();
-        }
-        catch (final IOException ex)
-        {
+        } catch (final IOException ex) {
             throw new RuntimeException(ex);
-        }
-        finally
-        {
+        } finally {
             /* ignored = */ tempFile.delete();
         }
     }
 
     @Override
-    public long getFilePointer() throws IOException
-    {
+    public long getFilePointer() throws IOException {
         return this.rac.getFilePointer();
     }
 
     @Override
-    public void seek(final long pos) throws IOException
-    {
+    public void seek(final long pos) throws IOException {
         this.rac.seek(pos);
     }
 
     @Override
-    public int skipBytes(final int n) throws IOException
-    {
+    public int skipBytes(final int n) throws IOException {
         return this.rac.skipBytes(n);
     }
 
     @Override
-    public long length() throws IOException
-    {
+    public long length() throws IOException {
         return this.rac.length();
     }
 
     @Override
-    public void setLength(final long newLength) throws IOException
-    {
+    public void setLength(final long newLength) throws IOException {
         throw new IOException("Underlying RandomAccessContent instance length cannot be modified.");
     }
 
-    public InputStream getInputStream() throws IOException
-    {
+    public InputStream getInputStream() throws IOException {
         return this.rac.getInputStream();
     }
 
     @Override
-    public void close() throws IOException
-    {
+    public void close() throws IOException {
         this.rac.close();
     }
 
     @Override
-    public final int read(final byte[] b) throws IOException
-    {
+    public final int read(final byte[] b) throws IOException {
         return read(b, 0, b.length);
     }
 
     @Override
-    public final int read() throws IOException
-    {
+    public final int read() throws IOException {
         final byte[] buf = this.singleByteBuf;
         final int count = read(buf, 0, 1);
         return count < 0 ? -1 : buf[0] & 0xFF;
     }
 
     @Override
-    public int read(final byte[] b, final int off, final int len) throws IOException
-    {
+    public int read(final byte[] b, final int off, final int len) throws IOException {
         this.rac.readFully(b, off, len);
         return len;
     }
 
     @Override
-    public final void write(final int b) throws IOException
-    {
+    public final void write(final int b) throws IOException {
         final byte[] buf = this.singleByteBuf;
         buf[0] = (byte) b;
         write(buf, 0, 1);
     }
 
     @Override
-    public final void write(final byte[] b) throws IOException
-    {
+    public final void write(final byte[] b) throws IOException {
         write(b, 0, b.length);
     }
 
     @Override
-    public void write(final byte[] b, final int off, final int len) throws IOException
-    {
+    public void write(final byte[] b, final int off, final int len) throws IOException {
         this.rac.write(b, off, len);
     }
 

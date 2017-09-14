@@ -38,9 +38,7 @@ import org.apache.commons.vfs2.util.SharedRandomContentInputStream;
 /**
  * An MIME file system.
  */
-public class MimeFileSystem
-    extends AbstractFileSystem
-{
+public class MimeFileSystem extends AbstractFileSystem {
     static final String NULL_BP_NAME = "_body_part_";
     static final String CONTENT_NAME = "_content";
     static final String PREAMBLE_CHARSET = "UTF-8";
@@ -50,8 +48,7 @@ public class MimeFileSystem
     private InputStream mimeStream = null;
 
     protected MimeFileSystem(final FileName rootName, final FileObject parentLayer,
-                             final FileSystemOptions fileSystemOptions)
-    {
+            final FileSystemOptions fileSystemOptions) {
         super(rootName, parentLayer, fileSystemOptions);
     }
 
@@ -59,8 +56,7 @@ public class MimeFileSystem
      * Creates a file object.
      */
     @Override
-    protected FileObject createFile(final AbstractFileName name) throws FileSystemException
-    {
+    protected FileObject createFile(final AbstractFileName name) throws FileSystemException {
         return new MimeFileObject(name, null, this);
     }
 
@@ -68,62 +64,45 @@ public class MimeFileSystem
      * Returns the capabilities of this file system.
      */
     @Override
-    protected void addCapabilities(final Collection<Capability> caps)
-    {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(MimeFileProvider.capabilities);
     }
 
-
     @Override
-    protected void doCloseCommunicationLink()
-    {
-        try
-        {
-            if (mimeStream == null)
-            {
+    protected void doCloseCommunicationLink() {
+        try {
+            if (mimeStream == null) {
                 return;
             }
 
             closeMimeStream();
             mimeStream = null;
-        }
-        catch (final IOException e)
-        {
+        } catch (final IOException e) {
             log.warn(e.getLocalizedMessage(), e);
         }
     }
 
-    private void closeMimeStream() throws IOException
-    {
-        if (mimeStream instanceof SharedRandomContentInputStream)
-        {
+    private void closeMimeStream() throws IOException {
+        if (mimeStream instanceof SharedRandomContentInputStream) {
             ((SharedRandomContentInputStream) mimeStream).closeAll();
-        }
-        else
-        {
+        } else {
             mimeStream.close();
         }
     }
 
-    public Part createCommunicationLink() throws IOException, MessagingException
-    {
-        if (mimeStream != null)
-        {
+    public Part createCommunicationLink() throws IOException, MessagingException {
+        if (mimeStream != null) {
             closeMimeStream();
         }
 
         final FileObject parentLayer = getParentLayer();
-        if (!parentLayer.exists())
-        {
+        if (!parentLayer.exists()) {
             return null;
         }
 
-        if (parentLayer.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ))
-        {
+        if (parentLayer.getFileSystem().hasCapability(Capability.RANDOM_ACCESS_READ)) {
             mimeStream = new SharedRandomContentInputStream(parentLayer);
-        }
-        else
-        {
+        } else {
             mimeStream = getParentLayer().getContent().getInputStream();
         }
         return new MimeMessage(null, mimeStream);
