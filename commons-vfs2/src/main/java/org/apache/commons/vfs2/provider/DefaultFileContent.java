@@ -518,7 +518,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * Check if a input and/or output stream is open.
+     * Checks if a input and/or output stream is open.
      * <p>
      * This checks only the scope of the current thread.
      *
@@ -536,7 +536,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * Check if a input and/or output stream is open. This checks all threads.
+     * Checks if an input or output stream is open. This checks all threads.
      *
      * @return true if this is the case
      */
@@ -659,7 +659,7 @@ public final class DefaultFileContent implements FileContent {
     }
 
     /**
-     * get the content info. e.g. content-type, content-encoding
+     * Gets the FileContentInfo which describes the content-type, content-encoding
      *
      * @return The FileContentInfo.
      * @throws FileSystemException if an error occurs.
