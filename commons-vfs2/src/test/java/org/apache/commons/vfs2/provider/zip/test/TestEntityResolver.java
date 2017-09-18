@@ -30,9 +30,11 @@ public class TestEntityResolver implements EntityResolver {
             final String path = "/read-xml-tests/" + fileName;
             final FileObject xsdFileObject = sourceFile.resolveFile(path);
             if (!xsdFileObject.exists()) {
+                System.err.println("File does not exist: " + xsdFileObject);
                 throw new IllegalStateException(
                         "Schema " + path + " not found in file " + containerFile + " parsing " + sourceFile);
             }
+            // System.out.println("Opening input stream on " + xsdFileObject);
             return new InputSource(xsdFileObject.getContent().getInputStream());
         }
         return null;
