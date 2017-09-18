@@ -67,7 +67,7 @@ public class ZipFileObjectTestCase {
      * @throws IOException
      */
     @Test
-    @Ignore("Should this be made to work?")
+    @Ignore("Shows that leaving a stream open and not closing any resource leaves the container file locked")
     public void testLeaveNestedFileOpen() throws IOException {
         final File newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
