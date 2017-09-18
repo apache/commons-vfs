@@ -151,7 +151,8 @@ public class ZipFileObjectTestCase {
             inputStream1 = zipFileObject1.getContent().getInputStream();
             resolveReadAssert(zipFileObject, NESTED_FILE_2);
         }
-        // The zip file is "closed", but we read from the stream now.
+        // The zip file is "closed", but we read from the stream now, which currently fails.
+        // Solve this by counting open streams and only closing when all streams are closed?
         readAndAssert(inputStream1, "1");
         // clean up
         zipFileObject1.close();
