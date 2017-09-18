@@ -127,13 +127,13 @@ public class ParseXmlInZipTestCase {
         testResolveAndParseXmlInZip("read-xml-tests/file1.xml", null);
     }
 
-    private void testResolveAndParseXmlInZip(final String path, final String xsdPathInZip)
+    private void testResolveAndParseXmlInZip(final String xmlPathInZip, final String xsdPathInZip)
             throws IOException, FileSystemException, SAXException {
         final File newZipFile = createTempFile();
         final String zipFilePath = "zip:file:" + newZipFile.getAbsolutePath();
         final FileSystemManager manager = VFS.getManager();
         try (final FileObject zipFileObject = manager.resolveFile(zipFilePath)) {
-            try (final FileObject xmlFileObject = zipFileObject.resolveFile(path)) {
+            try (final FileObject xmlFileObject = zipFileObject.resolveFile(xmlPathInZip)) {
                 try (final InputStream inputStream = xmlFileObject.getContent().getInputStream()) {
                     final Document document = newDocumentBuilder(zipFileObject, xmlFileObject, xsdPathInZip)
                             .parse(inputStream);
