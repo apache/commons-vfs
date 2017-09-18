@@ -58,7 +58,7 @@ public final class DefaultFileContent implements FileContent {
     private FileContentInfo fileContentInfo;
     private final FileContentInfoFactory fileContentInfoFactory;
 
-    private final ThreadLocal<FileContentThreadData> threadData = new ThreadLocal<>();
+    private final ThreadLocal<FileContentThreadData> threadLocal = new ThreadLocal<>();
     private boolean resetAttributes;
 
     /**
@@ -72,10 +72,10 @@ public final class DefaultFileContent implements FileContent {
     }
 
     private FileContentThreadData getOrCreateThreadData() {
-        FileContentThreadData data = this.threadData.get();
+        FileContentThreadData data = this.threadLocal.get();
         if (data == null) {
             data = new FileContentThreadData();
-            this.threadData.set(data);
+            this.threadLocal.set(data);
         }
         return data;
     }
@@ -428,13 +428,14 @@ public final class DefaultFileContent implements FileContent {
     public void close() throws FileSystemException {
         FileSystemException caught = null;
         try {
-            final FileContentThreadData streams = getOrCreateThreadData();
+            final FileContentThreadData fileContentThreadData = getOrCreateThreadData();
 
             // Close the input stream
-            while (streams.getInstrsSize() > 0) {
-                final FileContentInputStream instr = (FileContentInputStream) streams.removeInstr(0);
+            while (fileContentThreadData.getInstrsSize() > 0) {
+                final FileContentInputStream inputStream = (FileContentInputStream) fileContentThreadData
+                        .removeInstr(0);
                 try {
-                    instr.close();
+                    inputStream.close();
                 } catch (final FileSystemException ex) {
                     caught = ex;
 
@@ -442,27 +443,28 @@ public final class DefaultFileContent implements FileContent {
             }
 
             // Close the randomAccess stream
-            while (streams.getRastrsSize() > 0) {
-                final FileRandomAccessContent ra = (FileRandomAccessContent) streams.removeRastr(0);
+            while (fileContentThreadData.getRastrsSize() > 0) {
+                final FileRandomAccessContent randomAccessContent = (FileRandomAccessContent) fileContentThreadData
+                        .removeRastr(0);
                 try {
-                    ra.close();
+                    randomAccessContent.close();
                 } catch (final FileSystemException ex) {
                     caught = ex;
                 }
             }
 
             // Close the output stream
-            final FileContentOutputStream outstr = streams.getOutstr();
-            if (outstr != null) {
-                streams.setOutstr(null);
+            final FileContentOutputStream outputStream = fileContentThreadData.getOutstr();
+            if (outputStream != null) {
+                fileContentThreadData.setOutstr(null);
                 try {
-                    outstr.close();
+                    outputStream.close();
                 } catch (final FileSystemException ex) {
                     caught = ex;
                 }
             }
         } finally {
-            threadData.remove();
+            threadLocal.remove();
         }
 
         // throw last error (out >> rac >> input) after all closes have been tried
@@ -475,13 +477,13 @@ public final class DefaultFileContent implements FileContent {
      * Handles the end of input stream.
      */
     private void endInput(final FileContentInputStream instr) {
-        final FileContentThreadData streams = threadData.get();
-        if (streams != null) {
-            streams.removeInstr(instr);
+        final FileContentThreadData fileContentThreadData = threadLocal.get();
+        if (fileContentThreadData != null) {
+            fileContentThreadData.removeInstr(instr);
         }
-        if (streams == null || !streams.hasStreams()) {
+        if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
             // remove even when no value is set to remove key
-            threadData.remove();
+            threadLocal.remove();
         }
         streamClosed();
     }
@@ -490,13 +492,13 @@ public final class DefaultFileContent implements FileContent {
      * Handles the end of random access.
      */
     private void endRandomAccess(final RandomAccessContent rac) {
-        final FileContentThreadData streams = threadData.get();
-        if (streams != null) {
-            streams.removeRastr(rac);
+        final FileContentThreadData fileContentThreadData = threadLocal.get();
+        if (fileContentThreadData != null) {
+            fileContentThreadData.removeRastr(rac);
         }
-        if (streams == null || !streams.hasStreams()) {
+        if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
             // remove even when no value is set to remove key
-            threadData.remove();
+            threadLocal.remove();
         }
         streamClosed();
     }
@@ -505,13 +507,13 @@ public final class DefaultFileContent implements FileContent {
      * Handles the end of output stream.
      */
     private void endOutput() throws Exception {
-        final FileContentThreadData streams = threadData.get();
-        if (streams != null) {
-            streams.setOutstr(null);
+        final FileContentThreadData fileContentThreadData = threadLocal.get();
+        if (fileContentThreadData != null) {
+            fileContentThreadData.setOutstr(null);
         }
-        if (streams == null || !streams.hasStreams()) {
+        if (fileContentThreadData == null || !fileContentThreadData.hasStreams()) {
             // remove even when no value is set to remove key
-            threadData.remove();
+            threadLocal.remove();
         }
         streamClosed();
         fileObject.endOutput();
@@ -526,12 +528,12 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public boolean isOpen() {
-        final FileContentThreadData streams = threadData.get();
-        if (streams != null && streams.hasStreams()) {
+        final FileContentThreadData fileContentThreadData = threadLocal.get();
+        if (fileContentThreadData != null && fileContentThreadData.hasStreams()) {
             return true;
         }
         // threadData.get() created empty entry
-        threadData.remove();
+        threadLocal.remove();
         return false;
     }
 
