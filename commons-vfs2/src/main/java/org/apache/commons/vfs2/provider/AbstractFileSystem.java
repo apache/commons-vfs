@@ -575,16 +575,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     void streamClosed() {
-        int count;
-
-        do {
-            count = openStreams.get();
-            if (count < 1) {
-                return;
-            }
-        } while (openStreams.compareAndSet(count, count - 1));
-
-        if (count == 1) {
+        if (openStreams.decrementAndGet() == 0) {
             notifyAllStreamsClosed();
         }
     }
