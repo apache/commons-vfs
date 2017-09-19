@@ -50,14 +50,18 @@ public class ZipFileObjectTestCase {
 
     private void getInputStreamAndAssert(final FileObject fileObject, final String expectedId)
             throws FileSystemException, IOException {
-        readAndAssert(fileObject.getContent().getInputStream(), expectedId);
+        readAndAssert(fileObject, fileObject.getContent().getInputStream(), expectedId);
     }
 
-    private void readAndAssert(final InputStream inputStream, final String expectedId) throws IOException {
-        final String string = IOUtils.toString(inputStream, "UTF-8");
-        Assert.assertNotNull(string);
-        Assert.assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator() + "<Root" + expectedId
-                + ">foo" + expectedId + "</Root" + expectedId + ">" + System.lineSeparator(), string);
+    private void readAndAssert(final FileObject fileObject, final InputStream inputStream, final String expectedId)
+            throws IOException {
+        final String streamData = IOUtils.toString(inputStream, "UTF-8");
+        final String fileObjectString = fileObject.toString();
+        Assert.assertNotNull(fileObjectString, streamData);
+        Assert.assertEquals(
+                fileObjectString, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator() + "<Root"
+                        + expectedId + ">foo" + expectedId + "</Root" + expectedId + ">" + System.lineSeparator(),
+                streamData);
     }
 
     /**
@@ -91,7 +95,7 @@ public class ZipFileObjectTestCase {
         try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
             try (final FileObject zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1)) {
                 try (final InputStream inputStream = zipFileObject1.getContent().getInputStream()) {
-                    readAndAssert(inputStream, "1");
+                    readAndAssert(zipFileObject1, inputStream, "1");
                 }
             }
             resolveReadAssert(zipFileObject, NESTED_FILE_2);
@@ -103,7 +107,7 @@ public class ZipFileObjectTestCase {
             throws IOException, FileSystemException {
         try (final FileObject zipFileObject2 = zipFileObject.resolveFile(path)) {
             try (final InputStream inputStream = zipFileObject2.getContent().getInputStream()) {
-                readAndAssert(inputStream, "2");
+                readAndAssert(zipFileObject2, inputStream, "2");
             }
         }
     }
@@ -126,7 +130,7 @@ public class ZipFileObjectTestCase {
             inputStream1 = zipFileObject1.getContent().getInputStream();
         }
         // The zip file is "closed", but we read from the stream now.
-        readAndAssert(inputStream1, "1");
+        readAndAssert(zipFileObject1, inputStream1, "1");
         // clean up
         zipFileObject1.close();
         assertDelete(newZipFile);
@@ -153,7 +157,7 @@ public class ZipFileObjectTestCase {
         }
         // The zip file is "closed", but we read from the stream now, which currently fails.
         // Solve this by counting open streams and only closing when all streams are closed?
-        readAndAssert(inputStream1, "1");
+        readAndAssert(zipFileObject1, inputStream1, "1");
         // clean up
         zipFileObject1.close();
         assertDelete(newZipFile);
