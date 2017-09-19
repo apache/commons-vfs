@@ -138,12 +138,11 @@ public class ZipFileObjectTestCase {
 
     /**
      * Tests that we can get a stream from one file in a zip file, then close another file from the same zip, then
-     * process the initial input stream.
+     * process the initial input stream. If our internal reference counting is correct, the test passes.
      *
      * @throws IOException
      */
     @Test
-    @Ignore("Trying to duplicate what I seeing using JAXP")
     public void testReadingOneAfterClosingAnotherStream() throws IOException {
         final File newZipFile = createTempFile();
         final FileSystemManager manager = VFS.getManager();
