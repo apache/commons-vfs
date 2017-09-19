@@ -150,13 +150,13 @@ public class ZipFileObjectTestCase {
         final FileObject zipFileObject1;
         final InputStream inputStream1;
         try (final FileObject zipFileObject = manager.resolveFile("zip:file:" + newZipFile.getAbsolutePath())) {
-            // leave resources open
+            // leave resources open (note that internal counters are updated)
             zipFileObject1 = zipFileObject.resolveFile(NESTED_FILE_1);
             inputStream1 = zipFileObject1.getContent().getInputStream();
             resolveReadAssert(zipFileObject, NESTED_FILE_2);
         }
-        // The zip file is "closed", but we read from the stream now, which currently fails.
-        // Solve this by counting open streams and only closing when all streams are closed?
+        // The Zip file is "closed", but we read from the stream now, which currently fails.
+        // Why aren't internal counters preventing the stream from closing?
         readAndAssert(zipFileObject1, inputStream1, "1");
         // clean up
         zipFileObject1.close();
