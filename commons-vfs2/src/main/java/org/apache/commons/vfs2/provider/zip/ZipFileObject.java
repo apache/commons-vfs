@@ -153,6 +153,9 @@ public class ZipFileObject extends AbstractFileObject<ZipFileSystem> {
 
     @Override
     protected void doDetach() throws Exception {
-        getAbstractFileSystem().close();
+        ZipFileSystem afs = getAbstractFileSystem();
+        if (!afs.isOpen()) {
+            afs.close();
+        }
     }
 }
