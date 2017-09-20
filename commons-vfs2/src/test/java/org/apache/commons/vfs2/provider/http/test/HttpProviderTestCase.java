@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.http.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import junit.framework.Test;
 
@@ -33,7 +34,7 @@ import org.apache.commons.vfs2.provider.http.HttpFileSystemConfigBuilder;
 import org.apache.commons.vfs2.test.AbstractProviderTestConfig;
 import org.apache.commons.vfs2.test.ProviderTestSuite;
 import org.apache.commons.vfs2.util.FreeSocketPortUtil;
-import org.apache.commons.vfs2.util.NHttpServer;
+import org.apache.commons.vfs2.util.NHttpFileServer;
 import org.junit.Assert;
 
 /**
@@ -41,7 +42,7 @@ import org.junit.Assert;
  *
  */
 public class HttpProviderTestCase extends AbstractProviderTestConfig {
-    private static NHttpServer Server;
+    private static NHttpFileServer Server;
 
     private static int SocketPort;
 
@@ -62,10 +63,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
      * @throws Exception
      */
     private static void setUpClass() throws Exception {
-        Server = new NHttpServer();
-        if (!Server.run(SocketPort, new File(getTestDirectory()), 5000)) {
-            throw new IllegalStateException("The embedded HTTP server has not completed startup, increase wait time");
-        }
+        Server = NHttpFileServer.start(SocketPort, new File(getTestDirectory()), 5000);
     }
 
     /**
@@ -108,7 +106,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
      */
     private static void tearDownClass() throws IOException {
         if (Server != null) {
-            Server.stop();
+            Server.shutdown(5000, TimeUnit.SECONDS);
         }
     }
 
