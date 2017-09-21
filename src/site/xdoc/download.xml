@@ -97,7 +97,7 @@
                         Version 2.6.0<br/>
                         This requires a number of dependencies, use <code>$HADOOP_HOME/bin/hadoop classpath</code> command.
                     </td>
-                    <td>hdfs</td>
+                    <td>HDFS</td>
                 </tr>
                 <tr>
                     <td>
