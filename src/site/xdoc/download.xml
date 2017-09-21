@@ -46,21 +46,21 @@
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/collections/">Commons Collections</a>
-                        Version 4.0.
+                        Version 4.1.
                     </td>
                     <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/compress/">Commons Compress</a>
-                        Version 1.9.
+                        Version 1.14.
                     </td>
                     <td>TAR, Bzip2</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/net/">Commons Net</a>
-                        Version 3.3.
+                        Version 3.6.
                     </td>
                     <td>FTP</td>
                 </tr>
@@ -85,7 +85,7 @@
                 <tr>
                     <td>
                         <a href="http://www.jcraft.com/jsch/">JSch</a>
-                        Version 0.1.51.
+                        Version 0.1.54.
                     </td>
                     <td>SFTP</td>
                 </tr>
