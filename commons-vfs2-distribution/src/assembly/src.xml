@@ -30,7 +30,7 @@
       <directory>..</directory>
       <useDefaultExcludes>true</useDefaultExcludes>
       <excludes>
-        <exclude>**/sandbox/**</exclude>
+        <exclude>**/commons-vfs2-sandbox/**</exclude>
         <!-- build output -->
         <exclude>%regex[(?!((?!${project.build.directory}/)[^/]+/)*src/).*${project.build.directory}.*]</exclude>
 
