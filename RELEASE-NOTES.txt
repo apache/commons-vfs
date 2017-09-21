@@ -1,41 +1,41 @@
-              Apache Commons VFS 2.2
+              Apache Commons VFS Project 2.2
                   RELEASE NOTES
 
-The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.2.
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.2.
 
 Apache Commons VFS is a Virtual File System library.
 
 New features and bug fix release.
 
-The Apache Commons VFS Project team is pleased to announce the commons-vfs2-project-2.2 release!
-
-Apache Commons VFS is a Virtual File System library.
-
 Changes in this version include:
 
 New features:
-o Add a file inverter FileSelector: InvertIncludeFileSelector.  Issue: VFS-628. 
+o VFS-628:  Add a file inverter FileSelector: InvertIncludeFileSelector.
 
 Fixed Bugs:
-o Possible NPE in DefaultFileSystemManager.  Issue: VFS-189. 
-o FileObject.moveTo(FileObject) API doesn't work well for a Linux FTP.  Issue: VFS-620. Thanks to stevezhuang. 
-o ZIP archives are not properly closed after unzipping and cannot be deleted until the JVM exists.  Issue: VFS-291. 
-o AbstractFileSystem.streamClosed() always sets openStream count to zero.  Issue: VFS-644. 
+o VFS-189:  Possible NPE in DefaultFileSystemManager.
+o VFS-620:  FileObject.moveTo(FileObject) API doesn't work well for a Linux FTP. Thanks to stevezhuang.
+o VFS-291:  ZIP archives are not properly closed after unzipping and cannot be deleted until the JVM exists.
+o VFS-644:  AbstractFileSystem.streamClosed() always sets openStream count to zero.
 
 Changes:
-o Upgrade to jcifs 1.3.17  Issue: VFS-642. Thanks to ilangoldfeld. 
-o Update the platform requirement from Java 6 to Java 7.  Issue: VFS-612. 
-o Update Apache Commons Compress from 1.11 to 1.12.  Issue: VFS-615. 
-o Update Apache Commons Compress from 1.12 to 1.13.  Issue: VFS-629. 
-o Update Apache Commons Compress from 1.13 to 1.14.  Issue: VFS-639. 
-o Update from Apache Commons Net 3.5 to 3.6.  Issue: VFS-631. 
-o Update from JCraft jsch for SFTP/SSH from 0.1.53 to 0.1.54.  Issue: VFS-632. 
-o Add API VFS.setManager(FileSystemManager).  Issue: VFS-621. 
-o VFS should not log at the INFO level.  Issue: VFS-643. 
+o VFS-642:  Upgrade to jcifs 1.3.17 Thanks to ilangoldfeld.
+o VFS-612:  Update the platform requirement from Java 6 to Java 7.
+o VFS-615:  Update Apache Commons Compress from 1.11 to 1.12.
+o VFS-629:  Update Apache Commons Compress from 1.12 to 1.13.
+o VFS-639:  Update Apache Commons Compress from 1.13 to 1.14.
+o VFS-631:  Update from Apache Commons Net 3.5 to 3.6.
+o VFS-632:  Update from JCraft jsch for SFTP/SSH from 0.1.53 to 0.1.54.
+o VFS-621:  Add API VFS.setManager(FileSystemManager).
+o VFS-643:  VFS should not log at the INFO level.
 
 
-Have fun!
--Apache Commons VFS Project team
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+
+http://commons.apache.org/proper/commons-vfs/
 
 -----------------------------------------------------------------------------
 
