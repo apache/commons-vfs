@@ -1,7 +1,48 @@
+              Apache Commons VFS 2.2
+                  RELEASE NOTES
+
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.2.
+
+Apache Commons VFS is a Virtual File System library.
+
+New features and bug fix release.
+
+The Apache Commons VFS Project team is pleased to announce the commons-vfs2-project-2.2 release!
+
+Apache Commons VFS is a Virtual File System library.
+
+Changes in this version include:
+
+New features:
+o Add a file inverter FileSelector: InvertIncludeFileSelector.  Issue: VFS-628. 
+
+Fixed Bugs:
+o Possible NPE in DefaultFileSystemManager.  Issue: VFS-189. 
+o FileObject.moveTo(FileObject) API doesn't work well for a Linux FTP.  Issue: VFS-620. Thanks to stevezhuang. 
+o ZIP archives are not properly closed after unzipping and cannot be deleted until the JVM exists.  Issue: VFS-291. 
+o AbstractFileSystem.streamClosed() always sets openStream count to zero.  Issue: VFS-644. 
+
+Changes:
+o Upgrade to jcifs 1.3.17  Issue: VFS-642. Thanks to ilangoldfeld. 
+o Update the platform requirement from Java 6 to Java 7.  Issue: VFS-612. 
+o Update Apache Commons Compress from 1.11 to 1.12.  Issue: VFS-615. 
+o Update Apache Commons Compress from 1.12 to 1.13.  Issue: VFS-629. 
+o Update Apache Commons Compress from 1.13 to 1.14.  Issue: VFS-639. 
+o Update from Apache Commons Net 3.5 to 3.6.  Issue: VFS-631. 
+o Update from JCraft jsch for SFTP/SSH from 0.1.53 to 0.1.54.  Issue: VFS-632. 
+o Add API VFS.setManager(FileSystemManager).  Issue: VFS-621. 
+o VFS should not log at the INFO level.  Issue: VFS-643. 
+
+
+Have fun!
+-Apache Commons VFS Project team
+
+-----------------------------------------------------------------------------
+
               Apache Commons VFS 2.1
                   RELEASE NOTES
 
-The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.1
+The Apache Commons VFS team is pleased to announce the release of Apache Commons VFS 2.1.
 
 Apache Commons VFS is a Virtual File System library.
 
@@ -214,3 +255,5 @@ For complete information on Apache Commons VFS, including instructions on how to
 patches, or suggestions for improvement, see the Apache Apache Commons VFS website:
 
 http://commons.apache.org/proper/commons-vfs/
+
+-----------------------------------------------------------------------------
