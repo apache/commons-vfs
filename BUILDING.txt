@@ -21,7 +21,7 @@ mvn site
 
 On Windows, use a local staging directory, for example:
 
-mvn site:stage-deploy -DstagingSiteURL=file:///%HOME%/vfs
+mvn site:stage-deploy -DstagingSiteURL=file:///HOMEPATH%/vfs
 
 On UNIX, use a local staging directory, for example:
 
