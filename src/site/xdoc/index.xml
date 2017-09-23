@@ -66,12 +66,18 @@
 
         <section name="Requirements">
            <p>
-            Apache Commons VFS 2.1 requires Java 6. Many of the file systems require that optional components be present
-            in order for the protocol to be enabled. See the <a href="download.html">download and build</a> page for
-            information on the optional dependencies.
+            Many of the file systems require that optional components be present in order for the protocol to be 
+            enabled. See the <a href="download.html">download and build</a> page for information on the optional 
+            dependencies.
           </p>
           <p>
-           Apache Commons VFS 2.0 can be used in a Java 5 runtime.
+           Apache Commons VFS 2.2 requires Java 7.
+          </p>
+          <p>
+           Apache Commons VFS 2.1 requires Java 6.
+          </p>
+          <p>
+           Apache Commons VFS 2.0 requires Java 5.
           </p>
         </section>
 
