@@ -59,8 +59,8 @@ public class ZipFileObjectTestCase {
         final String fileObjectString = fileObject.toString();
         Assert.assertNotNull(fileObjectString, streamData);
         Assert.assertEquals(
-                fileObjectString, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator() + "<Root"
-                        + expectedId + ">foo" + expectedId + "</Root" + expectedId + ">" + System.lineSeparator(),
+                fileObjectString, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<Root"
+                        + expectedId + ">foo" + expectedId + "</Root" + expectedId + ">\r\n",
                 streamData);
     }
 
