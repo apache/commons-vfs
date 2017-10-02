@@ -29,6 +29,9 @@ o VFS-632:  Update from JCraft jsch for SFTP/SSH from 0.1.53 to 0.1.54.
 o VFS-621:  Add API VFS.setManager(FileSystemManager).
 o VFS-643:  VFS should not log at the INFO level.
 
+Known Problems:
+o VFS-645:  VfsClassLoaderTests fails on Java 9.
+
 
 Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
 
