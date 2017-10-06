@@ -45,11 +45,13 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.2" date="TBD" description="New features and bug fix release.">
+    <release version="2.2.1" date="TBD" description="Bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+    </release>
+    <release version="2.2" date="2017-10-06" description="New features and bug fix release.">
       <action issue="VFS-642" dev="pschumacher" type="update" due-to="ilangoldfeld">
         Upgrade to jcifs 1.3.17
       </action>
