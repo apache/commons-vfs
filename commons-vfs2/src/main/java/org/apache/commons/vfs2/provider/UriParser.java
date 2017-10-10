@@ -225,7 +225,7 @@ public final class UriParser {
                 if (buffer != null) {
                     buffer.delete(0, pos + 1);
                 }
-                return scheme.intern();
+                return scheme;
             }
 
             if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
