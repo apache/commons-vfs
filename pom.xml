@@ -334,14 +334,11 @@
           <aggregate>true</aggregate>
         </configuration>
       </plugin>
-      <!-- cobertura breaks because it cannot parse annotations in methods. -->
-      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
         <version>${commons.cobertura.version}</version>
       </plugin>
-      -->
       <!-- javancss breaks because it cannot parse annotations in methods. -->
       <!--
       <plugin>
