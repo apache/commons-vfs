@@ -90,7 +90,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
     /**
      * The underlying filesystem
      */
-    private SftpFileSystem filesystem;
+    private SftpFileSystem fileSystem;
 
     /**
      * Implements FileSystemFactory because SSHd does not know about users and home directories.
@@ -396,7 +396,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
         }
 
         final FileObject fileObject = manager.resolveFile(uri, fileSystemOptions);
-        this.filesystem = (SftpFileSystem) fileObject.getFileSystem();
+        this.fileSystem = (SftpFileSystem) fileObject.getFileSystem();
         return fileObject;
     }
 
