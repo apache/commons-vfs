@@ -186,7 +186,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
      * @throws FtpException
      * @throws IOException
      */
-    private static void setUpClass() throws FtpException, IOException, InterruptedException {
+    private static void setUpClass() throws FtpException, IOException {
         SocketPort = FreeSocketPortUtil.findFreeLocalPort();
         // Use %40 for @ in a URL
         ConnectionUri = String.format("sftp://%s@localhost:%d", DEFAULT_USER, SocketPort);
@@ -353,7 +353,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    public SftpProviderTestCase(final boolean streamProxyMode) throws IOException {
+    public SftpProviderTestCase(final boolean streamProxyMode) {
         this.streamProxyMode = streamProxyMode;
     }
 
