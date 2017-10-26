@@ -346,4 +346,11 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
             }
         };
     }
+
+    @Override
+    public String toString() {
+        return "AbstractProviderTestCase [baseFolder=" + baseFolder + ", readFolder=" + readFolder + ", writeFolder="
+                + writeFolder + ", manager=" + manager + ", providerConfig=" + providerConfig + ", method=" + method
+                + ", addEmptyDir=" + addEmptyDir + "]";
+    }
 }

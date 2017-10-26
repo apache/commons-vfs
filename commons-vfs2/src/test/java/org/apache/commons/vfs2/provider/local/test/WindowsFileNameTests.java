@@ -19,8 +19,10 @@ package org.apache.commons.vfs2.provider.local.test;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.local.WindowsFileName;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.junit.Assert;
 
 /**
  * Additional naming tests for local file system.
@@ -33,7 +35,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         final String[] tests = new String[] { "file:///C:/", "file://C:/", "file:/C:/", "file:C:/" };
 
         for (final String name : tests) {
-            final FileName fn = getManager().resolveFile(name).getName();
+            final DefaultFileSystemManager manager = getManager();
+            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+            final FileName fn = manager.resolveFile(name).getName();
 
             // the following tests work for Windows file names only
             assertSame(WindowsFileName.class, fn.getClass());
@@ -57,7 +61,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
 
         for (final String name : tests) {
             try {
-                final FileName fn = getManager().resolveFile(name).getName();
+                final DefaultFileSystemManager manager = getManager();
+                Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+                final FileName fn = manager.resolveFile(name).getName();
                 fail("should not accept root " + name);
             } catch (final FileSystemException ex) {
                 assertEquals("vfs.provider/invalid-absolute-uri.error", ex.getCode());
@@ -69,7 +75,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
     public void testWindowsFilenameUNCStartError() throws Exception {
         try {
             final String FILE = "file://///";
-            final FileObject fo = getManager().resolveFile(FILE);
+            final DefaultFileSystemManager manager = getManager();
+            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+            final FileObject fo = manager.resolveFile(FILE);
             fail("Windows File Parser should not allow " + FILE + " " + fo);
         } catch (FileSystemException ex) {
             assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
@@ -82,7 +90,9 @@ public class WindowsFileNameTests extends AbstractProviderTestCase {
         // check VFS-338 with 2+4 slashes we want a dedicated error
         try {
             final String FILE = "file://////";
-            final FileObject fo = getManager().resolveFile(FILE);
+            final DefaultFileSystemManager manager = getManager();
+            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+            final FileObject fo = manager.resolveFile(FILE);
             fail("Windows File Parser should not allow " + FILE + " " + fo);
         } catch (FileSystemException ex) {
             assertEquals("Exception code", "vfs.provider/invalid-absolute-uri.error", ex.getCode());
