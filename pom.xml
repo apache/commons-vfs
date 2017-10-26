@@ -225,7 +225,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-            <!-- to increase memory for tests on travis ci -->
+            <!-- to increase memory for tests on Travis CI -->
             <argLine>-Xmx64m</argLine>
         </configuration>
       </plugin>
