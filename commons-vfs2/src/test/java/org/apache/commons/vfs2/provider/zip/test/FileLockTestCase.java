@@ -68,8 +68,8 @@ public class FileLockTestCase {
         }
     }
 
-    private void readAndAssert(InputStream inputStream) throws IOException {
-        String string = IOUtils.toString(inputStream, "UTF-8");
+    private void readAndAssert(final InputStream inputStream) throws IOException {
+        final String string = IOUtils.toString(inputStream, "UTF-8");
         Assert.assertNotNull(string);
         Assert.assertEquals("This is a test file.", string);
     }

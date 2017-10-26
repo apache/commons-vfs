@@ -34,7 +34,7 @@ public class TestEntityResolver implements EntityResolver {
     private final FileObject containerFile;
     private final FileObject sourceFile;
 
-    public TestEntityResolver(final FileObject containerFile, FileObject sourceFile) {
+    public TestEntityResolver(final FileObject containerFile, final FileObject sourceFile) {
         this.containerFile = containerFile;
         this.sourceFile = sourceFile;
     }
