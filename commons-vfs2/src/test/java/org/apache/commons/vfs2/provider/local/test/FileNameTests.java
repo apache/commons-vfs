@@ -19,23 +19,28 @@ package org.apache.commons.vfs2.provider.local.test;
 import java.io.File;
 
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.test.AbstractProviderTestCase;
+import org.junit.Assert;
 
 /**
  * Additional naming tests for local file system.
  */
 public class FileNameTests extends AbstractProviderTestCase {
+    
     /**
      * Tests resolution of an absolute file name.
      */
     public void testAbsoluteFileName() throws Exception {
         // Locate file by absolute file name
         final String fileName = new File("testdir").getAbsolutePath();
-        final FileObject absFile = getManager().resolveFile(fileName);
-
+        DefaultFileSystemManager manager = getManager();
+        final FileObject absFile = manager.resolveFile(fileName);
+        Assert.assertNotNull("Unexpected null manager for test " + this, manager);
+        
         // Locate file by URI
         final String uri = "file://" + fileName.replace(File.separatorChar, '/');
-        final FileObject uriFile = getManager().resolveFile(uri);
+        final FileObject uriFile = manager.resolveFile(uri);
 
         assertSame("file object", absFile, uriFile);
     }
