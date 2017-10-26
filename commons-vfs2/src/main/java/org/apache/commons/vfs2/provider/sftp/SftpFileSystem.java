@@ -51,7 +51,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     // private final JSch jSch;
 
     private ChannelSftp idleChannel;
-    
+
     private final int connectTimeoutMillis;
 
     /**

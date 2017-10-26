@@ -30,7 +30,7 @@ import com.jcraft.jsch.UserInfo;
  * The config builder for various SFTP configuration options.
  */
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
-    
+
     private static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 0;
     private static final int DEFAULT_SESSION_TIMEOUT_MILLIS = 0;
 

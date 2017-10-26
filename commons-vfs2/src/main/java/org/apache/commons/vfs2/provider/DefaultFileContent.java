@@ -39,7 +39,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * The content of a file.
  */
 public final class DefaultFileContent implements FileContent {
-    
+
     /*
      * static final int STATE_NONE = 0; static final int STATE_READING = 1; static final int STATE_WRITING = 2; static
      * final int STATE_RANDOM_ACCESS = 3;
