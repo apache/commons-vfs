@@ -35,8 +35,8 @@ public class FileNameTests extends AbstractProviderTestCase {
         // Locate file by absolute file name
         final String fileName = new File("testdir").getAbsolutePath();
         DefaultFileSystemManager manager = getManager();
+        Assert.assertNotNull("Unexpected null manager for test " + this, manager);
         try (final FileObject absFile = manager.resolveFile(fileName)) {
-            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
 
             // Locate file by URI
             final String uri = "file://" + fileName.replace(File.separatorChar, '/');
