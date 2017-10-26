@@ -27,7 +27,7 @@ import org.junit.Assert;
  * Additional naming tests for local file system.
  */
 public class FileNameTests extends AbstractProviderTestCase {
-    
+
     /**
      * Tests resolution of an absolute file name.
      */
@@ -35,13 +35,14 @@ public class FileNameTests extends AbstractProviderTestCase {
         // Locate file by absolute file name
         final String fileName = new File("testdir").getAbsolutePath();
         DefaultFileSystemManager manager = getManager();
-        final FileObject absFile = manager.resolveFile(fileName);
-        Assert.assertNotNull("Unexpected null manager for test " + this, manager);
-        
-        // Locate file by URI
-        final String uri = "file://" + fileName.replace(File.separatorChar, '/');
-        final FileObject uriFile = manager.resolveFile(uri);
+        try (final FileObject absFile = manager.resolveFile(fileName)) {
+            Assert.assertNotNull("Unexpected null manager for test " + this, manager);
 
-        assertSame("file object", absFile, uriFile);
+            // Locate file by URI
+            final String uri = "file://" + fileName.replace(File.separatorChar, '/');
+            final FileObject uriFile = manager.resolveFile(uri);
+
+            assertSame("file object", absFile, uriFile);
+        }
     }
 }
