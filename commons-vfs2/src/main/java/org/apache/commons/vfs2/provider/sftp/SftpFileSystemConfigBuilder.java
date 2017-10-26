@@ -30,6 +30,10 @@ import com.jcraft.jsch.UserInfo;
  * The config builder for various SFTP configuration options.
  */
 public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
+    
+    private static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 0;
+    private static final int DEFAULT_SESSION_TIMEOUT_MILLIS = 0;
+
     /**
      * Proxy type.
      */
@@ -78,12 +82,31 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         }
     }
 
+    private static final String _PREFIX = SftpFileSystemConfigBuilder.class.getName();
+
+    private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
+
+    private static final String COMPRESSION = _PREFIX + "COMPRESSION";
+
+    private static final String CONNECT_TIMEOUT_MILLIS = _PREFIX + ".CONNECT_TIMEOUT_MILLIS";
+    private static final String ENCODING = _PREFIX + ".ENCODING";
+    private static final String HOST_KEY_CHECK_ASK = "ask";
+    private static final String HOST_KEY_CHECK_NO = "no";
+    private static final String HOST_KEY_CHECK_YES = "yes";
+    private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
+    private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
+    private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
+    private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
+    private static final String PROXY_COMMAND = _PREFIX + ".PROXY_COMMAND";
+
+    private static final String PROXY_HOST = _PREFIX + ".PROXY_HOST";
     /** HTTP Proxy. */
     public static final ProxyType PROXY_HTTP = new ProxyType("http");
-
+    private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
+    private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
+    private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
     /** SOCKS Proxy. */
     public static final ProxyType PROXY_SOCKS5 = new ProxyType("socks");
-
     /**
      * Connects to the SFTP server through a remote host reached by SSH.
      * <p>
@@ -97,33 +120,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public static final ProxyType PROXY_STREAM = new ProxyType("stream");
 
-    private static final String _PREFIX = SftpFileSystemConfigBuilder.class.getName();
-    private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
-    private static final String COMPRESSION = _PREFIX + "COMPRESSION";
-    private static final String HOST_KEY_CHECK_ASK = "ask";
-    private static final String HOST_KEY_CHECK_NO = "no";
-    private static final String HOST_KEY_CHECK_YES = "yes";
-    private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
-    private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
-    private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
-    private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
-
-    private static final String PROXY_HOST = _PREFIX + ".PROXY_HOST";
-    private static final String PROXY_USER = _PREFIX + ".PROXY_USER";
-    private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
     private static final String PROXY_TYPE = _PREFIX + ".PROXY_TYPE";
-    private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
-    private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
-    private static final String PROXY_COMMAND = _PREFIX + ".PROXY_COMMAND";
-
+    private static final String PROXY_USER = _PREFIX + ".PROXY_USER";
+    private static final String SESSION_TIMEOUT_MILLIS = _PREFIX + ".TIMEOUT";
     private static final String STRICT_HOST_KEY_CHECKING = _PREFIX + ".STRICT_HOST_KEY_CHECKING";
-    private static final String TIMEOUT = _PREFIX + ".TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
-    private static final String ENCODING = _PREFIX + ".ENCODING";
-
-    private SftpFileSystemConfigBuilder() {
-        super("sftp.");
-    }
 
     /**
      * Gets the singleton builder.
@@ -132,6 +133,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public static SftpFileSystemConfigBuilder getInstance() {
         return BUILDER;
+    }
+
+    private SftpFileSystemConfigBuilder() {
+        super("sftp.");
     }
 
     /**
@@ -146,6 +151,16 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     @Override
     protected Class<? extends FileSystem> getConfigClass() {
         return SftpFileSystem.class;
+    }
+
+    /**
+     * @param opts The FileSystem options.
+     * @return The connect timeout value in milliseconds.
+     * @see #setConnectTimeoutMillis
+     * @since 2.3
+     */
+    public Integer getConnectTimeoutMillis(final FileSystemOptions opts) {
+        return this.getInteger(opts, CONNECT_TIMEOUT_MILLIS, DEFAULT_CONNECT_TIMEOUT_MILLIS);
     }
 
     /**
@@ -310,6 +325,16 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * @param opts The FileSystem options.
+     * @return The session timeout value in milliseconds.
+     * @see #setSessionTimeoutMillis
+     * @since 2.3
+     */
+    public Integer getSessionTimeoutMillis(final FileSystemOptions opts) {
+        return this.getInteger(opts, SESSION_TIMEOUT_MILLIS, DEFAULT_SESSION_TIMEOUT_MILLIS);
+    }
+
+    /**
+     * @param opts The FileSystem options.
      * @return the option value The host key checking.
      * @see #setStrictHostKeyChecking(FileSystemOptions, String)
      */
@@ -321,9 +346,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystem options.
      * @return The timeout value in milliseconds.
      * @see #setTimeout
+     * @deprecated Use {@link #getSessionTimeoutMillis(FileSystemOptions)}
      */
+    @Deprecated
     public Integer getTimeout(final FileSystemOptions opts) {
-        return this.getInteger(opts, TIMEOUT);
+        return this.getInteger(opts, SESSION_TIMEOUT_MILLIS);
     }
 
     /**
@@ -361,6 +388,17 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setCompression(final FileSystemOptions opts, final String compression) throws FileSystemException {
         this.setParam(opts, COMPRESSION, compression);
+    }
+
+    /**
+     * Sets the timeout value to create a Jsch connection.
+     *
+     * @param opts The FileSystem options.
+     * @param timeout The connect timeout in milliseconds.
+     * @since 2.3
+     */
+    public void setConnectTimeoutMillis(final FileSystemOptions opts, final Integer timeout) {
+        this.setParam(opts, CONNECT_TIMEOUT_MILLIS, timeout);
     }
 
     /**
@@ -539,6 +577,17 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Sets the timeout value on Jsch session.
+     *
+     * @param opts The FileSystem options.
+     * @param timeout The session timeout in milliseconds.
+     * @since 2.3
+     */
+    public void setSessionTimeoutMillis(final FileSystemOptions opts, final Integer timeout) {
+        this.setParam(opts, SESSION_TIMEOUT_MILLIS, timeout);
+    }
+
+    /**
      * Configures the host key checking to use.
      * <p>
      * Valid arguments are: {@code "yes"}, {@code "no"} and {@code "ask"}.
@@ -566,9 +615,11 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @param timeout The timeout in milliseconds.
+     * @deprecated Use {@link #setSessionTimeoutMillis(FileSystemOptions, Integer)}
      */
+    @Deprecated
     public void setTimeout(final FileSystemOptions opts, final Integer timeout) {
-        this.setParam(opts, TIMEOUT, timeout);
+        this.setParam(opts, SESSION_TIMEOUT_MILLIS, timeout);
     }
 
     /**

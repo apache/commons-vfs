@@ -89,9 +89,9 @@ public final class SftpClientFactory {
                 session.setPassword(new String(password));
             }
 
-            final Integer timeout = builder.getTimeout(fileSystemOptions);
-            if (timeout != null) {
-                session.setTimeout(timeout.intValue());
+            final Integer sessionTimeout = builder.getSessionTimeoutMillis(fileSystemOptions);
+            if (sessionTimeout != null) {
+                session.setTimeout(sessionTimeout.intValue());
             }
 
             final UserInfo userInfo = builder.getUserInfo(fileSystemOptions);

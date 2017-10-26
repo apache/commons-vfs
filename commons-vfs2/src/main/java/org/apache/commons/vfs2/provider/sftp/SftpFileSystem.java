@@ -51,6 +51,8 @@ public class SftpFileSystem extends AbstractFileSystem {
     // private final JSch jSch;
 
     private ChannelSftp idleChannel;
+    
+    private final int connectTimeoutMillis;
 
     /**
      * Cache for the user ID (-1 when not set)
@@ -66,6 +68,8 @@ public class SftpFileSystem extends AbstractFileSystem {
             final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.session = session;
+        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
+        this.connectTimeoutMillis = builder.getConnectTimeoutMillis(fileSystemOptions);
     }
 
     @Override
@@ -98,7 +102,7 @@ public class SftpFileSystem extends AbstractFileSystem {
                 idleChannel = null;
             } else {
                 channel = (ChannelSftp) session.openChannel("sftp");
-                channel.connect();
+                channel.connect(connectTimeoutMillis);
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
                         .getUserDirIsRoot(getFileSystemOptions());
                 final String workingDirectory = getRootName().getPath();
@@ -271,7 +275,7 @@ public class SftpFileSystem extends AbstractFileSystem {
         channel.setInputStream(null);
         try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream())) {
             channel.setErrStream(System.err, true);
-            channel.connect();
+            channel.connect(connectTimeoutMillis);
 
             // Read the stream
             final char[] buffer = new char[EXEC_BUFFER_SIZE];
