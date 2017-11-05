@@ -1,589 +1,586 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-   Licensed to the Apache Software Foundation (ASF) under one or more
-   contributor license agreements.  See the NOTICE file distributed with
-   this work for additional information regarding copyright ownership.
-   The ASF licenses this file to You under the Apache License, Version 2.0
-   (the "License"); you may not use this file except in compliance with
-   the License.  You may obtain a copy of the License at
+<!-- Licensed to the Apache Software Foundation (ASF) under one or more contributor 
+	license agreements. See the NOTICE file distributed with this work for additional 
+	information regarding copyright ownership. The ASF licenses this file to 
+	You under the Apache License, Version 2.0 (the "License"); you may not use 
+	this file except in compliance with the License. You may obtain a copy of 
+	the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
 
-        http://www.apache.org/licenses/LICENSE-2.0
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-parent</artifactId>
+		<version>42</version>
+	</parent>
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-  -->
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>commons-vfs2-project</artifactId>
+	<name>Apache Commons VFS Project</name>
+	<description>Apache Commons VFS is a Virtual File System library.</description>
+	<packaging>pom</packaging>
+	<version>2.2.1-SNAPSHOT</version>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-parent</artifactId>
-    <version>42</version>
-  </parent>
+	<url>http://commons.apache.org/proper/commons-vfs/</url>
+	<inceptionYear>2002</inceptionYear>
 
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>commons-vfs2-project</artifactId>
-  <name>Apache Commons VFS Project</name>
-  <description>Apache Commons VFS is a Virtual File System library.</description>
-  <packaging>pom</packaging>
-  <version>2.2.1-SNAPSHOT</version>
+	<modules>
+		<module>commons-vfs2</module>
+		<module>commons-vfs2-examples</module>
+		<module>commons-vfs2-distribution</module>
+	</modules>
 
-  <url>http://commons.apache.org/proper/commons-vfs/</url>
-  <inceptionYear>2002</inceptionYear>
+	<issueManagement>
+		<system>jira</system>
+		<url>https://issues.apache.org/jira/browse/VFS</url>
+	</issueManagement>
 
-  <modules>
-    <module>commons-vfs2</module>
-    <module>commons-vfs2-examples</module>
-    <module>commons-vfs2-distribution</module>
-  </modules>
+	<scm>
+		<connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.2</connection>
+		<developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.2</developerConnection>
+		<url>http://svn.apache.org/viewvc/commons/proper/vfs/tags/commons-vfs2-project-2.2</url>
+	</scm>
 
-  <issueManagement>
-    <system>jira</system>
-    <url>https://issues.apache.org/jira/browse/VFS</url>
-  </issueManagement>
+	<developers>
+		<developer>
+			<name>Adam Murdoch</name>
+			<id>adammurdoch</id>
+			<email>adammurdoch -at- apache.org</email>
+			<organization />
+		</developer>
+		<developer>
+			<name>James Strachan</name>
+			<id>jstrachan</id>
+			<email>jstrachan -at- apache.org</email>
+			<organization>SpiritSoft, Inc.</organization>
+		</developer>
+		<developer>
+			<name>Mario Ivankovits</name>
+			<id>imario</id>
+			<email>imario -at- apache.org</email>
+			<organization>OPS EDV Gmbh</organization>
+		</developer>
+		<developer>
+			<name>Rahul Akolkar</name>
+			<id>rahul</id>
+			<email>rahul -at- apache.org</email>
+			<organization>The Apache Software Foundation</organization>
+		</developer>
+		<developer>
+			<name>James Carman</name>
+			<id>jcarman</id>
+			<email>jcarman -at- apache.org</email>
+			<organization>The Apache Software Foundation</organization>
+		</developer>
+		<developer>
+			<name>Ralph Goers</name>
+			<id>rgoers</id>
+			<email>rgoers -at- apache.org</email>
+			<organization>Intuit</organization>
+		</developer>
+		<developer>
+			<name>Joerg Schaible</name>
+			<id>joehni</id>
+			<email>joehni -at- apache.org</email>
+		</developer>
+		<developer>
+			<name>Gary D. Gregory</name>
+			<id>ggregory</id>
+			<email>ggregory -at- apache.org</email>
+			<url>http://www.garygregory.com</url>
+			<timezone>-5</timezone>
+		</developer>
+		<developer>
+			<name>Bernd Eckenfels</name>
+			<id>ecki</id>
+			<email>ecki -at- apache.org</email>
+			<url>http://bernd.eckenfels.net</url>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
 
-  <scm>
-    <connection>scm:svn:http://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.2</connection>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/commons/proper/vfs/tags/commons-vfs2-project-2.2</developerConnection>
-    <url>http://svn.apache.org/viewvc/commons/proper/vfs/tags/commons-vfs2-project-2.2</url>
-  </scm>
+	<contributors>
+		<contributor>
+			<name>Rami Ojares</name>
+			<email>rami.ojares -at- elisa.fi</email>
+		</contributor>
+		<contributor>
+			<name>Anthony Goubard</name>
+			<email>adagoubard -at- chello.nl</email>
+		</contributor>
+		<contributor>
+			<name>Christopher Ottley</name>
+			<email>xknight -at- users.sourceforge.net</email>
+		</contributor>
+		<contributor>
+			<name>Dave Marion</name>
+			<email>dlmarion -at- apache.org</email>
+		</contributor>
+		<contributor>
+			<name>Scott Bjerstedt</name>
+			<email>jcottbjer -at- gmail.com</email>
+		</contributor>
+		<contributor>
+			<name>Jose Juan Montiel</name>
+			<email>josejuan.montiel -at- gmail.com</email>
+		</contributor>
+	</contributors>
 
-  <developers>
-    <developer>
-      <name>Adam Murdoch</name>
-      <id>adammurdoch</id>
-      <email>adammurdoch -at- apache.org</email>
-      <organization />
-    </developer>
-    <developer>
-      <name>James Strachan</name>
-      <id>jstrachan</id>
-      <email>jstrachan -at- apache.org</email>
-      <organization>SpiritSoft, Inc.</organization>
-    </developer>
-    <developer>
-      <name>Mario Ivankovits</name>
-      <id>imario</id>
-      <email>imario -at- apache.org</email>
-      <organization>OPS EDV Gmbh</organization>
-    </developer>
-    <developer>
-      <name>Rahul Akolkar</name>
-      <id>rahul</id>
-      <email>rahul -at- apache.org</email>
-      <organization>The Apache Software Foundation</organization>
-    </developer>
-    <developer>
-      <name>James Carman</name>
-      <id>jcarman</id>
-      <email>jcarman -at- apache.org</email>
-      <organization>The Apache Software Foundation</organization>
-    </developer>
-    <developer>
-      <name>Ralph Goers</name>
-      <id>rgoers</id>
-      <email>rgoers -at- apache.org</email>
-      <organization>Intuit</organization>
-    </developer>
-    <developer>
-      <name>Joerg Schaible</name>
-      <id>joehni</id>
-      <email>joehni -at- apache.org</email>
-    </developer>
-    <developer>
-      <name>Gary D. Gregory</name>
-      <id>ggregory</id>
-      <email>ggregory -at- apache.org</email>
-      <url>http://www.garygregory.com</url>
-      <timezone>-5</timezone>
-    </developer>
-    <developer>
-      <name>Bernd Eckenfels</name>
-      <id>ecki</id>
-      <email>ecki -at- apache.org</email>
-      <url>http://bernd.eckenfels.net</url>
-      <timezone>+1</timezone>
-    </developer>
-  </developers>
+	<properties>
+		<commons.encoding>UTF-8</commons.encoding>
 
-  <contributors>
-    <contributor>
-      <name>Rami Ojares</name>
-      <email>rami.ojares -at- elisa.fi</email>
-    </contributor>
-    <contributor>
-      <name>Anthony Goubard</name>
-      <email>adagoubard -at- chello.nl</email>
-    </contributor>
-    <contributor>
-      <name>Christopher Ottley</name>
-      <email>xknight -at- users.sourceforge.net</email>
-    </contributor>
-    <contributor>
-      <name>Dave Marion</name>
-      <email>dlmarion -at- apache.org</email>
-    </contributor>
-    <contributor>
-      <name>Scott Bjerstedt</name>
-      <email>jcottbjer -at- gmail.com</email>
-    </contributor>
-    <contributor>
-      <name>Jose Juan Montiel</name>
-      <email>josejuan.montiel -at- gmail.com</email>
-    </contributor>
-  </contributors>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 
-  <properties>
-    <commons.encoding>UTF-8</commons.encoding>
+		<!-- bare ID without major version or commons- prefix -->
+		<commons.componentid>vfs2</commons.componentid>
+		<commons.module.name>org.apache.commons.vfs2</commons.module.name>
+		<commons.jira.id>VFS</commons.jira.id>
+		<commons.jira.pid>12310495</commons.jira.pid>
+		<commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
 
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+		<commons.release.version>2.2</commons.release.version>
+		<!--<commons.rc.version>RC1</commons.rc.version> -->
+		<commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
+		<commons.release.desc>(requires Java 1.7+)</commons.release.desc>
+		<commons.binary.suffix /> <!-- TODO delete? -->
 
-    <!-- bare ID without major version or commons- prefix -->
-    <commons.componentid>vfs2</commons.componentid>
-    <commons.module.name>org.apache.commons.vfs2</commons.module.name>
-    <commons.jira.id>VFS</commons.jira.id>
-    <commons.jira.pid>12310495</commons.jira.pid>
-    <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
+		<!-- <commons.release.2.version>2.0</commons.release.2.version> <commons.release.2.name>commons-vfs-2.0</commons.release.2.name> 
+			<commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc> <commons.release.2.binary.suffix 
+			/> -->
 
-    <commons.release.version>2.2</commons.release.version>
-    <!--<commons.rc.version>RC1</commons.rc.version> -->
-    <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
-    <commons.release.desc>(requires Java 1.7+)</commons.release.desc>
-    <commons.binary.suffix /> <!-- TODO delete? -->
+		<vfs.parent.dir>${basedir}</vfs.parent.dir>
+		<version.checkstyle>2.17</version.checkstyle>
+		<!-- make sure bundle plugin has dependency informations for 'optional' -->
+		<commons.osgi.excludeDependencies />
+		<!-- Newer versions of clirr throw an NPE building the site -->
+		<commons.clirr.version>2.6</commons.clirr.version>
+		<!-- Avoid warnings about being unable to find jars during site building -->
+		<dependency.locations.enabled>false</dependency.locations.enabled>
+		<hadoop.version>2.6.0</hadoop.version>
+	</properties>
 
-<!--
-    <commons.release.2.version>2.0</commons.release.2.version>
-    <commons.release.2.name>commons-vfs-2.0</commons.release.2.name>
-    <commons.release.2.desc>(requires Java 1.5+)</commons.release.2.desc>
-    <commons.release.2.binary.suffix />
--->
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/osgi</directory>
+				<targetPath>osgi</targetPath>
+				<includes>
+					<include>MANIFEST.MF</include>
+				</includes>
+			</resource>
+		</resources>
 
-    <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <version.checkstyle>2.17</version.checkstyle>
-    <!-- make sure bundle plugin has dependency informations for 'optional' -->
-    <commons.osgi.excludeDependencies />
-    <!-- Newer versions of clirr throw an NPE building the site -->
-    <commons.clirr.version>2.6</commons.clirr.version>
-    <!-- Avoid warnings about being unable to find jars during site building -->
-    <dependency.locations.enabled>false</dependency.locations.enabled>
-    <hadoop.version>2.6.0</hadoop.version>
-  </properties>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>vfs-jar-manifest</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<mkdir dir="${project.build.directory}/osgi" />
+								<touch file="${project.build.directory}/osgi/MANIFEST.MF" />
+							</target>
+						</configuration>
+					</execution>
+					<execution>
+						<id>javadoc.resources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<copy todir="${project.build.directory}/apidocs/META-INF">
+									<fileset dir="${vfs.parent.dir}">
+										<include name="LICENSE.txt" />
+										<include name="NOTICE.txt" />
+									</fileset>
+								</copy>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- to increase memory for tests on Travis CI -->
+					<argLine>-Xmx64m</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${version.checkstyle}</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.puppycrawl.tools</groupId>
+						<artifactId>checkstyle</artifactId>
+						<!-- version 7.0 requires Java 8 -->
+						<version>6.19</version>
+					</dependency>
+				</dependencies>
+				<!-- Keep build/reporting in sync -->
+				<configuration>
+					<!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
+					<configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
+					<suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
+					<enableRulesSummary>false</enableRulesSummary>
+					<propertyExpansion>basedir=${basedir}</propertyExpansion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.rat</groupId>
+				<artifactId>apache-rat-plugin</artifactId>
+				<version>${commons.rat.version}</version>
+				<!-- Should agree with config in reporting section -->
+				<configuration>
+					<excludes combine.children="append">
+						<!-- trivial test data text files -->
+						<exclude>src/test/resources/test-data/**/*.txt</exclude>
+						<exclude>src/test/resources/test-data/test.mf</exclude>
+						<!-- implicite exclude does not work if sandbox profile is not activated -->
+						<exclude>sandbox/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-  <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/osgi</directory>
-        <targetPath>osgi</targetPath>
-        <includes>
-          <include>MANIFEST.MF</include>
-        </includes>
-      </resource>
-    </resources>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.rat</groupId>
+				<artifactId>apache-rat-plugin</artifactId>
+				<version>${commons.rat.version}</version>
+				<!-- Should agree with config in build section -->
+				<configuration>
+					<excludes combine.children="append">
+						<!-- trivial test data text files -->
+						<exclude>src/test/resources/test-data/**/*.txt</exclude>
+						<exclude>src/test/resources/test-data/test.mf</exclude>
+						<!-- implicit exclude does not work if sandbox profile is not activated -->
+						<exclude>sandbox/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${version.checkstyle}</version>
+				<!-- Keep build/reporting in sync -->
+				<configuration>
+					<!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
+					<configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
+					<suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
+					<enableRulesSummary>false</enableRulesSummary>
+					<propertyExpansion>basedir=${basedir}</propertyExpansion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${commons.javadoc.version}</version>
+				<configuration>
+					<tags>
+						<tag>
+							<name>todo</name>
+							<!-- todo tag for all places -->
+							<placement>a</placement>
+							<head>To Do:</head>
+						</tag>
+					</tags>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<!-- commons-parent defines version 2.5.x or 3.x depending on JDK active. -->
+				<version>${commons.findbugs.version}</version>
+				<configuration>
+					<threshold>Normal</threshold>
+					<effort>Default</effort>
+					<excludeFilterFile>${vfs.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.8</version>
+				<configuration>
+					<targetJdk>${maven.compiler.target}</targetJdk>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+			<!-- cobertura breaks because it cannot parse annotations in methods. -->
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>cobertura-maven-plugin</artifactId> 
+				<version>${commons.cobertura.version}</version> </plugin> -->
+			<!-- javancss breaks because it cannot parse annotations in methods. -->
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>javancss-maven-plugin</artifactId> 
+				<version>2.0</version> </plugin> -->
+		</plugins>
+	</reporting>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>vfs-jar-manifest</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <mkdir dir="${project.build.directory}/osgi" />
-                <touch file="${project.build.directory}/osgi/MANIFEST.MF" />
-              </target>
-            </configuration>
-          </execution>
-          <execution>
-            <id>javadoc.resources</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <copy todir="${project.build.directory}/apidocs/META-INF">
-                  <fileset dir="${vfs.parent.dir}">
-                    <include name="LICENSE.txt" />
-                    <include name="NOTICE.txt" />
-                  </fileset>
-                </copy>
-              </target>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-            <!-- to increase memory for tests on Travis CI -->
-            <argLine>-Xmx64m</argLine>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${version.checkstyle}</version>
-        <dependencies>
-          <dependency>
-            <groupId>com.puppycrawl.tools</groupId>
-            <artifactId>checkstyle</artifactId>
-            <!--  version 7.0 requires Java 8 -->
-            <version>6.19</version>
-          </dependency>
-        </dependencies>        
-        <!-- Keep build/reporting in sync -->
-        <configuration>
-          <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
-          <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
-          <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
-          <enableRulesSummary>false</enableRulesSummary>
-          <propertyExpansion>basedir=${basedir}</propertyExpansion>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
-        <!-- Should agree with config in reporting section -->
-        <configuration>
-          <excludes combine.children="append">
-            <!--  trivial test data text files -->
-            <exclude>src/test/resources/test-data/**/*.txt</exclude>
-            <exclude>src/test/resources/test-data/test.mf</exclude>
-            <!--  implicite exclude does not work if sandbox profile is not activated -->
-            <exclude>sandbox/**</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	<dependencyManagement>
+		<dependencies>
+			<!-- artifacts of project, versions managed by release-plugin -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-vfs2</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-vfs2</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-vfs2-sandbox</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-vfs2-examples</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <version>${commons.rat.version}</version>
-        <!-- Should agree with config in build section -->
-        <configuration>
-          <excludes combine.children="append">
-            <!--  trivial test data text files -->
-            <exclude>src/test/resources/test-data/**/*.txt</exclude>
-            <exclude>src/test/resources/test-data/test.mf</exclude>
-            <!--  implicit exclude does not work if sandbox profile is not activated -->
-            <exclude>sandbox/**</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${version.checkstyle}</version>
-        <!-- Keep build/reporting in sync -->
-        <configuration>
-          <!--<propertiesLocation>${vfs.parent.dir}/checkstyle.properties</propertiesLocation> -->
-          <configLocation>${vfs.parent.dir}/checkstyle.xml</configLocation>
-          <suppressionsLocation>${vfs.parent.dir}/checkstyle-suppressions.xml</suppressionsLocation>
-          <enableRulesSummary>false</enableRulesSummary>
-          <propertyExpansion>basedir=${basedir}</propertyExpansion>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${commons.javadoc.version}</version>
-        <configuration>
-          <tags>
-            <tag>
-              <name>todo</name>
-              <!-- todo tag for all places -->
-              <placement>a</placement>
-              <head>To Do:</head>
-            </tag>
-          </tags>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <!-- commons-parent defines version 2.5.x or 3.x depending on JDK active. -->
-        <version>${commons.findbugs.version}</version>
-        <configuration>
-          <threshold>Normal</threshold>
-          <effort>Default</effort>
-          <excludeFilterFile>${vfs.parent.dir}/findbugs-exclude-filter.xml</excludeFilterFile>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.8</version>
-        <configuration>
-          <targetJdk>${maven.compiler.target}</targetJdk>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <!-- cobertura breaks because it cannot parse annotations in methods. -->
-      <!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${commons.cobertura.version}</version>
-      </plugin>
-      -->
-      <!-- javancss breaks because it cannot parse annotations in methods. -->
-      <!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javancss-maven-plugin</artifactId>
-        <version>2.0</version>
-      </plugin>
-      -->
-    </plugins>
-  </reporting>
+			<!-- 3rd party dependencies -->
+			<dependency>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>3.6</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-compress</artifactId>
+				<version>1.15</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.jackrabbit</groupId>
+				<artifactId>jackrabbit-webdav</artifactId>
+				<version>1.6.5</version>
+			</dependency>
+			<dependency>
+				<groupId>ant</groupId>
+				<artifactId>ant</artifactId>
+				<version>1.6.5</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jcraft</groupId>
+				<artifactId>jsch</artifactId>
+				<version>0.1.54</version>
+			</dependency>
+			<dependency>
+				<groupId>jcifs</groupId>
+				<artifactId>jcifs</artifactId>
+				<version>1.3.17</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.4.7</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-common</artifactId>
+				<version>${hadoop.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-hdfs</artifactId>
+				<version>${hadoop.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-  <dependencyManagement>
-    <dependencies>
-      <!-- artifacts of project, versions managed by release-plugin -->
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs2</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs2</artifactId>
-        <version>${project.version}</version>
-        <type>test-jar</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs2-sandbox</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-vfs2-examples</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+			<!-- https://mvnrepository.com/artifact/com.hierynomus/smbj -->
+			<dependency>
+				<groupId>com.hierynomus</groupId>
+				<artifactId>smbj</artifactId>
+				<version>0.5.0</version>
+			</dependency>
 
-      <!-- 3rd party dependencies -->
-      <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>1.2</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-net</groupId>
-        <artifactId>commons-net</artifactId>
-        <version>3.6</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-collections4</artifactId>
-        <version>4.1</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-httpclient</groupId>
-        <artifactId>commons-httpclient</artifactId>
-        <version>3.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-compress</artifactId>
-        <version>1.15</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jackrabbit</groupId>
-        <artifactId>jackrabbit-webdav</artifactId>
-        <version>1.6.5</version>
-      </dependency>
-      <dependency>
-        <groupId>ant</groupId>
-        <artifactId>ant</artifactId>
-        <version>1.6.5</version>
-      </dependency>
-      <dependency>
-        <groupId>com.jcraft</groupId>
-        <artifactId>jsch</artifactId>
-        <version>0.1.54</version>
-      </dependency>
-      <dependency>
-        <groupId>jcifs</groupId>
-        <artifactId>jcifs</artifactId>
-        <version>1.3.17</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>mail</artifactId>
-        <version>1.4.7</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-common</artifactId>
-        <version>${hadoop.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-hdfs</artifactId>
-        <version>${hadoop.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
 
-      <!-- Testing -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.6</version>
-      </dependency>
-      <!-- Test FTP with Apache FTP Server (MINA) -->
-      <dependency>
-        <groupId>org.apache.ftpserver</groupId>
-        <artifactId>ftpserver-core</artifactId>
-        <version>1.1.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>1.5.11</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>1.5.11</version>
-      </dependency>
-      <!-- Test SFTP with Apache SSHd Server (MINA) -->
-      <dependency>
-        <groupId>org.apache.sshd</groupId>
-        <artifactId>sshd-core</artifactId>
-        <version>0.8.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.mina</groupId>
-        <artifactId>mina-core</artifactId>
-        <version>2.0.7</version>
-      </dependency>
-      <dependency>
-        <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk16</artifactId>
-        <version>1.46</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.6</version>
-      </dependency>
-      <!-- Test HTTP with Apache HttpComponent Core -->
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore-nio</artifactId>
-        <version>4.4.7</version>
-      </dependency>
-      <!-- Test WebDAV with Apache Jackrabbit -->
-      <dependency>
-        <groupId>org.apache.jackrabbit</groupId>
-        <artifactId>jackrabbit-standalone</artifactId>
-        <version>1.6.5</version>
-        <exclusions>
-          <exclusion>
-            <!-- provides everything inlined. -->
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <!-- HDFS test dependencies -->
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-common</artifactId>
-        <version>${hadoop.version}</version>
-        <type>test-jar</type>
-        <exclusions>
-          <exclusion>
-            <!-- jackrabbit-standalone provides one, too -->
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.hadoop</groupId>
-        <artifactId>hadoop-hdfs</artifactId>
-        <version>${hadoop.version}</version>
-        <type>test-jar</type>
-      </dependency>
-      <dependency>
-        <groupId>javax.ws.rs</groupId>
-        <artifactId>jsr311-api</artifactId>
-        <version>1.1.1</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
+			<!-- Testing -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.6</version>
+			</dependency>
+			<!-- Test FTP with Apache FTP Server (MINA) -->
+			<dependency>
+				<groupId>org.apache.ftpserver</groupId>
+				<artifactId>ftpserver-core</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.5.11</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>1.5.11</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>1.5.11</version>
+			</dependency>
+			<!-- Test SFTP with Apache SSHd Server (MINA) -->
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-core</artifactId>
+				<version>0.8.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.mina</groupId>
+				<artifactId>mina-core</artifactId>
+				<version>2.0.7</version>
+			</dependency>
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk16</artifactId>
+				<version>1.46</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.6</version>
+			</dependency>
+			<!-- Test HTTP with Apache HttpComponent Core -->
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore-nio</artifactId>
+				<version>4.4.7</version>
+			</dependency>
+			<!-- Test WebDAV with Apache Jackrabbit -->
+			<dependency>
+				<groupId>org.apache.jackrabbit</groupId>
+				<artifactId>jackrabbit-standalone</artifactId>
+				<version>1.6.5</version>
+				<exclusions>
+					<exclusion>
+						<!-- provides everything inlined. -->
+						<groupId>*</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- HDFS test dependencies -->
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-common</artifactId>
+				<version>${hadoop.version}</version>
+				<type>test-jar</type>
+				<exclusions>
+					<exclusion>
+						<!-- jackrabbit-standalone provides one, too -->
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-log4j12</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-hdfs</artifactId>
+				<version>${hadoop.version}</version>
+				<type>test-jar</type>
+			</dependency>
+			<dependency>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>jsr311-api</artifactId>
+				<version>1.1.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-  <distributionManagement>
-    <site>
-      <id>commons.site</id>
-      <name>Apache Commons Site</name>
-      <url>scm:svn:${commons.scmPubUrl}</url>
-    </site>
-  </distributionManagement>
+	<distributionManagement>
+		<site>
+			<id>commons.site</id>
+			<name>Apache Commons Site</name>
+			<url>scm:svn:${commons.scmPubUrl}</url>
+		</site>
+	</distributionManagement>
 
-  <!-- Releasing VFS as a multi-module build with binary artifacts is somewhat painful. This profile hooks into the commons-parent
-    and the apache-pom to get the build done and then uses the assembly to package it up. -->
-  <profiles>
-    <profile>
-      <id>include-sandbox</id>
-      <modules>
-        <module>sandbox</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <executions>
-              <!-- Don't build the archives here. They are constructed in the dist project -->
-              <execution>
-                <configuration>
-                  <skipAssembly>true</skipAssembly>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+	<!-- Releasing VFS as a multi-module build with binary artifacts is somewhat 
+		painful. This profile hooks into the commons-parent and the apache-pom to 
+		get the build done and then uses the assembly to package it up. -->
+	<profiles>
+		<profile>
+			<id>include-sandbox</id>
+			<modules>
+				<module>sandbox</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<executions>
+							<!-- Don't build the archives here. They are constructed in the dist 
+								project -->
+							<execution>
+								<configuration>
+									<skipAssembly>true</skipAssembly>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 
-  </profiles>
+	</profiles>
 
 </project>
