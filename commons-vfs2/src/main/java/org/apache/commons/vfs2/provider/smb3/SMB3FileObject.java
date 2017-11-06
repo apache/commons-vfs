@@ -46,6 +46,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	private FileName rootName;
 	private DiskEntry diskEntryWrite;
 	private DiskEntry diskEntryRead;
+	private DiskEntry diskEntryFolderWrite;
 
 	protected SMB3FileObject(AbstractFileName name, final SMB3FileSystem fs, final FileName rootName)
 	{
@@ -195,6 +196,22 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		}
 	}
 	
+	private void getDiskEntryFolderWrite() throws Exception
+	{
+		try
+		{
+			synchronized (getFileSystem())
+			{
+				SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
+				diskEntryFolderWrite = fileSystem.getDiskEntryFolderWrite(relPathToShare);
+			}
+		}
+		catch(Exception e)
+		{
+			throw new FileSystemException("Exception thrown getting DiskEntry: " + e.getCause());
+		}
+	}
+	
 	public String getRelPathToShare()
 	{
 		return relPathToShare;
@@ -203,15 +220,27 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	@Override
 	protected void doRename(final FileObject newFile) throws Exception
 	{
-		if (diskEntryWrite == null)
+		if(doGetType() == FileType.FOLDER)
 		{
-			getDiskEntryWrite();
+			if(diskEntryFolderWrite == null)
+			{
+				getDiskEntryFolderWrite();
+			}
+			SMB3FileObject fo = (SMB3FileObject) newFile;
+			diskEntryFolderWrite.rename(fo.getRelPathToShare());
 		}
-		SMB3FileObject fo = (SMB3FileObject) newFile;
-		diskEntryWrite.rename(fo.getRelPathToShare());
-		
-		//TODO maybo obsoloete
-		closeAllHandles();
+		else
+		{
+			if (diskEntryWrite == null)
+			{
+				getDiskEntryWrite();
+			}
+			SMB3FileObject fo = (SMB3FileObject) newFile;
+			diskEntryWrite.rename(fo.getRelPathToShare());
+			
+			//TODO maybo obsoloete
+			closeAllHandles();
+		}
 	}
 
 	@Override

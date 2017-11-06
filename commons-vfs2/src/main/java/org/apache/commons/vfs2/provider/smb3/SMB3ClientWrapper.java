@@ -132,15 +132,23 @@ public class SMB3ClientWrapper extends SMBClient
 	//creates a folder and immediately closes the handle
 	public void createFolder(String path)
 	{
-		DiskEntry de = diskShare.openDirectory(path, 
-				EnumSet.of(AccessMask.GENERIC_WRITE),
-    			EnumSet.of(FileAttributes.FILE_ATTRIBUTE_NORMAL),
-    			EnumSet.of(SMB2ShareAccess.FILE_SHARE_READ),
-				SMB2CreateDisposition.FILE_CREATE,
-				EnumSet.of(SMB2CreateOptions.FILE_DIRECTORY_FILE));
-		
+		DiskEntry de = getDiskEntryFolderWrite(path);
 		de.close();
 	}
+	
+	public DiskEntry getDiskEntryFolderWrite(String path)
+	{
+		DiskEntry de = diskShare.openDirectory(path, 
+				EnumSet.of(AccessMask.GENERIC_ALL),
+    			EnumSet.of(FileAttributes.FILE_ATTRIBUTE_NORMAL),
+    			EnumSet.of(SMB2ShareAccess.FILE_SHARE_READ),
+				SMB2CreateDisposition.FILE_OPEN_IF,
+				EnumSet.of(SMB2CreateOptions.FILE_DIRECTORY_FILE));
+		
+		return de;
+	}
+	
+	
 	
 	//creates a READ handle for the file
 	public DiskEntry getDiskEntryRead(String path)

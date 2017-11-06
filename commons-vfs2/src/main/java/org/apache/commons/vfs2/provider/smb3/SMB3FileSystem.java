@@ -65,5 +65,10 @@ public class SMB3FileSystem extends AbstractFileSystem
 	{
 		return ((SMB3ClientWrapper) client.get()).getDiskEntryRead(path);
 	}
+	
+	public DiskEntry getDiskEntryFolderWrite(String path)
+	{
+		return ((SMB3ClientWrapper) client.get()).getDiskEntryFolderWrite(path);
+	}
 
 }
