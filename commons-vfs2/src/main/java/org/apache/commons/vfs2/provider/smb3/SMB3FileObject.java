@@ -252,10 +252,12 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		if(diskEntryRead != null)
 		{
 			diskEntryRead.close();
+			diskEntryRead = null;
 		}
 		if(diskEntryWrite != null)
 		{
 			diskEntryWrite.close();
+			diskEntryWrite = null;
 		}
 	}
 	
