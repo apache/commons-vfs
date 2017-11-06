@@ -1,3 +1,19 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.commons.vfs2.provider.smb3;
 
 import java.io.InputStream;
@@ -16,6 +32,13 @@ import com.hierynomus.msfscc.fileinformation.FileAllInformation;
 import com.hierynomus.smbj.share.DiskEntry;
 import com.hierynomus.smbj.share.File;
 
+/**
+ * Class containing all its handles from the current Instance but NOT all possible handles to the same file!!
+ * <p>
+ * Closing a stream (Input || Output) does not release the handle for the current file. The handle itself must be closed! Otherwise the file got locked up.
+ * <p>
+ * All methos accessing the FileSystem are declared a synchronized for thread-safetyness
+ */
 public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 {
 	private final String relPathToShare;
@@ -28,6 +51,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	{
 		super(name, fs);
 		String relPath = name.getURI().substring(rootName.getURI().length());
+		//smb shares do not accept "/" --> it needs a "\" which is represented by "\\"
 		relPathToShare = relPath.startsWith("/") ? relPath.substring(1).replace("/", "\\") : relPath.replace("/", "\\");
 		this.rootName = rootName;
 	}
@@ -53,6 +77,8 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 			getDiskEntryRead();
 		}
 		InputStream is = ((File) diskEntryRead).getInputStream();
+		
+		//wrapped to override the close method. For further details see SMB3InputStreamWrapper.class
 		SMB3InputStreamWrapper inputStream = new SMB3InputStreamWrapper(is, this);
 		return inputStream;
 	}
@@ -64,6 +90,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		{
 			if (this.fileInfo == null)
 			{
+				//returns null if the diskShare cannot the file info's. Therefore : imaginary
 				getFileInfo();
 			}
 			if (fileInfo == null)
@@ -93,23 +120,9 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		return null;
 	}
 
-	// make sure to return null if child is in share - root.
 	@Override
 	public FileObject getParent() throws FileSystemException
 	{
-		if (getName().getBaseName().equals(relPathToShare))
-		{
-			// return null;
-
-			// test
-			synchronized (getFileSystem())
-			{
-				AbstractFileName name = (AbstractFileName) getName().getParent();
-				return new SMB3FileObject(name, (SMB3FileSystem) getFileSystem(), rootName);
-			}
-
-		}
-
 		synchronized (getFileSystem())
 		{
 			AbstractFileName name = (AbstractFileName) getName().getParent();
@@ -148,7 +161,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	protected void endOutput() throws Exception
 	{
 		super.endOutput();
-		closeAllHandles(); //force resolve
+		closeAllHandles(); // also close the handles
 	}
 
 	private void getDiskEntryWrite() throws Exception
@@ -175,7 +188,6 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 			{
 				SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
 				diskEntryRead = fileSystem.getDiskEntryRead(relPathToShare);
-				// TODO check SmbPath to conversion / --> \\
 			}
 		} catch (Exception e)
 		{
@@ -215,8 +227,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 			
 			for(int i = 0; i < childrenNames.length; i++)
 			{
-				//String currentFolderURI = getName().getURI().endsWith("/") ? getName().getURI() : getName().getURI() + "/";
-				//String childPath = currentFolderURI + childrenNames[i];
+				//resolve chil dusing resolve Fileobject and child name (just the baseName)
 				children.add(fileSystem.getFileSystemManager().resolveFile(this, childrenNames[i]));
 			}
 			return children.toArray(new FileObject[children.size()]);
@@ -240,6 +251,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		}
     }
 	
+	//needs to be overridden to also close the file Handles when the FileObject is closed. Otherwise files got locked up
 	@Override
 	public void close() throws FileSystemException
 	{

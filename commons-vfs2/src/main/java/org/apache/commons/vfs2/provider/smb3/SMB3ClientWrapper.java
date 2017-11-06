@@ -1,6 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.commons.vfs2.provider.smb3;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -23,6 +38,11 @@ import com.hierynomus.smbj.session.Session;
 import com.hierynomus.smbj.share.DiskEntry;
 import com.hierynomus.smbj.share.DiskShare;
 
+/**
+ * A wrapper to the SMBClient for bundling the related client & connection instances.
+ * <p>
+ * The SMBClient ALWAYS needs a share. The share is part of the rootURI provided by the FileNameParser
+ */
 public class SMB3ClientWrapper extends SMBClient
 {
 	protected final FileSystemOptions fileSystemOptions;
@@ -40,36 +60,34 @@ public class SMB3ClientWrapper extends SMBClient
 		setupClient();
 	}
 	
-	private void setupClient()
+	private void setupClient() throws FileSystemException
 	{
 		final GenericFileName rootName = getRoot();
 		
+		//the relevant data to authenticate a connection
 		String userName = (rootName.getUserName().equals("") || rootName.getUserName() == null) ? "" : ((rootName.getUserName().contains(";") ? rootName.getUserName().substring(rootName.getUserName().indexOf(";")+1, rootName.getUserName().length()) : rootName.getUserName()));
 		String password = rootName.getPassword();
 		String authDomain = (rootName.getUserName().contains(";") ? rootName.getUserName().substring(0, rootName.getUserName().indexOf(";")) : null);
+		
+		//if username == "" the client tries to authenticate "anonymously". It's also possible to summit "guets" as username
 		AuthenticationContext authContext = new AuthenticationContext(userName, password.toCharArray(), authDomain);
-		setupClient(rootName, authContext);
 
-	}
-	
-	protected void setupClient(final GenericFileName rootName, final AuthenticationContext authContext)
-	{
+		//a connection stack is: SMBClient > Connection > Session > DiskShare
 		smbClient = new SMBClient();
 		try
 		{
 			connection = smbClient.connect(rootName.getHostName());
-		} catch (IOException e)
+			session = connection.authenticate(authContext);
+			String share = extractShare(rootName);
+			diskShare = (DiskShare) session.connectShare(share);
+		} catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new FileSystemException("Error while creation a connection: " + e.getCause());
 		}
-		session = connection.authenticate(authContext);
 		
-		String share = extractShare(rootName);
-		
-		diskShare = (DiskShare) session.connectShare(share);
 	}
 	
+	//a share name MUST be provided, otherwise the client cannot connect to its base
 	private String extractShare(final GenericFileName rootName)
 	{
 		if(rootName.getPath().equals("") || rootName.getPath().equals("/"))
@@ -98,6 +116,7 @@ public class SMB3ClientWrapper extends SMBClient
 		}
 	}
 	
+	//create a WRITE handle on the file
 	public DiskEntry getDiskEntryWrite(String path)
 	{
 		DiskEntry diskEntryWrite = diskShare.open(path,
@@ -110,6 +129,7 @@ public class SMB3ClientWrapper extends SMBClient
 		return diskEntryWrite;
 	}
 	
+	//creates a folder and immediately closes the handle
 	public void createFolder(String path)
 	{
 		DiskEntry de = diskShare.openDirectory(path, 
@@ -122,6 +142,7 @@ public class SMB3ClientWrapper extends SMBClient
 		de.close();
 	}
 	
+	//creates a READ handle for the file
 	public DiskEntry getDiskEntryRead(String path)
 	{
 		DiskEntry diskEntryRead = diskShare.open(path, 
@@ -133,6 +154,7 @@ public class SMB3ClientWrapper extends SMBClient
 		
 		return diskEntryRead;
 	}
+	
 	
 	public String[] getChildren(String path)
 	{
@@ -152,7 +174,6 @@ public class SMB3ClientWrapper extends SMBClient
 	
 	public void delete(String path)
 	{
-		
 		diskShare.rm(path);
 	}
 }
