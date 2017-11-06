@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.smb3;
+package org.apache.commons.vfs2.provider.smb2;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,18 +24,18 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.provider.HostFileNameParser;
 import org.apache.commons.vfs2.provider.VfsComponentContext;
 
-public class SMB3FileNameParser extends HostFileNameParser {
+public class SMB2FileNameParser extends HostFileNameParser {
 
-	private static final SMB3FileNameParser INSTANCE = new SMB3FileNameParser();
+	private static final SMB2FileNameParser INSTANCE = new SMB2FileNameParser();
 	
 	private static final int PORT = 443;
 	
-	public SMB3FileNameParser()
+	public SMB2FileNameParser()
 	{
 		super(PORT);
 	}
 	
-	public static SMB3FileNameParser getInstance()
+	public static SMB2FileNameParser getInstance()
 	{
 		return INSTANCE;
 	}

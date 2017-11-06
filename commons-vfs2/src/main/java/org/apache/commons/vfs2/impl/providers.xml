@@ -99,8 +99,8 @@
 		<if-available class-name="org.apache.hadoop.fs.FileSystem" />
 	</provider>
 
-	<provider class-name="org.apache.commons.vfs2.provider.smb3.SMB3FileProvider">
-		<scheme name="smb3" />
+	<provider class-name="org.apache.commons.vfs2.provider.smb2.SMB2FileProvider">
+		<scheme name="smb2" />
 	</provider>
 
 	<extension-map extension="zip" scheme="zip" />

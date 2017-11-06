@@ -14,19 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.smb3;
+package org.apache.commons.vfs2.provider.smb2;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.vfs2.FileObject;
 
-public class SMB3InputStreamWrapper extends InputStream
+public class SMB2InputStreamWrapper extends InputStream
 {
 	private InputStream is;
 	private final FileObject fo;
 	
-	public SMB3InputStreamWrapper(InputStream is, final FileObject fo)
+	public SMB2InputStreamWrapper(InputStream is, final FileObject fo)
 	{
 		this.is = is;
 		this.fo = fo;

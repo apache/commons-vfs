@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.smb3;
+package org.apache.commons.vfs2.provider.smb2;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,7 +39,7 @@ import com.hierynomus.smbj.share.File;
  * <p>
  * All methos accessing the FileSystem are declared a synchronized for thread-safetyness
  */
-public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
+public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 {
 	private final String relPathToShare;
 	private FileAllInformation fileInfo;
@@ -48,7 +48,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	private DiskEntry diskEntryRead;
 	private DiskEntry diskEntryFolderWrite;
 
-	protected SMB3FileObject(AbstractFileName name, final SMB3FileSystem fs, final FileName rootName)
+	protected SMB2FileObject(AbstractFileName name, final SMB2FileSystem fs, final FileName rootName)
 	{
 		super(name, fs);
 		String relPath = name.getURI().substring(rootName.getURI().length());
@@ -80,7 +80,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		InputStream is = ((File) diskEntryRead).getInputStream();
 		
 		//wrapped to override the close method. For further details see SMB3InputStreamWrapper.class
-		SMB3InputStreamWrapper inputStream = new SMB3InputStreamWrapper(is, this);
+		SMB2InputStreamWrapper inputStream = new SMB2InputStreamWrapper(is, this);
 		return inputStream;
 	}
 
@@ -108,8 +108,8 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	{
 		synchronized (getFileSystem())
 		{
-			SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
-			SMB3ClientWrapper client = (SMB3ClientWrapper) fileSystem.getClient();
+			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
+			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
 			fileInfo = client.getFileInfo(relPathToShare);
 		}
 	}
@@ -127,7 +127,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		synchronized (getFileSystem())
 		{
 			AbstractFileName name = (AbstractFileName) getName().getParent();
-			return new SMB3FileObject(name, (SMB3FileSystem) getFileSystem(), rootName);
+			return new SMB2FileObject(name, (SMB2FileSystem) getFileSystem(), rootName);
 		}
 	}
 
@@ -148,8 +148,8 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		{
 			synchronized (getFileSystem())
 			{
-				SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
-				SMB3ClientWrapper client = (SMB3ClientWrapper) fileSystem.getClient();
+				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
+				SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
 				client.createFolder(relPathToShare);
 			}
 		} catch (Exception e)
@@ -172,7 +172,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		{
 			synchronized (getFileSystem())
 			{
-				SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
+				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 				diskEntryWrite = fileSystem.getDiskEntryWrite(relPathToShare);
 			}
 		} catch (Exception e)
@@ -187,7 +187,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		{
 			synchronized (getFileSystem())
 			{
-				SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
+				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 				diskEntryRead = fileSystem.getDiskEntryRead(relPathToShare);
 			}
 		} catch (Exception e)
@@ -202,7 +202,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		{
 			synchronized (getFileSystem())
 			{
-				SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
+				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 				diskEntryFolderWrite = fileSystem.getDiskEntryFolderWrite(relPathToShare);
 			}
 		}
@@ -226,7 +226,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 			{
 				getDiskEntryFolderWrite();
 			}
-			SMB3FileObject fo = (SMB3FileObject) newFile;
+			SMB2FileObject fo = (SMB2FileObject) newFile;
 			diskEntryFolderWrite.rename(fo.getRelPathToShare());
 		}
 		else
@@ -235,7 +235,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 			{
 				getDiskEntryWrite();
 			}
-			SMB3FileObject fo = (SMB3FileObject) newFile;
+			SMB2FileObject fo = (SMB2FileObject) newFile;
 			diskEntryWrite.rename(fo.getRelPathToShare());
 			
 			//TODO maybo obsoloete
@@ -250,8 +250,8 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		{
 			List<FileObject> children = new ArrayList<FileObject>();
 			
-			SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
-			SMB3ClientWrapper client = (SMB3ClientWrapper) fileSystem.getClient();
+			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
+			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
 			String[] childrenNames = client.getChildren(relPathToShare);
 			
 			for(int i = 0; i < childrenNames.length; i++)
@@ -274,8 +274,8 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 			}
 			endOutput();
 			
-			SMB3FileSystem fileSystem = (SMB3FileSystem) getFileSystem();
-			SMB3ClientWrapper client = (SMB3ClientWrapper) fileSystem.getClient();
+			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
+			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
 			client.delete(relPathToShare);
 		}
     }

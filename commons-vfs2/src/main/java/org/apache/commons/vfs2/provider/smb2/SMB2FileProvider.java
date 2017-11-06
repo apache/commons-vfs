@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.smb3;
+package org.apache.commons.vfs2.provider.smb2;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 
-public class SMB3FileProvider extends AbstractOriginatingFileProvider
+public class SMB2FileProvider extends AbstractOriginatingFileProvider
 {
 
 	/**
@@ -43,10 +43,10 @@ public class SMB3FileProvider extends AbstractOriginatingFileProvider
 			Capability.READ_CONTENT, Capability.GET_LAST_MODIFIED, Capability.URI, Capability.WRITE_CONTENT,
 			Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ, }));
 
-	public SMB3FileProvider()
+	public SMB2FileProvider()
 	{
 		super();
-		setFileNameParser(SMB3FileNameParser.getInstance());
+		setFileNameParser(SMB2FileNameParser.getInstance());
 	}
 
 	@Override
@@ -60,8 +60,8 @@ public class SMB3FileProvider extends AbstractOriginatingFileProvider
 			throws FileSystemException
 	{
 		final GenericFileName rootName = (GenericFileName) name;
-		final SMB3ClientWrapper smbClient = new SMB3ClientWrapper(rootName, fileSystemOptions);
-		return new SMB3FileSystem(rootName, fileSystemOptions, smbClient);
+		final SMB2ClientWrapper smbClient = new SMB2ClientWrapper(rootName, fileSystemOptions);
+		return new SMB2FileSystem(rootName, fileSystemOptions, smbClient);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class SMB3FileProvider extends AbstractOriginatingFileProvider
 		{
 			if (uri.endsWith("//")) // TODO really parse if share is not in uri
 			{
-				return ((SMB3FileNameParser) getFileNameParser()).parseShareRoot(getContext(), base, uri);
+				return ((SMB2FileNameParser) getFileNameParser()).parseShareRoot(getContext(), base, uri);
 			}
 			return getFileNameParser().parseUri(getContext(), base, uri);
 		}

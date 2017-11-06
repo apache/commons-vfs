@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.smb3;
+package org.apache.commons.vfs2.provider.smb2;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -43,7 +43,7 @@ import com.hierynomus.smbj.share.DiskShare;
  * <p>
  * The SMBClient ALWAYS needs a share. The share is part of the rootURI provided by the FileNameParser
  */
-public class SMB3ClientWrapper extends SMBClient
+public class SMB2ClientWrapper extends SMBClient
 {
 	protected final FileSystemOptions fileSystemOptions;
 	private final GenericFileName root;
@@ -52,7 +52,7 @@ public class SMB3ClientWrapper extends SMBClient
 	private Session session;
 	private DiskShare diskShare;
 	
-	protected SMB3ClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions) throws FileSystemException
+	protected SMB2ClientWrapper(final GenericFileName root, final FileSystemOptions fileSystemOptions) throws FileSystemException
 	{
 		this.root = root;
 		this.fileSystemOptions = fileSystemOptions;
