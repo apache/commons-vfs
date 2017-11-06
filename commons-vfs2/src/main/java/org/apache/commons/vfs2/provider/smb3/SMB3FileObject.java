@@ -35,18 +35,26 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	@Override
 	protected long doGetContentSize() throws Exception
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		if(fileInfo == null)
+		{
+			getFileInfo();
+		}
+		return fileInfo.getStandardInformation().getEndOfFile();
 	}
 
 	@Override
 	protected InputStream doGetInputStream() throws Exception
 	{
+		if (!getType().hasContent()) {
+            throw new FileSystemException("vfs.provider/read-not-file.error", getName());
+        }
 		if (diskEntryRead == null)
 		{
 			getDiskEntryRead();
 		}
-		return ((File) diskEntryRead).getInputStream();
+		InputStream is = ((File) diskEntryRead).getInputStream();
+		SMB3InputStreamWrapper inputStream = new SMB3InputStreamWrapper(is, this);
+		return inputStream;
 	}
 
 	@Override
@@ -140,14 +148,12 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 	protected void endOutput() throws Exception
 	{
 		super.endOutput();
-		if (diskEntryWrite != null)
-		{
-			diskEntryWrite.close();
-		}
+		closeAllHandles(); //force resolve
 	}
 
 	private void getDiskEntryWrite() throws Exception
 	{
+		closeAllHandles();
 		try
 		{
 			synchronized (getFileSystem())
@@ -193,7 +199,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		diskEntryWrite.rename(fo.getRelPathToShare());
 		
 		//TODO maybo obsoloete
-		endOutput();
+		closeAllHandles();
 	}
 
 	@Override
@@ -233,5 +239,24 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 			client.delete(relPathToShare);
 		}
     }
+	
+	@Override
+	public void close() throws FileSystemException
+	{
+		super.close();
+		closeAllHandles();
+	}
+	
+	private void closeAllHandles()
+	{
+		if(diskEntryRead != null)
+		{
+			diskEntryRead.close();
+		}
+		if(diskEntryWrite != null)
+		{
+			diskEntryWrite.close();
+		}
+	}
 	
 }
