@@ -93,7 +93,7 @@ public class SMB3FileObject extends AbstractFileObject<SMB3FileSystem>
 		return null;
 	}
 
-	// make sure to return null if child is in share - root
+	// make sure to return null if child is in share - root.
 	@Override
 	public FileObject getParent() throws FileSystemException
 	{
