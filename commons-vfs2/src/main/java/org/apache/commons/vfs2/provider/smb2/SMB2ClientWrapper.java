@@ -32,6 +32,7 @@ import com.hierynomus.mssmb2.SMB2CreateDisposition;
 import com.hierynomus.mssmb2.SMB2CreateOptions;
 import com.hierynomus.mssmb2.SMB2ShareAccess;
 import com.hierynomus.smbj.SMBClient;
+import com.hierynomus.smbj.SmbConfig;
 import com.hierynomus.smbj.auth.AuthenticationContext;
 import com.hierynomus.smbj.connection.Connection;
 import com.hierynomus.smbj.session.Session;
@@ -45,6 +46,11 @@ import com.hierynomus.smbj.share.DiskShare;
  */
 public class SMB2ClientWrapper extends SMBClient
 {
+	private static final SmbConfig CONFIG = SmbConfig.builder()
+			.withDfsEnabled(true)
+			.withMultiProtocolNegotiate(true)
+			.build();
+	
 	protected final FileSystemOptions fileSystemOptions;
 	private final GenericFileName root;
 	private SMBClient smbClient;
@@ -56,7 +62,7 @@ public class SMB2ClientWrapper extends SMBClient
 	{
 		this.root = root;
 		this.fileSystemOptions = fileSystemOptions;
-		smbClient = new SMBClient();
+		smbClient = new SMBClient(CONFIG);
 		setupClient();
 	}
 	
