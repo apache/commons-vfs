@@ -188,6 +188,25 @@ public class SMB2ClientWrapper extends SMBClient
 	
 	public void delete(String path)
 	{
-		diskShare.rm(path);
+		FileAllInformation info = null;
+		try
+		{
+			info = diskShare.getFileInformation(path);
+		}
+		catch(Exception e)
+		{
+			//file or folder does not exist
+			return;
+		}
+		if(info.getStandardInformation().isDirectory())
+		{
+			diskShare.rmdir(path, true);
+		}
+		else
+		{
+			diskShare.rm(path);
+		}
 	}
+	
+	
 }
