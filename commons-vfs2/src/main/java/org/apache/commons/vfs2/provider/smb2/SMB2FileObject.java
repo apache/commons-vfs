@@ -302,4 +302,9 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 		}
 	}
 	
+	public String toString()
+	{
+		return getName().toString();
+	}
+	
 }

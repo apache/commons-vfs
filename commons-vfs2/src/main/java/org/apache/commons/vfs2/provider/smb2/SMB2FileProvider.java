@@ -69,11 +69,12 @@ public class SMB2FileProvider extends AbstractOriginatingFileProvider
 	{
 		if (getFileNameParser() != null)
 		{
-			if (uri.endsWith("//")) // TODO really parse if share is not in uri
-			{
-				return ((SMB2FileNameParser) getFileNameParser()).parseShareRoot(getContext(), base, uri);
-			}
-			return getFileNameParser().parseUri(getContext(), base, uri);
+			//if (uri.endsWith("//")) // TODO really parse if share is not in uri
+			//{
+				//return ((SMB2FileNameParser) getFileNameParser()).parseShareRoot(getContext(), base, uri);
+				return getFileNameParser().parseUri(getContext(), base, uri);
+			//}
+			//return getFileNameParser().parseUri(getContext(), base, uri);
 		}
 		throw new FileSystemException("vfs.provider/filename-parser-missing.error");
 	}

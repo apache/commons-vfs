@@ -17,8 +17,8 @@ import junit.framework.TestSuite;
 
 public class SMB2ProviderTestCase extends AbstractProviderTestConfig implements ProviderTestConfig
 {
-	private final static String HOSTNAME = "localhost";
-	private final static String USERINFO = "DOMAIN;test:test";
+	private final static String HOSTNAME = "192.168.2.35";
+	private final static String USERINFO = "Administrator:2Ha17qnp3y";
 	private final static String SHARENAME = "share";
 	private final static int PORT = 443;
 

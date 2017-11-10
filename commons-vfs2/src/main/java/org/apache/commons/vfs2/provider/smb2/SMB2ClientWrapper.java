@@ -84,7 +84,7 @@ public class SMB2ClientWrapper extends SMBClient
 		{
 			connection = smbClient.connect(rootName.getHostName());
 			session = connection.authenticate(authContext);
-			String share = extractShare(rootName);
+			String share = ((SMB2FileName) rootName).getShareName();
 			diskShare = (DiskShare) session.connectShare(share);
 		} catch (Exception e)
 		{

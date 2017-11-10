@@ -17,7 +17,6 @@
 package org.apache.commons.vfs2.provider.smb2;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
@@ -40,40 +39,95 @@ public class SMB2FileNameParser extends HostFileNameParser {
 		return INSTANCE;
 	}
 	
-	public FileName parseShareRoot(VfsComponentContext ctx, FileName name, String path) throws FileSystemException
-	{
-		URI uri = null;
-		try
-		{
-			uri = new URI(name.getPath());
-		} catch (URISyntaxException e)
-		{
-			throw new FileSystemException("URI invalid: FileSystem depends on it! " + e.getCause());
-		}
-		if(uri.toString().equals("/"))
-		{
-			//no share submitted, can not determine root
-			return null;
-		}
-		String share = extractShareName(uri);
-		
-		//dunno why sometimes the path ends up with two "/" at the end
-		while(path.endsWith("/") && path.length() > 0)
-		{
-			path = path.substring(0, path.length()-1);
-		}
-		
-		String rootPathShare = path + "/" + share + "/";  //add '/' to the end so the share gets parsed as folder by the HostFileNameParser
-		
-		return parseUri(ctx, name, rootPathShare);
-	}
-	
 	protected String extractShareName(URI uri)
 	{
 		String s = uri.getPath().startsWith("/") ? uri.getPath().substring(1) : uri.getPath();
 		String[] pathParts = s.split("/");
 		
-		return pathParts[0];
+		return pathParts[0]; //TODO check share given by uri
 	}
+	
+	@Override
+	public FileName parseUri(final VfsComponentContext context, final FileName base, final String uri) throws FileSystemException
+    {
+		FileName parsedFileName = super.parseUri(context, base, uri);
+		String share;
+		if(base == null)
+		{
+			share = extractShareName(parseURIString(parsedFileName.toString()));
+		}
+		else
+		{
+			share = extractShareName(parseURIString(base.toString()));
+		}
+
+		StringBuilder sb = new StringBuilder();
+		Authority auth = extractToPath(parsedFileName.toString(), sb);
+		
+		String path;
+		
+		if(sb.length() == 0 || (sb.length() == 1 && sb.charAt(0) == '/'))
+		{
+			//this must point to the share root
+			path = "/" + share;
+		}
+		else
+		{
+			path = parsedFileName.getPath();
+		}
+		
+		String relPathFromShare;
+		try
+		{
+			relPathFromShare = removeShareFromAbsPath(path, share);
+		}
+		catch(Exception e)
+		{
+			throw new FileSystemException("Share could not be remove from the absPath: " + e.getCause());
+		}
+		
+		SMB2FileName fileName = new SMB2FileName(auth.getScheme(), auth.getHostName(), auth.getPort(), PORT, auth.getUserName(), auth.getPassword(), relPathFromShare, parsedFileName.getType(), share);
+		
+		
+		return fileName;
+    }
+	
+	public URI parseURIString(String uriString) throws FileSystemException
+	{
+		try
+		{
+			return new URI(uriString);
+		}
+		catch (Exception e)
+		{
+			throw new FileSystemException("FileSystem needs a well formed URI: " + e.getCause());
+		}
+	}
+	
+	public String removeShareFromAbsPath(String path, String shareName) throws Exception
+	{
+		if(shareName == null || shareName.length() == 0)
+		{
+			throw new Exception("No path provided!");
+		}
+		
+		String tmp = path.startsWith("/") ? path.substring(1) : path;
+		
+		if(!tmp.substring(0, shareName.length()).equals(shareName)) {
+			throw new Exception("Share does not match the provided path!");
+		}
+		
+		tmp = tmp.substring(shareName.length());
+		
+		if(tmp.equals("") || tmp.equals("/"))
+		{
+			return "";
+		}
+		return tmp;
+	}
+	
+	
+	
+	
 
 }
