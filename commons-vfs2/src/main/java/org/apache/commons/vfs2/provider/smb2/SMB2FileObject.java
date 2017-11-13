@@ -127,7 +127,15 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 		synchronized (getFileSystem())
 		{
 			AbstractFileName name = (AbstractFileName) getName().getParent();
-			return new SMB2FileObject(name, (SMB2FileSystem) getFileSystem(), rootName);
+			FileObject cachedFile = getFileSystem().getFileSystemManager().getFilesCache().getFile(getFileSystem(), name);
+			if(cachedFile != null)
+			{
+				return cachedFile;
+			}
+			else
+			{
+				return new SMB2FileObject(name, (SMB2FileSystem) getFileSystem(), rootName);
+			}
 		}
 	}
 
