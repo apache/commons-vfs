@@ -93,18 +93,6 @@ public class SMB2ClientWrapper extends SMBClient
 		
 	}
 	
-	//a share name MUST be provided, otherwise the client cannot connect to its base
-	private String extractShare(final GenericFileName rootName)
-	{
-		if(rootName.getPath().equals("") || rootName.getPath().equals("/"))
-		{
-			return null;
-		}
-		String[] pathParts = (rootName.getPath().startsWith("/")) ? rootName.getPath().substring(1).split("/") : rootName.getPath().split("/");
-		
-		return pathParts[0];
-	}
-	
 	public GenericFileName getRoot()
 	{
 		return root;
