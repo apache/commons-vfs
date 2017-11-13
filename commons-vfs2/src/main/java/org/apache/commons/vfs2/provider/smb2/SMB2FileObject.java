@@ -302,6 +302,12 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 		}
 	}
 	
+	@Override
+	protected void doDetach()
+	{
+		this.fileInfo = null;
+	}
+	
 	public String toString()
 	{
 		return getName().toString();
