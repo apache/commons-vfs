@@ -40,8 +40,7 @@ public class SMB2FileProvider extends AbstractOriginatingFileProvider
 
 	static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays.asList(new Capability[]
 	{ Capability.CREATE, Capability.DELETE, Capability.RENAME, Capability.GET_TYPE, Capability.LIST_CHILDREN,
-			Capability.READ_CONTENT, Capability.GET_LAST_MODIFIED, Capability.URI, Capability.WRITE_CONTENT,
-			Capability.APPEND_CONTENT, Capability.RANDOM_ACCESS_READ, }));
+			Capability.READ_CONTENT, Capability.GET_LAST_MODIFIED, Capability.URI, Capability.WRITE_CONTENT }));
 
 	public SMB2FileProvider()
 	{

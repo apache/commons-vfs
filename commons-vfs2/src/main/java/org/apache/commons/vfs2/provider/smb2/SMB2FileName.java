@@ -86,7 +86,7 @@ public class SMB2FileName extends GenericFileName
 			getRootURI();
 		}
 
-		if (getPath().replaceAll("/", "").equals(shareName))
+		if (getPath().replaceAll("/", "").equals(shareName) || getPath().equals("/") || getPath().equals(""))
 		{
 			return null;
 		} else

@@ -18,6 +18,9 @@ package org.apache.commons.vfs2.provider.smb2;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,17 +30,22 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
+import org.apache.commons.vfs2.provider.UriParser;
 
 import com.hierynomus.msfscc.fileinformation.FileAllInformation;
 import com.hierynomus.smbj.share.DiskEntry;
 import com.hierynomus.smbj.share.File;
 
 /**
- * Class containing all its handles from the current Instance but NOT all possible handles to the same file!!
+ * Class containing all its handles from the current Instance but NOT all
+ * possible handles to the same file!!
  * <p>
- * Closing a stream (Input || Output) does not release the handle for the current file. The handle itself must be closed! Otherwise the file got locked up.
+ * Closing a stream (Input || Output) does not release the handle for the
+ * current file. The handle itself must be closed! Otherwise the file got locked
+ * up.
  * <p>
- * All methos accessing the FileSystem are declared a synchronized for thread-safetyness
+ * All methos accessing the FileSystem are declared a synchronized for
+ * thread-safetyness
  */
 public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 {
@@ -52,7 +60,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 	{
 		super(name, fs);
 		String relPath = name.getURI().substring(rootName.getURI().length());
-		//smb shares do not accept "/" --> it needs a "\" which is represented by "\\"
+		// smb shares do not accept "/" --> it needs a "\" which is represented by "\\"
 		relPathToShare = relPath.startsWith("/") ? relPath.substring(1).replace("/", "\\") : relPath.replace("/", "\\");
 		this.rootName = rootName;
 	}
@@ -60,26 +68,25 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 	@Override
 	protected long doGetContentSize() throws Exception
 	{
-		if(fileInfo == null)
-		{
-			getFileInfo();
-		}
+		getFileInfo();
 		return fileInfo.getStandardInformation().getEndOfFile();
 	}
 
 	@Override
 	protected InputStream doGetInputStream() throws Exception
 	{
-		if (!getType().hasContent()) {
-            throw new FileSystemException("vfs.provider/read-not-file.error", getName());
-        }
+		if (!getType().hasContent())
+		{
+			throw new FileSystemException("vfs.provider/read-not-file.error", getName());
+		}
 		if (diskEntryRead == null)
 		{
 			getDiskEntryRead();
 		}
 		InputStream is = ((File) diskEntryRead).getInputStream();
-		
-		//wrapped to override the close method. For further details see SMB3InputStreamWrapper.class
+
+		// wrapped to override the close method. For further details see
+		// SMB3InputStreamWrapper.class
 		SMB2InputStreamWrapper inputStream = new SMB2InputStreamWrapper(is, this);
 		return inputStream;
 	}
@@ -91,7 +98,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 		{
 			if (this.fileInfo == null)
 			{
-				//returns null if the diskShare cannot the file info's. Therefore : imaginary
+				// returns null if the diskShare cannot the file info's. Therefore : imaginary
 				getFileInfo();
 			}
 			if (fileInfo == null)
@@ -106,18 +113,22 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 
 	private void getFileInfo()
 	{
-		synchronized (getFileSystem())
+		if (fileInfo == null)
 		{
-			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
-			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-			fileInfo = client.getFileInfo(relPathToShare);
+			synchronized (getFileSystem())
+			{
+				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
+				SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
+				fileInfo = client.getFileInfo(getRelPathToShare());
+			}
+
 		}
 	}
 
 	@Override
 	protected String[] doListChildren() throws Exception
 	{
-		// TODO Auto-generated method stub
+		// not using this method
 		return null;
 	}
 
@@ -127,12 +138,18 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 		synchronized (getFileSystem())
 		{
 			AbstractFileName name = (AbstractFileName) getName().getParent();
-			FileObject cachedFile = getFileSystem().getFileSystemManager().getFilesCache().getFile(getFileSystem(), name);
-			if(cachedFile != null)
+
+			// root folder has no parent
+			if (name == null)
+			{
+				return null;
+			}
+			FileObject cachedFile = getFileSystem().getFileSystemManager().getFilesCache().getFile(getFileSystem(),
+					name);
+			if (cachedFile != null)
 			{
 				return cachedFile;
-			}
-			else
+			} else
 			{
 				return new SMB2FileObject(name, (SMB2FileSystem) getFileSystem(), rootName);
 			}
@@ -146,6 +163,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 		{
 			getDiskEntryWrite();
 		}
+
 		return ((File) diskEntryWrite).getOutputStream();
 	}
 
@@ -158,7 +176,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			{
 				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 				SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-				client.createFolder(relPathToShare);
+				client.createFolder(getRelPathToShare());
 			}
 		} catch (Exception e)
 		{
@@ -181,7 +199,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			synchronized (getFileSystem())
 			{
 				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
-				diskEntryWrite = fileSystem.getDiskEntryWrite(relPathToShare);
+				diskEntryWrite = fileSystem.getDiskEntryWrite(getRelPathToShare());
 			}
 		} catch (Exception e)
 		{
@@ -196,14 +214,14 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			synchronized (getFileSystem())
 			{
 				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
-				diskEntryRead = fileSystem.getDiskEntryRead(relPathToShare);
+				diskEntryRead = fileSystem.getDiskEntryRead(getRelPathToShare());
 			}
 		} catch (Exception e)
 		{
 			throw new FileSystemException("Exception thrown getting DiskEntry: " + e.getCause());
 		}
 	}
-	
+
 	private void getDiskEntryFolderWrite() throws Exception
 	{
 		try
@@ -211,33 +229,47 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			synchronized (getFileSystem())
 			{
 				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
-				diskEntryFolderWrite = fileSystem.getDiskEntryFolderWrite(relPathToShare);
+				diskEntryFolderWrite = fileSystem.getDiskEntryFolderWrite(getRelPathToShare());
 			}
-		}
-		catch(Exception e)
+		} catch (Exception e)
 		{
 			throw new FileSystemException("Exception thrown getting DiskEntry: " + e.getCause());
 		}
 	}
-	
+
 	public String getRelPathToShare()
 	{
-		return relPathToShare;
+		return decodeOrGet(relPathToShare);
+	}
+
+	public String decodeOrGet(String s)
+	{
+		try
+		{
+			return UriParser.decode(s);
+		} catch (FileSystemException e)
+		{
+			return s;
+		}
+	}
+
+	public String encodeOrGet(String s)
+	{
+		return UriParser.encode(s);
 	}
 
 	@Override
 	protected void doRename(final FileObject newFile) throws Exception
 	{
-		if(doGetType() == FileType.FOLDER)
+		if (doGetType() == FileType.FOLDER)
 		{
-			if(diskEntryFolderWrite == null)
+			if (diskEntryFolderWrite == null)
 			{
 				getDiskEntryFolderWrite();
 			}
 			SMB2FileObject fo = (SMB2FileObject) newFile;
 			diskEntryFolderWrite.rename(fo.getRelPathToShare());
-		}
-		else
+		} else
 		{
 			if (diskEntryWrite == null)
 			{
@@ -245,80 +277,93 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			}
 			SMB2FileObject fo = (SMB2FileObject) newFile;
 			diskEntryWrite.rename(fo.getRelPathToShare());
-			
-			//TODO maybo obsoloete
+
+			// TODO maybo obsoloete
 			closeAllHandles();
 		}
 	}
 
 	@Override
-    protected FileObject[] doListChildrenResolved() throws Exception {
-       
+	protected FileObject[] doListChildrenResolved() throws Exception
+	{
+
 		synchronized (getFileSystem())
 		{
+			if (getType() != FileType.FOLDER)
+			{
+				throw new FileSystemException("vfs.provider/list-children-not-folder.error", this);
+			}
+
 			List<FileObject> children = new ArrayList<FileObject>();
-			
+
 			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-			String[] childrenNames = client.getChildren(relPathToShare);
-			
-			for(int i = 0; i < childrenNames.length; i++)
+			String[] childrenNames = client.getChildren(getRelPathToShare());
+
+			for (int i = 0; i < childrenNames.length; i++)
 			{
-				//resolve chil dusing resolve Fileobject and child name (just the baseName)
-				children.add(fileSystem.getFileSystemManager().resolveFile(this, childrenNames[i]));
+				children.add(fileSystem.getFileSystemManager().resolveFile(this, encodeOrGet(childrenNames[i])));
 			}
 			return children.toArray(new FileObject[children.size()]);
 		}
-    }
-	
+	}
+
 	@Override
-	protected void doDelete() throws Exception 
+	protected void doDelete() throws Exception
 	{
 		synchronized (getFileSystem())
 		{
-			if(diskEntryRead != null)
+			if (diskEntryRead != null)
 			{
 				diskEntryRead.close();
 			}
 			endOutput();
-			
+
 			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-			client.delete(relPathToShare);
+			client.delete(getRelPathToShare());
 		}
-    }
-	
-	//needs to be overridden to also close the file Handles when the FileObject is closed. Otherwise files got locked up
+	}
+
+	@Override
+	protected long doGetLastModifiedTime() throws Exception
+	{
+		getFileInfo();
+		return fileInfo.getBasicInformation().getChangeTime().getWindowsTimeStamp();
+	}
+
+	// needs to be overridden to also close the file Handles when the FileObject is
+	// closed. Otherwise files got locked up
 	@Override
 	public void close() throws FileSystemException
 	{
 		super.close();
 		closeAllHandles();
 	}
-	
+
 	private void closeAllHandles()
 	{
-		if(diskEntryRead != null)
+		if (diskEntryRead != null)
 		{
 			diskEntryRead.close();
 			diskEntryRead = null;
 		}
-		if(diskEntryWrite != null)
+		if (diskEntryWrite != null)
 		{
 			diskEntryWrite.close();
 			diskEntryWrite = null;
 		}
 	}
-	
+
 	@Override
 	protected void doDetach()
 	{
 		this.fileInfo = null;
 	}
-	
+
 	public String toString()
 	{
 		return getName().toString();
 	}
-	
+
 }
