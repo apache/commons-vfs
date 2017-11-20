@@ -79,7 +79,6 @@ public class SMB2ClientWrapper extends SMBClient
 		AuthenticationContext authContext = new AuthenticationContext(userName, password.toCharArray(), authDomain);
 
 		//a connection stack is: SMBClient > Connection > Session > DiskShare
-		smbClient = new SMBClient();
 		try
 		{
 			connection = smbClient.connect(rootName.getHostName());
