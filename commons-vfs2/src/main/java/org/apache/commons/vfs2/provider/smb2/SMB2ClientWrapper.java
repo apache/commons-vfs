@@ -113,7 +113,7 @@ public class SMB2ClientWrapper extends SMBClient
 	public DiskEntry getDiskEntryWrite(String path)
 	{
 		DiskEntry diskEntryWrite = diskShare.open(path,
-    			EnumSet.of(AccessMask.GENERIC_ALL),
+    			EnumSet.of(AccessMask.MAXIMUM_ALLOWED),
     			EnumSet.of(FileAttributes.FILE_ATTRIBUTE_NORMAL),
     			EnumSet.of(SMB2ShareAccess.FILE_SHARE_WRITE),
 				SMB2CreateDisposition.FILE_OPEN_IF,
