@@ -75,7 +75,7 @@ public class SMB2ClientWrapper extends SMBClient
 		String password = rootName.getPassword();
 		String authDomain = (rootName.getUserName().contains(";") ? rootName.getUserName().substring(0, rootName.getUserName().indexOf(";")) : null);
 		
-		//if username == "" the client tries to authenticate "anonymously". It's also possible to summit "guets" as username
+		//if username == "" the client tries to authenticate "anonymously". It's also possible to submit "guets" as username
 		AuthenticationContext authContext = new AuthenticationContext(userName, password.toCharArray(), authDomain);
 
 		//a connection stack is: SMBClient > Connection > Session > DiskShare
@@ -87,7 +87,7 @@ public class SMB2ClientWrapper extends SMBClient
 			diskShare = (DiskShare) session.connectShare(share);
 		} catch (Exception e)
 		{
-			throw new FileSystemException("Error while creation a connection: " + e.getCause());
+			throw new FileSystemException("vfs.provider.smb2/connect.error", rootName.getHostName(), e.getCause());
 		}
 		
 	}

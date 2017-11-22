@@ -39,10 +39,15 @@ public class SMB2FileNameParser extends HostFileNameParser {
 		return INSTANCE;
 	}
 	
-	protected String extractShareName(URI uri)
+	protected String extractShareName(URI uri) throws FileSystemException
 	{
 		String s = uri.getPath().startsWith("/") ? uri.getPath().substring(1) : uri.getPath();
 		String[] pathParts = s.split("/");
+		String share  = pathParts[0];
+		if(share == null || share.equals(""))
+		{
+			throw new FileSystemException("vfs.provider.smb2/missing-share-name.error", uri.toString());
+		}
 		
 		return pathParts[0]; //TODO check share given by uri
 	}
@@ -83,7 +88,7 @@ public class SMB2FileNameParser extends HostFileNameParser {
 		}
 		catch(Exception e)
 		{
-			throw new FileSystemException("Share could not be remove from the absPath: " + e.getCause());
+			throw new FileSystemException("vfs.provider.smb2/share-path-extraction.error", path, e.getCause());
 		}
 		
 		SMB2FileName fileName = new SMB2FileName(auth.getScheme(), auth.getHostName(), auth.getPort(), PORT, auth.getUserName(), auth.getPassword(), relPathFromShare, parsedFileName.getType(), share);
@@ -100,7 +105,7 @@ public class SMB2FileNameParser extends HostFileNameParser {
 		}
 		catch (Exception e)
 		{
-			throw new FileSystemException("FileSystem needs a well formed URI: " + e.getCause());
+			throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uriString, e.getCause());
 		}
 	}
 	

@@ -116,7 +116,14 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			{
 				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 				SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-				fileInfo = client.getFileInfo(getRelPathToShare());
+				try
+				{
+					fileInfo = client.getFileInfo(getRelPathToShare());
+				}
+				finally
+				{
+					fileSystem.putClient(client);
+				}
 			}
 
 		}
@@ -173,11 +180,18 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			{
 				SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 				SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-				client.createFolder(getRelPathToShare());
+				try
+				{
+					client.createFolder(getRelPathToShare());
+				}
+				finally
+				{
+					fileSystem.putClient(client);
+				}
 			}
 		} catch (Exception e)
 		{
-			throw new FileSystemException("Exception thrown creating folder: " + e.getCause());
+			throw new FileSystemException("vfs.provider.smb2/folder-create.error", getName(), e.getCause());
 		}
 	}
 
@@ -200,7 +214,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			}
 		} catch (Exception e)
 		{
-			throw new FileSystemException("Exception thrown getting DiskEntry: " + e.getCause());
+			throw new FileSystemException("vfs.provider.smb2/diskentry-create.error", getName(), e.getCause());
 		}
 	}
 
@@ -215,7 +229,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			}
 		} catch (Exception e)
 		{
-			throw new FileSystemException("Exception thrown getting DiskEntry: " + e.getCause());
+			throw new FileSystemException("vfs.provider.smb2/diskentry-create.error", getName(), e.getCause());
 		}
 	}
 
@@ -230,7 +244,7 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 			}
 		} catch (Exception e)
 		{
-			throw new FileSystemException("Exception thrown getting DiskEntry: " + e.getCause());
+			throw new FileSystemException("vfs.provider.smb2/diskentry-create.error", getName(), e.getCause());
 		}
 	}
 
@@ -295,7 +309,15 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 
 			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-			String[] childrenNames = client.getChildren(getRelPathToShare());
+			String[] childrenNames;
+			try
+			{
+				childrenNames = client.getChildren(getRelPathToShare());
+			}
+			finally
+			{
+				fileSystem.putClient(client);
+			}
 
 			for (int i = 0; i < childrenNames.length; i++)
 			{
@@ -318,7 +340,14 @@ public class SMB2FileObject extends AbstractFileObject<SMB2FileSystem>
 
 			SMB2FileSystem fileSystem = (SMB2FileSystem) getFileSystem();
 			SMB2ClientWrapper client = (SMB2ClientWrapper) fileSystem.getClient();
-			client.delete(getRelPathToShare());
+			try
+			{
+				client.delete(getRelPathToShare());
+			}
+			finally
+			{
+				fileSystem.putClient(client);
+			}
 		}
 	}
 

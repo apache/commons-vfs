@@ -53,7 +53,12 @@ public class SMB2FileSystem extends AbstractFileSystem
 	
 	public SMBClient getClient()
 	{	
-		return (SMB2ClientWrapper) client.get();
+		return (SMB2ClientWrapper) client.getAndSet(null);
+	}
+	
+	public void putClient(SMBClient smbClient)
+	{
+		client.set(smbClient);
 	}
 	
 	public DiskEntry getDiskEntryWrite(String path)
