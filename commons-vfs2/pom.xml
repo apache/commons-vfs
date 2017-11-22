@@ -105,7 +105,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <scope>test</scope>
     </dependency>
     <!-- Test SFTP with Apache SHHd Server (MINA) -->
     <dependency>
@@ -141,6 +140,12 @@
         <artifactId>smbj</artifactId>
         <version>0.5.1</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-simple</artifactId>
+    	<version>1.5.11</version>
+	</dependency>
     <!-- Test HDFS with Apache Hadoop -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
@@ -259,6 +264,15 @@
             <exclude>**/RunTest.java</exclude>
             <!-- inner classes -->
             <exclude>**/*$*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/SMB2ProviderTestCase.java</exclude>
           </excludes>
         </configuration>
       </plugin>
