@@ -64,12 +64,18 @@ public class SftpFileSystem extends AbstractFileSystem {
      */
     private int[] groupsIds;
 
+    /**
+     * Some SFTP-only servers disable the exec channel. When exec is disabled, things like getUId() will always fail.
+     */
+    private boolean execDisabled; 
+
     protected SftpFileSystem(final GenericFileName rootName, final Session session,
             final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
         this.session = session;
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         this.connectTimeoutMillis = builder.getConnectTimeoutMillis(fileSystemOptions);
+        detectExecDisabled();
     }
 
     @Override
@@ -258,6 +264,13 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
+     * @see SftpFileSystem#execDisabled
+     */
+    public boolean isExecDisabled() {
+        return execDisabled;
+    }
+
+    /**
      * Execute a command and returns the (standard) output through a StringBuilder.
      *
      * @param command The command
@@ -295,5 +308,18 @@ public class SftpFileSystem extends AbstractFileSystem {
         }
         channel.disconnect();
         return channel.getExitStatus();
+    }
+
+    /**
+     * Some SFTP-only servers disable the exec channel.
+     * 
+     * Attempt to detect this by calling getUid.
+     */
+    private void detectExecDisabled() {
+        try {
+            getUId();
+        } catch(JSchException | IOException e) {
+            execDisabled = true;
+        }
     }
 }
