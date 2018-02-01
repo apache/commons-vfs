@@ -1782,6 +1782,6 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public String toString() {
-        return fileName.getURI();
+        return fileName.getFriendlyURI();
     }
 }
