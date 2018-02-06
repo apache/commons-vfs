@@ -20,11 +20,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
+import org.apache.commons.vfs2.impl.DefaultFileMonitor;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.GenericFileName;
@@ -40,6 +43,8 @@ import com.jcraft.jsch.SftpException;
  * Represents the files on an SFTP server.
  */
 public class SftpFileSystem extends AbstractFileSystem {
+    private static final Log LOG = LogFactory.getLog(SftpFileSystem.class);
+
     private static final int SLEEP_MILLIS = 100;
 
     private static final int EXEC_BUFFER_SIZE = 128;
@@ -320,6 +325,7 @@ public class SftpFileSystem extends AbstractFileSystem {
             getUId();
         } catch(JSchException | IOException e) {
             execDisabled = true;
+            LOG.debug("Cannot get UID, assuming no exec channel is present", e);
         }
     }
 }

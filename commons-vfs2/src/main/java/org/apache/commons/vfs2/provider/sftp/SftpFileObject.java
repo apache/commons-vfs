@@ -253,7 +253,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
                 // Exec is disabled, so we won't be able to ascertain the current user's UID and GID.
                 // Return "always-true" permissions as a workaround, knowing that the SFTP server won't 
                 // let us perform unauthorized actions anyway.
-                return new DummyPosixPermissions(attrs.getPermissions());
+                return new PretendUserIsOwnerPosixPermissions(attrs.getPermissions());
             }
 
             for (final int groupId : getAbstractFileSystem().getGroupsIds()) {
