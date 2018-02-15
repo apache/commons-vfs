@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.Set;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -244,6 +245,26 @@ public final class UriParser {
         }
 
         // No scheme in URI
+        return null;
+    }
+    public static String extractSupportedScheme(final Set<String> supportedScheme, final String uri) {
+        return extractSupportedScheme(supportedScheme, uri, null);
+    }
+
+    public static String extractSupportedScheme(final Set<String> supportedScheme, final String uri, StringBuilder buffer) {
+        if (buffer != null) {
+            buffer.setLength(0);
+            buffer.append(uri);
+        }
+
+        for(String schema : supportedScheme) {
+            if(uri.startsWith(schema + ":")) {
+                if (buffer != null) {
+                    buffer.delete(0, uri.indexOf(':') + 1);
+                }
+                return schema;
+            }
+        }
         return null;
     }
 
