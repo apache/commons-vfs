@@ -171,6 +171,7 @@
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>2.6.0</hadoop.version>
+    <commons.surefire.version>2.19.1</commons.surefire.version>
   </properties>
 
   <build>
@@ -403,7 +404,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.15</version>
+        <version>1.16.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
