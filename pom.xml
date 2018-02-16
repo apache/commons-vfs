@@ -171,6 +171,9 @@
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>2.6.0</hadoop.version>
+    <!-- temporary downgrade: surefire 2.20.1 in commons-parent 43 breaks build. -->
+    <commons.surefire.version>2.19.1</commons.surefire.version>
+    <commons.surefire-report.version>2.19.1</commons.surefire-report.version>
   </properties>
 
   <build>
