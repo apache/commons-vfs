@@ -76,7 +76,14 @@ public final class FtpClientFactory {
         }
     }
 
-    /** Abstract Factory, used to configure different FTPClients. */
+    /**
+     * Abstract Factory, used to configure different FTPClients.
+     * 
+     * @param <C>
+     *            The type of FTPClient.
+     * @param <B>
+     *            The type of FtpFileSystemConfigBuilder
+     */
     public abstract static class ConnectionFactory<C extends FTPClient, B extends FtpFileSystemConfigBuilder> {
         private static final char[] ANON_CHAR_ARRAY = "anonymous".toCharArray();
         private static final int BUFSZ = 40;
