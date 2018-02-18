@@ -147,7 +147,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
 
     @Override
     protected RandomAccessContent doGetRandomAccessContent(final RandomAccessMode mode) throws Exception {
-        return new HttpRandomAccessContent(this, mode);
+        return new HttpRandomAccessContent<>(this, mode);
     }
 
     /**

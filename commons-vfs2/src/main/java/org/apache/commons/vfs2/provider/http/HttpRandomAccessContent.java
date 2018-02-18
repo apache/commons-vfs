@@ -30,16 +30,16 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 /**
  * RandomAccess content using HTTP.
  */
-class HttpRandomAccessContent extends AbstractRandomAccessStreamContent {
+class HttpRandomAccessContent<FS extends HttpFileSystem> extends AbstractRandomAccessStreamContent {
     protected long filePointer = 0;
 
-    private final HttpFileObject fileObject;
+    private final HttpFileObject<FS> fileObject;
     private final HttpFileSystem fileSystem;
 
     private DataInputStream dis = null;
     private MonitorInputStream mis = null;
 
-    HttpRandomAccessContent(final HttpFileObject fileObject, final RandomAccessMode mode) {
+    HttpRandomAccessContent(final HttpFileObject<FS> fileObject, final RandomAccessMode mode) {
         super(mode);
 
         this.fileObject = fileObject;
