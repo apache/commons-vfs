@@ -39,6 +39,7 @@
     <module>commons-vfs2-examples</module>
     <module>commons-vfs2-distribution</module>
   </modules>
+  <!-- commons-vfs2-sandbox is in profile include-sandbox -->
 
   <issueManagement>
     <system>jira</system>
@@ -262,7 +263,7 @@
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicite exclude does not work if sandbox profile is not activated -->
-            <exclude>sandbox/**</exclude>
+            <exclude>commons-vfs2-sandbox/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -282,7 +283,7 @@
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicit exclude does not work if sandbox profile is not activated -->
-            <exclude>sandbox/**</exclude>
+            <exclude>commons-vfs2-sandbox/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -564,7 +565,7 @@
     <profile>
       <id>include-sandbox</id>
       <modules>
-        <module>sandbox</module>
+        <module>commons-vfs2-sandbox</module>
       </modules>
     </profile>
     <profile>
