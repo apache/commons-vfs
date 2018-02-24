@@ -171,9 +171,6 @@
     <!-- Avoid warnings about being unable to find jars during site building -->
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>2.6.0</hadoop.version>
-    <!-- temporary downgrade: surefire 2.20.1 in commons-parent 43 breaks build. -->
-    <commons.surefire.version>2.19.1</commons.surefire.version>
-    <commons.surefire-report.version>2.19.1</commons.surefire-report.version>
   </properties>
 
   <build>
@@ -264,7 +261,7 @@
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicite exclude does not work if sandbox profile is not activated -->
-            <exclude>commons-vfs2-sandbox/**</exclude>
+            <exclude>sandbox/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -284,7 +281,7 @@
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicit exclude does not work if sandbox profile is not activated -->
-            <exclude>commons-vfs2-sandbox/**</exclude>
+            <exclude>sandbox/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -565,7 +562,7 @@
     <profile>
       <id>include-sandbox</id>
       <modules>
-        <module>commons-vfs2-sandbox</module>
+        <module>sandbox</module>
       </modules>
     </profile>
     <profile>
