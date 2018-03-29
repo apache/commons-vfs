@@ -22,6 +22,7 @@ package org.apache.commons.vfs2;
  * @see Selectors
  */
 public interface FileSelector {
+    
     /**
      * Determines if a file or folder should be selected. This method is called in depthwise order (that is, it is
      * called for the children of a folder before it is called for the folder itself).
