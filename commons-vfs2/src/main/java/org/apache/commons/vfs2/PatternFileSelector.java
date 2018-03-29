@@ -83,7 +83,7 @@ public class PatternFileSelector implements FileSelector {
      * @return true if the file should be selected, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo) {
+    public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
         return this.pattern.matcher(fileInfo.getFile().getName().getPath()).matches();
     }
 
@@ -102,7 +102,7 @@ public class PatternFileSelector implements FileSelector {
      * @return true if descendants should be traversed, false otherwise.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
         return true;
     }
 }
