@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClient.HostnameResolver;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
@@ -135,6 +136,16 @@ public final class FtpClientFactory {
                 final Boolean remoteVerification = builder.getRemoteVerification(fileSystemOptions);
                 if (remoteVerification != null) {
                     client.setRemoteVerificationEnabled(remoteVerification.booleanValue());
+                }
+
+                final Boolean useEPSVwithIPv4 = builder.getUseEPSVwithIPv4(fileSystemOptions);
+                if (useEPSVwithIPv4 != null) {
+                    client.setUseEPSVwithIPv4(useEPSVwithIPv4.booleanValue());
+                }
+
+                final HostnameResolver resolver = builder.getPassiveNatWorkaroundStrategy(fileSystemOptions);
+                if (resolver != null) {
+                    client.setPassiveNatWorkaroundStrategy(resolver);
                 }
 
                 try {
