@@ -50,7 +50,7 @@ public class SftpFileSystem extends AbstractFileSystem {
 
     // private final JSch jSch;
 
-    private ChannelSftp idleChannel;
+    private volatile ChannelSftp idleChannel;
 
     private final int connectTimeoutMillis;
 
@@ -96,11 +96,16 @@ public class SftpFileSystem extends AbstractFileSystem {
         ensureSession();
         try {
             // Use the pooled channel, or create a new one
-            final ChannelSftp channel;
+            ChannelSftp channel = null;
             if (idleChannel != null) {
-                channel = idleChannel;
-                idleChannel = null;
-            } else {
+                synchronized (this) {
+                    if (idleChannel != null)  {
+                        channel = idleChannel;
+                        idleChannel = null;
+                    }
+                }
+            }
+            if ( channel == null ) {
                 channel = (ChannelSftp) session.openChannel("sftp");
                 channel.connect(connectTimeoutMillis);
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
@@ -139,7 +144,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      */
     private void ensureSession() throws FileSystemException {
         if (this.session == null || !this.session.isConnected()) {
-            doCloseCommunicationLink();
+            closeCommunicationLink();
 
             // channel closed. e.g. by freeUnusedResources, but now we need it again
             Session session;
@@ -172,10 +177,17 @@ public class SftpFileSystem extends AbstractFileSystem {
      */
     protected void putChannel(final ChannelSftp channel) {
         if (idleChannel == null) {
-            // put back the channel only if it is still connected
-            if (channel.isConnected() && !channel.isClosed()) {
-                idleChannel = channel;
-            }
+           synchronized (this) {
+               if (  idleChannel == null ) {
+                    // put back the channel only if it is still connected
+                    if (channel.isConnected() && !channel.isClosed())
+                    {
+                        idleChannel = channel;
+                    }
+               }else{
+                    channel.disconnect();
+               }
+           }
         } else {
             channel.disconnect();
         }
