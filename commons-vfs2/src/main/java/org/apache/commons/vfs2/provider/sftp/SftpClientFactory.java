@@ -125,9 +125,9 @@ public final class SftpClientFactory {
                 final SftpFileSystemConfigBuilder.ProxyType proxyType = builder.getProxyType(fileSystemOptions);
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType)) {
-                    proxy = createProxyHTTP(proxyHost, proxyPort);
+                    proxy = createProxyHTTP(proxyHost, proxyPort, fileSystemOptions, builder);
                 } else if (SftpFileSystemConfigBuilder.PROXY_SOCKS5.equals(proxyType)) {
-                    proxy = createProxySOCKS5(proxyHost, proxyPort);
+                    proxy = createProxySOCKS5(proxyHost, proxyPort, fileSystemOptions, builder);
                 } else if (SftpFileSystemConfigBuilder.PROXY_STREAM.equals(proxyType)) {
                     proxy = createStreamProxy(proxyHost, proxyPort, fileSystemOptions, builder);
                 }
@@ -213,12 +213,26 @@ public final class SftpClientFactory {
         return proxy;
     }
 
-    private static ProxySOCKS5 createProxySOCKS5(final String proxyHost, final int proxyPort) {
-        return proxyPort == 0 ? new ProxySOCKS5(proxyHost) : new ProxySOCKS5(proxyHost, proxyPort);
+    private static ProxySOCKS5 createProxySOCKS5(final String proxyHost, final int proxyPort,
+            final FileSystemOptions fileSystemOptions, final SftpFileSystemConfigBuilder builder) {
+        final String proxyUser = builder.getProxyUser(fileSystemOptions);
+        final String proxyPassword = builder.getProxyPassword(fileSystemOptions);
+        ProxySOCKS5 proxySOCKS5 = proxyPort == 0 ? new ProxySOCKS5(proxyHost) : new ProxySOCKS5(proxyHost, proxyPort);
+        if(proxyUser != null && proxyPassword != null) {
+            proxySOCKS5.setUserPasswd(proxyUser, proxyPassword);
+        }
+        return proxySOCKS5;
     }
 
-    private static ProxyHTTP createProxyHTTP(final String proxyHost, final int proxyPort) {
-        return proxyPort == 0 ? new ProxyHTTP(proxyHost) : new ProxyHTTP(proxyHost, proxyPort);
+    private static ProxyHTTP createProxyHTTP(final String proxyHost, final int proxyPort,
+            final FileSystemOptions fileSystemOptions, final SftpFileSystemConfigBuilder builder) {
+        final String proxyUser = builder.getProxyUser(fileSystemOptions);
+        final String proxyPassword = builder.getProxyPassword(fileSystemOptions);
+        ProxyHTTP proxyHTTP = proxyPort == 0 ? new ProxyHTTP(proxyHost) : new ProxyHTTP(proxyHost, proxyPort);
+        if(proxyUser != null && proxyPassword != null) {
+            proxyHTTP.setUserPasswd(proxyUser, proxyPassword);
+        }
+        return proxyHTTP;
     }
 
     /**
