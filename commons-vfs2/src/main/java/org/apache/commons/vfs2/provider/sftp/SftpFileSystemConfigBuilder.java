@@ -341,6 +341,15 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public String getStrictHostKeyChecking(final FileSystemOptions opts) {
         return this.getString(opts, STRICT_HOST_KEY_CHECKING, HOST_KEY_CHECK_NO);
     }
+    
+    /**
+    * @param opts The FileSystem options.
+    * @return the option value for spesific key exchange algorithm
+    * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
+    **/
+    public String getKeyExchangeAlgorithm(FileSystemOptions opts) {
+        return this.getString(opts, "kex");
+    }
 
     /**
      * @param opts The FileSystem options.
