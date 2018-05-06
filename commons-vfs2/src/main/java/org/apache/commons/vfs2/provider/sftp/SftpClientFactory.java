@@ -118,6 +118,11 @@ public final class SftpClientFactory {
                 config.setProperty("compression.s2c", compression);
                 config.setProperty("compression.c2s", compression);
             }
+            
+            String keyExchangeAlgorithm = builder.getKeyExchangeAlgorithm(fileSystemOptions);
+            if (keyExchangeAlgorithm != null) {
+                config.setProperty("kex", keyExchangeAlgorithm);
+            }
 
             final String proxyHost = builder.getProxyHost(fileSystemOptions);
             if (proxyHost != null) {
