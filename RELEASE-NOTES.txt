@@ -194,7 +194,7 @@ o VFS-539:  Update Apache Commons Lang from 3.1 to 3.3.2.
 o VFS-526:  [HDFS][Tests] Support HDFS testing on Windows (but keep profile "no-hdfs" enabled on Windows VFS-529).
 o VFS-453:  [HTTP][WEBDAV] Add file system options for connect and socket timeout. Thanks to Jiri Syrovy.
 o VFS-167:  [FTP] Allow Proxy support to file system options. Thanks to Jimmy Praet.
-o VFS-520:  Make JavaDoc compatible with Java 8 tool.
+o VFS-520:  Make Javadoc compatible with Java 8 tool.
 o VFS-518:  Documentation of FileSystemOptions should be more helpful. Thanks to Roland Illig.
 o VFS-500:  VFSClassLoader.findResources missing. Thanks to Bernd Eckenfels.
 o VFS-514:  [tests] PermissionsTests leaves unclean test directory. Thanks to Bernd Eckenfels.

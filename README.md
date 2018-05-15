@@ -52,7 +52,7 @@ Documentation
 -------------
 
 More information can be found on the [Apache Commons VFS homepage](https://commons.apache.org/proper/commons-vfs).
-The [JavaDoc](https://commons.apache.org/proper/commons-vfs/apidocs/index.html) can be browsed.
+The [Javadoc](https://commons.apache.org/proper/commons-vfs/apidocs/index.html) can be browsed.
 Questions related to the usage of Apache Commons VFS should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
