@@ -93,9 +93,6 @@ public class MonitorInputStream extends BufferedInputStream {
             atomicCount.addAndGet(nread);
             return nread;
         }
-
-        // End-of-stream
-        close();
         return EOF_CHAR;
     }
 
