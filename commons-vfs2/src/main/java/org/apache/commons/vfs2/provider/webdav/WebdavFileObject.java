@@ -261,18 +261,15 @@ public class WebdavFileObject extends HttpFileObject<WebdavFileSystem> {
             final URLFileName fileName = (URLFileName) getName();
             DavPropertySet properties = getProperties(fileName, DavConstants.PROPFIND_ALL_PROP,
                     new DavPropertyNameSet(), false);
-            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
-            final Iterator<DavProperty> iter = properties.iterator();
-            while (iter.hasNext()) {
-                final DavProperty property = iter.next();
+            for(DavProperty property: properties)
+            {
                 attributes.put(property.getName().toString(), property.getValue());
             }
             properties = getPropertyNames(fileName);
-            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
-            final Iterator<DavProperty> iter2 = properties.iterator();
-            while (iter2.hasNext()) {
-                DavProperty property = iter2.next();
-                if (!attributes.containsKey(property.getName().getName())) {
+            for(DavProperty property: properties)
+            {
+                if (!attributes.containsKey(property.getName().getName()))
+                {
                     property = getProperty(fileName, property.getName());
                     if (property != null) {
                         final Object name = property.getName();
