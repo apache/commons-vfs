@@ -23,6 +23,7 @@ import org.apache.jackrabbit.webdav.DavConstants;
 import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.client.methods.DavMethod;
 import org.apache.jackrabbit.webdav.xml.DomUtil;
+import org.apache.jackrabbit.webdav.xml.DavDocumentBuilderFactory;
 import org.w3c.dom.Element;
 
 /**
@@ -42,11 +43,15 @@ public final class ExceptionConverter {
     public static FileSystemException generate(final DavException davExc, final DavMethod method)
             throws FileSystemException {
         String msg = davExc.getMessage();
-        if (davExc.hasErrorCondition()) {
-            try {
-                final Element error = davExc.toXml(DomUtil.BUILDER_FACTORY.newDocumentBuilder().newDocument());
-                if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE)) {
-                    if (DomUtil.hasChildElement(error, "exception", null)) {
+        if (davExc.hasErrorCondition())
+        {
+            try
+            {
+                final Element error = davExc.toXml((new DavDocumentBuilderFactory()).newDocumentBuilder().newDocument());
+                if (DomUtil.matches(error, DavException.XML_ERROR, DavConstants.NAMESPACE))
+                {
+                    if (DomUtil.hasChildElement(error, "exception", null))
+                    {
                         final Element exc = DomUtil.getChildElement(error, "exception", null);
                         if (DomUtil.hasChildElement(exc, "message", null)) {
                             msg = DomUtil.getChildText(exc, "message", null);
