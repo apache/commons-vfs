@@ -82,11 +82,11 @@ public class CombinedResources extends ResourceBundle {
                 try {
                     properties.load(resource.openConnection().getInputStream());
                 } catch (final IOException ignored) {
-                    /* Ignored. */
+                    // Ignore
                 }
             }
         } catch (final IOException ignored) {
-            /* Ignored. */
+            // Ignore
         }
     }
 
