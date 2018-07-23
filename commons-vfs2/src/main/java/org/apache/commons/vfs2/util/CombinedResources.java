@@ -74,19 +74,21 @@ public class CombinedResources extends ResourceBundle {
         if (loader == null) {
             loader = ClassLoader.getSystemClassLoader();
         }
-        resourceName = resourceName.replace('.', '/') + ".properties";
-        try {
-            final Enumeration<URL> resources = loader.getResources(resourceName);
-            while (resources.hasMoreElements()) {
-                final URL resource = resources.nextElement();
-                try {
-                    properties.load(resource.openConnection().getInputStream());
-                } catch (final IOException ignored) {
-                    // Ignore
+        if (loader != null) {
+            resourceName = resourceName.replace('.', '/') + ".properties";
+            try {
+                final Enumeration<URL> resources = loader.getResources(resourceName);
+                while (resources.hasMoreElements()) {
+                    final URL resource = resources.nextElement();
+                    try {
+                        properties.load(resource.openConnection().getInputStream());
+                    } catch (final IOException ignored) {
+                        // Ignore
+                    }
                 }
+            } catch (final IOException ignored) {
+                // Ignore
             }
-        } catch (final IOException ignored) {
-            // Ignore
         }
     }
 

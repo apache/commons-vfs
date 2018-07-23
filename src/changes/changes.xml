@@ -83,6 +83,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-668" dev="ggregory" type="update">
         Throw a NPE with a better message when a class loader is null.
       </action>
+      <action issue="VFS-669" dev="ggregory" type="fix">
+        org.apache.commons.vfs2.util.CombinedResources.loadResources(String) should not throw an NPE for the system class loader is null.
+      </action>
     </release>
     <release version="2.2" date="2017-10-06" description="New features and bug fix release.">
       <action issue="VFS-642" dev="pschumacher" type="update" due-to="ilangoldfeld">
