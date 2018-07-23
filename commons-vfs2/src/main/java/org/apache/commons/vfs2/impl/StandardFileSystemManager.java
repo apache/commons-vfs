@@ -139,7 +139,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         if (classLoader != null) {
             return classLoader;
         }
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        final ClassLoader cl = Thread.currentThread().getContextClassLoader();
         if (cl != null) {
             return cl;
         }

@@ -19,8 +19,8 @@ public class DefaultFileContentTest {
 
     @Test
     public void testMarkingWorks() throws Exception {
-        File temp = File.createTempFile("temp-file-name", ".tmp");
-        FileSystemManager fileSystemManager = VFS.getManager();
+        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
             try (OutputStream outputStream = file.getContent().getOutputStream()) {
@@ -31,7 +31,7 @@ public class DefaultFileContentTest {
                 if (stream.markSupported()) {
                     for (int i = 0; i < 10; i++) {
                         stream.mark(0);
-                        byte[] data = new byte[100];
+                        final byte[] data = new byte[100];
                         stream.read(data, 0, 7);
                         Assert.assertEquals(expected, new String(data).trim());
                         stream.reset();
@@ -43,8 +43,8 @@ public class DefaultFileContentTest {
 
     @Test
     public void testMarkingWhenReadingEOS() throws Exception {
-        File temp = File.createTempFile("temp-file-name", ".tmp");
-        FileSystemManager fileSystemManager = VFS.getManager();
+        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final FileSystemManager fileSystemManager = VFS.getManager();
 
         try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
             try (OutputStream outputStream = file.getContent().getOutputStream()) {
@@ -56,7 +56,7 @@ public class DefaultFileContentTest {
                 if (stream.markSupported()) {
                     for (int i = 0; i < 10; i++) {
                         stream.mark(0);
-                        byte[] data = new byte[100];
+                        final byte[] data = new byte[100];
                         readCount = stream.read(data, 0, 7);
                         Assert.assertEquals(readCount, 7);
                         Assert.assertEquals(expected, new String(data).trim());

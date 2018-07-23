@@ -116,17 +116,17 @@ public final class Shell {
         }
     }
 
-    private void info(String[] cmd) throws Exception {
+    private void info(final String[] cmd) throws Exception {
         if (cmd.length > 1) {
             info(cmd[1]);
         } else {
             System.out.println(
                     "Default manager: \"" + mgr.getClass().getName() + "\" " + "version " + getVersion(mgr.getClass()));
-            String[] schemes = mgr.getSchemes();
-            List<String> virtual = new ArrayList<>();
-            List<String> physical = new ArrayList<>();
+            final String[] schemes = mgr.getSchemes();
+            final List<String> virtual = new ArrayList<>();
+            final List<String> physical = new ArrayList<>();
             for (int i = 0; i < schemes.length; i++) {
-                Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
+                final Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
                 if (caps != null) {
                     if (caps.contains(Capability.VIRTUAL) || caps.contains(Capability.COMPRESS)
                             || caps.contains(Capability.DISPATCHER)) {
@@ -145,14 +145,14 @@ public final class Shell {
         }
     }
 
-    private void info(String scheme) throws Exception {
+    private void info(final String scheme) throws Exception {
         System.out.println("Provider Info for scheme \"" + scheme + "\":");
         Collection<Capability> caps;
         caps = mgr.getProviderCapabilities(scheme);
         if (caps != null && !caps.isEmpty()) {
             System.out.println("  capabilities: " + caps);
         }
-        FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
+        final FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
         if (ops != null && ops.length > 0) {
             System.out.println("  operations: " + ops);
         }
@@ -334,10 +334,10 @@ public final class Shell {
         return cmd.toArray(new String[cmd.size()]);
     }
 
-    private static String getVersion(Class<?> cls) {
+    private static String getVersion(final Class<?> cls) {
         try {
             return cls.getPackage().getImplementationVersion();
-        } catch (Exception ignored) {
+        } catch (final Exception ignored) {
             return "N/A";
         }
     }
