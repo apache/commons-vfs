@@ -132,7 +132,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
 
     /**
      * Returns a class loader or null since some Java implementation is null for the bootstrap class loader.
-     * 
+     *
      * @return A class loader or null since some Java implementation is null for the bootstrap class loader.
      */
     private ClassLoader findClassLoader() {
@@ -451,5 +451,5 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         }
         return res;
     }
-    
+
 }

@@ -78,7 +78,7 @@ public final class FtpClientFactory {
 
     /**
      * Abstract Factory, used to configure different FTPClients.
-     * 
+     *
      * @param <C>
      *            The type of FTPClient.
      * @param <B>
