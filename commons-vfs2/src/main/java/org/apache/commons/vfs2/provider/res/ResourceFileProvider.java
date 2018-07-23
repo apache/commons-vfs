@@ -64,6 +64,9 @@ public class ResourceFileProvider extends AbstractFileProvider {
         if (cl == null) {
             cl = getClass().getClassLoader();
         }
+        if (cl == null) {
+            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri);
+        }
         final URL url = cl.getResource(resourceName);
 
         if (url == null) {
