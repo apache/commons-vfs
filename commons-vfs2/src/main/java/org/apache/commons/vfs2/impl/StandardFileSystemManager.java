@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -138,13 +139,11 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         if (classLoader != null) {
             return classLoader;
         }
-
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        if (cl == null) {
-            cl = getClass().getClassLoader();
+        if (cl != null) {
+            return cl;
         }
-
-        return cl;
+        return getValidClassLoader(getClass());
     }
 
     protected DefaultFileReplicator createDefaultFileReplicator() {
@@ -404,6 +403,15 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         return schemas.toArray(new String[schemas.size()]);
     }
 
+    private ClassLoader getValidClassLoader(final Class<?> clazz) {
+        return validateClassLoader(clazz.getClassLoader(), clazz);
+    }
+
+    private ClassLoader validateClassLoader(final ClassLoader clazzLoader, final Class<?> clazz) {
+        return Objects.requireNonNull(clazzLoader, "The class loader for " + clazz
+                + " is null; some Java implementions use null for the bootstrap class loader.");
+    }
+
     /**
      * Creates a provider.
      */
@@ -426,7 +434,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         try {
             return findClassLoader().loadClass(className);
         } catch (final ClassNotFoundException e) {
-            return getClass().getClassLoader().loadClass(className);
+            return getValidClassLoader(getClass()).loadClass(className);
         }
     }
 
@@ -439,8 +447,9 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
     private Enumeration<URL> loadResources(final String name) throws IOException {
         Enumeration<URL> res = findClassLoader().getResources(name);
         if (res == null || !res.hasMoreElements()) {
-            res = getClass().getClassLoader().getResources(name);
+            res = getValidClassLoader(getClass()).getResources(name);
         }
         return res;
     }
+    
 }
