@@ -35,7 +35,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
  */
 public class Http4FileSystem extends AbstractFileSystem {
 
-    private final URI baseURI;
+    private final URI internalBaseURI;
     private final HttpClient httpClient;
     private final HttpClientContext httpClientContext;
 
@@ -45,12 +45,13 @@ public class Http4FileSystem extends AbstractFileSystem {
 
         final String rootURI = getRootURI();
         final int offset = rootURI.indexOf(':');
-        final String scheme = rootURI.substring(0, offset);
+        final char lastCharOfScheme = (offset > 0) ? rootURI.charAt(offset - 1) : 0;
 
-        if ("http4s".equals(scheme)) {
-            this.baseURI = URI.create("https" + rootURI.substring(offset));
+        // if scheme is 'http*s' or 'HTTP*S', then the internal base URI should be 'https'. 'http' otherwise.
+        if (lastCharOfScheme == 's' || lastCharOfScheme == 'S') {
+            this.internalBaseURI = URI.create("https" + rootURI.substring(offset));
         } else {
-            this.baseURI = URI.create("http" + rootURI.substring(offset));
+            this.internalBaseURI = URI.create("http" + rootURI.substring(offset));
         }
 
         this.httpClient = httpClient;
@@ -86,7 +87,7 @@ public class Http4FileSystem extends AbstractFileSystem {
         return httpClientContext;
     }
 
-    protected URI getBaseURI() {
-        return baseURI;
+    protected URI getInternalBaseURI() {
+        return internalBaseURI;
     }
 }

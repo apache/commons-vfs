@@ -74,7 +74,7 @@ class Http4RandomAccessContent<FS extends Http4FileSystem> extends AbstractRando
             return dis;
         }
 
-        final HttpGet httpGet = new HttpGet(fileObject.getURI());
+        final HttpGet httpGet = new HttpGet(fileObject.getInternalURI());
         httpGet.setHeader("Range", "bytes=" + filePointer + "-");
         final HttpResponse httpResponse = fileObject.executeHttpUriRequest(httpGet);
         final int status = httpResponse.getStatusLine().getStatusCode();

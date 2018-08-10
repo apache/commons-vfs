@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.http4;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.apache.commons.vfs2.FileContentInfoFactory;
 import org.apache.commons.vfs2.FileNotFoundException;
@@ -46,22 +47,27 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     private final String urlCharset;
 
+    private final URI internalURI;
+
     private HttpResponse lastHeadResponse;
 
-    protected Http4FileObject(final AbstractFileName name, final FS fileSystem) {
+    protected Http4FileObject(final AbstractFileName name, final FS fileSystem)
+            throws FileSystemException, URISyntaxException {
         this(name, fileSystem, Http4FileSystemConfigBuilder.getInstance());
     }
 
     protected Http4FileObject(final AbstractFileName name, final FS fileSystem,
-            final Http4FileSystemConfigBuilder builder) {
+            final Http4FileSystemConfigBuilder builder) throws FileSystemException, URISyntaxException {
         super(name, fileSystem);
         final FileSystemOptions fileSystemOptions = fileSystem.getFileSystemOptions();
         urlCharset = builder.getUrlCharset(fileSystemOptions);
+        final String pathEncoded = ((GenericURLFileName) name).getPathQueryEncoded(getUrlCharset());
+        internalURI = URIUtils.resolve(fileSystem.getInternalBaseURI(), pathEncoded);
     }
 
     @Override
     protected FileType doGetType() throws Exception {
-        final HttpHead headRequest = new HttpHead(getURI());
+        final HttpHead headRequest = new HttpHead(getInternalURI());
         lastHeadResponse = executeHttpUriRequest(headRequest);
         final int status = lastHeadResponse.getStatusLine().getStatusCode();
 
@@ -109,7 +115,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     @Override
     protected InputStream doGetInputStream() throws Exception {
-        final HttpGet getRequest = new HttpGet(getURI());
+        final HttpGet getRequest = new HttpGet(getInternalURI());
         final HttpResponse httpResponse = executeHttpUriRequest(getRequest);
         final int status = httpResponse.getStatusLine().getStatusCode();
 
@@ -153,17 +159,8 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
         return urlCharset;
     }
 
-    protected URI getURI() throws FileSystemException {
-        String pathEncoded = null;
-
-        try {
-            pathEncoded = ((GenericURLFileName) getName()).getPathQueryEncoded(getUrlCharset());
-        } catch (Exception e) {
-            // TODO: which exception is proper?
-            throw new RuntimeException(e.getMessage(), e);
-        }
-
-        return URIUtils.resolve(getAbstractFileSystem().getBaseURI(), pathEncoded);
+    protected URI getInternalURI() throws FileSystemException {
+        return internalURI;
     }
 
     protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest)
