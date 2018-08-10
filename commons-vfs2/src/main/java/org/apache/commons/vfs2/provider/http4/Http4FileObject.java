@@ -28,7 +28,7 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractFileObject;
-import org.apache.commons.vfs2.provider.URLFileName;
+import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -157,7 +157,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
         String pathEncoded = null;
 
         try {
-            pathEncoded = ((URLFileName) getName()).getPathQueryEncoded(getUrlCharset());
+            pathEncoded = ((GenericURLFileName) getName()).getPathQueryEncoded(getUrlCharset());
         } catch (Exception e) {
             // TODO: which exception is proper?
             throw new RuntimeException(e.getMessage(), e);

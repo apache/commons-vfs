@@ -17,12 +17,12 @@
 package org.apache.commons.vfs2.provider.http4;
 
 import org.apache.commons.vfs2.provider.FileNameParser;
-import org.apache.commons.vfs2.provider.URLFileNameParser;
+import org.apache.commons.vfs2.provider.GenericURLFileNameParser;
 
 /**
  * Implementation for http4. set default port to 80
  */
-public class Http4FileNameParser extends URLFileNameParser {
+public class Http4FileNameParser extends GenericURLFileNameParser {
 
     private static final int DEFAULT_PORT = 80;
 
