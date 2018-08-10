@@ -22,6 +22,9 @@ import org.apache.commons.vfs2.util.MonitorInputStream;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 
+/**
+ * An InputStream that cleans up the <code>org.apache.http.client.methods.CloseableHttpResponse</code> on close.
+ */
 class MonitoredHttpResponseContentInputStream extends MonitorInputStream {
 
     private final HttpResponse httpResponse;

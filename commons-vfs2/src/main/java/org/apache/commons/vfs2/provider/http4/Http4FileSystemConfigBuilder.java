@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.http.cookie.Cookie;
 
 /**
- * Configuration options for HTTP.
+ * Configuration options builder utility for HTTP4 provider.
  */
 public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 

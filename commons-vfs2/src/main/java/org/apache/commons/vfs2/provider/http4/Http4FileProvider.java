@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.http4;
 
+import java.net.ProxySelector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,25 +30,36 @@ import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
+import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import org.apache.http.Header;
+import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.AuthCache;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.conn.routing.HttpRoutePlanner;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicAuthCache;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
 import org.apache.http.message.BasicHeader;
 
 /**
- * An HTTP provider that uses HttpComponents HttpClient.
+ * HTTP4 provider that uses HttpComponents HttpClient.
  */
 public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
@@ -99,9 +111,10 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         HttpClientContext httpClientContext = null;
 
         try {
+            final Http4FileSystemConfigBuilder builder = Http4FileSystemConfigBuilder.getInstance();
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
-            httpClientContext = createHttpClientContext(rootName, authData);
-            httpClient = createHttpClient(rootName, fileSystemOptions);
+            httpClientContext = createHttpClientContext(builder, rootName, fileSystemOptions, authData);
+            httpClient = createHttpClient(builder, rootName, fileSystemOptions);
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
@@ -109,10 +122,13 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         return new Http4FileSystem(rootName, fileSystemOptions, httpClient, httpClientContext);
     }
 
-    protected HttpClient createHttpClient(final GenericFileName rootName, final FileSystemOptions fileSystemOptions) {
-        return createHttpClient(Http4FileSystemConfigBuilder.getInstance(), rootName, fileSystemOptions);
-    }
-
+    /**
+     * Create an {@link HttpClient} object.
+     * @param builder Configuration options builder for HTTP4 provider
+     * @param rootName The root path.
+     * @param fileSystemOptions The FileSystem options.
+     * @return an {@link HttpClient} object
+     */
     protected HttpClient createHttpClient(final Http4FileSystemConfigBuilder builder, final GenericFileName rootName,
             final FileSystemOptions fileSystemOptions) {
 
@@ -121,9 +137,11 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
         final HttpClientBuilder httpClientBuilder =
                 HttpClients.custom()
+                .setRoutePlanner(createHttpRoutePlanner(builder, fileSystemOptions))
                 .setConnectionManager(createConnectionManager(builder, fileSystemOptions))
                 .setDefaultRequestConfig(createDefaultRequestConfig(builder, fileSystemOptions))
-                .setDefaultHeaders(defaultHeaders);
+                .setDefaultHeaders(defaultHeaders)
+                .setDefaultCookieStore(createDefaultCookieStore(builder, fileSystemOptions));
 
         if (builder.getFollowRedirect(fileSystemOptions)) {
             httpClientBuilder.disableRedirectHandling();
@@ -132,22 +150,64 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         return httpClientBuilder.build();
     }
 
-    protected HttpClientContext createHttpClientContext(final GenericFileName rootName,
+    /**
+     * Create an {@link HttpClientContext} object.
+     * @param builder Configuration options builder for HTTP4 provider
+     * @param rootName The root path.
+     * @param fileSystemOptions The FileSystem options.
+     * @param authData The UserAuthentiationData
+     * @return an {@link HttpClientContext} object
+     */
+    protected HttpClientContext createHttpClientContext(final Http4FileSystemConfigBuilder builder,
+            final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
             final UserAuthenticationData authData) {
+        final CredentialsProvider credsProvider = new BasicCredentialsProvider();
+
         final String username = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())));
         final String password = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword())));
 
-        final CredentialsProvider credsProvider = new BasicCredentialsProvider();
-
         if (username != null && !username.isEmpty()) {
-            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), rootName.getPort()),
+            credsProvider.setCredentials(new AuthScope(rootName.getHostName(), AuthScope.ANY_PORT),
                     new UsernamePasswordCredentials(username, password));
+        }
+
+        final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
+
+        if (proxyHost != null) {
+            final UserAuthenticator proxyAuth = builder.getProxyAuthenticator(fileSystemOptions);
+
+            if (proxyAuth != null) {
+                final UserAuthenticationData proxyAuthData = UserAuthenticatorUtils.authenticate(proxyAuth,
+                        new UserAuthenticationData.Type[] { UserAuthenticationData.USERNAME,
+                                UserAuthenticationData.PASSWORD });
+
+                if (proxyAuthData != null) {
+                    final UsernamePasswordCredentials proxyCreds = new UsernamePasswordCredentials(
+                            UserAuthenticatorUtils.toString(
+                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME, null)),
+                            UserAuthenticatorUtils.toString(
+                                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD, null)));
+
+                    credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), AuthScope.ANY_PORT),
+                            proxyCreds);
+                }
+            }
         }
 
         final HttpClientContext clientContext = HttpClientContext.create();
         clientContext.setCredentialsProvider(credsProvider);
+
+        if (builder.isPreemptiveAuth(fileSystemOptions)) {
+            // Create AuthCache instance
+            final AuthCache authCache = new BasicAuthCache();
+            // Generate BASIC scheme object and add it to the local auth cache
+            final BasicScheme basicAuth = new BasicScheme();
+            authCache.put(proxyHost, basicAuth);
+            // Add AuthCache to the execution context
+            clientContext.setAuthCache(authCache);
+        }
 
         return clientContext;
     }
@@ -166,5 +226,42 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 .setSocketTimeout(builder.getSoTimeout(fileSystemOptions))
                 .setConnectTimeout(builder.getConnectionTimeout(fileSystemOptions))
                 .build();
+    }
+
+    private HttpRoutePlanner createHttpRoutePlanner(final Http4FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        final HttpHost proxyHost = getProxyHttpHost(builder, fileSystemOptions);
+
+        if (proxyHost != null) {
+            return new DefaultProxyRoutePlanner(proxyHost);
+        }
+
+        return new SystemDefaultRoutePlanner(ProxySelector.getDefault());
+    }
+
+    private HttpHost getProxyHttpHost(final Http4FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        final String proxyHost = builder.getProxyHost(fileSystemOptions);
+        final int proxyPort = builder.getProxyPort(fileSystemOptions);
+
+        if (proxyHost != null && proxyHost.length() > 0 && proxyPort > 0) {
+            return new HttpHost(proxyHost, proxyPort);
+        }
+
+        return null;
+    }
+
+    private CookieStore createDefaultCookieStore(final Http4FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) {
+        final CookieStore cookieStore = new BasicCookieStore();
+        final Cookie[] cookies = builder.getCookies(fileSystemOptions);
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookieStore.addCookie(cookie);
+            }
+        }
+
+        return cookieStore;
     }
 }

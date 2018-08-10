@@ -43,6 +43,11 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.client.utils.URIUtils;
 
+/**
+ * A file object backed by Apache HttpComponents HttpClient.
+ *
+ * @param <FS> An {@link Http4FileSystem} subclass
+ */
 public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObject<FS> {
 
     private final String urlCharset;
