@@ -34,6 +34,7 @@ import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.commons.vfs2.provider.AbstractOriginatingFileProvider;
 import org.apache.commons.vfs2.provider.GenericFileName;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
+import org.apache.http.ConnectionReuseStrategy;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -44,9 +45,12 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.conn.routing.HttpRoutePlanner;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.DefaultConnectionReuseStrategy;
+import org.apache.http.impl.NoConnectionReuseStrategy;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -57,6 +61,7 @@ import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 
 /**
  * HTTP4 provider that uses HttpComponents HttpClient.
@@ -133,7 +138,11 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             final FileSystemOptions fileSystemOptions) {
 
         final List<Header> defaultHeaders = new ArrayList<>();
-        defaultHeaders.add(new BasicHeader("User-Agent", builder.getUserAgent(fileSystemOptions)));
+        defaultHeaders.add(new BasicHeader(HTTP.USER_AGENT, builder.getUserAgent(fileSystemOptions)));
+
+        final ConnectionReuseStrategy connectionReuseStrategy = builder.isKeepAlive(fileSystemOptions)
+                ? DefaultConnectionReuseStrategy.INSTANCE
+                : NoConnectionReuseStrategy.INSTANCE;
 
         final HttpClientBuilder httpClientBuilder =
                 HttpClients.custom()
@@ -141,6 +150,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 .setConnectionManager(createConnectionManager(builder, fileSystemOptions))
                 .setDefaultRequestConfig(createDefaultRequestConfig(builder, fileSystemOptions))
                 .setDefaultHeaders(defaultHeaders)
+                .setConnectionReuseStrategy(connectionReuseStrategy)
                 .setDefaultCookieStore(createDefaultCookieStore(builder, fileSystemOptions));
 
         if (!builder.getFollowRedirect(fileSystemOptions)) {
@@ -217,13 +227,21 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
         connManager.setMaxTotal(builder.getMaxTotalConnections(fileSystemOptions));
         connManager.setDefaultMaxPerRoute(builder.getMaxConnectionsPerRoute(fileSystemOptions));
+
+        final SocketConfig socketConfig =
+                SocketConfig
+                .custom()
+                .setSoTimeout(builder.getSoTimeout(fileSystemOptions))
+                .build();
+
+        connManager.setDefaultSocketConfig(socketConfig);
+
         return connManager;
     }
 
     private RequestConfig createDefaultRequestConfig(final Http4FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) {
         return RequestConfig.custom()
-                .setSocketTimeout(builder.getSoTimeout(fileSystemOptions))
                 .setConnectTimeout(builder.getConnectionTimeout(fileSystemOptions))
                 .build();
     }
@@ -264,4 +282,5 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
         return cookieStore;
     }
+
 }

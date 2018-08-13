@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
+import org.apache.http.protocol.HTTP;
 
 /**
  * Creates FileContentInfo instances for HTTP4.
@@ -43,7 +44,7 @@ public class Http4FileContentInfoFactory implements FileContentInfoFactory {
                 .getAbstractFileObject(fileContent.getFile())) {
             final HttpResponse lastHeadResponse = http4File.getLastHeadResponse();
 
-            final Header header = lastHeadResponse.getFirstHeader("Content-Type");
+            final Header header = lastHeadResponse.getFirstHeader(HTTP.CONTENT_TYPE);
 
             if (header != null) {
                 final ContentType contentType = ContentType.parse(header.getValue());

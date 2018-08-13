@@ -27,10 +27,6 @@ import org.apache.http.cookie.Cookie;
  */
 public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
-    protected static final String KEY_FOLLOW_REDIRECT = "followRedirect";
-
-    protected static final String KEY_USER_AGENT = "userAgent";
-
     private static final Http4FileSystemConfigBuilder BUILDER = new Http4FileSystemConfigBuilder();
 
     private static final String MAX_TOTAL_CONNECTIONS = "http.connection-manager.max-total";
@@ -39,7 +35,13 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final String CONNECTION_TIMEOUT = "http.connection.timeout";
 
-    public static final String SO_TIMEOUT = "http.socket.timeout";
+    private static final String SO_TIMEOUT = "http.socket.timeout";
+
+    private static final String KEEP_ALIVE = "http.keepAlive";
+
+    private static final String KEY_FOLLOW_REDIRECT = "followRedirect";
+
+    private static final String KEY_USER_AGENT = "userAgent";
 
     private static final int DEFAULT_MAX_ROUTE_CONNECTIONS = 5;
 
@@ -48,6 +50,9 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final int DEFAULT_CONNECTION_TIMEOUT = 0;
 
     private static final int DEFAULT_SO_TIMEOUT = 0;
+
+    // TODO: Ignore Keep Alive like v3, but should we set the default to true like Http Client v4??
+    private static final boolean DEFAULT_KEEP_ALIVE = false;
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
 
@@ -59,7 +64,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Creates new config builder.
      *
      * @param prefix String for properties of this file system.
-     * @since 2.0
      */
     protected Http4FileSystemConfigBuilder(final String prefix) {
         super(prefix);
@@ -182,7 +186,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystem options.
      * @param redirect {@code true} to follow redirects, {@code false} not to.
      * @see #setFollowRedirect
-     * @since 2.1
      */
     public void setFollowRedirect(final FileSystemOptions opts, final boolean redirect) {
         setParam(opts, KEY_FOLLOW_REDIRECT, redirect);
@@ -204,7 +207,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystem options.
      * @return {@code true} to follow redirects, {@code false} not to.
      * @see #setFollowRedirect
-     * @since 2.1
      */
     public boolean getFollowRedirect(final FileSystemOptions opts) {
         return getBoolean(opts, KEY_FOLLOW_REDIRECT, DEFAULT_FOLLOW_REDIRECT);
@@ -215,7 +217,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @param maxTotalConnections The maximum number of connections.
-     * @since 2.0
      */
     public void setMaxTotalConnections(final FileSystemOptions opts, final int maxTotalConnections) {
         setParam(opts, MAX_TOTAL_CONNECTIONS, Integer.valueOf(maxTotalConnections));
@@ -226,7 +227,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed.
-     * @since 2.0
      */
     public int getMaxTotalConnections(final FileSystemOptions opts) {
         return getInteger(opts, MAX_TOTAL_CONNECTIONS, DEFAULT_MAX_CONNECTIONS);
@@ -237,7 +237,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @param maxRouteConnections The maximum number of connections to a route.
-     * @since 2.0
      */
     public void setMaxConnectionsPerRoute(final FileSystemOptions opts, final int maxRouteConnections) {
         setParam(opts, MAX_ROUTE_CONNECTIONS, Integer.valueOf(maxRouteConnections));
@@ -248,7 +247,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed per route.
-     * @since 2.0
      */
     public int getMaxConnectionsPerRoute(final FileSystemOptions opts) {
         return getInteger(opts, MAX_ROUTE_CONNECTIONS, DEFAULT_MAX_ROUTE_CONNECTIONS);
@@ -259,7 +257,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystemOptions.
      * @return true if preemptiveAuth is requested.
-     * @since 2.0
      */
     public boolean isPreemptiveAuth(final FileSystemOptions opts) {
         return getBoolean(opts, KEY_PREEMPTIVE_AUTHENTICATION, Boolean.FALSE).booleanValue();
@@ -282,7 +279,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @param connectionTimeout The connection timeout.
-     * @since 2.1
      */
     public void setConnectionTimeout(final FileSystemOptions opts, final int connectionTimeout) {
         setParam(opts, CONNECTION_TIMEOUT, Integer.valueOf(connectionTimeout));
@@ -293,7 +289,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @return The connection timeout.
-     * @since 2.1
      */
     public int getConnectionTimeout(final FileSystemOptions opts) {
         return getInteger(opts, CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
@@ -304,7 +299,6 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystem options.
      * @param soTimeout socket timeout.
-     * @since 2.1
      */
     public void setSoTimeout(final FileSystemOptions opts, final int soTimeout) {
         setParam(opts, SO_TIMEOUT, Integer.valueOf(soTimeout));
@@ -315,10 +309,28 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * @param opts The FileSystemOptions.
      * @return The socket timeout.
-     * @since 2.1
      */
     public int getSoTimeout(final FileSystemOptions opts) {
         return getInteger(opts, SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
+    }
+
+    /**
+     * Sets if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     *
+     * @param opts The FileSystemOptions.
+     */
+    public void setKeepAlive(final FileSystemOptions opts, boolean keepAlive) {
+        setParam(opts, KEEP_ALIVE, Boolean.valueOf(keepAlive));
+    }
+
+    /**
+     * Determines if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     *
+     * @param opts The FileSystemOptions.
+     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     */
+    public boolean isKeepAlive(final FileSystemOptions opts) {
+        return getBoolean(opts, KEEP_ALIVE, DEFAULT_KEEP_ALIVE);
     }
 
     /**

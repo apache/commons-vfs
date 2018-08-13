@@ -32,6 +32,7 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -42,6 +43,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.client.utils.URIUtils;
+import org.apache.http.protocol.HTTP;
 
 /**
  * A file object backed by Apache HttpComponents HttpClient.
@@ -49,6 +51,8 @@ import org.apache.http.client.utils.URIUtils;
  * @param <FS> An {@link Http4FileSystem} subclass
  */
 public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObject<FS> {
+
+    private static final int BUFFER_SIZE = 4096;
 
     private final String urlCharset;
 
@@ -73,16 +77,24 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     @Override
     protected FileType doGetType() throws Exception {
         final HttpHead headRequest = new HttpHead(getInternalURI());
-        lastHeadResponse = executeHttpUriRequest(headRequest);
-        final int status = lastHeadResponse.getStatusLine().getStatusCode();
+        HttpEntity entity = null;
 
-        if (status == HttpStatus.SC_OK
-                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
-            return FileType.FILE;
-        } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
-            return FileType.IMAGINARY;
-        } else {
-            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
+        try {
+            lastHeadResponse = executeHttpUriRequest(headRequest);
+            final int status = lastHeadResponse.getStatusLine().getStatusCode();
+            entity = lastHeadResponse.getEntity();
+
+            if (status == HttpStatus.SC_OK
+                    || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
+                return FileType.FILE;
+            } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
+                return FileType.IMAGINARY;
+            } else {
+                throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
+            }
+        } finally {
+            // Some web servers send body entity in HEAD request, so let's consume it for safety, especially in Keep-Alive mode.
+            consumeFullHttpEntityQuietly(entity);
         }
     }
 
@@ -92,7 +104,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
             return 0L;
         }
 
-        final Header header = lastHeadResponse.getFirstHeader("Content-Length");
+        final Header header = lastHeadResponse.getFirstHeader(HTTP.CONTENT_LEN);
 
         if (header == null) {
             // Assume 0 content-length
@@ -108,7 +120,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
             throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
         }
 
-        final Header header = lastHeadResponse.getFirstHeader("last-modified");
+        final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
 
         if (header == null) {
             throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
@@ -177,5 +189,15 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     HttpResponse getLastHeadResponse() {
         return lastHeadResponse;
+    }
+
+    private void consumeFullHttpEntityQuietly(final HttpEntity httpEntity) {
+        if (httpEntity != null) {
+            try (InputStream input = httpEntity.getContent()) {
+                final byte[] buffer = new byte[BUFFER_SIZE];
+                while (-1 != input.read(buffer));
+            } catch (IOException ignore) {
+            }
+        }
     }
 }
