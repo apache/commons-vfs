@@ -143,7 +143,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 .setDefaultHeaders(defaultHeaders)
                 .setDefaultCookieStore(createDefaultCookieStore(builder, fileSystemOptions));
 
-        if (builder.getFollowRedirect(fileSystemOptions)) {
+        if (!builder.getFollowRedirect(fileSystemOptions)) {
             httpClientBuilder.disableRedirectHandling();
         }
 
