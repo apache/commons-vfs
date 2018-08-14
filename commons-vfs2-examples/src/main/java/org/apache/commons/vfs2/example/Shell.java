@@ -37,7 +37,9 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
+import org.apache.commons.vfs2.provider.FileProvider;
 
 /**
  * A simple command-line shell for performing file operations.
@@ -45,12 +47,26 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * See <a href="https://wiki.apache.org/commons/VfsExampleShell">Commons VFS Shell Examples</a> in Apache Commons Wiki.
  */
 public final class Shell {
+
     private final FileSystemManager mgr;
     private FileObject cwd;
     private final BufferedReader reader;
 
     private Shell() throws IOException {
         mgr = VFS.getManager();
+
+        // VFS-360: Keep this manual init block until http4 becomes part of standard providers.
+        try {
+            Class.forName("org.apache.http.client.HttpClient");
+            final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
+            if (!manager.hasProvider("http4")) {
+                manager.addProvider("http4", (FileProvider) Class
+                        .forName("org.apache.commons.vfs2.provider.http4.Http4FileProvider").newInstance());
+            }
+        } catch (Exception e) {
+            // HTTP4 / HttpClient v4 unavailable.
+        }
+
         cwd = mgr.toFileObject(new File(System.getProperty("user.dir")));
         reader = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
     }
