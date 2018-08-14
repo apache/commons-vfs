@@ -34,7 +34,6 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
@@ -73,8 +72,7 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     @Override
     protected FileType doGetType() throws Exception {
-        final HttpHead headRequest = new HttpHead(getInternalURI());
-        lastHeadResponse = executeHttpUriRequest(headRequest);
+        lastHeadResponse = executeHttpUriRequest(new HttpHead(getInternalURI()));
         final int status = lastHeadResponse.getStatusLine().getStatusCode();
 
         if (status == HttpStatus.SC_OK
@@ -169,14 +167,18 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
         return internalURI;
     }
 
-    protected HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest)
-            throws ClientProtocolException, IOException {
+    HttpResponse getLastHeadResponse() throws IOException {
+        if (lastHeadResponse != null) {
+            return lastHeadResponse;
+        }
+
+        return executeHttpUriRequest(new HttpHead(getInternalURI()));
+    }
+
+    HttpResponse executeHttpUriRequest(final HttpUriRequest httpRequest) throws IOException {
         final HttpClient httpClient = getAbstractFileSystem().getHttpClient();
         final HttpClientContext httpClientContext = getAbstractFileSystem().getHttpClientContext();
         return httpClient.execute(httpRequest, httpClientContext);
     }
 
-    HttpResponse getLastHeadResponse() {
-        return lastHeadResponse;
-    }
 }
