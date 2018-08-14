@@ -51,8 +51,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final int DEFAULT_SO_TIMEOUT = 0;
 
-    // TODO: Ignore Keep Alive like v3, but should we set the default to true like Http Client v4??
-    private static final boolean DEFAULT_KEEP_ALIVE = false;
+    private static final boolean DEFAULT_KEEP_ALIVE = true;
 
     private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
 

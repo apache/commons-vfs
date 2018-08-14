@@ -44,6 +44,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 /**
  * A file object backed by Apache HttpComponents HttpClient.
@@ -94,7 +95,9 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
             }
         } finally {
             // Some web servers send body entity in HEAD request, so let's consume it for safety, especially in Keep-Alive mode.
-            consumeFullHttpEntityQuietly(entity);
+            if (entity != null) {
+                EntityUtils.consumeQuietly(entity);
+            }
         }
     }
 
@@ -189,15 +192,5 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     HttpResponse getLastHeadResponse() {
         return lastHeadResponse;
-    }
-
-    private void consumeFullHttpEntityQuietly(final HttpEntity httpEntity) {
-        if (httpEntity != null) {
-            try (InputStream input = httpEntity.getContent()) {
-                final byte[] buffer = new byte[BUFFER_SIZE];
-                while (-1 != input.read(buffer));
-            } catch (IOException ignore) {
-            }
-        }
     }
 }

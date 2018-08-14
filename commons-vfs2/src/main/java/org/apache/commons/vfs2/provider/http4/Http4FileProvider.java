@@ -37,6 +37,9 @@ import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import org.apache.http.ConnectionReuseStrategy;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
@@ -62,6 +65,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.HttpRequestExecutor;
 
 /**
  * HTTP4 provider that uses HttpComponents HttpClient.
@@ -148,9 +152,10 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                 HttpClients.custom()
                 .setRoutePlanner(createHttpRoutePlanner(builder, fileSystemOptions))
                 .setConnectionManager(createConnectionManager(builder, fileSystemOptions))
+                .setConnectionReuseStrategy(connectionReuseStrategy)
+                .setRequestExecutor(new HeadBodyAcceptingHttpRequestExecutor())
                 .setDefaultRequestConfig(createDefaultRequestConfig(builder, fileSystemOptions))
                 .setDefaultHeaders(defaultHeaders)
-                .setConnectionReuseStrategy(connectionReuseStrategy)
                 .setDefaultCookieStore(createDefaultCookieStore(builder, fileSystemOptions));
 
         if (!builder.getFollowRedirect(fileSystemOptions)) {
@@ -283,4 +288,17 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         return cookieStore;
     }
 
+    /**
+     * Some web servers send body in HEAD response, which must be consumed in Keep-Alive mode.
+     * Otherwise, the next request-response can be polluted from unread response data in previous HEAD response.
+     */
+    private static class HeadBodyAcceptingHttpRequestExecutor extends HttpRequestExecutor {
+
+        @Override
+        protected boolean canResponseHaveBody(final HttpRequest request, final HttpResponse response) {
+            final int status = response.getStatusLine().getStatusCode();
+            return status >= HttpStatus.SC_OK && status != HttpStatus.SC_NO_CONTENT
+                    && status != HttpStatus.SC_NOT_MODIFIED && status != HttpStatus.SC_RESET_CONTENT;
+        }
+    }
 }
