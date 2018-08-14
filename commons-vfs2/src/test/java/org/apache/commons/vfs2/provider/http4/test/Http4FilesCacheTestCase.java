@@ -16,7 +16,6 @@
  */
 package org.apache.commons.vfs2.provider.http4.test;
 
-import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -29,9 +28,9 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 /**
- * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
+ * Tests https://issues.apache.org/jira/browse/VFS-426.
  */
-public class Http4GetContentInfoTest extends TestCase {
+public class Http4FilesCacheTestCase extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
@@ -42,17 +41,23 @@ public class Http4GetContentInfoTest extends TestCase {
     }
 
     /**
-     * Tests VFS-427 NPE on Http4FileObject.getContent().getContentInfo().
-     *
-     * @throws FileSystemException thrown when the getContentInfo API fails.
+     * Tests https://issues.apache.org/jira/browse/VFS-426
      */
     @Test
-    public void testGetContentInfo() throws FileSystemException {
-        final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http4://www.apache.org/licenses/LICENSE-2.0.txt");
-        final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
-        // Used to NPE before fix:
-        content.getContentInfo();
+    public void testQueryStringUrls() throws FileSystemException {
+        final String noQueryStringUrl = "http4://commons.apache.org/vfs";
+        final String queryStringUrl = "http4://commons.apache.org/vfs?query=string";
+        final String queryStringUrl2 = "http4://commons.apache.org/vfs?query=string&more=stuff";
+
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl);
+        Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+
+        final FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl);
+        Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
+
+        final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2);
+        Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
     }
 }
