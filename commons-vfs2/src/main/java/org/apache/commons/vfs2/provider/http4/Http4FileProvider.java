@@ -16,10 +16,13 @@
  */
 package org.apache.commons.vfs2.provider.http4;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.ProxySelector;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -195,32 +198,35 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     protected SSLContext createSSLContext(final Http4FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         try {
-            return new SSLContextBuilder()
-                    .loadTrustMaterial(null, TrustAllStrategy.INSTANCE)
-                    .build();
+            final SSLContextBuilder sslContextBuilder = new SSLContextBuilder();
+
+            File keystoreFileObject = null;
+            final String keystoreFile = builder.getKeyStoreFile(fileSystemOptions);
+
+            if (keystoreFile != null && !keystoreFile.isEmpty()) {
+                keystoreFileObject = new File(keystoreFile);
+            }
+
+            if (keystoreFileObject != null && keystoreFileObject.exists()) {
+                final String keystorePass = builder.getKeyStorePass(fileSystemOptions);
+                final char[] keystorePassChars = (keystorePass != null) ? keystorePass.toCharArray() : null;
+                sslContextBuilder.loadTrustMaterial(keystoreFileObject, keystorePassChars, TrustAllStrategy.INSTANCE);
+            } else {
+                sslContextBuilder.loadTrustMaterial(TrustAllStrategy.INSTANCE);
+            }
+
+            return sslContextBuilder.build();
         } catch (KeyStoreException e) {
-            throw new FileSystemException(e);
+            throw new FileSystemException("Keystore error. " + e.getMessage(), e);
         } catch (KeyManagementException e) {
-            throw new FileSystemException(e);
+            throw new FileSystemException("Cannot retrieve keys. " + e.getMessage(), e);
         } catch (NoSuchAlgorithmException e) {
-            throw new FileSystemException(e);
+            throw new FileSystemException("Algorithm error. " + e.getMessage(), e);
+        } catch (CertificateException e) {
+            throw new FileSystemException("Certificate error. " + e.getMessage(), e);
+        } catch (IOException e) {
+            throw new FileSystemException("Cannot open key file. " + e.getMessage(), e);
         }
-    }
-
-    /**
-     * Create {@link HostnameVerifier} for HttpClient.
-     * @param builder Configuration options builder for HTTP4 provider
-     * @param fileSystemOptions The FileSystem options.
-     * @return a {@link HostnameVerifier} for HttpClient
-     * @throws FileSystemException if an error occurs.
-     */
-    protected HostnameVerifier createHostnameVerifier(final Http4FileSystemConfigBuilder builder,
-            final FileSystemOptions fileSystemOptions) throws FileSystemException {
-        if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
-            return NoopHostnameVerifier.INSTANCE;
-        }
-
-        return new DefaultHostnameVerifier();
     }
 
     /**
@@ -345,6 +351,15 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         }
 
         return cookieStore;
+    }
+
+    private HostnameVerifier createHostnameVerifier(final Http4FileSystemConfigBuilder builder,
+            final FileSystemOptions fileSystemOptions) throws FileSystemException {
+        if (!builder.isHostnameVerificationEnabled(fileSystemOptions)) {
+            return NoopHostnameVerifier.INSTANCE;
+        }
+
+        return new DefaultHostnameVerifier();
     }
 
 }

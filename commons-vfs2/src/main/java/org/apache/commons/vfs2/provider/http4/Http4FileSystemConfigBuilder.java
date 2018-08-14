@@ -39,6 +39,10 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final String KEEP_ALIVE = "http.keepAlive";
 
+    private static final String KEYSTORE_FILE = "http.keystoreFile";
+
+    private static final String KEYSTORE_PASS = "http.keystorePass";
+
     private static final String HOSTNAME_VERIFICATION_ENABLED = "http.hostname-verification.enabled";
 
     private static final String KEY_FOLLOW_REDIRECT = "followRedirect";
@@ -355,6 +359,22 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     public String getUserAgent(final FileSystemOptions opts) {
         final String userAgent = (String) getParam(opts, KEY_USER_AGENT);
         return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
+    }
+
+    public void setKeyStoreFile(final FileSystemOptions opts, String keyStoreFile) {
+        setParam(opts, KEYSTORE_FILE, keyStoreFile);
+    }
+
+    public String getKeyStoreFile(final FileSystemOptions opts) {
+        return (String) getParam(opts, KEYSTORE_FILE);
+    }
+
+    public void setKeyStorePass(final FileSystemOptions opts, String keyStorePass) {
+        setParam(opts, KEYSTORE_PASS, keyStorePass);
+    }
+
+    public String getKeyStorePass(final FileSystemOptions opts) {
+        return (String) getParam(opts, KEYSTORE_PASS);
     }
 
     /**
