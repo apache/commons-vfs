@@ -63,10 +63,6 @@
         <scheme name="https"/>
         <if-available class-name="org.apache.commons.httpclient.HttpClient"/>
     </provider>
-    <provider class-name="org.apache.commons.vfs2.provider.http4.Http4FileProvider">
-        <scheme name="http4"/>
-        <if-available class-name="org.apache.http.client.HttpClient"/>
-    </provider>
     <provider class-name="org.apache.commons.vfs2.provider.sftp.SftpFileProvider">
         <scheme name="sftp"/>
         <if-available class-name="javax.crypto.Cipher"/>

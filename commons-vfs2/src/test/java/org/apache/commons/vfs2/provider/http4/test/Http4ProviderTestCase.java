@@ -127,6 +127,14 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         Assert.assertTrue(file.getChildren().length > 0);
     }
 
+    @Override
+    protected void setUp() throws Exception {
+        final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
+        if (!manager.hasProvider("http4")) {
+            manager.addProvider("http4", new Http4FileProvider());
+        }
+    }
+
     /**
      * Returns the base folder for tests.
      */
@@ -144,7 +152,9 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
      */
     @Override
     public void prepare(final DefaultFileSystemManager manager) throws Exception {
-        manager.addProvider("http4", new Http4FileProvider());
+        if (!manager.hasProvider("http4")) {
+            manager.addProvider("http4", new Http4FileProvider());
+        }
     }
 
     private void testResloveFolderSlash(final String uri, final boolean followRedirect) throws FileSystemException {
