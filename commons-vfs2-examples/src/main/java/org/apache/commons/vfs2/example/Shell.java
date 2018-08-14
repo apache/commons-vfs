@@ -56,15 +56,19 @@ public final class Shell {
         mgr = VFS.getManager();
 
         // VFS-360: Keep this manual init block until http4 becomes part of standard providers.
+        boolean httpClient4Available = false;
         try {
             Class.forName("org.apache.http.client.HttpClient");
+            httpClient4Available = true;
             final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
             if (!manager.hasProvider("http4")) {
-                manager.addProvider("http4", (FileProvider) Class
-                        .forName("org.apache.commons.vfs2.provider.http4.Http4FileProvider").newInstance());
+                manager.addProvider("http4", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4.Http4FileProvider").newInstance());
+                manager.addProvider("http4s", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4s.Http4sFileProvider").newInstance());
             }
         } catch (Exception e) {
-            // HTTP4 / HttpClient v4 unavailable.
+            if (httpClient4Available) {
+                e.printStackTrace();
+            }
         }
 
         cwd = mgr.toFileObject(new File(System.getProperty("user.dir")));

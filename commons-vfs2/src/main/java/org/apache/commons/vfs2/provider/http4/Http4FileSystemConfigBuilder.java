@@ -39,9 +39,13 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final String KEEP_ALIVE = "http.keepAlive";
 
+    private static final String HOSTNAME_VERIFICATION_ENABLED = "http.hostname-verification.enabled";
+
     private static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
     private static final String KEY_USER_AGENT = "userAgent";
+
+    private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
     private static final int DEFAULT_MAX_ROUTE_CONNECTIONS = 5;
 
@@ -57,7 +61,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final String DEFAULT_USER_AGENT = "Apache-Commons-VFS";
 
-    private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
+    private static final boolean DEFAULT_HOSTNAME_VERIFICATION_ENABLED = true;
 
     /**
      * Creates new config builder.
@@ -351,6 +355,26 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     public String getUserAgent(final FileSystemOptions opts) {
         final String userAgent = (String) getParam(opts, KEY_USER_AGENT);
         return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
+    }
+
+    /**
+     * Sets if the hostname should be verified in SSL context.
+     *
+     * @param opts The FileSystemOptions.
+     * @param hostnameVerificationEnabled whether hostname should be verified
+     */
+    public void setHostnameVerificationEnabled(final FileSystemOptions opts, boolean hostnameVerificationEnabled) {
+        setParam(opts, HOSTNAME_VERIFICATION_ENABLED, Boolean.valueOf(hostnameVerificationEnabled));
+    }
+
+    /**
+     * Determines if the hostname should be verified in SSL context.
+     *
+     * @param opts The FileSystemOptions.
+     * @return true if if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
+     */
+    public boolean isHostnameVerificationEnabled(final FileSystemOptions opts) {
+        return getBoolean(opts, HOSTNAME_VERIFICATION_ENABLED, DEFAULT_HOSTNAME_VERIFICATION_ENABLED);
     }
 
     @Override

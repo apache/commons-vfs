@@ -172,7 +172,6 @@
         org.apache.jackrabbit.*;resolution:=optional,
         org.apache.tools.ant.*;resolution:=optional,
         org.apache.commons.httpclient.*;resolution:=optional,
-        org.apache.http.client.*;resolution:=optional,
         *
     </commons.osgi.import>
     <!-- Newer versions of clirr throw an NPE building the site -->
