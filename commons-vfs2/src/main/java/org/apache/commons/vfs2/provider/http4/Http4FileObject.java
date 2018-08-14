@@ -32,7 +32,6 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
 import org.apache.commons.vfs2.provider.GenericURLFileName;
 import org.apache.commons.vfs2.util.RandomAccessMode;
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -44,7 +43,6 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 
 /**
  * A file object backed by Apache HttpComponents HttpClient.
@@ -52,8 +50,6 @@ import org.apache.http.util.EntityUtils;
  * @param <FS> An {@link Http4FileSystem} subclass
  */
 public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObject<FS> {
-
-    private static final int BUFFER_SIZE = 4096;
 
     private final String urlCharset;
 
@@ -78,26 +74,16 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
     @Override
     protected FileType doGetType() throws Exception {
         final HttpHead headRequest = new HttpHead(getInternalURI());
-        HttpEntity entity = null;
+        lastHeadResponse = executeHttpUriRequest(headRequest);
+        final int status = lastHeadResponse.getStatusLine().getStatusCode();
 
-        try {
-            lastHeadResponse = executeHttpUriRequest(headRequest);
-            final int status = lastHeadResponse.getStatusLine().getStatusCode();
-            entity = lastHeadResponse.getEntity();
-
-            if (status == HttpStatus.SC_OK
-                    || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
-                return FileType.FILE;
-            } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
-                return FileType.IMAGINARY;
-            } else {
-                throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
-            }
-        } finally {
-            // Some web servers send body entity in HEAD request, so let's consume it for safety, especially in Keep-Alive mode.
-            if (entity != null) {
-                EntityUtils.consumeQuietly(entity);
-            }
+        if (status == HttpStatus.SC_OK
+                || status == HttpStatus.SC_METHOD_NOT_ALLOWED /* method is not allowed, but resource exist */) {
+            return FileType.FILE;
+        } else if (status == HttpStatus.SC_NOT_FOUND || status == HttpStatus.SC_GONE) {
+            return FileType.IMAGINARY;
+        } else {
+            throw new FileSystemException("vfs.provider.http/head.error", getName(), Integer.valueOf(status));
         }
     }
 
