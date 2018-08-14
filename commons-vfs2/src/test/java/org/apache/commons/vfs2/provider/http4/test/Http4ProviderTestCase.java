@@ -127,6 +127,7 @@ public class Http4ProviderTestCase extends AbstractProviderTestConfig {
         Assert.assertTrue(file.getChildren().length > 0);
     }
 
+    // VFS-360: Keep this manual registration of http4 until http4 becomes part of standard providers.
     @Override
     protected void setUp() throws Exception {
         final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
