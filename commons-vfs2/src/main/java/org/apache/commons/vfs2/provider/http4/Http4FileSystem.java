@@ -51,11 +51,11 @@ public class Http4FileSystem extends AbstractFileSystem {
     private final HttpClientContext httpClientContext;
 
     /**
-     * Construct <code>Http4FileSystem<code>.
+     * Construct <code>Http4FileSystem</code>.
      * @param rootName root base name
      * @param fileSystemOptions file system options
-     * @param httpClient <code>HttpClient</code> instance
-     * @param httpClientContext <code>HttpClientContext</code> instance
+     * @param httpClient {@link HttpClient} instance
+     * @param httpClientContext {@link HttpClientContext} instance
      */
     protected Http4FileSystem(FileName rootName, FileSystemOptions fileSystemOptions, HttpClient httpClient,
             HttpClientContext httpClientContext) {
@@ -98,16 +98,16 @@ public class Http4FileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Return the internal <code>HttpClient</code> instance.
-     * @return the internal <code>HttpClient</code> instance
+     * Return the internal {@link HttpClient} instance.
+     * @return the internal {@link HttpClient} instance
      */
     protected HttpClient getHttpClient() {
         return httpClient;
     }
 
     /**
-     * Return the internal <code>HttpClientContext</code> instance.
-     * @return the internal <code>HttpClientContext</code> instance
+     * Return the internal {@link HttpClientContext} instance.
+     * @return the internal {@link HttpClientContext} instance
      */
     protected HttpClientContext getHttpClientContext() {
         return httpClientContext;

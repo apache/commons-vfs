@@ -415,6 +415,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets if the FileSystemOptions indicate that HTTP Keep-Alive is respected.
      *
      * @param opts The FileSystemOptions.
+     * @param keepAlive whether the FileSystemOptions indicate that HTTP Keep-Alive is respected or not.
      */
     public void setKeepAlive(final FileSystemOptions opts, boolean keepAlive) {
         setParam(opts, KEEP_ALIVE, Boolean.valueOf(keepAlive));
