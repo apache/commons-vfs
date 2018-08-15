@@ -20,7 +20,7 @@ import org.apache.commons.vfs2.provider.FileNameParser;
 import org.apache.commons.vfs2.provider.GenericURLFileNameParser;
 
 /**
- * Implementation for http4. set default port to 443.
+ * <code>FileNameParser</code> implementation for http4s provider, setting default port to 443.
  */
 public class Http4sFileNameParser extends GenericURLFileNameParser {
 

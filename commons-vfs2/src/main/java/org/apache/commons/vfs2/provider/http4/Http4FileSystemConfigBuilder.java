@@ -23,52 +23,142 @@ import org.apache.commons.vfs2.UserAuthenticator;
 import org.apache.http.cookie.Cookie;
 
 /**
- * Configuration options builder utility for HTTP4 provider.
+ * Configuration options builder utility for http4 provider.
  */
 public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final Http4FileSystemConfigBuilder BUILDER = new Http4FileSystemConfigBuilder();
 
+    /** 
+     * Defines the maximum number of connections allowed overall. This value only applies
+     * to the number of connections from a particular instance of HTTP connection manager.
+     * <p>
+     * This parameter expects a value of type {@link Integer}.
+     * </p>
+     */
     private static final String MAX_TOTAL_CONNECTIONS = "http.connection-manager.max-total";
 
-    private static final String MAX_ROUTE_CONNECTIONS = "http.connection-manager.max-per-route";
+    /** 
+     * Defines the maximum number of connections allowed per host configuration. 
+     * These values only apply to the number of connections from a particular instance 
+     * of HTTP connection manager.
+     */
+    private static final String MAX_HOST_CONNECTIONS = "http.connection-manager.max-per-host";
 
+    /** 
+     * Defines the connection timeout of an HTTP request.
+     * <p>
+     * This parameter expects a value of type {@link Integer}.
+     * </p>
+     */
     private static final String CONNECTION_TIMEOUT = "http.connection.timeout";
 
+    /** 
+     * Defines the socket timeout of an HTTP request.
+     * <p>
+     * This parameter expects a value of type {@link Integer}.
+     * </p>
+     */
     private static final String SO_TIMEOUT = "http.socket.timeout";
 
+    /** 
+     * Defines whether Keep-Alive option is used or not.
+     * <p>
+     * This parameter expects a value of type {@link Boolean}.
+     * </p>
+     */
     private static final String KEEP_ALIVE = "http.keepAlive";
 
+    /** 
+     * Defines the keystore file path for SSL connections.
+     * <p>
+     * This parameter expects a value of type {@link String}.
+     * </p>
+     */
     private static final String KEYSTORE_FILE = "http.keystoreFile";
 
+    /** 
+     * Defines the keystore pass phrase for SSL connections.
+     * <p>
+     * This parameter expects a value of type {@link String}.
+     * </p>
+     */
     private static final String KEYSTORE_PASS = "http.keystorePass";
 
+    /** 
+     * Defines whether the host name should be verified or not in SSL connections.
+     * <p>
+     * This parameter expects a value of type {@link Boolean}.
+     * </p>
+     */
     private static final String HOSTNAME_VERIFICATION_ENABLED = "http.hostname-verification.enabled";
 
+    /** 
+     * Defines whether the HttpClient should follow redirections from the responses.
+     * <p>
+     * This parameter expects a value of type {@link Boolean}.
+     * </p>
+     */
     private static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
+    /** 
+     * Defines the User-Agent request header string of the underlying HttpClient.
+     * <p>
+     * This parameter expects a value of type {@link String}.
+     * </p>
+     */
     private static final String KEY_USER_AGENT = "userAgent";
 
+    /** 
+     * Defines whether the preemptive authentication should be enabled or not.
+     * <p>
+     * This parameter expects a value of type {@link Boolean}.
+     * </p>
+     */
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
-    private static final int DEFAULT_MAX_ROUTE_CONNECTIONS = 5;
-
+    /**
+     * The default value for {@link #MAX_TOTAL_CONNECTIONS} configuration.
+     */
     private static final int DEFAULT_MAX_CONNECTIONS = 50;
 
+    /**
+     * The default value for {@link #MAX_HOST_CONNECTIONS} configuration.
+     */
+    private static final int DEFAULT_MAX_HOST_CONNECTIONS = 5;
+
+    /**
+     * The default value for {@link #CONNECTION_TIMEOUT} configuration.
+     */
     private static final int DEFAULT_CONNECTION_TIMEOUT = 0;
 
+    /**
+     * The default value for {@link #SO_TIMEOUT} configuration.
+     */
     private static final int DEFAULT_SO_TIMEOUT = 0;
 
+    /**
+     * The default value for {@link #KEEP_ALIVE} configuration.
+     */
     private static final boolean DEFAULT_KEEP_ALIVE = true;
 
+    /**
+     * The default value for {@link #KEY_FOLLOW_REDIRECT} configuration.
+     */
     private static final boolean DEFAULT_FOLLOW_REDIRECT = true;
 
-    private static final String DEFAULT_USER_AGENT = "Apache-Commons-VFS";
+    /**
+     * The default value for {@link #KEY_USER_AGENT} configuration.
+     */
+    private static final String DEFAULT_USER_AGENT = "Jakarta-Commons-VFS";
 
+    /**
+     * The default value for {@link #HOSTNAME_VERIFICATION_ENABLED} configuration.
+     */
     private static final boolean DEFAULT_HOSTNAME_VERIFICATION_ENABLED = true;
 
     /**
-     * Creates new config builder.
+     * Construct an <code>Http4FileSystemConfigBuilder</code>.
      *
      * @param prefix String for properties of this file system.
      */
@@ -77,7 +167,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     private Http4FileSystemConfigBuilder() {
-        super("http4.");
+        super("http.");
     }
 
     /**
@@ -240,23 +330,23 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the maximum number of connections allowed to any route.
+     * Sets the maximum number of connections allowed to any host.
      *
      * @param opts The FileSystem options.
-     * @param maxRouteConnections The maximum number of connections to a route.
+     * @param maxHostConnections The maximum number of connections to a host.
      */
-    public void setMaxConnectionsPerRoute(final FileSystemOptions opts, final int maxRouteConnections) {
-        setParam(opts, MAX_ROUTE_CONNECTIONS, Integer.valueOf(maxRouteConnections));
+    public void setMaxConnectionsPerHost(final FileSystemOptions opts, final int maxHostConnections) {
+        setParam(opts, MAX_HOST_CONNECTIONS, Integer.valueOf(maxHostConnections));
     }
 
     /**
-     * Gets the maximum number of connections allowed per route.
+     * Gets the maximum number of connections allowed per host.
      *
      * @param opts The FileSystemOptions.
-     * @return The maximum number of connections allowed per route.
+     * @return The maximum number of connections allowed per host.
      */
-    public int getMaxConnectionsPerRoute(final FileSystemOptions opts) {
-        return getInteger(opts, MAX_ROUTE_CONNECTIONS, DEFAULT_MAX_ROUTE_CONNECTIONS);
+    public int getMaxConnectionsPerHost(final FileSystemOptions opts) {
+        return getInteger(opts, MAX_HOST_CONNECTIONS, DEFAULT_MAX_HOST_CONNECTIONS);
     }
 
     /**
@@ -361,19 +451,39 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
         return userAgent != null ? userAgent : DEFAULT_USER_AGENT;
     }
 
+    /**
+     * Set keystore file path for SSL connections.
+     * @param opts the file system options to modify
+     * @param keyStoreFile keystore file path
+     */
     public void setKeyStoreFile(final FileSystemOptions opts, String keyStoreFile) {
         setParam(opts, KEYSTORE_FILE, keyStoreFile);
     }
 
+    /**
+     * Return keystore file path to be used in SSL connections.
+     * @param opts the file system options to modify
+     * @return keystore file path to be used in SSL connections
+     */
     public String getKeyStoreFile(final FileSystemOptions opts) {
         return (String) getParam(opts, KEYSTORE_FILE);
     }
 
+    /**
+     * Set keystore pass phrase for SSL connecdtions.
+     * @param opts the file system options to modify
+     * @param keyStorePass keystore pass phrase for SSL connecdtions
+     */
     public void setKeyStorePass(final FileSystemOptions opts, String keyStorePass) {
         setParam(opts, KEYSTORE_PASS, keyStorePass);
     }
 
-    public String getKeyStorePass(final FileSystemOptions opts) {
+    /**
+     * Return keystore pass phrase for SSL connections.
+     * @param opts the file system options to modify
+     * @return keystore pass phrase for SSL connections
+     */
+    String getKeyStorePass(final FileSystemOptions opts) {
         return (String) getParam(opts, KEYSTORE_PASS);
     }
 

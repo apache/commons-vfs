@@ -30,7 +30,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.protocol.HTTP;
 
 /**
- * Creates FileContentInfo instances for HTTP4.
+ * Creates <code>FileContentInfoFactory</code> instances for http4 provider.
  */
 public class Http4FileContentInfoFactory implements FileContentInfoFactory {
 

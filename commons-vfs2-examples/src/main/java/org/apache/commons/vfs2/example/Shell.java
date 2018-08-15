@@ -55,7 +55,7 @@ public final class Shell {
     private Shell() throws IOException {
         mgr = VFS.getManager();
 
-        // VFS-360: Keep this manual init block until http4 becomes part of standard providers.
+        // TODO: VFS-360 - Remove this manual registration of http4 once http4 becomes part of standard providers.
         boolean httpClient4Available = false;
         try {
             Class.forName("org.apache.http.client.HttpClient");

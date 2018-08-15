@@ -77,7 +77,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.ssl.SSLContextBuilder;
 
 /**
- * HTTP4 provider that uses HttpComponents HttpClient.
+ * <code>FileProvider</code> implementation using HttpComponents HttpClient library.
  */
 public class Http4FileProvider extends AbstractOriginatingFileProvider {
 
@@ -88,6 +88,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                     UserAuthenticationData.PASSWORD
                     };
 
+    /** FileProvider capabilities */
     static final Collection<Capability> capabilities =
             Collections.unmodifiableCollection(
                     Arrays.asList(
@@ -141,10 +142,10 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Create an {@link HttpClient} object.
-     * @param builder Configuration options builder for HTTP4 provider
-     * @param rootName The root path.
-     * @param fileSystemOptions The FileSystem options.
+     * Create an {@link HttpClient} object for an http4 file system.
+     * @param builder Configuration options builder for http4 provider
+     * @param rootName The root path
+     * @param fileSystemOptions The file system options
      * @return an {@link HttpClient} object
      * @throws FileSystemException if an error occurs.
      */
@@ -154,12 +155,12 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Create an {@link HttpClientBuilder} object.
+     * Create an {@link HttpClientBuilder} object. Invoked by {@link #createHttpClient(Http4FileSystemConfigBuilder, GenericFileName, FileSystemOptions)}.
      * @param builder Configuration options builder for HTTP4 provider
-     * @param rootName The root path.
-     * @param fileSystemOptions The FileSystem options.
+     * @param rootName The root path
+     * @param fileSystemOptions The FileSystem options
      * @return an {@link HttpClientBuilder} object
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException if an error occurs
      */
     protected HttpClientBuilder createHttpClientBuilder(final Http4FileSystemConfigBuilder builder, final GenericFileName rootName,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
@@ -189,11 +190,11 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Create {@link SSLContext} for HttpClient.
+     * Create {@link SSLContext} for HttpClient. Invoked by {@link #createHttpClientBuilder(Http4FileSystemConfigBuilder, GenericFileName, FileSystemOptions)}.
      * @param builder Configuration options builder for HTTP4 provider
-     * @param fileSystemOptions The FileSystem options.
+     * @param fileSystemOptions The FileSystem options
      * @return a {@link SSLContext} for HttpClient
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException if an error occurs
      */
     protected SSLContext createSSLContext(final Http4FileSystemConfigBuilder builder,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
@@ -230,18 +231,21 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     /**
-     * Create an {@link HttpClientContext} object.
-     * @param builder Configuration options builder for HTTP4 provider
-     * @param rootName The root path.
-     * @param fileSystemOptions The FileSystem options.
-     * @param authData The UserAuthentiationData
+     * Create an {@link HttpClientContext} object for an http4 file system.
+     * @param builder Configuration options builder for http4 provider
+     * @param rootName The root path
+     * @param fileSystemOptions The FileSystem options
+     * @param authData The <code>UserAuthentiationData</code> object
      * @return an {@link HttpClientContext} object
-     * @throws FileSystemException if an error occurs.
+     * @throws FileSystemException if an error occurs
      */
     protected HttpClientContext createHttpClientContext(final Http4FileSystemConfigBuilder builder,
             final GenericFileName rootName, final FileSystemOptions fileSystemOptions,
             final UserAuthenticationData authData) throws FileSystemException {
+
+        final HttpClientContext clientContext = HttpClientContext.create();
         final CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        clientContext.setCredentialsProvider(credsProvider);
 
         final String username = UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
                 UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName())));
@@ -273,20 +277,14 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
                     credsProvider.setCredentials(new AuthScope(proxyHost.getHostName(), AuthScope.ANY_PORT),
                             proxyCreds);
                 }
+
+                if (builder.isPreemptiveAuth(fileSystemOptions)) {
+                    final AuthCache authCache = new BasicAuthCache();
+                    final BasicScheme basicAuth = new BasicScheme();
+                    authCache.put(proxyHost, basicAuth);
+                    clientContext.setAuthCache(authCache);
+                }
             }
-        }
-
-        final HttpClientContext clientContext = HttpClientContext.create();
-        clientContext.setCredentialsProvider(credsProvider);
-
-        if (builder.isPreemptiveAuth(fileSystemOptions)) {
-            // Create AuthCache instance
-            final AuthCache authCache = new BasicAuthCache();
-            // Generate BASIC scheme object and add it to the local auth cache
-            final BasicScheme basicAuth = new BasicScheme();
-            authCache.put(proxyHost, basicAuth);
-            // Add AuthCache to the execution context
-            clientContext.setAuthCache(authCache);
         }
 
         return clientContext;
@@ -296,7 +294,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         final PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager();
         connManager.setMaxTotal(builder.getMaxTotalConnections(fileSystemOptions));
-        connManager.setDefaultMaxPerRoute(builder.getMaxConnectionsPerRoute(fileSystemOptions));
+        connManager.setDefaultMaxPerRoute(builder.getMaxConnectionsPerHost(fileSystemOptions));
 
         final SocketConfig socketConfig =
                 SocketConfig

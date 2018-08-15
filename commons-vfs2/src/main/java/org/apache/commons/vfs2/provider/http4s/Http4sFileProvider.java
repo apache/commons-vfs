@@ -19,10 +19,13 @@ package org.apache.commons.vfs2.provider.http4s;
 import org.apache.commons.vfs2.provider.http4.Http4FileProvider;
 
 /**
- * HTTP4S provider that uses HttpComponents HttpClient.
+ * http4s provider that uses HttpComponents HttpClient.
  */
 public class Http4sFileProvider extends Http4FileProvider {
 
+    /**
+     * Construct a <code>Http4sFileProvider</code>.
+     */
     public Http4sFileProvider() {
         super();
         setFileNameParser(Http4sFileNameParser.getInstance());

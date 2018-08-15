@@ -33,7 +33,7 @@ import junit.framework.TestCase;
  */
 public class Http4GetContentInfoTest extends TestCase {
 
-    // VFS-360: Keep this manual registration of http4 until http4 becomes part of standard providers.
+    // TODO: VFS-360 - Remove this manual registration of http4 once http4 becomes part of standard providers.
     @Override
     protected void setUp() throws Exception {
         final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();

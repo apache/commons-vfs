@@ -31,14 +31,32 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
- * HTTP4 file system.
+ * http4 file system.
  */
 public class Http4FileSystem extends AbstractFileSystem {
 
+    /**
+     * Internal base URI of this file system.
+     */
     private final URI internalBaseURI;
+
+    /**
+     * Internal <code>HttpClient</code> instance of this file system.
+     */
     private final HttpClient httpClient;
+
+    /**
+     * Internal <code>HttpClientContext</code> instance of this file system.
+     */
     private final HttpClientContext httpClientContext;
 
+    /**
+     * Construct <code>Http4FileSystem<code>.
+     * @param rootName root base name
+     * @param fileSystemOptions file system options
+     * @param httpClient <code>HttpClient</code> instance
+     * @param httpClientContext <code>HttpClientContext</code> instance
+     */
     protected Http4FileSystem(FileName rootName, FileSystemOptions fileSystemOptions, HttpClient httpClient,
             HttpClientContext httpClientContext) {
         super(rootName, null, fileSystemOptions);
@@ -79,14 +97,26 @@ public class Http4FileSystem extends AbstractFileSystem {
         }
     }
 
+    /**
+     * Return the internal <code>HttpClient</code> instance.
+     * @return the internal <code>HttpClient</code> instance
+     */
     protected HttpClient getHttpClient() {
         return httpClient;
     }
 
+    /**
+     * Return the internal <code>HttpClientContext</code> instance.
+     * @return the internal <code>HttpClientContext</code> instance
+     */
     protected HttpClientContext getHttpClientContext() {
         return httpClientContext;
     }
 
+    /**
+     * Return the internal base <code>URI</code> instance.
+     * @return the internal base <code>URI</code> instance
+     */
     protected URI getInternalBaseURI() {
         return internalBaseURI;
     }
