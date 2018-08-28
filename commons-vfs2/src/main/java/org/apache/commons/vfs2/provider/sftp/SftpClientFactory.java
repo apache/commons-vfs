@@ -20,12 +20,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.jcraft.jsch.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.util.Os;
+
+import com.jcraft.jsch.ConfigRepository;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Logger;
+import com.jcraft.jsch.OpenSSHConfig;
+import com.jcraft.jsch.Proxy;
+import com.jcraft.jsch.ProxyHTTP;
+import com.jcraft.jsch.ProxySOCKS5;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.UserInfo;
 
 /**
  * Create a JSch Session instance.
@@ -167,11 +177,11 @@ public final class SftpClientFactory {
             jsch.setConfigRepository(configRepository);
         } else if (loadOpenSSHConfig) {
             try {
-                // Load the config repository (~/.ssh/config)
+                // loading openssh config (~/.ssh/config)
                 final ConfigRepository openSSHConfig = OpenSSHConfig.parseFile(new File(sshDir, OPENSSH_CONFIG_NAME).getAbsolutePath());
                 jsch.setConfigRepository(openSSHConfig);
             } catch (IOException e) {
-                throw new FileSystemException("vfs.provider.sftp/config-repository.error", e);
+                throw new FileSystemException("vfs.provider.sftp/load-openssh-config.error", e);
             }
         }
     }
