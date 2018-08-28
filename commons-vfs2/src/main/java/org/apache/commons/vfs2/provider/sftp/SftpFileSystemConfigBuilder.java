@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 
+import com.jcraft.jsch.ConfigRepository;
 import com.jcraft.jsch.UserInfo;
 
 /**
@@ -95,6 +96,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String HOST_KEY_CHECK_YES = "yes";
     private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
     private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
+    private static final String CONFIG_REPOSITORY = _PREFIX + "CONFIG_REPOSITORY";
+    private static final String LOAD_OPENSSH_CONFIG = _PREFIX + "LOAD_OPENSSH_CONFIG";
     private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
     private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
     private static final String PROXY_COMMAND = _PREFIX + ".PROXY_COMMAND";
@@ -215,6 +218,29 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public IdentityRepositoryFactory getIdentityRepositoryFactory(final FileSystemOptions opts) {
         return (IdentityRepositoryFactory) this.getParam(opts, IDENTITY_REPOSITORY_FACTORY);
+    }
+
+    /**
+     * Get the config repository.
+     *
+     * @param opts The FileSystem options.
+     * @return the ConfigRepository
+     */
+    public ConfigRepository getConfigRepository(final FileSystemOptions opts) {
+        return (ConfigRepository) this.getParam(opts, CONFIG_REPOSITORY);
+    }
+
+    /**
+     * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to
+     * <code>Boolean.FALSE</code> if the method {@link #setLoadOpenSSHConfig(FileSystemOptions, boolean)} has not been
+     * invoked.
+     *
+     * @param opts The FileSystemOptions.
+     * @return <code>Boolean.TRUE</code> if VFS should load the OpenSSH config.
+     * @see #setLoadOpenSSHConfig
+     */
+    public boolean isLoadOpenSSHConfig(final FileSystemOptions opts) {
+        return this.getBoolean(opts, LOAD_OPENSSH_CONFIG, Boolean.FALSE);
     }
 
     /**
@@ -462,6 +488,21 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * Set the config repository. e.g. {@code /home/user/.ssh/config}.
+     * <p>
+     * This is useful when you want to use OpenSSHConfig.
+     *
+     * @param opts The FileSystem options.
+     * @param configRepository An config repository.
+     * @throws FileSystemException if an error occurs.
+     * @see <a href="http://www.jcraft.com/jsch/examples/OpenSSHConfig.java.html">OpenSSHConfig</a>
+     */
+    public void setConfigRepository(final FileSystemOptions opts, final ConfigRepository configRepository)
+            throws FileSystemException {
+        this.setParam(opts, CONFIG_REPOSITORY, configRepository);
+    }
+
+    /**
      * Sets the known_hosts file. e.g. {@code /home/user/.ssh/known_hosts2}.
      * <p>
      * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
@@ -640,5 +681,15 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setUserInfo(final FileSystemOptions opts, final UserInfo info) {
         this.setParam(opts, UserInfo.class.getName(), info);
+    }
+
+    /**
+     * Sets the whether to load OpenSSH config.
+     *
+     * @param opts The FileSystem options.
+     * @param loadOpenSSHConfig true if the OpenSSH config should be loaded.
+     */
+    public void setLoadOpenSSHConfig(final FileSystemOptions opts, final boolean loadOpenSSHConfig) {
+        this.setParam(opts, LOAD_OPENSSH_CONFIG, loadOpenSSHConfig ? Boolean.TRUE : Boolean.FALSE);
     }
 }
