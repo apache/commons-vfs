@@ -214,26 +214,28 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public void close() throws FileSystemException {
         FileSystemException exc = null;
-
-        // Close the content
-        if (content != null) {
-            try {
-                content.close();
-                content = null;
-            } catch (final FileSystemException e) {
-                exc = e;
+        
+        synchronized (fs) {
+            // Close the content
+            if (content != null) {
+                try {
+                    content.close();
+                    content = null;
+                } catch (final FileSystemException e) {
+                    exc = e;
+                }
             }
-        }
 
-        // Detach from the file
-        try {
-            detach();
-        } catch (final Exception e) {
-            exc = new FileSystemException("vfs.provider/close.error", fileName, e);
-        }
+            // Detach from the file
+            try {
+                detach();
+            } catch (final Exception e) {
+                exc = new FileSystemException("vfs.provider/close.error", fileName, e);
+            }
 
-        if (exc != null) {
-            throw exc;
+            if (exc != null) {
+                throw exc;
+            }
         }
     }
 
