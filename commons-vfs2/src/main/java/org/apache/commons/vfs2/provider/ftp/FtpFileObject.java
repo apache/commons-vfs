@@ -29,6 +29,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
@@ -582,7 +583,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         protected void onClose() throws IOException {
             final boolean ok;
             try {
-                ok = client.completePendingCommand();
+                // See VFS-674 and the accompanying PR as to why this check for "transfer aborted" is needed
+                ok = client.completePendingCommand() || client.getReplyCode() == FTPReply.TRANSFER_ABORTED;
             } finally {
                 getAbstractFileSystem().putClient(client);
             }

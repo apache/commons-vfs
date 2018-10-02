@@ -264,6 +264,11 @@ public class FTPClientWrapper implements FtpClient {
     }
 
     @Override
+    public int getReplyCode() throws IOException {
+        return getFtpClient().getReplyCode();
+    }
+
+    @Override
     public String getReplyString() throws IOException {
         return getFtpClient().getReplyString();
     }
