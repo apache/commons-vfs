@@ -38,7 +38,6 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.operations.FileOperation;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
 
 /**
