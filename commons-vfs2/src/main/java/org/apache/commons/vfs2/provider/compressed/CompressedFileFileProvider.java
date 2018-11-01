@@ -37,15 +37,6 @@ public abstract class CompressedFileFileProvider extends AbstractLayeredFileProv
     }
 
     /**
-     * Parses an absolute URI.
-     *
-     * @param uri The URI to parse.
-     */
-    /*
-     * public FileName parseUri(final String uri) throws FileSystemException { return ZipFileName.parseUri(uri); }
-     */
-
-    /**
      * Creates a layered file system. This method is called if the file system is not cached.
      *
      * @param scheme The URI scheme.

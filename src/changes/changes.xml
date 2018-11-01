@@ -50,6 +50,9 @@ The <action> type attribute can be add,update,fix,remove.
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <action issue="VFS-678" dev="ecki" type="fix">
+        Fix various LGTM.com code review warnings.
+      </action>
       <action issue="VFS-652" dev="ecki" type="fix">
         PatternFileSelector documentation to describe actual matching against getPath().
       </action>

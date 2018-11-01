@@ -127,28 +127,6 @@ public interface FileName extends Comparable<FileName> {
     FileName getParent();
 
     /**
-     * Resolves a name, relative to this file name. Equivalent to calling
-     * {@code resolveName( path, NameScope.FILE_SYSTEM )}.
-     *
-     * @param name The name to resolve.
-     * @return A {@link FileName} object representing the resolved file name.
-     * @throws FileSystemException If the name is invalid.
-     */
-    // FileName resolveName(String name) throws FileSystemException;
-
-    /**
-     * Resolves a name, relative to this file name. Refer to {@link NameScope} for a description of how names are
-     * resolved.
-     *
-     * @param name The name to resolve.
-     * @param scope The scope to use when resolving the name.
-     * @return A {@link FileName} object representing the resolved file name.
-     * @throws FileSystemException If the name is invalid.
-     */
-    // FileName resolveName(String name, NameScope scope)
-    // throws FileSystemException;
-
-    /**
      * Converts a file name to a relative name, relative to this file name.
      *
      * @param name The name to convert to a relative path.

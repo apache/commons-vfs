@@ -487,11 +487,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
                     } else {
                         // First set of children - Break out the cigars
                         if (newChildren.length > 0) {
-                            this.children = new HashMap<>();
-                        }
-                        for (final FileObject element : newChildren) {
-                            this.children.put(element.getName(), new Object()); // null?
-                            this.fireAllCreate(element);
+                        	this.children = new HashMap<>();
+                        	for (final FileObject element : newChildren) {
+                        		this.children.put(element.getName(), new Object()); // null?
+                        		this.fireAllCreate(element);
+                        	}
                         }
                     }
                 }

@@ -121,9 +121,10 @@ public class ShowFileTask extends VfsTask {
      * Writes the content of the file to Ant log.
      */
     private void logContent(final FileObject file, final String prefix) throws Exception {
-        final InputStream instr = file.getContent().getInputStream();
-        try {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(instr));
+        try (
+            final InputStream instr = file.getContent().getInputStream();
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(instr)); ) 
+        {
             while (true) {
                 final String line = reader.readLine();
                 if (line == null) {
@@ -131,8 +132,6 @@ public class ShowFileTask extends VfsTask {
                 }
                 log(prefix + line);
             }
-        } finally {
-            instr.close();
         }
     }
 }

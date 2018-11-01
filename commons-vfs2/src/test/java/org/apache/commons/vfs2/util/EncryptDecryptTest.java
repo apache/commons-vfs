@@ -35,6 +35,13 @@ public class EncryptDecryptTest {
 
         final String decrypted = cryptor.decrypt(encrypted);
         assertEquals(source, decrypted);
-
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void testInvalidDecrypt() throws Exception {
+    	// provider.HostFileNameParser.extractToPath(String, StringBuilder) catches `Exception`
+    	final String broken = "91458";
+        final Cryptor cryptor = CryptorFactory.getCryptor();
+        /* ignored */ cryptor.decrypt(broken);
     }
 }
