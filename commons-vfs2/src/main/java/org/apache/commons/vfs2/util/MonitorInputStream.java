@@ -57,7 +57,7 @@ public class MonitorInputStream extends BufferedInputStream {
      * @throws IOException if an error occurs.
      */
     @Override
-    public synchronized int read() throws IOException { // lgtm [java/non-sync-override]
+    public int read() throws IOException { // lgtm [java/non-sync-override]
         if (finished.get()) {
             return EOF_CHAR;
         }
