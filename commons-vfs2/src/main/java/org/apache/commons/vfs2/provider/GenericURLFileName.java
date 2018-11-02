@@ -16,23 +16,23 @@
  */
 package org.apache.commons.vfs2.provider;
 
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
+import java.net.URISyntaxException;
+
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.util.URIUtils;
 
 /**
- * A file name that represents URL.
- * @deprecated Use {@link GenericURLFileName} as it doesn't depend on Http Client v3 API directly.
+ * Generic file name that represents a URL.
  */
-@Deprecated
-public class URLFileName extends GenericFileName {
+public class GenericURLFileName extends GenericFileName {
+
     private static final int BUFFER_SIZE = 250;
 
     private final String queryString;
 
-    public URLFileName(final String scheme, final String hostName, final int port, final int defaultPort,
+    public GenericURLFileName(final String scheme, final String hostName, final int port, final int defaultPort,
             final String userName, final String password, final String path, final FileType type,
             final String queryString) {
         super(scheme, hostName, port, defaultPort, userName, password, path, type);
@@ -67,22 +67,23 @@ public class URLFileName extends GenericFileName {
      *
      * @param charset the charset used for the path encoding
      * @return The encoded path.
-     * @throws URIException If an error occurs encoding the URI.
+     * @throws URISyntaxException If an error occurs encoding the URI.
      * @throws FileSystemException If some other error occurs.
      */
-    public String getPathQueryEncoded(final String charset) throws URIException, FileSystemException {
+    public String getPathQueryEncoded(final String charset) throws URISyntaxException, FileSystemException {
         if (getQueryString() == null) {
             if (charset != null) {
-                return URIUtil.encodePath(getPathDecoded(), charset);
+                return URIUtils.encodePath(getPathDecoded(), charset);
+            } else {
+                return URIUtils.encodePath(getPathDecoded());
             }
-            return URIUtil.encodePath(getPathDecoded());
         }
 
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         if (charset != null) {
-            sb.append(URIUtil.encodePath(getPathDecoded(), charset));
+            sb.append(URIUtils.encodePath(getPathDecoded(), charset));
         } else {
-            sb.append(URIUtil.encodePath(getPathDecoded()));
+            sb.append(URIUtils.encodePath(getPathDecoded()));
         }
         sb.append("?");
         sb.append(getQueryString());
@@ -98,7 +99,7 @@ public class URLFileName extends GenericFileName {
      */
     @Override
     public FileName createName(final String absPath, final FileType type) {
-        return new URLFileName(getScheme(), getHostName(), getPort(), getDefaultPort(), getUserName(), getPassword(),
+        return new GenericURLFileName(getScheme(), getHostName(), getPort(), getDefaultPort(), getUserName(), getPassword(),
                 absPath, type, getQueryString());
     }
 
@@ -127,9 +128,9 @@ public class URLFileName extends GenericFileName {
      * @param charset The character set.
      * @return The encoded URI
      * @throws FileSystemException if some other exception occurs.
-     * @throws URIException if an exception occurs encoding the URI.
+     * @throws URISyntaxException if an exception occurs encoding the URI.
      */
-    public String getURIEncoded(final String charset) throws FileSystemException, URIException {
+    public String getURIEncoded(final String charset) throws FileSystemException, URISyntaxException {
         final StringBuilder sb = new StringBuilder(BUFFER_SIZE);
         appendRootUri(sb, true);
         sb.append(getPathQueryEncoded(charset));

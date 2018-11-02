@@ -16,8 +16,7 @@
  */
 package org.apache.commons.vfs2.provider.url;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -48,31 +47,30 @@ public class UrlFileProvider extends AbstractFileProvider {
      * Locates a file object, by absolute URI.
      *
      * @param baseFile The base FileObject.
-     * @param uri The uri of the file to locate.
+     * @param fileUri The uri of the file to locate.
      * @param fileSystemOptions The FileSystemOptions
      * @return The FileObject
      * @throws FileSystemException if an error occurs.
      */
     @Override
-    public synchronized FileObject findFile(final FileObject baseFile, final String uri,
+    public synchronized FileObject findFile(final FileObject baseFile, final String fileUri,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         try {
-            final URL url = new URL(uri);
-
-            final URL rootUrl = new URL(url, "/");
-            final String key = this.getClass().getName() + rootUrl.toString();
+            final URI uri = URI.create(fileUri);
+            final URI rootUri = uri.resolve("/");
+            final String key = this.getClass().getName() + rootUri.toString();
             FileSystem fs = findFileSystem(key, fileSystemOptions);
             if (fs == null) {
-                final String extForm = rootUrl.toExternalForm();
+                final String extForm = rootUri.toString();
                 final FileName rootName = getContext().parseURI(extForm);
                 // final FileName rootName =
                 // new BasicFileName(rootUrl, FileName.ROOT_PATH);
                 fs = new UrlFileSystem(rootName, fileSystemOptions);
                 addFileSystem(key, fs);
             }
-            return fs.resolveFile(url.getPath());
-        } catch (final MalformedURLException e) {
-            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri, e);
+            return fs.resolveFile(uri.getPath());
+        } catch (final Exception e) {
+            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", fileUri, e);
         }
     }
 

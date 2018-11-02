@@ -167,13 +167,13 @@
     <version.checkstyle>2.17</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
-	<commons.osgi.import>
-		org.apache.hadoop.*;resolution:=optional,
-		org.apache.jackrabbit.*;resolution:=optional,
-		org.apache.tools.ant.*;resolution:=optional,
-		org.apache.commons.httpclient.*;resolution:=optional,
-		*
-	</commons.osgi.import>
+    <commons.osgi.import>
+        org.apache.hadoop.*;resolution:=optional,
+        org.apache.jackrabbit.*;resolution:=optional,
+        org.apache.tools.ant.*;resolution:=optional,
+        org.apache.commons.httpclient.*;resolution:=optional,
+        *
+    </commons.osgi.import>
     <!-- Newer versions of clirr throw an NPE building the site -->
     <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site building -->
@@ -410,6 +410,11 @@
         <version>3.1</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.6</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.18</version>
@@ -515,7 +520,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore-nio</artifactId>
-        <version>4.4.9</version>
+        <version>4.4.10</version>
       </dependency>
       <!-- Test WebDAV with Apache Jackrabbit -->
       <dependency>

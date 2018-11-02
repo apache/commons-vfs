@@ -21,14 +21,13 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
 
 /**
- * Implementation for any url based filesystem.
+ * Generic implementation for any url based filesystem, without depending a specific library.
  * <p>
  * Parses the url into user/password/host/port/path/queryString.
- * @deprecated Use {@link GenericURLFileNameParser} as it doesn't depend on Http Client v3 API directly.
  */
-@Deprecated
-public class URLFileNameParser extends HostFileNameParser {
-    public URLFileNameParser(final int defaultPort) {
+public class GenericURLFileNameParser extends HostFileNameParser {
+
+    public GenericURLFileNameParser(final int defaultPort) {
         super(defaultPort);
     }
 
@@ -55,7 +54,7 @@ public class URLFileNameParser extends HostFileNameParser {
         final FileType fileType = UriParser.normalisePath(name);
         final String path = name.toString();
 
-        return new URLFileName(auth.getScheme(), auth.getHostName(), auth.getPort(), getDefaultPort(),
+        return new GenericURLFileName(auth.getScheme(), auth.getHostName(), auth.getPort(), getDefaultPort(),
                 auth.getUserName(), auth.getPassword(), path, fileType, queryString);
     }
 }

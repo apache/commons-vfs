@@ -75,6 +75,11 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-webdav</artifactId>
       <optional>true</optional>
