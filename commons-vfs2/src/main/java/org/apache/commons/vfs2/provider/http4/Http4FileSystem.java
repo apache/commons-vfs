@@ -57,8 +57,8 @@ public class Http4FileSystem extends AbstractFileSystem {
      * @param httpClient {@link HttpClient} instance
      * @param httpClientContext {@link HttpClientContext} instance
      */
-    protected Http4FileSystem(FileName rootName, FileSystemOptions fileSystemOptions, HttpClient httpClient,
-            HttpClientContext httpClientContext) {
+    protected Http4FileSystem(final FileName rootName, final FileSystemOptions fileSystemOptions, final HttpClient httpClient,
+            final HttpClientContext httpClientContext) {
         super(rootName, null, fileSystemOptions);
 
         final String rootURI = getRootURI();
@@ -77,12 +77,12 @@ public class Http4FileSystem extends AbstractFileSystem {
     }
 
     @Override
-    protected FileObject createFile(AbstractFileName name) throws Exception {
+    protected FileObject createFile(final AbstractFileName name) throws Exception {
         return new Http4FileObject<>(name, this);
     }
 
     @Override
-    protected void addCapabilities(Collection<Capability> caps) {
+    protected void addCapabilities(final Collection<Capability> caps) {
         caps.addAll(Http4FileProvider.capabilities);
     }
 
@@ -91,7 +91,7 @@ public class Http4FileSystem extends AbstractFileSystem {
         if (httpClient instanceof CloseableHttpClient) {
             try {
                 ((CloseableHttpClient) httpClient).close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new RuntimeException("Error closing HttpClient", e);
             }
         }

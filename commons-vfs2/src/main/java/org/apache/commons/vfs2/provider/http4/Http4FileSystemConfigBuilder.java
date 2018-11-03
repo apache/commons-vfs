@@ -417,7 +417,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystemOptions.
      * @param keepAlive whether the FileSystemOptions indicate that HTTP Keep-Alive is respected or not.
      */
-    public void setKeepAlive(final FileSystemOptions opts, boolean keepAlive) {
+    public void setKeepAlive(final FileSystemOptions opts, final boolean keepAlive) {
         setParam(opts, KEEP_ALIVE, Boolean.valueOf(keepAlive));
     }
 
@@ -457,7 +457,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts the file system options to modify
      * @param keyStoreFile keystore file path
      */
-    public void setKeyStoreFile(final FileSystemOptions opts, String keyStoreFile) {
+    public void setKeyStoreFile(final FileSystemOptions opts, final String keyStoreFile) {
         setParam(opts, KEYSTORE_FILE, keyStoreFile);
     }
 
@@ -475,7 +475,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts the file system options to modify
      * @param keyStorePass keystore pass phrase for SSL connecdtions
      */
-    public void setKeyStorePass(final FileSystemOptions opts, String keyStorePass) {
+    public void setKeyStorePass(final FileSystemOptions opts, final String keyStorePass) {
         setParam(opts, KEYSTORE_PASS, keyStorePass);
     }
 
@@ -494,7 +494,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      * @param opts The FileSystemOptions.
      * @param hostnameVerificationEnabled whether hostname should be verified
      */
-    public void setHostnameVerificationEnabled(final FileSystemOptions opts, boolean hostnameVerificationEnabled) {
+    public void setHostnameVerificationEnabled(final FileSystemOptions opts, final boolean hostnameVerificationEnabled) {
         setParam(opts, HOSTNAME_VERIFICATION_ENABLED, Boolean.valueOf(hostnameVerificationEnabled));
     }
 

@@ -121,7 +121,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
     }
 
     @Override
-    protected FileSystem doCreateFileSystem(FileName name, FileSystemOptions fileSystemOptions)
+    protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         final GenericFileName rootName = (GenericFileName) name;
 
@@ -217,15 +217,15 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
             }
 
             return sslContextBuilder.build();
-        } catch (KeyStoreException e) {
+        } catch (final KeyStoreException e) {
             throw new FileSystemException("Keystore error. " + e.getMessage(), e);
-        } catch (KeyManagementException e) {
+        } catch (final KeyManagementException e) {
             throw new FileSystemException("Cannot retrieve keys. " + e.getMessage(), e);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             throw new FileSystemException("Algorithm error. " + e.getMessage(), e);
-        } catch (CertificateException e) {
+        } catch (final CertificateException e) {
             throw new FileSystemException("Certificate error. " + e.getMessage(), e);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new FileSystemException("Cannot open key file. " + e.getMessage(), e);
         }
     }
@@ -343,7 +343,7 @@ public class Http4FileProvider extends AbstractOriginatingFileProvider {
         final Cookie[] cookies = builder.getCookies(fileSystemOptions);
 
         if (cookies != null) {
-            for (Cookie cookie : cookies) {
+            for (final Cookie cookie : cookies) {
                 cookieStore.addCookie(cookie);
             }
         }

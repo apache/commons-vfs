@@ -78,7 +78,7 @@ public final class Shell {
                 manager.addProvider("http4", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4.Http4FileProvider").newInstance());
                 manager.addProvider("http4s", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4s.Http4sFileProvider").newInstance());
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             if (httpClient4Available) {
                 e.printStackTrace();
             }

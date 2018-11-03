@@ -53,7 +53,7 @@ public class URIUtils {
      * 
      * @throws URISyntaxException if the default protocol charset is not supported
      */
-    public static String encodePath(String unescaped) throws URISyntaxException {
+    public static String encodePath(final String unescaped) throws URISyntaxException {
         return encodePath(unescaped, DEFAULT_PROTOCOL_CHARSET);
     }
 
@@ -67,7 +67,7 @@ public class URIUtils {
      * 
      * @throws URISyntaxException if the charset is not supported
      */
-    public static String encodePath(String unescaped, String charset) throws URISyntaxException {
+    public static String encodePath(final String unescaped, final String charset) throws URISyntaxException {
         if (unescaped == null) {
             throw new IllegalArgumentException("The string to encode may not be null.");
         }
@@ -75,8 +75,8 @@ public class URIUtils {
         return encode(unescaped, URIBitSets.allowed_abs_path, charset);
     }
 
-    private static String encode(String unescaped, BitSet allowed, String charset) throws URISyntaxException {
-        byte[] rawdata = URLCodecUtils.encodeUrl(allowed, EncodingUtils.getBytes(unescaped, charset));
+    private static String encode(final String unescaped, final BitSet allowed, final String charset) throws URISyntaxException {
+        final byte[] rawdata = URLCodecUtils.encodeUrl(allowed, EncodingUtils.getBytes(unescaped, charset));
         return EncodingUtils.getAsciiString(rawdata, 0, rawdata.length);
     }
 
@@ -179,7 +179,7 @@ public class URIUtils {
          * @param charset the desired character encoding
          * @return The resulting byte array.
          */
-        static byte[] getBytes(final String data, String charset) {
+        static byte[] getBytes(final String data, final String charset) {
             if (data == null) {
                 throw new IllegalArgumentException("data may not be null");
             }
@@ -190,7 +190,7 @@ public class URIUtils {
 
             try {
                 return data.getBytes(charset);
-            } catch (UnsupportedEncodingException e) {
+            } catch (final UnsupportedEncodingException e) {
 
                 if (LOG.isWarnEnabled()) {
                     LOG.warn("Unsupported encoding: " + charset + ". System encoding used.");
@@ -210,10 +210,10 @@ public class URIUtils {
          * @param length the number of bytes to encode 
          * @return The string representation of the byte array
          */
-        static String getAsciiString(final byte[] data, int offset, int length) {
+        static String getAsciiString(final byte[] data, final int offset, final int length) {
             try {
                 return new String(data, offset, length, "US-ASCII");
-            } catch (UnsupportedEncodingException e) {
+            } catch (final UnsupportedEncodingException e) {
                 throw new RuntimeException("US-ASCII charset is not supported.");
             }
         }
