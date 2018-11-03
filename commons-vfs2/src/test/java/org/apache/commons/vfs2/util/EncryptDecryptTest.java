@@ -36,7 +36,7 @@ public class EncryptDecryptTest {
         final String decrypted = cryptor.decrypt(encrypted);
         assertEquals(source, decrypted);
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void testInvalidDecrypt() throws Exception {
     	// provider.HostFileNameParser.extractToPath(String, StringBuilder) catches `Exception`

@@ -214,7 +214,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public void close() throws FileSystemException {
         FileSystemException exc = null;
-        
+
         synchronized (fs) {
             // Close the content
             if (content != null) {

@@ -123,7 +123,7 @@ public class ShowFileTask extends VfsTask {
     private void logContent(final FileObject file, final String prefix) throws Exception {
         try (
             final InputStream instr = file.getContent().getInputStream();
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(instr)); ) 
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(instr)); )
         {
             while (true) {
                 final String line = reader.readLine();

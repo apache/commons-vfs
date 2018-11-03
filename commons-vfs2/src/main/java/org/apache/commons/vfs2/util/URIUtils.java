@@ -29,7 +29,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
  * The URI escape and character encoding and decoding utility.
  * <P>
  * This was forked from some needed methods such as <code>#encodePath(...)</code> in <code>org.apache.commons.httpclient.util.URIUtil</code>,
- * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s, 
+ * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s,
  * but it should work with any different HTTP backend provider implementations.
  */
 public class URIUtils {
@@ -50,7 +50,7 @@ public class URIUtils {
      *
      * @param unescaped an unescaped string
      * @return the escaped string
-     * 
+     *
      * @throws URISyntaxException if the default protocol charset is not supported
      */
     public static String encodePath(final String unescaped) throws URISyntaxException {
@@ -64,7 +64,7 @@ public class URIUtils {
      * @param unescaped an unescaped string
      * @param charset the charset
      * @return the escaped string
-     * 
+     *
      * @throws URISyntaxException if the charset is not supported
      */
     public static String encodePath(final String unescaped, final String charset) throws URISyntaxException {
@@ -163,7 +163,7 @@ public class URIUtils {
      * <P>
      * This was forked from some needed methods such as <code>#getBytes(...)</code> and <code>#getAsciiString(...)</code>
      * in <code>org.apache.commons.httpclient.util.EncodingUtil</code>,
-     * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s, 
+     * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s,
      * but it should work with any different HTTP backend provider implementations.
      */
     private static class EncodingUtils {
@@ -207,7 +207,7 @@ public class URIUtils {
          *
          * @param data the byte array to be encoded
          * @param offset the index of the first byte to encode
-         * @param length the number of bytes to encode 
+         * @param length the number of bytes to encode
          * @return The string representation of the byte array
          */
         static String getAsciiString(final byte[] data, final int offset, final int length) {

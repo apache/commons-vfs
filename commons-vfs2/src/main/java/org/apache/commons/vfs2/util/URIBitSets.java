@@ -24,7 +24,7 @@ import org.apache.commons.vfs2.provider.GenericURLFileName;
  * Internal URI encoding {@link BitSet} definitions.
  * <P>
  * This was forked from the {@link BitSet}s in <code>org.apache.commons.httpclient.URI</code>,
- * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s, 
+ * in order to not be dependent on HttpClient v3 API, when generating and handling {@link GenericURLFileName}s,
  * but it should work with any different HTTP backend provider implementations.
  */
 class URIBitSets {
@@ -314,7 +314,7 @@ class URIBitSets {
         uric_no_slash.set('$');
         uric_no_slash.set(',');
     }
-    
+
 
     /**
      * URI bitset that combines uric_no_slash and uric.
@@ -329,7 +329,7 @@ class URIBitSets {
         opaque_part.or(uric_no_slash);
         opaque_part.or(uric);
     }
-    
+
 
     /**
      * URI bitset that combines absolute path and opaque part.
@@ -618,7 +618,7 @@ class URIBitSets {
         net_path.or(authority);
         net_path.or(abs_path);
     }
-    
+
 
     /**
      * BitSet for hier_part.
@@ -778,7 +778,7 @@ class URIBitSets {
      * Those characters that are allowed for the opaque_part.
      */
     public static final BitSet allowed_opaque_part = new BitSet(256);
-    // Static initializer for allowed_opaque_part 
+    // Static initializer for allowed_opaque_part
     static {
         allowed_opaque_part.or(opaque_part);
         allowed_opaque_part.clear('%');
@@ -789,7 +789,7 @@ class URIBitSets {
      * Those characters that are allowed for the reg_name.
      */
     public static final BitSet allowed_reg_name = new BitSet(256);
-    // Static initializer for allowed_reg_name 
+    // Static initializer for allowed_reg_name
     static {
         allowed_reg_name.or(reg_name);
         // allowed_reg_name.andNot(percent);

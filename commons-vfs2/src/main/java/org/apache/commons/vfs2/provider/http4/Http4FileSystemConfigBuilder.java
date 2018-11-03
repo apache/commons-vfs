@@ -29,7 +29,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final Http4FileSystemConfigBuilder BUILDER = new Http4FileSystemConfigBuilder();
 
-    /** 
+    /**
      * Defines the maximum number of connections allowed overall. This value only applies
      * to the number of connections from a particular instance of HTTP connection manager.
      * <p>
@@ -38,14 +38,14 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String MAX_TOTAL_CONNECTIONS = "http.connection-manager.max-total";
 
-    /** 
-     * Defines the maximum number of connections allowed per host configuration. 
-     * These values only apply to the number of connections from a particular instance 
+    /**
+     * Defines the maximum number of connections allowed per host configuration.
+     * These values only apply to the number of connections from a particular instance
      * of HTTP connection manager.
      */
     private static final String MAX_HOST_CONNECTIONS = "http.connection-manager.max-per-host";
 
-    /** 
+    /**
      * Defines the connection timeout of an HTTP request.
      * <p>
      * This parameter expects a value of type {@link Integer}.
@@ -53,7 +53,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String CONNECTION_TIMEOUT = "http.connection.timeout";
 
-    /** 
+    /**
      * Defines the socket timeout of an HTTP request.
      * <p>
      * This parameter expects a value of type {@link Integer}.
@@ -61,7 +61,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String SO_TIMEOUT = "http.socket.timeout";
 
-    /** 
+    /**
      * Defines whether Keep-Alive option is used or not.
      * <p>
      * This parameter expects a value of type {@link Boolean}.
@@ -69,7 +69,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String KEEP_ALIVE = "http.keepAlive";
 
-    /** 
+    /**
      * Defines the keystore file path for SSL connections.
      * <p>
      * This parameter expects a value of type {@link String}.
@@ -77,7 +77,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String KEYSTORE_FILE = "http.keystoreFile";
 
-    /** 
+    /**
      * Defines the keystore pass phrase for SSL connections.
      * <p>
      * This parameter expects a value of type {@link String}.
@@ -85,7 +85,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String KEYSTORE_PASS = "http.keystorePass";
 
-    /** 
+    /**
      * Defines whether the host name should be verified or not in SSL connections.
      * <p>
      * This parameter expects a value of type {@link Boolean}.
@@ -93,7 +93,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String HOSTNAME_VERIFICATION_ENABLED = "http.hostname-verification.enabled";
 
-    /** 
+    /**
      * Defines whether the HttpClient should follow redirections from the responses.
      * <p>
      * This parameter expects a value of type {@link Boolean}.
@@ -101,7 +101,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String KEY_FOLLOW_REDIRECT = "followRedirect";
 
-    /** 
+    /**
      * Defines the User-Agent request header string of the underlying HttpClient.
      * <p>
      * This parameter expects a value of type {@link String}.
@@ -109,7 +109,7 @@ public class Http4FileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     private static final String KEY_USER_AGENT = "userAgent";
 
-    /** 
+    /**
      * Defines whether the preemptive authentication should be enabled or not.
      * <p>
      * This parameter expects a value of type {@link Boolean}.
