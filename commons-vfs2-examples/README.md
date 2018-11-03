@@ -42,8 +42,14 @@
     cd http3s://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
     cat maven-metadata.xml
     ...
-    cd http3://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    cd http4://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
     cat maven-metadata.xml
     cd http4s://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
     cat maven-metadata.xml
+    ...
+    cd http://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    cat maven-metadata.xml
+    cd https://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    cat maven-metadata.xml
+    ...
 
