@@ -67,7 +67,11 @@ public class HttpFileProvider extends AbstractOriginatingFileProvider {
         try {
             authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
 
-            httpClient = HttpClientFactory.createConnection(rootName.getScheme(), rootName.getHostName(),
+            final String fileScheme = rootName.getScheme();
+            final char lastChar = fileScheme.charAt(fileScheme.length() - 1);
+            final String internalScheme = (lastChar == 's' || lastChar == 'S') ? "https" : "http";
+
+            httpClient = HttpClientFactory.createConnection(internalScheme, rootName.getHostName(),
                     rootName.getPort(),
                     UserAuthenticatorUtils.toString(UserAuthenticatorUtils.getData(authData,
                             UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()))),

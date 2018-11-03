@@ -102,11 +102,11 @@
     </profile>
 
     <profile>
-      <id>with-http</id>
+      <id>with-http3</id>
       <activation>
         <activeByDefault>true</activeByDefault>
         <property>
-          <name>http</name>
+          <name>http3</name>
         </property>
       </activation>
       <dependencies>

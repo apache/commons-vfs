@@ -21,15 +21,29 @@
 
     mvn clean install
 
-## Test `http` and `https` providers
+## Test `http3` and `http3s` providers
 
-    mvn -Pshell -Dhttp
+    mvn -Pshell -Dhttp3
 
 ## Test `http4` and `http4s` providers
 
     mvn -Pshell -Dhttp4
 
-## Test `http`, `https`, `http4` and `http4s` providers together
+## Test `http3`, `http3s`, `http4` and `http4s` providers together
 
-    mvn -Pshell -Dhttp -Dhttp4
+    mvn -Pshell -Dhttp3 -Dhttp4
+
+## Example Test Scenario
+
+    mvn -Pshell -Dhttp3 -Dhttp4
+    ...
+    cd http3://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    cat maven-metadata.xml
+    cd http3s://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    cat maven-metadata.xml
+    ...
+    cd http3://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    cat maven-metadata.xml
+    cd http4s://repo1.maven.org/maven2/org/apache/commons/commons-vfs2/
+    cat maven-metadata.xml
 
