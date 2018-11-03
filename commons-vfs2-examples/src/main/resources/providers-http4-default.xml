@@ -58,27 +58,25 @@
 
     <!-- The default http/https providers based on HttpClient v3 -->
     <provider class-name="org.apache.commons.vfs2.provider.http.HttpFileProvider">
-        <scheme name="http"/>
         <scheme name="http3"/>
         <if-available class-name="org.apache.commons.httpclient.HttpClient"/>
     </provider>
     <provider class-name="org.apache.commons.vfs2.provider.https.HttpsFileProvider">
-        <scheme name="https"/>
         <scheme name="http3s"/>
         <if-available class-name="org.apache.commons.httpclient.HttpClient"/>
     </provider>
 
     <!-- http4/http4s providers based on HttpClient v4 -->
-    <!--
     <provider class-name="org.apache.commons.vfs2.provider.http4.Http4FileProvider">
+        <scheme name="http"/>
         <scheme name="http4"/>
         <if-available class-name="org.apache.http.client.HttpClient"/>
     </provider>
     <provider class-name="org.apache.commons.vfs2.provider.http4s.Http4sFileProvider">
+        <scheme name="https"/>
         <scheme name="http4s"/>
         <if-available class-name="org.apache.http.client.HttpClient"/>
     </provider>
-    -->
 
     <provider class-name="org.apache.commons.vfs2.provider.sftp.SftpFileProvider">
         <scheme name="sftp"/>
@@ -93,23 +91,7 @@
         <if-available class-name="org.apache.commons.httpclient.HttpClient"/>
         <if-available class-name="org.apache.jackrabbit.webdav.client.methods.DavMethod"/>
     </provider>
-    <!--
-    <provider class-name="org.apache.commons.vfs2.provider.svn.SvnFileProvider">
-        <scheme name="svnhttps"/>
-    </provider>
-    -->
-    <!--
-        <provider class-name="org.apache.commons.vfs2.provider.tar.TgzFileProvider">
-            <scheme name="tgz"/>
-            <if-available scheme="gz"/>
-            <if-available scheme="tar"/>
-        </provider>
-        <provider class-name="org.apache.commons.vfs2.provider.tar.Tbz2FileProvider">
-            <scheme name="tbz2"/>
-            <if-available scheme="bz2"/>
-            <if-available scheme="tar"/>
-        </provider>
-    -->
+
     <provider class-name="org.apache.commons.vfs2.provider.tar.TarFileProvider">
         <scheme name="tgz"/>
         <if-available scheme="gz"/>
@@ -146,16 +128,4 @@
     <extension-map extension="tgz" scheme="tar"/>
     <extension-map extension="tbz2" scheme="tar"/>
 
-    <!--
-    <filter-map class-name="org.apache.commons.vfs2.content.bzip2.Bzip2Compress">
-        <extension name="bz2"/>
-        <extension name="tbz2"/>
-        <if-available class-name="org.apache.commons.compress.bzip2.CBZip2InputStream"/>
-    </filter-map>
-    <filter-map class-name="org.apache.commons.vfs2.content.gzip.GzipCompress">
-        <extension name="gz"/>
-        <extension name="tgz"/>
-        <mime-type name="application/x-tgz" />
-    </filter-map>
-    -->
 </providers>

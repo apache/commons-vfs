@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
 import org.apache.commons.vfs2.provider.FileProvider;
 
@@ -54,7 +56,17 @@ public final class Shell {
     private final BufferedReader reader;
 
     private Shell() throws IOException {
-        mgr = VFS.getManager();
+        final String providers = System.getProperty("providers");
+        final URL providersUrl = (providers != null) ? Shell.class.getResource("/" + providers) : null;
+
+        if (providersUrl != null) {
+            mgr = new StandardFileSystemManager();
+            System.out.println("Custom providers configuration used: " + providersUrl);
+            ((StandardFileSystemManager) mgr).setConfiguration(providersUrl);
+            ((StandardFileSystemManager) mgr).init();
+        } else {
+            mgr = VFS.getManager();
+        }
 
         // TODO: VFS-360 - Remove this manual registration of http4 once http4 becomes part of standard providers.
         boolean httpClient4Available = false;
@@ -126,6 +138,8 @@ public final class Shell {
             ls(cmd);
         } else if (cmdName.equalsIgnoreCase("pwd")) {
             pwd();
+        } else if (cmdName.equalsIgnoreCase("pwfs")) {
+            pwfs();
         } else if (cmdName.equalsIgnoreCase("rm")) {
             rm(cmd);
         } else if (cmdName.equalsIgnoreCase("touch")) {
@@ -191,6 +205,7 @@ public final class Shell {
         System.out.println("info [scheme]      Displays information about providers.");
         System.out.println("ls [-R] [path]     Lists contents of a file or folder.");
         System.out.println("pwd                Displays current folder.");
+        System.out.println("pwfs               Displays current file system.");
         System.out.println("rm <path>          Deletes a file or folder.");
         System.out.println("touch <path>       Sets the last-modified time of a file.");
         System.out.println("exit, quit         Exits this program.");
@@ -246,6 +261,14 @@ public final class Shell {
      */
     private void pwd() {
         System.out.println("Current folder is " + cwd.getName());
+    }
+
+    /**
+     * Does a 'pwfs' command.
+     */
+    private void pwfs() {
+        System.out.println("FileSystem of current folder is " + cwd.getFileSystem() + " (root: "
+                + cwd.getFileSystem().getRootURI() + ")");
     }
 
     /**
