@@ -465,11 +465,11 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
                         final Map<FileName, Object> newChildrenMap = new HashMap<>();
                         final Stack<FileObject> missingChildren = new Stack<>();
 
-                        for (int i = 0; i < newChildren.length; i++) {
-                            newChildrenMap.put(newChildren[i].getName(), new Object()); // null ?
+                        for (FileObject element : newChildren) {
+                            newChildrenMap.put(element.getName(), new Object()); // null ?
                             // If the child's not there
-                            if (!this.children.containsKey(newChildren[i].getName())) {
-                                missingChildren.push(newChildren[i]);
+                            if (!this.children.containsKey(element.getName())) {
+                                missingChildren.push(element);
                             }
                         }
 

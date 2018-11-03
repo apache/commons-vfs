@@ -160,14 +160,14 @@ public final class Shell {
             final String[] schemes = mgr.getSchemes();
             final List<String> virtual = new ArrayList<>();
             final List<String> physical = new ArrayList<>();
-            for (int i = 0; i < schemes.length; i++) {
-                final Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
+            for (String scheme : schemes) {
+                final Collection<Capability> caps = mgr.getProviderCapabilities(scheme);
                 if (caps != null) {
                     if (caps.contains(Capability.VIRTUAL) || caps.contains(Capability.COMPRESS)
                             || caps.contains(Capability.DISPATCHER)) {
-                        virtual.add(schemes[i]);
+                        virtual.add(scheme);
                     } else {
-                        physical.add(schemes[i]);
+                        physical.add(scheme);
                     }
                 }
             }
