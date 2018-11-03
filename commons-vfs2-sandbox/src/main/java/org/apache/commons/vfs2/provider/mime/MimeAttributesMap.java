@@ -164,50 +164,62 @@ public class MimeAttributesMap implements Map<String, Object> {
         return ret;
     }
 
+    @Override
     public int size() {
         return getMap().size();
     }
 
+    @Override
     public boolean isEmpty() {
         return getMap().size() < 1;
     }
 
+    @Override
     public boolean containsKey(final Object key) {
         return getMap().containsKey(key);
     }
 
+    @Override
     public boolean containsValue(final Object value) {
         return getMap().containsValue(value);
     }
 
+    @Override
     public Object get(final Object key) {
         return getMap().get(key);
     }
 
+    @Override
     public Object put(final String key, final Object value) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Object remove(final Object key) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void putAll(final Map<? extends String, ? extends Object> t) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void clear() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public Set<String> keySet() {
         return Collections.unmodifiableSet(getMap().keySet());
     }
 
+    @Override
     public Collection<Object> values() {
         return Collections.unmodifiableCollection(getMap().values());
     }
 
+    @Override
     public Set<Entry<String, Object>> entrySet() {
         return Collections.unmodifiableSet(getMap().entrySet());
     }

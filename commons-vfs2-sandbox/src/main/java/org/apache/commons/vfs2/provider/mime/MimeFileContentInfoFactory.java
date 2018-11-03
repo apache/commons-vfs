@@ -30,6 +30,7 @@ import org.apache.commons.vfs2.impl.DefaultFileContentInfo;
  * Get access to the content info stuff for mime objects.
  */
 public class MimeFileContentInfoFactory implements FileContentInfoFactory {
+    @Override
     public FileContentInfo create(final FileContent fileContent) throws FileSystemException {
         final MimeFileObject mimeFile = (MimeFileObject) fileContent.getFile();
         final Part part = mimeFile.getPart();

@@ -145,6 +145,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         resetCount = 0;
     }
 
+    @Override
     public long getPosition() {
         return pos;
     }
@@ -158,6 +159,7 @@ public class SharedRandomContentInputStream extends BufferedInputStream implemen
         }
     }
 
+    @Override
     public InputStream newStream(final long start, final long end) {
         try {
             final long newFileStart = this.fileStart + start;
