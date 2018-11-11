@@ -29,7 +29,7 @@
       <item name="Overview"                href="/index.html"/>
       <item name="Download and Build"      href="/download.html"/>
       <item name="Using the API"           href="/api.html"/>
-      <item name="API JavaDocs"            href="/apidocs/index.html"/>
+      <item name="API Javadocs"            href="/apidocs/index.html"/>
       <item name="File Systems"            href="/filesystems.html"/>
       <item name="Ant Tasks"               href="/anttasks.html"/>
       <item name="Wiki"                    href="http://wiki.apache.org/commons/VFS"/>

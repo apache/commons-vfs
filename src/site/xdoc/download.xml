@@ -46,21 +46,21 @@
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/collections/">Commons Collections</a>
-                        Version 4.0.
+                        Version 4.1.
                     </td>
                     <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/compress/">Commons Compress</a>
-                        Version 1.9.
+                        Version 1.14.
                     </td>
                     <td>TAR, Bzip2</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/net/">Commons Net</a>
-                        Version 3.3.
+                        Version 3.6.
                     </td>
                     <td>FTP</td>
                 </tr>
@@ -85,7 +85,7 @@
                 <tr>
                     <td>
                         <a href="http://www.jcraft.com/jsch/">JSch</a>
-                        Version 0.1.51.
+                        Version 0.1.54.
                     </td>
                     <td>SFTP</td>
                 </tr>
@@ -97,12 +97,12 @@
                         Version 2.6.0<br/>
                         This requires a number of dependencies, use <code>$HADOOP_HOME/bin/hadoop classpath</code> command.
                     </td>
-                    <td>hdfs</td>
+                    <td>HDFS</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://jcifs.samba.org/">jCIFS</a>
-                        Version 0.8.3.
+                        Version 1.3.17.
                     </td>
                     <td>CIFS (VFS sandbox)</td>
                 </tr>
@@ -146,9 +146,9 @@
         <section name="Building Commons VFS">
             <p>
                 To build Commons VFS, you can use <a href="http://maven.apache.org">Maven</a> 3.0.5 or later.
-                You need to use Java 6 or later (tested with Java 6 - 8). Production builds are done with the
-                <code>-Pjava-1.6</code> profile from Commons Parent (which will compile and test with a JDK
-                from the JAVA_1_6_HOME environment variable).
+                You need to use Java 7 or later (tested with Java 7 - 8). Production builds are done with the
+                <code>-Pjava-1.7</code> profile from Commons Parent (which will compile and test with a JDK
+                from the JAVA_1_7_HOME environment variable).
             </p><p>
                 Use <code>mvn clean verify</code> to locally build and test the <code>core</code> and 
                 <code>examples</code> modules. This will build the core JAR files in

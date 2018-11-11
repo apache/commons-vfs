@@ -1,6 +1,6 @@
 Building Apache Commons VFS
   
-To build Apache Commons VFS, you need a JDK implementation version 1.6 or greater, and Apache Maven.
+To build Apache Commons VFS, you need a JDK implementation version 1.7 or greater, and Apache Maven 3.
 
 To perform the license release audit, a.k.a. "RAT check", run:
 
@@ -8,9 +8,9 @@ mvn apache-rat:check
 
 To perform a Clirr check, run:
 
-mvn clirr:check -pl core
+mvn clirr:check -pl commons-vfs2
 
-To build the site with Java 6, make sure you give Maven enough memory using 
+To build the site with Java 7, make sure you give Maven enough memory using 
 MAVEN_OPTS with options appropriate for your JVM. Alternatively, you can 
 build with Java 8 and not deal with MAVEN_OPTS.
 
@@ -18,14 +18,7 @@ To build the site, from a command line, run:
 
 mvn clean install
 mvn site
-
-On Windows, use a local staging directory, for example:
-
-mvn site:stage-deploy -DstagingSiteURL=file:///%HOME%/vfs
-
-On UNIX, use a local staging directory, for example:
-
-mvn site:stage-deploy -DstagingSiteURL=file:///$HOME/vfs
+mvn site:stage
 
 To test, run:
 

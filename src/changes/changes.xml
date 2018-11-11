@@ -45,21 +45,104 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.2" date="TBD" description="New features and bug fix release.">
+    <release version="2.3" date="YYYY-MM-DD" description="Bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
-     <action issue="VFS-612" dev="ggregory" type="update">
+      <action issue="VFS-678" dev="ecki" type="fix">
+        Fix various LGTM.com code review warnings.
+      </action>
+      <action issue="VFS-652" dev="ecki" type="fix">
+        PatternFileSelector documentation to describe actual matching against getPath().
+      </action>
+      <action issue="VFS-650" dev="ggregory" type="update">
+        Update Apache Commons Compress from 1.15 to 1.16.1.
+      </action>
+      <action issue="VFS-646" dev="ggregory" type="update">
+        Update Apache Commons Compress from 1.14 to 1.15.
+      </action>
+      <action issue="VFS-589" dev="ggregory" type="fix" due-to="L, Gary Gregory">
+        SFTP moveTo operation hangs if the server does not support SSH channelExec.
+      </action>
+      <action issue="VFS-653" dev="ggregory" type="update">
+        Replace use of deprecated APIs in HDFS provider.
+      </action>
+      <action issue="VFS-655" dev="ggregory" type="fix" due-to="Arnaud MERGEY">
+        OSGI MANIFEST.MF "Import-Package" should be ";resolution:=optional" for Maven "optional" dependencies.
+      </action>
+      <action issue="VFS-657" dev="ggregory" type="fix" due-to="Elias Putz">
+        FileSelector implementations like FileDepthSelector should throw Exception.
+      </action>
+      <action issue="VFS-614" dev="ggregory" type="fix" due-to="Boris Petrov, Otto Fowler">
+        MonitorInputStream should not close the stream in read().
+      </action>
+      <action issue="VFS-666" dev="ggregory" type="update">
+        Update Apache Commons Collections from 4.1 to 4.2.
+      </action>
+      <action issue="VFS-667" dev="ggregory" type="fix">
+        org.apache.commons.vfs2.provider.res.ResourceFileProvider.findFile(FileObject, String, FileSystemOptions) should throw a org.apache.commons.vfs2.FileSystemException instead of a NPE when the class loader is null.
+      </action>
+      <action issue="VFS-668" dev="ggregory" type="update">
+        Throw a NPE with a better message when a class loader is null.
+      </action>
+      <action issue="VFS-669" dev="ggregory" type="fix">
+        org.apache.commons.vfs2.util.CombinedResources.loadResources(String) should not throw an NPE for the system class loader is null.
+      </action>
+      <action issue="VFS-671" dev="ggregory" type="update">
+        Update Apache Commons Compress from 1.16.1 to 1.18.
+      </action>
+      <action issue="VFS-675" dev="ggregory" type="fix">
+        NullPointerException at AbstractFileObject.java:221.
+      </action>
+      <action issue="VFS-680" dev="ggregory" type="update">
+        Update from Java 7 to Java 8.
+      </action>
+    </release>
+    <release version="2.2" date="2017-10-06" description="New features and bug fix release.">
+      <action issue="VFS-642" dev="pschumacher" type="update" due-to="ilangoldfeld">
+        Upgrade to jcifs 1.3.17
+      </action>
+      <action issue="VFS-189" dev="kinow" type="fix">
+        Possible NPE in DefaultFileSystemManager.
+      </action>
+      <action issue="VFS-628" dev="ggregory" type="add">
+        Add a file inverter FileSelector: InvertIncludeFileSelector.
+      </action>
+      <action issue="VFS-612" dev="ggregory" type="update">
         Update the platform requirement from Java 6 to Java 7.
-     </action>
-     <action issue="VFS-615" dev="ggregory" type="update">
+      </action>
+      <action issue="VFS-615" dev="ggregory" type="update">
         Update Apache Commons Compress from 1.11 to 1.12.
-     </action>
-     <action issue="VFS-621" dev="ggregory" type="update">
+      </action>
+      <action issue="VFS-629" dev="ggregory" type="update">
+        Update Apache Commons Compress from 1.12 to 1.13.
+      </action>
+      <action issue="VFS-639" dev="ggregory" type="update">
+        Update Apache Commons Compress from 1.13 to 1.14.
+      </action>
+      <action issue="VFS-631" dev="ggregory" type="update">
+        Update from Apache Commons Net 3.5 to 3.6.
+      </action>
+      <action issue="VFS-632" dev="ggregory" type="update">
+        Update from JCraft jsch for SFTP/SSH from 0.1.53 to 0.1.54.
+      </action>
+      <action issue="VFS-621" dev="ggregory" type="update">
         Add API VFS.setManager(FileSystemManager).
-     </action>
-   </release>  
+      </action>
+      <action issue="VFS-643" dev="ggregory" type="update">
+        VFS should not log at the INFO level.
+      </action>
+      <action issue="VFS-620" dev="ggregory" type="fix" due-to="stevezhuang">
+        FileObject.moveTo(FileObject) API doesn't work well for a Linux FTP.
+      </action>
+      <action issue="VFS-291" dev="ggregory" type="fix">
+        ZIP archives are not properly closed after unzipping and cannot be deleted until the JVM exists.
+      </action>
+      <action issue="VFS-644" dev="ggregory" type="fix">
+        AbstractFileSystem.streamClosed() always sets openStream count to zero.
+      </action>
+    </release>
     <release version="2.1" date="2016-05-19" description="New features and bug fix release.
 
 
@@ -246,7 +329,7 @@ Therefore source and binary compatibility is not affected.">
        [FTP] Allow Proxy support to file system options.
       </action>
       <action issue="VFS-520" dev="ecki" type="update">
-       Make JavaDoc compatible with Java 8 tool.
+       Make Javadoc compatible with Java 8 tool.
       </action>
       <action issue="VFS-518" dev="ggregory" type="update" due-to="Roland Illig">
         Documentation of FileSystemOptions should be more helpful.
