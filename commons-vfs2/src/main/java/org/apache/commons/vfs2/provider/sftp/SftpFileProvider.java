@@ -48,7 +48,8 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
     protected static final Collection<Capability> capabilities = Collections.unmodifiableCollection(Arrays
             .asList(new Capability[] { Capability.CREATE, Capability.DELETE, Capability.RENAME, Capability.GET_TYPE,
                     Capability.LIST_CHILDREN, Capability.READ_CONTENT, Capability.URI, Capability.WRITE_CONTENT,
-                    Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE, Capability.RANDOM_ACCESS_READ }));
+                    Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE, Capability.RANDOM_ACCESS_READ,
+                    Capability.APPEND_CONTENT }));
 
     // private JSch jSch = new JSch();
 
