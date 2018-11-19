@@ -96,7 +96,7 @@ public final class VFS {
      * @param manager the file system manager
      * @since 2.2
      */
-    public static void setManager(final FileSystemManager manager) {
+    public static synchronized void setManager(final FileSystemManager manager) {
         VFS.instance = manager;
     }
 }
