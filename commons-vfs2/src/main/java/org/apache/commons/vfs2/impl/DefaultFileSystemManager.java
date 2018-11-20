@@ -762,7 +762,10 @@ public class DefaultFileSystemManager implements FileSystemManager {
     public FileName resolveName(final FileName base, final String name, final NameScope scope)
             throws FileSystemException {
         if (base == null) {
-            throw new FileSystemException("Invalid base filename.");
+            throw new FileSystemException("Invalid base FileName.");
+        }
+        if (name == null) {
+            throw new FileSystemException("Invalid name String.");
         }
         final FileName realBase;
         if (VFS.isUriStyle() && base.isFile()) {
