@@ -351,9 +351,7 @@ public class DelegatingFileSystemOptionsBuilder {
      */
     private Map<String, List<Method>> createSchemeMethods(final String scheme) throws FileSystemException {
         final FileSystemConfigBuilder fscb = getManager().getFileSystemConfigBuilder(scheme);
-        if (fscb == null) {
-            throw new FileSystemException("vfs.provider/no-config-builder.error", scheme);
-        }
+        FileSystemException.requireNonNull(fscb, "vfs.provider/no-config-builder.error", scheme);
 
         final Map<String, List<Method>> schemeMethods = new TreeMap<>();
 

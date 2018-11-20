@@ -60,18 +60,14 @@ public class ResourceFileProvider extends AbstractFileProvider {
         UriParser.extractScheme(uri, buf);
         final String resourceName = buf.toString();
 
-        ClassLoader cl = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
-        if (cl == null) {
-            cl = getClass().getClassLoader();
+        ClassLoader classLoader = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
+        if (classLoader == null) {
+            classLoader = getClass().getClassLoader();
         }
-        if (cl == null) {
-            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri);
-        }
-        final URL url = cl.getResource(resourceName);
+        FileSystemException.requireNonNull(classLoader, "vfs.provider.url/badly-formed-uri.error", uri);
+        final URL url = classLoader.getResource(resourceName);
 
-        if (url == null) {
-            throw new FileSystemException("vfs.provider.url/badly-formed-uri.error", uri);
-        }
+        FileSystemException.requireNonNull(url, "vfs.provider.url/badly-formed-uri.error", uri);
 
         return getContext().getFileSystemManager().resolveFile(url.toExternalForm());
     }

@@ -139,9 +139,7 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         final Header header = method.getResponseHeader("last-modified");
-        if (header == null) {
-            throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
-        }
+        FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
         return DateUtil.parseDate(header.getValue()).getTime();
     }
 

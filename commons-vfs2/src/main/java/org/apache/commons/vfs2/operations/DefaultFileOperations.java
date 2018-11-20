@@ -83,9 +83,7 @@ public class DefaultFileOperations implements FileOperations {
         final String scheme = fileObject.getURL().getProtocol();
         final FileOperationProvider[] providers = fsmanager.getOperationProviders(scheme);
 
-        if (providers == null) {
-            throw new FileSystemException("vfs.operation/operation-not-supported.error", operationClass);
-        }
+        FileSystemException.requireNonNull(providers, "vfs.operation/operation-not-supported.error", operationClass);
 
         FileOperation resultOperation = null;
 
@@ -97,11 +95,7 @@ public class DefaultFileOperations implements FileOperations {
             }
         }
 
-        if (resultOperation == null) {
-            throw new FileSystemException("vfs.operation/operation-not-supported.error", operationClass);
-        }
-
-        return resultOperation;
+        return FileSystemException.requireNonNull(resultOperation, "vfs.operation/operation-not-supported.error", operationClass);
     }
 
     /**

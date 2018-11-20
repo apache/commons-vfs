@@ -96,9 +96,7 @@ public class StandardFileSystemManager extends DefaultFileSystemManager {
         if (configUri == null) {
             // Use default config
             final URL url = getClass().getResource(CONFIG_RESOURCE);
-            if (url == null) {
-                throw new FileSystemException("vfs.impl/find-config-file.error", CONFIG_RESOURCE);
-            }
+            FileSystemException.requireNonNull(url, "vfs.impl/find-config-file.error", CONFIG_RESOURCE);
             configUri = url;
         }
 

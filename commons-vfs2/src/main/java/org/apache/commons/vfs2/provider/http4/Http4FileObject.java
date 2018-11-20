@@ -128,15 +128,11 @@ public class Http4FileObject<FS extends Http4FileSystem> extends AbstractFileObj
 
     @Override
     protected long doGetLastModifiedTime() throws Exception {
-        if (lastHeadResponse == null) {
-            throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
-        }
+        FileSystemException.requireNonNull(lastHeadResponse, "vfs.provider.http/last-modified.error", getName());
 
         final Header header = lastHeadResponse.getFirstHeader("Last-Modified");
 
-        if (header == null) {
-            throw new FileSystemException("vfs.provider.http/last-modified.error", getName());
-        }
+        FileSystemException.requireNonNull(header, "vfs.provider.http/last-modified.error", getName());
 
         return DateUtils.parseDate(header.getValue()).getTime();
     }
