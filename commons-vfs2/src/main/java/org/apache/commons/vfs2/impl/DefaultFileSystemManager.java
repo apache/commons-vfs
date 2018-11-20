@@ -454,10 +454,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if there is no FileReplicator.
      */
     public FileReplicator getReplicator() throws FileSystemException {
-        if (fileReplicator == null) {
-            throw new FileSystemException("vfs.impl/no-replicator.error");
-        }
-        return fileReplicator;
+        return FileSystemException.requireNonNull(fileReplicator, "vfs.impl/no-replicator.error");
     }
 
     /**
@@ -467,10 +464,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if there is no TemporaryFileStore.
      */
     public TemporaryFileStore getTemporaryFileStore() throws FileSystemException {
-        if (tempFileStore == null) {
-            throw new FileSystemException("vfs.impl/no-temp-file-store.error");
-        }
-        return tempFileStore;
+        return FileSystemException.requireNonNull(tempFileStore, "vfs.impl/no-temp-file-store.error");
     }
 
     /**
@@ -761,12 +755,8 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public FileName resolveName(final FileName base, final String name, final NameScope scope)
             throws FileSystemException {
-        if (base == null) {
-            throw new FileSystemException("Invalid base FileName.");
-        }
-        if (name == null) {
-            throw new FileSystemException("Invalid name String.");
-        }
+        FileSystemException.requireNonNull(base, "Invalid base FileName.");
+        FileSystemException.requireNonNull(name, "Invalid name FileName.");
         final FileName realBase;
         if (VFS.isUriStyle() && base.isFile()) {
             realBase = base.getParent();
@@ -967,10 +957,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if no local file provider was set.
      */
     private LocalFileProvider getLocalFileProvider() throws FileSystemException {
-        if (localFileProvider == null) {
-            throw new FileSystemException("vfs.impl/no-local-file-provider.error");
-        }
-        return localFileProvider;
+        return FileSystemException.requireNonNull(localFileProvider, "vfs.impl/no-local-file-provider.error");
     }
 
     /**

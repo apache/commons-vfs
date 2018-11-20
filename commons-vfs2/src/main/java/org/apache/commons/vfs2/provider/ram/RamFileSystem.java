@@ -122,9 +122,7 @@ public class RamFileSystem extends AbstractFileSystem implements Serializable {
      */
     void delete(final RamFileObject file) throws FileSystemException {
         // root is read only check
-        if (file.getParent() == null) {
-            throw new FileSystemException("unable to delete root");
-        }
+        FileSystemException.requireNonNull(file.getParent(), "unable to delete root");
 
         // Remove reference from cache
         this.cache.remove(file.getName());

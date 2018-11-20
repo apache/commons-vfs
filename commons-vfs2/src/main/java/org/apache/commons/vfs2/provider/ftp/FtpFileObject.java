@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -49,6 +50,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * An FTP file.
  */
 public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
+    
+    private static final long DEFAULT_TIMESTAMP = 0L;
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections
             .unmodifiableMap(new TreeMap<String, FTPFile>());
     private static final FTPFile UNKNOWN = new FTPFile();
@@ -57,11 +60,10 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private final String relPath;
 
     // Cached info
-    private FTPFile fileInfo;
-    private Map<String, FTPFile> children;
-    private FileObject linkDestination;
-
-    private boolean inRefresh;
+    private volatile FTPFile fileInfo;
+    private volatile Map<String, FTPFile> children;
+    private volatile FileObject linkDestination;
+    private final AtomicBoolean inRefresh = new AtomicBoolean();
 
     protected FtpFileObject(final AbstractFileName name, final FtpFileSystem fileSystem, final FileName rootName)
             throws FileSystemException {
@@ -90,21 +92,16 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
          * case we've just recently refreshed our children. No need to do it again when our children are refresh()ed,
          * calling getChildFile() for themselves from within getInfo(). See getChildren().
          */
-        if (flush && !inRefresh) {
+        if (flush && !inRefresh.get()) {
             children = null;
         }
 
         // List the children of this file
         doGetChildren();
 
-        // VFS-210
-        if (children == null) {
-            return null;
-        }
-
         // Look for the requested child
-        final FTPFile ftpFile = children.get(name);
-        return ftpFile;
+        // VFS-210 adds the null check. 
+        return children != null ? children.get(name) : null;
     }
 
     /**
@@ -182,21 +179,18 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
      */
     @Override
     public void refresh() throws FileSystemException {
-        if (!inRefresh) {
+        if (inRefresh.compareAndSet(false, true)) {
             try {
-                inRefresh = true;
                 super.refresh();
-
                 synchronized (getFileSystem()) {
                     this.fileInfo = null;
                 }
-
                 /*
                  * VFS-210 try { // this will tell the parent to recreate its children collection getInfo(true); } catch
                  * (IOException e) { throw new FileSystemException(e); }
                  */
             } finally {
-                inRefresh = false;
+                inRefresh.set(false);
             }
         }
     }
@@ -339,11 +333,10 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
              * has C children, P parents, there will be (C * P) listings made with (C * (P + 1)) refreshes, when there
              * should really only be 1 listing and C refreshes.
              */
-
-            this.inRefresh = true;
+            this.inRefresh.set(true);
             return super.getChildren();
         } finally {
-            this.inRefresh = false;
+            this.inRefresh.set(false);
         }
     }
 
@@ -467,6 +460,9 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         synchronized (getFileSystem()) {
+            if (this.fileInfo == null) {
+                return DEFAULT_TIMESTAMP;
+            }
             if (this.fileInfo.isSymbolicLink()) {
                 final FileObject linkDest = getLinkDestination();
                 // VFS-437: Try to avoid a recursion loop.
@@ -534,8 +530,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     private long getTimestamp() {
-        final Calendar timestamp = this.fileInfo.getTimestamp();
-        return timestamp == null ? 0L : timestamp.getTime().getTime();
+        final Calendar timestamp = this.fileInfo != null ? this.fileInfo.getTimestamp() : null;
+        return timestamp == null ? DEFAULT_TIMESTAMP : timestamp.getTime().getTime();
     }
 
     /**
