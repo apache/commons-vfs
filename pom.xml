@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>46</version>
+    <version>47</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -271,6 +271,7 @@
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicite exclude does not work if sandbox profile is not activated -->
             <exclude>commons-vfs2-sandbox/**</exclude>
+            <exclude>dist/target/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -291,6 +292,7 @@
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicit exclude does not work if sandbox profile is not activated -->
             <exclude>commons-vfs2-sandbox/**</exclude>
+            <exclude>dist/target/**</exclude>
           </excludes>
         </configuration>
       </plugin>
