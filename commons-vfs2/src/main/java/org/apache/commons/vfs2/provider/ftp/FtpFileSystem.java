@@ -111,7 +111,7 @@ public class FtpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Get the wrapper to access this file system.
+     * Gets the wrapper to access this file system.
      *
      * @return new instance.
      * @throws FileSystemException if any error occurs.
