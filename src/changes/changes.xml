@@ -107,6 +107,12 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-682" dev="ggregory" type="update">
         Throw a org.apache.commons.vfs2.FileSystemException instead of a NullPointerException in org.apache.commons.vfs2.impl.DefaultFileSystemManager.resolveName(FileName, String, NameScope).
       </action>
+      <action issue="VFS-294" dev="ggregory" type="fix" due-to="Johannes Scharf">
+        NullPointerException in FtpFileObject.getChildFile().
+      </action>
+      <action issue="VFS-679" dev="ggregory" type="fix" due-to="Boris Petrov, Gary Gregory">
+        NullPointerException in FtpFileObject.doGetLastModifiedTime().
+      </action>
     </release>
     <release version="2.2" date="2017-10-06" description="New features and bug fix release.">
       <action issue="VFS-642" dev="pschumacher" type="update" due-to="ilangoldfeld">
