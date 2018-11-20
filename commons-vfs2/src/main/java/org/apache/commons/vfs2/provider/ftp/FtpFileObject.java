@@ -513,10 +513,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 out = client.storeFileStream(relPath);
             }
 
-            if (out == null) {
-                throw new FileSystemException("vfs.provider.ftp/output-error.debug", this.getName(),
-                        client.getReplyString());
-            }
+            FileSystemException.requireNonNull(out, "vfs.provider.ftp/output-error.debug", this.getName(),
+                    client.getReplyString());
 
             return new FtpOutputStream(client, out);
         } catch (final Exception e) {
@@ -545,10 +543,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
             final InputStream instr = client.retrieveFileStream(relPath, filePointer);
-            if (instr == null) {
-                throw new FileSystemException("vfs.provider.ftp/input-error.debug", this.getName(),
-                        client.getReplyString());
-            }
+            FileSystemException.requireNonNull(instr, "vfs.provider.ftp/input-error.debug", this.getName(),
+                    client.getReplyString());
             return new FtpInputStream(client, instr);
         } catch (final IOException e) {
             getAbstractFileSystem().putClient(client);
