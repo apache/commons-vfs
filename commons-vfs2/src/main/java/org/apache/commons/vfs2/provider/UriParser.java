@@ -247,10 +247,38 @@ public final class UriParser {
         // No scheme in URI
         return null;
     }
+
+    /**
+     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
+     * <p>
+     * The scheme is extracted based on the currently supported schemes in the system.  That is to say the schemes
+     * supported by the registered providers.
+     * </p>
+     * <p>
+     * This allows us to handle varying scheme's without making assumptions based on the ':' character.  Specifically
+     * handle scheme extraction calls for uri parameters that are not actually uri's, but may be names with ':' in them.
+     * </p>
+     * @param uri The potential URI. May also be a name.
+     * @return The scheme name. Returns null if there is no scheme.
+     */
     public static String extractSupportedScheme(final Set<String> supportedScheme, final String uri) {
         return extractSupportedScheme(supportedScheme, uri, null);
     }
 
+    /**
+     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
+     * <p>
+     * The scheme is extracted based on the currently supported schemes in the system.  That is to say the schemes
+     * supported by the registered providers.
+     * </p>
+     * <p>
+     * This allows us to handle varying scheme's without making assumptions based on the ':' character. Specifically
+     * handle scheme extraction calls for uri parameters that are not actually uri's, but may be names with ':' in them.
+     * </p>
+     * @param uri The potential URI. May also just be a name.
+     * @param buffer Returns the remainder of the URI.
+     * @return The scheme name. Returns null if there is no scheme.
+     */
     public static String extractSupportedScheme(final Set<String> supportedScheme, final String uri, StringBuilder buffer) {
         if (buffer != null) {
             buffer.setLength(0);
