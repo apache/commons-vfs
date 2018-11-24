@@ -568,7 +568,7 @@
     <profile>
       <id>include-sandbox</id>
       <modules>
-        <module>sandbox</module>
+        <module>commons-vfs2-sandbox</module>
       </modules>
     </profile>
     <profile>
