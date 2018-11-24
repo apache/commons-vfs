@@ -194,7 +194,9 @@ public final class UriParser {
      *
      * @param uri The URI.
      * @return The scheme name. Returns null if there is no scheme.
+     * @deprecated Use instead {@link #extractSupportedScheme}.  Will be removed in 3.0.
      */
+    @Deprecated
     public static String extractScheme(final String uri) {
         return extractScheme(uri, null);
     }
@@ -205,7 +207,9 @@ public final class UriParser {
      * @param uri The URI.
      * @param buffer Returns the remainder of the URI.
      * @return The scheme name. Returns null if there is no scheme.
+     * @deprecated Use instead {@link #extractSupportedScheme}.  Will be removed in 3.0.
      */
+    @Deprecated
     public static String extractScheme(final String uri, final StringBuilder buffer) {
         if (buffer != null) {
             buffer.setLength(0);
