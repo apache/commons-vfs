@@ -16,7 +16,11 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -24,15 +28,49 @@ import org.junit.Test;
  * @version $Id$
  */
 public class UriParserTestCase {
+    private static final Set<String> schemes = new HashSet<String>();
+
+    @BeforeClass
+    public static void setupSchemes() {
+        schemes.add("ftp");
+        schemes.add("file");
+    }
 
     @Test
-    public void testColonInFileName() {
-        Assert.assertEquals(null, UriParser.extractScheme("some/path/some:file"));
+    public void testColonInFileNameAndNotSupportedScheme() {
+        Assert.assertEquals(null, UriParser.extractScheme(schemes,"some:file"));
+    }
+    @Test
+    public void testColonInFileNameWithPath() {
+        Assert.assertEquals(null, UriParser.extractScheme(schemes,"some/path/some:file"));
     }
 
     @Test
     public void testNormalScheme() {
-        Assert.assertEquals("ftp", UriParser.extractScheme("ftp://user:pass@host/some/path/some:file"));
+        Assert.assertEquals("ftp", UriParser.extractScheme(schemes,"ftp://user:pass@host/some/path/some:file"));
     }
 
+    @Test
+    public void testOneSlashScheme() {
+        Assert.assertEquals("file", UriParser.extractScheme(schemes,"file:/user:pass@host/some/path/some:file"));
+    }
+
+    @Test
+    public void testColonNotFollowedBySlash() {
+        Assert.assertEquals("file",UriParser.extractScheme(schemes,"file:user/subdir/some/path/some:file"));
+    }
+
+    @Test
+    public void testNormalSchemeWithBuffer() {
+        StringBuilder buffer = new StringBuilder();
+        UriParser.extractScheme(schemes,"ftp://user:pass@host/some/path/some:file",buffer);
+        Assert.assertEquals("//user:pass@host/some/path/some:file",buffer.toString());
+    }
+
+    @Test
+    public void testOneSlashSchemeWithBuffer() {
+        StringBuilder buffer = new StringBuilder();
+        UriParser.extractScheme(schemes,"file:/user:pass@host/some/path/some:file",buffer);
+        Assert.assertEquals("/user:pass@host/some/path/some:file",buffer.toString());
+    }
 }

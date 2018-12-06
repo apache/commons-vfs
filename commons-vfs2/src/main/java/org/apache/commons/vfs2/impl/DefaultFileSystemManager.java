@@ -764,7 +764,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         // Adjust separators
         UriParser.fixSeparators(buffer);
-        String scheme = UriParser.extractScheme(buffer.toString());
+        String scheme = UriParser.extractScheme(providers.keySet(), buffer.toString());
 
         // Determine whether to prepend the base path
         if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR)) {
