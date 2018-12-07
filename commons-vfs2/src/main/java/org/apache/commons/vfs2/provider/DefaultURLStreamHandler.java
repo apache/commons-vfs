@@ -24,6 +24,7 @@ import java.net.URLStreamHandler;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.VFS;
 
 /**
  * A default URL stream handler that will work for most file systems.
@@ -66,7 +67,7 @@ public class DefaultURLStreamHandler extends URLStreamHandler {
 
             final String url = newURL.getName().getURI();
             final StringBuilder filePart = new StringBuilder();
-            final String protocolPart = UriParser.extractScheme(url, filePart);
+            final String protocolPart = UriParser.extractScheme(VFS.getManager().getSchemes(), url, filePart);
 
             setURL(u, protocolPart, "", -1, null, null, filePart.toString(), null, null);
         } catch (final FileSystemException fse) {

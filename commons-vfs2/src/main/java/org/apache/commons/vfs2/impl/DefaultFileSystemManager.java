@@ -67,6 +67,11 @@ public class DefaultFileSystemManager implements FileSystemManager {
     private final Map<String, FileProvider> providers = new HashMap<>();
 
     /**
+     * List of the schemes of virtual filesystems added.
+     */
+    private final List<String> virtualFileSystemSchemes = new ArrayList<>();
+
+    /**
      * All components used by this manager.
      */
     private final ArrayList<Object> components = new ArrayList<>();
@@ -520,8 +525,6 @@ public class DefaultFileSystemManager implements FileSystemManager {
         for (final FileProvider provider : providers.values()) {
             closeComponent(provider);
         }
-        // unregister all
-        providers.clear();
 
         // Close the other components
         closeComponent(vfsProvider);
@@ -529,6 +532,11 @@ public class DefaultFileSystemManager implements FileSystemManager {
         closeComponent(tempFileStore);
         closeComponent(filesCache);
         closeComponent(defaultProvider);
+
+
+        // unregister all providers here, so if any components have local file references
+        // they can still resolve against the supported schemes
+        providers.clear();
 
         // FileOperations are components, too
         for (final List<FileOperationProvider> opproviders : operationProviders.values()) {
@@ -697,7 +705,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(uri);
+        final String scheme = UriParser.extractScheme(getSchemes(),uri);
         if (scheme != null) {
             // An absolute URI - locate the provider
             final FileProvider provider = providers.get(scheme);
@@ -764,7 +772,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         // Adjust separators
         UriParser.fixSeparators(buffer);
-        String scheme = UriParser.extractSupportedScheme(providers.keySet(), buffer.toString());
+        String scheme = UriParser.extractScheme(getSchemes(), buffer.toString());
 
         // Determine whether to prepend the base path
         if (name.length() == 0 || (scheme == null && buffer.charAt(0) != FileName.SEPARATOR_CHAR)) {
@@ -829,7 +837,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(uri);
+        final String scheme = UriParser.extractScheme(getSchemes(), uri);
         if (scheme != null) {
             // An absolute URI - locate the provider
             final FileProvider provider = providers.get(scheme);
@@ -919,7 +927,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
      */
     @Override
     public FileObject createVirtualFileSystem(final FileObject rootFile) throws FileSystemException {
-        return vfsProvider.createFileSystem(rootFile);
+        FileObject fileObject = vfsProvider.createFileSystem(rootFile);
+        addVirtualFileSystemScheme(rootFile.getName().getScheme());
+        return fileObject;
     }
 
     /**
@@ -931,7 +941,17 @@ public class DefaultFileSystemManager implements FileSystemManager {
      */
     @Override
     public FileObject createVirtualFileSystem(final String rootUri) throws FileSystemException {
-        return vfsProvider.createFileSystem(rootUri);
+        FileObject fileObject = vfsProvider.createFileSystem(rootUri);
+        addVirtualFileSystemScheme(rootUri);
+        return fileObject;
+    }
+
+
+    protected void addVirtualFileSystemScheme(String rootUri) {
+        if (rootUri.indexOf(':') != -1) {
+            rootUri = rootUri.substring(0, rootUri.indexOf(':'));
+        }
+        virtualFileSystemSchemes.add(rootUri);
     }
 
     /**
@@ -1014,9 +1034,10 @@ public class DefaultFileSystemManager implements FileSystemManager {
      */
     @Override
     public String[] getSchemes() {
-        final String[] schemes = new String[providers.size()];
-        providers.keySet().toArray(schemes);
-        return schemes;
+        final List<String> schemes = new ArrayList<>(providers.size() + virtualFileSystemSchemes.size());
+        schemes.addAll(providers.keySet());
+        schemes.addAll(virtualFileSystemSchemes);
+        return schemes.toArray(new String[]{});
     }
 
     /**

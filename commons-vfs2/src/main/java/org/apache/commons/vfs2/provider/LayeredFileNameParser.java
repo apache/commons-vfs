@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.VFS;
 
 /**
  * Implementation for layered filesystems.
@@ -63,7 +64,7 @@ public class LayeredFileNameParser extends AbstractFileNameParser {
         final StringBuilder name = new StringBuilder();
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(filename, name);
+        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), filename, name);
 
         // Extract the Layered file URI
         final String rootUriName = extractRootName(name);

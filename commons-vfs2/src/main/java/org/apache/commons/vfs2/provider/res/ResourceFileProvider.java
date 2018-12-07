@@ -27,6 +27,7 @@ import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.AbstractFileProvider;
 import org.apache.commons.vfs2.provider.UriParser;
 
@@ -57,7 +58,7 @@ public class ResourceFileProvider extends AbstractFileProvider {
     public FileObject findFile(final FileObject baseFile, final String uri, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         final StringBuilder buf = new StringBuilder(BUFFER_SIZE);
-        UriParser.extractScheme(uri, buf);
+        UriParser.extractScheme(VFS.getManager().getSchemes(), uri, buf);
         final String resourceName = buf.toString();
 
         ClassLoader classLoader = ResourceFileSystemConfigBuilder.getInstance().getClassLoader(fileSystemOptions);
