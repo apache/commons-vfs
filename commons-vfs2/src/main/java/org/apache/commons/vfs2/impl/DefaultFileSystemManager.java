@@ -559,6 +559,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
         // managed components
         vfsProvider = null;
 
+        // virtual schemas
+        virtualFileSystemSchemes.clear();
+
         // setters and derived state
         defaultProvider = null;
         baseFile = null;
