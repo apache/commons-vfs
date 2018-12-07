@@ -40,7 +40,7 @@ public class FileTypeSelector implements FileSelector {
      * @throws FileSystemException if an error occurs
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo) throws FileSystemException {
+    public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
         return fileInfo.getFile().getType() == type;
     }
 
@@ -51,7 +51,7 @@ public class FileTypeSelector implements FileSelector {
      * @return true if the file or folder should be traversed.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
         return true;
     }
 }

@@ -69,7 +69,7 @@ public class FileExtensionSelector implements FileSelector {
      * @return true if the file should be selected, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo) {
+    public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
         if (this.extensions == null) {
             return false;
         }
@@ -88,7 +88,7 @@ public class FileExtensionSelector implements FileSelector {
      * @return true if descendants should be traversed, fase otherwise.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
         return true;
     }
 }

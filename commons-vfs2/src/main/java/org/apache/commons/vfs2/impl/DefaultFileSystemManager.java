@@ -454,10 +454,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if there is no FileReplicator.
      */
     public FileReplicator getReplicator() throws FileSystemException {
-        if (fileReplicator == null) {
-            throw new FileSystemException("vfs.impl/no-replicator.error");
-        }
-        return fileReplicator;
+        return FileSystemException.requireNonNull(fileReplicator, "vfs.impl/no-replicator.error");
     }
 
     /**
@@ -467,10 +464,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if there is no TemporaryFileStore.
      */
     public TemporaryFileStore getTemporaryFileStore() throws FileSystemException {
-        if (tempFileStore == null) {
-            throw new FileSystemException("vfs.impl/no-temp-file-store.error");
-        }
-        return tempFileStore;
+        return FileSystemException.requireNonNull(tempFileStore, "vfs.impl/no-temp-file-store.error");
     }
 
     /**
@@ -720,16 +714,12 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         if (scheme != null) {
             // An unknown scheme - hand it to the default provider
-            if (defaultProvider == null) {
-                throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme, uri);
-            }
+            FileSystemException.requireNonNull(defaultProvider, "vfs.impl/unknown-scheme.error", scheme, uri);
             return defaultProvider.findFile(realBaseFile, uri, fileSystemOptions);
         }
 
         // Assume a relative name - use the supplied base file
-        if (realBaseFile == null) {
-            throw new FileSystemException("vfs.impl/find-rel-file.error", uri);
-        }
+        FileSystemException.requireNonNull(realBaseFile, "vfs.impl/find-rel-file.error", uri);
 
         return realBaseFile.resolveFile(uri);
     }
@@ -761,9 +751,8 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public FileName resolveName(final FileName base, final String name, final NameScope scope)
             throws FileSystemException {
-        if (base == null) {
-            throw new FileSystemException("Invalid base filename.");
-        }
+        FileSystemException.requireNonNull(base, "Invalid base FileName.");
+        FileSystemException.requireNonNull(name, "Invalid name FileName.");
         final FileName realBase;
         if (VFS.isUriStyle() && base.isFile()) {
             realBase = base.getParent();
@@ -858,16 +847,12 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         if (scheme != null) {
             // An unknown scheme - hand it to the default provider
-            if (defaultProvider == null) {
-                throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme, uri);
-            }
+            FileSystemException.requireNonNull(defaultProvider, "vfs.impl/unknown-scheme.error", scheme, uri);
             return defaultProvider.parseUri(null, uri);
         }
 
         // Assume a relative name - use the supplied base file
-        if (baseFile == null) {
-            throw new FileSystemException("vfs.impl/find-rel-file.error", uri);
-        }
+        FileSystemException.requireNonNull(baseFile, "vfs.impl/find-rel-file.error", uri);
 
         return resolveName(baseFile.getName(), uri, NameScope.FILE_SYSTEM);
     }
@@ -895,9 +880,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public FileObject createFileSystem(final String scheme, final FileObject file) throws FileSystemException {
         final FileProvider provider = providers.get(scheme);
-        if (provider == null) {
-            throw new FileSystemException("vfs.impl/unknown-provider.error", scheme, file);
-        }
+        FileSystemException.requireNonNull(provider, "vfs.impl/unknown-provider.error", scheme, file);
         return provider.createFileSystem(scheme, file, file.getFileSystem().getFileSystemOptions());
     }
 
@@ -911,10 +894,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public FileObject createFileSystem(final FileObject file) throws FileSystemException {
         final String scheme = typeMap.getScheme(file);
-        if (scheme == null) {
-            throw new FileSystemException("vfs.impl/no-provider-for-file.error", file);
-        }
-
+        FileSystemException.requireNonNull(scheme, "vfs.impl/no-provider-for-file.error", file);
         return createFileSystem(scheme, file);
     }
 
@@ -964,10 +944,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if no local file provider was set.
      */
     private LocalFileProvider getLocalFileProvider() throws FileSystemException {
-        if (localFileProvider == null) {
-            throw new FileSystemException("vfs.impl/no-local-file-provider.error");
-        }
-        return localFileProvider;
+        return FileSystemException.requireNonNull(localFileProvider, "vfs.impl/no-local-file-provider.error");
     }
 
     /**
@@ -1052,10 +1029,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public Collection<Capability> getProviderCapabilities(final String scheme) throws FileSystemException {
         final FileProvider provider = providers.get(scheme);
-        if (provider == null) {
-            throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme);
-        }
-
+        FileSystemException.requireNonNull(provider, "vfs.impl/unknown-scheme.error", scheme);
         return provider.getCapabilities();
     }
 
@@ -1069,10 +1043,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public FileSystemConfigBuilder getFileSystemConfigBuilder(final String scheme) throws FileSystemException {
         final FileProvider provider = providers.get(scheme);
-        if (provider == null) {
-            throw new FileSystemException("vfs.impl/unknown-scheme.error", scheme);
-        }
-
+        FileSystemException.requireNonNull(provider, "vfs.impl/unknown-scheme.error", scheme);
         return provider.getConfigBuilder();
     }
 

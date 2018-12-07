@@ -25,10 +25,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
@@ -48,6 +50,8 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * An FTP file.
  */
 public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
+    
+    private static final long DEFAULT_TIMESTAMP = 0L;
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections
             .unmodifiableMap(new TreeMap<String, FTPFile>());
     private static final FTPFile UNKNOWN = new FTPFile();
@@ -56,11 +60,10 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     private final String relPath;
 
     // Cached info
-    private FTPFile fileInfo;
-    private Map<String, FTPFile> children;
-    private FileObject linkDestination;
-
-    private boolean inRefresh;
+    private volatile FTPFile fileInfo;
+    private volatile Map<String, FTPFile> children;
+    private volatile FileObject linkDestination;
+    private final AtomicBoolean inRefresh = new AtomicBoolean();
 
     protected FtpFileObject(final AbstractFileName name, final FtpFileSystem fileSystem, final FileName rootName)
             throws FileSystemException {
@@ -89,21 +92,16 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
          * case we've just recently refreshed our children. No need to do it again when our children are refresh()ed,
          * calling getChildFile() for themselves from within getInfo(). See getChildren().
          */
-        if (flush && !inRefresh) {
+        if (flush && !inRefresh.get()) {
             children = null;
         }
 
         // List the children of this file
         doGetChildren();
 
-        // VFS-210
-        if (children == null) {
-            return null;
-        }
-
         // Look for the requested child
-        final FTPFile ftpFile = children.get(name);
-        return ftpFile;
+        // VFS-210 adds the null check. 
+        return children != null ? children.get(name) : null;
     }
 
     /**
@@ -159,43 +157,41 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
      * Fetches the info for this file.
      */
     private void getInfo(final boolean flush) throws IOException {
-        final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
-        FTPFile newFileInfo;
-        if (parent != null) {
-            newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
-        } else {
-            // Assume the root is a directory and exists
-            newFileInfo = new FTPFile();
-            newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
-        }
+        synchronized (getFileSystem()) {
+            final FtpFileObject parent = (FtpFileObject) FileObjectUtils.getAbstractFileObject(getParent());
+            FTPFile newFileInfo;
+            if (parent != null) {
+                newFileInfo = parent.getChildFile(UriParser.decode(getName().getBaseName()), flush);
+            } else {
+                // Assume the root is a directory and exists
+                newFileInfo = new FTPFile();
+                newFileInfo.setType(FTPFile.DIRECTORY_TYPE);
+            }
 
-        if (newFileInfo == null) {
-            this.fileInfo = UNKNOWN;
-        } else {
-            this.fileInfo = newFileInfo;
-        }
-    }
+            if (newFileInfo == null) {
+                this.fileInfo = UNKNOWN;
+            } else {
+                this.fileInfo = newFileInfo;
+            }
+        }}
 
     /**
      * @throws FileSystemException if an error occurs.
      */
     @Override
     public void refresh() throws FileSystemException {
-        if (!inRefresh) {
+        if (inRefresh.compareAndSet(false, true)) {
             try {
-                inRefresh = true;
                 super.refresh();
-
                 synchronized (getFileSystem()) {
                     this.fileInfo = null;
                 }
-
                 /*
                  * VFS-210 try { // this will tell the parent to recreate its children collection getInfo(true); } catch
                  * (IOException e) { throw new FileSystemException(e); }
                  */
             } finally {
-                inRefresh = false;
+                inRefresh.set(false);
             }
         }
     }
@@ -207,7 +203,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     protected void doDetach() {
         synchronized (getFileSystem()) {
             this.fileInfo = null;
-            children = null;
+            this.children = null;
         }
     }
 
@@ -285,16 +281,13 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         if (linkDestination == null) {
             final String path;
             synchronized (getFileSystem()) {
-                path = this.fileInfo.getLink();
+                path = this.fileInfo == null ? null : this.fileInfo.getLink();
             }
-            FileName relativeTo = getName().getParent();
-            if (relativeTo == null) {
-                relativeTo = getName();
-            }
+            final FileName parent = getName().getParent();
+            final FileName relativeTo = parent == null ? getName() : parent;
             final FileName linkDestinationName = getFileSystem().getFileSystemManager().resolveName(relativeTo, path);
             linkDestination = getFileSystem().resolveFile(linkDestinationName);
         }
-
         return linkDestination;
     }
 
@@ -338,11 +331,10 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
              * has C children, P parents, there will be (C * P) listings made with (C * (P + 1)) refreshes, when there
              * should really only be 1 listing and C refreshes.
              */
-
-            this.inRefresh = true;
+            this.inRefresh.set(true);
             return super.getChildren();
         } finally {
-            this.inRefresh = false;
+            this.inRefresh.set(false);
         }
     }
 
@@ -378,23 +370,25 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     @Override
     protected void doDelete() throws Exception {
         synchronized (getFileSystem()) {
-            final boolean ok;
-            final FtpClient ftpClient = getAbstractFileSystem().getClient();
-            try {
-                if (this.fileInfo.isDirectory()) {
-                    ok = ftpClient.removeDirectory(relPath);
-                } else {
-                    ok = ftpClient.deleteFile(relPath);
+            if (this.fileInfo != null) {
+                final boolean ok;
+                final FtpClient ftpClient = getAbstractFileSystem().getClient();
+                try {
+                    if (this.fileInfo.isDirectory()) {
+                        ok = ftpClient.removeDirectory(relPath);
+                    } else {
+                        ok = ftpClient.deleteFile(relPath);
+                    }
+                } finally {
+                    getAbstractFileSystem().putClient(ftpClient);
                 }
-            } finally {
-                getAbstractFileSystem().putClient(ftpClient);
-            }
 
-            if (!ok) {
-                throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
+                if (!ok) {
+                    throw new FileSystemException("vfs.provider.ftp/delete-file.error", getName());
+                }
+                this.fileInfo = null;
             }
-            this.fileInfo = null;
-            children = EMPTY_FTP_FILE_MAP;
+            this.children = EMPTY_FTP_FILE_MAP;
         }
     }
 
@@ -418,7 +412,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 throw new FileSystemException("vfs.provider.ftp/rename-file.error", getName().toString(), newFile);
             }
             this.fileInfo = null;
-            children = EMPTY_FTP_FILE_MAP;
+            this.children = EMPTY_FTP_FILE_MAP;
         }
     }
 
@@ -446,6 +440,9 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     @Override
     protected long doGetContentSize() throws Exception {
         synchronized (getFileSystem()) {
+            if (this.fileInfo == null) {
+                return 0;
+            }
             if (this.fileInfo.isSymbolicLink()) {
                 final FileObject linkDest = getLinkDestination();
                 // VFS-437: Try to avoid a recursion loop.
@@ -466,6 +463,9 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     @Override
     protected long doGetLastModifiedTime() throws Exception {
         synchronized (getFileSystem()) {
+            if (this.fileInfo == null) {
+                return DEFAULT_TIMESTAMP;
+            }
             if (this.fileInfo.isSymbolicLink()) {
                 final FileObject linkDest = getLinkDestination();
                 // VFS-437: Try to avoid a recursion loop.
@@ -516,10 +516,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
                 out = client.storeFileStream(relPath);
             }
 
-            if (out == null) {
-                throw new FileSystemException("vfs.provider.ftp/output-error.debug", this.getName(),
-                        client.getReplyString());
-            }
+            FileSystemException.requireNonNull(out, "vfs.provider.ftp/output-error.debug", this.getName(),
+                    client.getReplyString());
 
             return new FtpOutputStream(client, out);
         } catch (final Exception e) {
@@ -533,8 +531,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
     }
 
     private long getTimestamp() {
-        final Calendar timestamp = this.fileInfo.getTimestamp();
-        return timestamp == null ? 0L : timestamp.getTime().getTime();
+        final Calendar timestamp = this.fileInfo != null ? this.fileInfo.getTimestamp() : null;
+        return timestamp == null ? DEFAULT_TIMESTAMP : timestamp.getTime().getTime();
     }
 
     /**
@@ -548,10 +546,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         final FtpClient client = getAbstractFileSystem().getClient();
         try {
             final InputStream instr = client.retrieveFileStream(relPath, filePointer);
-            if (instr == null) {
-                throw new FileSystemException("vfs.provider.ftp/input-error.debug", this.getName(),
-                        client.getReplyString());
-            }
+            FileSystemException.requireNonNull(instr, "vfs.provider.ftp/input-error.debug", this.getName(),
+                    client.getReplyString());
             return new FtpInputStream(client, instr);
         } catch (final IOException e) {
             getAbstractFileSystem().putClient(client);
@@ -582,7 +578,8 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         protected void onClose() throws IOException {
             final boolean ok;
             try {
-                ok = client.completePendingCommand();
+                // See VFS-674 and the accompanying PR as to why this check for "transfer aborted" is needed
+                ok = client.completePendingCommand() || client.getReplyCode() == FTPReply.TRANSFER_ABORTED;
             } finally {
                 getAbstractFileSystem().putClient(client);
             }

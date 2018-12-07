@@ -405,6 +405,7 @@ public final class DefaultFileContent implements FileContent {
          * if (getThreadData().getState() != STATE_NONE)
          */
         final FileContentThreadData streams = getOrCreateThreadData();
+        
         if (streams.getOutstr() != null) {
             throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
         }

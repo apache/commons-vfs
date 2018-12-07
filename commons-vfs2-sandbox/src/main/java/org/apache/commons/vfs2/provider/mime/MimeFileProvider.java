@@ -53,6 +53,7 @@ public class MimeFileProvider extends AbstractLayeredFileProvider implements Fil
         return new MimeFileSystem(name, file, fileSystemOptions);
     }
 
+    @Override
     public Collection<Capability> getCapabilities() {
         return capabilities;
     }

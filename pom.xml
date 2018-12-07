@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-parent</artifactId>
-    <version>43</version>
+    <version>47</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -29,7 +29,7 @@
   <name>Apache Commons VFS Project</name>
   <description>Apache Commons VFS is a Virtual File System library.</description>
   <packaging>pom</packaging>
-  <version>2.2.1-SNAPSHOT</version>
+  <version>2.3-SNAPSHOT</version>
 
   <url>http://commons.apache.org/proper/commons-vfs/</url>
   <inceptionYear>2002</inceptionYear>
@@ -39,6 +39,7 @@
     <module>commons-vfs2-examples</module>
     <module>commons-vfs2-distribution</module>
   </modules>
+  <!-- commons-vfs2-sandbox is in profile include-sandbox -->
 
   <issueManagement>
     <system>jira</system>
@@ -143,8 +144,8 @@
   <properties>
     <commons.encoding>UTF-8</commons.encoding>
 
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <!-- bare ID without major version or commons- prefix -->
     <commons.componentid>vfs2</commons.componentid>
@@ -170,6 +171,13 @@
     <version.checkstyle>2.17</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
+    <commons.osgi.import>
+        org.apache.hadoop.*;resolution:=optional,
+        org.apache.jackrabbit.*;resolution:=optional,
+        org.apache.tools.ant.*;resolution:=optional,
+        org.apache.commons.httpclient.*;resolution:=optional,
+        *
+    </commons.osgi.import>
     <!-- Newer versions of clirr throw an NPE building the site -->
     <commons.clirr.version>2.6</commons.clirr.version>
     <!-- Avoid warnings about being unable to find jars during site building -->
@@ -266,7 +274,8 @@
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicite exclude does not work if sandbox profile is not activated -->
-            <exclude>sandbox/**</exclude>
+            <exclude>commons-vfs2-sandbox/**</exclude>
+            <exclude>dist/target/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -286,7 +295,8 @@
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicit exclude does not work if sandbox profile is not activated -->
-            <exclude>sandbox/**</exclude>
+            <exclude>commons-vfs2-sandbox/**</exclude>
+            <exclude>dist/target/**</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -333,7 +343,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.8</version>
+        <version>3.9.0</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <aggregate>true</aggregate>
@@ -398,7 +408,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-collections4</artifactId>
-        <version>4.1</version>
+        <version>4.2</version>
       </dependency>
       <dependency>
         <groupId>commons-httpclient</groupId>
@@ -406,9 +416,14 @@
         <version>3.1</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.6</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.16.1</version>
+        <version>1.18</version>
       </dependency>
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
@@ -467,7 +482,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.7</version>
+        <version>3.8.1</version>
       </dependency>
       <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
@@ -511,7 +526,7 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore-nio</artifactId>
-        <version>4.4.9</version>
+        <version>4.4.10</version>
       </dependency>
       <!-- Test WebDAV with Apache Jackrabbit -->
       <dependency>

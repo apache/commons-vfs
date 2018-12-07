@@ -161,9 +161,7 @@ class RamFileData implements Serializable {
             throw new FileSystemException("A child can only be added in a folder");
         }
 
-        if (data == null) {
-            throw new FileSystemException("No child can be null");
-        }
+        FileSystemException.requireNonNull(data, "No child can be null");
 
         if (this.children.contains(data)) {
             throw new FileSystemException("Child already exists. " + data);

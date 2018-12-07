@@ -24,13 +24,13 @@
   <name>Apache Commons VFS Examples</name>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2-examples</artifactId>
-  <version>2.2.1-SNAPSHOT</version>
+  <version>2.3-SNAPSHOT</version>
   <description>Apache Commons VFS is a Virtual File System library - Examples.</description>
 
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-vfs2-project</artifactId>
-    <version>2.2.1-SNAPSHOT</version>
+    <version>2.3-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -51,11 +51,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>commons-httpclient</groupId>
-      <artifactId>commons-httpclient</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>com.jcraft</groupId>
       <artifactId>jsch</artifactId>
       <optional>true</optional>
@@ -69,6 +64,9 @@
   <build>
     <resources>
       <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
         <directory>${vfs.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
         <includes>
@@ -78,5 +76,68 @@
       </resource>
     </resources>
   </build>
+
+  <profiles>
+
+    <profile>
+      <id>shell</id>
+      <build>
+        <defaultGoal>validate</defaultGoal>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+              <execution>
+                <phase>validate</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <mainClass>org.apache.commons.vfs2.example.Shell</mainClass>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>with-http3</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>http3</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>commons-httpclient</groupId>
+          <artifactId>commons-httpclient</artifactId>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+    <profile>
+      <id>with-http4</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>http4</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
+  </profiles>
 
 </project>

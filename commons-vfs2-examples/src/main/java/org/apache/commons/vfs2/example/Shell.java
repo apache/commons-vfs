@@ -20,9 +20,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +39,10 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
+import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
+import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
+import org.apache.commons.vfs2.provider.FileProvider;
 
 /**
  * A simple command-line shell for performing file operations.
@@ -45,12 +50,40 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * See <a href="https://wiki.apache.org/commons/VfsExampleShell">Commons VFS Shell Examples</a> in Apache Commons Wiki.
  */
 public final class Shell {
+
     private final FileSystemManager mgr;
     private FileObject cwd;
     private final BufferedReader reader;
 
     private Shell() throws IOException {
-        mgr = VFS.getManager();
+        final String providers = System.getProperty("providers");
+        final URL providersUrl = (providers != null) ? Shell.class.getResource("/" + providers) : null;
+
+        if (providersUrl != null) {
+            mgr = new StandardFileSystemManager();
+            System.out.println("Custom providers configuration used: " + providersUrl);
+            ((StandardFileSystemManager) mgr).setConfiguration(providersUrl);
+            ((StandardFileSystemManager) mgr).init();
+        } else {
+            mgr = VFS.getManager();
+        }
+
+        // TODO: VFS-360 - Remove this manual registration of http4 once http4 becomes part of standard providers.
+        boolean httpClient4Available = false;
+        try {
+            Class.forName("org.apache.http.client.HttpClient");
+            httpClient4Available = true;
+            final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
+            if (!manager.hasProvider("http4")) {
+                manager.addProvider("http4", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4.Http4FileProvider").newInstance());
+                manager.addProvider("http4s", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4s.Http4sFileProvider").newInstance());
+            }
+        } catch (final Exception e) {
+            if (httpClient4Available) {
+                e.printStackTrace();
+            }
+        }
+
         cwd = mgr.toFileObject(new File(System.getProperty("user.dir")));
         reader = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
     }
@@ -105,6 +138,8 @@ public final class Shell {
             ls(cmd);
         } else if (cmdName.equalsIgnoreCase("pwd")) {
             pwd();
+        } else if (cmdName.equalsIgnoreCase("pwfs")) {
+            pwfs();
         } else if (cmdName.equalsIgnoreCase("rm")) {
             rm(cmd);
         } else if (cmdName.equalsIgnoreCase("touch")) {
@@ -116,23 +151,23 @@ public final class Shell {
         }
     }
 
-    private void info(String[] cmd) throws Exception {
+    private void info(final String[] cmd) throws Exception {
         if (cmd.length > 1) {
             info(cmd[1]);
         } else {
             System.out.println(
                     "Default manager: \"" + mgr.getClass().getName() + "\" " + "version " + getVersion(mgr.getClass()));
-            String[] schemes = mgr.getSchemes();
-            List<String> virtual = new ArrayList<>();
-            List<String> physical = new ArrayList<>();
-            for (int i = 0; i < schemes.length; i++) {
-                Collection<Capability> caps = mgr.getProviderCapabilities(schemes[i]);
+            final String[] schemes = mgr.getSchemes();
+            final List<String> virtual = new ArrayList<>();
+            final List<String> physical = new ArrayList<>();
+            for (String scheme : schemes) {
+                final Collection<Capability> caps = mgr.getProviderCapabilities(scheme);
                 if (caps != null) {
                     if (caps.contains(Capability.VIRTUAL) || caps.contains(Capability.COMPRESS)
                             || caps.contains(Capability.DISPATCHER)) {
-                        virtual.add(schemes[i]);
+                        virtual.add(scheme);
                     } else {
-                        physical.add(schemes[i]);
+                        physical.add(scheme);
                     }
                 }
             }
@@ -145,16 +180,16 @@ public final class Shell {
         }
     }
 
-    private void info(String scheme) throws Exception {
+    private void info(final String scheme) throws Exception {
         System.out.println("Provider Info for scheme \"" + scheme + "\":");
         Collection<Capability> caps;
         caps = mgr.getProviderCapabilities(scheme);
         if (caps != null && !caps.isEmpty()) {
             System.out.println("  capabilities: " + caps);
         }
-        FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
+        final FileOperationProvider[] ops = mgr.getOperationProviders(scheme);
         if (ops != null && ops.length > 0) {
-            System.out.println("  operations: " + ops);
+            System.out.println("  operations: " + Arrays.toString(ops));
         }
     }
 
@@ -170,6 +205,7 @@ public final class Shell {
         System.out.println("info [scheme]      Displays information about providers.");
         System.out.println("ls [-R] [path]     Lists contents of a file or folder.");
         System.out.println("pwd                Displays current folder.");
+        System.out.println("pwfs               Displays current file system.");
         System.out.println("rm <path>          Deletes a file or folder.");
         System.out.println("touch <path>       Sets the last-modified time of a file.");
         System.out.println("exit, quit         Exits this program.");
@@ -225,6 +261,14 @@ public final class Shell {
      */
     private void pwd() {
         System.out.println("Current folder is " + cwd.getName());
+    }
+
+    /**
+     * Does a 'pwfs' command.
+     */
+    private void pwfs() {
+        System.out.println("FileSystem of current folder is " + cwd.getFileSystem() + " (root: "
+                + cwd.getFileSystem().getRootURI() + ")");
     }
 
     /**
@@ -334,10 +378,10 @@ public final class Shell {
         return cmd.toArray(new String[cmd.size()]);
     }
 
-    private static String getVersion(Class<?> cls) {
+    private static String getVersion(final Class<?> cls) {
         try {
             return cls.getPackage().getImplementationVersion();
-        } catch (Exception ignored) {
+        } catch (final Exception ignored) {
             return "N/A";
         }
     }

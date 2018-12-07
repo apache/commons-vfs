@@ -49,7 +49,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String KEY_PREEMPTIVE_AUTHENTICATION = "preemptiveAuth";
 
     /**
-     * Create new config builder.
+     * Creates new config builder.
      *
      * @param prefix String for properties of this file system.
      * @since 2.0
@@ -72,7 +72,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the charset used for url encoding.<br>
+     * Sets the charset used for url encoding.<br>
      *
      * @param opts The FileSystem options.
      * @param chaset the chaset
@@ -82,7 +82,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the charset used for url encoding.<br>
+     * Sets the charset used for url encoding.<br>
      *
      * @param opts The FileSystem options.
      * @return the chaset
@@ -92,7 +92,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the proxy to use for http connection.<br>
+     * Sets the proxy to use for http connection.<br>
      * You have to set the ProxyPort too if you would like to have the proxy really used.
      *
      * @param opts The FileSystem options.
@@ -104,7 +104,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the proxy-port to use for http connection. You have to set the ProxyHost too if you would like to have the
+     * Sets the proxy-port to use for http connection. You have to set the ProxyHost too if you would like to have the
      * proxy really used.
      *
      * @param opts The FileSystem options.
@@ -116,7 +116,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get the proxy to use for http connection. You have to set the ProxyPort too if you would like to have the proxy
+     * Gets the proxy to use for http connection. You have to set the ProxyPort too if you would like to have the proxy
      * really used.
      *
      * @param opts The FileSystem options.
@@ -128,7 +128,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get the proxy-port to use for http the connection. You have to set the ProxyHost too if you would like to have
+     * Gets the proxy-port to use for http the connection. You have to set the ProxyHost too if you would like to have
      * the proxy really used.
      *
      * @param opts The FileSystem options.
@@ -140,7 +140,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the proxy authenticator where the system should get the credentials from.
+     * Sets the proxy authenticator where the system should get the credentials from.
      *
      * @param opts The FileSystem options.
      * @param authenticator The UserAuthenticator.
@@ -150,7 +150,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get the proxy authenticator where the system should get the credentials from.
+     * Gets the proxy authenticator where the system should get the credentials from.
      *
      * @param opts The FileSystem options.
      * @return The UserAuthenticator.
@@ -182,7 +182,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * The cookies to add to the request.
+     * Gets the cookies to add to the request.
      *
      * @param opts The FileSystem options.
      * @return the Cookie array.
@@ -204,7 +204,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * The maximum number of connections allowed.
+     * Sets the maximum number of connections allowed.
      *
      * @param opts The FileSystem options.
      * @param maxTotalConnections The maximum number of connections.
@@ -215,7 +215,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Retrieve the maximum number of connections allowed.
+     * Gets the maximum number of connections allowed.
      *
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed.
@@ -226,7 +226,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * The maximum number of connections allowed to any host.
+     * Sets the maximum number of connections allowed to any host.
      *
      * @param opts The FileSystem options.
      * @param maxHostConnections The maximum number of connections to a host.
@@ -237,7 +237,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Retrieve the maximum number of connections allowed per host.
+     * Gets the maximum number of connections allowed per host.
      *
      * @param opts The FileSystemOptions.
      * @return The maximum number of connections allowed per host.
@@ -282,7 +282,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Retrieve the connection timeout.
+     * Gets the connection timeout.
      *
      * @param opts The FileSystem options.
      * @return The connection timeout.
@@ -304,7 +304,7 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Retrieve the socket timeout.
+     * Gets the socket timeout.
      *
      * @param opts The FileSystemOptions.
      * @return The socket timeout.
@@ -315,8 +315,9 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Assign the user agent to attach to the outgoing http methods
+     * Sets the user agent to attach to the outgoing http methods
      *
+     * @param opts the file system options to modify
      * @param userAgent User Agent String
      */
     public void setUserAgent(final FileSystemOptions opts, final String userAgent) {
@@ -324,9 +325,10 @@ public class HttpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Return the user agent string
+     * Gets the user agent string
      *
-     * @return User provided User-Agent string, otherwise default of: Jakarta-Commons-VFS
+     * @param opts the file system options to modify
+     * @return User provided User-Agent string, otherwise default of: Commons-VFS
      */
     public String getUserAgent(final FileSystemOptions opts) {
         final String userAgent = (String) getParam(opts, KEY_USER_AGENT);

@@ -71,7 +71,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     private static final int INITIAL_LIST_SIZE = 5;
 
     private final AbstractFileName fileName;
-    private final AFS fs;
+    private final AFS fileSystem;
 
     private FileContent content;
     // Cached info
@@ -94,13 +94,13 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     /**
      *
      * @param name the file name - muse be an instance of {@link AbstractFileName}
-     * @param fs the file system
+     * @param fileSystem the file system
      * @throws ClassCastException if {@code name} is not an instance of {@link AbstractFileName}
      */
-    protected AbstractFileObject(final AbstractFileName name, final AFS fs) {
+    protected AbstractFileObject(final AbstractFileName name, final AFS fileSystem) {
         this.fileName = name;
-        this.fs = fs;
-        fs.fileObjectHanded(this);
+        this.fileSystem = fileSystem;
+        fileSystem.fileObjectHanded(this);
     }
 
     /**
@@ -146,7 +146,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws FileSystemException if an error occurs.
      */
     private void attach() throws FileSystemException {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             if (attached) {
                 return;
             }
@@ -177,7 +177,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public boolean canRenameTo(final FileObject newfile) {
-        return fs == newfile.getFileSystem();
+        return fileSystem == newfile.getFileSystem();
     }
 
     /**
@@ -215,25 +215,27 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     public void close() throws FileSystemException {
         FileSystemException exc = null;
 
-        // Close the content
-        if (content != null) {
-            try {
-                content.close();
-                content = null;
-            } catch (final FileSystemException e) {
-                exc = e;
+        synchronized (fileSystem) {
+            // Close the content
+            if (content != null) {
+                try {
+                    content.close();
+                    content = null;
+                } catch (final FileSystemException e) {
+                    exc = e;
+                }
             }
-        }
 
-        // Detach from the file
-        try {
-            detach();
-        } catch (final Exception e) {
-            exc = new FileSystemException("vfs.provider/close.error", fileName, e);
-        }
+            // Detach from the file
+            try {
+                detach();
+            } catch (final Exception e) {
+                exc = new FileSystemException("vfs.provider/close.error", fileName, e);
+            }
 
-        if (exc != null) {
-            throw exc;
+            if (exc != null) {
+                throw exc;
+            }
         }
     }
 
@@ -303,7 +305,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public void createFile() throws FileSystemException {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             try {
                 // VFS-210: We do not want to trunc any existing file, checking for its existence is
                 // still required
@@ -330,7 +332,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public void createFolder() throws FileSystemException {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             // VFS-210: we create a folder only if it does not already exist. So this check should be safe.
             if (getType().hasChildren()) {
                 // Already exists as correct type
@@ -440,7 +442,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws FileSystemException if an error occurs.
      */
     private boolean deleteSelf() throws FileSystemException {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             // Its possible to delete a read-only file if you have write-execute access to the directory
 
             /*
@@ -470,7 +472,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     private void detach() throws Exception {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             if (attached) {
                 try {
                     doDetach();
@@ -904,7 +906,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
 
     @Override
     protected void finalize() throws Throwable {
-        fs.fileObjectDestroyed(this);
+        fileSystem.fileObjectDestroyed(this);
 
         super.finalize();
     }
@@ -953,7 +955,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @return The FileSystem this file is associated with.
      */
     protected AFS getAbstractFileSystem() {
-        return fs;
+        return fileSystem;
     }
 
     /**
@@ -985,9 +987,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public FileObject[] getChildren() throws FileSystemException {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             // VFS-210
-            if (!fs.hasCapability(Capability.LIST_CHILDREN)) {
+            if (!fileSystem.hasCapability(Capability.LIST_CHILDREN)) {
                 throw new FileNotFolderException(fileName);
             }
 
@@ -1042,7 +1044,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                 final FileName[] cache = new FileName[files.length];
                 for (int i = 0; i < files.length; i++) {
                     final String file = files[i];
-                    cache[i] = fs.getFileSystemManager().resolveName(fileName, file, NameScope.CHILD);
+                    cache[i] = fileSystem.getFileSystemManager().resolveName(fileName, file, NameScope.CHILD);
                 }
                 // VFS-285: only assign the children filenames after all of them have been
                 // resolved successfully to prevent an inconsistent internal state
@@ -1061,7 +1063,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public FileContent getContent() throws FileSystemException {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             attach();
             if (content == null) {
                 content = doCreateFileContent();
@@ -1076,7 +1078,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @return The FileContentInfoFactory.
      */
     protected FileContentInfoFactory getFileContentInfoFactory() {
-        return fs.getFileSystemManager().getFileContentInfoFactory();
+        return fileSystem.getFileSystemManager().getFileContentInfoFactory();
     }
 
     /**
@@ -1099,7 +1101,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public FileSystem getFileSystem() {
-        return fs;
+        return fileSystem;
     }
 
     /**
@@ -1176,7 +1178,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
          * FileSystemException("vfs.provider/write-read-only.error", name); }
          */
 
-        if (bAppend && !fs.hasCapability(Capability.APPEND_CONTENT)) {
+        if (bAppend && !fileSystem.hasCapability(Capability.APPEND_CONTENT)) {
             throw new FileSystemException("vfs.provider/write-append-not-supported.error", fileName);
         }
 
@@ -1206,24 +1208,24 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public FileObject getParent() throws FileSystemException {
-        if (this.compareTo(fs.getRoot()) == 0) // equals is not implemented :-/
+        if (this.compareTo(fileSystem.getRoot()) == 0) // equals is not implemented :-/
         {
-            if (fs.getParentLayer() == null) {
+            if (fileSystem.getParentLayer() == null) {
                 // Root file has no parent
                 return null;
             }
             // Return the parent of the parent layer
-            return fs.getParentLayer().getParent();
+            return fileSystem.getParentLayer().getParent();
         }
 
-        synchronized (fs) {
+        synchronized (fileSystem) {
             // Locate the parent of this file
             if (parent == null) {
                 final FileName name = fileName.getParent();
                 if (name == null) {
                     return null;
                 }
-                parent = fs.resolveFile(name);
+                parent = fileSystem.resolveFile(name);
             }
             return parent;
         }
@@ -1243,7 +1245,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
          */
 
         if (mode.requestRead()) {
-            if (!fs.hasCapability(Capability.RANDOM_ACCESS_READ)) {
+            if (!fileSystem.hasCapability(Capability.RANDOM_ACCESS_READ)) {
                 throw new FileSystemException("vfs.provider/random-access-read-not-supported.error");
             }
             if (!isReadable()) {
@@ -1252,7 +1254,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         }
 
         if (mode.requestWrite()) {
-            if (!fs.hasCapability(Capability.RANDOM_ACCESS_WRITE)) {
+            if (!fileSystem.hasCapability(Capability.RANDOM_ACCESS_WRITE)) {
                 throw new FileSystemException("vfs.provider/random-access-write-not-supported.error");
             }
             if (!isWriteable()) {
@@ -1276,7 +1278,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public FileType getType() throws FileSystemException {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             attach();
 
             // VFS-210: get the type only if requested for
@@ -1310,7 +1312,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     final StringBuilder buf = new StringBuilder();
                     final String scheme = UriParser.extractScheme(fileName.getURI(), buf);
                     return new URL(scheme, "", -1, buf.toString(),
-                            new DefaultURLStreamHandler(fs.getContext(), fs.getFileSystemOptions()));
+                            new DefaultURLStreamHandler(fileSystem.getContext(), fileSystem.getFileSystemOptions()));
                 }
             });
         } catch (final PrivilegedActionException e) {
@@ -1327,7 +1329,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     protected void handleChanged() throws Exception {
         // Notify the file system
-        fs.fireFileChanged(this);
+        fileSystem.fireFileChanged(this);
     }
 
     /**
@@ -1337,7 +1339,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     protected void handleCreate(final FileType newType) throws Exception {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             if (attached) {
                 // Fix up state
                 injectType(newType);
@@ -1352,7 +1354,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             notifyParent(this.getName(), newType);
 
             // Notify the file system
-            fs.fireFileCreated(this);
+            fileSystem.fireFileCreated(this);
         }
     }
 
@@ -1362,7 +1364,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      * @throws Exception if an error occurs.
      */
     protected void handleDelete() throws Exception {
-        synchronized (fs) {
+        synchronized (fileSystem) {
             if (attached) {
                 // Fix up state
                 injectType(FileType.IMAGINARY);
@@ -1376,7 +1378,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             notifyParent(this.getName(), FileType.IMAGINARY);
 
             // Notify the file system
-            fs.fireFileDeleted(this);
+            fileSystem.fireFileDeleted(this);
         }
     }
 
@@ -1612,7 +1614,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
                     && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FILE)
                     || destFile.getType().hasChildren()
                             && destFile.getFileSystem().hasCapability(Capability.SET_LAST_MODIFIED_FOLDER))
-                    && fs.hasCapability(Capability.GET_LAST_MODIFIED)) {
+                    && fileSystem.hasCapability(Capability.GET_LAST_MODIFIED)) {
                 destFile.getContent().setLastModifiedTime(this.getContent().getLastModifiedTime());
             }
 
@@ -1639,7 +1641,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
             final FileName parentName = fileName.getParent();
             if (parentName != null) {
                 // Locate the parent, if it is cached
-                parent = fs.getFileFromCache(parentName);
+                parent = fileSystem.getFileFromCache(parentName);
             }
         }
 
@@ -1691,7 +1693,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     }
 
     private FileObject resolveFile(final FileName child) throws FileSystemException {
-        return fs.resolveFile(child);
+        return fileSystem.resolveFile(child);
     }
 
     /**
@@ -1704,8 +1706,8 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public FileObject resolveFile(final String path) throws FileSystemException {
-        final FileName otherName = fs.getFileSystemManager().resolveName(fileName, path);
-        return fs.resolveFile(otherName);
+        final FileName otherName = fileSystem.getFileSystemManager().resolveName(fileName, path);
+        return fileSystem.resolveFile(otherName);
     }
 
     /**
@@ -1719,7 +1721,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
     @Override
     public FileObject resolveFile(final String name, final NameScope scope) throws FileSystemException {
         // return fs.resolveFile(this.name.resolveName(name, scope));
-        return fs.resolveFile(fs.getFileSystemManager().resolveName(this.fileName, name, scope));
+        return fileSystem.resolveFile(fileSystem.getFileSystemManager().resolveName(this.fileName, name, scope));
     }
 
     private FileObject[] resolveFiles(final FileName[] children) throws FileSystemException {

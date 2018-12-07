@@ -79,6 +79,7 @@ public class RACRandomAccessFile extends RandomAccessFile implements RandomAcces
         throw new IOException("Underlying RandomAccessContent instance length cannot be modified.");
     }
 
+    @Override
     public InputStream getInputStream() throws IOException {
         return this.rac.getInputStream();
     }

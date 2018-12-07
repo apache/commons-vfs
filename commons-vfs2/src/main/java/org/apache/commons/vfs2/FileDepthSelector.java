@@ -67,7 +67,7 @@ public class FileDepthSelector implements FileSelector {
      * @return true if the file or folder should be included, false otherwise.
      */
     @Override
-    public boolean includeFile(final FileSelectInfo fileInfo) {
+    public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
         final int depth = fileInfo.getDepth();
         return minDepth <= depth && depth <= maxDepth;
     }
@@ -79,7 +79,7 @@ public class FileDepthSelector implements FileSelector {
      * @return true if the file or folder should be traversed, false otherwise.
      */
     @Override
-    public boolean traverseDescendents(final FileSelectInfo fileInfo) {
+    public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
         return fileInfo.getDepth() < maxDepth;
     }
 }

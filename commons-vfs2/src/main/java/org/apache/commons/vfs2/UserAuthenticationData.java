@@ -129,7 +129,7 @@ public class UserAuthenticationData {
         final Iterator<char[]> iterAuthenticationData = authenticationData.values().iterator();
         while (iterAuthenticationData.hasNext()) {
             final char[] data = iterAuthenticationData.next();
-            if (data == null || data.length < 0) {
+            if (data == null) {
                 continue;
             }
 

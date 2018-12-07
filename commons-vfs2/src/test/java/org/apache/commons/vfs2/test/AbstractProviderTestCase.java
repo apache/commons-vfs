@@ -75,6 +75,11 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
         this.baseFolder = baseFolder;
         this.readFolder = readFolder;
         this.writeFolder = writeFolder;
+        assertNotNull("setConfig manager", manager);
+        assertNotNull("setConfig providerConfig", providerConfig);
+        assertNotNull("setConfig baseFolder", baseFolder);
+        assertNotNull("setConfig readFolder", readFolder);
+        assertNotNull("setConfig writeFolder", writeFolder);
     }
 
     /**
@@ -172,7 +177,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
         if (caps != null) {
             for (final Capability cap2 : caps) {
                 final Capability cap = cap2;
-                final FileSystem fs = readFolder.getFileSystem();
+                final FileSystem fs = getFileSystem();
                 if (!fs.hasCapability(cap)) {
                     // String name = fs.getClass().getName();
                     // int index = name.lastIndexOf('.');

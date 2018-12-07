@@ -16,6 +16,8 @@
  */
 package org.apache.commons.vfs2;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,9 +54,9 @@ public class PatternFileSelectorTest {
         BaseFolder = VFS.getManager().resolveFile("ram://" + PatternFileSelectorTest.class.getName());
         BaseFolder.deleteAll();
         BaseFolder.createFolder();
-        BaseFolder.resolveFile("a.htm").createFile();
-        BaseFolder.resolveFile("a.html").createFile();
-        BaseFolder.resolveFile("a.xhtml").createFile();
+        BaseFolder.resolveFile("aa.htm").createFile();
+        BaseFolder.resolveFile("aa.html").createFile();
+        BaseFolder.resolveFile("aa.xhtml").createFile();
         BaseFolder.resolveFile("b.htm").createFile();
         BaseFolder.resolveFile("b.html").createFile();
         BaseFolder.resolveFile("b.xhtml").createFile();
@@ -127,6 +129,30 @@ public class PatternFileSelectorTest {
             final FileObject[] list = BaseFolder.findFiles(selector);
             Assert.assertEquals(FilesPerExtensionCount, list.length);
         }
+    }
+
+    /**
+     * Tests matching partial file names
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testMatchPartial() throws Exception {
+        final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector(".*a.htm"));
+        Assert.assertEquals(1, list.length);
+        assertEquals(list[0].getName().getBaseName(), "aa.htm");
+    }
+
+    /**
+     * Tests matching partial file names with delimiter
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testMatchPartialDelimited() throws Exception {
+        final FileObject[] list = BaseFolder.findFiles(new PatternFileSelector("^.*\\/b.htm$"));
+        Assert.assertEquals(1, list.length);
+        assertEquals(list[0].getName().getBaseName(), "b.htm");
     }
 
     static FileObject getBaseFolder() {

@@ -24,7 +24,9 @@ import org.apache.commons.vfs2.FileType;
 
 /**
  * A file name that represents URL.
+ * @deprecated Use {@link GenericURLFileName} as it doesn't depend on Http Client v3 API directly.
  */
+@Deprecated
 public class URLFileName extends GenericFileName {
     private static final int BUFFER_SIZE = 250;
 

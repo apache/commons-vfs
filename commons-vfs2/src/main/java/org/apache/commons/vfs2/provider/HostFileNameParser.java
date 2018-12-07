@@ -203,7 +203,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
 
         final String port = name.substring(1, pos);
         name.delete(0, pos);
-        if (port.length() == 0) {
+        if (port.isEmpty()) {
             throw new FileSystemException("vfs.provider/missing-port.error", uri);
         }
 

@@ -26,6 +26,7 @@ import org.apache.commons.vfs2.util.Messages;
  * Thrown for file system errors.
  */
 public class FileSystemException extends IOException {
+
     /**
      * serialVersionUID format is YYYYMMDD for the date of the last binary change.
      */
@@ -41,6 +42,52 @@ public class FileSystemException extends IOException {
      * Array of complementary info (context).
      */
     private final String[] info;
+
+    /**
+     * Throws a FileSystemException when the given object is null.
+     *
+     * @param obj
+     *            the object reference to check for null.
+     * @param code
+     *            message used when {@code
+     *                FileSystemException} is thrown
+     * @param <T>
+     *            the type of the reference
+     * @return {@code obj} if not {@code null}
+     * @throws FileSystemException
+     *             if {@code obj} is {@code null}
+     * @since 2.3
+     */
+    public static <T> T requireNonNull(final T obj, final String code) throws FileSystemException {
+        if (obj == null) {
+            throw new FileSystemException(code);
+        }
+        return obj;
+    }
+
+    /**
+     * Throws a FileSystemException when the given object is null.
+     *
+     * @param obj
+     *            the object reference to check for null.
+     * @param code
+     *            message used when {@code
+     *                FileSystemException} is thrown
+     * @param info
+     *            one context information.
+     * @param <T>
+     *            the type of the reference
+     * @return {@code obj} if not {@code null}
+     * @throws FileSystemException
+     *             if {@code obj} is {@code null}
+     * @since 2.3
+     */
+    public static <T> T requireNonNull(final T obj, final String code, final Object... info) throws FileSystemException {
+        if (obj == null) {
+            throw new FileSystemException(code, info);
+        }
+        return obj;
+    }
 
     /**
      * Constructs exception with the specified detail message.

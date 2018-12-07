@@ -33,7 +33,9 @@ import org.apache.commons.vfs2.provider.ftp.FtpClientFactory;
  * @since 2.0
  */
 public final class FtpsClientFactory {
+    
     private FtpsClientFactory() {
+        // empty
     }
 
     /**

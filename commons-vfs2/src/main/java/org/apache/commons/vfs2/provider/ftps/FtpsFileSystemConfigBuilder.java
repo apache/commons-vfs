@@ -52,7 +52,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     }
 
     /**
-     * Set FTPS mode, either "implicit" or "explicit".
+     * Sets FTPS mode, either "implicit" or "explicit".
      *
      * <p>
      * Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with
@@ -70,7 +70,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     }
 
     /**
-     * Return the FTPS mode. Defaults to "explicit" if not defined.
+     * Returns the FTPS mode. Defaults to "explicit" if not defined.
      *
      * @param opts The FileSystemOptions.
      * @return The file type.
@@ -81,7 +81,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     }
 
     /**
-     * Set FTPS type, either "implicit" or "explicit".
+     * Sets FTPS type, either "implicit" or "explicit".
      * <p>
      * Note, that implicit mode is not standardized and considered as deprecated. Some unit tests for VFS fail with
      * implicit mode and it is not yet clear if its a problem with Commons VFS/Commons Net or our test server Apache
@@ -108,7 +108,7 @@ public final class FtpsFileSystemConfigBuilder extends FtpFileSystemConfigBuilde
     }
 
     /**
-     * Return the FTPS type. Defaults to "explicit" if not defined.
+     * Returns the FTPS type. Defaults to "explicit" if not defined.
      *
      * @param opts The FileSystemOptions.
      * @return The file type.

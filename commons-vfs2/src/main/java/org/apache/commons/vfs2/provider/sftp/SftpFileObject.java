@@ -367,9 +367,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         } finally {
             getAbstractFileSystem().putChannel(channel);
         }
-        if (vector == null) {
-            throw new FileSystemException("vfs.provider.sftp/list-children.error");
-        }
+        FileSystemException.requireNonNull(vector, "vfs.provider.sftp/list-children.error");
 
         // Extract the child names
         final ArrayList<FileObject> children = new ArrayList<>();
