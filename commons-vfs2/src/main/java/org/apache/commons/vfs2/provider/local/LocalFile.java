@@ -37,6 +37,9 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * A file object implementation which uses direct file access.
  */
 public class LocalFile extends AbstractFileObject<LocalFileSystem> {
+
+    private static final String[] EMPTY_STRING_ARGS = new String[0];
+
     private final String rootFile;
 
     private File file;
@@ -107,7 +110,8 @@ public class LocalFile extends AbstractFileObject<LocalFileSystem> {
      */
     @Override
     protected String[] doListChildren() throws Exception {
-        return UriParser.encode(file.list());
+        String[] files = file.list();
+        return UriParser.encode(files == null ? EMPTY_STRING_ARGS : files);
     }
 
     /**
