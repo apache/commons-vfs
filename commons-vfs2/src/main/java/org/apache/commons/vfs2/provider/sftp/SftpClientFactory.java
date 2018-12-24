@@ -123,11 +123,15 @@ public final class SftpClientFactory {
             if (proxyHost != null) {
                 final int proxyPort = builder.getProxyPort(fileSystemOptions);
                 final SftpFileSystemConfigBuilder.ProxyType proxyType = builder.getProxyType(fileSystemOptions);
+                String proxyUser =  builder.getProxyUser(fileSystemOptions);
+                String proxyPassword = builder.getProxyPassword(fileSystemOptions);
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType)) {
                     proxy = createProxyHTTP(proxyHost, proxyPort);
+                    ((ProxyHTTP)proxy).setUserPasswd(proxyUser, proxyPassword);
                 } else if (SftpFileSystemConfigBuilder.PROXY_SOCKS5.equals(proxyType)) {
                     proxy = createProxySOCKS5(proxyHost, proxyPort);
+                    ((ProxySOCKS5)proxy).setUserPasswd(proxyUser, proxyPassword);
                 } else if (SftpFileSystemConfigBuilder.PROXY_STREAM.equals(proxyType)) {
                     proxy = createStreamProxy(proxyHost, proxyPort, fileSystemOptions, builder);
                 }
