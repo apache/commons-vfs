@@ -24,7 +24,8 @@ import org.apache.commons.vfs2.FileType;
 /**
  * Info about a file.
  */
-class FileInfo {
+public class FileInfo {
+
     String baseName;
     FileType type;
     String content;
@@ -71,5 +72,40 @@ class FileInfo {
         final FileInfo child = new FileInfo(baseName, FileType.FOLDER, null);
         addChild(child);
         return child;
+    }
+
+    /**
+     * Returns the base name for the file.
+     *
+     * @return the base name
+     */
+    public String getBaseName() {
+        return baseName;
+    }
+
+    /**
+     * Returns the {@link FileType} of the file
+     *
+     * @return {@link FileType}
+     */
+    public FileType getType() {
+        return type;
+    }
+
+    /**
+     * Returns file's content.
+     *
+     * @return the content as a {@code String}
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * Returns a {@code Map} of this {@code FileInfo}'s children.
+     * @return the {@code FileInfo}'s children
+     */
+    public Map<String, FileInfo> getChildren() {
+        return children;
     }
 }

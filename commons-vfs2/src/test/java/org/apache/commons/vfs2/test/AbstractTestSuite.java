@@ -24,21 +24,21 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import junit.extensions.TestSetup;
-import junit.framework.Protectable;
-import junit.framework.Test;
-import junit.framework.TestResult;
-import junit.framework.TestSuite;
-
-import org.apache.commons.io.FileUtils;
-
 import org.apache.commons.AbstractVfsTestCase;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.impl.DefaultFileReplicator;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.PrivilegedFileReplicator;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
+import org.junit.Assert;
+
+import junit.extensions.TestSetup;
+import junit.framework.Protectable;
+import junit.framework.Test;
+import junit.framework.TestResult;
+import junit.framework.TestSuite;
 
 /**
  * The suite of tests for a file system.
@@ -173,6 +173,9 @@ public abstract class AbstractTestSuite extends TestSetup {
 
         // Configure the tests
         final Enumeration<Test> tests = testSuite.tests();
+        if (!tests.hasMoreElements()) {
+        	Assert.fail("No tests.");
+        }
         while (tests.hasMoreElements()) {
             final Test test = tests.nextElement();
             if (test instanceof AbstractProviderTestCase) {
