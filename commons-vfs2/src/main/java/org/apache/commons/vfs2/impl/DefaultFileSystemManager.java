@@ -175,7 +175,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
      * @throws FileSystemException if an error occurs adding the provider.
      */
     public void addProvider(final String urlScheme, final FileProvider provider) throws FileSystemException {
-        addProvider(new String[] { urlScheme }, provider);
+        addProvider(new String[] {urlScheme}, provider);
     }
 
     /**
@@ -346,7 +346,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         try {
-            fileObjectDecoratorConst = fileObjectDecorator.getConstructor(new Class[] { FileObject.class });
+            fileObjectDecoratorConst = fileObjectDecorator.getConstructor(new Class[] {FileObject.class});
         } catch (final NoSuchMethodException e) {
             throw new FileSystemException("vfs.impl/invalid-decorator.error", fileObjectDecorator.getName(), e);
         }
@@ -708,7 +708,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
         }
 
         // Extract the scheme
-        final String scheme = UriParser.extractScheme(getSchemes(),uri);
+        final String scheme = UriParser.extractScheme(getSchemes(), uri);
         if (scheme != null) {
             // An absolute URI - locate the provider
             final FileProvider provider = providers.get(scheme);
@@ -1037,10 +1037,22 @@ public class DefaultFileSystemManager implements FileSystemManager {
      */
     @Override
     public String[] getSchemes() {
-        final List<String> schemes = new ArrayList<>(providers.size() + virtualFileSystemSchemes.size());
-        schemes.addAll(providers.keySet());
-        schemes.addAll(virtualFileSystemSchemes);
-        return schemes.toArray(new String[]{});
+       int index = 0;
+       int providerSize = providers.size();
+       int vfsSchemesSize = virtualFileSystemSchemes.size();
+       String[] schemes = new String[ providerSize + vfsSchemesSize];
+
+       for (String scheme : providers.keySet()) {
+           schemes[index] = scheme;
+           index++;
+       }
+
+       for (String scheme : virtualFileSystemSchemes) {
+           schemes[index] = scheme;
+           index++;
+       }
+
+       return schemes;
     }
 
     /**
@@ -1085,7 +1097,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
     @Override
     public void addOperationProvider(final String scheme, final FileOperationProvider operationProvider)
             throws FileSystemException {
-        addOperationProvider(new String[] { scheme }, operationProvider);
+        addOperationProvider(new String[] {scheme}, operationProvider);
     }
 
     /**
