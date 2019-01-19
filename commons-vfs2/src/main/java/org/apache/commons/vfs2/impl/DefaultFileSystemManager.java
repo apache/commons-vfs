@@ -67,6 +67,11 @@ public class DefaultFileSystemManager implements FileSystemManager {
     private final Map<String, FileProvider> providers = new HashMap<>();
 
     /**
+     * Cache of schemes currently supported.
+     */
+    private String[] cachedSchemes;
+
+    /**
      * List of the schemes of virtual filesystems added.
      */
     private final List<String> virtualFileSystemSchemes = new ArrayList<>();
@@ -207,6 +212,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
         if (provider instanceof LocalFileProvider && localFileProvider == null) {
             localFileProvider = (LocalFileProvider) provider;
         }
+
+        // invalidate the scheme cache
+        cachedSchemes = null;
     }
 
     /**
@@ -561,6 +569,9 @@ public class DefaultFileSystemManager implements FileSystemManager {
 
         // virtual schemas
         virtualFileSystemSchemes.clear();
+
+        // cached schemes
+        cachedSchemes = null;
 
         // setters and derived state
         defaultProvider = null;
@@ -955,6 +966,7 @@ public class DefaultFileSystemManager implements FileSystemManager {
             rootUri = rootUri.substring(0, rootUri.indexOf(':'));
         }
         virtualFileSystemSchemes.add(rootUri);
+        cachedSchemes = null;
     }
 
     /**
@@ -1037,22 +1049,25 @@ public class DefaultFileSystemManager implements FileSystemManager {
      */
     @Override
     public String[] getSchemes() {
-       int index = 0;
-       int providerSize = providers.size();
-       int vfsSchemesSize = virtualFileSystemSchemes.size();
-       String[] schemes = new String[ providerSize + vfsSchemesSize];
+        if (cachedSchemes == null) {
+            int index = 0;
+            int providerSize = providers.size();
+            int vfsSchemesSize = virtualFileSystemSchemes.size();
+            final String[] schemes = new String[providerSize + vfsSchemesSize];
 
-       for (String scheme : providers.keySet()) {
-           schemes[index] = scheme;
-           index++;
-       }
+            for (String scheme : providers.keySet()) {
+                schemes[index] = scheme;
+                index++;
+            }
 
-       for (String scheme : virtualFileSystemSchemes) {
-           schemes[index] = scheme;
-           index++;
-       }
+            for (String scheme : virtualFileSystemSchemes) {
+                schemes[index] = scheme;
+                index++;
+            }
 
-       return schemes;
+            cachedSchemes = schemes;
+        }
+        return cachedSchemes;
     }
 
     /**
