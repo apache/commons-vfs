@@ -307,6 +307,7 @@ public final class UriParser {
      * @param schemes The schemes to check.
      * @param uri The potential URI. May also be a name.
      * @return The scheme name. Returns null if there is no scheme.
+     * @since 2.3
      */
     public static String extractScheme(final String[] schemes, final String uri) {
         return extractScheme(schemes, uri, null);
@@ -326,6 +327,7 @@ public final class UriParser {
      * @param uri The potential URI. May also just be a name.
      * @param buffer Returns the remainder of the URI.
      * @return The scheme name. Returns null if there is no scheme.
+     * @since 2.3
      */
     public static String extractScheme(final String[] schemes, final String uri, StringBuilder buffer) {
         if (buffer != null) {
