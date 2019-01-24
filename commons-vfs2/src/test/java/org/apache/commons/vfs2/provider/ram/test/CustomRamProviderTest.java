@@ -37,6 +37,7 @@ import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.ram.RamFileProvider;
 import org.apache.commons.vfs2.provider.ram.RamFileSystemConfigBuilder;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -245,6 +246,18 @@ public class CustomRamProviderTest {
         } catch (final FileSystemException e) {
             // Expected
         }
-
+    }
+    
+    /**
+     * Tests VFS-625.
+     * @throws FileSystemException
+     */
+    @Test
+    public void testMoveFile() throws FileSystemException {
+        FileObject fileSource = manager.resolveFile("ram://virtual/source");
+        fileSource.createFile();
+        FileObject fileDest = manager.resolveFile("ram://virtual/dest");
+        Assert.assertTrue(fileSource.canRenameTo(fileDest));
+        fileSource.moveTo(fileDest);
     }
 }
