@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -25,14 +26,56 @@ import org.junit.Test;
  */
 public class UriParserTestCase {
 
-    @Test
-    public void testColonInFileName() {
-        Assert.assertEquals(null, UriParser.extractScheme("some/path/some:file"));
-    }
+	private static final String[] schemes = new String[2];
 
-    @Test
-    public void testNormalScheme() {
-        Assert.assertEquals("ftp", UriParser.extractScheme("ftp://user:pass@host/some/path/some:file"));
-    }
+	@BeforeClass
+	public static void setupSchemes() {
+		schemes[0] = "ftp";
+		schemes[1] = "file";
+	}
+
+	@Test
+	public void testColonInFileNameAndNotSupportedScheme() {
+		Assert.assertEquals(null, UriParser.extractScheme(schemes, "some:file"));
+	}
+
+	@Test
+	public void testColonInFileNameWithPath() {
+		Assert.assertEquals(null, UriParser.extractScheme(schemes, "some/path/some:file"));
+	}
+
+	@Test
+	public void testNormalScheme() {
+		Assert.assertEquals("ftp", UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file"));
+	}
+
+	@Test
+	public void testOneSlashScheme() {
+		Assert.assertEquals("file", UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file"));
+	}
+
+	@Test
+	public void testColonNotFollowedBySlash() {
+		Assert.assertEquals("file", UriParser.extractScheme(schemes, "file:user/subdir/some/path/some:file"));
+	}
+
+	@Test
+	public void testNormalSchemeWithBuffer() {
+		StringBuilder buffer = new StringBuilder();
+		UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file", buffer);
+		Assert.assertEquals("//user:pass@host/some/path/some:file", buffer.toString());
+	}
+
+	@Test
+	public void testOneSlashSchemeWithBuffer() {
+		StringBuilder buffer = new StringBuilder();
+		UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file", buffer);
+		Assert.assertEquals("/user:pass@host/some/path/some:file", buffer.toString());
+	}
+
+	@Test
+	public void testColonInFileName() {
+		Assert.assertEquals(null, UriParser.extractScheme("some/path/some:file"));
+	}
 
 }

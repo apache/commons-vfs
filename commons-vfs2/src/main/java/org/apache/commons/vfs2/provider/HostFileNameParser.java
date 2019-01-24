@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.util.Cryptor;
 import org.apache.commons.vfs2.util.CryptorFactory;
 
@@ -71,7 +72,7 @@ public class HostFileNameParser extends AbstractFileNameParser {
         final Authority auth = new Authority();
 
         // Extract the scheme
-        auth.scheme = UriParser.extractScheme(uri, name);
+        auth.scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), uri, name);
 
         // Expecting "//"
         if (name.length() < 2 || name.charAt(0) != '/' || name.charAt(1) != '/') {

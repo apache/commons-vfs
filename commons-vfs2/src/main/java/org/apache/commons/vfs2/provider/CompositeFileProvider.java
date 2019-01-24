@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.VFS;
 
 /**
  * Description.
@@ -51,7 +52,7 @@ public abstract class CompositeFileProvider extends AbstractFileProvider {
             throws FileSystemException {
         final StringBuilder buf = new StringBuilder(INITIAL_BUFSZ);
 
-        UriParser.extractScheme(uri, buf);
+        UriParser.extractScheme(VFS.getManager().getSchemes(), uri, buf);
 
         final String[] schemes = getSchemes();
         for (final String scheme : schemes) {
