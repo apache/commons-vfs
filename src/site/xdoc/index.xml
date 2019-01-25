@@ -71,6 +71,9 @@
             dependencies.
           </p>
           <p>
+           Apache Commons VFS 2.3 requires Java 8.
+          </p>
+          <p>
            Apache Commons VFS 2.2 requires Java 7.
           </p>
           <p>
