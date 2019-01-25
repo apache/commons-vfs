@@ -80,11 +80,6 @@ import org.apache.sshd.server.sftp.SftpSubsystem;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
-import static org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.ProxyType;
-import static org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.PROXY_HTTP;
-import static org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.PROXY_SOCKS5;
-import static org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder.PROXY_STREAM;
-
 /**
  * Tests cases for the SFTP provider.
  * <p>
@@ -178,8 +173,8 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
 
     private static final String TEST_URI = "test.sftp.uri";
 
-    /** Denotes which type of proxy (if any) we are using */
-    private final ProxyType proxyType;
+    /** True if we are testing the SFTP stream proxy */
+    private final boolean streamProxyMode;
 
     private static String getSystemTestUriOverride() {
         return System.getProperty(TEST_URI);
@@ -304,7 +299,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
         final TestSuite suite = new TestSuite();
 
         // --- Standard VFS test suite
-        final SftpProviderTestCase standardTestCase = new SftpProviderTestCase(null);
+        final SftpProviderTestCase standardTestCase = new SftpProviderTestCase(false);
         final ProviderTestSuite sftpSuite = new BaseProviderTestSuite(standardTestCase);
 
         // VFS-405: set/get permissions
@@ -316,9 +311,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
         // We override the addBaseTests method so that only
         // one test is run (we just test that the input/output are correctly forwarded, and
         // hence if the reading test succeeds/fails the other will also succeed/fail)
-        // --- VFS-663: HTTP / SOCKS5 proxy test suite
-        // Following the example set by VFS-440
-        final SftpProviderTestCase streamProxyTestCase = new SftpProviderTestCase(PROXY_STREAM);
+        final SftpProviderTestCase streamProxyTestCase = new SftpProviderTestCase(true);
         final ProviderTestSuite sftpStreamSuite = new BaseProviderTestSuite(streamProxyTestCase) {
             @Override
             protected void addBaseTests() throws Exception {
@@ -327,28 +320,6 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
             }
         };
         suite.addTest(sftpStreamSuite);
-
-        // --- VFS-663: HTTP / SOCKS5 proxy test suite
-        // Following the example set by VFS-440
-        final SftpProviderTestCase httpProxyTestCase = new SftpProviderTestCase(PROXY_HTTP);
-        final ProviderTestSuite sftpHttpSuite = new BaseProviderTestSuite(httpProxyTestCase) {
-            @Override
-            protected void addBaseTests() throws Exception {
-                // Just tries to read
-                addTests(ProviderReadTests.class);
-            }
-        };
-        suite.addTest(sftpHttpSuite);
-
-        final SftpProviderTestCase socks5ProxyTestCase = new SftpProviderTestCase(PROXY_SOCKS5);
-        final ProviderTestSuite sftpSocks5Suite = new BaseProviderTestSuite(socks5ProxyTestCase) {
-            @Override
-            protected void addBaseTests() throws Exception {
-                // Just tries to read
-                addTests(ProviderReadTests.class);
-            }
-        };
-        suite.addTest(sftpSocks5Suite);
 
         // Decorate the test suite to set up the Sftp server
         final TestSetup setup = new TestSetup(suite) {
@@ -382,8 +353,8 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
         }
     }
 
-    public SftpProviderTestCase(final SftpFileSystemConfigBuilder.ProxyType proxyType) {
-        this.proxyType = proxyType;
+    public SftpProviderTestCase(final boolean streamProxyMode) {
+        this.streamProxyMode = streamProxyMode;
     }
 
     /**
@@ -402,7 +373,7 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
         builder.setUserInfo(fileSystemOptions, new TrustEveryoneUserInfo());
         builder.setIdentityRepositoryFactory(fileSystemOptions, new TestIdentityRepositoryFactory());
 
-        if (proxyType == PROXY_STREAM) {
+        if (streamProxyMode) {
             final FileSystemOptions proxyOptions = (FileSystemOptions) fileSystemOptions.clone();
 
             final URI parsedURI = new URI(uri);
@@ -418,42 +389,6 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
             builder.setProxyPort(fileSystemOptions, parsedURI.getPort());
             builder.setProxyCommand(fileSystemOptions, SftpStreamProxy.NETCAT_COMMAND);
             builder.setProxyOptions(fileSystemOptions, proxyOptions);
-            builder.setProxyPassword(fileSystemOptions, parsedURI.getAuthority());
-
-            // Set up the new URI
-            uri = String.format("sftp://%s@localhost:%d", userInfo, parsedURI.getPort());
-        }
-
-        if (proxyType == PROXY_HTTP) {
-            final URI parsedURI = new URI(uri);
-            final String userInfo = parsedURI.getUserInfo();
-            final String[] userFields = userInfo.split(":", 2);
-
-            builder.setProxyType(fileSystemOptions, PROXY_HTTP);
-            builder.setProxyUser(fileSystemOptions, userFields[0]);
-            if (userFields.length > 1) {
-                builder.setProxyPassword(fileSystemOptions, userFields[1]);
-            }
-            builder.setProxyHost(fileSystemOptions, parsedURI.getHost());
-            builder.setProxyPort(fileSystemOptions, parsedURI.getPort());
-            builder.setProxyPassword(fileSystemOptions, parsedURI.getAuthority());
-
-            // Set up the new URI
-            uri = String.format("sftp://%s@localhost:%d", userInfo, parsedURI.getPort());
-        }
-
-        if (proxyType == PROXY_SOCKS5) {
-            final URI parsedURI = new URI(uri);
-            final String userInfo = parsedURI.getUserInfo();
-            final String[] userFields = userInfo.split(":", 2);
-
-            builder.setProxyType(fileSystemOptions, PROXY_SOCKS5);
-            builder.setProxyUser(fileSystemOptions, userFields[0]);
-            if (userFields.length > 1) {
-                builder.setProxyPassword(fileSystemOptions, userFields[1]);
-            }
-            builder.setProxyHost(fileSystemOptions, parsedURI.getHost());
-            builder.setProxyPort(fileSystemOptions, parsedURI.getPort());
             builder.setProxyPassword(fileSystemOptions, parsedURI.getAuthority());
 
             // Set up the new URI
