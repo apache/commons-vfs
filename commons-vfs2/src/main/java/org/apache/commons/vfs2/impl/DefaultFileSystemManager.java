@@ -60,7 +60,7 @@ import org.apache.commons.vfs2.provider.VfsComponent;
 /**
  * The default file system manager implementation.
  */
-public class DefaultFileSystemManager implements FileSystemManager {
+public class DefaultFileSystemManager implements FileSystemManager, AutoCloseable {
     /**
      * Mapping from URI scheme to FileProvider.
      */
