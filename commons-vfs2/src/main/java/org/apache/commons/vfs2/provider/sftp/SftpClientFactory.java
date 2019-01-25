@@ -17,6 +17,7 @@
 package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -25,9 +26,11 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.util.Os;
 
+import com.jcraft.jsch.ConfigRepository;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Logger;
+import com.jcraft.jsch.OpenSSHConfig;
 import com.jcraft.jsch.Proxy;
 import com.jcraft.jsch.ProxyHTTP;
 import com.jcraft.jsch.ProxySOCKS5;
@@ -39,6 +42,7 @@ import com.jcraft.jsch.UserInfo;
  */
 public final class SftpClientFactory {
     private static final String SSH_DIR_NAME = ".ssh";
+    private static final String OPENSSH_CONFIG_NAME = "config";
 
     private static final Log LOG = LogFactory.getLog(SftpClientFactory.class);
 
@@ -71,6 +75,8 @@ public final class SftpClientFactory {
         final File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
         final IdentityInfo[] identities = builder.getIdentityInfo(fileSystemOptions);
         final IdentityRepositoryFactory repositoryFactory = builder.getIdentityRepositoryFactory(fileSystemOptions);
+        final ConfigRepository configRepository = builder.getConfigRepository(fileSystemOptions);
+        final boolean loadOpenSSHConfig = builder.isLoadOpenSSHConfig(fileSystemOptions);
 
         sshDir = findSshDir();
 
@@ -81,6 +87,7 @@ public final class SftpClientFactory {
         }
 
         addIdentities(jsch, sshDir, identities);
+        setConfigRepository(jsch, sshDir, configRepository, loadOpenSSHConfig);
 
         Session session;
         try {
@@ -161,6 +168,20 @@ public final class SftpClientFactory {
             final File privateKeyFile = new File(sshDir, "id_rsa");
             if (privateKeyFile.isFile() && privateKeyFile.canRead()) {
                 addIndentity(jsch, new IdentityInfo(privateKeyFile));
+            }
+        }
+    }
+
+    private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, boolean loadOpenSSHConfig) throws FileSystemException {
+        if (configRepository != null) {
+            jsch.setConfigRepository(configRepository);
+        } else if (loadOpenSSHConfig) {
+            try {
+                // loading openssh config (~/.ssh/config)
+                final ConfigRepository openSSHConfig = OpenSSHConfig.parseFile(new File(sshDir, OPENSSH_CONFIG_NAME).getAbsolutePath());
+                jsch.setConfigRepository(openSSHConfig);
+            } catch (IOException e) {
+                throw new FileSystemException("vfs.provider.sftp/load-openssh-config.error", e);
             }
         }
     }
