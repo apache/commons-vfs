@@ -42,6 +42,7 @@ import java.util.TreeMap;
  * @see org.apache.commons.vfs2.provider.ram.RamFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.zip.ZipFileSystemConfigBuilder
  *
  */
 public final class FileSystemOptions implements Cloneable {

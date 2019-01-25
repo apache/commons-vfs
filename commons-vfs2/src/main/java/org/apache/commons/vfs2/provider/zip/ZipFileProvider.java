@@ -24,12 +24,14 @@ import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
+import org.apache.commons.vfs2.FileSystemConfigBuilder;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.provider.AbstractFileName;
 import org.apache.commons.vfs2.provider.AbstractLayeredFileProvider;
 import org.apache.commons.vfs2.provider.LayeredFileName;
+import org.apache.commons.vfs2.provider.hdfs.HdfsFileSystemConfigBuilder;
 
 /**
  * A file system provider for ZIP files. Provides read-only file systems.
@@ -45,10 +47,11 @@ public class ZipFileProvider extends AbstractLayeredFileProvider {
     }
 
     /**
-     * Creates a layered file system. This method is called if the file system is not cached.
+     * Creates a layered file system. This method is called if the file system is
+     * not cached.
      *
      * @param scheme The URI scheme.
-     * @param file The file to create the file system on top of.
+     * @param file   The file to create the file system on top of.
      * @return The file system.
      */
     @Override
@@ -62,5 +65,16 @@ public class ZipFileProvider extends AbstractLayeredFileProvider {
     @Override
     public Collection<Capability> getCapabilities() {
         return capabilities;
+    }
+
+    /**
+     * Return config builder.
+     *
+     * @return A config builder for ZipFileProvider.
+     * @see org.apache.commons.vfs2.provider.AbstractFileProvider#getConfigBuilder()
+     */
+    @Override
+    public FileSystemConfigBuilder getConfigBuilder() {
+        return ZipFileSystemConfigBuilder.getInstance();
     }
 }
