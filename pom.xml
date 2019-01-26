@@ -148,7 +148,8 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <!-- bare ID without major version or commons- prefix -->
-    <commons.componentid>vfs2</commons.componentid>
+    <commons.componentid>vfs</commons.componentid>
+    <commons.packageId>vfs2</commons.packageId>
     <commons.module.name>org.apache.commons.vfs2</commons.module.name>
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
