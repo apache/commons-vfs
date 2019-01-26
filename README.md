@@ -25,7 +25,7 @@
  | commons-build-plugin/trunk/src/main/resources/commons-xdoc-templates |
  +======================================================================+
  |                                                                      |
- | 1) Re-generate using: mvn commons:readme-md                          |
+ | 1) Re-generate using: mvn commons-build:readme-md                    |
  |                                                                      |
  | 2) Set the following properties in the component's pom:              |
  |    - commons.componentid (required, alphabetic, lower case)          |
@@ -40,20 +40,22 @@
  |                                                                      |
  +======================================================================+
 --->
-Apache Commons VFS
+Apache Commons VFS Project
 ===================
 
-[![Build Status](https://travis-ci.org/apache/commons-vfs.svg?branch=trunk)](https://travis-ci.org/apache/commons-vfs)
+[![Build Status](https://travis-ci.org/apache/commons-vfs2.svg)](https://travis-ci.org/apache/commons-vfs2)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-vfs2/badge.svg)](https://coveralls.io/r/apache/commons-vfs2)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/)
+[![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.3.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.3)
 
 Apache Commons VFS is a Virtual File System library.
 
 Documentation
 -------------
 
-More information can be found on the [Apache Commons VFS homepage](https://commons.apache.org/proper/commons-vfs).
-The [Javadoc](https://commons.apache.org/proper/commons-vfs/apidocs/index.html) can be browsed.
-Questions related to the usage of Apache Commons VFS should be posted to the [user mailing list][ml].
+More information can be found on the [Apache Commons VFS Project homepage](https://commons.apache.org/proper/commons-vfs2).
+The [Javadoc](https://commons.apache.org/proper/commons-vfs2/javadocs/api-release) can be browsed.
+Questions related to the usage of Apache Commons VFS Project should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
 -----------------------------------
@@ -65,7 +67,7 @@ Alternatively you can pull it from the central Maven repositories:
 <dependency>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2</artifactId>
-  <version>2.2</version>
+  <version>2.3</version>
 </dependency>
 ```
 
@@ -90,7 +92,7 @@ See the `NOTICE.txt` file for required notices and attributions.
 
 Donations
 ---------
-You like Apache Commons VFS? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support the development.
+You like Apache Commons VFS Project? Then [donate back to the ASF](https://www.apache.org/foundation/contributing.html) to support the development.
 
 Additional Resources
 --------------------
