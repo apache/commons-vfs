@@ -23,14 +23,14 @@ limitations under the License.
   <name>Apache Commons VFS Distribution</name>
   <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2-distribution</artifactId>
-  <version>2.3</version>
+  <version>2.3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>Apache Commons VFS is a Virtual File System library - Distribution archives.</description>
 
   <parent>
     <groupId>org.apache.commons</groupId>
     <artifactId>commons-vfs2-project</artifactId>
-    <version>2.3</version>
+    <version>2.3-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -38,6 +38,7 @@ limitations under the License.
     <!--  dist module contains no code and no checkstyle config -->
     <checkstyle.skip>true</checkstyle.skip>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.release.isDistModule>true</commons.release.isDistModule>
   </properties>
 
   <profiles>
