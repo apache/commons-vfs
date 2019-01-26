@@ -45,7 +45,7 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.3" date="YYYY-MM-DD" description="Bug fix release.">
+    <release version="2.3" date="2019-01-25" description="New features and bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
@@ -133,6 +133,9 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action issue="VFS-637" dev="ggregory" type="add" due-to="Gary Gregory">
         Zip files with legacy encoding and special characters let VFS crash.
+      </action>
+      <action issue="VFS-360" dev="ggregory" type="add" due-to="Woonsan Ko">
+        Add HTTP provider based on HttpComponents HttpClient 4.
       </action>
     </release>
     <release version="2.2" date="2017-10-06" description="New features and bug fix release.">
