@@ -1,7 +1,7 @@
               Apache Commons VFS Project 2.3
                   RELEASE NOTES
 
-The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.3-SNAPSHOT
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.3.
 
 Apache Commons VFS is a Virtual File System library.
 
