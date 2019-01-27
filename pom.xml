@@ -175,7 +175,7 @@
 -->
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <version.checkstyle>2.17</version.checkstyle>
+    <version.checkstyle>3.0.0</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
@@ -350,7 +350,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.9.0</version>
+        <version>3.11.0</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <aggregate>true</aggregate>
