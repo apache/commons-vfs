@@ -86,6 +86,12 @@
 
         <section name="News">
           <p>
+            Apache Commons VFS 2.3 is a new features and bug fix release.
+          </p>
+          <p>
+            Apache Commons VFS 2.2 is a new features and bug fix release.
+          </p>
+          <p>
             Apache Commons VFS 2.1 is a bugfix release to VFS 2.0. If you meet the requirements you should be able 
             to replace 2.0 with 2.1 without the need for changes to API consumers. VFS 2.1 has introduced some now 
             methods for provider interfaces (like <code>FileObject</code>). If you implement a VFS provider and use the
@@ -94,7 +100,8 @@
             See the <a href="https://dist.apache.org/repos/dist/dev/commons/vfs/RELEASE-NOTES.txt">Release Notes</a> and the
             <a href="commons-vfs2/clirr-report.html">Clirr Report</a> for details. VFS 2.1 adds a new read-only provider
             for the Apache Hadoop (HDFS) File system.
-          </p><p>
+          </p>
+          <p>
             Apache Commons VFS 2.0 adds support for FTPS and WebDav have been added in addition to many bugs
             being fixed. Version 2.0 is not binary compatible with version 1.0. To insure that both 1.0 and 2.0 can
             coexist version 2.0 has had its Maven groupId changed to org.apache.commons, its Maven artifact changed

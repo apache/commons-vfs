@@ -43,8 +43,8 @@
 Apache Commons VFS Project
 ===================
 
-[![Build Status](https://travis-ci.org/apache/commons-vfs2.svg)](https://travis-ci.org/apache/commons-vfs2)
-[![Coverage Status](https://coveralls.io/repos/apache/commons-vfs2/badge.svg)](https://coveralls.io/r/apache/commons-vfs2)
+[![Build Status](https://travis-ci.org/apache/commons-vfs.svg)](https://travis-ci.org/apache/commons-vfs)
+[![Coverage Status](https://coveralls.io/repos/apache/commons-vfs/badge.svg)](https://coveralls.io/r/apache/commons-vfs)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.3.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.3)
 
@@ -53,13 +53,13 @@ Apache Commons VFS is a Virtual File System library.
 Documentation
 -------------
 
-More information can be found on the [Apache Commons VFS Project homepage](https://commons.apache.org/proper/commons-vfs2).
-The [Javadoc](https://commons.apache.org/proper/commons-vfs2/javadocs/api-release) can be browsed.
+More information can be found on the [Apache Commons VFS Project homepage](https://commons.apache.org/proper/commons-vfs).
+The [Javadoc](https://commons.apache.org/proper/commons-vfs/javadocs/api-release) can be browsed.
 Questions related to the usage of Apache Commons VFS Project should be posted to the [user mailing list][ml].
 
 Where can I get the latest release?
 -----------------------------------
-You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-vfs2/download_vfs2.cgi).
+You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-vfs/download_vfs.cgi).
 
 Alternatively you can pull it from the central Maven repositories:
 
