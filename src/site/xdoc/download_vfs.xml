@@ -117,28 +117,28 @@ limitations under the License.
       <subsection name="Binaries">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/vfs2/binaries/commons-vfs-2.3.tar.gz">commons-vfs-2.3.tar.gz</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/binaries/commons-vfs-2.3.tar.gz.sha256">sha256</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/binaries/commons-vfs-2.3.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.3.tar.gz">commons-vfs-2.3.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.3.tar.gz.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.3.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/vfs2/binaries/commons-vfs-2.3.zip">commons-vfs-2.3.zip</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/binaries/commons-vfs-2.3.zip.sha256">sha256</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/binaries/commons-vfs-2.3.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/binaries/commons-vfs-2.3.zip">commons-vfs-2.3.zip</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.3.zip.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/binaries/commons-vfs-2.3.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
       <subsection name="Source">
         <table>
           <tr>
-              <td><a href="[preferred]/commons/vfs2/source/commons-vfs-2.3-src.tar.gz">commons-vfs-2.3-src.tar.gz</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/source/commons-vfs-2.3-src.tar.gz.sha256">sha256</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/source/commons-vfs-2.3-src.tar.gz.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.3-src.tar.gz">commons-vfs-2.3-src.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.3-src.tar.gz.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.3-src.tar.gz.asc">pgp</a></td>
           </tr>
           <tr>
-              <td><a href="[preferred]/commons/vfs2/source/commons-vfs-2.3-src.zip">commons-vfs-2.3-src.zip</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/source/commons-vfs-2.3-src.zip.sha256">sha256</a></td>
-              <td><a href="https://www.apache.org/dist/commons/vfs2/source/commons-vfs-2.3-src.zip.asc">pgp</a></td>
+              <td><a href="[preferred]/commons/vfs/source/commons-vfs-2.3-src.zip">commons-vfs-2.3-src.zip</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.3-src.zip.sha256">sha256</a></td>
+              <td><a href="https://www.apache.org/dist/commons/vfs/source/commons-vfs-2.3-src.zip.asc">pgp</a></td>
           </tr>
         </table>
       </subsection>
@@ -148,8 +148,8 @@ limitations under the License.
           Older releases can be obtained from the archives.
         </p>
         <ul>
-          <li class="download"><a href="[preferred]/commons/vfs2/">browse download area</a></li>
-          <li><a href="https://archive.apache.org/dist/commons/vfs2/">archives...</a></li>
+          <li class="download"><a href="[preferred]/commons/vfs/">browse download area</a></li>
+          <li><a href="https://archive.apache.org/dist/commons/vfs/">archives...</a></li>
         </ul>
     </section>
   </body>
