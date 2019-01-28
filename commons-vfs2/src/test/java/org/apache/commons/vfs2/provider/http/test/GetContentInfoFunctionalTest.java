@@ -39,10 +39,11 @@ public class GetContentInfoFunctionalTest {
     @Test
     public void testGetContentInfo() throws FileSystemException {
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt");
-        final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
-        // Used to NPE before fix:
-        content.getContentInfo();
+        try (final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt");
+                final FileContent content = fo.getContent();) {
+            Assert.assertNotNull(content);
+            // Used to NPE before fix:
+            content.getContentInfo();
+        }
     }
 }
