@@ -168,8 +168,8 @@ public abstract class AbstractTestSuite extends TestSetup {
         writeFolder = baseFolder.resolveFile("write-tests");
 
         // Make some assumptions about the read folder
-        assertTrue("Folder does not exist: " + readFolder, readFolder.exists());
-        assertFalse(readFolder.getName().getPath().equals(FileName.ROOT_PATH));
+        Assert.assertTrue("Folder does not exist: " + readFolder, readFolder.exists());
+        Assert.assertFalse(readFolder.getName().getPath().equals(FileName.ROOT_PATH));
 
         // Configure the tests
         final Enumeration<Test> tests = testSuite.tests();
@@ -234,7 +234,7 @@ public abstract class AbstractTestSuite extends TestSetup {
      */
     private void checkTempDir(final String assertMsg) {
         if (tempDir.exists()) {
-            assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")",
+            Assert.assertTrue(assertMsg + " (" + tempDir.getAbsolutePath() + ")",
                     tempDir.isDirectory() && tempDir.list().length == 0);
         }
     }
