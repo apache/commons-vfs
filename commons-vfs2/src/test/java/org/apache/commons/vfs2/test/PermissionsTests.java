@@ -56,15 +56,15 @@ public class PermissionsTests extends AbstractProviderTestCase {
 
         } else {
             // Set the executable flag for owner
-            Assert.assertTrue("Setting executable permission failed", file.setExecutable(true, true));
+            Assert.assertTrue("Setting executable permission failed: " + file, file.setExecutable(true, true));
             Assert.assertTrue("File expected to be executable: " + file, file.isExecutable());
 
             // Set the executable flag for all
-            Assert.assertTrue("Setting executable permission failed", file.setExecutable(true, false));
+            Assert.assertTrue("Setting executable permission failed: " + file, file.setExecutable(true, false));
             Assert.assertTrue("File expected to be executable: " + file, file.isExecutable());
 
             // Clear the executable flag
-            Assert.assertTrue("Setting executable permission failed", file.setExecutable(false, true));
+            Assert.assertTrue("Setting executable permission failed: " + file, file.setExecutable(false, true));
             Assert.assertFalse("File expected to be not executable: " + file, file.isExecutable());
         }
     }
@@ -76,15 +76,15 @@ public class PermissionsTests extends AbstractProviderTestCase {
         final FileObject file = createTestFile();
 
         // Set the write permission for owner
-        Assert.assertTrue("Setting write permission failed", file.setWritable(true, true));
+        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(true, true));
         Assert.assertTrue("File expected to be writable: " + file, file.isWriteable());
 
         // Set the write permission for all
-        Assert.assertTrue("Setting write permission failed", file.setWritable(true, false));
+        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(true, false));
         Assert.assertTrue("File expected to be writable: " + file, file.isWriteable());
 
         // Clear the write permission
-        Assert.assertTrue("Setting write permission failed", file.setWritable(false, true));
+        Assert.assertTrue("Setting write permission failed: " + file, file.setWritable(false, true));
         Assert.assertFalse("File expected to be not writable: " + file, file.isWriteable());
     }
 
@@ -99,15 +99,15 @@ public class PermissionsTests extends AbstractProviderTestCase {
             Assert.assertTrue("File expected to be readable: " + file, file.isReadable());
         } else {
             // Set the readable permission for owner
-            Assert.assertTrue("Setting read permission failed", file.setReadable(true, true));
+            Assert.assertTrue("Setting read permission failed: " + file, file.setReadable(true, true));
             Assert.assertTrue("File expected to be readable: " + file, file.isReadable());
 
             // Set the readable permission for all
-            Assert.assertTrue("Setting read permission failed", file.setReadable(true, false));
+            Assert.assertTrue("Setting read permission failed: " + file, file.setReadable(true, false));
             Assert.assertTrue("File expected to be readable: " + file, file.isReadable());
 
             // Clear the readable permission
-            Assert.assertTrue("Setting read permission failed", file.setReadable(false, true));
+            Assert.assertTrue("Setting read permission failed: " + file, file.setReadable(false, true));
             Assert.assertFalse("File expected to be not readable: " + file, file.isReadable());
         }
     }
