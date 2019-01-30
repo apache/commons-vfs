@@ -63,19 +63,19 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
         try {
             file = this.createScratchFolder().resolveFile("random_write.txt");
             file.createFile();
+            final String fileString = file.toString();
             final RandomAccessContent ra = file.getContent().getRandomAccessContent(RandomAccessMode.READWRITE);
-            final String raString = ra.toString();
 
             // Write long string
             ra.writeBytes(TEST_DATA);
-            Assert.assertEquals(raString, TEST_DATA.length(), ra.length());
+            Assert.assertEquals(fileString, TEST_DATA.length(), ra.length());
 
             // Shrink to length 1
             ra.setLength(1);
-            Assert.assertEquals(raString, 1, ra.length());
+            Assert.assertEquals(fileString, 1, ra.length());
             // now read 1
             ra.seek(0);
-            Assert.assertEquals(raString, ra.readByte(), TEST_DATA.charAt(0));
+            Assert.assertEquals(fileString, ra.readByte(), TEST_DATA.charAt(0));
 
             try {
                 ra.readByte();
@@ -86,7 +86,7 @@ public class ProviderRandomSetLengthTests extends AbstractProviderTestCase {
 
             // Grow to length 2
             ra.setLength(2);
-            Assert.assertEquals(raString, 2, ra.length());
+            Assert.assertEquals(fileString, 2, ra.length());
             // We have an undefined extra byte
             ra.seek(1);
             ra.readByte();
