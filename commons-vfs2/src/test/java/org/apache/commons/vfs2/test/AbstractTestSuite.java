@@ -260,7 +260,8 @@ public abstract class AbstractTestSuite extends TestSetup {
             sb.append("#");
             sb.append(iter + 1);
             sb.append(": ");
-            sb.append(thread.getThreadGroup() != null ? thread.getThreadGroup().getName() : "(null)");
+            final ThreadGroup threadGroup = thread.getThreadGroup();
+            sb.append(threadGroup != null ? threadGroup.getName() : "(null)");
             sb.append("\t");
             sb.append(thread.getName());
             sb.append("\t");
