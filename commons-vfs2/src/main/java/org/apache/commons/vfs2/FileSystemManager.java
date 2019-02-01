@@ -202,35 +202,35 @@ public interface FileSystemManager {
     boolean canCreateFileSystem(FileObject file) throws FileSystemException;
 
     /**
-     * Get the cache used to cache file objects.
+     * Gets the cache used to cache file objects.
      *
      * @return The FilesCache.
      */
     FilesCache getFilesCache();
 
     /**
-     * Get the cache strategy used.
+     * Gets the cache strategy used.
      *
      * @return the CacheStrategy.
      */
     CacheStrategy getCacheStrategy();
 
     /**
-     * Get the file object decorator used.
+     * Gets the file object decorator used.
      *
      * @return the file object decorator Class.
      */
     Class<?> getFileObjectDecorator();
 
     /**
-     * The constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
+     * Gets the constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
      *
      * @return the Constructor associated with the FileObjectDecorator.
      */
     Constructor<?> getFileObjectDecoratorConst();
 
     /**
-     * The class to use to determine the content-type (mime-type).
+     * Gets the class to use to determine the content-type (mime-type).
      *
      * @return the FileContentInfoFactory.
      */
@@ -245,14 +245,14 @@ public interface FileSystemManager {
     boolean hasProvider(String scheme);
 
     /**
-     * Get the schemes currently available.
+     * Gets the schemes currently available.
      *
      * @return An array of available scheme names that are supported.
      */
     String[] getSchemes();
 
     /**
-     * Get the capabilities for a given scheme.
+     * Gets the capabilities for a given scheme.
      *
      * @param scheme The scheme to use to locate the provider's capabilities.
      * @return A Collection of the various capabilities.
@@ -277,7 +277,7 @@ public interface FileSystemManager {
     FileSystemConfigBuilder getFileSystemConfigBuilder(String scheme) throws FileSystemException;
 
     /**
-     * Resolve the uri to a filename.
+     * Resolves the uri to a filename.
      *
      * @param uri The uri to resolve.
      * @return A FileName that matches the uri.
@@ -309,7 +309,7 @@ public interface FileSystemManager {
     void addOperationProvider(String[] schemes, FileOperationProvider operationProvider) throws FileSystemException;
 
     /**
-     * Get Providers for file operations.
+     * Gets Providers for file operations.
      *
      * @param scheme the scheme for wich we want to get the list af registered providers.
      *
