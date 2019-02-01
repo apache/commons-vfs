@@ -19,6 +19,8 @@ sudo: false
 jdk:
   - oraclejdk8
   - openjdk8
+  - oraclejdk11
+  - openjdk11
 
 after_success:
   - mvn -V -B -e clean cobertura:cobertura coveralls:report
