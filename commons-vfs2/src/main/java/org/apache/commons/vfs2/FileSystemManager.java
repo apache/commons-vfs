@@ -49,6 +49,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * </ul>
  */
 public interface FileSystemManager {
+    
     /**
      * Returns the base file used to resolve relative paths.
      *
@@ -82,6 +83,7 @@ public interface FileSystemManager {
      * either an absolute URI, an absolute file name, or a relative path to be resolved against {@code baseFile}.
      * <p>
      * Note that the file does not have to exist when this method is called.
+     * </p>
      *
      * @param baseFile The base file to use to resolve relative paths. May be null if the name is an absolute file name.
      * @param name The name of the file.
@@ -149,6 +151,7 @@ public interface FileSystemManager {
      * Closes the given filesystem.
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
+     * </p>
      *
      * @param filesystem The FileSystem to close.
      */
@@ -288,6 +291,7 @@ public interface FileSystemManager {
      * <p>
      * Several FileOperationProvider's might be registered for the same scheme. For example, for {@code "file"} scheme
      * we can register {@code SvnWsOperationProvider} and {@code CvsOperationProvider.}
+     * </p>
      *
      * @param scheme The scheme assoicated with this provider.
      * @param operationProvider The FileOperationProvider to add.
