@@ -517,7 +517,6 @@
       <dependency>
         <groupId>org.apache.mina</groupId>
         <artifactId>mina-core</artifactId>
-        <!-- 2.0.8 causes tests to fail -->
         <version>2.0.19</version>
       </dependency>
       <dependency>
