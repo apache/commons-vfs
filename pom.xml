@@ -47,8 +47,8 @@
   </issueManagement>
 
   <scm>
-    <connection>https://gitbox.apache.org/repos/asf/commons-vfs.git</connection>
-    <developerConnection>https://gitbox.apache.org/repos/asf/commons-vfs.git</developerConnection>
+    <connection>git:scm:https://gitbox.apache.org/repos/asf/commons-vfs.git</connection>
+    <developerConnection>git:scm:https://gitbox.apache.org/repos/asf/commons-vfs.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-vfs.git</url>
     <tag>commons-vfs-project-2.3</tag>
   </scm>
