@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * one of those file systems.
  * <p>
  * To locate a {@link FileObject}, use one of the {@code resolveFile()} methods.
+ * </p>
  *
  * <h2><a name="naming">File Naming</a></h2>
  *
