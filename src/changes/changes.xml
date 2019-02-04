@@ -45,11 +45,13 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
+    <release version="2.4" date="2019-MM-DD" description="New features and bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+    </release>
+    <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
 		VfsClassLoaderTests and JarProviderTestCase fails on Java 9 and up.
       </action>

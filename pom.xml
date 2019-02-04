@@ -158,9 +158,9 @@
     <commons.siteOutputDirectory>${basedir}/../target/site</commons.siteOutputDirectory>
     <commons.releaseNotesLocation>${basedir}/../RELEASE-NOTES.txt</commons.releaseNotesLocation>
     <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
-    <commons.release.version>2.3</commons.release.version>
+    <commons.release.version>2.4</commons.release.version>
     <!-- Commons Release Plugin -->
-    <commons.bc.version>2.2</commons.bc.version>
+    <commons.bc.version>2.3</commons.bc.version>
     <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
     <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>  
     <commons.rc.version>RC2</commons.rc.version>
