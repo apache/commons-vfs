@@ -50,6 +50,9 @@ The <action> type attribute can be add,update,fix,remove.
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <action issue="VFS-690" dev="ggregory" type="add">
+        Allow to set key exchange algorithm explicitly. GitHub #32.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
