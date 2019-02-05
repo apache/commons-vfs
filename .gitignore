@@ -3,3 +3,7 @@ target/
 .classpath
 .settings/
 .svn/
+.idea/
+*.iml
+*.iws
+.DS_Store
