@@ -17,7 +17,11 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -46,6 +50,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String TRANSFER_ABORTED_OK_STATUS_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_STATUS_CODES";
 
     private FtpFileSystemConfigBuilder() {
         super("ftp.");
@@ -73,6 +78,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     @Override
     protected Class<? extends FileSystem> getConfigClass() {
         return FtpFileSystem.class;
+    }
+
+    public static List<Integer> getSaneTransferAbortedOkStatusCodes() {
+        // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
+        return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
     }
 
     /**
@@ -236,6 +246,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public Boolean getUserDirIsRoot(final FileSystemOptions opts) {
         return getBoolean(opts, USER_DIR_IS_ROOT, Boolean.TRUE);
+    }
+
+    /**
+     * @param opts The FileSystem options.
+     * @return The list of status codes (apart from 200) that are considered as OK when prematurely
+     * closing a stream. Defaults to <code>[426, 550]</code>.
+     * @since 2.4
+     */
+    @SuppressWarnings("unchecked")
+    public List<Integer> getTransferAbortedOkStatusCodes(final FileSystemOptions opts) {
+        return (List<Integer>) getParam(opts, TRANSFER_ABORTED_OK_STATUS_CODES);
     }
 
     /**
@@ -422,4 +443,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
     }
 
+    /**
+     * Sets the list of status codes that are considered as OK when prematurely closing a stream.
+     * <p>
+     * If you set the {@code statusCodes} to an empty list, all status codes besides 200 will be
+     * considered as an error.
+     *
+     * @param opts The FileSystem options.
+     * @param statusCodes The status codes.
+     * @since 2.4
+     */
+    public void setTransferAbortedOkStatusCodes(final FileSystemOptions opts, final List<Integer> statusCodes) {
+        setParam(opts, TRANSFER_ABORTED_OK_STATUS_CODES, statusCodes);
+    }
 }
