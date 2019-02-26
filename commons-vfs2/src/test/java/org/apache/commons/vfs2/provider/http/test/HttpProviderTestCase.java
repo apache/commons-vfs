@@ -150,8 +150,7 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
         VFS.getManager().getFilesCache().close();
         final FileSystemOptions opts = new FileSystemOptions();
         HttpFileSystemConfigBuilder.getInstance().setFollowRedirect(opts, followRedirect);
-        final FileObject file = VFS.getManager().resolveFile(uri, opts);
-        try {
+        try (final FileObject file = VFS.getManager().resolveFile(uri, opts)) {
             checkReadTestsFolder(file);
         } catch (final FileNotFolderException e) {
             // Expected: VFS HTTP does not support listing children yet.
@@ -176,9 +175,10 @@ public class HttpProviderTestCase extends AbstractProviderTestConfig {
 
     // Test no longer passing 2016/04/28
     public void ignoreTestHttp405() throws FileSystemException {
-        final FileObject f = VFS.getManager()
-                .resolveFile("http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL");
-        assert f.getContent().getSize() > 0;
+        try (final FileObject fileObject = VFS.getManager()
+                .resolveFile("http://www.w3schools.com/webservices/tempconvert.asmx?action=WSDL")) {
+            assert fileObject.getContent().getSize() > 0;
+        }
     }
 
     /** Ensure VFS-453 options are present. */

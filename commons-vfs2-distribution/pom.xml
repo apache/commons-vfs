@@ -38,6 +38,7 @@ limitations under the License.
     <!--  dist module contains no code and no checkstyle config -->
     <checkstyle.skip>true</checkstyle.skip>
     <vfs.parent.dir>${basedir}/..</vfs.parent.dir>
+    <commons.release.isDistModule>true</commons.release.isDistModule>
   </properties>
 
   <profiles>

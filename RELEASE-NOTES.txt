@@ -1,3 +1,59 @@
+              Apache Commons VFS Project 2.3
+                  RELEASE NOTES
+
+The Apache Commons VFS Project team is pleased to announce the release of Apache Commons VFS Project 2.3.
+
+Apache Commons VFS is a Virtual File System library.
+
+New features and bug fix release.
+
+Changes in this version include:
+
+New features:
+o VFS-677:  [SFTP] Add support for append mode. Thanks to dingxbcn.
+o VFS-673:  [SFTP] Support com.jcraft.jsch.ConfigRepository (~/.ssh/config) with SftpFileSystemConfigBuilder and flag to load OpenSSHConfig. Thanks to Oleksandr Lykhonosov.
+o VFS-673:  DefaultFileSystemManager should implement AutoCloseable. Thanks to Daniel Banks.
+o VFS-637:  Zip files with legacy encoding and special characters let VFS crash. Thanks to Gary Gregory.
+o VFS-360:  Add HTTP provider based on HttpComponents HttpClient 4. Thanks to Woonsan Ko.
+
+Fixed Bugs:
+o VFS-645:  VfsClassLoaderTests and JarProviderTestCase fails on Java 9 and up.
+o VFS-678:  Fix various LGTM.com code review warnings.
+o VFS-652:  PatternFileSelector documentation to describe actual matching against getPath().
+o VFS-589:  SFTP moveTo operation hangs if the server does not support SSH channelExec. Thanks to L, Gary Gregory.
+o VFS-655:  OSGI MANIFEST.MF "Import-Package" should be ";resolution:=optional" for Maven "optional" dependencies. Thanks to Arnaud MERGEY.
+o VFS-657:  FileSelector implementations like FileDepthSelector should throw Exception. Thanks to Elias Putz.
+o VFS-614:  MonitorInputStream should not close the stream in read(). Thanks to Boris Petrov, Otto Fowler.
+o VFS-667:  org.apache.commons.vfs2.provider.res.ResourceFileProvider.findFile(FileObject, String, FileSystemOptions) should throw a org.apache.commons.vfs2.FileSystemException instead of a NPE when the class loader is null.
+o VFS-669:  org.apache.commons.vfs2.util.CombinedResources.loadResources(String) should not throw an NPE for the system class loader is null.
+o VFS-675:  NullPointerException at AbstractFileObject.java:221.
+o VFS-674:  Cannot close an FTP input stream without an exception. Thanks to Boris Petrov, Gary Gregory.
+o VFS-294:  NullPointerException in FtpFileObject.getChildFile(). Thanks to Johannes Scharf.
+o VFS-679:  NullPointerException in FtpFileObject.doGetLastModifiedTime(). Thanks to Boris Petrov, Gary Gregory.
+o VFS-398:  FtpFileObject.getChildren() fails when a folder contains a file with a colon in the name. Thanks to Otto Fowler.
+
+Changes:
+o VFS-650:  Update Apache Commons Compress from 1.15 to 1.16.1.
+o VFS-646:  Update Apache Commons Compress from 1.14 to 1.15.
+o VFS-653:  Replace use of deprecated APIs in HDFS provider.
+o VFS-666:  Update Apache Commons Collections from 4.1 to 4.2.
+o VFS-668:  Throw a NPE with a better message when a class loader is null.
+o VFS-671:  Update Apache Commons Compress from 1.16.1 to 1.18.
+o VFS-680:  Update from Java 7 to Java 8.
+o VFS-681:  VFS.setManager should be synchronized; #43. Thanks to Robert DeRose.
+o VFS-682:  Throw a org.apache.commons.vfs2.FileSystemException instead of a NullPointerException in org.apache.commons.vfs2.impl.DefaultFileSystemManager.resolveName(FileName, String, NameScope).
+o VFS-688:  [SFTP] Update jsch from 0.1.54 to 0.1.55.
+
+
+Historical list of changes: http://commons.apache.org/proper/commons-vfs/changes-report.html
+
+For complete information on Apache Commons VFS Project, including instructions on how to submit bug reports,
+patches, or suggestions for improvement, see the Apache Apache Commons VFS Project website:
+
+http://commons.apache.org/proper/commons-vfs/
+
+-----------------------------------------------------------------------------
+
               Apache Commons VFS Project 2.2
                   RELEASE NOTES
 

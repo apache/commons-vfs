@@ -68,7 +68,7 @@ for ( int i = 0; i < children.length; i++ )
 {
     System.out.println( children[ i ].getName().getBaseName() );
 }
-                ]]></source>
+]]></source>
 
             <p>
                 In some cases you might want to explicitely free resources allocated by the filesystem.
@@ -116,14 +116,14 @@ for ( int i = 0; i < children.length; i++ )
                 </p>
                 <p>
                     For example:
-                    <code>
-                        StaticUserAuthenticator auth = new StaticUserAuthenticator("domain", "username", "password");
-                        FileSystemOptions opts = new FileSystemOptions();
-                        DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
-
-                        FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);
-                    </code>
                 </p>
+                <source><![CDATA[
+StaticUserAuthenticator auth = new StaticUserAuthenticator("domain", "username", "password");
+FileSystemOptions opts = new FileSystemOptions();
+DefaultFileSystemConfigBuilder.getInstance().setUserAuthenticator(opts, auth);
+
+FileObject fo = VFS.getManager().resolveFile("smb://host/anyshare/dir", opts);
+]]></source>
                 <p>
                     Internally the UserAuthenticator uses char arrays which will be zeroed before it is
                     freed for garbage collection.Unhappily none of the current libraries use char
@@ -372,7 +372,7 @@ for ( int i = 0; i < children.length; i++ )
     </provider>
     <default-provider class-name="org.apache.commons.vfs2.provider.url.UrlFileProvider"/>
 </providers>
-                    ]]></source>
+]]></source>
             </subsection>
         </section>
     </body>

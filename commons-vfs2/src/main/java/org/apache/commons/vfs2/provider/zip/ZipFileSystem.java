@@ -18,6 +18,7 @@ package org.apache.commons.vfs2.provider.zip;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -47,6 +48,7 @@ public class ZipFileSystem extends AbstractFileSystem {
     private static final Log LOG = LogFactory.getLog(ZipFileSystem.class);
 
     private final File file;
+    private final Charset charset;
     private ZipFile zipFile;
 
     /**
@@ -57,18 +59,17 @@ public class ZipFileSystem extends AbstractFileSystem {
     public ZipFileSystem(final AbstractFileName rootName, final FileObject parentLayer,
             final FileSystemOptions fileSystemOptions) throws FileSystemException {
         super(rootName, parentLayer, fileSystemOptions);
-
+        
         // Make a local copy of the file
         file = parentLayer.getFileSystem().replicateFile(parentLayer, Selectors.SELECT_SELF);
-
+        this.charset = ZipFileSystemConfigBuilder.getInstance().getCharset(fileSystemOptions);
+        
         // Open the Zip file
         if (!file.exists()) {
             // Don't need to do anything
             zipFile = null;
             return;
         }
-
-        // zipFile = createZipFile(this.file);
     }
 
     @Override
@@ -136,7 +137,7 @@ public class ZipFileSystem extends AbstractFileSystem {
 
     protected ZipFile createZipFile(final File file) throws FileSystemException {
         try {
-            return new ZipFile(file);
+            return charset == null ? new ZipFile(file) : new ZipFile(file, charset);
         } catch (final IOException ioe) {
             throw new FileSystemException("vfs.provider.zip/open-zip-file.error", file, ioe);
         }
@@ -179,6 +180,10 @@ public class ZipFileSystem extends AbstractFileSystem {
     @Override
     protected void putFileToCache(final FileObject file) {
         cache.put(file.getName(), file);
+    }
+
+    protected Charset getCharset() {
+        return charset;
     }
 
     /**

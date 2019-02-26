@@ -45,11 +45,14 @@ The <action> type attribute can be add,update,fix,remove.
   </properties>
 
   <body>
-    <release version="2.3" date="YYYY-MM-DD" description="Bug fix release.">
+    <release version="2.3" date="2019-01-26" description="New features and bug fix release.">
 <!--       <action issue="VFS-443" dev="ggregory" type="update" due-to="nickallen"> -->
 <!--        [Local] Need an easy way to convert from a FileObject to a File. -->
 <!--       </action> -->
 <!-- START Might need to be moved to the next version -->
+      <action issue="VFS-645" dev="ggregory" type="fix">
+		VfsClassLoaderTests and JarProviderTestCase fails on Java 9 and up.
+      </action>
       <action issue="VFS-678" dev="ecki" type="fix">
         Fix various LGTM.com code review warnings.
       </action>
@@ -112,6 +115,27 @@ The <action> type attribute can be add,update,fix,remove.
       </action>
       <action issue="VFS-679" dev="ggregory" type="fix" due-to="Boris Petrov, Gary Gregory">
         NullPointerException in FtpFileObject.doGetLastModifiedTime().
+      </action>
+      <action issue="VFS-398" dev="ggregory" type="fix" due-to="Otto Fowler">
+        FtpFileObject.getChildren() fails when a folder contains a file with a colon in the name.
+      </action>
+      <action issue="VFS-688" dev="ggregory" type="update">
+        [SFTP] Update jsch from 0.1.54 to 0.1.55.
+      </action>
+      <action issue="VFS-677" dev="ggregory" type="add" due-to="dingxbcn">
+        [SFTP] Add support for append mode.
+      </action>
+      <action issue="VFS-673" dev="ggregory" type="add" due-to="Oleksandr Lykhonosov">
+        [SFTP] Support com.jcraft.jsch.ConfigRepository (~/.ssh/config) with SftpFileSystemConfigBuilder and flag to load OpenSSHConfig.
+      </action>
+      <action issue="VFS-673" dev="ggregory" type="add" due-to="Daniel Banks">
+        DefaultFileSystemManager should implement AutoCloseable.
+      </action>
+      <action issue="VFS-637" dev="ggregory" type="add" due-to="Gary Gregory">
+        Zip files with legacy encoding and special characters let VFS crash.
+      </action>
+      <action issue="VFS-360" dev="ggregory" type="add" due-to="Woonsan Ko">
+        Add HTTP provider based on HttpComponents HttpClient 4.
       </action>
     </release>
     <release version="2.2" date="2017-10-06" description="New features and bug fix release.">

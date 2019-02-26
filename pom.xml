@@ -136,6 +136,10 @@
       <name>Jose Juan Montiel</name>
       <email>josejuan.montiel -at- gmail.com</email>
     </contributor>
+    <contributor>
+      <name>Otto Fowler</name>
+      <email>otto -at- apache.org</email>
+    </contributor>
   </contributors>
 
   <properties>
@@ -145,16 +149,23 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <!-- bare ID without major version or commons- prefix -->
-    <commons.componentid>vfs2</commons.componentid>
+    <commons.componentid>vfs</commons.componentid>
+    <commons.packageId>vfs2</commons.packageId>
     <commons.module.name>org.apache.commons.vfs2</commons.module.name>
     <commons.jira.id>VFS</commons.jira.id>
     <commons.jira.pid>12310495</commons.jira.pid>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-vfs</commons.scmPubUrl>
-
-    <commons.release.version>2.2</commons.release.version>
-    <!--<commons.rc.version>RC1</commons.rc.version> -->
+    <commons.siteOutputDirectory>${basedir}/../target/site</commons.siteOutputDirectory>
+    <commons.releaseNotesLocation>${basedir}/../RELEASE-NOTES.txt</commons.releaseNotesLocation>
+    <commons.distSvnStagingUrl>scm:svn:https://dist.apache.org/repos/dist/dev/commons/${commons.componentid}</commons.distSvnStagingUrl>
+    <commons.release.version>2.3</commons.release.version>
+    <!-- Commons Release Plugin -->
+    <commons.bc.version>2.2</commons.bc.version>
+    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
+    <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>  
+    <commons.rc.version>RC1</commons.rc.version>
     <commons.release.name>commons-vfs-${commons.release.version}</commons.release.name>
-    <commons.release.desc>(requires Java 1.7+)</commons.release.desc>
+    <commons.release.desc>(requires Java 8)</commons.release.desc>
     <commons.binary.suffix /> <!-- TODO delete? -->
 
 <!--
@@ -165,7 +176,7 @@
 -->
 
     <vfs.parent.dir>${basedir}</vfs.parent.dir>
-    <version.checkstyle>2.17</version.checkstyle>
+    <version.checkstyle>3.0.0</version.checkstyle>
     <!-- make sure bundle plugin has dependency informations for 'optional' -->
     <commons.osgi.excludeDependencies />
     <commons.osgi.import>
@@ -342,7 +353,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.9.0</version>
+        <version>3.11.0</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <aggregate>true</aggregate>
@@ -432,7 +443,7 @@
       <dependency>
         <groupId>com.jcraft</groupId>
         <artifactId>jsch</artifactId>
-        <version>0.1.54</version>
+        <version>0.1.55</version>
       </dependency>
       <dependency>
         <groupId>jcifs</groupId>

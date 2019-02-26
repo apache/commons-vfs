@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.provider.AbstractFileProvider;
 import org.apache.commons.vfs2.provider.UriParser;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
@@ -81,7 +82,7 @@ public class TemporaryFileProvider extends AbstractFileProvider implements Compa
             final FileSystemOptions properties) throws FileSystemException {
         // Parse the name
         final StringBuilder buffer = new StringBuilder(uri);
-        final String scheme = UriParser.extractScheme(uri, buffer);
+        final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), uri, buffer);
         UriParser.fixSeparators(buffer);
         UriParser.normalisePath(buffer);
         final String path = buffer.toString();

@@ -28,7 +28,8 @@ import org.junit.Test;
 /**
  * Tests https://issues.apache.org/jira/browse/VFS-426
  *
- * @version $Id$
+ * @version $Id: HttpFilesCacheTestCase.java 1808381 2017-09-14 19:26:39Z
+ *          ggregory $
  * @since 2.1
  */
 public class HttpFilesCacheTestCase extends TestCase {
@@ -44,13 +45,16 @@ public class HttpFilesCacheTestCase extends TestCase {
 
         final FileSystemManager fileSystemManager = VFS.getManager();
 
-        final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl);
-        Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+        try (final FileObject noQueryFile = fileSystemManager.resolveFile(noQueryStringUrl)) {
+            Assert.assertEquals(noQueryStringUrl, noQueryFile.getURL().toExternalForm());
+        }
 
-        final FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl);
-        Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
+        try (final FileObject queryFile = fileSystemManager.resolveFile(queryStringUrl)) {
+            Assert.assertEquals(queryStringUrl, queryFile.getURL().toExternalForm()); // failed for VFS-426
+        }
 
-        final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2);
-        Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
+        try (final FileObject queryFile2 = fileSystemManager.resolveFile(queryStringUrl2)) {
+            Assert.assertEquals(queryStringUrl2, queryFile2.getURL().toExternalForm()); // failed for VFS-426
+        }
     }
 }

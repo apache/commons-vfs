@@ -47,6 +47,7 @@ import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.RandomAccessContent;
 import org.apache.commons.vfs2.Selectors;
+import org.apache.commons.vfs2.VFS;
 import org.apache.commons.vfs2.operations.DefaultFileOperations;
 import org.apache.commons.vfs2.operations.FileOperations;
 import org.apache.commons.vfs2.util.FileObjectUtils;
@@ -1308,9 +1309,9 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
         try {
             return AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
                 @Override
-                public URL run() throws MalformedURLException {
+                public URL run() throws MalformedURLException, FileSystemException {
                     final StringBuilder buf = new StringBuilder();
-                    final String scheme = UriParser.extractScheme(fileName.getURI(), buf);
+                    final String scheme = UriParser.extractScheme(VFS.getManager().getSchemes(), fileName.getURI(), buf);
                     return new URL(scheme, "", -1, buf.toString(),
                             new DefaultURLStreamHandler(fileSystem.getContext(), fileSystem.getFileSystemOptions()));
                 }

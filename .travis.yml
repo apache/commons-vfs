@@ -21,4 +21,4 @@ jdk:
   - openjdk8
 
 after_success:
-  - mvn -B -e clean cobertura:cobertura coveralls:report
+  - mvn -V -B -e clean cobertura:cobertura coveralls:report

@@ -39,62 +39,52 @@
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/logging/">Commons Logging</a>
-                        Version 1.2.
                     </td>
                     <td>All</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/collections/">Commons Collections</a>
-                        Version 4.1.
                     </td>
                     <td>LRU Cache (optional)</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/compress/">Commons Compress</a>
-                        Version 1.14.
                     </td>
                     <td>TAR, Bzip2</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://commons.apache.org/net/">Commons Net</a>
-                        Version 3.6.
                     </td>
                     <td>FTP</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a>
-                        Version 3.1.<br/>
-                        Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a> Version 1.2.
+                        <a href="http://commons.apache.org/httpclient/">Commons Httpclient</a><br/>
+                        Requires <a href="http://commons.apache.org/proper/commons-codec/">Commons Codec</a>
                     </td>
                     <td>WebDAV, HTTP, URI Utils</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://jackrabbit.apache.org/jackrabbit-webdav-library.html">Apache Jackrabbit WebDAV Library</a>
-                        Version 1.6.5.<br/>
+                        <a href="http://jackrabbit.apache.org/jackrabbit-webdav-library.html">Apache Jackrabbit WebDAV Library</a><br/>
                         Requires <a href="http://jackrabbit.apache.org/jackrabbit-jcr-commons.html">Jackrabbit JCR Commons</a>
-                        Version 1.6.5 and <a href="http://www.slf4j.org">SLF4J</a>
-                        Version 1.5.3 (Api and Impl).
+                        and <a href="http://www.slf4j.org">SLF4J</a> (Api and Impl).
                     </td>
                     <td>WebDAV</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://www.jcraft.com/jsch/">JSch</a>
-                        Version 0.1.54.
                     </td>
                     <td>SFTP</td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop Common</a>
-                        Version 2.6.0.<br/>
-                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop HDFS Common</a>
-                        Version 2.6.0<br/>
+                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop Common</a><br/>
+                        <a href="http://hadoop.apache.org/docs/stable/">Apache Hadoop HDFS Common</a><br/>
                         This requires a number of dependencies, use <code>$HADOOP_HOME/bin/hadoop classpath</code> command.
                     </td>
                     <td>HDFS</td>
@@ -102,14 +92,12 @@
                 <tr>
                     <td>
                         <a href="http://jcifs.samba.org/">jCIFS</a>
-                        Version 1.3.17.
                     </td>
                     <td>CIFS (VFS sandbox)</td>
                 </tr>
                 <tr>
                     <td>
                         <a href="http://java.sun.com/products/javamail/">javamail</a>
-                        Version 1.4.7.
                     </td>
                     <td>mime (VFS sandbox)</td>
                 </tr>
@@ -146,9 +134,9 @@
         <section name="Building Commons VFS">
             <p>
                 To build Commons VFS, you can use <a href="http://maven.apache.org">Maven</a> 3.0.5 or later.
-                You need to use Java 7 or later (tested with Java 7 - 8). Production builds are done with the
-                <code>-Pjava-1.7</code> profile from Commons Parent (which will compile and test with a JDK
-                from the JAVA_1_7_HOME environment variable).
+                You need to use Java 8 or later. Production builds are done with the
+                <code>-Pjava-1.8</code> profile from Commons Parent (which will compile and test with a JDK
+                from the JAVA_1_8_HOME environment variable).
             </p><p>
                 Use <code>mvn clean verify</code> to locally build and test the <code>core</code> and 
                 <code>examples</code> modules. This will build the core JAR files in

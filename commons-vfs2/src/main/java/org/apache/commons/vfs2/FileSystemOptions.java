@@ -27,9 +27,11 @@ import java.util.TreeMap;
  * <p>
  * To configure a file system, you set properties on a {@link FileSystemOptions} object. Most file systems provide a
  * {@link FileSystemConfigBuilder} with specific options for that file system.
+ * </p>
  * <p>
  * To use the options, pass them to {@link FileSystemManager#resolveFile(String,FileSystemOptions)}. From there, the
  * options apply to all files that are resolved relative to that file.
+ * </p>
  *
  * @see org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.ftp.FtpFileSystemConfigBuilder
@@ -40,6 +42,7 @@ import java.util.TreeMap;
  * @see org.apache.commons.vfs2.provider.ram.RamFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.res.ResourceFileSystemConfigBuilder
  * @see org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder
+ * @see org.apache.commons.vfs2.provider.zip.ZipFileSystemConfigBuilder
  *
  */
 public final class FileSystemOptions implements Cloneable {

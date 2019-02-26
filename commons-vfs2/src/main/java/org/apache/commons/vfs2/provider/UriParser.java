@@ -16,6 +16,7 @@
  */
 package org.apache.commons.vfs2.provider;
 
+import java.util.Set;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileType;
@@ -46,7 +47,203 @@ public final class UriParser {
 
     private static final char LOW_MASK = 0x0F;
 
-    private UriParser() {
+    /**
+     * Encodes and appends a string to a StringBuilder.
+     *
+     * @param buffer The StringBuilder to append to.
+     * @param unencodedValue The String to encode and append.
+     * @param reserved characters to encode.
+     */
+    public static void appendEncoded(final StringBuilder buffer, final String unencodedValue, final char[] reserved) {
+        final int offset = buffer.length();
+        buffer.append(unencodedValue);
+        encode(buffer, offset, unencodedValue.length(), reserved);
+    }
+
+    public static void canonicalizePath(final StringBuilder buffer, final int offset, final int length,
+            final FileNameParser fileNameParser) throws FileSystemException {
+        int index = offset;
+        int count = length;
+        for (; count > 0; count--, index++) {
+            final char ch = buffer.charAt(index);
+            if (ch == '%') {
+                if (count < 3) {
+                    throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
+                            buffer.substring(index, index + count));
+                }
+
+                // Decode
+                final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
+                final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
+                if (dig1 == -1 || dig2 == -1) {
+                    throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
+                            buffer.substring(index, index + 3));
+                }
+                final char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
+
+                final boolean match = value == '%' || fileNameParser.encodeCharacter(value);
+
+                if (match) {
+                    // this is a reserved character, not allowed to decode
+                    index += 2;
+                    count -= 2;
+                    continue;
+                }
+
+                // Replace
+                buffer.setCharAt(index, value);
+                buffer.delete(index + 1, index + 3);
+                count -= 2;
+            } else if (fileNameParser.encodeCharacter(ch)) {
+                // Encode
+                final char[] digits = { Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
+                        Character.forDigit(ch & LOW_MASK, HEX_BASE) };
+                buffer.setCharAt(index, '%');
+                buffer.insert(index + 1, digits);
+                index += 2;
+            }
+        }
+    }
+
+    /**
+     * Decodes the String.
+     *
+     * @param uri The String to decode.
+     * @throws FileSystemException if an error occurs.
+     */
+    public static void checkUriEncoding(final String uri) throws FileSystemException {
+        decode(uri);
+    }
+
+    /**
+     * Removes %nn encodings from a string.
+     *
+     * @param encodedStr The encoded String.
+     * @return The decoded String.
+     * @throws FileSystemException if an error occurs.
+     */
+    public static String decode(final String encodedStr) throws FileSystemException {
+        if (encodedStr == null) {
+            return null;
+        }
+        if (encodedStr.indexOf('%') < 0) {
+            return encodedStr;
+        }
+        final StringBuilder buffer = new StringBuilder(encodedStr);
+        decode(buffer, 0, buffer.length());
+        return buffer.toString();
+    }
+
+    /**
+     * Removes %nn encodings from a string.
+     *
+     * @param buffer StringBuilder containing the string to decode.
+     * @param offset The position in the string to start decoding.
+     * @param length The number of characters to decode.
+     * @throws FileSystemException if an error occurs.
+     */
+    public static void decode(final StringBuilder buffer, final int offset, final int length)
+            throws FileSystemException {
+        int index = offset;
+        int count = length;
+        for (; count > 0; count--, index++) {
+            final char ch = buffer.charAt(index);
+            if (ch != '%') {
+                continue;
+            }
+            if (count < 3) {
+                throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
+                        buffer.substring(index, index + count));
+            }
+
+            // Decode
+            final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
+            final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
+            if (dig1 == -1 || dig2 == -1) {
+                throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
+                        buffer.substring(index, index + 3));
+            }
+            final char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
+
+            // Replace
+            buffer.setCharAt(index, value);
+            buffer.delete(index + 1, index + 3);
+            count -= 2;
+        }
+    }
+
+    /**
+     * Removes %nn encodings from a string.
+     *
+     * @param decodedStr The decoded String.
+     * @return The encoded String.
+     */
+    public static String encode(final String decodedStr) {
+        return encode(decodedStr, null);
+    }
+
+    /**
+     * Converts "special" characters to their %nn value.
+     *
+     * @param decodedStr The decoded String.
+     * @param reserved Characters to encode.
+     * @return The encoded String
+     */
+    public static String encode(final String decodedStr, final char[] reserved) {
+        if (decodedStr == null) {
+            return null;
+        }
+        final StringBuilder buffer = new StringBuilder(decodedStr);
+        encode(buffer, 0, buffer.length(), reserved);
+        return buffer.toString();
+    }
+
+    /**
+     * Encode an array of Strings.
+     *
+     * @param strings The array of Strings to encode.
+     * @return An array of encoded Strings.
+     */
+    public static String[] encode(final String[] strings) {
+        if (strings == null) {
+            return null;
+        }
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = encode(strings[i]);
+        }
+        return strings;
+    }
+
+    /**
+     * Encodes a set of reserved characters in a StringBuilder, using the URI %nn encoding. Always encodes % characters.
+     *
+     * @param buffer The StringBuilder to append to.
+     * @param offset The position in the buffer to start encoding at.
+     * @param length The number of characters to encode.
+     * @param reserved characters to encode.
+     */
+    public static void encode(final StringBuilder buffer, final int offset, final int length, final char[] reserved) {
+        int index = offset;
+        int count = length;
+        for (; count > 0; index++, count--) {
+            final char ch = buffer.charAt(index);
+            boolean match = ch == '%';
+            if (reserved != null) {
+                for (int i = 0; !match && i < reserved.length; i++) {
+                    if (ch == reserved[i]) {
+                        match = true;
+                    }
+                }
+            }
+            if (match) {
+                // Encode
+                final char[] digits = { Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
+                        Character.forDigit(ch & LOW_MASK, HEX_BASE) };
+                buffer.setCharAt(index, '%');
+                buffer.insert(index + 1, digits);
+                index += 2;
+            }
+        }
     }
 
     /**
@@ -77,6 +274,157 @@ public final class UriParser {
         final String elem = name.substring(startPos);
         name.setLength(0);
         return elem;
+    }
+
+    /**
+     * Extract the query String from the URI.
+     *
+     * @param name StringBuilder containing the URI.
+     * @return The query string, if any. null otherwise.
+     */
+    public static String extractQueryString(final StringBuilder name) {
+        for (int pos = 0; pos < name.length(); pos++) {
+            if (name.charAt(pos) == '?') {
+                final String queryString = name.substring(pos + 1);
+                name.delete(pos, name.length());
+                return queryString;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
+     * <p>
+     * The scheme is extracted based on the currently supported schemes in the system.  That is to say the schemes
+     * supported by the registered providers.
+     * </p>
+     * <p>
+     * This allows us to handle varying scheme's without making assumptions based on the ':' character.  Specifically
+     * handle scheme extraction calls for URI parameters that are not actually uri's, but may be names with ':' in them.
+     * </p>
+     * @param schemes The schemes to check.
+     * @param uri The potential URI. May also be a name.
+     * @return The scheme name. Returns null if there is no scheme.
+     * @since 2.3
+     */
+    public static String extractScheme(final String[] schemes, final String uri) {
+        return extractScheme(schemes, uri, null);
+    }
+
+    /**
+     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
+     * <p>
+     * The scheme is extracted based on the given set of schemes. Normally, that is to say the schemes
+     * supported by the registered providers.
+     * </p>
+     * <p>
+     * This allows us to handle varying scheme's without making assumptions based on the ':' character. Specifically
+     * handle scheme extraction calls for URI parameters that are not actually uri's, but may be names with ':' in them.
+     * </p>
+     * @param schemes The schemes to check.
+     * @param uri The potential URI. May also just be a name.
+     * @param buffer Returns the remainder of the URI.
+     * @return The scheme name. Returns null if there is no scheme.
+     * @since 2.3
+     */
+    public static String extractScheme(final String[] schemes, final String uri, StringBuilder buffer) {
+        if (buffer != null) {
+            buffer.setLength(0);
+            buffer.append(uri);
+        }
+        for(String scheme : schemes) {
+            if(uri.startsWith(scheme + ":")) {
+                if (buffer != null) {
+                    buffer.delete(0, uri.indexOf(':') + 1);
+                }
+                return scheme;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Extracts the scheme from a URI.
+     *
+     * @param uri The URI.
+     * @return The scheme name. Returns null if there is no scheme.
+     * @deprecated Use instead {@link #extractScheme}.  Will be removed in 3.0.
+     */
+    @Deprecated
+    public static String extractScheme(final String uri) {
+        return extractScheme(uri, null);
+    }
+
+    /**
+     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
+     *
+     * @param uri The URI.
+     * @param buffer Returns the remainder of the URI.
+     * @return The scheme name. Returns null if there is no scheme.
+     * @deprecated Use instead {@link #extractScheme}.  Will be removed in 3.0.
+     */
+    @Deprecated
+    public static String extractScheme(final String uri, final StringBuilder buffer) {
+        if (buffer != null) {
+            buffer.setLength(0);
+            buffer.append(uri);
+        }
+
+        final int maxPos = uri.length();
+        for (int pos = 0; pos < maxPos; pos++) {
+            final char ch = uri.charAt(pos);
+
+            if (ch == ':') {
+                // Found the end of the scheme
+                final String scheme = uri.substring(0, pos);
+                if (scheme.length() <= 1 && Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
+                    // This is not a scheme, but a Windows drive letter
+                    return null;
+                }
+                if (buffer != null) {
+                    buffer.delete(0, pos + 1);
+                }
+                return scheme.intern();
+            }
+
+            if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+                // A scheme character
+                continue;
+            }
+            if (pos > 0 && ((ch >= '0' && ch <= '9') || ch == '+' || ch == '-' || ch == '.')) {
+                // A scheme character (these are not allowed as the first
+                // character of the scheme, but can be used as subsequent
+                // characters.
+                continue;
+            }
+
+            // Not a scheme character
+            break;
+        }
+
+        // No scheme in URI
+        return null;
+    }
+
+    /**
+     * Normalises the separators in a name.
+     *
+     * @param name The StringBuilder containing the name
+     * @return true if the StringBuilder was modified.
+     */
+    public static boolean fixSeparators(final StringBuilder name) {
+        boolean changed = false;
+        final int maxlen = name.length();
+        for (int i = 0; i < maxlen; i++) {
+            final char ch = name.charAt(i);
+            if (ch == TRANS_SEPARATOR) {
+                name.setCharAt(i, SEPARATOR_CHAR);
+                changed = true;
+            }
+        }
+        return changed;
     }
 
     /**
@@ -169,298 +517,6 @@ public final class UriParser {
         return fileType;
     }
 
-    /**
-     * Normalises the separators in a name.
-     *
-     * @param name The StringBuilder containing the name
-     * @return true if the StringBuilder was modified.
-     */
-    public static boolean fixSeparators(final StringBuilder name) {
-        boolean changed = false;
-        final int maxlen = name.length();
-        for (int i = 0; i < maxlen; i++) {
-            final char ch = name.charAt(i);
-            if (ch == TRANS_SEPARATOR) {
-                name.setCharAt(i, SEPARATOR_CHAR);
-                changed = true;
-            }
-        }
-        return changed;
-    }
-
-    /**
-     * Extracts the scheme from a URI.
-     *
-     * @param uri The URI.
-     * @return The scheme name. Returns null if there is no scheme.
-     */
-    public static String extractScheme(final String uri) {
-        return extractScheme(uri, null);
-    }
-
-    /**
-     * Extracts the scheme from a URI. Removes the scheme and ':' delimiter from the front of the URI.
-     *
-     * @param uri The URI.
-     * @param buffer Returns the remainder of the URI.
-     * @return The scheme name. Returns null if there is no scheme.
-     */
-    public static String extractScheme(final String uri, final StringBuilder buffer) {
-        if (buffer != null) {
-            buffer.setLength(0);
-            buffer.append(uri);
-        }
-
-        final int maxPos = uri.length();
-        for (int pos = 0; pos < maxPos; pos++) {
-            final char ch = uri.charAt(pos);
-
-            if (ch == ':') {
-                // Found the end of the scheme
-                final String scheme = uri.substring(0, pos);
-                if (scheme.length() <= 1 && Os.isFamily(Os.OS_FAMILY_WINDOWS)) {
-                    // This is not a scheme, but a Windows drive letter
-                    return null;
-                }
-                if (buffer != null) {
-                    buffer.delete(0, pos + 1);
-                }
-                return scheme.intern();
-            }
-
-            if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
-                // A scheme character
-                continue;
-            }
-            if (pos > 0 && ((ch >= '0' && ch <= '9') || ch == '+' || ch == '-' || ch == '.')) {
-                // A scheme character (these are not allowed as the first
-                // character of the scheme, but can be used as subsequent
-                // characters.
-                continue;
-            }
-
-            // Not a scheme character
-            break;
-        }
-
-        // No scheme in URI
-        return null;
-    }
-
-    /**
-     * Removes %nn encodings from a string.
-     *
-     * @param encodedStr The encoded String.
-     * @return The decoded String.
-     * @throws FileSystemException if an error occurs.
-     */
-    public static String decode(final String encodedStr) throws FileSystemException {
-        if (encodedStr == null) {
-            return null;
-        }
-        if (encodedStr.indexOf('%') < 0) {
-            return encodedStr;
-        }
-        final StringBuilder buffer = new StringBuilder(encodedStr);
-        decode(buffer, 0, buffer.length());
-        return buffer.toString();
-    }
-
-    /**
-     * Removes %nn encodings from a string.
-     *
-     * @param buffer StringBuilder containing the string to decode.
-     * @param offset The position in the string to start decoding.
-     * @param length The number of characters to decode.
-     * @throws FileSystemException if an error occurs.
-     */
-    public static void decode(final StringBuilder buffer, final int offset, final int length)
-            throws FileSystemException {
-        int index = offset;
-        int count = length;
-        for (; count > 0; count--, index++) {
-            final char ch = buffer.charAt(index);
-            if (ch != '%') {
-                continue;
-            }
-            if (count < 3) {
-                throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
-                        buffer.substring(index, index + count));
-            }
-
-            // Decode
-            final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
-            final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
-            if (dig1 == -1 || dig2 == -1) {
-                throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
-                        buffer.substring(index, index + 3));
-            }
-            final char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
-
-            // Replace
-            buffer.setCharAt(index, value);
-            buffer.delete(index + 1, index + 3);
-            count -= 2;
-        }
-    }
-
-    /**
-     * Encodes and appends a string to a StringBuilder.
-     *
-     * @param buffer The StringBuilder to append to.
-     * @param unencodedValue The String to encode and append.
-     * @param reserved characters to encode.
-     */
-    public static void appendEncoded(final StringBuilder buffer, final String unencodedValue, final char[] reserved) {
-        final int offset = buffer.length();
-        buffer.append(unencodedValue);
-        encode(buffer, offset, unencodedValue.length(), reserved);
-    }
-
-    /**
-     * Encodes a set of reserved characters in a StringBuilder, using the URI %nn encoding. Always encodes % characters.
-     *
-     * @param buffer The StringBuilder to append to.
-     * @param offset The position in the buffer to start encoding at.
-     * @param length The number of characters to encode.
-     * @param reserved characters to encode.
-     */
-    public static void encode(final StringBuilder buffer, final int offset, final int length, final char[] reserved) {
-        int index = offset;
-        int count = length;
-        for (; count > 0; index++, count--) {
-            final char ch = buffer.charAt(index);
-            boolean match = ch == '%';
-            if (reserved != null) {
-                for (int i = 0; !match && i < reserved.length; i++) {
-                    if (ch == reserved[i]) {
-                        match = true;
-                    }
-                }
-            }
-            if (match) {
-                // Encode
-                final char[] digits = { Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
-                        Character.forDigit(ch & LOW_MASK, HEX_BASE) };
-                buffer.setCharAt(index, '%');
-                buffer.insert(index + 1, digits);
-                index += 2;
-            }
-        }
-    }
-
-    /**
-     * Removes %nn encodings from a string.
-     *
-     * @param decodedStr The decoded String.
-     * @return The encoded String.
-     */
-    public static String encode(final String decodedStr) {
-        return encode(decodedStr, null);
-    }
-
-    /**
-     * Converts "special" characters to their %nn value.
-     *
-     * @param decodedStr The decoded String.
-     * @param reserved Characters to encode.
-     * @return The encoded String
-     */
-    public static String encode(final String decodedStr, final char[] reserved) {
-        if (decodedStr == null) {
-            return null;
-        }
-        final StringBuilder buffer = new StringBuilder(decodedStr);
-        encode(buffer, 0, buffer.length(), reserved);
-        return buffer.toString();
-    }
-
-    /**
-     * Encode an array of Strings.
-     *
-     * @param strings The array of Strings to encode.
-     * @return An array of encoded Strings.
-     */
-    public static String[] encode(final String[] strings) {
-        if (strings == null) {
-            return null;
-        }
-        for (int i = 0; i < strings.length; i++) {
-            strings[i] = encode(strings[i]);
-        }
-        return strings;
-    }
-
-    /**
-     * Decodes the String.
-     *
-     * @param uri The String to decode.
-     * @throws FileSystemException if an error occurs.
-     */
-    public static void checkUriEncoding(final String uri) throws FileSystemException {
-        decode(uri);
-    }
-
-    public static void canonicalizePath(final StringBuilder buffer, final int offset, final int length,
-            final FileNameParser fileNameParser) throws FileSystemException {
-        int index = offset;
-        int count = length;
-        for (; count > 0; count--, index++) {
-            final char ch = buffer.charAt(index);
-            if (ch == '%') {
-                if (count < 3) {
-                    throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
-                            buffer.substring(index, index + count));
-                }
-
-                // Decode
-                final int dig1 = Character.digit(buffer.charAt(index + 1), HEX_BASE);
-                final int dig2 = Character.digit(buffer.charAt(index + 2), HEX_BASE);
-                if (dig1 == -1 || dig2 == -1) {
-                    throw new FileSystemException("vfs.provider/invalid-escape-sequence.error",
-                            buffer.substring(index, index + 3));
-                }
-                final char value = (char) (dig1 << BITS_IN_HALF_BYTE | dig2);
-
-                final boolean match = value == '%' || fileNameParser.encodeCharacter(value);
-
-                if (match) {
-                    // this is a reserved character, not allowed to decode
-                    index += 2;
-                    count -= 2;
-                    continue;
-                }
-
-                // Replace
-                buffer.setCharAt(index, value);
-                buffer.delete(index + 1, index + 3);
-                count -= 2;
-            } else if (fileNameParser.encodeCharacter(ch)) {
-                // Encode
-                final char[] digits = { Character.forDigit((ch >> BITS_IN_HALF_BYTE) & LOW_MASK, HEX_BASE),
-                        Character.forDigit(ch & LOW_MASK, HEX_BASE) };
-                buffer.setCharAt(index, '%');
-                buffer.insert(index + 1, digits);
-                index += 2;
-            }
-        }
-    }
-
-    /**
-     * Extract the query String from the URI.
-     *
-     * @param name StringBuilder containing the URI.
-     * @return The query string, if any. null otherwise.
-     */
-    public static String extractQueryString(final StringBuilder name) {
-        for (int pos = 0; pos < name.length(); pos++) {
-            if (name.charAt(pos) == '?') {
-                final String queryString = name.substring(pos + 1);
-                name.delete(pos, name.length());
-                return queryString;
-            }
-        }
-
-        return null;
+    private UriParser() {
     }
 }
