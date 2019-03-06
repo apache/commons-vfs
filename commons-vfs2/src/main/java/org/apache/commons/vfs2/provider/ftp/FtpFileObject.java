@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -30,7 +31,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileNotFolderException;
 import org.apache.commons.vfs2.FileObject;
@@ -50,7 +50,7 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  * An FTP file.
  */
 public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
-    
+
     private static final long DEFAULT_TIMESTAMP = 0L;
     private static final Map<String, FTPFile> EMPTY_FTP_FILE_MAP = Collections
             .unmodifiableMap(new TreeMap<String, FTPFile>());
@@ -100,7 +100,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         doGetChildren();
 
         // Look for the requested child
-        // VFS-210 adds the null check. 
+        // VFS-210 adds the null check.
         return children != null ? children.get(name) : null;
     }
 
@@ -578,8 +578,7 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         protected void onClose() throws IOException {
             final boolean ok;
             try {
-                // See VFS-674 and the accompanying PR as to why this check for "transfer aborted" is needed
-                ok = client.completePendingCommand() || client.getReplyCode() == FTPReply.TRANSFER_ABORTED;
+                ok = client.completePendingCommand() || isTransferAbortedOkReplyCode();
             } finally {
                 getAbstractFileSystem().putClient(client);
             }
@@ -587,6 +586,13 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
             if (!ok) {
                 throw new FileSystemException("vfs.provider.ftp/finish-get.error", getName());
             }
+        }
+
+        private boolean isTransferAbortedOkReplyCode() throws IOException {
+            List<Integer> transferAbortedOkStatusCodes = FtpFileSystemConfigBuilder
+                .getInstance()
+                .getTransferAbortedOkReplyCodes(getAbstractFileSystem().getFileSystemOptions());
+            return transferAbortedOkStatusCodes != null && transferAbortedOkStatusCodes.contains(client.getReplyCode());
         }
     }
 
