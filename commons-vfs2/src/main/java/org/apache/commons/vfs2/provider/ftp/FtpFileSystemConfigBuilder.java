@@ -456,7 +456,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * </p>
      *
      * @param opts The FileSystem options.
-     * @param replyCodes The status codes.
+     * @param replyCodes The reply codes.
      * @since 2.4
      */
     public void setTransferAbortedOkReplyCodes(final FileSystemOptions opts, final List<Integer> replyCodes) {
