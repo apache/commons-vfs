@@ -39,8 +39,9 @@ public class GetContentInfoFunctionalTest {
     /**
      * Tests VFS-427 NPE on HttpFileObject.getContent().getContentInfo().
      *
-     * @throws FileSystemException thrown when the getContentInfo API fails.
-     * @throws MalformedURLException thrown when the System environment contains an invalid URL for an HTTPS proxy.
+     * @throws FileSystemException   thrown when the getContentInfo API fails.
+     * @throws MalformedURLException thrown when the System environment contains an
+     *                               invalid URL for an HTTPS proxy.
      */
     @Test
     public void testGetContentInfo() throws FileSystemException, MalformedURLException {
@@ -65,10 +66,11 @@ public class GetContentInfoFunctionalTest {
         }
 
         final FileSystemManager fsManager = VFS.getManager();
-        final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt", opts);
-        final FileContent content = fo.getContent();
-        Assert.assertNotNull(content);
-        // Used to NPE before fix:
-        content.getContentInfo();
+        try (final FileObject fo = fsManager.resolveFile("http://www.apache.org/licenses/LICENSE-2.0.txt", opts);
+             final FileContent content = fo.getContent();) {
+            Assert.assertNotNull(content);
+            // Used to NPE before fix:
+            content.getContentInfo();
+        }
     }
 }

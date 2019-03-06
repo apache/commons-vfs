@@ -516,7 +516,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Returns true if no file is using this filesystem.
+     * Returns true if no file is using this FileSystem.
      *
      * @return true if no file is using this FileSystem.
      */

@@ -23,9 +23,6 @@ import java.lang.reflect.Method;
 import java.net.URLConnection;
 import java.util.Arrays;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileContent;
@@ -37,6 +34,10 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.provider.AbstractFileSystem;
 import org.apache.commons.vfs2.provider.local.DefaultLocalFileProvider;
+import org.junit.Assert;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
 
 /**
  * File system test cases, which verifies the structure and naming functionality.
@@ -113,7 +114,9 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
     }
 
     protected FileSystem getFileSystem() {
-        return getReadFolder().getFileSystem();
+        FileObject rFolder = getReadFolder();
+        Assert.assertNotNull("This test's read folder should not be null", rFolder);
+        return rFolder.getFileSystem();
     }
 
     /**

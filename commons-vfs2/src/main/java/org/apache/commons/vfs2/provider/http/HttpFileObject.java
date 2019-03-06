@@ -201,10 +201,13 @@ public class HttpFileObject<FS extends HttpFileSystem> extends AbstractFileObjec
             return method;
         }
         method = new HeadMethod();
-        setupMethod(method);
-        final HttpClient client = getAbstractFileSystem().getClient();
-        client.executeMethod(method);
-        method.releaseConnection();
+        try {
+            setupMethod(method);
+            final HttpClient client = getAbstractFileSystem().getClient();
+            client.executeMethod(method);
+        } finally {
+            method.releaseConnection();
+        }
         return method;
     }
 

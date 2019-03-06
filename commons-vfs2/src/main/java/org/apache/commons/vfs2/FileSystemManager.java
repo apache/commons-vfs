@@ -31,6 +31,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * one of those file systems.
  * <p>
  * To locate a {@link FileObject}, use one of the {@code resolveFile()} methods.
+ * </p>
  *
  * <h2><a name="naming">File Naming</a></h2>
  *
@@ -49,6 +50,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * </ul>
  */
 public interface FileSystemManager {
+    
     /**
      * Returns the base file used to resolve relative paths.
      *
@@ -82,6 +84,7 @@ public interface FileSystemManager {
      * either an absolute URI, an absolute file name, or a relative path to be resolved against {@code baseFile}.
      * <p>
      * Note that the file does not have to exist when this method is called.
+     * </p>
      *
      * @param baseFile The base file to use to resolve relative paths. May be null if the name is an absolute file name.
      * @param name The name of the file.
@@ -149,6 +152,7 @@ public interface FileSystemManager {
      * Closes the given filesystem.
      * <p>
      * If you use VFS as singleton it is VERY dangerous to call this method.
+     * </p>
      *
      * @param filesystem The FileSystem to close.
      */
@@ -199,35 +203,35 @@ public interface FileSystemManager {
     boolean canCreateFileSystem(FileObject file) throws FileSystemException;
 
     /**
-     * Get the cache used to cache file objects.
+     * Gets the cache used to cache file objects.
      *
      * @return The FilesCache.
      */
     FilesCache getFilesCache();
 
     /**
-     * Get the cache strategy used.
+     * Gets the cache strategy used.
      *
      * @return the CacheStrategy.
      */
     CacheStrategy getCacheStrategy();
 
     /**
-     * Get the file object decorator used.
+     * Gets the file object decorator used.
      *
      * @return the file object decorator Class.
      */
     Class<?> getFileObjectDecorator();
 
     /**
-     * The constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
+     * Gets the constructor associated to the fileObjectDecorator. We cache it here for performance reasons.
      *
      * @return the Constructor associated with the FileObjectDecorator.
      */
     Constructor<?> getFileObjectDecoratorConst();
 
     /**
-     * The class to use to determine the content-type (mime-type).
+     * Gets the class to use to determine the content-type (mime-type).
      *
      * @return the FileContentInfoFactory.
      */
@@ -242,14 +246,14 @@ public interface FileSystemManager {
     boolean hasProvider(String scheme);
 
     /**
-     * Get the schemes currently available.
+     * Gets the schemes currently available.
      *
      * @return An array of available scheme names that are supported.
      */
     String[] getSchemes();
 
     /**
-     * Get the capabilities for a given scheme.
+     * Gets the capabilities for a given scheme.
      *
      * @param scheme The scheme to use to locate the provider's capabilities.
      * @return A Collection of the various capabilities.
@@ -274,7 +278,7 @@ public interface FileSystemManager {
     FileSystemConfigBuilder getFileSystemConfigBuilder(String scheme) throws FileSystemException;
 
     /**
-     * Resolve the uri to a filename.
+     * Resolves the uri to a filename.
      *
      * @param uri The uri to resolve.
      * @return A FileName that matches the uri.
@@ -288,6 +292,7 @@ public interface FileSystemManager {
      * <p>
      * Several FileOperationProvider's might be registered for the same scheme. For example, for {@code "file"} scheme
      * we can register {@code SvnWsOperationProvider} and {@code CvsOperationProvider.}
+     * </p>
      *
      * @param scheme The scheme assoicated with this provider.
      * @param operationProvider The FileOperationProvider to add.
@@ -305,7 +310,7 @@ public interface FileSystemManager {
     void addOperationProvider(String[] schemes, FileOperationProvider operationProvider) throws FileSystemException;
 
     /**
-     * Get Providers for file operations.
+     * Gets Providers for file operations.
      *
      * @param scheme the scheme for wich we want to get the list af registered providers.
      *

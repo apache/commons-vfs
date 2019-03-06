@@ -269,8 +269,6 @@ public class WebdavProviderTestCase extends AbstractProviderTestConfig {
     private static void tearDownClass() throws Exception {
         // Main JR shutdown
         JrMain.shutdown();
-        // WARN logged because one thread is still there, so clean up explicitly.
-        MultiThreadedHttpConnectionManager.shutdownAll();
 
         if (DEBUG) {
             message("Skipping cleanup of " + RepoDirectory);

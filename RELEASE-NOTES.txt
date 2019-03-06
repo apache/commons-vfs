@@ -15,6 +15,7 @@ o VFS-673:  [SFTP] Support com.jcraft.jsch.ConfigRepository (~/.ssh/config) with
 o VFS-673:  DefaultFileSystemManager should implement AutoCloseable. Thanks to Daniel Banks.
 o VFS-637:  Zip files with legacy encoding and special characters let VFS crash. Thanks to Gary Gregory.
 o VFS-360:  Add HTTP provider based on HttpComponents HttpClient 4. Thanks to Woonsan Ko.
+o VFS-689:  org.apache.commons.vfs2.provider.http.HttpFileObject.getHeadMethod() does not release connection when an exception is thrown. Thanks to Gary Gregory.
 
 Fixed Bugs:
 o VFS-645:  VfsClassLoaderTests and JarProviderTestCase fails on Java 9 and up.

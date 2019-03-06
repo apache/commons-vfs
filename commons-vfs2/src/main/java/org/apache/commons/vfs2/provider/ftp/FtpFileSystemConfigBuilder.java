@@ -17,7 +17,11 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import java.net.Proxy;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -46,6 +50,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String TRANSFER_ABORTED_OK_REPLY_CODES = _PREFIX + ".TRANSFER_ABORTED_OK_REPLY_CODES";
 
     private FtpFileSystemConfigBuilder() {
         super("ftp.");
@@ -73,6 +78,11 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     @Override
     protected Class<? extends FileSystem> getConfigClass() {
         return FtpFileSystem.class;
+    }
+
+    public static List<Integer> getSaneTransferAbortedOkReplyCodes() {
+        // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
+        return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
     }
 
     /**
@@ -239,9 +249,21 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
+     * @param opts The FileSystem options.
+     * @return The list of reply codes (apart from 200) that are considered as OK when prematurely
+     * closing a stream.
+     * @since 2.4
+     */
+    @SuppressWarnings("unchecked")
+    public List<Integer> getTransferAbortedOkReplyCodes(final FileSystemOptions opts) {
+        return (List<Integer>) getParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES);
+    }
+
+    /**
      * Sets the timeout for the initial control connection.
      * <p>
      * If you set the connectTimeout to {@code null} no connectTimeout will be set.
+     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param connectTimeout the timeout value in milliseconds
@@ -266,6 +288,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Set the data timeout for the ftp client.
      * <p>
      * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the ftp client.
+     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param dataTimeout The timeout value.
@@ -290,6 +313,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using {@link #setEntryParserFactory}
      * this is the "key" parameter passed as argument into your custom factory.
+     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param key The key.
@@ -333,6 +357,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the Proxy.
      * <p>
      * You might need to make sure that {@link #setPassiveMode(FileSystemOptions, boolean) passive mode} is activated.
+     * </p>
      *
      * @param opts the FileSystem options.
      * @param proxy the Proxy
@@ -403,6 +428,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the socket timeout for the FTP client.
      * <p>
      * If you set the {@code soTimeout} to {@code null}, no socket timeout will be set on the ftp client.
+     * </p>
      *
      * @param opts The FileSystem options.
      * @param soTimeout The timeout value in milliseconds.
@@ -422,4 +448,18 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         setParam(opts, USER_DIR_IS_ROOT, userDirIsRoot ? Boolean.TRUE : Boolean.FALSE);
     }
 
+    /**
+     * Sets the list of reply codes that are considered as OK when prematurely closing a stream.
+     * <p>
+     * If you set the {@code replyCodes} to an empty list, all reply codes besides 200 will be
+     * considered as an error.
+     * </p>
+     *
+     * @param opts The FileSystem options.
+     * @param replyCodes The reply codes.
+     * @since 2.4
+     */
+    public void setTransferAbortedOkReplyCodes(final FileSystemOptions opts, final List<Integer> replyCodes) {
+        setParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES, replyCodes);
+    }
 }

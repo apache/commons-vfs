@@ -88,7 +88,6 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
 
     private static final String COMPRESSION = _PREFIX + "COMPRESSION";
-
     private static final String CONNECT_TIMEOUT_MILLIS = _PREFIX + ".CONNECT_TIMEOUT_MILLIS";
     private static final String ENCODING = _PREFIX + ".ENCODING";
     private static final String HOST_KEY_CHECK_ASK = "ask";
@@ -97,19 +96,22 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String IDENTITIES = _PREFIX + ".IDENTITIES";
     private static final String IDENTITY_REPOSITORY_FACTORY = _PREFIX + "IDENTITY_REPOSITORY_FACTORY";
     private static final String CONFIG_REPOSITORY = _PREFIX + "CONFIG_REPOSITORY";
+    private static final String KEY_EXCHANGE_ALGORITHM = _PREFIX + ".KEY_EXCHANGE_ALGORITHM";
     private static final String LOAD_OPENSSH_CONFIG = _PREFIX + "LOAD_OPENSSH_CONFIG";
     private static final String KNOWN_HOSTS = _PREFIX + ".KNOWN_HOSTS";
     private static final String PREFERRED_AUTHENTICATIONS = _PREFIX + ".PREFERRED_AUTHENTICATIONS";
     private static final String PROXY_COMMAND = _PREFIX + ".PROXY_COMMAND";
-
     private static final String PROXY_HOST = _PREFIX + ".PROXY_HOST";
-    /** HTTP Proxy. */
-    public static final ProxyType PROXY_HTTP = new ProxyType("http");
     private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
     private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
     private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
+    
+    /** HTTP Proxy. */
+    public static final ProxyType PROXY_HTTP = new ProxyType("http");
+    
     /** SOCKS Proxy. */
     public static final ProxyType PROXY_SOCKS5 = new ProxyType("socks");
+    
     /**
      * Connects to the SFTP server through a remote host reached by SSH.
      * <p>
@@ -366,6 +368,15 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public String getStrictHostKeyChecking(final FileSystemOptions opts) {
         return this.getString(opts, STRICT_HOST_KEY_CHECKING, HOST_KEY_CHECK_NO);
+    }
+    
+    /**
+    * @param opts The FileSystem options.
+    * @return the option value for spesific key exchange algorithm
+    * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
+    **/
+    public String getKeyExchangeAlgorithm(FileSystemOptions opts) {
+        return this.getString(opts, KEY_EXCHANGE_ALGORITHM);
     }
 
     /**
@@ -628,6 +639,18 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         this.setParam(opts, SESSION_TIMEOUT_MILLIS, timeout);
     }
 
+    
+    /**
+     ** Configure Key exchange algoritm explicitly
+     ** e.g diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1
+      * @param opts The FileSystem options.
+      * @param keyExchangeAlgoritm The key exchange algoritm picked.
+    **/
+        public void setKeyExchangeAlgorithm(FileSystemOptions opts, String keyExchangeAlgoritm) {
+      setParam(opts, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
+    }
+    
+    
     /**
      * Configures the host key checking to use.
      * <p>
