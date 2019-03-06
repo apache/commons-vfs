@@ -265,14 +265,12 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             final GenericURLFileName fileName = (GenericURLFileName) getName();
             DavPropertySet properties = getProperties(fileName, DavConstants.PROPFIND_ALL_PROP,
                     new DavPropertyNameSet(), false);
-            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
             final DavPropertyIterator iter = properties.iterator();
             while (iter.hasNext()) {
                 final DavProperty property = iter.nextProperty();
                 attributes.put(property.getName().toString(), property.getValue());
             }
             properties = getPropertyNames(fileName);
-            @SuppressWarnings("unchecked") // iterator() is documented to return DavProperty instances
             final DavPropertyIterator iter2 = properties.iterator();
             while (iter2.hasNext()) {
                 DavProperty property = iter2.nextProperty();

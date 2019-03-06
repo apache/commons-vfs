@@ -100,8 +100,6 @@ public class Webdav4FileProvider extends Http4FileProvider {
         try {
             final Webdav4FileSystemConfigBuilder builder = Webdav4FileSystemConfigBuilder.getInstance();
             authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
-            authData.setData(UserAuthenticationData.USERNAME, UserAuthenticatorUtils.toChar(rootName.getUserName()));
-            authData.setData(UserAuthenticationData.PASSWORD, UserAuthenticatorUtils.toChar(rootName.getPassword()));
             httpClientContext = createHttpClientContext(builder, rootName, fsOpts, authData);
             httpClient = createHttpClient(builder, rootName, fsOpts);
         } finally {

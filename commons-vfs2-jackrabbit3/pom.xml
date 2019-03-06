@@ -74,7 +74,19 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Test WebDAV with Apache Jackrabbit -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Test WebDAV with Apache Jackrabbit Standalone Components -->
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-standalone-components</artifactId>
@@ -99,6 +111,9 @@
     </resources>
      <!-- include NOTICE/LICENSE in generated test jar -->
     <testResources>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+      </testResource>
       <testResource>
         <directory>${vfs.parent.dir}</directory>
         <targetPath>META-INF</targetPath>
@@ -126,7 +141,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <systemPropertyVariables>
-            <test.basedir>../core/target/test-classes/test-data</test.basedir>
+            <test.basedir>target/test-classes/test-data</test.basedir>
             <test.basedir.res>test-data</test.basedir.res>
           </systemPropertyVariables>
         </configuration>
