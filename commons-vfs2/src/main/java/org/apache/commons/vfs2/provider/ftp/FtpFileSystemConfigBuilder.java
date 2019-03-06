@@ -250,8 +250,8 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * @param opts The FileSystem options.
-     * @return The list of status codes (apart from 200) that are considered as OK when prematurely
-     * closing a stream. Defaults to <code>[426, 550]</code>.
+     * @return The list of reply codes (apart from 200) that are considered as OK when prematurely
+     * closing a stream.
      * @since 2.4
      */
     @SuppressWarnings("unchecked")
