@@ -263,6 +263,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the timeout for the initial control connection.
      * <p>
      * If you set the connectTimeout to {@code null} no connectTimeout will be set.
+     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param connectTimeout the timeout value in milliseconds
@@ -287,6 +288,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Set the data timeout for the ftp client.
      * <p>
      * If you set the {@code dataTimeout} to {@code null}, no dataTimeout will be set on the ftp client.
+     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param dataTimeout The timeout value.
@@ -311,6 +313,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * If you do not use the default commons-net FTPFileEntryParserFactory e.g. by using {@link #setEntryParserFactory}
      * this is the "key" parameter passed as argument into your custom factory.
+     * </p>
      *
      * @param opts The FileSystemOptions.
      * @param key The key.
@@ -354,6 +357,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the Proxy.
      * <p>
      * You might need to make sure that {@link #setPassiveMode(FileSystemOptions, boolean) passive mode} is activated.
+     * </p>
      *
      * @param opts the FileSystem options.
      * @param proxy the Proxy
@@ -424,6 +428,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the socket timeout for the FTP client.
      * <p>
      * If you set the {@code soTimeout} to {@code null}, no socket timeout will be set on the ftp client.
+     * </p>
      *
      * @param opts The FileSystem options.
      * @param soTimeout The timeout value in milliseconds.
@@ -444,16 +449,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Sets the list of status codes that are considered as OK when prematurely closing a stream.
+     * Sets the list of reply codes that are considered as OK when prematurely closing a stream.
      * <p>
-     * If you set the {@code statusCodes} to an empty list, all status codes besides 200 will be
+     * If you set the {@code replyCodes} to an empty list, all reply codes besides 200 will be
      * considered as an error.
+     * </p>
      *
      * @param opts The FileSystem options.
-     * @param statusCodes The status codes.
+     * @param replyCodes The status codes.
      * @since 2.4
      */
-    public void setTransferAbortedOkReplyCodes(final FileSystemOptions opts, final List<Integer> statusCodes) {
-        setParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES, statusCodes);
+    public void setTransferAbortedOkReplyCodes(final FileSystemOptions opts, final List<Integer> replyCodes) {
+        setParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES, replyCodes);
     }
 }
