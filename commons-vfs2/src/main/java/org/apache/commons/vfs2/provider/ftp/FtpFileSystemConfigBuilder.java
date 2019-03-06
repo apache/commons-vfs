@@ -80,7 +80,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         return FtpFileSystem.class;
     }
 
-    public static List<Integer> getSaneTransferAbortedOkStatusCodes() {
+    public static List<Integer> getSaneTransferAbortedOkReplyCodes() {
         // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
         return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
     }

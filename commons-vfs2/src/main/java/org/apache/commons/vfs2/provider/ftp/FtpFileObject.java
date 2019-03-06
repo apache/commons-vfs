@@ -589,10 +589,10 @@ public class FtpFileObject extends AbstractFileObject<FtpFileSystem> {
         }
 
         private boolean isTransferAbortedOkReplyCode() throws IOException {
-            List<Integer> transferAbortedOkStatusCodes = FtpFileSystemConfigBuilder
+            List<Integer> transferAbortedOkReplyCodes = FtpFileSystemConfigBuilder
                 .getInstance()
                 .getTransferAbortedOkReplyCodes(getAbstractFileSystem().getFileSystemOptions());
-            return transferAbortedOkStatusCodes != null && transferAbortedOkStatusCodes.contains(client.getReplyCode());
+            return transferAbortedOkReplyCodes != null && transferAbortedOkReplyCodes.contains(client.getReplyCode());
         }
     }
 
