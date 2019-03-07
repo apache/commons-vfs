@@ -493,6 +493,8 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
             }
 
             return response;
+        } catch (final FileSystemException fse) {
+            throw fse;
         } catch (final IOException e) {
             throw new FileSystemException(e);
         } catch (final DavException e) {
