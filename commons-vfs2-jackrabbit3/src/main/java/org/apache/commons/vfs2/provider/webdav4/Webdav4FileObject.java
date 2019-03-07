@@ -48,6 +48,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.jackrabbit.webdav.DavConstants;
 import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.MultiStatus;
@@ -152,7 +153,6 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 } catch (final FileSystemException ex) {
                     if (!isCheckedIn) {
                         try {
-                            // FIXME: I'm converting UncheckoutMethod to HttpCheckin. Is it okay??
                             final HttpCheckin request = new HttpCheckin(urlStr);
                             setupRequest(request);
                             executeRequest(request);
@@ -452,32 +452,6 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         }
     }
 
-    // TODO: Remove if everything is okay.
-//    /**
-//     * Execute a 'Workspace' operation.
-//     *
-//     * @param method The DavMethod to invoke.
-//     * @throws FileSystemException If an error occurs.
-//     */
-//    private void execute(final DavMethod method) throws FileSystemException {
-//        try {
-//            final int status = fileSystem.getClient().executeMethod(method);
-//            if (status == HttpURLConnection.HTTP_NOT_FOUND || status == HttpURLConnection.HTTP_GONE) {
-//                throw new FileNotFoundException(method.getURI());
-//            }
-//            method.checkSuccess();
-//        } catch (final FileSystemException fse) {
-//            throw fse;
-//        } catch (final IOException e) {
-//            throw new FileSystemException(e);
-//        } catch (final DavException e) {
-//            throw ExceptionConverter.generate(e);
-//        } finally {
-//            if (method != null) {
-//                method.releaseConnection();
-//            }
-//        }
-//    }
     private HttpResponse executeRequest(final HttpUriRequest request) throws FileSystemException {
         HttpResponse response = null;
 
@@ -532,9 +506,10 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
                 final MultiStatusResponse response = multiStatus.getResponses()[0];
                 final DavPropertySet props = response.getProperties(HttpStatus.SC_OK);
                 if (addEncoding) {
-                    // FIXME: how to get response charset??
-                    //final DavProperty prop = new DefaultDavProperty(RESPONSE_CHARSET, method.getResponseCharSet());
-                    //props.add(prop);
+                    final ContentType resContentType = ContentType.getOrDefault(res.getEntity());
+                    final DavProperty prop = new DefaultDavProperty(RESPONSE_CHARSET,
+                            resContentType.getCharset().name());
+                    props.add(prop);
                 }
                 return props;
             }
@@ -613,25 +588,6 @@ public class Webdav4FileObject extends Http4FileObject<Webdav4FileSystem> {
         return i >= 0 ? path.substring(i + 1) : path;
     }
 
-    // TODO: Remove if everything is okay.
-//    /**
-//     * Prepares a Method object.
-//     *
-//     * @param method the HttpMethod.
-//     * @throws FileSystemException if an error occurs encoding the uri.
-//     * @throws URIException if the URI is in error.
-//     */
-//    @Override
-//    protected void setupMethod(final HttpMethod method) throws FileSystemException, URISyntaxException {
-//        final String pathEncoded = ((GenericURLFileName) getName()).getPathQueryEncoded(this.getUrlCharset());
-//        method.setPath(pathEncoded);
-//        method.setFollowRedirects(this.getFollowRedirect());
-//        method.setRequestHeader("User-Agent", "Jakarta-Commons-VFS");
-//        method.addRequestHeader("Cache-control", "no-cache");
-//        method.addRequestHeader("Cache-store", "no-store");
-//        method.addRequestHeader("Pragma", "no-cache");
-//        method.addRequestHeader("Expires", "0");
-//    }
     private void setupRequest(final HttpUriRequest request) throws FileSystemException {
         // NOTE: *FileSystemConfigBuilder takes care of redirect option and user agent.
         request.addHeader("Cache-control", "no-cache");

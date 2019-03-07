@@ -221,12 +221,8 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      */
     private static void startJackrabbit(final File repoDirectory) throws Exception {
         boolean quiet = false;
+
         if (!DEBUG) {
-            // FIXME
-//            Logger.getLogger("org.apache.jackrabbit").setLevel(Level.WARN);
-//            Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.ERROR);
-//            Logger.getLogger("org.apache.commons.vfs2").setLevel(Level.WARN);
-//            Logger.getLogger("org.mortbay").setLevel(Level.WARN);
             quiet = true;
         }
 
@@ -277,12 +273,8 @@ public class Webdav4ProviderTestCase extends AbstractProviderTestConfig {
      * @throws Exception @throws
      */
     private static void tearDownClass() throws Exception {
-        // Main JR shutdown
-        // TODO: Is this necessary??
-        //JrMain.shutdown();
-        // WARN logged because one thread is still there, so clean up explicitly.
-        // TODO: Is this necessary??
-        //MultiThreadedHttpConnectionManager.shutdownAll();
+        // Stop Jackrabbit Main for graceful shutdown
+        jrMain.shutdown();
 
         if (DEBUG) {
             message("Skipping cleanup of " + RepoDirectory);
