@@ -22,9 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <name>Apache Commons VFS Examples</name>
-  <groupId>org.apache.commons</groupId>
   <artifactId>commons-vfs2-examples</artifactId>
-  <version>2.4-SNAPSHOT</version>
   <description>Apache Commons VFS is a Virtual File System library - Examples.</description>
 
   <parent>
@@ -36,7 +34,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.commons</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>commons-vfs2</artifactId>
     </dependency>
 

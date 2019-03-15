@@ -385,24 +385,24 @@
     <dependencies>
       <!-- artifacts of project, versions managed by release-plugin -->
       <dependency>
-        <groupId>org.apache.commons</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>commons-vfs2</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.commons</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>commons-vfs2</artifactId>
         <version>${project.version}</version>
         <type>test-jar</type>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.apache.commons</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>commons-vfs2-sandbox</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.commons</groupId>
+        <groupId>${project.groupId}</groupId>
         <artifactId>commons-vfs2-examples</artifactId>
         <version>${project.version}</version>
       </dependency>
