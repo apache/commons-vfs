@@ -59,6 +59,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-693" dev="ggregory" type="update" due-to="Boris Petrov, Gary Gregory">
         Add support for customizing FTP transfer aborted status codes. GitHub PR #51.
       </action>
+      <action issue="VFS-694" dev="ggregory" type="fix" due-to="Boris Petrov">
+        Fix inability to start the DefaultFileMonitor after it has been stopped. GitHub PR #55.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
