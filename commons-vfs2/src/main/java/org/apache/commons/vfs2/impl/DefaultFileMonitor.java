@@ -307,6 +307,8 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      */
     public void stop() {
         this.shouldRun = false;
+        this.monitorThread.interrupt();
+        this.monitorThread = null;
     }
 
     /**
