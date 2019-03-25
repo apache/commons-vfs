@@ -169,6 +169,29 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase {
         }
     }
 
+    public void testFileMonitorRestarted() throws Exception {
+        final FileObject fileObj = fsManager.resolveFile(testFile.toURI().toString());
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        // TestFileListener manipulates changeStatus
+        monitor.setDelay(100);
+        monitor.addFile(fileObj);
+
+        monitor.start();
+        writeToFile(testFile);
+        Thread.sleep(300);
+        monitor.stop();
+
+        monitor.start();
+        try {
+            testFile.delete();
+            Thread.sleep(300);
+            assertTrue("No event occurred", changeStatus != 0);
+            assertTrue("Incorrect event", changeStatus == 2);
+        } finally {
+            monitor.stop();
+        }
+    }
+
     private void writeToFile(final File file) throws Exception {
         final FileWriter out = new FileWriter(file);
         out.write("string=value1");
