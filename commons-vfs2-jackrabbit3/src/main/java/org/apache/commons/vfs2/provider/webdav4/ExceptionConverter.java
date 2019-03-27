@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
 /**
  * {@code ExceptionConverter} converts WebDAV exceptions into FileSystemExceptions.
  *
- * @since 2.3
+ * @since 2.4
  */
 public final class ExceptionConverter {
 
