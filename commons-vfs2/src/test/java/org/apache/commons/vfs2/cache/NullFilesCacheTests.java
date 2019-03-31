@@ -40,7 +40,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
 
     @Override
     public void testBasicCacheOps() throws Exception {
-        DefaultFileSystemManager manager = getManager();
+        final DefaultFileSystemManager manager = getManager();
         Assert.assertNotNull("This test should not have a null DefaultFileSystemManager", manager);
         // the basic test looks different for a null cache:
         final FilesCache cache = manager.getFilesCache();
@@ -62,7 +62,7 @@ public class NullFilesCacheTests extends AbstractFilesCacheTestsBase {
     }
 
     public void testClass() {
-        DefaultFileSystemManager manager = getManager();
+        final DefaultFileSystemManager manager = getManager();
         Assert.assertNotNull("This test should not have a null DefaultFileSystemManager", manager);
         assertTrue(manager.getFilesCache() instanceof NullFilesCache);
     }

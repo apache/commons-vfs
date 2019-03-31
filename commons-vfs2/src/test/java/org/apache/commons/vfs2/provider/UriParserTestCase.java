@@ -61,14 +61,14 @@ public class UriParserTestCase {
 
 	@Test
 	public void testNormalSchemeWithBuffer() {
-		StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder();
 		UriParser.extractScheme(schemes, "ftp://user:pass@host/some/path/some:file", buffer);
 		Assert.assertEquals("//user:pass@host/some/path/some:file", buffer.toString());
 	}
 
 	@Test
 	public void testOneSlashSchemeWithBuffer() {
-		StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder();
 		UriParser.extractScheme(schemes, "file:/user:pass@host/some/path/some:file", buffer);
 		Assert.assertEquals("/user:pass@host/some/path/some:file", buffer.toString());
 	}
