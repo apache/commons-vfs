@@ -47,7 +47,11 @@ public class FileExtensionSelector implements FileSelector {
      */
     public FileExtensionSelector(final Collection<String> extensions) {
         if (extensions != null) {
-            this.extensions.addAll(extensions);
+            for (String ext : extensions) {
+                if (ext != null) {
+                    this.extensions.add(ext.toLowerCase());
+                }
+            }
         }
     }
 
@@ -57,9 +61,7 @@ public class FileExtensionSelector implements FileSelector {
      * @param extensions The extensions to be included by this selector.
      */
     public FileExtensionSelector(final String... extensions) {
-        if (extensions != null) {
-            this.extensions.addAll(Arrays.asList(extensions));
-        }
+        this(Arrays.asList(extensions));
     }
 
     /**
@@ -70,15 +72,7 @@ public class FileExtensionSelector implements FileSelector {
      */
     @Override
     public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
-        if (this.extensions == null) {
-            return false;
-        }
-        for (final String extension : this.extensions) {
-            if (fileInfo.getFile().getName().getExtension().equalsIgnoreCase(extension)) {
-                return true;
-            }
-        }
-        return false;
+        return this.extensions.contains(fileInfo.getFile().getName().getExtension().toLowerCase());
     }
 
     /**
