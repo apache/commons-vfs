@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 /**
  * Filter that accepts files whose size is &gt;= minimum size and &lt;= maximum
  * size.
+ * @since 2.4
  */
 public class SizeRangeFileFilter implements FileFilter, Serializable {
 

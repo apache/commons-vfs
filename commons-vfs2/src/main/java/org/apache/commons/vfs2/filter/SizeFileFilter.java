@@ -43,6 +43,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * 
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
+ * @since 2.4
  */
 public class SizeFileFilter implements FileFilter, Serializable {
 
@@ -104,13 +105,10 @@ public class SizeFileFilter implements FileFilter, Serializable {
             if (!file.exists()) {
                 return false;
             }
-            final FileContent content = file.getContent();
-            try {
+            try (final FileContent content = file.getContent();) {
                 final long length = content.getSize();
                 final boolean smaller = length < size;
                 return acceptLarger ? !smaller : smaller;
-            } finally {
-                content.close();
             }
         } catch (final FileSystemException ex) {
             throw new RuntimeException(ex);

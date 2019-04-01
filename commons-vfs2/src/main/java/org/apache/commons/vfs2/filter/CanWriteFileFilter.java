@@ -57,6 +57,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * 
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
+ * @since 2.4
  */
 public class CanWriteFileFilter implements FileFilter, Serializable {
 
@@ -92,12 +93,11 @@ public class CanWriteFileFilter implements FileFilter, Serializable {
                     return false;
                 }
                 return fileInfo.getFile().isWriteable();
-            } else {
-                if (!fileSystem.hasCapability(Capability.CREATE)) {
-                    return false;
-                }
-                return fileInfo.getFile().getParent().isWriteable();
             }
+            if (!fileSystem.hasCapability(Capability.CREATE)) {
+                return false;
+            }
+            return fileInfo.getFile().getParent().isWriteable();
         } catch (final FileSystemException ex) {
             throw new RuntimeException(ex);
         }

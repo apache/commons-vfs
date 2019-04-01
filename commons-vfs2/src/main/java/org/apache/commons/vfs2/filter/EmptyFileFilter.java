@@ -57,6 +57,7 @@ import org.apache.commons.vfs2.FileType;
  * 
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
+ * @since 2.4
  */
 public class EmptyFileFilter implements FileFilter, Serializable {
 
@@ -95,11 +96,8 @@ public class EmptyFileFilter implements FileFilter, Serializable {
                 final FileObject[] files = file.getChildren();
                 return files == null || files.length == 0;
             }
-            final FileContent content = file.getContent();
-            try {
+            try (final FileContent content = file.getContent();) {
                 return content.getSize() == 0;
-            } finally {
-                content.close();
             }
         } catch (final FileSystemException ex) {
             throw new RuntimeException(ex);

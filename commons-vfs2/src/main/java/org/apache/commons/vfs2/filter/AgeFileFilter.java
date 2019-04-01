@@ -46,6 +46,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * 
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
+ * @since 2.4
  */
 public class AgeFileFilter implements FileFilter, Serializable {
 
@@ -80,12 +81,9 @@ public class AgeFileFilter implements FileFilter, Serializable {
             if (!fileObject.exists()) {
                 return false;
             }
-            final FileContent content = fileObject.getContent();
-            try {
+            try (final FileContent content = fileObject.getContent()) {
                 final long lastModified = content.getLastModifiedTime();
                 return lastModified > timeMillis;
-            } finally {
-                content.close();
             }
         } catch (final FileSystemException ex) {
             throw new RuntimeException(ex);

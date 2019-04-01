@@ -41,6 +41,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * 
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
+ * @since 2.4
  */
 public class NameFileFilter implements FileFilter, Serializable {
 

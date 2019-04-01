@@ -17,72 +17,55 @@
 package org.apache.commons.vfs2.filter;
 
 import java.io.File;
-import java.io.Serializable;
 
 /**
  * Enumeration of IO case sensitivity.
  * <p>
- * Different filing systems have different rules for case-sensitivity. Windows
- * is case-insensitive, Unix is case-sensitive.
+ * Different filing systems have different rules for case-sensitivity.
+ * Windows is case-insensitive, Unix is case-sensitive.
+ * </p>
  * <p>
- * This class captures that difference, providing an enumeration to control how
- * filename comparisons should be performed. It also provides methods that use
- * the enumeration to perform comparisons.
+ * This class captures that difference, providing an enumeration to
+ * control how filename comparisons should be performed. It also provides
+ * methods that use the enumeration to perform comparisons.
+ * </p>
  * <p>
  * Wherever possible, you should use the <code>check</code> methods in this
  * class to compare filenames.
+ * </p>
  * 
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
+ * @since 2.4
  */
-public final class IOCase implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * The constant for case insensitive regardless of operating system.
-     */
-    public static final IOCase INSENSITIVE = new IOCase("Insensitive", false);
+public enum IOCase {
 
     /**
      * The constant for case sensitive regardless of operating system.
      */
-    public static final IOCase SENSITIVE = new IOCase("Sensitive", true);
+    SENSITIVE ("Sensitive", true),
 
     /**
-     * The constant for case sensitivity determined by the current operating
-     * system. Windows is case-insensitive when comparing filenames, Unix is
-     * case-sensitive.
-     * <p>
-     * <strong>Note:</strong> This only caters for Windows and Unix. Other
-     * operating systems (e.g. OSX and OpenVMS) are treated as case sensitive if
-     * they use the Unix file separator and case-insensitive if they use the
-     * Windows file separator (see {@link java.io.File#separatorChar}).
-     * <p>
-     * If you derialize this constant of Windows, and deserialize on Unix, or
-     * vice versa, then the value of the case-sensitivity flag will change.
+     * The constant for case insensitive regardless of operating system.
      */
-    public static final IOCase SYSTEM = new IOCase("System", !(File.separatorChar == '\\'));
+    INSENSITIVE ("Insensitive", false),
 
     /**
-     * Factory method to create an IOCase from a name.
-     * 
-     * @param name
-     *            the name to find
-     * @return the IOCase object
+     * The constant for case sensitivity determined by the current operating system.
+     * Windows is case-insensitive when comparing filenames, Unix is case-sensitive.
+     * <p>
+     * <strong>Note:</strong> This only caters for Windows and Unix. Other operating
+     * systems (e.g. OSX and OpenVMS) are treated as case sensitive if they use the
+     * Unix file separator and case-insensitive if they use the Windows file separator
+     * (see {@link java.io.File#separatorChar}).
+     * <p>
+     * If you serialize this constant on Windows, and deserialize on Unix, or vice
+     * versa, then the value of the case-sensitivity flag will change.
      */
-    public static IOCase forName(final String name) {
-        if (IOCase.SENSITIVE.name.equals(name)) {
-            return IOCase.SENSITIVE;
-        }
-        if (IOCase.INSENSITIVE.name.equals(name)) {
-            return IOCase.INSENSITIVE;
-        }
-        if (IOCase.SYSTEM.name.equals(name)) {
-            return IOCase.SYSTEM;
-        }
-        throw new IllegalArgumentException("Invalid IOCase name: " + name);
-    }
+    SYSTEM ("System", !(File.separatorChar == '\\'));
+
+    /** Serialization version. */
+    private static final long serialVersionUID = -6343169151696340687L;
 
     /** The enumeration name. */
     private final String name;
@@ -90,30 +73,77 @@ public final class IOCase implements Serializable {
     /** The sensitivity flag. */
     private final transient boolean sensitive;
 
+    //-----------------------------------------------------------------------
     /**
-     * Private constructor.
-     * 
-     * @param name
-     *            the name
-     * @param sensitive
-     *            the sensitivity
+     * Factory method to create an IOCase from a name.
+     *
+     * @param name  the name to find
+     * @return the IOCase object
+     * @throws IllegalArgumentException if the name is invalid
      */
-    private IOCase(final String name, final boolean sensitive) {
+    public static IOCase forName(final String name) {
+        for (final IOCase ioCase : IOCase.values())
+        {
+            if (ioCase.getName().equals(name))
+            {
+                return ioCase;
+            }
+        }
+        throw new IllegalArgumentException("Invalid IOCase name: " + name);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Constructs a new instance.
+     *
+     * @param name  the name
+     * @param sensitive  the sensitivity
+     */
+    IOCase(final String name, final boolean sensitive) {
         this.name = name;
         this.sensitive = sensitive;
     }
 
     /**
+     * Replaces the enumeration from the stream with a real one.
+     * This ensures that the correct flag is set for SYSTEM.
+     *
+     * @return the resolved object
+     */
+    private Object readResolve() {
+        return forName(name);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gets the name of the constant.
+     *
+     * @return the name of the constant
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Does the object represent case sensitive comparison.
+     *
+     * @return true if case sensitive
+     */
+    public boolean isCaseSensitive() {
+        return sensitive;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
      * Compares two strings using the case-sensitivity rule.
      * <p>
      * This method mimics {@link String#compareTo} but takes case-sensitivity
      * into account.
-     * 
-     * @param str1
-     *            the first string to compare, not null
-     * @param str2
-     *            the second string to compare, not null
+     *
+     * @param str1  the first string to compare, not null
+     * @param str2  the second string to compare, not null
      * @return true if equal using the case rules
+     * @throws NullPointerException if either string is null
      */
     public int checkCompareTo(final String str1, final String str2) {
         if (str1 == null || str2 == null) {
@@ -123,33 +153,15 @@ public final class IOCase implements Serializable {
     }
 
     /**
-     * Checks if one string ends with another using the case-sensitivity rule.
-     * <p>
-     * This method mimics {@link String#endsWith} but takes case-sensitivity
-     * into account.
-     * 
-     * @param str
-     *            the string to check, not null
-     * @param end
-     *            the end to compare against, not null
-     * @return true if equal using the case rules
-     */
-    public boolean checkEndsWith(final String str, final String end) {
-        final int endLen = end.length();
-        return str.regionMatches(!sensitive, str.length() - endLen, end, 0, endLen);
-    }
-
-    /**
      * Compares two strings using the case-sensitivity rule.
      * <p>
-     * This method mimics {@link String#equals} but takes case-sensitivity into
-     * account.
-     * 
-     * @param str1
-     *            the first string to compare, not null
-     * @param str2
-     *            the second string to compare, not null
+     * This method mimics {@link String#equals} but takes case-sensitivity
+     * into account.
+     *
+     * @param str1  the first string to compare, not null
+     * @param str2  the second string to compare, not null
      * @return true if equal using the case rules
+     * @throws NullPointerException if either string is null
      */
     public boolean checkEquals(final String str1, final String str2) {
         if (str1 == null || str2 == null) {
@@ -159,20 +171,49 @@ public final class IOCase implements Serializable {
     }
 
     /**
-     * Checks if one string contains another starting at a specific index using
-     * the case-sensitivity rule.
+     * Checks if one string starts with another using the case-sensitivity rule.
      * <p>
-     * This method mimics parts of {@link String#indexOf(String, int)} but takes
-     * case-sensitivity into account.
-     * 
-     * @param str
-     *            the string to check, not null
-     * @param strStartIndex
-     *            the index to start at in str
-     * @param search
-     *            the start to search for, not null
-     * @return the first index of the search String, -1 if no match or
-     *         {@code null} string input
+     * This method mimics {@link String#startsWith(String)} but takes case-sensitivity
+     * into account.
+     *
+     * @param str  the string to check, not null
+     * @param start  the start to compare against, not null
+     * @return true if equal using the case rules
+     * @throws NullPointerException if either string is null
+     */
+    public boolean checkStartsWith(final String str, final String start) {
+        return str.regionMatches(!sensitive, 0, start, 0, start.length());
+    }
+
+    /**
+     * Checks if one string ends with another using the case-sensitivity rule.
+     * <p>
+     * This method mimics {@link String#endsWith} but takes case-sensitivity
+     * into account.
+     *
+     * @param str  the string to check, not null
+     * @param end  the end to compare against, not null
+     * @return true if equal using the case rules
+     * @throws NullPointerException if either string is null
+     */
+    public boolean checkEndsWith(final String str, final String end) {
+        final int endLen = end.length();
+        return str.regionMatches(!sensitive, str.length() - endLen, end, 0, endLen);
+    }
+
+    /**
+     * Checks if one string contains another starting at a specific index using the
+     * case-sensitivity rule.
+     * <p>
+     * This method mimics parts of {@link String#indexOf(String, int)}
+     * but takes case-sensitivity into account.
+     *
+     * @param str  the string to check, not null
+     * @param strStartIndex  the index to start at in str
+     * @param search  the start to search for, not null
+     * @return the first index of the search String,
+     *  -1 if no match or {@code null} string input
+     * @throws NullPointerException if either string is null
      * @since 2.0
      */
     public int checkIndexOf(final String str, final int strStartIndex, final String search) {
@@ -188,72 +229,25 @@ public final class IOCase implements Serializable {
     }
 
     /**
-     * Checks if one string contains another at a specific index using the
-     * case-sensitivity rule.
+     * Checks if one string contains another at a specific index using the case-sensitivity rule.
      * <p>
-     * This method mimics parts of
-     * {@link String#regionMatches(boolean, int, String, int, int)} but takes
-     * case-sensitivity into account.
-     * 
-     * @param str
-     *            the string to check, not null
-     * @param strStartIndex
-     *            the index to start at in str
-     * @param search
-     *            the start to search for, not null
+     * This method mimics parts of {@link String#regionMatches(boolean, int, String, int, int)}
+     * but takes case-sensitivity into account.
+     *
+     * @param str  the string to check, not null
+     * @param strStartIndex  the index to start at in str
+     * @param search  the start to search for, not null
      * @return true if equal using the case rules
+     * @throws NullPointerException if either string is null
      */
     public boolean checkRegionMatches(final String str, final int strStartIndex, final String search) {
         return str.regionMatches(!sensitive, strStartIndex, search, 0, search.length());
     }
 
-    /**
-     * Checks if one string starts with another using the case-sensitivity rule.
-     * <p>
-     * This method mimics {@link String#startsWith(String)} but takes
-     * case-sensitivity into account.
-     * 
-     * @param str
-     *            the string to check, not null
-     * @param start
-     *            the start to compare against, not null
-     * @return true if equal using the case rules
-     */
-    public boolean checkStartsWith(final String str, final String start) {
-        return str.regionMatches(!sensitive, 0, start, 0, start.length());
-    }
-
-    /**
-     * Gets the name of the constant.
-     * 
-     * @return the name of the constant
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Does the object represent case sensitive comparison.
-     * 
-     * @return true if case sensitive
-     */
-    public boolean isCaseSensitive() {
-        return sensitive;
-    }
-
-    /**
-     * Replaces the enumeration from the stream with a real one. This ensures
-     * that the correct flag is set for SYSTEM.
-     * 
-     * @return the resolved object
-     */
-    private Object readResolve() {
-        return forName(name);
-    }
-
+    //-----------------------------------------------------------------------
     /**
      * Gets a string describing the sensitivity.
-     * 
+     *
      * @return a string describing the sensitivity
      */
     @Override
