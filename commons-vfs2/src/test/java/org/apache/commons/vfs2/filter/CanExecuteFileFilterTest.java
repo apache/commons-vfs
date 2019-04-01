@@ -20,19 +20,19 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.vfs2.FileFilterSelector;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
-import org.apache.commons.vfs2.FileSystemException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Test for {@link CanExecuteFileFilter}.
  */
 // CHECKSTYLE:OFF Test code
+@Ignore
 public class CanExecuteFileFilterTest extends BaseFilterTest {
 
     private static final String EXECUTABLE = "executable.txt";
