@@ -37,30 +37,29 @@ public class RegexFileFilterTestCase extends BaseFilterTest {
         FileFilter filter;
 
         filter = new RegexFileFilter("^.*[tT]est(-\\d+)?\\.java$");
-        Assert.assertTrue(filter.accept(createFSI(new File("Test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test-10.java"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test-.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test-10.java"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test-.java"))));
 
         filter = new RegexFileFilter("^[Tt]est.java$");
-        Assert.assertTrue(filter.accept(createFSI(new File("Test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test.java"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("tEST.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.java"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("tEST.java"))));
 
-        filter = new RegexFileFilter(Pattern.compile("^test.java$",
-                Pattern.CASE_INSENSITIVE));
-        Assert.assertTrue(filter.accept(createFSI(new File("Test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("tEST.java"))));
+        filter = new RegexFileFilter(Pattern.compile("^test.java$", Pattern.CASE_INSENSITIVE));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("tEST.java"))));
 
         filter = new RegexFileFilter("^test.java$", Pattern.CASE_INSENSITIVE);
-        Assert.assertTrue(filter.accept(createFSI(new File("Test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("tEST.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("tEST.java"))));
 
         filter = new RegexFileFilter("^test.java$", IOCase.INSENSITIVE);
-        Assert.assertTrue(filter.accept(createFSI(new File("Test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test.java"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("tEST.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.java"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("tEST.java"))));
 
     }
 
@@ -70,8 +69,7 @@ public class RegexFileFilterTestCase extends BaseFilterTest {
             new RegexFileFilter((String) null);
             fail();
         } catch (final IllegalArgumentException ex) {
-            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING,
-                    ex.getMessage());
+            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
         }
     }
 
@@ -81,8 +79,7 @@ public class RegexFileFilterTestCase extends BaseFilterTest {
             new RegexFileFilter((Pattern) null);
             fail();
         } catch (final IllegalArgumentException ex) {
-            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING,
-                    ex.getMessage());
+            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
         }
     }
 
@@ -92,8 +89,7 @@ public class RegexFileFilterTestCase extends BaseFilterTest {
             new RegexFileFilter((String) null, Pattern.CASE_INSENSITIVE);
             fail();
         } catch (final IllegalArgumentException ex) {
-            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING,
-                    ex.getMessage());
+            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
         }
     }
 
@@ -103,8 +99,7 @@ public class RegexFileFilterTestCase extends BaseFilterTest {
             new RegexFileFilter((String) null, IOCase.INSENSITIVE);
             fail();
         } catch (final IllegalArgumentException ex) {
-            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING,
-                    ex.getMessage());
+            Assert.assertEquals(RegexFileFilter.PATTERN_IS_MISSING, ex.getMessage());
         }
     }
 

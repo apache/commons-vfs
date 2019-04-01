@@ -21,13 +21,13 @@ import java.io.File;
 /**
  * Enumeration of IO case sensitivity.
  * <p>
- * Different filing systems have different rules for case-sensitivity.
- * Windows is case-insensitive, Unix is case-sensitive.
+ * Different filing systems have different rules for case-sensitivity. Windows
+ * is case-insensitive, Unix is case-sensitive.
  * </p>
  * <p>
- * This class captures that difference, providing an enumeration to
- * control how filename comparisons should be performed. It also provides
- * methods that use the enumeration to perform comparisons.
+ * This class captures that difference, providing an enumeration to control how
+ * filename comparisons should be performed. It also provides methods that use
+ * the enumeration to perform comparisons.
  * </p>
  * <p>
  * Wherever possible, you should use the <code>check</code> methods in this
@@ -43,12 +43,12 @@ public enum IOCase {
     /**
      * The constant for case sensitive regardless of operating system.
      */
-    SENSITIVE ("Sensitive", true),
+    SENSITIVE("Sensitive", true),
 
     /**
      * The constant for case insensitive regardless of operating system.
      */
-    INSENSITIVE ("Insensitive", false),
+    INSENSITIVE("Insensitive", false),
 
     /**
      * The constant for case sensitivity determined by the current operating system.
@@ -56,13 +56,13 @@ public enum IOCase {
      * <p>
      * <strong>Note:</strong> This only caters for Windows and Unix. Other operating
      * systems (e.g. OSX and OpenVMS) are treated as case sensitive if they use the
-     * Unix file separator and case-insensitive if they use the Windows file separator
-     * (see {@link java.io.File#separatorChar}).
+     * Unix file separator and case-insensitive if they use the Windows file
+     * separator (see {@link java.io.File#separatorChar}).
      * <p>
      * If you serialize this constant on Windows, and deserialize on Unix, or vice
      * versa, then the value of the case-sensitivity flag will change.
      */
-    SYSTEM ("System", !(File.separatorChar == '\\'));
+    SYSTEM("System", !(File.separatorChar == '\\'));
 
     /** Serialization version. */
     private static final long serialVersionUID = -6343169151696340687L;
@@ -73,31 +73,29 @@ public enum IOCase {
     /** The sensitivity flag. */
     private final transient boolean sensitive;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Factory method to create an IOCase from a name.
      *
-     * @param name  the name to find
+     * @param name the name to find
      * @return the IOCase object
      * @throws IllegalArgumentException if the name is invalid
      */
     public static IOCase forName(final String name) {
-        for (final IOCase ioCase : IOCase.values())
-        {
-            if (ioCase.getName().equals(name))
-            {
+        for (final IOCase ioCase : IOCase.values()) {
+            if (ioCase.getName().equals(name)) {
                 return ioCase;
             }
         }
         throw new IllegalArgumentException("Invalid IOCase name: " + name);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Constructs a new instance.
      *
-     * @param name  the name
-     * @param sensitive  the sensitivity
+     * @param name      the name
+     * @param sensitive the sensitivity
      */
     IOCase(final String name, final boolean sensitive) {
         this.name = name;
@@ -105,8 +103,8 @@ public enum IOCase {
     }
 
     /**
-     * Replaces the enumeration from the stream with a real one.
-     * This ensures that the correct flag is set for SYSTEM.
+     * Replaces the enumeration from the stream with a real one. This ensures that
+     * the correct flag is set for SYSTEM.
      *
      * @return the resolved object
      */
@@ -114,7 +112,7 @@ public enum IOCase {
         return forName(name);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the name of the constant.
      *
@@ -133,15 +131,15 @@ public enum IOCase {
         return sensitive;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Compares two strings using the case-sensitivity rule.
      * <p>
-     * This method mimics {@link String#compareTo} but takes case-sensitivity
-     * into account.
+     * This method mimics {@link String#compareTo} but takes case-sensitivity into
+     * account.
      *
-     * @param str1  the first string to compare, not null
-     * @param str2  the second string to compare, not null
+     * @param str1 the first string to compare, not null
+     * @param str2 the second string to compare, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -155,11 +153,11 @@ public enum IOCase {
     /**
      * Compares two strings using the case-sensitivity rule.
      * <p>
-     * This method mimics {@link String#equals} but takes case-sensitivity
-     * into account.
+     * This method mimics {@link String#equals} but takes case-sensitivity into
+     * account.
      *
-     * @param str1  the first string to compare, not null
-     * @param str2  the second string to compare, not null
+     * @param str1 the first string to compare, not null
+     * @param str2 the second string to compare, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -173,11 +171,11 @@ public enum IOCase {
     /**
      * Checks if one string starts with another using the case-sensitivity rule.
      * <p>
-     * This method mimics {@link String#startsWith(String)} but takes case-sensitivity
-     * into account.
+     * This method mimics {@link String#startsWith(String)} but takes
+     * case-sensitivity into account.
      *
-     * @param str  the string to check, not null
-     * @param start  the start to compare against, not null
+     * @param str   the string to check, not null
+     * @param start the start to compare against, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -188,11 +186,11 @@ public enum IOCase {
     /**
      * Checks if one string ends with another using the case-sensitivity rule.
      * <p>
-     * This method mimics {@link String#endsWith} but takes case-sensitivity
-     * into account.
+     * This method mimics {@link String#endsWith} but takes case-sensitivity into
+     * account.
      *
-     * @param str  the string to check, not null
-     * @param end  the end to compare against, not null
+     * @param str the string to check, not null
+     * @param end the end to compare against, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -205,14 +203,14 @@ public enum IOCase {
      * Checks if one string contains another starting at a specific index using the
      * case-sensitivity rule.
      * <p>
-     * This method mimics parts of {@link String#indexOf(String, int)}
-     * but takes case-sensitivity into account.
+     * This method mimics parts of {@link String#indexOf(String, int)} but takes
+     * case-sensitivity into account.
      *
-     * @param str  the string to check, not null
-     * @param strStartIndex  the index to start at in str
-     * @param search  the start to search for, not null
-     * @return the first index of the search String,
-     *  -1 if no match or {@code null} string input
+     * @param str           the string to check, not null
+     * @param strStartIndex the index to start at in str
+     * @param search        the start to search for, not null
+     * @return the first index of the search String, -1 if no match or {@code null}
+     *         string input
      * @throws NullPointerException if either string is null
      * @since 2.0
      */
@@ -229,14 +227,16 @@ public enum IOCase {
     }
 
     /**
-     * Checks if one string contains another at a specific index using the case-sensitivity rule.
+     * Checks if one string contains another at a specific index using the
+     * case-sensitivity rule.
      * <p>
-     * This method mimics parts of {@link String#regionMatches(boolean, int, String, int, int)}
-     * but takes case-sensitivity into account.
+     * This method mimics parts of
+     * {@link String#regionMatches(boolean, int, String, int, int)} but takes
+     * case-sensitivity into account.
      *
-     * @param str  the string to check, not null
-     * @param strStartIndex  the index to start at in str
-     * @param search  the start to search for, not null
+     * @param str           the string to check, not null
+     * @param strStartIndex the index to start at in str
+     * @param search        the start to search for, not null
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
@@ -244,7 +244,7 @@ public enum IOCase {
         return str.regionMatches(!sensitive, strStartIndex, search, 0, search.length());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a string describing the sensitivity.
      *

@@ -70,23 +70,22 @@ public class AgeFileFilterTest extends BaseFilterTest {
         oldFile = new File(testDir, "old.txt");
         FileUtils.touch(oldFile);
         oldFile.setLastModified(TWO_DAYS_AGO);
-        oldFileInfo = createFSI(oldFile);
+        oldFileInfo = createFileSelectInfo(oldFile);
 
         // Reference file
         currentFile = new File(testDir, "current.txt");
         FileUtils.touch(currentFile);
         currentFile.setLastModified(NOW);
-        currentFileInfo = createFSI(currentFile);
+        currentFileInfo = createFileSelectInfo(currentFile);
 
         // Set the file's time stamp two days into the future
         newFile = new File(testDir, "new.txt");
         FileUtils.touch(newFile);
         newFile.setLastModified(TWO_DAYS_LATER);
-        newFileInfo = createFSI(newFile);
+        newFileInfo = createFileSelectInfo(newFile);
 
         // Zip the test directory
-        zipFile = new File(getTempDir(), AgeFileFilterTest.class.getName()
-                + ".zip");
+        zipFile = new File(getTempDir(), AgeFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
@@ -193,13 +192,11 @@ public class AgeFileFilterTest extends BaseFilterTest {
         // Same test with ZIP file
         FileObject[] files;
 
-        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(
-                NOW, true)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(NOW, true)));
         assertContains(files, oldFile.getName(), currentFile.getName());
         Assert.assertEquals(2, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(
-                NOW, false)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new AgeFileFilter(NOW, false)));
         assertContains(files, newFile.getName());
         Assert.assertEquals(1, files.length);
 

@@ -38,8 +38,7 @@ public class NotFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new file filter that NOTs the result of another filter.
      * 
-     * @param filter
-     *            the filter, must not be null
+     * @param filter the filter, must not be null
      */
     public NotFileFilter(final FileFilter filter) {
         if (filter == null) {
@@ -49,11 +48,10 @@ public class NotFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Returns the logical NOT of the underlying filter's return value for the
-     * same File.
+     * Returns the logical NOT of the underlying filter's return value for the same
+     * File.
      * 
-     * @param fileInfo
-     *            the File to check
+     * @param fileInfo the File to check
      * 
      * @return {@code true} if the filter returns {@code false}
      */

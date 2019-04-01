@@ -46,12 +46,11 @@ public abstract class BaseFilterTest {
     /**
      * Creates a file select info object for the given file.
      * 
-     * @param file
-     *            File to create an info for.
+     * @param file File to create an info for.
      * 
      * @return File selct info.
      */
-    protected static FileSelectInfo createFSI(final File file) {
+    protected static FileSelectInfo createFileSelectInfo(final File file) {
         try {
             final FileSystemManager fsManager = VFS.getManager();
             final FileObject fileObject = fsManager.toFileObject(file);
@@ -83,16 +82,13 @@ public abstract class BaseFilterTest {
     /**
      * Returns a ZIP file object.
      * 
-     * @param file
-     *            File to resolve.
+     * @param file File to resolve.
      * 
      * @return File object.
      * 
-     * @throws FileSystemException
-     *             Error resolving the file.
+     * @throws FileSystemException Error resolving the file.
      */
-    protected static FileObject getZipFileObject(final File file)
-            throws FileSystemException {
+    protected static FileObject getZipFileObject(final File file) throws FileSystemException {
         final FileSystemManager fsManager = VFS.getManager();
         return fsManager.resolveFile("zip:" + file.toURI());
     }
@@ -100,17 +96,13 @@ public abstract class BaseFilterTest {
     /**
      * Asserts that the array contains the given file names.
      * 
-     * @param files
-     *            Array to check.
-     * @param filenames
-     *            File names to find.
+     * @param files     Array to check.
+     * @param filenames File names to find.
      */
-    protected void assertContains(final FileObject[] files,
-            final String... filenames) {
+    protected void assertContains(final FileObject[] files, final String... filenames) {
         for (final String filename : filenames) {
             if (!find(files, filename)) {
-                fail("File '" + filename + "' not found in: "
-                        + Arrays.asList(files));
+                fail("File '" + filename + "' not found in: " + Arrays.asList(files));
             }
         }
     }
@@ -137,8 +129,7 @@ public abstract class BaseFilterTest {
     /**
      * Returns a sub directory of the temporary directory.
      * 
-     * @param name
-     *            Name of the sub directory.
+     * @param name Name of the sub directory.
      * 
      * @return Sub directory of java.io.tmpdir.
      */
@@ -149,32 +140,24 @@ public abstract class BaseFilterTest {
     /**
      * Verifies at least all given objects are in the list.
      * 
-     * @param list
-     *            List to use.
-     * @param objects
-     *            Objects to find.
+     * @param list    List to use.
+     * @param objects Objects to find.
      */
     protected static void assertContains(final List<?> list, final Object... objects) {
         for (final Object obj : objects) {
-            Assert.assertTrue(
-                    "Couldn't find " + obj + " in " + Arrays.asList(objects),
-                    list.indexOf(obj) > -1);
+            Assert.assertTrue("Couldn't find " + obj + " in " + Arrays.asList(objects), list.indexOf(obj) > -1);
         }
     }
 
     /**
      * Verifies only the given objects are in the list.
      * 
-     * @param list
-     *            List to scan.
-     * @param objects
-     *            Objects to find.
+     * @param list    List to scan.
+     * @param objects Objects to find.
      */
     protected static void assertContainsOnly(final List<?> list, final Object... objects) {
         for (final Object obj : objects) {
-            Assert.assertTrue(
-                    "Couldn't find " + obj + " in " + Arrays.asList(objects),
-                    list.indexOf(obj) > -1);
+            Assert.assertTrue("Couldn't find " + obj + " in " + Arrays.asList(objects), list.indexOf(obj) > -1);
         }
         Assert.assertEquals(objects.length, list.size());
     }
@@ -182,25 +165,18 @@ public abstract class BaseFilterTest {
     /**
      * Adds a file to a ZIP output stream.
      * 
-     * @param srcFile
-     *            File to add - Cannot be <code>null</code>.
-     * @param destPath
-     *            Path to use for the file - May be <code>null</code> or empty.
-     * @param out
-     *            Destination stream - Cannot be <code>null</code>.
+     * @param srcFile  File to add - Cannot be <code>null</code>.
+     * @param destPath Path to use for the file - May be <code>null</code> or empty.
+     * @param out      Destination stream - Cannot be <code>null</code>.
      * 
-     * @throws IOException
-     *             Error writing to the output stream.
+     * @throws IOException Error writing to the output stream.
      */
-    private static void zipFile(final File srcFile, final String destPath,
-            final ZipOutputStream out) throws IOException {
+    private static void zipFile(final File srcFile, final String destPath, final ZipOutputStream out)
+            throws IOException {
 
         final byte[] buf = new byte[1024];
-        final InputStream in = new BufferedInputStream(new FileInputStream(
-                srcFile));
-        try {
-            final ZipEntry zipEntry = new ZipEntry(concatPathAndFilename(
-                    destPath, srcFile.getName(), File.separator));
+        try (final InputStream in = new BufferedInputStream(new FileInputStream(srcFile))) {
+            final ZipEntry zipEntry = new ZipEntry(concatPathAndFilename(destPath, srcFile.getName(), File.separator));
             zipEntry.setTime(srcFile.lastModified());
             out.putNextEntry(zipEntry);
             int len;
@@ -208,39 +184,28 @@ public abstract class BaseFilterTest {
                 out.write(buf, 0, len);
             }
             out.closeEntry();
-        } finally {
-            in.close();
         }
     }
 
     /**
      * Add a directory to a ZIP output stream.
      * 
-     * @param srcDir
-     *            Directory to add - Cannot be <code>null</code> and must be a
-     *            valid directory.
-     * @param filter
-     *            Filter or <code>null</code> for all files.
-     * @param destPath
-     *            Path to use for the ZIP archive - May be <code>null</code> or
-     *            an empyt string.
-     * @param out
-     *            Destination stream - Cannot be <code>null</code>.
+     * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
+     *                 valid directory.
+     * @param filter   Filter or <code>null</code> for all files.
+     * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
+     *                 an empyt string.
+     * @param out      Destination stream - Cannot be <code>null</code>.
      * 
-     * @throws IOException
-     *             Error writing to the output stream.
+     * @throws IOException Error writing to the output stream.
      */
-    private static void zipDir(final File srcDir, final FileFilter filter,
-            final String destPath, final ZipOutputStream out)
-            throws IOException {
+    private static void zipDir(final File srcDir, final FileFilter filter, final String destPath,
+            final ZipOutputStream out) throws IOException {
 
         final File[] files = listFiles(srcDir, filter);
         for (final File file : files) {
             if (file.isDirectory()) {
-                zipDir(file,
-                        filter,
-                        concatPathAndFilename(destPath, file.getName(),
-                                File.separator), out);
+                zipDir(file, filter, concatPathAndFilename(destPath, file.getName(), File.separator), out);
             } else {
                 zipFile(file, destPath, out);
             }
@@ -250,25 +215,20 @@ public abstract class BaseFilterTest {
 
     /**
      * Creates a ZIP file and adds all files in a directory and all it's sub
-     * directories to the archive. Only entries are added that comply to the
-     * file filter.
+     * directories to the archive. Only entries are added that comply to the file
+     * filter.
      * 
-     * @param srcDir
-     *            Directory to add - Cannot be <code>null</code> and must be a
-     *            valid directory.
-     * @param filter
-     *            Filter or <code>null</code> for all files/directories.
-     * @param destPath
-     *            Path to use for the ZIP archive - May be <code>null</code> or
-     *            an empyt string.
-     * @param destFile
-     *            Target ZIP file - Cannot be <code>null</code>.
+     * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
+     *                 valid directory.
+     * @param filter   Filter or <code>null</code> for all files/directories.
+     * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
+     *                 an empyt string.
+     * @param destFile Target ZIP file - Cannot be <code>null</code>.
      * 
-     * @throws IOException
-     *             Error writing to the output stream.
+     * @throws IOException Error writing to the output stream.
      */
-    public static void zipDir(final File srcDir, final FileFilter filter,
-            final String destPath, final File destFile) throws IOException {
+    public static void zipDir(final File srcDir, final FileFilter filter, final String destPath, final File destFile)
+            throws IOException {
 
         if (srcDir == null) {
             throw new IllegalArgumentException("srcDir cannot be null");
@@ -283,12 +243,8 @@ public abstract class BaseFilterTest {
             throw new IllegalArgumentException("destFile cannot be null");
         }
 
-        final ZipOutputStream out = new ZipOutputStream(
-                new BufferedOutputStream(new FileOutputStream(destFile)));
-        try {
+        try (final ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(destFile)));) {
             zipDir(srcDir, filter, destPath, out);
-        } finally {
-            out.close();
         }
 
     }
@@ -297,41 +253,32 @@ public abstract class BaseFilterTest {
      * Creates a ZIP file and adds all files in a directory and all it's sub
      * directories to the archive.
      * 
-     * @param srcDir
-     *            Directory to add - Cannot be <code>null</code> and must be a
-     *            valid directory.
-     * @param destPath
-     *            Path to use for the ZIP archive - May be <code>null</code> or
-     *            an empyt string.
-     * @param destFile
-     *            Target ZIP file - Cannot be <code>null</code>.
+     * @param srcDir   Directory to add - Cannot be <code>null</code> and must be a
+     *                 valid directory.
+     * @param destPath Path to use for the ZIP archive - May be <code>null</code> or
+     *                 an empyt string.
+     * @param destFile Target ZIP file - Cannot be <code>null</code>.
      * 
-     * @throws IOException
-     *             Error writing to the output stream.
+     * @throws IOException Error writing to the output stream.
      */
-    public static void zipDir(final File srcDir, final String destPath,
-            final File destFile) throws IOException {
+    public static void zipDir(final File srcDir, final String destPath, final File destFile) throws IOException {
 
         zipDir(srcDir, null, destPath, destFile);
 
     }
 
     /**
-     * Concatenate a path and a filename taking <code>null</code> and empty
-     * string values into account.
+     * Concatenate a path and a filename taking <code>null</code> and empty string
+     * values into account.
      * 
-     * @param path
-     *            Path - Can be <code>null</code> or an empty string.
-     * @param filename
-     *            Filename - Cannot be <code>null</code>.
-     * @param separator
-     *            Separator for directories - Can be <code>null</code> or an
-     *            empty string.
+     * @param path      Path - Can be <code>null</code> or an empty string.
+     * @param filename  Filename - Cannot be <code>null</code>.
+     * @param separator Separator for directories - Can be <code>null</code> or an
+     *                  empty string.
      * 
      * @return Path and filename divided by the separator.
      */
-    public static String concatPathAndFilename(final String path,
-            final String filename, final String separator) {
+    public static String concatPathAndFilename(final String path, final String filename, final String separator) {
 
         if (filename == null) {
             throw new IllegalArgumentException("filename cannot be null");
@@ -364,11 +311,9 @@ public abstract class BaseFilterTest {
     /**
      * List all files for a directory.
      * 
-     * @param srcDir
-     *            Directory to list the files for - Cannot be <code>null</code>
-     *            and must be a valid directory.
-     * @param filter
-     *            Filter or <code>null</code> for all files.
+     * @param srcDir Directory to list the files for - Cannot be <code>null</code>
+     *               and must be a valid directory.
+     * @param filter Filter or <code>null</code> for all files.
      * 
      * @return List of child entries of the directory.
      */

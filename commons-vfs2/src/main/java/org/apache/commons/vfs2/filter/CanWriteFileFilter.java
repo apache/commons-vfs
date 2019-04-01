@@ -53,7 +53,8 @@ import org.apache.commons.vfs2.FileSystemException;
  * </pre>
  * 
  * <p>
- * <b>N.B.</b> For read-only files, use <code>CanReadFileFilter.READ_ONLY</code>.
+ * <b>N.B.</b> For read-only files, use
+ * <code>CanReadFileFilter.READ_ONLY</code>.
  * 
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
@@ -78,11 +79,9 @@ public class CanWriteFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file can be written to.
      * 
-     * @param fileInfo
-     *            the File to check
+     * @param fileInfo the File to check
      * 
-     * @return {@code true} if the file can be written to, otherwise
-     *         {@code false}.
+     * @return {@code true} if the file can be written to, otherwise {@code false}.
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) {

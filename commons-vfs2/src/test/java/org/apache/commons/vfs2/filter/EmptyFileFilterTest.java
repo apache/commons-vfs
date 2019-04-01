@@ -69,27 +69,26 @@ public class EmptyFileFilterTest extends BaseFilterTest {
 
         notEmptyFile = new File(testDir, "full.txt");
         FileUtils.write(notEmptyFile, "whatever");
-        notEmptyFileInfo = createFSI(notEmptyFile);
+        notEmptyFileInfo = createFileSelectInfo(notEmptyFile);
 
         emptyFile = new File(testDir, "empty.txt");
         FileUtils.touch(emptyFile);
-        emptyFileInfo = createFSI(emptyFile);
+        emptyFileInfo = createFileSelectInfo(emptyFile);
 
         notEmptyDir = new File(testDir, "full-dir");
         notEmptyDir.mkdir();
-        notEmptyDirInfo = createFSI(notEmptyDir);
+        notEmptyDirInfo = createFileSelectInfo(notEmptyDir);
         FileUtils.touch(new File(notEmptyDir, "foobar.txt"));
 
         emptyDir = new File(testDir, "empty-dir");
         emptyDir.mkdir();
-        emptyDirInfo = createFSI(emptyDir);
+        emptyDirInfo = createFileSelectInfo(emptyDir);
 
         notExistingFile = new File(testDir, "not-existing-file.txt");
-        notExistingFileInfo = createFSI(notExistingFile);
+        notExistingFileInfo = createFileSelectInfo(notExistingFile);
 
         // Zip the test directory
-        zipFile = new File(getTempDir(), EmptyFileFilterTest.class.getName()
-                + ".zip");
+        zipFile = new File(getTempDir(), EmptyFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
@@ -149,13 +148,11 @@ public class EmptyFileFilterTest extends BaseFilterTest {
         // Same test with ZIP file
         FileObject[] files;
 
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                EmptyFileFilter.EMPTY));
+        files = zipFileObj.findFiles(new FileFilterSelector(EmptyFileFilter.EMPTY));
         assertContains(files, emptyFile.getName());
         Assert.assertEquals(1, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                EmptyFileFilter.NOT_EMPTY));
+        files = zipFileObj.findFiles(new FileFilterSelector(EmptyFileFilter.NOT_EMPTY));
         assertContains(files, notEmptyFile.getName(), notEmptyDir.getName());
         Assert.assertEquals(2, files.length);
 

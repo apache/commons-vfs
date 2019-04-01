@@ -71,14 +71,11 @@ public class HiddenFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the file is hidden. Non existing files won't be
-     * accepted.
+     * Checks to see if the file is hidden. Non existing files won't be accepted.
      * 
-     * @param fileInfo
-     *            the File to check
+     * @param fileInfo the File to check
      * 
-     * @return {@code true} if the file is <i>hidden</i>, otherwise
-     *         {@code false}.
+     * @return {@code true} if the file is <i>hidden</i>, otherwise {@code false}.
      */
     @Override
     public boolean accept(final FileSelectInfo fileInfo) {

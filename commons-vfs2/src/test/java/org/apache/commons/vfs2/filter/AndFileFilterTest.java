@@ -124,7 +124,7 @@ public class AndFileFilterTest extends BaseFilterTest {
     @Test
     public void testAccept() {
 
-        final FileSelectInfo any = createFSI(new File("anyfile"));
+        final FileSelectInfo any = createFileSelectInfo(new File("anyfile"));
 
         // Empty
         Assert.assertFalse(new AndFileFilter().accept(any));
@@ -135,12 +135,9 @@ public class AndFileFilterTest extends BaseFilterTest {
 
         // False
         Assert.assertFalse(new AndFileFilter(new False()).accept(any));
-        Assert.assertFalse(new AndFileFilter(new False(), new False())
-                .accept(any));
-        Assert.assertFalse(new AndFileFilter(new False(), new True())
-                .accept(any));
-        Assert.assertFalse(new AndFileFilter(new True(), new False())
-                .accept(any));
+        Assert.assertFalse(new AndFileFilter(new False(), new False()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new False(), new True()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new True(), new False()).accept(any));
 
     }
 

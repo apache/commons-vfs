@@ -56,8 +56,7 @@ public class NameFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new case-sensitive name file filter for a list of names.
      * 
-     * @param names
-     *            the names to allow, must not be null
+     * @param names the names to allow, must not be null
      */
     public NameFileFilter(final List<String> names) {
         this((IOCase) null, names);
@@ -67,10 +66,9 @@ public class NameFileFilter implements FileFilter, Serializable {
      * Constructs a new name file filter for a list of names specifying
      * case-sensitivity.
      * 
-     * @param caseSensitivity
-     *            how to handle case sensitivity, null means case-sensitive
-     * @param names
-     *            the names to allow, must not be null
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
+     * @param names           the names to allow, must not be null
      */
     public NameFileFilter(final IOCase caseSensitivity, final List<String> names) {
         if (names == null) {
@@ -83,11 +81,10 @@ public class NameFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new case-sensitive name file filter for an array of names.
      * <p>
-     * The array is not cloned, so could be changed after constructing the
-     * instance. This would be inadvisable however.
+     * The array is not cloned, so could be changed after constructing the instance.
+     * This would be inadvisable however.
      * 
-     * @param names
-     *            the names to allow, must not be null
+     * @param names the names to allow, must not be null
      */
     public NameFileFilter(final String... names) {
         this((IOCase) null, names);
@@ -97,10 +94,9 @@ public class NameFileFilter implements FileFilter, Serializable {
      * Constructs a new name file filter for an array of names specifying
      * case-sensitivity.
      * 
-     * @param caseSensitivity
-     *            how to handle case sensitivity, null means case-sensitive
-     * @param names
-     *            the names to allow, must not be null
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
+     * @param names           the names to allow, must not be null
      */
     public NameFileFilter(final IOCase caseSensitivity, final String... names) {
         if (names == null) {
@@ -113,8 +109,7 @@ public class NameFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the filename matches.
      * 
-     * @param fileInfo
-     *            the File to check
+     * @param fileInfo the File to check
      * 
      * @return true if the filename matches
      */

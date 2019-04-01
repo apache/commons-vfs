@@ -124,7 +124,7 @@ public class OrFileFilterTest extends BaseFilterTest {
     @Test
     public void testAccept() {
 
-        final FileSelectInfo any = createFSI(new File("anyfile"));
+        final FileSelectInfo any = createFileSelectInfo(new File("anyfile"));
 
         // Empty
         Assert.assertFalse(new OrFileFilter().accept(any));
@@ -137,8 +137,7 @@ public class OrFileFilterTest extends BaseFilterTest {
 
         // False
         Assert.assertFalse(new OrFileFilter(new False()).accept(any));
-        Assert.assertFalse(new OrFileFilter(new False(), new False())
-                .accept(any));
+        Assert.assertFalse(new OrFileFilter(new False(), new False()).accept(any));
 
     }
 

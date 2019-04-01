@@ -66,8 +66,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Construct a new case-sensitive wildcard filter for a list of wildcards.
      * 
-     * @param wildcards
-     *            the list of wildcards to match, not null
+     * @param wildcards the list of wildcards to match, not null
      */
     public WildcardFileFilter(final List<String> wildcards) {
         this((IOCase) null, wildcards);
@@ -77,10 +76,9 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * Construct a new wildcard filter for a list of wildcards specifying
      * case-sensitivity.
      * 
-     * @param caseSensitivity
-     *            how to handle case sensitivity, null means case-sensitive
-     * @param wildcards
-     *            the list of wildcards to match, not null
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
+     * @param wildcards       the list of wildcards to match, not null
      */
     public WildcardFileFilter(final IOCase caseSensitivity, final List<String> wildcards) {
         if (wildcards == null) {
@@ -93,11 +91,10 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Construct a new case-sensitive wildcard filter for an array of wildcards.
      * <p>
-     * The array is not cloned, so could be changed after constructing the
-     * instance. This would be inadvisable however.
+     * The array is not cloned, so could be changed after constructing the instance.
+     * This would be inadvisable however.
      * 
-     * @param wildcards
-     *            the array of wildcards to match
+     * @param wildcards the array of wildcards to match
      */
     public WildcardFileFilter(final String... wildcards) {
         this((IOCase) null, wildcards);
@@ -107,10 +104,9 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * Construct a new wildcard filter for an array of wildcards specifying
      * case-sensitivity.
      * 
-     * @param caseSensitivity
-     *            how to handle case sensitivity, null means case-sensitive
-     * @param wildcards
-     *            the array of wildcards to match, not null
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
+     * @param wildcards       the array of wildcards to match, not null
      */
     public WildcardFileFilter(final IOCase caseSensitivity, final String... wildcards) {
         if (wildcards == null) {
@@ -123,8 +119,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the filename matches one of the wildcards.
      * 
-     * @param fileInfo
-     *            the file to check
+     * @param fileInfo the file to check
      * 
      * @return true if the filename matches one of the wildcards
      */
@@ -162,12 +157,10 @@ public class WildcardFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Splits a string into a number of tokens. The text is split by '?' and
-     * '*'. Where multiple '*' occur consecutively they are collapsed into a
-     * single '*'.
+     * Splits a string into a number of tokens. The text is split by '?' and '*'.
+     * Where multiple '*' occur consecutively they are collapsed into a single '*'.
      * 
-     * @param text
-     *            the text to split
+     * @param text the text to split
      * @return the array of tokens, never null
      */
     // CHECKSTYLE:OFF Cyclomatic complexity of 12 is OK here
@@ -210,22 +203,19 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * Checks a filename to see if it matches the specified wildcard matcher
      * allowing control over case-sensitivity.
      * <p>
-     * The wildcard matcher uses the characters '?' and '*' to represent a
-     * single or multiple (zero or more) wildcard characters. N.B. the sequence
-     * "*?" does not work properly at present in match strings.
+     * The wildcard matcher uses the characters '?' and '*' to represent a single or
+     * multiple (zero or more) wildcard characters. N.B. the sequence "*?" does not
+     * work properly at present in match strings.
      * 
-     * @param filename
-     *            the filename to match on
-     * @param wildcardMatcher
-     *            the wildcard string to match against
-     * @param caseSensitivity
-     *            what case sensitivity rule to use, null means case-sensitive
+     * @param filename        the filename to match on
+     * @param wildcardMatcher the wildcard string to match against
+     * @param caseSensitivity what case sensitivity rule to use, null means
+     *                        case-sensitive
      * 
      * @return true if the filename matches the wilcard string
      */
     // CHECKSTYLE:OFF TODO xxx Cyclomatic complexity of 19 should be refactored
-    static boolean wildcardMatch(final String filename, final String wildcardMatcher,
-            IOCase caseSensitivity) {
+    static boolean wildcardMatch(final String filename, final String wildcardMatcher, IOCase caseSensitivity) {
         if (filename == null && wildcardMatcher == null) {
             return true;
         }
@@ -277,8 +267,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
                             // token not found
                             break;
                         }
-                        final int repeat = caseSensitivity.checkIndexOf(filename, textIdx + 1,
-                                wcs[wcsIdx]);
+                        final int repeat = caseSensitivity.checkIndexOf(filename, textIdx + 1, wcs[wcsIdx]);
                         if (repeat >= 0) {
                             backtrack.push(new int[] { wcsIdx, repeat });
                         }

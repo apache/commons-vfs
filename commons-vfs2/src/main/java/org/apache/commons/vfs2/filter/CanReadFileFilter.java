@@ -76,8 +76,7 @@ public class CanReadFileFilter implements FileFilter, Serializable {
     public static final FileFilter CANNOT_READ = new NotFileFilter(CAN_READ);
 
     /** Singleton instance of <i>read-only</i> filter. */
-    public static final FileFilter READ_ONLY = new AndFileFilter(CAN_READ,
-            CanWriteFileFilter.CANNOT_WRITE);
+    public static final FileFilter READ_ONLY = new AndFileFilter(CAN_READ, CanWriteFileFilter.CANNOT_WRITE);
 
     private static final long serialVersionUID = 1L;
 
@@ -90,8 +89,7 @@ public class CanReadFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the file can be read.
      * 
-     * @param fileInfo
-     *            the File to check.
+     * @param fileInfo the File to check.
      * 
      * @return {@code true} if the file can be read, otherwise {@code false}.
      */

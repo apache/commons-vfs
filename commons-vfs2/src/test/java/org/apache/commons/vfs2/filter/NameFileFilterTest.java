@@ -39,10 +39,10 @@ public class NameFileFilterTest extends BaseFilterTest {
         final NameFileFilter filter = new NameFileFilter(list);
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("Test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -56,10 +56,10 @@ public class NameFileFilterTest extends BaseFilterTest {
         final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE, list);
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("TEST1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("Test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("TEST1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -73,10 +73,10 @@ public class NameFileFilterTest extends BaseFilterTest {
         final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE, list);
 
         // TEST
-        Assert.assertFalse(filter.accept(createFSI(new File("TEST1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("Test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("TEST1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -87,10 +87,10 @@ public class NameFileFilterTest extends BaseFilterTest {
         final NameFileFilter filter = new NameFileFilter("test1.txt");
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("Test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -98,14 +98,13 @@ public class NameFileFilterTest extends BaseFilterTest {
     public void testAcceptStringIOCaseInsensitive() {
 
         // PREPARE
-        final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE,
-                "test2.txt");
+        final NameFileFilter filter = new NameFileFilter(IOCase.INSENSITIVE, "test2.txt");
 
         // TEST
-        Assert.assertFalse(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("Test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -113,14 +112,13 @@ public class NameFileFilterTest extends BaseFilterTest {
     public void testAcceptStringIOCaseSensitive() {
 
         // PREPARE
-        final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE,
-                "test2.txt");
+        final NameFileFilter filter = new NameFileFilter(IOCase.SENSITIVE, "test2.txt");
 
         // TEST
-        Assert.assertFalse(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("Test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("Test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 

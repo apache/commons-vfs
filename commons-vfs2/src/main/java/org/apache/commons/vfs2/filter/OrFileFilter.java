@@ -52,8 +52,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
     /**
      * Constructs a new file filter that ORs the result of other filters.
      * 
-     * @param filters
-     *            array of filters, must not be null or empty
+     * @param filters array of filters, must not be null or empty
      */
     public OrFileFilter(final FileFilter... filters) {
         if (filters == null || filters.length == 0) {
@@ -71,8 +70,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
      * Constructs a new instance of <code>OrFileFilter</code> with the specified
      * filters.
      * 
-     * @param fileFilters
-     *            the file filters for this filter, copied, null ignored
+     * @param fileFilters the file filters for this filter, copied, null ignored
      */
     public OrFileFilter(final List<FileFilter> fileFilters) {
         if (fileFilters == null) {

@@ -67,17 +67,16 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
 
         dir = new File(testDir, DIR);
         dir.mkdir();
-        dirInfo = createFSI(dir);
+        dirInfo = createFileSelectInfo(dir);
 
         file = new File(dir, FILE);
         FileUtils.touch(file);
-        fileInfo = createFSI(file);
+        fileInfo = createFileSelectInfo(file);
 
         notExistingFile = new File(testDir, "not-existing-file.txt");
-        notExistingFileInfo = createFSI(notExistingFile);
+        notExistingFileInfo = createFileSelectInfo(notExistingFile);
 
-        zipFile = new File(getTempDir(),
-                DirectoryAndFileFilterTest.class.getName() + ".zip");
+        zipFile = new File(getTempDir(), DirectoryAndFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
@@ -135,14 +134,12 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         // FILE Filter
         files = zipFileObj.findFiles(new FileSelector() {
             @Override
-            public boolean traverseDescendents(final FileSelectInfo fileInfo)
-                    throws Exception {
+            public boolean traverseDescendents(final FileSelectInfo fileInfo) throws Exception {
                 return true;
             }
 
             @Override
-            public boolean includeFile(final FileSelectInfo fileInfo)
-                    throws Exception {
+            public boolean includeFile(final FileSelectInfo fileInfo) throws Exception {
                 return FileFileFilter.FILE.accept(fileInfo);
             }
         });
@@ -150,8 +147,7 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
         Assert.assertEquals(1, files.length);
 
         // DIRECTORY Filter
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                DirectoryFileFilter.DIRECTORY));
+        files = zipFileObj.findFiles(new FileFilterSelector(DirectoryFileFilter.DIRECTORY));
         assertContains(files, DIR);
         Assert.assertEquals(1, files.length);
 

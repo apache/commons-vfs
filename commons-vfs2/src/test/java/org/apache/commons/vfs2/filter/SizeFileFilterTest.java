@@ -60,21 +60,20 @@ public class SizeFileFilterTest extends BaseFilterTest {
         // 2 characters
         minFile = new File(testDir, "min.txt");
         FileUtils.write(minFile, "12");
-        minFileInfo = createFSI(minFile);
+        minFileInfo = createFileSelectInfo(minFile);
 
         // 4 characters
         optFile = new File(testDir, "opt.txt");
         FileUtils.write(optFile, "1234");
-        optFileInfo = createFSI(optFile);
+        optFileInfo = createFileSelectInfo(optFile);
 
         // 6 characters
         maxFile = new File(testDir, "max.txt");
         FileUtils.write(maxFile, "123456");
-        maxFileInfo = createFSI(maxFile);
+        maxFileInfo = createFileSelectInfo(maxFile);
 
         // Zip the test directory
-        zipFile = new File(getTempDir(), SizeFileFilterTest.class.getName()
-                + ".zip");
+        zipFile = new File(getTempDir(), SizeFileFilterTest.class.getName() + ".zip");
         zipDir(testDir, "", zipFile);
         zipFileObj = getZipFileObject(zipFile);
 
@@ -165,39 +164,31 @@ public class SizeFileFilterTest extends BaseFilterTest {
         // Same test with ZIP file
         FileObject[] files;
 
-        files = zipFileObj.findFiles(new FileFilterSelector(new SizeFileFilter(
-                4, true)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new SizeFileFilter(4, true)));
         assertContains(files, optFile.getName(), maxFile.getName());
         Assert.assertEquals(2, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(new SizeFileFilter(
-                4, false)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new SizeFileFilter(4, false)));
         assertContains(files, minFile.getName());
         Assert.assertEquals(1, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                new SizeRangeFileFilter(2, 6)));
-        assertContains(files, minFile.getName(), optFile.getName(),
-                maxFile.getName());
+        files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(2, 6)));
+        assertContains(files, minFile.getName(), optFile.getName(), maxFile.getName());
         Assert.assertEquals(3, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                new SizeRangeFileFilter(3, 6)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(3, 6)));
         assertContains(files, optFile.getName(), maxFile.getName());
         Assert.assertEquals(2, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                new SizeRangeFileFilter(2, 5)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(2, 5)));
         assertContains(files, minFile.getName(), optFile.getName());
         Assert.assertEquals(2, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                new SizeRangeFileFilter(3, 5)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(3, 5)));
         assertContains(files, optFile.getName());
         Assert.assertEquals(1, files.length);
 
-        files = zipFileObj.findFiles(new FileFilterSelector(
-                new SizeRangeFileFilter(4, 4)));
+        files = zipFileObj.findFiles(new FileFilterSelector(new SizeRangeFileFilter(4, 4)));
         assertContains(files, optFile.getName());
         Assert.assertEquals(1, files.length);
 

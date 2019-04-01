@@ -56,8 +56,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Prefix file filter for a list of prefixes.
      * 
-     * @param prefixes
-     *            the prefixes to allow, must not be null
+     * @param prefixes the prefixes to allow, must not be null
      */
     public PrefixFileFilter(final List<String> prefixes) {
         this(IOCase.SENSITIVE, prefixes);
@@ -67,10 +66,9 @@ public class PrefixFileFilter implements FileFilter, Serializable {
      * Constructs a new Prefix file filter for a list of prefixes specifying
      * case-sensitivity.
      * 
-     * @param caseSensitivity
-     *            how to handle case sensitivity, null means case-sensitive
-     * @param prefixes
-     *            the prefixes to allow, must not be null
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
+     * @param prefixes        the prefixes to allow, must not be null
      */
     public PrefixFileFilter(final IOCase caseSensitivity, final List<String> prefixes) {
         if (prefixes == null) {
@@ -83,11 +81,10 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Prefix file filter for any of an array of prefixes.
      * <p>
-     * The array is not cloned, so could be changed after constructing the
-     * instance. This would be inadvisable however.
+     * The array is not cloned, so could be changed after constructing the instance.
+     * This would be inadvisable however.
      * 
-     * @param prefixes
-     *            the prefixes to allow, must not be null
+     * @param prefixes the prefixes to allow, must not be null
      */
     public PrefixFileFilter(final String... prefixes) {
         this(IOCase.SENSITIVE, prefixes);
@@ -97,10 +94,9 @@ public class PrefixFileFilter implements FileFilter, Serializable {
      * Constructs a new Prefix file filter for any of an array of prefixes
      * specifying case-sensitivity.
      * 
-     * @param prefixes
-     *            the prefixes to allow, must not be null
-     * @param caseSensitivity
-     *            how to handle case sensitivity, null means case-sensitive
+     * @param prefixes        the prefixes to allow, must not be null
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
      */
     public PrefixFileFilter(final IOCase caseSensitivity, final String... prefixes) {
         if (prefixes == null) {
@@ -113,8 +109,7 @@ public class PrefixFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the filename starts with the prefix.
      * 
-     * @param fileInfo
-     *            the File to check
+     * @param fileInfo the File to check
      * 
      * @return true if the filename starts with one of our prefixes
      */

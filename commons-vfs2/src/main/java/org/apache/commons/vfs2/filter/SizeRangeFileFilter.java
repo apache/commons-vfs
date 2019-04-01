@@ -24,6 +24,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
 /**
  * Filter that accepts files whose size is &gt;= minimum size and &lt;= maximum
  * size.
+ * 
  * @since 2.4
  */
 public class SizeRangeFileFilter implements FileFilter, Serializable {
@@ -35,10 +36,8 @@ public class SizeRangeFileFilter implements FileFilter, Serializable {
     /**
      * Constructor with sizes.
      * 
-     * @param minSizeInclusive
-     *            the minimum file size (inclusive)
-     * @param maxSizeInclusive
-     *            the maximum file size (inclusive)
+     * @param minSizeInclusive the minimum file size (inclusive)
+     * @param maxSizeInclusive the maximum file size (inclusive)
      */
     public SizeRangeFileFilter(final long minSizeInclusive, final long maxSizeInclusive) {
         final FileFilter minimumFilter = new SizeFileFilter(minSizeInclusive, true);

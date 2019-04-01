@@ -56,11 +56,10 @@ public class SizeFileFilter implements FileFilter, Serializable {
     private final long size;
 
     /**
-     * Constructs a new size file filter for files equal to or larger than a
-     * certain size.
+     * Constructs a new size file filter for files equal to or larger than a certain
+     * size.
      * 
-     * @param size
-     *            the threshold size of the files - Must be non-negative.
+     * @param size the threshold size of the files - Must be non-negative.
      */
     public SizeFileFilter(final long size) {
         this(size, true);
@@ -70,11 +69,9 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * Constructs a new size file filter for files based on a certain size
      * threshold.
      * 
-     * @param size
-     *            the threshold size of the files - Must be non-negative.
-     * @param acceptLarger
-     *            if true, files equal to or larger are accepted, otherwise
-     *            smaller ones (but not equal to)
+     * @param size         the threshold size of the files - Must be non-negative.
+     * @param acceptLarger if true, files equal to or larger are accepted, otherwise
+     *                     smaller ones (but not equal to)
      */
     public SizeFileFilter(final long size, final boolean acceptLarger) {
         if (size < 0) {
@@ -87,14 +84,13 @@ public class SizeFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the size of the file is favorable.
      * <p>
-     * If size equals threshold and smaller files are required, file <b>IS
-     * NOT</b> selected. If size equals threshold and larger files are required,
-     * file <b>IS</b> selected.
+     * If size equals threshold and smaller files are required, file <b>IS NOT</b>
+     * selected. If size equals threshold and larger files are required, file
+     * <b>IS</b> selected.
      * <p>
      * Non-existing files return always false (will never be accepted).
      * 
-     * @param fileInfo
-     *            the File to check
+     * @param fileInfo the File to check
      * 
      * @return true if the filename matches
      */

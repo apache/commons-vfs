@@ -39,10 +39,10 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         final SuffixFileFilter filter = new SuffixFileFilter(list);
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.bin"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test2.BIN"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.bin"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.BIN"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -56,10 +56,10 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         final SuffixFileFilter filter = new SuffixFileFilter(IOCase.INSENSITIVE, list);
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("TEST1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.bin"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.TXT"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("TEST1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.bin"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -73,10 +73,10 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         final SuffixFileFilter filter = new SuffixFileFilter(IOCase.SENSITIVE, list);
 
         // TEST
-        Assert.assertFalse(filter.accept(createFSI(new File("test1.Txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test2.BIN"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test1.Txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.BIN"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -87,10 +87,10 @@ public class SuffixFileFilterTest extends BaseFilterTest {
         final SuffixFileFilter filter = new SuffixFileFilter(".txt", ".xxx");
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test2.TXT"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -98,14 +98,13 @@ public class SuffixFileFilterTest extends BaseFilterTest {
     public void testAcceptStringIOCaseInsensitive() {
 
         // PREPARE
-        final SuffixFileFilter filter = new SuffixFileFilter(IOCase.INSENSITIVE,
-                ".txt", ".xxx");
+        final SuffixFileFilter filter = new SuffixFileFilter(IOCase.INSENSITIVE, ".txt", ".xxx");
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.TXT"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 
@@ -113,14 +112,13 @@ public class SuffixFileFilterTest extends BaseFilterTest {
     public void testAcceptStringIOCaseSensitive() {
 
         // PREPARE
-        final SuffixFileFilter filter = new SuffixFileFilter(IOCase.SENSITIVE,
-                ".txt", ".xxx");
+        final SuffixFileFilter filter = new SuffixFileFilter(IOCase.SENSITIVE, ".txt", ".xxx");
 
         // TEST
-        Assert.assertTrue(filter.accept(createFSI(new File("test1.txt"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test2.txt"))));
-        Assert.assertFalse(filter.accept(createFSI(new File("test2.TXT"))));
-        Assert.assertTrue(filter.accept(createFSI(new File("test.xxx"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test1.txt"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test2.txt"))));
+        Assert.assertFalse(filter.accept(createFileSelectInfo(new File("test2.TXT"))));
+        Assert.assertTrue(filter.accept(createFileSelectInfo(new File("test.xxx"))));
 
     }
 

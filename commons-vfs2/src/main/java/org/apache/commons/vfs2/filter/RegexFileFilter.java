@@ -35,8 +35,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
- * FileObject[] files = dir.findFiles(new FileFilterSelector(new RegexFileFilter(
- *         &quot;Ë†.*[tT]est(-\\d+)?\\.java$&quot;)));
+ * FileObject[] files = dir.findFiles(new FileFilterSelector(new RegexFileFilter(&quot;Ë†.*[tT]est(-\\d+)?\\.java$&quot;)));
  * for (int i = 0; i &lt; files.length; i++) {
  *     System.out.println(files[i]);
  * }
@@ -57,11 +56,9 @@ public class RegexFileFilter implements FileFilter, Serializable {
     private final Pattern pattern;
 
     /**
-     * Construct a new regular expression filter for a compiled regular
-     * expression.
+     * Construct a new regular expression filter for a compiled regular expression.
      * 
-     * @param pattern
-     *            regular expression to match - Cannot be null
+     * @param pattern regular expression to match - Cannot be null
      */
     public RegexFileFilter(final Pattern pattern) {
         if (pattern == null) {
@@ -74,8 +71,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     /**
      * Construct a new regular expression filter.
      * 
-     * @param pattern
-     *            regular string expression to match - Cannot be null
+     * @param pattern regular string expression to match - Cannot be null
      */
     public RegexFileFilter(final String pattern) {
         if (pattern == null) {
@@ -88,10 +84,8 @@ public class RegexFileFilter implements FileFilter, Serializable {
     /**
      * Construct a new regular expression filter with the specified flags.
      * 
-     * @param pattern
-     *            regular string expression to match
-     * @param flags
-     *            pattern flags - e.g. {@link Pattern#CASE_INSENSITIVE}
+     * @param pattern regular string expression to match
+     * @param flags   pattern flags - e.g. {@link Pattern#CASE_INSENSITIVE}
      */
     public RegexFileFilter(final String pattern, final int flags) {
         if (pattern == null) {
@@ -104,10 +98,9 @@ public class RegexFileFilter implements FileFilter, Serializable {
      * Construct a new regular expression filter with the specified flags case
      * sensitivity.
      * 
-     * @param pattern
-     *            regular string expression to match - Cannot be null
-     * @param caseSensitivity
-     *            how to handle case sensitivity, null means case-sensitive
+     * @param pattern         regular string expression to match - Cannot be null
+     * @param caseSensitivity how to handle case sensitivity, null means
+     *                        case-sensitive
      */
     public RegexFileFilter(final String pattern, final IOCase caseSensitivity) {
         if (pattern == null) {
@@ -123,8 +116,7 @@ public class RegexFileFilter implements FileFilter, Serializable {
     /**
      * Checks to see if the filename matches one of the regular expressions.
      * 
-     * @param fileInfo
-     *            the File to check
+     * @param fileInfo the File to check
      * 
      * @return true if the file matches one of the regular expressions
      */

@@ -30,11 +30,10 @@ import org.apache.commons.vfs2.FileFilter;
 public interface ConditionalFileFilter {
 
     /**
-     * Adds the specified file filter to the list of file filters at the end of
-     * the list.
+     * Adds the specified file filter to the list of file filters at the end of the
+     * list.
      * 
-     * @param fileFilter
-     *            the filter to be added
+     * @param fileFilter the filter to be added
      */
     void addFileFilter(FileFilter fileFilter);
 
@@ -48,8 +47,7 @@ public interface ConditionalFileFilter {
     /**
      * Removes the specified file filter.
      * 
-     * @param fileFilter
-     *            filter to be removed
+     * @param fileFilter filter to be removed
      * 
      * @return {@code true} if the filter was found in the list, {@code false}
      *         otherwise
@@ -60,8 +58,7 @@ public interface ConditionalFileFilter {
      * Sets the list of file filters, replacing any previously configured file
      * filters on this filter.
      * 
-     * @param fileFilters
-     *            the list of filters
+     * @param fileFilters the list of filters
      */
     void setFileFilters(List<FileFilter> fileFilters);
 

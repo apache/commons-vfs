@@ -52,8 +52,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
     /**
      * Constructs a new file filter that ANDs the result of other filters.
      * 
-     * @param filters
-     *            array of filters, must not be null or empty
+     * @param filters array of filters, must not be null or empty
      */
     public AndFileFilter(final FileFilter... filters) {
         if (filters == null || filters.length == 0) {
@@ -68,11 +67,10 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
     }
 
     /**
-     * Constructs a new instance of <code>AndFileFilter</code> with the
-     * specified list of filters.
+     * Constructs a new instance of <code>AndFileFilter</code> with the specified
+     * list of filters.
      * 
-     * @param fileFilters
-     *            a List of FileFilter instances, copied, null ignored
+     * @param fileFilters a List of FileFilter instances, copied, null ignored
      */
     public AndFileFilter(final List<FileFilter> fileFilters) {
         if (fileFilters == null) {

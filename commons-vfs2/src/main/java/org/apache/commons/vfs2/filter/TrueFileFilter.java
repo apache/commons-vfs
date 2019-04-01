@@ -46,8 +46,7 @@ public class TrueFileFilter implements FileFilter, Serializable {
     /**
      * Returns true.
      * 
-     * @param fileInfo
-     *            the file to check (ignored)
+     * @param fileInfo the file to check (ignored)
      * 
      * @return Always {@code true}
      */

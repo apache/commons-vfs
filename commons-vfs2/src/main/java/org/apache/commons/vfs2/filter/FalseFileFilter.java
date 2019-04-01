@@ -46,8 +46,7 @@ public class FalseFileFilter implements FileFilter, Serializable {
     /**
      * Returns false.
      * 
-     * @param fileInfo
-     *            the file to check (ignored)
+     * @param fileInfo the file to check (ignored)
      * 
      * @return Always {@code false}
      */
