@@ -114,7 +114,7 @@ public abstract class AbstractProviderTestCase extends AbstractVfsTestCase {
     }
 
     protected FileSystem getFileSystem() {
-        FileObject rFolder = getReadFolder();
+        final FileObject rFolder = getReadFolder();
         Assert.assertNotNull("This test's read folder should not be null", rFolder);
         return rFolder.getFileSystem();
     }

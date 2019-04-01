@@ -296,14 +296,14 @@ public abstract class AbstractTestSuite extends TestSetup {
     private Thread[] diffThreadSnapshot(final Thread[] startThreadSnapshot, final Thread[] endThreadSnapshot) {
         final List<Thread> diff = new ArrayList<>(10);
 
-        nextEnd: for (int iterEnd = 0; iterEnd < endThreadSnapshot.length; iterEnd++) {
-            for (int iterStart = 0; iterStart < startThreadSnapshot.length; iterStart++) {
-                if (startThreadSnapshot[iterStart] == endThreadSnapshot[iterEnd]) {
+        nextEnd: for (final Thread element : endThreadSnapshot) {
+            for (final Thread element2 : startThreadSnapshot) {
+                if (element2 == element) {
                     continue nextEnd;
                 }
             }
 
-            diff.add(endThreadSnapshot[iterEnd]);
+            diff.add(element);
         }
 
         final Thread ret[] = new Thread[diff.size()];

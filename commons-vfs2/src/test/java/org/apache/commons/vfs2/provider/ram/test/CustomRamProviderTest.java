@@ -254,9 +254,9 @@ public class CustomRamProviderTest {
      */
     @Test
     public void testMoveFile() throws FileSystemException {
-        FileObject fileSource = manager.resolveFile("ram://virtual/source");
+        final FileObject fileSource = manager.resolveFile("ram://virtual/source");
         fileSource.createFile();
-        FileObject fileDest = manager.resolveFile("ram://virtual/dest");
+        final FileObject fileDest = manager.resolveFile("ram://virtual/dest");
         Assert.assertTrue(fileSource.canRenameTo(fileDest));
         fileSource.moveTo(fileDest);
     }

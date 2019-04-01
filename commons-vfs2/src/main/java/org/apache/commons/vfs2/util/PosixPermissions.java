@@ -30,7 +30,7 @@ public class PosixPermissions {
     /**
      * Permission types.
      */
-    public static enum Type {
+    public enum Type {
         /**
          * User right readable.
          */

@@ -67,10 +67,10 @@ public class ZipProviderWithCharsetTestCase extends AbstractProviderTestConfig {
 
         final File zipFile = AbstractVfsTestCase.getTestResource("test.zip");
         final String uri = "zip:file:" + zipFile.getAbsolutePath() + "!/";
-        FileObject resolvedFile = manager.resolveFile(uri, opts);
-        FileSystem fileSystem = resolvedFile.getFileSystem();
+        final FileObject resolvedFile = manager.resolveFile(uri, opts);
+        final FileSystem fileSystem = resolvedFile.getFileSystem();
         Assert.assertTrue(fileSystem instanceof ZipFileSystem);
-        ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
+        final ZipFileSystem zipFileSystem = (ZipFileSystem) fileSystem;
         Assert.assertEquals(StandardCharsets.UTF_8, zipFileSystem.getCharset());
         return resolvedFile;
     }

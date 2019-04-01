@@ -474,7 +474,7 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
                         final Map<FileName, Object> newChildrenMap = new HashMap<>();
                         final Stack<FileObject> missingChildren = new Stack<>();
 
-                        for (FileObject element : newChildren) {
+                        for (final FileObject element : newChildren) {
                             newChildrenMap.put(element.getName(), new Object()); // null ?
                             // If the child's not there
                             if (!this.children.containsKey(element.getName())) {

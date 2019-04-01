@@ -329,12 +329,12 @@ public final class UriParser {
      * @return The scheme name. Returns null if there is no scheme.
      * @since 2.3
      */
-    public static String extractScheme(final String[] schemes, final String uri, StringBuilder buffer) {
+    public static String extractScheme(final String[] schemes, final String uri, final StringBuilder buffer) {
         if (buffer != null) {
             buffer.setLength(0);
             buffer.append(uri);
         }
-        for(String scheme : schemes) {
+        for(final String scheme : schemes) {
             if(uri.startsWith(scheme + ":")) {
                 if (buffer != null) {
                     buffer.delete(0, uri.indexOf(':') + 1);

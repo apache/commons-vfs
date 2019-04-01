@@ -65,6 +65,12 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-696" dev="ggregory" type="fix" due-to="rayzzed">
         SFTP HTTP and SOCKS proxy authentication. GitHub PR #49.
       </action>
+      <action issue="VFS-497" dev="ggregory" type="add" due-to="Michael Schnell">
+        Ported filters from Commons IO #9.
+      </action>
+      <action issue="VFS-696" dev="ggregory" type="add" due-to="Robert DeRose">
+        More efficient comparison in FileExtensionSelector #44.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">

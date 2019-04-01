@@ -135,8 +135,8 @@ public final class SftpClientFactory {
             if (proxyHost != null) {
                 final int proxyPort = builder.getProxyPort(fileSystemOptions);
                 final SftpFileSystemConfigBuilder.ProxyType proxyType = builder.getProxyType(fileSystemOptions);
-                String proxyUser =  builder.getProxyUser(fileSystemOptions);
-                String proxyPassword = builder.getProxyPassword(fileSystemOptions);
+                final String proxyUser =  builder.getProxyUser(fileSystemOptions);
+                final String proxyPassword = builder.getProxyPassword(fileSystemOptions);
                 Proxy proxy = null;
                 if (SftpFileSystemConfigBuilder.PROXY_HTTP.equals(proxyType)) {
                     proxy = createProxyHTTP(proxyHost, proxyPort);
@@ -181,7 +181,7 @@ public final class SftpClientFactory {
         }
     }
 
-    private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, boolean loadOpenSSHConfig) throws FileSystemException {
+    private static void setConfigRepository(final JSch jsch, final File sshDir, final ConfigRepository configRepository, final boolean loadOpenSSHConfig) throws FileSystemException {
         if (configRepository != null) {
             jsch.setConfigRepository(configRepository);
         } else if (loadOpenSSHConfig) {
@@ -189,7 +189,7 @@ public final class SftpClientFactory {
                 // loading openssh config (~/.ssh/config)
                 final ConfigRepository openSSHConfig = OpenSSHConfig.parseFile(new File(sshDir, OPENSSH_CONFIG_NAME).getAbsolutePath());
                 jsch.setConfigRepository(openSSHConfig);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new FileSystemException("vfs.provider.sftp/load-openssh-config.error", e);
             }
         }

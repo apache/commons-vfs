@@ -930,7 +930,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
      */
     @Override
     public FileObject createVirtualFileSystem(final FileObject rootFile) throws FileSystemException {
-        FileObject fileObject = vfsProvider.createFileSystem(rootFile);
+        final FileObject fileObject = vfsProvider.createFileSystem(rootFile);
         addVirtualFileSystemScheme(rootFile.getName().getScheme());
         return fileObject;
     }
@@ -944,7 +944,7 @@ public class DefaultFileSystemManager implements FileSystemManager, AutoCloseabl
      */
     @Override
     public FileObject createVirtualFileSystem(final String rootUri) throws FileSystemException {
-        FileObject fileObject = vfsProvider.createFileSystem(rootUri);
+        final FileObject fileObject = vfsProvider.createFileSystem(rootUri);
         addVirtualFileSystemScheme(rootUri);
         return fileObject;
     }

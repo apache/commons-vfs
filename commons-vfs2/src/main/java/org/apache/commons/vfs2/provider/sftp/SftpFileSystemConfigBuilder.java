@@ -375,7 +375,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     * @return the option value for spesific key exchange algorithm
     * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
     **/
-    public String getKeyExchangeAlgorithm(FileSystemOptions opts) {
+    public String getKeyExchangeAlgorithm(final FileSystemOptions opts) {
         return this.getString(opts, KEY_EXCHANGE_ALGORITHM);
     }
 
@@ -646,7 +646,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
       * @param opts The FileSystem options.
       * @param keyExchangeAlgoritm The key exchange algoritm picked.
     **/
-        public void setKeyExchangeAlgorithm(FileSystemOptions opts, String keyExchangeAlgoritm) {
+        public void setKeyExchangeAlgorithm(final FileSystemOptions opts, final String keyExchangeAlgoritm) {
       setParam(opts, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
     }
     
