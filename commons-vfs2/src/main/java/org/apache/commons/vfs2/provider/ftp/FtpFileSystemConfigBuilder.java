@@ -17,7 +17,9 @@
 package org.apache.commons.vfs2.provider.ftp;
 
 import java.net.Proxy;
+import java.net.UnknownHostException;
 
+import org.apache.commons.net.ftp.FTPClient.HostnameResolver;
 import org.apache.commons.net.ftp.parser.FTPFileEntryParserFactory;
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -46,6 +48,14 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String SHORT_MONTH_NAMES = _PREFIX + ".SHORT_MONTH_NAMES";
     private static final String SO_TIMEOUT = _PREFIX + ".SO_TIMEOUT";
     private static final String USER_DIR_IS_ROOT = _PREFIX + ".USER_DIR_IS_ROOT";
+    private static final String USE_EPSV_WITH_IPV4 = _PREFIX + ".USE_EPSV_WITH_IPV4";
+    private static final String PASSIVE_NAT_WORKAROUND_STRATEGY = _PREFIX + ".PASSIVE_NAT_WORKAROUND_STRATEGY";
+    private static final HostnameResolver DUMMY_HOSTNAME_RESOLVER = new HostnameResolver() {
+        @Override
+        public String resolve(String hostname) throws UnknownHostException {
+            return hostname;
+        }
+    };
 
     private FtpFileSystemConfigBuilder() {
         super("ftp.");
@@ -151,6 +161,24 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public Boolean getPassiveMode(final FileSystemOptions opts) {
         return getBoolean(opts, PASSIVE_MODE);
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @return true if EPSV mode with IPv4 is set.
+     * @see #setUseEPSVwithIPv4
+     */
+    public Boolean getUseEPSVwithIPv4(final FileSystemOptions opts) {
+        return getBoolean(opts, USE_EPSV_WITH_IPV4);
+    }
+
+    /**
+     * @param opts The FileSystemOptions.
+     * @return the passive NAT workaround strategy.
+     * @see #setPassiveNatWorkaroundStrategy
+     */
+    public HostnameResolver getPassiveNatWorkaroundStrategy(final FileSystemOptions opts) {
+        return (HostnameResolver) this.getParam(opts, PASSIVE_NAT_WORKAROUND_STRATEGY);
     }
 
     /**
@@ -327,6 +355,26 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      */
     public void setPassiveMode(final FileSystemOptions opts, final boolean passiveMode) {
         setParam(opts, PASSIVE_MODE, passiveMode ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Enter into extended passive mode with IPv4.
+     *
+     * @param opts The FileSystemOptions.
+     * @param useEPSVwithIPv4 true if extended mode with IPv4 should be used.
+     */
+    public void setUseEPSVwithIPv4(final FileSystemOptions opts, final boolean useEPSVwithIPv4) {
+        setParam(opts, USE_EPSV_WITH_IPV4, useEPSVwithIPv4 ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    /**
+     * Sets the passive NAT workaround strategy.
+     *
+     * @param opts The FileSystemOptions.
+     * @param resolver strategy to replace internal IP in passive mode.
+     */
+    public void setPassiveNatWorkaroundStrategy(final FileSystemOptions opts, final HostnameResolver resolver) {
+        setParam(opts, PASSIVE_NAT_WORKAROUND_STRATEGY, resolver != null ? resolver : DUMMY_HOSTNAME_RESOLVER);
     }
 
     /**
