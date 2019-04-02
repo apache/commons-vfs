@@ -157,27 +157,6 @@ public class DefaultFileMonitor implements Runnable, FileMonitor {
      */
     @Override
     public void addFile(final FileObject file) {
-        doAddFile(file);
-        try {
-            // add all direct children too
-            if (file.getType().hasChildren()) {
-                // Traverse the children
-                final FileObject[] children = file.getChildren();
-                for (final FileObject element : children) {
-                    doAddFile(element);
-                }
-            }
-        } catch (final FileSystemException fse) {
-            LOG.error(fse.getLocalizedMessage(), fse);
-        }
-    }
-
-    /**
-     * Adds a file to be monitored.
-     *
-     * @param file The FileObject to add.
-     */
-    private void doAddFile(final FileObject file) {
         synchronized (this.monitorMap) {
             if (this.monitorMap.get(file.getName()) == null) {
                 this.monitorMap.put(file.getName(), new FileMonitorAgent(this, file));
