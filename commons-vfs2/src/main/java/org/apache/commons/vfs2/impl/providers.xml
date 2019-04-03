@@ -100,8 +100,14 @@
     </provider>
     <provider class-name="org.apache.commons.vfs2.provider.webdav.WebdavFileProvider">
         <scheme name="webdav"/>
+        <scheme name="webdav3"/>
         <if-available class-name="org.apache.commons.httpclient.HttpClient"/>
         <if-available class-name="org.apache.jackrabbit.webdav.client.methods.DavMethod"/>
+    </provider>
+    <provider class-name="org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider">
+        <scheme name="webdav4"/>
+        <if-available class-name="org.apache.http.client.HttpClient"/>
+        <if-available class-name="org.apache.jackrabbit.webdav.client.methods.BaseDavRequest"/>
     </provider>
     <!--
     <provider class-name="org.apache.commons.vfs2.provider.svn.SvnFileProvider">

@@ -68,7 +68,6 @@ public final class Shell {
             mgr = VFS.getManager();
         }
 
-        // TODO: VFS-360 - Remove this manual registration of http4 once http4 becomes part of standard providers.
         boolean httpClient4Available = false;
         try {
             Class.forName("org.apache.http.client.HttpClient");
@@ -81,6 +80,22 @@ public final class Shell {
         } catch (final Exception e) {
             if (httpClient4Available) {
                 e.printStackTrace();
+            }
+        }
+
+        if (httpClient4Available) {
+            boolean jr3WebDavAvailable = false;
+            try {
+                Class.forName("org.apache.jackrabbit.webdav.client.methods.BaseDavRequest");
+                jr3WebDavAvailable = true;
+                final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
+                if (!manager.hasProvider("webdav4")) {
+                    manager.addProvider("webdav4", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider").newInstance());
+                }
+            } catch (final Exception e) {
+                if (jr3WebDavAvailable) {
+                    e.printStackTrace();
+                }
             }
         }
 
