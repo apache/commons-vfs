@@ -141,7 +141,6 @@
     <profile>
       <id>with-webdav3</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
         <property>
           <name>webdav3</name>
         </property>
@@ -168,7 +167,6 @@
     <profile>
       <id>with-webdav4</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
         <property>
           <name>webdav4</name>
         </property>

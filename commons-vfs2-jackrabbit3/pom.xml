@@ -32,6 +32,12 @@
   <artifactId>commons-vfs2-jackrabbit3</artifactId>
   <description>Apache Commons VFS is a Virtual File System library - Jackrabbit3-based WebDAV provider.</description>
 
+  <properties>
+
+    <maven.test.skip>true</maven.test.skip>
+
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -53,6 +59,12 @@
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-webdav</artifactId>
       <version>${jackrabbit3.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -83,13 +95,6 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- Test WebDAV with Apache Jackrabbit Standalone Components -->
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-standalone-components</artifactId>
       <scope>test</scope>
     </dependency>
 
@@ -168,5 +173,45 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>test-jackrabbit3</id>
+      <activation>
+        <property>
+          <name>testJackrabbit3</name>
+        </property>
+      </activation>
+      <properties>
+        <maven.test.skip>false</maven.test.skip>
+      </properties>
+      <dependencies>
+        <!-- Test WebDAV with Apache Jackrabbit3 Standalone Components -->
+        <dependency>
+          <groupId>org.apache.jackrabbit</groupId>
+          <artifactId>jackrabbit-standalone-components</artifactId>
+          <version>2.19.2-SNAPSHOT</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- surfire do not honor suite(), see MSUREFIRE-131 why our tests wont work with maven 2 -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>false</skipTests>
+              <systemPropertyVariables>
+                <test.basedir>target/test-classes/test-data</test.basedir>
+                <test.basedir.res>test-data</test.basedir.res>
+                <derby.stream.error.file>target/derby.log</derby.stream.error.file>
+              </systemPropertyVariables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
