@@ -23,7 +23,7 @@ import org.apache.commons.vfs2.provider.http4.Http4FileSystemConfigBuilder;
 /**
  * Configuration options for WebDav based on HTTP4.
  *
- * @since 2.3
+ * @since 2.4
  */
 public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigBuilder {
 
@@ -70,7 +70,6 @@ public final class Webdav4FileSystemConfigBuilder extends Http4FileSystemConfigB
      * @param opts The FileSystem options.
      * @return {@code true} to follow redirects, {@code false} not to.
      * @see #setFollowRedirect
-     * @since 2.1
      */
     @Override
     public boolean getFollowRedirect(final FileSystemOptions opts) {

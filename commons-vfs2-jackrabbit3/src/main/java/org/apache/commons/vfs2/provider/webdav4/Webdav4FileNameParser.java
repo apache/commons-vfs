@@ -22,7 +22,7 @@ import org.apache.commons.vfs2.provider.http4.Http4FileNameParser;
 /**
  * Implementation for http. set default port to 80
  *
- * @since 2.3
+ * @since 2.4
  */
 public class Webdav4FileNameParser extends Http4FileNameParser {
     private static final Webdav4FileNameParser INSTANCE = new Webdav4FileNameParser();
