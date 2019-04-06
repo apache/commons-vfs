@@ -39,10 +39,8 @@ import org.apache.commons.vfs2.FileType;
 import org.apache.commons.vfs2.FileUtil;
 import org.apache.commons.vfs2.Selectors;
 import org.apache.commons.vfs2.VFS;
-import org.apache.commons.vfs2.impl.DefaultFileSystemManager;
 import org.apache.commons.vfs2.impl.StandardFileSystemManager;
 import org.apache.commons.vfs2.operations.FileOperationProvider;
-import org.apache.commons.vfs2.provider.FileProvider;
 
 /**
  * A simple command-line shell for performing file operations.
@@ -66,37 +64,6 @@ public final class Shell {
             ((StandardFileSystemManager) mgr).init();
         } else {
             mgr = VFS.getManager();
-        }
-
-        boolean httpClient4Available = false;
-        try {
-            Class.forName("org.apache.http.client.HttpClient");
-            httpClient4Available = true;
-            final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
-            if (!manager.hasProvider("http4")) {
-                manager.addProvider("http4", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4.Http4FileProvider").newInstance());
-                manager.addProvider("http4s", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.http4s.Http4sFileProvider").newInstance());
-            }
-        } catch (final Exception e) {
-            if (httpClient4Available) {
-                e.printStackTrace();
-            }
-        }
-
-        if (httpClient4Available) {
-            boolean jr3WebDavAvailable = false;
-            try {
-                Class.forName("org.apache.jackrabbit.webdav.client.methods.BaseDavRequest");
-                jr3WebDavAvailable = true;
-                final DefaultFileSystemManager manager = (DefaultFileSystemManager) VFS.getManager();
-                if (!manager.hasProvider("webdav4")) {
-                    manager.addProvider("webdav4", (FileProvider) Class.forName("org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider").newInstance());
-                }
-            } catch (final Exception e) {
-                if (jr3WebDavAvailable) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         cwd = mgr.toFileObject(new File(System.getProperty("user.dir")));
