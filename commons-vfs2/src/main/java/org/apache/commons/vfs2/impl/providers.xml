@@ -109,6 +109,11 @@
         <if-available class-name="org.apache.http.client.HttpClient"/>
         <if-available class-name="org.apache.jackrabbit.webdav.client.methods.BaseDavRequest"/>
     </provider>
+    <provider class-name="org.apache.commons.vfs2.provider.webdav4s.Webdav4sFileProvider">
+        <scheme name="webdav4s"/>
+        <if-available class-name="org.apache.http.client.HttpClient"/>
+        <if-available class-name="org.apache.jackrabbit.webdav.client.methods.BaseDavRequest"/>
+    </provider>
     <!--
     <provider class-name="org.apache.commons.vfs2.provider.svn.SvnFileProvider">
         <scheme name="svnhttps"/>

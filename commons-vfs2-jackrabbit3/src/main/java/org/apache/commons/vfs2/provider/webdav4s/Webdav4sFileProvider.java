@@ -14,11 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.vfs2.provider.webdav4;
+package org.apache.commons.vfs2.provider.webdav4s;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileName;
@@ -29,53 +27,28 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemOptions;
 import org.apache.commons.vfs2.UserAuthenticationData;
 import org.apache.commons.vfs2.provider.GenericFileName;
-import org.apache.commons.vfs2.provider.http4.Http4FileProvider;
+import org.apache.commons.vfs2.provider.http4s.Http4sFileProvider;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileProvider;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystem;
+import org.apache.commons.vfs2.provider.webdav4.Webdav4FileSystemConfigBuilder;
 import org.apache.commons.vfs2.util.UserAuthenticatorUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.protocol.HttpClientContext;
 
 /**
- * A provider for WebDAV based on HTTP4.
+ * A provider for WebDAV based on HTTP4S.
  *
  * @since 2.4
  */
-public class Webdav4FileProvider extends Http4FileProvider {
-
-    /**
-     * The authenticator types used by the WebDAV provider.
-     *
-     * @deprecated Might be removed in the next major version.
-     */
-    @Deprecated
-    public static final UserAuthenticationData.Type[] AUTHENTICATOR_TYPES = new UserAuthenticationData.Type[] {
-            UserAuthenticationData.USERNAME, UserAuthenticationData.PASSWORD };
+public class Webdav4sFileProvider extends Http4sFileProvider {
 
     /** The capabilities of the WebDAV provider */
-    public static final Collection<Capability> DEFAULT_CAPABILITIES =
-            Collections.unmodifiableCollection(
-                    Arrays.asList(
-                            Capability.CREATE,
-                            Capability.DELETE,
-                            Capability.RENAME,
-                            Capability.GET_TYPE,
-                            Capability.LIST_CHILDREN,
-                            Capability.READ_CONTENT,
-                            Capability.URI,
-                            Capability.WRITE_CONTENT,
-                            Capability.GET_LAST_MODIFIED,
-                            Capability.ATTRIBUTES,
-                            Capability.RANDOM_ACCESS_READ,
-                            Capability.DIRECTORY_READ_CONTENT
-                            )
-                    );
+    protected static final Collection<Capability> capabilities = Webdav4FileProvider.DEFAULT_CAPABILITIES;
 
-    /** The capabilities of the WebDAV provider */
-    protected static final Collection<Capability> capabilities = DEFAULT_CAPABILITIES;
-
-    public Webdav4FileProvider() {
+    public Webdav4sFileProvider() {
         super();
 
-        setFileNameParser(Webdav4FileNameParser.getInstance());
+        setFileNameParser(Webdav4sFileNameParser.getInstance());
     }
 
     /**
@@ -102,14 +75,15 @@ public class Webdav4FileProvider extends Http4FileProvider {
 
         try {
             final Webdav4FileSystemConfigBuilder builder = Webdav4FileSystemConfigBuilder.getInstance();
-            authData = UserAuthenticatorUtils.authenticate(fsOpts, AUTHENTICATOR_TYPES);
+            authData = UserAuthenticatorUtils.authenticate(fsOpts, Webdav4FileProvider.AUTHENTICATOR_TYPES);
             httpClientContext = createHttpClientContext(builder, rootName, fsOpts, authData);
             httpClient = createHttpClient(builder, rootName, fsOpts);
         } finally {
             UserAuthenticatorUtils.cleanup(authData);
         }
 
-        return new Webdav4FileSystem(rootName, fsOpts, httpClient, httpClientContext);
+        return new Webdav4FileSystem(rootName, fsOpts, httpClient, httpClientContext) {
+        };
     }
 
     @Override
@@ -121,4 +95,5 @@ public class Webdav4FileProvider extends Http4FileProvider {
     public Collection<Capability> getCapabilities() {
         return capabilities;
     }
+
 }

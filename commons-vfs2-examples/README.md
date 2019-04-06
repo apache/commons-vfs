@@ -37,7 +37,7 @@
 
     mvn -Pshell -Dwebdav3
 
-## Test `webdav4` providers
+## Test `webdav4` and `webdav4s` providers
 
     mvn -Pshell -Dwebdav4
 
@@ -120,5 +120,14 @@ Set `-Dproviders=<custom_providers.xml_resource_name>`.
     test.txt
     index.html
     cat index.html
+    ...
+    cp http4://commons.apache.org/downloads/index.html webdav4s://admin:admin@67d6eab2.ngrok.io/repository/default/index2.html
+    cd webdav4://admin:admin@67d6eab2.ngrok.io/repository/default/
+    ls
+    > > Contents of webdav4://admin:admin@localhost:8080/repository/default
+    test.txt
+    index.html
+    index2.html
+    cat index2.html
     ...
 
