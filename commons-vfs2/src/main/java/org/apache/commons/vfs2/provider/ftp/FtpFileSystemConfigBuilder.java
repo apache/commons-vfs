@@ -35,6 +35,7 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     private static final FtpFileSystemConfigBuilder BUILDER = new FtpFileSystemConfigBuilder();
 
+    private static final String AUTODETECT_UTF8 = _PREFIX + ".AUTODETECT_UTF8";
     private static final String CONNECT_TIMEOUT = _PREFIX + ".CONNECT_TIMEOUT";
     private static final String DATA_TIMEOUT = _PREFIX + ".DATA_TIMEOUT";
     private static final String DEFAULT_DATE_FORMAT = _PREFIX + ".DEFAULT_DATE_FORMAT";
@@ -83,6 +84,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public static List<Integer> getSaneTransferAbortedOkReplyCodes() {
         // See VFS-674, its accompanying PR and https://github.com/apache/commons-vfs/pull/51 as to why 426 and 550 are here
         return new ArrayList<>(Arrays.asList(FTPReply.TRANSFER_ABORTED, FTPReply.FILE_UNAVAILABLE));
+    }
+
+    /**
+     * Gets whether to try to autodetect the server encoding (only UTF8 is supported).
+     *
+     * @param opts The FileSystemOptions.
+     * @return True if autodetection should be done.
+     * @since 2.4
+     */
+    public Boolean getAutodetectUTF8(final FileSystemOptions opts) {
+        return getBoolean(opts, AUTODETECT_UTF8);
     }
 
     /**
@@ -257,6 +269,17 @@ public class FtpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     @SuppressWarnings("unchecked")
     public List<Integer> getTransferAbortedOkReplyCodes(final FileSystemOptions opts) {
         return (List<Integer>) getParam(opts, TRANSFER_ABORTED_OK_REPLY_CODES);
+    }
+
+    /**
+     * Sets whether to try to autodetect the server encoding (only UTF8 is supported).
+     *
+     * @param opts The FileSystemOptions.
+     * @param autodetectUTF8 true if autodetection should be done.
+     * @since 2.4
+     */
+    public void setAutodetectUTF8(final FileSystemOptions opts, final Boolean autodetectUTF8) {
+        setParam(opts, AUTODETECT_UTF8, autodetectUTF8);
     }
 
     /**
