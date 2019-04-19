@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ import org.junit.Test;
 public class PrefixFileFilterTest extends BaseFilterTest {
 
     @Test
-    public void testAcceptList() {
+    public void testAcceptList() throws FileSystemException {
 
         // PREPARE
         final List<String> list = new ArrayList<>();
@@ -47,7 +48,7 @@ public class PrefixFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptListIOCaseInsensitive() {
+    public void testAcceptListIOCaseInsensitive() throws FileSystemException {
 
         // PREPARE
         final List<String> list = new ArrayList<>();
@@ -64,7 +65,7 @@ public class PrefixFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptListIOCaseSensitive() {
+    public void testAcceptListIOCaseSensitive() throws FileSystemException {
 
         // PREPARE
         final List<String> list = new ArrayList<>();
@@ -81,7 +82,7 @@ public class PrefixFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptString() {
+    public void testAcceptString() throws FileSystemException {
 
         // PREPARE
         final PrefixFileFilter filter = new PrefixFileFilter("test");
@@ -95,7 +96,7 @@ public class PrefixFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptStringIOCaseInsensitive() {
+    public void testAcceptStringIOCaseInsensitive() throws FileSystemException {
 
         // PREPARE
         final PrefixFileFilter filter = new PrefixFileFilter(IOCase.INSENSITIVE, "test");
@@ -109,7 +110,7 @@ public class PrefixFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptStringIOCaseSensitive() {
+    public void testAcceptStringIOCaseSensitive() throws FileSystemException {
 
         // PREPARE
         final PrefixFileFilter filter = new PrefixFileFilter(IOCase.SENSITIVE, "test");

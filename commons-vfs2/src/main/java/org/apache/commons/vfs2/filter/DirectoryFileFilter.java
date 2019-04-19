@@ -63,14 +63,11 @@ public class DirectoryFileFilter implements FileFilter, Serializable {
      * @param fileInfo the File to check
      * 
      * @return {@code true} if the file is a directory
+     * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
-        try {
-            return fileInfo.getFile().getType() == FileType.FOLDER;
-        } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
-        }
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
+        return fileInfo.getFile().getType() == FileType.FOLDER;
     }
 
 }

@@ -117,7 +117,7 @@ public class EmptyFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptEmpty() {
+    public void testAcceptEmpty() throws FileSystemException {
 
         final FileFilter testee = EmptyFileFilter.EMPTY;
 
@@ -130,7 +130,7 @@ public class EmptyFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptNotEmpty() {
+    public void testAcceptNotEmpty() throws FileSystemException {
 
         final FileFilter testee = EmptyFileFilter.NOT_EMPTY;
 

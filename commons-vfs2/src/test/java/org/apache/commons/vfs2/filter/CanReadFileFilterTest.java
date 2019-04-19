@@ -105,7 +105,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptCanRead() {
+    public void testAcceptCanRead() throws FileSystemException {
 
         Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(writeableFileInfo));
         Assert.assertTrue(CanReadFileFilter.CAN_READ.accept(readOnlyFileInfo));
@@ -114,7 +114,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptCannotRead() {
+    public void testAcceptCannotRead() throws FileSystemException {
 
         Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(writeableFileInfo));
         Assert.assertFalse(CanReadFileFilter.CANNOT_READ.accept(readOnlyFileInfo));
@@ -123,7 +123,7 @@ public class CanReadFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptReadOnly() {
+    public void testAcceptReadOnly() throws FileSystemException {
 
         Assert.assertFalse(CanReadFileFilter.READ_ONLY.accept(writeableFileInfo));
         Assert.assertTrue(CanReadFileFilter.READ_ONLY.accept(readOnlyFileInfo));

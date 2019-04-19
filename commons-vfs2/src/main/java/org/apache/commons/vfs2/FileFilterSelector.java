@@ -58,6 +58,7 @@ public class FileFilterSelector extends FileDepthSelector {
      *
      * @param fileInfo The file selection information.
      * @return true if the file should be selected, false otherwise.
+     * @throws Exception Thrown for file system errors or illegal argument exception.
      */
     public boolean accept(final FileSelectInfo fileInfo) throws Exception {
         if (fileFilter != null) {

@@ -105,7 +105,7 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testDirectoryFileFilter() {
+    public void testDirectoryFileFilter() throws FileSystemException {
 
         final FileFilter testee = DirectoryFileFilter.DIRECTORY;
 
@@ -116,7 +116,7 @@ public class DirectoryAndFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testFileFileFilter() {
+    public void testFileFileFilter() throws FileSystemException {
 
         final FileFilter testee = FileFileFilter.FILE;
 

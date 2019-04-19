@@ -93,10 +93,10 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * @param fileInfo the File to check
      * 
      * @return true if the filename matches
+     * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
-        try {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
             final FileObject file = fileInfo.getFile();
             if (!file.exists()) {
                 return false;
@@ -106,9 +106,6 @@ public class SizeFileFilter implements FileFilter, Serializable {
                 final boolean smaller = length < size;
                 return acceptLarger ? !smaller : smaller;
             }
-        } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     /**

@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -121,8 +122,29 @@ public class AndFileFilterTest extends BaseFilterTest {
 
     }
 
+    @SuppressWarnings("deprecation")
     @Test
-    public void testAccept() {
+    public void testAccept() throws FileSystemException {
+
+        final FileSelectInfo any = createFileSelectInfo(new File("anyfile"));
+
+        // Empty
+        Assert.assertFalse(new AndFileFilter().accept(any));
+
+        // True
+        Assert.assertTrue(new AndFileFilter(new True()).accept(any));
+        Assert.assertTrue(new AndFileFilter(new True(), new True()).accept(any));
+
+        // False
+        Assert.assertFalse(new AndFileFilter(new False()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new False(), new False()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new False(), new True()).accept(any));
+        Assert.assertFalse(new AndFileFilter(new True(), new False()).accept(any));
+
+    }
+
+    @Test
+    public void testAcceptChecked() throws FileSystemException {
 
         final FileSelectInfo any = createFileSelectInfo(new File("anyfile"));
 

@@ -61,14 +61,11 @@ public class FileFileFilter implements FileFilter, Serializable {
      * @param fileInfo the File to check
      * 
      * @return true if the file is a file
+     * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
-        try {
-            return fileInfo.getFile().getType() == FileType.FILE;
-        } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
-        }
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
+        return fileInfo.getFile().getType() == FileType.FILE;
     }
 
 }

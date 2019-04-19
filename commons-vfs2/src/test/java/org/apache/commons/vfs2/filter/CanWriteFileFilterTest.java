@@ -105,7 +105,7 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptCanWrite() {
+    public void testAcceptCanWrite() throws FileSystemException {
 
         Assert.assertTrue(CanWriteFileFilter.CAN_WRITE.accept(writeableFileInfo));
         Assert.assertFalse(CanWriteFileFilter.CAN_WRITE.accept(readOnlyFileInfo));
@@ -114,7 +114,7 @@ public class CanWriteFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptCannotWrite() {
+    public void testAcceptCannotWrite() throws FileSystemException {
 
         Assert.assertFalse(CanWriteFileFilter.CANNOT_WRITE.accept(writeableFileInfo));
         Assert.assertTrue(CanWriteFileFilter.CANNOT_WRITE.accept(readOnlyFileInfo));

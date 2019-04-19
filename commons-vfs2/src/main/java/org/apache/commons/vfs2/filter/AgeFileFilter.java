@@ -68,22 +68,19 @@ public class AgeFileFilter implements FileFilter, Serializable {
      *                   (00:00:00 GMT, January 1, 1970)
      * @return true if the <code>File</code> exists and has been modified after the
      *         given time reference.
+     * @throws FileSystemException Thrown for file system errors.
      * @throws IllegalArgumentException if the file is {@code null}
      */
-    private static boolean isFileNewer(final FileObject fileObject, final long timeMillis) {
+    private static boolean isFileNewer(final FileObject fileObject, final long timeMillis) throws FileSystemException {
         if (fileObject == null) {
             throw new IllegalArgumentException("No specified file");
         }
-        try {
-            if (!fileObject.exists()) {
-                return false;
-            }
-            try (final FileContent content = fileObject.getContent()) {
-                final long lastModified = content.getLastModifiedTime();
-                return lastModified > timeMillis;
-            }
-        } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
+        if (!fileObject.exists()) {
+            return false;
+        }
+        try (final FileContent content = fileObject.getContent()) {
+            final long lastModified = content.getLastModifiedTime();
+            return lastModified > timeMillis;
         }
     }
 
@@ -172,9 +169,10 @@ public class AgeFileFilter implements FileFilter, Serializable {
      * @param fileInfo the File to check
      * 
      * @return true if the filename matches
+     * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
         final boolean newer = isFileNewer(fileInfo.getFile(), cutoff);
         return acceptOlder ? !newer : newer;
     }

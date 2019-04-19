@@ -192,6 +192,7 @@
     <dependency.locations.enabled>false</dependency.locations.enabled>
     <hadoop.version>2.6.0</hadoop.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
+    <commons.japicmp.version>0.14.0</commons.japicmp.version>
   </properties>
 
   <build>

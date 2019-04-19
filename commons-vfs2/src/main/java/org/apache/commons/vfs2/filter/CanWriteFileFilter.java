@@ -82,24 +82,21 @@ public class CanWriteFileFilter implements FileFilter, Serializable {
      * @param fileInfo the File to check
      * 
      * @return {@code true} if the file can be written to, otherwise {@code false}.
+     * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
-        try {
-            final FileSystem fileSystem = fileInfo.getFile().getFileSystem();
-            if (fileInfo.getFile().exists()) {
-                if (!fileSystem.hasCapability(Capability.WRITE_CONTENT)) {
-                    return false;
-                }
-                return fileInfo.getFile().isWriteable();
-            }
-            if (!fileSystem.hasCapability(Capability.CREATE)) {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
+        final FileSystem fileSystem = fileInfo.getFile().getFileSystem();
+        if (fileInfo.getFile().exists()) {
+            if (!fileSystem.hasCapability(Capability.WRITE_CONTENT)) {
                 return false;
             }
-            return fileInfo.getFile().getParent().isWriteable();
-        } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
+            return fileInfo.getFile().isWriteable();
         }
+        if (!fileSystem.hasCapability(Capability.CREATE)) {
+            return false;
+        }
+        return fileInfo.getFile().getParent().isWriteable();
     }
 
 }
