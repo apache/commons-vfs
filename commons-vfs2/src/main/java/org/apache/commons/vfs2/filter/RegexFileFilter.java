@@ -24,13 +24,14 @@ import org.apache.commons.vfs2.FileSelectInfo;
 
 /**
  * Filters files using supplied regular expression(s).
- * <p/>
- * See java.util.regex.Pattern for regex matching rules
- * <p/>
+ * <p>
+ * See java.util.regex.Pattern for regex matching rules.
+ * </p>
  * 
- * <p/>
+ * <p>
  * For example, to retrieve and print all java files where the name matched the
  * regular expression in the current directory:
+ * </p>
  * 
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
