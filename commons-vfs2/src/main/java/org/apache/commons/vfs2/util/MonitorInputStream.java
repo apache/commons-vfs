@@ -90,7 +90,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
         final int nread = super.read(buffer, offset, length);
         if (nread != EOF_CHAR) {
-        	atomicCount.addAndGet(nread);
+            atomicCount.addAndGet(nread);
             return nread;
         }
         return EOF_CHAR;
