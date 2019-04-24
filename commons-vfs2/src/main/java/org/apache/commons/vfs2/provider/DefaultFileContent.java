@@ -340,20 +340,20 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public InputStream getInputStream() throws FileSystemException {
-        /*
-         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
-         * new FileSystemException("vfs.provider/read-in-use.error", file); }
-         */
+        return buildInputStream(null);
+    }
 
-        // Get the raw input stream
-        final InputStream inputStream = fileObject.getInputStream();
-
-        final InputStream wrappedInputStream = new FileContentInputStream(fileObject, inputStream);
-
-        getOrCreateThreadData().addInstr(wrappedInputStream);
-        streamOpened();
-
-        return wrappedInputStream;
+    /**
+     * Returns an input stream for reading the content.
+     *
+     * @param bufferSize The buffer size to use.
+     * @return The InputStream
+     * @throws FileSystemException if an error occurs.
+     * @since 2.4
+     */
+    @Override
+    public InputStream getInputStream(final int bufferSize) throws FileSystemException {
+        return buildInputStream(bufferSize);
     }
 
     /**
@@ -475,6 +475,25 @@ public final class DefaultFileContent implements FileContent {
         }
     }
 
+    private InputStream buildInputStream(final Integer bufferSize) throws FileSystemException {
+        /*
+         * if (getThreadData().getState() == STATE_WRITING || getThreadData().getState() == STATE_RANDOM_ACCESS) { throw
+         * new FileSystemException("vfs.provider/read-in-use.error", file); }
+         */
+
+        // Get the raw input stream
+        final InputStream inputStream = fileObject.getInputStream();
+
+        final InputStream wrappedInputStream = bufferSize == null ?
+            new FileContentInputStream(fileObject, inputStream) :
+            new FileContentInputStream(fileObject, inputStream, bufferSize);
+
+        getOrCreateThreadData().addInstr(wrappedInputStream);
+        streamOpened();
+
+        return wrappedInputStream;
+    }
+
     /**
      * Handles the end of input stream.
      */
@@ -559,6 +578,11 @@ public final class DefaultFileContent implements FileContent {
 
         FileContentInputStream(final FileObject file, final InputStream instr) {
             super(instr);
+            this.file = file;
+        }
+
+        FileContentInputStream(final FileObject file, final InputStream instr, final int bufferSize) {
+            super(instr, bufferSize);
             this.file = file;
         }
 

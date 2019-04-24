@@ -139,6 +139,7 @@ public interface FileContent extends Closeable {
      * Returns an input stream for reading the file's content.
      * <p>
      * There may only be a single input or output stream open for the file at any time.
+     * </p>
      *
      * @return An input stream to read the file's content from. The input stream is buffered, so there is no need to
      *         wrap it in a {@code BufferedInputStream}.
@@ -146,6 +147,23 @@ public interface FileContent extends Closeable {
      *             opening the stream.
      */
     InputStream getInputStream() throws FileSystemException;
+
+    /**
+     * Returns an input stream for reading the file's content.
+     * <p>
+     * There may only be a single input or output stream open for the file at any time.
+     * </p>
+     *
+     * @param bufferSize The buffer size to use.
+     * @return An input stream to read the file's content from. The input stream is buffered, so there is no need to
+     *         wrap it in a {@code BufferedInputStream}.
+     * @throws FileSystemException If the file does not exist, or is being read, or is being written, or on error
+     *             opening the stream.
+     * @since 2.4
+     */
+    default InputStream getInputStream(int bufferSize) throws FileSystemException {
+        return getInputStream();
+    }
 
     /**
      * Returns an output stream for writing the file's content.
@@ -199,6 +217,7 @@ public interface FileContent extends Closeable {
      * <p>
      * This method is a hint to the implementation that it can release resources. This object can continue to be used
      * after calling this method.
+     * </p>
      *
      * @throws FileSystemException if an error occurs closing the file.
      */

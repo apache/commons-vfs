@@ -84,4 +84,14 @@ public class DefaultFileContentTest {
             }
         }
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPassingIllegalBufferSizeToInputStream() throws Exception {
+        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+            file.getContent().getInputStream(-2);
+        }
+    }
 }
