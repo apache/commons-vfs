@@ -401,24 +401,34 @@ public final class DefaultFileContent implements FileContent {
      */
     @Override
     public OutputStream getOutputStream(final boolean bAppend) throws FileSystemException {
-        /*
-         * if (getThreadData().getState() != STATE_NONE)
-         */
-        final FileContentThreadData streams = getOrCreateThreadData();
+        return buildOutputStream(bAppend, null);
+    }
 
-        if (streams.getOutstr() != null) {
-            throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
-        }
+    /**
+     * Returns an output stream for writing the content.
+     *
+     * @param bufferSize The buffer size to use.
+     * @return The OutputStream for the file.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.4
+     */
+    @Override
+    public OutputStream getOutputStream(final int bufferSize) throws FileSystemException {
+        return buildOutputStream(false, bufferSize);
+    }
 
-        // Get the raw output stream
-        final OutputStream outstr = fileObject.getOutputStream(bAppend);
-
-        // Create and set wrapper
-        final FileContentOutputStream wrapped = new FileContentOutputStream(fileObject, outstr);
-        streams.setOutstr(wrapped);
-        streamOpened();
-
-        return wrapped;
+    /**
+     * Returns an output stream for writing the content in append mode.
+     *
+     * @param bAppend true if the data written should be appended.
+     * @param bufferSize The buffer size to use.
+     * @return The OutputStream for the file.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.4
+     */
+    @Override
+    public OutputStream getOutputStream(final boolean bAppend, final int bufferSize) throws FileSystemException {
+        return buildOutputStream(bAppend, bufferSize);
     }
 
     /**
@@ -492,6 +502,29 @@ public final class DefaultFileContent implements FileContent {
         streamOpened();
 
         return wrappedInputStream;
+    }
+
+    private OutputStream buildOutputStream(final boolean bAppend, final Integer bufferSize) throws FileSystemException {
+        /*
+         * if (getThreadData().getState() != STATE_NONE)
+         */
+        final FileContentThreadData streams = getOrCreateThreadData();
+
+        if (streams.getOutstr() != null) {
+            throw new FileSystemException("vfs.provider/write-in-use.error", fileObject);
+        }
+
+        // Get the raw output stream
+        final OutputStream outstr = fileObject.getOutputStream(bAppend);
+
+        // Create and set wrapper
+        final FileContentOutputStream wrapped = bufferSize == null ?
+            new FileContentOutputStream(fileObject, outstr) :
+            new FileContentOutputStream(fileObject, outstr, bufferSize);
+        streams.setOutstr(wrapped);
+        streamOpened();
+
+        return wrapped;
     }
 
     /**
@@ -654,6 +687,11 @@ public final class DefaultFileContent implements FileContent {
 
         FileContentOutputStream(final FileObject file, final OutputStream outstr) {
             super(outstr);
+            this.file = file;
+        }
+
+        FileContentOutputStream(final FileObject file, final OutputStream outstr, final int bufferSize) {
+            super(outstr, bufferSize);
             this.file = file;
         }
 

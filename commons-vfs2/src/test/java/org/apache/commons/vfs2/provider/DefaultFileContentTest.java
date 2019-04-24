@@ -94,4 +94,24 @@ public class DefaultFileContentTest {
             file.getContent().getInputStream(-2);
         }
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPassingIllegalBufferSizeToOutputStream() throws Exception {
+        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+            file.getContent().getOutputStream(0);
+        }
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPassingIllegalBufferSizeToOutputStreamWithAppendFlag() throws Exception {
+        final File temp = File.createTempFile("temp-file-name", ".tmp");
+        final FileSystemManager fileSystemManager = VFS.getManager();
+
+        try (FileObject file = fileSystemManager.resolveFile(temp.getAbsolutePath())) {
+            file.getContent().getOutputStream(true, -1);
+        }
+    }
 }

@@ -170,8 +170,10 @@ public interface FileContent extends Closeable {
      * <p>
      * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
      * it is replaced with whatever is written to the output stream.
+     * </p>
      * <p>
      * There may only be a single input or output stream open for the file at any time.
+     * </p>
      *
      * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
      *         in a {@code BufferedOutputStream}.
@@ -186,8 +188,10 @@ public interface FileContent extends Closeable {
      * If the file does not exist, and you use one of the write* methods, this method creates it, and the parent folder,
      * if necessary. If the file does exist, parts of the file are replaced with whatever is written at a given
      * position.
+     * </p>
      * <p>
      * There may only be a single input or output stream open for the file at any time.
+     * </p>
      *
      * @param mode The mode to use to access the file.
      * @return the stream for reading and writing the file's content.
@@ -201,8 +205,10 @@ public interface FileContent extends Closeable {
      * <p>
      * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
      * it is replaced with whatever is written to the output stream.
+     * </p>
      * <p>
      * There may only be a single input or output stream open for the file at any time.
+     * </p>
      *
      * @param bAppend true if you would like to append to the file. This may not be supported by all implementations.
      * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
@@ -211,6 +217,49 @@ public interface FileContent extends Closeable {
      *             and the implementation does not support it, or on error opening the stream.
      */
     OutputStream getOutputStream(boolean bAppend) throws FileSystemException;
+
+    /**
+     * Returns an output stream for writing the file's content.
+     * <p>
+     * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
+     * it is replaced with whatever is written to the output stream.
+     * </p>
+     * <p>
+     * There may only be a single input or output stream open for the file at any time.
+     * </p>
+     *
+     * @param bufferSize The buffer size to use.
+     * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
+     *         in a {@code BufferedOutputStream}.
+     * @throws FileSystemException If the file is read-only, or is being read, or is being written, or bAppend is true
+     *             and the implementation does not support it, or on error opening the stream.
+     * @since 2.4
+     */
+    default OutputStream getOutputStream(int bufferSize) throws FileSystemException {
+        return getOutputStream();
+    }
+
+    /**
+     * Returns an output stream for writing the file's content.
+     * <p>
+     * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
+     * it is replaced with whatever is written to the output stream.
+     * </p>
+     * <p>
+     * There may only be a single input or output stream open for the file at any time.
+     * </p>
+     *
+     * @param bAppend true if you would like to append to the file. This may not be supported by all implementations.
+     * @param bufferSize The buffer size to use.
+     * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
+     *         in a {@code BufferedOutputStream}.
+     * @throws FileSystemException If the file is read-only, or is being read, or is being written, or bAppend is true
+     *             and the implementation does not support it, or on error opening the stream.
+     * @since 2.4
+     */
+    default OutputStream getOutputStream(boolean bAppend, int bufferSize) throws FileSystemException {
+        return getOutputStream(bAppend);
+    }
 
     /**
      * Closes all resources used by the content, including any open stream. Commits pending changes to the file.
