@@ -170,13 +170,13 @@ public final class SftpClientFactory {
             throws FileSystemException {
         if (identities != null) {
             for (final IdentityInfo info : identities) {
-                addIndentity(jsch, info);
+                addIdentity(jsch, info);
             }
         } else {
             // Load the private key (rsa-key only)
             final File privateKeyFile = new File(sshDir, "id_rsa");
             if (privateKeyFile.isFile() && privateKeyFile.canRead()) {
-                addIndentity(jsch, new IdentityInfo(privateKeyFile));
+                addIdentity(jsch, new IdentityInfo(privateKeyFile));
             }
         }
     }
@@ -195,11 +195,17 @@ public final class SftpClientFactory {
         }
     }
 
-    private static void addIndentity(final JSch jsch, final IdentityInfo info) throws FileSystemException {
+    private static void addIdentity(final JSch jsch, final IdentityInfo info) throws FileSystemException {
         try {
-            final String privateKeyFile = info.getPrivateKey() != null ? info.getPrivateKey().getAbsolutePath() : null;
-            final String publicKeyFile = info.getPublicKey() != null ? info.getPublicKey().getAbsolutePath() : null;
-            jsch.addIdentity(privateKeyFile, publicKeyFile, info.getPassPhrase());
+            if (info.getPrivateKey() != null) {
+                final String privateKeyFile = info.getPrivateKey() != null ? info.getPrivateKey().getAbsolutePath() : null;
+                final String publicKeyFile = info.getPublicKey() != null ? info.getPublicKey().getAbsolutePath() : null;
+                jsch.addIdentity(privateKeyFile, publicKeyFile, info.getPassPhrase());
+            } else if (info.getPrivateKeyBytes() != null) {
+                jsch.addIdentity("PrivateKey", info.getPrivateKeyBytes(), info.getPublicKeyBytes(), info.getPassPhrase());
+            } else {
+                throw new FileSystemException("vfs.provider.sftp/load-private-key.error", info);
+            }
         } catch (final JSchException e) {
             throw new FileSystemException("vfs.provider.sftp/load-private-key.error", info, e);
         }

@@ -26,6 +26,8 @@ import java.io.File;
 public class IdentityInfo {
     private final File privateKey;
     private final File publicKey;
+    private final byte[] privateKeyBytes;
+    private final byte[] publicKeyBytes;
     private final byte[] passPhrase;
 
     /**
@@ -69,6 +71,43 @@ public class IdentityInfo {
         this.privateKey = privateKey;
         this.publicKey = publicKey;
         this.passPhrase = passPhrase;
+        this.privateKeyBytes = null;
+        this.publicKeyBytes = null;
+    }
+
+
+    /**
+     * Constructs an identity info with private and public key and passphrase for the private key.
+     * <p>
+     *
+     * @param privateKey Private key bytes
+     * @param publicKey The public key part used for connections with exchange of certificates (can be {@code null})
+     * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
+     * @since 2.1
+     */
+    public IdentityInfo(final byte[] privateKey, final byte[] publicKey, final byte[] passPhrase)
+    {
+        this.privateKey = null;
+        this.publicKey = null;
+        this.privateKeyBytes = privateKey;
+        this.publicKeyBytes = publicKey;
+        this.passPhrase = passPhrase;
+    }
+
+    /**
+     * Constructs an identity info with private and passphrase for the private key.
+     * <p>
+     *
+     * @param privateKey Private key bytes
+     * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
+     * @since 2.1
+     */
+    public IdentityInfo(final byte[] privateKey, final byte[] passPhrase) {
+        this.privateKey = null;
+        this.publicKey = null;
+        this.publicKeyBytes = null;
+        this.privateKeyBytes = privateKey;
+        this.passPhrase = passPhrase;
     }
 
     /**
@@ -99,5 +138,25 @@ public class IdentityInfo {
      */
     public byte[] getPassPhrase() {
         return passPhrase;
+    }
+
+    /**
+     * Get private key bytes.
+     *
+     * @return private key
+     */
+    public byte[] getPrivateKeyBytes()
+    {
+        return privateKeyBytes;
+    }
+
+    /**
+     * Get public key bytes.
+     *
+     * @return public key
+     */
+    public byte[] getPublicKeyBytes()
+    {
+        return publicKeyBytes;
     }
 }
