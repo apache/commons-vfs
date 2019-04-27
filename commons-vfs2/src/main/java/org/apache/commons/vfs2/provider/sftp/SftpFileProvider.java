@@ -90,15 +90,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
         return new SftpFileSystem(rootName, session, fileSystemOptions);
     }
 
-    /**
-     * Initializes the component.
-     *
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void init() throws FileSystemException {
-    }
-
     @Override
     public FileSystemConfigBuilder getConfigBuilder() {
         return SftpFileSystemConfigBuilder.getInstance();
