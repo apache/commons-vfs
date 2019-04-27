@@ -268,30 +268,32 @@ public class SftpFileSystem extends AbstractFileSystem {
     private int executeCommand(final String command, final StringBuilder output) throws JSchException, IOException {
         ensureSession();
         final ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        try {
+            channel.setCommand(command);
+            channel.setInputStream(null);
+            try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream())) {
+                channel.setErrStream(System.err, true);
+                channel.connect(connectTimeoutMillis);
 
-        channel.setCommand(command);
-        channel.setInputStream(null);
-        try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream())) {
-            channel.setErrStream(System.err, true);
-            channel.connect(connectTimeoutMillis);
-
-            // Read the stream
-            final char[] buffer = new char[EXEC_BUFFER_SIZE];
-            int read;
-            while ((read = stream.read(buffer, 0, buffer.length)) >= 0) {
-                output.append(buffer, 0, read);
+                // Read the stream
+                final char[] buffer = new char[EXEC_BUFFER_SIZE];
+                int read;
+                while ((read = stream.read(buffer, 0, buffer.length)) >= 0) {
+                    output.append(buffer, 0, read);
+                }
             }
-        }
 
-        // Wait until the command finishes (should not be long since we read the output stream)
-        while (!channel.isClosed()) {
-            try {
-                Thread.sleep(SLEEP_MILLIS);
-            } catch (final Exception ee) {
-                // TODO: swallow exception, really?
+            // Wait until the command finishes (should not be long since we read the output stream)
+            while (!channel.isClosed()) {
+                try {
+                    Thread.sleep(SLEEP_MILLIS);
+                } catch (final Exception ee) {
+                    // TODO: swallow exception, really?
+                }
             }
+        } finally {
+            channel.disconnect();
         }
-        channel.disconnect();
         return channel.getExitStatus();
     }
 }
