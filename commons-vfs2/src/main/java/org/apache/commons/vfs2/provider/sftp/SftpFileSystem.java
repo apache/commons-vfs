@@ -237,7 +237,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Get the (numeric) group IDs.
+     * Gets the (numeric) group IDs.
      *
      * @return The numeric user ID
      * @throws JSchException If a problem occurs while retrieving the group ID.
@@ -258,7 +258,7 @@ public class SftpFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Execute a command and returns the (standard) output through a StringBuilder.
+     * Executes a command and returns the (standard) output through a StringBuilder.
      *
      * @param command The command
      * @param output The output
