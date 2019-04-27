@@ -67,8 +67,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
-        // JSch jsch = createJSch(fileSystemOptions);
-
         // Create the file system
         final GenericFileName rootName = (GenericFileName) name;
 
@@ -91,15 +89,6 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
 
         return new SftpFileSystem(rootName, session, fileSystemOptions);
     }
-
-    /**
-     * Returns the JSch.
-     *
-     * @return Returns the jSch.
-     */
-    /*
-     * private JSch getJSch() { return this.jSch; }
-     */
 
     /**
      * Initializes the component.
