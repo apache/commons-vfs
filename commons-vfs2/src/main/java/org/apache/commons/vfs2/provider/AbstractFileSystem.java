@@ -53,6 +53,7 @@ import org.apache.commons.vfs2.util.Messages;
  * A partial {@link org.apache.commons.vfs2.FileSystem} implementation.
  */
 public abstract class AbstractFileSystem extends AbstractVfsComponent implements FileSystem {
+    
     private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
 
     /**
@@ -126,7 +127,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Close the underlying link used to access the files.
+     * Closes the underlying link used to access the files.
      */
     public void closeCommunicationLink() {
         synchronized (this) {
@@ -135,15 +136,17 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Close the underlying link used to access the files
+     * Closes the underlying link used to access the files.
      */
     protected void doCloseCommunicationLink() {
+        // default is noop.
     }
 
     /**
      * Creates a file object.
      * <p>
      * This method is called only if the requested file is not cached.
+     * </p>
      *
      * @param name name referencing the new file.
      * @return new created FileObject.
@@ -209,7 +212,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Remove a cached file.
+     * Removes a cached file.
      *
      * @param name The file name to remove.
      */
@@ -385,7 +388,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Return the FileSystemOptions used to instantiate this filesystem.
+     * Returns the FileSystemOptions used to instantiate this filesystem.
      *
      * @return the FileSystemOptions.
      */
@@ -395,7 +398,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * Return the FileSystemManager used to instantiate this filesystem.
+     * Returns the FileSystemManager used to instantiate this filesystem.
      *
      * @return the FileSystemManager.
      */
@@ -525,6 +528,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     void freeResources() {
+        // default is noop.
     }
 
     /**
@@ -581,13 +585,14 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
     }
 
     /**
-     * will be called after all file-objects closed their streams.
+     * Called after all file-objects closed their streams.
      */
     protected void notifyAllStreamsClosed() {
+        // default is noop.
     }
 
     /**
-     * check if this filesystem has open streams.
+     * Checks if this filesystem has open streams.
      *
      * @return true if the FileSystem has open streams.
      */
