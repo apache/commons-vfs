@@ -32,10 +32,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.extensions.TestSetup;
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.apache.commons.AbstractVfsTestCase;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -80,6 +76,10 @@ import org.apache.sshd.server.sftp.SftpSubsystem;
 import com.jcraft.jsch.SftpATTRS;
 import com.jcraft.jsch.TestIdentityRepositoryFactory;
 
+import junit.extensions.TestSetup;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * Tests cases for the SFTP provider.
  * <p>
@@ -87,6 +87,7 @@ import com.jcraft.jsch.TestIdentityRepositoryFactory;
  * </p>
  */
 public class SftpProviderTestCase extends AbstractProviderTestConfig {
+
     /**
      * The underlying filesystem
      */
@@ -378,12 +379,16 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
 
             final URI parsedURI = new URI(uri);
             final String userInfo = parsedURI.getUserInfo();
-            final String[] userFields = userInfo.split(":", 2);
+            final String[] userFields = userInfo == null ? null : userInfo.split(":", 2);
 
             builder.setProxyType(fileSystemOptions, SftpFileSystemConfigBuilder.PROXY_STREAM);
-            builder.setProxyUser(fileSystemOptions, userFields[0]);
-            if (userFields.length > 1) {
-                builder.setProxyPassword(fileSystemOptions, userFields[1]);
+            if (userFields != null) {
+                if (userFields.length > 0) {
+                    builder.setProxyUser(fileSystemOptions, userFields[0]);
+                }
+                if (userFields.length > 1) {
+                    builder.setProxyPassword(fileSystemOptions, userFields[1]);
+                }
             }
             builder.setProxyHost(fileSystemOptions, parsedURI.getHost());
             builder.setProxyPort(fileSystemOptions, parsedURI.getPort());
@@ -392,7 +397,11 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
             builder.setProxyPassword(fileSystemOptions, parsedURI.getAuthority());
 
             // Set up the new URI
-            uri = String.format("sftp://%s@localhost:%d", userInfo, parsedURI.getPort());
+            if (userInfo == null) {
+                uri = String.format("sftp://localhost:%d", parsedURI.getPort());
+            } else {
+                uri = String.format("sftp://%s@localhost:%d", userInfo, parsedURI.getPort());
+            }
         }
 
         final FileObject fileObject = manager.resolveFile(uri, fileSystemOptions);
@@ -497,11 +506,11 @@ public class SftpProviderTestCase extends AbstractProviderTestConfig {
     /**
      * Creates a pipe thread that connects an input to an output
      *
-     * @param name The name of the thread (for debugging purposes)
-     * @param in The input stream
-     * @param out The output stream
+     * @param name     The name of the thread (for debugging purposes)
+     * @param in       The input stream
+     * @param out      The output stream
      * @param callback An object whose method {@linkplain ExitCallback#onExit(int)} will be called when the pipe is
-     *            broken. The integer argument is 0 if everything went well.
+     *                 broken. The integer argument is 0 if everything went well.
      */
     private static void connect(final String name, final InputStream in, final OutputStream out,
             final ExitCallback callback) {

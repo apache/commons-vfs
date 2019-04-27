@@ -18,6 +18,8 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.vfs2.FileSystem;
 import org.apache.commons.vfs2.FileSystemConfigBuilder;
@@ -105,13 +107,13 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String PROXY_OPTIONS = _PREFIX + ".PROXY_OPTIONS";
     private static final String PROXY_PASSWORD = _PREFIX + ".PROXY_PASSWORD";
     private static final String PROXY_PORT = _PREFIX + ".PROXY_PORT";
-    
+
     /** HTTP Proxy. */
     public static final ProxyType PROXY_HTTP = new ProxyType("http");
-    
+
     /** SOCKS Proxy. */
     public static final ProxyType PROXY_SOCKS5 = new ProxyType("socks");
-    
+
     /**
      * Connects to the SFTP server through a remote host reached by SSH.
      * <p>
@@ -202,14 +204,36 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Gets the identity info.
+     * Gets the identity infos.
      *
      * @param opts The FileSystem options.
-     * @return the array of identity info instances.
+     * @return the array of identity info.
      * @see #setIdentityInfo
      */
     public IdentityInfo[] getIdentityInfo(final FileSystemOptions opts) {
-        return (IdentityInfo[]) this.getParam(opts, IDENTITIES);
+        final IdentityProvider[] infos = getIdentityProvider(opts);
+        if (infos != null) {
+            final List<IdentityInfo> list = new ArrayList<>(infos.length);
+            for (IdentityProvider identityProvider : infos) {
+                if (identityProvider instanceof IdentityInfo) {
+                    list.add((IdentityInfo) identityProvider);
+                }
+            }
+            return list.toArray(new IdentityInfo[list.size()]);
+        }
+        return null;
+    }
+
+    /**
+     * Gets the identity providers.
+     *
+     * @param opts The FileSystem options.
+     * @return the array of identity providers.
+     * @see #setIdentityProvider
+     * @since 2.4
+     */
+    public IdentityProvider[] getIdentityProvider(final FileSystemOptions opts) {
+        return (IdentityProvider[]) this.getParam(opts, IDENTITIES);
     }
 
     /**
@@ -233,9 +257,8 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to
-     * <code>Boolean.FALSE</code> if the method {@link #setLoadOpenSSHConfig(FileSystemOptions, boolean)} has not been
-     * invoked.
+     * Returns {@link Boolean#TRUE} if VFS should load the OpenSSH config. Defaults to <code>Boolean.FALSE</code> if the
+     * method {@link #setLoadOpenSSHConfig(FileSystemOptions, boolean)} has not been invoked.
      *
      * @param opts The FileSystemOptions.
      * @return <code>Boolean.TRUE</code> if VFS should load the OpenSSH config.
@@ -369,12 +392,12 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     public String getStrictHostKeyChecking(final FileSystemOptions opts) {
         return this.getString(opts, STRICT_HOST_KEY_CHECKING, HOST_KEY_CHECK_NO);
     }
-    
+
     /**
-    * @param opts The FileSystem options.
-    * @return the option value for spesific key exchange algorithm
-    * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
-    **/
+     * @param opts The FileSystem options.
+     * @return the option value for spesific key exchange algorithm
+     * @see #setKeyExchangeAlgorithm(FileSystemOptions, String)
+     **/
     public String getKeyExchangeAlgorithm(final FileSystemOptions opts) {
         return this.getString(opts, KEY_EXCHANGE_ALGORITHM);
     }
@@ -419,7 +442,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * See the Jsch documentation (in particular the README file) for details.
      *
-     * @param opts The FileSystem options.
+     * @param opts        The FileSystem options.
      * @param compression The names of the compression algorithms, comma-separated.
      * @throws FileSystemException if an error occurs.
      */
@@ -430,7 +453,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the timeout value to create a Jsch connection.
      *
-     * @param opts The FileSystem options.
+     * @param opts    The FileSystem options.
      * @param timeout The connect timeout in milliseconds.
      * @since 2.3
      */
@@ -441,7 +464,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the file name encoding.
      *
-     * @param opts The FileSystem options.
+     * @param opts             The FileSystem options.
      * @param fileNameEncoding The name of the encoding to use for file names.
      */
     public void setFileNameEncoding(final FileSystemOptions opts, final String fileNameEncoding) {
@@ -453,16 +476,16 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
      *
-     * @param opts The FileSystem options.
+     * @param opts          The FileSystem options.
      * @param identityFiles An array of identity Files.
      * @throws FileSystemException if an error occurs.
      * @deprecated As of 2.1 use {@link #setIdentityInfo(FileSystemOptions, IdentityInfo...)}
      */
     @Deprecated
     public void setIdentities(final FileSystemOptions opts, final File... identityFiles) throws FileSystemException {
-        IdentityInfo[] info = null;
+        IdentityProvider[] info = null;
         if (identityFiles != null) {
-            info = new IdentityInfo[identityFiles.length];
+            info = new IdentityProvider[identityFiles.length];
             for (int i = 0; i < identityFiles.length; i++) {
                 info[i] = new IdentityInfo(identityFiles[i]);
             }
@@ -473,12 +496,27 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the identity info (your private key files).
      *
-     * @param opts The FileSystem options.
+     * @param opts      The FileSystem options.
      * @param identites An array of identity info.
      * @throws FileSystemException if an error occurs.
      * @since 2.1
+     * @deprecated Use {@link #setIdentityProvider(FileSystemOptions,IdentityProvider...)}
      */
+    @Deprecated
     public void setIdentityInfo(final FileSystemOptions opts, final IdentityInfo... identites)
+            throws FileSystemException {
+        this.setParam(opts, IDENTITIES, identites);
+    }
+
+    /**
+     * Sets the identity info (your private key files).
+     *
+     * @param opts      The FileSystem options.
+     * @param identites An array of identity info.
+     * @throws FileSystemException if an error occurs.
+     * @since 2.4
+     */
+    public void setIdentityProvider(final FileSystemOptions opts, final IdentityProvider... identites)
             throws FileSystemException {
         this.setParam(opts, IDENTITIES, identites);
     }
@@ -488,7 +526,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * This is useful when you want to use e.g. an SSH agent as provided.
      *
-     * @param opts The FileSystem options.
+     * @param opts    The FileSystem options.
      * @param factory An identity repository.
      * @throws FileSystemException if an error occurs.
      * @see <a href="http://www.jcraft.com/jsch-agent-proxy/">JSch agent proxy</a>
@@ -503,7 +541,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * This is useful when you want to use OpenSSHConfig.
      *
-     * @param opts The FileSystem options.
+     * @param opts             The FileSystem options.
      * @param configRepository An config repository.
      * @throws FileSystemException if an error occurs.
      * @see <a href="http://www.jcraft.com/jsch/examples/OpenSSHConfig.java.html">OpenSSHConfig</a>
@@ -518,7 +556,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
      *
-     * @param opts The FileSystem options.
+     * @param opts       The FileSystem options.
      * @param knownHosts The known hosts file.
      * @throws FileSystemException if an error occurs.
      */
@@ -529,7 +567,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Configures authentication order.
      *
-     * @param opts The FileSystem options.
+     * @param opts                     The FileSystem options.
      * @param preferredAuthentications The authentication order.
      * @since 2.0
      */
@@ -540,7 +578,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the proxy username to use for the SFTP connection.
      *
-     * @param opts The FileSystem options.
+     * @param opts         The FileSystem options.
      * @param proxyCommand the port
      * @see #getProxyOptions
      * @since 2.1
@@ -554,7 +592,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      *
      * You MUST also set the proxy port to use the proxy.
      *
-     * @param opts The FileSystem options.
+     * @param opts      The FileSystem options.
      * @param proxyHost the host
      * @see #setProxyPort
      */
@@ -565,7 +603,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the proxy username to use for the SFTP connection.
      *
-     * @param opts The FileSystem options.
+     * @param opts         The FileSystem options.
      * @param proxyOptions the options
      * @see #getProxyOptions
      * @since 2.1
@@ -577,7 +615,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the proxy password to use for the SFTP connection.
      *
-     * @param opts The FileSystem options.
+     * @param opts          The FileSystem options.
      * @param proxyPassword the username used to connect to the proxy
      * @see #getProxyPassword
      * @since 2.1
@@ -591,7 +629,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <p>
      * You MUST also set the proxy host to use the proxy.
      *
-     * @param opts The FileSystem options.
+     * @param opts      The FileSystem options.
      * @param proxyPort the port
      * @see #setProxyHost
      */
@@ -609,7 +647,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * <li>{@linkplain #PROXY_STREAM} connects through a remote host stream command</li>
      * </ul>
      *
-     * @param opts The FileSystem options.
+     * @param opts      The FileSystem options.
      * @param proxyType the type of the proxy to use.
      */
     public void setProxyType(final FileSystemOptions opts, final ProxyType proxyType) {
@@ -619,7 +657,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the proxy username to use for the SFTP connection.
      *
-     * @param opts The FileSystem options.
+     * @param opts      The FileSystem options.
      * @param proxyUser the username used to connect to the proxy
      * @see #getProxyUser
      * @since 2.1
@@ -631,7 +669,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the timeout value on Jsch session.
      *
-     * @param opts The FileSystem options.
+     * @param opts    The FileSystem options.
      * @param timeout The session timeout in milliseconds.
      * @since 2.3
      */
@@ -639,18 +677,17 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
         this.setParam(opts, SESSION_TIMEOUT_MILLIS, timeout);
     }
 
-    
     /**
-     ** Configure Key exchange algoritm explicitly
-     ** e.g diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1
-      * @param opts The FileSystem options.
-      * @param keyExchangeAlgoritm The key exchange algoritm picked.
-    **/
-        public void setKeyExchangeAlgorithm(final FileSystemOptions opts, final String keyExchangeAlgoritm) {
-      setParam(opts, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
+     ** Configure Key exchange algoritm explicitly e.g
+     * diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1
+     * 
+     * @param opts                The FileSystem options.
+     * @param keyExchangeAlgoritm The key exchange algoritm picked.
+     **/
+    public void setKeyExchangeAlgorithm(final FileSystemOptions opts, final String keyExchangeAlgoritm) {
+        setParam(opts, KEY_EXCHANGE_ALGORITHM, keyExchangeAlgoritm);
     }
-    
-    
+
     /**
      * Configures the host key checking to use.
      * <p>
@@ -660,7 +697,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * See the jsch documentation for details.
      * </p>
      *
-     * @param opts The FileSystem options.
+     * @param opts            The FileSystem options.
      * @param hostKeyChecking The host key checking to use.
      * @throws FileSystemException if an error occurs.
      */
@@ -677,7 +714,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the timeout value on Jsch session.
      *
-     * @param opts The FileSystem options.
+     * @param opts    The FileSystem options.
      * @param timeout The timeout in milliseconds.
      * @deprecated Use {@link #setSessionTimeoutMillis(FileSystemOptions, Integer)}
      */
@@ -689,7 +726,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the whether to use the user directory as root (do not change to file system root).
      *
-     * @param opts The FileSystem options.
+     * @param opts          The FileSystem options.
      * @param userDirIsRoot true if the user directory is the root directory.
      */
     public void setUserDirIsRoot(final FileSystemOptions opts, final boolean userDirIsRoot) {
@@ -709,7 +746,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     /**
      * Sets the whether to load OpenSSH config.
      *
-     * @param opts The FileSystem options.
+     * @param opts              The FileSystem options.
      * @param loadOpenSSHConfig true if the OpenSSH config should be loaded.
      */
     public void setLoadOpenSSHConfig(final FileSystemOptions opts, final boolean loadOpenSSHConfig) {
