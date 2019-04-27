@@ -86,9 +86,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     private static final String _PREFIX = SftpFileSystemConfigBuilder.class.getName();
-
     private static final SftpFileSystemConfigBuilder BUILDER = new SftpFileSystemConfigBuilder();
-
     private static final String COMPRESSION = _PREFIX + "COMPRESSION";
     private static final String CONNECT_TIMEOUT_MILLIS = _PREFIX + ".CONNECT_TIMEOUT_MILLIS";
     private static final String ENCODING = _PREFIX + ".ENCODING";
@@ -120,10 +118,12 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * On this proxy host, a command (e.g. {@linkplain SftpStreamProxy#NETCAT_COMMAND} or
      * {@linkplain SftpStreamProxy#NETCAT_COMMAND}) is run to forward input/output streams between the target host and
      * the VFS host.
+     * </p>
      * <p>
      * When used, the proxy username ({@linkplain #setProxyUser}) and hostname ({@linkplain #setProxyHost}) <b>must</b>
      * be set. Optionnaly, the command ({@linkplain #setProxyCommand}), password ({@linkplain #setProxyPassword}) and
      * connection options ({@linkplain #setProxyOptions}) can be set.
+     * </p>
      */
     public static final ProxyType PROXY_STREAM = new ProxyType("stream");
 
@@ -184,6 +184,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Gets the identity files (your private key files).
      * <p>
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
+     * </p>
      *
      * @param opts The FileSystem options.
      * @return the array of identity Files.
@@ -247,7 +248,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Get the config repository.
+     * Gets the config repository.
      *
      * @param opts The FileSystem options.
      * @return the ConfigRepository
@@ -439,8 +440,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Configures the compression algorithms to use.
      * <p>
      * For example, use {@code "zlib,none"} to enable compression.
+     * </p>
      * <p>
      * See the Jsch documentation (in particular the README file) for details.
+     * </p>
      *
      * @param opts        The FileSystem options.
      * @param compression The names of the compression algorithms, comma-separated.
@@ -475,6 +478,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the identity files (your private key files).
      * <p>
      * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
+     * </p>
      *
      * @param opts          The FileSystem options.
      * @param identityFiles An array of identity Files.
@@ -522,9 +526,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the identity repository.
+     * Sets the identity repository.
      * <p>
      * This is useful when you want to use e.g. an SSH agent as provided.
+     * </p>
      *
      * @param opts    The FileSystem options.
      * @param factory An identity repository.
@@ -537,9 +542,10 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
     }
 
     /**
-     * Set the config repository. e.g. {@code /home/user/.ssh/config}.
+     * Sets the config repository. e.g. {@code /home/user/.ssh/config}.
      * <p>
      * This is useful when you want to use OpenSSHConfig.
+     * </p>
      *
      * @param opts             The FileSystem options.
      * @param configRepository An config repository.
@@ -555,6 +561,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the known_hosts file. e.g. {@code /home/user/.ssh/known_hosts2}.
      * <p>
      * We use {@link java.io.File} because JSch cannot deal with VFS FileObjects.
+     * </p>
      *
      * @param opts       The FileSystem options.
      * @param knownHosts The known hosts file.
@@ -628,6 +635,7 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
      * Sets the proxy port to use for the SFTP connection.
      * <p>
      * You MUST also set the proxy host to use the proxy.
+     * </p>
      *
      * @param opts      The FileSystem options.
      * @param proxyPort the port
@@ -639,8 +647,9 @@ public final class SftpFileSystemConfigBuilder extends FileSystemConfigBuilder {
 
     /**
      * Sets the proxy type to use for the SFTP connection.
-     *
+     * <p>
      * The possibles values are:
+     * </p>
      * <ul>
      * <li>{@linkplain #PROXY_HTTP} connects using an HTTP proxy</li>
      * <li>{@linkplain #PROXY_SOCKS5} connects using an Socket5 proxy</li>

@@ -155,7 +155,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     /**
-     * Set attrs from listChildrenResolved
+     * Sets attrs from listChildrenResolved
      */
     private void setStat(final SftpATTRS attrs) {
         this.attrs = attrs;
@@ -224,7 +224,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     /**
-     * Rename the file.
+     * Renames the file.
      */
     @Override
     protected void doRename(final FileObject newFile) throws Exception {

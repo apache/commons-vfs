@@ -41,9 +41,9 @@ import com.jcraft.jsch.UserInfo;
  * Create a JSch Session instance.
  */
 public final class SftpClientFactory {
+
     private static final String SSH_DIR_NAME = ".ssh";
     private static final String OPENSSH_CONFIG_NAME = "config";
-
     private static final Log LOG = LogFactory.getLog(SftpClientFactory.class);
 
     static {
@@ -250,20 +250,24 @@ public final class SftpClientFactory {
     }
 
     /**
-     * Finds the .ssh directory.
+     * Finds the {@code .ssh} directory.
      * <p>
      * The lookup order is:
+     * </p>
      * <ol>
      * <li>The system property {@code vfs.sftp.sshdir} (the override mechanism)</li>
-     * <li>{user.home}/.ssh</li>
-     * <li>On Windows only: C:\cygwin\home\{user.name}\.ssh</li>
+     * <li>{@code user.home}/.ssh</li>
+     * <li>On Windows only: {@code C:\cygwin\home[user.name]\.ssh}</li>
      * <li>The current directory, as a last resort.</li>
-     * <ol>
-     * Windows Notes:<br>
+     * </ol>
+     * 
+     * <h2>Windows Notes</h2>
+     * <p>
      * The default installation directory for Cygwin is {@code C:\cygwin}. On my set up (Gary here), I have Cygwin in
-     * C:\bin\cygwin, not the default. Also, my .ssh directory was created in the {user.home} directory.
-     *
-     * @return The .ssh directory
+     * {@code C:\bin\cygwin}, not the default. Also, my .ssh directory was created in the {@code user.home} directory.
+     * </p>
+     * 
+     * @return The {@code .ssh} directory
      */
     private static File findSshDir() {
         String sshDirPath;
