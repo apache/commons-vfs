@@ -99,11 +99,9 @@ public final class UserAuthenticatorUtils {
      * @param authData The UserAuthenticationDAta.
      */
     public static void cleanup(final UserAuthenticationData authData) {
-        if (authData == null) {
-            return;
+        if (authData != null) {
+            authData.cleanup();
         }
-
-        authData.cleanup();
     }
 
     /**
