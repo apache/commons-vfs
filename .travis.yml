@@ -24,5 +24,9 @@ jdk:
   - oraclejdk8
   - oraclejdk11
 
+matrix:
+  allow_failures:
+    - jdk: openjdk-ea
+
 after_success:
   - mvn -V -B -e clean cobertura:cobertura coveralls:report
