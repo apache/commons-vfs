@@ -51,7 +51,11 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
                     Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE, Capability.RANDOM_ACCESS_READ,
                     Capability.APPEND_CONTENT }));
 
-    /** Creates a new Session. */
+    /**
+     * Creates a new Session.
+     *
+     * @return A Session, never null.
+     */
     static Session createSession(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
         UserAuthenticationData authData = null;
