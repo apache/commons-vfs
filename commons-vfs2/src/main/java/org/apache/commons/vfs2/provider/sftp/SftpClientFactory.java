@@ -61,7 +61,7 @@ public final class SftpClientFactory {
      * @param username The user's id.
      * @param password The user's password.
      * @param fileSystemOptions The FileSystem options.
-     * @return A Session.
+     * @return A Session, never null.
      * @throws FileSystemException if an error occurs.
      */
     public static Session createConnection(final String hostname, final int port, final char[] username,
