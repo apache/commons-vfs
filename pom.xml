@@ -248,7 +248,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
             <!-- to increase memory for tests on Travis CI -->
-            <argLine>-Xmx64m</argLine>
+            <argLine>-Xmx64m -Djdk.tls.client.protocols=TLSv1.2</argLine>
         </configuration>
       </plugin>
       <plugin>
