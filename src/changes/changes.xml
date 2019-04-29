@@ -104,7 +104,7 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-711" dev="ggregory" type="fix" due-to="Gary Gregory">
         [SFTP] SftpFileSystem can initialize underlying Session more than once while multithreading.
       </action>
-      <action issue="VFS-662" dev="ggregory" type="fix" due-to="Alexey Abashev, Gary Gregory">
+      <action issue="VFS-662" dev="ggregory" type="fix" due-to="qxo, Alexey Abashev, Gary Gregory">
         [SFTP] SftpFileSystem has Thread-safe issue about idleChannel (#36).
       </action>
     </release>
