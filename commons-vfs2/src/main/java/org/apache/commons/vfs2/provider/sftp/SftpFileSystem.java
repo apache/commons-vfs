@@ -40,6 +40,9 @@ import com.jcraft.jsch.SftpException;
  * Represents the files on an SFTP server.
  */
 public class SftpFileSystem extends AbstractFileSystem {
+    
+    private static final int UNIDENTIFED = -1;
+
     private static final int SLEEP_MILLIS = 100;
 
     private static final int EXEC_BUFFER_SIZE = 128;
@@ -54,8 +57,11 @@ public class SftpFileSystem extends AbstractFileSystem {
 
     /**
      * Cache for the user ID (-1 when not set)
+     * <p>
+     * DCL pattern requires that the ivar be volatile.
+     * </p>
      */
-    private int uid = -1;
+    private volatile int uid = UNIDENTIFED;
 
     /**
      * Cache for the user groups ids (null when not set)
@@ -251,14 +257,18 @@ public class SftpFileSystem extends AbstractFileSystem {
      * @since 2.1
      */
     public int getUId() throws JSchException, IOException {
-        if (uid < 0) {
-            final StringBuilder output = new StringBuilder();
-            final int code = executeCommand("id -u", output);
-            if (code != 0) {
-                throw new FileSystemException(
-                        "Could not get the user id of the current user (error code: " + code + ")");
+        if (uid == UNIDENTIFED) {
+            synchronized (this) {
+                if (uid == UNIDENTIFED) {
+                    final StringBuilder output = new StringBuilder();
+                    final int code = executeCommand("id -u", output);
+                    if (code != 0) {
+                        throw new FileSystemException(
+                                "Could not get the user id of the current user (error code: " + code + ")");
+                    }
+                    uid = Integer.parseInt(output.toString().trim());
+                }
             }
-            uid = Integer.parseInt(output.toString().trim());
         }
         return uid;
     }
