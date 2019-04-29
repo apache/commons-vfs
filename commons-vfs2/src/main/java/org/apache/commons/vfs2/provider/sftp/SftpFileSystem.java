@@ -59,8 +59,11 @@ public class SftpFileSystem extends AbstractFileSystem {
 
     /**
      * Cache for the user groups ids (null when not set)
+     * <p>
+     * DCL pattern requires that the ivar be volatile.
+     * </p>
      */
-    private int[] groupsIds;
+    private volatile int[] groupsIds;
 
     protected SftpFileSystem(final GenericFileName rootName, final Session session,
             final FileSystemOptions fileSystemOptions) {
@@ -88,7 +91,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * @return new or reused channel, never null.
      * @throws FileSystemException if a session cannot be created.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException         if an I/O error is detected.
      */
     protected ChannelSftp getChannel() throws IOException {
         ensureSession();
@@ -210,26 +213,31 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * @return the (numeric) group IDs.
      * @throws JSchException If a problem occurs while retrieving the group IDs.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException   if an I/O error is detected.
      * @since 2.1
      */
     public int[] getGroupsIds() throws JSchException, IOException {
         if (groupsIds == null) {
-            final StringBuilder output = new StringBuilder();
-            final int code = executeCommand("id -G", output);
-            if (code != 0) {
-                throw new JSchException("Could not get the groups id of the current user (error code: " + code + ")");
+            synchronized (this) {
+                // DCL pattern requires that the ivar be volatile.
+                if (groupsIds == null) {
+                    final StringBuilder output = new StringBuilder();
+                    final int code = executeCommand("id -G", output);
+                    if (code != 0) {
+                        throw new JSchException(
+                                "Could not get the groups id of the current user (error code: " + code + ")");
+                    }
+                    // Retrieve the different groups
+                    final String[] groups = output.toString().trim().split("\\s+");
+
+                    final int[] groupsIds = new int[groups.length];
+                    for (int i = 0; i < groups.length; i++) {
+                        groupsIds[i] = Integer.parseInt(groups[i]);
+                    }
+                    this.groupsIds = groupsIds;
+
+                }
             }
-
-            // Retrieve the different groups
-            final String[] groups = output.toString().trim().split("\\s+");
-
-            final int[] groupsIds = new int[groups.length];
-            for (int i = 0; i < groups.length; i++) {
-                groupsIds[i] = Integer.parseInt(groups[i]);
-            }
-
-            this.groupsIds = groupsIds;
         }
         return groupsIds;
     }
@@ -239,7 +247,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * @return The numeric user ID
      * @throws JSchException If a problem occurs while retrieving the group ID.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException   if an I/O error is detected.
      * @since 2.1
      */
     public int getUId() throws JSchException, IOException {
@@ -259,11 +267,11 @@ public class SftpFileSystem extends AbstractFileSystem {
      * Executes a command and returns the (standard) output through a StringBuilder.
      *
      * @param command The command
-     * @param output The output
+     * @param output  The output
      * @return The exit code of the command
-     * @throws JSchException if a JSch error is detected.
+     * @throws JSchException       if a JSch error is detected.
      * @throws FileSystemException if a session cannot be created.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException         if an I/O error is detected.
      */
     private int executeCommand(final String command, final StringBuilder output) throws JSchException, IOException {
         ensureSession();
