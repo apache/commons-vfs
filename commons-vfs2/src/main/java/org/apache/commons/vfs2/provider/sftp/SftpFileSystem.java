@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -40,7 +41,7 @@ import com.jcraft.jsch.SftpException;
  * Represents the files on an SFTP server.
  */
 public class SftpFileSystem extends AbstractFileSystem {
-    
+
     private static final int UNIDENTIFED = -1;
 
     private static final int SLEEP_MILLIS = 100;
@@ -49,7 +50,13 @@ public class SftpFileSystem extends AbstractFileSystem {
 
     private static final long LAST_MOD_TIME_ACCURACY = 1000L;
 
-    private Session session;
+    /**
+     * Session; never null.
+     * <p>
+     * DCL pattern requires that the ivar be volatile.
+     * </p>
+     */
+    private volatile Session session;
 
     private ChannelSftp idleChannel;
 
@@ -74,9 +81,9 @@ public class SftpFileSystem extends AbstractFileSystem {
     protected SftpFileSystem(final GenericFileName rootName, final Session session,
             final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
-        this.session = session;
-        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
-        this.connectTimeoutMillis = builder.getConnectTimeoutMillis(fileSystemOptions);
+        this.session = Objects.requireNonNull(session, "session");
+        this.connectTimeoutMillis = SftpFileSystemConfigBuilder.getInstance()
+                .getConnectTimeoutMillis(fileSystemOptions);
     }
 
     @Override
@@ -88,7 +95,6 @@ public class SftpFileSystem extends AbstractFileSystem {
 
         if (session != null) {
             session.disconnect();
-            session = null;
         }
     }
 
@@ -100,7 +106,6 @@ public class SftpFileSystem extends AbstractFileSystem {
      * @throws IOException         if an I/O error is detected.
      */
     protected ChannelSftp getChannel() throws IOException {
-        ensureSession();
         try {
             // Use the pooled channel, or create a new one
             final ChannelSftp channel;
@@ -108,7 +113,7 @@ public class SftpFileSystem extends AbstractFileSystem {
                 channel = idleChannel;
                 idleChannel = null;
             } else {
-                channel = (ChannelSftp) session.openChannel("sftp");
+                channel = (ChannelSftp) getSession().openChannel("sftp");
                 channel.connect(connectTimeoutMillis);
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
                         .getUserDirIsRoot(getFileSystemOptions());
@@ -144,32 +149,17 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * @throws FileSystemException if a session cannot be created.
      */
-    private void ensureSession() throws FileSystemException {
-        if (this.session == null || !this.session.isConnected()) {
-            doCloseCommunicationLink();
-
-            // channel closed. e.g. by freeUnusedResources, but now we need it again
-            Session session;
-            UserAuthenticationData authData = null;
-            try {
-                final GenericFileName rootName = (GenericFileName) getRootName();
-
-                authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(),
-                        SftpFileProvider.AUTHENTICATOR_TYPES);
-
-                session = SftpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
-                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                                UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                                UserAuthenticatorUtils.toChar(rootName.getPassword())),
-                        getFileSystemOptions());
-            } catch (final Exception e) {
-                throw new FileSystemException("vfs.provider.sftp/connect.error", getRootName(), e);
-            } finally {
-                UserAuthenticatorUtils.cleanup(authData);
+    private Session getSession() throws FileSystemException {
+        if (!this.session.isConnected()) {
+            synchronized (this) {
+                if (!this.session.isConnected()) {
+                    doCloseCommunicationLink();
+                    this.session = SftpFileProvider.createSession((GenericFileName) getRootName(),
+                            getFileSystemOptions());
+                }
             }
-            this.session = session;
         }
+        return this.session;
     }
 
     /**
@@ -284,8 +274,7 @@ public class SftpFileSystem extends AbstractFileSystem {
      * @throws IOException         if an I/O error is detected.
      */
     private int executeCommand(final String command, final StringBuilder output) throws JSchException, IOException {
-        ensureSession();
-        final ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        final ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
         try {
             channel.setCommand(command);
             channel.setInputStream(null);
