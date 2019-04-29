@@ -107,6 +107,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-662" dev="ggregory" type="fix" due-to="qxo, Alexey Abashev, Gary Gregory">
         [SFTP] SftpFileSystem has Thread-safe issue about idleChannel (#36).
       </action>
+      <action issue="VFS-700" dev="ggregory" type="fix" due-to="Gary Gregory, Matthias Krueger">
+        Some tests fail on Java 11 and above.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
