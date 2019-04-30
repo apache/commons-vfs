@@ -18,15 +18,18 @@ package org.apache.commons.vfs2.provider.sftp;
 
 import java.io.File;
 
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+
 /**
- * Structure for an identity.
+ * Structure for an identity based on Files.
  *
  * @since 2.1
  */
-public class IdentityInfo {
+public class IdentityInfo implements IdentityProvider {
+    private final byte[] passPhrase;
     private final File privateKey;
     private final File publicKey;
-    private final byte[] passPhrase;
 
     /**
      * Constructs an identity info with private key.
@@ -61,7 +64,7 @@ public class IdentityInfo {
      * We use java.io.File because JSch cannot deal with VFS FileObjects.
      *
      * @param privateKey The file with the private key
-     * @param publicKey The public key part used for connections with exchange of certificates (can be {@code null})
+     * @param publicKey  The public key part used for connections with exchange of certificates (can be {@code null})
      * @param passPhrase The passphrase to decrypt the private key (can be {@code null} if no passphrase is used)
      * @since 2.1
      */
@@ -69,6 +72,25 @@ public class IdentityInfo {
         this.privateKey = privateKey;
         this.publicKey = publicKey;
         this.passPhrase = passPhrase;
+    }
+
+    @Override
+    public void addIdentity(final JSch jsch) throws JSchException {
+        jsch.addIdentity(getAbsolutePath(privateKey), getAbsolutePath(publicKey), passPhrase);
+    }
+
+    private String getAbsolutePath(final File file) {
+        return file != null ? file.getAbsolutePath() : null;
+    }
+
+    /**
+     * Get the passphrase of the private key.
+     *
+     * @return the passphrase
+     * @since 2.1
+     */
+    public byte[] getPassPhrase() {
+        return passPhrase;
     }
 
     /**
@@ -89,15 +111,5 @@ public class IdentityInfo {
      */
     public File getPublicKey() {
         return publicKey;
-    }
-
-    /**
-     * Get the passphrase of the private key.
-     *
-     * @return the passphrase
-     * @since 2.1
-     */
-    public byte[] getPassPhrase() {
-        return passPhrase;
     }
 }

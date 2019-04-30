@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * This filter produces a logical NOT of the filters specified.
@@ -54,9 +55,10 @@ public class NotFileFilter implements FileFilter, Serializable {
      * @param fileInfo the File to check
      * 
      * @return {@code true} if the filter returns {@code false}
+     * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
         return !filter.accept(fileInfo);
     }
 

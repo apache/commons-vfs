@@ -52,7 +52,7 @@
     <connection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-vfs.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-vfs.git</url>
-    <tag>commons-vfs-project-2.3</tag>
+    <tag>commons-vfs-project-2.4</tag>
   </scm>
 
   <developers>
@@ -196,6 +196,7 @@
     <jackrabbit2.version>1.6.5</jackrabbit2.version>
     <jackrabbit3.version>2.19.2</jackrabbit3.version>
     <commons.surefire.version>2.19.1</commons.surefire.version>
+    <commons.japicmp.version>0.14.0</commons.japicmp.version>
   </properties>
 
   <build>
@@ -284,6 +285,8 @@
           <excludes combine.children="append">
             <!--  trivial test data text files -->
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
+            <exclude>src/test/resources/test-data/**/*.tgz</exclude>
+            <exclude>src/test/resources/test-data/**/*.tbz2</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicite exclude does not work if sandbox profile is not activated -->
             <exclude>commons-vfs2-sandbox/**</exclude>
@@ -305,6 +308,8 @@
           <excludes combine.children="append">
             <!--  trivial test data text files -->
             <exclude>src/test/resources/test-data/**/*.txt</exclude>
+            <exclude>src/test/resources/test-data/**/*.tgz</exclude>
+            <exclude>src/test/resources/test-data/**/*.tbz2</exclude>
             <exclude>src/test/resources/test-data/test.mf</exclude>
             <!--  implicit exclude does not work if sandbox profile is not activated -->
             <exclude>commons-vfs2-sandbox/**</exclude>
@@ -355,7 +360,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.11.0</version>
+        <version>3.12.0</version>
         <configuration>
           <targetJdk>${maven.compiler.target}</targetJdk>
           <aggregate>true</aggregate>
@@ -430,12 +435,17 @@
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
-        <version>4.5.7</version>
+        <version>4.5.8</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
         <version>1.18</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-webdav</artifactId>
+        <version>1.6.5</version>
       </dependency>
       <dependency>
         <groupId>ant</groupId>
@@ -489,7 +499,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>3.8.1</version>
+        <version>3.9</version>
       </dependency>
       <!-- Test FTP with Apache FTP Server (MINA) -->
       <dependency>
@@ -624,6 +634,26 @@
         </plugins>
       </build>
     </profile>
+
+  <profile>
+    <id>java11+</id>
+    <activation>
+      <jdk>[11,)</jdk>
+    </activation>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <!-- -Xmx64m: increases memory for tests on Travis CI -->
+            <!--  jdk.tls.client.protocols: For use of older protocol since DSA is no longer in the JRE -->
+            <argLine>-Xmx64m -Djdk.tls.client.protocols=TLSv1.2</argLine>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
 
   </profiles>
 

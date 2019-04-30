@@ -30,14 +30,16 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <p>
  * This filter selects files and directories based on one or more wildcards.
  * Testing is case-sensitive by default, but this can be configured.
+ * </p>
  * <p>
  * The wildcard matcher uses the characters '?' and '*' to represent a single or
  * multiple wildcard characters. This is the same as often found on Dos/Unix
- * command lines. The extension check is case-sensitive by . See
- * {@link FilenameUtils#wildcardMatchOnSystem} for more information.
+ * command lines.
+ * </p>
  * <p>
  * For example, to retrieve and print all java files that have the expression
  * test in the name in the current directory:
+ * </p>
  * 
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -206,6 +208,7 @@ public class WildcardFileFilter implements FileFilter, Serializable {
      * The wildcard matcher uses the characters '?' and '*' to represent a single or
      * multiple (zero or more) wildcard characters. N.B. the sequence "*?" does not
      * work properly at present in match strings.
+     * </p>
      * 
      * @param filename        the filename to match on
      * @param wildcardMatcher the wildcard string to match against

@@ -22,6 +22,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -105,14 +106,14 @@ public class CanExecuteFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptCanExecute() {
+    public void testAcceptCanExecute() throws FileSystemException {
         Assert.assertTrue(CanExecuteFileFilter.CAN_EXECUTE.accept(executableFileInfo));
         Assert.assertTrue(CanExecuteFileFilter.CAN_EXECUTE.accept(notExecutableFileInfo));
         Assert.assertFalse(CanExecuteFileFilter.CAN_EXECUTE.accept(notExistingFileInfo));
     }
 
     @Test
-    public void testAcceptCannotExecute() {
+    public void testAcceptCannotExecute() throws FileSystemException {
         Assert.assertFalse(CanExecuteFileFilter.CANNOT_EXECUTE.accept(executableFileInfo));
         Assert.assertFalse(CanExecuteFileFilter.CANNOT_EXECUTE.accept(notExecutableFileInfo));
         Assert.assertTrue(CanExecuteFileFilter.CANNOT_EXECUTE.accept(notExistingFileInfo));

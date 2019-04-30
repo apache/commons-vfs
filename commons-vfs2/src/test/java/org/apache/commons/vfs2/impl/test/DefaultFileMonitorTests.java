@@ -149,6 +149,7 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase {
         final FileObject fileObj = fsManager.resolveFile(testDir.toURI().toURL().toString());
         final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
         monitor.setDelay(2000);
+        monitor.setRecursive(true);
         monitor.addFile(fileObj);
         monitor.start();
         try {
@@ -164,6 +165,25 @@ public class DefaultFileMonitorTests extends AbstractVfsTestCase {
             Thread.sleep(3000);
             assertTrue("No event occurred", changeStatus != 0);
             assertTrue("Incorrect event " + changeStatus, changeStatus == 3);
+        } finally {
+            monitor.stop();
+        }
+    }
+
+    public void testChildFileDeletedWithoutRecursiveChecking() throws Exception {
+        writeToFile(testFile);
+        final FileObject fileObj = fsManager.resolveFile(testDir.toURI().toURL().toString());
+        final DefaultFileMonitor monitor = new DefaultFileMonitor(new TestFileListener());
+        monitor.setDelay(2000);
+        monitor.setRecursive(false);
+        monitor.addFile(fileObj);
+        monitor.start();
+        try {
+            changeStatus = 0;
+            Thread.sleep(300);
+            testFile.delete();
+            Thread.sleep(3000);
+            assertTrue("Event should not have occurred", changeStatus == 0);
         } finally {
             monitor.stop();
         }

@@ -30,8 +30,24 @@ public class MonitorInputStream extends BufferedInputStream {
     private final AtomicBoolean finished = new AtomicBoolean(false);
     private final AtomicLong atomicCount = new AtomicLong(0);
 
+    /**
+     * Constructs a MonitorInputStream from the passed InputStream
+     *
+     * @param in The input stream to wrap.
+     */
     public MonitorInputStream(final InputStream in) {
         super(in);
+    }
+
+    /**
+     * Constructs a MonitorInputStream from the passed InputStream and with the specified buffer size
+     *
+     * @param in The input stream to wrap.
+     * @param bufferSize The buffer size to use.
+     * @since 2.4
+     */
+    public MonitorInputStream(final InputStream in, final int bufferSize) {
+        super(in, bufferSize);
     }
 
     /**
@@ -90,7 +106,7 @@ public class MonitorInputStream extends BufferedInputStream {
 
         final int nread = super.read(buffer, offset, length);
         if (nread != EOF_CHAR) {
-        	atomicCount.addAndGet(nread);
+            atomicCount.addAndGet(nread);
             return nread;
         }
         return EOF_CHAR;

@@ -20,6 +20,7 @@ import java.io.Serializable;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * Filter that accepts files whose size is &gt;= minimum size and &lt;= maximum
@@ -46,7 +47,7 @@ public class SizeRangeFileFilter implements FileFilter, Serializable {
     }
 
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
         return filter.accept(fileInfo);
     }
 

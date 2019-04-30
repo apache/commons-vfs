@@ -14,23 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.apache.commons.vfs2.provider.sftp;
 
-import com.jcraft.jsch.IdentityRepository;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 
 /**
- * Creates instances of JSch {@link IdentityRepository}.
- *
- * @version $Id$
+ * Provides identity to a {@link JSch}.
+ * 
+ * @since 2.4
  */
-public interface IdentityRepositoryFactory {
-    
-    /**
-     * Creates an Identity repository for a given JSch instance.
-     *
-     * @param jsch JSch context
-     * @return a new IdentityRepository
-     */
-    IdentityRepository create(JSch jsch);
+public interface IdentityProvider {
+
+    void addIdentity(final JSch jsch) throws JSchException;
+
 }

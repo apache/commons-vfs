@@ -30,8 +30,7 @@ import org.apache.commons.vfs2.FileType;
  * <p>
  * If the <code>File</code> is a directory it checks that it contains no files.
  * <p>
- * Example, showing how to print out a list of the current directory's empty
- * files/directories:
+ * Example, showing how to print out a list of the current directory's empty files/directories:
  * 
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -43,8 +42,7 @@ import org.apache.commons.vfs2.FileType;
  * </pre>
  * 
  * <p>
- * Example, showing how to print out a list of the current directory's non-empty
- * files/directories:
+ * Example, showing how to print out a list of the current directory's non-empty files/directories:
  * 
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
@@ -76,30 +74,25 @@ public class EmptyFileFilter implements FileFilter, Serializable {
     }
 
     /**
-     * Checks to see if the file is empty. A non-existing file is also considered
-     * empty.
+     * Checks to see if the file is empty. A non-existing file is also considered empty.
      * 
      * @param fileInfo the file or directory to check
      * 
-     * @return {@code true} if the file or directory is <i>empty</i>, otherwise
-     *         {@code false}.
+     * @return {@code true} if the file or directory is <i>empty</i>, otherwise {@code false}.
+     * @throws FileSystemException Thrown for file system errors.
      */
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
         final FileObject file = fileInfo.getFile();
-        try {
-            if (!file.exists()) {
-                return true;
-            }
-            if (file.getType() == FileType.FOLDER) {
-                final FileObject[] files = file.getChildren();
-                return files == null || files.length == 0;
-            }
-            try (final FileContent content = file.getContent();) {
-                return content.getSize() == 0;
-            }
-        } catch (final FileSystemException ex) {
-            throw new RuntimeException(ex);
+        if (!file.exists()) {
+            return true;
+        }
+        if (file.getType() == FileType.FOLDER) {
+            final FileObject[] files = file.getChildren();
+            return files == null || files.length == 0;
+        }
+        try (final FileContent content = file.getContent();) {
+            return content.getSize() == 0;
         }
     }
 

@@ -100,7 +100,7 @@ public class SizeFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testSizeFileFilterLong() {
+    public void testSizeFileFilterLong() throws FileSystemException {
 
         final SizeFileFilter testee = new SizeFileFilter(4);
         Assert.assertFalse(testee.accept(minFileInfo));
@@ -110,7 +110,7 @@ public class SizeFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testSizeFileFilterLongBoolean() {
+    public void testSizeFileFilterLongBoolean() throws FileSystemException {
 
         SizeFileFilter testee;
 
@@ -127,7 +127,7 @@ public class SizeFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testSizeRangeFileFilter() {
+    public void testSizeRangeFileFilter() throws FileSystemException {
 
         SizeRangeFileFilter testee;
 

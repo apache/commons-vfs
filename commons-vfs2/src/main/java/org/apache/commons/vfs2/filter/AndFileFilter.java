@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * A filter providing conditional AND logic across a list of file filters. This
@@ -81,7 +82,7 @@ public class AndFileFilter implements FileFilter, ConditionalFileFilter, Seriali
     }
 
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
         if (this.fileFilters.isEmpty()) {
             return false;
         }

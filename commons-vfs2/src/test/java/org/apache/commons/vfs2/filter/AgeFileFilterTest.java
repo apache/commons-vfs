@@ -111,7 +111,7 @@ public class AgeFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAgeFileFilterDate() {
+    public void testAgeFileFilterDate() throws FileSystemException {
 
         final AgeFileFilter testee = new AgeFileFilter(new Date());
         Assert.assertTrue(testee.accept(oldFileInfo));
@@ -121,7 +121,7 @@ public class AgeFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAgeFileFilterDateBoolean() {
+    public void testAgeFileFilterDateBoolean() throws FileSystemException {
 
         AgeFileFilter testee;
 
@@ -165,7 +165,7 @@ public class AgeFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAgeFileFilterLong() {
+    public void testAgeFileFilterLong() throws FileSystemException {
 
         final AgeFileFilter testee = new AgeFileFilter(NOW);
         Assert.assertTrue(testee.accept(oldFileInfo));

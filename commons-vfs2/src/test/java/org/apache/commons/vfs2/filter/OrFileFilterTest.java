@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -122,7 +123,7 @@ public class OrFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAccept() {
+    public void testAccept() throws FileSystemException {
 
         final FileSelectInfo any = createFileSelectInfo(new File("anyfile"));
 

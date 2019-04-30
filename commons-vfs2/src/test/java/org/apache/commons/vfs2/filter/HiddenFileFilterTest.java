@@ -97,7 +97,7 @@ public class HiddenFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptHidden() {
+    public void testAcceptHidden() throws FileSystemException {
 
         final FileFilter testee = HiddenFileFilter.HIDDEN;
 
@@ -109,7 +109,7 @@ public class HiddenFileFilterTest extends BaseFilterTest {
     }
 
     @Test
-    public void testAcceptVisible() {
+    public void testAcceptVisible() throws FileSystemException {
 
         final FileFilter testee = HiddenFileFilter.VISIBLE;
 

@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.provider.sftp;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collection;
+import java.util.Objects;
 
 import org.apache.commons.vfs2.Capability;
 import org.apache.commons.vfs2.FileObject;
@@ -40,48 +41,64 @@ import com.jcraft.jsch.SftpException;
  * Represents the files on an SFTP server.
  */
 public class SftpFileSystem extends AbstractFileSystem {
+
+    private static final int UNIDENTIFED = -1;
+
     private static final int SLEEP_MILLIS = 100;
 
     private static final int EXEC_BUFFER_SIZE = 128;
 
     private static final long LAST_MOD_TIME_ACCURACY = 1000L;
 
-    private Session session;
+    /**
+     * Session; never null.
+     * <p>
+     * DCL pattern requires that the ivar be volatile.
+     * </p>
+     */
+    private volatile Session session;
 
-    // private final JSch jSch;
-
-    private ChannelSftp idleChannel;
+    private volatile ChannelSftp idleChannel;
 
     private final int connectTimeoutMillis;
 
     /**
      * Cache for the user ID (-1 when not set)
+     * <p>
+     * DCL pattern requires that the ivar be volatile.
+     * </p>
      */
-    private int uid = -1;
+    private volatile int uid = UNIDENTIFED;
 
     /**
      * Cache for the user groups ids (null when not set)
+     * <p>
+     * DCL pattern requires that the ivar be volatile.
+     * </p>
      */
-    private int[] groupsIds;
+    private volatile int[] groupsIds;
 
     protected SftpFileSystem(final GenericFileName rootName, final Session session,
             final FileSystemOptions fileSystemOptions) {
         super(rootName, null, fileSystemOptions);
-        this.session = session;
-        final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
-        this.connectTimeoutMillis = builder.getConnectTimeoutMillis(fileSystemOptions);
+        this.session = Objects.requireNonNull(session, "session");
+        this.connectTimeoutMillis = SftpFileSystemConfigBuilder.getInstance()
+                .getConnectTimeoutMillis(fileSystemOptions);
     }
 
     @Override
     protected void doCloseCommunicationLink() {
         if (idleChannel != null) {
-            idleChannel.disconnect();
-            idleChannel = null;
+            synchronized (this) {
+                if (idleChannel != null) {
+                    idleChannel.disconnect();
+                    idleChannel = null;
+                }
+            }
         }
 
         if (session != null) {
             session.disconnect();
-            session = null;
         }
     }
 
@@ -90,18 +107,21 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * @return new or reused channel, never null.
      * @throws FileSystemException if a session cannot be created.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException         if an I/O error is detected.
      */
     protected ChannelSftp getChannel() throws IOException {
-        ensureSession();
         try {
             // Use the pooled channel, or create a new one
-            final ChannelSftp channel;
+            ChannelSftp channel = null;
             if (idleChannel != null) {
-                channel = idleChannel;
-                idleChannel = null;
+                synchronized (this) {
+                    if (idleChannel != null) {
+                        channel = idleChannel;
+                        idleChannel = null;
+                    }
+                }
             } else {
-                channel = (ChannelSftp) session.openChannel("sftp");
+                channel = (ChannelSftp) getSession().openChannel("sftp");
                 channel.connect(connectTimeoutMillis);
                 final Boolean userDirIsRoot = SftpFileSystemConfigBuilder.getInstance()
                         .getUserDirIsRoot(getFileSystemOptions());
@@ -137,32 +157,17 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * @throws FileSystemException if a session cannot be created.
      */
-    private void ensureSession() throws FileSystemException {
-        if (this.session == null || !this.session.isConnected()) {
-            doCloseCommunicationLink();
-
-            // channel closed. e.g. by freeUnusedResources, but now we need it again
-            Session session;
-            UserAuthenticationData authData = null;
-            try {
-                final GenericFileName rootName = (GenericFileName) getRootName();
-
-                authData = UserAuthenticatorUtils.authenticate(getFileSystemOptions(),
-                        SftpFileProvider.AUTHENTICATOR_TYPES);
-
-                session = SftpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
-                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                                UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                        UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                                UserAuthenticatorUtils.toChar(rootName.getPassword())),
-                        getFileSystemOptions());
-            } catch (final Exception e) {
-                throw new FileSystemException("vfs.provider.sftp/connect.error", getRootName(), e);
-            } finally {
-                UserAuthenticatorUtils.cleanup(authData);
+    private Session getSession() throws FileSystemException {
+        if (!this.session.isConnected()) {
+            synchronized (this) {
+                if (!this.session.isConnected()) {
+                    doCloseCommunicationLink();
+                    this.session = SftpFileProvider.createSession((GenericFileName) getRootName(),
+                            getFileSystemOptions());
+                }
             }
-            this.session = session;
         }
+        return this.session;
     }
 
     /**
@@ -172,9 +177,15 @@ public class SftpFileSystem extends AbstractFileSystem {
      */
     protected void putChannel(final ChannelSftp channel) {
         if (idleChannel == null) {
-            // put back the channel only if it is still connected
-            if (channel.isConnected() && !channel.isClosed()) {
-                idleChannel = channel;
+            synchronized (this) {
+                if (idleChannel == null) {
+                    // put back the channel only if it is still connected
+                    if (channel.isConnected() && !channel.isClosed()) {
+                        idleChannel = channel;
+                    }
+                } else {
+                    channel.disconnect();
+                }
             }
         } else {
             channel.disconnect();
@@ -212,88 +223,98 @@ public class SftpFileSystem extends AbstractFileSystem {
      *
      * @return the (numeric) group IDs.
      * @throws JSchException If a problem occurs while retrieving the group IDs.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException   if an I/O error is detected.
      * @since 2.1
      */
     public int[] getGroupsIds() throws JSchException, IOException {
         if (groupsIds == null) {
-            final StringBuilder output = new StringBuilder();
-            final int code = executeCommand("id -G", output);
-            if (code != 0) {
-                throw new JSchException("Could not get the groups id of the current user (error code: " + code + ")");
+            synchronized (this) {
+                // DCL pattern requires that the ivar be volatile.
+                if (groupsIds == null) {
+                    final StringBuilder output = new StringBuilder();
+                    final int code = executeCommand("id -G", output);
+                    if (code != 0) {
+                        throw new JSchException(
+                                "Could not get the groups id of the current user (error code: " + code + ")");
+                    }
+                    // Retrieve the different groups
+                    final String[] groups = output.toString().trim().split("\\s+");
+
+                    final int[] groupsIds = new int[groups.length];
+                    for (int i = 0; i < groups.length; i++) {
+                        groupsIds[i] = Integer.parseInt(groups[i]);
+                    }
+                    this.groupsIds = groupsIds;
+
+                }
             }
-
-            // Retrieve the different groups
-            final String[] groups = output.toString().trim().split("\\s+");
-
-            final int[] groupsIds = new int[groups.length];
-            for (int i = 0; i < groups.length; i++) {
-                groupsIds[i] = Integer.parseInt(groups[i]);
-            }
-
-            this.groupsIds = groupsIds;
         }
         return groupsIds;
     }
 
     /**
-     * Get the (numeric) group IDs.
+     * Gets the (numeric) group IDs.
      *
      * @return The numeric user ID
      * @throws JSchException If a problem occurs while retrieving the group ID.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException   if an I/O error is detected.
      * @since 2.1
      */
     public int getUId() throws JSchException, IOException {
-        if (uid < 0) {
-            final StringBuilder output = new StringBuilder();
-            final int code = executeCommand("id -u", output);
-            if (code != 0) {
-                throw new FileSystemException(
-                        "Could not get the user id of the current user (error code: " + code + ")");
+        if (uid == UNIDENTIFED) {
+            synchronized (this) {
+                if (uid == UNIDENTIFED) {
+                    final StringBuilder output = new StringBuilder();
+                    final int code = executeCommand("id -u", output);
+                    if (code != 0) {
+                        throw new FileSystemException(
+                                "Could not get the user id of the current user (error code: " + code + ")");
+                    }
+                    uid = Integer.parseInt(output.toString().trim());
+                }
             }
-            uid = Integer.parseInt(output.toString().trim());
         }
         return uid;
     }
 
     /**
-     * Execute a command and returns the (standard) output through a StringBuilder.
+     * Executes a command and returns the (standard) output through a StringBuilder.
      *
      * @param command The command
-     * @param output The output
+     * @param output  The output
      * @return The exit code of the command
-     * @throws JSchException if a JSch error is detected.
+     * @throws JSchException       if a JSch error is detected.
      * @throws FileSystemException if a session cannot be created.
-     * @throws IOException if an I/O error is detected.
+     * @throws IOException         if an I/O error is detected.
      */
     private int executeCommand(final String command, final StringBuilder output) throws JSchException, IOException {
-        ensureSession();
-        final ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        final ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
+        try {
+            channel.setCommand(command);
+            channel.setInputStream(null);
+            try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream())) {
+                channel.setErrStream(System.err, true);
+                channel.connect(connectTimeoutMillis);
 
-        channel.setCommand(command);
-        channel.setInputStream(null);
-        try (final InputStreamReader stream = new InputStreamReader(channel.getInputStream())) {
-            channel.setErrStream(System.err, true);
-            channel.connect(connectTimeoutMillis);
-
-            // Read the stream
-            final char[] buffer = new char[EXEC_BUFFER_SIZE];
-            int read;
-            while ((read = stream.read(buffer, 0, buffer.length)) >= 0) {
-                output.append(buffer, 0, read);
+                // Read the stream
+                final char[] buffer = new char[EXEC_BUFFER_SIZE];
+                int read;
+                while ((read = stream.read(buffer, 0, buffer.length)) >= 0) {
+                    output.append(buffer, 0, read);
+                }
             }
-        }
 
-        // Wait until the command finishes (should not be long since we read the output stream)
-        while (!channel.isClosed()) {
-            try {
-                Thread.sleep(SLEEP_MILLIS);
-            } catch (final Exception ee) {
-                // TODO: swallow exception, really?
+            // Wait until the command finishes (should not be long since we read the output stream)
+            while (!channel.isClosed()) {
+                try {
+                    Thread.sleep(SLEEP_MILLIS);
+                } catch (final Exception ee) {
+                    // TODO: swallow exception, really?
+                }
             }
+        } finally {
+            channel.disconnect();
         }
-        channel.disconnect();
         return channel.getExitStatus();
     }
 }

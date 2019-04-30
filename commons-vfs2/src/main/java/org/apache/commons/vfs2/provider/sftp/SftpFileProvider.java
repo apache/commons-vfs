@@ -51,7 +51,29 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
                     Capability.GET_LAST_MODIFIED, Capability.SET_LAST_MODIFIED_FILE, Capability.RANDOM_ACCESS_READ,
                     Capability.APPEND_CONTENT }));
 
-    // private JSch jSch = new JSch();
+    /**
+     * Creates a new Session.
+     *
+     * @return A Session, never null.
+     */
+    static Session createSession(final GenericFileName rootName, final FileSystemOptions fileSystemOptions)
+            throws FileSystemException {
+        UserAuthenticationData authData = null;
+        try {
+            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
+
+            return SftpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
+                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
+                            UserAuthenticatorUtils.toChar(rootName.getUserName())),
+                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
+                            UserAuthenticatorUtils.toChar(rootName.getPassword())),
+                    fileSystemOptions);
+        } catch (final Exception e) {
+            throw new FileSystemException("vfs.provider.sftp/connect.error", rootName, e);
+        } finally {
+            UserAuthenticatorUtils.cleanup(authData);
+        }
+    }
 
     /**
      * Constructs a new provider.
@@ -67,47 +89,9 @@ public class SftpFileProvider extends AbstractOriginatingFileProvider {
     @Override
     protected FileSystem doCreateFileSystem(final FileName name, final FileSystemOptions fileSystemOptions)
             throws FileSystemException {
-        // JSch jsch = createJSch(fileSystemOptions);
-
         // Create the file system
-        final GenericFileName rootName = (GenericFileName) name;
-
-        Session session;
-        UserAuthenticationData authData = null;
-        try {
-            authData = UserAuthenticatorUtils.authenticate(fileSystemOptions, AUTHENTICATOR_TYPES);
-
-            session = SftpClientFactory.createConnection(rootName.getHostName(), rootName.getPort(),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.USERNAME,
-                            UserAuthenticatorUtils.toChar(rootName.getUserName())),
-                    UserAuthenticatorUtils.getData(authData, UserAuthenticationData.PASSWORD,
-                            UserAuthenticatorUtils.toChar(rootName.getPassword())),
-                    fileSystemOptions);
-        } catch (final Exception e) {
-            throw new FileSystemException("vfs.provider.sftp/connect.error", name, e);
-        } finally {
-            UserAuthenticatorUtils.cleanup(authData);
-        }
-
-        return new SftpFileSystem(rootName, session, fileSystemOptions);
-    }
-
-    /**
-     * Returns the JSch.
-     *
-     * @return Returns the jSch.
-     */
-    /*
-     * private JSch getJSch() { return this.jSch; }
-     */
-
-    /**
-     * Initializes the component.
-     *
-     * @throws FileSystemException if an error occurs.
-     */
-    @Override
-    public void init() throws FileSystemException {
+        return new SftpFileSystem((GenericFileName) name, createSession((GenericFileName) name, fileSystemOptions),
+                fileSystemOptions);
     }
 
     @Override

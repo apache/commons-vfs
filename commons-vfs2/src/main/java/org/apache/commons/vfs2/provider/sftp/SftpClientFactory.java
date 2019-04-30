@@ -41,9 +41,9 @@ import com.jcraft.jsch.UserInfo;
  * Create a JSch Session instance.
  */
 public final class SftpClientFactory {
+
     private static final String SSH_DIR_NAME = ".ssh";
     private static final String OPENSSH_CONFIG_NAME = "config";
-
     private static final Log LOG = LogFactory.getLog(SftpClientFactory.class);
 
     static {
@@ -61,7 +61,7 @@ public final class SftpClientFactory {
      * @param username The user's id.
      * @param password The user's password.
      * @param fileSystemOptions The FileSystem options.
-     * @return A Session.
+     * @return A Session, never null.
      * @throws FileSystemException if an error occurs.
      */
     public static Session createConnection(final String hostname, final int port, final char[] username,
@@ -73,7 +73,7 @@ public final class SftpClientFactory {
         // new style - user passed
         final SftpFileSystemConfigBuilder builder = SftpFileSystemConfigBuilder.getInstance();
         final File knownHostsFile = builder.getKnownHosts(fileSystemOptions);
-        final IdentityInfo[] identities = builder.getIdentityInfo(fileSystemOptions);
+        final IdentityProvider[] identities = builder.getIdentityProvider(fileSystemOptions);
         final IdentityRepositoryFactory repositoryFactory = builder.getIdentityRepositoryFactory(fileSystemOptions);
         final ConfigRepository configRepository = builder.getConfigRepository(fileSystemOptions);
         final boolean loadOpenSSHConfig = builder.isLoadOpenSSHConfig(fileSystemOptions);
@@ -166,17 +166,17 @@ public final class SftpClientFactory {
         return session;
     }
 
-    private static void addIdentities(final JSch jsch, final File sshDir, final IdentityInfo[] identities)
+    private static void addIdentities(final JSch jsch, final File sshDir, final IdentityProvider[] identities)
             throws FileSystemException {
         if (identities != null) {
-            for (final IdentityInfo info : identities) {
-                addIndentity(jsch, info);
+            for (final IdentityProvider info : identities) {
+                addIdentity(jsch, info);
             }
         } else {
             // Load the private key (rsa-key only)
             final File privateKeyFile = new File(sshDir, "id_rsa");
             if (privateKeyFile.isFile() && privateKeyFile.canRead()) {
-                addIndentity(jsch, new IdentityInfo(privateKeyFile));
+                addIdentity(jsch, new IdentityInfo(privateKeyFile));
             }
         }
     }
@@ -195,13 +195,11 @@ public final class SftpClientFactory {
         }
     }
 
-    private static void addIndentity(final JSch jsch, final IdentityInfo info) throws FileSystemException {
+    private static void addIdentity(final JSch jsch, final IdentityProvider identity) throws FileSystemException {
         try {
-            final String privateKeyFile = info.getPrivateKey() != null ? info.getPrivateKey().getAbsolutePath() : null;
-            final String publicKeyFile = info.getPublicKey() != null ? info.getPublicKey().getAbsolutePath() : null;
-            jsch.addIdentity(privateKeyFile, publicKeyFile, info.getPassPhrase());
+            identity.addIdentity(jsch);
         } catch (final JSchException e) {
-            throw new FileSystemException("vfs.provider.sftp/load-private-key.error", info, e);
+            throw new FileSystemException("vfs.provider.sftp/load-private-key.error", identity, e);
         }
     }
 
@@ -252,20 +250,24 @@ public final class SftpClientFactory {
     }
 
     /**
-     * Finds the .ssh directory.
+     * Finds the {@code .ssh} directory.
      * <p>
      * The lookup order is:
+     * </p>
      * <ol>
      * <li>The system property {@code vfs.sftp.sshdir} (the override mechanism)</li>
-     * <li>{user.home}/.ssh</li>
-     * <li>On Windows only: C:\cygwin\home\{user.name}\.ssh</li>
+     * <li>{@code user.home}/.ssh</li>
+     * <li>On Windows only: {@code C:\cygwin\home[user.name]\.ssh}</li>
      * <li>The current directory, as a last resort.</li>
-     * <ol>
-     * Windows Notes:<br>
+     * </ol>
+     * 
+     * <h2>Windows Notes</h2>
+     * <p>
      * The default installation directory for Cygwin is {@code C:\cygwin}. On my set up (Gary here), I have Cygwin in
-     * C:\bin\cygwin, not the default. Also, my .ssh directory was created in the {user.home} directory.
-     *
-     * @return The .ssh directory
+     * {@code C:\bin\cygwin}, not the default. Also, my .ssh directory was created in the {@code user.home} directory.
+     * </p>
+     * 
+     * @return The {@code .ssh} directory
      */
     private static File findSshDir() {
         String sshDirPath;

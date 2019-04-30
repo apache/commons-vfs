@@ -29,8 +29,24 @@ import org.apache.commons.vfs2.FileSystemException;
 public class MonitorOutputStream extends BufferedOutputStream {
     private final AtomicBoolean finished = new AtomicBoolean(false);
 
+    /**
+     * Constructs a MonitorOutputStream from the passed OutputStream
+     *
+     * @param out The output stream to wrap.
+     */
     public MonitorOutputStream(final OutputStream out) {
         super(out);
+    }
+
+    /**
+     * Constructs a MonitorOutputStream from the passed OutputStream and with the specified buffer size
+     *
+     * @param out The output stream to wrap.
+     * @param bufferSize The buffer size to use.
+     * @since 2.4
+     */
+    public MonitorOutputStream(final OutputStream out, final int bufferSize) {
+        super(out, bufferSize);
     }
 
     /**

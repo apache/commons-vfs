@@ -155,7 +155,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     /**
-     * Set attrs from listChildrenResolved
+     * Sets attrs from listChildrenResolved
      */
     private void setStat(final SftpATTRS attrs) {
         this.attrs = attrs;
@@ -224,7 +224,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
     }
 
     /**
-     * Rename the file.
+     * Renames the file.
      */
     @Override
     protected void doRename(final FileObject newFile) throws Exception {
@@ -429,8 +429,7 @@ public class SftpFileObject extends AbstractFileObject<SftpFileSystem> {
         // Using InputStream directly from the channel
         // is much faster than the memory method.
         try {
-            final InputStream is = channel.get(getName().getPathDecoded(), null, filePointer);
-            return new SftpInputStream(channel, is);
+            return new SftpInputStream(channel, channel.get(getName().getPathDecoded(), null, filePointer));
         } catch (final SftpException e) {
             getAbstractFileSystem().putChannel(channel);
             throw new FileSystemException(e);

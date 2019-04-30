@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.commons.vfs2.FileFilter;
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 
 /**
  * A {@link java.io.FileFilter} providing conditional OR logic across a list of
@@ -81,7 +82,7 @@ public class OrFileFilter implements FileFilter, ConditionalFileFilter, Serializ
     }
 
     @Override
-    public boolean accept(final FileSelectInfo fileInfo) {
+    public boolean accept(final FileSelectInfo fileInfo) throws FileSystemException {
         for (final FileFilter fileFilter : fileFilters) {
             if (fileFilter.accept(fileInfo)) {
                 return true;

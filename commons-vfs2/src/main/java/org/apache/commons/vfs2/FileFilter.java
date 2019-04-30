@@ -20,11 +20,13 @@ package org.apache.commons.vfs2;
  * This interface is used to select files when traversing the direct children of the base.
  */
 public interface FileFilter {
+
     /**
      * Determines if a file or folder should be selected.
      *
      * @param fileInfo the file or folder to select.
      * @return true if the file should be selected.
+     * @throws FileSystemException Thrown for file system errors.
      */
-    boolean accept(final FileSelectInfo fileInfo);
+    boolean accept(final FileSelectInfo fileInfo) throws FileSystemException;
 }

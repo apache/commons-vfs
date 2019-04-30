@@ -53,6 +53,7 @@ public abstract class AbstractVfsComponent implements VfsComponent {
      */
     @Override
     public void init() throws FileSystemException {
+        // default is noop.
     }
 
     /**
@@ -60,6 +61,7 @@ public abstract class AbstractVfsComponent implements VfsComponent {
      */
     @Override
     public void close() {
+        // default is noop.
     }
 
     /**

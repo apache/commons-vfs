@@ -19,6 +19,7 @@ package org.apache.commons.vfs2.filter;
 import java.io.File;
 
 import org.apache.commons.vfs2.FileSelectInfo;
+import org.apache.commons.vfs2.FileSystemException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ import org.junit.Test;
 public class NotFileFilterTest extends BaseFilterTest {
 
     @Test
-    public void testAccept() {
+    public void testAccept() throws FileSystemException {
 
         final FileSelectInfo any = createFileSelectInfo(new File("test1.txt"));
 
