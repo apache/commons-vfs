@@ -161,6 +161,7 @@ class JcrUtils {
     public static Node putFile(final Node parent, final String name, final String mime, final InputStream data,
             final Calendar date) throws RepositoryException {
         final Value binary = parent.getSession().getValueFactory().createValue(data);
+
         try {
             final Node file = getOrAddNode(parent, name, NodeType_NT_FILE);
             final Node content = getOrAddNode(file, Node_JCR_CONTENT, NodeType_NT_RESOURCE);
