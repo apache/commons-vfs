@@ -25,7 +25,20 @@ import org.apache.commons.vfs2.provider.AbstractFileObject;
  * Stuff to get some strange things from an FileObject.
  */
 public final class FileObjectUtils {
+
     private FileObjectUtils() {
+        // noop
+    }
+
+    /**
+     * Null-safe call to {@link FileObject#exists()}.
+     *
+     * @param fileObject
+     * @return false if {@code fileObject} is null, otherwise, see {@link FileObject#exists()}.
+     * @throws FileSystemException On error determining if this file exists.
+     */
+    public static boolean exists(final FileObject fileObject) throws FileSystemException {
+        return fileObject != null && fileObject.exists();
     }
 
     /**

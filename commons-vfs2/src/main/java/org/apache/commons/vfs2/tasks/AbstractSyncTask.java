@@ -25,6 +25,7 @@ import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.NameScope;
 import org.apache.commons.vfs2.Selectors;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.util.Messages;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -340,7 +341,7 @@ public abstract class AbstractSyncTask extends VfsTask {
      * Handles a single source file.
      */
     private void handleFile(final FileObject srcFile, final FileObject destFile) throws Exception {
-        if (!destFile.exists()
+        if (!FileObjectUtils.exists(destFile)
                 || srcFile.getContent().getLastModifiedTime() > destFile.getContent().getLastModifiedTime()) {
             // Destination file is out-of-date
             handleOutOfDateFile(srcFile, destFile);
@@ -362,6 +363,7 @@ public abstract class AbstractSyncTask extends VfsTask {
      * @throws Exception Implementation can throw any Exception.
      */
     protected void handleOutOfDateFile(final FileObject srcFile, final FileObject destFile) throws Exception {
+        // noop
     }
 
     /**
@@ -376,6 +378,7 @@ public abstract class AbstractSyncTask extends VfsTask {
      * @throws Exception Implementation can throw any Exception.
      */
     protected void handleUpToDateFile(final FileObject srcFile, final FileObject destFile) throws Exception {
+        // noop
     }
 
     /**
@@ -387,6 +390,7 @@ public abstract class AbstractSyncTask extends VfsTask {
      * @throws Exception Implementation can throw any Exception.
      */
     protected void handleMissingSourceFile(final FileObject destFile) throws Exception {
+        // noop
     }
 
     /**

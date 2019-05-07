@@ -36,6 +36,7 @@ import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.NameScope;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 
 /**
  * A class loader that can load classes and resources from a search path.
@@ -119,7 +120,7 @@ public class VFSClassLoader extends SecureClassLoader {
      */
     private void addFileObjects(final FileSystemManager manager, final FileObject[] files) throws FileSystemException {
         for (FileObject file : files) {
-            if (!file.exists()) {
+            if (!FileObjectUtils.exists(file)) {
                 // Does not exist - skip
                 continue;
             }

@@ -47,6 +47,7 @@ import org.apache.commons.vfs2.events.ChangedEvent;
 import org.apache.commons.vfs2.events.CreateEvent;
 import org.apache.commons.vfs2.events.DeleteEvent;
 import org.apache.commons.vfs2.impl.DefaultFileSystemConfigBuilder;
+import org.apache.commons.vfs2.util.FileObjectUtils;
 import org.apache.commons.vfs2.util.Messages;
 
 /**
@@ -376,7 +377,7 @@ public abstract class AbstractFileSystem extends AbstractVfsComponent implements
      */
     @Override
     public File replicateFile(final FileObject file, final FileSelector selector) throws FileSystemException {
-        if (!file.exists()) {
+        if (!FileObjectUtils.exists(file)) {
             throw new FileSystemException("vfs.provider/replicate-missing-file.error", file.getName());
         }
 

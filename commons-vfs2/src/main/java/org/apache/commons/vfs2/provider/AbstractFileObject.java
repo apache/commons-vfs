@@ -264,7 +264,7 @@ public abstract class AbstractFileObject<AFS extends AbstractFileSystem> impleme
      */
     @Override
     public void copyFrom(final FileObject file, final FileSelector selector) throws FileSystemException {
-        if (!file.exists()) {
+        if (!FileObjectUtils.exists(file)) {
             throw new FileSystemException("vfs.provider/copy-missing-file.error", file);
         }
 
