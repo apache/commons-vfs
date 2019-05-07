@@ -16,6 +16,10 @@
  */
 package org.apache.commons.vfs2.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.impl.DecoratedFileObject;
@@ -36,6 +40,7 @@ public final class FileObjectUtils {
      * @param fileObject
      * @return false if {@code fileObject} is null, otherwise, see {@link FileObject#exists()}.
      * @throws FileSystemException On error determining if this file exists.
+     * @since 2.4
      */
     public static boolean exists(final FileObject fileObject) throws FileSystemException {
         return fileObject != null && fileObject.exists();
@@ -67,7 +72,7 @@ public final class FileObjectUtils {
     /**
      * Checks if the given FileObject is instance of given class argument.
      *
-     * @param fileObject The FileObject.
+     * @param fileObject  The FileObject.
      * @param wantedClass The Class to check.
      * @return true if fileObject is an instance of the specified Class.
      * @throws FileSystemException if an error occurs.
@@ -88,5 +93,40 @@ public final class FileObjectUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Reads the given file into a new {@link Properties}.
+     *
+     * @param fileObject the file to read
+     * @return a new {@link Properties}.
+     * @throws IOException
+     * @throws FileSystemException On error getting this file's content.
+     * @throws IOException On error getting this file's content.
+     * @since 2.4
+     */
+    public static Properties readProperties(final FileObject fileObject) throws FileSystemException, IOException {
+        return readProperties(fileObject, new Properties());
+    }
+
+    /**
+     * Reads the given file into a new given {@link Properties}.
+     *
+     * @param fileObject the file to read
+     * @param properties the destination
+     * @return a new {@link Properties}.
+     * @throws FileSystemException On error getting this file's content.
+     * @throws IOException On error getting this file's content.
+     * @since 2.4
+     */
+    public static Properties readProperties(final FileObject fileObject, final Properties properties)
+            throws FileSystemException, IOException {
+        if (fileObject == null) {
+            return properties;
+        }
+        try (InputStream inputStream = fileObject.getContent().getInputStream()) {
+            properties.load(inputStream);
+        }
+        return properties;
     }
 }
