@@ -36,27 +36,23 @@ public final class FileUtil {
      * @throws IOException if the file content cannot be accessed.
      */
     public static byte[] getContent(final FileObject file) throws IOException {
-        final FileContent content = file.getContent();
-        final int size = (int) content.getSize();
-        final byte[] buf = new byte[size];
-
-        final InputStream in = content.getInputStream();
-        try {
-            int read = 0;
-            for (int pos = 0; pos < size && read >= 0; pos += read) {
-                read = in.read(buf, pos, size - pos);
+        try (final FileContent content = file.getContent()) {
+            final int size = (int) content.getSize();
+            final byte[] buf = new byte[size];
+            try (final InputStream in = content.getInputStream();) {
+                int read = 0;
+                for (int pos = 0; pos < size && read >= 0; pos += read) {
+                    read = in.read(buf, pos, size - pos);
+                }
             }
-        } finally {
-            in.close();
+            return buf;
         }
-
-        return buf;
     }
 
     /**
      * Writes the content of a file to an OutputStream.
      *
-     * @param file The FileObject to write.
+     * @param file   The FileObject to write.
      * @param output The OutputStream to write to.
      * @throws IOException if an error occurs writing the file.
      * @see FileContent#write(OutputStream)
@@ -68,7 +64,7 @@ public final class FileUtil {
     /**
      * Copies the content from a source file to a destination file.
      *
-     * @param srcFile The source FileObject.
+     * @param srcFile  The source FileObject.
      * @param destFile The target FileObject
      * @throws IOException If an error occurs copying the file.
      * @see FileContent#write(FileContent)
