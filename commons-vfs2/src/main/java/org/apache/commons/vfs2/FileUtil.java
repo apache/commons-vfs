@@ -37,15 +37,7 @@ public final class FileUtil {
      */
     public static byte[] getContent(final FileObject file) throws IOException {
         try (final FileContent content = file.getContent()) {
-            final int size = (int) content.getSize();
-            final byte[] buf = new byte[size];
-            try (final InputStream in = content.getInputStream();) {
-                int read = 0;
-                for (int pos = 0; pos < size && read >= 0; pos += read) {
-                    read = in.read(buf, pos, size - pos);
-                }
-            }
-            return buf;
+            return content.getByteArray();
         }
     }
 
