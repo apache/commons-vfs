@@ -42,62 +42,16 @@ import org.apache.commons.vfs2.util.RandomAccessMode;
  */
 public interface FileContent extends Closeable {
     /**
-     * Returns the file which this is the content of.
+     * Closes all resources used by the content, including any open stream. Commits pending changes to the file.
+     * <p>
+     * This method is a hint to the implementation that it can release resources. This object can continue to be used
+     * after calling this method.
+     * </p>
      *
-     * @return The FileObject this is the content of.
+     * @throws FileSystemException if an error occurs closing the file.
      */
-    FileObject getFile();
-
-    /**
-     * Determines the size of the file, in bytes.
-     *
-     * @return The size of the file, in bytes.
-     * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the size.
-     */
-    long getSize() throws FileSystemException;
-
-    /**
-     * Determines the last-modified timestamp of the file.
-     *
-     * @return The last-modified timestamp.
-     * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the
-     *             last-modified timestamp.
-     */
-    long getLastModifiedTime() throws FileSystemException;
-
-    /**
-     * Sets the last-modified timestamp of the file. Creates the file if it does not exist.
-     *
-     * @param modTime The time to set the last-modified timestamp to.
-     * @throws FileSystemException If the file is read-only, or is being written to, or on error setting the
-     *             last-modified timestamp.
-     */
-    void setLastModifiedTime(long modTime) throws FileSystemException;
-
-    /**
-     * Checks if an attribute of the file's content exists.
-     *
-     * @param attrName The name of the attribute.
-     * @return true if the attribute exists, false otherwise.
-     * @throws FileSystemException If the file does not exist, or does not support attributes.
-     */
-    boolean hasAttribute(String attrName) throws FileSystemException;
-
-    /**
-     * Returns a read-only map of this file's attributes.
-     *
-     * @return The attribute Map.
-     * @throws FileSystemException If the file does not exist, or does not support attributes.
-     */
-    Map<String, Object> getAttributes() throws FileSystemException;
-
-    /**
-     * Lists the attributes of the file's content.
-     *
-     * @return The names of the attributes. Never returns null;
-     * @throws FileSystemException If the file does not exist, or does not support attributes.
-     */
-    String[] getAttributeNames() throws FileSystemException;
+    @Override
+    void close() throws FileSystemException;
 
     /**
      * Gets the value of an attribute of the file's content.
@@ -109,23 +63,20 @@ public interface FileContent extends Closeable {
     Object getAttribute(String attrName) throws FileSystemException;
 
     /**
-     * Sets the value of an attribute of the file's content. Creates the file if it does not exist.
+     * Lists the attributes of the file's content.
      *
-     * @param attrName The name of the attribute.
-     * @param value The value of the attribute.
-     * @throws FileSystemException If the file does not exist, or is read-only, or does not support attributes, or on
-     *             error setting the attribute.
+     * @return The names of the attributes. Never returns null;
+     * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
-    void setAttribute(String attrName, Object value) throws FileSystemException;
+    String[] getAttributeNames() throws FileSystemException;
 
     /**
-     * Removes the value of an attribute of the file's content.
+     * Returns a read-only map of this file's attributes.
      *
-     * @param attrName The name of the attribute.
-     * @throws FileSystemException If the file does not exist, or is read-only, or does not support attributes, or on
-     *             error removing the attribute.
+     * @return The attribute Map.
+     * @throws FileSystemException If the file does not exist, or does not support attributes.
      */
-    void removeAttribute(String attrName) throws FileSystemException;
+    Map<String, Object> getAttributes() throws FileSystemException;
 
     /**
      * Retrieves the certificates if any used to sign this file or folder.
@@ -134,6 +85,21 @@ public interface FileContent extends Closeable {
      * @throws FileSystemException If the file does not exist, or is being written.
      */
     Certificate[] getCertificates() throws FileSystemException;
+
+    /**
+     * get the content info. e.g. type, encoding, ...
+     *
+     * @return the FileContentInfo
+     * @throws FileSystemException if an error occurs.
+     */
+    FileContentInfo getContentInfo() throws FileSystemException;
+
+    /**
+     * Returns the file which this is the content of.
+     *
+     * @return The FileObject this is the content of.
+     */
+    FileObject getFile();
 
     /**
      * Returns an input stream for reading the file's content.
@@ -166,6 +132,15 @@ public interface FileContent extends Closeable {
     }
 
     /**
+     * Determines the last-modified timestamp of the file.
+     *
+     * @return The last-modified timestamp.
+     * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the
+     *             last-modified timestamp.
+     */
+    long getLastModifiedTime() throws FileSystemException;
+
+    /**
      * Returns an output stream for writing the file's content.
      * <p>
      * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
@@ -181,24 +156,6 @@ public interface FileContent extends Closeable {
      *             the stream.
      */
     OutputStream getOutputStream() throws FileSystemException;
-
-    /**
-     * Returns an stream for reading/writing the file's content.
-     * <p>
-     * If the file does not exist, and you use one of the write* methods, this method creates it, and the parent folder,
-     * if necessary. If the file does exist, parts of the file are replaced with whatever is written at a given
-     * position.
-     * </p>
-     * <p>
-     * There may only be a single input or output stream open for the file at any time.
-     * </p>
-     *
-     * @param mode The mode to use to access the file.
-     * @return the stream for reading and writing the file's content.
-     * @throws FileSystemException If the file is read-only, or is being read, or is being written, or on error opening
-     *             the stream.
-     */
-    RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
 
     /**
      * Returns an output stream for writing the file's content.
@@ -228,27 +185,6 @@ public interface FileContent extends Closeable {
      * There may only be a single input or output stream open for the file at any time.
      * </p>
      *
-     * @param bufferSize The buffer size to use.
-     * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
-     *         in a {@code BufferedOutputStream}.
-     * @throws FileSystemException If the file is read-only, or is being read, or is being written, or bAppend is true
-     *             and the implementation does not support it, or on error opening the stream.
-     * @since 2.4
-     */
-    default OutputStream getOutputStream(int bufferSize) throws FileSystemException {
-        return getOutputStream();
-    }
-
-    /**
-     * Returns an output stream for writing the file's content.
-     * <p>
-     * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
-     * it is replaced with whatever is written to the output stream.
-     * </p>
-     * <p>
-     * There may only be a single input or output stream open for the file at any time.
-     * </p>
-     *
      * @param bAppend true if you would like to append to the file. This may not be supported by all implementations.
      * @param bufferSize The buffer size to use.
      * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
@@ -262,24 +198,60 @@ public interface FileContent extends Closeable {
     }
 
     /**
-     * Closes all resources used by the content, including any open stream. Commits pending changes to the file.
+     * Returns an output stream for writing the file's content.
      * <p>
-     * This method is a hint to the implementation that it can release resources. This object can continue to be used
-     * after calling this method.
+     * If the file does not exist, this method creates it, and the parent folder, if necessary. If the file does exist,
+     * it is replaced with whatever is written to the output stream.
+     * </p>
+     * <p>
+     * There may only be a single input or output stream open for the file at any time.
      * </p>
      *
-     * @throws FileSystemException if an error occurs closing the file.
+     * @param bufferSize The buffer size to use.
+     * @return An output stream to write the file's content to. The stream is buffered, so there is no need to wrap it
+     *         in a {@code BufferedOutputStream}.
+     * @throws FileSystemException If the file is read-only, or is being read, or is being written, or bAppend is true
+     *             and the implementation does not support it, or on error opening the stream.
+     * @since 2.4
      */
-    @Override
-    void close() throws FileSystemException;
+    default OutputStream getOutputStream(int bufferSize) throws FileSystemException {
+        return getOutputStream();
+    }
 
     /**
-     * get the content info. e.g. type, encoding, ...
+     * Returns an stream for reading/writing the file's content.
+     * <p>
+     * If the file does not exist, and you use one of the write* methods, this method creates it, and the parent folder,
+     * if necessary. If the file does exist, parts of the file are replaced with whatever is written at a given
+     * position.
+     * </p>
+     * <p>
+     * There may only be a single input or output stream open for the file at any time.
+     * </p>
      *
-     * @return the FileContentInfo
-     * @throws FileSystemException if an error occurs.
+     * @param mode The mode to use to access the file.
+     * @return the stream for reading and writing the file's content.
+     * @throws FileSystemException If the file is read-only, or is being read, or is being written, or on error opening
+     *             the stream.
      */
-    FileContentInfo getContentInfo() throws FileSystemException;
+    RandomAccessContent getRandomAccessContent(final RandomAccessMode mode) throws FileSystemException;
+
+    /**
+     * Determines the size of the file, in bytes.
+     *
+     * @return The size of the file, in bytes.
+     * @throws FileSystemException If the file does not exist, or is being written to, or on error determining the size.
+     */
+    long getSize() throws FileSystemException;
+
+    /**
+     * Checks if an attribute of the file's content exists.
+     *
+     * @param attrName The name of the attribute.
+     * @return true if the attribute exists, false otherwise.
+     * @throws FileSystemException If the file does not exist, or does not support attributes.
+     */
+    boolean hasAttribute(String attrName) throws FileSystemException;
 
     /**
      * check if this file has open streams.
@@ -287,6 +259,34 @@ public interface FileContent extends Closeable {
      * @return true if the file is open, false otherwise.
      */
     boolean isOpen();
+
+    /**
+     * Removes the value of an attribute of the file's content.
+     *
+     * @param attrName The name of the attribute.
+     * @throws FileSystemException If the file does not exist, or is read-only, or does not support attributes, or on
+     *             error removing the attribute.
+     */
+    void removeAttribute(String attrName) throws FileSystemException;
+
+    /**
+     * Sets the value of an attribute of the file's content. Creates the file if it does not exist.
+     *
+     * @param attrName The name of the attribute.
+     * @param value The value of the attribute.
+     * @throws FileSystemException If the file does not exist, or is read-only, or does not support attributes, or on
+     *             error setting the attribute.
+     */
+    void setAttribute(String attrName, Object value) throws FileSystemException;
+
+    /**
+     * Sets the last-modified timestamp of the file. Creates the file if it does not exist.
+     *
+     * @param modTime The time to set the last-modified timestamp to.
+     * @throws FileSystemException If the file is read-only, or is being written to, or on error setting the
+     *             last-modified timestamp.
+     */
+    void setLastModifiedTime(long modTime) throws FileSystemException;
 
     /**
      * Writes this content to another FileContent.
