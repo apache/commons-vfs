@@ -248,7 +248,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
             <!-- to increase memory for tests on Travis CI -->
-            <argLine>-Xmx64m</argLine>
+            <argLine>${argLine} -Xmx64m</argLine>
         </configuration>
       </plugin>
       <plugin>
@@ -289,6 +289,18 @@
             <exclude>dist/target/**</exclude>
           </excludes>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.3</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -362,14 +374,6 @@
           <aggregate>true</aggregate>
         </configuration>
       </plugin>
-      <!-- cobertura breaks because it cannot parse annotations in methods. -->
-      <!--
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>${commons.cobertura.version}</version>
-      </plugin>
-      -->
       <!-- javancss breaks because it cannot parse annotations in methods. -->
       <!--
       <plugin>
@@ -630,7 +634,7 @@
           <configuration>
             <!-- -Xmx64m: increases memory for tests on Travis CI -->
             <!--  jdk.tls.client.protocols: For use of older protocol since DSA is no longer in the JRE -->
-            <argLine>-Xmx64m -Djdk.tls.client.protocols=TLSv1.2</argLine>
+            <argLine>${argLine} -Xmx64m -Djdk.tls.client.protocols=TLSv1.2</argLine>
           </configuration>
         </plugin>
       </plugins>

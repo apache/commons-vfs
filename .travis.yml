@@ -16,6 +16,8 @@
 language: java
 sudo: false
 
+install: true
+
 jdk:
   - openjdk8
   - openjdk11
@@ -25,4 +27,5 @@ jdk:
   - oraclejdk11
 
 after_success:
-  - mvn -V -B -e clean cobertura:cobertura coveralls:report
+  - mvn -V -B -e jacoco:report
+  - bash <(curl -s https://codecov.io/bash)
