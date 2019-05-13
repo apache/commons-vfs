@@ -44,7 +44,7 @@ Apache Commons VFS Project
 ===================
 
 [![Build Status](https://travis-ci.org/apache/commons-vfs.svg)](https://travis-ci.org/apache/commons-vfs)
-[![Coverage Status](https://coveralls.io/repos/apache/commons-vfs/badge.svg)](https://coveralls.io/r/apache/commons-vfs)
+[![Coverage Status](https://codecov.io/gh/apache/commons-vfs/branch/master/graph/badge.svg)](https://codecov.io/gh/apache/commons-vfs)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.apache.commons/commons-vfs2/)
 [![Javadocs](https://javadoc.io/badge/org.apache.commons/commons-vfs2/2.3.svg)](https://javadoc.io/doc/org.apache.commons/commons-vfs2/2.3)
 
