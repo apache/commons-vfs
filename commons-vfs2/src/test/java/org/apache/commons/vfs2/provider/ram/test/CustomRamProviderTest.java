@@ -44,7 +44,6 @@ import org.junit.Test;
 /**
  * Custom tests
  *
- * @version $Id$
  */
 public class CustomRamProviderTest {
     private static final byte[] NON_EMPTY_FILE_CONTENT = new byte[] { 1, 2, 3 };

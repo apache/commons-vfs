@@ -26,7 +26,6 @@ import org.junit.Test;
 /**
  * Tests JAR attributes.
  *
- * @version $Id$
  */
 public class JarAttributesTestCase {
 
