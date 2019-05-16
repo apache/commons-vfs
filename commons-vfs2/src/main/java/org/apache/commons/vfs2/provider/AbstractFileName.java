@@ -26,6 +26,19 @@ import org.apache.commons.vfs2.VFS;
  * A default file name implementation.
  */
 public abstract class AbstractFileName implements FileName {
+    // URI Characters that are possible in local filenames, but must be escaped
+    // for proper URI handling.
+    //
+    // How reserved URI chars were selected:
+    //
+    // URIs can contain :, /, ?, #, @
+    // See http://download.oracle.com/javase/6/docs/api/java/net/URI.html
+    // http://tools.ietf.org/html/rfc3986#section-2.2
+    //
+    // Since : and / occur before the path, only chars after path are escaped (i.e., # and ?)
+    // ? is a reserved filesystem character for Windows and Unix, so can't be part of a filename.
+    // Therefore only # is a reserved char in a URI as part of the path that can be in the filename.
+    private static final char[] RESERVED_URI_CHARS = { '#' };
 
     private final String scheme;
     private final String absPath;
@@ -252,8 +265,24 @@ public abstract class AbstractFileName implements FileName {
     private String createURI(final boolean useAbsolutePath, final boolean usePassword) {
         final StringBuilder buffer = new StringBuilder();
         appendRootUri(buffer, usePassword);
-        buffer.append(useAbsolutePath ? absPath : getPath());
+        buffer.append(handleURISpecialCharacters(useAbsolutePath ? absPath : getPath()));
         return buffer.toString();
+    }
+
+    private String handleURISpecialCharacters(String uri) {
+        if (uri != null && uri.length() > 0) {
+            try {
+                // VFS-325: Handle URI special characters in filename
+                // Decode the base uri and re-encode with URI special characters
+                uri = UriParser.decode(uri);
+
+                return UriParser.encode(uri, RESERVED_URI_CHARS);
+            } catch (final FileSystemException e) {
+                // Default to base uri value
+            }
+        }
+
+        return uri;
     }
 
     /**
