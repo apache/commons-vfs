@@ -119,6 +119,9 @@ The <action> type attribute can be add,update,fix,remove.
       <action issue="VFS-715" dev="ggregory" type="add" due-to="Gary Gregory">
         Add org.apache.commons.vfs2.FileContent.getByteArray().
       </action>
+      <action issue="VFS-716" dev="ggregory" type="fix" due-to="Boris Petrov">
+        Fix AbstractFileName.getURI returning unencoded #-sign #64.
+      </action>
     </release>
     <release version="2.3" date="2019-02-01" description="New features and bug fix release.">
       <action issue="VFS-645" dev="ggregory" type="fix">
