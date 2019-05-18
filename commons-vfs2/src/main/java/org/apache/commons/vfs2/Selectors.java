@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * Several standard file selectors.
  */
 public final class Selectors {
+
     /**
      * A {@link FileSelector} that selects only the base file/folder.
      */

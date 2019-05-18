@@ -48,7 +48,7 @@ public class TarFileObject extends AbstractFileObject<TarFileSystem> {
      * Sets the details for this file object.
      *
      * Consider this method package private. TODO Might be made package private in the next major version.
-     * 
+     *
      * @param entry Tar archive entry.
      */
     protected void setTarEntry(final TarArchiveEntry entry) {

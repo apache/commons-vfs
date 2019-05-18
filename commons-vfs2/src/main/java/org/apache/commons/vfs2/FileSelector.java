@@ -38,6 +38,7 @@ public interface FileSelector {
      * each of the children of the folder, and each of the child folders is recursively traversed.
      * <p>
      * This method is called on a folder before {@link #includeFile} is called.
+     * </p>
      *
      * @param fileInfo the file or folder to select.
      * @return true if the folder should be traversed.

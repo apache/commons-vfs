@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * FileMonitor interface.
  */
 public interface FileMonitor {
+
     /**
      * Adds a file to be monitored.
      *

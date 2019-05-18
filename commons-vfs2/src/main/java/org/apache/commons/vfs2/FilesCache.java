@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * The fileCache interface. Implementations of this interface are expected to be thread safe.
  */
 public interface FilesCache {
+
     /**
      * Adds a FileObject to the cache.
      *

@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  * <p>
  * For example, to retrieve and print all <code>*.java</code> files in the
  * current directory:
- * 
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
@@ -39,7 +39,7 @@ import org.apache.commons.vfs2.FileSelectInfo;
  *     System.out.println(files[i]);
  * }
  * </pre>
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -56,7 +56,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
 
     /**
      * Constructs a new Suffix file filter for a list of suffixes.
-     * 
+     *
      * @param suffixes the suffixes to allow, must not be null
      */
     public SuffixFileFilter(final List<String> suffixes) {
@@ -66,7 +66,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Suffix file filter for a list of suffixes specifying
      * case-sensitivity.
-     * 
+     *
      * @param suffixes        the suffixes to allow, must not be null
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
@@ -81,7 +81,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
 
     /**
      * Constructs a new Suffix file filter for an array of suffixes.
-     * 
+     *
      * @param suffixes the suffixes to allow, must not be null
      */
     public SuffixFileFilter(final String... suffixes) {
@@ -91,7 +91,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new Suffix file filter for an array of suffixs specifying
      * case-sensitivity.
-     * 
+     *
      * @param suffixes        the suffixes to allow, must not be null
      * @param caseSensitivity how to handle case sensitivity, null means
      *                        case-sensitive
@@ -106,9 +106,9 @@ public class SuffixFileFilter implements FileFilter, Serializable {
 
     /**
      * Checks to see if the filename ends with the suffix.
-     * 
+     *
      * @param fileInfo the File to check
-     * 
+     *
      * @return true if the filename ends with one of our suffixes
      */
     @Override
@@ -124,7 +124,7 @@ public class SuffixFileFilter implements FileFilter, Serializable {
 
     /**
      * Provide a String representation of this file filter.
-     * 
+     *
      * @return a String representation
      */
     @Override

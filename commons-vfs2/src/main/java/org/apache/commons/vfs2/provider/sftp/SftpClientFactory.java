@@ -125,7 +125,7 @@ public final class SftpClientFactory {
                 config.setProperty("compression.s2c", compression);
                 config.setProperty("compression.c2s", compression);
             }
-            
+
             final String keyExchangeAlgorithm = builder.getKeyExchangeAlgorithm(fileSystemOptions);
             if (keyExchangeAlgorithm != null) {
                 config.setProperty("kex", keyExchangeAlgorithm);
@@ -260,13 +260,13 @@ public final class SftpClientFactory {
      * <li>On Windows only: {@code C:\cygwin\home[user.name]\.ssh}</li>
      * <li>The current directory, as a last resort.</li>
      * </ol>
-     * 
+     *
      * <h2>Windows Notes</h2>
      * <p>
      * The default installation directory for Cygwin is {@code C:\cygwin}. On my set up (Gary here), I have Cygwin in
      * {@code C:\bin\cygwin}, not the default. Also, my .ssh directory was created in the {@code user.home} directory.
      * </p>
-     * 
+     *
      * @return The {@code .ssh} directory
      */
     private static File findSshDir() {

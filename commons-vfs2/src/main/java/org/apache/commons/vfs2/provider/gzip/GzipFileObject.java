@@ -33,11 +33,11 @@ public class GzipFileObject extends CompressedFileFileObject<GzipFileSystem> {
 
     /**
      * Deprecated since 2.1.
-     * 
+     *
      * @param name Abstract file name.
      * @param container My container.
      * @param container My file system.
-     * 
+     *
      * @deprecated Use {@link #GzipFileObject(AbstractFileName, FileObject, GzipFileSystem)} instead.
      */
     @Deprecated

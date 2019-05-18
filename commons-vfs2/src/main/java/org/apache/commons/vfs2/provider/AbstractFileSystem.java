@@ -54,7 +54,7 @@ import org.apache.commons.vfs2.util.Messages;
  * A partial {@link org.apache.commons.vfs2.FileSystem} implementation.
  */
 public abstract class AbstractFileSystem extends AbstractVfsComponent implements FileSystem {
-    
+
     private static final Log LOG = LogFactory.getLog(AbstractFileSystem.class);
 
     /**

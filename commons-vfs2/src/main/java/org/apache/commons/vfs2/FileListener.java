@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * Listens for changes to a file.
  */
 public interface FileListener {
+
     /**
      * Called when a file is created.
      *
@@ -40,6 +41,7 @@ public interface FileListener {
      * Called when a file is changed.
      * <p>
      * This will only happen if you monitor the file using {@link FileMonitor}.
+     * </p>
      *
      * @param event The FileChangeEvent.
      * @throws Exception if an error occurs.

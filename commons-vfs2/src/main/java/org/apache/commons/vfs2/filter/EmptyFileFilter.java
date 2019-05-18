@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import org.apache.commons.vfs2.FileType;
  * If the <code>File</code> is a directory it checks that it contains no files.
  * <p>
  * Example, showing how to print out a list of the current directory's empty files/directories:
- * 
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
@@ -40,10 +40,10 @@ import org.apache.commons.vfs2.FileType;
  *     System.out.println(files[i]);
  * }
  * </pre>
- * 
+ *
  * <p>
  * Example, showing how to print out a list of the current directory's non-empty files/directories:
- * 
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
@@ -52,7 +52,7 @@ import org.apache.commons.vfs2.FileType;
  *     System.out.println(files[i]);
  * }
  * </pre>
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -75,9 +75,9 @@ public class EmptyFileFilter implements FileFilter, Serializable {
 
     /**
      * Checks to see if the file is empty. A non-existing file is also considered empty.
-     * 
+     *
      * @param fileInfo the file or directory to check
-     * 
+     *
      * @return {@code true} if the file or directory is <i>empty</i>, otherwise {@code false}.
      * @throws FileSystemException Thrown for file system errors.
      */

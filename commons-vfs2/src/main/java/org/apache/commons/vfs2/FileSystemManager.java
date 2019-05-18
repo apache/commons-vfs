@@ -34,8 +34,9 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * </p>
  *
  * <h2><a name="naming">File Naming</a></h2>
- *
+ * <p>
  * A file system manager can recognise several types of file names:
+ * </p>
  * <ul>
  * <li>Absolute URI. These must start with a scheme, such as {@code file:} or {@code ftp:}, followed by a scheme
  * dependent file name. Some examples: {@code file:/c:/somefile} or {@code ftp://somewhere.org/somefile}.</li>
@@ -50,8 +51,7 @@ import org.apache.commons.vfs2.operations.FileOperationProvider;
  * </ul>
  */
 public interface FileSystemManager {
-    
-    // -- OPERATIONS --
+
     /**
      * Adds the specified FileOperationProvider for the specified scheme.
      * <p>
@@ -177,7 +177,7 @@ public interface FileSystemManager {
     FilesCache getFilesCache();
 
     /**
-     * Get the configuration builder for the given scheme.
+     * Gets the configuration builder for the given scheme.
      *
      * @param scheme The schem to use to obtain the FileSystemConfigBuidler.
      * @return A FileSystemConfigBuilder appropriate for the given scheme.

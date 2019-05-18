@@ -106,7 +106,7 @@ public class SftpStreamProxy implements Proxy {
      * @param commandFormat A format string that will be used to create the command to execute on the proxy host using
      *            {@linkplain String#format(String, Object...)}. Two parameters are given to the format command, the
      *            target host name (String) and port (Integer).
-     *            
+     *
      * @param proxyUser The proxy user
      * @param proxyPassword The proxy password
      * @param proxyHost The proxy host

@@ -46,6 +46,7 @@ import java.util.TreeMap;
  *
  */
 public final class FileSystemOptions implements Cloneable {
+
     /** The options */
     private final Map<FileSystemOptionKey, Object> options;
 

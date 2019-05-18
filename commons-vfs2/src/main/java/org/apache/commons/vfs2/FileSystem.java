@@ -22,6 +22,7 @@ import java.io.File;
  * A file system, made up of a hierarchy of files.
  */
 public interface FileSystem {
+
     /**
      * Returns the root file of this file system.
      *
@@ -48,6 +49,7 @@ public interface FileSystem {
      * Determines if this file system has a particular capability.
      * <p>
      * TODO - Move this to another interface, so that set of capabilities can be queried.
+     * </p>
      *
      * @param capability The capability to check for.
      * @return true if this filesystem has the requested capability. Note that not all files in the file system may have
@@ -66,8 +68,11 @@ public interface FileSystem {
     /**
      * Gets the value of an attribute of the file system.
      * <p>
-     * TODO - change to {@code Map getAttributes()} instead?<br>
+     * TODO - change to {@code Map getAttributes()} instead?
+     * </p>
+     * <p>
      * TODO - define the standard attribute names, and define which attrs are guaranteed to be present.
+     * </p>
      *
      * @param attrName The name of the attribute.
      * @return The value of the attribute.
@@ -146,9 +151,11 @@ public interface FileSystem {
      * made.
      * <p>
      * Note that the local copy may include additonal files, that were not selected by the given selector.
+     * </p>
      * <p>
      * TODO - Add options to indicate whether the caller is happy to deal with extra files being present locally (eg if
      * the file has been replicated previously), or whether the caller expects only the selected files to be present.
+     * </p>
      *
      * @param file The file to replicate.
      * @param selector The selector to use to select the files to replicate.
@@ -176,6 +183,7 @@ public interface FileSystem {
      * <p>
      * The local file provider is not very smart in figuring this out, for remote access to file systems the providers
      * typically don't know the value of the underlying real file system.
+     * </p>
      *
      * @return the accuracy of the last modification time in milliseconds. A value of 0 means perfectly accurate,
      *         anything {@literal > 0} might be off by this value. For example, sftp has an accuracy of 1000 ms.

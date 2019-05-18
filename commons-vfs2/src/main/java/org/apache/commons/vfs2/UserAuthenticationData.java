@@ -24,6 +24,7 @@ import java.util.TreeMap;
  * Contains various authentication data.
  */
 public class UserAuthenticationData {
+
     /**
      * Represents a user authentication item.
      */

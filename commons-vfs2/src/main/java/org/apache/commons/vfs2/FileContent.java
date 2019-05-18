@@ -137,7 +137,7 @@ public interface FileContent extends Closeable {
         }
         return buf;
     }
-    
+
     /**
      * Returns an input stream for reading the file's content.
      * <p>

@@ -27,29 +27,40 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * <p>
  * Files are arranged in a hierarchy. Each hierarchy forms a <i>file system</i>. A file system represents things like a
  * local OS file system, a windows share, an HTTP server, or the contents of a Zip file.
+ * </p>
  * <p>
  * There are two types of files: <i>Folders</i>, which contain other files, and <i>normal files</i>, which contain data,
  * or <i>content</i>. A folder may not have any content, and a normal file cannot contain other files.
+ * </p>
  *
  * <h2>File Naming</h2>
  *
+ * <p>
  * TODO - write this.
+ * </p>
  *
  * <h2>Reading and Writing a File</h2>
  *
+ * <p>
  * Reading and writing a file, and all other operations on the file's <i>content</i>, is done using the
  * {@link FileContent} object returned by {@link #getContent}.
+ * </p>
  *
  * <h2>Creating and Deleting a File</h2>
  *
+ * <p>
  * A file is created using either {@link #createFolder}, {@link #createFile}, or by writing to the file using one of the
  * {@link FileContent} methods.
+ * </p>
  * <p>
  * A file is deleted using {@link #delete}. Recursive deletion can be done using {@link #delete(FileSelector)}.
+ * </p>
  *
  * <h2>Finding Files</h2>
  *
+ * <p>
  * Other files in the <i>same</i> file system as this file can be found using:
+ * </p>
  * <ul>
  * <li>{@link #findFiles} to find a set of matching descendants in in the same file system.</li>
  * <li>{@link #getChildren} and {@link #getChild} to find the children of this file.</li>
@@ -57,23 +68,30 @@ import org.apache.commons.vfs2.operations.FileOperations;
  * <li>{@link #getFileSystem} to find another file in the same file system.</li>
  * <li>{@link #resolveFile} to find another file relative to this file.</li>
  * </ul>
+ * <p>
  * To find files in another file system, use a {@link FileSystemManager}.
+ * </p>
  *
  * <h2>Iterating Files</h2>
  *
+ * <p>
  * You can iterate over a FileObject using the Java "foreach" statement, which provides all descendants of a File
  * Object.
+ * </p>
  *
  * <h2>Sorting Files</h2>
  *
+ * <p>
  * Files may be sorted using {@link java.util.Arrays#sort(Object[]) Arrays.sort()} and
  * {@link java.util.Collections#sort(List) Collections.sort()}.
+ * </p>
  *
  * @see FileSystemManager
  * @see FileContent
  * @see FileName
  */
 public interface FileObject extends Comparable<FileObject>, Iterable<FileObject>, Closeable {
+
     /**
      * Queries the file if it is possible to rename it to newfile.
      *

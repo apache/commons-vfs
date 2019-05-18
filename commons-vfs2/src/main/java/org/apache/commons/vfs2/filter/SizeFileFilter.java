@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ import org.apache.commons.vfs2.FileSystemException;
  * <p>
  * For example, to print all files and directories in the current directory
  * whose size is greater than 1 MB:
- * 
+ *
  * <pre>
  * FileSystemManager fsManager = VFS.getManager();
  * FileObject dir = fsManager.toFileObject(new File(&quot;.&quot;));
@@ -40,7 +40,7 @@ import org.apache.commons.vfs2.FileSystemException;
  *     System.out.println(files[i]);
  * }
  * </pre>
- * 
+ *
  * @author This code was originally ported from Apache Commons IO File Filter
  * @see "http://commons.apache.org/proper/commons-io/"
  * @since 2.4
@@ -58,7 +58,7 @@ public class SizeFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new size file filter for files equal to or larger than a certain
      * size.
-     * 
+     *
      * @param size the threshold size of the files - Must be non-negative.
      */
     public SizeFileFilter(final long size) {
@@ -68,7 +68,7 @@ public class SizeFileFilter implements FileFilter, Serializable {
     /**
      * Constructs a new size file filter for files based on a certain size
      * threshold.
-     * 
+     *
      * @param size         the threshold size of the files - Must be non-negative.
      * @param acceptLarger if true, files equal to or larger are accepted, otherwise
      *                     smaller ones (but not equal to)
@@ -89,9 +89,9 @@ public class SizeFileFilter implements FileFilter, Serializable {
      * <b>IS</b> selected.
      * <p>
      * Non-existing files return always false (will never be accepted).
-     * 
+     *
      * @param fileInfo the File to check
-     * 
+     *
      * @return true if the filename matches
      * @throws FileSystemException Thrown for file system errors.
      */
@@ -110,7 +110,7 @@ public class SizeFileFilter implements FileFilter, Serializable {
 
     /**
      * Provide a String representation of this file filter.
-     * 
+     *
      * @return a String representation
      */
     @Override

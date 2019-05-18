@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * Abstract class which has the right to fill FileSystemOptions.
  */
 public abstract class FileSystemConfigBuilder {
+
     /** Default prefix to use when resolving system properties */
     private static final String PREFIX = "vfs.";
 
@@ -30,7 +31,7 @@ public abstract class FileSystemConfigBuilder {
     private final String prefix;
 
     /**
-     * Construct builder with default prefix.
+     * Constructs builder with default prefix.
      *
      * @since 1.0
      */
@@ -39,7 +40,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Construct builder with specified component name.
+     * Constructs builder with specified component name.
      *
      * @param component component name to be used in prefix
      *
@@ -50,7 +51,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * The root URI of the file system.
+     * Sets the root URI of the file system.
      *
      * @param opts the file system options to modify
      * @param rootURI The creator name to be associated with the file.
@@ -62,7 +63,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Return the root URI of the file system.
+     * Gets the root URI of the file system.
      *
      * @param opts file system options to work with
      * @return The root URI
@@ -74,7 +75,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Set named parameter.
+     * Sets named parameter.
      *
      * @param opts the file system options to modify
      * @param name set option with this name
@@ -87,7 +88,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Set named parameter.
+     * Sets named parameter.
      *
      * @param opts the file system options to modify
      * @param name set option with this name
@@ -100,7 +101,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named parameter.
+     * Gets named parameter.
      *
      * @param opts file system options to work with
      * @param name get option with this name
@@ -117,7 +118,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Check if option exists.
+     * Checks if option exists.
      *
      * @param opts file system options to work with
      * @param name the name to look up in {@code opts}
@@ -130,7 +131,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Is named setting specified.
+     * Checks the named setting specified.
      *
      * @param opts file system options to work with
      * @param name the option to check in {@code opts} or system properties
@@ -143,7 +144,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as boolean.
+     * Gets named option as boolean.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -157,7 +158,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as boolean.
+     * Gets named option as boolean.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -172,7 +173,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as boolean.
+     * Gets named option as boolean.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -195,7 +196,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as byte.
+     * Gets named option as byte.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -209,7 +210,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as byte.
+     * Gets named option as byte.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -224,7 +225,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as byte.
+     * Gets named option as byte.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -246,7 +247,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as character.
+     * Gets named option as character.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -260,7 +261,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as character.
+     * Gets named option as character.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -275,7 +276,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as character.
+     * Gets named option as character.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -297,7 +298,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as double.
+     * Gets named option as double.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -311,7 +312,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as double.
+     * Gets named option as double.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -326,7 +327,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as double.
+     * Gets named option as double.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -348,7 +349,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as enumeration.
+     * Gets named option as enumeration.
      *
      * @param <E> enumeration type
      * @param enumClass class of enumeration type
@@ -365,7 +366,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as enumeration.
+     * Gets named option as enumeration.
      *
      * @param <E> enumeration type
      * @param enumClass class of enumeration type
@@ -393,7 +394,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as float.
+     * Gets named option as float.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -408,7 +409,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as float.
+     * Gets named option as float.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -424,7 +425,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as float.
+     * Gets named option as float.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -447,7 +448,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as integer.
+     * Gets named option as integer.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -462,7 +463,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as integer.
+     * Gets named option as integer.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -478,7 +479,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as integer.
+     * Gets named option as integer.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -501,7 +502,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as long.
+     * Gets named option as long.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -516,7 +517,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as long.
+     * Gets named option as long.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -532,7 +533,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as long.
+     * Gets named option as long.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -555,7 +556,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as short.
+     * Gets named option as short.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -570,7 +571,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as short.
+     * Gets named option as short.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -586,7 +587,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as short.
+     * Gets named option as short.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -609,7 +610,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as String.
+     * Gets named option as String.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -623,7 +624,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get named option as String.
+     * Gets named option as String.
      *
      * @param opts file system options to work with
      * @param name the option name
@@ -644,7 +645,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get the target of this configuration.
+     * Gets the target of this configuration.
      *
      * @return the specific file system class
      *
@@ -665,7 +666,7 @@ public abstract class FileSystemConfigBuilder {
     }
 
     /**
-     * Get the system property for the given name.
+     * Gets the system property for the given name.
      *
      * @param name The name to lookup combined with the prefix.
      * @return a system property or null

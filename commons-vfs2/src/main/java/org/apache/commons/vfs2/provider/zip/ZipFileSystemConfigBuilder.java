@@ -28,19 +28,19 @@ public class ZipFileSystemConfigBuilder extends FileSystemConfigBuilder {
     private static final String _PREFIX = ZipFileSystemConfigBuilder.class.getName();
     private static final ZipFileSystemConfigBuilder INSTANCE = new ZipFileSystemConfigBuilder();
     private static final String KEY_CHARSET = _PREFIX + ".charset";
-    
+
     public static final ZipFileSystemConfigBuilder getInstance() {
         return INSTANCE;
     }
-    
+
     private ZipFileSystemConfigBuilder() {
         super("zip.");
     }
-    
+
     public Charset getCharset(final FileSystemOptions opts) {
         return (Charset) getParam(opts, KEY_CHARSET);
     }
-    
+
     @Override
     protected Class<? extends FileSystem> getConfigClass() {
         return ZipFileSystem.class;

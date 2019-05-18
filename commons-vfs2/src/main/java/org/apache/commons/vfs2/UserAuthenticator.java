@@ -22,6 +22,7 @@ package org.apache.commons.vfs2;
  * if the FileSystem should be shared.
  */
 public interface UserAuthenticator {
+
     /**
      * Queries the given type from the user.
      *

@@ -20,6 +20,7 @@ package org.apache.commons.vfs2;
  * A {@link FileSelector} that selects everything.
  */
 public class AllFileSelector implements FileSelector {
+
     /**
      * Determines if a file or folder should be selected.
      *
