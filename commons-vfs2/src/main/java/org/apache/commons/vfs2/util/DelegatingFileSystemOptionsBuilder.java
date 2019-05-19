@@ -49,7 +49,7 @@ import org.apache.commons.vfs2.FileSystemOptions;
  * </pre>
  */
 public class DelegatingFileSystemOptionsBuilder {
-    
+
     @SuppressWarnings("unchecked") // OK, it is a String
     private static final Class<String>[] STRING_PARAM = new Class[] { String.class };
     private static final Map<String, Class<?>> PRIMATIVE_TO_OBJECT = new TreeMap<>();
